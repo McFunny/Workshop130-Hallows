@@ -16,10 +16,12 @@ public class InventoryItemData : ScriptableObject
     [TextArea(4,4)]
     public string description;
     public Sprite icon;
-    public int maxStackSize;
+    public int maxStackSize = 1;
    
     public void UseItem()
     {
         Debug.Log($"Using {this.displayName}");
     }
+
+    public virtual void PrimaryUse(){}
 }

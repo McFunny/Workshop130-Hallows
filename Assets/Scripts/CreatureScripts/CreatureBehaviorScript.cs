@@ -8,13 +8,21 @@ public class CreatureBehaviorScript : MonoBehaviour
     public float health = 10;
     public float maxHealth = 10;
 
-    StructureManager structManager;
+    [HideInInspector] public StructureManager structManager;
+    [HideInInspector] public CreatureEffectsHandler effectsHandler;
+    [HideInInspector] public Transform player;
+
+    public Rigidbody rb;
+    public Animator anim;
 
     public float sightRange = 4; //how far can it see the player
+    public bool playerInSightRange = false;
 
     public void Start()
     {
         structManager = FindObjectOfType<StructureManager>();
+        effectsHandler = FindObjectOfType<CreatureEffectsHandler>();
+        player = FindObjectOfType<PlayerInteraction>().transform;
     }
 
     // Update is called once per frame

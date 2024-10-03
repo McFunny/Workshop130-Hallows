@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1180574252054118892}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.667, z: 0}
+  m_LocalPosition: {x: 0, y: 0.924, z: 0}
   m_LocalScale: {x: 4.94, y: 4.94, z: 4.94}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 169092492, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -235,6 +235,7 @@ MonoBehaviour:
   growthStage: -1
   hoursSpent: 0
   harvestable: 0
+  rotted: 0
 --- !u!1001 &7364721809948816860
 PrefabInstance:
   m_ObjectHideFlags: 0

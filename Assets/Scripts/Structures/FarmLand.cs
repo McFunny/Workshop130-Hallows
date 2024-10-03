@@ -16,11 +16,19 @@ public class FarmLand : StructureBehaviorScript
     public bool rotted = false;
 
     private bool ignoreNextGrowthMoment = false; //tick this if crop was just planted
+
+    PlayerInventoryHolder playerInventoryHolder;
     // Start is called before the first frame update
     void Awake()
     {
         base.Awake();
         SpriteChange();
+    }
+
+    void Start()
+    {
+        if(!crop) ignoreNextGrowthMoment = true;
+        playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
     }
 
     // Update is called once per frame
@@ -31,6 +39,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(crop) return;
         CropItem newCrop = item as CropItem;
         if(newCrop && newCrop.plantable)
         {
@@ -38,6 +47,8 @@ public class FarmLand : StructureBehaviorScript
             growthStage = 1;
             SpriteChange();
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            playerInventoryHolder.UpdateInventory();
+
         }
     }
 
@@ -48,13 +59,18 @@ public class FarmLand : StructureBehaviorScript
             harvestable = false;
             if(rotted == false)
             {
+                GameObject droppedItem;
                 for(int i = 0; i < crop.cropYieldAmount; i++)
                 {
-                    Instantiate(crop.cropYield, itemDropTransform.position, Quaternion.identity);
+                    droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
+                    droppedItem.transform.position = itemDropTransform.position;
+                    //Instantiate(crop.cropYield, itemDropTransform.position, Quaternion.identity);
                 }
                 for(int i = 0; i < crop.seedYieldAmount; i++)
                 {
-                    Instantiate(crop.cropSeed, itemDropTransform.position, Quaternion.identity);
+                    droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSeed);
+                    droppedItem.transform.position = itemDropTransform.position;
+                    //Instantiate(crop.cropSeed, itemDropTransform.position, Quaternion.identity);
                 }
             }
 
@@ -83,7 +99,7 @@ public class FarmLand : StructureBehaviorScript
                 
                 if(hoursSpent < crop.hoursPerStage * 3) return;
                 //plant rots
-                growthStage++;
+                //growthStage++;
                 rotted = true;
                 harvestable = true;
                 SpriteChange();
@@ -97,7 +113,15 @@ public class FarmLand : StructureBehaviorScript
 
     void SpriteChange()
     {
-        if(crop) cropRenderer.sprite = crop.cropSprites[growthStage - 1];
+        print(growthStage);
+        if(crop) cropRenderer.sprite = crop.cropSprites[(growthStage - 1)];
         else cropRenderer.sprite = null;
+    }
+
+    public void CropDestroyed()
+    {
+        crop = null;
+        harvestable = false;
+        SpriteChange();
     }
 }

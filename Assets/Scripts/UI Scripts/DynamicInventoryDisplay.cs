@@ -2,20 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class DynamicInventoryDisplay : InventoryDisplay
 {
     [SerializeField] protected InventorySlot_UI slotPrefab;
-   
+
     protected override void Start()
     {
-       
+
         base.Start();
 
-      
+
     }
 
-  
+    private void OnEnable()
+    {
+        PlayerInventoryHolder.OnPlayerInventoryChanged += RefreshDynamicInventory;
+    }
+
+
+    private void OnDisable()
+    {
+        PlayerInventoryHolder.OnPlayerInventoryChanged -= RefreshDynamicInventory;
+        if (inventorySystem != null) inventorySystem.OnInventorySlotChanged -= UpdateSlot;
+    }
+
 
     public void RefreshDynamicInventory(InventorySystem invToDisplay)
     {
@@ -27,7 +39,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
 
     public override void AssignSlot(InventorySystem invToDisplay)
     {
-     
+
 
         slotDictionary = new Dictionary<InventorySlot_UI, InventorySlot>();
 
@@ -47,7 +59,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
 
     private void ClearSlots()
     {
-        foreach(var item in transform.Cast<Transform>())
+        foreach (var item in transform.Cast<Transform>())
         {
             Destroy(item.gameObject); //TODO: Look into object pooling 
         }
@@ -55,8 +67,4 @@ public class DynamicInventoryDisplay : InventoryDisplay
         if (slotDictionary != null) slotDictionary.Clear();
     }
 
-    private void OnDisable()
-    {
-        if (inventorySystem != null) inventorySystem.OnInventorySlotChanged -= UpdateSlot;
-    }
 }

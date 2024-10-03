@@ -21,10 +21,13 @@ public class SaveGameManager : MonoBehaviour
 
     public static void SaveData()
     {
-        var saveData = data;
+       
+        SaveLoad.CurrentSaveData = data;
 
-        SaveLoad.SaveGame(saveData);
+       
+        SaveLoad.SaveGame(data);
     }
+
     public static void LoadData(SaveData _data)
     {
         data = _data;

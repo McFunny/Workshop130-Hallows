@@ -551,7 +551,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &393224479
 Transform:
   m_ObjectHideFlags: 0
@@ -4320,6 +4320,7 @@ GameObject:
   - component: {fileID: 1831484674}
   - component: {fileID: 1831484673}
   - component: {fileID: 1831484672}
+  - component: {fileID: 1831484676}
   m_Layer: 0
   m_Name: FeralHareModel
   m_TagString: Untagged
@@ -4413,6 +4414,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 393224479}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1831484676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831484671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 507085401764b50459fe0bf03c4b50db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  maxHealth: 10
+  sightRange: 4
+  desiredCrops: []
 --- !u!1 &1875061250
 GameObject:
   m_ObjectHideFlags: 0

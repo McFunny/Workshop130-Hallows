@@ -5,7 +5,6 @@ using UnityEngine;
 public class StructureBehaviorScript : MonoBehaviour
 {
     //This is the base class that ALL structures should derive from
-    StructureManager structManager;
 
 
     public StructureObject structData;
@@ -16,8 +15,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void Awake()
     {
-        structManager = FindObjectOfType<StructureManager>();
-        structManager.allStructs.Add(this);
+        StructureManager.Instance.allStructs.Add(this);
     }
 
 
@@ -34,7 +32,7 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         if(!gameObject.scene.isLoaded) return;
         print("Destroyed");
-        structManager.ClearTile(transform.position);
-        structManager.allStructs.Remove(this);
+        StructureManager.Instance.ClearTile(transform.position);
+        StructureManager.Instance.allStructs.Remove(this);
     }
 }

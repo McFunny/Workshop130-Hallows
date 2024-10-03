@@ -10,8 +10,8 @@ public class CropData : ScriptableObject
     public int hoursPerStage = 6; //How many in game hours must take place before each growth change
     public Sprite[] cropSprites; //should equal growth stages
 
-    public GameObject cropYield; //what does the crop drop
-    public GameObject cropSeed;
+    public InventoryItemData cropYield; //what does the crop drop
+    public InventoryItemData cropSeed;
     public int cropYieldAmount = 1;
     public int seedYieldAmount = 2;
     

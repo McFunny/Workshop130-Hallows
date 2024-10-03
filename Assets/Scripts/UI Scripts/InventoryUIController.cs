@@ -20,6 +20,7 @@ public class InventoryUIController : MonoBehaviour
         playerBackpackPanel.gameObject.SetActive(false);
 
         inventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
+        
 
     }
 
@@ -27,6 +28,7 @@ public class InventoryUIController : MonoBehaviour
     {
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
         CloseBackpack();
+        readyToPress = true;
     }
 
     private void OnEnable()
