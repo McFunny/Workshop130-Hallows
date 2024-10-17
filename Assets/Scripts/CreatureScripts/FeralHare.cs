@@ -110,6 +110,12 @@ public class FeralHare : CreatureBehaviorScript
         //hare will jump toward a random direction using physics, using rb.addforce to a random vector3 position in addition to a vector3.up force
         Vector3 jumpDirection = (transform.position - destination).normalized;
         jumpDirection *= -1;
+
+        if(playerInSightRange)
+        {
+            jumpDirection = (transform.position - player.position).normalized;
+            destination = new Vector3(transform.position.x + jumpDirection.x, transform.position.y, transform.position.z + jumpDirection.z);
+        }
         //ad force yadadada
         float r = Random.Range(170,210f);
         rb.AddForce(Vector3.up * 100);
@@ -133,12 +139,13 @@ public class FeralHare : CreatureBehaviorScript
 
         
     }
+    
 
     IEnumerator JumpCooldownTimer()
     {
         jumpCooldown = true;
-        float time = Random.Range(1.5f, 2.2f);
-        if(playerInSightRange) yield return new WaitForSeconds(time/2);
+        float time = Random.Range(1.3f, 2f);
+        if(playerInSightRange) yield return new WaitForSeconds(time/4);
         else yield return new WaitForSeconds(time);
         jumpCooldown = false;
     }

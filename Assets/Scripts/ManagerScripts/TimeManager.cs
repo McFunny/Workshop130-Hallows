@@ -40,7 +40,7 @@ public class TimeManager : MonoBehaviour
     {
         do
         {
-            yield return new WaitForSeconds(15);
+            yield return new WaitForSeconds(45);
             currentHour++;
             if(currentHour >= 24) currentHour = 0;
             structManager.HourUpdate();

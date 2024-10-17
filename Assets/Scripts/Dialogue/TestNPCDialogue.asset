@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: TestNPCDialogue
   m_EditorClassIdentifier: 
   speakerName: Wagon Merchant
+  defaultPath:
+    paragraphs:
+    - Got somethin to sell?
+    - Show me.
+    emotions: 0000000003000000
+  paths: []
+  currentPath: -1
   paragraphs:
   - I don't recognize you...
   - I am all out of seeds today. Come back later...

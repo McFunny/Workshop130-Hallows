@@ -51,7 +51,7 @@ public class HotbarDisplay : MonoBehaviour
         }
     }
 
-    private void SelectHotbarSlot(int slotIndex)
+    private void SelectHotbarSlot(int slotIndex) //if possible, call this again when picking up an item to refresh hand item, or find a workaround (preferred)
     {
         // Turn off highlight on the current slot
         if (currentSlot != null)
@@ -70,10 +70,17 @@ public class HotbarDisplay : MonoBehaviour
         if (currentSlot.AssignedInventorySlot != null && currentSlot.AssignedInventorySlot.ItemData != null)
         {
             currentSlot.AssignedInventorySlot.ItemData.UseItem();
+            ToolItem t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
+            if(t_item)
+            {
+                HandItemManager.Instance.SwapHandModel(t_item.tool);
+            }
+            else HandItemManager.Instance.SwapHandModel(ToolType.Null);
         }
         else
         {
             Debug.Log($"No item in hotbar slot {slotIndex + 1}");
+            HandItemManager.Instance.ClearHandModel();
         }
     }
 }

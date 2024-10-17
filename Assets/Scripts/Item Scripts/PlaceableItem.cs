@@ -14,7 +14,7 @@ public class PlaceableItem : InventoryItemData
         RaycastHit hit;
         StructureManager structManager = FindObjectOfType<StructureManager>();
 
-        if(Physics.Raycast(player.position, fwd, out hit, 10, 1 << 7))
+        if(Physics.Raycast(player.position, fwd, out hit, 5, 1 << 7))
         {
             Vector3 pos = structManager.CheckTile(hit.point);
             if(pos != new Vector3(0,0,0)) 

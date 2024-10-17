@@ -30,11 +30,22 @@ public class WaterBarrel : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        //test behavior
-        if(waterLevel > 0)
+        
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+        if(type == ToolType.Shovel)
         {
+            //Damage
+        }
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
+        {
+            PlayerInteraction.Instance.waterHeld += 5;
             waterLevel--;
             WaterLevelChange();
+            success = true;
         }
     }
 

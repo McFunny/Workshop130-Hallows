@@ -7,18 +7,45 @@ public class PlayerInteraction : MonoBehaviour
 {
     public Camera mainCam;
 
-    public GameObject testStructure;
-    public InventoryItemData testItem;
-
     PlayerInventoryHolder playerInventoryHolder;
+    PlayerEffectsHandler playerEffects;
 
     public bool isInteracting { get; private set; }
+    public bool toolCooldown;
 
-    // Start is called before the first frame update
+    public static PlayerInteraction Instance;
+
+    public int currentMoney;
+
+    public int health = 3;
+    [HideInInspector] public readonly int maxHealth = 3;
+
+    public int stamina = 100;
+    [HideInInspector] public readonly int maxStamina = 100;
+
+    public int waterHeld = 0; //for watering can
+    [HideInInspector] public readonly int maxWaterHeld = 10;
+
+    private float reach = 5;
+
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+    
     void Start()
     {
         if(!mainCam) mainCam = FindObjectOfType<Camera>();
         playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
+        playerEffects = FindObjectOfType<PlayerEffectsHandler>();
     }
 
 
@@ -50,12 +77,25 @@ public class PlayerInteraction : MonoBehaviour
             DestroyStruct();
         }
 
+        if(waterHeld > maxWaterHeld) waterHeld = maxWaterHeld;
+        if(health > maxHealth) health = maxHealth;
+        if(stamina > maxStamina) stamina = maxStamina;
+
     }
 
     void StartInteraction(IInteractable interactable)
     {
+        //For NPC's and the Chest
         interactable.Interact(this, out bool interactSuccessful);
-        isInteracting = true;
+        isInteracting = false;
+    }
+
+    void StartInteractionWithItem(IInteractable interactable)
+    {
+        //For showing/giving NPC's items
+        if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null) interactable.InteractWithItem(this, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
+        else return;
+        isInteracting = false;
     }
 
     void EndInteraction()
@@ -68,7 +108,7 @@ public class PlayerInteraction : MonoBehaviour
         Vector3 fwd = mainCam.transform.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
-        if(Physics.Raycast(mainCam.transform.position, fwd, out hit, 10, 1 << 6))
+        if(Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, 1 << 6))
         {
             Destroy(hit.collider.gameObject);
         }
@@ -80,8 +120,15 @@ public class PlayerInteraction : MonoBehaviour
         RaycastHit hit;
 
 
-        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, 10, 1 << 6))
+        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, 1 << 6))
         {
+            var interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                StartInteractionWithItem(interactable); //Interacts with chest and npc's. I should eventually make this compatable with the structures I made - Cam
+                return;
+            }
+
             var structure = hit.collider.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
@@ -97,24 +144,15 @@ public class PlayerInteraction : MonoBehaviour
         Vector3 fwd = mainCam.transform.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
-        Debug.Log("Interact with object called");
-
-        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, 10, 1 << 6))
+        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, 1 << 6))
         {
             var interactable = hit.collider.GetComponent<IInteractable>();
-            GameObject hitObject = hit.collider.gameObject;
             if (interactable != null)
             {
                 StartInteraction(interactable);
-                
-                if (hitObject.tag ==  "NPC") // Also this teehee!!! //Lauren?????
-                {
-                    Debug.Log("NPC Interacted");
-                    return;
-                }  
 
 
-                PlayerMovement.accessingInventory = true;  // Assuming this controls the inventory UI
+                if(hit.collider.GetComponent<ChestInventory>() != null) PlayerMovement.accessingInventory = true;  // Needs to check if opening a chest, else this should not be called
                 Debug.Log("Opened Inventory of Interactable Object");
                 return;
             }
@@ -134,12 +172,35 @@ public class PlayerInteraction : MonoBehaviour
        
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
 
+        //Is it a Tool item?
+        ToolItem t_item = item as ToolItem;
+        if (t_item)
+        {
+            t_item.PrimaryUse(mainCam.transform);
+        }
+
         //Is it a placeable item?
         PlaceableItem p_item = item as PlaceableItem;
         if (p_item)
         {
             p_item.PlaceStructure(mainCam.transform);
         }
+    }
+
+    public void PlayerTakeDamage()
+    {
+        playerEffects.PlayerDamage();
+    }
+
+    public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
+    {
+        if(toolCooldown) yield break;
+        toolCooldown = true;
+        yield return new WaitForSeconds(time);
+        tool.ItemUsed();
+        yield return new WaitForSeconds(coolDown - time);
+        toolCooldown = false;
+        //use a bool that says i am done swinging to avoid tool overlap
     }
     
 }

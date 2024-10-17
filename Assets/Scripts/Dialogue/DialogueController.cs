@@ -20,12 +20,20 @@ public class DialogueController : MonoBehaviour
 
     public AudioSource source;
 
-    //CHANGE THIS LATER, ITS MESSY
-    public TestNPC currentTalker;
+    
+    public NPC currentTalker;
+    int currentPath = -1;
 
-    public void DisplayNextParagraph(DialogueText dialogueText)
+    public void DisplayNextParagraph(DialogueText dialogueText, int path)
     {
         // If nothing left in queue
+        if(path != currentPath)
+        {
+            currentPath = path;
+            EndConversation();
+            StartConversation(dialogueText);
+            
+        }
         if (paragraphs.Count == 0)
         {
             if(!conversationEnded)
@@ -69,6 +77,13 @@ public class DialogueController : MonoBehaviour
         }
 
         // Update convo text
+        p = p.Replace("{itemValue}", $"{HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.value * HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.sellValueMultiplier}");
+        if(p.Contains("{itemSold}"))
+        {
+            p = p.Replace("{itemSold}", $"{""}");
+            PlayerSoldItem();
+        }
+
         NPCDialogueText.text = p;
 
         if (paragraphs.Count == 0)
@@ -89,17 +104,30 @@ public class DialogueController : MonoBehaviour
         NPCNameText.text = dialogueText.speakerName;
 
         // Add dialogue text to queue
-        for(int i = 0; i < dialogueText.paragraphs.Length; i++)
+        if(currentTalker.currentPath == -1)
         {
-            paragraphs.Enqueue(dialogueText.paragraphs[i]);
-            emotions.Enqueue(dialogueText.emotions[i]);
+            for(int i = 0; i < dialogueText.defaultPath.paragraphs.Length; i++)
+            {
+                paragraphs.Enqueue(dialogueText.defaultPath.paragraphs[i]);
+                emotions.Enqueue(dialogueText.defaultPath.emotions[i]);
+            }
         }
+        else
+        {
+            for(int i = 0; i < dialogueText.paths[currentTalker.currentPath].paragraphs.Length; i++)
+            {
+                paragraphs.Enqueue(dialogueText.paths[currentTalker.currentPath].paragraphs[i]);
+                emotions.Enqueue(dialogueText.paths[currentTalker.currentPath].emotions[i]);
+            }
+        }
+        
     }
 
     public void EndConversation()
     {
         // Clear queue
         paragraphs.Clear();
+        emotions.Clear();
 
         conversationEnded = false;
 
@@ -107,5 +135,16 @@ public class DialogueController : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+
+    public void PlayerSoldItem()
+    {
+        InventoryItemData soldItem = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
+        if(!soldItem) return;
+        float moneyGained = soldItem.value * soldItem.sellValueMultiplier;
+        int moneyGainedInt = (int) moneyGained;
+        PlayerInteraction.Instance.currentMoney += moneyGainedInt;
+        HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+        PlayerInventoryHolder.Instance.UpdateInventory();
     }
 }

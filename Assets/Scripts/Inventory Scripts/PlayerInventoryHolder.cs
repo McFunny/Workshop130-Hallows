@@ -4,6 +4,8 @@ using UnityEngine.Events;
 
 public class PlayerInventoryHolder : InventoryHolder
 {
+    public static PlayerInventoryHolder Instance;
+
     [SerializeField] protected int secondaryInventorySize;
     [SerializeField] public InventorySystem secondaryInventorySystem;
 
@@ -16,6 +18,16 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         base.Awake();
         secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
+
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     private void Start()

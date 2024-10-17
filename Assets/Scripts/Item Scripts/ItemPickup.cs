@@ -14,7 +14,7 @@ public class ItemPickup : MonoBehaviour
 
     private SphereCollider myCollider;
 
-    SpriteRenderer r;
+    public SpriteRenderer r;
 
     [SerializeField] private ItemPickupSaveData itemSaveData;
     private string id;
@@ -31,7 +31,7 @@ public class ItemPickup : MonoBehaviour
         myCollider.isTrigger = true;
         myCollider.radius = PickUpRadius;
 
-        r = GetComponent<SpriteRenderer>();
+        if(!r) r = GetComponent<SpriteRenderer>();
     }
 
    

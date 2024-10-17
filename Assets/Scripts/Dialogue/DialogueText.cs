@@ -6,9 +6,9 @@ using UnityEngine;
 public class DialogueText : ScriptableObject
 {
     public string speakerName;
-    [TextArea(5,10)]
-    public string[] paragraphs;
-    public Emotion[] emotions;
+    public DialoguePath defaultPath;
+    public DialoguePath[] paths;
+
 }
 
 public enum Emotion
@@ -20,4 +20,12 @@ public enum Emotion
     Angry,
     Confused,
     Shocked
+}
+
+[System.Serializable]
+public class DialoguePath
+{
+    [TextArea(5,10)]
+    public string[] paragraphs;
+    public Emotion[] emotions;
 }

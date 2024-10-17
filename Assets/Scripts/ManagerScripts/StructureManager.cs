@@ -12,6 +12,12 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs;
 
+    public GameObject weedTile;
+
+    //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
+    List<Vector3Int> allTiles = new List<Vector3Int>();
+    List<NutrientStorage> storage = new List<NutrientStorage>();
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -23,12 +29,8 @@ public class StructureManager : MonoBehaviour
         {
             Instance = this;
         }
-    }
-
-
-    void Start()
-    {
-        
+        //load in all the saved data, such as the nutrient storages and alltiles list
+        PopulateWeeds(5, 20); //Only do this when a new game has started. Implement weeds spawning in overtime
     }
 
     public void HourUpdate()
@@ -37,6 +39,7 @@ public class StructureManager : MonoBehaviour
         {
             structure.HourPassed();
         }
+        PopulateWeeds(-9, 3);
     }
 
 
@@ -79,5 +82,97 @@ public class StructureManager : MonoBehaviour
         Vector3Int gridPos = tileMap.WorldToCell(pos);
         print(tileMap.GetTile(gridPos));
         tileMap.SetTile(gridPos, freeTile);
+    }
+
+    public NutrientStorage FetchNutrient(Vector3 pos)
+    {
+        Vector3Int gridPos = tileMap.WorldToCell(pos);
+        for(int i = 0; i < allTiles.Count; i++)
+        {
+            if(allTiles[i] == gridPos)
+            {
+                if(storage[i] != null) return storage[i];
+                else
+                {
+                    storage[i] = new NutrientStorage();
+                    return storage[i];
+                }
+            } 
+        }
+        //if its not in the list
+        allTiles.Add(gridPos);
+        NutrientStorage newStorage = new NutrientStorage();
+        storage.Add(newStorage);
+        return newStorage;
+    }
+
+    public void UpdateStorage(Vector3 pos, NutrientStorage s)
+    {
+        Vector3Int gridPos = tileMap.WorldToCell(pos);
+        for(int i = 0; i < allTiles.Count; i++)
+        {
+            if(allTiles[i] == gridPos) storage[i].LoadStorage(storage[i], s.ichorLevel, s.terraLevel, s.gloamLevel, s.waterLevel);
+        }
+    }
+
+    void PopulateWeeds(int min, int max)
+    {
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        foreach (Vector3Int position in tileMap.cellBounds.allPositionsWithin)
+        {
+            spawnablePositions.Add(position);
+        }
+
+        int r = Random.Range(min,max);
+        if (r <= 0) return;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = tileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(tileMap.GetTile(spawnablePositions[randomIndex]) != null)
+                {
+                    SpawnStructure(weedTile, spawnPos);
+                }
+            }
+        }
+    }
+
+}
+
+[System.Serializable]
+public class NutrientStorage
+{
+    public float ichorLevel = 10; //max is 10
+    public float terraLevel = 10; //max is 10
+    public float gloamLevel = 10; //max is 10
+
+    public float waterLevel = 5; //max is 5
+
+    public NutrientStorage()
+    {
+        ichorLevel = 10; 
+        terraLevel = 10; 
+        gloamLevel = 10; 
+        waterLevel = 5;
+    }
+
+    public void ResetStorage(NutrientStorage s)
+    {
+        s.ichorLevel = 10;
+        s.terraLevel = 10;
+        s.gloamLevel = 10;
+        s.waterLevel = 5;
+    }
+    public void LoadStorage(NutrientStorage s, float i, float t, float g, float w)
+    {
+        s.ichorLevel = i;
+        s.terraLevel = t;
+        s.gloamLevel = g;
+        s.waterLevel = w;
     }
 }

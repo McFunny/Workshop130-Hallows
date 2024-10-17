@@ -231,6 +231,11 @@ MonoBehaviour:
   crop: {fileID: 0}
   cropRenderer: {fileID: 8704679450468573891}
   itemDropTransform: {fileID: 3612033332719255909}
+  meshRenderer: {fileID: 8211516596425894232}
+  dry: {fileID: 2100000, guid: 8ea3aa49265af6042bef80f5faa324ba, type: 2}
+  wet: {fileID: 2100000, guid: 50966c5c23a410e47a11ca11b6edf61c, type: 2}
+  barren: {fileID: 2100000, guid: 7f2604cbfca11914c9180e408c1b2f37, type: 2}
+  barrenWet: {fileID: 2100000, guid: e0d2e06b1685e3843b589d75cc43950c, type: 2}
   waterLevel: 0
   growthStage: -1
   hoursSpent: 0
@@ -327,6 +332,12 @@ PrefabInstance:
 --- !u!4 &7043073507964441143 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1bfdd91bde26e7049b4e954a3451ff67,
+    type: 3}
+  m_PrefabInstance: {fileID: 7364721809948816860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8211516596425894232 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 1bfdd91bde26e7049b4e954a3451ff67,
     type: 3}
   m_PrefabInstance: {fileID: 7364721809948816860}
   m_PrefabAsset: {fileID: 0}
