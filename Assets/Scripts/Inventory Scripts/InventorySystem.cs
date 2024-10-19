@@ -68,4 +68,26 @@ public class InventorySystem
       freeSlot = InventorySlots.FirstOrDefault(i => i.ItemData == null); //Get the first free slot
         return freeSlot == null ? false : true;
     }
+
+    public void RemoveItemsFromInventory(InventoryItemData data, int amount)
+    {
+        
+        if (ContainsItem(data, out List<InventorySlot> invSlot))
+        {
+            
+            foreach (var slot in invSlot)
+            {
+                var stackSize = slot.StackSize;
+
+                if (stackSize > amount) slot.RemoveFromStack(amount);
+                else
+                {
+                    slot.RemoveFromStack(stackSize);
+                    amount -= stackSize;
+                }
+
+                OnInventorySlotChanged?.Invoke(slot);
+            }
+        }
+    }
 }

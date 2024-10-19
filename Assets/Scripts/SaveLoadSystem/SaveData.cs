@@ -2,26 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace SaveLoadSystem
 {
     [System.Serializable]
     public class SaveData
     {
-        public List<string> collectedItems;
-        public SerializableDictionary<string, ChestSaveData> chestDictionary;
-        public SerializableDictionary<string, ItemPickupSaveData> activeItems;
-        
+        public List<string> collectedItems; // List of collected item IDs
+        public SerializableDictionary<string, ChestSaveData> chestDictionary; // Chest data with UniqueID
+        public SerializableDictionary<string, ItemPickupSaveData> activeItems; // Active pickups with UniqueID
 
-        public SaveData() 
-        { 
-        activeItems = new SerializableDictionary<string, ItemPickupSaveData> ();
-        chestDictionary = new SerializableDictionary<string, ChestSaveData> ();
-        collectedItems = new List<string> ();
+        // Instead of a dictionary, we store a single instance of player inventory
+        public PlayerInventorySaveData playerInventoryData;
 
+        public SaveData()
+        {
+            collectedItems = new List<string>();
+            activeItems = new SerializableDictionary<string, ItemPickupSaveData>();
+            chestDictionary = new SerializableDictionary<string, ChestSaveData>();
+            playerInventoryData = new PlayerInventorySaveData(); // Initialize player inventory data
         }
-
-
-
     }
 }

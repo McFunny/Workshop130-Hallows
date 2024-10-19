@@ -31,20 +31,29 @@ public class InventorySlot
         stackSize = -1;
     }
 
-    public void AssignItem(InventorySlot invSlot) //Assigns an item to the slot
+    public void AssignItem(InventorySlot invSlot)
     {
-        if (itemData == invSlot.itemData) // Does the slot contain the same item, if so add it to the stack
+        if (itemData == invSlot.itemData) // Same item, add to stack
         {
             AddToStack(invSlot.StackSize);
         }
-        else // Overwrite slot with the inventory slot that we are passing in
+        else // New item, overwrite
         {
             itemData = invSlot.itemData;
-            stackSize = 0;
-            AddToStack(invSlot.stackSize);
+            stackSize = invSlot.stackSize; // Correctly set the stack size
         }
-
     }
+
+
+    public void RemoveFromStack(int amount)
+    {
+        stackSize -= amount;
+        if (stackSize <= 0)
+        {
+            ClearSlot(); // Clears the slot if stack is zero or less
+        }
+    }
+
 
     public void UpdateInventorySlot(InventoryItemData data, int amount) // Updates slot directly
     {
@@ -69,14 +78,6 @@ public class InventorySlot
     {
         stackSize += amount;
     }
-
-    public void RemoveFromStack(int amount)
-    {
-        stackSize -= amount;
-        if(stackSize == 0) ClearSlot();
-    }
-
-   
 
     public bool SplitStack(out InventorySlot splitStack)
     {

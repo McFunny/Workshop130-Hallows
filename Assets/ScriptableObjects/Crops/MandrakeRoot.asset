@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: MandrakeRoot
+  m_EditorClassIdentifier: 
+  name: ManDrake
+  growthStages: 5
+  hoursPerStage: 6
+  harvestableGrowthStages: 
+  cropSprites: []
+  cropYield: {fileID: 0}
+  cropSeed: {fileID: 0}
+  cropYieldAmount: 1
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  waterIntake: 1
+  ichorIntake: 0.75
+  terraIntake: 0
+  gloamIntake: -0.25
+  creaturePrefab: {fileID: 8095277121360393263, guid: 55c91fa69fe128a4a9df242ebb665a9a,
+    type: 3}

@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class TestNPC : NPC, ITalkable
 {
-    [SerializeField] private DialogueText dialogueText;
-    [SerializeField] private DialogueController dialogueController;
+
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        Talk(dialogueText);
+        Talk();
         interactSuccessful = true;
         Debug.Log("NPC Interact Successful");
     }
 
-    public void Talk(DialogueText dialogueText)
+    public void Talk()
     {
-        dialogueController.DisplayNextParagraph(dialogueText);
+        dialogueController.currentTalker = this;
+        dialogueController.DisplayNextParagraph(dialogueText, currentPath);
+    }
+
+    public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
+    {
+        Talk();
+        interactSuccessful = true;
+        Debug.Log("NPC Interact Successful");
     }
 }

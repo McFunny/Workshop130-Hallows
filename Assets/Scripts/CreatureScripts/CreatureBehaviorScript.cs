@@ -5,16 +5,28 @@ using UnityEngine;
 public class CreatureBehaviorScript : MonoBehaviour
 {
     //This is the base class that ALL creatures should derive from
-    public float health = 10;
-    public float maxHealth = 10;
+    public float health = 100;
+    public float maxHealth = 100;
 
-    StructureManager structManager;
+    [HideInInspector] public StructureManager structManager;
+    [HideInInspector] public CreatureEffectsHandler effectsHandler;
+    [HideInInspector] public Transform player;
+
+    public Rigidbody rb;
+    public Animator anim;
 
     public float sightRange = 4; //how far can it see the player
+    public bool playerInSightRange = false;
+    public bool playerInAttackRange = false;
+    public bool shovelVulnerable = true;
+    public bool isTrapped = false;
+    public bool isDead = false;
 
     public void Start()
     {
-        structManager = FindObjectOfType<StructureManager>();
+        structManager = StructureManager.Instance;
+        effectsHandler = FindObjectOfType<CreatureEffectsHandler>();
+        player = FindObjectOfType<PlayerInteraction>().transform;
     }
 
     // Update is called once per frame
@@ -22,6 +34,29 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         
     }
+
+    public void TakeDamage(float damage)
+    {
+        print("Ouch");
+        health -= damage;
+        if(health < 0)
+        {
+            effectsHandler.OnDeath();
+            OnDeath();
+            isDead = true;
+            //turns into a corpse, and fertalizes nearby crops
+        }
+        else
+        {
+            effectsHandler.OnHit();
+            OnDamage();
+        }
+        
+    }
+
+    public virtual void OnDamage(){} //Triggers creature specific effects
+    public virtual void OnDeath(){} //Triggers creature specific effects
+
 
     
 }
