@@ -8,6 +8,8 @@ public class HotbarDisplay : MonoBehaviour
     public static InventorySlot_UI currentSlot;
     private int currentIndex;
 
+    
+
     private void Start()
     {
         currentIndex = 0;
@@ -22,7 +24,11 @@ public class HotbarDisplay : MonoBehaviour
         {
             inputManager.OnNumberPressed += HandleNumberPressed;
             inputManager.OnScrollInput += HandleScrollInput;
+           
+            
         }
+
+        PlayerInventoryHolder.OnPlayerInventoryChanged += UpdateHandItem;
     }
 
     private void OnDisable()
@@ -32,6 +38,8 @@ public class HotbarDisplay : MonoBehaviour
             inputManager.OnNumberPressed -= HandleNumberPressed;
             inputManager.OnScrollInput -= HandleScrollInput;
         }
+
+        PlayerInventoryHolder.OnPlayerInventoryChanged -= UpdateHandItem;
     }
 
     private void HandleScrollInput(int direction)
@@ -81,8 +89,8 @@ public class HotbarDisplay : MonoBehaviour
             }
             else
             {
+                HandItemManager.Instance.SwapHandModel(ToolType.Null);
                 HandItemManager.Instance.ShowSpriteInHand(currentSlot.AssignedInventorySlot.ItemData);
-                //HandItemManager.Instance.SwapHandModel(ToolType.Null);
             }
             }
         else
@@ -91,4 +99,30 @@ public class HotbarDisplay : MonoBehaviour
             HandItemManager.Instance.ClearHandModel();
         }
     }
+
+    private void UpdateHandItem(InventorySystem inv)
+    {
+        if (currentSlot.AssignedInventorySlot != null && currentSlot.AssignedInventorySlot.ItemData != null)
+        {
+            currentSlot.AssignedInventorySlot.ItemData.UseItem(); //currently just reports what item is in the slot in the debugger
+
+            ToolItem t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
+            if (t_item)
+            {
+                HandItemManager.Instance.SwapHandModel(t_item.tool);
+            }
+            else
+            {
+                Debug.Log("Running this");
+                HandItemManager.Instance.SwapHandModel(ToolType.Null);
+                HandItemManager.Instance.ShowSpriteInHand(currentSlot.AssignedInventorySlot.ItemData);
+            }
+        }
+        else
+        {
+            //Debug.Log($"No item in hotbar slot {slotIndex + 1}");
+            HandItemManager.Instance.ClearHandModel();
+        }
+    }
+
 }

@@ -14,6 +14,7 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     public abstract void AssignSlot(InventorySystem invToDisplay); // Implemented in child classes
 
+
     protected virtual void Start()
     {
 
@@ -33,7 +34,7 @@ public abstract class InventoryDisplay : MonoBehaviour
     public void HandleSlotLeftClick(InventorySlot_UI clickedUISlot)
     {
         bool isShiftPress = Input.GetKey(KeyCode.LeftShift);
-
+        PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
         // Left-click logic:
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData == null)
         {
@@ -41,12 +42,14 @@ public abstract class InventoryDisplay : MonoBehaviour
             {
                 mouseInventoryItem.UpdateMouseSlot(halfStackSlot);
                 clickedUISlot.UpdateUISlot();
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 return;
             }
             else
             {
                 mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
                 clickedUISlot.ClearSlot();
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 return;
             }
         }
@@ -56,6 +59,7 @@ public abstract class InventoryDisplay : MonoBehaviour
             clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.assignedInventorySlot);
             clickedUISlot.UpdateUISlot();
             mouseInventoryItem.ClearSlot();
+            PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
             return;
         }
 
@@ -68,6 +72,7 @@ public abstract class InventoryDisplay : MonoBehaviour
                 clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.assignedInventorySlot);
                 clickedUISlot.UpdateUISlot();
                 mouseInventoryItem.ClearSlot();
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 return;
             }
             else if (isSameItem && !clickedUISlot.AssignedInventorySlot.RoomLeftInStack(mouseInventoryItem.assignedInventorySlot.StackSize, out int leftInStack))
@@ -79,11 +84,13 @@ public abstract class InventoryDisplay : MonoBehaviour
                 var newItem = new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, remainingOnMouse);
                 mouseInventoryItem.ClearSlot();
                 mouseInventoryItem.UpdateMouseSlot(newItem);
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 return;
             }
             else if (!isSameItem)
             {
                 SwapSlots(clickedUISlot);
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 return;
             }
         }
@@ -113,7 +120,7 @@ public abstract class InventoryDisplay : MonoBehaviour
                 mouseInventoryItem.ClearSlot();
                 mouseInventoryItem.UpdateMouseSlot(newItem); // Update the mouse UI with the new stack
             }
-
+            PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
             return;
         }
 
@@ -143,11 +150,12 @@ public abstract class InventoryDisplay : MonoBehaviour
                     mouseInventoryItem.ClearSlot();
                     mouseInventoryItem.UpdateMouseSlot(newItem); // Update the mouse UI with the remaining stack
                 }
-
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 return;
             }
 
             // Right-click on a different item does nothing
+            PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
             return;
         }
     }

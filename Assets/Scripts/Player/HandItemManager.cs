@@ -43,7 +43,7 @@ public class HandItemManager : MonoBehaviour
     {
         if(currentHandObject) currentHandObject.SetActive(false);
         if(MissingObject()) return;
-        handRenderer.sprite = null;
+        if (handRenderer != null) handRenderer.sprite = null;
         switch (type)
         {
             case ToolType.Hoe:
@@ -83,6 +83,7 @@ public class HandItemManager : MonoBehaviour
     public void ClearHandModel()
     {
         if(currentHandObject) currentHandObject.SetActive(false);
+        if (handRenderer != null) handRenderer.sprite = null;
     }
 
     bool MissingObject()

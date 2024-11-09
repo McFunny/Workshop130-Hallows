@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -26,6 +28,7 @@ public class PlayerInteraction : MonoBehaviour
     private float reach = 5;
 
     public LayerMask interactionLayers;
+
 
     void Awake()
     {
@@ -203,6 +206,7 @@ public class PlayerInteraction : MonoBehaviour
         if (p_item)
         {
             p_item.PlaceStructure(mainCam.transform);
+            playerInventoryHolder.UpdateInventory();
             return;
         }
 
