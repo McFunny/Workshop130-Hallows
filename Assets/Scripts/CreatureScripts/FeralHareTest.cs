@@ -8,7 +8,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
     FarmLand foundFarmTile;
 
-    Vector3 jumpPos;
+    Vector3 jumpPos, startingDestination;
     bool isFleeing = false;
     bool jumpCooldown = false;
     bool isEating = false;
@@ -16,23 +16,23 @@ public class FeralHareTest : CreatureBehaviorScript
     bool isStunned = false;
     float eatingTimeLeft = 5f; // how many seconds does it take to eat a crop
 
-    public enum HareStates
+    public enum CreatureState
     {
         Wander,
         MoveTowardsCrop,
         Eat,
         FleeFromPlayer,
         Stunned,
-        Dead
+        Dead,
     }
 
-    public HareStates currentState;
+    public CreatureState currentState;
 
     // Start is called before the first frame update
     void Start()
     {
         base.Start();
-        currentState = HareStates.Wander;
+        currentState = CreatureState.Wander;
         StartCoroutine(CropCheck());
     }
 
@@ -43,7 +43,7 @@ public class FeralHareTest : CreatureBehaviorScript
         if(isDead) return;
 
         // Check distance from the player
-        if(currentState != HareStates.FleeFromPlayer)
+        if(currentState != CreatureState.FleeFromPlayer)
         {
             float distance = Vector3.Distance(player.position, transform.position);
             playerInSightRange = distance <= sightRange;
@@ -52,37 +52,44 @@ public class FeralHareTest : CreatureBehaviorScript
         // If the player is in sight, switch to flee state
         if (playerInSightRange)
         {
-            currentState = HareStates.FleeFromPlayer;
+            currentState = CreatureState.FleeFromPlayer;
         }
         if (!isStunned)
         {
             CheckState(currentState);
         }
+
+        if(startingDestination != new Vector3(0,0,0) && Vector3.Distance(startingDestination, transform.position) < 3) startingDestination = new Vector3(0,0,0);
     }
 
-    private void CheckState(HareStates state)
+    private void CheckState(CreatureState state)
     {
         switch (state)
         {
-            case HareStates.Wander:
+            case CreatureState.Wander:
                 Wander();
                 break;
-            case HareStates.MoveTowardsCrop:
+            case CreatureState.MoveTowardsCrop:
                 MoveTowardsCrop();
                 break;
-            case HareStates.Eat:
+            case CreatureState.Eat:
                 Eat();
                 break;
-            case HareStates.FleeFromPlayer:
+            case CreatureState.FleeFromPlayer:
                 FleeFromPlayer();
                 break;
-            case HareStates.Stunned:
+            case CreatureState.Stunned:
                 Stunned();
                 break;
-            case HareStates.Dead:
+            case CreatureState.Dead:
                 //Dead();
                 break;
         }
+    }
+
+    public override void OnSpawn()
+    {
+        startingDestination = StructureManager.Instance.GetRandomTile();
     }
 
     private void Wander()
@@ -90,12 +97,13 @@ public class FeralHareTest : CreatureBehaviorScript
         if (!jumpCooldown)
         {
             StartCoroutine(JumpCooldownTimer());
-            Hop(jumpPos);
+            if(startingDestination != new Vector3(0,0,0))Hop(startingDestination);
+            else Hop(jumpPos);
         }
         float r = Random.Range(0, 10f);
         if (r > 2 && foundFarmTile)
         { 
-            currentState = HareStates.MoveTowardsCrop;
+            currentState = CreatureState.MoveTowardsCrop;
         }
     }
 
@@ -114,7 +122,7 @@ public class FeralHareTest : CreatureBehaviorScript
             }
             else
             {
-                currentState = HareStates.Eat;
+                currentState = CreatureState.Eat;
             }
         }
     }
@@ -152,7 +160,7 @@ public class FeralHareTest : CreatureBehaviorScript
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= (sightRange + 6);
 
-        if(!playerInSightRange) currentState = HareStates.Wander;
+        if(!playerInSightRange) currentState = CreatureState.Wander;
     }
 
     private void Stunned()
@@ -162,6 +170,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public override void OnDeath()
     {
+        base.OnDeath();
         anim.SetTrigger("IsDead");
     }
 
@@ -242,7 +251,7 @@ public class FeralHareTest : CreatureBehaviorScript
         isStunned = true;
         yield return new WaitForSeconds(stunduration);
         isStunned = false;
-        currentState = HareStates.Wander;
+        currentState = CreatureState.Wander;
     }
 
     IEnumerator EatCrop()
@@ -251,8 +260,8 @@ public class FeralHareTest : CreatureBehaviorScript
         anim.SetBool("IsDigging", true);
         eatingTimeLeft = 5f;
         transform.LookAt(foundFarmTile.transform.position);
-        yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile.crop == null || currentState != HareStates.Eat);
-        if (inEatingRange && foundFarmTile.crop != null && currentState == HareStates.Eat)
+        yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile.crop == null || currentState != CreatureState.Eat);
+        if (inEatingRange && foundFarmTile.crop != null && currentState == CreatureState.Eat)
         {
             foundFarmTile.CropDestroyed();
             foundFarmTile = null;
@@ -260,6 +269,6 @@ public class FeralHareTest : CreatureBehaviorScript
         }
         anim.SetBool("IsDigging", false);
         isEating = false;
-        currentState = HareStates.Wander;
+        currentState = CreatureState.Wander;
     }
 }

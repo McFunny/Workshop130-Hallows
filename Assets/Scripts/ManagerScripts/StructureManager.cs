@@ -12,11 +12,15 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs;
 
-    public GameObject weedTile;
+    public GameObject weedTile, farmTree;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allTiles = new List<Vector3Int>();
     List<NutrientStorage> storage = new List<NutrientStorage>();
+
+    [Header("CropDebugs")]
+    public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
+
 
     void Awake()
     {
@@ -29,26 +33,28 @@ public class StructureManager : MonoBehaviour
         {
             Instance = this;
         }
+        InstantiateNutrientStorage();
         //load in all the saved data, such as the nutrient storages and alltiles list
-        PopulateWeeds(5, 20); //Only do this when a new game has started. Implement weeds spawning in overtime
+        PopulateWeeds(10, 20); //Only do this when a new game has started. Implement weeds spawning in over time
+        PopulateTrees(8, 12);
+        TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
     public void HourUpdate()
     {
-        foreach (StructureBehaviorScript structure in allStructs)
-        {
-            structure.HourPassed();
-        }
+        print("AllStructs: " + allStructs.Count);
         PopulateWeeds(-9, 3);
     }
 
 
     public Vector3 CheckTile(Vector3 pos)
     {
+        //print("Checking");
         Vector3Int gridPos = tileMap.WorldToCell(pos);
 
         TileBase currentTile = tileMap.GetTile(gridPos);
 
+        //print(currentTile);
         if(currentTile != null && currentTile == freeTile)
         {
             //
@@ -58,30 +64,122 @@ public class StructureManager : MonoBehaviour
         else return new Vector3 (0,0,0);
     }
 
+    public Vector3 GetRandomTile()
+    {
+        int r = Random.Range(0, allTiles.Count);
+        return tileMap.GetCellCenterWorld(allTiles[r]);
+    }
+
     public void SpawnStructure(GameObject obj, Vector3 pos)
     {
         Instantiate(obj, pos, Quaternion.identity);
         Vector3Int gridPos = tileMap.WorldToCell(pos);
+        if(tileMap.GetTile(gridPos) == null) return;
         tileMap.SetTile(gridPos, occupiedTile);
+    }
+
+    public GameObject SpawnStructureWithInstance(GameObject obj, Vector3 pos)
+    {
+        GameObject instance = Instantiate(obj, pos, Quaternion.identity);
+        Vector3Int gridPos = tileMap.WorldToCell(pos);
+        if(tileMap.GetTile(gridPos) != null) tileMap.SetTile(gridPos, occupiedTile);
+        return instance;
+    }
+
+    public bool SpawnLargeStructure(GameObject obj, Vector3 pos)
+    { 
+        List<Vector3Int> selectedTiles = new List<Vector3Int>();
+        Vector3Int gridPos = tileMap.WorldToCell(pos);
+        selectedTiles.Add(gridPos);
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y));
+        selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y - 1));
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y - 1));
+
+        foreach(Vector3Int _pos in selectedTiles)
+        {
+            TileBase currentTile = tileMap.GetTile(_pos);
+            if(currentTile == null || currentTile != freeTile) return false;
+        }
+
+        foreach(Vector3Int _pos in selectedTiles)
+        {
+            tileMap.SetTile(_pos, occupiedTile);
+        }
+
+        Vector3 start = tileMap.GetCellCenterWorld(gridPos);
+        Vector3 otherEnd = tileMap.GetCellCenterWorld(new Vector3Int(gridPos.x + 1, gridPos.y - 1));
+        //print(start);
+        //print(otherEnd);
+        Vector3 center = new Vector3((start.x + otherEnd.x)/2, (start.y + otherEnd.y)/2, (start.z + otherEnd.z)/2);
+        //print(center);
+
+        Instantiate(obj, center, Quaternion.identity);
+        return true;
     }
 
     public void SetTile(Vector3 pos)
     {
         Vector3Int gridPos = tileMap.WorldToCell(pos);
-        tileMap.SetTile(gridPos, occupiedTile);
-    }
-
-    public void Set4Tile(Vector3 pos) //to set a cube of tiles for big structures, currently unimplemented
-    {
-        Vector3Int gridPos = tileMap.WorldToCell(pos);
+        if(tileMap.GetTile(gridPos) == null) return;
         tileMap.SetTile(gridPos, occupiedTile);
     }
 
     public void ClearTile(Vector3 pos)
     {
         Vector3Int gridPos = tileMap.WorldToCell(pos);
-        print(tileMap.GetTile(gridPos));
+        if(tileMap.GetTile(gridPos) == null) return;
         tileMap.SetTile(gridPos, freeTile);
+    }
+
+    public void ClearLargeTile(Vector3 pos)
+    {
+        //fetch tiles within a small radius, should return the 4 its occupying
+        //print("Clearing");
+        foreach (var gridPosition in tileMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = tileMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 3f)
+            {
+                if(tileMap.GetTile(gridPosition) != null) tileMap.SetTile(gridPosition, freeTile);
+                //print("FoundTile");
+            }
+            
+        }
+    }
+
+    public void IchorRefill(Vector3 pos, float radius, float amount)
+    {
+        foreach (var gridPosition in tileMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = tileMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= radius && tileMap.GetTile(gridPosition) != null)
+            {
+                for(int i = 0; i < allTiles.Count; i++)
+                {
+                    if(allTiles[i] == gridPosition)
+                    {
+                        if(storage[i] == null) storage[i] = new NutrientStorage();
+
+                        storage[i].ichorLevel += amount;
+                        if(storage[i].ichorLevel > 10) storage[i].ichorLevel = 10;
+                    } 
+                }
+            }
+            
+        }
+    }
+
+    void InstantiateNutrientStorage()
+    {
+        foreach (var gridPosition in tileMap.cellBounds.allPositionsWithin)
+        {
+            if(tileMap.GetTile(gridPosition) != null)
+            {
+                allTiles.Add(gridPosition);
+                NutrientStorage newStorage = new NutrientStorage();
+                storage.Add(newStorage);
+            }
+        }
     }
 
     public NutrientStorage FetchNutrient(Vector3 pos)
@@ -99,7 +197,8 @@ public class StructureManager : MonoBehaviour
                 }
             } 
         }
-        //if its not in the list
+        //if its not in the list. None of this should ever have to be called since we are instantiating the storages at scene start
+        Debug.Log("We have a storage problem");
         allTiles.Add(gridPos);
         NutrientStorage newStorage = new NutrientStorage();
         storage.Add(newStorage);
@@ -142,31 +241,59 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    void PopulateTrees(int min, int max)
+    {
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        foreach (Vector3Int position in tileMap.cellBounds.allPositionsWithin)
+        {
+            spawnablePositions.Add(position);
+        }
+
+        int r = Random.Range(min,max);
+        if (r <= 0) return;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = tileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(tileMap.GetTile(spawnablePositions[randomIndex]) != null)
+                {
+                    bool success = SpawnLargeStructure(farmTree, spawnPos);
+                    print(success);
+                }
+            }
+        }
+    }
+
 }
 
 [System.Serializable]
 public class NutrientStorage
 {
-    public float ichorLevel = 10; //max is 10
+    public float ichorLevel = 5; //max is 10
     public float terraLevel = 10; //max is 10
     public float gloamLevel = 10; //max is 10
 
-    public float waterLevel = 5; //max is 5
+    public float waterLevel = 3; //max is 5
 
     public NutrientStorage()
     {
-        ichorLevel = 10; 
+        ichorLevel = 5; 
         terraLevel = 10; 
         gloamLevel = 10; 
-        waterLevel = 5;
+        waterLevel = 3;
     }
 
     public void ResetStorage(NutrientStorage s)
     {
-        s.ichorLevel = 10;
+        s.ichorLevel = 5;
         s.terraLevel = 10;
         s.gloamLevel = 10;
-        s.waterLevel = 5;
+        s.waterLevel = 3;
     }
     public void LoadStorage(NutrientStorage s, float i, float t, float g, float w)
     {

@@ -24,4 +24,6 @@ public class TestNPC : NPC, ITalkable
         interactSuccessful = true;
         Debug.Log("NPC Interact Successful");
     }
+
+    public override void PurchaseAttempt(StoreItem item){}
 }

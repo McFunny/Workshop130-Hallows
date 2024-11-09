@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: MandrakeRoot
+  m_EditorClassIdentifier: 
+  name: Mandrake
+  growthStages: 4
+  hoursPerStage: 9
+  harvestableGrowthStages: 
+  cropSprites:
+  - {fileID: -1489303540, guid: 737d75bd0db95ec438000c855501225a, type: 3}
+  - {fileID: -1606242420, guid: 737d75bd0db95ec438000c855501225a, type: 3}
+  - {fileID: -932092564, guid: 737d75bd0db95ec438000c855501225a, type: 3}
+  - {fileID: -123535889, guid: 737d75bd0db95ec438000c855501225a, type: 3}
+  rottedImage: {fileID: -141229572, guid: 737d75bd0db95ec438000c855501225a, type: 3}
+  cropYield: {fileID: 0}
+  cropSeed: {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
+  cropYieldAmount: 1
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  waterIntake: 5
+  ichorIntake: 0.75
+  terraIntake: 0.5
+  gloamIntake: -0.5
+  stressLimit: 0
+  creaturePrefab: {fileID: 8095277121360393263, guid: 55c91fa69fe128a4a9df242ebb665a9a,
+    type: 3}
+  behavior: {fileID: 11400000, guid: fd64c69be01693a4cb537035f29207b0, type: 2}

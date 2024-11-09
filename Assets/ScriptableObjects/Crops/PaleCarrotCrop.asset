@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
   m_Name: PaleCarrotCrop
   m_EditorClassIdentifier: 
-  growthStages: 5
+  name: Pale Carrot
+  growthStages: 4
   hoursPerStage: 6
-  harvestableGrowthStages: 0400000005000000
+  harvestableGrowthStages: 04000000
   cropSprites:
   - {fileID: -1083060862, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
   - {fileID: 385342639, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
   - {fileID: -2060417812, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
   - {fileID: 169092492, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
-  - {fileID: 1592216574, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
+  rottedImage: {fileID: 1592216574, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
   cropYield: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
   cropSeed: {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
   cropYieldAmount: 1
@@ -28,5 +29,8 @@ MonoBehaviour:
   seedYieldVariance: 1
   waterIntake: 4
   ichorIntake: 0
-  terraIntake: 0.5
-  gloamIntake: -0.25
+  terraIntake: -0.5
+  gloamIntake: 0.75
+  stressLimit: 1
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 0}

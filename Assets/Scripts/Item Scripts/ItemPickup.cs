@@ -84,18 +84,15 @@ public class ItemPickup : MonoBehaviour
     {
         var inventory = other.transform.GetComponent<PlayerInventoryHolder>();
 
-       if (!inventory) return;
+        if (!inventory) return;
 
         if (inventory.AddToInventory(ItemData, 1))
         {
-           
             SaveGameManager.data.collectedItems.Add(id);
-            print(SaveGameManager.data.collectedItems[0]);
             FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
-            print("Added");
-            //Destroy(this.gameObject);
-            gameObject.SetActive(false);
+            gameObject.SetActive(false); // Make the item disappear
         }
+
 
 
     }

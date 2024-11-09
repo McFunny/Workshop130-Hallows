@@ -12,6 +12,11 @@ public class FogTeleporter : MonoBehaviour
         {
             if(otherEnd) other.transform.position = otherEnd.position;
         }
+        else if(other.gameObject.layer == 9)
+        {
+            if(TimeManager.isDay) Destroy(other.gameObject);
+            else if(otherEnd) other.transform.position = otherEnd.position;
+        }
 
 
     }

@@ -6,7 +6,10 @@ using UnityEngine;
 public class HoeBehavior : ToolBehavior
 {
     Vector3 pos;
+    UntilledTile tile;
     public GameObject farmTile;
+    public AudioClip swing;
+
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown)
@@ -15,22 +18,38 @@ public class HoeBehavior : ToolBehavior
         } 
         if (!player) player = _player;
         tool = _tool;
+
         //till ground
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
-        StructureManager structManager = FindObjectOfType<StructureManager>();
 
-        if(Physics.Raycast(player.position, fwd, out hit, 5, 1 << 7))
+        tile = null;
+
+        if(Physics.Raycast(player.position, fwd, out hit, 5, mask))
         {
+
+            //tile = hit.collider.GetComponent<UntilledTile>();
+            //if (tile != null)
+            //{
+                //play hoe anim
+            //    HandItemManager.Instance.PlayPrimaryAnimation();
+                //HandItemManager.Instance.toolSource.PlayOneShot(swing);
+            //    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1.5f, 0f));
+            //    PlayerMovement.restrictMovementTokens++;
+
+            //    return;
+            //}
+
+
             pos = StructureManager.Instance.CheckTile(hit.point);
             if(pos != new Vector3(0,0,0)) 
             {
-                //usingPrimary = true;
+                usingPrimary = true;
                 HandItemManager.Instance.PlayPrimaryAnimation();
-                //HandItemManager.Instance.toolSource.PlayOneShot(swing);
-                PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1.5f, 0f));
+                HandItemManager.Instance.toolSource.PlayOneShot(swing);
+                PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.9f));
                 PlayerMovement.restrictMovementTokens++;
-                //HAVE PLAYER NOT BE ABLE TO TURN
+                PlayerInteraction.Instance.StaminaChange(-2);
             }
 
         }
@@ -43,9 +62,16 @@ public class HoeBehavior : ToolBehavior
 
     public override void ItemUsed() 
     { 
+        PlayerInteraction.Instance.StartCoroutine(ExtraLag());
+        if(tile) tile.ToolInteraction(tool, out bool playAnim);
+        else StructureManager.Instance.SpawnStructure(farmTile, pos);
+    }
+
+    IEnumerator ExtraLag()
+    {
+        yield return new WaitForSeconds(1.3f);
         usingPrimary = false;
         PlayerMovement.restrictMovementTokens--;
-        StructureManager.Instance.SpawnStructure(farmTile, pos);
     }
 
 

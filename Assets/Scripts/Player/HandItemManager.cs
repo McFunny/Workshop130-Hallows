@@ -8,6 +8,8 @@ public class HandItemManager : MonoBehaviour
 
     GameObject currentHandObject;
     Animator currentAnim;
+    public GameObject handSpriteTransform;
+    SpriteRenderer handRenderer;
 
     public static HandItemManager Instance;
 
@@ -26,6 +28,11 @@ public class HandItemManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        StartCoroutine(DelayedStart());
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -36,7 +43,8 @@ public class HandItemManager : MonoBehaviour
     {
         if(currentHandObject) currentHandObject.SetActive(false);
         if(MissingObject()) return;
-        switch(type)
+        handRenderer.sprite = null;
+        switch (type)
         {
             case ToolType.Hoe:
                 hoe.SetActive(true);
@@ -55,6 +63,11 @@ public class HandItemManager : MonoBehaviour
                 break;
         }
         if(currentHandObject) currentAnim = currentHandObject.GetComponent<Animator>();
+    }
+
+    public void ShowSpriteInHand(InventoryItemData item)
+    {
+        handRenderer.sprite = item.icon;
     }
 
     public void PlayPrimaryAnimation()
@@ -81,4 +94,30 @@ public class HandItemManager : MonoBehaviour
         }
         else return false;
     }
+
+    public void CheckSlotForTool()
+    {
+        InventorySlot slot = HotbarDisplay.currentSlot.AssignedInventorySlot;
+        if (slot != null && slot.ItemData != null)
+        {           
+            ToolItem t_item = slot.ItemData as ToolItem;
+            if(t_item)
+            {
+                SwapHandModel(t_item.tool);
+            }
+            else SwapHandModel(ToolType.Null);
+        }
+        else
+        {
+            ClearHandModel();
+        }
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(0.2f);
+        handRenderer = handSpriteTransform.GetComponent<SpriteRenderer>();
+        CheckSlotForTool();
+    }
+
 }

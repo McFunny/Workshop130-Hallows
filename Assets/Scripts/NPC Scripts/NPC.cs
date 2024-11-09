@@ -15,6 +15,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public int currentPath = -1; //-1 means default path
 
+    [HideInInspector] public StoreItem lastInteractedStoreItem;
+
 
     public void EndInteraction()
     {
@@ -24,4 +26,12 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public abstract void Interact(PlayerInteraction interactor, out bool interactSuccessful);
 
     public abstract void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item);
+
+    public virtual void PurchaseAttempt(StoreItem item){}
+
+    public virtual void RefreshStore(){}
+
+    public virtual void EmptyShopItem(){}
+    
+    public virtual void PlayerLeftRadius(){}
 }

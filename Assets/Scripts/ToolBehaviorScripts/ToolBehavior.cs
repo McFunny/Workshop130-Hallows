@@ -7,6 +7,7 @@ public class ToolBehavior : ScriptableObject
     [HideInInspector] public bool usingPrimary, usingSecondary = false;
     [HideInInspector] public Transform player;
     [HideInInspector] public ToolType tool;
+    public LayerMask mask;
     public virtual void PrimaryUse(Transform player, ToolType tool)
     {
 

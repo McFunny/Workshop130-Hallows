@@ -110,6 +110,7 @@ public class InventoryUIController : MonoBehaviour
     void CloseBackpack()
     {
         print("Closing");
+        //HandItemManager.Instance.CheckSlotForTool();
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
         isBackpackOpen = false; 

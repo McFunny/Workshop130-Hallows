@@ -6,6 +6,8 @@ public class FaceCamera : MonoBehaviour
 {
     Transform player;
 
+    public bool invert;
+
     void OnEnable()
     {
         if(!player) player = FindObjectOfType<PlayerCam>().transform;
@@ -18,8 +20,9 @@ public class FaceCamera : MonoBehaviour
         {
             Vector3 fwd = player.forward; 
             fwd.y = 0; 
+            if(invert) fwd = -fwd;
             if (fwd != Vector3.zero) transform.rotation = Quaternion.LookRotation(fwd);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
         while(gameObject.activeSelf);
     }

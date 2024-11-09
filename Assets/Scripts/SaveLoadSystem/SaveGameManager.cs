@@ -24,8 +24,8 @@ public class SaveGameManager : MonoBehaviour
        
         SaveLoad.CurrentSaveData = data;
 
-       
         SaveLoad.SaveGame(data);
+
     }
 
     public static void LoadData(SaveData _data)

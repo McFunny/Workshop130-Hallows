@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 93b6f98e7e94b224f86d09e095cb4737,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.7777992
+      value: 3.7472465
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93b6f98e7e94b224f86d09e095cb4737,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.7777989
+      value: 3.747247
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93b6f98e7e94b224f86d09e095cb4737,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.7777998
+      value: 3.747247
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93b6f98e7e94b224f86d09e095cb4737,
         type: 3}
@@ -83,10 +83,20 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 93b6f98e7e94b224f86d09e095cb4737,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3564783574603935192, guid: 93b6f98e7e94b224f86d09e095cb4737,
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3590086638062959488, guid: 93b6f98e7e94b224f86d09e095cb4737,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3590086638062959488, guid: 93b6f98e7e94b224f86d09e095cb4737,
         type: 3}
@@ -97,6 +107,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6589126927893049898, guid: 93b6f98e7e94b224f86d09e095cb4737,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6589126927893049898, guid: 93b6f98e7e94b224f86d09e095cb4737,
         type: 3}
@@ -155,6 +170,6 @@ Animation:
   m_Animation: {fileID: 7400000, guid: 7ea286a5b052a2842b8303ddd4bfad73, type: 2}
   m_Animations: []
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0

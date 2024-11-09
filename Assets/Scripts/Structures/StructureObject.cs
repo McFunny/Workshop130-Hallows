@@ -13,7 +13,7 @@ public class StructureObject : ScriptableObject
 
     public Structure data = new Structure();
 
-    public int tileSpaces = 1; //How many tiles does this occupy?
+    public bool isLarge = false; //Occupy one or 4 tiles?
 
 
     public Structure CreateStructure()

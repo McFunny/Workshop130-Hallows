@@ -6,6 +6,21 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Inventory System/Item Database")]
 public class Database : ScriptableObject
 {
+    private static Database _instance;
+
+    public static Database Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                // Load the instance of the Database if not already set
+                _instance = Resources.Load<Database>("ItemDatabase");
+            }
+            return _instance;
+        }
+    }
+
     [SerializeField] private List<InventoryItemData> _itemDatabase;
 
     [ContextMenu("Set IDs")]

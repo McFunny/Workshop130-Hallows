@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+
 public class PlayerEffectsHandler : MonoBehaviour
 {
     //HANDLES THE AUDIO AND EFFECTS THAT COME FROM THE PLAYER
@@ -21,6 +22,8 @@ public class PlayerEffectsHandler : MonoBehaviour
         StartCoroutine("FootStepsPitchChanger");
 
         globalVolume = FindObjectOfType<Volume>();
+
+        PlayerInteraction p = PlayerInteraction.Instance;
     }
 
     // Update is called once per frame
@@ -75,5 +78,7 @@ public class PlayerEffectsHandler : MonoBehaviour
         }
         
     }
+
+    
 
 }

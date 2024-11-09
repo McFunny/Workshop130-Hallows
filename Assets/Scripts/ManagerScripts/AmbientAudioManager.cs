@@ -8,11 +8,15 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip[] biomeAmbience;
     public AudioClip[] nightAmbience;
     public AudioClip[] musicAmbience;
+
+    public AudioClip bellTower;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine("PlayAmbientTrack");
         StartCoroutine("PlayAmbientMusic");
+
+        TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
     IEnumerator PlayAmbientTrack()
@@ -45,6 +49,14 @@ public class AmbientAudioManager : MonoBehaviour
             float musicRuntime = musicSource.clip.length;
             musicSource.Play();
             yield return new WaitForSecondsRealtime(musicRuntime);
+        }
+    }
+
+    void HourUpdate()
+    {
+        if(TimeManager.currentHour == 8)
+        {
+            ambienceSource.PlayOneShot(bellTower);
         }
     }
 }

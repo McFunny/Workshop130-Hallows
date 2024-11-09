@@ -12,19 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
   m_Name: WeedCrop
   m_EditorClassIdentifier: 
+  name: Weed
   growthStages: 3
-  hoursPerStage: 9999
+  hoursPerStage: 4
   harvestableGrowthStages: 010000000200000003000000
   cropSprites:
   - {fileID: -666897899, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   - {fileID: 541782167, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   - {fileID: -2031693096, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
+  rottedImage: {fileID: 0}
   cropYield: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
   cropSeed: {fileID: 0}
   cropYieldAmount: 1
   seedYieldAmount: 0
   seedYieldVariance: 0
-  waterIntake: 5
-  ichorIntake: 0.25
-  terraIntake: 0.25
+  waterIntake: 8
+  ichorIntake: 0.1
+  terraIntake: -0.5
   gloamIntake: 0.25
+  stressLimit: 1
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 0}

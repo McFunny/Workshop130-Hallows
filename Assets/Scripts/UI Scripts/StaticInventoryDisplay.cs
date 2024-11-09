@@ -14,7 +14,7 @@ public class StaticInventoryDisplay : InventoryDisplay
 
     protected virtual void OnDisable()
     {
-        PlayerInventoryHolder.OnPlayerInventoryChanged -= RefreshStaticDisplay;
+       PlayerInventoryHolder.OnPlayerInventoryChanged -= RefreshStaticDisplay;
     } //TODO: Incorperate hotbar
 
     protected override void Start()

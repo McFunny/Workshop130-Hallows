@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2491021834557535184}
   - component: {fileID: 2540259825208182194}
   - component: {fileID: 8116885843080070046}
+  - component: {fileID: 8279865293355120238}
   m_Layer: 6
   m_Name: BearTrap
   m_TagString: Untagged
@@ -71,7 +72,9 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: 70eae9d3f1e1d2f4b9c5775154dc7862, type: 2}
   health: 5
   maxHealth: 5
-  source: {fileID: 0}
+  wealthValue: 20
+  audioHandler: {fileID: 0}
+  clearTileOnDestroy: 1
   topClamp: {fileID: 162950966568236352}
   bottomClamp: {fileID: 6977244607745721664}
   triggeredSFX: {fileID: 8300000, guid: 40db3a189a805c94d88edbe083e182f8, type: 3}
@@ -171,6 +174,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8279865293355120238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7908821675133766751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24acd9ba387ddb41bb2f8f181c3e512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitSounds: []
+  miscSounds1: []
+  miscSounds2: []
+  interactSound: {fileID: 0}
+  itemInteractSound: {fileID: 0}
+  breakSound: {fileID: 0}
+  activatedSound: {fileID: 0}
 --- !u!1001 &9110398467083558081
 PrefabInstance:
   m_ObjectHideFlags: 0

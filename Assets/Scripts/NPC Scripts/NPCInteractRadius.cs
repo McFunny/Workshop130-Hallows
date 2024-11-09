@@ -10,6 +10,7 @@ public class NPCInteractRadius : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             dialogueController.EndConversation();
+            if(dialogueController.currentTalker != null) dialogueController.currentTalker.PlayerLeftRadius();
             Debug.Log("dialogueEnded");
         }
     }

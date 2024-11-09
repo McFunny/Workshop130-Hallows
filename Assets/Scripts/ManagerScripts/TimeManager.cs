@@ -5,18 +5,25 @@ using TMPro;
 
 public class TimeManager : MonoBehaviour
 {
-    public static int currentHour = 15; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours. Day lasts 14 hours. Each hour lasts 45 seconds. For demo, 15 seconds
+    public static int currentHour = 15; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours. Day lasts 14 hours. Each hour lasts 45/30 seconds
+    public static bool isDay;
+    public static int dayNum = 1; //what day is it?
     public TextMeshProUGUI timeText;
     public Light dayLight;
-    StructureManager structManager;
+
+    public delegate void HourlyUpdate();
+    public static event HourlyUpdate OnHourlyUpdate;
 
     public Material skyMat;
     float desiredBlend;
     public Color nightColor, dayColor;
+
+    
     // Start is called before the first frame update
     void Start()
     {
-        structManager = GetComponent<StructureManager>();
+        if(currentHour >= 6 && currentHour < 20) isDay = true;
+        else isDay = false;
         if(!dayLight) dayLight = FindObjectOfType<Light>();
         StartCoroutine("TimePassage");
         InitializeSkyBox();
@@ -40,11 +47,16 @@ public class TimeManager : MonoBehaviour
     {
         do
         {
-            yield return new WaitForSeconds(45);
+            yield return new WaitForSeconds(30);
             currentHour++;
             if(currentHour >= 24) currentHour = 0;
-            structManager.HourUpdate();
+
+            if(currentHour >= 6 && currentHour < 20) isDay = true;
+            else isDay = false;
+            
+            OnHourlyUpdate?.Invoke();
             print("Hour passed. Time is now " + currentHour);
+            print("Is it day? " + isDay);
 
             switch (currentHour)
             {
@@ -55,6 +67,7 @@ public class TimeManager : MonoBehaviour
                     SetSkyBox(0.4f);
                     break;
                 case 8:
+                    dayNum++;
                     SetSkyBox(1f);
                     break;
                 case 18:
@@ -137,11 +150,11 @@ public class TimeManager : MonoBehaviour
                 lerpedColor = Color.Lerp(nightColor, dayColor, 1f);
                 break;
             case 18:
-                skyMat.SetFloat("_BlendCubemaps", 0.4f);
+                skyMat.SetFloat("_BlendCubemaps", 0.5f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.4f);
                 break;
             case 19:
-                skyMat.SetFloat("_BlendCubemaps", 0.2f);
+                skyMat.SetFloat("_BlendCubemaps", 0.25f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.2f);
                 break;
             case 20:

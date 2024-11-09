@@ -1923,17 +1923,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 40
   maxHealth: 40
+  ichorWorth: 5
+  ichorDropRadius: 2
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
   rb: {fileID: 6199325105305565090}
   anim: {fileID: 7612584312978109833}
+  droppedItems:
+  - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+  - {fileID: 11400000, guid: 1dd6f9f1dcb60e74390c88d5df494ec7, type: 2}
+  dropChance:
+  - 75
+  - 75
   sightRange: 8
   playerInSightRange: 0
+  playerInAttackRange: 0
   shovelVulnerable: 1
+  isTrapped: 0
   isDead: 0
+  damageToStructure: 0
+  damageToPlayer: 0
   desiredCrops:
   - {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
+  - {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
+  - {fileID: 11400000, guid: 8172637bdf1f08549abde986d4a5a463, type: 2}
   currentState: 0
 --- !u!135 &1211989634709210915
 SphereCollider:
@@ -2028,7 +2042,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 25
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Inventory System/Placeable Item")]
@@ -7,6 +8,8 @@ public class PlaceableItem : InventoryItemData
 {
     public GameObject placedPrefab;
     public bool removeAfterUse = true;
+
+    PlayerInventoryHolder playerInventoryHolder;
 
     public void PlaceStructure(Transform player)
     {
@@ -20,10 +23,14 @@ public class PlaceableItem : InventoryItemData
             if(pos != new Vector3(0,0,0)) 
             {
                 structManager.SpawnStructure(placedPrefab, pos);
-                if(removeAfterUse) HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-            }
+                    if (removeAfterUse)
+                    {
+                        HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                        HotbarDisplay.currentSlot.UpdateUISlot();
+                    }
+                }
 
+            }
         }
-    }
 
 }

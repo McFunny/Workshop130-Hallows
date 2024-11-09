@@ -13,6 +13,11 @@ public class ToolItem : InventoryItemData
     {
         behavior.PrimaryUse(player, tool);
     }
+
+    public void SecondaryUse(Transform player)
+    {
+        behavior.SecondaryUse(player, tool);
+    }
 }
 
 public enum ToolType
@@ -20,5 +25,6 @@ public enum ToolType
     Null,
     Hoe,
     Shovel,
-    WateringCan
+    WateringCan,
+    ShotGun
 }

@@ -13,6 +13,7 @@ public class HotbarDisplay : MonoBehaviour
         currentIndex = 0;
         currentSlot = hotbarSlots[currentIndex];
         currentSlot.ToggleHighlight(); // Highlight the initial slot
+        SelectHotbarSlot(currentIndex);
     }
 
     private void OnEnable()
@@ -53,6 +54,8 @@ public class HotbarDisplay : MonoBehaviour
 
     private void SelectHotbarSlot(int slotIndex) //if possible, call this again when picking up an item to refresh hand item, or find a workaround (preferred)
     {
+        if(PlayerMovement.restrictMovementTokens > 0) return;
+
         // Turn off highlight on the current slot
         if (currentSlot != null)
         {
@@ -69,17 +72,22 @@ public class HotbarDisplay : MonoBehaviour
         // Optionally, use the item in the selected slot
         if (currentSlot.AssignedInventorySlot != null && currentSlot.AssignedInventorySlot.ItemData != null)
         {
-            currentSlot.AssignedInventorySlot.ItemData.UseItem();
+            currentSlot.AssignedInventorySlot.ItemData.UseItem(); //currently just reports what item is in the slot in the debugger
+
             ToolItem t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
-            if(t_item)
+            if (t_item)
             {
                 HandItemManager.Instance.SwapHandModel(t_item.tool);
             }
-            else HandItemManager.Instance.SwapHandModel(ToolType.Null);
-        }
+            else
+            {
+                HandItemManager.Instance.ShowSpriteInHand(currentSlot.AssignedInventorySlot.ItemData);
+                //HandItemManager.Instance.SwapHandModel(ToolType.Null);
+            }
+            }
         else
         {
-            Debug.Log($"No item in hotbar slot {slotIndex + 1}");
+            //Debug.Log($"No item in hotbar slot {slotIndex + 1}");
             HandItemManager.Instance.ClearHandModel();
         }
     }

@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
   m_Name: Barrel
   m_EditorClassIdentifier: 
-  ID: 3
+  ID: 7
   displayName: Barrel
   description: Collects water
-  icon: {fileID: 21300000, guid: 15b5c1fe6d051474aab29c7e5d38b339, type: 3}
+  icon: {fileID: 21300000, guid: 21f9488f12b9dbd46bd3aeabc1cd3f2c, type: 3}
   maxStackSize: 3
+  value: 15
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  staminaValue: 0
   placedPrefab: {fileID: 3161338315516755844, guid: e8af2d42c07a0964f8e6a3cb435718fe,
     type: 3}
+  removeAfterUse: 1
