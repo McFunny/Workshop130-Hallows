@@ -260,8 +260,8 @@ public class FeralHareTest : CreatureBehaviorScript
         anim.SetBool("IsDigging", true);
         eatingTimeLeft = 5f;
         transform.LookAt(foundFarmTile.transform.position);
-        yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile.crop == null || currentState != CreatureState.Eat);
-        if (inEatingRange && foundFarmTile.crop != null && currentState == CreatureState.Eat)
+        yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile == null || foundFarmTile.crop == null || currentState != CreatureState.Eat);
+        if (inEatingRange && foundFarmTile && foundFarmTile.crop && currentState == CreatureState.Eat)
         {
             foundFarmTile.CropDestroyed();
             foundFarmTile = null;

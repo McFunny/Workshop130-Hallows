@@ -62,7 +62,7 @@ public class HotbarDisplay : MonoBehaviour
 
     private void SelectHotbarSlot(int slotIndex) //if possible, call this again when picking up an item to refresh hand item, or find a workaround (preferred)
     {
-        if(PlayerMovement.restrictMovementTokens > 0) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown) return;
 
         // Turn off highlight on the current slot
         if (currentSlot != null)
@@ -113,7 +113,7 @@ public class HotbarDisplay : MonoBehaviour
             }
             else
             {
-                Debug.Log("Running this");
+                //Debug.Log("Running this");
                 HandItemManager.Instance.SwapHandModel(ToolType.Null);
                 HandItemManager.Instance.ShowSpriteInHand(currentSlot.AssignedInventorySlot.ItemData);
             }

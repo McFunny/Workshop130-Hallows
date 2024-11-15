@@ -34,7 +34,7 @@ public class ShovelBehavior : ToolBehavior
             var structure = hit.collider.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
-                //play water anim
+                //play dig anim
                 bool playAnim = false;
                 structure.ToolInteraction(tool, out playAnim);
                 if (playAnim)

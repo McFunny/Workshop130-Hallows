@@ -88,6 +88,7 @@ public class WaterBarrel : StructureBehaviorScript
     public override void HourPassed()
     {
         //simulate rain accumulation
+        if(Random.Range(0,10) < 8) return;
         if(waterLevel < 3)
         {
             waterLevel++;

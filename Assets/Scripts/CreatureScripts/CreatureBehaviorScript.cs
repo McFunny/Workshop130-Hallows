@@ -7,8 +7,11 @@ public class CreatureBehaviorScript : MonoBehaviour
     //This is the base class that ALL creatures should derive from
     public float health = 100;
     public float maxHealth = 100;
+    public float corpseHealth = -50; //what does the health need to be at for corpse removal
     public float ichorWorth = 5; //How much ichor does killing this provide to surrounding tiles
     public float ichorDropRadius = 2;
+
+    public CreatureObject creatureData;
 
     [HideInInspector] public StructureManager structManager;
     [HideInInspector] public CreatureEffectsHandler effectsHandler;
@@ -26,6 +29,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public bool shovelVulnerable = true;
     public bool isTrapped = false;
     public bool isDead = false;
+    bool corpseDestroyed = false;
     public int damageToStructure;
     public int damageToPlayer;
 
@@ -46,7 +50,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         print("Ouch");
         health -= damage;
-        if(health <= 0)
+        if(health <= 0 && !isDead)
         {
             effectsHandler.OnDeath();
             OnDeath();
@@ -57,6 +61,21 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             effectsHandler.OnHit();
             OnDamage();
+            if(health < corpseHealth && isDead && !corpseDestroyed)
+            {
+                corpseDestroyed = true;
+                for(int i = 0; i < droppedItems.Length; i++)
+                {
+                    if(Random.Range(0f,10f) < dropChance[i])
+                    {
+                        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(droppedItems[i]);
+                        float x = Random.Range(-0.5f,0.5f);
+                        float z = Random.Range(-0.5f,0.5f);
+                        droppedItem.transform.position = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
+                    }
+                }
+                Destroy(this.gameObject);
+            }
         }
         
     }
@@ -65,17 +84,6 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnDeath()
     {
         if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
-        //temp stuff while we figure out corpses
-        for(int i = 0; i < droppedItems.Length; i++)
-        {
-            if(Random.Range(0f,10f) < dropChance[i])
-            {
-                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(droppedItems[i]);
-                float x = Random.Range(-0.5f,0.5f);
-                float z = Random.Range(-0.5f,0.5f);
-                droppedItem.transform.position = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
-            }
-        }
     } //Triggers creature specific effects
 
     public virtual void OnSpawn(){}

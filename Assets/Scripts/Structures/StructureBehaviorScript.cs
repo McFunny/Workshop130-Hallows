@@ -9,6 +9,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public delegate void StructuresUpdated();
     public static event StructuresUpdated OnStructuresUpdated; //Unity Event that will notify enemies when structures are updated
+    //Should this be static Abner?
 
     public StructureObject structData;
 

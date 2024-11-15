@@ -1,4 +1,5 @@
 using SaveLoadSystem;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -37,6 +38,13 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem);
         SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
+        StartCoroutine(DelayedStart());
+       
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(0.5f);
         EquipTools();
     }
 

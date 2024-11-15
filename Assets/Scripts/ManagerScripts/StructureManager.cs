@@ -49,19 +49,18 @@ public class StructureManager : MonoBehaviour
 
     public Vector3 CheckTile(Vector3 pos)
     {
-        //print("Checking");
+        //Grab tile position
         Vector3Int gridPos = tileMap.WorldToCell(pos);
 
         TileBase currentTile = tileMap.GetTile(gridPos);
 
-        //print(currentTile);
+        //Is the tile on the grid and open?
         if(currentTile != null && currentTile == freeTile)
         {
-            //
-            Vector3 spawnPos = tileMap.GetCellCenterWorld(gridPos);
+            Vector3 spawnPos = tileMap.GetCellCenterWorld(gridPos); //Return the position of the open tile
             return spawnPos;
         } 
-        else return new Vector3 (0,0,0);
+        else return new Vector3 (0,0,0); //Will not spawn
     }
 
     public Vector3 GetRandomTile()
@@ -90,14 +89,14 @@ public class StructureManager : MonoBehaviour
     { 
         List<Vector3Int> selectedTiles = new List<Vector3Int>();
         Vector3Int gridPos = tileMap.WorldToCell(pos);
-        selectedTiles.Add(gridPos);
-        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y));
-        selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y - 1));
-        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y - 1));
+        selectedTiles.Add(gridPos); //Top Left Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y)); //Top Right Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y - 1)); //Bottom Left Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y - 1)); //Bottom Right Tile
 
         foreach(Vector3Int _pos in selectedTiles)
         {
-            TileBase currentTile = tileMap.GetTile(_pos);
+            TileBase currentTile = tileMap.GetTile(_pos); //Is the tile free?
             if(currentTile == null || currentTile != freeTile) return false;
         }
 
@@ -108,11 +107,9 @@ public class StructureManager : MonoBehaviour
 
         Vector3 start = tileMap.GetCellCenterWorld(gridPos);
         Vector3 otherEnd = tileMap.GetCellCenterWorld(new Vector3Int(gridPos.x + 1, gridPos.y - 1));
-        //print(start);
-        //print(otherEnd);
-        Vector3 center = new Vector3((start.x + otherEnd.x)/2, (start.y + otherEnd.y)/2, (start.z + otherEnd.z)/2);
-        //print(center);
-
+        Vector3 center = new Vector3((start.x + otherEnd.x)/2, (start.y + otherEnd.y)/2, (start.z + otherEnd.z)/2); 
+        //The center of the 2x2 Square
+        
         Instantiate(obj, center, Quaternion.identity);
         return true;
     }
