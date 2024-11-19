@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Tilemaps;
-using static FeralHareTest;
 
 public class MistWalker : CreatureBehaviorScript
 {
@@ -14,12 +13,14 @@ public class MistWalker : CreatureBehaviorScript
 
     bool isMoving = false;
     bool isBeingAttacked = false; //mainly for use for priority target tracking
-    bool coroutineRunning = false;
+    public bool coroutineRunning = false;
     private Transform target;
     Tilemap tileMap;
+    public bool attackingPlayer = false;
 
     [HideInInspector] public NavMeshAgent agent;
     public AnimEvents animEvents;
+    public Collider lungeAttackHitbox;
 
     public enum CreatureState
     {
@@ -42,6 +43,7 @@ public class MistWalker : CreatureBehaviorScript
     {
         agent = GetComponent<NavMeshAgent>();
         if(animEvents) animEvents.OnFloatChange += WalkSpeedToggle;
+        if (animEvents) animEvents.OnColliderChange += ColliderChange;
     }
 
     void Start()
@@ -49,6 +51,7 @@ public class MistWalker : CreatureBehaviorScript
         base.Start();
         //StartCoroutine(StructureCheck());
         //currentState = CreatureState.SpawnIn;
+        lungeAttackHitbox.enabled = false;
         StructureBehaviorScript.OnStructuresUpdated += UpdateStructureList; //if a structure is placed or destroyed, this will update the list of available structures
         ImbuedScarecrow.OnScarecrowAttract += TargetImbuedScarecrow;
         UpdateStructureList();
@@ -57,6 +60,8 @@ public class MistWalker : CreatureBehaviorScript
     void OnDestroy()
     {
         StructureBehaviorScript.OnStructuresUpdated -= UpdateStructureList; //unsubscribe to prevent memory leaks
+        animEvents.OnColliderChange -= ColliderChange;
+        animEvents.OnFloatChange -= WalkSpeedToggle;
     }
 
     public override void OnSpawn()
@@ -102,24 +107,48 @@ public class MistWalker : CreatureBehaviorScript
     }
 
 
-    // Update is called once per frame
+   
     void Update()
     {
         if (!isDead)
         {
             float distance = Vector3.Distance(player.position, transform.position);
             playerInSightRange = distance <= sightRange;
-            if (isTrapped) { currentState = CreatureState.Trapped; }
-            if (playerInSightRange && !isTrapped && !coroutineRunning) { currentState = CreatureState.WalkTowardsPlayer; }
+
+            if (isTrapped)
+            {
+                currentState = CreatureState.Trapped;
+            }
+            else if (distance < 9f && !isTrapped && currentState != CreatureState.AttackPlayer && !coroutineRunning)
+            {
+                currentState = CreatureState.AttackPlayer;
+            }
+            else if (playerInSightRange && !isTrapped && !attackingPlayer && !coroutineRunning)
+            {
+                currentState = CreatureState.WalkTowardsPlayer;
+            }
 
             CheckState(currentState);
         }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        float attackRange = 9f;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     public void CheckState(CreatureState currentState)
     {
         switch (currentState)
         {
+            case CreatureState.AttackPlayer:
+                AttackPlayer();
+                anim.SetBool("IsWalking", false);
+                break;
+
             case CreatureState.SpawnIn:
                 OnSpawn();
                 break;
@@ -151,11 +180,6 @@ public class MistWalker : CreatureBehaviorScript
 
             case CreatureState.AttackStructure:
                 AttackStructure();
-                anim.SetBool("IsWalking", false);
-                break;
-
-            case CreatureState.AttackPlayer:
-                AttackPlayer();
                 anim.SetBool("IsWalking", false);
                 break;
 
@@ -219,6 +243,7 @@ public class MistWalker : CreatureBehaviorScript
 
     private IEnumerator WaitAround()
     {
+        Debug.Log("Waiting Around CO");
         coroutineRunning = true;
         float r = Random.Range(1, 4.5f);
         yield return new WaitForSeconds(r);
@@ -227,6 +252,7 @@ public class MistWalker : CreatureBehaviorScript
 
     private IEnumerator MoveToPoint(Vector3 destination)
     {
+        Debug.Log("MoveToPoint CO");
         isMoving = true;
         coroutineRunning = true;
 
@@ -330,7 +356,9 @@ public class MistWalker : CreatureBehaviorScript
 
     private void WalkTowardsPlayer()
     {
-        if(playerInSightRange)
+        
+        
+        if (playerInSightRange)
         {
             agent.destination = player.transform.position;
         }
@@ -342,6 +370,7 @@ public class MistWalker : CreatureBehaviorScript
 
     private void AttackStructure()
     {
+
         if (targetStructure == null)
         {
             currentState = CreatureState.Wander;
@@ -356,9 +385,10 @@ public class MistWalker : CreatureBehaviorScript
     IEnumerator AttackingStructure()
     {
         //play animation
+        Debug.Log("Attacking Structure CO");
         anim.SetTrigger("IsAttacking");
         float distance = Vector3.Distance(transform.position, targetStructure.transform.position);
-        if (distance < 3.5f)
+        if (distance < 5f)
         {
             coroutineRunning = true;
             targetStructure.health -= damageToStructure;
@@ -373,10 +403,49 @@ public class MistWalker : CreatureBehaviorScript
         }
         }
 
+
+
+    IEnumerator AttackingPlayer()
+    {
+        attackingPlayer = true;
+        Debug.Log("AttackingPlayer CO");
+
+
+        coroutineRunning = true;
+
+
+        anim.SetTrigger("IsLunging");
+
+
+       
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length + 1);
+
+
+        attackingPlayer = false;
+        coroutineRunning = false;
+    }
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (attackingPlayer && other.CompareTag("Player"))
+        {
+            PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
+            if (playerInteraction != null)
+            {
+                playerInteraction.StaminaChange(-25);
+            }
+        }
+    }
+
+
     private void AttackPlayer()
     {
-        // Implementation for attacking the player
-        anim.SetTrigger("IsAttacking");
+        if (!coroutineRunning)
+        {
+            StartCoroutine(AttackingPlayer());
+        }
     }
 
     private void Stun()
@@ -408,6 +477,11 @@ public class MistWalker : CreatureBehaviorScript
     public void WalkSpeedToggle(float _speed)
     {
         agent.speed = _speed;
+    }
+
+    public void ColliderChange(bool b)
+    {
+        lungeAttackHitbox.enabled = b;
     }
 
 

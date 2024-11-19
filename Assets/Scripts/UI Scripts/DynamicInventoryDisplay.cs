@@ -58,7 +58,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
             AssignSlot(inventorySystem);
         }
 
-        Debug.Log($"Displaying {inventorySystem} in UI: {gameObject.name}"); // Log to verify correct inventory is shown
+        //Debug.Log($"Displaying {inventorySystem} in UI: {gameObject.name}"); // Log to verify correct inventory is shown
     }
 
     public override void AssignSlot(InventorySystem invToDisplay)
