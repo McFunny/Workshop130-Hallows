@@ -13,7 +13,6 @@ public class WaypointScript : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        shopImgObj = GameObject.FindGameObjectWithTag("ShopUI");
         shopImg = shopImgObj.GetComponent<Image>();
         shopImgObj.SetActive(false);
     }
