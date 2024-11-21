@@ -172,7 +172,6 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         base.OnDeath();
         anim.SetTrigger("IsDead");
-        rb.isKinematic = true;
     }
 
     // CropCheck Coroutine to search for crops periodically

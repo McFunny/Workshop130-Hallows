@@ -12,10 +12,6 @@ public class NPCManager : MonoBehaviour
     public bool rascalWantsFood;
     public bool rascalMentionedKey;
 
-    //Look at how quantums saves their bool system with a dictionary. Take pics for ref
-    //static Dictionary<BoolKey, bool> NarrativeBools = new Dictionary<BoolKey, bool>(); 
-    //NarrativeBools.Add("BoolKey.RascalWantsFood", rascalWantsFood);
-    //NarrativeBools.Add("BoolKey.RascalMentionedKey", rascalMentionedKey);
 
     //[Header("NPC Fed Bools")]
     //public bool rascalFed = false;
@@ -34,15 +30,4 @@ public class NPCManager : MonoBehaviour
 
     }
 
-    public void InitializeDictionary()
-    {
-        //called after the save data becomes updated
-    }
-
-}
-
-public enum BoolKey
-{
-    RascalWantsFood,
-    RascalMentionedKey
 }

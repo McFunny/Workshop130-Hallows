@@ -71,7 +71,6 @@ public class CreatureEffectsHandler : MonoBehaviour
     public void OnDeath()
     {
         r = Random.Range(pitchMin,pitchMax);
-        if (!source) return;
         source.pitch = originalPitch + r;
         source.PlayOneShot(deathSound, volume);
         if(hitParticles != null) hitParticles.Play();

@@ -10,11 +10,10 @@ public class DialogueText : ScriptableObject
     public DialoguePath questCompletePath;
     public DialoguePath repeatedItemPath;
     public DialoguePath[] paths; //misc paths
-    public DialoguePath[] fillerPaths; //the random text the NPC will say each day. 50% chance they say this or one from their friendship path
+    public DialoguePath[] fillerPaths; //the random text the NPC will say each day
     public DialoguePath[] questPaths;
     public DialoguePath[] itemRecievedPaths;
     public DialoguePath[] itemSpecificRemarks;
-    public DialoguePath[] friendshipPath1, friendshipPath2, friendshipPath3; //Random Text they can say depending on friendship levels
 
 }
 

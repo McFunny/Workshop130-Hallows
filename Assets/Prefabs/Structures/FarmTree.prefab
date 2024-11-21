@@ -34,7 +34,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6455237943871792458}
-  - {fileID: 139850180306482785}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &768810592057201630
@@ -121,100 +120,6 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!1001 &1632735107147751361
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6217793069349726086}
-    m_Modifications:
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.0436195
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.99904823
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 175
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2023149490379731738, guid: 251176a704ef3e14d89100e46c86155f,
-        type: 3}
-      propertyPath: m_Name
-      value: treenew
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 251176a704ef3e14d89100e46c86155f, type: 3}
---- !u!4 &139850180306482785 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1682229780598548896, guid: 251176a704ef3e14d89100e46c86155f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1632735107147751361}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6782181105163600545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -297,11 +202,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: treecombined
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 121c6bd392535024bb6b96c317f07f60,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 121c6bd392535024bb6b96c317f07f60,
         type: 3}

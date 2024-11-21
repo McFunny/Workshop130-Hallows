@@ -240,10 +240,8 @@ public class DialogueController : MonoBehaviour
     {
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData)
         {
-            float value = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.value * HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.sellValueMultiplier;
-            value = Mathf.Floor(value);
-            p = p.Replace("{itemValue}", $"{value}");
-            p = p.Replace("{itemTotalValue}", $"{value * HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize}");
+            p = p.Replace("{itemValue}", $"{HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.value * HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.sellValueMultiplier}");
+            p = p.Replace("{itemTotalValue}", $"{HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.value * HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.sellValueMultiplier * HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize}");
             p = p.Replace("{itemName}", $"{HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.displayName}");
             if(p.Contains("{itemSold}"))
             {

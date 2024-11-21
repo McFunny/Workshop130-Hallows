@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 8278897203418734430}
   - component: {fileID: 7291603624577058753}
   - component: {fileID: 4060353663220160237}
+  - component: {fileID: 2689979721847495693}
   - component: {fileID: 6650565928944350188}
   - component: {fileID: 38908524066056234}
   m_Layer: 10
@@ -211,6 +212,19 @@ MonoBehaviour:
   secondaryInventorySystem:
     inventorySlots: []
   _database: {fileID: 11400000, guid: 778e7ccc03dfccb4294abbe8b57c710a, type: 2}
+--- !u!114 &2689979721847495693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458327864404202536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4af852dd71303498c8927c6147cb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 10
 --- !u!114 &6650565928944350188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,8 +425,6 @@ MonoBehaviour:
     type: 3}
   closeInventory: {fileID: 2637130635052683415, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
-  select: {fileID: 668919531283680143, guid: 060d319d61d58794a97cf0963535b7d5, type: 3}
-  split: {fileID: -1999698616602045232, guid: 060d319d61d58794a97cf0963535b7d5, type: 3}
 --- !u!114 &3987123363838110697
 MonoBehaviour:
   m_ObjectHideFlags: 0

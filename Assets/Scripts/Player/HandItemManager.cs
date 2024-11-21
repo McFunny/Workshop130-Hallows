@@ -6,8 +6,6 @@ public class HandItemManager : MonoBehaviour
 {
     public GameObject hoe, shovel, wateringCan, shotGun;
 
-    ToolType currentType = ToolType.Null;
-
     GameObject currentHandObject;
     Animator currentAnim;
     public GameObject handSpriteTransform;
@@ -47,8 +45,8 @@ public class HandItemManager : MonoBehaviour
 
     public void SwapHandModel(ToolType type)
     {
-        if (MissingObject() || type == currentType) return;
-        if (currentHandObject) currentHandObject.SetActive(false);
+        if(currentHandObject) currentHandObject.SetActive(false);
+        if(MissingObject()) return;
         if (handRenderer != null) handRenderer.sprite = null;
         switch (type)
         {
@@ -74,7 +72,6 @@ public class HandItemManager : MonoBehaviour
         }
         if(currentHandObject) currentAnim = currentHandObject.GetComponent<Animator>();
         if(!currentAnim) currentAnim = currentHandObject.GetComponentInChildren<Animator>();
-        currentType = type;
     }
 
     public void ShowSpriteInHand(InventoryItemData item)
@@ -100,7 +97,7 @@ public class HandItemManager : MonoBehaviour
 
     bool MissingObject()
     {
-        if(!hoe || !shovel || !wateringCan || !shotGun)
+        if(!hoe || !shovel || !wateringCan)
         {
             Debug.Log("Missing a reference to a hand object");
             return true;
