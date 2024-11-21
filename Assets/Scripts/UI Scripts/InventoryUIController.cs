@@ -60,7 +60,7 @@ public class InventoryUIController : MonoBehaviour
 
     private void OpenInventory(InputAction.CallbackContext obj)
     {
-       
+        print("Pressed");
         if(!PlayerMovement.accessingInventory)
         {
             eventSystem.SetSelectedGameObject(firstObject);
