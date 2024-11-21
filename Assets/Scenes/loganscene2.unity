@@ -439,6 +439,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6618451763018252870, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -50.000122
+      objectReference: {fileID: 0}
     - target: {fileID: 7779478967069140126, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1002,7 +1007,7 @@ Transform:
   m_GameObject: {fileID: 104022418}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.70710576, z: 0, w: 0.7071079}
-  m_LocalPosition: {x: 14.725844, y: 3.03, z: -30.752266}
+  m_LocalPosition: {x: 14.724968, y: 2.73, z: -30.759426}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11085,6 +11090,79 @@ Transform:
   - {fileID: 1920113521}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1679200488
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.728799
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.8957125
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -37.67582
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0c408280251b27b419c7ba5ce5b8aa5a, type: 2}
+    - target: {fileID: 919132149155446097, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_Name
+      value: imbuedscarecrow
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7ac099eb824e34646874e300db0f5cbe, type: 3}
 --- !u!1001 &1694748457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13828,7 +13906,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &5630728168007285628
@@ -14411,7 +14489,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &8634736030944031520 stripped
@@ -14485,3 +14563,4 @@ SceneRoots:
   - {fileID: 3074364663021742549}
   - {fileID: 865559581}
   - {fileID: 930158375051572214}
+  - {fileID: 1679200488}

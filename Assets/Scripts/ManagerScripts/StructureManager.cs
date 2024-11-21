@@ -230,7 +230,7 @@ public class StructureManager : MonoBehaviour
                 int randomIndex = Random.Range(0, spawnablePositions.Count);
                 spawnPos = tileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
 
-                if(tileMap.GetTile(spawnablePositions[randomIndex]) != null)
+                if(tileMap.GetTile(spawnablePositions[randomIndex]) != null && tileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
                 {
                     SpawnStructure(weedTile, spawnPos);
                 }

@@ -47,7 +47,7 @@ public class ShotGunBehavior : ToolBehavior
         //Shoot
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(shoot);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, 2.3f));
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, 2.8f));
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
