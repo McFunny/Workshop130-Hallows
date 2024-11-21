@@ -875,6 +875,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1470003579076659767}
   - component: {fileID: 7612584312978109833}
+  - component: {fileID: 4776321835579964796}
   m_Layer: 0
   m_Name: RabbitMonster
   m_TagString: Untagged
@@ -920,6 +921,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4776321835579964796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360904770009168373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d8fe26444a2fa4a97a8666b1b9421b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creatureScript: {fileID: 2798424889111977121}
 --- !u!1 &4435693905309304057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1926,6 +1940,7 @@ MonoBehaviour:
   corpseHealth: -50
   ichorWorth: 5
   ichorDropRadius: 2
+  creatureData: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -1945,6 +1960,7 @@ MonoBehaviour:
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
+  canCorpseBreak: 0
   desiredCrops:
   - {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
   - {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}

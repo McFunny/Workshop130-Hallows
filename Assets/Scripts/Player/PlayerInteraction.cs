@@ -76,21 +76,28 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(waterHeld > maxWaterHeld) waterHeld = maxWaterHeld;
         if(stamina > maxStamina) stamina = maxStamina;
+
+        DisplayHologramCheck();
+
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown) return;
     }
 
     private void UseHeldItem(InputAction.CallbackContext obj)
     {
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown) return;
         UseHotBarItem();
     }
 
     private void InteractWithItem(InputAction.CallbackContext obj)
     {
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown) return;
         StructureInteractionWithItem();
         //print("LT");
     }
 
     private void InteractWithoutItem(InputAction.CallbackContext obj)
     {
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown) return;
         InteractWithObject();
     }
 
@@ -243,6 +250,20 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(coolDown - time);
         toolCooldown = false;
         //use a bool that says i am done swinging to avoid tool overlap
+    }
+
+    void DisplayHologramCheck()
+    {
+        InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
+        if(!item) return;
+        PlaceableItem p_item = item as PlaceableItem;
+        if(!p_item || !p_item.hologramPrefab) return;
+        p_item.DisplayHologram(mainCam.transform);
+
+        if(Input.GetKeyDown("r"))
+        {
+            p_item.RotateHologram();
+        }
     }
     
 }

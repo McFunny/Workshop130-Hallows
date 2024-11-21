@@ -6,31 +6,77 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Inventory System/Placeable Item")]
 public class PlaceableItem : InventoryItemData
 {
-    public GameObject placedPrefab;
+    public GameObject placedPrefab, hologramPrefab;
     public bool removeAfterUse = true;
 
-    PlayerInventoryHolder playerInventoryHolder;
+    Vector3 currentTilePos;
+    GameObject currentHologram;
 
     public void PlaceStructure(Transform player)
     {
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
-        StructureManager structManager = FindObjectOfType<StructureManager>();
 
-        if(Physics.Raycast(player.position, fwd, out hit, 5, 1 << 7))
+        if(Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
         {
-            Vector3 pos = structManager.CheckTile(hit.point);
+            Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
             if(pos != new Vector3(0,0,0)) 
             {
-                structManager.SpawnStructure(placedPrefab, pos);
-                    if (removeAfterUse)
-                    {
-                        HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-                        HotbarDisplay.currentSlot.UpdateUISlot();
-                    }
+                Quaternion rotate = currentHologram.transform.rotation;
+                GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
+                newStruct.transform.rotation = rotate;
+                if (removeAfterUse)
+                {
+                    HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                    HotbarDisplay.currentSlot.UpdateUISlot();
+                    DisableHologram();
                 }
-
             }
+
         }
+    }
+
+    public void DisplayHologram(Transform player)
+    {
+        if(!currentHologram)
+        {
+            currentHologram = Instantiate(hologramPrefab, new Vector3(0,0,0), Quaternion.identity);
+            currentHologram.SetActive(false);
+        }
+
+        Vector3 fwd = player.TransformDirection(Vector3.forward);
+        RaycastHit hit;
+
+        if(Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
+        {
+            Debug.Log("Displaying");
+            Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
+            if(pos == new Vector3(0,0,0)) 
+            {
+                Debug.Log("CantDisplay");
+                if(currentHologram.activeSelf) currentHologram.SetActive(false);
+                return;
+            }
+            if(pos != currentTilePos)
+            {
+                Debug.Log("PlacedHologram");
+                currentTilePos = pos;
+                if(!currentHologram.activeSelf) currentHologram.SetActive(true);
+                currentHologram.transform.position = currentTilePos;
+            }
+
+        }
+        else if(currentHologram.activeSelf) currentHologram.SetActive(false);
+    }
+
+    public void RotateHologram()
+    {
+        currentHologram.transform.Rotate(0, 90, 0);
+    }
+
+    public void DisableHologram()
+    {
+        currentHologram.SetActive(false);
+    }
 
 }

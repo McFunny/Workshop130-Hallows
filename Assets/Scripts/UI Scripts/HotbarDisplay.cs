@@ -68,6 +68,14 @@ public class HotbarDisplay : MonoBehaviour
             currentSlot.ToggleHighlight();
         }
 
+        PlaceableItem p_item = currentSlot.AssignedInventorySlot.ItemData as PlaceableItem;
+        if(p_item)p_item.DisableHologram();
+
+        //if(currentIndex == slotIndex)
+        //{
+        //    return;
+        //}
+
         // Set the new slot
         currentIndex = slotIndex;
         currentSlot = hotbarSlots[slotIndex];
