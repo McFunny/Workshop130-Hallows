@@ -7,11 +7,16 @@ public class ControlManager : MonoBehaviour
 {
     public static bool isController;
     public InputActionReference useHeldItem, interactWithItem, interactWithoutItem, 
-    movement, sprint, look, moreInfo, hotbarScroll, hotbarUp, hotbarDown, showGrid, openInventory, closeInventory,
+    movement, sprint, look, moreInfo, hotbarScroll, hotbarUp, hotbarDown, showGrid, openInventory, UIOpenInventory, closeInventory,
     select, split;
     string currentDevice;
     public static bool isGamepad;
+    [HideInInspector]public PlayerInput playerInput;
 
+    private void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+    }
     // Update is called once per frame
     void Update()
     {

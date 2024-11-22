@@ -41,6 +41,7 @@ public class InventoryUIController : MonoBehaviour
         InventoryHolder.OnDynamicInventoryDisplayRequested += DisplayInventory;
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested += DisplayPlayerBackpack;
         controlManager.openInventory.action.started += OpenInventory;
+        controlManager.UIOpenInventory.action.started += UIOpenInventory;
         controlManager.closeInventory.action.started += CloseInput;
     }
 
@@ -49,12 +50,12 @@ public class InventoryUIController : MonoBehaviour
         InventoryHolder.OnDynamicInventoryDisplayRequested -= DisplayInventory;
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested -= DisplayPlayerBackpack;
         controlManager.openInventory.action.started -= OpenInventory;
+        controlManager.UIOpenInventory.action.started -= UIOpenInventory;
         controlManager.closeInventory.action.started -= CloseInput;
     }
 
     void Update()
     {
-        
         
     }
 
@@ -66,6 +67,7 @@ public class InventoryUIController : MonoBehaviour
             eventSystem.SetSelectedGameObject(firstObject);
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
+            controlManager.playerInput.SwitchCurrentActionMap("UI");
             return;
         }
         
@@ -75,6 +77,7 @@ public class InventoryUIController : MonoBehaviour
             eventSystem.SetSelectedGameObject(null);
             CloseInventory();
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+            controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
         }
         else if (isBackpackOpen)
         {
@@ -83,6 +86,7 @@ public class InventoryUIController : MonoBehaviour
             CloseBackpack();
             print("Closing backpack");
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+            controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
         }
     }
 
@@ -94,6 +98,7 @@ public class InventoryUIController : MonoBehaviour
             eventSystem.SetSelectedGameObject(null);
             CloseInventory();
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+            controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
         }
         else if (isBackpackOpen)
         {
@@ -101,6 +106,28 @@ public class InventoryUIController : MonoBehaviour
             eventSystem.SetSelectedGameObject(null);
             CloseBackpack();
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+            controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
+            print("Closing backpack");
+        }
+    }
+
+    private void UIOpenInventory(InputAction.CallbackContext obj)
+    {
+        if (chestPanel.gameObject.activeInHierarchy)
+        {
+            eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            eventSystem.SetSelectedGameObject(null);
+            CloseInventory();
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+            controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
+        }
+        else if (isBackpackOpen)
+        {
+            eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            eventSystem.SetSelectedGameObject(null);
+            CloseBackpack();
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+            controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
             print("Closing backpack");
         }
     }
@@ -113,7 +140,7 @@ public class InventoryUIController : MonoBehaviour
         chestPanel.gameObject.SetActive(true);
         playerBackpackPanel.gameObject.SetActive(true);
         chestPanel.RefreshDynamicInventory(invToDisplay);
-       
+        controlManager.playerInput.SwitchCurrentActionMap("UI");
         isBackpackOpen = true;
 
     }
@@ -126,6 +153,7 @@ public class InventoryUIController : MonoBehaviour
             PlayerMovement.accessingInventory = true;
             playerBackpackPanel.gameObject.SetActive(true);
             playerBackpackPanel.RefreshDynamicInventory(invToDisplay);
+            controlManager.playerInput.SwitchCurrentActionMap("UI");
             isBackpackOpen = true; 
             readyToPress = false;
         }
@@ -137,6 +165,7 @@ public class InventoryUIController : MonoBehaviour
         chestPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
+        controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
         isBackpackOpen = false; 
     }
 
@@ -146,6 +175,7 @@ public class InventoryUIController : MonoBehaviour
         //HandItemManager.Instance.CheckSlotForTool();
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
+        controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
         isBackpackOpen = false; 
     }
 }
