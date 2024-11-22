@@ -27,6 +27,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(dialogueController.IsTalking() == false)
         {
             currentPath = -1;
+            currentType = PathType.Default;
             lastSeenItem = null;
             dialogueController.SetInterruptable(false);
 
@@ -39,7 +40,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     public void Talk()
     {
         dialogueController.currentTalker = this;
-        dialogueController.DisplayNextParagraph(dialogueText, currentPath);
+        dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
     }
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
@@ -54,6 +55,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             //Cannot Buy
             lastSeenItem = item;
             currentPath = 1;
+            currentType = PathType.Misc;
             Talk();
 
             anim.SetTrigger("IsTalking");
@@ -68,6 +70,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                 dialogueController.restartDialogue = true;
                 if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize > 1) currentPath = 3;
                 else currentPath = 0;
+                currentType = PathType.Misc;
 
                 anim.SetTrigger("IsTalking");
             }
@@ -75,6 +78,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             {
                 //Sold, remove item and gain money
                 currentPath = 2;
+                currentType = PathType.Misc;
 
                 anim.SetTrigger("Transaction");
             }
@@ -113,6 +117,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             lastInteractedStoreItem = item;
             item.arrowObject.SetActive(true);
         }
+        currentType = PathType.Misc;
         Talk();
     }
 

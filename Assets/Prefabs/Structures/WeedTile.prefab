@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfaf9ee1ef95c6241925cd1a6fe8ef16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invert: 0
 --- !u!1 &5689272689766288214
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +231,9 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: f8c723bdc5ce2b54e90db5f0c86dc4d8, type: 2}
   health: 5
   maxHealth: 5
+  wealthValue: 0
   audioHandler: {fileID: 0}
+  clearTileOnDestroy: 1
   crop: {fileID: 11400000, guid: 5349594fbfaf93a4ea544f582119b7fb, type: 2}
   cropRenderer: {fileID: 6240152475005840231}
   itemDropTransform: {fileID: 5844641336483811334}
@@ -244,6 +247,8 @@ MonoBehaviour:
   harvestable: 0
   rotted: 0
   isWeed: 1
+  growth: {fileID: 0}
+  growthComplete: {fileID: 0}
 --- !u!114 &1499389874103428145
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class TestNPC : NPC, ITalkable
     public void Talk()
     {
         dialogueController.currentTalker = this;
-        dialogueController.DisplayNextParagraph(dialogueText, currentPath);
+        dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
     }
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)

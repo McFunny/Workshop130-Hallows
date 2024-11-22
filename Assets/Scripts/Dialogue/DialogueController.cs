@@ -28,6 +28,7 @@ public class DialogueController : MonoBehaviour
     
     public NPC currentTalker;
     private int currentPath = -1;
+    private PathType currentType;
 
     void Awake()
     {
@@ -44,19 +45,21 @@ public class DialogueController : MonoBehaviour
 
     public void AdvanceDialogue()
     {
-        if(IsTalking() == true && currentTalker && currentPath != -1) DisplayNextParagraph(currentTalker.dialogueText, currentPath);
+        if(IsTalking() == true && currentTalker && currentPath != -1) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
     }
 
-    public void DisplayNextParagraph(DialogueText dialogueText, int path)
+    public void DisplayNextParagraph(DialogueText dialogueText, int path, PathType type)
     {
         // If nothing left in queue
         isTalking = true;
-        if(path != currentPath || restartDialogue)
+        if(path != currentPath || type != currentType || restartDialogue)
         {
             currentPath = path;
+            currentType = type;
             restartDialogue = false;
             EndConversation();
-            DisplayNextParagraph(dialogueText, currentPath);
+            DisplayNextParagraph(dialogueText, currentPath, currentType);
+            if(!interruptable) print("You just interrupted dialogue");
             return;
             
         }
@@ -64,7 +67,7 @@ public class DialogueController : MonoBehaviour
         {
             if(!conversationEnded)
             {
-                StartConversation(dialogueText);
+                StartConversation(dialogueText, type);
             }
             else
             {
@@ -114,10 +117,11 @@ public class DialogueController : MonoBehaviour
             interruptable = true;
             //isTalking = false;
         }
+        else interruptable = false;
         
     }
 
-    private void StartConversation(DialogueText dialogueText)
+    private void StartConversation(DialogueText dialogueText, PathType type)
     {
         // Activate the text box
         if (!gameObject.activeSelf)
@@ -129,21 +133,64 @@ public class DialogueController : MonoBehaviour
         NPCNameText.text = dialogueText.speakerName;
 
         // Add dialogue text to queue
-        if(currentTalker.currentPath == -1)
+        switch(type)
         {
-            for(int i = 0; i < dialogueText.defaultPath.paragraphs.Length; i++)
-            {
-                paragraphs.Enqueue(dialogueText.defaultPath.paragraphs[i]);
-                emotions.Enqueue(dialogueText.defaultPath.emotions[i]);
-            }
-        }
-        else
-        {
-            for(int i = 0; i < dialogueText.paths[currentTalker.currentPath].paragraphs.Length; i++)
-            {
-                paragraphs.Enqueue(dialogueText.paths[currentTalker.currentPath].paragraphs[i]);
-                emotions.Enqueue(dialogueText.paths[currentTalker.currentPath].emotions[i]);
-            }
+            case PathType.QuestComplete:
+                for(int i = 0; i < dialogueText.questCompletePath.paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.questCompletePath.paragraphs[i]);
+                    emotions.Enqueue(dialogueText.questCompletePath.emotions[i]);
+                }
+                break;
+            case PathType.RepeatItem:
+                for(int i = 0; i < dialogueText.repeatedItemPath.paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.repeatedItemPath.paragraphs[i]);
+                    emotions.Enqueue(dialogueText.repeatedItemPath.emotions[i]);
+                }
+                break;
+            case PathType.Misc:
+                for(int i = 0; i < dialogueText.paths[currentTalker.currentPath].paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.paths[currentTalker.currentPath].paragraphs[i]);
+                    emotions.Enqueue(dialogueText.paths[currentTalker.currentPath].emotions[i]);
+                }
+                break;
+            case PathType.Filler:
+                for(int i = 0; i < dialogueText.fillerPaths[currentTalker.currentPath].paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.fillerPaths[currentTalker.currentPath].paragraphs[i]);
+                    emotions.Enqueue(dialogueText.fillerPaths[currentTalker.currentPath].emotions[i]);
+                }
+                break;
+            case PathType.Quest:
+                for(int i = 0; i < dialogueText.questPaths[currentTalker.currentPath].paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.questPaths[currentTalker.currentPath].paragraphs[i]);
+                    emotions.Enqueue(dialogueText.questPaths[currentTalker.currentPath].emotions[i]);
+                }
+                break;
+            case PathType.ItemRecieved:
+                for(int i = 0; i < dialogueText.itemRecievedPaths[currentTalker.currentPath].paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.itemRecievedPaths[currentTalker.currentPath].paragraphs[i]);
+                    emotions.Enqueue(dialogueText.itemRecievedPaths[currentTalker.currentPath].emotions[i]);
+                }
+                break;
+            case PathType.ItemSpecific:
+                for(int i = 0; i < dialogueText.itemSpecificRemarks[currentTalker.currentPath].paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.itemSpecificRemarks[currentTalker.currentPath].paragraphs[i]);
+                    emotions.Enqueue(dialogueText.itemSpecificRemarks[currentTalker.currentPath].emotions[i]);
+                }
+                break;
+            default:
+                for(int i = 0; i < dialogueText.defaultPath.paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.defaultPath.paragraphs[i]);
+                    emotions.Enqueue(dialogueText.defaultPath.emotions[i]);
+                }
+                break;
         }
         
     }
@@ -201,6 +248,12 @@ public class DialogueController : MonoBehaviour
                 p = p.Replace("{itemSold}", $"{""}");
                 PlayerSoldItem();
             }
+            if(p.Contains("{itemGiven}"))
+            {
+                p = p.Replace("{itemGiven}", $"{""}");
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                PlayerInventoryHolder.Instance.UpdateInventory();
+            }
         } 
 
         if(p.Contains("{itemBought}"))
@@ -213,6 +266,7 @@ public class DialogueController : MonoBehaviour
 
     public void SetInterruptable(bool b)
     {
+        //pointless function now, text is interruptable only when finished talking
         interruptable = b;
     }
 

@@ -66,7 +66,7 @@ public class InventoryUIController : MonoBehaviour
             else if (isBackpackOpen)
             {
                 CloseBackpack();
-                print("Closing backpack");
+                //print("Closing backpack");
             }
         }
         
@@ -88,7 +88,7 @@ public class InventoryUIController : MonoBehaviour
     {
         if (!isBackpackOpen)
         {
-            print("Opening");
+            //print("Opening");
             PlayerMovement.accessingInventory = true;
             playerBackpackPanel.gameObject.SetActive(true);
             playerBackpackPanel.RefreshDynamicInventory(invToDisplay);
@@ -109,7 +109,7 @@ public class InventoryUIController : MonoBehaviour
 
     void CloseBackpack()
     {
-        print("Closing");
+        //print("Closing");
         //HandItemManager.Instance.CheckSlotForTool();
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;

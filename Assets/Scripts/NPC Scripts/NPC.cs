@@ -14,8 +14,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public AudioClip happy, sad, neutral, angry, confused, shocked;
 
     [HideInInspector] public int currentPath = -1; //-1 means default path
+    [HideInInspector] public PathType currentType;
 
     [HideInInspector] public StoreItem lastInteractedStoreItem;
+    [HideInInspector] public bool hasSpokeToday, hasEatenToday = false;
 
 
     public void EndInteraction()

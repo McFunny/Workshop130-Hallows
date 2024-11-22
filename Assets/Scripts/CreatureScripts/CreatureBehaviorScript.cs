@@ -84,6 +84,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnDeath()
     {
         if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
+        NightSpawningManager.Instance.allCreatures.Remove(this);
     } //Triggers creature specific effects
 
     public virtual void OnSpawn(){}

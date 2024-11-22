@@ -35,6 +35,8 @@ public class FarmLand : StructureBehaviorScript
         base.Awake();
         if(growth) growth.Stop();
         if(growthComplete) growthComplete.Stop();
+
+        if(!crop) wealthValue = 0;
     }
 
     void Start()
@@ -80,6 +82,8 @@ public class FarmLand : StructureBehaviorScript
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
 
             audioHandler.PlayRandomSound(audioHandler.miscSounds1);
+
+            wealthValue = 5;
 
         }
     }

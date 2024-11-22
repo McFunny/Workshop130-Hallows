@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
+  m_Name: Rascal
+  m_EditorClassIdentifier: 
+  speakerName: Rascal
+  defaultPath:
+    pathName: Default
+    paragraphs:
+    - What are you lookin at, gramps.
+    emotions: 00000000
+  questCompletePath:
+    pathName: 
+    paragraphs:
+    - Oh, I didnt think you would actually do it. Well, a deal is a deal.
+    emotions: 00000000
+  repeatedItemPath:
+    pathName: 
+    paragraphs:
+    - Bleh! Something NEW please?
+    emotions: 03000000
+  paths: []
+  fillerPaths:
+  - pathName: Filler1
+    paragraphs:
+    - You look pretty old.
+    emotions: 00000000
+  - pathName: Filler2
+    paragraphs:
+    - You are from the farm?
+    - Ha, I can tell.
+    emotions: 0000000001000000
+  questPaths:
+  - pathName: Fetch Quest
+    paragraphs: []
+    emotions: 
+  - pathName: Food For Thought
+    paragraphs:
+    - I see you eyeing that big door. I bet you want to know how to open it.
+    - Well, I MAY know where the key is... But I am just soooo hungry, I can barely
+      remember...
+    - Maybe a Pale Carrot would jog my memory...
+    emotions: 000000000000000000000000
+  - pathName: Inform of Key
+    paragraphs:
+    - Now we are talking! {itemGiven}
+    - Alright, I HEARD there lies the key to the catacombs across the broken bridge.
+    - Talk to that old wood guy. I'm sure he can rebuild that.
+    emotions: 000000000000000000000000
+  itemRecievedPaths:
+  - pathName: Thanks For Item!
+    paragraphs:
+    - Oh man, I was starving!
+    - Thanks, geezer!
+    emotions: 0000000000000000
+  itemSpecificRemarks:
+  - pathName: So What?
+    paragraphs:
+    - Um yea, I actually... Don't care.
+    emotions: 03000000
+  - pathName: Key Shown
+    paragraphs:
+    - Wait, you actually found a key there??
+    - I mean, of course you found the key!
+    - Go open the door by the graveyard. At least, I think thats where it goes.
+    emotions: 050000000000000000000000

@@ -5,7 +5,9 @@ using UnityEngine;
 public class AnimEvents : MonoBehaviour
 {
     public delegate void FloatChange(float f);
+    public delegate void ColliderChange(bool b);
     public event FloatChange OnFloatChange;
+    public event ColliderChange OnColliderChange;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +23,11 @@ public class AnimEvents : MonoBehaviour
     public void FloatChangeEvent(float f)
     {
         OnFloatChange?.Invoke(f);
+    }
+
+    public void ColliderChangeEvent(string b)
+    {
+        bool value = b.ToLower() == "true";
+        OnColliderChange?.Invoke(value);
     }
 }

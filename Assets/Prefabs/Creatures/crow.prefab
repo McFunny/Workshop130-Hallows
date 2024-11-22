@@ -11,12 +11,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 5e9c8cdd46599aa4585b39776f6ecd55,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 32.479
+      value: 30.11
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5e9c8cdd46599aa4585b39776f6ecd55,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.226
+      value: 0.036
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5e9c8cdd46599aa4585b39776f6ecd55,
         type: 3}
@@ -58,10 +58,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4819223349682164798, guid: 5e9c8cdd46599aa4585b39776f6ecd55,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -4768681247727678317, guid: 5e9c8cdd46599aa4585b39776f6ecd55,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e9c8cdd46599aa4585b39776f6ecd55,
         type: 3}
       propertyPath: m_Name
       value: crow
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5e9c8cdd46599aa4585b39776f6ecd55,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3098483896473832729, guid: 5e9c8cdd46599aa4585b39776f6ecd55,
         type: 3}
@@ -78,6 +93,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9fa94d9cdd86e8244849d1f355ec2a67, type: 2}
+    - target: {fileID: 8519013671625181262, guid: 5e9c8cdd46599aa4585b39776f6ecd55,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -123,8 +143,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
+  corpseHealth: -50
   ichorWorth: 5
   ichorDropRadius: 2
+  creatureData: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -146,6 +168,7 @@ MonoBehaviour:
   attackHeight: 1.5
   circleSpeed: 1
   currentState: 0
+  isSummoned: 1
 --- !u!114 &2178523040853159291
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NightSpawningManager : MonoBehaviour
 {
+    public static NightSpawningManager Instance;
+
     float difficultyPoints = 0;
     //float originalDifficultyPoints = 0;
 
@@ -14,6 +16,17 @@ public class NightSpawningManager : MonoBehaviour
     //this list saves all current creatures, and all spawned creatures through this/saved by this manager should be assigned to this list
 
     public Transform[] testSpawns;
+
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else Instance = this;
+
+    }
 
     void Start()
     {
@@ -33,6 +46,7 @@ public class NightSpawningManager : MonoBehaviour
             {
                difficultyPoints += structure.wealthValue;
             }
+            if(difficultyPoints < 15) difficultyPoints = 15;
             //difficultyPoints += TimeManager.dayNum;
             //originalDifficultyPoints = difficultyPoints;
         }
@@ -60,6 +74,12 @@ public class NightSpawningManager : MonoBehaviour
             {
                 for(int s = 0; s < c.spawnWeight; s++) weightArray.Add(w);
             }
+            
+            foreach(CreatureBehaviorScript cs in allCreatures)
+            {
+                if(cs.creatureData == c) creatureTally[w]++;
+            }
+
             w++;
         }
 
@@ -75,7 +95,7 @@ public class NightSpawningManager : MonoBehaviour
             r = Random.Range(0, weightArray.Count);
             CreatureObject attemptedCreature = creatures[weightArray[r]];
             //If there is enough points to afford the creature and it hasnt reached it's spawn cap, spawn it
-            if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreatures[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold)
+            if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreatures[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold && attemptedCreature.spawnCap > creatureTally[weightArray[r]])
             {
                 spawnedCreatures[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
@@ -100,6 +120,7 @@ public class NightSpawningManager : MonoBehaviour
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
             enemy.OnSpawn();
+            allCreatures.Add(enemy);
         }
     }
 

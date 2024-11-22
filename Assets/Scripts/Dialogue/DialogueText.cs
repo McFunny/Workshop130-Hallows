@@ -7,7 +7,13 @@ public class DialogueText : ScriptableObject
 {
     public string speakerName;
     public DialoguePath defaultPath;
-    public DialoguePath[] paths;
+    public DialoguePath questCompletePath;
+    public DialoguePath repeatedItemPath;
+    public DialoguePath[] paths; //misc paths
+    public DialoguePath[] fillerPaths; //the random text the NPC will say each day
+    public DialoguePath[] questPaths;
+    public DialoguePath[] itemRecievedPaths;
+    public DialoguePath[] itemSpecificRemarks;
 
 }
 
@@ -22,9 +28,22 @@ public enum Emotion
     Shocked
 }
 
+public enum PathType
+{
+    Default,
+    QuestComplete,
+    RepeatItem,
+    Misc,
+    Filler,
+    Quest,
+    ItemRecieved,
+    ItemSpecific
+}
+
 [System.Serializable]
 public class DialoguePath
 {
+    public string pathName;
     [TextArea(5,10)]
     public string[] paragraphs;
     public Emotion[] emotions;
