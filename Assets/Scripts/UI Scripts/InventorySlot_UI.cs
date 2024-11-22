@@ -2,26 +2,53 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using System.Security.Principal;
 
 public class InventorySlot_UI : MonoBehaviour
 {
     [SerializeField] private Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private TextMeshProUGUI itemCount;
-    [SerializeField] private GameObject slotHighlight;
+    [SerializeField] public GameObject slotHighlight;
     [SerializeField] private InventorySlot assignedInventorySlot;
 
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
     public InventoryDisplay ParentDisplay { get; private set; }
+    ControlManager controlManager;
+    bool isSelected;
 
     private void Awake()
     {
+        controlManager = FindFirstObjectByType<ControlManager>();
         ClearSlot();
 
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
 
         AddEventTriggers();
     }
+
+     private void OnEnable()
+    {
+        controlManager.select.action.started += Select;
+        controlManager.split.action.started += Split;
+    }
+    private void OnDisable()
+    {
+        controlManager.select.action.started -= Select;
+        controlManager.split.action.started -= Split;
+    }
+
+    void Update()
+    {
+        if(PlayerMovement.accessingInventory){slotHighlight.SetActive(isSelected);}
+    }
+
+    public void TestPrint()
+    {
+        print("Test");
+    }
+
 
     // Add EventTrigger component and setup event listeners for highlight detection and clicks
     private void AddEventTriggers()
@@ -43,34 +70,70 @@ public class InventorySlot_UI : MonoBehaviour
         // PointerClick (detect left and right mouse clicks)
         EventTrigger.Entry pointerClick = new EventTrigger.Entry();
         pointerClick.eventID = EventTriggerType.PointerClick;
-        pointerClick.callback.AddListener((eventData) => OnPointerClick((PointerEventData)eventData));
+        //pointerClick.callback.AddListener((eventData) => OnPointerClick((PointerEventData)eventData));
         trigger.triggers.Add(pointerClick);
     }
 
-    private void OnPointerClick(PointerEventData eventData)
+     private void Select(InputAction.CallbackContext obj)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
+        if(PlayerMovement.accessingInventory == true)
         {
-            // Handle left-click
-            OnLeftUISlotClick();
-        }
-        else if (eventData.button == PointerEventData.InputButton.Right)
+           OnLeftUISlotClick();
+        }     
+    }
+    private void Split(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.accessingInventory == true)
         {
-            // Handle right-click
             OnRightUISlotClick();
         }
+    }  
+
+    /* void OnPointerClick(PointerEventData eventData)
+    {
+        if(!ControlManager.isController)
+        {
+            //print("HELP");
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                // Handle left-click
+                OnLeftUISlotClick();
+            }
+            else if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                // Handle right-click
+                OnRightUISlotClick();
+            }
+        }
+        else
+        {
+            print("Heyguys");
+        }  
+    } */
+
+    public void Selected()
+    {
+        isSelected = true;
+        //slotHighlight.SetActive(true);
     }
 
-    private void OnLeftUISlotClick()
+    public void Deselected()
+    {
+        isSelected = false;
+        //slotHighlight.SetActive(false);
+    }
+        
+
+    public void OnLeftUISlotClick()
     {
         // Handle left-click behavior
-        ParentDisplay?.HandleSlotLeftClick(this);
+        if(isSelected){ParentDisplay?.HandleSlotLeftClick(this);}
     }
 
-    private void OnRightUISlotClick()
+    public void OnRightUISlotClick()
     {
         // Handle right-click behavior
-        ParentDisplay?.HandleSlotRightClick(this);
+        if(isSelected){ParentDisplay?.HandleSlotRightClick(this);}
     }
 
     private void OnHighlight(bool selected)

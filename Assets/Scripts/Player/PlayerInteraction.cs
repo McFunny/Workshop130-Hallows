@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class PlayerInteraction : MonoBehaviour
 
     PlayerInventoryHolder playerInventoryHolder;
     PlayerEffectsHandler playerEffects;
+
+    ControlManager controlManager;
+
+    Rigidbody rb;
 
     public bool isInteracting { get; private set; }
     public bool toolCooldown;
@@ -28,10 +33,11 @@ public class PlayerInteraction : MonoBehaviour
     private float reach = 5;
 
     public LayerMask interactionLayers;
-
+    private bool ltCanPress = false;
 
     void Awake()
     {
+        controlManager = FindFirstObjectByType<ControlManager>();
         stamina = maxStamina;
         if(Instance != null && Instance != this)
         {
@@ -49,41 +55,55 @@ public class PlayerInteraction : MonoBehaviour
         if(!mainCam) mainCam = FindObjectOfType<Camera>();
         playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
         playerEffects = FindObjectOfType<PlayerEffectsHandler>();
+        rb = GetComponent<Rigidbody>();
     }
 
+    private void OnEnable()
+    {
+        //LEFT CLICK USES THE ITEM CURRENTLY IN THE HAND
+        controlManager.useHeldItem.action.started += UseHeldItem; 
+        //RIGHT CLICK USES AN ITEM ON A STRUCTURE, EX: PLANTING A SEED IN FARMLAND
+        controlManager.interactWithItem.action.started += OnInteractWithItem;
+        //SPACE INTERACTS WITH A STRUCTURE WITHOUT USING AN ITEM, EX: HARVESTING A CROP
+        controlManager.interactWithoutItem.action.started += InteractWithoutItem;
+    }
 
+    private void OnDisable()
+    {
+        controlManager.useHeldItem.action.started -= UseHeldItem;
+        controlManager.interactWithItem.action.started -= OnInteractWithItem;
+        controlManager.interactWithoutItem.action.started -= InteractWithoutItem;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if(PlayerMovement.restrictMovementTokens > 0) return;
-        //LEFT CLICK USES THE ITEM CURRENTLY IN THE HAND
-        if(Input.GetMouseButtonDown(0) && !PlayerMovement.accessingInventory)
-        {
-            UseHotBarItem();
-        }
-
-        //RIGHT CLICK USES AN ITEM ON A STRUCTURE, EX: PLANTING A SEED IN FARMLAND
-        if(Input.GetMouseButtonDown(1) && !PlayerMovement.accessingInventory)
-        {
-            StructureInteractionWithItem();
-        }
-
-        //SPACE INTERACTS WITH A STRUCTURE WITHOUT USING AN ITEM, EX: HARVESTING A CROP
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            InteractWithObject();
-        }
-
-        if(Input.GetKeyDown("f"))
-        {
-            //TO TEST CLEARING A STRUCTURE
-            DestroyStruct();
-        }
-
         if(waterHeld > maxWaterHeld) waterHeld = maxWaterHeld;
         if(stamina > maxStamina) stamina = maxStamina;
 
+        DisplayHologramCheck();
+
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+    }
+
+    private void UseHeldItem(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        UseHotBarItem();
+    }
+
+    private void OnInteractWithItem(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(ltCanPress == true) { StructureInteractionWithItem(); ltCanPress = false; }
+        else ltCanPress = true;
+    }
+
+
+    private void InteractWithoutItem(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        InteractWithObject();
     }
 
     void StartInteraction(IInteractable interactable)
@@ -228,6 +248,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
     {
+        rb.velocity = new Vector3(0,0,0);
         if(toolCooldown) yield break;
         toolCooldown = true;
         yield return new WaitForSeconds(time);
@@ -235,6 +256,20 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(coolDown - time);
         toolCooldown = false;
         //use a bool that says i am done swinging to avoid tool overlap
+    }
+
+    void DisplayHologramCheck()
+    {
+        InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
+        if(!item) return;
+        PlaceableItem p_item = item as PlaceableItem;
+        if(!p_item || !p_item.hologramPrefab) return;
+        p_item.DisplayHologram(mainCam.transform);
+
+        if(Input.GetKeyDown("r"))
+        {
+            p_item.RotateHologram();
+        }
     }
     
 }

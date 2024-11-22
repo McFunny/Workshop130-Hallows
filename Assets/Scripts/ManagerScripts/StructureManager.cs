@@ -166,6 +166,8 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    //public StructureBehaviorScript GrabStructureOnTile(Vector3 pos) //to play ichor particle
+
     void InstantiateNutrientStorage()
     {
         foreach (var gridPosition in tileMap.cellBounds.allPositionsWithin)
@@ -230,7 +232,7 @@ public class StructureManager : MonoBehaviour
                 int randomIndex = Random.Range(0, spawnablePositions.Count);
                 spawnPos = tileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
 
-                if(tileMap.GetTile(spawnablePositions[randomIndex]) != null)
+                if(tileMap.GetTile(spawnablePositions[randomIndex]) != null && tileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
                 {
                     SpawnStructure(weedTile, spawnPos);
                 }
@@ -275,7 +277,9 @@ public class NutrientStorage
     public float terraLevel = 10; //max is 10
     public float gloamLevel = 10; //max is 10
 
-    public float waterLevel = 3; //max is 5
+    public float waterLevel = 3; //max is 10
+
+    public int blightLevel = 0; //max is 10. If above 0, spreads blight to nearby tiles. Corpses that die should blight farm tiles and create empty farm tiles with blight. Blighted farm tiles shouldnt despawn
 
     public NutrientStorage()
     {

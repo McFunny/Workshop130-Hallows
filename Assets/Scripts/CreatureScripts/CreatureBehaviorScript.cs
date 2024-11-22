@@ -32,6 +32,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     bool corpseDestroyed = false;
     public int damageToStructure;
     public int damageToPlayer;
+    public bool canCorpseBreak;
 
     public void Start()
     {
@@ -57,7 +58,7 @@ public class CreatureBehaviorScript : MonoBehaviour
             isDead = true;
             //turns into a corpse, and fertalizes nearby crops
         }
-        else
+        else if(canCorpseBreak)
         {
             effectsHandler.OnHit();
             OnDamage();
@@ -88,6 +89,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     } //Triggers creature specific effects
 
     public virtual void OnSpawn(){}
+    public virtual void OnStun(float duration){}
 
 
     

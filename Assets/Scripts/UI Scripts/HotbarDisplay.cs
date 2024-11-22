@@ -24,8 +24,6 @@ public class HotbarDisplay : MonoBehaviour
         {
             inputManager.OnNumberPressed += HandleNumberPressed;
             inputManager.OnScrollInput += HandleScrollInput;
-           
-            
         }
 
         PlayerInventoryHolder.OnPlayerInventoryChanged += UpdateHandItem;
@@ -44,6 +42,8 @@ public class HotbarDisplay : MonoBehaviour
 
     private void HandleScrollInput(int direction)
     {
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown) return; //to solve the issue where there is a skip in the hotbar
+
         currentIndex += direction;
 
         if (currentIndex > (hotbarSlots.Length - 1)) currentIndex = 0;
@@ -69,6 +69,14 @@ public class HotbarDisplay : MonoBehaviour
         {
             currentSlot.ToggleHighlight();
         }
+
+        PlaceableItem p_item = currentSlot.AssignedInventorySlot.ItemData as PlaceableItem;
+        if(p_item)p_item.DisableHologram();
+
+        //if(currentIndex == slotIndex)
+        //{
+        //    return;
+        //}
 
         // Set the new slot
         currentIndex = slotIndex;

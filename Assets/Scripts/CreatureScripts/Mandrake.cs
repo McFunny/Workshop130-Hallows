@@ -21,6 +21,8 @@ public class Mandrake : CreatureBehaviorScript
     public float timeBeforeLeavingFarm;
     private float savedTime;
 
+    Vector3 despawnPos;
+
 
     public enum CreatureState
     {
@@ -45,20 +47,33 @@ public class Mandrake : CreatureBehaviorScript
         tileMap = FindObjectOfType<Tilemap>();
         savedTime = timeBeforeLeavingFarm;
 
+        int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
+        despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
+
     }
 
     private void Update()
     {
+        if(currentState == CreatureState.Die || currentState == CreatureState.Trapped) return;
+        if(currentState == CreatureState.WakeUp)
+        {
+            CheckState(currentState);
+            return;
+        }
         if (timeBeforeLeavingFarm < 0)
         {
             if(TimeManager.isDay) currentState = CreatureState.LeaveFarm;
         }
         else timeBeforeLeavingFarm -= Time.deltaTime;
+
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= sightRange;
         if (isTrapped) { currentState = CreatureState.Trapped; }
         if (playerInSightRange && !isTrapped && !coroutineRunning && currentState != CreatureState.WakeUp) { currentState = CreatureState.Run; }
         CheckState(currentState);
+
+        if(agent.velocity.sqrMagnitude > 0) anim.SetBool("IsRunning", true);
+        else anim.SetBool("IsRunning", false);
     }
 
     public void CheckState(CreatureState currentState)
@@ -71,18 +86,22 @@ public class Mandrake : CreatureBehaviorScript
 
             case CreatureState.Run:
                 Run();
+                //anim.SetBool("IsRunning", true);
                 break;
 
             case CreatureState.Wander:
                 Wander();
+                //anim.SetBool("IsRunning", true);
                 break;
 
             case CreatureState.Idle:
                 Idle();
+                //anim.SetBool("IsRunning", false);
                 break;
 
             case CreatureState.LeaveFarm:
                 LeaveFarm();
+                //anim.SetBool("IsRunning", true);
                 break;
 
             case CreatureState.Die:
@@ -100,20 +119,35 @@ public class Mandrake : CreatureBehaviorScript
        
             if (!coroutineRunning)
             {
-                int r = Random.Range(1, 6);
+                if(playerInSightRange)
+                {
+                    currentState = CreatureState.Run;
+                    return;
+                }
+                int r = Random.Range(1, 7);
                
-                 if (r < 4 && r >= 1) StartCoroutine(WaitAround());
-                 if (r >= 4) currentState = CreatureState.Wander;
+                if (r < 4) StartCoroutine(WaitAround());
+                else if (r < 6) currentState = CreatureState.Wander;
+                else StartCoroutine(Scream()); //scream
             }
     }
 
     private IEnumerator WaitAround()
     {
         coroutineRunning = true;
-        float r = Random.Range(1, 4.5f);
+        float r = Random.Range(0.4f, 1.8f);
         yield return new WaitForSeconds(r);
         coroutineRunning = false;
     } 
+
+    private IEnumerator Scream()
+    {
+        coroutineRunning = true;
+        float r = 1.5f;
+        anim.SetTrigger("IsScreaming");
+        yield return new WaitForSeconds(r);
+        coroutineRunning = false;
+    }
 
     private void WakeUp()
     {
@@ -126,19 +160,21 @@ public class Mandrake : CreatureBehaviorScript
     IEnumerator FreakOut()
     {
         //Play freak out Animation
+        coroutineRunning = true;
         if (playerInSightRange)
         {
             transform.LookAt(player);
         }
-        yield return new WaitForSeconds(1); //Adjust this based off of animation time
+        yield return new WaitForSeconds(1.2f); //Adjust this based off of animation time
+        coroutineRunning = false;
         currentState = CreatureState.Run;
     }
 
     private void Run()
     {
         timeBeforeLeavingFarm = savedTime;
-        agent.speed = 10;
-        agent.angularSpeed = 150;
+        //agent.speed = 10;
+        //agent.angularSpeed = 150;
         if (playerInSightRange)
         {
             if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
@@ -151,7 +187,7 @@ public class Mandrake : CreatureBehaviorScript
                 Vector3 fleeDirection = (transform.position - player.position).normalized;
 
                
-                float randomAngle = Random.Range(-90f, 90f); //random offset for random movement
+                float randomAngle = Random.Range(-45f, 45f); //random offset for random movement
 
                 fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
 
@@ -167,9 +203,10 @@ public class Mandrake : CreatureBehaviorScript
 
     private void Wander()
     {
-        agent.speed = 2f;
-        agent.angularSpeed = 80f;
-        if (!isMoving)
+        //agent.speed = 2f;
+        //agent.angularSpeed = 80f;
+        if(playerInSightRange) currentState = CreatureState.Run;
+        else if (!isMoving)
         {
             Vector3 randomPoint = GetRandomPointAround(transform.position, 15f); //gets a random point within a 5 unit radius of itself
             StartCoroutine(MoveToPoint(randomPoint));
@@ -195,36 +232,43 @@ public class Mandrake : CreatureBehaviorScript
         agent.destination = destination;
 
 
-        while (!agent.pathPending && agent.remainingDistance > agent.stoppingDistance + 1f && !playerInSightRange)
+        while (!agent.pathPending && agent.remainingDistance > agent.stoppingDistance + 0.1f && !playerInSightRange)
         {
             yield return null;
         }
 
-        int r = Random.Range(0, 2);
+        int r = Random.Range(0, 3);
         if (r == 0) { currentState = CreatureState.Wander; }
-        else if (r == 1) { currentState = CreatureState.Idle; }
+        else { currentState = CreatureState.Idle; }
 
         isMoving = false;
     }
 
+    public override void OnStun(float duration)
+    {
+        StartCoroutine(Stun(duration));
+        agent.destination = transform.position;
+        anim.SetBool("IsRunning", false);
+    }
+
+    IEnumerator Stun(float duration)
+    {
+        currentState = CreatureState.Trapped;
+        yield return new WaitForSeconds(duration);
+        currentState = CreatureState.Wander;
+    }
+
     private void LeaveFarm()
     {
-        //if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
-        //{
-        //    Destroy(this.gameObject);
-        //}
-        if (!hasTarget)
-        {
-            hasTarget = true;
-            Vector3 fleeDirection = (transform.position - player.position).normalized;
-            Vector3 newDestination = transform.position + fleeDirection * fleeDistance *5;
-
-            agent.SetDestination(newDestination);
-        }
+        agent.SetDestination(despawnPos);
     }
 
     public override void OnDeath()
     {
+        StopAllCoroutines();
+        currentState = CreatureState.Die;
+        anim.SetTrigger("IsDead");
+        agent.enabled = false;
         base.OnDeath();
     }
 
