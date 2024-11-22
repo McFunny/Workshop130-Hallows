@@ -15,6 +15,8 @@ public class PlayerInteraction : MonoBehaviour
 
     ControlManager controlManager;
 
+    Rigidbody rb;
+
     public bool isInteracting { get; private set; }
     public bool toolCooldown;
 
@@ -53,6 +55,7 @@ public class PlayerInteraction : MonoBehaviour
         if(!mainCam) mainCam = FindObjectOfType<Camera>();
         playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
         playerEffects = FindObjectOfType<PlayerEffectsHandler>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
@@ -245,6 +248,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
     {
+        rb.velocity = new Vector3(0,0,0);
         if(toolCooldown) yield break;
         toolCooldown = true;
         yield return new WaitForSeconds(time);

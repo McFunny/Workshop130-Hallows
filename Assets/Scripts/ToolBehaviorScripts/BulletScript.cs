@@ -30,7 +30,7 @@ public class BulletScript : MonoBehaviour
 
         if(other.gameObject.layer == 9)
         {
-            var creature = other.GetComponent<CreatureBehaviorScript>();
+            var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null)
             {
                 creature.TakeDamage(25);

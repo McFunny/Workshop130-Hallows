@@ -29,7 +29,7 @@ public class FarmLand : StructureBehaviorScript
 
     private NutrientStorage nutrients;
 
-    public VisualEffect growth, growthComplete;
+    public VisualEffect growth, growthComplete, waterSplash, ichorSplash;
     // Start is called before the first frame update
     void Awake()
     {
@@ -57,6 +57,9 @@ public class FarmLand : StructureBehaviorScript
             growthStage = Random.Range(0, crop.growthStages);
             growthStage++;
         }
+
+        waterSplash.Stop();
+        ichorSplash.Stop();
 
         SpriteChange();
     }
@@ -168,6 +171,8 @@ public class FarmLand : StructureBehaviorScript
             nutrients.waterLevel = 10;
             SpriteChange();
             success = true;
+
+            waterSplash.Play();
         }
     }
 

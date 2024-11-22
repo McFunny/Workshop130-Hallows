@@ -17,6 +17,8 @@ public class InventoryUIController : MonoBehaviour
     [SerializeField] private GameObject firstObject;
     ControlManager controlManager;
     EventSystem eventSystem;
+
+    MouseItemData mouseData;
     private void Awake()
     {
         readyToPress = true;
@@ -26,6 +28,8 @@ public class InventoryUIController : MonoBehaviour
         inventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
         
         controlManager = FindFirstObjectByType<ControlManager>();
+
+        mouseData = FindFirstObjectByType<MouseItemData>();
     }
 
     void Start()
@@ -60,10 +64,12 @@ public class InventoryUIController : MonoBehaviour
 
     private void OpenInventory(InputAction.CallbackContext obj)
     {
-        print("Pressed");
+        //print("Pressed");
+        if(mouseData && mouseData.IsHoldingItem()) return;
+
         if(!PlayerMovement.accessingInventory)
         {
-            eventSystem.SetSelectedGameObject(firstObject);
+            if(ControlManager.isController) eventSystem.SetSelectedGameObject(firstObject);
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
             return;

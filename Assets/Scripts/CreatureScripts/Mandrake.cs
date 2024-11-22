@@ -21,6 +21,8 @@ public class Mandrake : CreatureBehaviorScript
     public float timeBeforeLeavingFarm;
     private float savedTime;
 
+    Vector3 despawnPos;
+
 
     public enum CreatureState
     {
@@ -45,11 +47,14 @@ public class Mandrake : CreatureBehaviorScript
         tileMap = FindObjectOfType<Tilemap>();
         savedTime = timeBeforeLeavingFarm;
 
+        int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
+        despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
+
     }
 
     private void Update()
     {
-        if(currentState == CreatureState.Die) return;
+        if(currentState == CreatureState.Die || currentState == CreatureState.Trapped) return;
         if(currentState == CreatureState.WakeUp)
         {
             CheckState(currentState);
@@ -239,20 +244,23 @@ public class Mandrake : CreatureBehaviorScript
         isMoving = false;
     }
 
+    public override void OnStun(float duration)
+    {
+        StartCoroutine(Stun(duration));
+        agent.destination = transform.position;
+        anim.SetBool("IsRunning", false);
+    }
+
+    IEnumerator Stun(float duration)
+    {
+        currentState = CreatureState.Trapped;
+        yield return new WaitForSeconds(duration);
+        currentState = CreatureState.Wander;
+    }
+
     private void LeaveFarm()
     {
-        //if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
-        //{
-        //    Destroy(this.gameObject);
-        //}
-        if (!hasTarget)
-        {
-            hasTarget = true;
-            Vector3 fleeDirection = (transform.position - player.position).normalized;
-            Vector3 newDestination = transform.position + fleeDirection * fleeDistance *5;
-
-            agent.SetDestination(newDestination);
-        }
+        agent.SetDestination(despawnPos);
     }
 
     public override void OnDeath()
