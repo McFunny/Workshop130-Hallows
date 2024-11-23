@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEditor.Rendering;
+using UnityEngine.InputSystem;
+using System;
 
 public class UICropStats : MonoBehaviour
 {
@@ -18,15 +19,21 @@ public class UICropStats : MonoBehaviour
     string growthString;
     public float wlHigh, wlMedium; //Water Level Values
     public float nHigh, nMedium;
-    [SerializeField] private bool isDetailed, isActive;
+    public static bool isDetailed; 
+    [SerializeField] private bool isActive;
 
 
     public Image gloamBG, terraBG, ichorBG;
     public Image gloamBGD, terraBGD, ichorBGD;
     public Image gloamArrow, terraArrow, ichorArrow, waterArrow;
-    public Color c_default, c_rising, c_lowering;
+    public Color c_default, c_rising, c_lowering, c_transparent;
 
-    // Start is called before the first frame update
+    ControlManager controlManager;
+
+    void Awake()
+    {
+        controlManager = FindFirstObjectByType<ControlManager>();
+    }
     void Start()
     {
         growthStageNumberD.text = "";
@@ -35,18 +42,20 @@ public class UICropStats : MonoBehaviour
         StartCoroutine(CheckTimer());
     }
 
+    private void OnEnable()
+    {
+        controlManager.moreInfo.action.started += MoreInfo;
+        controlManager.moreInfo.action.canceled += LessInfo;  
+    }
+    private void OnDisable()
+    {
+        controlManager.moreInfo.action.started -= MoreInfo; 
+        controlManager.moreInfo.action.canceled -= LessInfo;  
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButton("Tab"))
-        {
-            isDetailed = true;
-        }
-        else
-        {
-            isDetailed = false;
-        }
-
         if(isDetailed && isActive)
         {
             cropStatsObjectD.SetActive(true);
@@ -68,6 +77,15 @@ public class UICropStats : MonoBehaviour
             growthStageTextD.SetActive(false);
             growthStageText.SetActive(false);
         }
+    }
+    
+    private void MoreInfo(InputAction.CallbackContext obj)
+    {
+        isDetailed = true;
+    }
+    private void LessInfo(InputAction.CallbackContext obj)
+    {
+        isDetailed = false;
     }
 
     IEnumerator CheckTimer()
@@ -147,7 +165,7 @@ public class UICropStats : MonoBehaviour
                 gloamAmountD.text = "Low";
                 gloamAmount.text = "Low";
             }
-            gloamNumber.text = tileNutrients.gloamLevel.ToString() + "/10";
+            gloamNumber.text = Math.Round(tileNutrients.gloamLevel, 2, MidpointRounding.AwayFromZero).ToString() + "/10";
 
             //Terra Level Check
             if(tileNutrients.terraLevel >= nHigh)
@@ -171,7 +189,7 @@ public class UICropStats : MonoBehaviour
                 terraAmountD.text = "Low";
                 terraAmount.text = "Low";
             }
-            terraNumber.text = tileNutrients.terraLevel.ToString() + "/10";
+            terraNumber.text = Math.Round(tileNutrients.terraLevel, 2, MidpointRounding.AwayFromZero).ToString() + "/10";
 
             //Ichor Level Check idk if it's actually called ichor but that's what it says in the structure manager script so that's what I'm going with
             if(tileNutrients.ichorLevel >= nHigh)
@@ -194,7 +212,7 @@ public class UICropStats : MonoBehaviour
                 ichorAmountD.text = "Low";
                 ichorAmount.text = "Low";
             }
-            ichorNumber.text = tileNutrients.ichorLevel.ToString() + "/10";
+            ichorNumber.text = Math.Round(tileNutrients.ichorLevel, 2, MidpointRounding.AwayFromZero).ToString() + "/10";
 
             //Water Level Check
             if(tileNutrients.waterLevel >= wlHigh)
@@ -234,10 +252,10 @@ public class UICropStats : MonoBehaviour
 
             if(!tile.crop)
             {
-                gloamArrow.color = c_default;
-                terraArrow.color = c_default;
-                ichorArrow.color = c_default;
-                //waterArrow.color = c_default;
+                gloamArrow.color = c_transparent;
+                terraArrow.color = c_transparent;
+                ichorArrow.color = c_transparent;
+                waterArrow.color = c_transparent;
                 gloamBGD.color = c_default;
                 terraBGD.color = c_default;
                 ichorBGD.color = c_default;
@@ -265,7 +283,7 @@ public class UICropStats : MonoBehaviour
             {
                 gloamBGD.color = c_default;
                 gloamBG.color = c_default;
-                gloamArrow.color = c_default;
+                gloamArrow.color = c_transparent;
                 gloamArrow.transform.rotation = Quaternion.Euler(0f,0f,0f);
             }
 
@@ -287,7 +305,7 @@ public class UICropStats : MonoBehaviour
             {
                 terraBGD.color = c_default;
                 terraBG.color = c_default;
-                terraArrow.color = c_default;
+                terraArrow.color = c_transparent;
                 terraArrow.transform.rotation = Quaternion.Euler(0f,0f,0f);
             }
 
@@ -309,7 +327,7 @@ public class UICropStats : MonoBehaviour
             {
                 ichorBGD.color = c_default;
                 ichorBG.color = c_default;
-                ichorArrow.color = c_default;
+                ichorArrow.color = c_transparent;
                 ichorArrow.transform.rotation = Quaternion.Euler(0f,0f,0f);
             }
     }

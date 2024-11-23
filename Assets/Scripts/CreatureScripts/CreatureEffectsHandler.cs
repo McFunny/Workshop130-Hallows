@@ -33,7 +33,7 @@ public class CreatureEffectsHandler : MonoBehaviour
 
     public void OnMove(float _volume)
     {
-        source.PlayOneShot(moveSound, _volume);
+        source.PlayOneShot(moveSound, 1);
     }
 
     public void Idle1()
@@ -71,6 +71,7 @@ public class CreatureEffectsHandler : MonoBehaviour
     public void OnDeath()
     {
         r = Random.Range(pitchMin,pitchMax);
+        if (!source) return;
         source.pitch = originalPitch + r;
         source.PlayOneShot(deathSound, volume);
         if(hitParticles != null) hitParticles.Play();

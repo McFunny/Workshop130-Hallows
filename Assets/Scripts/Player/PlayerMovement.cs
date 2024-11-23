@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -28,14 +29,31 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rb;
 
+    ControlManager controlManager;
+    private bool isSprinting;
 
-    private void Start()
+    void Awake()
     {
+        controlManager = FindFirstObjectByType<ControlManager>();
+    }
+    private void Start()
+    {  
+        isSprinting = false;
         savedMoveSpeed = moveSpeed;
         accessingInventory = false;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+    }
 
+    private void OnEnable()
+    {
+        controlManager.sprint.action.started += Sprint;
+        //controlManager.sprint.action.canceled += Sprint;
+    }
+    private void OnDisable()
+    {
+        controlManager.sprint.action.started -= Sprint;
+        //controlManager.sprint.action.canceled -= Sprint;
     }
 
     private void Update()
@@ -44,20 +62,23 @@ public class PlayerMovement : MonoBehaviour
         if (isStalled || isCodexOpen)
             return;
 
-        MyMovementInput();
+        //MyMovementInput();
         SpeedControl();
         rb.drag = groundDrag;
         GroundedCheck();
 
     }
 
-
-
     private void FixedUpdate()
     {
         if (isStalled || isCodexOpen)
             return;
         MovePlayer();
+    }
+
+    private void Sprint(InputAction.CallbackContext obj)
+    {
+        isSprinting = !isSprinting;
     }
 
     private void MyInput()
@@ -73,28 +94,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MyMovementInput()
-    {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
-
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !accessingInventory)
-        {
-            moveSpeed = sprintSpeed;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift) && !accessingInventory)
-        {
-            moveSpeed = savedMoveSpeed;
-        }
-
-    }
-
 
     private void MovePlayer()
     {
         // calculate movement direction
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        Vector2 move = controlManager.movement.action.ReadValue<Vector2>();
+        moveDirection = orientation.forward * move.y + orientation.right * move.x;
 
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
@@ -102,6 +107,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
+        if(isSprinting){moveSpeed = sprintSpeed;}
+        else{moveSpeed = savedMoveSpeed;}
+
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         // limit velocity if needed

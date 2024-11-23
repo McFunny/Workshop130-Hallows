@@ -26,7 +26,7 @@ public class AmbientAudioManager : MonoBehaviour
             float trackCooldown = Random.Range(2f, 15f);
             yield return new WaitForSecondsRealtime(trackCooldown);
             float r = Random.Range(0,2f);
-            if(TimeManager.currentHour < 6 && TimeManager.currentHour > 20)
+            if(TimeManager.Instance.currentHour < 6 && TimeManager.Instance.currentHour > 20)
             {
                 ambienceSource.clip = nightAmbience[Random.Range(0, nightAmbience.Length)];
             }
@@ -54,7 +54,7 @@ public class AmbientAudioManager : MonoBehaviour
 
     void HourUpdate()
     {
-        if(TimeManager.currentHour == 8)
+        if(TimeManager.Instance.currentHour == 8)
         {
             ambienceSource.PlayOneShot(bellTower);
         }

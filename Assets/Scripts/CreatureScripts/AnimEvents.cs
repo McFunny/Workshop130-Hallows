@@ -8,6 +8,8 @@ public class AnimEvents : MonoBehaviour
     public delegate void ColliderChange(bool b);
     public event FloatChange OnFloatChange;
     public event ColliderChange OnColliderChange;
+
+    public CreatureBehaviorScript creatureScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,5 +31,10 @@ public class AnimEvents : MonoBehaviour
     {
         bool value = b.ToLower() == "true";
         OnColliderChange?.Invoke(value);
+    }
+
+    public void FinishedDying()
+    {
+        if (creatureScript) creatureScript.canCorpseBreak = true;
     }
 }

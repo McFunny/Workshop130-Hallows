@@ -9,18 +9,18 @@ public class MandrakeCropBehavior : CropBehavior
     public override void OnHour(FarmLand tile)
     {
         //BUG WHERE IN BUILD, THE MANDRAKE LEAVES IMMEDIATLY WHEN PLANTED
-        Debug.Log(TimeManager.isDay);
-        if(TimeManager.isDay == false && tile.crop.growthStages == tile.growthStage)
+        Debug.Log(TimeManager.Instance.isDay);
+        if(TimeManager.Instance.isDay == false && tile.crop.growthStages == tile.growthStage)
         {
             float r = Random.Range(0, 4);
             float probability = -1;
-            if(TimeManager.currentHour > 20)
+            if(TimeManager.Instance.currentHour > 20)
             {
                 probability = 1;
             }
-            else if (TimeManager.currentHour != 20)
+            else if (TimeManager.Instance.currentHour != 20)
             {
-                probability = TimeManager.currentHour + 1;
+                probability = TimeManager.Instance.currentHour + 1;
             }
             //if(r <= probability)
             //{

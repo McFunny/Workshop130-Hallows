@@ -16,6 +16,8 @@ public class FeralHareTest : CreatureBehaviorScript
     bool isStunned = false;
     float eatingTimeLeft = 5f; // how many seconds does it take to eat a crop
 
+    Vector3 despawnPos;
+
     public enum CreatureState
     {
         Wander,
@@ -34,6 +36,7 @@ public class FeralHareTest : CreatureBehaviorScript
         base.Start();
         currentState = CreatureState.Wander;
         StartCoroutine(CropCheck());
+        despawnPos = NightSpawningManager.Instance.despawnPositions[Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length)].position;
     }
 
     // Update is called once per frame
@@ -172,6 +175,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         base.OnDeath();
         anim.SetTrigger("IsDead");
+        rb.isKinematic = true;
     }
 
     // CropCheck Coroutine to search for crops periodically
@@ -207,6 +211,10 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public void Hop(Vector3 destination)
     {
+        if(TimeManager.Instance.isDay)
+        {
+            destination = despawnPos;
+        }
         // hare will jump toward a random direction using physics, using rb.addforce to a random vector3 position in addition to a vector3.up force
         Vector3 jumpDirection = (transform.position - destination).normalized;
         jumpDirection *= -1;

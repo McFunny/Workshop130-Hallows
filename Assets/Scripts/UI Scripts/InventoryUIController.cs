@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class InventoryUIController : MonoBehaviour
 {
@@ -10,9 +13,12 @@ public class InventoryUIController : MonoBehaviour
     PlayerInventoryHolder inventoryHolder;
 
     private bool isBackpackOpen = false;  
- 
     public bool readyToPress;
+    [SerializeField] private GameObject firstObject;
+    ControlManager controlManager;
+    EventSystem eventSystem;
 
+    MouseItemData mouseData;
     private void Awake()
     {
         readyToPress = true;
@@ -21,7 +27,9 @@ public class InventoryUIController : MonoBehaviour
 
         inventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
         
+        controlManager = FindFirstObjectByType<ControlManager>();
 
+        mouseData = FindFirstObjectByType<MouseItemData>();
     }
 
     void Start()
@@ -29,52 +37,84 @@ public class InventoryUIController : MonoBehaviour
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
         CloseBackpack();
         readyToPress = true;
+        eventSystem = EventSystem.current;
     }
 
     private void OnEnable()
     {
         InventoryHolder.OnDynamicInventoryDisplayRequested += DisplayInventory;
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested += DisplayPlayerBackpack;
+        controlManager.openInventory.action.started += OpenInventory;
+        controlManager.closeInventory.action.started += CloseInput;
     }
 
     private void OnDisable()
     {
         InventoryHolder.OnDynamicInventoryDisplayRequested -= DisplayInventory;
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested -= DisplayPlayerBackpack;
+        controlManager.openInventory.action.started -= OpenInventory;
+        controlManager.closeInventory.action.started -= CloseInput;
     }
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            readyToPress = true;
-        }
+        
+        
+    }
 
-       
-        if (Input.GetKeyDown(KeyCode.E) && readyToPress)
+    private void OpenInventory(InputAction.CallbackContext obj)
+    {
+        //print("Pressed");
+        if(mouseData && mouseData.IsHoldingItem()) return;
+
+        if(!PlayerMovement.accessingInventory)
         {
-            if(!PlayerMovement.accessingInventory)
-            {
-                PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
-                return;
-            }
-            
-            if (chestPanel.gameObject.activeInHierarchy)
-            {
-                CloseInventory();
-            }
-            else if (isBackpackOpen)
-            {
-                CloseBackpack();
-                //print("Closing backpack");
-            }
+            if(ControlManager.isController) eventSystem.SetSelectedGameObject(firstObject);
+            PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
+            return;
         }
         
+        if (chestPanel.gameObject.activeInHierarchy)
+        {
+            eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            eventSystem.SetSelectedGameObject(null);
+            CloseInventory();
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+        }
+        else if (isBackpackOpen)
+        {
+            if(eventSystem.currentSelectedGameObject) eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            eventSystem.SetSelectedGameObject(null);
+            CloseBackpack();
+            print("Closing backpack");
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+        }
+    }
+
+    private void CloseInput(InputAction.CallbackContext obj)
+    {
+        if (chestPanel.gameObject.activeInHierarchy)
+        {
+            eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            eventSystem.SetSelectedGameObject(null);
+            CloseInventory();
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+        }
+        else if (isBackpackOpen)
+        {
+            eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            eventSystem.SetSelectedGameObject(null);
+            CloseBackpack();
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+            print("Closing backpack");
+        }
     }
 
     void DisplayInventory(InventorySystem invToDisplay)
     {
         //Chest Inventory
+        eventSystem.SetSelectedGameObject(firstObject);
         PlayerMovement.accessingInventory = true;
         chestPanel.gameObject.SetActive(true);
         playerBackpackPanel.gameObject.SetActive(true);
@@ -103,7 +143,6 @@ public class InventoryUIController : MonoBehaviour
         chestPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
-
         isBackpackOpen = false; 
     }
 

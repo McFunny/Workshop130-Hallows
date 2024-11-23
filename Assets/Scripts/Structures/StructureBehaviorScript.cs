@@ -49,6 +49,8 @@ public class StructureBehaviorScript : MonoBehaviour
     public virtual void HourPassed(){}
     public virtual void OnLook(){} //populate the ui if it has things to show
 
+    public virtual void TimeLapse(int hours){}
+
     public void OnDestroy()
     {
         if(!gameObject.scene.isLoaded) return;
