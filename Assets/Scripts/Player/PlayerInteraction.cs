@@ -35,6 +35,8 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
 
+    bool gameOver;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
@@ -83,7 +85,18 @@ public class PlayerInteraction : MonoBehaviour
 
         DisplayHologramCheck();
 
+        if(stamina <= 0 && !gameOver)
+        {
+            gameOver = true;
+            StartCoroutine(GameOver());
+        }
+
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+
+        if(Input.GetKeyDown("o"))
+        {
+            stamina = 0;
+        }
     }
 
     private void UseHeldItem(InputAction.CallbackContext obj)
@@ -153,7 +166,7 @@ public class PlayerInteraction : MonoBehaviour
         RaycastHit hit;
 
 
-        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
+        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach + 8, interactionLayers))
         {
             var interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
@@ -270,6 +283,22 @@ public class PlayerInteraction : MonoBehaviour
         {
             p_item.RotateHologram();
         }
+    }
+
+    IEnumerator GameOver()
+    {
+        //work on a transition, maybe with the vignette
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSeconds(1.5f);
+        PlayerMovement.restrictMovementTokens--;
+        FadeScreen.coverScreen = false;
+        TimeManager.Instance.GameOver();
+        if(currentMoney > 0) currentMoney = currentMoney/2;
+        transform.position = TimeManager.Instance.playerRespawn.position;
+        gameOver = false;
+        stamina = 100;
+
     }
     
 }

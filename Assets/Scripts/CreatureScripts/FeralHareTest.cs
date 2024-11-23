@@ -211,7 +211,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public void Hop(Vector3 destination)
     {
-        if(TimeManager.isDay)
+        if(TimeManager.Instance.isDay)
         {
             destination = despawnPos;
         }

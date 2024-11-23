@@ -62,7 +62,7 @@ public class Mandrake : CreatureBehaviorScript
         }
         if (timeBeforeLeavingFarm < 0)
         {
-            if(TimeManager.isDay) currentState = CreatureState.LeaveFarm;
+            if(TimeManager.Instance.isDay) currentState = CreatureState.LeaveFarm;
         }
         else timeBeforeLeavingFarm -= Time.deltaTime;
 
