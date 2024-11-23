@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
-
-
 
 [System.Serializable]
 public class Schedule
@@ -16,16 +13,15 @@ public class Schedule
 
 public class NPCMovement : MonoBehaviour
 {
-    NPCMovementManager npcMovementManager;
-
-    [SerializeField] private Transform currentDestination;
+    private NPCMovementManager npcMovementManager;
     private NavMeshAgent agent;
 
     private Schedule currentSchedule;
+    private Sublocation currentSublocation; // Track assigned sublocation
 
-    public bool isWorking;
-
+    public bool isWorking; // Determines if this NPC is actively working
     public List<Schedule> scheduleList = new List<Schedule>();
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -33,17 +29,46 @@ public class NPCMovement : MonoBehaviour
         npcMovementManager = FindObjectOfType<NPCMovementManager>();
     }
 
-
     public void CheckDestination()
     {
         foreach (Schedule schedule in scheduleList)
         {
-            if (schedule.time == TimeManager.currentHour)
+            if (schedule.time == TimeManager.Instance.currentHour)
             {
-                Debug.Log("This Ran");
                 currentSchedule = schedule;
-                currentDestination = npcMovementManager.GetDestination(schedule.Destination);
-                StartCoroutine(MoveToDestination(currentDestination));
+
+                
+                if (currentSublocation != null)
+                {
+                    ReleaseSublocation(currentSublocation); // makes sublocation available for other npcs
+                }
+
+               
+                bool isWorker = (schedule.Action == Action.Working); // determines if NPC is supposed to be working at that location
+
+                currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, isWorker); // gets sublocation for NPC to be at
+
+                if (currentSublocation != null) //claims sublocation and moves to it
+                {
+                    currentSublocation.isOccupied = true;
+                    currentSublocation.occupant = this;
+
+                    StartCoroutine(MoveToDestination(currentSublocation.transform));
+                }
+                else
+                {
+                    // fall back to main destination if no sublocations available
+                    Transform mainDestination = npcMovementManager.GetDestination(schedule.Destination);
+
+                    if (mainDestination != null)
+                    {
+                        StartCoroutine(MoveToDestination(mainDestination));
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"No available destination or sublocation for {schedule.Destination}");
+                    }
+                }
             }
         }
     }
@@ -62,33 +87,33 @@ public class NPCMovement : MonoBehaviour
             yield return null;
         }
 
-        if (currentSchedule.Action == Action.Working)
+        PerformAction(); //when npcs reaches place, their action will be called
+    }
+
+    void PerformAction()
+    {
+        switch (currentSchedule.Action)
         {
-            isWorking = true;
-        }
-        else
-        {
-            isWorking = false;
+            case Action.Working:
+                isWorking = true; // Set isWorking to true for working action
+                //Debug.Log($"{name} is now working at {currentSublocation?.name ?? currentSchedule.Destination.ToString()}");
+                break;
+
+            case Action.Walking:
+                isWorking = false;
+                //Debug.Log($"{name} is walking at {currentSchedule.Destination}");
+                break;
+
+            case Action.Idle:
+                isWorking = false;
+                //Debug.Log($"{name} is idling at {currentSublocation?.name ?? currentSchedule.Destination.ToString()}");
+                break;
         }
     }
 
-    void Update()
+    void ReleaseSublocation(Sublocation sublocation)
     {
-       /* if (currentDestination != null)
-        {
-            agent.destination = currentDestination.position;
-
-            if (currentSchedule.Action == Action.Working)
-            {
-                isWorking = true;
-            }
-            else
-            {
-                isWorking = false;
-            }
-        }*/
+        sublocation.isOccupied = false;
+        sublocation.occupant = null;
     }
 }
- 
-
-

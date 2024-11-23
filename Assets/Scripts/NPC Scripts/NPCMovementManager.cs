@@ -9,40 +9,69 @@ public enum Destination
     ShopStall2,
     ShopStall3,
     ShopStall4,
+    Blacksmith,
+    BellTower,
+    Windmill,
+    FanaticHouse,
+    LumberjackHouse,
+    BotanistHouse,
+    BarkeepHouse,
+    ApothecaryHouse,
+    GravediggerHouse,
+    Fountain,
+    Spring
 }
 
 public enum Action
 {
-   Working,
-   Walking,
-   Idle
+    Working,
+    Walking,
+    Idle
 }
+
+[System.Serializable]
+public class Sublocation
+{
+    public string name; //name of sublocation
+    public Transform transform; 
+    public bool isForWorkers; // is this spot for workers 
+    public bool isOccupied; 
+    public NPCMovement occupant; //The current NPC occupying the spot
+}
+
+[System.Serializable]
+public class DestinationData
+{
+    public Destination destination; // general destination
+    public Transform mainTransform; // main location for fallback
+    public List<Sublocation> sublocations = new List<Sublocation>(); // all of the sub locations per location
+}
+
 public class NPCMovementManager : MonoBehaviour
 {
-    [SerializeField] private Transform tavern;
-    [SerializeField] private Transform shopStall1;
-    [SerializeField] private Transform shopStall2;
-    [SerializeField] private Transform shopStall3;
-    [SerializeField] private Transform shopStall4;
-    
+    [SerializeField] private List<DestinationData> destinations = new List<DestinationData>();
 
+    
     public Transform GetDestination(Destination destination)
     {
-        switch (destination)
-        {
-            case Destination.Tavern:
-                return tavern;
-            case Destination.ShopStall1:
-                return shopStall1;
-            case Destination.ShopStall2:
-                return shopStall2;
-            case Destination.ShopStall3:
-                return shopStall3;
-            case Destination.ShopStall4:
-                return shopStall4;
+        DestinationData destinationData = destinations.Find(d => d.destination == destination);
+        return destinationData?.mainTransform;
+    }
 
-            default:
-                return tavern;
-        }
+    // Get a random sublocation based on availability and NPC type
+    public Sublocation GetRandomSublocation(Destination destination, bool isWorker)
+    {
+        DestinationData destinationData = destinations.Find(d => d.destination == destination);
+
+        if (destinationData == null) return null;
+
+        // Filter for available sublocations
+        List<Sublocation> availableSublocations = destinationData.sublocations.FindAll(s =>
+            s.isForWorkers == isWorker && !s.isOccupied);
+
+        if (availableSublocations.Count == 0) return null;
+
+        // Pick a random available sublocation
+        return availableSublocations[Random.Range(0, availableSublocations.Count)];
     }
 }
