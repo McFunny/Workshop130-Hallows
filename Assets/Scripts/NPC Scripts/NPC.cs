@@ -19,6 +19,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
     [HideInInspector] public StoreItem lastInteractedStoreItem;
     [HideInInspector] public bool hasSpokeToday, hasEatenToday = false;
 
+    [HideInInspector] public bool hasBeenFed = false;
+
 
     public void EndInteraction()
     {
@@ -36,4 +38,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual void EmptyShopItem(){}
     
     public virtual void PlayerLeftRadius(){}
+
+    public virtual void GivePlayerItem(int id, int amount){}
+
+    public virtual void OnConvoEnd(){}
 }

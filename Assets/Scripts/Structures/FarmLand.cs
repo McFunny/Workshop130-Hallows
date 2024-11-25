@@ -135,12 +135,16 @@ public class FarmLand : StructureBehaviorScript
                 else
                 {
                     GameObject droppedItem;
+
+                    int r = Random.Range(crop.cropYieldAmount - crop.cropYieldVariance, crop.cropYieldAmount + crop.cropYieldVariance);
+                    if(r == 0) r = 1;
                     for (int i = 0; i < crop.cropYieldAmount; i++)
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
                         droppedItem.transform.position = transform.position;
                     }
-                    int r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
+
+                    r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
                     if(r == 0) r = 1;
                     for (int i = 0; i < r; i++)
                     {

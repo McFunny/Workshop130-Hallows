@@ -5,12 +5,14 @@ using UnityEngine;
 public class NPCInteractRadius : MonoBehaviour
 {
     [SerializeField] private DialogueController dialogueController;
+    [SerializeField] private NPC npcScript;
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && dialogueController.currentTalker != null) 
         {
+            if(npcScript && dialogueController.currentTalker != npcScript) return; //to make sure walking npcs dont disable another conversation
             dialogueController.EndConversation();
-            if(dialogueController.currentTalker != null) dialogueController.currentTalker.PlayerLeftRadius();
+            dialogueController.currentTalker.PlayerLeftRadius();
             Debug.Log("dialogueEnded");
         }
     }

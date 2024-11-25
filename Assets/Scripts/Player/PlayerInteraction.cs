@@ -108,14 +108,23 @@ public class PlayerInteraction : MonoBehaviour
     private void OnInteractWithItem(InputAction.CallbackContext obj)
     {
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
-        if(ltCanPress == true) { StructureInteractionWithItem(); ltCanPress = false; }
+        if(!ControlManager.isController) StructureInteractionWithItem();
+        if(ltCanPress == true)
+        { 
+            StructureInteractionWithItem();
+            ltCanPress = false; 
+        }
         else ltCanPress = true;
     }
 
 
     private void InteractWithoutItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory)
+        {
+            if(DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
+            return;
+        }
         InteractWithObject();
     }
 
@@ -287,7 +296,6 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator GameOver()
     {
-        //work on a transition, maybe with the vignette
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         yield return new WaitForSeconds(1.5f);

@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueController: {fileID: 0}
+  npcScript: {fileID: 7426511987197169560}
 --- !u!1 &6537779363550398370
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,6 +208,7 @@ MonoBehaviour:
   lastInteractedStoreItem: {fileID: 0}
   hasSpokeToday: 0
   hasEatenToday: 0
+  hasBeenFed: 0
   anim: {fileID: 5286844319778880741}
   sellMultiplier: 1
   possibleSoldItems:
@@ -216,6 +218,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
   - {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
   - {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
+  - {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
+  - {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
   itemWeight:
   - 1
   - 0.1
