@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BearTrap : StructureBehaviorScript
 {
+    public InventoryItemData recoveredItem;
     public Transform topClamp, bottomClamp;
     //float topClampTarget, bottomClampTarget;
     float animationTimeLeft;
@@ -64,6 +65,24 @@ public class BearTrap : StructureBehaviorScript
         {
             StartCoroutine(Rearm());
         }
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+        if(type == ToolType.Shovel && isTriggered && !rearming)
+        {
+            StartCoroutine(DugUp());
+            success = true;
+        }
+    }
+
+    IEnumerator DugUp()
+    {
+        yield return  new WaitForSeconds(1);
+        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
+        droppedItem.transform.position = transform.position;
+        Destroy(this.gameObject);
     }
 
     IEnumerator SpringTrap(Collider victim)

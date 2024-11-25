@@ -18,7 +18,7 @@ public class BulletScript : MonoBehaviour
             var structure = other.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
-                structure.health -= 1;
+                structure.TakeDamage(2);
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Structure");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);

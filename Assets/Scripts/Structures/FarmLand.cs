@@ -349,6 +349,13 @@ public class FarmLand : StructureBehaviorScript
         }
     }
 
+    public void WaterCrops()
+    {
+        //for sprinkler
+        nutrients.waterLevel = 10;
+        SpriteChange();
+    }
+
     public NutrientStorage GetCropStats()
     {
         return nutrients;
