@@ -504,11 +504,11 @@ public class MistWalker : CreatureBehaviorScript
 
         anim.SetTrigger("IsAttacking");
 
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(1.5f); 
 
         attackingPlayer = false;
         currentState = CreatureState.WalkTowardsPlayer;
-        yield return new WaitForSeconds(2f); 
+        yield return new WaitForSeconds(0.2f); 
         coroutineRunning = false;
     }
 
