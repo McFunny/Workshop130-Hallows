@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class StructurePoolManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //currently should use this for spawning weeds and forgeables
 
-    // Update is called once per frame
-    void Update()
+    public static StructurePoolManager Instance;
+
+    public List<GameObject> itemPool = new List<GameObject>();
+    public GameObject itemPrefab;
+
+    void Awake()
     {
-        
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        //PopulateItemPool();
     }
 }
