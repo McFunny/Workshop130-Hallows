@@ -220,6 +220,8 @@ public class DialogueController : MonoBehaviour
 
         currentTalker.OnConvoEnd();
 
+        currentTalker = null;
+
         if(gameObject.activeSelf)
         {
             gameObject.SetActive(false);

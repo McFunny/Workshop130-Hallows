@@ -41,6 +41,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         stamina = maxStamina;
+        waterHeld = maxWaterHeld;
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
