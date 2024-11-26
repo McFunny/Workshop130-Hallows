@@ -21,6 +21,10 @@ public class WagonMerchantNPC : NPC, ITalkable
         shopUI = FindObjectOfType<WaypointScript>();
         RefreshStore();
         TimeManager.OnHourlyUpdate += HourlyUpdate;
+        for(int i = 0; i < storeItems.Length; i++)
+        {
+            storeItems[i].seller = this;
+        }
     }
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
