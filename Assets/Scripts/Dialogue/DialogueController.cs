@@ -65,7 +65,8 @@ public class DialogueController : MonoBehaviour
             currentPath = path;
             currentType = type;
             restartDialogue = false;
-            EndConversation();
+            paragraphs.Clear();
+            emotions.Clear();
             DisplayNextParagraph(dialogueText, currentPath, currentType);
             if(!interruptable) print("You just interrupted dialogue");
             return;
@@ -79,7 +80,6 @@ public class DialogueController : MonoBehaviour
             }
             else
             {
-                currentTalker = null;
                 EndConversation();
                 return;
             }
@@ -220,6 +220,8 @@ public class DialogueController : MonoBehaviour
         }
 
         currentTalker.OnConvoEnd();
+
+        currentTalker = null;
 
         if(gameObject.activeSelf)
         {
