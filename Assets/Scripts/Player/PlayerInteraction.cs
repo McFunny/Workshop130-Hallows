@@ -41,6 +41,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         stamina = maxStamina;
+        waterHeld = maxWaterHeld;
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -109,12 +110,15 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
         if(!ControlManager.isController) StructureInteractionWithItem();
-        if(ltCanPress == true)
-        { 
-            StructureInteractionWithItem();
-            ltCanPress = false; 
+        else
+        {
+            if(ltCanPress == true)
+            { 
+                StructureInteractionWithItem();
+                ltCanPress = false; 
+            }
+            else ltCanPress = true;
         }
-        else ltCanPress = true;
     }
 
 
@@ -298,10 +302,11 @@ public class PlayerInteraction : MonoBehaviour
     {
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
+        TimeManager.Instance.GameOver();
+        yield return new WaitForSeconds(3f);
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
-        TimeManager.Instance.GameOver();
         if(currentMoney > 0) currentMoney = currentMoney/2;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;

@@ -122,6 +122,7 @@ public class TimeManager : MonoBehaviour
 
     IEnumerator SkyColorLerp()
     {
+        print("Changing Light");
         float newValue;
         Color lerpedColor;
         do

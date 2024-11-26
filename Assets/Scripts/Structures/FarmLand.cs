@@ -48,6 +48,7 @@ public class FarmLand : StructureBehaviorScript
         else if(crop.harvestableGrowthStages.Contains(growthStage))
         {
             harvestable = true;
+            if(growthComplete) growthComplete.Play();
         }
         playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
 
@@ -63,6 +64,7 @@ public class FarmLand : StructureBehaviorScript
         ichorSplash.Stop();
 
         SpriteChange();
+
     }
 
     // Update is called once per frame
@@ -204,6 +206,7 @@ public class FarmLand : StructureBehaviorScript
         {
             if(growthStage >= crop.growthStages)
             {
+                return;
                 //IT HAS REACHED MAX GROWTH STATE
 
                 //if(hoursSpent < crop.hoursPerStage * 3) return;
@@ -353,6 +356,7 @@ public class FarmLand : StructureBehaviorScript
     {
         //for sprinkler
         nutrients.waterLevel = 10;
+        waterSplash.Play();
         SpriteChange();
     }
 

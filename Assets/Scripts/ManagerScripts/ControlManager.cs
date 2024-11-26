@@ -20,10 +20,12 @@ public class ControlManager : MonoBehaviour
         if(currentDevice == "Gamepad")
         {
             isGamepad = true;
+            isController = true;
         }
         else
         {
             isGamepad = false;
+            isController = false;
         }
     }
 }

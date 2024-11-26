@@ -67,6 +67,10 @@ public class InventoryUIController : MonoBehaviour
         //print("Pressed");
         if(mouseData && mouseData.IsHoldingItem()) return;
 
+        if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
+
+        if(PlayerMovement.restrictMovementTokens > 0) return;
+
         if(!PlayerMovement.accessingInventory)
         {
             if(ControlManager.isController) eventSystem.SetSelectedGameObject(firstObject);
