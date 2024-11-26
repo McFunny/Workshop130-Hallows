@@ -79,6 +79,7 @@ public class DialogueController : MonoBehaviour
             }
             else
             {
+                currentTalker = null;
                 EndConversation();
                 return;
             }
@@ -219,8 +220,6 @@ public class DialogueController : MonoBehaviour
         }
 
         currentTalker.OnConvoEnd();
-
-        currentTalker = null;
 
         if(gameObject.activeSelf)
         {

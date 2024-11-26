@@ -13,6 +13,7 @@ public class NPCInteractRadius : MonoBehaviour
             if(npcScript && dialogueController.currentTalker != npcScript) return; //to make sure walking npcs dont disable another conversation
             dialogueController.EndConversation();
             dialogueController.currentTalker.PlayerLeftRadius();
+            dialogueController.currentTalker = null;
             Debug.Log("dialogueEnded");
         }
     }
