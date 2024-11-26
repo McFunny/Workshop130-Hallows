@@ -16,7 +16,7 @@ public class ControlManager : MonoBehaviour
     void Update()
     {
         currentDevice = GetComponent<PlayerInput>().currentControlScheme;
-        print(currentDevice);
+        //print(currentDevice);
         if(currentDevice == "Gamepad")
         {
             isGamepad = true;
