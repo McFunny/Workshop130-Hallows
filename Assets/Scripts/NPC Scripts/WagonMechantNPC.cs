@@ -166,10 +166,11 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(lastInteractedStoreItem)
         {
             //lastInteractedStoreItem.arrowObject.SetActive(false);
-            shopUI.shopImgObj.SetActive(false);
+            //shopUI.shopImgObj.SetActive(false);
             lastInteractedStoreItem = null;
         }
-        if(lastSeenItem) lastSeenItem = null;
+        if(lastSeenItem) lastSeenItem = null; 
+        shopUI.shopImgObj.SetActive(false);
     }
 
     public void HourlyUpdate()
