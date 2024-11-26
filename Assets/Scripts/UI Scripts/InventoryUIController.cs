@@ -71,7 +71,7 @@ public class InventoryUIController : MonoBehaviour
 
         if(!PlayerMovement.accessingInventory)
         {
-            if(ControlManager.isController) eventSystem.SetSelectedGameObject(firstObject);
+            if(ControlManager.isGamepad) eventSystem.SetSelectedGameObject(firstObject);
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
             return;

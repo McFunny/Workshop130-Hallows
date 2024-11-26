@@ -109,7 +109,7 @@ public class PlayerInteraction : MonoBehaviour
     private void OnInteractWithItem(InputAction.CallbackContext obj)
     {
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
-        if(!ControlManager.isController) StructureInteractionWithItem();
+        if(!ControlManager.isGamepad) StructureInteractionWithItem();
         if(ltCanPress == true)
         { 
             StructureInteractionWithItem();
