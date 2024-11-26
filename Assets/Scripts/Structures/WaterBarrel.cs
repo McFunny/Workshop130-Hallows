@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WaterBarrel : StructureBehaviorScript
 {
+    public InventoryItemData recoveredItem;
     public int waterLevel = 3; //max is 3
 
     public Transform waterTexture;
@@ -38,7 +39,8 @@ public class WaterBarrel : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            //Damage
+            StartCoroutine(DugUp());
+            success = true;
         }
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
         {
@@ -47,6 +49,14 @@ public class WaterBarrel : StructureBehaviorScript
             WaterLevelChange();
             success = true;
         }
+    }
+
+    IEnumerator DugUp()
+    {
+        yield return  new WaitForSeconds(1);
+        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
+        droppedItem.transform.position = transform.position;
+        Destroy(this.gameObject);
     }
 
     public void WaterLevelChange()

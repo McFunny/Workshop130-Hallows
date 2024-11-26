@@ -104,7 +104,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.38
+  m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5352617037664905929
 MonoBehaviour:
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueController: {fileID: 0}
+  npcScript: {fileID: 7426511987197169560}
 --- !u!1 &6537779363550398370
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,7 +182,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 5.46, y: 6.85, z: 7.33}
-  m_Center: {x: 0, y: 2.79, z: 0}
+  m_Center: {x: 1.52, y: 2.79, z: 0}
 --- !u!114 &7426511987197169560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +208,7 @@ MonoBehaviour:
   lastInteractedStoreItem: {fileID: 0}
   hasSpokeToday: 0
   hasEatenToday: 0
+  hasBeenFed: 0
   anim: {fileID: 5286844319778880741}
   sellMultiplier: 1
   possibleSoldItems:
@@ -216,6 +218,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
   - {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
   - {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
+  - {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
+  - {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
   itemWeight:
   - 1
   - 0.1
@@ -223,6 +227,8 @@ MonoBehaviour:
   - 0.25
   - 0.25
   - 1
+  - 1
+  - 0.25
   storeItems:
   - {fileID: 7136066315645887399}
   - {fileID: 8212830714044354903}

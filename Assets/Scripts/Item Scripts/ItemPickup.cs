@@ -32,13 +32,15 @@ public class ItemPickup : MonoBehaviour
         myCollider.radius = PickUpRadius;
 
         if(!r) r = GetComponent<SpriteRenderer>();
+
+        if(ItemData) RefreshItem(ItemData);
     }
 
    
 
     private void Start()
     {
-        SaveGameManager.data.activeItems.Add(id, itemSaveData);
+        //SaveGameManager.data.activeItems.Add(id, itemSaveData);
     }
 
     private void LoadGame(SaveData data)
@@ -88,7 +90,7 @@ public class ItemPickup : MonoBehaviour
 
         if (inventory.AddToInventory(ItemData, 1))
         {
-            SaveGameManager.data.collectedItems.Add(id);
+            //SaveGameManager.data.collectedItems.Add(id);
             FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
             gameObject.SetActive(false); // Make the item disappear
         }

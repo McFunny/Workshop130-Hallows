@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BearTrap : StructureBehaviorScript
 {
+    public InventoryItemData recoveredItem;
     public Transform topClamp, bottomClamp;
     //float topClampTarget, bottomClampTarget;
     float animationTimeLeft;
@@ -19,6 +20,8 @@ public class BearTrap : StructureBehaviorScript
 
     Vector3 startingAngleTop;
     Vector3 startingAngleBottom;
+
+    float stunTime = 5;
 
     // Start is called before the first frame update
     void Awake()
@@ -64,6 +67,24 @@ public class BearTrap : StructureBehaviorScript
         }
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+        if(type == ToolType.Shovel && isTriggered && !rearming)
+        {
+            StartCoroutine(DugUp());
+            success = true;
+        }
+    }
+
+    IEnumerator DugUp()
+    {
+        yield return  new WaitForSeconds(1);
+        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
+        droppedItem.transform.position = transform.position;
+        Destroy(this.gameObject);
+    }
+
     IEnumerator SpringTrap(Collider victim)
     {
         animationTimeLeft = 0.5f;
@@ -98,12 +119,14 @@ public class BearTrap : StructureBehaviorScript
             } 
             else
             {
-                CreatureBehaviorScript creature = victim.GetComponent<CreatureBehaviorScript>();
-                creature.isTrapped = true;
+                CreatureBehaviorScript creature = victim.GetComponentInParent<CreatureBehaviorScript>();
+                //creature.isTrapped = true;
                 if(creature.health > 75)
                 {
                     //stun and damage
                     creature.TakeDamage(25);
+                    creature.OnStun(stunTime);
+                    StartCoroutine(HoldCreature());
                 }
                 else
                 {
@@ -134,8 +157,18 @@ public class BearTrap : StructureBehaviorScript
         while(lerp < 1);
         topClamp.eulerAngles = startingAngleTop;
         bottomClamp.eulerAngles = startingAngleBottom;
+
+        yield return new WaitForSeconds(1f);
+        
         isTriggered = false;
         rearming = false;
+    }
+
+    IEnumerator HoldCreature()
+    {
+        rearming = true;
+        yield return new WaitForSeconds(stunTime);
+        StartCoroutine(Rearm());
     }
 
     void OnTriggerEnter(Collider other)

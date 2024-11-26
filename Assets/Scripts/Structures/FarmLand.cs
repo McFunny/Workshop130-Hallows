@@ -9,6 +9,7 @@ public class FarmLand : StructureBehaviorScript
     public InventoryItemData terraFert, gloamFert, ichorFert;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
+    public Collider finishedGrowingCollider;
 
     public MeshRenderer meshRenderer;
     public Material dry, wet, barren, barrenWet;
@@ -29,7 +30,7 @@ public class FarmLand : StructureBehaviorScript
 
     private NutrientStorage nutrients;
 
-    public VisualEffect growth, growthComplete;
+    public VisualEffect growth, growthComplete, waterSplash, ichorSplash;
     // Start is called before the first frame update
     void Awake()
     {
@@ -47,6 +48,7 @@ public class FarmLand : StructureBehaviorScript
         else if(crop.harvestableGrowthStages.Contains(growthStage))
         {
             harvestable = true;
+            if(growthComplete) growthComplete.Play();
         }
         playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
 
@@ -58,13 +60,21 @@ public class FarmLand : StructureBehaviorScript
             growthStage++;
         }
 
+        waterSplash.Stop();
+        ichorSplash.Stop();
+
         SpriteChange();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         base.Update();
+
+        if(((crop && growthStage >= crop.growthStages) || isWeed) && !finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = true;
+
+        if((!crop || growthStage < crop.growthStages) && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -127,12 +137,16 @@ public class FarmLand : StructureBehaviorScript
                 else
                 {
                     GameObject droppedItem;
+
+                    int r = Random.Range(crop.cropYieldAmount - crop.cropYieldVariance, crop.cropYieldAmount + crop.cropYieldVariance);
+                    if(r == 0) r = 1;
                     for (int i = 0; i < crop.cropYieldAmount; i++)
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
                         droppedItem.transform.position = transform.position;
                     }
-                    int r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
+
+                    r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
                     if(r == 0) r = 1;
                     for (int i = 0; i < r; i++)
                     {
@@ -168,6 +182,8 @@ public class FarmLand : StructureBehaviorScript
             nutrients.waterLevel = 10;
             SpriteChange();
             success = true;
+
+            waterSplash.Play();
         }
     }
 
@@ -190,6 +206,7 @@ public class FarmLand : StructureBehaviorScript
         {
             if(growthStage >= crop.growthStages)
             {
+                return;
                 //IT HAS REACHED MAX GROWTH STATE
 
                 //if(hoursSpent < crop.hoursPerStage * 3) return;
@@ -325,6 +342,22 @@ public class FarmLand : StructureBehaviorScript
         }
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         base.OnDestroy();
+    }
+
+    public override void TimeLapse(int hours)
+    {
+        for(int i = 0; i < hours; i++)
+        {
+            HourPassed();
+        }
+    }
+
+    public void WaterCrops()
+    {
+        //for sprinkler
+        nutrients.waterLevel = 10;
+        waterSplash.Play();
+        SpriteChange();
     }
 
     public NutrientStorage GetCropStats()

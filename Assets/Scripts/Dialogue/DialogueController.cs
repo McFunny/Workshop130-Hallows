@@ -19,6 +19,8 @@ public class DialogueController : MonoBehaviour
     private bool isTalking = false;
     private bool interruptable = true;
     public bool restartDialogue = false;
+    private bool freezePlayer = false;
+
     private string p;
 
     private Emotion e;
@@ -29,6 +31,10 @@ public class DialogueController : MonoBehaviour
     public NPC currentTalker;
     private int currentPath = -1;
     private PathType currentType;
+    private InventoryItemData currentItemToGive;
+    private int amountToGive;
+
+    PlayerEffectsHandler playerEffects;
 
     void Awake()
     {
@@ -41,11 +47,13 @@ public class DialogueController : MonoBehaviour
         {
             Instance = this;
         }
+
+        playerEffects = FindObjectOfType<PlayerEffectsHandler>();
     }
 
     public void AdvanceDialogue()
     {
-        if(IsTalking() == true && currentTalker && currentPath != -1) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
+        if(IsTalking() == true && currentTalker) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
     }
 
     public void DisplayNextParagraph(DialogueText dialogueText, int path, PathType type)
@@ -204,6 +212,16 @@ public class DialogueController : MonoBehaviour
         conversationEnded = false;
         isTalking = false;
 
+        if(freezePlayer)
+        {
+            freezePlayer = false;
+            PlayerMovement.restrictMovementTokens--;
+        }
+
+        currentTalker.OnConvoEnd();
+
+        currentTalker = null;
+
         if(gameObject.activeSelf)
         {
             gameObject.SetActive(false);
@@ -263,6 +281,34 @@ public class DialogueController : MonoBehaviour
             p = p.Replace("{itemBought}", $"{""}");
             PlayerBoughtItem();
         }
+
+        if(p.Contains("{freezePlayer}"))
+        {
+            p = p.Replace("{freezePlayer}", $"{""}");
+            if(!freezePlayer)
+            {
+                freezePlayer = true;
+                PlayerMovement.restrictMovementTokens++;
+                playerEffects.StartCoroutine(playerEffects.Focus());
+            }
+        }
+
+        if(p.Contains("{giveGift}"))
+        {
+            p = p.Replace("{giveGift}", $"{""}");
+            for(int i = 0; i < amountToGive; i++)
+            {
+                if(PlayerInventoryHolder.Instance.AddToInventory(currentItemToGive, 1) == false)
+                {
+                    if(currentItemToGive.isKeyItem)
+                    {
+                        //put this in a mailbox or smth
+                    }
+                    GameObject droppedItem = ItemPoolManager.Instance.GrabItem(currentItemToGive);
+                    droppedItem.transform.position = transform.position;
+                }
+            }
+        }
         
     }
 
@@ -270,6 +316,12 @@ public class DialogueController : MonoBehaviour
     {
         //pointless function now, text is interruptable only when finished talking
         interruptable = b;
+    }
+
+    public void SetItem(InventoryItemData item, int amount)
+    {
+        currentItemToGive = item;
+        amountToGive = amount;
     }
 
     public int GetPath()

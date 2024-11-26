@@ -89,6 +89,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     } //Triggers creature specific effects
 
     public virtual void OnSpawn(){}
+    public virtual void OnStun(float duration){}
 
 
     

@@ -64,6 +64,12 @@ public class MouseItemData : MonoBehaviour
 
     }
 
+    public bool IsHoldingItem()
+    {
+        if(assignedInventorySlot.ItemData) return true;
+        else return false;
+    }
+
 
 
 }

@@ -33,7 +33,7 @@ public class CreatureEffectsHandler : MonoBehaviour
 
     public void OnMove(float _volume)
     {
-        source.PlayOneShot(moveSound, _volume);
+        source.PlayOneShot(moveSound, 1);
     }
 
     public void Idle1()

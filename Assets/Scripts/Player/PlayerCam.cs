@@ -13,7 +13,7 @@ public class PlayerCam : MonoBehaviour
     float yRotation;
     ControlManager controlManager;
 
-    const float contScalar = 4;
+    const float contScalar = 5;
 
     void Awake()
     {

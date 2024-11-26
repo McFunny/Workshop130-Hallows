@@ -11,6 +11,9 @@ public class StructureBehaviorScript : MonoBehaviour
     public static event StructuresUpdated OnStructuresUpdated; //Unity Event that will notify enemies when structures are updated
     //Should this be static Abner?
 
+    public delegate void Damaged();
+    [HideInInspector] public event Damaged OnDamage; //Unity Event that will notify enemies when structures are updated
+
     public StructureObject structData;
 
     public float health = 5;
@@ -48,6 +51,14 @@ public class StructureBehaviorScript : MonoBehaviour
     }
     public virtual void HourPassed(){}
     public virtual void OnLook(){} //populate the ui if it has things to show
+
+    public virtual void TimeLapse(int hours){}
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        OnDamage?.Invoke();
+    }
 
     public void OnDestroy()
     {
