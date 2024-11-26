@@ -11,6 +11,8 @@ public class StructurePoolManager : MonoBehaviour
     public List<GameObject> forageablePool = new List<GameObject>();
     public GameObject forageablePrefab;
 
+    public Transform[] forageableSpots;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -28,9 +30,7 @@ public class StructurePoolManager : MonoBehaviour
 
     void PopulateForageablePool()
     {
-        //
-
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 15; i++)
         {
             GameObject newStructure = Instantiate(forageablePrefab);
             forageablePool.Add(newStructure);
@@ -49,11 +49,10 @@ public class StructurePoolManager : MonoBehaviour
                 return structure;
             }
         }
-
-        //No available structure, must make a new one
-        GameObject newStructure = Instantiate(forageablePrefab);
-        forageablePool.Add(newStructure);
-        newStructure.GetComponent<Forgeable>().Refresh();
-        return newStructure;
+        
+        int r = Random.Range(0, forageablePool.Count);
+        forageablePool[r].SetActive(true);
+        forageablePool[r].GetComponent<Forgeable>().Refresh();
+        return forageablePool[r];
     }
 }

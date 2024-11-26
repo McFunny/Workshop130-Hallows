@@ -17,21 +17,13 @@ public class Forgeable : StructureBehaviorScript
     // Start is called before the first frame update
     void Awake()
     {
-        base.Awake();
-
-        wealthValue = 0;
+        audioHandler = GetComponent<StructureAudioHandler>();
     }
 
     void Start()
     {
         SpriteChange();
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        base.Update();
     }
 
     public override void StructureInteraction()
@@ -53,14 +45,24 @@ public class Forgeable : StructureBehaviorScript
                 droppedItem = ItemPoolManager.Instance.GrabItem(yarrow);
                 droppedItem.transform.position = transform.position;
             }
+            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
 
-            SpriteChange();
+            gameObject.SetActive(false);
         }
     }
 
     public void Refresh()
     {
-        //
+        int r = Random.Range(0,2);
+        if(r == 0)
+        {
+            type = ForageType.Aloe;
+        }
+        else
+        {
+            type = ForageType.Yarrow;
+        }
+        SpriteChange();
     }
 
     public override void ToolInteraction(ToolType type, out bool success)
@@ -75,7 +77,11 @@ public class Forgeable : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        
+        if(TimeManager.Instance.currentHour == 5)
+        {
+            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+            gameObject.SetActive(false);
+        }
     }
 
     void SpriteChange()
@@ -99,12 +105,6 @@ public class Forgeable : StructureBehaviorScript
         StructureInteraction();
     }
 
-    void OnDestroy()
-    {
-        if (!gameObject.scene.isLoaded) return; 
-        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
-        base.OnDestroy();
-    }
 }
 
 public enum ForageType

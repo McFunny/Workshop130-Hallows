@@ -37,6 +37,7 @@ public class StructureManager : MonoBehaviour
         //load in all the saved data, such as the nutrient storages and alltiles list
         PopulateWeeds(10, 20); //Only do this when a new game has started. Implement weeds spawning in over time
         PopulateTrees(8, 12);
+        PopulateForageables(1, 2);
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
@@ -44,6 +45,7 @@ public class StructureManager : MonoBehaviour
     {
         print("AllStructs: " + allStructs.Count);
         PopulateWeeds(-9, 3);
+        if(TimeManager.Instance.currentHour == 6) PopulateForageables(-5, 6);
     }
 
 
@@ -241,7 +243,7 @@ public class StructureManager : MonoBehaviour
             spawnablePositions.Add(position);
         }
 
-        int r = Random.Range(min,max);
+        int r = Random.Range(min,max + 1);
         if (r <= 0) return;
         for(int i = 0; i < r; i++)
         {
@@ -268,7 +270,7 @@ public class StructureManager : MonoBehaviour
             spawnablePositions.Add(position);
         }
 
-        int r = Random.Range(min,max);
+        int r = Random.Range(min,max + 1);
         if (r <= 0) return;
         for(int i = 0; i < r; i++)
         {
@@ -283,6 +285,30 @@ public class StructureManager : MonoBehaviour
                     print(success);
                 }
             }
+        }
+    }
+
+    void PopulateForageables(int min, int max)
+    {
+        int r = Random.Range(min,max + 1);
+        int p = 0;
+        float x, z;
+
+        StructurePoolManager pool = StructurePoolManager.Instance;
+
+        if (r <= 0) return;
+        for(int i = 0; i < r; i++)
+        {
+            int t = 0;
+            p = Random.Range(0, pool.forageableSpots.Length);
+            Vector3 spawnPos = pool.forageableSpots[p].position;
+            x = Random.Range(-5, 5);
+            z = Random.Range(-5, 5);
+            spawnPos = new Vector3(spawnPos.x + x, spawnPos.y, spawnPos.z + z);
+
+            GameObject newStructure = pool.GrabForageable();
+            newStructure.transform.position = spawnPos;
+
         }
     }
 

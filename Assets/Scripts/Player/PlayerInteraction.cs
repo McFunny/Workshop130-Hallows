@@ -302,10 +302,11 @@ public class PlayerInteraction : MonoBehaviour
     {
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
+        TimeManager.Instance.GameOver();
+        yield return new WaitForSeconds(3f);
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
-        TimeManager.Instance.GameOver();
         if(currentMoney > 0) currentMoney = currentMoney/2;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;
