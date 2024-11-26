@@ -110,12 +110,15 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
         if(!ControlManager.isController) StructureInteractionWithItem();
-        if(ltCanPress == true)
-        { 
-            StructureInteractionWithItem();
-            ltCanPress = false; 
+        else
+        {
+            if(ltCanPress == true)
+            { 
+                StructureInteractionWithItem();
+                ltCanPress = false; 
+            }
+            else ltCanPress = true;
         }
-        else ltCanPress = true;
     }
 
 

@@ -58,6 +58,11 @@ public class Forgeable : StructureBehaviorScript
         }
     }
 
+    public void Refresh()
+    {
+        //
+    }
+
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
