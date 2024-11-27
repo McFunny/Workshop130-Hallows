@@ -38,7 +38,7 @@ public class ShovelAttack : MonoBehaviour
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-        if (creature != null)
+        if (creature != null && creature.shovelVulnerable)
         {
             creature.TakeDamage(25);
             //playsound
