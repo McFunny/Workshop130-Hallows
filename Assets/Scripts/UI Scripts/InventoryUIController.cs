@@ -69,7 +69,7 @@ public class InventoryUIController : MonoBehaviour
 
         if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
 
-        if(PlayerMovement.restrictMovementTokens > 0) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown) return;
 
         if(!PlayerMovement.accessingInventory)
         {
