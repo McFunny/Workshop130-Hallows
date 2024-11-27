@@ -8,6 +8,7 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip[] biomeAmbience;
     public AudioClip[] nightAmbience;
     public AudioClip[] musicAmbience;
+    public AudioClip[] musicNightAmbience;
 
     public AudioClip bellTower;
     // Start is called before the first frame update
@@ -45,7 +46,8 @@ public class AmbientAudioManager : MonoBehaviour
         {
             float musicCooldown = Random.Range(10, 30);
             yield return new WaitForSecondsRealtime(musicCooldown);
-            musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
+            if(TimeManager.Instance.isDay) musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
+            else musicSource.clip = musicNightAmbience[Random.Range(0, musicNightAmbience.Length)];
             float musicRuntime = musicSource.clip.length;
             musicSource.Play();
             yield return new WaitForSecondsRealtime(musicRuntime);

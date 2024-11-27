@@ -71,6 +71,21 @@ public class StructureManager : MonoBehaviour
         return tileMap.GetCellCenterWorld(allTiles[r]);
     }
 
+    public Vector3 GetRandomClearTile()
+    {
+        Vector3 tilePos = new Vector3 (0,0,0);
+        int t = 0;
+        do
+        {
+            int r = Random.Range(0, allTiles.Count);
+            TileBase currentTile = tileMap.GetTile(allTiles[r]);
+            if(currentTile != null && currentTile == freeTile) tilePos = tileMap.GetCellCenterWorld(allTiles[r]);
+            t++;
+        }
+        while(t < 15 && tilePos == new Vector3 (0,0,0));
+        return tilePos;
+    }
+
     public void SpawnStructure(GameObject obj, Vector3 pos)
     {
         Instantiate(obj, pos, Quaternion.identity);

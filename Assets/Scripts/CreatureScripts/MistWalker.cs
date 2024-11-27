@@ -229,7 +229,7 @@ public class MistWalker : CreatureBehaviorScript
                     currentState = CreatureState.WalkTowardsClosestStructure;
                 }
             }
-            else if (r < 6)
+            else if (r < 5)
             {
                 StartCoroutine(WaitAround());
             }
