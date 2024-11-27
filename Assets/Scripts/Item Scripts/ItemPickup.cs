@@ -19,6 +19,8 @@ public class ItemPickup : MonoBehaviour
     [SerializeField] private ItemPickupSaveData itemSaveData;
     private string id;
 
+    bool beingCollected = false;
+
     private void Awake()
     {
         id = GetComponent<UniqueID>().ID;
@@ -51,6 +53,14 @@ public class ItemPickup : MonoBehaviour
             Destroy(this.gameObject);
         }
         
+    }
+
+    void Update()
+    {
+        if(beingCollected)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, PlayerInteraction.Instance.transform.position, 0.1f);
+        }
     }
 
     public void RefreshItem(InventoryItemData newItem)
@@ -91,12 +101,31 @@ public class ItemPickup : MonoBehaviour
         if (inventory.AddToInventory(ItemData, 1))
         {
             //SaveGameManager.data.collectedItems.Add(id);
-            FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
-            gameObject.SetActive(false); // Make the item disappear
+            beingCollected = true;
+            myCollider.enabled = false;
+            StartCoroutine(PickupDelay());
         }
+    }
 
+    void OnEnable()
+    {
+        myCollider.enabled = false;
+        StartCoroutine(PickupTimer());
+        beingCollected = false;
+    }
 
+    IEnumerator PickupTimer()
+    {
+        yield return new WaitForSeconds(0.5f);
+        myCollider.enabled = true;
+    }
 
+    IEnumerator PickupDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
+        beingCollected = false;
+        gameObject.SetActive(false); // Make the item disappear
     }
 }
 

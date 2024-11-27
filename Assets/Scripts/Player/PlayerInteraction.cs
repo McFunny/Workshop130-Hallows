@@ -109,13 +109,16 @@ public class PlayerInteraction : MonoBehaviour
     private void OnInteractWithItem(InputAction.CallbackContext obj)
     {
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
-        if(!ControlManager.isGamepad) StructureInteractionWithItem();
-        if(ltCanPress == true)
-        { 
-            StructureInteractionWithItem();
-            ltCanPress = false; 
+        if(!ControlManager.isController) StructureInteractionWithItem();
+        else
+        {
+            if(ltCanPress == true)
+            { 
+                StructureInteractionWithItem();
+                ltCanPress = false; 
+            }
+            else ltCanPress = true;
         }
-        else ltCanPress = true;
     }
 
 
@@ -299,10 +302,11 @@ public class PlayerInteraction : MonoBehaviour
     {
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
+        TimeManager.Instance.GameOver();
+        yield return new WaitForSeconds(3f);
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
-        TimeManager.Instance.GameOver();
         if(currentMoney > 0) currentMoney = currentMoney/2;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;

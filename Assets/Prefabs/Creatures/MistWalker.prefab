@@ -295,8 +295,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b1b94011ab4c8ce449eeef3b1c2f3c44, type: 2}
   - {fileID: 11400000, guid: 3f3793583ac66604eb4c2579537bd84f, type: 2}
   availableStructure: []
-  coroutineRunning: 0
-  attackingPlayer: 0
   agent: {fileID: 0}
   animEvents: {fileID: 1571331616092395312}
   lungeAttackHitbox: {fileID: 9090513854541498605}
@@ -491,10 +489,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 2.43
   m_Height: 3.26
   m_Direction: 1
-  m_Center: {x: 0, y: 1.65, z: 0}
+  m_Center: {x: 0, y: 1.65, z: 0.47}
 --- !u!1001 &3162796934974230699
 PrefabInstance:
   m_ObjectHideFlags: 0

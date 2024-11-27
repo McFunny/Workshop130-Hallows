@@ -163,4 +163,9 @@ public class NightSpawningManager : MonoBehaviour
         float x = Random.Range(-20, 20);
         return testSpawns[r].position + (x * testSpawns[r].transform.right); //new Vector3(testSpawns[r].position.x + x, testSpawns[r].position.y, testSpawns[r].position.z);
     }
+
+    public void GameOver()
+    {
+        //Destory all enemies
+    }
 }

@@ -15,8 +15,8 @@ public class DialogueController : MonoBehaviour
     private Queue<string> paragraphs = new Queue<string>();
     private Queue<Emotion> emotions = new Queue<Emotion>();
 
-    private bool conversationEnded;
-    private bool isTalking = false;
+    private bool conversationEnded; //playing last piece of dialogue
+    private bool isTalking = false; //no more dialogue
     private bool interruptable = true;
     public bool restartDialogue = false;
     private bool freezePlayer = false;
@@ -65,8 +65,9 @@ public class DialogueController : MonoBehaviour
             currentPath = path;
             currentType = type;
             restartDialogue = false;
-            paragraphs.Clear();
-            emotions.Clear();
+
+            EndConversation();
+
             DisplayNextParagraph(dialogueText, currentPath, currentType);
             if(!interruptable) print("You just interrupted dialogue");
             return;
@@ -221,8 +222,6 @@ public class DialogueController : MonoBehaviour
 
         currentTalker.OnConvoEnd();
 
-        currentTalker = null;
-
         if(gameObject.activeSelf)
         {
             gameObject.SetActive(false);
@@ -333,7 +332,6 @@ public class DialogueController : MonoBehaviour
     public bool IsTalking()
     {
         return isTalking;
-        //return conversationEnded;
     }
 
     public bool IsInterruptable()
