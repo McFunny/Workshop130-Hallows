@@ -289,7 +289,7 @@ public class PlayerInteraction : MonoBehaviour
         if(!p_item || !p_item.hologramPrefab) return;
         p_item.DisplayHologram(mainCam.transform);
 
-        if(Input.GetKeyDown("r"))
+        if(controlManager.rotateStructure.action.WasPressedThisFrame())
         {
             p_item.RotateHologram();
         }

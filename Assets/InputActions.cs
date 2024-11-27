@@ -143,6 +143,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateStructure"",
+                    ""type"": ""Button"",
+                    ""id"": ""bdebd461-d0ad-479d-a0cc-f62ec3f4f7ee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -596,6 +605,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""CloseInventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7d74197-cb1d-41ca-b8af-abced07250d0"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateStructure"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0653c81-62b1-4101-b46a-c4b9661785fc"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateStructure"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -874,6 +905,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
         m_Gameplay_OpenInventory = m_Gameplay.FindAction("OpenInventory", throwIfNotFound: true);
         m_Gameplay_CloseInventory = m_Gameplay.FindAction("CloseInventory", throwIfNotFound: true);
+        m_Gameplay_RotateStructure = m_Gameplay.FindAction("RotateStructure", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -955,6 +987,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Sprint;
     private readonly InputAction m_Gameplay_OpenInventory;
     private readonly InputAction m_Gameplay_CloseInventory;
+    private readonly InputAction m_Gameplay_RotateStructure;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -972,6 +1005,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
         public InputAction @OpenInventory => m_Wrapper.m_Gameplay_OpenInventory;
         public InputAction @CloseInventory => m_Wrapper.m_Gameplay_CloseInventory;
+        public InputAction @RotateStructure => m_Wrapper.m_Gameplay_RotateStructure;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1020,6 +1054,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @CloseInventory.started += instance.OnCloseInventory;
             @CloseInventory.performed += instance.OnCloseInventory;
             @CloseInventory.canceled += instance.OnCloseInventory;
+            @RotateStructure.started += instance.OnRotateStructure;
+            @RotateStructure.performed += instance.OnRotateStructure;
+            @RotateStructure.canceled += instance.OnRotateStructure;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -1063,6 +1100,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @CloseInventory.started -= instance.OnCloseInventory;
             @CloseInventory.performed -= instance.OnCloseInventory;
             @CloseInventory.canceled -= instance.OnCloseInventory;
+            @RotateStructure.started -= instance.OnRotateStructure;
+            @RotateStructure.performed -= instance.OnRotateStructure;
+            @RotateStructure.canceled -= instance.OnRotateStructure;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1191,6 +1231,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnCloseInventory(InputAction.CallbackContext context);
+        void OnRotateStructure(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

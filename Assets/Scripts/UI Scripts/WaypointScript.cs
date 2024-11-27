@@ -19,7 +19,7 @@ public class WaypointScript : MonoBehaviour
     }
     void Update()
     {
-        print(shopImg);
+        //print(shopImg);
         if(shopTarget != null)
         {
             float minX = shopImg.GetPixelAdjustedRect().width / 2;
