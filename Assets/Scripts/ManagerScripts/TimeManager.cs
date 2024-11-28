@@ -81,20 +81,20 @@ public class TimeManager : MonoBehaviour
             switch (currentHour)
             {
                 case 6:
-                    SetSkyBox(0.2f);
+                    SetSkyBox(0.4f);
                     break;
                 case 7:
-                    SetSkyBox(0.4f);
+                    SetSkyBox(0.8f);
                     break;
                 case 8:
                     dayNum++;
                     SetSkyBox(1f);
                     break;
                 case 18:
-                    SetSkyBox(0.4f);
+                    SetSkyBox(0.8f);
                     break;
                 case 19:
-                    SetSkyBox(0.2f);
+                    SetSkyBox(0.4f);
                     break;
                 case 20:
                     SetSkyBox(0f);

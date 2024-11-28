@@ -37,8 +37,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public void Start()
     {
         structManager = StructureManager.Instance;
-        effectsHandler = FindObjectOfType<CreatureEffectsHandler>();
-        player = FindObjectOfType<PlayerInteraction>().transform;
+        effectsHandler = GetComponentInChildren<CreatureEffectsHandler>();
+        player = PlayerInteraction.Instance.transform;
     }
 
     // Update is called once per frame
@@ -51,6 +51,11 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         print("Ouch");
         health -= damage;
+        if(!isDead)
+        {
+            OnDamage();
+            effectsHandler.OnHit();
+        }
         if(health <= 0 && !isDead)
         {
             effectsHandler.OnDeath();
@@ -60,8 +65,6 @@ public class CreatureBehaviorScript : MonoBehaviour
         }
         else if(canCorpseBreak)
         {
-            effectsHandler.OnHit();
-            OnDamage();
             if(health < corpseHealth && isDead && !corpseDestroyed)
             {
                 corpseDestroyed = true;

@@ -56,9 +56,12 @@ public class AmbientAudioManager : MonoBehaviour
 
     void HourUpdate()
     {
-        if(TimeManager.Instance.currentHour == 8)
+        if(TimeManager.Instance.currentHour == 8 || TimeManager.Instance.currentHour == 18)
         {
             ambienceSource.PlayOneShot(bellTower);
+            StopCoroutine(PlayAmbientMusic());
+            musicSource.Stop();
+            StartCoroutine(PlayAmbientMusic());
         }
     }
 }

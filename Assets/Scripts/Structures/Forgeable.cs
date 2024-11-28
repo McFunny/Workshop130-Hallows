@@ -100,7 +100,6 @@ public class Forgeable : StructureBehaviorScript
 
     IEnumerator DigPlant()
     {
-        isDigging = true;
         yield return new WaitForSeconds(1f);
         StructureInteraction();
     }
