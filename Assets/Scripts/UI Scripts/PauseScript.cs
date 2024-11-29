@@ -70,6 +70,7 @@ public class PauseScript : MonoBehaviour
             pauseObject.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            EventSystem.current.SetSelectedGameObject(null);
         }
     }
 
