@@ -56,6 +56,7 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 if(itemName.text != "")
                 {
+                    if(itemDesc!= null){toolTip.UpdateToolTip(itemDesc);}
                     toolTip.panel.SetActive(true);
                 }
                 else
@@ -164,7 +165,6 @@ public class InventorySlot_UI : MonoBehaviour
     {
         assignedInventorySlot = slot;
         UpdateUISlot(slot);
-        //if(assignedInventorySlot != null){itemDesc = slot.ItemData.description;}
     }
 
     public void UpdateUISlot(InventorySlot slot)

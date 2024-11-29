@@ -58,7 +58,7 @@ public class InventoryUIController : MonoBehaviour
 
     void Update()
     {
-        if(EventSystem.current.currentSelectedGameObject == null){toolTip.panel.SetActive(false);}
+        //if(EventSystem.current.currentSelectedGameObject == null){toolTip.panel.SetActive(false);}
     }
 
     private void OpenInventory(InputAction.CallbackContext obj)
