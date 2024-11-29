@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System.Security.Principal;
+using Unity.VisualScripting.Dependencies.Sqlite;
 
 public class InventorySlot_UI : MonoBehaviour
 {
@@ -64,6 +65,10 @@ public class InventorySlot_UI : MonoBehaviour
                     toolTip.panel.SetActive(false);
                 }          
             }
+        }
+        if(!PlayerMovement.accessingInventory)
+        {
+            itemName.gameObject.SetActive(false);
         }
     }
 

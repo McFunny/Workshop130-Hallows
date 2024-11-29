@@ -59,6 +59,10 @@ public class InventoryUIController : MonoBehaviour
     void Update()
     {
         //if(EventSystem.current.currentSelectedGameObject == null){toolTip.panel.SetActive(false);}
+        if(!PlayerMovement.accessingInventory)
+        {
+            toolTip.panel.SetActive(false);
+        }
     }
 
     private void OpenInventory(InputAction.CallbackContext obj)
@@ -115,8 +119,7 @@ public class InventoryUIController : MonoBehaviour
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
             print("Closing backpack");
         }
-        toolTip.panel.SetActive(false);
-        
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     void DisplayInventory(InventorySystem invToDisplay)

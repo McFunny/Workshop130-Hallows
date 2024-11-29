@@ -41,10 +41,10 @@ public class InputManager : MonoBehaviour
         if (gridIsActive){ structGrid.color = activeColor;}
         else{ structGrid.color = hiddenColor;}
 
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+        //if(Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    Application.Quit();
+        //}
     }
     private void HotbarUp(InputAction.CallbackContext obj)
     {
