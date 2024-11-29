@@ -152,6 +152,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""588a6c0c-4eea-4cbf-a6ed-6ee3488f080d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -627,6 +636,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""RotateStructure"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3c7ebfc-db63-4fa3-b920-1842de86dc5b"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d15bb90-b1c4-4bba-af4c-3ecbde2665be"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -678,6 +709,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""8343bd26-5a2a-4082-b08e-fdea29018843"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -856,6 +896,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""MousePos"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""309ce1f6-8a97-4af8-bb31-cfd1097725b0"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4eb0298a-e243-4947-8b38-4b2788e80ff2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -906,6 +968,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_OpenInventory = m_Gameplay.FindAction("OpenInventory", throwIfNotFound: true);
         m_Gameplay_CloseInventory = m_Gameplay.FindAction("CloseInventory", throwIfNotFound: true);
         m_Gameplay_RotateStructure = m_Gameplay.FindAction("RotateStructure", throwIfNotFound: true);
+        m_Gameplay_PauseGame = m_Gameplay.FindAction("PauseGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -913,6 +976,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         m_UI_Split = m_UI.FindAction("Split", throwIfNotFound: true);
         m_UI_MousePos = m_UI.FindAction("MousePos", throwIfNotFound: true);
+        m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -988,6 +1052,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_OpenInventory;
     private readonly InputAction m_Gameplay_CloseInventory;
     private readonly InputAction m_Gameplay_RotateStructure;
+    private readonly InputAction m_Gameplay_PauseGame;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -1006,6 +1071,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @OpenInventory => m_Wrapper.m_Gameplay_OpenInventory;
         public InputAction @CloseInventory => m_Wrapper.m_Gameplay_CloseInventory;
         public InputAction @RotateStructure => m_Wrapper.m_Gameplay_RotateStructure;
+        public InputAction @PauseGame => m_Wrapper.m_Gameplay_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1057,6 +1123,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @RotateStructure.started += instance.OnRotateStructure;
             @RotateStructure.performed += instance.OnRotateStructure;
             @RotateStructure.canceled += instance.OnRotateStructure;
+            @PauseGame.started += instance.OnPauseGame;
+            @PauseGame.performed += instance.OnPauseGame;
+            @PauseGame.canceled += instance.OnPauseGame;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -1103,6 +1172,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @RotateStructure.started -= instance.OnRotateStructure;
             @RotateStructure.performed -= instance.OnRotateStructure;
             @RotateStructure.canceled -= instance.OnRotateStructure;
+            @PauseGame.started -= instance.OnPauseGame;
+            @PauseGame.performed -= instance.OnPauseGame;
+            @PauseGame.canceled -= instance.OnPauseGame;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1129,6 +1201,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Cancel;
     private readonly InputAction m_UI_Split;
     private readonly InputAction m_UI_MousePos;
+    private readonly InputAction m_UI_Pause;
     public struct UIActions
     {
         private @InputActions m_Wrapper;
@@ -1138,6 +1211,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
         public InputAction @Split => m_Wrapper.m_UI_Split;
         public InputAction @MousePos => m_Wrapper.m_UI_MousePos;
+        public InputAction @Pause => m_Wrapper.m_UI_Pause;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1162,6 +1236,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MousePos.started += instance.OnMousePos;
             @MousePos.performed += instance.OnMousePos;
             @MousePos.canceled += instance.OnMousePos;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1181,6 +1258,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MousePos.started -= instance.OnMousePos;
             @MousePos.performed -= instance.OnMousePos;
             @MousePos.canceled -= instance.OnMousePos;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1232,6 +1312,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnCloseInventory(InputAction.CallbackContext context);
         void OnRotateStructure(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1240,5 +1321,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnCancel(InputAction.CallbackContext context);
         void OnSplit(InputAction.CallbackContext context);
         void OnMousePos(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

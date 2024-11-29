@@ -21,11 +21,13 @@ public class InventorySlot_UI : MonoBehaviour
     ToolTipScript toolTip;
     string itemDesc;
 
+    Button button;
+
     private void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         ClearSlot();
-
+        button = GetComponent<Button>();
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
         toolTip = FindFirstObjectByType<ToolTipScript>();
         AddEventTriggers();
@@ -47,6 +49,15 @@ public class InventorySlot_UI : MonoBehaviour
 
     void Update()
     {
+        if(PlayerMovement.accessingInventory)
+        {
+            button.enabled = true;
+        }
+        else
+        {
+            button.enabled = false;
+        }
+
         //print(EventSystem.current.currentSelectedGameObject);
         if(PlayerMovement.accessingInventory && ControlManager.isGamepad)
         {
@@ -69,7 +80,7 @@ public class InventorySlot_UI : MonoBehaviour
         if(!PlayerMovement.accessingInventory)
         {
             itemName.gameObject.SetActive(false);
-        }
+        }  
     }
 
     public void TestPrint()
@@ -102,7 +113,7 @@ public class InventorySlot_UI : MonoBehaviour
         trigger.triggers.Add(pointerClick);
     }
 
-     private void Select(InputAction.CallbackContext obj)
+    private void Select(InputAction.CallbackContext obj)
     {
         if(PlayerMovement.accessingInventory == true)
         {

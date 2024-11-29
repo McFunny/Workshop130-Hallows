@@ -14,10 +14,12 @@ public class InputManager : MonoBehaviour
     public Color activeColor, hiddenColor;
     public bool gridIsActive;
     ControlManager controlManager;
+    PauseScript pauseScript;
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        pauseScript = FindFirstObjectByType<PauseScript>();
     }
 
     private void OnEnable()
@@ -25,12 +27,14 @@ public class InputManager : MonoBehaviour
         controlManager.hotbarUp.action.started += HotbarUp;
         controlManager.hotbarDown.action.canceled += HotbarDown;  
         controlManager.showGrid.action.canceled += ShowGrid;
+        controlManager.pauseGame.action.started += PauseGame;
     }
     private void OnDisable()
     {
         controlManager.hotbarUp.action.started -= HotbarUp; 
         controlManager.hotbarDown.action.canceled -= HotbarDown;  
         controlManager.showGrid.action.canceled -= ShowGrid;
+        controlManager.pauseGame.action.started -= PauseGame;
     }
 
     void Update()
@@ -48,15 +52,23 @@ public class InputManager : MonoBehaviour
     }
     private void HotbarUp(InputAction.CallbackContext obj)
     {
+        if(PauseScript.isPaused) return;
         if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(-1);}
     }
     private void HotbarDown(InputAction.CallbackContext obj)
     {
+        if(PauseScript.isPaused) return;
         if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(1);}
     }
     private void ShowGrid(InputAction.CallbackContext obj)
     {
+        if(PauseScript.isPaused) return;
         if(!PlayerMovement.accessingInventory){gridIsActive = !gridIsActive;}
+    }
+
+    private void PauseGame(InputAction.CallbackContext obj)
+    {
+        if(!PlayerMovement.accessingInventory) pauseScript.PauseGame();
     }
 
     private void CheckForScrollInput()
