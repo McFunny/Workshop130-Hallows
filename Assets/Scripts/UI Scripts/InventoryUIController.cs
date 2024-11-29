@@ -17,7 +17,7 @@ public class InventoryUIController : MonoBehaviour
     [SerializeField] private GameObject firstObject;
     ControlManager controlManager;
     EventSystem eventSystem;
-
+    ToolTipScript toolTip;
     MouseItemData mouseData;
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class InventoryUIController : MonoBehaviour
         inventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
         
         controlManager = FindFirstObjectByType<ControlManager>();
-
+        toolTip = FindFirstObjectByType<ToolTipScript>();
         mouseData = FindFirstObjectByType<MouseItemData>();
     }
 
@@ -58,8 +58,7 @@ public class InventoryUIController : MonoBehaviour
 
     void Update()
     {
-        
-        
+        if(EventSystem.current.currentSelectedGameObject == null){toolTip.panel.SetActive(false);}
     }
 
     private void OpenInventory(InputAction.CallbackContext obj)
@@ -116,6 +115,8 @@ public class InventoryUIController : MonoBehaviour
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
             print("Closing backpack");
         }
+        toolTip.panel.SetActive(false);
+        
     }
 
     void DisplayInventory(InventorySystem invToDisplay)

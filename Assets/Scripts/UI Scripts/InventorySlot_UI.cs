@@ -17,6 +17,8 @@ public class InventorySlot_UI : MonoBehaviour
     public InventoryDisplay ParentDisplay { get; private set; }
     ControlManager controlManager;
     bool isSelected;
+    ToolTipScript toolTip;
+    string itemDesc;
 
     private void Awake()
     {
@@ -24,11 +26,14 @@ public class InventorySlot_UI : MonoBehaviour
         ClearSlot();
 
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
-
+        toolTip = FindFirstObjectByType<ToolTipScript>();
         AddEventTriggers();
     }
-
-     private void OnEnable()
+    void Start()
+    {
+        //toolTip = FindObjectOfType<ToolTipScript>();
+    }
+    private void OnEnable()
     {
         controlManager.select.action.started += Select;
         controlManager.split.action.started += Split;
@@ -41,7 +46,24 @@ public class InventorySlot_UI : MonoBehaviour
 
     void Update()
     {
-        if(PlayerMovement.accessingInventory){slotHighlight.SetActive(isSelected);}
+        //print(EventSystem.current.currentSelectedGameObject);
+        if(PlayerMovement.accessingInventory && ControlManager.isGamepad)
+        {
+            slotHighlight.SetActive(isSelected);
+            itemName.gameObject.SetActive(isSelected);
+
+            if(isSelected)
+            {
+                if(itemName.text != "")
+                {
+                    toolTip.panel.SetActive(true);
+                }
+                else
+                {
+                    toolTip.panel.SetActive(false);
+                }          
+            }
+        }
     }
 
     public void TestPrint()
@@ -89,38 +111,14 @@ public class InventorySlot_UI : MonoBehaviour
         }
     }  
 
-    /* void OnPointerClick(PointerEventData eventData)
-    {
-        if(!ControlManager.isController)
-        {
-            //print("HELP");
-            if (eventData.button == PointerEventData.InputButton.Left)
-            {
-                // Handle left-click
-                OnLeftUISlotClick();
-            }
-            else if (eventData.button == PointerEventData.InputButton.Right)
-            {
-                // Handle right-click
-                OnRightUISlotClick();
-            }
-        }
-        else
-        {
-            print("Heyguys");
-        }  
-    } */
-
     public void Selected()
     {
         isSelected = true;
-        //slotHighlight.SetActive(true);
     }
 
     public void Deselected()
     {
         isSelected = false;
-        //slotHighlight.SetActive(false);
     }
         
 
@@ -138,13 +136,35 @@ public class InventorySlot_UI : MonoBehaviour
 
     private void OnHighlight(bool selected)
     {
-        itemName.gameObject.SetActive(selected);
+        if(!ControlManager.isGamepad)
+        {
+            slotHighlight.SetActive(selected);
+            itemName.gameObject.SetActive(selected);
+            if(selected)
+            {
+                if(itemName.text != "")
+                {
+                    toolTip.panel.SetActive(true);
+                }
+                else
+                {
+                    toolTip.panel.SetActive(false);
+                }
+            }
+            else
+            {
+                toolTip.panel.SetActive(false);
+            }
+            if(itemDesc!= null){toolTip.UpdateToolTip(itemDesc);}
+        }
+            
     }
 
     public void Init(InventorySlot slot)
     {
         assignedInventorySlot = slot;
         UpdateUISlot(slot);
+        //if(assignedInventorySlot != null){itemDesc = slot.ItemData.description;}
     }
 
     public void UpdateUISlot(InventorySlot slot)
@@ -154,6 +174,7 @@ public class InventorySlot_UI : MonoBehaviour
             itemSprite.sprite = slot.ItemData.icon;
             itemSprite.color = Color.white;
             itemName.text = slot.ItemData.name;
+            itemDesc = slot.ItemData.description;
             if (slot.StackSize > 1)
                 itemCount.text = slot.StackSize.ToString();
             else
@@ -172,7 +193,11 @@ public class InventorySlot_UI : MonoBehaviour
 
     public void UpdateUISlot()
     {
-        if (assignedInventorySlot != null) UpdateUISlot(assignedInventorySlot);
+        if (assignedInventorySlot != null) 
+        {
+            UpdateUISlot(assignedInventorySlot);
+            //print(assignedInventorySlot);
+        }
     }
 
     public void ClearSlot()
@@ -182,6 +207,7 @@ public class InventorySlot_UI : MonoBehaviour
         itemSprite.color = Color.clear;
         itemCount.text = "";
         itemName.text = "";
+        itemDesc = "";
         itemName.gameObject.SetActive(false);
     }
 }
