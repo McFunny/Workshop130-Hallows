@@ -104,6 +104,12 @@ public class InventoryUIController : MonoBehaviour
 
     private void CloseInput(InputAction.CallbackContext obj)
     {
+        if(mouseData && mouseData.IsHoldingItem()) return;
+
+        if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
+
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return;
+        
         if (chestPanel.gameObject.activeInHierarchy)
         {
             eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
