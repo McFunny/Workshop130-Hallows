@@ -267,7 +267,7 @@ public class MistWalker : CreatureBehaviorScript
         isMoving = true;
         coroutineRunning = true;
 
-        if(TimeManager.isDay) destination = despawnPos;
+        if(TimeManager.Instance.isDay) destination = despawnPos;
 
         agent.destination = destination;
 

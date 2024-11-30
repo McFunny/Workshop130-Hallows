@@ -37,11 +37,11 @@ public class NightSpawningManager : MonoBehaviour
 
     void HourUpdate()
     {
-        if(TimeManager.isDay)
+        if(TimeManager.Instance.isDay)
         {
             return;
         }
-        if(TimeManager.currentHour == 20)
+        if(TimeManager.Instance.currentHour == 20)
         {
             foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
             {
@@ -128,7 +128,7 @@ public class NightSpawningManager : MonoBehaviour
 
     float GetThreshold()
     {
-        switch (TimeManager.currentHour)
+        switch (TimeManager.Instance.currentHour)
             {
                 case 1:
                     return 0.2f;

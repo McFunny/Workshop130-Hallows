@@ -159,6 +159,13 @@ public class StructureManager : MonoBehaviour
 
                         storage[i].ichorLevel += amount;
                         if(storage[i].ichorLevel > 10) storage[i].ichorLevel = 10;
+
+                        StructureBehaviorScript structure = GrabStructureOnTile(tilePosition);
+                        if(structure)
+                        {
+                            FarmLand farmPlot = structure as FarmLand;
+                            if(farmPlot) farmPlot.ichorSplash.Play();
+                        }
                     } 
                 }
             }
@@ -166,7 +173,18 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    //public StructureBehaviorScript GrabStructureOnTile(Vector3 pos) //to play ichor particle
+    public StructureBehaviorScript GrabStructureOnTile(Vector3 pos)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(pos, 1);
+        foreach(Collider collider in hitColliders)
+        {
+            if(collider.gameObject.GetComponentInParent<StructureBehaviorScript>())
+            {
+                return collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+            }
+        }
+        return null;
+    } //to play ichor particle
 
     void InstantiateNutrientStorage()
     {

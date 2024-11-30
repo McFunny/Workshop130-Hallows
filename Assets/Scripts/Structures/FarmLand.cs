@@ -9,6 +9,7 @@ public class FarmLand : StructureBehaviorScript
     public InventoryItemData terraFert, gloamFert, ichorFert;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
+    public Collider finishedGrowingCollider;
 
     public MeshRenderer meshRenderer;
     public Material dry, wet, barren, barrenWet;
@@ -68,6 +69,10 @@ public class FarmLand : StructureBehaviorScript
     void Update()
     {
         base.Update();
+
+        if(((crop && growthStage >= crop.growthStages) || isWeed) && !finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = true;
+
+        if((!crop || growthStage < crop.growthStages) && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -330,6 +335,14 @@ public class FarmLand : StructureBehaviorScript
         }
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         base.OnDestroy();
+    }
+
+    public override void TimeLapse(int hours)
+    {
+        for(int i = 0; i < hours; i++)
+        {
+            HourPassed();
+        }
     }
 
     public NutrientStorage GetCropStats()

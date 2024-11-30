@@ -14,7 +14,7 @@ public class FogTeleporter : MonoBehaviour
         }
         else if(other.gameObject.layer == 9)
         {
-            if(TimeManager.isDay)
+            if(TimeManager.Instance.isDay)
             {
                 var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
                 Destroy(creature.gameObject);

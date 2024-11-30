@@ -84,7 +84,7 @@ public class InventoryUIController : MonoBehaviour
         }
         else if (isBackpackOpen)
         {
-            eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            if(eventSystem.currentSelectedGameObject) eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
             eventSystem.SetSelectedGameObject(null);
             CloseBackpack();
             print("Closing backpack");

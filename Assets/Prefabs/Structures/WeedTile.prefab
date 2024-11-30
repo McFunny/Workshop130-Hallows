@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 7070324328342486321}
   - component: {fileID: 1499389874103428145}
   - component: {fileID: 7601748635002274455}
+  - component: {fileID: 6458696476407528464}
   m_Layer: 6
   m_Name: WeedTile
   m_TagString: FarmLand
@@ -242,6 +243,7 @@ MonoBehaviour:
   ichorFert: {fileID: 11400000, guid: a213798768e67f442a88e35faf4c873b, type: 2}
   cropRenderer: {fileID: 6240152475005840231}
   itemDropTransform: {fileID: 5844641336483811334}
+  finishedGrowingCollider: {fileID: 6458696476407528464}
   meshRenderer: {fileID: 2111073912527856933}
   dry: {fileID: 2100000, guid: 8ea3aa49265af6042bef80f5faa324ba, type: 2}
   wet: {fileID: 2100000, guid: 50966c5c23a410e47a11ca11b6edf61c, type: 2}
@@ -374,6 +376,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &6458696476407528464
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689272689766288214}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 2.06, z: 2}
+  m_Center: {x: 0, y: 0.61, z: 0}
 --- !u!1001 &760438906384791969
 PrefabInstance:
   m_ObjectHideFlags: 0
