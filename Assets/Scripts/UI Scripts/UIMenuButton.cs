@@ -16,6 +16,8 @@ public class UIMenuButton : MonoBehaviour
     ControlManager controlManager;
     Button button;
 
+    public GameObject image;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
@@ -28,6 +30,11 @@ public class UIMenuButton : MonoBehaviour
         button = GetComponentInChildren<Button>();
         c_selected = new Color(1f, 0.8870801f, 0.2877358f, 1.0f);
         c_deselected = new Color(0.8509804f, 0.7490196f, 0.2078431f, 1.0f);
+
+        if(image != null)
+        {
+            image.SetActive(false);
+        }
     }
 
     void OnEnable()
@@ -46,11 +53,13 @@ public class UIMenuButton : MonoBehaviour
         if(EventSystem.current.currentSelectedGameObject == this.gameObject)
         {
             text.color = c_selected;
+            image.SetActive(true);
             isSelected = true;
         }
         else
         {
             text.color = c_deselected;
+            image.SetActive(false);
             isSelected = false;
         }
 
