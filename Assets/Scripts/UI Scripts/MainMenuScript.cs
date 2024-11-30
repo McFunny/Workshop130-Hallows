@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -18,6 +19,21 @@ public class MainMenuScript : MonoBehaviour
         Cursor.visible = true;
     }
 
+    private void OnEnable()
+    {
+        controlManager.moreInfo.action.started += HideUI;
+    }
+
+    private void OnDisable()
+    {
+        controlManager.moreInfo.action.started -= HideUI;
+    }
+
+    void HideUI(InputAction.CallbackContext obj)
+    {
+        menuObject.SetActive(!menuObject.activeInHierarchy);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -25,14 +41,19 @@ public class MainMenuScript : MonoBehaviour
         //print(EventSystem.current.currentSelectedGameObject);
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad)
         {
-            print("Default Pause Object Selected");
+            print("Default Menu Object Selected");
             EventSystem.current.SetSelectedGameObject(defaultObject);
         } 
     }
 
+    public void TestPress()
+    {
+        print("Test");
+    }
     public void ExitGame()
     {
         Application.Quit();
+        print("Game Exited Successfully :)");
     }
     
 }

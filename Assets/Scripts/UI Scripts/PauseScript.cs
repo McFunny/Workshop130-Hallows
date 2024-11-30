@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
 public class PauseScript : MonoBehaviour
@@ -81,7 +82,7 @@ public class PauseScript : MonoBehaviour
 
     public void GoToMainMenu()
     {
-
+        SceneManager.LoadSceneAsync("MainMenu");
     }
     
 }

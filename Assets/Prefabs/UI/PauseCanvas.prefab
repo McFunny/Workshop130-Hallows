@@ -538,6 +538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPauseButton: 1
 --- !u!114 &3539230364110243018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1212,6 +1213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPauseButton: 1
 --- !u!114 &7705351116678134066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1405,6 +1407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPauseButton: 1
 --- !u!114 &8502793949956014013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1515,7 +1518,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit Game
+  m_text: Main Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1720,6 +1723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPauseButton: 1
 --- !u!114 &4639754575591000498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2240,7 +2244,7 @@ GameObject:
   - component: {fileID: 2018048349983088557}
   - component: {fileID: 5510818107132764559}
   m_Layer: 5
-  m_Name: ExitGameButton
+  m_Name: MainMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2348,7 +2352,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6459827749241756770}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5574030070680645502}
+        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
+        m_MethodName: GoToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2018048349983088557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2361,6 +2377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPauseButton: 1
 --- !u!114 &5510818107132764559
 MonoBehaviour:
   m_ObjectHideFlags: 0
