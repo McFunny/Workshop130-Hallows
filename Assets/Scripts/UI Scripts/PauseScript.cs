@@ -31,6 +31,7 @@ public class PauseScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //print(controlManager.playerInput.currentActionMap);
         //print(isPaused);
         if(isPaused)
         {
@@ -57,11 +58,13 @@ public class PauseScript : MonoBehaviour
     public void PauseGame()
     {
         isPaused = !isPaused;
-
+        
         if(isPaused)
         {
             //controlManager.playerInput.SwitchCurrentActionMap("UI");
             pauseObject.SetActive(true);
+            controlsCanvas.SetActive(false);
+            controlManager.playerInput.SwitchCurrentActionMap("UI");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -69,6 +72,8 @@ public class PauseScript : MonoBehaviour
         {
             //controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
             pauseObject.SetActive(false);
+            controlsCanvas.SetActive(false);
+            controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             EventSystem.current.SetSelectedGameObject(null);
@@ -77,7 +82,9 @@ public class PauseScript : MonoBehaviour
 
     public void ResumeGame()
     {
+        print("Resume Game Pressed");
         PauseGame();
+        controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
     }
 
     public void GoToMainMenu()
@@ -87,6 +94,7 @@ public class PauseScript : MonoBehaviour
 
     public void OpenControlsScreen()
     {
+        print("Controls Pressed");
         controlsCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(controlsDefault);
     }

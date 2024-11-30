@@ -14,9 +14,15 @@ public class ControlsMenuScript : MonoBehaviour
     public Scrollbar scrollbar;
     public GameObject previousMenuObject, controlsContainer;
     public TextMeshProUGUI currentScheme;
+    ControlManager controlManager;
     [SerializeField] TextMeshProUGUI[] controls;
     [SerializeField] String[] controllerText, kbmText;
     bool isControllerSelected = false;
+
+    void Awake()
+    {
+        controlManager = FindFirstObjectByType<ControlManager>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +39,7 @@ public class ControlsMenuScript : MonoBehaviour
 
     void OnEnable()
     {
+        controlManager.playerInput.SwitchCurrentActionMap("UI");
         for(int i = 0; i < controls.Length; i++)
         {
             if(ControlManager.isGamepad){controls[i].text = controllerText[i]; isControllerSelected = true;}
@@ -42,9 +49,16 @@ public class ControlsMenuScript : MonoBehaviour
         else{currentScheme.text = "Keyboard";}
     }
 
+    void OnDisable()
+    {
+        //controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
+    }
+
     // Update is called once per frame
     void Update()
     {
+
+
         //print(scrollInput.action.ReadValue<float>());
         if(scrollInput.action.ReadValue<float>() > 0)
         {
@@ -59,7 +73,7 @@ public class ControlsMenuScript : MonoBehaviour
 
         if(UICancel.action.WasPressedThisFrame())
         {
-            Back();
+            //Back();
         }
     }
 
@@ -80,6 +94,7 @@ public class ControlsMenuScript : MonoBehaviour
     public void Back()
     {
         EventSystem.current.SetSelectedGameObject(previousMenuObject);
+        //controlManager.playerInput.SwitchCurrentActionMap("UI");
         this.gameObject.SetActive(false);
     }
 }
