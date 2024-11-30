@@ -73,7 +73,7 @@ public class ControlsMenuScript : MonoBehaviour
 
         if(UICancel.action.WasPressedThisFrame())
         {
-            //Back();
+            Back();
         }
     }
 
