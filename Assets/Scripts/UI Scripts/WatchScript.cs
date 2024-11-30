@@ -21,7 +21,7 @@ public class WatchScript : MonoBehaviour
     {
         UpdateWatch();
 
-        if(!isClockAnimating)
+        if(!isClockAnimating && !PauseScript.isPaused)
         {
             if(controlManager.moreInfo.action.WasPressedThisFrame()){animator.SetBool("isClockRaised", true);}
             if(controlManager.moreInfo.action.WasReleasedThisFrame()){animator.SetBool("isClockRaised", false);}

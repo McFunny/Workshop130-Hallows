@@ -1200,7 +1200,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5076183874722606205}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5574030070680645502}
+        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
+        m_MethodName: OpenControlsScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7154478220890521523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2152,8 +2164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71129b4442fa5d48b283a38fa07e5eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlsCanvas: {fileID: 0}
   pauseObject: {fileID: 996972269093025673}
   defaultObject: {fileID: 6680004214356392623}
+  controlsDefault: {fileID: 0}
 --- !u!1 &8482441645536536244
 GameObject:
   m_ObjectHideFlags: 0

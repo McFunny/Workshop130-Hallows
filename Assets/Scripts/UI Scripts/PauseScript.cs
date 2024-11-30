@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class PauseScript : MonoBehaviour
 {
     public static bool isPaused;
-    public GameObject pauseObject, defaultObject;
+    public GameObject controlsCanvas, pauseObject, defaultObject, controlsDefault;
     ControlManager controlManager;
     // Start is called before the first frame update
     void Awake()
@@ -83,6 +83,12 @@ public class PauseScript : MonoBehaviour
     public void GoToMainMenu()
     {
         SceneManager.LoadSceneAsync("MainMenu");
+    }
+
+    public void OpenControlsScreen()
+    {
+        controlsCanvas.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(controlsDefault);
     }
     
 }
