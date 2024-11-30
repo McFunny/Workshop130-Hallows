@@ -242,8 +242,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.33, y: 1.33, z: 1.33}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1762802711427206768}
   - {fileID: 9117957962325276342}
@@ -320,11 +320,11 @@ MonoBehaviour:
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
-  hitSound: {fileID: 0}
+  hitSounds: []
+  footSteps: []
   deathSound: {fileID: 0}
   miscSound: {fileID: 0}
-  hitParticles: {fileID: 0}
-  deathParticles: {fileID: 0}
+  miscSound2: {fileID: 0}
 --- !u!195 &4923551108285686843
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 2.43
+  m_Radius: 1.74
   m_Height: 3.26
   m_Direction: 1
   m_Center: {x: 0, y: 1.65, z: 0.47}

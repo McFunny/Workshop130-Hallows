@@ -426,6 +426,8 @@ public class MistWalker : CreatureBehaviorScript
 
         if (distance <= 3f)
         {
+            agent.speed = 0;
+            agent.destination = player.position;
             StartCoroutine(SwipePlayer());
         }
         else if (distance > 3f && distance <= lungeRange && canLunge)
