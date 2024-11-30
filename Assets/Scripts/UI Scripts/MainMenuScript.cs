@@ -9,7 +9,8 @@ using UnityEngine.InputSystem;
 
 public class MainMenuScript : MonoBehaviour
 {
-    public GameObject menuObject, defaultObject;
+    public InputActionReference hideUI;
+    public GameObject menuObject, defaultObject, controlsDefault, controlsCanvas;
     ControlManager controlManager;
     // Start is called before the first frame update
     void Awake()
@@ -21,17 +22,12 @@ public class MainMenuScript : MonoBehaviour
 
     private void OnEnable()
     {
-        controlManager.moreInfo.action.started += HideUI;
+        //hideUI.action.started += HideUI;
     }
 
     private void OnDisable()
     {
-        controlManager.moreInfo.action.started -= HideUI;
-    }
-
-    void HideUI(InputAction.CallbackContext obj)
-    {
-        menuObject.SetActive(!menuObject.activeInHierarchy);
+        //controlManager.moreInfo.action.started -= HideUI;
     }
 
     // Update is called once per frame
@@ -41,9 +37,19 @@ public class MainMenuScript : MonoBehaviour
         //print(EventSystem.current.currentSelectedGameObject);
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad)
         {
+            if(controlsDefault.activeInHierarchy)EventSystem.current.SetSelectedGameObject(controlsDefault);
+            else{EventSystem.current.SetSelectedGameObject(defaultObject);}
             print("Default Menu Object Selected");
-            EventSystem.current.SetSelectedGameObject(defaultObject);
         } 
+
+        if(hideUI.action.WasPressedThisFrame())
+        {
+            if(!controlsCanvas.activeInHierarchy){HideUI();}
+        }
+    }
+    void HideUI()
+    {
+        menuObject.SetActive(!menuObject.activeInHierarchy);
     }
 
     public void TestPress()
@@ -54,6 +60,12 @@ public class MainMenuScript : MonoBehaviour
     {
         Application.Quit();
         print("Game Exited Successfully :)");
+    }
+
+    public void OpenControlsScreen()
+    {
+        controlsCanvas.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(controlsDefault);
     }
     
 }

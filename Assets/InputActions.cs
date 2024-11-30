@@ -718,6 +718,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Button"",
+                    ""id"": ""508b34ce-adcc-4a37-befb-a6af38bc8d04"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""HideUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""36788430-f98a-478f-99f2-369620496ef4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -846,7 +864,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""32cc000e-fef9-4a30-9c54-b641b91ce148"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""Press(behavior=1)"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Select"",
@@ -918,6 +936,94 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""d895e602-9121-4895-a6c5-1135a7e771dd"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""e8884424-d197-4a56-89c8-05c69b899f41"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""65bf4107-5512-442f-807b-6653327648d3"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""25980d7c-baf8-49d0-b88d-ed0ff070e2b5"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""c67e5eba-f2be-4176-b8c5-e8501d96881d"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""7f4ba714-48d6-4836-a483-98ef5d5b6a5c"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd143219-8f1c-42e0-9a72-193b1f66e0ee"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HideUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd5c13d9-aebe-463c-833a-457f88e2fab2"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HideUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -977,6 +1083,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_UI_Split = m_UI.FindAction("Split", throwIfNotFound: true);
         m_UI_MousePos = m_UI.FindAction("MousePos", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
+        m_UI_Scroll = m_UI.FindAction("Scroll", throwIfNotFound: true);
+        m_UI_HideUI = m_UI.FindAction("HideUI", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1202,6 +1310,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Split;
     private readonly InputAction m_UI_MousePos;
     private readonly InputAction m_UI_Pause;
+    private readonly InputAction m_UI_Scroll;
+    private readonly InputAction m_UI_HideUI;
     public struct UIActions
     {
         private @InputActions m_Wrapper;
@@ -1212,6 +1322,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Split => m_Wrapper.m_UI_Split;
         public InputAction @MousePos => m_Wrapper.m_UI_MousePos;
         public InputAction @Pause => m_Wrapper.m_UI_Pause;
+        public InputAction @Scroll => m_Wrapper.m_UI_Scroll;
+        public InputAction @HideUI => m_Wrapper.m_UI_HideUI;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1239,6 +1351,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @Scroll.started += instance.OnScroll;
+            @Scroll.performed += instance.OnScroll;
+            @Scroll.canceled += instance.OnScroll;
+            @HideUI.started += instance.OnHideUI;
+            @HideUI.performed += instance.OnHideUI;
+            @HideUI.canceled += instance.OnHideUI;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1261,6 +1379,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @Scroll.started -= instance.OnScroll;
+            @Scroll.performed -= instance.OnScroll;
+            @Scroll.canceled -= instance.OnScroll;
+            @HideUI.started -= instance.OnHideUI;
+            @HideUI.performed -= instance.OnHideUI;
+            @HideUI.canceled -= instance.OnHideUI;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1322,5 +1446,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSplit(InputAction.CallbackContext context);
         void OnMousePos(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
+        void OnHideUI(InputAction.CallbackContext context);
     }
 }
