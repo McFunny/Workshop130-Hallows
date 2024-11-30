@@ -306,6 +306,7 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(1f);
         TimeManager.Instance.GameOver();
         NightSpawningManager.Instance.GameOver();
+        TownGate.Instance.GameOver();
         yield return new WaitForSeconds(3f);
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;

@@ -7,11 +7,27 @@ public class TownGate : MonoBehaviour, IInteractable
 {
     public GameObject townMist, farmMist;
     public Transform townPos, farmPos;
-    public static bool inTown = false;
+    public bool inTown = false;
     bool transitioning = false;
 
     public AudioSource source;
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
+
+    public static TownGate Instance;
+
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(transitioning || (!TimeManager.Instance.isDay && !inTown))
@@ -59,6 +75,13 @@ public class TownGate : MonoBehaviour, IInteractable
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
         transitioning = false;
+    }
+
+    public void GameOver()
+    {
+        inTown = false;
+        townMist.gameObject.SetActive(false);
+        farmPos.gameObject.SetActive(true);
     }
 
 }
