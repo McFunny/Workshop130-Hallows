@@ -71,6 +71,7 @@ public class ItemPickup : MonoBehaviour
 
     private void OnDestroy()
     {
+        return;
         if (SaveGameManager.data == null)
         {
             Debug.LogError("SaveGameManager.data is null");

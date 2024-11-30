@@ -13,10 +13,14 @@ public class GameSaveData : MonoBehaviour
     public bool tutorialMerchantSpoke;
     public bool rascalWantsFood;
     public bool rascalMentionedKey;
+    public bool lumber_offersDeal;
+    public bool lumber_choppedTree;
+    public bool keyCollected;
+    public bool catacombUnlocked;
 
     //[Header("NPC FriendShip Levels")]
-    //public int rascalFriendShip = 0;
-    //public int lumberJackFriendShip = 0;
+    //public float rascalFriendShip = 0;
+    //public float lumberJackFriendShip = 0;
 
     //IF WE HAVE THE GAME ONLY SAVE AT THE MORNING LIKE STARDEW, WE DONT HAVE TO SAVE ALOT OF STUFF LIKE TOWNSPEOPLE POS AND SHOP ITEMS
     

@@ -10,11 +10,11 @@ public class RascalNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(!NPCManager.Instance.rascalWantsFood)
+            if(!GameSaveData.Instance.rascalWantsFood)
             {
                 currentPath = 1;
                 currentType = PathType.Quest;
-                NPCManager.Instance.rascalWantsFood = true; //Possible issue: The player walks away, never being able to finish the dialogue. Some Dialogue should freeze the player.
+                GameSaveData.Instance.rascalWantsFood = true; 
             }
             else
             {
@@ -40,11 +40,11 @@ public class RascalNPC : NPC, ITalkable
             return;
         } 
 
-        if(item == paleCarrot && NPCManager.Instance.rascalWantsFood == true && NPCManager.Instance.rascalMentionedKey == false)
+        if(item == paleCarrot && GameSaveData.Instance.rascalWantsFood == true && GameSaveData.Instance.rascalMentionedKey == false)
         {
             currentPath = 2;
             currentType = PathType.Quest;
-            NPCManager.Instance.rascalMentionedKey = true;
+            GameSaveData.Instance.rascalMentionedKey = true;
         }
 
         else if(item == key)
