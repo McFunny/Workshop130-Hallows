@@ -234,7 +234,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void UseHotBarItem()
     {
-       Debug.Log("UsingHandItem");
+        Debug.Log("UsingHandItem");
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(item == null) return;
 
@@ -286,6 +286,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void DisplayHologramCheck()
     {
+        if(!HotbarDisplay.currentSlot) return;
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(!item) return;
         PlaceableItem p_item = item as PlaceableItem;
@@ -304,6 +305,8 @@ public class PlayerInteraction : MonoBehaviour
         FadeScreen.coverScreen = true;
         yield return new WaitForSeconds(1f);
         TimeManager.Instance.GameOver();
+        NightSpawningManager.Instance.GameOver();
+        TownGate.Instance.GameOver();
         yield return new WaitForSeconds(3f);
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;

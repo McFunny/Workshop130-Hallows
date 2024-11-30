@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Terra Tuber
   growthStages: 4
-  hoursPerStage: 6
+  hoursPerStage: 3
   harvestableGrowthStages: 04000000
   cropSprites:
   - {fileID: 1428278121, guid: ed83ed8fe1d65064cb837de055a83f95, type: 3}
@@ -25,12 +25,13 @@ MonoBehaviour:
   cropYield: {fileID: 11400000, guid: 290e218f74d5d2445b4c40b0ba01d7c2, type: 2}
   cropSeed: {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
   cropYieldAmount: 1
+  cropYieldVariance: 1
   seedYieldAmount: 1
   seedYieldVariance: 2
-  waterIntake: 4
+  waterIntake: 10
   ichorIntake: 0
-  terraIntake: 0.25
-  gloamIntake: -0.5
+  terraIntake: 0.5
+  gloamIntake: -0.75
   stressLimit: 2
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}

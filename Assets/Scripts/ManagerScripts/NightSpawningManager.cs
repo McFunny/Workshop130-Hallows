@@ -147,7 +147,7 @@ public class NightSpawningManager : MonoBehaviour
                 case 21:
                     return 0.7f;
                 case 22:
-                    return 0.7f;;
+                    return 0.7f;
                 case 23:
                     return 0.4f;
                 case 0:
@@ -166,6 +166,10 @@ public class NightSpawningManager : MonoBehaviour
 
     public void GameOver()
     {
-        //Destory all enemies
+        for(int i = 0; i < allCreatures.Count; i++)
+        {
+            Destroy(allCreatures[i].gameObject);
+        }
+        allCreatures.Clear();
     }
 }

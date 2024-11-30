@@ -21,6 +21,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public bool hasBeenFed = false;
 
+    [HideInInspector] public NPCMovement movementHandler;
+
+    [HideInInspector] public FaceCamera faceCamera;
+
 
     public void EndInteraction()
     {

@@ -22,11 +22,18 @@ public class NPCMovement : MonoBehaviour
     public bool isWorking; // Determines if this NPC is actively working
     public List<Schedule> scheduleList = new List<Schedule>();
 
+    NPC npcScript;
+    bool isTalking = false;
+    bool facePlayer = true;
+
+    Vector3 currentDestination;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         TimeManager.OnHourlyUpdate += CheckDestination;
         npcMovementManager = FindObjectOfType<NPCMovementManager>();
+        npcScript = GetComponent<NPC>();
     }
 
     public void CheckDestination()
@@ -89,6 +96,7 @@ public class NPCMovement : MonoBehaviour
     IEnumerator MoveToDestination(Transform destination)
     {
         agent.destination = destination.position;
+        currentDestination = destination.position;
 
         while (agent.pathPending)
         {
@@ -133,6 +141,27 @@ public class NPCMovement : MonoBehaviour
     {
         sublocation.isOccupied = false;
         sublocation.occupant = null;
+    }
+
+    public void TalkToPlayer()
+    {
+        agent.Stop();
+        if(facePlayer) npcScript.faceCamera.enabled = true;
+        StartCoroutine(ReturnToSchedule());
+    }
+
+    IEnumerator ReturnToSchedule()
+    {
+        isTalking = true;
+        do
+        {
+            yield return new WaitForSeconds(5);
+        }
+        while(npcScript.dialogueController.IsTalking() && npcScript.dialogueController.currentTalker == npcScript);
+        isTalking = false;
+        npcScript.faceCamera.enabled = false;
+        agent.Resume();
+        //agent.destination = currentDestination;
     }
 }
 
