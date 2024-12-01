@@ -53,21 +53,25 @@ public class InputManager : MonoBehaviour
     private void HotbarUp(InputAction.CallbackContext obj)
     {
         if(PauseScript.isPaused) return;
+        if(PlayerMovement.isCodexOpen) return;
         if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(-1);}
     }
     private void HotbarDown(InputAction.CallbackContext obj)
     {
         if(PauseScript.isPaused) return;
+        if(PlayerMovement.isCodexOpen) return;
         if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(1);}
     }
     private void ShowGrid(InputAction.CallbackContext obj)
     {
         if(PauseScript.isPaused) return;
+        if(PlayerMovement.isCodexOpen) return;
         if(!PlayerMovement.accessingInventory){gridIsActive = !gridIsActive;}
     }
 
     private void PauseGame(InputAction.CallbackContext obj)
     {
+        if(PlayerMovement.isCodexOpen) return;
         if(!PlayerMovement.accessingInventory) pauseScript.PauseGame();
     }
 

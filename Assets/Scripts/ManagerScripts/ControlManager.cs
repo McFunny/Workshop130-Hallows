@@ -7,7 +7,7 @@ public class ControlManager : MonoBehaviour
 {
     public static bool isController;
     public InputActionReference useHeldItem, interactWithItem, interactWithoutItem, 
-    movement, sprint, look, moreInfo, pauseGame, uiPause, hotbarScroll, hotbarUp, hotbarDown, showGrid, rotateStructure, openInventory, closeInventory,
+    movement, sprint, look, moreInfo, pauseGame, openCodex, closeCodex, uiPause, uiPageTurn, hotbarScroll, hotbarUp, hotbarDown, showGrid, rotateStructure, openInventory, closeInventory,
     select, split;
     string currentDevice;
     public static bool isGamepad;
