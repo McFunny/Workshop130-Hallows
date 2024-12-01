@@ -426,12 +426,12 @@ public class MistWalker : CreatureBehaviorScript
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance <= 6.5f)
+        if (distance <= 6f)
         {
             StartCoroutine(SwipePlayer());
             transform.LookAt(player.position);
         }
-        else if (distance > 6.5f && distance <= lungeRange && canLunge)
+        else if (distance > 6f && distance <= lungeRange && canLunge)
         {
             StartCoroutine(LungeAtPlayer());
         }
@@ -524,7 +524,7 @@ public class MistWalker : CreatureBehaviorScript
         if(currentState != CreatureState.Stun)
         {
             Vector3 lungeDirection = (player.position - transform.position).normalized;
-            agent.velocity = lungeDirection * 4; 
+            agent.velocity = lungeDirection * 8; 
         }
 
         yield return new WaitForSeconds(0.8f);

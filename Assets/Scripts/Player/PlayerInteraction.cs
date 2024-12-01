@@ -262,6 +262,7 @@ public class PlayerInteraction : MonoBehaviour
             StaminaChange(item.staminaValue);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
+            playerEffects.PlayClip(playerEffects.itemEat);
             return;
         }
     }
@@ -303,6 +304,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
+        playerEffects.PlayClip(playerEffects.playerDie);
         yield return new WaitForSeconds(1f);
         TimeManager.Instance.GameOver();
         NightSpawningManager.Instance.GameOver();

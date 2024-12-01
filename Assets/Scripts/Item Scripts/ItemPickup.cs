@@ -123,8 +123,8 @@ public class ItemPickup : MonoBehaviour
 
     IEnumerator PickupDelay()
     {
-        yield return new WaitForSeconds(0.2f);
         FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
+        yield return new WaitForSeconds(0.2f);
         beingCollected = false;
         gameObject.SetActive(false); // Make the item disappear
     }

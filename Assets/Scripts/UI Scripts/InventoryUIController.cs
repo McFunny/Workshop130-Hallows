@@ -19,6 +19,10 @@ public class InventoryUIController : MonoBehaviour
     EventSystem eventSystem;
     ToolTipScript toolTip;
     MouseItemData mouseData;
+
+    AudioSource source;
+    public AudioClip openInventory;
+
     private void Awake()
     {
         readyToPress = true;
@@ -30,6 +34,7 @@ public class InventoryUIController : MonoBehaviour
         controlManager = FindFirstObjectByType<ControlManager>();
         toolTip = FindFirstObjectByType<ToolTipScript>();
         mouseData = FindFirstObjectByType<MouseItemData>();
+        source = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -79,6 +84,7 @@ public class InventoryUIController : MonoBehaviour
             if(ControlManager.isGamepad) eventSystem.SetSelectedGameObject(firstObject);
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
+            source.PlayOneShot(openInventory);
             return;
         }
         

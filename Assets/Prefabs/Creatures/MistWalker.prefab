@@ -298,7 +298,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   animEvents: {fileID: 1571331616092395312}
   lungeAttackHitbox: {fileID: 9090513854541498605}
-  lungeCooldown: 6
+  lungeCooldown: 3
   lungeRange: 9
   currentState: 2
 --- !u!195 &4923551108285686843
@@ -369,7 +369,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 2.5
   m_Height: 3.26
   m_Direction: 1
   m_Center: {x: 0, y: 1.65, z: 0.47}

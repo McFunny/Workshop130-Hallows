@@ -10,7 +10,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     //HANDLES THE AUDIO AND EFFECTS THAT COME FROM THE PLAYER
     public float volume = 1f;
     public AudioSource source, footStepSource;
-    public AudioClip itemPickup;
+    public AudioClip itemPickup, itemEat, playerDie;
     //public AudioClip footSteps;
 
     Volume globalVolume;
@@ -111,6 +111,11 @@ public class PlayerEffectsHandler : MonoBehaviour
     IEnumerator DeathFlash()
     {
         yield return new WaitForSeconds(1);
+    }
+
+    public void PlayClip(AudioClip clip)
+    {
+        source.PlayOneShot(clip);
     }
 
     
