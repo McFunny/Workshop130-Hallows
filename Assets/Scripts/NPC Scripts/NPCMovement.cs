@@ -22,11 +22,18 @@ public class NPCMovement : MonoBehaviour
     public bool isWorking; // Determines if this NPC is actively working
     public List<Schedule> scheduleList = new List<Schedule>();
 
+    NPC npcScript;
+    bool isTalking = false;
+    bool facePlayer = true;
+
+    Vector3 currentDestination;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         TimeManager.OnHourlyUpdate += CheckDestination;
         npcMovementManager = FindObjectOfType<NPCMovementManager>();
+        npcScript = GetComponent<NPC>();
     }
 
     public void CheckDestination()
@@ -37,27 +44,40 @@ public class NPCMovement : MonoBehaviour
             {
                 currentSchedule = schedule;
 
-                
-                if (currentSublocation != null)
+                // Release the current sublocation if occupied
+                if (currentSublocation != null && !currentSublocation.isAtHome)
                 {
-                    ReleaseSublocation(currentSublocation); // makes sublocation available for other npcs
+                    ReleaseSublocation(currentSublocation);
                 }
 
-               
-                bool isWorker = (schedule.Action == Action.Working); // determines if NPC is supposed to be working at that location
+                // Determine if NPC is working
+                bool isWorker = (schedule.Action == Action.Working);
 
-                currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, isWorker); // gets sublocation for NPC to be at
-
-                if (currentSublocation != null) //claims sublocation and moves to it
+                // Handle AtHome separately
+                if (schedule.Action == Action.AtHome)
                 {
-                    currentSublocation.isOccupied = true;
-                    currentSublocation.occupant = this;
+                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false, true);
+                }
+                else
+                {
+                    // Standard behavior for other actions
+                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, isWorker);
+                }
+
+                // Claim the sublocation and move to it
+                if (currentSublocation != null)
+                {
+                    if (!currentSublocation.isAtHome) // Only claim if it's not a home sublocation
+                    {
+                        currentSublocation.isOccupied = true;
+                        currentSublocation.occupant = this;
+                    }
 
                     StartCoroutine(MoveToDestination(currentSublocation.transform));
                 }
                 else
                 {
-                    // fall back to main destination if no sublocations available
+                    // Fallback to main destination if no sublocations available
                     Transform mainDestination = npcMovementManager.GetDestination(schedule.Destination);
 
                     if (mainDestination != null)
@@ -76,6 +96,7 @@ public class NPCMovement : MonoBehaviour
     IEnumerator MoveToDestination(Transform destination)
     {
         agent.destination = destination.position;
+        currentDestination = destination.position;
 
         while (agent.pathPending)
         {
@@ -87,7 +108,7 @@ public class NPCMovement : MonoBehaviour
             yield return null;
         }
 
-        PerformAction(); //when npcs reaches place, their action will be called
+        PerformAction(); 
     }
 
     void PerformAction()
@@ -96,17 +117,22 @@ public class NPCMovement : MonoBehaviour
         {
             case Action.Working:
                 isWorking = true; // Set isWorking to true for working action
-                //Debug.Log($"{name} is now working at {currentSublocation?.name ?? currentSchedule.Destination.ToString()}");
+             
                 break;
 
             case Action.Walking:
                 isWorking = false;
-                //Debug.Log($"{name} is walking at {currentSchedule.Destination}");
+              
                 break;
 
             case Action.Idle:
                 isWorking = false;
-                //Debug.Log($"{name} is idling at {currentSublocation?.name ?? currentSchedule.Destination.ToString()}");
+             
+                break;
+
+            case Action.AtHome:
+                isWorking = false;
+               
                 break;
         }
     }
@@ -116,4 +142,26 @@ public class NPCMovement : MonoBehaviour
         sublocation.isOccupied = false;
         sublocation.occupant = null;
     }
+
+    public void TalkToPlayer()
+    {
+        agent.Stop();
+        if(facePlayer) npcScript.faceCamera.enabled = true;
+        StartCoroutine(ReturnToSchedule());
+    }
+
+    IEnumerator ReturnToSchedule()
+    {
+        isTalking = true;
+        do
+        {
+            yield return new WaitForSeconds(5);
+        }
+        while(npcScript.dialogueController.IsTalking() && npcScript.dialogueController.currentTalker == npcScript);
+        isTalking = false;
+        npcScript.faceCamera.enabled = false;
+        agent.Resume();
+        //agent.destination = currentDestination;
+    }
 }
+

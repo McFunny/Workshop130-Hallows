@@ -165,6 +165,7 @@ public class FarmLand : StructureBehaviorScript
             hoursSpent = 0;
             if (isWeed) Destroy(this.gameObject);
             SpriteChange();
+            if(growthComplete) growthComplete.Stop();
         }
     }
 
@@ -189,7 +190,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(ignoreNextGrowthMoment || rotted)
+        if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;
             return;
