@@ -6751,6 +6751,7 @@ GameObject:
   - component: {fileID: 7806426749010079376}
   - component: {fileID: 7134883994844149291}
   - component: {fileID: 5574233904732930456}
+  - component: {fileID: 1087822415833838726}
   m_Layer: 0
   m_Name: POOLS
   m_TagString: Untagged
@@ -6772,6 +6773,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6860267921295167762}
+  - {fileID: 474536576919656251}
   m_Father: {fileID: 8883901233060397173}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7134883994844149291
@@ -6832,7 +6834,6 @@ MonoBehaviour:
   - {fileID: 4764005530758249738}
   - {fileID: 4759477504724506100}
   - {fileID: 5795834188946563376}
-  - {fileID: 5983616619415854833}
 --- !u!1 &4906814702745265644
 GameObject:
   m_ObjectHideFlags: 0
@@ -7249,6 +7250,7 @@ MonoBehaviour:
   lumber_offersDeal: 0
   lumber_choppedTree: 0
   keyCollected: 0
+  catacombUnlocked: 0
 --- !u!114 &5709635494777338877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7753,7 +7755,6 @@ Transform:
   - {fileID: 4764005530758249738}
   - {fileID: 4759477504724506100}
   - {fileID: 5795834188946563376}
-  - {fileID: 5983616619415854833}
   m_Father: {fileID: 7806426749010079376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8524718070177679459

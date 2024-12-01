@@ -30,7 +30,7 @@ public class PlayerInteraction : MonoBehaviour
     public float waterHeld = 0; //for watering can
     [HideInInspector] public readonly float maxWaterHeld = 10;
 
-    private float reach = 5;
+    private float reach = 8;
 
     public LayerMask interactionLayers;
     private bool ltCanPress = false;

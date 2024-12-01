@@ -17,6 +17,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     [HideInInspector] public CreatureEffectsHandler effectsHandler;
     [HideInInspector] public Transform player;
 
+    public Collider[] allColliders; //to be disabled when a corpse
+
     public Rigidbody rb;
     public Animator anim;
 
@@ -54,7 +56,6 @@ public class CreatureBehaviorScript : MonoBehaviour
         if(!isDead)
         {
             OnDamage();
-            effectsHandler.OnHit();
         }
         if(health <= 0 && !isDead)
         {
@@ -89,6 +90,10 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
         NightSpawningManager.Instance.allCreatures.Remove(this);
+        foreach(Collider collider in allColliders)
+        {
+            collider.isTrigger = true;
+        }
     } //Triggers creature specific effects
 
     public virtual void OnSpawn(){}

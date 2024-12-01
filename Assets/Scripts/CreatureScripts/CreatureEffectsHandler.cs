@@ -14,6 +14,7 @@ public class CreatureEffectsHandler : MonoBehaviour
     public AudioClip moveSound;
     public AudioClip idleSound1;
     public AudioClip idleSound2;
+    public AudioClip[] idleSounds;
     public AudioClip[] hitSounds;
     public AudioClip[] footSteps;
     public AudioClip deathSound;
@@ -48,6 +49,13 @@ public class CreatureEffectsHandler : MonoBehaviour
         r = Random.Range(pitchMin,pitchMax);
         //source.pitch = originalPitch + r;
         source.PlayOneShot(idleSound2, volume);
+    }
+
+    public void RandomIdle()
+    {
+        r = Random.Range(pitchMin,pitchMax);
+        int i = Random.Range(0, idleSounds.Length);
+        source.PlayOneShot(idleSounds[i], volume);
     }
 
     public void OnHit()

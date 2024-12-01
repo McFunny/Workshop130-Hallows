@@ -60,8 +60,22 @@ public class AmbientAudioManager : MonoBehaviour
         {
             ambienceSource.PlayOneShot(bellTower);
             StopCoroutine(PlayAmbientMusic());
-            musicSource.Stop();
+            StartCoroutine(FadeAudio());
             StartCoroutine(PlayAmbientMusic());
         }
+    }
+
+    IEnumerator FadeAudio()
+    {
+        float oldVolume = musicSource.volume;
+        float currentVolume = oldVolume;
+        while(currentVolume > 0)
+        {
+            yield return new WaitForSeconds(0.1f);
+            currentVolume -= 0.1f;
+            musicSource.volume = currentVolume;
+        }
+        musicSource.Stop();
+        musicSource.volume = oldVolume;
     }
 }

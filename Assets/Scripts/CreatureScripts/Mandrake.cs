@@ -258,6 +258,11 @@ public class Mandrake : CreatureBehaviorScript
         agent.SetDestination(despawnPos);
     }
 
+    public override void OnDamage()
+    {
+        effectsHandler.OnHit();
+    }
+
     public override void OnDeath()
     {
         StopAllCoroutines();

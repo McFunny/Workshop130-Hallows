@@ -25,6 +25,7 @@ public class MistWalker : CreatureBehaviorScript
     public float lungeRange = 9f; // Distance at which it will lunge
     private bool canLunge = true;
     private bool recoilCooldown = false; //To prevent stunlocking
+    private bool isRecoiling = false;
 
     private Vector3 despawnPos;
 
@@ -68,6 +69,7 @@ public class MistWalker : CreatureBehaviorScript
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
         currentState = CreatureState.SpawnIn;
+        StartCoroutine(IdleSoundTimer());
     }
 
     void OnDestroy()
@@ -419,22 +421,21 @@ public class MistWalker : CreatureBehaviorScript
 
     private void AttackPlayer()
     {
-        if (coroutineRunning)
+        if (coroutineRunning || isRecoiling)
             return;
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance <= 3f)
+        if (distance <= 6.5f)
         {
-            agent.speed = 0;
-            agent.destination = player.position;
             StartCoroutine(SwipePlayer());
+            transform.LookAt(player.position);
         }
-        else if (distance > 3f && distance <= lungeRange && canLunge)
+        else if (distance > 6.5f && distance <= lungeRange && canLunge)
         {
             StartCoroutine(LungeAtPlayer());
         }
-        else if (distance > lungeRange)
+        else
         {
             currentState = CreatureState.WalkTowardsPlayer;
         }
@@ -486,13 +487,16 @@ public class MistWalker : CreatureBehaviorScript
         anim.SetTrigger("IsLunging");
         canLunge = false;
 
+        effectsHandler.MiscSound();
+        recoilCooldown = true;
+
         yield return new WaitForSeconds(1f); 
 
        
         if(currentState != CreatureState.Stun)
         {
             Vector3 lungeDirection = (player.position - transform.position).normalized;
-            agent.velocity = lungeDirection * agent.speed * 2f; //better lunge
+            agent.velocity = lungeDirection * 8 * 3f; //better lunge
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -501,6 +505,7 @@ public class MistWalker : CreatureBehaviorScript
         agent.velocity = Vector3.zero;
         currentState = CreatureState.WalkTowardsPlayer;
         coroutineRunning = false;
+        recoilCooldown = false;
         StartCoroutine(LungeCooldown());
     }
 
@@ -511,11 +516,24 @@ public class MistWalker : CreatureBehaviorScript
 
         anim.SetTrigger("IsAttacking");
 
-        yield return new WaitForSeconds(1.5f); 
+        effectsHandler.MiscSound2();
+        recoilCooldown = true;
+
+        yield return new WaitForSeconds(0.5f); 
+
+        if(currentState != CreatureState.Stun)
+        {
+            Vector3 lungeDirection = (player.position - transform.position).normalized;
+            agent.velocity = lungeDirection * 4; 
+        }
+
+        yield return new WaitForSeconds(0.8f);
+        agent.velocity = Vector3.zero;
 
         attackingPlayer = false;
         currentState = CreatureState.WalkTowardsPlayer;
-        yield return new WaitForSeconds(0.2f); 
+        recoilCooldown = false;
+        yield return new WaitForSeconds(0.5f); 
         coroutineRunning = false;
     }
 
@@ -532,7 +550,8 @@ public class MistWalker : CreatureBehaviorScript
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
-                playerInteraction.StaminaChange(-25);
+                playerInteraction.StaminaChange(damageToPlayer);
+                lungeAttackHitbox.enabled = false;
             }
         }
     }
@@ -578,6 +597,7 @@ public class MistWalker : CreatureBehaviorScript
         if(!recoilCooldown)
         {
             recoilCooldown = true;
+            effectsHandler.OnHit();
             anim.SetTrigger("IsRecoiling");
             StartCoroutine(RecoilCooldown());
         }
@@ -585,8 +605,21 @@ public class MistWalker : CreatureBehaviorScript
 
     IEnumerator RecoilCooldown()
     {
-        yield return new WaitForSeconds(2);
+        isRecoiling = true;
+        yield return new WaitForSeconds(1);
+        isRecoiling = false;
+        yield return new WaitForSeconds(1);
         recoilCooldown = false;
+    }
+
+    IEnumerator IdleSoundTimer()
+    {
+        while(health > 0)
+        {
+            int i = Random.Range(4,10);
+            yield return new WaitForSeconds(i);
+            effectsHandler.RandomIdle();
+        }
     }
 
     private void Trapped()
