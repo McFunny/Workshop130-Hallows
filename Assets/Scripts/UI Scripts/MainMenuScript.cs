@@ -35,6 +35,7 @@ public class MainMenuScript : MonoBehaviour
     {
         //print(isPaused);
         //print(EventSystem.current.currentSelectedGameObject);
+        //print(controlManager.playerInput.currentActionMap);
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad)
         {
             if(controlsDefault.activeInHierarchy)EventSystem.current.SetSelectedGameObject(controlsDefault);

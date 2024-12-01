@@ -197,6 +197,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HideUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""f25a8971-5339-4248-95d7-9bdcfea0d024"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -848,6 +857,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""PageDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8013e43c-3e74-4966-b0c9-a409c2e2903d"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""HideUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2ae43c27-4a6b-40d3-90bc-c2638125ea5c"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""HideUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -904,15 +935,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""8343bd26-5a2a-4082-b08e-fdea29018843"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""HideUI"",
-                    ""type"": ""Button"",
-                    ""id"": ""36788430-f98a-478f-99f2-369620496ef4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1137,28 +1159,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""cd143219-8f1c-42e0-9a72-193b1f66e0ee"",
-                    ""path"": ""<Gamepad>/select"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""HideUI"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fd5c13d9-aebe-463c-833a-457f88e2fab2"",
-                    ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""HideUI"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""1D Axis"",
                     ""id"": ""5a8041b6-9008-4258-acc1-f281e90a8479"",
                     ""path"": ""1DAxis"",
@@ -1344,6 +1344,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_UIScroll = m_Gameplay.FindAction("UIScroll", throwIfNotFound: true);
         m_Gameplay_PageUp = m_Gameplay.FindAction("PageUp", throwIfNotFound: true);
         m_Gameplay_PageDown = m_Gameplay.FindAction("PageDown", throwIfNotFound: true);
+        m_Gameplay_HideUI = m_Gameplay.FindAction("HideUI", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -1352,7 +1353,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_UI_Split = m_UI.FindAction("Split", throwIfNotFound: true);
         m_UI_MousePos = m_UI.FindAction("MousePos", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
-        m_UI_HideUI = m_UI.FindAction("HideUI", throwIfNotFound: true);
         m_UI_PageTurn = m_UI.FindAction("PageTurn", throwIfNotFound: true);
         m_UI_CloseCodex = m_UI.FindAction("CloseCodex", throwIfNotFound: true);
     }
@@ -1435,6 +1435,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_UIScroll;
     private readonly InputAction m_Gameplay_PageUp;
     private readonly InputAction m_Gameplay_PageDown;
+    private readonly InputAction m_Gameplay_HideUI;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -1458,6 +1459,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @UIScroll => m_Wrapper.m_Gameplay_UIScroll;
         public InputAction @PageUp => m_Wrapper.m_Gameplay_PageUp;
         public InputAction @PageDown => m_Wrapper.m_Gameplay_PageDown;
+        public InputAction @HideUI => m_Wrapper.m_Gameplay_HideUI;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1524,6 +1526,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PageDown.started += instance.OnPageDown;
             @PageDown.performed += instance.OnPageDown;
             @PageDown.canceled += instance.OnPageDown;
+            @HideUI.started += instance.OnHideUI;
+            @HideUI.performed += instance.OnHideUI;
+            @HideUI.canceled += instance.OnHideUI;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -1585,6 +1590,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PageDown.started -= instance.OnPageDown;
             @PageDown.performed -= instance.OnPageDown;
             @PageDown.canceled -= instance.OnPageDown;
+            @HideUI.started -= instance.OnHideUI;
+            @HideUI.performed -= instance.OnHideUI;
+            @HideUI.canceled -= instance.OnHideUI;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1612,7 +1620,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Split;
     private readonly InputAction m_UI_MousePos;
     private readonly InputAction m_UI_Pause;
-    private readonly InputAction m_UI_HideUI;
     private readonly InputAction m_UI_PageTurn;
     private readonly InputAction m_UI_CloseCodex;
     public struct UIActions
@@ -1625,7 +1632,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Split => m_Wrapper.m_UI_Split;
         public InputAction @MousePos => m_Wrapper.m_UI_MousePos;
         public InputAction @Pause => m_Wrapper.m_UI_Pause;
-        public InputAction @HideUI => m_Wrapper.m_UI_HideUI;
         public InputAction @PageTurn => m_Wrapper.m_UI_PageTurn;
         public InputAction @CloseCodex => m_Wrapper.m_UI_CloseCodex;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
@@ -1655,9 +1661,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
-            @HideUI.started += instance.OnHideUI;
-            @HideUI.performed += instance.OnHideUI;
-            @HideUI.canceled += instance.OnHideUI;
             @PageTurn.started += instance.OnPageTurn;
             @PageTurn.performed += instance.OnPageTurn;
             @PageTurn.canceled += instance.OnPageTurn;
@@ -1686,9 +1689,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
-            @HideUI.started -= instance.OnHideUI;
-            @HideUI.performed -= instance.OnHideUI;
-            @HideUI.canceled -= instance.OnHideUI;
             @PageTurn.started -= instance.OnPageTurn;
             @PageTurn.performed -= instance.OnPageTurn;
             @PageTurn.canceled -= instance.OnPageTurn;
@@ -1751,6 +1751,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnUIScroll(InputAction.CallbackContext context);
         void OnPageUp(InputAction.CallbackContext context);
         void OnPageDown(InputAction.CallbackContext context);
+        void OnHideUI(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1760,7 +1761,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSplit(InputAction.CallbackContext context);
         void OnMousePos(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-        void OnHideUI(InputAction.CallbackContext context);
         void OnPageTurn(InputAction.CallbackContext context);
         void OnCloseCodex(InputAction.CallbackContext context);
     }
