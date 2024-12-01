@@ -55,7 +55,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.29
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0.18, z: 0}
 --- !u!114 &3941601659456013933
 MonoBehaviour:
@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e0d0773fc150a4d9775357dba5b5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickUpRadius: 0.29
+  PickUpRadius: 0.5
   ItemData: {fileID: 0}
   r: {fileID: 1971439876103137765}
   itemSaveData:
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfaf9ee1ef95c6241925cd1a6fe8ef16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invert: 0
 --- !u!1 &7324945082835022240
 GameObject:
   m_ObjectHideFlags: 0

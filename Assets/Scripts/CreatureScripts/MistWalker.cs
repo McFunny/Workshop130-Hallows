@@ -24,6 +24,7 @@ public class MistWalker : CreatureBehaviorScript
     public float lungeCooldown = 6f; // Time between lunges
     public float lungeRange = 9f; // Distance at which it will lunge
     private bool canLunge = true;
+    private bool recoilCooldown = false; //To prevent stunlocking
 
     private Vector3 despawnPos;
 
@@ -66,6 +67,7 @@ public class MistWalker : CreatureBehaviorScript
 
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
+        currentState = CreatureState.SpawnIn;
     }
 
     void OnDestroy()
@@ -77,7 +79,7 @@ public class MistWalker : CreatureBehaviorScript
 
     public override void OnSpawn()
     {
-        if (!isMoving && currentState == CreatureState.SpawnIn)
+        if (!isMoving)
         {
             Vector3 randomPoint = StructureManager.Instance.GetRandomTile();
             StartCoroutine(MoveToPoint(randomPoint));
@@ -222,14 +224,14 @@ public class MistWalker : CreatureBehaviorScript
         if (!coroutineRunning)
         {
             int r = Random.Range(0, 8);
-            if (r == 0)
+            if (r < 4)
             {
                 if (availableStructure.Count > 0)
                 {
                     currentState = CreatureState.WalkTowardsClosestStructure;
                 }
             }
-            else if (r < 6)
+            else if (r < 5)
             {
                 StartCoroutine(WaitAround());
             }
@@ -485,8 +487,11 @@ public class MistWalker : CreatureBehaviorScript
         yield return new WaitForSeconds(1f); 
 
        
-        Vector3 lungeDirection = (player.position - transform.position).normalized;
-        agent.velocity = lungeDirection * agent.speed * 2f; //better lunge
+        if(currentState != CreatureState.Stun)
+        {
+            Vector3 lungeDirection = (player.position - transform.position).normalized;
+            agent.velocity = lungeDirection * agent.speed * 2f; //better lunge
+        }
 
         yield return new WaitForSeconds(0.5f);
 
@@ -568,7 +573,18 @@ public class MistWalker : CreatureBehaviorScript
 
     public override void OnDamage()
     {
-        anim.SetTrigger("IsRecoiling");
+        if(!recoilCooldown)
+        {
+            recoilCooldown = true;
+            anim.SetTrigger("IsRecoiling");
+            StartCoroutine(RecoilCooldown());
+        }
+    }
+
+    IEnumerator RecoilCooldown()
+    {
+        yield return new WaitForSeconds(2);
+        recoilCooldown = false;
     }
 
     private void Trapped()

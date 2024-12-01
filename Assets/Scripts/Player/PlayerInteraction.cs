@@ -110,12 +110,15 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
         if(!ControlManager.isController) StructureInteractionWithItem();
-        if(ltCanPress == true)
-        { 
-            StructureInteractionWithItem();
-            ltCanPress = false; 
+        else
+        {
+            if(ltCanPress == true)
+            { 
+                StructureInteractionWithItem();
+                ltCanPress = false; 
+            }
+            else ltCanPress = true;
         }
-        else ltCanPress = true;
     }
 
 
@@ -231,7 +234,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void UseHotBarItem()
     {
-       Debug.Log("UsingHandItem");
+        Debug.Log("UsingHandItem");
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(item == null) return;
 
@@ -283,6 +286,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void DisplayHologramCheck()
     {
+        if(!HotbarDisplay.currentSlot) return;
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(!item) return;
         PlaceableItem p_item = item as PlaceableItem;
@@ -299,10 +303,13 @@ public class PlayerInteraction : MonoBehaviour
     {
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
+        TimeManager.Instance.GameOver();
+        NightSpawningManager.Instance.GameOver();
+        TownGate.Instance.GameOver();
+        yield return new WaitForSeconds(3f);
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
-        TimeManager.Instance.GameOver();
         if(currentMoney > 0) currentMoney = currentMoney/2;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;

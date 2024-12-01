@@ -11,13 +11,7 @@ public class Mandrake : CreatureBehaviorScript
     [HideInInspector] public NavMeshAgent agent;
     private bool coroutineRunning = false;
     public float fleeDistance = 3f;
-    public Tilemap tileMap; // Reference to your tilemap
 
-    public GameObject farmTile;
-    public CropData data;
-    //public GameObject mandrakeTile;
-    private GameObject spawnedFarmTile;
-    private Vector3 spot;
     public float timeBeforeLeavingFarm;
     private float savedTime;
 
@@ -44,7 +38,6 @@ public class Mandrake : CreatureBehaviorScript
         base.Start();
         agent = GetComponent<NavMeshAgent>();
         currentState = CreatureState.WakeUp;
-        tileMap = FindObjectOfType<Tilemap>();
         savedTime = timeBeforeLeavingFarm;
 
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
@@ -144,6 +137,7 @@ public class Mandrake : CreatureBehaviorScript
     {
         coroutineRunning = true;
         float r = 1.5f;
+        effectsHandler.MiscSound();
         anim.SetTrigger("IsScreaming");
         yield return new WaitForSeconds(r);
         coroutineRunning = false;
@@ -160,6 +154,7 @@ public class Mandrake : CreatureBehaviorScript
     IEnumerator FreakOut()
     {
         //Play freak out Animation
+        effectsHandler.MiscSound2();
         coroutineRunning = true;
         if (playerInSightRange)
         {

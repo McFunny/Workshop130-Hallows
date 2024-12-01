@@ -67,7 +67,9 @@ public class InventoryUIController : MonoBehaviour
         //print("Pressed");
         if(mouseData && mouseData.IsHoldingItem()) return;
 
-        //if(DialogueController.Instance.currentTalker) return;
+        if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
+
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown) return;
 
         if(!PlayerMovement.accessingInventory)
         {

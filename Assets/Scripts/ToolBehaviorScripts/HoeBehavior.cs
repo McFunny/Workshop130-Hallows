@@ -47,7 +47,7 @@ public class HoeBehavior : ToolBehavior
                 usingPrimary = true;
                 HandItemManager.Instance.PlayPrimaryAnimation();
                 HandItemManager.Instance.toolSource.PlayOneShot(swing);
-                PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.9f));
+                PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.7f));
                 PlayerMovement.restrictMovementTokens++;
                 PlayerInteraction.Instance.StaminaChange(-2);
             }
@@ -69,7 +69,7 @@ public class HoeBehavior : ToolBehavior
 
     IEnumerator ExtraLag()
     {
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(1.1f);
         usingPrimary = false;
         PlayerMovement.restrictMovementTokens--;
     }

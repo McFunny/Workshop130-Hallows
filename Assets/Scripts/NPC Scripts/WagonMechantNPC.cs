@@ -21,6 +21,10 @@ public class WagonMerchantNPC : NPC, ITalkable
         shopUI = FindObjectOfType<WaypointScript>();
         RefreshStore();
         TimeManager.OnHourlyUpdate += HourlyUpdate;
+        for(int i = 0; i < storeItems.Length; i++)
+        {
+            storeItems[i].seller = this;
+        }
     }
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -64,8 +68,10 @@ public class WagonMerchantNPC : NPC, ITalkable
         else
         {
             //Can Buy
+            print("I Ran");
             if(lastSeenItem != item)
             {
+                print("I have not seen this item yet");
                 //Are you sure?
                 lastSeenItem = item;
                 dialogueController.restartDialogue = true;
@@ -77,6 +83,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             else
             {
+                print("Repeated item");
                 //Sold, remove item and gain money
                 currentPath = 2;
                 currentType = PathType.Misc;

@@ -147,7 +147,7 @@ public class NightSpawningManager : MonoBehaviour
                 case 21:
                     return 0.7f;
                 case 22:
-                    return 0.7f;;
+                    return 0.7f;
                 case 23:
                     return 0.4f;
                 case 0:
@@ -162,5 +162,14 @@ public class NightSpawningManager : MonoBehaviour
         int r = Random.Range(0, testSpawns.Length);
         float x = Random.Range(-20, 20);
         return testSpawns[r].position + (x * testSpawns[r].transform.right); //new Vector3(testSpawns[r].position.x + x, testSpawns[r].position.y, testSpawns[r].position.z);
+    }
+
+    public void GameOver()
+    {
+        for(int i = 0; i < allCreatures.Count; i++)
+        {
+            Destroy(allCreatures[i].gameObject);
+        }
+        allCreatures.Clear();
     }
 }
