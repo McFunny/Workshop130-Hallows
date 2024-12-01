@@ -42,6 +42,7 @@ public class NPCMovement : MonoBehaviour
         {
             if (schedule.time == TimeManager.Instance.currentHour)
             {
+                isWorking = false;
                 currentSchedule = schedule;
 
                 // Release the current sublocation if occupied
@@ -89,6 +90,7 @@ public class NPCMovement : MonoBehaviour
                         Debug.LogWarning($"No available destination or sublocation for {schedule.Destination}");
                     }
                 }
+                break;
             }
         }
     }

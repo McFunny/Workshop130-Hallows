@@ -18,8 +18,13 @@ public class RascalNPC : NPC, ITalkable
             }
             else
             {
-                currentPath = -1;
-                currentType = PathType.Default;
+                if(currentPath == -1)
+                {
+                    int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentPath = i;
+                }
+                //currentPath = -1;
+                currentType = PathType.Filler;
             }
         }
         Talk();
@@ -52,6 +57,21 @@ public class RascalNPC : NPC, ITalkable
             currentPath = 1;
             currentType = PathType.ItemSpecific;
         }
+        else if(item.staminaValue > 0)
+        {
+            if(!NPCManager.Instance.rascalFed)
+            {
+                currentPath = 0;
+                currentType = PathType.ItemRecieved;
+                NPCManager.Instance.rascalFed = true;
+            }
+            else
+            {
+                currentPath = 1;
+                currentType = PathType.ItemRecieved;
+            }
+            //Its consumable and giftable
+        }
         else
         {
             currentPath = 0;
@@ -67,6 +87,11 @@ public class RascalNPC : NPC, ITalkable
     public override void PlayerLeftRadius()
     {
 
+    }
+
+    public override void OnConvoEnd()
+    {
+        currentPath = -1;
     }
 
 }

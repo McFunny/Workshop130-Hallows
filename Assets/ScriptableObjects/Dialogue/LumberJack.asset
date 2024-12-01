@@ -23,9 +23,11 @@ MonoBehaviour:
     paragraphs: []
     emotions: 
   repeatedItemPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Sigh
+    paragraphs:
+    - '*sigh*'
+    - Beggars can't be choosers in times like these...
+    emotions: 0200000000000000
   paths: []
   fillerPaths:
   - pathName: Tree Variety
@@ -59,14 +61,19 @@ MonoBehaviour:
   itemRecievedPaths:
   - pathName: Thank you
     paragraphs:
-    - Ho ho, this looks nice! Thank you!
+    - Ho ho, this looks nice! Thank you! {itemGiven}
     emotions: 01000000
+  - pathName: I Couldn't
+    paragraphs:
+    - I couldn't possibly have another!
+    emotions: 05000000
   itemSpecificRemarks:
   - pathName: No Comment
     paragraphs:
     - Ah yes... very nice... thing...
+    - ...
     - Why are you showing me this?
-    emotions: 0000000004000000
+    emotions: 000000000000000004000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

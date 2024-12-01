@@ -69,7 +69,12 @@ public class DialogueController : MonoBehaviour
             currentType = type;
             restartDialogue = false;
 
-            EndConversation();
+            //EndConversation();
+            paragraphs.Clear();
+            emotions.Clear();
+
+            conversationEnded = false;
+            isTalking = false;
 
             DisplayNextParagraph(dialogueText, currentPath, currentType);
             if(!interruptable) print("You just interrupted dialogue");
@@ -142,6 +147,9 @@ public class DialogueController : MonoBehaviour
             dialogueBox.SetActive(true);
             source.PlayOneShot(start);
         }
+
+        print(currentPath);
+        print(type);
 
         //Update Name
         NPCNameText.text = dialogueText.speakerName;

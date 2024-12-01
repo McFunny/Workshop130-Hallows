@@ -14,22 +14,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Botanist
   defaultPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Hello
+    paragraphs:
+    - Well hi there! How is your day going?
+    emotions: 01000000
   questCompletePath:
     pathName: 
     paragraphs: []
     emotions: 
   repeatedItemPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
-  paths: []
-  fillerPaths: []
+    pathName: Again...?
+    paragraphs:
+    - Oh joy.... {itemName}.... Again....  {itemGiven}
+    emotions: 03000000
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - Find something that interests you?
+    emotions: 00000000
+  fillerPaths:
+  - pathName: Hard Work
+    paragraphs:
+    - I gotta say, I don't quite envy your position.
+    - Having to work that close to the mist but be very frightening.
+    emotions: 0400000000000000
+  - pathName: Mist is neat
+    paragraphs:
+    - Can you believe plants used to take several months to mature??
+    - I could never imagine a world like that. Farming would be so boring!
+    emotions: 0500000001000000
+  - pathName: Come to my store
+    paragraphs:
+    - Please stop at my little shop booth when I am there! I can sell you some seeds
+      that I happen to come across, as well as my bagged fertalizers.
+    emotions: 01000000
   questPaths: []
-  itemRecievedPaths: []
-  itemSpecificRemarks: []
+  itemRecievedPaths:
+  - pathName: Looks Great
+    paragraphs:
+    - 'Perfect, I have been starving all day! Thanks a bunch.
+
+      {itemGiven}'
+    emotions: 01000000
+  - pathName: Too Full
+    paragraphs:
+    - Oh, I positively couldn't have another.
+    - If you have extras, go share them with everyone!
+    emotions: 0500000001000000
+  itemSpecificRemarks:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
+  - pathName: Fertilizer
+    paragraphs:
+    - That stuff is real handy for when you have a plot of land that just can't support
+      life no more.
+    - One bag will fill up any tile of ground with its specified nutrient.
+    emotions: 0200000000000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

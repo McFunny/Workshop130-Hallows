@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
-using UnityEditor.EditorTools;
+//using Microsoft.Unity.VisualStudio.Editor;
+//using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu]
 public class CodexEntries : ScriptableObject

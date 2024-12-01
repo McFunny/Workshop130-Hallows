@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.UI;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
 public class MainMenuScript : MonoBehaviour
@@ -61,6 +62,11 @@ public class MainMenuScript : MonoBehaviour
     {
         Application.Quit();
         print("Game Exited Successfully :)");
+    }
+
+    public void NewGame()
+    {
+        SceneManager.LoadSceneAsync(1);
     }
 
     public void OpenControlsScreen()

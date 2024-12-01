@@ -43,8 +43,12 @@ public class LumberjackNPC : NPC, ITalkable
             }
             else
             {
-                currentPath = -1;
-                currentType = PathType.Default;
+                if(currentPath == -1)
+                {
+                    int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentPath = i;
+                }
+                currentType = PathType.Filler;
             }
         }
         Talk();
@@ -66,8 +70,27 @@ public class LumberjackNPC : NPC, ITalkable
             return;
         } 
 
-        currentPath = 0;
-        currentType = PathType.ItemSpecific;
+        /*else*/ if(item.staminaValue > 0)
+        {
+            if(!NPCManager.Instance.lumberjackFed)
+            {
+                currentPath = 0;
+                currentType = PathType.ItemRecieved;
+                NPCManager.Instance.lumberjackFed = true;
+            }
+            else
+            {
+                currentPath = 1;
+                currentType = PathType.ItemRecieved;
+            }
+            //Its consumable and giftable
+        }
+
+        else
+        {
+            currentPath = 0;
+            currentType = PathType.ItemSpecific;
+        }
 
         //code for the item being edible
         Talk();

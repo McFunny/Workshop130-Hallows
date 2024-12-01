@@ -31,7 +31,7 @@ public class ShovelBehavior : ToolBehavior
 
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
-        if (Physics.Raycast(player.position, fwd, out hit, 5, mask))
+        if (Physics.Raycast(player.position, fwd, out hit, 7, mask))
         {
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)

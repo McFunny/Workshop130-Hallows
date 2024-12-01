@@ -59,9 +59,13 @@ MonoBehaviour:
   itemRecievedPaths:
   - pathName: Thanks For Item!
     paragraphs:
-    - Oh man, I was starving!
+    - Oh man, I was starving! {itemGiven}
     - Thanks, geezer!
     emotions: 0000000000000000
+  - pathName: Im Full
+    paragraphs:
+    - Chill gramps, I still ain't done with the last thing you brought me!
+    emotions: 05000000
   itemSpecificRemarks:
   - pathName: So What?
     paragraphs:
@@ -73,3 +77,6 @@ MonoBehaviour:
     - I mean, of course you found the key!
     - Go open the door by the graveyard. At least, I think thats where it goes.
     emotions: 050000000000000000000000
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []
