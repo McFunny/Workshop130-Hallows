@@ -42,7 +42,7 @@ public class PauseScript : MonoBehaviour
             Time.timeScale = 1;
         }
 
-         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused)
+        if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused)
         {
             print("Default Pause Object Selected");
             EventSystem.current.SetSelectedGameObject(defaultObject);
@@ -51,7 +51,6 @@ public class PauseScript : MonoBehaviour
 
     private void PausePressed(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
         if(isPaused) PauseGame(); 
     }
 
@@ -64,7 +63,7 @@ public class PauseScript : MonoBehaviour
             //controlManager.playerInput.SwitchCurrentActionMap("UI");
             pauseObject.SetActive(true);
             controlsCanvas.SetActive(false);
-            controlManager.playerInput.SwitchCurrentActionMap("UI");
+            //controlManager.playerInput.SwitchCurrentActionMap("UI");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -73,7 +72,7 @@ public class PauseScript : MonoBehaviour
             //controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
             pauseObject.SetActive(false);
             controlsCanvas.SetActive(false);
-            controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
+            //controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             EventSystem.current.SetSelectedGameObject(null);

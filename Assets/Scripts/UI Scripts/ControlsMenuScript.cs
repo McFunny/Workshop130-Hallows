@@ -22,6 +22,7 @@ public class ControlsMenuScript : MonoBehaviour
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        scrollbar.value = 1.0f;
     }
 
     // Start is called before the first frame update
@@ -39,7 +40,7 @@ public class ControlsMenuScript : MonoBehaviour
 
     void OnEnable()
     {
-        controlManager.playerInput.SwitchCurrentActionMap("UI");
+        //controlManager.playerInput.SwitchCurrentActionMap("UI");
         for(int i = 0; i < controls.Length; i++)
         {
             if(ControlManager.isGamepad){controls[i].text = controllerText[i]; isControllerSelected = true;}
@@ -47,6 +48,7 @@ public class ControlsMenuScript : MonoBehaviour
         }
         if(isControllerSelected){currentScheme.text = "Controller";}
         else{currentScheme.text = "Keyboard";}
+        scrollbar.value = 1.0f;
     }
 
     void OnDisable()
@@ -58,18 +60,21 @@ public class ControlsMenuScript : MonoBehaviour
     void Update()
     {
 
-
-        //print(scrollInput.action.ReadValue<float>());
-        if(scrollInput.action.ReadValue<float>() > 0)
+        if(scrollInput != null)
         {
-            if(ControlManager.isGamepad){scrollbar.value += 0.005f;}
-            else{scrollbar.value += 0.1f;}
+            //print(scrollInput.action.ReadValue<float>());
+            if(scrollInput.action.ReadValue<float>() > 0)
+            {
+                if(ControlManager.isGamepad){scrollbar.value += 0.005f;}
+                else{scrollbar.value += 0.1f;}
+            }
+            else if(scrollInput.action.ReadValue<float>() < 0)
+            {
+                if(ControlManager.isGamepad){scrollbar.value -= 0.0051f;}
+                else{scrollbar.value -= 0.1f;}
+            }
         }
-        else if(scrollInput.action.ReadValue<float>() < 0)
-        {
-            if(ControlManager.isGamepad){scrollbar.value -= 0.0051f;}
-            else{scrollbar.value -= 0.1f;}
-        }
+            
 
         if(UICancel.action.WasPressedThisFrame())
         {
