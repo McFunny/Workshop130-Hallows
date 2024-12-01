@@ -110,6 +110,11 @@ public class NPCMovement : MonoBehaviour
             yield return null;
         }
 
+        if (currentSublocation.lookAtPoint != null)
+        {
+            transform.LookAt(currentSublocation.lookAtPoint);
+        }
+
         PerformAction(); 
     }
 

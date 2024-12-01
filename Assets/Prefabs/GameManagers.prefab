@@ -160,6 +160,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8883901233060397173}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &796712121161079814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2543239333084279642}
+  m_Layer: 0
+  m_Name: LookAtPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2543239333084279642
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796712121161079814}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.28, y: 0, z: 3.6900005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4922044940484644158}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &865426667757270835
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,11 +216,12 @@ Transform:
   m_GameObject: {fileID: 865426667757270835}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 503.54, y: 1.34, z: -9.18}
+  m_LocalPosition: {x: 563.33, y: 1.34, z: 8.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1142685055336986896}
+  - {fileID: 3118172321891758557}
   - {fileID: 5873921678371642917}
   m_Father: {fileID: 7787821027441036890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -311,7 +343,7 @@ Transform:
   m_GameObject: {fileID: 1153701658251347588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.03, y: 0, z: -1.7}
+  m_LocalPosition: {x: -5.7439895, y: 0, z: 2.511914}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -373,7 +405,7 @@ Transform:
   m_GameObject: {fileID: 1226068098701336237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.18, y: 0, z: -9.5}
+  m_LocalPosition: {x: 0.34, y: 0, z: 16.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -827,30 +859,35 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 324965700863720480}
     - name: Bystander1
       transform: {fileID: 6631886527045162183}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander2
       transform: {fileID: 104601810883968463}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander3
       transform: {fileID: 9145626535043475319}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander4
       transform: {fileID: 3153782576978881051}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 1
     mainTransform: {fileID: 940571416802021418}
     sublocations:
@@ -860,18 +897,21 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 1286356943137028916}
     - name: Bystander1
       transform: {fileID: 7801128710986504196}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander2
       transform: {fileID: 5875048594689907740}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 2
     mainTransform: {fileID: 1280717087991332351}
     sublocations:
@@ -881,18 +921,21 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 1407729818711169041}
     - name: Bystander1
       transform: {fileID: 4379692250618978093}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander2
       transform: {fileID: 7201424485557495694}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 3
     mainTransform: {fileID: 6898046294944881888}
     sublocations:
@@ -902,18 +945,21 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 2543239333084279642}
     - name: Bystander1
       transform: {fileID: 1919191154440620344}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander2
       transform: {fileID: 149557022236939426}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 4
     mainTransform: {fileID: 3720941011608264432}
     sublocations:
@@ -923,18 +969,21 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 8586311169773050328}
     - name: Bystander1
       transform: {fileID: 8001490654287480500}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander2
       transform: {fileID: 938290428806775134}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 5
     mainTransform: {fileID: 9091621616925762714}
     sublocations:
@@ -944,12 +993,14 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Home
       transform: {fileID: 360263377998450779}
       isForWorkers: 0
       isAtHome: 1
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 6
     mainTransform: {fileID: 7376164536479260360}
     sublocations:
@@ -959,6 +1010,7 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 7
     mainTransform: {fileID: 5160770671966347680}
     sublocations:
@@ -968,12 +1020,14 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander
       transform: {fileID: 4643675635598553966}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 8
     mainTransform: {fileID: 2055487060678113770}
     sublocations: []
@@ -986,12 +1040,14 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 3118172321891758557}
     - name: Home
       transform: {fileID: 5873921678371642917}
       isForWorkers: 0
       isAtHome: 1
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 10
     mainTransform: {fileID: 5680106217731862769}
     sublocations:
@@ -1001,6 +1057,7 @@ MonoBehaviour:
       isAtHome: 1
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
   - destination: 14
     mainTransform: {fileID: 564916328386176895}
     sublocations:
@@ -1010,42 +1067,80 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander
       transform: {fileID: 9163357662458570872}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander
       transform: {fileID: 9045388020784687642}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander
       transform: {fileID: 8334785611005107727}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander
       transform: {fileID: 1854707585430340838}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander
       transform: {fileID: 1313900087592969470}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
     - name: Bystander
       transform: {fileID: 203252495032315681}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+--- !u!1 &1970095750116158757
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8586311169773050328}
+  m_Layer: 0
+  m_Name: LookAtPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8586311169773050328
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970095750116158757}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.47, y: 0, z: -5.83}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3720941011608264432}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2038834600476937132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,10 +1579,11 @@ Transform:
   m_GameObject: {fileID: 3071979609754393122}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.330261, y: 0, z: -2.9907074}
+  m_LocalPosition: {x: 26.85, y: 0, z: -32.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 324965700863720480}
   m_Father: {fileID: 644985625366510528}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3245612489430283705
@@ -1580,7 +1676,8 @@ Transform:
   m_LocalPosition: {x: -1.66, y: 0, z: -10.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1407729818711169041}
   m_Father: {fileID: 1280717087991332351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3672766892855067966
@@ -1614,6 +1711,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1008784946656914511}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &3913241401670005462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407729818711169041}
+  m_Layer: 0
+  m_Name: LookAtPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1407729818711169041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3913241401670005462}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.7400017}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2051518580300837426}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3967658703832597366
 GameObject:
   m_ObjectHideFlags: 0
@@ -6678,6 +6806,37 @@ Transform:
   - {fileID: 5875048594689907740}
   m_Father: {fileID: 7787821027441036890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4659208410497884303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 324965700863720480}
+  m_Layer: 0
+  m_Name: LookAtPointWorkerTavern
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &324965700863720480
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4659208410497884303}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.13, y: 0, z: 1.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5178938185490203095}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4748209496777064458
 GameObject:
   m_ObjectHideFlags: 0
@@ -6893,7 +7052,8 @@ Transform:
   m_LocalPosition: {x: -3.53, y: 0, z: -9.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2543239333084279642}
   m_Father: {fileID: 6898046294944881888}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4924845572783988131
@@ -6957,6 +7117,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 474536576919656251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5345432757371445847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1286356943137028916}
+  m_Layer: 0
+  m_Name: LookAtPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1286356943137028916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5345432757371445847}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.17, y: 0, z: 2.34}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2483497381467223378}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5640903420662922545
 GameObject:
@@ -7134,7 +7325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f9f1e80beadc54f9ec8f58837125c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHour: 10
+  currentHour: 6
   isDay: 0
   dayNum: 1
   timeText: {fileID: 0}
@@ -7179,7 +7370,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5905684624903694689}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd1f3fb90d70b65408b062340ada8658, type: 3}
   m_Name: 
@@ -7258,7 +7449,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5905684624903694689}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 342be984640535d4182fd66aeeb35dad, type: 3}
   m_Name: 
@@ -7326,7 +7517,8 @@ Transform:
   m_LocalPosition: {x: 7.68, y: 0, z: -8.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1286356943137028916}
   m_Father: {fileID: 940571416802021418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7064807438385549790
@@ -7359,6 +7551,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1440528606212679155}
+  - {fileID: 8586311169773050328}
   - {fileID: 8001490654287480500}
   - {fileID: 938290428806775134}
   m_Father: {fileID: 7787821027441036890}
@@ -7424,6 +7617,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 644985625366510528}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7476745946240115211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3118172321891758557}
+  m_Layer: 0
+  m_Name: LumberJackWorker (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3118172321891758557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476745946240115211}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 18.09, y: 0, z: 0.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4506046353892270426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7494202654796708368
 GameObject:
@@ -7645,7 +7869,7 @@ Transform:
   m_GameObject: {fileID: 8200146554986848061}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.75, y: 0, z: -14.39}
+  m_LocalPosition: {x: 19.16, y: 0, z: 3.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7782,7 +8006,7 @@ Transform:
   m_GameObject: {fileID: 8524718070177679459}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.99, y: 0, z: 11.92}
+  m_LocalPosition: {x: -13.33, y: 0, z: 3.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7875,7 +8099,7 @@ Transform:
   m_GameObject: {fileID: 8860765733987721385}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 562.54, y: 1.34, z: 5.94}
+  m_LocalPosition: {x: 513.21, y: 1.34, z: -89.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

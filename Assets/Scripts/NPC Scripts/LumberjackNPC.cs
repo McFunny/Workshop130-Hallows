@@ -17,7 +17,7 @@ public class LumberjackNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(GameSaveData.Instance.rascalMentionedKey)
+            if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
             {
                 if(!GameSaveData.Instance.lumber_offersDeal)
                 {
