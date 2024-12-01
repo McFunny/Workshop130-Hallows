@@ -42,7 +42,7 @@ public class StructureManager : MonoBehaviour
 
     void Start()
     {
-        PopulateForageables(1, 2);
+        PopulateForageables(4, 8);
     }
 
     public void HourUpdate()
