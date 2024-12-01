@@ -7,18 +7,18 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Slosh_Shader
-  m_Shader: {fileID: -6465566751694194690, guid: e3ad44ca48d11b44a81641eb64676027,
+  m_Name: Shader Graphs_WaterBall
+  m_Shader: {fileID: -6465566751694194690, guid: 2f6d0ca55fb4efe4881b380545d61e17,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses: []
@@ -26,6 +26,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _NormalMap2D:
+        m_Texture: {fileID: 2800000, guid: 090355fa9ae9dc84fbf13b7c59e6e2c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -43,27 +47,29 @@ Material:
     - _AlphaClip: 1
     - _AlphaToMask: 1
     - _Blend: 0
+    - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Cull: 2
-    - _Dissolve: 0.787
+    - _Dissolve: 0
+    - _Distortion: 1
     - _DstBlend: 0
-    - _Noise_Power: 1
-    - _Noise_Scale: 30
-    - _QueueControl: 0
+    - _NormalTiling: 2
+    - _Normal_Strength: -1.62
+    - _QueueControl: 1
     - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 3.67
     - _SrcBlend: 1
     - _Surface: 0
-    - _Twirl_Amount: 8
+    - _VertexDisplacement: 0.04
+    - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 5.033323, g: 69.77023, b: 97.00585, a: 0}
-    - _Noise_Speed: {r: 0, g: -0.5, b: 0, a: 0}
-    - _Twirl_Center: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _Twirl_Speed: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _SpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &8486367722804668411
+--- !u!114 &9086614183743417912
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
