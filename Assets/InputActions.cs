@@ -170,6 +170,33 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UIScroll"",
+                    ""type"": ""Button"",
+                    ""id"": ""341b2861-baba-4ed4-8e71-03873f04eaae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PageUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""2366aedd-6075-4178-8406-0bc73f53e39d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PageDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""3070c3dc-cc62-4c98-bee9-3669296490b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -689,6 +716,138 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""OpenCodex"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""4c03a2dd-7ea0-4c7a-a970-48a1e6dee4a7"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UIScroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""1c3eca9e-5b7c-4a88-961e-fa346ea9c771"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UIScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""52dbb1c3-7567-4c40-9079-ea9ffafc62d5"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UIScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""8fa9fc71-58ef-4654-9929-ab9919f413a2"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UIScroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""610460c9-61cb-444f-a95a-18e57e5cc647"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""UIScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""e1bf9810-3fc6-418b-b54e-51501d531814"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""UIScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17326364-1ffa-48eb-beeb-7b05ce43bdd2"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PageUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1631109b-0a2c-482d-9939-99324bf5c75b"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PageUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aebbe55a-607b-4510-ae10-ae11ab0bb662"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PageUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b126913-5b34-4811-b17f-d1c2c630f1e7"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PageDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76683c64-55b6-4bec-b01c-ba0c6e566c0f"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PageDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fb0a6a64-abb2-4e5a-848e-292c3d7c67b2"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PageDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -749,15 +908,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Scroll"",
-                    ""type"": ""Button"",
-                    ""id"": ""508b34ce-adcc-4a37-befb-a6af38bc8d04"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""HideUI"",
@@ -987,72 +1137,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""d895e602-9121-4895-a6c5-1135a7e771dd"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""e8884424-d197-4a56-89c8-05c69b899f41"",
-                    ""path"": ""<Gamepad>/rightStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""65bf4107-5512-442f-807b-6653327648d3"",
-                    ""path"": ""<Gamepad>/rightStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""25980d7c-baf8-49d0-b88d-ed0ff070e2b5"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""c67e5eba-f2be-4176-b8c5-e8501d96881d"",
-                    ""path"": ""<Mouse>/scroll/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""7f4ba714-48d6-4836-a483-98ef5d5b6a5c"",
-                    ""path"": ""<Mouse>/scroll/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""cd143219-8f1c-42e0-9a72-193b1f66e0ee"",
                     ""path"": ""<Gamepad>/select"",
@@ -1143,8 +1227,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""1D Axis"",
                     ""id"": ""bcaf4479-9eee-4f9c-a2d7-a67158e88705"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
+                    ""path"": ""1DAxis(whichSideWins=1)"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PageTurn"",
@@ -1257,6 +1341,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_RotateStructure = m_Gameplay.FindAction("RotateStructure", throwIfNotFound: true);
         m_Gameplay_PauseGame = m_Gameplay.FindAction("PauseGame", throwIfNotFound: true);
         m_Gameplay_OpenCodex = m_Gameplay.FindAction("OpenCodex", throwIfNotFound: true);
+        m_Gameplay_UIScroll = m_Gameplay.FindAction("UIScroll", throwIfNotFound: true);
+        m_Gameplay_PageUp = m_Gameplay.FindAction("PageUp", throwIfNotFound: true);
+        m_Gameplay_PageDown = m_Gameplay.FindAction("PageDown", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -1265,7 +1352,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_UI_Split = m_UI.FindAction("Split", throwIfNotFound: true);
         m_UI_MousePos = m_UI.FindAction("MousePos", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
-        m_UI_Scroll = m_UI.FindAction("Scroll", throwIfNotFound: true);
         m_UI_HideUI = m_UI.FindAction("HideUI", throwIfNotFound: true);
         m_UI_PageTurn = m_UI.FindAction("PageTurn", throwIfNotFound: true);
         m_UI_CloseCodex = m_UI.FindAction("CloseCodex", throwIfNotFound: true);
@@ -1346,6 +1432,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_RotateStructure;
     private readonly InputAction m_Gameplay_PauseGame;
     private readonly InputAction m_Gameplay_OpenCodex;
+    private readonly InputAction m_Gameplay_UIScroll;
+    private readonly InputAction m_Gameplay_PageUp;
+    private readonly InputAction m_Gameplay_PageDown;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -1366,6 +1455,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @RotateStructure => m_Wrapper.m_Gameplay_RotateStructure;
         public InputAction @PauseGame => m_Wrapper.m_Gameplay_PauseGame;
         public InputAction @OpenCodex => m_Wrapper.m_Gameplay_OpenCodex;
+        public InputAction @UIScroll => m_Wrapper.m_Gameplay_UIScroll;
+        public InputAction @PageUp => m_Wrapper.m_Gameplay_PageUp;
+        public InputAction @PageDown => m_Wrapper.m_Gameplay_PageDown;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1423,6 +1515,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @OpenCodex.started += instance.OnOpenCodex;
             @OpenCodex.performed += instance.OnOpenCodex;
             @OpenCodex.canceled += instance.OnOpenCodex;
+            @UIScroll.started += instance.OnUIScroll;
+            @UIScroll.performed += instance.OnUIScroll;
+            @UIScroll.canceled += instance.OnUIScroll;
+            @PageUp.started += instance.OnPageUp;
+            @PageUp.performed += instance.OnPageUp;
+            @PageUp.canceled += instance.OnPageUp;
+            @PageDown.started += instance.OnPageDown;
+            @PageDown.performed += instance.OnPageDown;
+            @PageDown.canceled += instance.OnPageDown;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -1475,6 +1576,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @OpenCodex.started -= instance.OnOpenCodex;
             @OpenCodex.performed -= instance.OnOpenCodex;
             @OpenCodex.canceled -= instance.OnOpenCodex;
+            @UIScroll.started -= instance.OnUIScroll;
+            @UIScroll.performed -= instance.OnUIScroll;
+            @UIScroll.canceled -= instance.OnUIScroll;
+            @PageUp.started -= instance.OnPageUp;
+            @PageUp.performed -= instance.OnPageUp;
+            @PageUp.canceled -= instance.OnPageUp;
+            @PageDown.started -= instance.OnPageDown;
+            @PageDown.performed -= instance.OnPageDown;
+            @PageDown.canceled -= instance.OnPageDown;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1502,7 +1612,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Split;
     private readonly InputAction m_UI_MousePos;
     private readonly InputAction m_UI_Pause;
-    private readonly InputAction m_UI_Scroll;
     private readonly InputAction m_UI_HideUI;
     private readonly InputAction m_UI_PageTurn;
     private readonly InputAction m_UI_CloseCodex;
@@ -1516,7 +1625,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Split => m_Wrapper.m_UI_Split;
         public InputAction @MousePos => m_Wrapper.m_UI_MousePos;
         public InputAction @Pause => m_Wrapper.m_UI_Pause;
-        public InputAction @Scroll => m_Wrapper.m_UI_Scroll;
         public InputAction @HideUI => m_Wrapper.m_UI_HideUI;
         public InputAction @PageTurn => m_Wrapper.m_UI_PageTurn;
         public InputAction @CloseCodex => m_Wrapper.m_UI_CloseCodex;
@@ -1547,9 +1655,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
-            @Scroll.started += instance.OnScroll;
-            @Scroll.performed += instance.OnScroll;
-            @Scroll.canceled += instance.OnScroll;
             @HideUI.started += instance.OnHideUI;
             @HideUI.performed += instance.OnHideUI;
             @HideUI.canceled += instance.OnHideUI;
@@ -1581,9 +1686,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
-            @Scroll.started -= instance.OnScroll;
-            @Scroll.performed -= instance.OnScroll;
-            @Scroll.canceled -= instance.OnScroll;
             @HideUI.started -= instance.OnHideUI;
             @HideUI.performed -= instance.OnHideUI;
             @HideUI.canceled -= instance.OnHideUI;
@@ -1646,6 +1748,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnRotateStructure(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
         void OnOpenCodex(InputAction.CallbackContext context);
+        void OnUIScroll(InputAction.CallbackContext context);
+        void OnPageUp(InputAction.CallbackContext context);
+        void OnPageDown(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1655,7 +1760,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSplit(InputAction.CallbackContext context);
         void OnMousePos(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-        void OnScroll(InputAction.CallbackContext context);
         void OnHideUI(InputAction.CallbackContext context);
         void OnPageTurn(InputAction.CallbackContext context);
         void OnCloseCodex(InputAction.CallbackContext context);

@@ -57,11 +57,11 @@ public class CodexScript : MonoBehaviour
     {
         if(codex.activeInHierarchy)
         {
-            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            if(controlManager.codexPageUp.action.WasPressedThisFrame())
             {
                 UpdatePage(-1, CurrentCategory);
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (controlManager.codexPageDown.action.WasPressedThisFrame())
             {
                 UpdatePage(1, CurrentCategory);
             }
