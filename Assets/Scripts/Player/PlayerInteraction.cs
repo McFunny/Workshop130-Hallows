@@ -30,7 +30,7 @@ public class PlayerInteraction : MonoBehaviour
     public float waterHeld = 0; //for watering can
     [HideInInspector] public readonly float maxWaterHeld = 10;
 
-    private float reach = 5;
+    private float reach = 8;
 
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
@@ -234,7 +234,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void UseHotBarItem()
     {
-       Debug.Log("UsingHandItem");
+        Debug.Log("UsingHandItem");
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(item == null) return;
 
@@ -262,6 +262,7 @@ public class PlayerInteraction : MonoBehaviour
             StaminaChange(item.staminaValue);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
+            playerEffects.PlayClip(playerEffects.itemEat);
             return;
         }
     }
@@ -286,6 +287,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void DisplayHologramCheck()
     {
+        if(!HotbarDisplay.currentSlot) return;
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(!item) return;
         PlaceableItem p_item = item as PlaceableItem;
@@ -302,8 +304,11 @@ public class PlayerInteraction : MonoBehaviour
     {
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
+        playerEffects.PlayClip(playerEffects.playerDie);
         yield return new WaitForSeconds(1f);
         TimeManager.Instance.GameOver();
+        NightSpawningManager.Instance.GameOver();
+        TownGate.Instance.GameOver();
         yield return new WaitForSeconds(3f);
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;

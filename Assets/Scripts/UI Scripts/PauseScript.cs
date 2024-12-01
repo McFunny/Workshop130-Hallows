@@ -51,7 +51,7 @@ public class PauseScript : MonoBehaviour
 
     private void PausePressed(InputAction.CallbackContext obj)
     {
-
+        if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
         if(isPaused) PauseGame(); 
     }
 

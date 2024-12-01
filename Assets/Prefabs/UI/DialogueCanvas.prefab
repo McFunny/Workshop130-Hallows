@@ -153,7 +153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3262724052692866971
 RectTransform:
   m_ObjectHideFlags: 0
@@ -367,7 +367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2171265230994377989
 RectTransform:
   m_ObjectHideFlags: 0
@@ -463,10 +463,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af8a9ea587fec64cbb9a3f69b9636aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueBox: {fileID: 2689088621538793493}
   NPCNameText: {fileID: 93950229166636484}
   NPCDialogueText: {fileID: 2767424420415919140}
   restartDialogue: 0
   source: {fileID: 5452658753502173381}
+  start: {fileID: 8300000, guid: 1e6344cc40ea75a4cb23a02409c7a2de, type: 3}
+  end: {fileID: 8300000, guid: 29281ea889dc9c64c8666c7b11c8c21f, type: 3}
   currentTalker: {fileID: 0}
 --- !u!82 &5452658753502173381
 AudioSource:
@@ -480,7 +483,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.28
+  m_Volume: 0.145
   m_Pitch: 1
   Loop: 0
   Mute: 0

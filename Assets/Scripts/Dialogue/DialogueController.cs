@@ -9,6 +9,8 @@ public class DialogueController : MonoBehaviour
 {
     public static DialogueController Instance;
 
+    public GameObject dialogueBox;
+
     [SerializeField] private TextMeshProUGUI NPCNameText;
     [SerializeField] private TextMeshProUGUI NPCDialogueText;
 
@@ -26,6 +28,7 @@ public class DialogueController : MonoBehaviour
     private Emotion e;
 
     public AudioSource source;
+    public AudioClip start, end;
 
     
     public NPC currentTalker;
@@ -134,9 +137,10 @@ public class DialogueController : MonoBehaviour
     private void StartConversation(DialogueText dialogueText, PathType type)
     {
         // Activate the text box
-        if (!gameObject.activeSelf)
+        if (!dialogueBox.activeSelf)
         {
-            gameObject.SetActive(true);
+            dialogueBox.SetActive(true);
+            source.PlayOneShot(start);
         }
 
         //Update Name
@@ -222,9 +226,10 @@ public class DialogueController : MonoBehaviour
 
         currentTalker.OnConvoEnd();
 
-        if(gameObject.activeSelf)
+        if(dialogueBox.activeSelf)
         {
-            gameObject.SetActive(false);
+            source.PlayOneShot(end);
+            dialogueBox.SetActive(false);
         }
     }
 
