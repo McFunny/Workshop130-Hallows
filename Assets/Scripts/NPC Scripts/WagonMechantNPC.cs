@@ -6,7 +6,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
 
-    public Animator anim;
+    //public Animator anim;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
@@ -21,6 +21,10 @@ public class WagonMerchantNPC : NPC, ITalkable
         shopUI = FindObjectOfType<WaypointScript>();
         RefreshStore();
         TimeManager.OnHourlyUpdate += HourlyUpdate;
+        for(int i = 0; i < storeItems.Length; i++)
+        {
+            storeItems[i].seller = this;
+        }
     }
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -64,8 +68,10 @@ public class WagonMerchantNPC : NPC, ITalkable
         else
         {
             //Can Buy
+            print("I Ran");
             if(lastSeenItem != item)
             {
+                print("I have not seen this item yet");
                 //Are you sure?
                 lastSeenItem = item;
                 dialogueController.restartDialogue = true;
@@ -77,6 +83,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             else
             {
+                print("Repeated item");
                 //Sold, remove item and gain money
                 currentPath = 2;
                 currentType = PathType.Misc;
@@ -162,10 +169,11 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(lastInteractedStoreItem)
         {
             //lastInteractedStoreItem.arrowObject.SetActive(false);
-            shopUI.shopImgObj.SetActive(false);
+            //shopUI.shopImgObj.SetActive(false);
             lastInteractedStoreItem = null;
         }
-        if(lastSeenItem) lastSeenItem = null;
+        if(lastSeenItem) lastSeenItem = null; 
+        shopUI.shopImgObj.SetActive(false);
     }
 
     public void HourlyUpdate()

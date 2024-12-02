@@ -10,10 +10,11 @@ public class PlayerEffectsHandler : MonoBehaviour
     //HANDLES THE AUDIO AND EFFECTS THAT COME FROM THE PLAYER
     public float volume = 1f;
     public AudioSource source, footStepSource;
-    public AudioClip itemPickup;
+    public AudioClip itemPickup, itemEat, playerDie;
     //public AudioClip footSteps;
 
     Volume globalVolume;
+    public Color damageColor, focusColor;
 
     Rigidbody rb;
     void Start()
@@ -61,6 +62,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     {
         if(globalVolume.profile.TryGet(out Vignette vignette))
         {
+            vignette.color.Override(damageColor);
             vignette.intensity.value = 0;
             do
             {
@@ -79,9 +81,41 @@ public class PlayerEffectsHandler : MonoBehaviour
         
     }
 
+    public IEnumerator Focus()
+    {
+        if(globalVolume.profile.TryGet(out Vignette vignette))
+        {
+            vignette.color.Override(focusColor);
+            vignette.intensity.value = 0;
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                vignette.intensity.value += 0.25f;
+            }
+            while(vignette.intensity.value < .5f);
+
+            while(PlayerMovement.restrictMovementTokens > 0)
+            {
+                yield return null;
+            }
+
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                vignette.intensity.value -= 0.05f;
+            }
+            while(vignette.intensity.value > 0);
+        }
+    }
+
     IEnumerator DeathFlash()
     {
         yield return new WaitForSeconds(1);
+    }
+
+    public void PlayClip(AudioClip clip)
+    {
+        source.PlayOneShot(clip);
     }
 
     

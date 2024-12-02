@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: Sprinkler
+  m_EditorClassIdentifier: 
+  ID: -1
+  displayName: Sprinkler
+  description: Waters crops in an 8 tile radius. Must be refilled each day.
+  icon: {fileID: 21300000, guid: be0cd249de8ca4640bc2595357943c15, type: 3}
+  maxStackSize: 5
+  value: 270
+  sellValueMultiplier: 0.5
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  placedPrefab: {fileID: 7779117695335960027, guid: 76d9aa2d36ded034fb2bd343f4664be9,
+    type: 3}
+  hologramPrefab: {fileID: 4711182863736477841, guid: 2a8c3d1816f3c9146b5fbf88ee06a977,
+    type: 3}
+  removeAfterUse: 1

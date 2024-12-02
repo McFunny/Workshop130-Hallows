@@ -14,13 +14,13 @@ public class CreatureEffectsHandler : MonoBehaviour
     public AudioClip moveSound;
     public AudioClip idleSound1;
     public AudioClip idleSound2;
-    public AudioClip hitSound;
+    public AudioClip[] idleSounds;
+    public AudioClip[] hitSounds;
+    public AudioClip[] footSteps;
     public AudioClip deathSound;
     public AudioClip miscSound;
+    public AudioClip miscSound2;
 
-
-    public ParticleSystem hitParticles;
-    public GameObject deathParticles;
 
 
     float r;
@@ -33,26 +33,35 @@ public class CreatureEffectsHandler : MonoBehaviour
 
     public void OnMove(float _volume)
     {
-        source.PlayOneShot(moveSound, 1);
+        r = Random.Range(pitchMin,pitchMax);
+        source.PlayOneShot(moveSound, volume);
     }
 
     public void Idle1()
     {
         r = Random.Range(pitchMin,pitchMax);
-        source.pitch = originalPitch + r;
+        //source.pitch = originalPitch + r;
         source.PlayOneShot(idleSound1, volume);
     }
 
     public void Idle2()
     {
         r = Random.Range(pitchMin,pitchMax);
-        source.pitch = originalPitch + r;
+        //source.pitch = originalPitch + r;
         source.PlayOneShot(idleSound2, volume);
+    }
+
+    public void RandomIdle()
+    {
+        r = Random.Range(pitchMin,pitchMax);
+        int i = Random.Range(0, idleSounds.Length);
+        source.PlayOneShot(idleSounds[i], volume);
     }
 
     public void OnHit()
     {
-        if(hitSound == null)
+        source.Stop();
+        if(hitSounds.Length == 0)
         {
             r = Random.Range(0,1);
             if(r > 0.5f) Idle2();
@@ -61,10 +70,10 @@ public class CreatureEffectsHandler : MonoBehaviour
         else
         {
             r = Random.Range(pitchMin,pitchMax);
-            source.pitch = originalPitch + r;
-            source.PlayOneShot(hitSound, volume);
+            //source.pitch = originalPitch + r;
+            int i = Random.Range(0, hitSounds.Length);
+            source.PlayOneShot(hitSounds[i], volume);
         }
-        if(hitParticles != null) hitParticles.Play();
         
     }
 
@@ -72,9 +81,8 @@ public class CreatureEffectsHandler : MonoBehaviour
     {
         r = Random.Range(pitchMin,pitchMax);
         if (!source) return;
-        source.pitch = originalPitch + r;
+        //source.pitch = originalPitch + r;
         source.PlayOneShot(deathSound, volume);
-        if(hitParticles != null) hitParticles.Play();
     }
 
     public void MiscSound()
@@ -82,8 +90,8 @@ public class CreatureEffectsHandler : MonoBehaviour
         if(miscSound != null) source.PlayOneShot(miscSound, volume);
     }
 
-    public void DeathParticles()
+    public void MiscSound2()
     {
-        Instantiate(deathParticles, transform.position, transform.rotation);
+        if(miscSound2 != null) source.PlayOneShot(miscSound2, volume);
     }
 }

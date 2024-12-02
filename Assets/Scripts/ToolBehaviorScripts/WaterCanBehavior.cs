@@ -14,7 +14,7 @@ public class WaterCanBehavior : ToolBehavior
         //water
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
-        if (Physics.Raycast(player.position, fwd, out hit, 4, mask))
+        if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
             var structure = hit.collider.GetComponent<StructureBehaviorScript>();
             if (structure != null)

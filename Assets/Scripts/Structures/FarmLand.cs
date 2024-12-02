@@ -48,6 +48,7 @@ public class FarmLand : StructureBehaviorScript
         else if(crop.harvestableGrowthStages.Contains(growthStage))
         {
             harvestable = true;
+            if(growthComplete) growthComplete.Play();
         }
         playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
 
@@ -63,6 +64,7 @@ public class FarmLand : StructureBehaviorScript
         ichorSplash.Stop();
 
         SpriteChange();
+
     }
 
     // Update is called once per frame
@@ -135,12 +137,16 @@ public class FarmLand : StructureBehaviorScript
                 else
                 {
                     GameObject droppedItem;
+
+                    int r = Random.Range(crop.cropYieldAmount - crop.cropYieldVariance, crop.cropYieldAmount + crop.cropYieldVariance);
+                    if(r == 0) r = 1;
                     for (int i = 0; i < crop.cropYieldAmount; i++)
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
                         droppedItem.transform.position = transform.position;
                     }
-                    int r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
+
+                    r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
                     if(r == 0) r = 1;
                     for (int i = 0; i < r; i++)
                     {
@@ -159,6 +165,7 @@ public class FarmLand : StructureBehaviorScript
             hoursSpent = 0;
             if (isWeed) Destroy(this.gameObject);
             SpriteChange();
+            if(growthComplete) growthComplete.Stop();
         }
     }
 
@@ -183,7 +190,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(ignoreNextGrowthMoment || rotted)
+        if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;
             return;
@@ -200,6 +207,7 @@ public class FarmLand : StructureBehaviorScript
         {
             if(growthStage >= crop.growthStages)
             {
+                return;
                 //IT HAS REACHED MAX GROWTH STATE
 
                 //if(hoursSpent < crop.hoursPerStage * 3) return;
@@ -343,6 +351,14 @@ public class FarmLand : StructureBehaviorScript
         {
             HourPassed();
         }
+    }
+
+    public void WaterCrops()
+    {
+        //for sprinkler
+        nutrients.waterLevel = 10;
+        waterSplash.Play();
+        SpriteChange();
     }
 
     public NutrientStorage GetCropStats()

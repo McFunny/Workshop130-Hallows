@@ -9,26 +9,35 @@ public class DialogueController : MonoBehaviour
 {
     public static DialogueController Instance;
 
+    public GameObject dialogueBox;
+
     [SerializeField] private TextMeshProUGUI NPCNameText;
     [SerializeField] private TextMeshProUGUI NPCDialogueText;
 
     private Queue<string> paragraphs = new Queue<string>();
     private Queue<Emotion> emotions = new Queue<Emotion>();
 
-    private bool conversationEnded;
-    private bool isTalking = false;
+    private bool conversationEnded; //playing last piece of dialogue
+    private bool isTalking = false; //no more dialogue
     private bool interruptable = true;
     public bool restartDialogue = false;
+    private bool freezePlayer = false;
+
     private string p;
 
     private Emotion e;
 
     public AudioSource source;
+    public AudioClip start, end;
 
     
     public NPC currentTalker;
     private int currentPath = -1;
     private PathType currentType;
+    private InventoryItemData currentItemToGive;
+    private int amountToGive;
+
+    PlayerEffectsHandler playerEffects;
 
     void Awake()
     {
@@ -41,11 +50,13 @@ public class DialogueController : MonoBehaviour
         {
             Instance = this;
         }
+
+        playerEffects = FindObjectOfType<PlayerEffectsHandler>();
     }
 
     public void AdvanceDialogue()
     {
-        if(IsTalking() == true && currentTalker && currentPath != -1) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
+        if(IsTalking() == true && currentTalker) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
     }
 
     public void DisplayNextParagraph(DialogueText dialogueText, int path, PathType type)
@@ -57,7 +68,14 @@ public class DialogueController : MonoBehaviour
             currentPath = path;
             currentType = type;
             restartDialogue = false;
-            EndConversation();
+
+            //EndConversation();
+            paragraphs.Clear();
+            emotions.Clear();
+
+            conversationEnded = false;
+            isTalking = false;
+
             DisplayNextParagraph(dialogueText, currentPath, currentType);
             if(!interruptable) print("You just interrupted dialogue");
             return;
@@ -124,10 +142,14 @@ public class DialogueController : MonoBehaviour
     private void StartConversation(DialogueText dialogueText, PathType type)
     {
         // Activate the text box
-        if (!gameObject.activeSelf)
+        if (!dialogueBox.activeSelf)
         {
-            gameObject.SetActive(true);
+            dialogueBox.SetActive(true);
+            source.PlayOneShot(start);
         }
+
+        print(currentPath);
+        print(type);
 
         //Update Name
         NPCNameText.text = dialogueText.speakerName;
@@ -204,9 +226,18 @@ public class DialogueController : MonoBehaviour
         conversationEnded = false;
         isTalking = false;
 
-        if(gameObject.activeSelf)
+        if(freezePlayer)
         {
-            gameObject.SetActive(false);
+            freezePlayer = false;
+            PlayerMovement.restrictMovementTokens--;
+        }
+
+        currentTalker.OnConvoEnd();
+
+        if(dialogueBox.activeSelf)
+        {
+            source.PlayOneShot(end);
+            dialogueBox.SetActive(false);
         }
     }
 
@@ -245,6 +276,7 @@ public class DialogueController : MonoBehaviour
             p = p.Replace("{itemValue}", $"{value}");
             p = p.Replace("{itemTotalValue}", $"{value * HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize}");
             p = p.Replace("{itemName}", $"{HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.displayName}");
+
             if(p.Contains("{itemSold}"))
             {
                 p = p.Replace("{itemSold}", $"{""}");
@@ -258,10 +290,44 @@ public class DialogueController : MonoBehaviour
             }
         } 
 
+        if(currentTalker.lastInteractedStoreItem)
+        {
+            p = p.Replace("{storeItemName}", $"{currentTalker.lastInteractedStoreItem.itemData.displayName}");
+            p = p.Replace("{storeItemValue}", $"{currentTalker.lastInteractedStoreItem.itemData.value}");
+        }
+
         if(p.Contains("{itemBought}"))
         {
             p = p.Replace("{itemBought}", $"{""}");
             PlayerBoughtItem();
+        }
+
+        if(p.Contains("{freezePlayer}"))
+        {
+            p = p.Replace("{freezePlayer}", $"{""}");
+            if(!freezePlayer)
+            {
+                freezePlayer = true;
+                PlayerMovement.restrictMovementTokens++;
+                playerEffects.StartCoroutine(playerEffects.Focus());
+            }
+        }
+
+        if(p.Contains("{giveGift}"))
+        {
+            p = p.Replace("{giveGift}", $"{""}");
+            for(int i = 0; i < amountToGive; i++)
+            {
+                if(PlayerInventoryHolder.Instance.AddToInventory(currentItemToGive, 1) == false)
+                {
+                    if(currentItemToGive.isKeyItem)
+                    {
+                        //put this in a mailbox or smth
+                    }
+                    GameObject droppedItem = ItemPoolManager.Instance.GrabItem(currentItemToGive);
+                    droppedItem.transform.position = transform.position;
+                }
+            }
         }
         
     }
@@ -272,6 +338,12 @@ public class DialogueController : MonoBehaviour
         interruptable = b;
     }
 
+    public void SetItem(InventoryItemData item, int amount)
+    {
+        currentItemToGive = item;
+        amountToGive = amount;
+    }
+
     public int GetPath()
     {
         return currentPath;
@@ -280,7 +352,6 @@ public class DialogueController : MonoBehaviour
     public bool IsTalking()
     {
         return isTalking;
-        //return conversationEnded;
     }
 
     public bool IsInterruptable()

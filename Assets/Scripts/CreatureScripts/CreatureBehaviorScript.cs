@@ -17,6 +17,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     [HideInInspector] public CreatureEffectsHandler effectsHandler;
     [HideInInspector] public Transform player;
 
+    public Collider[] allColliders; //to be disabled when a corpse
+
     public Rigidbody rb;
     public Animator anim;
 
@@ -37,8 +39,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public void Start()
     {
         structManager = StructureManager.Instance;
-        effectsHandler = FindObjectOfType<CreatureEffectsHandler>();
-        player = FindObjectOfType<PlayerInteraction>().transform;
+        effectsHandler = GetComponentInChildren<CreatureEffectsHandler>();
+        player = PlayerInteraction.Instance.transform;
     }
 
     // Update is called once per frame
@@ -51,6 +53,10 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         print("Ouch");
         health -= damage;
+        if(!isDead)
+        {
+            OnDamage();
+        }
         if(health <= 0 && !isDead)
         {
             effectsHandler.OnDeath();
@@ -60,8 +66,6 @@ public class CreatureBehaviorScript : MonoBehaviour
         }
         else if(canCorpseBreak)
         {
-            effectsHandler.OnHit();
-            OnDamage();
             if(health < corpseHealth && isDead && !corpseDestroyed)
             {
                 corpseDestroyed = true;
@@ -86,6 +90,10 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
         NightSpawningManager.Instance.allCreatures.Remove(this);
+        foreach(Collider collider in allColliders)
+        {
+            collider.isTrigger = true;
+        }
     } //Triggers creature specific effects
 
     public virtual void OnSpawn(){}

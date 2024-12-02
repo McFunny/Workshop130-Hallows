@@ -18,7 +18,7 @@ public class BulletScript : MonoBehaviour
             var structure = other.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
-                structure.health -= 1;
+                structure.TakeDamage(2);
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Structure");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
@@ -31,7 +31,7 @@ public class BulletScript : MonoBehaviour
         if(other.gameObject.layer == 9)
         {
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if (creature != null)
+            if (creature != null && creature.shovelVulnerable)
             {
                 creature.TakeDamage(25);
                 //playsound

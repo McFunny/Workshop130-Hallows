@@ -11,6 +11,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public DialogueText dialogueText;
     public DialogueController dialogueController;
+    public Animator anim;
     public AudioClip happy, sad, neutral, angry, confused, shocked;
 
     [HideInInspector] public int currentPath = -1; //-1 means default path
@@ -18,6 +19,14 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public StoreItem lastInteractedStoreItem;
     [HideInInspector] public bool hasSpokeToday, hasEatenToday = false;
+
+    [HideInInspector] public bool hasBeenFed = false;
+
+    [HideInInspector] public NPCMovement movementHandler;
+
+    [HideInInspector] public FaceCamera faceCamera;
+
+    [HideInInspector] public ShopStall assignedStall;
 
 
     public void EndInteraction()
@@ -36,4 +45,12 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual void EmptyShopItem(){}
     
     public virtual void PlayerLeftRadius(){}
+
+    public virtual void GivePlayerItem(int id, int amount){}
+
+    public virtual void OnConvoEnd(){}
+
+    public virtual void BeginWorking(){}
+
+    public virtual void StopWorking(){}
 }

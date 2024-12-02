@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
+  m_Name: Tutorial
+  m_EditorClassIdentifier: 
+  speakerName: ???
+  defaultPath:
+    pathName: Introduction
+    paragraphs:
+    - Welcome to your new home. I see you have aquainted youself with your new implements.
+      {freezePlayer}
+    - You will need to start somewhere. Here, take these seeds. Use your hoe to cultivate
+      some new life. {giveGift}
+    - The seeds grown here are special. Under the nights gaze will they rampantly
+      grow, and you must pay entra mind to them.
+    - Any further questions can be answered by viewing your codex.
+    - 'Your new role is an important one. Be sure to spread your harvest to the folks
+      in town... and to me. '
+    emotions: 0100000000000000000000000300000001000000
+  questCompletePath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  repeatedItemPath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  paths: []
+  fillerPaths: []
+  questPaths: []
+  itemRecievedPaths: []
+  itemSpecificRemarks: []
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []

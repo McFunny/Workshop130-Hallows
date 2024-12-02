@@ -17,6 +17,7 @@ public class CropData : ScriptableObject
     public InventoryItemData cropYield; //what does the crop drop
     public InventoryItemData cropSeed;
     public int cropYieldAmount = 1;
+    public int cropYieldVariance = 0;
     public int seedYieldAmount = 1;
     public int seedYieldVariance = 1;
     

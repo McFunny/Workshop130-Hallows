@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
+  m_Name: LumberJack
+  m_EditorClassIdentifier: 
+  speakerName: LumberJack
+  defaultPath:
+    pathName: Default
+    paragraphs:
+    - Need something?
+    emotions: 00000000
+  questCompletePath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  repeatedItemPath:
+    pathName: Sigh
+    paragraphs:
+    - '*sigh*'
+    - Beggars can't be choosers in times like these...
+    emotions: 0200000000000000
+  paths: []
+  fillerPaths:
+  - pathName: Tree Variety
+    paragraphs:
+    - This town has too little tree variety.
+    - Makes me want to cut them down even more.
+    emotions: 0300000001000000
+  - pathName: Do it for the money
+    paragraphs:
+    - Those pesky trees aren't as easy to take down as they look.
+    - But the Mints earned at the end of the job always make it worthwhile.
+    emotions: 0200000001000000
+  questPaths:
+  - pathName: Wanna Cross the Bridge?
+    paragraphs:
+    - Whats that? You are trying to get past that bridge? {freezePlayer}
+    - Listen here, I don't reckon what the mist has done to these trees, but they
+      are sturdy I tell ya!
+    - Chopping that thing wont be an easy task... But if Mints are involved...
+    - Tell you what. Bring me 200 mints and we got a deal.
+    emotions: 00000000020000000300000000000000
+  - pathName: Still waiting for payment
+    paragraphs:
+    - Once you bring me those 200 Mints, that tree is as good as felled.
+    emotions: 00000000
+  - pathName: Payment Recieved
+    paragraphs:
+    - Oho, now we are getting somewhere! Give me some time, and the tree will be
+      gone before ye know it.
+    emotions: 01000000
+  itemRecievedPaths:
+  - pathName: Thank you
+    paragraphs:
+    - Ho ho, this looks nice! Thank you! {itemGiven}
+    emotions: 01000000
+  - pathName: I Couldn't
+    paragraphs:
+    - I couldn't possibly have another!
+    emotions: 05000000
+  itemSpecificRemarks:
+  - pathName: No Comment
+    paragraphs:
+    - Ah yes... very nice... thing...
+    - ...
+    - Why are you showing me this?
+    emotions: 000000000000000004000000
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []

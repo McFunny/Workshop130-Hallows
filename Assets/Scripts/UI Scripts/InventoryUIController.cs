@@ -17,8 +17,12 @@ public class InventoryUIController : MonoBehaviour
     [SerializeField] private GameObject firstObject;
     ControlManager controlManager;
     EventSystem eventSystem;
-
+    ToolTipScript toolTip;
     MouseItemData mouseData;
+
+    AudioSource source;
+    public AudioClip openInventory;
+
     private void Awake()
     {
         readyToPress = true;
@@ -28,8 +32,9 @@ public class InventoryUIController : MonoBehaviour
         inventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
         
         controlManager = FindFirstObjectByType<ControlManager>();
-
+        toolTip = FindFirstObjectByType<ToolTipScript>();
         mouseData = FindFirstObjectByType<MouseItemData>();
+        source = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -58,26 +63,38 @@ public class InventoryUIController : MonoBehaviour
 
     void Update()
     {
-        
-        
+        //if(EventSystem.current.currentSelectedGameObject == null){toolTip.panel.SetActive(false);}
+        if(!PlayerMovement.accessingInventory)
+        {
+            toolTip.panel.SetActive(false);
+        }
     }
 
     private void OpenInventory(InputAction.CallbackContext obj)
     {
         //print("Pressed");
         if(mouseData && mouseData.IsHoldingItem()) return;
+        if(PlayerMovement.isCodexOpen) return;
+
+        if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
+
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return;
 
         if(!PlayerMovement.accessingInventory)
         {
-            if(ControlManager.isController) eventSystem.SetSelectedGameObject(firstObject);
+            if(ControlManager.isGamepad) eventSystem.SetSelectedGameObject(firstObject);
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
+            source.PlayOneShot(openInventory);
             return;
         }
         
         if (chestPanel.gameObject.activeInHierarchy)
         {
-            eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            if(eventSystem.currentSelectedGameObject != null)
+            {
+                eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            }
             eventSystem.SetSelectedGameObject(null);
             CloseInventory();
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
@@ -94,6 +111,12 @@ public class InventoryUIController : MonoBehaviour
 
     private void CloseInput(InputAction.CallbackContext obj)
     {
+        if(mouseData && mouseData.IsHoldingItem()) return;
+
+        if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
+
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return;
+        
         if (chestPanel.gameObject.activeInHierarchy)
         {
             eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
@@ -109,6 +132,7 @@ public class InventoryUIController : MonoBehaviour
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
             print("Closing backpack");
         }
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     void DisplayInventory(InventorySystem invToDisplay)
