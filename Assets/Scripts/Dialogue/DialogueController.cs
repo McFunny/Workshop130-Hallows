@@ -276,6 +276,7 @@ public class DialogueController : MonoBehaviour
             p = p.Replace("{itemValue}", $"{value}");
             p = p.Replace("{itemTotalValue}", $"{value * HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize}");
             p = p.Replace("{itemName}", $"{HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.displayName}");
+
             if(p.Contains("{itemSold}"))
             {
                 p = p.Replace("{itemSold}", $"{""}");
@@ -288,6 +289,12 @@ public class DialogueController : MonoBehaviour
                 PlayerInventoryHolder.Instance.UpdateInventory();
             }
         } 
+
+        if(currentTalker.lastInteractedStoreItem)
+        {
+            p = p.Replace("{storeItemName}", $"{currentTalker.lastInteractedStoreItem.itemData.displayName}");
+            p = p.Replace("{storeItemValue}", $"{currentTalker.lastInteractedStoreItem.itemData.value}");
+        }
 
         if(p.Contains("{itemBought}"))
         {

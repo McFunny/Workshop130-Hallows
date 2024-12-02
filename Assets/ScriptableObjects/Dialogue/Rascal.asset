@@ -33,7 +33,7 @@ MonoBehaviour:
   - pathName: Filler1
     paragraphs:
     - You look pretty old.
-    emotions: 00000000
+    emotions: 03000000
   - pathName: Filler2
     paragraphs:
     - You are from the farm?
@@ -45,23 +45,23 @@ MonoBehaviour:
     emotions: 
   - pathName: Food For Thought
     paragraphs:
-    - I see you eyeing that big door. I bet you want to know how to open it.
+    - I see you eyeing that big door. I bet you want to know how to open it. {freezePlayer}
     - Well, I MAY know where the key is... But I am just soooo hungry, I can barely
       remember...
     - Maybe a Pale Carrot would jog my memory...
-    emotions: 000000000000000000000000
+    emotions: 000000000100000002000000
   - pathName: Inform of Key
     paragraphs:
-    - Now we are talking! {itemGiven}
+    - Now we are talking! {itemGiven} {freezePlayer}
     - Alright, I HEARD there lies the key to the catacombs across the broken bridge.
     - Talk to that old wood guy. I'm sure he can rebuild that.
-    emotions: 000000000000000000000000
+    emotions: 010000000500000000000000
   itemRecievedPaths:
   - pathName: Thanks For Item!
     paragraphs:
     - Oh man, I was starving! {itemGiven}
     - Thanks, geezer!
-    emotions: 0000000000000000
+    emotions: 0100000001000000
   - pathName: Im Full
     paragraphs:
     - Chill gramps, I still ain't done with the last thing you brought me!
@@ -76,7 +76,7 @@ MonoBehaviour:
     - Wait, you actually found a key there??
     - I mean, of course you found the key!
     - Go open the door by the graveyard. At least, I think thats where it goes.
-    emotions: 050000000000000000000000
+    emotions: 050000000100000000000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

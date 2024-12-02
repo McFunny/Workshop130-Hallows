@@ -33,6 +33,7 @@ public class LumberjackNPC : NPC, ITalkable
                         currentPath = 2;
                         currentType = PathType.Quest;
                         GameSaveData.Instance.lumber_choppedTree = true;
+                        anim.SetTrigger("TakeItem");
                     }
                     else
                     {
@@ -57,6 +58,7 @@ public class LumberjackNPC : NPC, ITalkable
 
     public void Talk()
     {
+        anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
@@ -77,6 +79,7 @@ public class LumberjackNPC : NPC, ITalkable
                 currentPath = 0;
                 currentType = PathType.ItemRecieved;
                 NPCManager.Instance.lumberjackFed = true;
+                anim.SetTrigger("TakeItem");
             }
             else
             {

@@ -226,6 +226,7 @@ MonoBehaviour:
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
+  allColliders: []
   rb: {fileID: 6193243988813040387}
   anim: {fileID: 1998015227713815155}
   droppedItems:
@@ -258,7 +259,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 15
+  m_Speed: 18
   m_Acceleration: 12
   avoidancePriority: 50
   m_AngularSpeed: 240
@@ -489,16 +490,17 @@ MonoBehaviour:
   pitchMin: 0.95
   pitchMax: 1.1
   source: {fileID: 0}
-  moveSound: {fileID: 8300000, guid: bebcf6ee40339b044884c9f1535e7079, type: 3}
-  idleSound1: {fileID: 8300000, guid: 8589cec69fc0cde4289f7dbd60f84a89, type: 3}
-  idleSound2: {fileID: 8300000, guid: 8589cec69fc0cde4289f7dbd60f84a89, type: 3}
+  moveSound: {fileID: 8300000, guid: c04b8172b5cdac844a036d62609e4da7, type: 3}
+  idleSound1: {fileID: 8300000, guid: bfb0da0348b55244fb362c25c1f02d1c, type: 3}
+  idleSound2: {fileID: 8300000, guid: bfb0da0348b55244fb362c25c1f02d1c, type: 3}
+  idleSounds: []
   hitSounds:
-  - {fileID: 8300000, guid: 4075baaae4c9f894e96d924be86f18e5, type: 3}
-  - {fileID: 8300000, guid: 15469adc55deb2a458c836515ee511f0, type: 3}
+  - {fileID: 8300000, guid: 8b991cf72f6e1d4429204c91fa3656c0, type: 3}
+  - {fileID: 8300000, guid: a739dbd27f9230c4994f678b8a3d0594, type: 3}
   footSteps: []
-  deathSound: {fileID: 8300000, guid: b96db6dd09b9aa24681eb6624751ea70, type: 3}
-  miscSound: {fileID: 8300000, guid: b0d0ceb67cb76b749b758bfb3340564e, type: 3}
-  miscSound2: {fileID: 8300000, guid: a26f44057d502d048a405f9dd78d90c8, type: 3}
+  deathSound: {fileID: 8300000, guid: 845dc2e0850ab0549b8e7c0322122d26, type: 3}
+  miscSound: {fileID: 8300000, guid: fbee248d88697ea43a1c0b9fea2da840, type: 3}
+  miscSound2: {fileID: 8300000, guid: 81e4efb8d152a354788c7c4eafb391a2, type: 3}
 --- !u!82 &5246715711630976946
 AudioSource:
   m_ObjectHideFlags: 0
@@ -511,7 +513,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.646
+  m_Volume: 0.608
   m_Pitch: 1
   Loop: 0
   Mute: 0

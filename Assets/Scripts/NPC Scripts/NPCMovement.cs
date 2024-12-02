@@ -34,6 +34,7 @@ public class NPCMovement : MonoBehaviour
         TimeManager.OnHourlyUpdate += CheckDestination;
         npcMovementManager = FindObjectOfType<NPCMovementManager>();
         npcScript = GetComponent<NPC>();
+        CheckDestination();
     }
 
     public void CheckDestination()
@@ -42,7 +43,6 @@ public class NPCMovement : MonoBehaviour
         {
             if (schedule.time == TimeManager.Instance.currentHour)
             {
-                isWorking = false;
                 currentSchedule = schedule;
 
                 // Release the current sublocation if occupied
@@ -105,8 +105,28 @@ public class NPCMovement : MonoBehaviour
             yield return null;
         }
 
+        while(agent.isStopped)
+        {
+            yield return null;
+        }
+        print(isWorking);
+        if(isWorking)
+        {
+            print(isWorking);
+            npcScript.StopWorking();
+            isWorking = false;
+        }
+
         while (agent.remainingDistance > agent.stoppingDistance)
         {
+            if(!agent.isStopped)
+            {
+                npcScript.anim.SetBool("IsMoving", true);
+            }
+            else
+            {
+                npcScript.anim.SetBool("IsMoving", false);
+            }
             yield return null;
         }
 
@@ -114,16 +134,17 @@ public class NPCMovement : MonoBehaviour
         {
             transform.LookAt(currentSublocation.lookAtPoint);
         }
-
         PerformAction(); 
     }
 
     void PerformAction()
     {
+        npcScript.anim.SetBool("IsMoving", false);
         switch (currentSchedule.Action)
         {
             case Action.Working:
                 isWorking = true; // Set isWorking to true for working action
+                npcScript.BeginWorking();
              
                 break;
 

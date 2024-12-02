@@ -32,6 +32,18 @@ MonoBehaviour:
     paragraphs:
     - Find something that interests you?
     emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - I see you looking at the {storeItemName} . Its yours for {storeItemValue} Mints!
+    emotions: 00000000
+  - pathName: Sold!
+    paragraphs:
+    - Make good use of that! {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - Hey, you aren't trying to pull a fast one on me, are ya?
+    emotions: 03000000
   fillerPaths:
   - pathName: Hard Work
     paragraphs:

@@ -6,6 +6,11 @@ public class RascalNPC : NPC, ITalkable
 {
     public InventoryItemData key, paleCarrot;
 
+    void Start()
+    {
+        anim.SetBool("IsLeaning", true);
+    }
+
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(dialogueController.IsTalking() == false)
@@ -33,6 +38,7 @@ public class RascalNPC : NPC, ITalkable
 
     public void Talk()
     {
+        //anim.SetTrigger("IsTalking");
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
     }
@@ -50,6 +56,7 @@ public class RascalNPC : NPC, ITalkable
             currentPath = 2;
             currentType = PathType.Quest;
             GameSaveData.Instance.rascalMentionedKey = true;
+            //anim.SetTrigger("TakeItem");
         }
 
         else if(item == key)
@@ -64,6 +71,7 @@ public class RascalNPC : NPC, ITalkable
                 currentPath = 0;
                 currentType = PathType.ItemRecieved;
                 NPCManager.Instance.rascalFed = true;
+                //anim.SetTrigger("TakeItem");
             }
             else
             {
