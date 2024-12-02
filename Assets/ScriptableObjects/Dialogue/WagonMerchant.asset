@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Wagon Merchant
   defaultPath:
-    pathName: 
+    pathName: Selling Something?
     paragraphs:
     - Got something to sell?
     - Show me.
@@ -30,7 +30,7 @@ MonoBehaviour:
   paths:
   - pathName: Want me to buy this?
     paragraphs:
-    - 'For a {itemName} I can offer {itemValue} Mints.
+    - 'For that {itemName} I can offer {itemValue} Mints.
 
       Do we have a deal?'
     emotions: 00000000

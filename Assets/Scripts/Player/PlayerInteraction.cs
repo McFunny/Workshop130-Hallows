@@ -94,10 +94,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
-        if(Input.GetKeyDown("o"))
-        {
-            stamina = 0;
-        }
+
     }
 
     private void UseHeldItem(InputAction.CallbackContext obj)

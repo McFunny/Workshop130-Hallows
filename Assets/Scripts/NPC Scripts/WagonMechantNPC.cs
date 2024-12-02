@@ -6,7 +6,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
 
-    public Animator anim;
+    //public Animator anim;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;

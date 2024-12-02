@@ -25,7 +25,7 @@ public class StoreItem : MonoBehaviour, IInteractable
     private void Awake()
     {
         myCollider = GetComponent<SphereCollider>();
-        if(!itemData) Empty();
+        if(!itemData || !seller) Empty();
     }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)

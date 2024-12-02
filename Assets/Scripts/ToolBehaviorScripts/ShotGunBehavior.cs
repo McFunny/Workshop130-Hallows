@@ -12,7 +12,7 @@ public class ShotGunBehavior : ToolBehavior
 
     Transform bulletStart;
 
-    float speed = 180;
+    float speed = 240;
     float bulletSpread = 0.08f;
     float damage = 25;
 

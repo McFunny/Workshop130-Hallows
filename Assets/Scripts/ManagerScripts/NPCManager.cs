@@ -16,6 +16,7 @@ public class NPCManager : MonoBehaviour
     [Header("NPC Fed Bools")]
     public bool rascalFed = false;
     public bool lumberjackFed = false;
+    public bool botanistFed = false;
 
     void Awake()
     {

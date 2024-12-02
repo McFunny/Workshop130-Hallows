@@ -100,6 +100,8 @@ public class CodexScript : MonoBehaviour
 
         codex.SetActive(!codex.activeInHierarchy);
         PlayerMovement.isCodexOpen = codex.activeInHierarchy;
+        if(PlayerMovement.isCodexOpen) PlayerMovement.restrictMovementTokens++;
+        else PlayerMovement.restrictMovementTokens--;
     }
     void UpdatePage(int page, CodexEntries[] currentCat)
     {

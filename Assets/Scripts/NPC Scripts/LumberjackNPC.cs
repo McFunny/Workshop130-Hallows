@@ -17,7 +17,7 @@ public class LumberjackNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(GameSaveData.Instance.rascalMentionedKey)
+            if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
             {
                 if(!GameSaveData.Instance.lumber_offersDeal)
                 {
@@ -33,6 +33,7 @@ public class LumberjackNPC : NPC, ITalkable
                         currentPath = 2;
                         currentType = PathType.Quest;
                         GameSaveData.Instance.lumber_choppedTree = true;
+                        anim.SetTrigger("TakeItem");
                     }
                     else
                     {
@@ -43,8 +44,12 @@ public class LumberjackNPC : NPC, ITalkable
             }
             else
             {
-                currentPath = -1;
-                currentType = PathType.Default;
+                if(currentPath == -1)
+                {
+                    int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentPath = i;
+                }
+                currentType = PathType.Filler;
             }
         }
         Talk();
@@ -53,6 +58,7 @@ public class LumberjackNPC : NPC, ITalkable
 
     public void Talk()
     {
+        anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
@@ -66,8 +72,28 @@ public class LumberjackNPC : NPC, ITalkable
             return;
         } 
 
-        currentPath = 0;
-        currentType = PathType.ItemSpecific;
+        /*else*/ if(item.staminaValue > 0)
+        {
+            if(!NPCManager.Instance.lumberjackFed)
+            {
+                currentPath = 0;
+                currentType = PathType.ItemRecieved;
+                NPCManager.Instance.lumberjackFed = true;
+                anim.SetTrigger("TakeItem");
+            }
+            else
+            {
+                currentPath = 1;
+                currentType = PathType.ItemRecieved;
+            }
+            //Its consumable and giftable
+        }
+
+        else
+        {
+            currentPath = 0;
+            currentType = PathType.ItemSpecific;
+        }
 
         //code for the item being edible
         Talk();

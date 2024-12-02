@@ -69,7 +69,12 @@ public class DialogueController : MonoBehaviour
             currentType = type;
             restartDialogue = false;
 
-            EndConversation();
+            //EndConversation();
+            paragraphs.Clear();
+            emotions.Clear();
+
+            conversationEnded = false;
+            isTalking = false;
 
             DisplayNextParagraph(dialogueText, currentPath, currentType);
             if(!interruptable) print("You just interrupted dialogue");
@@ -142,6 +147,9 @@ public class DialogueController : MonoBehaviour
             dialogueBox.SetActive(true);
             source.PlayOneShot(start);
         }
+
+        print(currentPath);
+        print(type);
 
         //Update Name
         NPCNameText.text = dialogueText.speakerName;
@@ -268,6 +276,7 @@ public class DialogueController : MonoBehaviour
             p = p.Replace("{itemValue}", $"{value}");
             p = p.Replace("{itemTotalValue}", $"{value * HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize}");
             p = p.Replace("{itemName}", $"{HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.displayName}");
+
             if(p.Contains("{itemSold}"))
             {
                 p = p.Replace("{itemSold}", $"{""}");
@@ -280,6 +289,12 @@ public class DialogueController : MonoBehaviour
                 PlayerInventoryHolder.Instance.UpdateInventory();
             }
         } 
+
+        if(currentTalker.lastInteractedStoreItem)
+        {
+            p = p.Replace("{storeItemName}", $"{currentTalker.lastInteractedStoreItem.itemData.displayName}");
+            p = p.Replace("{storeItemValue}", $"{currentTalker.lastInteractedStoreItem.itemData.value}");
+        }
 
         if(p.Contains("{itemBought}"))
         {

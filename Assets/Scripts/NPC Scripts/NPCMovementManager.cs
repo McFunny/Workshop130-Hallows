@@ -39,6 +39,7 @@ public class Sublocation
     public bool isAtHome; //to determine if they are to be inside at home
     public bool isOccupied; 
     public NPCMovement occupant; //The current NPC occupying the spot
+    public Transform lookAtPoint;
 }
 
 [System.Serializable]

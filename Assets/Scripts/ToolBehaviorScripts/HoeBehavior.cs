@@ -25,7 +25,7 @@ public class HoeBehavior : ToolBehavior
 
         tile = null;
 
-        if(Physics.Raycast(player.position, fwd, out hit, 5, mask))
+        if(Physics.Raycast(player.position, fwd, out hit, 7, mask))
         {
 
             //tile = hit.collider.GetComponent<UntilledTile>();

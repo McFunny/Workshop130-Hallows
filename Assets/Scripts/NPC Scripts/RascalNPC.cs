@@ -6,6 +6,11 @@ public class RascalNPC : NPC, ITalkable
 {
     public InventoryItemData key, paleCarrot;
 
+    void Start()
+    {
+        anim.SetBool("IsLeaning", true);
+    }
+
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(dialogueController.IsTalking() == false)
@@ -18,8 +23,13 @@ public class RascalNPC : NPC, ITalkable
             }
             else
             {
-                currentPath = -1;
-                currentType = PathType.Default;
+                if(currentPath == -1)
+                {
+                    int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentPath = i;
+                }
+                //currentPath = -1;
+                currentType = PathType.Filler;
             }
         }
         Talk();
@@ -28,6 +38,7 @@ public class RascalNPC : NPC, ITalkable
 
     public void Talk()
     {
+        //anim.SetTrigger("IsTalking");
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
     }
@@ -45,12 +56,29 @@ public class RascalNPC : NPC, ITalkable
             currentPath = 2;
             currentType = PathType.Quest;
             GameSaveData.Instance.rascalMentionedKey = true;
+            //anim.SetTrigger("TakeItem");
         }
 
         else if(item == key)
         {
             currentPath = 1;
             currentType = PathType.ItemSpecific;
+        }
+        else if(item.staminaValue > 0)
+        {
+            if(!NPCManager.Instance.rascalFed)
+            {
+                currentPath = 0;
+                currentType = PathType.ItemRecieved;
+                NPCManager.Instance.rascalFed = true;
+                //anim.SetTrigger("TakeItem");
+            }
+            else
+            {
+                currentPath = 1;
+                currentType = PathType.ItemRecieved;
+            }
+            //Its consumable and giftable
         }
         else
         {
@@ -67,6 +95,11 @@ public class RascalNPC : NPC, ITalkable
     public override void PlayerLeftRadius()
     {
 
+    }
+
+    public override void OnConvoEnd()
+    {
+        currentPath = -1;
     }
 
 }
