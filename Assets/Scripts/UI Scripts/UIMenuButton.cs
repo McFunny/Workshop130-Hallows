@@ -11,11 +11,12 @@ using UnityEngine.UI;
 public class UIMenuButton : MonoBehaviour
 {
     TextMeshProUGUI text;
-    Color c_deselected, c_selected;
+    Color c_deselected, c_selected, c_disabled;
     bool isSelected;
     ControlManager controlManager;
     Button button;
     public bool isPauseButton = true;
+    public bool isDisabled = false;
 
     void Awake()
     {
@@ -29,6 +30,7 @@ public class UIMenuButton : MonoBehaviour
         button = GetComponentInChildren<Button>();
         c_selected = new Color(1f, 0.8870801f, 0.2877358f, 1.0f);
         c_deselected = new Color(0.8509804f, 0.7490196f, 0.2078431f, 1.0f);
+        c_disabled = new Color(0.5660378f, 0.5029674f, 0.1682093f, 1.0f);
     }
 
     void OnEnable()
@@ -47,28 +49,36 @@ public class UIMenuButton : MonoBehaviour
             if(PauseScript.isPaused){button.enabled = true;}
             else{button.enabled = false;}
         }
-            
-        if(EventSystem.current.currentSelectedGameObject == this.gameObject)
+
+        if(isDisabled)
         {
-            text.color = c_selected;
-            isSelected = true;
+            text.color = c_disabled;
         }
-        else
+            
+        if(!isDisabled)
         {
-            text.color = c_deselected;
-            isSelected = false;
+            if(EventSystem.current.currentSelectedGameObject == this.gameObject)
+            {
+                text.color = c_selected;
+                isSelected = true;
+            }
+            else
+            {
+                text.color = c_deselected;
+                isSelected = false;
+            }
         }
 
     }
 
     public void PointerEnter()
     {
-        EventSystem.current.SetSelectedGameObject(this.gameObject);
+        if(!isDisabled) EventSystem.current.SetSelectedGameObject(this.gameObject);
     }
 
     public void PointerExit()
     {
-        EventSystem.current.SetSelectedGameObject(null);
+        if(!isDisabled) EventSystem.current.SetSelectedGameObject(null);
     }
 
     void Select(InputAction.CallbackContext obj)

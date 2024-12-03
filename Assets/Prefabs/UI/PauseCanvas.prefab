@@ -521,7 +521,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 76679134458500977}
   m_OnClick:
     m_PersistentCalls:
@@ -539,6 +539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPauseButton: 1
+  isDisabled: 1
 --- !u!114 &3539230364110243018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1172,7 +1173,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 3965684849223323589}
+    m_SelectOnUp: {fileID: 95956525449199695}
     m_SelectOnDown: {fileID: 9172615592550280537}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -1226,6 +1227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPauseButton: 1
+  isDisabled: 0
 --- !u!114 &7705351116678134066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1367,7 +1369,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 9172615592550280537}
-    m_SelectOnDown: {fileID: 7022579562922520534}
+    m_SelectOnDown: {fileID: 5434960265001126219}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1420,6 +1422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPauseButton: 1
+  isDisabled: 0
 --- !u!114 &8502793949956014013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1718,7 +1721,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1022307402268678785}
   m_OnClick:
     m_PersistentCalls:
@@ -1736,6 +1739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPauseButton: 1
+  isDisabled: 1
 --- !u!114 &4639754575591000498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2392,6 +2396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPauseButton: 1
+  isDisabled: 0
 --- !u!114 &5510818107132764559
 MonoBehaviour:
   m_ObjectHideFlags: 0
