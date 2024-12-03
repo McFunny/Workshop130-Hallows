@@ -37,6 +37,11 @@ public class NPCMovement : MonoBehaviour
         CheckDestination();
     }
 
+    void OnDestroy()
+    {
+        TimeManager.OnHourlyUpdate -= CheckDestination;
+    }
+
     public void CheckDestination()
     {
         foreach (Schedule schedule in scheduleList)

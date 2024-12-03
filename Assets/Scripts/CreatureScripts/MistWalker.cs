@@ -75,8 +75,9 @@ public class MistWalker : CreatureBehaviorScript
     void OnDestroy()
     {
         StructureBehaviorScript.OnStructuresUpdated -= UpdateStructureList;
-        animEvents.OnColliderChange -= ColliderChange;
-        animEvents.OnFloatChange -= WalkSpeedToggle;
+        ImbuedScarecrow.OnScarecrowAttract -= TargetImbuedScarecrow;
+        if (animEvents) animEvents.OnColliderChange -= ColliderChange;
+        if (animEvents) animEvents.OnFloatChange -= WalkSpeedToggle;
     }
 
     public override void OnSpawn()

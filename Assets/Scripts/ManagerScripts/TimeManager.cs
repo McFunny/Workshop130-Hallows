@@ -27,6 +27,7 @@ public class TimeManager : MonoBehaviour
 
     void Awake()
     {
+        print(Instance);
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -194,6 +195,10 @@ public class TimeManager : MonoBehaviour
     private void OnDestroy()
     {
         skyMat.SetFloat("_BlendCubemaps", 1f);
+        if(Instance != null && Instance == this)
+        {
+            Instance = null;
+        }
     }
 
     public void GameOver()
