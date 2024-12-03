@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 1017871742271688895}
   - component: {fileID: 9108032568091890071}
   - component: {fileID: 3514572486743244097}
-  - component: {fileID: 1027483691616432207}
+  - component: {fileID: 3555500088944651867}
+  - component: {fileID: 4962187205753027779}
   m_Layer: 0
   m_Name: LampPost
   m_TagString: Untagged
@@ -1440,8 +1441,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865713734177433822}
   m_Mesh: {fileID: 0}
---- !u!64 &1027483691616432207
-MeshCollider:
+--- !u!65 &3555500088944651867
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1458,10 +1459,30 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 3
+  m_Size: {x: 1, y: 11.313282, z: 1.0331879}
+  m_Center: {x: -0.5, y: 5.656641, z: 0.51659393}
+--- !u!65 &4962187205753027779
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865713734177433822}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.3317623, z: 3.9698792}
+  m_Center: {x: -0.5, y: 10.147401, z: 1.9849396}
 --- !u!1001 &3571243871206627420
 PrefabInstance:
   m_ObjectHideFlags: 0
