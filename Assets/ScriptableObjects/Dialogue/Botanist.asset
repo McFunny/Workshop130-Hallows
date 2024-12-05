@@ -48,7 +48,7 @@ MonoBehaviour:
   - pathName: Hard Work
     paragraphs:
     - I gotta say, I don't quite envy your position.
-    - Having to work that close to the mist but be very frightening.
+    - Having to work that close to the mist must be very frightening.
     emotions: 0400000000000000
   - pathName: Mist is neat
     paragraphs:
@@ -58,8 +58,15 @@ MonoBehaviour:
   - pathName: Come to my store
     paragraphs:
     - Please stop at my little shop booth when I am there! I can sell you some seeds
-      that I happen to come across, as well as my bagged fertalizers.
+      that I happen to come across, as well as my bagged fertilizers.
     emotions: 01000000
+  - pathName: Ichor Explanation
+    paragraphs:
+    - Some crops require a special nutrient known as Ichor. Unlike the other nutrients,
+      plants do not produce it, nor have I found a way to condense it into a fertilizer.
+    - I have traced high concentrations of Ichor in living creatures... Perhaps if
+      I could get a sample...
+    emotions: 0000000005000000
   questPaths: []
   itemRecievedPaths:
   - pathName: Looks Great
@@ -86,6 +93,29 @@ MonoBehaviour:
       life no more.
     - One bag will fill up any tile of ground with its specified nutrient.
     emotions: 0200000000000000
+  - pathName: CarrotSeeds
+    paragraphs:
+    - Pale carrots are a very well rounded crop. Not too picky, as long as you have
+      good levels of Gloamphage in your soil you are set!
+    emotions: 00000000
+  - pathName: TuberSeeds
+    paragraphs:
+    - TerraTubers are very easy to care for, and can tolerate very rough conditions
+      longer than other plants
+    - Just be sure to keep them away from any sources of that nasty blight!
+    emotions: 0000000005000000
+  - pathName: DrakeSeeds
+    paragraphs:
+    - Mandrakes are a nasty bunch. They aren't harmful, but they are such a pain
+      to chase down!
+    - Makes me thankful none of the other plants here fight back...
+    emotions: 0300000001000000
+  - pathName: StalkSeeds
+    paragraphs:
+    - With how fast these grow, I would personally classify them as a weed.
+    - Keep an eye on their water intake and you will have a field of Gloomstalk in
+      no time.
+    emotions: 0300000000000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

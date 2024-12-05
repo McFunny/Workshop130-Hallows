@@ -27,6 +27,7 @@ public class StructureManager : MonoBehaviour
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            print("Destroyed Copy");
             return;
         }
         else
@@ -45,9 +46,18 @@ public class StructureManager : MonoBehaviour
         PopulateForageables(4, 8);
     }
 
+    void OnDestroy()
+    {
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+        if(Instance != null && Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
     public void HourUpdate()
     {
-        print("AllStructs: " + allStructs.Count);
+        //print("AllStructs: " + allStructs.Count);
         PopulateWeeds(-9, 3);
         if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
     }
@@ -330,6 +340,7 @@ public class StructureManager : MonoBehaviour
 
         }
     }
+
 
 }
 

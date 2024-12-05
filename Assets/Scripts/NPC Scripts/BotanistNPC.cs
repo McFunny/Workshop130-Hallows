@@ -5,6 +5,7 @@ using UnityEngine;
 public class BotanistNPC : NPC, ITalkable
 {
     public InventoryItemData fertalizerT, fertalizerG, fertalizerI;
+    public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk; //seeds
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
@@ -63,6 +64,12 @@ public class BotanistNPC : NPC, ITalkable
         if(item == fertalizerI || item == fertalizerT || item == fertalizerG)
         {
             currentPath = 1;
+            currentType = PathType.ItemSpecific;
+        }
+
+        else if(IsItemASeed(item) > -1)
+        {
+            currentPath = IsItemASeed(item);
             currentType = PathType.ItemSpecific;
         }
 
@@ -192,6 +199,17 @@ public class BotanistNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+    }
+
+    public int IsItemASeed(InventoryItemData item)
+    {
+        if(item == s_carrot) return 2;
+        if(item == s_tuber) return 3;
+        if(item == s_drake) return 4;
+        if(item == s_stalk) return 5;
+
+
+        return -1;
     }
 
 }

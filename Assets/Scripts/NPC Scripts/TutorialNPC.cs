@@ -48,6 +48,15 @@ public class TutorialNPC : NPC, ITalkable
         StartCoroutine(Despawn());
     }
 
+    public override void ShotAt()
+    {
+        if(dialogueController.IsTalking()) return;
+        currentPath = 0;
+        currentType = PathType.Misc;
+        Talk();
+        finishedTalking = true;
+    }
+
     IEnumerator Despawn()
     {
         if(goneAtStart) Destroy(this.gameObject);

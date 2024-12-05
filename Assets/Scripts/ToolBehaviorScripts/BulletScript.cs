@@ -25,6 +25,17 @@ public class BulletScript : MonoBehaviour
                 gameObject.SetActive(false);
                 return;
             }
+
+            var npc = other.GetComponent<NPC>();
+            if (npc != null)
+            {
+                npc.ShotAt();
+                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                print("Hit Structure");
+                ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                gameObject.SetActive(false);
+                return;
+            }
             
         }
 

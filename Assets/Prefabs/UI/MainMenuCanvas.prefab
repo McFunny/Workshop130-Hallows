@@ -120,6 +120,8 @@ MonoBehaviour:
   defaultObject: {fileID: 6349875656029862726}
   controlsDefault: {fileID: 0}
   controlsCanvas: {fileID: 0}
+  hover: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  select: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
 --- !u!1 &349548522036859793
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +258,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1434222433619529303}
+        m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
+        m_MethodName: OnSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1473649574768074176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPauseButton: 0
+  isDisabled: 0
 --- !u!114 &5770263919306354549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +304,18 @@ MonoBehaviour:
         - m_Target: {fileID: 1473649574768074176}
           m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
           m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1434222433619529303}
+          m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
+          m_MethodName: OnHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -388,8 +415,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4281041040
+  m_fontColor: {r: 0.5660378, g: 0.5029674, b: 0.16820933, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -701,7 +728,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2767765593749401053}
   m_OnClick:
     m_PersistentCalls:
@@ -719,6 +746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPauseButton: 0
+  isDisabled: 1
 --- !u!114 &7126609122133166510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1086,7 +1114,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 5116799660658809240}
-    m_SelectOnDown: {fileID: 3011968593851614053}
+    m_SelectOnDown: {fileID: 6745393260789278329}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1116,7 +1144,19 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1434222433619529303}
         m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
-        m_MethodName: TestPress
+        m_MethodName: NewGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1434222433619529303}
+        m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
+        m_MethodName: OnSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1139,6 +1179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPauseButton: 0
+  isDisabled: 0
 --- !u!114 &3478867617176513072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1159,6 +1200,18 @@ MonoBehaviour:
         - m_Target: {fileID: 6439929932292797179}
           m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
           m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1434222433619529303}
+          m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
+          m_MethodName: OnHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1947,7 +2000,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 3011968593851614053}
+    m_SelectOnUp: {fileID: 8435152911847179366}
     m_SelectOnDown: {fileID: 5116799660658809240}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -2001,6 +2054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPauseButton: 0
+  isDisabled: 0
 --- !u!114 &157992151650969687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2021,6 +2075,18 @@ MonoBehaviour:
         - m_Target: {fileID: 3786464276777557738}
           m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
           m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1434222433619529303}
+          m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
+          m_MethodName: OnHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

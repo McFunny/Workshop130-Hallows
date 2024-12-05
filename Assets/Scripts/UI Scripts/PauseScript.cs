@@ -12,6 +12,7 @@ public class PauseScript : MonoBehaviour
     public static bool isPaused;
     public GameObject controlsCanvas, pauseObject, defaultObject, controlsDefault;
     ControlManager controlManager;
+    PlayerEffectsHandler pEffectsHandler;
     // Start is called before the first frame update
     void Awake()
     {
@@ -51,11 +52,14 @@ public class PauseScript : MonoBehaviour
         isPaused = !isPaused;
         if(isPaused)
         {
+            if(!pEffectsHandler) pEffectsHandler = PlayerInteraction.Instance.GetComponent<PlayerEffectsHandler>();
+            pEffectsHandler.footStepSource.enabled = false;
             Time.timeScale = 0;
         }
         else
         {
             Time.timeScale = 1;
+            pEffectsHandler.footStepSource.enabled = true;
         }
         
         if(isPaused)

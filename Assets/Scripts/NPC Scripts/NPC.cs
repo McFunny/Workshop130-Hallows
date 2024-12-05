@@ -53,4 +53,6 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual void BeginWorking(){}
 
     public virtual void StopWorking(){}
+
+    public virtual void ShotAt(){}
 }

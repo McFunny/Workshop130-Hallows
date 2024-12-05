@@ -20,6 +20,11 @@ public class AmbientAudioManager : MonoBehaviour
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
+    void OnDestroy()
+    {
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
     IEnumerator PlayAmbientTrack()
     {
         while(gameObject.activeSelf)
