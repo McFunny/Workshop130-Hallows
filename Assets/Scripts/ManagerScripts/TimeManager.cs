@@ -7,7 +7,7 @@ public class TimeManager : MonoBehaviour
 {
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
-                                        /// /Day lasts 14 hours. Each hour lasts 30 seconds. Morning starts at 6, town opens at 8
+                                        /// /Day lasts 14 hours. Each hour lasts 45 seconds. Morning starts at 6, town opens at 8
                                         /// </summary>
     public bool isDay;
     public int dayNum = 1; //what day is it?
@@ -27,7 +27,6 @@ public class TimeManager : MonoBehaviour
 
     void Awake()
     {
-        print(Instance);
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -68,7 +67,7 @@ public class TimeManager : MonoBehaviour
     {
         do
         {
-            yield return new WaitForSeconds(30);
+            yield return new WaitForSeconds(45);
             currentHour++;
             if(currentHour >= 24) currentHour = 0;
 
@@ -211,7 +210,11 @@ public class TimeManager : MonoBehaviour
             while(currentHour != 19)
             {
                 currentHour++;
-                timeDif++;
+                //timeDif++;
+                foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+                {
+                    structure.TimeLapse(1);
+                }
             }
         }
         else
@@ -219,15 +222,15 @@ public class TimeManager : MonoBehaviour
             while(currentHour != 7)
             {
                 currentHour++;
-                timeDif++;
+                //timeDif++;
                 if(currentHour == 24) currentHour = 0;
+                foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+                {
+                    structure.TimeLapse(1);
+                }
             }
         }
         isDay = true;
-        foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
-        {
-            structure.TimeLapse(timeDif);
-        }
         InitializeSkyBox();
         StartCoroutine(TimePassage());
     }

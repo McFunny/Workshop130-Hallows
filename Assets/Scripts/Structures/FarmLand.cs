@@ -75,6 +75,8 @@ public class FarmLand : StructureBehaviorScript
         if(((crop && growthStage >= crop.growthStages) || isWeed) && !finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = true;
 
         if((!crop || growthStage < crop.growthStages) && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
+
+        if(!crop && growthComplete) growthComplete.Stop();
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -117,6 +119,8 @@ public class FarmLand : StructureBehaviorScript
             audioHandler.PlayRandomSound(audioHandler.miscSounds1);
 
             wealthValue = 5;
+
+            ignoreNextGrowthMoment = false;
 
         }
     }
@@ -162,6 +166,7 @@ public class FarmLand : StructureBehaviorScript
             }
 
             crop = null;
+            wealthValue = 0;
             hoursSpent = 0;
             if (isWeed) Destroy(this.gameObject);
             SpriteChange();
@@ -197,7 +202,7 @@ public class FarmLand : StructureBehaviorScript
         }
         if(!crop)
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
             return;
         }
         hoursSpent++;

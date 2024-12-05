@@ -13,12 +13,15 @@ public class MainMenuScript : MonoBehaviour
     public InputActionReference hideUI;
     public GameObject menuObject, defaultObject, controlsDefault, controlsCanvas;
     ControlManager controlManager;
+    public AudioSource source;
+    public AudioClip hover, select;
     // Start is called before the first frame update
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        //source.GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -73,6 +76,16 @@ public class MainMenuScript : MonoBehaviour
     {
         controlsCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(controlsDefault);
+    }
+
+    public void OnHover()
+    {
+        source.PlayOneShot(hover);
+    }
+
+    public void OnSelect()
+    {
+        source.PlayOneShot(select);
     }
     
 }
