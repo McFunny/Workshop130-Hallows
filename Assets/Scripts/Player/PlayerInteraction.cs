@@ -38,6 +38,7 @@ public class PlayerInteraction : MonoBehaviour
     bool gameOver;
 
     StructureBehaviorScript lastSeenStruct;
+    IInteractable lastSeenInteractable;
 
     void Awake()
     {
@@ -313,7 +314,19 @@ public class PlayerInteraction : MonoBehaviour
                 if(structure == lastSeenStruct) return;
                 structure.ToggleHighlight(true);
                 if(lastSeenStruct) lastSeenStruct.ToggleHighlight(false);
+                if(lastSeenInteractable != null) lastSeenInteractable.ToggleHighlight(false);
                 lastSeenStruct = structure;
+                return;
+            }
+
+            var interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                if(interactable == lastSeenInteractable) return;
+                interactable.ToggleHighlight(true);
+                if(lastSeenStruct) lastSeenStruct.ToggleHighlight(false);
+                if(lastSeenInteractable != null) lastSeenInteractable.ToggleHighlight(false);
+                lastSeenInteractable = interactable;
                 return;
             }
         }
@@ -321,6 +334,11 @@ public class PlayerInteraction : MonoBehaviour
         {
             lastSeenStruct.ToggleHighlight(false);
             lastSeenStruct = null;
+        }
+        if(lastSeenInteractable != null)
+        {
+            lastSeenInteractable.ToggleHighlight(false);
+            lastSeenInteractable = null;
         }
     }
 

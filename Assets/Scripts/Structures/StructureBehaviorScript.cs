@@ -39,7 +39,7 @@ public class StructureBehaviorScript : MonoBehaviour
         audioHandler = GetComponent<StructureAudioHandler>();
 
         TimeManager.OnHourlyUpdate += HourPassed;
-
+        foreach(GameObject thing in highlight) thing.SetActive(false);
     }
 
 

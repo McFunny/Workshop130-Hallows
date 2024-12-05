@@ -15,6 +15,7 @@ public class StoreItem : MonoBehaviour, IInteractable
     private SphereCollider myCollider;
 
     public SpriteRenderer r;
+    public Color original, highlighted;
     public GameObject costObject, arrowObject;
     public TextMeshProUGUI costText;
 
@@ -65,5 +66,18 @@ public class StoreItem : MonoBehaviour, IInteractable
         costText.text = "";
         costObject.SetActive(false);
         myCollider.enabled = false;
+    }
+
+    public void ToggleHighlight(bool enable)
+    {
+        if(enable)
+        {
+            r.color = highlighted;
+        }
+
+        if(!enable)
+        {
+            r.color = original;
+        }
     }
 }
