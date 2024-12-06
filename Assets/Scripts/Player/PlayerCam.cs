@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlayerCam : MonoBehaviour
     ControlManager controlManager;
 
     const float contScalar = 5;
+
+    private bool isSprinting;
 
     void Awake()
     {
