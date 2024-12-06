@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         if (isStalled || isCodexOpen)
             return;
 
-        HandleSprintCheck(); // Check sprint conditions
+        HandleSprintCheck(); 
         SpeedControl();
         rb.drag = groundDrag;
         GroundedCheck();
@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Sprint(InputAction.CallbackContext obj)
     {
-        // Toggle sprint if moving forward
+     
         Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
         if (moveInput.y > 0.5f) // Only allow sprinting when moving forward
         {
@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
                 StopCoroutine(fovCoroutine);
 
             float targetFoV = isSprinting ? 70f : 60f;
-            fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f)); // 0.5 seconds for the lerp
+            fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f)); 
         }
     }
 
@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
 
-            // Stop sprinting if the player moves backward or sideways too much
+           
             if (moveInput.y <= 0.5f || Mathf.Abs(moveInput.x) > 0.1f)
             {
                 isSprinting = false;
@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
                 if (fovCoroutine != null)
                     StopCoroutine(fovCoroutine);
 
-                fovCoroutine = StartCoroutine(LerpFieldOfView(60f, 0.5f)); // Lerp back to default FoV
+                fovCoroutine = StartCoroutine(LerpFieldOfView(60f, 0.5f)); 
             }
         }
     }
