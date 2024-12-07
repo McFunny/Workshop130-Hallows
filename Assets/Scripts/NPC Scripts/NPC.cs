@@ -34,6 +34,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
         throw new System.NotImplementedException();
     }
 
+    public void ToggleHighlight(bool enabled){}
+
     public abstract void Interact(PlayerInteraction interactor, out bool interactSuccessful);
 
     public abstract void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item);

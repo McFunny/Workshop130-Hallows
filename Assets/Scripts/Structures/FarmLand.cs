@@ -30,13 +30,14 @@ public class FarmLand : StructureBehaviorScript
 
     private NutrientStorage nutrients;
 
-    public VisualEffect growth, growthComplete, waterSplash, ichorSplash;
+    public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
     // Start is called before the first frame update
     void Awake()
     {
         base.Awake();
         if(growth) growth.Stop();
         if(growthComplete) growthComplete.Stop();
+        if(growthImpeded) growthImpeded.Stop();
 
         if(!crop) wealthValue = 0;
     }
@@ -45,7 +46,7 @@ public class FarmLand : StructureBehaviorScript
     {
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         if (!crop) ignoreNextGrowthMoment = true;
-        else if(crop.harvestableGrowthStages.Contains(growthStage))
+        else if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
         {
             harvestable = true;
             if(growthComplete) growthComplete.Play();
@@ -75,6 +76,8 @@ public class FarmLand : StructureBehaviorScript
         if(((crop && growthStage >= crop.growthStages) || isWeed) && !finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = true;
 
         if((!crop || growthStage < crop.growthStages) && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
+
+        if(!crop && growthComplete) growthComplete.Stop();
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -118,17 +121,19 @@ public class FarmLand : StructureBehaviorScript
 
             wealthValue = 5;
 
+            ignoreNextGrowthMoment = true;
+
         }
     }
 
     public override void StructureInteraction()
     {
-        if(harvestable || forceDig)
+        if(harvestable || forceDig || rotted)
         {
             audioHandler.PlaySound(audioHandler.interactSound);
             harvestable = false;
             forceDig = false;
-            if(rotted == false)
+            if((rotted == false && harvestable) || isWeed)
             {
                 if (crop.creaturePrefab)
                 {
@@ -162,6 +167,7 @@ public class FarmLand : StructureBehaviorScript
             }
 
             crop = null;
+            wealthValue = 0;
             hoursSpent = 0;
             if (isWeed) Destroy(this.gameObject);
             SpriteChange();
@@ -197,7 +203,7 @@ public class FarmLand : StructureBehaviorScript
         }
         if(!crop)
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
             return;
         }
         hoursSpent++;
@@ -217,10 +223,18 @@ public class FarmLand : StructureBehaviorScript
             else
             {
                 hoursSpent = 0;
+                DrainNutrients(out bool gainedStress);
                 if(!isWeed)
                 {
-                    growthStage++;
-                    if(growth) growth.Play();
+                    if(gainedStress)
+                    {
+                        if(growthImpeded) growthImpeded.Play();
+                    } 
+                    else
+                    {
+                        growthStage++;
+                        if(growth) growth.Play();
+                    }
                 }
                 if(crop.harvestableGrowthStages.Contains(growthStage))
                 {
@@ -234,8 +248,6 @@ public class FarmLand : StructureBehaviorScript
             
         }
         else return;
-
-        DrainNutrients();
     }
 
     public void InsertCreature(CropData _data, int _growthStage)
@@ -269,14 +281,16 @@ public class FarmLand : StructureBehaviorScript
         }
     }
 
-    void DrainNutrients()
+    void DrainNutrients(out bool gainedStress)
     {
         //PLANTS DRAIN PER GROWTH STAGE, AND THE PLAYER SHOULD HAVE TO WATER ROUGHLY EVERY STAGE/EVERY OTHER STAGE
+        gainedStress = false;
         nutrients.ichorLevel -= crop.ichorIntake;
         if(nutrients.ichorLevel < 0)
         {
             nutrients.ichorLevel = 0;
             plantStress++;
+            gainedStress = true;
         }
         else if(nutrients.ichorLevel > 10) nutrients.ichorLevel = 10;
 
@@ -285,6 +299,7 @@ public class FarmLand : StructureBehaviorScript
         {
             nutrients.terraLevel = 0;
             plantStress++;
+            gainedStress = true;
         }
         else if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
 
@@ -293,6 +308,7 @@ public class FarmLand : StructureBehaviorScript
         {
             nutrients.gloamLevel = 0;
             plantStress++;
+            gainedStress = true;
         }
         else if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
 
@@ -301,6 +317,7 @@ public class FarmLand : StructureBehaviorScript
         {
             nutrients.waterLevel = 0;
             plantStress++;
+            gainedStress = true;
         }
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 
@@ -364,5 +381,10 @@ public class FarmLand : StructureBehaviorScript
     public NutrientStorage GetCropStats()
     {
         return nutrients;
+    }
+
+    public bool ShouldIgnoreNextGrowth()
+    {
+        return ignoreNextGrowthMoment;
     }
 }

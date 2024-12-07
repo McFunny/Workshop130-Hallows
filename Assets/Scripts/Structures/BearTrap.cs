@@ -6,7 +6,6 @@ public class BearTrap : StructureBehaviorScript
 {
     public InventoryItemData recoveredItem;
     public Transform topClamp, bottomClamp;
-    //float topClampTarget, bottomClampTarget;
     float animationTimeLeft;
     bool isTriggered, rearming;
 

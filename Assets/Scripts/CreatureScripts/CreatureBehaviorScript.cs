@@ -18,6 +18,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     [HideInInspector] public Transform player;
 
     public Collider[] allColliders; //to be disabled when a corpse
+    public Transform corpseParticleTransform;
+    public CorpseParticleType corpseType;
 
     public Rigidbody rb;
     public Animator anim;
@@ -62,7 +64,7 @@ public class CreatureBehaviorScript : MonoBehaviour
             effectsHandler.OnDeath();
             OnDeath();
             isDead = true;
-            //turns into a corpse, and fertalizes nearby crops
+            //turns into a corpse, and fertilizes nearby crops
         }
         else if(canCorpseBreak)
         {
@@ -79,6 +81,10 @@ public class CreatureBehaviorScript : MonoBehaviour
                         droppedItem.transform.position = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
                     }
                 }
+                if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
+                GameObject corpseParticle = ParticlePoolManager.Instance.GrabCorpseParticle(corpseType);
+                if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
+                else corpseParticle.transform.position = transform.position;
                 Destroy(this.gameObject);
             }
         }
@@ -88,7 +94,6 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnDamage(){} //Triggers creature specific effects
     public virtual void OnDeath()
     {
-        if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
         NightSpawningManager.Instance.allCreatures.Remove(this);
         foreach(Collider collider in allColliders)
         {

@@ -27,6 +27,11 @@ public class WagonMerchantNPC : NPC, ITalkable
         }
     }
 
+    void OnDestroy()
+    {
+        TimeManager.OnHourlyUpdate -= HourlyUpdate;
+    }
+
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(dialogueController.IsTalking() == false)

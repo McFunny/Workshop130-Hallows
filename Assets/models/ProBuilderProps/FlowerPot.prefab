@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3316596860086595489}
   - component: {fileID: 3002224986360412930}
   - component: {fileID: 7932521741438291514}
-  - component: {fileID: 2517601603633817190}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -818,28 +817,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58648341386500443}
   m_Mesh: {fileID: 0}
---- !u!64 &2517601603633817190
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 58648341386500443}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2116751077894919278
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,7 +830,7 @@ GameObject:
   - component: {fileID: 2939505643917690987}
   - component: {fileID: 3104127862462778581}
   - component: {fileID: 4756020239506957326}
-  - component: {fileID: 1396166503974113940}
+  - component: {fileID: 6090589125904827707}
   m_Layer: 0
   m_Name: FlowerPot
   m_TagString: Untagged
@@ -4352,8 +4329,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116751077894919278}
   m_Mesh: {fileID: 0}
---- !u!64 &1396166503974113940
-MeshCollider:
+--- !u!136 &6090589125904827707
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4370,7 +4347,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 2
+  m_Radius: 1.0050366
+  m_Height: 1.5469506
+  m_Direction: 1
+  m_Center: {x: -0.875, y: 0.7734753, z: 0.875}

@@ -37,6 +37,9 @@ public class PlayerInteraction : MonoBehaviour
 
     bool gameOver;
 
+    StructureBehaviorScript lastSeenStruct;
+    IInteractable lastSeenInteractable;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
@@ -85,6 +88,8 @@ public class PlayerInteraction : MonoBehaviour
         if(stamina > maxStamina) stamina = maxStamina;
 
         DisplayHologramCheck();
+
+        DisplayHighlightCheck();
 
         if(stamina <= 0 && !gameOver)
         {
@@ -176,7 +181,7 @@ public class PlayerInteraction : MonoBehaviour
         RaycastHit hit;
 
 
-        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach + 8, interactionLayers))
+        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach + 4, interactionLayers))
         {
             var interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
@@ -294,6 +299,46 @@ public class PlayerInteraction : MonoBehaviour
         if(controlManager.rotateStructure.action.WasPressedThisFrame())
         {
             p_item.RotateHologram();
+        }
+    }
+
+    void DisplayHighlightCheck()
+    {
+        Vector3 fwd = mainCam.transform.TransformDirection(Vector3.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
+        {
+            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            if (structure != null)
+            {
+                if(structure == lastSeenStruct) return;
+                structure.ToggleHighlight(true);
+                if(lastSeenStruct) lastSeenStruct.ToggleHighlight(false);
+                if(lastSeenInteractable != null) lastSeenInteractable.ToggleHighlight(false);
+                lastSeenStruct = structure;
+                return;
+            }
+
+            var interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                if(interactable == lastSeenInteractable) return;
+                interactable.ToggleHighlight(true);
+                if(lastSeenStruct) lastSeenStruct.ToggleHighlight(false);
+                if(lastSeenInteractable != null) lastSeenInteractable.ToggleHighlight(false);
+                lastSeenInteractable = interactable;
+                return;
+            }
+        }
+        if(lastSeenStruct)
+        {
+            lastSeenStruct.ToggleHighlight(false);
+            lastSeenStruct = null;
+        }
+        if(lastSeenInteractable != null)
+        {
+            lastSeenInteractable.ToggleHighlight(false);
+            lastSeenInteractable = null;
         }
     }
 

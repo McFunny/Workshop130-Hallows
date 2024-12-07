@@ -1884,6 +1884,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dirtParticle: {fileID: 8615720576453728053}
   hitEffect: {fileID: 1486674764330227226}
+  corpseParticle: {fileID: 2519875780709563835, guid: ea66a64958f321947b008676dd8514d9,
+    type: 3}
+  corpseParticleYellow: {fileID: 2519875780709563835, guid: 33fbefdd5b0fde64f8304e492b46d21e,
+    type: 3}
 --- !u!1 &4467738761642645672
 GameObject:
   m_ObjectHideFlags: 0
@@ -7312,7 +7316,7 @@ MonoBehaviour:
     type: 3}
   farmTree: {fileID: 8124912765798330754, guid: 0e5c410239099464daa9cbc8a68c205e,
     type: 3}
-  ignoreCropGrowthTime: 1
+  ignoreCropGrowthTime: 0
 --- !u!114 &1570504167119801372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7422,6 +7426,9 @@ MonoBehaviour:
   rascalFed: 0
   lumberjackFed: 0
   botanistFed: 0
+  rascalSpoke: 0
+  lumberjackSpoke: 0
+  botanistSpoke: 0
 --- !u!114 &8391427381802313727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7436,7 +7443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pStamina: 0
   pWater: 0
-  tutorialMerchantSpoke: 1
+  tutorialMerchantSpoke: 0
   rascalWantsFood: 0
   rascalMentionedKey: 0
   lumber_offersDeal: 0

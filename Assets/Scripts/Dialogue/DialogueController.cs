@@ -273,9 +273,9 @@ public class DialogueController : MonoBehaviour
         {
             float value = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.value * HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.sellValueMultiplier;
             value = Mathf.Floor(value);
-            p = p.Replace("{itemValue}", $"{value}");
-            p = p.Replace("{itemTotalValue}", $"{value * HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize}");
-            p = p.Replace("{itemName}", $"{HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.displayName}");
+            p = p.Replace("{itemValue}", $"{"<color=#E0D38F>" + value + "</color>"}");
+            p = p.Replace("{itemTotalValue}", $"{"<color=#E0D38F>" + (value * HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize) + "</color>"}");
+            p = p.Replace("{itemName}", $"{"<color=#81C6DE>" + HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.displayName + "</color>"}");
 
             if(p.Contains("{itemSold}"))
             {
@@ -292,8 +292,8 @@ public class DialogueController : MonoBehaviour
 
         if(currentTalker.lastInteractedStoreItem)
         {
-            p = p.Replace("{storeItemName}", $"{currentTalker.lastInteractedStoreItem.itemData.displayName}");
-            p = p.Replace("{storeItemValue}", $"{currentTalker.lastInteractedStoreItem.itemData.value}");
+            p = p.Replace("{storeItemName}", $"{"<color=#81C6DE>" + currentTalker.lastInteractedStoreItem.itemData.displayName + "</color>"}");
+            p = p.Replace("{storeItemValue}", $"{"<color=#E0D38F>" + currentTalker.lastInteractedStoreItem.itemData.value + "</color>"}");
         }
 
         if(p.Contains("{itemBought}"))

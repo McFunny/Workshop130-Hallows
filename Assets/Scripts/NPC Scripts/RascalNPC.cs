@@ -23,6 +23,11 @@ public class RascalNPC : NPC, ITalkable
             }
             else
             {
+                if(NPCManager.Instance.rascalSpoke)
+                {
+                    interactSuccessful = false;
+                    return;
+                }
                 if(currentPath == -1)
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
@@ -30,6 +35,7 @@ public class RascalNPC : NPC, ITalkable
                 }
                 //currentPath = -1;
                 currentType = PathType.Filler;
+                NPCManager.Instance.rascalSpoke = true;
             }
         }
         Talk();
