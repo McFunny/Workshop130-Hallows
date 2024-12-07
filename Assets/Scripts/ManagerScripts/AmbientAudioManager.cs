@@ -63,7 +63,7 @@ public class AmbientAudioManager : MonoBehaviour
     {
         if(TimeManager.Instance.currentHour == 8 || TimeManager.Instance.currentHour == 18)
         {
-            ambienceSource.PlayOneShot(bellTower);
+            StartCoroutine(FadeBell());
             StopCoroutine(PlayAmbientMusic());
             StartCoroutine(FadeAudio());
             StartCoroutine(PlayAmbientMusic());
@@ -77,10 +77,16 @@ public class AmbientAudioManager : MonoBehaviour
         while(currentVolume > 0)
         {
             yield return new WaitForSeconds(0.1f);
-            currentVolume -= 0.1f;
+            currentVolume -= 0.05f;
             musicSource.volume = currentVolume;
         }
         musicSource.Stop();
         musicSource.volume = oldVolume;
+    }
+
+    IEnumerator FadeBell()
+    {
+        yield return new WaitForSeconds(2);
+        ambienceSource.PlayOneShot(bellTower);
     }
 }

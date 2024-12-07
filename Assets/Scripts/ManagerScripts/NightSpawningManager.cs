@@ -35,6 +35,11 @@ public class NightSpawningManager : MonoBehaviour
         //load old danger values
     }
 
+    void Destroy()
+    {
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
     void HourUpdate()
     {
         if(TimeManager.Instance.isDay)

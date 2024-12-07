@@ -32,7 +32,8 @@ public class LumberjackNPC : NPC, ITalkable
                         PlayerInteraction.Instance.currentMoney -= 200;
                         currentPath = 2;
                         currentType = PathType.Quest;
-                        GameSaveData.Instance.lumber_choppedTree = true;
+                        GameSaveData.Instance.lumber_choppedTree = true; //is this not getting checked on?
+                        print("I took ur money");
                         anim.SetTrigger("TakeItem");
                     }
                     else
@@ -44,10 +45,16 @@ public class LumberjackNPC : NPC, ITalkable
             }
             else
             {
+                if(NPCManager.Instance.lumberjackSpoke)
+                {
+                    interactSuccessful = false;
+                    return;
+                }
                 if(currentPath == -1)
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
+                    NPCManager.Instance.lumberjackSpoke = true;
                 }
                 currentType = PathType.Filler;
             }
@@ -104,6 +111,11 @@ public class LumberjackNPC : NPC, ITalkable
     public override void PlayerLeftRadius()
     {
 
+    }
+
+    public override void OnConvoEnd()
+    {
+        currentPath = -1;
     }
 
 }

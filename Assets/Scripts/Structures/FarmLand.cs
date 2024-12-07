@@ -120,7 +120,7 @@ public class FarmLand : StructureBehaviorScript
 
             wealthValue = 5;
 
-            ignoreNextGrowthMoment = false;
+            ignoreNextGrowthMoment = true;
 
         }
     }
@@ -132,7 +132,7 @@ public class FarmLand : StructureBehaviorScript
             audioHandler.PlaySound(audioHandler.interactSound);
             harvestable = false;
             forceDig = false;
-            if(rotted == false)
+            if(rotted == false && harvestable)
             {
                 if (crop.creaturePrefab)
                 {
@@ -369,5 +369,10 @@ public class FarmLand : StructureBehaviorScript
     public NutrientStorage GetCropStats()
     {
         return nutrients;
+    }
+
+    public bool ShouldIgnoreNextGrowth()
+    {
+        return ignoreNextGrowthMoment;
     }
 }
