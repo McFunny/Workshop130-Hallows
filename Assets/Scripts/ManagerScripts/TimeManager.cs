@@ -5,6 +5,7 @@ using TMPro;
 
 public class TimeManager : MonoBehaviour
 {
+    public int currentMinute = 0; //45 in an hour
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
                                         /// /Day lasts 14 hours. Each hour lasts 45 seconds. Morning starts at 6, town opens at 8
@@ -67,51 +68,61 @@ public class TimeManager : MonoBehaviour
     {
         do
         {
-            yield return new WaitForSeconds(45);
-            currentHour++;
-            if(currentHour >= 24) currentHour = 0;
-
-            if(currentHour >= 6 && currentHour < 20) isDay = true;
-            else isDay = false;
-            
-            OnHourlyUpdate?.Invoke();
-            print("Hour passed. Time is now " + currentHour);
-            print("Is it day? " + isDay);
-
-            switch (currentHour)
+            yield return new WaitForSeconds(1);
+            currentMinute++;
+            if(currentMinute >= 45)
             {
-                case 6:
-                    SetSkyBox(0.4f);
-                    break;
-                case 7:
-                    SetSkyBox(0.8f);
-                    break;
-                case 8:
-                    dayNum++;
-                    SetSkyBox(1f);
-                    break;
-                case 18:
-                    SetSkyBox(0.8f);
-                    break;
-                case 19:
-                    SetSkyBox(0.4f);
-                    break;
-                case 20:
-                    SetSkyBox(0f);
-                    break;
-                default:
-                    //
-                    break;
+                currentMinute = 0;
+                HourPassed();
             }
-            DynamicGI.UpdateEnvironment();
-
-            if (timeText)
-        {
-            timeText.text = currentHour + ":00";
-        }
 
         }
         while(gameObject.activeSelf);
+    }
+
+    void HourPassed()
+    {
+        currentHour++;
+        if(currentHour >= 24) currentHour = 0;
+
+        if(currentHour >= 6 && currentHour < 20) isDay = true;
+        else isDay = false;
+            
+        OnHourlyUpdate?.Invoke();
+        print("Hour passed. Time is now " + currentHour);
+        print("Is it day? " + isDay);
+
+        switch (currentHour)
+        {
+            case 6:
+                SetSkyBox(0.4f);
+                break;
+            case 7:
+                SetSkyBox(0.8f);
+                break;
+            case 8:
+                dayNum++;
+                SetSkyBox(1f);
+                break;
+            case 18:
+                SetSkyBox(0.8f);
+                break;
+            case 19:
+                SetSkyBox(0.4f);
+                break;
+            case 20:
+                SetSkyBox(0f);
+                break;
+            default:
+                    //
+                break;
+        }
+        DynamicGI.UpdateEnvironment();
+
+        if (timeText)
+        {
+            timeText.text = currentHour + ":00";
+        }
     }
 
     void SetSkyBox(float b)

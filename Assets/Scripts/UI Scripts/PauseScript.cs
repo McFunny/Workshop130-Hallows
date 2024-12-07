@@ -55,11 +55,13 @@ public class PauseScript : MonoBehaviour
             if(!pEffectsHandler) pEffectsHandler = PlayerInteraction.Instance.GetComponent<PlayerEffectsHandler>();
             pEffectsHandler.footStepSource.enabled = false;
             Time.timeScale = 0;
+            PlayerMovement.restrictMovementTokens++;
         }
         else
         {
             Time.timeScale = 1;
             pEffectsHandler.footStepSource.enabled = true;
+            PlayerMovement.restrictMovementTokens--;
         }
         
         if(isPaused)

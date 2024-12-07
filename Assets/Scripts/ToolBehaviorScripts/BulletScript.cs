@@ -44,7 +44,7 @@ public class BulletScript : MonoBehaviour
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
-                creature.TakeDamage(25);
+                creature.TakeDamage(40);
                 //playsound
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 print("Hit Creature");

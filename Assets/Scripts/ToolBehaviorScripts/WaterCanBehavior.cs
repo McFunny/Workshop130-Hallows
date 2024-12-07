@@ -8,7 +8,7 @@ public class WaterCanBehavior : ToolBehavior
     public AudioClip refill, pour;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
         //water

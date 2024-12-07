@@ -10,7 +10,7 @@ public class ShovelBehavior : ToolBehavior
     public AudioClip swing, dig;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
         if(!shovelAttack) shovelAttack = FindObjectOfType<ShovelAttack>();
@@ -23,7 +23,7 @@ public class ShovelBehavior : ToolBehavior
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
 
