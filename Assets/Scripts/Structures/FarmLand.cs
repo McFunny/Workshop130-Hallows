@@ -131,7 +131,6 @@ public class FarmLand : StructureBehaviorScript
         if(harvestable || forceDig || rotted)
         {
             audioHandler.PlaySound(audioHandler.interactSound);
-            forceDig = false;
             if((rotted == false && harvestable) || isWeed)
             {
                 if (crop.creaturePrefab)
@@ -154,7 +153,7 @@ public class FarmLand : StructureBehaviorScript
                     if(r == 0) r = 1;
                     for (int i = 0; i < r; i++)
                     {
-                        if(crop.cropSeed && plantStress == 0)
+                        if(crop.cropSeed && plantStress == 0 && crop.seedYieldAmount > 0)
                         {
                             droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSeed);
                             droppedItem.transform.position = transform.position;
@@ -165,8 +164,16 @@ public class FarmLand : StructureBehaviorScript
                 }
             }
             harvestable = false;
-            crop = null;
-            wealthValue = 0;
+            forceDig = false;
+            if(crop.behavior && crop.behavior.DestroyOnHarvest() == false)
+            {
+                growthStage -= 3;
+            }
+            else
+            {
+                crop = null;
+                wealthValue = 0;
+            } 
             hoursSpent = 0;
             if (isWeed) Destroy(this.gameObject);
             SpriteChange();
