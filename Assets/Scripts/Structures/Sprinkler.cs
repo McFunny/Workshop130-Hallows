@@ -5,12 +5,17 @@ using UnityEngine;
 public class Sprinkler : StructureBehaviorScript
 {
     public InventoryItemData recoveredItem;
-    public int waterLevel = 0; //max is 24
+    public int waterLevel = 0; //max is 5
     public GameObject water;
+    public Transform head;
+    public GameObject waterVFX;
+    bool rotating = false;
+
     // Start is called before the first frame update
     void Awake()
     {
         base.Awake();
+        waterVFX.SetActive(false);
     }
 
     // Update is called once per frame
@@ -26,6 +31,8 @@ public class Sprinkler : StructureBehaviorScript
         {
             water.SetActive(true);
         }
+
+        if(rotating) transform.Rotate(0, Time.deltaTime * 20, 0, Space.Self);
 
     }
 
@@ -46,10 +53,10 @@ public class Sprinkler : StructureBehaviorScript
             StartCoroutine(DugUp());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 24)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 5)
         {
             PlayerInteraction.Instance.waterHeld--;
-            waterLevel = 24;
+            waterLevel = 5;
             StartCoroutine(WaterTiles());
             success = true;
         }
@@ -65,6 +72,7 @@ public class Sprinkler : StructureBehaviorScript
 
     IEnumerator WaterTiles()
     {
+        StartCoroutine(SprinkleAnimation());
         yield return new WaitForSeconds(1);
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f);
         foreach(Collider collider in hitColliders)
@@ -83,6 +91,16 @@ public class Sprinkler : StructureBehaviorScript
         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
         droppedItem.transform.position = transform.position;
         Destroy(this.gameObject);
+    }
+
+    IEnumerator SprinkleAnimation()
+    {
+        rotating = true;
+        waterVFX.SetActive(true);
+        yield return new WaitForSeconds(5);
+        rotating = false;
+        yield return new WaitForSeconds(2);
+        waterVFX.SetActive(false);
     }
 
     void OnDestroy()

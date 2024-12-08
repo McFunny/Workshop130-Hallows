@@ -131,7 +131,6 @@ public class FarmLand : StructureBehaviorScript
         if(harvestable || forceDig || rotted)
         {
             audioHandler.PlaySound(audioHandler.interactSound);
-            harvestable = false;
             forceDig = false;
             if((rotted == false && harvestable) || isWeed)
             {
@@ -165,7 +164,7 @@ public class FarmLand : StructureBehaviorScript
                     
                 }
             }
-
+            harvestable = false;
             crop = null;
             wealthValue = 0;
             hoursSpent = 0;
