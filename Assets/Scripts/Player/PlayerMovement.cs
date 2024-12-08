@@ -49,10 +49,12 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         controlManager.sprint.action.started += Sprint;
+        controlManager.sprint.action.canceled += CancelSprint;
     }
     private void OnDisable()
     {
         controlManager.sprint.action.started -= Sprint;
+        controlManager.sprint.action.canceled -= CancelSprint;
     }
 
     private void Update()
@@ -88,6 +90,16 @@ public class PlayerMovement : MonoBehaviour
             float targetFoV = isSprinting ? 70f : 60f;
             fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f)); 
         }
+    }
+
+    private void CancelSprint(InputAction.CallbackContext obj)
+    {
+        isSprinting = false;
+        float targetFoV = isSprinting ? 70f : 60f;
+        if (fovCoroutine != null)
+                StopCoroutine(fovCoroutine);
+                
+        fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f)); 
     }
 
     private void MyInput()
