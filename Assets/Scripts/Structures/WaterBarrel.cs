@@ -50,13 +50,6 @@ public class WaterBarrel : StructureBehaviorScript
             WaterLevelChange();
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 5 && waterLevel < 3)
-        {
-            PlayerInteraction.Instance.waterHeld -= 5;
-            waterLevel++;
-            WaterLevelChange();
-            success = true;
-        }
     }
 
     IEnumerator DugUp()

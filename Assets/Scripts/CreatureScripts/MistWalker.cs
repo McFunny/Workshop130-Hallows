@@ -15,7 +15,6 @@ public class MistWalker : CreatureBehaviorScript
     private bool isBeingAttacked = false; // For priority target tracking (seed shooter)
     private bool coroutineRunning = false;
     private Transform target;
-    private Tilemap tileMap;
     private bool attackingPlayer = false;
 
     [HideInInspector] public NavMeshAgent agent;
@@ -62,7 +61,7 @@ public class MistWalker : CreatureBehaviorScript
         StructureBehaviorScript.OnStructuresUpdated += UpdateStructureList; // Update list when structures change
         ImbuedScarecrow.OnScarecrowAttract += TargetImbuedScarecrow;
         UpdateStructureList();
-        tileMap = StructureManager.Instance.tileMap;
+        
         agent.enabled = false;
         agent.enabled = true;
 

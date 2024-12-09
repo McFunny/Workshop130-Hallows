@@ -45,7 +45,7 @@ public class ShovelBehavior : ToolBehavior
                     usingSecondary = true;
                     HandItemManager.Instance.PlaySecondaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(dig);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f, 1.4f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f, 2f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
 

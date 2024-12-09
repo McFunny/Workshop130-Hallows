@@ -213,6 +213,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public void Hop(Vector3 destination)
     {
+        ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         if(TimeManager.Instance.isDay)
         {
             destination = despawnPos;
