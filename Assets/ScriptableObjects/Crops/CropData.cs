@@ -18,7 +18,7 @@ public class CropData : ScriptableObject
     public InventoryItemData cropSeed;
     public int cropYieldAmount = 1;
     public int cropYieldVariance = 0;
-    public int seedYieldAmount = 1;
+    public int seedYieldAmount = 1;  //wont yield any seeds if 0, irregardless of the seed variance
     public int seedYieldVariance = 1;
     
     public float waterIntake = 1; //how many units of water does it consume per growth state

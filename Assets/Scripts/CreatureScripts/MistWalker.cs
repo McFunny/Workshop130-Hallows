@@ -425,6 +425,8 @@ public class MistWalker : CreatureBehaviorScript
         if (coroutineRunning || isRecoiling)
             return;
 
+        transform.LookAt(player.position);
+
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance <= 6f)
@@ -491,13 +493,13 @@ public class MistWalker : CreatureBehaviorScript
         effectsHandler.MiscSound();
         recoilCooldown = true;
 
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(0.75f); 
 
        
         if(currentState != CreatureState.Stun)
         {
             Vector3 lungeDirection = (player.position - transform.position).normalized;
-            agent.velocity = lungeDirection * 8 * 3f; //better lunge
+            agent.velocity = lungeDirection * 20f; //better lunge
         }
 
         yield return new WaitForSeconds(0.5f);

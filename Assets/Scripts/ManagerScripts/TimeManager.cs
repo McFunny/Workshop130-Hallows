@@ -5,9 +5,10 @@ using TMPro;
 
 public class TimeManager : MonoBehaviour
 {
+    public int currentMinute = 0; //30 in an hour
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
-                                        /// /Day lasts 14 hours. Each hour lasts 30 seconds. Morning starts at 6, town opens at 8
+                                        /// /Day lasts 14 hours. Each hour lasts 45 seconds. Morning starts at 6, town opens at 8
                                         /// </summary>
     public bool isDay;
     public int dayNum = 1; //what day is it?
@@ -27,7 +28,6 @@ public class TimeManager : MonoBehaviour
 
     void Awake()
     {
-        print(Instance);
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -68,51 +68,61 @@ public class TimeManager : MonoBehaviour
     {
         do
         {
-            yield return new WaitForSeconds(30);
-            currentHour++;
-            if(currentHour >= 24) currentHour = 0;
-
-            if(currentHour >= 6 && currentHour < 20) isDay = true;
-            else isDay = false;
-            
-            OnHourlyUpdate?.Invoke();
-            print("Hour passed. Time is now " + currentHour);
-            print("Is it day? " + isDay);
-
-            switch (currentHour)
+            yield return new WaitForSeconds(1);
+            currentMinute++;
+            if(currentMinute >= 30)
             {
-                case 6:
-                    SetSkyBox(0.4f);
-                    break;
-                case 7:
-                    SetSkyBox(0.8f);
-                    break;
-                case 8:
-                    dayNum++;
-                    SetSkyBox(1f);
-                    break;
-                case 18:
-                    SetSkyBox(0.8f);
-                    break;
-                case 19:
-                    SetSkyBox(0.4f);
-                    break;
-                case 20:
-                    SetSkyBox(0f);
-                    break;
-                default:
-                    //
-                    break;
+                currentMinute = 0;
+                HourPassed();
             }
-            DynamicGI.UpdateEnvironment();
-
-            if (timeText)
-        {
-            timeText.text = currentHour + ":00";
-        }
 
         }
         while(gameObject.activeSelf);
+    }
+
+    void HourPassed()
+    {
+        currentHour++;
+        if(currentHour >= 24) currentHour = 0;
+
+        if(currentHour >= 6 && currentHour < 20) isDay = true;
+        else isDay = false;
+            
+        OnHourlyUpdate?.Invoke();
+        print("Hour passed. Time is now " + currentHour);
+        print("Is it day? " + isDay);
+
+        switch (currentHour)
+        {
+            case 6:
+                SetSkyBox(0.4f);
+                break;
+            case 7:
+                SetSkyBox(0.8f);
+                break;
+            case 8:
+                dayNum++;
+                SetSkyBox(1f);
+                break;
+            case 18:
+                SetSkyBox(0.8f);
+                break;
+            case 19:
+                SetSkyBox(0.4f);
+                break;
+            case 20:
+                SetSkyBox(0f);
+                break;
+            default:
+                    //
+                break;
+        }
+        DynamicGI.UpdateEnvironment();
+
+        if (timeText)
+        {
+            timeText.text = currentHour + ":00";
+        }
     }
 
     void SetSkyBox(float b)
@@ -211,7 +221,11 @@ public class TimeManager : MonoBehaviour
             while(currentHour != 19)
             {
                 currentHour++;
-                timeDif++;
+                //timeDif++;
+                foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+                {
+                    structure.TimeLapse(1);
+                }
             }
         }
         else
@@ -219,15 +233,15 @@ public class TimeManager : MonoBehaviour
             while(currentHour != 7)
             {
                 currentHour++;
-                timeDif++;
+                //timeDif++;
                 if(currentHour == 24) currentHour = 0;
+                foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+                {
+                    structure.TimeLapse(1);
+                }
             }
         }
         isDay = true;
-        foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
-        {
-            structure.TimeLapse(timeDif);
-        }
         InitializeSkyBox();
         StartCoroutine(TimePassage());
     }

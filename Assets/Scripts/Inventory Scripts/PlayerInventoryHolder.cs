@@ -59,7 +59,9 @@ public class PlayerInventoryHolder : InventoryHolder
         AddToInventory(shovel, 1);
         AddToInventory(waterCan, 1);
         AddToInventory(shotgun, 1);
-        AddToInventory(ammo, 6);
+        AddToInventory(ammo, 2);
+        AddToInventory(ammo, 2);
+        AddToInventory(ammo, 2);
     }
 
     // Method to add items to the correct inventory system (primary or secondary)

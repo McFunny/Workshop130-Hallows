@@ -34,11 +34,17 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = 0;
                 currentType = PathType.Misc;
             }
+            else if(NPCManager.Instance.botanistSpoke)
+            {
+                interactSuccessful = false;
+                return;
+            }
             else if(currentPath == -1)
             {
                 int i = Random.Range(0, dialogueText.fillerPaths.Length);
                 currentPath = i;
                 currentType = PathType.Filler;
+                NPCManager.Instance.botanistSpoke = true;
             }
         }
         Talk();

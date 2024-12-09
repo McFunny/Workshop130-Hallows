@@ -18,6 +18,11 @@ public class NPCManager : MonoBehaviour
     public bool lumberjackFed = false;
     public bool botanistFed = false;
 
+    [Header("NPC Spoken Bools")]
+    public bool rascalSpoke = false;
+    public bool lumberjackSpoke = false;
+    public bool botanistSpoke = false;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -31,9 +36,24 @@ public class NPCManager : MonoBehaviour
 
     }
 
-    public void InitializeDictionary()
+    void Start()
     {
-        //called after the save data becomes updated
+        TimeManager.OnHourlyUpdate += HourUpdate;
+    }
+
+    public void HourUpdate()
+    {
+        if(TimeManager.Instance.currentHour == 6)
+        {
+            rascalSpoke = false;
+            lumberjackSpoke = false;
+            botanistSpoke = false;
+        }
+    }
+
+    void Destroy()
+    {
+        TimeManager.OnHourlyUpdate -= HourUpdate;
     }
 
 }

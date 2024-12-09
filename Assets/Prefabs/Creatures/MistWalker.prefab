@@ -246,6 +246,7 @@ Transform:
   - {fileID: 1762802711427206768}
   - {fileID: 9117957962325276342}
   - {fileID: 3201560652370425664}
+  - {fileID: 4404147124106985870}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2215828228040180568
@@ -271,6 +272,7 @@ MonoBehaviour:
   player: {fileID: 0}
   allColliders:
   - {fileID: 4701143560977699689}
+  corpseParticleTransform: {fileID: 4404147124106985870}
   rb: {fileID: 8906599069740921222}
   anim: {fileID: 7086865256813604448}
   droppedItems:
@@ -369,10 +371,41 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 2.5
-  m_Height: 3.26
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.65, z: 0.47}
+  m_Radius: 1.33
+  m_Height: 3.37
+  m_Direction: 2
+  m_Center: {x: 0, y: 1.65, z: 0.91}
+--- !u!1 &8751900738574353003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4404147124106985870}
+  m_Layer: 9
+  m_Name: CorpseParticleTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4404147124106985870
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8751900738574353003}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.271, z: -1.43}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4041892218060830233}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3162796934974230699
 PrefabInstance:
   m_ObjectHideFlags: 0
