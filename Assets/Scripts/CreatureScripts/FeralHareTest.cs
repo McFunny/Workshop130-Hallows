@@ -16,6 +16,8 @@ public class FeralHareTest : CreatureBehaviorScript
     bool isStunned = false;
     float eatingTimeLeft = 5f; // how many seconds does it take to eat a crop
 
+    float extendedSightRange;
+
     Vector3 despawnPos;
 
     public enum CreatureState
@@ -217,7 +219,7 @@ public class FeralHareTest : CreatureBehaviorScript
         }
         // hare will jump toward a random direction using physics, using rb.addforce to a random vector3 position in addition to a vector3.up force
         Vector3 jumpDirection = (transform.position - destination).normalized;
-        jumpDirection *= -1;
+        jumpDirection *= -1f;
 
         if (playerInSightRange)
         {
@@ -228,6 +230,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
         // Apply force to make the hare hop
         float r = Random.Range(170, 210f);
+        if(playerInSightRange) r += 150;
         rb.AddForce(Vector3.up * 100);
         rb.AddForce(jumpDirection * r);
         transform.LookAt(destination);
@@ -249,7 +252,7 @@ public class FeralHareTest : CreatureBehaviorScript
     IEnumerator JumpCooldownTimer()
     {
         jumpCooldown = true;
-        float time = Random.Range(0.9f, 1.6f);
+        float time = Random.Range(0.7f, 1.3f);
         yield return new WaitForSeconds(playerInSightRange ? time / 3 : time);
         jumpCooldown = false;
     }

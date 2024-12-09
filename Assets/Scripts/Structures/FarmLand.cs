@@ -131,7 +131,8 @@ public class FarmLand : StructureBehaviorScript
         if(harvestable || forceDig || rotted)
         {
             if(isWeed && !forceDig) return; //Forces the player to dig the weeds using the shovel
-            audioHandler.PlaySound(audioHandler.interactSound);
+            if(isWeed) audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
+            else audioHandler.PlaySound(audioHandler.interactSound);
             if((rotted == false && harvestable) || isWeed)
             {
                 if (crop.creaturePrefab)
@@ -174,6 +175,7 @@ public class FarmLand : StructureBehaviorScript
             {
                 crop = null;
                 wealthValue = 0;
+                ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
             } 
             hoursSpent = 0;
             if (isWeed) Destroy(this.gameObject);
