@@ -130,6 +130,7 @@ public class FarmLand : StructureBehaviorScript
     {
         if(harvestable || forceDig || rotted)
         {
+            if(isWeed && !forceDig) return; //Forces the player to dig the weeds using the shovel
             audioHandler.PlaySound(audioHandler.interactSound);
             if((rotted == false && harvestable) || isWeed)
             {
@@ -217,7 +218,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(hoursSpent >= crop.hoursPerStage || StructureManager.Instance.ignoreCropGrowthTime)
         {
-            if(growthStage >= crop.growthStages)
+            if(growthStage >= crop.growthStages && !isWeed)
             {
                 return;
                 //IT HAS REACHED MAX GROWTH STATE
