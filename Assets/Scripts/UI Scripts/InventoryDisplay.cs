@@ -33,6 +33,7 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     public void HandleSlotLeftClick(InventorySlot_UI clickedUISlot)
     {
+        print(clickedUISlot);
         bool isShiftPress = Input.GetKey(KeyCode.LeftShift);
         PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
         // Left-click logic:

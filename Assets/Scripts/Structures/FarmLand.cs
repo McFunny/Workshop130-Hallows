@@ -6,8 +6,10 @@ using UnityEngine.VFX;
 public class FarmLand : StructureBehaviorScript
 {
     public CropData crop; //The current crop planted here
+    public InventoryItemData terraFert, gloamFert, ichorFert;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
+    public Collider finishedGrowingCollider;
 
     public MeshRenderer meshRenderer;
     public Material dry, wet, barren, barrenWet;
@@ -28,7 +30,7 @@ public class FarmLand : StructureBehaviorScript
 
     private NutrientStorage nutrients;
 
-    public VisualEffect growth, growthComplete;
+    public VisualEffect growth, growthComplete, waterSplash, ichorSplash;
     // Start is called before the first frame update
     void Awake()
     {
@@ -57,6 +59,9 @@ public class FarmLand : StructureBehaviorScript
             growthStage++;
         }
 
+        waterSplash.Stop();
+        ichorSplash.Stop();
+
         SpriteChange();
     }
 
@@ -64,10 +69,36 @@ public class FarmLand : StructureBehaviorScript
     void Update()
     {
         base.Update();
+
+        if(((crop && growthStage >= crop.growthStages) || isWeed) && !finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = true;
+
+        if((!crop || growthStage < crop.growthStages) && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
     }
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(item == terraFert && nutrients.terraLevel < 10)
+        {
+            nutrients.terraLevel = 10;
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            playerInventoryHolder.UpdateInventory();
+            return;
+        }
+        if(item == gloamFert && nutrients.gloamLevel < 10)
+        {
+            nutrients.gloamLevel = 10;
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            playerInventoryHolder.UpdateInventory();
+            return;
+        }
+        if(item == ichorFert && nutrients.ichorLevel < 10)
+        {
+            nutrients.ichorLevel = 10;
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            playerInventoryHolder.UpdateInventory();
+            return;
+        }
+
         if(crop) return;
         CropItem newCrop = item as CropItem;
         if(newCrop && newCrop.plantable)
@@ -145,6 +176,8 @@ public class FarmLand : StructureBehaviorScript
             nutrients.waterLevel = 10;
             SpriteChange();
             success = true;
+
+            waterSplash.Play();
         }
     }
 
@@ -237,18 +270,24 @@ public class FarmLand : StructureBehaviorScript
             nutrients.ichorLevel = 0;
             plantStress++;
         }
+        else if(nutrients.ichorLevel > 10) nutrients.ichorLevel = 10;
+
         nutrients.terraLevel -= crop.terraIntake;
         if(nutrients.terraLevel < 0)
         {
             nutrients.terraLevel = 0;
             plantStress++;
         }
+        else if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
+
         nutrients.gloamLevel -= crop.gloamIntake;
         if(nutrients.gloamLevel < 0)
         {
             nutrients.gloamLevel = 0;
             plantStress++;
         }
+        else if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
+
         nutrients.waterLevel -= crop.waterIntake;
         if(nutrients.waterLevel < 0)
         {
@@ -296,6 +335,14 @@ public class FarmLand : StructureBehaviorScript
         }
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         base.OnDestroy();
+    }
+
+    public override void TimeLapse(int hours)
+    {
+        for(int i = 0; i < hours; i++)
+        {
+            HourPassed();
+        }
     }
 
     public NutrientStorage GetCropStats()

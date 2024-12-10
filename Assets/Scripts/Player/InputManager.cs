@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
-
+using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     // Unity Actions for number key and scroll input
@@ -12,27 +12,56 @@ public class InputManager : MonoBehaviour
     // FOR TOGGLING THE GRID
     public Tilemap structGrid;
     public Color activeColor, hiddenColor;
+    public bool gridIsActive;
+    ControlManager controlManager;
+
+    void Awake()
+    {
+        controlManager = FindFirstObjectByType<ControlManager>();
+    }
+
+    private void OnEnable()
+    {
+        controlManager.hotbarUp.action.started += HotbarUp;
+        controlManager.hotbarDown.action.canceled += HotbarDown;  
+        controlManager.showGrid.action.canceled += ShowGrid;
+    }
+    private void OnDisable()
+    {
+        controlManager.hotbarUp.action.started -= HotbarUp; 
+        controlManager.hotbarDown.action.canceled -= HotbarDown;  
+        controlManager.showGrid.action.canceled -= ShowGrid;
+    }
 
     void Update()
     {
         CheckForScrollInput();
         CheckNumberInput();
-
-        if (Input.GetKeyDown("g") && structGrid)
-        {
-            if (structGrid.color == activeColor) structGrid.color = hiddenColor;
-            else structGrid.color = activeColor;
-        }
+        
+        if (gridIsActive){ structGrid.color = activeColor;}
+        else{ structGrid.color = hiddenColor;}
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
     }
+    private void HotbarUp(InputAction.CallbackContext obj)
+    {
+        if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(-1);}
+    }
+    private void HotbarDown(InputAction.CallbackContext obj)
+    {
+        if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(1);}
+    }
+    private void ShowGrid(InputAction.CallbackContext obj)
+    {
+        if(!PlayerMovement.accessingInventory){gridIsActive = !gridIsActive;}
+    }
 
     private void CheckForScrollInput()
     {
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        float scrollInput = controlManager.hotbarScroll.action.ReadValue<float>();
 
         if (scrollInput > 0f)
         {

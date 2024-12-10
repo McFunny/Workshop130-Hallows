@@ -5,9 +5,12 @@ using TMPro;
 
 public class TimeManager : MonoBehaviour
 {
-    public static int currentHour = 19; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours. Day lasts 14 hours. Each hour lasts 45/30 seconds
-    public static bool isDay;
-    public static int dayNum = 1; //what day is it?
+    public int currentHour = 10; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
+                                        /// <summary>
+                                        /// /Day lasts 14 hours. Each hour lasts 45/30 seconds. Morning starts at 6, town opens at 8
+                                        /// </summary>
+    public bool isDay;
+    public int dayNum = 1; //what day is it?
     public TextMeshProUGUI timeText;
     public Light dayLight;
 
@@ -17,6 +20,23 @@ public class TimeManager : MonoBehaviour
     public Material skyMat;
     float desiredBlend;
     public Color nightColor, dayColor;
+
+    public Transform playerRespawn;
+
+    public static TimeManager Instance;
+
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     
     // Start is called before the first frame update
@@ -167,10 +187,41 @@ public class TimeManager : MonoBehaviour
                 break;
         }
         dayLight.color = lerpedColor;
+        DynamicGI.UpdateEnvironment();
     }
 
     private void OnDestroy()
     {
         skyMat.SetFloat("_BlendCubemaps", 1f);
+    }
+
+    public void GameOver()
+    {
+        StopCoroutine(TimePassage());
+        int timeDif = 0;
+        //change time and day
+        if(isDay)
+        {
+            while(currentHour != 19)
+            {
+                currentHour++;
+                timeDif++;
+            }
+        }
+        else
+        {
+            while(currentHour != 8)
+            {
+                currentHour++;
+                timeDif++;
+                if(currentHour == 24) currentHour = 0;
+            }
+        }
+        foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+        {
+            structure.TimeLapse(timeDif);
+        }
+        InitializeSkyBox();
+        StartCoroutine(TimePassage());
     }
 }

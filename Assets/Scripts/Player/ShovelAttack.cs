@@ -37,7 +37,7 @@ public class ShovelAttack : MonoBehaviour
             PlayHitParticle(collisionPoint);
         }
 
-        var creature = other.GetComponent<CreatureBehaviorScript>();
+        var creature = other.GetComponentInParent<CreatureBehaviorScript>();
         if (creature != null)
         {
             creature.TakeDamage(25);

@@ -159,12 +159,32 @@ public class StructureManager : MonoBehaviour
 
                         storage[i].ichorLevel += amount;
                         if(storage[i].ichorLevel > 10) storage[i].ichorLevel = 10;
+
+                        StructureBehaviorScript structure = GrabStructureOnTile(tilePosition);
+                        if(structure)
+                        {
+                            FarmLand farmPlot = structure as FarmLand;
+                            if(farmPlot) farmPlot.ichorSplash.Play();
+                        }
                     } 
                 }
             }
             
         }
     }
+
+    public StructureBehaviorScript GrabStructureOnTile(Vector3 pos)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(pos, 1);
+        foreach(Collider collider in hitColliders)
+        {
+            if(collider.gameObject.GetComponentInParent<StructureBehaviorScript>())
+            {
+                return collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+            }
+        }
+        return null;
+    } //to play ichor particle
 
     void InstantiateNutrientStorage()
     {
@@ -275,7 +295,9 @@ public class NutrientStorage
     public float terraLevel = 10; //max is 10
     public float gloamLevel = 10; //max is 10
 
-    public float waterLevel = 3; //max is 5
+    public float waterLevel = 3; //max is 10
+
+    public int blightLevel = 0; //max is 10. If above 0, spreads blight to nearby tiles. Corpses that die should blight farm tiles and create empty farm tiles with blight. Blighted farm tiles shouldnt despawn
 
     public NutrientStorage()
     {

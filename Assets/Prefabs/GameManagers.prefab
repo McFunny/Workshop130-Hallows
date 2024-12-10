@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &535753626975089001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8003300629687511125}
+  m_Layer: 0
+  m_Name: PlayerRespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8003300629687511125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535753626975089001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -17.2, y: 2.23, z: 35.85}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1515316856631188479
 GameObject:
   m_ObjectHideFlags: 0
@@ -24,12 +55,77 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1515316856631188479}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 43, y: 0, z: -42.7}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 58.7, y: 0, z: -42.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1008784946656914511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1751230884533432961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1287338855952621716}
+  m_Layer: 0
+  m_Name: DespawnPositions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1287338855952621716
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751230884533432961}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1731178260283816800}
+  - {fileID: 7121509994226977754}
+  - {fileID: 5601921412493070958}
+  m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1899875134374188398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1731178260283816800}
+  m_Layer: 0
+  m_Name: DespawnPos1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1731178260283816800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899875134374188398}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 92.7, y: 0, z: -55.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1287338855952621716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1929285858655016751
 GameObject:
@@ -435,8 +531,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3672766892855067966}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -57.5, y: 0, z: -18.9}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -70, y: 0, z: -18.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5468,11 +5564,42 @@ Transform:
   m_GameObject: {fileID: 4924845572783988131}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.1, y: 0, z: -75.6}
+  m_LocalPosition: {x: -9.1, y: 0, z: -97.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1008784946656914511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5776158517774895998
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5601921412493070958}
+  m_Layer: 0
+  m_Name: DespawnPos3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5601921412493070958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5776158517774895998}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -104.5, y: 0, z: -20.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1287338855952621716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5905684624903694689
 GameObject:
@@ -5490,6 +5617,7 @@ GameObject:
   - component: {fileID: 6358613473889610095}
   - component: {fileID: 3952483593475695091}
   - component: {fileID: 6272051581299996177}
+  - component: {fileID: 8391427381802313727}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -5514,6 +5642,8 @@ Transform:
   - {fileID: 4091942519238829408}
   - {fileID: 7806426749010079376}
   - {fileID: 1008784946656914511}
+  - {fileID: 1287338855952621716}
+  - {fileID: 8003300629687511125}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4040343108907326756
@@ -5549,11 +5679,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f9f1e80beadc54f9ec8f58837125c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHour: 10
+  isDay: 0
+  dayNum: 1
   timeText: {fileID: 0}
   dayLight: {fileID: 0}
   skyMat: {fileID: 2100000, guid: b765a272ba3f08b4cbd57e302799320e, type: 2}
   nightColor: {r: 0.24705882, g: 0.41568628, b: 0.42352942, a: 1}
   dayColor: {r: 0.7058824, g: 0.68235296, b: 0.5647059, a: 1}
+  playerRespawn: {fileID: 8003300629687511125}
 --- !u!114 &4750952263133987452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5569,6 +5703,7 @@ MonoBehaviour:
   structGrid: {fileID: 0}
   activeColor: {r: 1, g: 0.8156863, b: 0, a: 0.05490196}
   hiddenColor: {r: 1, g: 1, b: 1, a: 0}
+  gridIsActive: 1
 --- !u!114 &3406670050517197411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5622,6 +5757,10 @@ MonoBehaviour:
   - {fileID: 7187795816526134101}
   - {fileID: 8728786854694335367}
   - {fileID: 5275669529563945046}
+  despawnPositions:
+  - {fileID: 1731178260283816800}
+  - {fileID: 7121509994226977754}
+  - {fileID: 5601921412493070958}
 --- !u!114 &6272051581299996177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5634,6 +5773,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52fa92d816326b9408faa4877777069a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rascalWantsFood: 0
+  rascalMentionedKey: 0
+--- !u!114 &8391427381802313727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a731cac257009489c4ae30b395fd5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pStamina: 0
+  pWater: 0
   rascalWantsFood: 0
   rascalMentionedKey: 0
 --- !u!1 &5964704809646925671
@@ -5669,6 +5824,37 @@ Transform:
   - {fileID: 8728786854694335367}
   - {fileID: 5275669529563945046}
   m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7494202654796708368
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7121509994226977754}
+  m_Layer: 0
+  m_Name: DespawnPos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7121509994226977754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7494202654796708368}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12.2, y: 0, z: -130.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1287338855952621716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2729550537432068098
 PrefabInstance:

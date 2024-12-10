@@ -71,7 +71,7 @@ public class InventorySystem
 
     public void RemoveItemsFromInventory(InventoryItemData data, int amount)
     {
-        
+        int itemsRemoved = 0;
         if (ContainsItem(data, out List<InventorySlot> invSlot))
         {
             
@@ -79,14 +79,20 @@ public class InventorySystem
             {
                 var stackSize = slot.StackSize;
 
-                if (stackSize > amount) slot.RemoveFromStack(amount);
+                if (stackSize > amount)
+                {
+                    slot.RemoveFromStack(amount);
+                    itemsRemoved = amount;
+                }
                 else
                 {
+                    itemsRemoved += stackSize;
                     slot.RemoveFromStack(stackSize);
-                    amount -= stackSize;
+                    amount -= stackSize; 
                 }
 
                 OnInventorySlotChanged?.Invoke(slot);
+                if(itemsRemoved >= amount) break;
             }
         }
     }

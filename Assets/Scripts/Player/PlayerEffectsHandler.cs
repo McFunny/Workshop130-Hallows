@@ -79,6 +79,11 @@ public class PlayerEffectsHandler : MonoBehaviour
         
     }
 
+    IEnumerator DeathFlash()
+    {
+        yield return new WaitForSeconds(1);
+    }
+
     
 
 }

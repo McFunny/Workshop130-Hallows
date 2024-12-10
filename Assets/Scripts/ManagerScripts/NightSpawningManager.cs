@@ -16,6 +16,7 @@ public class NightSpawningManager : MonoBehaviour
     //this list saves all current creatures, and all spawned creatures through this/saved by this manager should be assigned to this list
 
     public Transform[] testSpawns;
+    public Transform[] despawnPositions;
 
     void Awake()
     {
@@ -36,17 +37,18 @@ public class NightSpawningManager : MonoBehaviour
 
     void HourUpdate()
     {
-        if(TimeManager.isDay)
+        if(TimeManager.Instance.isDay)
         {
             return;
         }
-        if(TimeManager.currentHour == 20)
+        if(TimeManager.Instance.currentHour == 20)
         {
             foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
             {
                difficultyPoints += structure.wealthValue;
             }
             if(difficultyPoints < 15) difficultyPoints = 15;
+            //difficultyPoints += 1000;
             //difficultyPoints += TimeManager.dayNum;
             //originalDifficultyPoints = difficultyPoints;
         }
@@ -116,7 +118,7 @@ public class NightSpawningManager : MonoBehaviour
     void SpawnCreature(CreatureObject c)
     {
         int t = Random.Range(0,testSpawns.Length);
-        GameObject newCreature = Instantiate(c.objectPrefab, testSpawns[t].position, Quaternion.identity);
+        GameObject newCreature = Instantiate(c.objectPrefab, RandomMistPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
             enemy.OnSpawn();
@@ -126,7 +128,7 @@ public class NightSpawningManager : MonoBehaviour
 
     float GetThreshold()
     {
-        switch (TimeManager.currentHour)
+        switch (TimeManager.Instance.currentHour)
             {
                 case 1:
                     return 0.2f;
@@ -153,5 +155,12 @@ public class NightSpawningManager : MonoBehaviour
                 default:
                     return 1;
             }
+    }
+
+    public Vector3 RandomMistPosition()
+    {
+        int r = Random.Range(0, testSpawns.Length);
+        float x = Random.Range(-20, 20);
+        return testSpawns[r].position + (x * testSpawns[r].transform.right); //new Vector3(testSpawns[r].position.x + x, testSpawns[r].position.y, testSpawns[r].position.z);
     }
 }
