@@ -53,9 +53,15 @@ public class PlayerInventoryHolder : InventoryHolder
         InventoryItemData hoe = _database.GetItem(0);
         InventoryItemData shovel = _database.GetItem(1);
         InventoryItemData waterCan = _database.GetItem(2);
+        InventoryItemData shotgun = _database.GetItem(3);
+        InventoryItemData ammo = _database.GetItem(4);
         AddToInventory(hoe, 1);
         AddToInventory(shovel, 1);
         AddToInventory(waterCan, 1);
+        AddToInventory(shotgun, 1);
+        AddToInventory(ammo, 2);
+        AddToInventory(ammo, 2);
+        AddToInventory(ammo, 2);
     }
 
     // Method to add items to the correct inventory system (primary or secondary)

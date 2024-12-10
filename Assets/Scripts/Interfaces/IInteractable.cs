@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public interface IInteractable
 {
+    
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful);
@@ -13,4 +14,6 @@ public interface IInteractable
     
 
     public void EndInteraction();
+
+    public void ToggleHighlight(bool enabled);
 }

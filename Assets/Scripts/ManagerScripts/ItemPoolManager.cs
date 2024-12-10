@@ -24,17 +24,6 @@ public class ItemPoolManager : MonoBehaviour
         PopulateItemPool();
     }
 
-    void Start()
-    {
-        
-    }
-
-
-    void Update()
-    {
-        
-    }
-
     void PopulateItemPool()
     {
         //

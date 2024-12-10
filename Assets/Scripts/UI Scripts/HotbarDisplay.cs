@@ -42,7 +42,7 @@ public class HotbarDisplay : MonoBehaviour
 
     private void HandleScrollInput(int direction)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown) return; //to solve the issue where there is a skip in the hotbar
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return; //to solve the issue where there is a skip in the hotbar
 
         currentIndex += direction;
 
@@ -54,6 +54,7 @@ public class HotbarDisplay : MonoBehaviour
 
     private void HandleNumberPressed(int number)
     {
+        if(PauseScript.isPaused) return;
         if (number > 0 && number <= hotbarSlots.Length)
         {
             SelectHotbarSlot(number - 1);  // Hotbar slots are 0-indexed

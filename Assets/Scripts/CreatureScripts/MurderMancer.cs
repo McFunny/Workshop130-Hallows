@@ -10,6 +10,8 @@ public class MurderMancer : CreatureBehaviorScript
     public Transform rightArmCrowSummon;
     public Transform leftArmCrowSummon;
     public GameObject crowPrefab;
+    public ParticleSystem stageParticles; //rates are 0, 2, 5, and 15
+
     public enum CreatureState
     {
         FlyIn,
@@ -27,24 +29,57 @@ public class MurderMancer : CreatureBehaviorScript
     void Start()
     {
         base.Start();
+        StartCoroutine(SecondTimer());
+        SpawnIn();
     }
 
 
     void Update()
     {
-        float distance = Vector3.Distance(player.position, transform.position);
-        playerInSightRange = distance <= sightRange;
-        if (playerInSightRange)
+        //ISSUE, IT NEEDS TO OCCUPY THE CURRENT TILE ORTHERWISE THE PLAYER CAN BUILD STRUCTS ON IT
+    }
+
+    IEnumerator SecondTimer()
+    {
+        while(gameObject.activeSelf)
         {
-            timeSinceLastSeenPlayer = 0;
+            yield return new WaitForSeconds(1);
+            if (TimeManager.Instance.isDay)
+            {
+                base.OnDeath();
+                Destroy(this.gameObject);
+            }
+
+            float distance = Vector3.Distance(player.position, transform.position);
+            playerInSightRange = distance <= sightRange;
+            if (playerInSightRange)
+            {
+                if (timeSinceLastSeenPlayer >= 60)
+                {
+                    timeSinceLastSeenPlayer = 60;
+                }
+                else if (timeSinceLastSeenPlayer >= 40)
+                {
+                    timeSinceLastSeenPlayer = 40;
+                }
+                else if (timeSinceLastSeenPlayer >= 20)
+                {
+                    timeSinceLastSeenPlayer = 20;
+                }
+                else if (timeSinceLastSeenPlayer < 20)
+                {
+                    timeSinceLastSeenPlayer = 0;
+                }
+            }
+            else { timeSinceLastSeenPlayer += 1; }
+            CheckStage();
+            CheckState(currentState);
         }
-        else { timeSinceLastSeenPlayer += Time.deltaTime; }
-        CheckStage();
-        CheckState(currentState);
     }
 
     private void CheckStage()
     {
+        var pEmission = stageParticles.emission;
         if (timeSinceLastSeenPlayer >= 80)
         {
             currentState = CreatureState.SummonCrows;
@@ -52,18 +87,22 @@ public class MurderMancer : CreatureBehaviorScript
         else if (timeSinceLastSeenPlayer >= 60)
         {
             currentState = CreatureState.Stage3;
+            pEmission.rateOverTime = 15;
         }
         else if (timeSinceLastSeenPlayer >= 40)
         {
             currentState = CreatureState.Stage2;
+            pEmission.rateOverTime = 5;
         }
         else if (timeSinceLastSeenPlayer >= 20)
         {
             currentState = CreatureState.Stage1;
+            pEmission.rateOverTime = 2;
         }
         else if (timeSinceLastSeenPlayer < 20)
         {
             currentState = CreatureState.Idle;
+            pEmission.rateOverTime = 0;
         }
     }
 
@@ -144,10 +183,20 @@ public class MurderMancer : CreatureBehaviorScript
         crow2.isSummoned = true;
 
 
-        timeSinceLastSeenPlayer = 60f; //Put back into stage 3
+        timeSinceLastSeenPlayer = 40f; //Put back into stage 2
        
         yield return new WaitForSeconds(0.1f);
         coroutineRunning = false;
+    }
+
+    void SpawnIn()
+    {
+        Vector3 newPos = StructureManager.Instance.GetRandomClearTile();
+        if(newPos == new Vector3(0,0,0)) Destroy(this.gameObject);
+        else
+        {
+            transform.position = newPos;
+        }
     }
 
     private void Idle()

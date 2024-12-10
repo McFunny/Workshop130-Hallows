@@ -22,9 +22,12 @@ public class PlaceableItem : InventoryItemData
             Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
             if(pos != new Vector3(0,0,0)) 
             {
-                Quaternion rotate = currentHologram.transform.rotation;
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
-                newStruct.transform.rotation = rotate;
+                if(currentHologram)
+                {
+                    Quaternion rotate = currentHologram.transform.rotation;
+                    newStruct.transform.rotation = rotate;
+                }
                 if (removeAfterUse)
                 {
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);

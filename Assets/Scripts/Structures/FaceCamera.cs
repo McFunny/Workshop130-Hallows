@@ -7,16 +7,23 @@ public class FaceCamera : MonoBehaviour
     Transform player;
 
     public bool invert;
+    bool enabled = false;
 
     void OnEnable()
     {
         if(!player) player = FindObjectOfType<PlayerCam>().transform;
+        enabled = true;
         StartCoroutine("FacePlayer");
+    }
+
+    void OnDisable()
+    {
+        enabled = false;
     }
 
     IEnumerator FacePlayer()
     {
-        do
+        while(enabled)
         {
             Vector3 fwd = player.forward; 
             fwd.y = 0; 
@@ -24,7 +31,6 @@ public class FaceCamera : MonoBehaviour
             if (fwd != Vector3.zero) transform.rotation = Quaternion.LookRotation(fwd);
             yield return new WaitForSeconds(0.1f);
         }
-        while(gameObject.activeSelf);
     }
 
 

@@ -25,22 +25,26 @@ public class PlayerInteraction : MonoBehaviour
     public int currentMoney;
 
     public float stamina = 200;
-    [HideInInspector] public readonly float maxStamina = 100;
+    [HideInInspector] public readonly float maxStamina = 200;
 
     public float waterHeld = 0; //for watering can
     [HideInInspector] public readonly float maxWaterHeld = 10;
 
-    private float reach = 5;
+    private float reach = 8;
 
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
 
     bool gameOver;
 
+    StructureBehaviorScript lastSeenStruct;
+    IInteractable lastSeenInteractable;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         stamina = maxStamina;
+        waterHeld = maxWaterHeld;
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -85,6 +89,8 @@ public class PlayerInteraction : MonoBehaviour
 
         DisplayHologramCheck();
 
+        DisplayHighlightCheck();
+
         if(stamina <= 0 && !gameOver)
         {
             gameOver = true;
@@ -93,10 +99,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
-        if(Input.GetKeyDown("o"))
-        {
-            stamina = 0;
-        }
+
     }
 
     private void UseHeldItem(InputAction.CallbackContext obj)
@@ -108,14 +111,26 @@ public class PlayerInteraction : MonoBehaviour
     private void OnInteractWithItem(InputAction.CallbackContext obj)
     {
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
-        if(ltCanPress == true) { StructureInteractionWithItem(); ltCanPress = false; }
-        else ltCanPress = true;
+        if(!ControlManager.isController) StructureInteractionWithItem();
+        else
+        {
+            if(ltCanPress == true)
+            { 
+                StructureInteractionWithItem();
+                ltCanPress = false; 
+            }
+            else ltCanPress = true;
+        }
     }
 
 
     private void InteractWithoutItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory)
+        {
+            if(DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
+            return;
+        }
         InteractWithObject();
     }
 
@@ -166,7 +181,7 @@ public class PlayerInteraction : MonoBehaviour
         RaycastHit hit;
 
 
-        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach + 8, interactionLayers))
+        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach + 4, interactionLayers))
         {
             var interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
@@ -221,7 +236,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void UseHotBarItem()
     {
-       Debug.Log("UsingHandItem");
+        Debug.Log("UsingHandItem");
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(item == null) return;
 
@@ -249,6 +264,7 @@ public class PlayerInteraction : MonoBehaviour
             StaminaChange(item.staminaValue);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
+            playerEffects.PlayClip(playerEffects.itemEat);
             return;
         }
     }
@@ -273,27 +289,71 @@ public class PlayerInteraction : MonoBehaviour
 
     void DisplayHologramCheck()
     {
+        if(!HotbarDisplay.currentSlot) return;
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(!item) return;
         PlaceableItem p_item = item as PlaceableItem;
         if(!p_item || !p_item.hologramPrefab) return;
         p_item.DisplayHologram(mainCam.transform);
 
-        if(Input.GetKeyDown("r"))
+        if(controlManager.rotateStructure.action.WasPressedThisFrame())
         {
             p_item.RotateHologram();
         }
     }
 
+    void DisplayHighlightCheck()
+    {
+        Vector3 fwd = mainCam.transform.TransformDirection(Vector3.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
+        {
+            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            if (structure != null)
+            {
+                if(structure == lastSeenStruct) return;
+                structure.ToggleHighlight(true);
+                if(lastSeenStruct) lastSeenStruct.ToggleHighlight(false);
+                if(lastSeenInteractable != null) lastSeenInteractable.ToggleHighlight(false);
+                lastSeenStruct = structure;
+                return;
+            }
+
+            var interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                if(interactable == lastSeenInteractable) return;
+                interactable.ToggleHighlight(true);
+                if(lastSeenStruct) lastSeenStruct.ToggleHighlight(false);
+                if(lastSeenInteractable != null) lastSeenInteractable.ToggleHighlight(false);
+                lastSeenInteractable = interactable;
+                return;
+            }
+        }
+        if(lastSeenStruct)
+        {
+            lastSeenStruct.ToggleHighlight(false);
+            lastSeenStruct = null;
+        }
+        if(lastSeenInteractable != null)
+        {
+            lastSeenInteractable.ToggleHighlight(false);
+            lastSeenInteractable = null;
+        }
+    }
+
     IEnumerator GameOver()
     {
-        //work on a transition, maybe with the vignette
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        yield return new WaitForSeconds(1.5f);
+        playerEffects.PlayClip(playerEffects.playerDie);
+        yield return new WaitForSeconds(1f);
+        TimeManager.Instance.GameOver();
+        NightSpawningManager.Instance.GameOver();
+        TownGate.Instance.GameOver();
+        yield return new WaitForSeconds(3f);
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
-        TimeManager.Instance.GameOver();
         if(currentMoney > 0) currentMoney = currentMoney/2;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;

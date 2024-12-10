@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: Ginger
+  m_EditorClassIdentifier: 
+  name: Witch Heart
+  growthStages: 5
+  hoursPerStage: 2
+  harvestableGrowthStages: 05000000
+  cropSprites:
+  - {fileID: -1886327501, guid: bcbec771f4eb44040b9ca9c44991d074, type: 3}
+  - {fileID: -271999589, guid: bcbec771f4eb44040b9ca9c44991d074, type: 3}
+  - {fileID: -936462331, guid: bcbec771f4eb44040b9ca9c44991d074, type: 3}
+  - {fileID: -1609408707, guid: bcbec771f4eb44040b9ca9c44991d074, type: 3}
+  - {fileID: 1533487904, guid: bcbec771f4eb44040b9ca9c44991d074, type: 3}
+  rottedImage: {fileID: 2101081343, guid: bcbec771f4eb44040b9ca9c44991d074, type: 3}
+  cropYield: {fileID: 11400000, guid: f114c6552283d0148b867130573aa13a, type: 2}
+  cropSeed: {fileID: 11400000, guid: 896c3c0b058cf074d896841ed134ffd1, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 1
+  seedYieldVariance: 1
+  waterIntake: 10
+  ichorIntake: 1.5
+  terraIntake: 1.5
+  gloamIntake: 1.5
+  stressLimit: 2
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 0}

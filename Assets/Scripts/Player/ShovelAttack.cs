@@ -28,7 +28,7 @@ public class ShovelAttack : MonoBehaviour
         var structure = other.GetComponent<StructureBehaviorScript>();
         if (structure != null)
         {
-            structure.health -= 2;
+            structure.TakeDamage(2);
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             print("Hit Structure");
             PlayerInteraction.Instance.StaminaChange(-1);
@@ -38,7 +38,7 @@ public class ShovelAttack : MonoBehaviour
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-        if (creature != null)
+        if (creature != null && creature.shovelVulnerable)
         {
             creature.TakeDamage(25);
             //playsound

@@ -7,11 +7,11 @@ using UnityEngine.Tilemaps;
 public class StructureObject : ScriptableObject
 {
     public GameObject objectPrefab;
-    public float health;
+    [HideInInspector] public float health;
 
-    public float[] position = new float[3];
+    [HideInInspector]public float[] position = new float[3];
 
-    public Structure data = new Structure();
+    [HideInInspector] public Structure data = new Structure();
 
     public bool isLarge = false; //Occupy one or 4 tiles?
 

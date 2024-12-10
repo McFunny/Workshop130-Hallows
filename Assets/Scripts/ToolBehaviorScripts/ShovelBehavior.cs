@@ -10,7 +10,7 @@ public class ShovelBehavior : ToolBehavior
     public AudioClip swing, dig;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
         if(!shovelAttack) shovelAttack = FindObjectOfType<ShovelAttack>();
@@ -18,20 +18,22 @@ public class ShovelBehavior : ToolBehavior
         //swing
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.55f, 1.5f));
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.55f, 1.2f));
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
 
+        Debug.Log("Secondary");
+
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
-        if (Physics.Raycast(player.position, fwd, out hit, 5, mask))
+        if (Physics.Raycast(player.position, fwd, out hit, 7, mask))
         {
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 //play dig anim
@@ -39,10 +41,11 @@ public class ShovelBehavior : ToolBehavior
                 structure.ToolInteraction(tool, out playAnim);
                 if (playAnim)
                 {
+                    Debug.Log("Found");
                     usingSecondary = true;
                     HandItemManager.Instance.PlaySecondaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(dig);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.7f, 1.7f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f, 2f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
 

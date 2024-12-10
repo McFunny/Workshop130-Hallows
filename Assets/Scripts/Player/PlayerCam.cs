@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlayerCam : MonoBehaviour
     ControlManager controlManager;
 
     const float contScalar = 5;
+
+    private bool isSprinting;
 
     void Awake()
     {
@@ -38,13 +41,13 @@ public class PlayerCam : MonoBehaviour
             Cursor.visible = true;
             return;
         }
-        else if (!PlayerMovement.accessingInventory)
+        else if (!PlayerMovement.accessingInventory && !PauseScript.isPaused)
         {
             CursorLock();
         }
 
         if (PlayerMovement.restrictMovementTokens > 0 || PlayerMovement.isCodexOpen) return;
-
+        if (PauseScript.isPaused) return;
         Vector2 look = controlManager.look.action.ReadValue<Vector2>();
         float lookX = look.x * sensX;
         float lookY = look.y * sensY;
