@@ -15,7 +15,6 @@ public class MistWalker : CreatureBehaviorScript
     private bool isBeingAttacked = false; // For priority target tracking (seed shooter)
     private bool coroutineRunning = false;
     private Transform target;
-    private Tilemap tileMap;
     private bool attackingPlayer = false;
 
     [HideInInspector] public NavMeshAgent agent;
@@ -62,12 +61,13 @@ public class MistWalker : CreatureBehaviorScript
         StructureBehaviorScript.OnStructuresUpdated += UpdateStructureList; // Update list when structures change
         ImbuedScarecrow.OnScarecrowAttract += TargetImbuedScarecrow;
         UpdateStructureList();
-        tileMap = StructureManager.Instance.tileMap;
+        
         agent.enabled = false;
         agent.enabled = true;
 
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
+        targetStructure = null;
         currentState = CreatureState.SpawnIn;
         StartCoroutine(IdleSoundTimer());
     }
@@ -216,36 +216,7 @@ public class MistWalker : CreatureBehaviorScript
         }
     }
 
-    private void Idle()
-    {
-        if (playerInSightRange)
-        {
-            currentState = CreatureState.WalkTowardsPlayer;
-            return;
-        }
-
-        if (!coroutineRunning)
-        {
-            int r = Random.Range(0, 8);
-            if (r < 4)
-            {
-                if (availableStructure.Count > 0)
-                {
-                    currentState = CreatureState.WalkTowardsClosestStructure;
-                }
-            }
-            else if (r < 5)
-            {
-                StartCoroutine(WaitAround());
-            }
-            else if (r >= 6)
-            {
-                currentState = CreatureState.Wander;
-            }
-        }
-    }
-
-
+    #region WanderingFunctions
     public void Wander()
     {
         if (playerInSightRange)
@@ -302,6 +273,12 @@ public class MistWalker : CreatureBehaviorScript
         isMoving = false;
         coroutineRunning = false;
 
+        if(currentState == CreatureState.SpawnIn)
+        {
+            print("No Longer Spawned In");
+            currentState = CreatureState.Wander;
+        }
+
         if (currentState == CreatureState.Wander)
         {
             int randomChoice = Random.Range(0, 3);
@@ -332,10 +309,15 @@ public class MistWalker : CreatureBehaviorScript
                 currentState = CreatureState.Wander;
             }
         }
-        else if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 3f)
+        else if (Vector3.Distance(transform.position, targetStructure.transform.position) < 4f)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
         {
             agent.ResetPath();
             currentState = CreatureState.AttackStructure;
+        }
+        else if(target == null || agent.destination != target.position)
+        {
+            target = targetStructure.transform;
+            agent.destination = target.position;
         }
     }
 
@@ -419,7 +401,9 @@ public class MistWalker : CreatureBehaviorScript
         }
         agent.ResetPath();
     }
+    #endregion
 
+    #region AttackingFunctions
     private void AttackPlayer()
     {
         if (coroutineRunning || isRecoiling)
@@ -469,7 +453,7 @@ public class MistWalker : CreatureBehaviorScript
             coroutineRunning = true;
             targetStructure.TakeDamage(damageToStructure);
             transform.LookAt(targetStructure.transform.position);
-            if (targetStructure.health <= 0) { targetStructure = null; }
+            if (targetStructure != null && targetStructure.health <= 0) { targetStructure = null; }
             yield return new WaitForSeconds(3f);
             coroutineRunning = false;
         }
@@ -545,6 +529,41 @@ public class MistWalker : CreatureBehaviorScript
         yield return new WaitForSeconds(lungeCooldown);
         canLunge = true;
     }
+    #endregion
+
+    private void Idle()
+    {
+        if (playerInSightRange)
+        {
+            currentState = CreatureState.WalkTowardsPlayer;
+            return;
+        }
+
+        if (!coroutineRunning)
+        {
+            int r = Random.Range(0, 8);
+            if (r < 2)
+            {
+                if (availableStructure.Count > 0)
+                {
+                    currentState = CreatureState.WalkTowardsClosestStructure;
+                }
+            }
+            else if (r < 5)
+            {
+                StartCoroutine(WaitAround());
+            }
+            else if (r >= 6)
+            {
+                currentState = CreatureState.Wander;
+            }
+        }
+    }
+
+
+    
+
+    
 
     private void OnTriggerEnter(Collider other)
     {

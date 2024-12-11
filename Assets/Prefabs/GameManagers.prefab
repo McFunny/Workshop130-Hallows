@@ -1291,6 +1291,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9d6c4a95e8197a6438d3d3182eec757c, type: 3}
   - {fileID: 8300000, guid: cfedab036a6276a44af79599cccad0ac, type: 3}
   - {fileID: 8300000, guid: cafce7a69597c3e4d8fcf0ad07e580e9, type: 3}
+  - {fileID: 8300000, guid: cafce7a69597c3e4d8fcf0ad07e580e9, type: 3}
+  - {fileID: 8300000, guid: dc1d2b153c1561549ad289abc05a68d6, type: 3}
   musicAmbience:
   - {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
   - {fileID: 8300000, guid: 43669110dda5d074abaa19a13597b1e3, type: 3}
@@ -1310,7 +1312,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.127
   m_Pitch: 1
@@ -1408,7 +1410,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.08
+  m_Volume: 0.009
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1887,6 +1889,8 @@ MonoBehaviour:
   corpseParticle: {fileID: 2519875780709563835, guid: ea66a64958f321947b008676dd8514d9,
     type: 3}
   corpseParticleYellow: {fileID: 2519875780709563835, guid: 33fbefdd5b0fde64f8304e492b46d21e,
+    type: 3}
+  poofParticle: {fileID: 5758540690595798765, guid: 501eae2240113b842b8e90b64bf0ca05,
     type: 3}
 --- !u!1 &4467738761642645672
 GameObject:
@@ -7329,6 +7333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f9f1e80beadc54f9ec8f58837125c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentMinute: 0
   currentHour: 6
   isDay: 0
   dayNum: 1

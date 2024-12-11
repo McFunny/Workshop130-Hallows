@@ -26,4 +26,9 @@ public class StructureAudioHandler : MonoBehaviour
     {
         source.PlayOneShot(clip);
     }
+
+    public void PlaySoundAtPoint(AudioClip clip, Vector3 pos)
+    {
+        AudioSource.PlayClipAtPoint(clip, pos);
+    }
 }
