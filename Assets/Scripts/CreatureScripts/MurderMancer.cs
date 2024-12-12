@@ -217,6 +217,7 @@ public class MurderMancer : CreatureBehaviorScript
 
     void OnDestroy()
     {
+        if (!gameObject.scene.isLoaded) return; 
         StructureManager.Instance.ClearTile(transform.position);
     }
 }
