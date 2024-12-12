@@ -45,6 +45,7 @@ public class PlaceableItem : InventoryItemData
         {
             currentHologram = Instantiate(hologramPrefab, new Vector3(0,0,0), Quaternion.identity);
             currentHologram.SetActive(false);
+            currentTilePos = new Vector3(0,0,0);
         }
 
         Vector3 fwd = player.TransformDirection(Vector3.forward);
@@ -57,7 +58,11 @@ public class PlaceableItem : InventoryItemData
             if(pos == new Vector3(0,0,0)) 
             {
                 Debug.Log("CantDisplay");
-                if(currentHologram.activeSelf) currentHologram.SetActive(false);
+                if(currentHologram.activeSelf)
+                {
+                    currentHologram.SetActive(false);
+                    currentTilePos = new Vector3(0,0,0);
+                }
                 return;
             }
             if(pos != currentTilePos)
@@ -69,7 +74,11 @@ public class PlaceableItem : InventoryItemData
             }
 
         }
-        else if(currentHologram.activeSelf) currentHologram.SetActive(false);
+        else if(currentHologram.activeSelf)
+        {
+            currentHologram.SetActive(false);
+            currentTilePos = new Vector3(0,0,0);
+        }
     }
 
     public void RotateHologram()
