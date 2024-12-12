@@ -48,6 +48,11 @@ public class ShovelAttack : MonoBehaviour
             collider.enabled = false;
             collisionPoint = other.ClosestPoint(transform.position);
             PlayHitParticle(collisionPoint);
+            if(creature.corpseType == CorpseParticleType.Red) 
+            {
+                GameObject bloodParticle = ParticlePoolManager.Instance.GrabBloodDropParticle();
+                bloodParticle.transform.position = transform.position;
+            }
         }
 
         //Something to hit corpses

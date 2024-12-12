@@ -83,8 +83,11 @@ public class CreatureBehaviorScript : MonoBehaviour
                 }
                 if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
                 GameObject corpseParticle = ParticlePoolManager.Instance.GrabCorpseParticle(corpseType);
-                if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
-                else corpseParticle.transform.position = transform.position;
+                if(corpseParticle)
+                {
+                    if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
+                    else corpseParticle.transform.position = transform.position;
+                }
                 Destroy(this.gameObject);
             }
         }
