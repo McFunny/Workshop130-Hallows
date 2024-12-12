@@ -93,7 +93,7 @@ public class PlayerEffectsHandler : MonoBehaviour
             vignette.intensity.value = 0;
             do
             {
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSecondsRealtime(0.1f);
                 vignette.intensity.value += 0.25f;
             }
             while(vignette.intensity.value < .5f);
@@ -107,7 +107,7 @@ public class PlayerEffectsHandler : MonoBehaviour
 
             do
             {
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSecondsRealtime(0.1f);
                 vignette.intensity.value -= 0.05f;
             }
             while(vignette.intensity.value > 0);

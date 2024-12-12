@@ -165,9 +165,8 @@ public class FarmLand : StructureBehaviorScript
                     
                 }
             }
-            harvestable = false;
-            forceDig = false;
-            if(crop.behavior && crop.behavior.DestroyOnHarvest() == false)
+            
+            if(crop.behavior && crop.behavior.DestroyOnHarvest() == false && !rotted && harvestable)
             {
                 growthStage -= 3;
             }
@@ -177,6 +176,8 @@ public class FarmLand : StructureBehaviorScript
                 wealthValue = 0;
                 ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
             } 
+            harvestable = false;
+            forceDig = false;
             hoursSpent = 0;
             if (isWeed) Destroy(this.gameObject);
             SpriteChange();
@@ -187,7 +188,7 @@ public class FarmLand : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel && !forceDig && crop)
+        if(type == ToolType.Shovel && !forceDig)
         {
             StartCoroutine(DigPlant());
             success = true;
@@ -205,6 +206,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
+        health = maxHealth;
         if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;
@@ -357,7 +359,13 @@ public class FarmLand : StructureBehaviorScript
     {
         forceDig = true;
         yield return new WaitForSeconds(1f);
-        StructureInteraction();
+        if(crop) StructureInteraction();
+        else
+        {
+            audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
+            ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
+            Destroy(this.gameObject);
+        }
     }
 
     void OnDestroy()

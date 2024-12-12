@@ -18,6 +18,8 @@ public class NightSpawningManager : MonoBehaviour
     public Transform[] testSpawns;
     public Transform[] despawnPositions;
 
+    List<StructureBehaviorScript> accountedStructures = new List<StructureBehaviorScript>(); //keeps track of the structures counted for wealth points. Clears at day
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -44,19 +46,22 @@ public class NightSpawningManager : MonoBehaviour
     {
         if(TimeManager.Instance.isDay)
         {
+            if(accountedStructures.Count > 0) accountedStructures.Clear();
             return;
         }
-        if(TimeManager.Instance.currentHour == 20)
+        foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
         {
-            foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+            if(!accountedStructures.Contains(structure))
             {
-               difficultyPoints += structure.wealthValue;
+                difficultyPoints += structure.wealthValue;
+                accountedStructures.Add(structure);
             }
-            if(difficultyPoints < 15) difficultyPoints = 15;
-            //difficultyPoints += 1000;
-            //difficultyPoints += TimeManager.dayNum;
-            //originalDifficultyPoints = difficultyPoints;
         }
+        if(difficultyPoints < 15) difficultyPoints = 15;
+        //difficultyPoints += 1000;
+        //difficultyPoints += TimeManager.dayNum;
+        //originalDifficultyPoints = difficultyPoints;
+
         if(difficultyPoints > 0) HourlySpawns();
     }
 

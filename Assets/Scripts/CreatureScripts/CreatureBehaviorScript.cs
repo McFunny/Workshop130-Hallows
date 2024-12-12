@@ -68,7 +68,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         }
         else if(canCorpseBreak)
         {
-            if(health < corpseHealth && isDead && !corpseDestroyed)
+            if(health <= corpseHealth && isDead && !corpseDestroyed)
             {
                 corpseDestroyed = true;
                 for(int i = 0; i < droppedItems.Length; i++)

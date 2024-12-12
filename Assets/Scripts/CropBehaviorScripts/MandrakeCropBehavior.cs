@@ -6,6 +6,7 @@ using UnityEngine;
 public class MandrakeCropBehavior : CropBehavior
 {
     public GameObject mandrake;
+    public CreatureObject mandrakeData;
     public override void OnHour(FarmLand tile)
     {
         if(TimeManager.Instance.isDay == false && tile.crop.growthStages == tile.growthStage)
@@ -23,12 +24,24 @@ public class MandrakeCropBehavior : CropBehavior
         Debug.Log("Spawning");
         float r = Random.Range(0.1f, 15);
         yield return new WaitForSeconds(r);
-        if(tile.crop && tile.ShouldIgnoreNextGrowth() == false) 
+        if(tile.crop && tile.ShouldIgnoreNextGrowth() == false && TallyMandrakes() < mandrakeData.spawnCap) 
         {
-            Instantiate(mandrake, tile.transform.position, Quaternion.identity);
+            CreatureBehaviorScript mandrakeScript = Instantiate(mandrake, tile.transform.position, Quaternion.identity).GetComponent<CreatureBehaviorScript>();
+            NightSpawningManager.Instance.allCreatures.Add(mandrakeScript);
             tile.CropDestroyed();
         }
         //should limit how many can spawn: if there already is over 5 mandrakes, add code to stop more
 
+    }
+
+    int TallyMandrakes()
+    {
+        int currentMandrakes = 0;
+        NightSpawningManager sManager = NightSpawningManager.Instance;
+        foreach(CreatureBehaviorScript creature in sManager.allCreatures)
+        {
+            if(creature.creatureData == mandrakeData) currentMandrakes++;
+        }
+        return currentMandrakes;
     }
 }
