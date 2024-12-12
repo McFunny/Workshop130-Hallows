@@ -196,6 +196,7 @@ public class MurderMancer : CreatureBehaviorScript
         else
         {
             transform.position = newPos;
+            StructureManager.Instance.SetTile(newPos);
         }
     }
 
@@ -212,5 +213,10 @@ public class MurderMancer : CreatureBehaviorScript
     private void Die()
     {
         throw new NotImplementedException();
+    }
+
+    void OnDestroy()
+    {
+        StructureManager.Instance.ClearTile(transform.position);
     }
 }
