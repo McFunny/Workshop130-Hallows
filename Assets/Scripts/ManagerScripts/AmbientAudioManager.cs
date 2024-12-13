@@ -69,7 +69,7 @@ public class AmbientAudioManager : MonoBehaviour
 
     void HourUpdate()
     {
-        if (TimeManager.Instance.currentHour == 8 || TimeManager.Instance.currentHour == 18)
+        if (TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 20)
         {
             //StartCoroutine(FadeBell());
             //StopCoroutine(PlayAmbientMusic());
@@ -83,7 +83,7 @@ public class AmbientAudioManager : MonoBehaviour
                 StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
                 musicSource.Stop(); // Stop current music
             }
-            Debug.Log("It's either 8 or 18 music time");
+            Debug.Log("It's either 6 or 20 music time");
             StartCoroutine(FadeAudio()); 
         }
     }

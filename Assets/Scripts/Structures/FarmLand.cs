@@ -130,8 +130,8 @@ public class FarmLand : StructureBehaviorScript
     {
         if(harvestable || forceDig || rotted)
         {
-            if(isWeed && !forceDig) return; //Forces the player to dig the weeds using the shovel
-            if(isWeed) audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
+            if((isWeed && !forceDig) || (rotted && !forceDig)) return; //Forces the player to dig the weeds and rotted plants using the shovel
+            if(isWeed || forceDig) audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             else audioHandler.PlaySound(audioHandler.interactSound);
             if((rotted == false && harvestable) || isWeed)
             {
@@ -177,9 +177,9 @@ public class FarmLand : StructureBehaviorScript
                 ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
             } 
             harvestable = false;
+            if(forceDig || isWeed) Destroy(this.gameObject);
             forceDig = false;
             hoursSpent = 0;
-            if (isWeed) Destroy(this.gameObject);
             SpriteChange();
             if(growthComplete) growthComplete.Stop();
         }

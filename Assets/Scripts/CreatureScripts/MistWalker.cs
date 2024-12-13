@@ -59,7 +59,6 @@ public class MistWalker : CreatureBehaviorScript
         base.Start();
         lungeAttackHitbox.enabled = false;
         StructureBehaviorScript.OnStructuresUpdated += UpdateStructureList; // Update list when structures change
-        ImbuedScarecrow.OnScarecrowAttract += TargetImbuedScarecrow;
         UpdateStructureList();
         
         agent.enabled = false;
@@ -75,7 +74,6 @@ public class MistWalker : CreatureBehaviorScript
     void OnDestroy()
     {
         StructureBehaviorScript.OnStructuresUpdated -= UpdateStructureList;
-        ImbuedScarecrow.OnScarecrowAttract -= TargetImbuedScarecrow;
         if (animEvents) animEvents.OnColliderChange -= ColliderChange;
         if (animEvents) animEvents.OnFloatChange -= WalkSpeedToggle;
     }
@@ -89,7 +87,7 @@ public class MistWalker : CreatureBehaviorScript
         }
     }
 
-    private void TargetImbuedScarecrow(GameObject structure)
+    /*private void TargetImbuedScarecrow(GameObject structure)
     {
         if (currentState == CreatureState.AttackStructure)
         {
@@ -105,7 +103,7 @@ public class MistWalker : CreatureBehaviorScript
             target = structure.transform;
             currentState = CreatureState.WalkTowardsPriorityStructure;
         }
-    }
+    } */
 
     private void UpdateStructureList()
     {
@@ -326,13 +324,20 @@ public class MistWalker : CreatureBehaviorScript
         StructureBehaviorScript closestStructure = null;
         float closestDistance = Mathf.Infinity;
 
+        float distanceToStructure;
+        float r;
+
         foreach (var structure in availableStructure)
         {
             if (structure == null) continue;
 
-            float distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
+            distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
 
-            if (distanceToStructure < closestDistance)
+            r = Random.Range(0,10); //to add randomness to what they chose to seek out
+
+            if(structure.wealthValue == 0) continue; //to prevent mistwalkers from targetting dirt without a crop
+
+            if (distanceToStructure < closestDistance && r > 1)
             {
                 closestDistance = distanceToStructure;
                 closestStructure = structure;
@@ -541,7 +546,7 @@ public class MistWalker : CreatureBehaviorScript
 
         if (!coroutineRunning)
         {
-            int r = Random.Range(0, 8);
+            int r = Random.Range(0, 11);
             if (r < 2)
             {
                 if (availableStructure.Count > 0)
@@ -559,9 +564,6 @@ public class MistWalker : CreatureBehaviorScript
             }
         }
     }
-
-
-    
 
     
 

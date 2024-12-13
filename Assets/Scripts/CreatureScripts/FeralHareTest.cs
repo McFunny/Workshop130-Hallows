@@ -55,7 +55,7 @@ public class FeralHareTest : CreatureBehaviorScript
         } 
 
         // If the player is in sight, switch to flee state
-        if (playerInSightRange)
+        if (playerInSightRange && currentState != CreatureState.Eat)
         {
             currentState = CreatureState.FleeFromPlayer;
         }
@@ -281,6 +281,11 @@ public class FeralHareTest : CreatureBehaviorScript
         }
         anim.SetBool("IsDigging", false);
         isEating = false;
-        currentState = CreatureState.Wander;
+        if(currentState == CreatureState.Eat) currentState = CreatureState.Wander;
+    }
+
+    public override void OnDamage()
+    {
+        if(currentState != CreatureState.Stunned && health > 0) currentState = CreatureState.FleeFromPlayer;
     }
 }
