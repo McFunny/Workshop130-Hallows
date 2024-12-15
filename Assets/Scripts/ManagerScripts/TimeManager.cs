@@ -94,14 +94,14 @@ public class TimeManager : MonoBehaviour
 
         switch (currentHour)
         {
-            case 6:
+            case 5:
                 SetSkyBox(0.4f);
                 break;
-            case 7:
+            case 6:
+                dayNum++;
                 SetSkyBox(0.8f);
                 break;
-            case 8:
-                dayNum++;
+            case 7:
                 SetSkyBox(1f);
                 break;
             case 18:
@@ -170,15 +170,15 @@ public class TimeManager : MonoBehaviour
         }
         switch (currentHour)
         {
-            case 6:
+            case 5:
                 skyMat.SetFloat("_BlendCubemaps", 0.4f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.2f);
                 break;
-            case 7:
+            case 6:
                 skyMat.SetFloat("_BlendCubemaps", 0.8f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.4f);
                 break;
-            case 8:
+            case 7:
                 skyMat.SetFloat("_BlendCubemaps", 1f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 1f);
                 break;

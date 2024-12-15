@@ -78,6 +78,7 @@ public class StructureBehaviorScript : MonoBehaviour
             else StructureManager.Instance.ClearLargeTile(transform.position);
         } 
         StructureManager.Instance.allStructs.Remove(this);
+        NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
         TimeManager.OnHourlyUpdate -= HourPassed;
 

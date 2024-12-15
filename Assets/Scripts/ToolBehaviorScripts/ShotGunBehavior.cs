@@ -6,7 +6,6 @@ using UnityEngine;
 public class ShotGunBehavior : ToolBehavior
 {
     public InventoryItemData bulletItem;
-    public GameObject bullet;
     public AudioClip shoot, reload;
     int bulletCount = 6;
 
@@ -14,7 +13,6 @@ public class ShotGunBehavior : ToolBehavior
 
     float speed = 240;
     float bulletSpread = 0.08f;
-    float damage = 25;
 
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
@@ -82,10 +80,6 @@ public class ShotGunBehavior : ToolBehavior
             newBullet.transform.rotation = Quaternion.identity;
             Vector3 dir = bulletStart.forward + new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
             newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
-
-            //To give the bullet it's damage values
-            BulletScript bulletScript = newBullet.GetComponent<BulletScript>();
-            bulletScript.damage = damage;
  
         }
         yield return new WaitForSeconds(1.2f);

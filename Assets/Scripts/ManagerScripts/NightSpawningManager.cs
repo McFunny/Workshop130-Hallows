@@ -7,6 +7,7 @@ public class NightSpawningManager : MonoBehaviour
     public static NightSpawningManager Instance;
 
     float difficultyPoints = 0;
+    float removedDifficultyPoints = 0; //accumulates when a structure is destroyed by any means
     //float originalDifficultyPoints = 0;
 
     public CreatureObject[] creatures;
@@ -47,17 +48,25 @@ public class NightSpawningManager : MonoBehaviour
         if(TimeManager.Instance.isDay)
         {
             if(accountedStructures.Count > 0) accountedStructures.Clear();
+            removedDifficultyPoints = 0;
             return;
         }
         foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
         {
-            if(!accountedStructures.Contains(structure))
+            if(accountedStructures.Contains(structure) || structure.wealthValue == 0) continue;
+            if(removedDifficultyPoints > 0) //To account for example, a player removing a barrel, to then replace it elsewhere.
             {
-                difficultyPoints += structure.wealthValue;
-                accountedStructures.Add(structure);
+                removedDifficultyPoints -= structure.wealthValue;
+                if(removedDifficultyPoints < 0) //removed difficulty points is a negative number
+                {
+                    difficultyPoints -= removedDifficultyPoints;
+                    removedDifficultyPoints = 0;
+                }
             }
+            else difficultyPoints += structure.wealthValue;
+            accountedStructures.Add(structure);
         }
-        if(difficultyPoints < 15) difficultyPoints = 15;
+        if(difficultyPoints < 20 && TimeManager.Instance.currentHour == 20) difficultyPoints = 20;
         //difficultyPoints += 1000;
         //difficultyPoints += TimeManager.dayNum;
         //originalDifficultyPoints = difficultyPoints;
@@ -181,5 +190,10 @@ public class NightSpawningManager : MonoBehaviour
             Destroy(allCreatures[i].gameObject);
         }
         allCreatures.Clear();
+    }
+
+    public void RemoveDifficultyPoints(float amount)
+    {
+        removedDifficultyPoints += amount;
     }
 }

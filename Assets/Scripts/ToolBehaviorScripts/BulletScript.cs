@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    [HideInInspector]
-    public float damage = 25;
-
     public AudioClip hitStruct, hitEnemy, hitGround;
 
 
@@ -31,7 +28,7 @@ public class BulletScript : MonoBehaviour
             {
                 npc.ShotAt();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-                print("Hit Structure");
+                print("Hit Person");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                 gameObject.SetActive(false);
                 return;

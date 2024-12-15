@@ -16,6 +16,8 @@ public class InputManager : MonoBehaviour
     ControlManager controlManager;
     PauseScript pauseScript;
 
+    public static bool isCharging = false;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
@@ -28,13 +30,14 @@ public class InputManager : MonoBehaviour
         controlManager.hotbarDown.action.canceled += HotbarDown;  
         controlManager.showGrid.action.canceled += ShowGrid;
         controlManager.pauseGame.action.started += PauseGame;
+        controlManager.waterGunCharge.action.performed += BeginCharge;
     }
     private void OnDisable()
     {
         controlManager.hotbarUp.action.started -= HotbarUp; 
         controlManager.hotbarDown.action.canceled -= HotbarDown;  
         controlManager.showGrid.action.canceled -= ShowGrid;
-        controlManager.pauseGame.action.started -= PauseGame;
+        controlManager.waterGunCharge.action.performed -= BeginCharge;
     }
 
     void Update()
@@ -79,6 +82,7 @@ public class InputManager : MonoBehaviour
 
     private void CheckForScrollInput()
     {
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerMovement.accessingInventory) return; //could cause issues with ui that use scrolling
         float scrollInput = controlManager.hotbarScroll.action.ReadValue<float>();
 
         if (scrollInput > 0f)
@@ -105,5 +109,16 @@ public class InputManager : MonoBehaviour
                 OnNumberPressed?.Invoke(i);
             }
         }
+    }
+
+    private void BeginCharge(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || PauseScript.isPaused)
+        {
+            isCharging = false;
+            return;
+        }
+        isCharging = !isCharging;
+        //print(isCharging);
     }
 }

@@ -8,7 +8,7 @@ public class StructureManager : MonoBehaviour
     public static StructureManager Instance;
     [Header("Tiles")]
     public Tilemap tileMap;
-    public TileBase freeTile, occupiedTile;
+    public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them + helps with water gun tracking
 
     public List<StructureBehaviorScript> allStructs;
 
@@ -62,7 +62,7 @@ public class StructureManager : MonoBehaviour
         if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
     }
 
-
+#region TileCommands
     public Vector3 CheckTile(Vector3 pos)
     {
         //Grab tile position
@@ -77,6 +77,15 @@ public class StructureManager : MonoBehaviour
             return spawnPos;
         } 
         else return new Vector3 (0,0,0); //Will not spawn
+    }
+
+    public Vector3 GetTileCenter(Vector3 pos)
+    {
+        //Grab tile position
+        Vector3Int gridPos = tileMap.WorldToCell(pos);
+
+        if(tileMap.GetTile(gridPos) != null) return tileMap.GetCellCenterWorld(gridPos);
+        else return new Vector3 (0,0,0);
     }
 
     public Vector3 GetRandomTile()
@@ -174,6 +183,7 @@ public class StructureManager : MonoBehaviour
             
         }
     }
+    #endregion
 
     public void IchorRefill(Vector3 pos, float radius, float amount)
     {
@@ -202,6 +212,38 @@ public class StructureManager : MonoBehaviour
             }
             
         }
+    }
+
+    public List<Vector3> WaterGunTargets(Vector3 pos, Direction dir, int range)
+    {
+        List<Vector3> newTargets = new List<Vector3>();
+        Vector3Int currentPos = tileMap.WorldToCell(pos);
+
+        for(int i = 0; i < range; i++)
+        {
+            if(dir == Direction.North)
+            {
+                currentPos = new Vector3Int(currentPos.x, currentPos.y + 1);
+                newTargets.Add(tileMap.GetCellCenterWorld(currentPos));
+            }
+            if(dir == Direction.East)
+            {
+                currentPos = new Vector3Int(currentPos.x + 1, currentPos.y);
+                newTargets.Add(tileMap.GetCellCenterWorld(currentPos));
+            }
+            if(dir == Direction.South)
+            {
+                currentPos = new Vector3Int(currentPos.x, currentPos.y - 1);
+                newTargets.Add(tileMap.GetCellCenterWorld(currentPos));
+            }
+            if(dir == Direction.West)
+            {
+                currentPos = new Vector3Int(currentPos.x - 1, currentPos.y);
+                newTargets.Add(tileMap.GetCellCenterWorld(currentPos));
+            }
+        }
+
+        return newTargets;
     }
 
     public StructureBehaviorScript GrabStructureOnTile(Vector3 pos)
@@ -377,4 +419,12 @@ public class NutrientStorage
         s.gloamLevel = g;
         s.waterLevel = w;
     }
+}
+
+public enum Direction
+{
+    North,
+    East,
+    South,
+    West
 }

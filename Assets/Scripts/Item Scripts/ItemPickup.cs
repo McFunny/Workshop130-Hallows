@@ -16,10 +16,13 @@ public class ItemPickup : MonoBehaviour
 
     public SpriteRenderer r;
 
+    Rigidbody rb;
+
     [SerializeField] private ItemPickupSaveData itemSaveData;
     private string id;
 
     bool beingCollected = false;
+    bool canBeCollected = false;
 
     private void Awake()
     {
@@ -27,7 +30,7 @@ public class ItemPickup : MonoBehaviour
         SaveLoad.OnLoadGame += LoadGame;
         itemSaveData = new ItemPickupSaveData(ItemData, transform.position, transform.rotation);
 
-
+        rb = GetComponent<Rigidbody>();
 
         myCollider = GetComponent<SphereCollider>();
         myCollider.isTrigger = true;
@@ -95,9 +98,15 @@ public class ItemPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.layer == 7 /*|| other.gameObject.layer == 0)*/ && rb && rb.isKinematic == false)
+        {
+            rb.isKinematic = true;
+            rb.velocity = new Vector3(0,0,0);
+        }
+
         var inventory = other.transform.GetComponent<PlayerInventoryHolder>();
 
-        if (!inventory) return;
+        if (!inventory || !canBeCollected) return;
 
         if (inventory.AddToInventory(ItemData, 1))
         {
@@ -110,14 +119,15 @@ public class ItemPickup : MonoBehaviour
 
     void OnEnable()
     {
-        myCollider.enabled = false;
+        //myCollider.enabled = false;
         StartCoroutine(PickupTimer());
-        beingCollected = false;
     }
 
     IEnumerator PickupTimer()
     {
         yield return new WaitForSeconds(0.5f);
+        canBeCollected = true;
+        myCollider.enabled = false;
         myCollider.enabled = true;
     }
 
@@ -126,6 +136,14 @@ public class ItemPickup : MonoBehaviour
         FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
         yield return new WaitForSeconds(0.2f);
         beingCollected = false;
+        canBeCollected = false;
+        if(rb) 
+        {
+            rb.isKinematic = false;
+            rb.velocity = new Vector3(0,0,0);
+        }
+        myCollider.enabled = true;
+        
         gameObject.SetActive(false); // Make the item disappear
     }
 }

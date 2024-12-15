@@ -8,7 +8,7 @@ public class ControlManager : MonoBehaviour
     public static bool isController;
     public InputActionReference useHeldItem, interactWithItem, interactWithoutItem, 
     movement, sprint, look, moreInfo, pauseGame, openCodex, closeCodex, codexPageUp, codexPageDown, uiPause, uiPageTurn, hotbarScroll, hotbarUp, hotbarDown, showGrid, rotateStructure, openInventory, closeInventory,
-    select, split;
+    select, split, waterGunCharge;
     string currentDevice;
     public static bool isGamepad;
     public PlayerInput playerInput;

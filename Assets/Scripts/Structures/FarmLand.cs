@@ -389,7 +389,7 @@ public class FarmLand : StructureBehaviorScript
 
     public void WaterCrops()
     {
-        //for sprinkler
+        //for sprinkler and gun
         nutrients.waterLevel = 10;
         waterSplash.Play();
         SpriteChange();
