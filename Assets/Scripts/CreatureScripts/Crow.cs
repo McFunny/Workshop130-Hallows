@@ -50,7 +50,19 @@ public class Crow : CreatureBehaviorScript
         attackCollider.enabled = false;
         if (isSummoned)
         {
-            currentState = CreatureState.CirclePlayer;
+            if (Vector3.Distance(transform.position, player.position) < 50)
+            {
+                currentState = CreatureState.CirclePlayer;
+            }
+
+            else
+            {
+                int randomOffset1 = Random.Range(0, 2) == 0 ? 10 : -10;
+                int randomOffset2 = Random.Range(0, 2) == 0 ? 10 : -10;
+
+                point = new Vector3(transform.position.x + randomOffset1, transform.position.y + 20, transform.position.z + randomOffset2);
+                currentState = CreatureState.CirclePoint;
+            }
         }
         else
         {
@@ -445,7 +457,7 @@ public class Crow : CreatureBehaviorScript
                 else if (currentState == CreatureState.CirclePoint)
                 {
                     int y = Random.Range(0, 2);
-                    if (y == 0)
+                    if (y == 0 && Vector3.Distance(transform.position, player.position) < 50)
                     {
                         currentState = CreatureState.CirclePlayer;
                     }
