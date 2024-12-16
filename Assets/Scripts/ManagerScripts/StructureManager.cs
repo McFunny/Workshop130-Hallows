@@ -154,7 +154,7 @@ public class StructureManager : MonoBehaviour
         return true;
     }
 
-    public void SetTile(Vector3 pos)
+    public void SetTile(Vector3 pos) //find a way to call this when structures are loaded in from save data
     {
         Vector3Int gridPos = tileMap.WorldToCell(pos);
         if(tileMap.GetTile(gridPos) == null) return;
@@ -205,7 +205,7 @@ public class StructureManager : MonoBehaviour
                         if(structure)
                         {
                             FarmLand farmPlot = structure as FarmLand;
-                            if(farmPlot) farmPlot.ichorSplash.Play();
+                            if(farmPlot) farmPlot.IchorRefill();
                         }
                     } 
                 }

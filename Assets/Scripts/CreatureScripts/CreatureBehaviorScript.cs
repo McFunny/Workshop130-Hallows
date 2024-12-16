@@ -34,8 +34,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public bool isTrapped = false;
     public bool isDead = false;
     bool corpseDestroyed = false;
-    public int damageToStructure;
-    public int damageToPlayer;
+    public int damageToStructure; //number must be positive
+    public int damageToPlayer; //number must be negative
     public bool canCorpseBreak;
 
     public void Start()
@@ -106,6 +106,8 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public virtual void OnSpawn(){}
     public virtual void OnStun(float duration){}
+
+    public virtual void EnteredFireRadius(FireFearTrigger fireSource){}
 
 
     

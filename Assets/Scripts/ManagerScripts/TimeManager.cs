@@ -69,11 +69,14 @@ public class TimeManager : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(1);
-            currentMinute++;
-            if(currentMinute >= 30)
+            if(!DialogueController.Instance.IsTalking())
             {
-                currentMinute = 0;
-                HourPassed();
+                currentMinute++;
+                if(currentMinute >= 30)
+                {
+                    currentMinute = 0;
+                    HourPassed();
+                }
             }
 
         }

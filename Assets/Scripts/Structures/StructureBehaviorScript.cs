@@ -35,13 +35,17 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void Awake()
     {
-        StructureManager.Instance.allStructs.Add(this);
         OnStructuresUpdated?.Invoke();
         //source = GetComponent<AudioSource>();
         audioHandler = GetComponent<StructureAudioHandler>();
 
         TimeManager.OnHourlyUpdate += HourPassed;
         foreach(GameObject thing in highlight) thing.SetActive(false);
+    }
+
+    public void Start()
+    {
+        StructureManager.Instance.allStructs.Add(this);
     }
 
 
@@ -70,6 +74,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void OnDestroy()
     {
+        TimeManager.OnHourlyUpdate -= HourPassed;
         if(!gameObject.scene.isLoaded) return;
         print("Destroyed");
         if(clearTileOnDestroy && structData)
@@ -80,7 +85,6 @@ public class StructureBehaviorScript : MonoBehaviour
         StructureManager.Instance.allStructs.Remove(this);
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
-        TimeManager.OnHourlyUpdate -= HourPassed;
 
     }
 

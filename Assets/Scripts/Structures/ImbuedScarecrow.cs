@@ -7,8 +7,14 @@ public class ImbuedScarecrow : StructureBehaviorScript
 {
     public static UnityAction<GameObject> OnScarecrowAttract;
 
+    void Awake()
+    {
+        base.Awake();
+    }
+
     void Start()
     {
+        base.Start();
         //StartCoroutine(AttractEnemies());
     }
 

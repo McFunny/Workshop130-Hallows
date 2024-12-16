@@ -44,6 +44,7 @@ public class FarmLand : StructureBehaviorScript
 
     void Start()
     {
+        base.Start();
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         if (!crop) ignoreNextGrowthMoment = true;
         else if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
@@ -143,9 +144,19 @@ public class FarmLand : StructureBehaviorScript
                 {
                     GameObject droppedItem;
 
+                    int totalCropYield = 0;
+
+                    if(crop.behavior)
+                    {
+                        crop.behavior.CropBonusYield(this, out int bonusYield);
+                        totalCropYield += bonusYield;
+                        print(bonusYield);
+                    }
+
                     int r = Random.Range(crop.cropYieldAmount - crop.cropYieldVariance, crop.cropYieldAmount + crop.cropYieldVariance);
-                    if(r == 0) r = 1;
-                    for (int i = 0; i < crop.cropYieldAmount; i++)
+                    if(totalCropYield == 0) r = 1;
+                    totalCropYield += r;
+                    for (int i = 0; i < totalCropYield; i++)
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
                         droppedItem.transform.position = transform.position;
@@ -206,7 +217,6 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        health = maxHealth;
         if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;
@@ -214,7 +224,8 @@ public class FarmLand : StructureBehaviorScript
         }
         if(!crop)
         {
-            //Destroy(this.gameObject);
+            float r = Random.Range(0, 10);
+            if(r > 9.5f) Destroy(this.gameObject);
             return;
         }
         hoursSpent++;
@@ -234,6 +245,7 @@ public class FarmLand : StructureBehaviorScript
             else
             {
                 hoursSpent = 0;
+                health = maxHealth;
                 DrainNutrients(out bool gainedStress);
                 if(!isWeed)
                 {
@@ -251,7 +263,11 @@ public class FarmLand : StructureBehaviorScript
                 {
                     harvestable = true;
                     if(growth) growth.Stop();
-                    if(growthComplete) growthComplete.Play();
+                    if(growthComplete)
+                    {
+                        growthComplete.Stop();
+                        growthComplete.Play();
+                    }
                 }
                 else harvestable = false;
                 SpriteChange();
@@ -370,13 +386,13 @@ public class FarmLand : StructureBehaviorScript
 
     void OnDestroy()
     {
+        base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         if (crop != null && crop.creaturePrefab)
         {
             Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Code needs work once mandrake crop is added
         }
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
-        base.OnDestroy();
     }
 
     public override void TimeLapse(int hours)
@@ -393,6 +409,12 @@ public class FarmLand : StructureBehaviorScript
         nutrients.waterLevel = 10;
         waterSplash.Play();
         SpriteChange();
+    }
+
+    public void IchorRefill()
+    {
+        ichorSplash.Play();
+        if(crop && crop.behavior) crop.behavior.OnIchorRefill(this);
     }
 
     public NutrientStorage GetCropStats()

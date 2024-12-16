@@ -10,6 +10,11 @@ public class FarmTree : StructureBehaviorScript
         base.Awake();
     }
 
+    void Start()
+    {
+        base.Start();
+    }
+
     public override void StructureInteraction()
     {
         //Destroy(this.gameObject);

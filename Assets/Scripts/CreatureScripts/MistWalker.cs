@@ -30,6 +30,8 @@ public class MistWalker : CreatureBehaviorScript
 
     private Coroutine trackPlayerRoutine; 
 
+    private FireFearTrigger fireSource;
+
     public enum CreatureState
     {
         SpawnIn,
@@ -42,7 +44,8 @@ public class MistWalker : CreatureBehaviorScript
         AttackPlayer,
         Stun,
         Die,
-        Trapped
+        Trapped,
+        FleeFromFire
     }
 
     public CreatureState currentState;
@@ -127,6 +130,24 @@ public class MistWalker : CreatureBehaviorScript
 
         if (!isDead && currentState != CreatureState.Stun && currentState != CreatureState.Trapped)
         {
+            if(fireSource)
+            {
+                float distFromFire = Vector3.Distance(fireSource.transform.position, transform.position);
+
+                if(currentState != CreatureState.FleeFromFire && !coroutineRunning) currentState = CreatureState.FleeFromFire;
+
+                if(fireSource.gameObject.activeSelf == false || distFromFire > fireSource.fleeRange)
+                {
+                    fireSource = null;
+                    currentState = CreatureState.Wander;
+                }
+                if(fireSource)
+                {
+                    CheckState(currentState);
+                    return;
+                } 
+            }
+
             float distance = Vector3.Distance(player.position, transform.position);
             playerInSightRange = distance <= sightRange;
 
@@ -207,6 +228,10 @@ public class MistWalker : CreatureBehaviorScript
                 Trapped();
                 anim.SetBool("IsWalking", false);
                 break;
+            case CreatureState.FleeFromFire:
+                FleeFromFire();
+                anim.SetBool("IsWalking", true);
+                break;
 
             default:
                 Debug.LogError("Unknown state: " + currentState);
@@ -255,8 +280,11 @@ public class MistWalker : CreatureBehaviorScript
 
         agent.destination = destination;
 
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        float timeSpent = 0; //to make sure it doesnt get stuck
+
+        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance || timeSpent > 100)
         {
+            timeSpent += 0.01f;
             if (playerInSightRange)
             {
                 currentState = CreatureState.WalkTowardsPlayer;
@@ -405,6 +433,12 @@ public class MistWalker : CreatureBehaviorScript
             trackPlayerRoutine = null;
         }
         agent.ResetPath();
+    }
+
+    private void FleeFromFire()
+    {
+        Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
+        agent.destination = runTo;
     }
     #endregion
 
@@ -650,6 +684,11 @@ public class MistWalker : CreatureBehaviorScript
     {
         agent.ResetPath();
         rb.isKinematic = true;
+    }
+
+    public override void EnteredFireRadius(FireFearTrigger _fireSource)
+    {
+        fireSource = _fireSource;
     }
 
     public void WalkSpeedToggle(float _speed)

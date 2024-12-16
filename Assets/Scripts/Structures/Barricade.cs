@@ -18,6 +18,7 @@ public class Barricade : StructureBehaviorScript
 
     void Start()
     {
+        base.Start();
         UpdateModel();
         OnDamage += UpdateModel;
     }
@@ -79,8 +80,9 @@ public class Barricade : StructureBehaviorScript
 
     void OnDestroy()
     {
+        OnDamage -= UpdateModel;
+        base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
-        base.OnDestroy();
     }
 }

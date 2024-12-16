@@ -67,6 +67,12 @@ MonoBehaviour:
     - I have traced high concentrations of Ichor in living creatures... Perhaps if
       I could get a sample...
     emotions: 0000000005000000
+  - pathName: Seed Explanation
+    paragraphs:
+    - There are many plants that have special properties to them.
+    - If you have any questions, show me the crop seeds and I can tell you more about
+      them!
+    emotions: 0000000001000000
   questPaths: []
   itemRecievedPaths:
   - pathName: Looks Great
@@ -116,6 +122,19 @@ MonoBehaviour:
     - Keep an eye on their water intake and you will have a field of Gloomstalk in
       no time.
     emotions: 0300000000000000
+  - pathName: BeanSeeds
+    paragraphs:
+    - Unlike most plants, BloodBeans continue to grow after harvest if left in the
+      soil.
+    - Keep its ichor levels steady to ensure multiple yields.
+    emotions: 0000000000000000
+  - pathName: GingerSeeds
+    paragraphs:
+    - Personally, I could never get these to grow. This plant is very picky regarding
+      its growing conditions, and requires constant maintenance.
+    - However, there is merit in a succesful yield. With how rare these roots are,
+      they fetch a high price.
+    emotions: 0400000005000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

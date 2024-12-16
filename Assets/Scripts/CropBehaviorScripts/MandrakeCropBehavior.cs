@@ -30,7 +30,6 @@ public class MandrakeCropBehavior : CropBehavior
             NightSpawningManager.Instance.allCreatures.Add(mandrakeScript);
             tile.CropDestroyed();
         }
-        //should limit how many can spawn: if there already is over 5 mandrakes, add code to stop more
 
     }
 

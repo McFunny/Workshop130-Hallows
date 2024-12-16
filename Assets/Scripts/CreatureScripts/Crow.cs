@@ -5,6 +5,9 @@ using Unity.Burst.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+// Abner To DO: Have it fly lower, make sure ontriggerenter works, Use transform.move + transform.lookat to have it land on the ground, When it dies, have it fall straight to the ground then destroy itself
+// Cam To DO: Code it stealing items sometimes, 
+
 public class Crow : CreatureBehaviorScript
 {
     #region Enums
@@ -29,7 +32,7 @@ public class Crow : CreatureBehaviorScript
     private StructureBehaviorScript scaryStructure;
 
     public float radius = 10f;
-    public float height = 5f;
+    private float height = 5f;
     public float attackHeight = 3f;
     public float circleSpeed = 2f;
     private float angle = 0f;
@@ -318,7 +321,7 @@ public class Crow : CreatureBehaviorScript
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    /*private void OnTriggerStay(Collider other)
     {
        
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -345,7 +348,7 @@ public class Crow : CreatureBehaviorScript
             coroutineRunning = false;
             currentState = CreatureState.Flee;
         }
-    }
+    } */
 
 
     private void OnTriggerEnter(Collider other)

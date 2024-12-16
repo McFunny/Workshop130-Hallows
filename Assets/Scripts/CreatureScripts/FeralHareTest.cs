@@ -15,6 +15,8 @@ public class FeralHareTest : CreatureBehaviorScript
     bool inEatingRange = false;
     bool isStunned = false;
     float eatingTimeLeft = 5f; // how many seconds does it take to eat a crop
+    float fleeTimeLeft = 0;
+    float yOrigin;
 
     float extendedSightRange;
 
@@ -39,6 +41,7 @@ public class FeralHareTest : CreatureBehaviorScript
         currentState = CreatureState.Wander;
         StartCoroutine(CropCheck());
         despawnPos = NightSpawningManager.Instance.despawnPositions[Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length)].position;
+        yOrigin = transform.position.y;
     }
 
     // Update is called once per frame
@@ -65,6 +68,11 @@ public class FeralHareTest : CreatureBehaviorScript
         }
 
         if(startingDestination != new Vector3(0,0,0) && Vector3.Distance(startingDestination, transform.position) < 3) startingDestination = new Vector3(0,0,0);
+
+        if(fleeTimeLeft > 0)
+        {
+            fleeTimeLeft -= Time.deltaTime;
+        }
     }
 
     private void CheckState(CreatureState state)
@@ -153,7 +161,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
     private void FleeFromPlayer()
     {
-        if (playerInSightRange)
+        if (playerInSightRange || fleeTimeLeft > 0)
         {
             if (!jumpCooldown)
             {
@@ -163,9 +171,9 @@ public class FeralHareTest : CreatureBehaviorScript
             }
         }
         float distance = Vector3.Distance(player.position, transform.position);
-        playerInSightRange = distance <= (sightRange + 6);
+        playerInSightRange = distance <= (sightRange + 8);
 
-        if(!playerInSightRange) currentState = CreatureState.Wander;
+        if(!playerInSightRange && fleeTimeLeft <= 0) currentState = CreatureState.Wander;
     }
 
     private void Stunned()
@@ -222,17 +230,17 @@ public class FeralHareTest : CreatureBehaviorScript
         Vector3 jumpDirection = (transform.position - destination).normalized;
         jumpDirection *= -1f;
 
-        if (playerInSightRange)
+        if (currentState == CreatureState.FleeFromPlayer)
         {
             jumpDirection = (transform.position - player.position).normalized;
-            destination = new Vector3(transform.position.x + jumpDirection.x, transform.position.y, transform.position.z + jumpDirection.z);
+            destination = new Vector3(transform.position.x + jumpDirection.x, yOrigin, transform.position.z + jumpDirection.z);
             anim.SetBool("IsDigging", false);
         }
 
         // Apply force to make the hare hop
         float r = Random.Range(170, 210f);
         if(playerInSightRange) r += 150;
-        rb.AddForce(Vector3.up * 100);
+        rb.AddForce(Vector3.up * 80);
         rb.AddForce(jumpDirection * r);
         transform.LookAt(destination);
 
@@ -254,7 +262,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         jumpCooldown = true;
         float time = Random.Range(0.7f, 1.3f);
-        yield return new WaitForSeconds(playerInSightRange ? time / 3 : time);
+        yield return new WaitForSeconds(currentState == CreatureState.FleeFromPlayer ? time / 2.7f : time);
         jumpCooldown = false;
     }
 
@@ -286,6 +294,10 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public override void OnDamage()
     {
-        if(currentState != CreatureState.Stunned && health > 0) currentState = CreatureState.FleeFromPlayer;
+        if(currentState != CreatureState.Stunned && health > 0)
+        {
+            fleeTimeLeft = 3;
+            currentState = CreatureState.FleeFromPlayer;
+        } 
     }
 }

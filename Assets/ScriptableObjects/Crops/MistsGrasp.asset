@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: MistsGrasp
+  m_EditorClassIdentifier: 
+  name: Mists Grasp
+  growthStages: 6
+  hoursPerStage: 9999
+  harvestableGrowthStages: 0100000002000000030000000400000005000000
+  cropSprites:
+  - {fileID: -295355250, guid: 1aebb777943931c40ad856ed29eea1fd, type: 3}
+  - {fileID: -1529961257, guid: 1aebb777943931c40ad856ed29eea1fd, type: 3}
+  - {fileID: 555007768, guid: 1aebb777943931c40ad856ed29eea1fd, type: 3}
+  - {fileID: 1032542270, guid: 1aebb777943931c40ad856ed29eea1fd, type: 3}
+  - {fileID: -1801843432, guid: 1aebb777943931c40ad856ed29eea1fd, type: 3}
+  - {fileID: -615037764, guid: 1aebb777943931c40ad856ed29eea1fd, type: 3}
+  rottedImage: {fileID: -997159002, guid: 1aebb777943931c40ad856ed29eea1fd, type: 3}
+  cropYield: {fileID: 11400000, guid: 04236fdf99a1d0a44be48c5524def0ee, type: 2}
+  cropSeed: {fileID: 11400000, guid: d06fed8a2ed642746af8ec6d863c5b72, type: 2}
+  cropYieldAmount: 0
+  cropYieldVariance: 0
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  waterIntake: 1
+  ichorIntake: 2
+  terraIntake: 0
+  gloamIntake: 1
+  stressLimit: 1
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 11400000, guid: 3704bad50f2ce3545b82fee2848d148a, type: 2}
