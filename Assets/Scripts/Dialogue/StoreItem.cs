@@ -23,10 +23,17 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public int cost;
 
+    bool awakeOver = false;
+
     private void Awake()
     {
         myCollider = GetComponent<SphereCollider>();
         if(!itemData || !seller) Empty();
+    }
+
+    void Start()
+    {
+        awakeOver = true;
     }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -66,6 +73,7 @@ public class StoreItem : MonoBehaviour, IInteractable
         costText.text = "";
         costObject.SetActive(false);
         myCollider.enabled = false;
+        if(awakeOver) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
     }
 
     public void ToggleHighlight(bool enable)

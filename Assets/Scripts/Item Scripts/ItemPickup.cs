@@ -143,6 +143,7 @@ public class ItemPickup : MonoBehaviour
             rb.velocity = new Vector3(0,0,0);
         }
         myCollider.enabled = true;
+        ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
         
         gameObject.SetActive(false); // Make the item disappear
     }

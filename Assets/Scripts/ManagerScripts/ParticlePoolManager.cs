@@ -11,12 +11,13 @@ public class ParticlePoolManager : MonoBehaviour
 
     public VisualEffect hitEffect;
 
-    public GameObject corpseParticle, corpseParticleYellow, poofParticle, bloodDropletParticle;
+    public GameObject corpseParticle, corpseParticleYellow, poofParticle, bloodDropletParticle, sparksParticle;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
     List<GameObject> poofPool = new List<GameObject>();
     List<GameObject> bloodDropPool = new List<GameObject>();
+    List<GameObject> sparkPool = new List<GameObject>();
 
     void Awake()
     {
@@ -59,6 +60,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(bloodDropletParticle);
             bloodDropPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(sparksParticle);
+            sparkPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -131,6 +139,22 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(bloodDropletParticle);
         bloodDropPool.Add(newParticle);
+        return newParticle;
+    }
+    public GameObject GrabSparkParticle()
+    {
+        foreach (GameObject particle in sparkPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(sparksParticle);
+        sparkPool.Add(newParticle);
         return newParticle;
     }
 

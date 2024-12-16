@@ -62,7 +62,7 @@ public class Crow : CreatureBehaviorScript
 
     private void OnDestroy()
     {
-        StructureBehaviorScript.OnStructuresUpdated -= UpdateStructureList;
+        //StructureBehaviorScript.OnStructuresUpdated -= UpdateStructureList;
     }
 
     private void Update()
@@ -251,7 +251,7 @@ public class Crow : CreatureBehaviorScript
 
     private void Die()
     {
-        throw new NotImplementedException();
+        Destroy(this.gameObject);
     }
 
     private void Trapped()
@@ -312,7 +312,7 @@ public class Crow : CreatureBehaviorScript
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 Debug.Log("HIT PLAYER");
-                PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
+                PlayerInteraction playerInteraction = PlayerInteraction.Instance;
                 if (playerInteraction != null)
                 {
                     playerInteraction.StaminaChange(-10);

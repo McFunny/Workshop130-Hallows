@@ -97,7 +97,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnDamage(){} //Triggers creature specific effects
     public virtual void OnDeath()
     {
-        NightSpawningManager.Instance.allCreatures.Remove(this);
+        if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
         foreach(Collider collider in allColliders)
         {
             collider.isTrigger = true;
