@@ -26,5 +26,7 @@ public enum ToolType
     Hoe,
     Shovel,
     WateringCan,
-    ShotGun
+    ShotGun,
+    Torch,
+    WaterGun
 }

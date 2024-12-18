@@ -8,7 +8,7 @@ public class TimeManager : MonoBehaviour
     public int currentMinute = 0; //30 in an hour
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
-                                        /// /Day lasts 14 hours. Each hour lasts 45 seconds. Morning starts at 6, town opens at 8
+                                        /// /Day lasts 14 hours. Each hour lasts 30 seconds. Morning starts at 6, town opens at 8
                                         /// </summary>
     public bool isDay;
     public int dayNum = 1; //what day is it?
@@ -45,7 +45,7 @@ public class TimeManager : MonoBehaviour
     {
         if(currentHour >= 6 && currentHour < 20) isDay = true;
         else isDay = false;
-        if(!dayLight) dayLight = FindObjectOfType<Light>();
+        if(!dayLight) Debug.Log("Error, did not apply daylight variable in the inspector");
         StartCoroutine("TimePassage");
         InitializeSkyBox();
         if(timeText)
@@ -69,11 +69,14 @@ public class TimeManager : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(1);
-            currentMinute++;
-            if(currentMinute >= 30)
+            if(!DialogueController.Instance.IsTalking())
             {
-                currentMinute = 0;
-                HourPassed();
+                currentMinute++;
+                if(currentMinute >= 30)
+                {
+                    currentMinute = 0;
+                    HourPassed();
+                }
             }
 
         }
@@ -94,14 +97,14 @@ public class TimeManager : MonoBehaviour
 
         switch (currentHour)
         {
-            case 6:
+            case 5:
                 SetSkyBox(0.4f);
                 break;
-            case 7:
+            case 6:
+                dayNum++;
                 SetSkyBox(0.8f);
                 break;
-            case 8:
-                dayNum++;
+            case 7:
                 SetSkyBox(1f);
                 break;
             case 18:
@@ -170,15 +173,15 @@ public class TimeManager : MonoBehaviour
         }
         switch (currentHour)
         {
-            case 6:
+            case 5:
                 skyMat.SetFloat("_BlendCubemaps", 0.4f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.2f);
                 break;
-            case 7:
+            case 6:
                 skyMat.SetFloat("_BlendCubemaps", 0.8f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.4f);
                 break;
-            case 8:
+            case 7:
                 skyMat.SetFloat("_BlendCubemaps", 1f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 1f);
                 break;
@@ -244,5 +247,26 @@ public class TimeManager : MonoBehaviour
         isDay = true;
         InitializeSkyBox();
         StartCoroutine(TimePassage());
+    }
+
+    [ContextMenu("Set To Start Of Morning")]
+    public void SetToMorning()
+    {
+        currentHour = 6;
+        InitializeSkyBox();
+    }
+
+    [ContextMenu("Set To 8 AM")]
+    public void SetTo8AM()
+    {
+        currentHour = 8;
+        InitializeSkyBox();
+    }
+
+    [ContextMenu("Set To Start Of Night")]
+    public void SetToNight()
+    {
+        currentHour = 20;
+        InitializeSkyBox();
     }
 }

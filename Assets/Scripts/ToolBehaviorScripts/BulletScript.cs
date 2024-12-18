@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    [HideInInspector]
-    public float damage = 25;
-
     public AudioClip hitStruct, hitEnemy, hitGround;
 
 
@@ -31,7 +28,7 @@ public class BulletScript : MonoBehaviour
             {
                 npc.ShotAt();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-                print("Hit Structure");
+                print("Hit Person");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                 gameObject.SetActive(false);
                 return;
@@ -49,6 +46,11 @@ public class BulletScript : MonoBehaviour
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                if(creature.corpseType == CorpseParticleType.Red) 
+                {
+                    GameObject bloodParticle = ParticlePoolManager.Instance.GrabBloodDropParticle();
+                    bloodParticle.transform.position = transform.position;
+                }
                 gameObject.SetActive(false);
                 return;
             }
@@ -59,6 +61,7 @@ public class BulletScript : MonoBehaviour
             HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+            ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
             gameObject.SetActive(false);
             return;
         }

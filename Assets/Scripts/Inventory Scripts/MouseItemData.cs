@@ -49,11 +49,25 @@ public class MouseItemData : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
             {
-                ClearSlot();
-                // TODO: Drop the item on the ground
+                if(assignedInventorySlot.ItemData.isKeyItem) return;
+                DropItem();
             }
 
         }
+    }
+
+    public void DropItem()
+    {
+
+        for(int i = 0; i < assignedInventorySlot.StackSize; i++)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(assignedInventorySlot.ItemData);
+            droppedItem.transform.position = HandItemManager.Instance.bulletStart.position;
+            Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB.AddForce(HandItemManager.Instance.bulletStart.forward * 300);
+            itemRB.AddForce(Vector3.up * 100);
+        }
+        ClearSlot();
     }
 
     public void ClearSlot()

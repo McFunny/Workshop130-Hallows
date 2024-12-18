@@ -18,6 +18,11 @@ public class WaterBarrel : StructureBehaviorScript
         WaterLevelChange();
     }
 
+    void Start()
+    {
+        base.Start();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -43,7 +48,7 @@ public class WaterBarrel : StructureBehaviorScript
             StartCoroutine(DugUp());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
+        if((type == ToolType.WateringCan || type == ToolType.WaterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
         {
             PlayerInteraction.Instance.waterHeld += 5;
             waterLevel--;

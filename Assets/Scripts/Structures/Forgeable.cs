@@ -23,7 +23,12 @@ public class Forgeable : StructureBehaviorScript
     void Start()
     {
         SpriteChange();
-
+        //base.Start()
+    }
+    
+    void Update()
+    {
+        base.Update();
     }
 
     public override void StructureInteraction()

@@ -96,6 +96,7 @@ public class HandItemManager : MonoBehaviour
     {
         if(currentHandObject) currentHandObject.SetActive(false);
         if (handRenderer != null) handRenderer.sprite = null;
+        currentType = ToolType.Null;
     }
 
     bool MissingObject()

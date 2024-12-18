@@ -56,6 +56,7 @@ public class PauseScript : MonoBehaviour
             pEffectsHandler.footStepSource.enabled = false;
             Time.timeScale = 0;
             PlayerMovement.restrictMovementTokens++;
+            pEffectsHandler.StartCoroutine(pEffectsHandler.Focus());
         }
         else
         {

@@ -34,7 +34,7 @@ public class TownGate : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(transitioning || (!TimeManager.Instance.isDay && !inTown))
+        if(transitioning /*|| (!TimeManager.Instance.isDay && !inTown)*/)
         {
             interactSuccessful = false;
             return;

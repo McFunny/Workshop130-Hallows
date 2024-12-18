@@ -18,6 +18,11 @@ public class Sprinkler : StructureBehaviorScript
         waterVFX.SetActive(false);
     }
 
+    void Start()
+    {
+        base.Start();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -103,8 +108,4 @@ public class Sprinkler : StructureBehaviorScript
         waterVFX.SetActive(false);
     }
 
-    void OnDestroy()
-    {
-        base.OnDestroy();
-    }
 }

@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Coroutine fovCoroutine;
 
+    bool playerCanMove = true;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
@@ -59,6 +61,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if(playerCanMove && restrictMovementTokens > 0)
+        {
+            playerCanMove = false;
+            print("Player cannot move");
+        }
+        if(!playerCanMove && restrictMovementTokens == 0)
+        {
+            playerCanMove = true;
+            print("Player is able to move");
+        }
+
         MyInput();
         if (isStalled || isCodexOpen)
             return;

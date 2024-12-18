@@ -34,8 +34,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public bool isTrapped = false;
     public bool isDead = false;
     bool corpseDestroyed = false;
-    public int damageToStructure;
-    public int damageToPlayer;
+    public int damageToStructure; //number must be positive
+    public int damageToPlayer; //number must be negative
     public bool canCorpseBreak;
 
     public void Start()
@@ -68,7 +68,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         }
         else if(canCorpseBreak)
         {
-            if(health < corpseHealth && isDead && !corpseDestroyed)
+            if(health <= corpseHealth && isDead && !corpseDestroyed)
             {
                 corpseDestroyed = true;
                 for(int i = 0; i < droppedItems.Length; i++)
@@ -83,8 +83,11 @@ public class CreatureBehaviorScript : MonoBehaviour
                 }
                 if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
                 GameObject corpseParticle = ParticlePoolManager.Instance.GrabCorpseParticle(corpseType);
-                if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
-                else corpseParticle.transform.position = transform.position;
+                if(corpseParticle)
+                {
+                    if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
+                    else corpseParticle.transform.position = transform.position;
+                }
                 Destroy(this.gameObject);
             }
         }
@@ -94,7 +97,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnDamage(){} //Triggers creature specific effects
     public virtual void OnDeath()
     {
-        NightSpawningManager.Instance.allCreatures.Remove(this);
+        if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
         foreach(Collider collider in allColliders)
         {
             collider.isTrigger = true;
@@ -103,6 +106,8 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public virtual void OnSpawn(){}
     public virtual void OnStun(float duration){}
+
+    public virtual void EnteredFireRadius(FireFearTrigger fireSource){}
 
 
     

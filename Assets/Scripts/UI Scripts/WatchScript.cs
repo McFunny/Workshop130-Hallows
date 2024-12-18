@@ -32,7 +32,8 @@ public class WatchScript : MonoBehaviour
     void UpdateWatch() //Cam don't look at this again it's been a long week // :)
     {
        watchHand.transform.rotation = Quaternion.Euler(0,0,TimeManager.Instance.currentHour * 30 * -1);
-       if(TimeManager.Instance.currentHour >= 12)
+       //if(TimeManager.Instance.currentHour >= 12)
+       if(TimeManager.Instance.isDay == false)
        {
             amImage.SetActive(false);
             pmImage.SetActive(true);

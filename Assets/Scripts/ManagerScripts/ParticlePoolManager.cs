@@ -11,11 +11,13 @@ public class ParticlePoolManager : MonoBehaviour
 
     public VisualEffect hitEffect;
 
-    public GameObject corpseParticle, corpseParticleYellow, poofParticle;
+    public GameObject corpseParticle, corpseParticleYellow, poofParticle, bloodDropletParticle, sparksParticle;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
     List<GameObject> poofPool = new List<GameObject>();
+    List<GameObject> bloodDropPool = new List<GameObject>();
+    List<GameObject> sparkPool = new List<GameObject>();
 
     void Awake()
     {
@@ -53,6 +55,20 @@ public class ParticlePoolManager : MonoBehaviour
             poofPool.Add(newParticle);
             newParticle.SetActive(false);
         }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(bloodDropletParticle);
+            bloodDropPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(sparksParticle);
+            sparkPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
     }
 
     public GameObject GrabCorpseParticle(CorpseParticleType type)
@@ -73,7 +89,7 @@ public class ParticlePoolManager : MonoBehaviour
             corpsePool.Add(newParticle);
             return newParticle;
         }
-        else
+        else if(type == CorpseParticleType.Yellow)
         {
             foreach (GameObject particle in corpsePoolYellow)
             {
@@ -89,6 +105,7 @@ public class ParticlePoolManager : MonoBehaviour
             corpsePoolYellow.Add(newParticle);
             return newParticle;
         }
+        else return null;
     }
 
     public GameObject GrabPoofParticle()
@@ -108,6 +125,39 @@ public class ParticlePoolManager : MonoBehaviour
         return newParticle;
     }
 
+    public GameObject GrabBloodDropParticle()
+    {
+        foreach (GameObject particle in bloodDropPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(bloodDropletParticle);
+        bloodDropPool.Add(newParticle);
+        return newParticle;
+    }
+    public GameObject GrabSparkParticle()
+    {
+        foreach (GameObject particle in sparkPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(sparksParticle);
+        sparkPool.Add(newParticle);
+        return newParticle;
+    }
+
     public void MoveAndPlayParticle(Vector3 pos, ParticleSystem p)
     {
         p.transform.position = pos;
@@ -124,5 +174,6 @@ public class ParticlePoolManager : MonoBehaviour
 public enum CorpseParticleType
 {
     Red,
-    Yellow
+    Yellow,
+    Null
 }

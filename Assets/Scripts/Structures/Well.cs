@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Well : MonoBehaviour, IInteractable
 {
-    public InventoryItemData waterCan;
+    public InventoryItemData waterCan, waterGun;
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
     public List<GameObject> highlight = new List<GameObject>();
@@ -19,7 +19,7 @@ public class Well : MonoBehaviour, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(item != waterCan || PlayerInteraction.Instance.waterHeld == 10)
+        if((item != waterCan && item != waterGun) || PlayerInteraction.Instance.waterHeld == 10)
         {
             interactSuccessful = false;
             return;

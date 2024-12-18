@@ -21,6 +21,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public float wealthValue = 1; //dictates how hard a night could be 
 
+    public bool destructable = true;
+
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
@@ -33,19 +35,26 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void Awake()
     {
-        StructureManager.Instance.allStructs.Add(this);
         OnStructuresUpdated?.Invoke();
         //source = GetComponent<AudioSource>();
         audioHandler = GetComponent<StructureAudioHandler>();
 
         TimeManager.OnHourlyUpdate += HourPassed;
         foreach(GameObject thing in highlight) thing.SetActive(false);
+
+    }
+
+    public void Start()
+    {
+        StructureManager.Instance.allStructs.Add(this);
+        if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
+        else StructureManager.Instance.SetTile(transform.position);
     }
 
 
     public void Update()
     {
-        if(health <= 0) Destroy(this.gameObject);
+        if(health <= 0 && destructable) Destroy(this.gameObject);
     }
 
     public virtual void StructureInteraction(){}
@@ -61,12 +70,15 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if(!destructable) return;
         health -= damage;
         OnDamage?.Invoke();
     }
 
+    //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
     public void OnDestroy()
     {
+        TimeManager.OnHourlyUpdate -= HourPassed;
         if(!gameObject.scene.isLoaded) return;
         print("Destroyed");
         if(clearTileOnDestroy && structData)
@@ -75,8 +87,8 @@ public class StructureBehaviorScript : MonoBehaviour
             else StructureManager.Instance.ClearLargeTile(transform.position);
         } 
         StructureManager.Instance.allStructs.Remove(this);
+        NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
-        TimeManager.OnHourlyUpdate -= HourPassed;
 
     }
 

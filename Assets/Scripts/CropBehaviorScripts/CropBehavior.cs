@@ -9,4 +9,10 @@ public class CropBehavior : ScriptableObject
     {
         return true;
     }
+    public virtual void OnIchorRefill(FarmLand tile){}
+
+    public virtual void CropBonusYield(FarmLand tile, out int cropBonus)
+    {
+        cropBonus = 0;
+    }
 }
