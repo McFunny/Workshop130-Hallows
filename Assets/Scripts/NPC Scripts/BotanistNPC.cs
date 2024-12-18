@@ -5,7 +5,7 @@ using UnityEngine;
 public class BotanistNPC : NPC, ITalkable
 {
     public InventoryItemData fertalizerT, fertalizerG, fertalizerI;
-    public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk, s_bean, s_ginger; //seeds
+    public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk, s_bean, s_ginger, s_spores; //seeds
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
@@ -215,6 +215,7 @@ public class BotanistNPC : NPC, ITalkable
         if(item == s_stalk) return 5;
         if(item == s_bean) return 6;
         if(item == s_ginger) return 7;
+        if(item == s_spores) return 8;
 
 
         return -1;

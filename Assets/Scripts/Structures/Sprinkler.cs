@@ -108,8 +108,4 @@ public class Sprinkler : StructureBehaviorScript
         waterVFX.SetActive(false);
     }
 
-    void OnDestroy()
-    {
-        base.OnDestroy();
-    }
 }

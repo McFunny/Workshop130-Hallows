@@ -37,6 +37,7 @@ public class InputManager : MonoBehaviour
         controlManager.hotbarUp.action.started -= HotbarUp; 
         controlManager.hotbarDown.action.canceled -= HotbarDown;  
         controlManager.showGrid.action.canceled -= ShowGrid;
+        controlManager.pauseGame.action.started -= PauseGame;
         controlManager.waterGunCharge.action.performed -= BeginCharge;
     }
 

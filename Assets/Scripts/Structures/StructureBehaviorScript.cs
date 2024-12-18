@@ -41,11 +41,14 @@ public class StructureBehaviorScript : MonoBehaviour
 
         TimeManager.OnHourlyUpdate += HourPassed;
         foreach(GameObject thing in highlight) thing.SetActive(false);
+
     }
 
     public void Start()
     {
         StructureManager.Instance.allStructs.Add(this);
+        if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
+        else StructureManager.Instance.SetTile(transform.position);
     }
 
 
@@ -72,6 +75,7 @@ public class StructureBehaviorScript : MonoBehaviour
         OnDamage?.Invoke();
     }
 
+    //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
     public void OnDestroy()
     {
         TimeManager.OnHourlyUpdate -= HourPassed;

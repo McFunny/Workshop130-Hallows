@@ -154,11 +154,25 @@ public class StructureManager : MonoBehaviour
         return true;
     }
 
-    public void SetTile(Vector3 pos) //find a way to call this when structures are loaded in from save data
+    public void SetTile(Vector3 pos) 
     {
         Vector3Int gridPos = tileMap.WorldToCell(pos);
         if(tileMap.GetTile(gridPos) == null) return;
         tileMap.SetTile(gridPos, occupiedTile);
+    }
+
+    public void SetLargeTile(Vector3 pos)
+    {
+        foreach (var gridPosition in tileMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = tileMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 3f)
+            {
+                if(tileMap.GetTile(gridPosition) != null) tileMap.SetTile(gridPosition, occupiedTile);
+                //print("FoundTile");
+            }
+            
+        }
     }
 
     public void ClearTile(Vector3 pos)

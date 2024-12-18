@@ -96,7 +96,7 @@ public class AmbientAudioManager : MonoBehaviour
         while (currentVolume > 0)
         {
             yield return new WaitForSeconds(0.1f);
-            currentVolume -= 0.05f;
+            currentVolume -= 0.01f;
             musicSource.volume = currentVolume;
         }
 
@@ -108,7 +108,7 @@ public class AmbientAudioManager : MonoBehaviour
 
     IEnumerator FadeBell()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
         ambienceSource.PlayOneShot(bellTower);
     }
 }
