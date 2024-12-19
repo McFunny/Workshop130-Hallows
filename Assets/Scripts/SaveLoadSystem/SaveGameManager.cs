@@ -14,6 +14,11 @@ public class SaveGameManager : MonoBehaviour
         SaveLoad.OnLoadGame += LoadData;
     }
 
+    private void OnDisable()
+    {
+        SaveLoad.OnLoadGame -= LoadData;
+    }
+
     public void DeleteData()
     {
         SaveLoad.DeleteSaveData();

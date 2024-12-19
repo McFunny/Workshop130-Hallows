@@ -74,7 +74,7 @@ public class MistWalker : CreatureBehaviorScript
         StartCoroutine(IdleSoundTimer());
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         StructureBehaviorScript.OnStructuresUpdated -= UpdateStructureList;
         if (animEvents) animEvents.OnColliderChange -= ColliderChange;

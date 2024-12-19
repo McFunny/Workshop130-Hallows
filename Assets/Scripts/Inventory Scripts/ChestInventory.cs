@@ -19,6 +19,11 @@ public class ChestInventory : InventoryHolder , IInteractable
        SaveLoad.OnLoadGame += LoadInventory;
     }
 
+    private void OnDisable()
+    {
+        SaveLoad.OnLoadGame -= LoadInventory;
+    }
+
     private void Start()
     {
         var chestSavedData = new ChestSaveData(primaryInventorySystem, transform.position, transform.rotation);

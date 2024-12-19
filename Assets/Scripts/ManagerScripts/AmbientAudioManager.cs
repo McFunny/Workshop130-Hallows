@@ -22,7 +22,7 @@ public class AmbientAudioManager : MonoBehaviour
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         TimeManager.OnHourlyUpdate -= HourUpdate;
     }

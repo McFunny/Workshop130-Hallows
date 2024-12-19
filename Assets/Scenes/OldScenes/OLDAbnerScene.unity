@@ -966,7 +966,7 @@ Transform:
   m_GameObject: {fileID: 104022418}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.70710576, z: 0, w: 0.7071079}
-  m_LocalPosition: {x: 14.725844, y: 2.573, z: -30.752266}
+  m_LocalPosition: {x: 14.7263, y: 2.6933174, z: -30.748545}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1567,11 +1567,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
+  corpseHealth: -50
+  ichorWorth: 5
+  ichorDropRadius: 2
+  creatureData: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
+  allColliders: []
+  corpseParticleTransform: {fileID: 0}
+  corpseType: 0
   rb: {fileID: 0}
   anim: {fileID: 0}
+  droppedItems: []
+  dropChance: []
   sightRange: 4
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -1580,12 +1589,14 @@ MonoBehaviour:
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
+  canCorpseBreak: 0
   availableStructure: []
   radius: 10
-  height: 5
   attackHeight: 2
   circleSpeed: 1
+  attackCollider: {fileID: 0}
   currentState: 0
+  isSummoned: 0
 --- !u!114 &361333378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1605,11 +1616,12 @@ MonoBehaviour:
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
-  hitSound: {fileID: 0}
+  idleSounds: []
+  hitSounds: []
+  footSteps: []
   deathSound: {fileID: 0}
   miscSound: {fileID: 0}
-  hitParticles: {fileID: 0}
-  deathParticles: {fileID: 0}
+  miscSound2: {fileID: 0}
 --- !u!54 &361333379
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4656,6 +4668,7 @@ MonoBehaviour:
   inventorySize: 18
   primaryInventorySystem:
     inventorySlots: []
+  highlight: []
 --- !u!114 &1273400365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4852,11 +4865,12 @@ MonoBehaviour:
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
-  hitSound: {fileID: 0}
+  idleSounds: []
+  hitSounds: []
+  footSteps: []
   deathSound: {fileID: 0}
   miscSound: {fileID: 0}
-  hitParticles: {fileID: 0}
-  deathParticles: {fileID: 0}
+  miscSound2: {fileID: 0}
 --- !u!114 &1275158860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4871,11 +4885,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
+  corpseHealth: -50
+  ichorWorth: 5
+  ichorDropRadius: 2
+  creatureData: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
+  allColliders: []
+  corpseParticleTransform: {fileID: 0}
+  corpseType: 0
   rb: {fileID: 0}
   anim: {fileID: 0}
+  droppedItems: []
+  dropChance: []
   sightRange: 4
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -4884,12 +4907,14 @@ MonoBehaviour:
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
+  canCorpseBreak: 0
   availableStructure: []
   radius: 10
-  height: 5
   attackHeight: 2
   circleSpeed: 1
+  attackCollider: {fileID: 0}
   currentState: 0
+  isSummoned: 0
 --- !u!82 &1275158861
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5269,6 +5294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 11400000, guid: 153718bda3249f74f8329ced35b76c61, type: 2}
   dialogueController: {fileID: 1573867780}
+  anim: {fileID: 0}
   happy: {fileID: 8300000, guid: 8a481601b53baa84bac83b6f5ddf2671, type: 3}
   sad: {fileID: 8300000, guid: 2d40c0cc504cc0e44a585ffde498d57e, type: 3}
   neutral: {fileID: 8300000, guid: 1fe89aa166877234faabb1b557479fff, type: 3}
@@ -5276,8 +5302,14 @@ MonoBehaviour:
   confused: {fileID: 8300000, guid: 7429ea34e6383834d98732c4fb970ee8, type: 3}
   shocked: {fileID: 8300000, guid: 9adcd4dc5f37cdc4e8749072f99ff2b5, type: 3}
   currentPath: -1
+  currentType: 0
   lastInteractedStoreItem: {fileID: 0}
-  anim: {fileID: 0}
+  hasSpokeToday: 0
+  hasEatenToday: 0
+  hasBeenFed: 0
+  movementHandler: {fileID: 0}
+  faceCamera: {fileID: 0}
+  assignedStall: {fileID: 0}
   sellMultiplier: 1
   possibleSoldItems: []
   itemWeight: []
@@ -10744,7 +10776,7 @@ PrefabInstance:
     - target: {fileID: 2171265230994377989, guid: f4bce2365b9ceec4c813ad5bd1bc13ba,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.7799988
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2171265230994377989, guid: f4bce2365b9ceec4c813ad5bd1bc13ba,
         type: 3}
@@ -10769,7 +10801,7 @@ PrefabInstance:
     - target: {fileID: 2171265230994377989, guid: f4bce2365b9ceec4c813ad5bd1bc13ba,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -10.219999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2171265230994377989, guid: f4bce2365b9ceec4c813ad5bd1bc13ba,
         type: 3}
@@ -12331,11 +12363,12 @@ MonoBehaviour:
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
-  hitSound: {fileID: 0}
+  idleSounds: []
+  hitSounds: []
+  footSteps: []
   deathSound: {fileID: 0}
   miscSound: {fileID: 0}
-  hitParticles: {fileID: 0}
-  deathParticles: {fileID: 0}
+  miscSound2: {fileID: 0}
 --- !u!114 &1968451995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12350,11 +12383,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
+  corpseHealth: -50
+  ichorWorth: 5
+  ichorDropRadius: 2
+  creatureData: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
+  allColliders: []
+  corpseParticleTransform: {fileID: 0}
+  corpseType: 0
   rb: {fileID: 1968451998}
   anim: {fileID: 0}
+  droppedItems: []
+  dropChance: []
   sightRange: 12
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -12363,8 +12405,14 @@ MonoBehaviour:
   isDead: 0
   damageToStructure: 10
   damageToPlayer: 30
+  canCorpseBreak: 0
+  targettableStructures: []
   availableStructure: []
   agent: {fileID: 0}
+  animEvents: {fileID: 0}
+  lungeAttackHitbox: {fileID: 0}
+  lungeCooldown: 6
+  lungeRange: 9
   currentState: 0
 --- !u!82 &1968451996
 AudioSource:
@@ -12750,7 +12798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c9257b77559794dadc132752e10f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueController: {fileID: 1573867780}
+  npcScript: {fileID: 0}
 --- !u!135 &2010776327
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13494,6 +13542,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1552726020618781792, guid: 9d2be0e4a2baa8c47a9e6197c85f1d4a,
+        type: 3}
+      propertyPath: circleSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1882577524237671823, guid: 9d2be0e4a2baa8c47a9e6197c85f1d4a,
         type: 3}
       propertyPath: m_Name
@@ -13940,7 +13993,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &5630728168194119802

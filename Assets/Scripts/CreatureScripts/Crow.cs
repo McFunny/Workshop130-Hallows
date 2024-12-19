@@ -287,7 +287,7 @@ public class Crow : CreatureBehaviorScript
 
         if (Vector3.Distance(point, transform.position) > radius * 2)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.3f);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime);
             transform.LookAt(targetPosition);
         }
         else

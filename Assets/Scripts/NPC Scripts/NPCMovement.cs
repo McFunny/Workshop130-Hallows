@@ -37,7 +37,7 @@ public class NPCMovement : MonoBehaviour
         CheckDestination();
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         TimeManager.OnHourlyUpdate -= CheckDestination;
     }
