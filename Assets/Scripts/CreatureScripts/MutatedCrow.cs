@@ -2,9 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MutatedCrow : MonoBehaviour
+public class MutatedCrow : CreatureBehaviorScript
 {
-    // Start is called before the first frame update
+    public enum CreatureState
+    {
+        Idle,
+        Flee,
+        CirclePlayer,
+        CirclePoint,
+        AttackPlayer,
+        Stun,
+        Land,
+        Die,
+        Trapped,
+        Wait,
+        GoAway
+    }
+
     void Start()
     {
         
