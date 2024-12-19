@@ -79,8 +79,11 @@ public class LumberjackNPC : NPC, ITalkable
             return;
         } 
 
-        /*else*/ if(item.staminaValue > 0)
+        else if(item.staminaValue > 0)
         {
+            currentPath = 0;
+            currentType = PathType.ItemRecieved;
+            /*
             if(!NPCManager.Instance.lumberjackFed)
             {
                 currentPath = 0;
@@ -93,8 +96,9 @@ public class LumberjackNPC : NPC, ITalkable
                 currentPath = 1;
                 currentType = PathType.ItemRecieved;
             }
+            */
             //Its consumable and giftable
-        }
+        } 
 
         else
         {

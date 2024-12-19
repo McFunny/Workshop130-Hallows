@@ -81,7 +81,9 @@ public class BotanistNPC : NPC, ITalkable
 
         else if(item.staminaValue > 0)
         {
-            if(!NPCManager.Instance.botanistFed)
+            currentPath = 0;
+            currentType = PathType.ItemRecieved;
+            /*if(!NPCManager.Instance.botanistFed)
             {
                 currentPath = 0;
                 currentType = PathType.ItemRecieved;
@@ -92,7 +94,7 @@ public class BotanistNPC : NPC, ITalkable
             {
                 currentPath = 1;
                 currentType = PathType.ItemRecieved;
-            }
+            }*/
             //Its consumable and giftable
         }
         else

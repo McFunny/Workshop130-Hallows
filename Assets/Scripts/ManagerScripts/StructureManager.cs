@@ -12,7 +12,8 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs;
 
-    public GameObject weedTile, farmTree;
+    public GameObject weedTile, farmTree, farmTile;
+    public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allTiles = new List<Vector3Int>();
@@ -60,6 +61,7 @@ public class StructureManager : MonoBehaviour
         //print("AllStructs: " + allStructs.Count);
         PopulateWeeds(-9, 3);
         if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
+        if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(-2, 6);
     }
 
 #region TileCommands
@@ -112,16 +114,13 @@ public class StructureManager : MonoBehaviour
     public void SpawnStructure(GameObject obj, Vector3 pos)
     {
         Instantiate(obj, pos, Quaternion.identity);
-        Vector3Int gridPos = tileMap.WorldToCell(pos);
-        if(tileMap.GetTile(gridPos) == null) return;
-        tileMap.SetTile(gridPos, occupiedTile);
+        SetTile(pos);
     }
 
     public GameObject SpawnStructureWithInstance(GameObject obj, Vector3 pos)
     {
         GameObject instance = Instantiate(obj, pos, Quaternion.identity);
-        Vector3Int gridPos = tileMap.WorldToCell(pos);
-        if(tileMap.GetTile(gridPos) != null) tileMap.SetTile(gridPos, occupiedTile);
+        SetTile(pos);
         return instance;
     }
 
@@ -171,7 +170,6 @@ public class StructureManager : MonoBehaviour
                 if(tileMap.GetTile(gridPosition) != null) tileMap.SetTile(gridPosition, occupiedTile);
                 //print("FoundTile");
             }
-            
         }
     }
 
@@ -271,7 +269,7 @@ public class StructureManager : MonoBehaviour
             }
         }
         return null;
-    } //to play ichor particle
+    } //used to play ichor particle
 
     void InstantiateNutrientStorage()
     {
@@ -394,6 +392,35 @@ public class StructureManager : MonoBehaviour
             GameObject newStructure = pool.GrabForageable();
             newStructure.transform.position = spawnPos;
 
+        }
+    }
+
+    void PopulateNightWeeds(int min, int max)
+    {
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        foreach (Vector3Int position in tileMap.cellBounds.allPositionsWithin)
+        {
+            spawnablePositions.Add(position);
+        }
+
+        int r = Random.Range(min,max + 1);
+        if (r <= 0) return;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = tileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(tileMap.GetTile(spawnablePositions[randomIndex]) != null && tileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
+                {
+                    FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
+                    script.InsertCrop(fogChime);
+                    SetTile(spawnPos);
+                }
+            }
         }
     }
 

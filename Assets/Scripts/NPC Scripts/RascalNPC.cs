@@ -72,6 +72,9 @@ public class RascalNPC : NPC, ITalkable
         }
         else if(item.staminaValue > 0)
         {
+            currentPath = 0;
+            currentType = PathType.ItemRecieved;
+            /*
             if(!NPCManager.Instance.rascalFed)
             {
                 currentPath = 0;
@@ -84,8 +87,9 @@ public class RascalNPC : NPC, ITalkable
                 currentPath = 1;
                 currentType = PathType.ItemRecieved;
             }
+            */
             //Its consumable and giftable
-        }
+        } 
         else
         {
             currentPath = 0;

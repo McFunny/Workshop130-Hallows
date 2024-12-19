@@ -109,20 +109,9 @@ public class FarmLand : StructureBehaviorScript
         CropItem newCrop = item as CropItem;
         if(newCrop && newCrop.plantable)
         {
-            crop = newCrop.cropData;
-            growthStage = 1;
-            hoursSpent = 0;
-            plantStress = 0;
-            SpriteChange();
+            InsertCrop(newCrop.cropData);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
-            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
-
-            audioHandler.PlayRandomSound(audioHandler.miscSounds1);
-
-            wealthValue = 5;
-
-            ignoreNextGrowthMoment = true;
 
         }
     }
@@ -277,14 +266,27 @@ public class FarmLand : StructureBehaviorScript
         else return;
     }
 
-    public void InsertCreature(CropData _data, int _growthStage)
+    public void InsertCrop(CropData _crop)
+    {
+        crop = _crop;
+        growthStage = 1;
+        hoursSpent = 0;
+        plantStress = 0;
+        SpriteChange();
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        audioHandler.PlayRandomSound(audioHandler.miscSounds1);
+        wealthValue = 5;
+        ignoreNextGrowthMoment = true;
+    }
+
+    /*public void InsertCreature(CropData _data, int _growthStage)
     {
         //the mimic will use this function to "plant" itself
         isWeed = true;
         crop = _data;
         growthStage = _growthStage;
         SpriteChange();
-    }
+    } */
 
     public void SpriteChange()
     {
