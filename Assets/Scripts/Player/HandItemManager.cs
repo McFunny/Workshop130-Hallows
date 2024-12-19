@@ -82,6 +82,8 @@ public class HandItemManager : MonoBehaviour
         handRenderer.sprite = item.icon;
     }
 
+   
+
     public void PlayPrimaryAnimation()
     {
         if(currentAnim) currentAnim.SetTrigger("PrimaryTrigger");
@@ -133,4 +135,18 @@ public class HandItemManager : MonoBehaviour
         CheckSlotForTool();
     }
 
+    public void DoesShotgunReload(bool hasShotgunAmmoLeft)
+    {
+        if (currentAnim)
+        {
+            if (hasShotgunAmmoLeft == false)
+            {
+                currentAnim.SetBool("HasAmmoLeft", false);
+            }
+            else
+            {
+                currentAnim.SetBool("HasAmmoLeft", true);
+            }
+        }
+    }
 }
