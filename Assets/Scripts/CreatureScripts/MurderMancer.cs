@@ -176,11 +176,14 @@ public class MurderMancer : CreatureBehaviorScript
     IEnumerator Summon()
     {
         coroutineRunning = true;
-        Crow crow1 = Instantiate(crowPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<Crow>();
-        Crow crow2 = Instantiate(crowPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<Crow>();
+        MutatedCrow crow1 = Instantiate(crowPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
+        MutatedCrow crow2 = Instantiate(crowPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();
 
         crow1.isSummoned = true;
         crow2.isSummoned = true;
+        crow1.isAttackCrow = true;
+        crow2.isAttackCrow = false;
+        
 
 
         timeSinceLastSeenPlayer = 40f; //Put back into stage 2
