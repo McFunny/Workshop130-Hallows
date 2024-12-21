@@ -1160,9 +1160,9 @@ GameObject:
   - component: {fileID: 4428851987389999445}
   - component: {fileID: 7919691276309720130}
   - component: {fileID: 7584269509216928723}
-  - component: {fileID: 6295790153167406108}
   - component: {fileID: 5168287707976289398}
   - component: {fileID: 2080033805792578758}
+  - component: {fileID: 7101953230402768425}
   m_Layer: 6
   m_Name: ImbuedScarecrowStructure
   m_TagString: scarecrow
@@ -1242,29 +1242,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &6295790153167406108
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2887735442889411947}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 512
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 15863
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 15
-  m_Height: 15
-  m_Direction: 1
-  m_Center: {x: 0, y: 6.45, z: 0}
 --- !u!136 &5168287707976289398
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1304,6 +1281,27 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 1.07, z: 0.46}
   m_TimeToStationary: 0.5
+--- !u!65 &7101953230402768425
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2887735442889411947}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 15863
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 15, y: 20, z: 15}
+  m_Center: {x: 0, y: 10, z: 0}
 --- !u!1 &4107874420269130536
 GameObject:
   m_ObjectHideFlags: 0
