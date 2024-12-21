@@ -449,6 +449,7 @@ public class MutatedCrow : CreatureBehaviorScript
                     isAttackCrow = false;
                     point = GetRandomPoint(15);
                     currentState = CreatureState.CirclePoint;
+                    yield return new WaitForSeconds(5);
                     break;
                 case 6: //go CROP mode. If CROP available circle it, if not circle a random point
                     isAttackCrow = false;
