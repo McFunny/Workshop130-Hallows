@@ -204,7 +204,6 @@ public class MutatedCrow : CreatureBehaviorScript
 
         float distance = Vector3.Distance(transform.position, targetPosition);
         float t = (speed * Time.deltaTime) / distance;
-
         transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t));
         transform.LookAt(targetPosition);
 
@@ -237,11 +236,16 @@ public class MutatedCrow : CreatureBehaviorScript
 
     private void GoAway() //Will despawn when far enough away
     {
-        Vector3 targetPosition = point;
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        //USE THIS TO DIVE FOR ITEM
+        Vector3 targetPosition = point; //set this to item transform
         float distance = Vector3.Distance(transform.position, targetPosition);
         float t = (speed * Time.deltaTime) / distance;
         transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t));
         transform.LookAt(targetPosition);
+        //After player has reached destination, have it go back to creaturestate.circlepoint and give it a random point
+        //USE THIS TO DIVE FOR ITEM
+        //////////////////////////////////////////////////////////////////////////////////////////////
 
         float playerDistance = Vector3.Distance(player.position, transform.position);
         if (playerDistance > 100f)
