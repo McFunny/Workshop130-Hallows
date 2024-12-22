@@ -185,9 +185,14 @@ public class NightSpawningManager : MonoBehaviour
 
     public void GameOver()
     {
-        for(int i = 0; i < allCreatures.Count; i++)
+        CreatureBehaviorScript[] creatures = FindObjectsOfType<CreatureBehaviorScript>();
+
+        foreach (CreatureBehaviorScript creature in creatures)
         {
-            Destroy(allCreatures[i].gameObject);
+            if (creature != null && creature.gameObject != null)
+            {
+                Destroy(creature.gameObject);
+            }
         }
         allCreatures.Clear();
     }
