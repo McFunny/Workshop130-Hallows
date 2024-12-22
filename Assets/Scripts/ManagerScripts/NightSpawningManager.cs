@@ -63,10 +63,10 @@ public class NightSpawningManager : MonoBehaviour
                     removedDifficultyPoints = 0;
                 }
             }
-            else difficultyPoints += structure.wealthValue;
+            else difficultyPoints += structure.wealthValue * 1.5f;
             accountedStructures.Add(structure);
         }
-        if(difficultyPoints < 20 && TimeManager.Instance.currentHour == 20) difficultyPoints = 20;
+        if(difficultyPoints < 20 && TimeManager.Instance.currentHour == 20) difficultyPoints = 50;
         //difficultyPoints += 1000;
         //difficultyPoints += TimeManager.dayNum;
         //originalDifficultyPoints = difficultyPoints;
@@ -116,7 +116,7 @@ public class NightSpawningManager : MonoBehaviour
             r = Random.Range(0, weightArray.Count);
             CreatureObject attemptedCreature = creatures[weightArray[r]];
             //If there is enough points to afford the creature and it hasnt reached it's spawn cap, spawn it
-            if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreatures[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold && attemptedCreature.spawnCap > creatureTally[weightArray[r]])
+            if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreatures[weightArray[r]] < attemptedCreature.spawnCapPerHour  && attemptedCreature.spawnCap > creatureTally[weightArray[r]])
             {
                 spawnedCreatures[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
@@ -131,7 +131,7 @@ public class NightSpawningManager : MonoBehaviour
             }
             
         }
-        while(spawnAttempts < 10); //add threshhold req too
+        while(spawnAttempts < 20); //add threshhold req too
     }
 
     void SpawnCreature(CreatureObject c)
@@ -162,11 +162,11 @@ public class NightSpawningManager : MonoBehaviour
                 case 6:
                     return 0;
                 case 20:
-                    return 0.9f;
+                    return 0.4f;
                 case 21:
-                    return 0.7f;
+                    return 0.4f;
                 case 22:
-                    return 0.7f;
+                    return 0.4f;
                 case 23:
                     return 0.4f;
                 case 0:
@@ -185,6 +185,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public void GameOver()
     {
+        Debug.Log("Running Gameover in NightSpawnManager");
         for(int i = 0; i < allCreatures.Count; i++)
         {
             Destroy(allCreatures[i].gameObject);

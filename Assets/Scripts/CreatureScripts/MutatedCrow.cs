@@ -79,7 +79,19 @@ public class MutatedCrow : CreatureBehaviorScript
         StructureBehaviorScript.OnStructuresUpdated += UpdateStructureList;
         UpdateStructureList();
         targetStructure = null;
-        currentState = CreatureState.Idle;
+
+        if (!isSummoned) 
+        {
+           point = StructureManager.Instance.GetRandomTile();
+            point.y = height;
+            currentState = CreatureState.CirclePoint;
+
+        }
+
+        else
+        {
+            currentState = CreatureState.Idle;
+        }
     }
 
     private void OnDisable()
@@ -293,6 +305,13 @@ public class MutatedCrow : CreatureBehaviorScript
 
     private void Eat()
     {
+        if (targetStructure == null)
+        {
+            isAttackCrow = true;
+            currentState = CreatureState.CirclePlayer;
+            return;
+        }
+
         if (Vector3.Distance(transform.position, targetStructure.transform.position) < 1f) //Arrived at crop eat it
         {
             rb.useGravity = true;
@@ -416,7 +435,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
         if (isAttackCrow)
         {
-            int r = Random.Range(0, 7);
+            int r = Random.Range(0, 8);
             switch (r)
             {
                 case 0: //Keep doing what you are doing
@@ -467,6 +486,9 @@ public class MutatedCrow : CreatureBehaviorScript
                     }
 
                     break;
+                case 7: //LAND the bird
+                    currentState = CreatureState.Land;
+                    break;
             }
             coroutineRunning = false;
         }
@@ -486,7 +508,7 @@ public class MutatedCrow : CreatureBehaviorScript
             }
             else
             {
-                int r = Random.Range(0, 5);
+                int r = Random.Range(0, 6);
                 switch (r)
                 {
                     case 0: //Stay in current point
@@ -538,6 +560,9 @@ public class MutatedCrow : CreatureBehaviorScript
                             currentState = CreatureState.GoAway;
                         }
 
+                        break;
+                    case 5: //LAND the bird
+                        currentState = CreatureState.Land;
                         break;
                 }
                 coroutineRunning = false;

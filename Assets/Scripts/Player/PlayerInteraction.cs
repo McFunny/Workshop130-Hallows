@@ -346,6 +346,7 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator GameOver()
     {
+        Debug.Log("Running Gameover");
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         playerEffects.PlayClip(playerEffects.playerDie);

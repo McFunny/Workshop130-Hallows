@@ -40,7 +40,7 @@ public class ShovelAttack : MonoBehaviour
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
         if (creature != null && creature.shovelVulnerable)
         {
-            creature.TakeDamage(25);
+            creature.TakeDamage(50);
             //playsound
             HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
             print("Hit Creature");

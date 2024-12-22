@@ -608,7 +608,7 @@ public class MistWalker : CreatureBehaviorScript
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
-                playerInteraction.StaminaChange(damageToPlayer);
+                PlayerInteraction.Instance.StaminaChange(damageToPlayer);
                 lungeAttackHitbox.enabled = false;
             }
         }

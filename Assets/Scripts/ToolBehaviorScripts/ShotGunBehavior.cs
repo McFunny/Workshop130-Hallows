@@ -46,7 +46,7 @@ public class ShotGunBehavior : ToolBehavior
         HandItemManager.Instance.DoesShotgunReload(ShotgunAmmoCheck());
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(shoot);
-        float cooldown = ShotgunAmmoCheck() ? 2.8f : 0.3f;
+        float cooldown = ShotgunAmmoCheck() ? 1.4f : 0.3f;
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, cooldown));
     }
 
