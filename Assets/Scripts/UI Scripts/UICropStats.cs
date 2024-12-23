@@ -145,6 +145,7 @@ public class UICropStats : MonoBehaviour
             // I know this is a mess but I really don't feel like rewriting this script. If I have to write another if statement I WILL go insane.
 
             //Gloam Level Check I feel so gloaming
+            if (tileNutrients == null) { return; }
             if(tileNutrients.gloamLevel >= nHigh)
             {
                 gloamAmountD.text = "High";
