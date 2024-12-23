@@ -28,15 +28,20 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     ControlManager controlManager;
-    private bool isSprinting;
+    HeadBobController headBobController;
+    public bool isSprinting;
 
     private Coroutine fovCoroutine;
 
     bool playerCanMove = true;
 
+    [HideInInspector]
+    public float velocity;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        headBobController = FindFirstObjectByType<HeadBobController>();
     }
 
     private void Start()
@@ -53,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
         controlManager.sprint.action.started += Sprint;
         controlManager.sprint.action.canceled += CancelSprint;
     }
+
     private void OnDisable()
     {
         controlManager.sprint.action.started -= Sprint;
@@ -61,12 +67,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if(playerCanMove && restrictMovementTokens > 0)
+        if (playerCanMove && restrictMovementTokens > 0)
         {
             playerCanMove = false;
+            CancelSprintManually(); // Cancel sprinting and reset FOV when movement is restricted
             print("Player cannot move");
         }
-        if(!playerCanMove && restrictMovementTokens == 0)
+        if (!playerCanMove && restrictMovementTokens == 0)
         {
             playerCanMove = true;
             print("Player is able to move");
@@ -76,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         if (isStalled || isCodexOpen)
             return;
 
-        HandleSprintCheck(); 
+        HandleSprintCheck();
         SpeedControl();
         rb.drag = groundDrag;
         GroundedCheck();
@@ -91,30 +98,42 @@ public class PlayerMovement : MonoBehaviour
 
     private void Sprint(InputAction.CallbackContext obj)
     {
-     
         Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
-        if (moveInput.y > 0.5f) // Only allow sprinting when moving forward
+
+        // Allow sprinting if moving forward (positive y) and tolerate slight sideways movement
+        if (moveInput.y > 0.1f && !isStalled) // Adjust threshold to detect forward movement
         {
-            isSprinting = !isSprinting;
+            isSprinting = true;
 
             if (fovCoroutine != null)
                 StopCoroutine(fovCoroutine);
 
-            float targetFoV = isSprinting ? 70f : 60f;
-            fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f)); 
+            float targetFoV = 70f;
+            fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f));
         }
     }
 
+
+
     private void CancelSprint(InputAction.CallbackContext obj)
     {
-        isSprinting = false;
-        float targetFoV = isSprinting ? 70f : 60f;
-        if (fovCoroutine != null)
-                StopCoroutine(fovCoroutine);
-                
-        fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f)); 
+        // Return early if sprinting has already been cancelled
+        if (!isSprinting) return;
+
+        CancelSprintManually();
     }
 
+    private void CancelSprintManually()
+    {
+        
+        isSprinting = false;
+
+        if (fovCoroutine != null)
+            StopCoroutine(fovCoroutine);
+
+        float targetFoV = 60f;
+        fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f));
+    }
     private void MyInput()
     {
         if (accessingInventory || restrictMovementTokens > 0)
@@ -137,22 +156,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleSprintCheck()
     {
-        if (isSprinting)
+        if (isSprinting && !isStalled)
         {
             Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
 
            
-            if (moveInput.y <= 0.5f || Mathf.Abs(moveInput.x) > 0.1f)
+            if (moveInput.y <= 0.1f) 
             {
                 isSprinting = false;
 
                 if (fovCoroutine != null)
                     StopCoroutine(fovCoroutine);
 
-                fovCoroutine = StartCoroutine(LerpFieldOfView(60f, 0.5f)); 
+                fovCoroutine = StartCoroutine(LerpFieldOfView(60f, 0.5f));
             }
         }
     }
+
+
 
     private void SpeedControl()
     {
@@ -167,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        // limit velocity if needed
+        // Limit velocity if needed
         if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -180,7 +201,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, 2f))
         {
-            //grounded
+            // Grounded
         }
         else
         {
@@ -201,5 +222,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         playerCamera.m_Lens.FieldOfView = targetFoV;
+    }
+
+    public Vector3 GetVelocity()
+    {
+        return rb.velocity;
     }
 }
