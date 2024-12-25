@@ -295,6 +295,7 @@ public class MutatedCrow : CreatureBehaviorScript
     {
         if (Vector3.Distance(transform.position, targetStructure.transform.position) < 1f) //Arrived at crop eat it
         {
+            if (targetStructure == null) currentState = CreatureState.Idle;
             rb.useGravity = true;
 
             Vector3 rotation = transform.eulerAngles;
@@ -309,6 +310,7 @@ public class MutatedCrow : CreatureBehaviorScript
         }
         else //Fly to CROP
         {
+            if (targetStructure == null) currentState = CreatureState.Land;
             Vector3 targetPosition = targetStructure.transform.position + Vector3.down * (speed * 0.5f) * Time.deltaTime;
             transform.LookAt(targetPosition);
             float distance = Vector3.Distance(transform.position, targetPosition);
