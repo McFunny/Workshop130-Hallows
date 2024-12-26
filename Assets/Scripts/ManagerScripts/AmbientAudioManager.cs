@@ -52,7 +52,7 @@ public class AmbientAudioManager : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            float musicCooldown = Random.Range(1, 3);
+            float musicCooldown = Random.Range(15, 30);
             yield return new WaitForSecondsRealtime(musicCooldown);
             Debug.Log("CoolDown Done picking song");
             if (TimeManager.Instance.isDay)

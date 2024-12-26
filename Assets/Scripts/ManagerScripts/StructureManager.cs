@@ -37,8 +37,8 @@ public class StructureManager : MonoBehaviour
         }
         InstantiateNutrientStorage();
         //load in all the saved data, such as the nutrient storages and alltiles list
+        PopulateTrees(15, 20);
         PopulateWeeds(10, 20); //Only do this when a new game has started. Implement weeds spawning in over time
-        PopulateTrees(8, 12);
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
@@ -355,7 +355,8 @@ public class StructureManager : MonoBehaviour
 
         int r = Random.Range(min,max + 1);
         if (r <= 0) return;
-        for(int i = 0; i < r; i++)
+        float i = 0;
+        while(i < r)
         {
             if(spawnablePositions.Count != 0)
             {
@@ -365,9 +366,12 @@ public class StructureManager : MonoBehaviour
                 if(tileMap.GetTile(spawnablePositions[randomIndex]) != null)
                 {
                     bool success = SpawnLargeStructure(farmTree, spawnPos);
+                    i++;
                     //print(success);
                 }
+                else i += 0.25f;
             }
+            else i += 0.25f;
         }
     }
 
