@@ -43,9 +43,26 @@ public class ShotGunBehavior : ToolBehavior
         tool = _tool;
         usingPrimary = true;
         //Shoot
+        HandItemManager.Instance.DoesShotgunReload(ShotgunAmmoCheck());
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(shoot);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, 2.8f));
+        float cooldown = ShotgunAmmoCheck() ? 2.8f : 0.3f;
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, cooldown));
+    }
+
+    private bool ShotgunAmmoCheck()
+    {
+        var inventory = PlayerInventoryHolder.Instance.PrimaryInventorySystem;
+        if (!inventory.ContainsItem(bulletItem, out List<InventorySlot> invSlot))
+        {
+            inventory = PlayerInventoryHolder.Instance.secondaryInventorySystem;
+            if (!inventory.ContainsItem(bulletItem, out List<InventorySlot> invSlot2))
+            {
+                return false;
+            }
+            else return true;
+        }
+        else return true;
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -85,6 +102,4 @@ public class ShotGunBehavior : ToolBehavior
         yield return new WaitForSeconds(1.2f);
         usingPrimary = false;
     }
-
-  
 }

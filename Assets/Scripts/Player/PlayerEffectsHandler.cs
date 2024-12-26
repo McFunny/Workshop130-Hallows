@@ -10,7 +10,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     //HANDLES THE AUDIO AND EFFECTS THAT COME FROM THE PLAYER
     public float volume = 1f;
     public AudioSource source, footStepSource;
-    public AudioClip itemPickup, itemEat, playerDie, playerDamage;
+    public AudioClip itemPickup, itemEat, playerDie, playerDamage, footstep;
     //public AudioClip footSteps;
 
     Volume globalVolume;
@@ -134,6 +134,10 @@ public class PlayerEffectsHandler : MonoBehaviour
         source.PlayOneShot(clip);
     }
 
-    
+    public void PlayFootstepSound()
+    {
+        footStepSource.pitch = Random.Range(0.7f, 1.3f);
+        footStepSource.Play();
+    }
 
 }

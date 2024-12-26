@@ -51,7 +51,7 @@ public class NPCManager : MonoBehaviour
         }
     }
 
-    void Destroy()
+    private void OnDisable()
     {
         TimeManager.OnHourlyUpdate -= HourUpdate;
     }

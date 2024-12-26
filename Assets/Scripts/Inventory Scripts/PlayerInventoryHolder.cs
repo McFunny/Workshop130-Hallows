@@ -1,5 +1,6 @@
 using SaveLoadSystem;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -67,28 +68,62 @@ public class PlayerInventoryHolder : InventoryHolder
     // Method to add items to the correct inventory system (primary or secondary)
     public bool AddToInventory(InventoryItemData data, int amount)
     {
-        bool addedToPrimary = primaryInventorySystem.AddToInventory(data, amount);
-        bool addedToSecondary = false;
-
-        if (addedToPrimary)
+        // Check for existing stack in the primary inventory
+        if (primaryInventorySystem.ContainsItem(data, out List<InventorySlot> primarySlots))
         {
-            OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem); // Update only hotbar
-            OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);       // Notify general inventory change
-            return true;
-        }
-        else
-        {
-            addedToSecondary = secondaryInventorySystem.AddToInventory(data, amount);
-            if (addedToSecondary)
+            foreach (var slot in primarySlots)
             {
-                //OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem); 
-                OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);         // Notify general inventory change
+                if (slot.EnoughRoomLeftInStack(amount))
+                {
+                    slot.AddToStack(amount);
+                    OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem); // Update only hotbar
+                    OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);       // Notify general inventory change
+                    return true;
+                }
+            }
+        }
+
+        // Check for existing stack in the secondary inventory
+        if (secondaryInventorySystem.ContainsItem(data, out List<InventorySlot> secondarySlots))
+        {
+            foreach (var slot in secondarySlots)
+            {
+                if (slot.EnoughRoomLeftInStack(amount))
+                {
+                    slot.AddToStack(amount);
+                    OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem); // Notify general inventory change
+                    return true;
+                }
+            }
+        }
+
+        // No stack found; look for a free slot in the primary inventory
+        if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot))
+        {
+            if (freePrimarySlot.EnoughRoomLeftInStack(amount))
+            {
+                freePrimarySlot.UpdateInventorySlot(data, amount);
+                OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem); // Update only hotbar
+                OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);       // Notify general inventory change
                 return true;
             }
         }
 
+        // No free slot in primary; look for a free slot in the secondary inventory
+        if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot))
+        {
+            if (freeSecondarySlot.EnoughRoomLeftInStack(amount))
+            {
+                freeSecondarySlot.UpdateInventorySlot(data, amount);
+                OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem); // Notify general inventory change
+                return true;
+            }
+        }
+
+        // If no stack or free slot found, return false
         return false;
     }
+
 
     // Explicitly refresh both inventories (hotbar and backpack)
     public void UpdateInventory()
