@@ -61,7 +61,7 @@ public class StructureManager : MonoBehaviour
         //print("AllStructs: " + allStructs.Count);
         PopulateWeeds(-9, 3);
         if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
-        if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(-2, 6);
+        if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(-2, 7);
     }
 
 #region TileCommands

@@ -70,7 +70,7 @@ public class CodexScript : MonoBehaviour
     
     void OpenCodexPressed(InputAction.CallbackContext obj)
     {  
-        if(!PlayerMovement.accessingInventory && !PauseScript.isPaused)
+        if(!PlayerMovement.accessingInventory && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens > 0)
         {
             OpenCloseCodex();
         }
@@ -78,7 +78,7 @@ public class CodexScript : MonoBehaviour
 
     void CloseCodexPressed(InputAction.CallbackContext obj)
     {
-        if(!PlayerMovement.accessingInventory && !PauseScript.isPaused)
+        if(!PlayerMovement.accessingInventory && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens > 0)
         {
             OpenCloseCodex();
         }

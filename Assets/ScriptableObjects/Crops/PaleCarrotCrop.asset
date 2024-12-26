@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: PaleCarrotCrop
   m_EditorClassIdentifier: 
   name: Pale Carrot
-  growthStages: 4
+  growthStages: 5
   hoursPerStage: 2
-  harvestableGrowthStages: 04000000
+  harvestableGrowthStages: 05000000
   cropSprites:
-  - {fileID: -1083060862, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
-  - {fileID: 385342639, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
-  - {fileID: -2060417812, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
-  - {fileID: 169092492, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
-  rottedImage: {fileID: 1592216574, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
+  - {fileID: 392963680, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
+  - {fileID: -1446965902, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
+  - {fileID: -906125322, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
+  - {fileID: 300177369, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
+  - {fileID: -1838193722, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
+  rottedImage: {fileID: -828731605, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
   cropYield: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
   cropSeed: {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
   cropYieldAmount: 1
@@ -30,8 +31,8 @@ MonoBehaviour:
   seedYieldVariance: 1
   waterIntake: 5
   ichorIntake: 0
-  terraIntake: 1
-  gloamIntake: -0.5
+  terraIntake: 0.75
+  gloamIntake: -0.25
   stressLimit: 2
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}

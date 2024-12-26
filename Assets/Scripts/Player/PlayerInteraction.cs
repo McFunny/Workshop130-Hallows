@@ -28,7 +28,7 @@ public class PlayerInteraction : MonoBehaviour
     [HideInInspector] public readonly float maxStamina = 200;
 
     public float waterHeld = 0; //for watering can
-    [HideInInspector] public readonly float maxWaterHeld = 10;
+    [HideInInspector] public readonly float maxWaterHeld = 15;
 
     public bool torchLit = false;
 

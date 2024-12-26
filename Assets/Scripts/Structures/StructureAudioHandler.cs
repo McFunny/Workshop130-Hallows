@@ -11,7 +11,7 @@ public class StructureAudioHandler : MonoBehaviour
 
     AudioSource source;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         source = GetComponent<AudioSource>();
     }

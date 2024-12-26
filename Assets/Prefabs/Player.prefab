@@ -194,6 +194,8 @@ MonoBehaviour:
   groundDrag: 5
   orientation: {fileID: 2948405178405840430}
   playerCamera: {fileID: 3801851222536505025}
+  isSprinting: 0
+  velocity: 0
 --- !u!114 &4060353663220160237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +232,7 @@ MonoBehaviour:
   currentMoney: 0
   stamina: 200
   waterHeld: 0
+  torchLit: 0
   interactionLayers:
     serializedVersion: 2
     m_Bits: 320
@@ -252,6 +255,7 @@ MonoBehaviour:
   itemEat: {fileID: 8300000, guid: de2b35f00939d9e42b297b84161ed163, type: 3}
   playerDie: {fileID: 8300000, guid: c4adc8958909e7e40a4032916a31b4f3, type: 3}
   playerDamage: {fileID: 0}
+  footstep: {fileID: 0}
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   focusColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &833586289986230531
@@ -298,7 +302,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0, g: 0.60897803, b: 0.9811321, a: 1}
+  m_Color: {r: 0.36320752, g: 0.7580188, b: 1, a: 1}
   m_Intensity: 2.82
   m_Range: 10
   m_SpotAngle: 30

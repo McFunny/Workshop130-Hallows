@@ -272,9 +272,9 @@ public class FarmLand : StructureBehaviorScript
         growthStage = 1;
         hoursSpent = 0;
         plantStress = 0;
-        SpriteChange();
+        if(nutrients != null) SpriteChange();
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
-        audioHandler.PlayRandomSound(audioHandler.miscSounds1);
+        if(audioHandler != null) audioHandler.PlayRandomSound(audioHandler.miscSounds1);
         wealthValue = 5;
         ignoreNextGrowthMoment = true;
     }
@@ -357,7 +357,7 @@ public class FarmLand : StructureBehaviorScript
         else SpriteChange();
     }
 
-    void CropDied()
+    public void CropDied()
     {
         rotted = true;
         harvestable = true;

@@ -67,6 +67,7 @@ public class Forgeable : StructureBehaviorScript
         {
             type = ForageType.Yarrow;
         }
+        isDigging = false;
         SpriteChange();
     }
 
