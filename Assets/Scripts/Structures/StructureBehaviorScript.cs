@@ -22,10 +22,12 @@ public class StructureBehaviorScript : MonoBehaviour
     public float wealthValue = 1; //dictates how hard a night could be 
 
     public bool destructable = true;
+    public bool flammable = true;
+    public bool onFire = false;
 
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
-    bool highlightEnabled;
+    [HideInInspector] bool highlightEnabled;
 
     [HideInInspector] public StructureAudioHandler audioHandler;
     //[HideInInspector] public AudioSource source;
@@ -50,7 +52,6 @@ public class StructureBehaviorScript : MonoBehaviour
         if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
         else StructureManager.Instance.SetTile(transform.position);
     }
-
 
     public void Update()
     {
@@ -132,6 +133,31 @@ public class StructureBehaviorScript : MonoBehaviour
                 foreach(Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
             }
             while(power < 1.9f && highlightEnabled);
+        }
+    }
+
+    public void LitOnFire()
+    {
+        if(onFire || !flammable) return;
+        onFire = true;
+        GameObject flame = ParticlePoolManager.Instance.GrabFlameEffect();
+        flame.transform.position = transform.position;
+        flame.GetComponent<StructureFire>().burningStruct = this;
+        StartCoroutine(Burn());
+    }
+
+    public void Extinguish()
+    {
+        onFire = false;
+    }
+
+    IEnumerator Burn()
+    {
+        while(onFire)
+        {
+            if(health > 10) TakeDamage(Mathf.Round(health / 5));
+            else TakeDamage(1);
+            yield return new WaitForSeconds(1.5f);
         }
     }
 }

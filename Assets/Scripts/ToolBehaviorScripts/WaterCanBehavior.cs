@@ -21,7 +21,12 @@ public class WaterCanBehavior : ToolBehavior
             {
                 //play water anim
                 bool playAnim = false;
-                structure.ToolInteraction(tool, out playAnim);
+                if(structure.onFire)
+                {
+                    playAnim = true;
+                    structure.Extinguish();
+                }
+                else structure.ToolInteraction(tool, out playAnim);
                 if(playAnim)
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
@@ -29,6 +34,7 @@ public class WaterCanBehavior : ToolBehavior
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.3f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
+                    return;
                 } 
             }
 
@@ -64,7 +70,13 @@ public class WaterCanBehavior : ToolBehavior
             {
                 //play water anim
                 bool playAnim = false;
-                structure.ToolInteraction(tool, out playAnim);
+                if(structure.onFire)
+                {
+                    playAnim = true;
+                    structure.Extinguish();
+                }
+                else structure.ToolInteraction(tool, out playAnim);
+
                 if(playAnim)
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
@@ -72,6 +84,7 @@ public class WaterCanBehavior : ToolBehavior
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.3f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
+                    return;
                 } 
             }
 

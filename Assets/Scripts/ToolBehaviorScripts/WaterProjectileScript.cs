@@ -20,6 +20,8 @@ public class WaterProjectileScript : MonoBehaviour
             var structure = other.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
+                if(structure.onFire) structure.Extinguish();
+
                 FarmLand farmTile = structure as FarmLand;
                 if(farmTile)
                 {

@@ -178,7 +178,7 @@ public class MutatedCrow : CreatureBehaviorScript
             else
             {
                 UpdateStructureList();
-                GetRandomPoint(6);
+                GetRandomPoint(2);
                 point.y = height;
                 currentState = CreatureState.CirclePoint;
             }
@@ -293,6 +293,11 @@ public class MutatedCrow : CreatureBehaviorScript
 
     private void Eat()
     {
+        if (targetStructure == null)
+        {
+            currentState = CreatureState.Land;
+            return;
+        }
         if (Vector3.Distance(transform.position, targetStructure.transform.position) < 1f) //Arrived at crop eat it
         {
             if (targetStructure == null) currentState = CreatureState.Idle;
@@ -310,7 +315,6 @@ public class MutatedCrow : CreatureBehaviorScript
         }
         else //Fly to CROP
         {
-            if (targetStructure == null) currentState = CreatureState.Land;
             Vector3 targetPosition = targetStructure.transform.position + Vector3.down * (speed * 0.5f) * Time.deltaTime;
             transform.LookAt(targetPosition);
             float distance = Vector3.Distance(transform.position, targetPosition);
@@ -697,7 +701,7 @@ public class MutatedCrow : CreatureBehaviorScript
     {
         circleRadius = Random.Range(5, 15);
         height = Random.Range(4, 10);
-        speed = Random.Range(7, 10);
+        speed = Random.Range(6, 8);
         attackCooldown = Random.Range(3, 15);
         circleDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
     }
@@ -729,7 +733,7 @@ public class MutatedCrow : CreatureBehaviorScript
     }
 
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("scarecrow") && !isFleeing)
         {
@@ -744,6 +748,15 @@ public class MutatedCrow : CreatureBehaviorScript
             point.y = height;
 
             currentState = CreatureState.CirclePoint;
+        }
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject.layer == 7 && health <= 0)
+        {
+            canCorpseBreak = true;
+            TakeDamage(100);
         }
     }
 
@@ -767,5 +780,10 @@ public class MutatedCrow : CreatureBehaviorScript
         float randomOffset1 = Random.Range(0, 2) == 0 ? range : -range;
         float randomOffset2 = Random.Range(0, 2) == 0 ? range : -range;
         return new Vector3(transform.position.x + randomOffset1, transform.position.y + 5, transform.position.z + randomOffset2);
+    }
+
+    public override void OnDamage()
+    {
+        if(!IsGrounded() && health > 0) TakeDamage(100);
     }
 }
