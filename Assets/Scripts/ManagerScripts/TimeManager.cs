@@ -92,8 +92,8 @@ public class TimeManager : MonoBehaviour
         else isDay = false;
             
         OnHourlyUpdate?.Invoke();
-        print("Hour passed. Time is now " + currentHour);
-        print("Is it day? " + isDay);
+        //print("Hour passed. Time is now " + currentHour);
+        //print("Is it day? " + isDay);
 
         switch (currentHour)
         {
@@ -218,17 +218,22 @@ public class TimeManager : MonoBehaviour
     {
         StopCoroutine(TimePassage());
         int timeDif = 0;
+        currentMinute = 0;
         //change time and day
         if(isDay)
         {
-            while(currentHour != 19)
+            int targetHour = currentHour + 5;
+            if(targetHour > 19) targetHour = 19;
+            while(currentHour != targetHour)
             {
                 currentHour++;
-                //timeDif++;
-                foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+
+                //this doesnt account for the things that arent structures
+                /*foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
                 {
                     structure.TimeLapse(1);
-                }
+                }*/
+                OnHourlyUpdate?.Invoke();
             }
         }
         else
@@ -236,12 +241,13 @@ public class TimeManager : MonoBehaviour
             while(currentHour != 7)
             {
                 currentHour++;
-                //timeDif++;
-                if(currentHour == 24) currentHour = 0;
-                foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+
+                //this doesnt account for the things that arent structures
+                /*foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
                 {
                     structure.TimeLapse(1);
-                }
+                }*/
+                OnHourlyUpdate?.Invoke();
             }
         }
         isDay = true;

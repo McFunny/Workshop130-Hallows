@@ -158,6 +158,10 @@ public class StructureBehaviorScript : MonoBehaviour
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
             else TakeDamage(1);
             yield return new WaitForSeconds(1.5f);
+            if(onFire)
+            {
+                //catch adjacent structs on fire randomly
+            }
         }
     }
 }

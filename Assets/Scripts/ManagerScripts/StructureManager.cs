@@ -61,7 +61,7 @@ public class StructureManager : MonoBehaviour
         //print("AllStructs: " + allStructs.Count);
         PopulateWeeds(-9, 3);
         if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
-        if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(-2, 7);
+        if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(1, 6);
     }
 
 #region TileCommands
@@ -323,7 +323,7 @@ public class StructureManager : MonoBehaviour
         Vector3 spawnPos = new Vector3 (0,0,0);
         foreach (Vector3Int position in tileMap.cellBounds.allPositionsWithin)
         {
-            spawnablePositions.Add(position);
+            if(tileMap.GetTile(position) == freeTile) spawnablePositions.Add(position);
         }
 
         int r = Random.Range(min,max + 1);
@@ -406,7 +406,7 @@ public class StructureManager : MonoBehaviour
         Vector3 spawnPos = new Vector3 (0,0,0);
         foreach (Vector3Int position in tileMap.cellBounds.allPositionsWithin)
         {
-            spawnablePositions.Add(position);
+            if(tileMap.GetTile(position) == freeTile) spawnablePositions.Add(position);
         }
 
         int r = Random.Range(min,max + 1);
