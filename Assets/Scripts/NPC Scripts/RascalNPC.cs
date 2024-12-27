@@ -104,7 +104,7 @@ public class RascalNPC : NPC, ITalkable
 
     public override void PlayerLeftRadius()
     {
-
+        base.PlayerLeftRadius();
     }
 
     public override void OnConvoEnd()

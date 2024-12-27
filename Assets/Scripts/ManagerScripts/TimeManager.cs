@@ -266,7 +266,7 @@ public class TimeManager : MonoBehaviour
     [ContextMenu("Set To Start Of Night")]
     public void SetToNight()
     {
-        currentHour = 20;
+        currentHour = 19;
         InitializeSkyBox();
     }
 }

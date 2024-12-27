@@ -21,12 +21,14 @@ public abstract class NPC : MonoBehaviour, IInteractable
     [HideInInspector] public bool hasSpokeToday, hasEatenToday = false;
 
     [HideInInspector] public bool hasBeenFed = false;
+    [HideInInspector] public bool startedDialogue = false; //to check if this is the first time the player spoke to them since entering their radius
 
     [HideInInspector] public NPCMovement movementHandler;
 
     [HideInInspector] public FaceCamera faceCamera;
 
     [HideInInspector] public ShopStall assignedStall;
+
 
 
     public void EndInteraction()
@@ -46,7 +48,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public virtual void EmptyShopItem(){}
     
-    public virtual void PlayerLeftRadius(){}
+    public virtual void PlayerLeftRadius()
+    {
+        startedDialogue = false;
+    }
 
     public virtual void GivePlayerItem(int id, int amount){}
 

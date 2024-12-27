@@ -27,12 +27,19 @@ public class LumberjackNPC : NPC, ITalkable
                 }
                 else if(!GameSaveData.Instance.lumber_choppedTree)
                 {
-                    if(PlayerInteraction.Instance.currentMoney >= 200)
+                    if(!startedDialogue)
                     {
-                        PlayerInteraction.Instance.currentMoney -= 200;
+                        //Asks if the player wants to hand over the money
                         currentPath = 2;
                         currentType = PathType.Quest;
-                        GameSaveData.Instance.lumber_choppedTree = true; //is this not getting checked on?
+                    }
+                    else if(PlayerInteraction.Instance.currentMoney >= 200)
+                    {
+                        //Takes money
+                        PlayerInteraction.Instance.currentMoney -= 200;
+                        currentPath = 3;
+                        currentType = PathType.Quest;
+                        GameSaveData.Instance.lumber_choppedTree = true;
                         print("I took ur money");
                         anim.SetTrigger("TakeItem");
                     }
@@ -69,6 +76,7 @@ public class LumberjackNPC : NPC, ITalkable
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
+        startedDialogue = true;
     }
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
@@ -114,7 +122,7 @@ public class LumberjackNPC : NPC, ITalkable
 
     public override void PlayerLeftRadius()
     {
-
+        base.PlayerLeftRadius();
     }
 
     public override void OnConvoEnd()

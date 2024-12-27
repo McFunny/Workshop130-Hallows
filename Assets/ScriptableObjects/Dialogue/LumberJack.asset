@@ -47,12 +47,17 @@ MonoBehaviour:
     - Listen here, I don't reckon what the mist has done to these trees, but they
       are sturdy I tell ya!
     - Chopping that thing wont be an easy task... But if Mints are involved...
-    - Tell you what. Bring me 200 mints and we got a deal.
+    - Tell you what. Bring me <color=#81C6DE>200 Mints</color> and we got a deal.
     emotions: 00000000020000000300000000000000
   - pathName: Still waiting for payment
     paragraphs:
-    - Once you bring me those 200 Mints, that tree is as good as felled.
+    - Once you bring me those <color=#81C6DE>200 Mints</color>, that tree is as good
+      as felled.
     emotions: 00000000
+  - pathName: Payment Recieved
+    paragraphs:
+    - Hey there. Did you get the <color=#81C6DE>200 Mints</color> for our deal?
+    emotions: 01000000
   - pathName: Payment Recieved
     paragraphs:
     - Oho, now we are getting somewhere! Give me some time, and the tree will be
