@@ -11,7 +11,7 @@ public class ParticlePoolManager : MonoBehaviour
 
     public VisualEffect hitEffect;
 
-    public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect;
+    public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
@@ -20,6 +20,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> bloodDropPool = new List<GameObject>();
     List<GameObject> sparkPool = new List<GameObject>();
     List<GameObject> flamePool = new List<GameObject>();
+    List<GameObject> dirtPixelPool = new List<GameObject>();
 
     void Awake()
     {
@@ -83,6 +84,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(flameEffect);
             flamePool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(dirtPixelParticle);
+            dirtPixelPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -206,6 +214,23 @@ public class ParticlePoolManager : MonoBehaviour
         GameObject newEffect = Instantiate(flameEffect);
         flamePool.Add(newEffect);
         return newEffect;
+    }
+
+    public GameObject GrabDirtPixelParticle()
+    {
+        foreach (GameObject particle in dirtPixelPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(dirtPixelParticle);
+        dirtPixelPool.Add(newParticle);
+        return newParticle;
     }
 
     public void MoveAndPlayParticle(Vector3 pos, ParticleSystem p)

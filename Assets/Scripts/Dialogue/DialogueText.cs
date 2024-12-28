@@ -26,7 +26,8 @@ public enum Emotion
     Sad,
     Angry,
     Confused,
-    Shocked
+    Shocked,
+    Null
 }
 
 public enum PathType

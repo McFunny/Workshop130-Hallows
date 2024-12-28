@@ -16,16 +16,23 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - Welcome to your new home. I see you have aquainted yourself with your new implements.
-      {freezePlayer}
+    - You are finally awake. {freezePlayer}
+    - ...
+    - ...You VeilWood residents always seem to have your memory fail you, so let
+      me remind you how things work here.
+    - You are now responsible for providing this hamlet sustenance through the crops
+      you cultivate here.
+    - Anything you grow, you bring to me. In return, I will give you <color=#E0D38F>Mints</color>
+      to spend on whatever baubles or artifacts you desire.
     - You will need to start somewhere. Here, take these seeds. Use your hoe to cultivate
       some new life. {giveGift}
-    - The seeds grown here are special. Only under the nights gaze will they rampantly
-      grow, and you must pay extra mind to them.
-    - Any further questions can be answered by viewing your codex.
-    - 'Your new role is an important one. Be sure to spread your harvest to the folks
-      in town... and to me. '
-    emotions: 0100000000000000000000000300000001000000
+    - The seeds grown here are special. Only under the gaze of twilight will they
+      rampantly grow, and you must pay extra mind none of the wildlife makes a meal
+      out of them.
+    - Your new role is an important one....
+    - ...
+    - Do not disappoint.
+    emotions: 01000000060000000200000000000000010000000000000004000000050000000600000003000000
   questCompletePath:
     pathName: 
     paragraphs: []
@@ -37,8 +44,8 @@ MonoBehaviour:
   paths:
   - pathName: Hard Mode Activated
     paragraphs:
-    - Oh, so thats the game you desire to play? {freezePlayer}
-    - So be it.
+    - I don't believe you are understanding of the situation you are in. {freezePlayer}
+    - Making an enemy of me spells only ruin for you.
     emotions: 0300000000000000
   fillerPaths: []
   questPaths: []

@@ -12,7 +12,7 @@ public class StructureFire : MonoBehaviour
     public AudioClip extinguishedSFX;
 
     float playerDamage = 6;
-    float creatureDamage = 10;
+    float creatureDamage = 15;
 
     // Update is called once per frame
     void Update()

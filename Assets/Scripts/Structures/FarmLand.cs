@@ -181,6 +181,7 @@ public class FarmLand : StructureBehaviorScript
                 crop = null;
                 wealthValue = 0;
                 ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
+                ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             } 
             harvestable = false;
             if(forceDig || isWeed) Destroy(this.gameObject);
@@ -310,7 +311,7 @@ public class FarmLand : StructureBehaviorScript
         else
         {
             cropRenderer.sprite = null;
-            light.SetActive(false);
+            if(light) light.SetActive(false);
         }
 
         if(nutrients.ichorLevel <= 1 || nutrients.terraLevel <= 1 || nutrients.gloamLevel <= 1)
@@ -415,6 +416,7 @@ public class FarmLand : StructureBehaviorScript
         {
             audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
+            ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             Destroy(this.gameObject);
         }
     }
@@ -425,9 +427,9 @@ public class FarmLand : StructureBehaviorScript
         if (!gameObject.scene.isLoaded) return; 
         if (crop != null && crop.creaturePrefab)
         {
-            Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Code needs work once mandrake crop is added
+            Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Code needs work once Plant Mimic is added
         }
-        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        if(health <= 0) ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }
 
     public override void TimeLapse(int hours)
