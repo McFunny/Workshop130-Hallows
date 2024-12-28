@@ -69,6 +69,11 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public virtual void TimeLapse(int hours){}
 
+    public virtual bool IsFlammable()
+    {
+        return flammable;
+    }
+
     public void TakeDamage(float damage)
     {
         if(!destructable) return;
@@ -157,7 +162,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
             else TakeDamage(1);
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2f);
             if(onFire)
             {
                 //catch adjacent structs on fire randomly

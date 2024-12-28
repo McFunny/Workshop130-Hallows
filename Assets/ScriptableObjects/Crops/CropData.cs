@@ -28,9 +28,13 @@ public class CropData : ScriptableObject
     public float gloamIntake;
     public int stressLimit = 1; //if the plant exceeds this stress number, it dies
 
+    [Header("Specialized Crop Variables")]
+
     public GameObject creaturePrefab; //Specifically for the mandrake and the mimic. If this isnt null, spawn the creature instead of the cropYield
 
     public CropBehavior behavior;
+
+    public bool emitsGlow = false;
 
     public void OnHour(FarmLand tile)
     {

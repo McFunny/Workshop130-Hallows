@@ -111,4 +111,10 @@ public class WaterBarrel : StructureBehaviorScript
             WaterLevelChange();
         }
     }
+
+    public override bool IsFlammable()
+    {
+        if(waterLevel > 0) return false;
+        else return true;
+    }
 }

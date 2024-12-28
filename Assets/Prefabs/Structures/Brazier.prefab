@@ -59,6 +59,8 @@ MonoBehaviour:
   maxHealth: 30
   wealthValue: 15
   destructable: 1
+  flammable: 0
+  onFire: 0
   highlight: []
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
@@ -197,12 +199,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitSounds: []
-  miscSounds1: []
+  miscSounds1:
+  - {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   miscSounds2: []
   interactSound: {fileID: 0}
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 0}
-  activatedSound: {fileID: 0}
+  activatedSound: {fileID: 8300000, guid: ea55634a2c25475478ace194eb30558f, type: 3}
 --- !u!1 &2908845768244284891
 GameObject:
   m_ObjectHideFlags: 0

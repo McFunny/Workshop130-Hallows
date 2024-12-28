@@ -34,6 +34,7 @@ public class Brazier : StructureBehaviorScript
         {
             flameLeft = maxFlame;
             fire.SetActive(true);
+            audioHandler.PlaySound(audioHandler.activatedSound);
         }
     }
 
@@ -50,6 +51,7 @@ public class Brazier : StructureBehaviorScript
             if(flameLeft == 0 && fire.activeSelf)
             {
                 fire.SetActive(false);
+                audioHandler.PlaySound(audioHandler.miscSounds1[0]);
             }
         }
     }

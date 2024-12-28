@@ -675,8 +675,8 @@ public class MistWalker : CreatureBehaviorScript
         while(health > 0)
         {
             int i = Random.Range(4,10);
-            yield return new WaitForSeconds(i);
             effectsHandler.RandomIdle();
+            yield return new WaitForSeconds(i);
         }
     }
 

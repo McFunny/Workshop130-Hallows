@@ -54,10 +54,13 @@ MonoBehaviour:
   corpseHealth: -50
   ichorWorth: 5
   ichorDropRadius: 2
-  creatureData: {fileID: 0}
+  creatureData: {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
+  allColliders: []
+  corpseParticleTransform: {fileID: 0}
+  corpseType: 0
   rb: {fileID: 1750501738359538248}
   anim: {fileID: 0}
   droppedItems: []
@@ -70,6 +73,7 @@ MonoBehaviour:
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
+  canCorpseBreak: 0
   desiredCrops:
   - {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
 --- !u!135 &5872357633400745747
@@ -139,11 +143,12 @@ MonoBehaviour:
   moveSound: {fileID: 8300000, guid: 41ee24f61477af04eb448d5aed4d56ee, type: 3}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
-  hitSound: {fileID: 0}
+  idleSounds: []
+  hitSounds: []
+  footSteps: []
   deathSound: {fileID: 0}
   miscSound: {fileID: 0}
-  hitParticles: {fileID: 0}
-  deathParticles: {fileID: 0}
+  miscSound2: {fileID: 0}
 --- !u!82 &2932763187527858960
 AudioSource:
   m_ObjectHideFlags: 0

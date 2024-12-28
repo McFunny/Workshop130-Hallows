@@ -66,7 +66,7 @@ public class NightSpawningManager : MonoBehaviour
             else difficultyPoints += structure.wealthValue;
             accountedStructures.Add(structure);
         }
-        if(difficultyPoints < 20 && TimeManager.Instance.currentHour == 20) difficultyPoints = 20;
+        //if(difficultyPoints < 20 && TimeManager.Instance.currentHour == 21) difficultyPoints = 20;
         //difficultyPoints += 1000;
         //difficultyPoints += TimeManager.dayNum;
         //originalDifficultyPoints = difficultyPoints;
@@ -122,12 +122,13 @@ public class NightSpawningManager : MonoBehaviour
                 difficultyPoints -= attemptedCreature.dangerCost;
                 SpawnCreature(attemptedCreature);
                 spawnAttempts++;
-                print("Spawned Creature");
+                //print("Spawned Creature");
             }
             else 
             {
                 spawnAttempts += 0.25f;
-                print("Unable to Spawn");
+                //print("Unable to Spawn");
+                //if(difficultyPoints <= threshhold) print("Points under threshhold");
             }
             
         }
@@ -150,11 +151,11 @@ public class NightSpawningManager : MonoBehaviour
         switch (TimeManager.Instance.currentHour)
             {
                 case 1:
-                    return 0.2f;
+                    return 0.4f;
                 case 2:
                     return 0.2f;
                 case 3:
-                    return 0;
+                    return 0.2f;
                 case 4:
                     return 0;
                 case 5:
@@ -164,11 +165,11 @@ public class NightSpawningManager : MonoBehaviour
                 case 20:
                     return 0.9f;
                 case 21:
-                    return 0.7f;
+                    return 0.9f;
                 case 22:
                     return 0.7f;
                 case 23:
-                    return 0.4f;
+                    return 0.7f;
                 case 0:
                     return 0.4f;
                 default:

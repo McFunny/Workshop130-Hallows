@@ -42,6 +42,7 @@ public class FeralHareTest : CreatureBehaviorScript
         StartCoroutine(CropCheck());
         despawnPos = NightSpawningManager.Instance.despawnPositions[Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length)].position;
         yOrigin = transform.position.y;
+        StartCoroutine(IdleSoundTimer());
     }
 
     // Update is called once per frame
@@ -278,6 +279,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         inEatingRange = true;
         anim.SetBool("IsDigging", true);
+        effectsHandler.MiscSound();
         eatingTimeLeft = 5f;
         transform.LookAt(foundFarmTile.transform.position);
         yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile == null || foundFarmTile.crop == null || currentState != CreatureState.Eat);
@@ -286,6 +288,7 @@ public class FeralHareTest : CreatureBehaviorScript
             foundFarmTile.CropDestroyed();
             foundFarmTile = null;
             inEatingRange = false;
+            effectsHandler.MiscSound2();
         }
         anim.SetBool("IsDigging", false);
         isEating = false;
@@ -299,5 +302,17 @@ public class FeralHareTest : CreatureBehaviorScript
             fleeTimeLeft = 3;
             currentState = CreatureState.FleeFromPlayer;
         } 
+        effectsHandler.OnHit();
     }
+
+    IEnumerator IdleSoundTimer()
+    {
+        while(health > 0)
+        {
+            int i = Random.Range(7,16);
+            effectsHandler.RandomIdle();
+            yield return new WaitForSeconds(i);
+        }
+    }
+
 }

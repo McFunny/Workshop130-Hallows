@@ -2041,12 +2041,14 @@ MonoBehaviour:
   moveSound: {fileID: 8300000, guid: 41ee24f61477af04eb448d5aed4d56ee, type: 3}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
-  idleSounds: []
-  hitSounds: []
+  idleSounds:
+  - {fileID: 8300000, guid: bcf71669876779049bb2f29fc93c259c, type: 3}
+  hitSounds:
+  - {fileID: 8300000, guid: 107ccd5aff6be6a46a6a0a49b42850f0, type: 3}
   footSteps: []
   deathSound: {fileID: 0}
-  miscSound: {fileID: 0}
-  miscSound2: {fileID: 0}
+  miscSound: {fileID: 8300000, guid: 4b87ed1ad983d044c883859f18e18d15, type: 3}
+  miscSound2: {fileID: 8300000, guid: 89d4c6fca6a26464f87e65f2ebf86b75, type: 3}
 --- !u!82 &6149756961216673137
 AudioSource:
   m_ObjectHideFlags: 0

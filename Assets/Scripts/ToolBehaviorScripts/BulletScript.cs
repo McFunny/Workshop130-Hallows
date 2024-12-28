@@ -46,11 +46,7 @@ public class BulletScript : MonoBehaviour
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                if(creature.corpseType == CorpseParticleType.Red) 
-                {
-                    GameObject bloodParticle = ParticlePoolManager.Instance.GrabBloodDropParticle();
-                    bloodParticle.transform.position = transform.position;
-                }
+                creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 gameObject.SetActive(false);
                 return;
             }

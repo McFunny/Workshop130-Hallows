@@ -13,6 +13,7 @@ public class TorchBehavior : ToolBehavior
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
+        //make it so you can only ignite things with a lit torch. Also check if in front of you the struct is burning to also light torch
         
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
@@ -24,7 +25,7 @@ public class TorchBehavior : ToolBehavior
                 //torch the thing
                 bool playAnim = false;
 
-                if(structure.flammable && !structure.onFire)
+                if(structure.IsFlammable() && !structure.onFire)
                 {
                     structure.LitOnFire();
                     playAnim = true;
@@ -37,13 +38,13 @@ public class TorchBehavior : ToolBehavior
                     HandItemManager.Instance.toolSource.PlayOneShot(ignite);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 0.2f));
                     PlayerMovement.restrictMovementTokens++;
-                    PlayerInteraction.Instance.StaminaChange(-2);
+                    //PlayerInteraction.Instance.StaminaChange(-2);
                     usingPrimary = true;
                     return;
                 } 
             }
 
-            var interactable = hit.collider.GetComponent<IInteractable>();
+            /*var interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
             {
                 interactable.InteractWithItem(PlayerInteraction.Instance, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
@@ -53,11 +54,11 @@ public class TorchBehavior : ToolBehavior
                     HandItemManager.Instance.toolSource.PlayOneShot(ignite);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 0.2f));
                     PlayerMovement.restrictMovementTokens++;
-                    PlayerInteraction.Instance.StaminaChange(-2);
+                    //PlayerInteraction.Instance.StaminaChange(-2);
                     usingPrimary = true;
                 }
 
-            }
+            }*/
         } 
     }
 

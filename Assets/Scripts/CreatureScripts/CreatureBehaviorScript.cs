@@ -94,6 +94,20 @@ public class CreatureBehaviorScript : MonoBehaviour
         
     }
 
+    public void PlayHitParticle(Vector3 pos) //pass (0,0,0) for it to use its own transform instead
+    {
+        if(corpseType == CorpseParticleType.Red) 
+        {
+            GameObject bloodParticle = ParticlePoolManager.Instance.GrabBloodDropParticle();
+            if(pos == new Vector3(0,0,0))
+            {
+                if(corpseParticleTransform) pos = corpseParticleTransform.position;
+                else pos = transform.position;
+            }
+            bloodParticle.transform.position = pos;
+        }
+    }
+
     public virtual void OnDamage(){} //Triggers creature specific effects
     public virtual void OnDeath()
     {

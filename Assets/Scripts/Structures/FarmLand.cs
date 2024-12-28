@@ -31,6 +31,7 @@ public class FarmLand : StructureBehaviorScript
     private NutrientStorage nutrients;
 
     public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
+    public GameObject light;
     // Start is called before the first frame update
     void Awake()
     {
@@ -165,6 +166,11 @@ public class FarmLand : StructureBehaviorScript
                     
                 }
             }
+
+            if(rotted)
+            {
+                ReturnNutrientsFromDeadPlant();
+            }
             
             if(crop.behavior && crop.behavior.DestroyOnHarvest() == false && !rotted && harvestable)
             {
@@ -294,8 +300,18 @@ public class FarmLand : StructureBehaviorScript
         {
             if(rotted) cropRenderer.sprite = crop.rottedImage;
             else cropRenderer.sprite = crop.cropSprites[(growthStage - 1)];
+
+            if(light)
+            {
+                if(crop.emitsGlow && !rotted) light.SetActive(true);
+                else light.SetActive(false);
+            }
         }
-        else cropRenderer.sprite = null;
+        else
+        {
+            cropRenderer.sprite = null;
+            light.SetActive(false);
+        }
 
         if(nutrients.ichorLevel <= 1 || nutrients.terraLevel <= 1 || nutrients.gloamLevel <= 1)
         {
@@ -373,6 +389,23 @@ public class FarmLand : StructureBehaviorScript
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }
 
+    void ReturnNutrientsFromDeadPlant()
+    {
+        //Returns half the nutrients it consumed to the soil if a plant rots and is dug out
+        if(crop.ichorIntake > 0)
+        {
+            nutrients.ichorLevel += growthStage * crop.ichorIntake * 0.5f;
+        }
+        if(crop.terraIntake > 0)
+        {
+            nutrients.terraLevel += growthStage * crop.terraIntake * 0.5f;
+        }
+        if(crop.gloamIntake > 0)
+        {
+            nutrients.gloamLevel += growthStage * crop.gloamIntake * 0.5f;
+        }
+    }
+
     IEnumerator DigPlant()
     {
         forceDig = true;
@@ -427,5 +460,11 @@ public class FarmLand : StructureBehaviorScript
     public bool ShouldIgnoreNextGrowth()
     {
         return ignoreNextGrowthMoment;
+    }
+
+    public override bool IsFlammable()
+    {
+        if(crop || isWeed) return true;
+        else return false;
     }
 }

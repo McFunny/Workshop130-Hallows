@@ -25,7 +25,7 @@ public class CreatureEffectsHandler : MonoBehaviour
 
     float r;
 
-    void Start()
+    void Awake()
     {
         source = GetComponent<AudioSource>();
         originalPitch = source.pitch;

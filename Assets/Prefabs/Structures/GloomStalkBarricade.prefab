@@ -991,7 +991,6 @@ GameObject:
   - component: {fileID: 3896037251217056571}
   - component: {fileID: 2703773752036630675}
   - component: {fileID: 4722383386622465818}
-  - component: {fileID: 8395916891172491350}
   m_Layer: 6
   m_Name: BreakMat
   m_TagString: Untagged
@@ -1064,27 +1063,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8395916891172491350
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6211204869261999914}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6754950986694417096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,6 +1465,8 @@ MonoBehaviour:
   maxHealth: 50
   wealthValue: 6
   destructable: 1
+  flammable: 1
+  onFire: 0
   highlight: []
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
