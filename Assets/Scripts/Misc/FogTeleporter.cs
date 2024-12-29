@@ -6,6 +6,8 @@ public class FogTeleporter : MonoBehaviour
 {
     public Transform otherEnd;
 
+    public Transform enemyTeleport; //To prevent enemies from spawning behind the cabin and getting stuck
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 10)
@@ -19,6 +21,7 @@ public class FogTeleporter : MonoBehaviour
                 var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
                 Destroy(creature.gameObject);
             }
+            else if(enemyTeleport) other.transform.position = enemyTeleport.position;
             else if(otherEnd) other.transform.position = otherEnd.position;
         }
 

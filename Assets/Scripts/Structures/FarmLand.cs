@@ -255,7 +255,7 @@ public class FarmLand : StructureBehaviorScript
                         if(growth) growth.Play();
                     }
                 }
-                if(crop.harvestableGrowthStages.Contains(growthStage))
+                if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
                 {
                     harvestable = true;
                     if(growth) growth.Stop();

@@ -5,7 +5,9 @@ using TMPro;
 
 public class TimeManager : MonoBehaviour
 {
+    //Time
     public int currentMinute = 0; //30 in an hour
+    int minPerHour = 30;
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
                                         /// /Day lasts 14 hours. Morning starts at 6, town opens at 8
@@ -15,8 +17,14 @@ public class TimeManager : MonoBehaviour
     public TextMeshProUGUI timeText;
     public Light dayLight;
 
+    //Sun and moon Variables
     public Transform sunMoonPivot;
+    float oldRotation; //snaps the rotation to this
+    float newRotation; //lerps to this
+    Vector3 targetRotation;
+    Quaternion targetQuaternion;
 
+    //Events
     public delegate void HourlyUpdate();
     public static event HourlyUpdate OnHourlyUpdate;
 
@@ -64,6 +72,11 @@ public class TimeManager : MonoBehaviour
             if(Time.timeScale == 1) Time.timeScale = 8;
             else Time.timeScale = 1;
         }
+
+        if(sunMoonPivot && targetQuaternion != sunMoonPivot.rotation)
+        {
+            sunMoonPivot.rotation = Quaternion.RotateTowards(sunMoonPivot.rotation, targetQuaternion, 0.5f * Time.deltaTime);
+        }
     }
 
     IEnumerator TimePassage()
@@ -74,7 +87,8 @@ public class TimeManager : MonoBehaviour
             if(!DialogueController.Instance.IsTalking())
             {
                 currentMinute++;
-                if(currentMinute >= 30)
+                LerpSunAndMoon();
+                if(currentMinute >= minPerHour)
                 {
                     currentMinute = 0;
                     HourPassed();
@@ -123,6 +137,7 @@ public class TimeManager : MonoBehaviour
                 break;
         }
         DynamicGI.UpdateEnvironment();
+        CalculateSunAndMoonRotation();
 
         if (timeText)
         {
@@ -205,6 +220,7 @@ public class TimeManager : MonoBehaviour
         }
         dayLight.color = lerpedColor;
         DynamicGI.UpdateEnvironment();
+        CalculateSunAndMoonRotation();
     }
 
     private void OnDestroy()
@@ -278,12 +294,45 @@ public class TimeManager : MonoBehaviour
         InitializeSkyBox();
     }
 
-    /*void RotateSunAndMoon()
+    void LerpSunAndMoon()
     {
-        switch (currentHour)
+        if(!sunMoonPivot) return;
+        //Lerp between current minute and the set/new rotation
+        Vector3 from = new Vector3(oldRotation, 0, 0);
+        Vector3 to = new Vector3(newRotation, 0, 0);
+        float blend = ((float)currentMinute) / minPerHour;
+
+        targetRotation = new Vector3(Mathf.LerpAngle(from.x, to.x, blend), 0, 0);
+
+        targetQuaternion.eulerAngles = targetRotation;
+        
+        //sunMoonPivot.eulerAngles = target;
+    }
+
+    void CalculateSunAndMoonRotation()
+    {
+        if(!sunMoonPivot) return;
+        float _oldRotation = 0; //snaps the rotation to this
+        float _newRotation = 12.8f; //lerps to this
+        int hour = 6;
+
+        while(hour != currentHour)
         {
-            case 5:
-                break;
+            if(hour >= 6 && hour < 20)
+            {
+                _oldRotation += 12.8f;
+                _newRotation += 12.8f;
+            }
+            else
+            {
+                _oldRotation += 18;
+                _newRotation += 18;
+            }
+            hour++;
+            if(hour >= 24) hour = 0;
         }
-    } */ //rotate it given a euler angler, and if it hasnt met the angle yet, have it lerp in update
+
+        oldRotation = _oldRotation;
+        newRotation = _newRotation;
+    }  //rotate it given a euler angler, and if it hasnt met the angle yet, have it lerp in update
 }
