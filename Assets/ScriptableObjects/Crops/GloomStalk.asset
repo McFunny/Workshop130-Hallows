@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: GloomStalk
   m_EditorClassIdentifier: 
   name: Gloom Stalk
-  growthStages: 4
+  growthStages: 5
   hoursPerStage: 1
-  harvestableGrowthStages: 04000000
+  harvestableGrowthStages: 05000000
   cropSprites:
   - {fileID: 670018999, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
   - {fileID: 649556955, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
   - {fileID: 510422513, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
   - {fileID: 1099707477, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
+  - {fileID: 475558105, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
   rottedImage: {fileID: 475558105, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
   cropYield: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
   cropSeed: {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
@@ -35,3 +36,4 @@ MonoBehaviour:
   stressLimit: 1
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
+  emitsGlow: 0

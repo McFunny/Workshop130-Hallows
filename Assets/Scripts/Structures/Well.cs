@@ -19,13 +19,13 @@ public class Well : MonoBehaviour, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if((item != waterCan && item != waterGun) || PlayerInteraction.Instance.waterHeld == 10)
+        if((item != waterCan && item != waterGun) || PlayerInteraction.Instance.waterHeld == PlayerInteraction.Instance.maxWaterHeld)
         {
             interactSuccessful = false;
             return;
         }
         interactSuccessful = true;
-        PlayerInteraction.Instance.waterHeld = 10;
+        PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
         
     }
     

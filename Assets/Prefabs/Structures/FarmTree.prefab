@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4804650952418518829}
   - component: {fileID: 7072050720690730371}
   - component: {fileID: 7941834300751355484}
+  - component: {fileID: 8969602861036038089}
   m_Layer: 0
   m_Name: Leaf Particles
   m_TagString: Untagged
@@ -4833,6 +4834,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &8969602861036038089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019518900050304825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 194f0259e0d58f042b18fd494001df88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  system: {fileID: 7072050720690730371}
 --- !u!1 &8124912765798330754
 GameObject:
   m_ObjectHideFlags: 0

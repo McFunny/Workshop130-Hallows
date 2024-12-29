@@ -37,7 +37,7 @@ public class Sprinkler : StructureBehaviorScript
             water.SetActive(true);
         }
 
-        if(rotating) transform.Rotate(0, Time.deltaTime * 20, 0, Space.Self);
+        if(rotating) head.Rotate(0, Time.deltaTime * 20, 0, Space.Self);
 
     }
 

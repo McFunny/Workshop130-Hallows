@@ -5,7 +5,7 @@ using TMPro;
 
 public class TimeManager : MonoBehaviour
 {
-    public int currentMinute = 0; //45 in an hour
+    public int currentMinute = 0; //30 in an hour
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
                                         /// /Day lasts 14 hours. Morning starts at 6, town opens at 8
@@ -14,6 +14,8 @@ public class TimeManager : MonoBehaviour
     public int dayNum = 1; //what day is it?
     public TextMeshProUGUI timeText;
     public Light dayLight;
+
+    public Transform sunMoonPivot;
 
     public delegate void HourlyUpdate();
     public static event HourlyUpdate OnHourlyUpdate;
@@ -72,7 +74,7 @@ public class TimeManager : MonoBehaviour
             if(!DialogueController.Instance.IsTalking())
             {
                 currentMinute++;
-                if(currentMinute >= 45)
+                if(currentMinute >= 30)
                 {
                     currentMinute = 0;
                     HourPassed();
@@ -275,4 +277,13 @@ public class TimeManager : MonoBehaviour
         currentHour = 19;
         InitializeSkyBox();
     }
+
+    /*void RotateSunAndMoon()
+    {
+        switch (currentHour)
+        {
+            case 5:
+                break;
+        }
+    } */ //rotate it given a euler angler, and if it hasnt met the angle yet, have it lerp in update
 }
