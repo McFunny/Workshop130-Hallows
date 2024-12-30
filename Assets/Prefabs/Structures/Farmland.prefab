@@ -243,6 +243,8 @@ MonoBehaviour:
   destructable: 1
   flammable: 1
   onFire: 0
+  isObstacle: 0
+  savedItems: []
   highlight:
   - {fileID: 2982133036384958463}
   audioHandler: {fileID: 0}
@@ -292,7 +294,6 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 0}
-  extinguishedSound: {fileID: 0}
 --- !u!82 &2388967791222999615
 AudioSource:
   m_ObjectHideFlags: 0

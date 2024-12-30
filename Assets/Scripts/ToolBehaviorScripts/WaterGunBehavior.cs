@@ -214,7 +214,7 @@ public class WaterGunBehavior : ToolBehavior
     {
         Direction newDirection;
 
-        float rotation = player.eulerAngles.y; //fix this
+        float rotation = player.eulerAngles.y; 
 
         Debug.Log(rotation);
 

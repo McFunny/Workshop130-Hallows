@@ -90,24 +90,6 @@ public class MistWalker : CreatureBehaviorScript
         }
     }
 
-    /*private void TargetImbuedScarecrow(GameObject structure)
-    {
-        if (currentState == CreatureState.AttackStructure)
-        {
-            if (targetStructure == structure.GetComponent<StructureBehaviorScript>())
-            {
-                return;
-            }
-        }
-        float distance = Vector3.Distance(transform.position, structure.transform.position);
-        if (distance < 25f)
-        {
-            targetStructure = structure.GetComponent<StructureBehaviorScript>();
-            target = structure.transform;
-            currentState = CreatureState.WalkTowardsPriorityStructure;
-        }
-    } */
-
     private void UpdateStructureList()
     {
         availableStructure.Clear();
@@ -150,8 +132,9 @@ public class MistWalker : CreatureBehaviorScript
 
             float distance = Vector3.Distance(player.position, transform.position);
             playerInSightRange = distance <= sightRange;
+            playerInAttackRange = distance <= attackRange;
 
-            if (playerInSightRange && currentState != CreatureState.AttackPlayer && currentState != CreatureState.WalkTowardsPlayer)
+            if (playerInSightRange && currentState != CreatureState.AttackPlayer && currentState != CreatureState.WalkTowardsPlayer && (currentState != CreatureState.AttackStructure || playerInAttackRange))
             {
                 currentState = CreatureState.WalkTowardsPlayer;
             }
@@ -202,7 +185,8 @@ public class MistWalker : CreatureBehaviorScript
                 break;
 
             case CreatureState.WalkTowardsPriorityStructure:
-                WalkTowardsPriorityStructure();
+                //WalkTowardsPriorityStructure();
+                Debug.LogError("Should not be in this state");
                 anim.SetBool("IsWalking", true);
                 break;
 
@@ -335,6 +319,12 @@ public class MistWalker : CreatureBehaviorScript
                 currentState = CreatureState.Wander;
             }
         }
+        if(CheckForObstacle(transform) != null)
+        {
+            targetStructure = CheckForObstacle(transform);
+            target = targetStructure.transform;
+            agent.destination = target.position;
+        }
         else if (Vector3.Distance(transform.position, targetStructure.transform.position) < 4f)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
         {
             agent.ResetPath();
@@ -374,7 +364,7 @@ public class MistWalker : CreatureBehaviorScript
         return closestStructure;
     }
 
-    private void WalkTowardsPriorityStructure()
+    /*private void WalkTowardsPriorityStructure()
     {
         if (targetStructure == null)
         {
@@ -393,7 +383,7 @@ public class MistWalker : CreatureBehaviorScript
             agent.ResetPath();
             currentState = CreatureState.AttackStructure;
         }
-    }
+    } */
 
     private void WalkTowardsPlayer()
     {
@@ -404,10 +394,16 @@ public class MistWalker : CreatureBehaviorScript
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= 3f || (distanceToPlayer <= lungeRange && canLunge))
+        if (distanceToPlayer <= 3 || (distanceToPlayer <= lungeRange && canLunge))
         {
             StopTrackingPlayer();
             currentState = CreatureState.AttackPlayer;
+        }
+        else if(!playerInAttackRange && CheckForObstacle(transform) != null)
+        {
+            StopTrackingPlayer();
+            targetStructure = CheckForObstacle(transform);
+            currentState = CreatureState.AttackStructure;
         }
         else if (!playerInSightRange)
         {
@@ -452,12 +448,12 @@ public class MistWalker : CreatureBehaviorScript
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance <= 6f)
+        if (distance <= attackRange)
         {
             StartCoroutine(SwipePlayer());
             transform.LookAt(player.position);
         }
-        else if (distance > 6f && distance <= lungeRange && canLunge)
+        else if (distance > attackRange && distance <= lungeRange && canLunge)
         {
             StartCoroutine(LungeAtPlayer());
         }
@@ -493,15 +489,15 @@ public class MistWalker : CreatureBehaviorScript
             targetStructure.TakeDamage(damageToStructure);
             transform.LookAt(targetStructure.transform.position);
             if (targetStructure != null && targetStructure.health <= 0) { targetStructure = null; }
-            yield return new WaitForSeconds(3f);
-            coroutineRunning = false;
+            //yield return new WaitForSeconds(3f);
+            //coroutineRunning = false;
         }
         else
         {
             currentState = CreatureState.WalkTowardsClosestStructure;
         }
 
-        yield return new WaitForSeconds(2f); // Cooldown between attacks
+        yield return new WaitForSeconds(1.5f); // Cooldown between attacks
         coroutineRunning = false;
     }
 
@@ -510,11 +506,11 @@ public class MistWalker : CreatureBehaviorScript
         coroutineRunning = true;
         attackingPlayer = true;
 
+        recoilCooldown = true;
         anim.SetTrigger("IsLunging");
         canLunge = false;
 
         effectsHandler.MiscSound();
-        recoilCooldown = true;
 
         yield return new WaitForSeconds(0.75f); 
 
@@ -632,6 +628,7 @@ public class MistWalker : CreatureBehaviorScript
         coroutineRunning = false;
         StopAllCoroutines();
         yield return new WaitForSeconds(duration);
+        StartCoroutine(IdleSoundTimer());
         currentState = CreatureState.Wander;
     }
 

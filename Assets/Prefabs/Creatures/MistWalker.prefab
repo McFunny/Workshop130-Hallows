@@ -8553,7 +8553,7 @@ MonoBehaviour:
   maxHealth: 100
   corpseHealth: -30
   ichorWorth: 5
-  ichorDropRadius: 4
+  ichorDropRadius: 3.5
   creatureData: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
@@ -8575,12 +8575,13 @@ MonoBehaviour:
   - 1
   - 1
   sightRange: 20
+  attackRange: 5
   playerInSightRange: 0
   playerInAttackRange: 0
   shovelVulnerable: 1
   isTrapped: 0
   isDead: 0
-  damageToStructure: 2
+  damageToStructure: 7
   damageToPlayer: -25
   canCorpseBreak: 0
   targettableStructures:

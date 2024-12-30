@@ -27,7 +27,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public InventoryItemData[] droppedItems;
     public float[] dropChance;
 
-    public float sightRange = 4; //how far can it see the player
+    public float sightRange = 20; //how far can it see the player
+    public float attackRange = 6;
     public bool playerInSightRange = false;
     public bool playerInAttackRange = false;
     public bool shovelVulnerable = true;
@@ -118,10 +119,27 @@ public class CreatureBehaviorScript : MonoBehaviour
         }
     } //Triggers creature specific effects
 
+    void OnDestroy()
+    {
+        if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
+    }
+
     public virtual void OnSpawn(){}
     public virtual void OnStun(float duration){}
 
     public virtual void EnteredFireRadius(FireFearTrigger fireSource){}
+
+    public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 2, 1 << 6))
+        {
+            StructureBehaviorScript obstacle = hit.collider.GetComponentInParent<StructureBehaviorScript>();
+            if(obstacle && obstacle.isObstacle) return obstacle;
+            else return null;
+        }
+        else return null;
+    }
 
 
     

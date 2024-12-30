@@ -23,9 +23,14 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public float wealthValue = 1; //dictates how hard a night could be 
 
+    [Tooltip("Can this structure be destroyed by lowering its health?")]
     public bool destructable = true;
+    
+    [Tooltip("Does this structure burn?")]
     public bool flammable = true;
     public bool onFire = false;
+    [Tooltip("Does this structure impede movement? If yes, creatures will attack this if nearby and facing it")]
+    public bool isObstacle = true;
 
     [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
     

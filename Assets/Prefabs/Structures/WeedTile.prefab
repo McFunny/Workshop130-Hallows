@@ -239,6 +239,8 @@ MonoBehaviour:
   destructable: 1
   flammable: 1
   onFire: 0
+  isObstacle: 0
+  savedItems: []
   highlight:
   - {fileID: 4189422400640491178}
   audioHandler: {fileID: 0}
@@ -265,6 +267,7 @@ MonoBehaviour:
   growthImpeded: {fileID: 0}
   waterSplash: {fileID: 2455231391205077409}
   ichorSplash: {fileID: 7002656638295804297}
+  light: {fileID: 0}
 --- !u!114 &1499389874103428145
 MonoBehaviour:
   m_ObjectHideFlags: 0
