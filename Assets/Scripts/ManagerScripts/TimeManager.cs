@@ -15,14 +15,15 @@ public class TimeManager : MonoBehaviour
     public bool isDay;
     public int dayNum = 1; //what day is it?
     public TextMeshProUGUI timeText;
-    public Light dayLight;
+    public Light dayLight, nightLight;
 
     //Sun and moon Variables
     public Transform sunMoonPivot;
     float oldRotation; //snaps the rotation to this
     float newRotation; //lerps to this
-    Vector3 targetRotation;
-    Quaternion targetQuaternion;
+    Quaternion toQuaternion, fromQuaternion;
+    bool canRotate;
+    float seconds;
 
     //Events
     public delegate void HourlyUpdate();
@@ -31,6 +32,7 @@ public class TimeManager : MonoBehaviour
     public Material skyMat;
     float desiredBlend;
     public Color nightColor, dayColor;
+    bool changingLights = false;
 
     public Transform playerRespawn;
 
@@ -55,13 +57,14 @@ public class TimeManager : MonoBehaviour
     {
         if(currentHour >= 6 && currentHour < 20) isDay = true;
         else isDay = false;
-        if(!dayLight) Debug.Log("Error, did not apply daylight variable in the inspector");
+        if(!dayLight || !nightLight) Debug.Log("Error, did not apply daylight/nightlight variable in the inspector");
         StartCoroutine("TimePassage");
         InitializeSkyBox();
         if(timeText)
         {
             timeText.text = currentHour + ":00";
         }
+        if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
     }
 
     // Update is called once per frame
@@ -73,9 +76,11 @@ public class TimeManager : MonoBehaviour
             else Time.timeScale = 1;
         }
 
-        if(sunMoonPivot && targetQuaternion != sunMoonPivot.rotation)
+        if(!DialogueController.Instance.IsTalking()) seconds += Time.deltaTime;
+
+        if(sunMoonPivot && canRotate && seconds != 0)
         {
-            sunMoonPivot.rotation = Quaternion.RotateTowards(sunMoonPivot.rotation, targetQuaternion, 0.5f * Time.deltaTime);
+            sunMoonPivot.rotation = Quaternion.Lerp(fromQuaternion, toQuaternion, seconds/(minPerHour));
         }
     }
 
@@ -113,27 +118,34 @@ public class TimeManager : MonoBehaviour
 
         switch (currentHour)
         {
+            //case 4:
+                //ToggleDayNightLights(true);
+                //break;
             case 5:
                 SetSkyBox(0.4f);
+                ToggleDayNightLights(true);
                 break;
             case 6:
-                dayNum++;
+                NextDay();
                 SetSkyBox(0.8f);
                 break;
             case 7:
                 SetSkyBox(1f);
+                ToggleDayNightLights(true);
                 break;
+            //case 17:
+                //ToggleDayNightLights(true);
+                //;
             case 18:
                 SetSkyBox(0.8f);
+                ToggleDayNightLights(true);
                 break;
             case 19:
                 SetSkyBox(0.4f);
                 break;
             case 20:
                 SetSkyBox(0f);
-                break;
-            default:
-                    //
+                ToggleDayNightLights(true);
                 break;
         }
         DynamicGI.UpdateEnvironment();
@@ -148,7 +160,7 @@ public class TimeManager : MonoBehaviour
     void SetSkyBox(float b)
     {
         desiredBlend = b;
-        StartCoroutine("SkyColorLerp");
+        StartCoroutine(SkyColorLerp());
     }
 
     IEnumerator SkyColorLerp()
@@ -156,6 +168,7 @@ public class TimeManager : MonoBehaviour
         print("Changing Light");
         float newValue;
         Color lerpedColor;
+        changingLights = true;
         do
         {
             yield return new WaitForSeconds(0.5f);
@@ -167,18 +180,23 @@ public class TimeManager : MonoBehaviour
             skyMat.SetFloat("_BlendCubemaps", newValue);
             lerpedColor = Color.Lerp(nightColor, dayColor, newValue);
             dayLight.color = lerpedColor;
+            nightLight.color = lerpedColor;
         }
         while(skyMat.GetFloat("_BlendCubemaps") != desiredBlend);
+        changingLights = false;
     }
 
     void InitializeSkyBox()
     { 
+        ToggleDayNightLights(false);
+        CalculateSunAndMoonRotation();
         Color lerpedColor;
-        if(currentHour < 6 || currentHour >= 20)
+        if(currentHour < 5 || currentHour >= 20)
         {
             skyMat.SetFloat("_BlendCubemaps", 0f);
             lerpedColor = Color.Lerp(nightColor, dayColor, 0f);
             dayLight.color = lerpedColor;
+            nightLight.color = lerpedColor;
             return;
         }
         if(currentHour >= 8 && currentHour < 18)
@@ -186,6 +204,7 @@ public class TimeManager : MonoBehaviour
             skyMat.SetFloat("_BlendCubemaps", 1f);
             lerpedColor = Color.Lerp(nightColor, dayColor, 1f);
             dayLight.color = lerpedColor;
+            nightLight.color = lerpedColor;
             return;
         }
         switch (currentHour)
@@ -219,26 +238,28 @@ public class TimeManager : MonoBehaviour
                 break;
         }
         dayLight.color = lerpedColor;
+        nightLight.color = lerpedColor;
         DynamicGI.UpdateEnvironment();
-        CalculateSunAndMoonRotation();
     }
 
     private void OnDestroy()
     {
         skyMat.SetFloat("_BlendCubemaps", 1f);
-        if(Instance != null && Instance == this)
+        /*if(Instance != null && Instance == this)
         {
             Instance = null;
-        }
+        } */
     }
 
     public void GameOver()
     {
-        StopCoroutine(TimePassage());
+        StopAllCoroutines();
+        //StopCoroutine(TimePassage());
         int timeDif = 0;
         currentMinute = 0;
+        if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
         //change time and day
-        if(isDay)
+        if(isDay) //Died during the day
         {
             int targetHour = currentHour + 5;
             if(targetHour > 19) targetHour = 19;
@@ -254,7 +275,7 @@ public class TimeManager : MonoBehaviour
                 OnHourlyUpdate?.Invoke();
             }
         }
-        else
+        else //Died during the night
         {
             while(currentHour != 7)
             {
@@ -267,16 +288,23 @@ public class TimeManager : MonoBehaviour
                 }*/
                 OnHourlyUpdate?.Invoke();
             }
+            NextDay();
         }
         isDay = true;
         InitializeSkyBox();
         StartCoroutine(TimePassage());
     }
 
+    void NextDay()
+    {
+        dayNum++; //Maybe play a little screen animation. This is also when the game saves
+    }
+
     [ContextMenu("Set To Start Of Morning")]
     public void SetToMorning()
     {
         currentHour = 6;
+        isDay = true;
         InitializeSkyBox();
     }
 
@@ -284,6 +312,7 @@ public class TimeManager : MonoBehaviour
     public void SetTo8AM()
     {
         currentHour = 8;
+        isDay = true;
         InitializeSkyBox();
     }
 
@@ -291,22 +320,22 @@ public class TimeManager : MonoBehaviour
     public void SetToNight()
     {
         currentHour = 19;
+        isDay = true;
         InitializeSkyBox();
     }
 
     void LerpSunAndMoon()
     {
         if(!sunMoonPivot) return;
-        //Lerp between current minute and the set/new rotation
-        Vector3 from = new Vector3(oldRotation, 0, 0);
-        Vector3 to = new Vector3(newRotation, 0, 0);
-        float blend = ((float)currentMinute) / minPerHour;
 
-        targetRotation = new Vector3(Mathf.LerpAngle(from.x, to.x, blend), 0, 0);
+        canRotate = false;
 
-        targetQuaternion.eulerAngles = targetRotation;
-        
-        //sunMoonPivot.eulerAngles = target;
+        fromQuaternion.eulerAngles = new Vector3(oldRotation, 0, 0);
+        toQuaternion.eulerAngles = new Vector3(newRotation, 0, 0);
+
+        seconds = currentMinute;
+
+        canRotate = true;
     }
 
     void CalculateSunAndMoonRotation()
@@ -314,6 +343,7 @@ public class TimeManager : MonoBehaviour
         if(!sunMoonPivot) return;
         float _oldRotation = 0; //snaps the rotation to this
         float _newRotation = 12.8f; //lerps to this
+        if(!isDay) _newRotation += 5.2f;
         int hour = 6;
 
         while(hour != currentHour)
@@ -334,5 +364,73 @@ public class TimeManager : MonoBehaviour
 
         oldRotation = _oldRotation;
         newRotation = _newRotation;
-    }  //rotate it given a euler angler, and if it hasnt met the angle yet, have it lerp in update
+
+        if(sunMoonPivot && !Application.isPlaying) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
+    }  
+
+    void ToggleDayNightLights(bool fadeTransition)
+    {
+        if(currentHour > 5 && currentHour < 18 && nightLight.enabled)
+        {
+            if(!Application.isPlaying || !fadeTransition)
+            {
+                dayLight.enabled = true;
+                nightLight.enabled = false;
+                return;
+            }
+            StartCoroutine(LightFade());
+        }
+        else if(currentHour <= 5 || currentHour >= 18 && dayLight.enabled)
+        {
+            if(!Application.isPlaying || !fadeTransition)
+            {
+                dayLight.enabled = false;
+                nightLight.enabled = true;
+                return;
+            }
+            StartCoroutine(LightFade());
+        }
+    }
+
+    IEnumerator LightFade()
+    {
+        print("Ready");
+        yield return new WaitForSeconds(0.9f);
+        yield return new WaitUntil(() => !changingLights);
+        print("Lerp");
+        float lerp = 0;
+        Color c_DayOriginal = dayLight.color;
+        Color c_NightOriginal = nightLight.color;
+
+        if(!dayLight.enabled) //switch to daylight
+        {
+            dayLight.color = Color.black;
+
+            dayLight.enabled = true;
+            while(lerp < 1)
+            {
+                yield return new WaitForSeconds(0.1f);
+                lerp += 0.01f;
+
+                dayLight.color = Color.Lerp(Color.black, c_DayOriginal, lerp);
+                nightLight.color = Color.Lerp(c_NightOriginal, Color.black, lerp);
+            }
+            nightLight.enabled = false;
+        }
+        else //switch to nightlight
+        {
+            nightLight.color = Color.black;
+
+            nightLight.enabled = true;
+            while(lerp < 1)
+            {
+                yield return new WaitForSeconds(0.1f);
+                lerp += 0.01f;
+
+                dayLight.color = Color.Lerp(c_DayOriginal, Color.black, lerp);
+                nightLight.color = Color.Lerp(Color.black, c_NightOriginal, lerp);
+            }
+            dayLight.enabled = false;
+        }
+    }
 }
