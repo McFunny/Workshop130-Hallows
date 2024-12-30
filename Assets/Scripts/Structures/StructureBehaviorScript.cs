@@ -14,6 +14,8 @@ public class StructureBehaviorScript : MonoBehaviour
     public delegate void Damaged();
     [HideInInspector] public event Damaged OnDamage; //Unity Event that will notify enemies when structures are updated
 
+    [Header("Structure Stats")]
+
     public StructureObject structData;
 
     public float health = 5;
@@ -25,6 +27,9 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool flammable = true;
     public bool onFire = false;
 
+    [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
+    
+    [Header("Highlights")]
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     [HideInInspector] bool highlightEnabled;
@@ -33,6 +38,8 @@ public class StructureBehaviorScript : MonoBehaviour
     //[HideInInspector] public AudioSource source;
 
     [HideInInspector] public bool clearTileOnDestroy = true;
+
+    //[Header("Structure Specific")]
 
 
     public void Awake()

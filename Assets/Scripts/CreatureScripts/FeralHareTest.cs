@@ -123,7 +123,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
     private void MoveTowardsCrop()
     {
-        if (foundFarmTile)
+        if (foundFarmTile && foundFarmTile.crop)
         {
             float distance = Vector3.Distance(foundFarmTile.transform.position, transform.position);
             if (distance > 1.5f)
@@ -138,6 +138,11 @@ public class FeralHareTest : CreatureBehaviorScript
             {
                 currentState = CreatureState.Eat;
             }
+        }
+        else
+        {
+            foundFarmTile = null;
+            currentState = CreatureState.Wander;
         }
     }
 
@@ -280,7 +285,7 @@ public class FeralHareTest : CreatureBehaviorScript
         inEatingRange = true;
         anim.SetBool("IsDigging", true);
         effectsHandler.MiscSound();
-        eatingTimeLeft = 5f;
+        eatingTimeLeft = 7f;
         transform.LookAt(foundFarmTile.transform.position);
         yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile == null || foundFarmTile.crop == null || currentState != CreatureState.Eat);
         if (inEatingRange && foundFarmTile && foundFarmTile.crop && currentState == CreatureState.Eat)

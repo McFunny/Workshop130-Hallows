@@ -10,8 +10,8 @@ public class NightSpawningManager : MonoBehaviour
     float removedDifficultyPoints = 0; //accumulates when a structure is destroyed by any means
     //float originalDifficultyPoints = 0;
 
-    public CreatureObject[] creatures;
-    List<int> spawnedCreatures = new List<int>(); //tracks how many of a specific type of creature was spawned this hour
+    public CreatureObject[] creatures; //weight list
+    List<int> spawnedCreatures = new List<int>(); //tracks how many of a specific type of creature was spawned this hour //CREATURES NEED TO BE REMOVED WHEN KILLED
 
     public List<CreatureBehaviorScript> allCreatures; //all creatures in the scene, have a limit to how many there can be in a scene
     //this list saves all current creatures, and all spawned creatures through this/saved by this manager should be assigned to this list
