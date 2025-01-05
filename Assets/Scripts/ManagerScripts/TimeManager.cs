@@ -111,6 +111,8 @@ public class TimeManager : MonoBehaviour
 
         if(currentHour >= 6 && currentHour < 20) isDay = true;
         else isDay = false;
+
+        //if hour is 8, new day transition. dark screen, invoke, save, then brighten screen
             
         OnHourlyUpdate?.Invoke();
         //print("Hour passed. Time is now " + currentHour);
@@ -262,6 +264,7 @@ public class TimeManager : MonoBehaviour
         if(isDay) //Died during the day
         {
             int targetHour = currentHour + 5;
+            if(currentHour < 8) targetHour = 7;
             if(targetHour > 19) targetHour = 19;
             while(currentHour != targetHour)
             {

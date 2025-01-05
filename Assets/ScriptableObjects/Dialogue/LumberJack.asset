@@ -28,7 +28,24 @@ MonoBehaviour:
     - '*sigh*'
     - Beggars can't be choosers in times like these...
     emotions: 0200000000000000
-  paths: []
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - If you have any trees that need cutting, I can help. For a fee of course.
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - I can sell you my {storeItemName} for {storeItemValue}.
+    emotions: 00000000
+  - pathName: Sold!
+    paragraphs:
+    - Oh ho ho! Pleasure doin' this trade. Go post those up on the tree you want
+      gone, and I will get to it in the morning. {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - I don't do charity work here friend. No <color=#E0D38F>Mints</color>. No work.
+    emotions: 03000000
   fillerPaths:
   - pathName: Tree Variety
     paragraphs:

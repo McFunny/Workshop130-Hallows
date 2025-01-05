@@ -688,6 +688,14 @@ public class MistWalker : CreatureBehaviorScript
         fireSource = _fireSource;
     }
 
+    public override void NewPriorityTarget(StructureBehaviorScript newStruct)
+    {
+        if(targetStructure) return;
+        targetStructure = newStruct;
+        if(currentState == CreatureState.Idle || currentState == CreatureState.Wander) currentState = CreatureState.WalkTowardsClosestStructure;
+        
+    }
+
     public void WalkSpeedToggle(float _speed)
     {
         agent.speed = _speed;

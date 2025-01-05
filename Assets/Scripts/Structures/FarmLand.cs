@@ -53,7 +53,7 @@ public class FarmLand : StructureBehaviorScript
             harvestable = true;
             if(growthComplete) growthComplete.Play();
         }
-        playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
+        playerInventoryHolder = PlayerInventoryHolder.Instance;
 
         nutrients = StructureManager.Instance.FetchNutrient(transform.position);
 

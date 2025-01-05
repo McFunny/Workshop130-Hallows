@@ -129,6 +129,8 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public virtual void EnteredFireRadius(FireFearTrigger fireSource){}
 
+    public virtual void NewPriorityTarget(StructureBehaviorScript newStruct){}
+
     public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
     {
         RaycastHit hit;

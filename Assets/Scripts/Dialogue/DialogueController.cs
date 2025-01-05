@@ -81,6 +81,7 @@ public class DialogueController : MonoBehaviour
             return;
             
         }
+        source.Stop();
         if (paragraphs.Count == 0)
         {
             if(!conversationEnded)

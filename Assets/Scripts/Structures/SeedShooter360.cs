@@ -6,12 +6,13 @@ public class SeedShooter360 : StructureBehaviorScript
 {
     public InventoryItemData recoveredItem;
 
-    public Transform turretHead, bulletOrigin;
+    public Transform turretHead, bulletOrigin, seedSocket;
 
     float maxAmmo = 10; //Dont allow any more seeds to be added to the item list after there are 10 entrants
     float range = 20;
     bool targetInSight = false;
     bool shotCooldown;
+    float projectileSpeed = 150;
 
     //Maybe add a large button on the back, where when the player interacts with this, it can be turned on and off
 
@@ -23,11 +24,11 @@ public class SeedShooter360 : StructureBehaviorScript
     float RotAngleY;
     float RotAngleMax;
     float RotAngleMin;
-    float rotateSpeed = 0.5f;
+    float rotateSpeed = 1f;
 
     //Use DOT products to determine if it is facing it's target, then fire a raycast to check for any obstacles, then fire
     //Maybe add a feature where a seed can plant itself on the tile a target is hit on
-    //Give it a chance to misfire, shooting off its course
+    //Has a chance to misfire, shooting off its course
     //Seeds should deal roughly 20 damage
     //To reduce its power, maybe make it unable to fire over barricades
 
@@ -50,22 +51,24 @@ public class SeedShooter360 : StructureBehaviorScript
     {
         base.Update();
 
+        if(currentTarget && currentTarget.isDead) currentTarget = null;
+        if(currentTarget)
+        {
+            RotateToTarget();
+        }
+
         if(shotCooldown) return;
-        if(!currentTarget && !shotCooldown)
+        if(!currentTarget)
         {
             float rY = Mathf.SmoothStep(RotAngleMax,RotAngleMin,Mathf.PingPong(Time.time * (rotateSpeed/2),1));
             turretHead.rotation = Quaternion.Euler(0,rY,0);
         }
-        else if(targetInSight)
+        else if(targetInSight && savedItems.Count > 0)
         {
             shotCooldown = true;
             StartCoroutine(Shoot());
         }
 
-        if(currentTarget)
-        {
-            RotateToTarget();
-        }
     }
 
     void CheckForTargets()
@@ -76,7 +79,7 @@ public class SeedShooter360 : StructureBehaviorScript
         {
             float distance = Vector3.Distance(transform.position, collider.transform.position);
             CreatureBehaviorScript newCreature = collider.GetComponentInParent<CreatureBehaviorScript>();
-            if(newCreature && newCreature.creatureData && targettableCreatures.Contains(newCreature.creatureData) && distance < minimumDistance)
+            if(newCreature && newCreature.creatureData && targettableCreatures.Contains(newCreature.creatureData) && distance < minimumDistance && !newCreature.isDead)
             {
                 minimumDistance = distance;
                 currentTarget = newCreature;
@@ -93,8 +96,9 @@ public class SeedShooter360 : StructureBehaviorScript
         turretHead.rotation = Quaternion.Slerp(turretHead.rotation, toRotation, rotateSpeed * Time.deltaTime);
 
         RaycastHit hit;
-        if (Physics.Raycast(turretHead.position, turretHead.forward, out hit, range, 1 << 6))
+        if (Physics.Raycast(turretHead.position, direction/*turretHead.forward*/, out hit, range, 1 << 6))
         {
+            targetInSight = false;
             return;
             //structure in the way
         }
@@ -107,14 +111,38 @@ public class SeedShooter360 : StructureBehaviorScript
         {
             targetInSight = true;
         }
+        else targetInSight = false;
     }
 
     IEnumerator Shoot()
     {
         shotCooldown = true;
         targetInSight = false;
+
+        currentTarget.NewPriorityTarget(this);
         //fire
+        audioHandler.PlaySound(audioHandler.activatedSound);
+        GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
+        Vector3 dir = (currentTarget.transform.position - turretHead.position).normalized;
+
+        float r = Random.Range(0,10);
+        if(r > 8)
+        {
+            dir = dir + new Vector3(Random.Range(-0.5f,0.5f), 0, Random.Range(-0.5f,0.5f));
+            print("MISSFIRE");
+            //play misfire sound
+        }
+        newBullet.transform.position = bulletOrigin.position;
+        newBullet.transform.rotation = Quaternion.identity;
+
+        newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 20);
+        newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
         print("PEW");
+
+        InventoryItemData seedShot = savedItems[0];
+        savedItems.Remove(seedShot);
+
+        ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
         yield return new WaitForSeconds(1.5f);
 
         shotCooldown = false;
@@ -126,6 +154,22 @@ public class SeedShooter360 : StructureBehaviorScript
         {
             yield return new WaitForSeconds(1);
             CheckForTargets();
+        }
+    }
+
+    public override void ItemInteraction(InventoryItemData item)
+    {
+        CropItem seed = item as CropItem;
+        if(seed && savedItems.Count < 15 && seed.ableToBeShot)
+        {
+            savedItems.Add(seed);
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+
+            GameObject poofParticle = ParticlePoolManager.Instance.GrabExtinguishParticle();
+            poofParticle.transform.position = seedSocket.position;
+
+            audioHandler.PlaySound(audioHandler.itemInteractSound);
         }
     }
 
@@ -141,9 +185,10 @@ public class SeedShooter360 : StructureBehaviorScript
 
     IEnumerator DugUp()
     {
-        yield return  new WaitForSeconds(1);
+        yield return new WaitForSeconds(1);
         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
         droppedItem.transform.position = transform.position;
+
         Destroy(this.gameObject);
     }
 
@@ -152,5 +197,11 @@ public class SeedShooter360 : StructureBehaviorScript
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         //drop seeds
+        GameObject droppedItem;
+        foreach(InventoryItemData item in savedItems)
+        {
+            droppedItem = ItemPoolManager.Instance.GrabItem(item);
+            droppedItem.transform.position = seedSocket.position;
+        }
     }
 }

@@ -124,7 +124,7 @@ public class StructureManager : MonoBehaviour
         return instance;
     }
 
-    public bool SpawnLargeStructure(GameObject obj, Vector3 pos)
+    public bool SpawnLargeStructure(GameObject obj, Vector3 pos, bool randomizeRotation)
     { 
         List<Vector3Int> selectedTiles = new List<Vector3Int>();
         Vector3Int gridPos = tileMap.WorldToCell(pos);
@@ -149,7 +149,8 @@ public class StructureManager : MonoBehaviour
         Vector3 center = new Vector3((start.x + otherEnd.x)/2, (start.y + otherEnd.y)/2, (start.z + otherEnd.z)/2); 
         //The center of the 2x2 Square
         
-        Instantiate(obj, center, Quaternion.identity);
+        GameObject newObject = Instantiate(obj, center, Quaternion.identity);
+        if(randomizeRotation) newObject.transform.localEulerAngles = new Vector3(0, Random.Range(0,360), 0);
         return true;
     }
 
@@ -365,7 +366,7 @@ public class StructureManager : MonoBehaviour
 
                 if(tileMap.GetTile(spawnablePositions[randomIndex]) != null)
                 {
-                    bool success = SpawnLargeStructure(farmTree, spawnPos);
+                    bool success = SpawnLargeStructure(farmTree, spawnPos, true);
                     i++;
                     //print(success);
                 }

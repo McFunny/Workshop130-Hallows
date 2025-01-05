@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform orientation;
 
     public CinemachineVirtualCamera playerCamera;
+    public Camera toolCamera, effectsCamera;
 
     public static bool isStalled, isCodexOpen;
     public static bool accessingInventory;
@@ -218,10 +219,14 @@ public class PlayerMovement : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             playerCamera.m_Lens.FieldOfView = Mathf.Lerp(startFoV, targetFoV, elapsedTime / duration);
+            toolCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
+            effectsCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
             yield return null;
         }
 
         playerCamera.m_Lens.FieldOfView = targetFoV;
+        toolCamera.fieldOfView = targetFoV;
+        effectsCamera.fieldOfView = targetFoV;
     }
 
     public Vector3 GetVelocity()

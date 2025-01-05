@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 341448349758312147}
   - component: {fileID: 4273500932348487911}
   - component: {fileID: 6283682859703367207}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BackFog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4939,7 +4939,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3115487118390387250}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FogTeleportTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4972,7 +4972,7 @@ GameObject:
   - component: {fileID: 3181228680370080925}
   - component: {fileID: 4039019371623706013}
   - component: {fileID: 422857995256604057}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9863,6 +9863,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Smoke_NEW
+      objectReference: {fileID: 0}
+    - target: {fileID: 6871389702265165955, guid: ebaeb5ae57326e1499bb32e80384a226,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
