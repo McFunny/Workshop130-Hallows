@@ -19,6 +19,11 @@ public class LumberjackNPC : NPC, ITalkable
         faceCamera.enabled = false;
     }
 
+    void Start()
+    {
+        shopUI = FindObjectOfType<WaypointScript>();
+    }
+
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(dialogueController.IsTalking() == false)

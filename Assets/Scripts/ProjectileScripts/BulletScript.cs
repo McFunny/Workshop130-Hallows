@@ -15,7 +15,7 @@ public class BulletScript : MonoBehaviour
         {
             //break
             var structure = other.GetComponent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structureDamage > 0)
             {
                 structure.TakeDamage(structureDamage);
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);

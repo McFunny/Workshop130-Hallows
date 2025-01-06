@@ -407,8 +407,12 @@ public class MistWalker : CreatureBehaviorScript
         }
         else if (!playerInSightRange)
         {
+            if(targetStructure)
+            {
+                currentState = CreatureState.WalkTowardsClosestStructure;
+            }
+            else currentState = CreatureState.Wander;
             StopTrackingPlayer();
-            currentState = CreatureState.Wander;
         }
     }
 

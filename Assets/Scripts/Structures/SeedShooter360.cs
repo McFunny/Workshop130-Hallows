@@ -8,11 +8,12 @@ public class SeedShooter360 : StructureBehaviorScript
 
     public Transform turretHead, bulletOrigin, seedSocket;
 
-    float maxAmmo = 10; //Dont allow any more seeds to be added to the item list after there are 10 entrants
-    float range = 20;
+    float maxAmmo = 20; //Dont allow any more seeds to be added to the item list after there are this many entrants
+    float range = 20; //Get a debug sphere to show the range
     bool targetInSight = false;
     bool shotCooldown;
     float projectileSpeed = 150;
+    float minimumDistance = 6;
 
     //Maybe add a large button on the back, where when the player interacts with this, it can be turned on and off
 
@@ -74,14 +75,14 @@ public class SeedShooter360 : StructureBehaviorScript
     void CheckForTargets()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, range, 1 << 9);
-        float minimumDistance = Mathf.Infinity;
         foreach (Collider collider in hitColliders)
         {
             float distance = Vector3.Distance(transform.position, collider.transform.position);
+            float minDistance = Mathf.Infinity;
             CreatureBehaviorScript newCreature = collider.GetComponentInParent<CreatureBehaviorScript>();
-            if(newCreature && newCreature.creatureData && targettableCreatures.Contains(newCreature.creatureData) && distance < minimumDistance && !newCreature.isDead)
+            if(newCreature && newCreature.creatureData && targettableCreatures.Contains(newCreature.creatureData) && distance < minDistance && !newCreature.isDead)
             {
-                minimumDistance = distance;
+                minDistance = distance;
                 currentTarget = newCreature;
             }
         }
@@ -89,7 +90,7 @@ public class SeedShooter360 : StructureBehaviorScript
 
     void RotateToTarget()
     {
-        Vector3 direction = currentTarget.transform.position - transform.position;
+        Vector3 direction = currentTarget.transform.position - turretHead.position;
         direction.y = 0;
         Quaternion toRotation = Quaternion.LookRotation(direction);
 
@@ -107,6 +108,15 @@ public class SeedShooter360 : StructureBehaviorScript
         Vector3 forward = turretHead.TransformDirection(Vector3.forward);
         Vector3 toTarget = Vector3.Normalize(currentTarget.transform.position - turretHead.position);
 
+        float dist = Vector3.Distance(turretHead.position, currentTarget.transform.position);
+
+        if((dist < minimumDistance || dist > range) && !shotCooldown)
+        {
+            currentTarget = null;
+            targetInSight = false;
+            return;
+        }
+
         if (Vector3.Dot(forward, toTarget) > .95f)
         {
             targetInSight = true;
@@ -121,29 +131,33 @@ public class SeedShooter360 : StructureBehaviorScript
 
         currentTarget.NewPriorityTarget(this);
         //fire
-        audioHandler.PlaySound(audioHandler.activatedSound);
-        GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
-        Vector3 dir = (currentTarget.transform.position - turretHead.position).normalized;
-
-        float r = Random.Range(0,10);
-        if(r > 8)
+        for(int i = 0; i < 4; i++)
         {
-            dir = dir + new Vector3(Random.Range(-0.5f,0.5f), 0, Random.Range(-0.5f,0.5f));
-            print("MISSFIRE");
-            //play misfire sound
+            if(!currentTarget) break;
+            audioHandler.PlaySound(audioHandler.activatedSound);
+            GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
+            Vector3 dir = (currentTarget.transform.position - turretHead.position).normalized;
+
+            float r = Random.Range(0,10);
+            if(r > 6.5f)
+            {
+                dir = dir + new Vector3(Random.Range(-0.5f,0.5f), 0, Random.Range(-0.5f,0.5f));
+                print("MISSFIRE");
+                //play misfire sound
+            }
+            newBullet.transform.position = bulletOrigin.position;
+            newBullet.transform.rotation = Quaternion.identity;
+
+            newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 5);
+            newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
+            print("PEW");
+
+            ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
+            yield return new WaitForSeconds(0.2f);
         }
-        newBullet.transform.position = bulletOrigin.position;
-        newBullet.transform.rotation = Quaternion.identity;
-
-        newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 20);
-        newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
-        print("PEW");
-
         InventoryItemData seedShot = savedItems[0];
         savedItems.Remove(seedShot);
-
-        ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.5f);
 
         shotCooldown = false;
     }
@@ -160,7 +174,7 @@ public class SeedShooter360 : StructureBehaviorScript
     public override void ItemInteraction(InventoryItemData item)
     {
         CropItem seed = item as CropItem;
-        if(seed && savedItems.Count < 15 && seed.ableToBeShot)
+        if(seed && savedItems.Count < maxAmmo && seed.ableToBeShot)
         {
             savedItems.Add(seed);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
@@ -203,5 +217,14 @@ public class SeedShooter360 : StructureBehaviorScript
             droppedItem = ItemPoolManager.Instance.GrabItem(item);
             droppedItem.transform.position = seedSocket.position;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(turretHead.transform.position, range);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(turretHead.transform.position, minimumDistance);
     }
 }
