@@ -351,9 +351,14 @@ public class PlayerInteraction : MonoBehaviour
         playerEffects.PlayClip(playerEffects.playerDie);
         yield return new WaitForSeconds(1f);
         TimeManager.Instance.GameOver();
+        print("Time GameOver Complete");
         NightSpawningManager.Instance.GameOver();
+        print("Night GameOver Complete");
         TownGate.Instance.GameOver();
+        print("Gate GameOver Complete");
+        //Potentially a spot where some structures get destroyed
         yield return new WaitForSeconds(3f);
+        print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
         if(currentMoney > 0) currentMoney = currentMoney/2;

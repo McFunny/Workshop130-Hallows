@@ -28,6 +28,7 @@ public class TimeManager : MonoBehaviour
     //Events
     public delegate void HourlyUpdate();
     public static event HourlyUpdate OnHourlyUpdate;
+    public bool timeSkipping = false; //Use for game over and sleeping
 
     public Material skyMat;
     float desiredBlend;
@@ -256,7 +257,7 @@ public class TimeManager : MonoBehaviour
     public void GameOver()
     {
         StopAllCoroutines();
-        //StopCoroutine(TimePassage());
+        timeSkipping = true;
         int timeDif = 0;
         currentMinute = 0;
         if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
@@ -283,6 +284,7 @@ public class TimeManager : MonoBehaviour
             while(currentHour != 7)
             {
                 currentHour++;
+                if(currentHour >= 24) currentHour = 0;
 
                 //this doesnt account for the things that arent structures
                 /*foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
@@ -296,6 +298,7 @@ public class TimeManager : MonoBehaviour
         isDay = true;
         InitializeSkyBox();
         StartCoroutine(TimePassage());
+        timeSkipping = false;
     }
 
     void NextDay()

@@ -45,6 +45,7 @@ public class NightSpawningManager : MonoBehaviour
 
     void HourUpdate()
     {
+        if(TimeManager.Instance.timeSkipping) return;
         if(TimeManager.Instance.isDay)
         {
             if(accountedStructures.Count > 0) accountedStructures.Clear();

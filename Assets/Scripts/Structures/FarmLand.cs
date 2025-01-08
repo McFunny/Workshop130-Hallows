@@ -314,6 +314,12 @@ public class FarmLand : StructureBehaviorScript
             if(light) light.SetActive(false);
         }
 
+        if(nutrients == null)
+        {
+            print("Nutrients are null. They Should not be");
+            return;
+        }
+
         if(nutrients.ichorLevel <= 1 || nutrients.terraLevel <= 1 || nutrients.gloamLevel <= 1)
         {
             meshRenderer.material = barren;
@@ -331,6 +337,10 @@ public class FarmLand : StructureBehaviorScript
     {
         //PLANTS DRAIN PER GROWTH STAGE, AND THE PLAYER SHOULD HAVE TO WATER ROUGHLY EVERY STAGE/EVERY OTHER STAGE
         gainedStress = false;
+        if(!crop || nutrients == null)
+        {
+            return;
+        }
         nutrients.ichorLevel -= crop.ichorIntake;
         if(nutrients.ichorLevel < 0)
         {
