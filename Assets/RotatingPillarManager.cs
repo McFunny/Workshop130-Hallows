@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class RotatingPillarManager : MonoBehaviour
 {
@@ -19,53 +16,49 @@ public class RotatingPillarManager : MonoBehaviour
 
     private void Start()
     {
-        GenerateCrops();
+        AssignCropsToPuzzles();
     }
 
-    private void GenerateCrops()
+    private void AssignCropsToPuzzles()
     {
-        int randomCropIndex;
-
-        if (puzzleSet1 != null && cropData.Count > 0)
+        // Filter CropData based on length
+        var cropDataGroups = new Dictionary<int, List<CropData>>(); //dictionary that holds the length of each crop
+        foreach (var crop in cropData)
         {
-            randomCropIndex = Random.Range(0, cropData.Count);
-            foreach (RotatingPillar p in puzzleSet1)
+            int cropLength = crop.cropSprites.Length;
+            if (!cropDataGroups.ContainsKey(cropLength))
             {
-                p.SetUpSprites(cropData[randomCropIndex]);
-
-                
-                p.OnInteractionComplete += (pillar) => CheckPuzzleCompletion(puzzleSet1);
+                cropDataGroups[cropLength] = new List<CropData>();
             }
-            puzzleSet1SpecifiedCrop = cropData[randomCropIndex];
-            cropData.RemoveAt(randomCropIndex);
+            cropDataGroups[cropLength].Add(crop);
         }
 
-        if (puzzleSet2 != null && cropData.Count > 0)
-        {
-            randomCropIndex = Random.Range(0, cropData.Count);
-            foreach (RotatingPillar p in puzzleSet2)
-            {
-                p.SetUpSprites(cropData[randomCropIndex]);
+        // Assign crops to each puzzle set
+        AssignCropToPuzzleSet(puzzleSet1, ref puzzleSet1SpecifiedCrop, cropDataGroups);
+        AssignCropToPuzzleSet(puzzleSet2, ref puzzleSet2SpecifiedCrop, cropDataGroups);
+        AssignCropToPuzzleSet(puzzleSet3, ref puzzleSet3SpecifiedCrop, cropDataGroups);
+    }
 
-                
-                p.OnInteractionComplete += (pillar) => CheckPuzzleCompletion(puzzleSet2);
+    private void AssignCropToPuzzleSet(List<RotatingPillar> puzzleSet, ref CropData specifiedCrop, Dictionary<int, List<CropData>> cropDataGroups)
+    {
+        int puzzleSetLength = puzzleSet.Count;
+        if (cropDataGroups.TryGetValue(puzzleSetLength, out var matchingCrops) && matchingCrops.Count > 0)
+        {
+            // Randomly select a CropData from the matching group
+            int randomIndex = Random.Range(0, matchingCrops.Count);
+            specifiedCrop = matchingCrops[randomIndex];
+            matchingCrops.RemoveAt(randomIndex);
+
+            // Assign CropData to each pillar in the puzzle set
+            foreach (var pillar in puzzleSet)
+            {
+                pillar.SetUpSprites(specifiedCrop);
+                pillar.OnInteractionComplete += (completedPillar) => CheckPuzzleCompletion(puzzleSet);
             }
-            puzzleSet2SpecifiedCrop = cropData[randomCropIndex];
-            cropData.RemoveAt(randomCropIndex);
         }
-
-        if (puzzleSet3 != null && cropData.Count > 0)
+        else
         {
-            randomCropIndex = Random.Range(0, cropData.Count);
-            foreach (RotatingPillar p in puzzleSet3)
-            {
-                p.SetUpSprites(cropData[randomCropIndex]);
-
-                
-                p.OnInteractionComplete += (pillar) => CheckPuzzleCompletion(puzzleSet3);
-            }
-            puzzleSet3SpecifiedCrop = cropData[randomCropIndex];
-            cropData.RemoveAt(randomCropIndex);
+            Debug.LogWarning($"No matching crops found for puzzle set with {puzzleSetLength} pillars.");
         }
     }
 
@@ -78,22 +71,20 @@ public class RotatingPillarManager : MonoBehaviour
                 return;
             }
         }
-        OnPuzzleSolved(puzzleSet); 
+        OnPuzzleSolved(puzzleSet);
     }
 
     private void OnPuzzleSolved(List<RotatingPillar> puzzleSet)
     {
         foreach (RotatingPillar pillar in puzzleSet)
         {
-           pillar.LockPuzzle();
+            pillar.LockPuzzle();
         }
         puzzlesSolved++;
 
         if (puzzlesSolved == 3)
         {
-            Debug.Log("WOW CAM GREAT JOB YOU FIGURED IT OUT HOW DO YOU FEEL? DOES IT FEEL GOOD TO BE A SMARTY PANTS??!!!! YAY CAMERON! HIP HIP HOORAY HIP HIP HOORAY!!!!!!!!!!!!");
+            Debug.Log("All puzzles solved! Great job!");
         }
     }
-
-
 }
