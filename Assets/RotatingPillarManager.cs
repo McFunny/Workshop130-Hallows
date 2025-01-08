@@ -21,16 +21,18 @@ public class RotatingPillarManager : MonoBehaviour
 
     private void AssignCropsToPuzzles()
     {
-        // Filter CropData based on length
+        
+        //This filters the cropdata based on the length
+
         var cropDataGroups = new Dictionary<int, List<CropData>>(); //dictionary that holds the length of each crop
         foreach (var crop in cropData)
         {
             int cropLength = crop.cropSprites.Length;
-            if (!cropDataGroups.ContainsKey(cropLength))
+            if (!cropDataGroups.ContainsKey(cropLength)) //if there isnt a key for crop length create it
             {
                 cropDataGroups[cropLength] = new List<CropData>();
             }
-            cropDataGroups[cropLength].Add(crop);
+            cropDataGroups[cropLength].Add(crop); //add crop to dictionary with the key being length
         }
 
         // Assign crops to each puzzle set
