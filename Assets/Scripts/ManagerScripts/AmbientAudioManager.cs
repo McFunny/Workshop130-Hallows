@@ -63,7 +63,7 @@ public class AmbientAudioManager : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            float musicCooldown = Random.Range(10, 10);
+            float musicCooldown = Random.Range(5, 10);
             yield return new WaitForSecondsRealtime(musicCooldown);
             Debug.Log("CoolDown Done picking song");
             if (TimeManager.Instance.isDay)
@@ -82,17 +82,18 @@ public class AmbientAudioManager : MonoBehaviour
     {
         if (TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 20)
         {
-            //StartCoroutine(FadeBell());
+            StartCoroutine(FadeBell());
             //StopCoroutine(PlayAmbientMusic());
             //StartCoroutine(FadeAudio());
             //StartCoroutine(PlayAmbientMusic());
-            ambienceSource.PlayOneShot(bellTower);
+
+            //ambienceSource.PlayOneShot(bellTower);
             //This commented out bit of code would stop the current coroutine and then run it again
 
             if (ambientMusicCoroutine != null)
             {
                 StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
-                musicSource.Stop(); // Stop current music
+                //musicSource.Stop(); // Stop current music
             }
             Debug.Log("It's either 6 or 20 music time");
             StartCoroutine(FadeAudio()); 
@@ -106,7 +107,7 @@ public class AmbientAudioManager : MonoBehaviour
 
         while (currentVolume > 0)
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
             currentVolume -= 0.01f;
             musicSource.volume = currentVolume;
         }
@@ -119,7 +120,7 @@ public class AmbientAudioManager : MonoBehaviour
 
     IEnumerator FadeBell()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(2.5f);
         ambienceSource.PlayOneShot(bellTower);
     }
 }
