@@ -182,7 +182,11 @@ public class NightSpawningManager : MonoBehaviour
     {
         int r = Random.Range(0, testSpawns.Length);
         float x = Random.Range(-20, 20);
-        return testSpawns[r].position + (x * testSpawns[r].transform.right); //new Vector3(testSpawns[r].position.x + x, testSpawns[r].position.y, testSpawns[r].position.z);
+        //return testSpawns[r].position + (x * testSpawns[r].transform.right); 
+        Debug.Log(testSpawns[r]);
+        Debug.Log(testSpawns[r].position);
+        if(testSpawns[r] != null && testSpawns[r].position != null) return testSpawns[r].position;
+        else return new Vector3(0, 0, 0);
     }
 
     public void GameOver()
