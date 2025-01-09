@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class PauseScript : MonoBehaviour
 {
     public static bool isPaused;
+    bool isTransitioning = false;
     public GameObject controlsCanvas, pauseObject, defaultObject, controlsDefault;
     ControlManager controlManager;
     PlayerEffectsHandler pEffectsHandler;
@@ -49,6 +50,7 @@ public class PauseScript : MonoBehaviour
 
     public void PauseGame()
     {
+        if(isTransitioning) return;
         isPaused = !isPaused;
         if(isPaused)
         {
@@ -95,6 +97,17 @@ public class PauseScript : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        if(isTransitioning) return;
+        isTransitioning = true;
+        StartCoroutine(MainMenuTransition());
+        //SceneManager.LoadSceneAsync("MainMenu");
+    }
+
+    IEnumerator MainMenuTransition()
+    {
+        pauseObject.SetActive(false);
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSecondsRealtime(1);
         SceneManager.LoadSceneAsync("MainMenu");
     }
 
