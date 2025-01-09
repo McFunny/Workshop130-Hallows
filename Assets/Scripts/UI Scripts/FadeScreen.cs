@@ -11,6 +11,7 @@ public class FadeScreen : MonoBehaviour
 
     void Start()
     {
+        coverScreen = false;
         if(image) imageColor = image.color;
     }
 
