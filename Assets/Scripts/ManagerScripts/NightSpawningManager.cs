@@ -16,7 +16,7 @@ public class NightSpawningManager : MonoBehaviour
     public List<CreatureBehaviorScript> allCreatures; //all creatures in the scene, have a limit to how many there can be in a scene
     //this list saves all current creatures, and all spawned creatures through this/saved by this manager should be assigned to this list
 
-    public Transform[] testSpawns;
+    public List<Transform> testSpawns;
     public Transform[] despawnPositions;
 
     List<StructureBehaviorScript> accountedStructures = new List<StructureBehaviorScript>(); //keeps track of the structures counted for wealth points. Clears at day
@@ -35,10 +35,15 @@ public class NightSpawningManager : MonoBehaviour
     void Start()
     {
         TimeManager.OnHourlyUpdate += HourUpdate;
+
+        foreach(Transform t in testSpawns)
+        {
+            print(t);
+        }
         //load old danger values
     }
 
-    void Destroy()
+    void OnDestroy()
     {
         TimeManager.OnHourlyUpdate -= HourUpdate;
     }
@@ -138,7 +143,7 @@ public class NightSpawningManager : MonoBehaviour
 
     void SpawnCreature(CreatureObject c)
     {
-        int t = Random.Range(0,testSpawns.Length);
+        //int t = Random.Range(0,testSpawns.Count);
         GameObject newCreature = Instantiate(c.objectPrefab, RandomMistPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
@@ -180,13 +185,11 @@ public class NightSpawningManager : MonoBehaviour
 
     public Vector3 RandomMistPosition()
     {
-        int r = Random.Range(0, testSpawns.Length);
+        int r = Random.Range(0, testSpawns.Count);
         float x = Random.Range(-20, 20);
-        //return testSpawns[r].position + (x * testSpawns[r].transform.right); 
-        Debug.Log(testSpawns[r]);
-        Debug.Log(testSpawns[r].position);
-        if(testSpawns[r] != null && testSpawns[r].position != null) return testSpawns[r].position;
-        else return new Vector3(0, 0, 0);
+        return testSpawns[r].position + (x * testSpawns[r].transform.right); 
+        //Debug.Log(testSpawns[r]);
+        return testSpawns[r].position;
     }
 
     public void GameOver()
