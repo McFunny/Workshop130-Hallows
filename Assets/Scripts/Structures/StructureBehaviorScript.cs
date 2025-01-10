@@ -33,6 +33,9 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool isObstacle = true;
 
     [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
+
+    public ParticleSystem damageParticles;
+    public GameObject destructionParticles;
     
     [Header("Highlights")]
     public List<GameObject> highlight = new List<GameObject>();
@@ -91,6 +94,7 @@ public class StructureBehaviorScript : MonoBehaviour
         if(!destructable) return;
         health -= damage;
         OnDamage?.Invoke();
+        if(damageParticles) damageParticles.Play();
     }
 
     //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
