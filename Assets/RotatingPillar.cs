@@ -159,7 +159,7 @@ public class RotatingPillar : MonoBehaviour, IInteractable
         Quaternion targetRotation = Quaternion.Euler(transform.eulerAngles + new Vector3(0, degrees, 0));
 
         float elapsedTime = 0f;
-        float rotationDuration = 2f;
+        float rotationDuration = 1.5f;
 
         audioSource.Play();
 
