@@ -23,6 +23,7 @@ public class PlayerInteraction : MonoBehaviour
     public static PlayerInteraction Instance;
 
     public int currentMoney;
+    public int totalMoneyEarned;
 
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;

@@ -192,7 +192,7 @@ public class WaterGunBehavior : ToolBehavior
                 dir = bulletStart.forward  + new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
                 newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 50);
                 newBullet.GetComponent<Rigidbody>().AddForce(dir * (10 + extraForce));
-                extraForce += 20f;
+                extraForce += 30f;
             } 
             else
             {
@@ -200,7 +200,7 @@ public class WaterGunBehavior : ToolBehavior
                 newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 30);
                 newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
             } 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.25f);
         }
         foreach(GameObject light in highlights)
         {

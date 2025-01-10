@@ -21,7 +21,7 @@ public class WaterCanBehavior : ToolBehavior
             {
                 //play water anim
                 bool playAnim = false;
-                if(structure.onFire && PlayerInteraction.Instance.waterHeld < 0)
+                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0)
                 {
                     playAnim = true;
                     structure.Extinguish();
@@ -72,7 +72,7 @@ public class WaterCanBehavior : ToolBehavior
             {
                 //play water anim
                 bool playAnim = false;
-                if(structure.onFire)
+                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0)
                 {
                     playAnim = true;
                     structure.Extinguish();
