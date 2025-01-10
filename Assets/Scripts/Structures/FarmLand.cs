@@ -213,7 +213,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(weed && !TimeManager.Instance.isDay) StructureManager.Instance.WeedSpread();
+        if(isWeed && !TimeManager.Instance.isDay) StructureManager.Instance.WeedSpread(transform.position);
         if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;

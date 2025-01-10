@@ -35,11 +35,6 @@ public class NightSpawningManager : MonoBehaviour
     void Start()
     {
         TimeManager.OnHourlyUpdate += HourUpdate;
-
-        foreach(Transform t in testSpawns)
-        {
-            print(t);
-        }
         //load old danger values
     }
 

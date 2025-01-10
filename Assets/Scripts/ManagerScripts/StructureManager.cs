@@ -447,11 +447,14 @@ public class StructureManager : MonoBehaviour
 
     public void WeedSpread(Vector3 pos)
     {
-        List<Vector3> weedSpots = GetAdjacentClearTiles();
+        List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
         if(weedSpots.Count == 0) return;
         foreach(Vector3 weedPos in weedSpots)
         {
-            if(Random.Range(0,10) >)
+            if(Random.Range(0,10) > 9)
+            {
+                SpawnStructure(weedTile, weedPos);
+            }
         }
     }
 
