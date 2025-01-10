@@ -1216,7 +1216,7 @@ Transform:
   m_GameObject: {fileID: 327684056}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6700001, y: 0, z: 3.4300025}
+  m_LocalPosition: {x: -22.550003, y: 1.0900002, z: -0.6600244}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1243,7 +1243,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c411a10f3080169419e5fd20d9f9148f, type: 2}
+  - {fileID: 2100000, guid: 2521f6b3a357fe946b2e915f3f9b8466, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1264,11 +1264,11 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Time: 0.3
+  m_Time: 1
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 2.5
+    widthMultiplier: 2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1395,7 +1395,7 @@ Transform:
   m_GameObject: {fileID: 337305098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.59, y: 0, z: 3.51}
+  m_LocalPosition: {x: -22.79, y: 1.01, z: -0.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22086,7 +22086,7 @@ Transform:
   m_GameObject: {fileID: 800260223}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.738693, y: 3, z: -533.2937}
+  m_LocalPosition: {x: -12.61, y: 3, z: -532.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22581,7 +22581,7 @@ Transform:
   m_GameObject: {fileID: 1025011098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.59000015, y: 0, z: 3.5100098}
+  m_LocalPosition: {x: -22.790003, y: 1.0100002, z: -0.5800171}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23239,7 +23239,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -27919,7 +27919,10 @@ VisualEffect:
     m_Vector3f:
       m_Array: []
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 11.984314, y: 1.0776151, z: 0.4392158, w: 0}
+        m_Name: Color
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -27931,7 +27934,10 @@ VisualEffect:
     m_Gradient:
       m_Array: []
     m_NamedObject:
-      m_Array: []
+      m_Array:
+      - m_Value: {fileID: 2800000, guid: 017986a4e14ee9b47a7d549b7c84a9fd, type: 3}
+        m_Name: Flame Texture
+        m_Overridden: 0
     m_Bool:
       m_Array: []
 --- !u!4 &1341313704
@@ -33381,7 +33387,7 @@ Transform:
   m_GameObject: {fileID: 1726583882}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.99000025, y: 0, z: 3.5100098}
+  m_LocalPosition: {x: -23.190002, y: 1.0100002, z: -0.5800171}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
