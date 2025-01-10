@@ -134,6 +134,14 @@ public class NightSpawningManager : MonoBehaviour
             
         }
         while(spawnAttempts < 10); //add threshhold req too
+
+        if(allCreatures.Count == 0)
+        {
+            r = Random.Range(0, weightArray.Count);
+            CreatureObject newCreature = creatures[weightArray[r]];
+            spawnedCreatures[weightArray[r]]++;
+            SpawnCreature(newCreature);
+        }
     }
 
     void SpawnCreature(CreatureObject c)

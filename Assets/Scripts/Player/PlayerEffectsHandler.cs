@@ -124,11 +124,6 @@ public class PlayerEffectsHandler : MonoBehaviour
         }
     }
 
-    IEnumerator DeathFlash()
-    {
-        yield return new WaitForSeconds(1);
-    }
-
     public void PlayClip(AudioClip clip)
     {
         source.PlayOneShot(clip);
