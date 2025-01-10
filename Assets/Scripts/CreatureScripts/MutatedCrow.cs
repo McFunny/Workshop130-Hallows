@@ -689,7 +689,7 @@ public class MutatedCrow : CreatureBehaviorScript
     {
         circleRadius = Random.Range(5, 15);
         height = Random.Range(4, 8);
-        speed = Random.Range(7, 8);
+        speed = Random.Range(9, 11);
         attackCooldown = Random.Range(3, 15);
         circleDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
     }
