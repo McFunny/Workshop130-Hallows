@@ -79,12 +79,12 @@ public class UICropStats : MonoBehaviour
 
         if(isActive && cropUITransform.position != lerpEnd.position)
         {
-            cropUITransform.position = Vector3.MoveTowards(cropUITransform.position, lerpEnd.position, 200 * Time.deltaTime);
+            cropUITransform.position = Vector3.MoveTowards(cropUITransform.position, lerpEnd.position, 1000 * Time.deltaTime);
         }
 
         if(!isActive && cropUITransform.position != lerpStart.position)
         {
-            cropUITransform.position = Vector3.MoveTowards(cropUITransform.position, lerpStart.position, 200 * Time.deltaTime);
+            cropUITransform.position = Vector3.MoveTowards(cropUITransform.position, lerpStart.position, 1000 * Time.deltaTime);
         }
     }
     
