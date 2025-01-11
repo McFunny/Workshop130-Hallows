@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TrailDistortionMAT
+  m_Name: TrailDistortionMATPIX 3
   m_Shader: {fileID: -6465566751694194690, guid: 71012fbdbff086a46af11ea7e0ebc710,
     type: 3}
   m_Parent: {fileID: 0}
@@ -42,7 +42,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: 60b8e4120ad4a184bbea199a49baae45, type: 3}
+        m_Texture: {fileID: 2800000, guid: bc9720bcfa8de7842b99f03a7204035e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -66,7 +66,7 @@ Material:
     - _Cull: 2
     - _Distortion_amount: 0.09
     - _DstBlend: 10
-    - _Noise_Scale: 2
+    - _Noise_Scale: 13.11
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 1
@@ -76,6 +76,6 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
-    - _MainSpeed: {r: -0.4, g: -1, b: 0, a: 0}
-    - _Noise_Speed: {r: -10.4, g: 0.4, b: 0, a: 0}
+    - _MainSpeed: {r: -1.3, g: -3, b: 0, a: 0}
+    - _Noise_Speed: {r: -2.01, g: 0.4, b: 0, a: 0}
   m_BuildTextureStacks: []
