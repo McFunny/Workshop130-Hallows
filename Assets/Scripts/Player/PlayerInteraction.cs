@@ -239,7 +239,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void UseHotBarItem()
     {
-        Debug.Log("UsingHandItem");
+        //Debug.Log("UsingHandItem");
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(item == null) return;
 
@@ -287,7 +287,6 @@ public class PlayerInteraction : MonoBehaviour
         tool.ItemUsed();
         yield return new WaitForSeconds(coolDown - time);
         toolCooldown = false;
-        //use a bool that says i am done swinging to avoid tool overlap
     }
 
     void DisplayHologramCheck()
