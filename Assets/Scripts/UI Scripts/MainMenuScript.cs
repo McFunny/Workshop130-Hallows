@@ -15,6 +15,7 @@ public class MainMenuScript : MonoBehaviour
     ControlManager controlManager;
     public AudioSource source;
     public AudioClip hover, select;
+    bool isTransitioning = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -63,28 +64,41 @@ public class MainMenuScript : MonoBehaviour
     }
     public void ExitGame()
     {
+        if(isTransitioning) return;
         Application.Quit();
         print("Game Exited Successfully :)");
     }
 
     public void NewGame()
     {
+        if(isTransitioning) return;
+        isTransitioning = true;
+        StartCoroutine(StartNewGame());
+    }
+
+    IEnumerator StartNewGame()
+    {
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSecondsRealtime(1);
         SceneManager.LoadSceneAsync(1);
     }
 
     public void OpenControlsScreen()
     {
+        if(isTransitioning) return;
         controlsCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(controlsDefault);
     }
 
     public void OnHover()
     {
+        if(isTransitioning) return;
         source.PlayOneShot(hover);
     }
 
     public void OnSelect()
     {
+        if(isTransitioning) return;
         source.PlayOneShot(select);
     }
     
