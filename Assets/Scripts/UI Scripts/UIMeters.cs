@@ -6,7 +6,7 @@ using TMPro;
 
 public class UIMeters : MonoBehaviour
 {
-    public Image waterBar, staminaBar, staminaEmptyImage;
+    public Image waterBar, staminaBar;
     public GameObject waterEmptyFill, staminaEmptyFill, leftTextbox, rightTextbox;
     public Color c_stamina, c_damage;
     PlayerInteraction p;
@@ -53,24 +53,6 @@ public class UIMeters : MonoBehaviour
             StartCoroutine(PlayerDamaged());
             currentStamina = p.stamina;
         }
-
-        if (p.waterHeld <= 0)
-        {
-            waterEmptyFill.SetActive(false);
-        }
-        else
-        {
-            waterEmptyFill.SetActive(true);
-        }
-
-        if (p.stamina <= 0)
-        {
-            staminaEmptyFill.SetActive(false);
-        }
-        else
-        {
-            staminaEmptyFill.SetActive(true);
-        }
     }
 
     IEnumerator PlayerDamaged()
@@ -78,13 +60,14 @@ public class UIMeters : MonoBehaviour
         for(int i = 0; i < 4; i++)
         {
             staminaBar.color = c_damage;
-            staminaEmptyImage.color = c_damage;
+            //staminaEmptyImage.color = c_damage;
             yield return new WaitForSeconds(.1f);
             staminaBar.color = c_stamina;
-            staminaEmptyImage.color = c_stamina;
+            //staminaEmptyImage.color = c_stamina;
             yield return new WaitForSeconds(.1f);
             
         }
     }
     
 }
+
