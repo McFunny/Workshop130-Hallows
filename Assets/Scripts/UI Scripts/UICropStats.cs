@@ -8,7 +8,7 @@ using System;
 
 public class UICropStats : MonoBehaviour
 {
-    public Camera mainCam;
+    private Camera mainCam;
     public GameObject cropStatsObject, growthStageText, cropStatsObjectD, growthStageTextD;
     public TextMeshProUGUI cropNameText, gloamAmount, terraAmount, ichorAmount, waterAmount, growthStageNumber;
     public TextMeshProUGUI cropNameTextD, gloamAmountD, terraAmountD, ichorAmountD, waterAmountD, growthStageNumberD;
@@ -30,6 +30,9 @@ public class UICropStats : MonoBehaviour
 
     ControlManager controlManager;
 
+    //For Lerps
+    public Transform lerpStart, lerpEnd, cropUITransform;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
@@ -40,6 +43,8 @@ public class UICropStats : MonoBehaviour
         growthStageNumber.text = "";
         if(!mainCam) mainCam = FindObjectOfType<Camera>();
         StartCoroutine(CheckTimer());
+
+        cropUITransform.position = lerpStart.position;
     }
 
     private void OnEnable()
@@ -63,19 +68,23 @@ public class UICropStats : MonoBehaviour
             growthStageTextD.SetActive(true);
             growthStageText.SetActive(false);
         }
-        else if(isActive)
+        else
         {
             cropStatsObjectD.SetActive(false);
             cropStatsObject.SetActive(true);
             growthStageTextD.SetActive(false);
             growthStageText.SetActive(true);
         }
-        else
+
+
+        if(isActive && cropUITransform.position != lerpEnd.position)
         {
-            cropStatsObjectD.SetActive(false);
-            cropStatsObject.SetActive(false);
-            growthStageTextD.SetActive(false);
-            growthStageText.SetActive(false);
+            cropUITransform.position = Vector3.MoveTowards(cropUITransform.position, lerpEnd.position, 200 * Time.deltaTime);
+        }
+
+        if(!isActive && cropUITransform.position != lerpStart.position)
+        {
+            cropUITransform.position = Vector3.MoveTowards(cropUITransform.position, lerpStart.position, 200 * Time.deltaTime);
         }
     }
     
