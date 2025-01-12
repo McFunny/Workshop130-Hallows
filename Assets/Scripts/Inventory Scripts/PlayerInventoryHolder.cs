@@ -56,6 +56,12 @@ public class PlayerInventoryHolder : InventoryHolder
         InventoryItemData waterCan = _database.GetItem(2);
         InventoryItemData shotgun = _database.GetItem(3);
         InventoryItemData ammo = _database.GetItem(4);
+        InventoryItemData tuber = _database.GetItem(21);
+        InventoryItemData bells = _database.GetItem(16);
+        InventoryItemData carrot = _database.GetItem(20);
+        InventoryItemData gloomstalk = _database.GetItem(18);
+        InventoryItemData ginger = _database.GetItem(22);
+        InventoryItemData bloodbean = _database.GetItem(15);
         AddToInventory(hoe, 1);
         AddToInventory(shovel, 1);
         AddToInventory(waterCan, 1);
@@ -63,6 +69,12 @@ public class PlayerInventoryHolder : InventoryHolder
         AddToInventory(ammo, 2);
         AddToInventory(ammo, 2);
         AddToInventory(ammo, 2);
+        AddToInventory(tuber, 2);
+        AddToInventory(bells, 1);
+        AddToInventory(bloodbean, 2);
+        AddToInventory(carrot, 1);
+        AddToInventory(gloomstalk, 1);
+        AddToInventory(ginger, 1);
     }
 
     // Method to add items to the correct inventory system (primary or secondary)

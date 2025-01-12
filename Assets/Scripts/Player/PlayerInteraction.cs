@@ -10,7 +10,8 @@ public class PlayerInteraction : MonoBehaviour
 {
     public Camera mainCam;
 
-    PlayerInventoryHolder playerInventoryHolder;
+    public PlayerInventoryHolder playerInventoryHolder { get; private set; }
+
     PlayerEffectsHandler playerEffects;
 
     ControlManager controlManager;
