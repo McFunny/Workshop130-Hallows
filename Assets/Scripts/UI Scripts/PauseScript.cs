@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -11,7 +10,7 @@ public class PauseScript : MonoBehaviour
 {
     public static bool isPaused;
     bool isTransitioning = false;
-    public GameObject controlsCanvas, pauseObject, defaultObject, controlsDefault;
+    public GameObject settingsCanvas, pauseObject, defaultObject, settingsDefault;
     ControlManager controlManager;
     PlayerEffectsHandler pEffectsHandler;
     // Start is called before the first frame update
@@ -71,7 +70,7 @@ public class PauseScript : MonoBehaviour
         {
             //controlManager.playerInput.SwitchCurrentActionMap("UI");
             pauseObject.SetActive(true);
-            controlsCanvas.SetActive(false);
+            settingsCanvas.SetActive(false);
             //controlManager.playerInput.SwitchCurrentActionMap("UI");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -80,7 +79,7 @@ public class PauseScript : MonoBehaviour
         {
             //controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
             pauseObject.SetActive(false);
-            controlsCanvas.SetActive(false);
+            settingsCanvas.SetActive(false);
             //controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -111,11 +110,11 @@ public class PauseScript : MonoBehaviour
         SceneManager.LoadSceneAsync("MainMenu");
     }
 
-    public void OpenControlsScreen()
+    public void OpenSettingsScreen()
     {
-        print("Controls Pressed");
-        controlsCanvas.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(controlsDefault);
+        print("Settings Pressed");
+        settingsCanvas.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(settingsDefault);
     }
     
 }

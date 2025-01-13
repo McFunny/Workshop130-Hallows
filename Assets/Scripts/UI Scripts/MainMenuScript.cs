@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -11,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuScript : MonoBehaviour
 {
     public InputActionReference hideUI;
-    public GameObject menuObject, defaultObject, controlsDefault, controlsCanvas;
+    public GameObject menuObject, defaultObject, controlsDefault, controlsCanvas, settingsDefault;
     ControlManager controlManager;
     public AudioSource source;
     public AudioClip hover, select;
