@@ -7,22 +7,32 @@ using UnityEngine.Events;
 public class PlayerInventoryHolder : InventoryHolder
 {
     public static PlayerInventoryHolder Instance;
- 
 
     [SerializeField] protected int secondaryInventorySize;
-    [SerializeField] public InventorySystem secondaryInventorySystem; // Only manage secondary inventory here
+    [SerializeField] public InventorySystem secondaryInventorySystem;
     [SerializeField] private Database _database;
-    // Unity Actions to handle the UI updates for the primary and secondary inventories
-    public static UnityAction<InventorySystem> OnPlayerHotbarDisplayRequested;   // For the hotbar (primary)
-    public static UnityAction<InventorySystem> OnPlayerBackpackDisplayRequested; // For the backpack (secondary)
 
-    // New: Unity Action for notifying any inventory changes
+    public static UnityAction<InventorySystem> OnPlayerHotbarDisplayRequested;
+    public static UnityAction<InventorySystem> OnPlayerBackpackDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
+
+    [System.Serializable]
+    public struct Item
+    {
+        public InventoryItemData itemData;
+        public int amount;
+    }
+
+    [Header("Starting Items")]
+    [SerializeField] private List<Item> startingItems;
+
+    [Header("Debug Items")]
+    [SerializeField] private List<Item> debugItems;
 
     protected override void Awake()
     {
         base.Awake();
-        secondaryInventorySystem = new InventorySystem(secondaryInventorySize); // Initialize secondary inventory
+        secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
 
         if (Instance != null && Instance != this)
         {
@@ -40,47 +50,51 @@ public class PlayerInventoryHolder : InventoryHolder
         var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem);
         SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
         StartCoroutine(DelayedStart());
-       
     }
 
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(0.5f);
-        EquipTools();
+        EquipStartingItems();
     }
 
-    private void EquipTools()
+    private void EquipStartingItems()
     {
-        InventoryItemData hoe = _database.GetItem(0);
-        InventoryItemData shovel = _database.GetItem(1);
-        InventoryItemData waterCan = _database.GetItem(2);
-        InventoryItemData shotgun = _database.GetItem(3);
-        InventoryItemData ammo = _database.GetItem(4);
-        InventoryItemData tuber = _database.GetItem(21);
-        InventoryItemData bells = _database.GetItem(16);
-        InventoryItemData carrot = _database.GetItem(20);
-        InventoryItemData gloomstalk = _database.GetItem(18);
-        InventoryItemData ginger = _database.GetItem(22);
-        InventoryItemData bloodbean = _database.GetItem(15);
-        AddToInventory(hoe, 1);
-        AddToInventory(shovel, 1);
-        AddToInventory(waterCan, 1);
-        AddToInventory(shotgun, 1);
-        AddToInventory(ammo, 2);
-        AddToInventory(ammo, 2);
-        AddToInventory(ammo, 2);
-        AddToInventory(tuber, 2);
-        AddToInventory(bells, 1);
-        AddToInventory(bloodbean, 2);
-        AddToInventory(carrot, 1);
-        AddToInventory(gloomstalk, 1);
-        AddToInventory(ginger, 1);
+        foreach (var startingItem in startingItems)
+        {
+            if (startingItem.itemData != null)
+            {
+                bool addedSuccessfully = AddToInventory(startingItem.itemData, startingItem.amount);
+                if (!addedSuccessfully)
+                {
+                    Debug.LogWarning($"Failed to add {startingItem.amount} of {startingItem.itemData.name} to inventory.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Starting item data is null.");
+            }
+        }
+
+        foreach (var debugItem in debugItems)
+        {
+            if (debugItem.itemData != null)
+            {
+                bool addedSuccessfully = AddToInventory(debugItem.itemData, debugItem.amount);
+                if (!addedSuccessfully)
+                {
+                    Debug.LogWarning($"Failed to add {debugItem.amount} of {debugItem.itemData.name} to inventory.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Debug item data is null.");
+            }
+        }
     }
 
-    // Method to add items to the correct inventory system (primary or secondary)
     public bool AddToInventory(InventoryItemData data, int amount)
     {
-        // Check for existing stack in the primary inventory
         if (primaryInventorySystem.ContainsItem(data, out List<InventorySlot> primarySlots))
         {
             foreach (var slot in primarySlots)
@@ -88,14 +102,13 @@ public class PlayerInventoryHolder : InventoryHolder
                 if (slot.EnoughRoomLeftInStack(amount))
                 {
                     slot.AddToStack(amount);
-                    OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem); // Update only hotbar
-                    OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);       // Notify general inventory change
+                    OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
+                    OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
                     return true;
                 }
             }
         }
 
-        // Check for existing stack in the secondary inventory
         if (secondaryInventorySystem.ContainsItem(data, out List<InventorySlot> secondarySlots))
         {
             foreach (var slot in secondarySlots)
@@ -103,49 +116,40 @@ public class PlayerInventoryHolder : InventoryHolder
                 if (slot.EnoughRoomLeftInStack(amount))
                 {
                     slot.AddToStack(amount);
-                    OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem); // Notify general inventory change
+                    OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
                     return true;
                 }
             }
         }
 
-        // No stack found; look for a free slot in the primary inventory
         if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot))
         {
             if (freePrimarySlot.EnoughRoomLeftInStack(amount))
             {
                 freePrimarySlot.UpdateInventorySlot(data, amount);
-                OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem); // Update only hotbar
-                OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);       // Notify general inventory change
+                OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
+                OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
                 return true;
             }
         }
 
-        // No free slot in primary; look for a free slot in the secondary inventory
         if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot))
         {
             if (freeSecondarySlot.EnoughRoomLeftInStack(amount))
             {
                 freeSecondarySlot.UpdateInventorySlot(data, amount);
-                OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem); // Notify general inventory change
+                OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
                 return true;
             }
         }
 
-        // If no stack or free slot found, return false
         return false;
     }
 
-
-    // Explicitly refresh both inventories (hotbar and backpack)
     public void UpdateInventory()
     {
-        //OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);   // Update primary (hotbar)
-        //OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem); // Update secondary (backpack)
-
-        // Notify listeners about inventory changes
-        OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);   // Notify general inventory change for hotbar
-        OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem); // Notify general inventory change for backpack
+        OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+        OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
     }
 }
 
