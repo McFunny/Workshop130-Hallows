@@ -16,6 +16,8 @@ public class CreatureObject : ScriptableObject
     public int spawnCap = 5; //how many can exist on the field
     public int spawnCapPerHour = 3; //how many can spawn per hour at max
 
+    public int wealthPrerequisite = 0; //How much money should the player have collected prior to seeing this creature
+
     public Creature data = new Creature();
 
     public Creature CreateCreature()

@@ -330,6 +330,14 @@ public class TimeManager : MonoBehaviour
         InitializeSkyBox();
     }
 
+    [ContextMenu("Set To Middle Of Night")]
+    public void SetToMidNight()
+    {
+        currentHour = 1;
+        isDay = false;
+        InitializeSkyBox();
+    }
+
     void LerpSunAndMoon()
     {
         if(!sunMoonPivot) return;

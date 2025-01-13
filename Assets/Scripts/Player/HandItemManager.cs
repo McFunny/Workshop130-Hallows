@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HandItemManager : MonoBehaviour
 {
-    public GameObject hoe, shovel, wateringCan, shotGun;
+    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch;
 
     ToolType currentType = ToolType.Null;
 
@@ -68,6 +68,14 @@ public class HandItemManager : MonoBehaviour
                 shotGun.SetActive(true);
                 currentHandObject = shotGun;
                 break;
+            case ToolType.WaterGun:
+                waterGun.SetActive(true);
+                currentHandObject = waterGun;
+                break;
+            case ToolType.Torch:
+                torch.SetActive(true);
+                currentHandObject = torch;
+                break;
             default:
             currentHandObject = null;
                 break;
@@ -92,6 +100,12 @@ public class HandItemManager : MonoBehaviour
     public void PlaySecondaryAnimation()
     {
         if (currentAnim) currentAnim.SetTrigger("SecondaryTrigger");
+    }
+
+    public Animator AccessCurrentAnimator()
+    {
+        if(currentAnim) return currentAnim;
+        else return null;
     }
 
     public void ClearHandModel()

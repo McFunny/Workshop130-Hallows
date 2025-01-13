@@ -59,7 +59,10 @@ public class StructureManager : MonoBehaviour
     public void HourUpdate()
     {
         //print("AllStructs: " + allStructs.Count);
-        PopulateWeeds(-9, 3);
+        if(TimeManager.Instance.currentHour == 8)
+        {
+            PopulateWeeds(-3, 8);
+        }
         if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
         if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(1, 6);
     }
@@ -109,6 +112,19 @@ public class StructureManager : MonoBehaviour
         }
         while(t < 15 && tilePos == new Vector3 (0,0,0));
         return tilePos;
+    }
+
+    public List<Vector3> GetAdjacentClearTiles(Vector3 pos)
+    {
+        List<Vector3> adjacentTiles = new List<Vector3>();
+
+        Vector3Int gridPos = tileMap.WorldToCell(pos);
+
+        if(tileMap.GetTile(new Vector3Int(gridPos.x + 1, gridPos.y)) == freeTile) adjacentTiles.Add(tileMap.GetCellCenterWorld(new Vector3Int(gridPos.x + 1, gridPos.y)));
+        if(tileMap.GetTile(new Vector3Int(gridPos.x - 1, gridPos.y)) == freeTile) adjacentTiles.Add(tileMap.GetCellCenterWorld(new Vector3Int(gridPos.x - 1, gridPos.y)));
+        if(tileMap.GetTile(new Vector3Int(gridPos.x, gridPos.y + 1)) == freeTile) adjacentTiles.Add(tileMap.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y + 1)));
+        if(tileMap.GetTile(new Vector3Int(gridPos.x, gridPos.y - 1)) == freeTile) adjacentTiles.Add(tileMap.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y - 1)));
+        return adjacentTiles;
     }
 
     public void SpawnStructure(GameObject obj, Vector3 pos)
@@ -231,6 +247,24 @@ public class StructureManager : MonoBehaviour
     {
         List<Vector3> newTargets = new List<Vector3>();
         Vector3Int currentPos = tileMap.WorldToCell(pos);
+
+        //for 1 tile offset
+        if(dir == Direction.North)
+        {
+            currentPos = new Vector3Int(currentPos.x, currentPos.y + 1);
+        }
+        if(dir == Direction.East)
+        {
+            currentPos = new Vector3Int(currentPos.x + 1, currentPos.y);
+        }
+        if(dir == Direction.South)
+        {
+            currentPos = new Vector3Int(currentPos.x, currentPos.y - 1);
+        }
+        if(dir == Direction.West)
+        {
+            currentPos = new Vector3Int(currentPos.x - 1, currentPos.y);
+        }
 
         for(int i = 0; i < range; i++)
         {
@@ -429,6 +463,19 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void WeedSpread(Vector3 pos)
+    {
+        List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
+        if(weedSpots.Count == 0) return;
+        foreach(Vector3 weedPos in weedSpots)
+        {
+            if(Random.Range(0f,10f) > 9)
+            {
+                SpawnStructure(weedTile, weedPos);
+            }
+        }
+    }
+
 
 }
 
@@ -472,5 +519,6 @@ public enum Direction
     North,
     East,
     South,
-    West
+    West,
+    Null
 }

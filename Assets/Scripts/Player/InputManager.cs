@@ -18,6 +18,8 @@ public class InputManager : MonoBehaviour
 
     public static bool isCharging = false;
 
+    public InventoryItemData waterGun;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
@@ -114,7 +116,7 @@ public class InputManager : MonoBehaviour
 
     private void BeginCharge(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || PauseScript.isPaused)
+        if(PlayerMovement.restrictMovementTokens > 0 || PauseScript.isPaused || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != waterGun)
         {
             isCharging = false;
             return;
