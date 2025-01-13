@@ -149,7 +149,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         //For showing/giving NPC's items
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null) interactable.InteractWithItem(this, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
-        else return;
+        else interactable.Interact(this, out bool interactSuccessful);
         isInteracting = false;
     }
 

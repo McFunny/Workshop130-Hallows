@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -72,4 +73,45 @@ public class CropKey : MonoBehaviour, IInteractable
     {
         
     }
+
+    public CropKeySaveData ExportSaveData()
+    {
+        return new CropKeySaveData
+        {
+            CropInserted = cropInserted,
+            CropYieldID = cropData?.cropYield?.ID ?? -1
+        };
+    }
+
+
+    public void ImportSaveData(CropKeySaveData data, InventoryItemData cropYieldItem)
+    {
+        cropInserted = data.CropInserted;
+
+        if (cropYieldItem != null)
+        {
+            foregroundSprite.sprite = cropYieldItem.icon;
+            backgroundSprite.sprite = cropYieldItem.icon;
+        }
+        else
+        {
+            Debug.LogWarning($"CropYield with ID {data.CropYieldID} not found in the database.");
+        }
+
+        foregroundSprite.enabled = cropInserted;
+    }
+
+
+
 }
+
+[System.Serializable]
+public struct CropKeySaveData
+{
+    public bool CropInserted;
+    public int CropYieldID; 
+}
+
+
+
+

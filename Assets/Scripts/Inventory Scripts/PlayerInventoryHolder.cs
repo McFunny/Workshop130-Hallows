@@ -16,6 +16,8 @@ public class PlayerInventoryHolder : InventoryHolder
     public static UnityAction<InventorySystem> OnPlayerBackpackDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
 
+    public bool useDebugItems;
+
     [System.Serializable]
     public struct Item
     {
@@ -75,20 +77,22 @@ public class PlayerInventoryHolder : InventoryHolder
                 Debug.LogWarning("Starting item data is null.");
             }
         }
-
-        foreach (var debugItem in debugItems)
+        if (useDebugItems)
         {
-            if (debugItem.itemData != null)
+            foreach (var debugItem in debugItems)
             {
-                bool addedSuccessfully = AddToInventory(debugItem.itemData, debugItem.amount);
-                if (!addedSuccessfully)
+                if (debugItem.itemData != null)
                 {
-                    Debug.LogWarning($"Failed to add {debugItem.amount} of {debugItem.itemData.name} to inventory.");
+                    bool addedSuccessfully = AddToInventory(debugItem.itemData, debugItem.amount);
+                    if (!addedSuccessfully)
+                    {
+                        Debug.LogWarning($"Failed to add {debugItem.amount} of {debugItem.itemData.name} to inventory.");
+                    }
                 }
-            }
-            else
-            {
-                Debug.LogWarning("Debug item data is null.");
+                else
+                {
+                    Debug.LogWarning("Debug item data is null.");
+                }
             }
         }
     }
