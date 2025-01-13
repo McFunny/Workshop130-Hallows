@@ -13,7 +13,7 @@ public class UICropStats : MonoBehaviour
     public TextMeshProUGUI cropNameText, gloamAmount, terraAmount, ichorAmount, waterAmount, growthStageNumber;
     public TextMeshProUGUI cropNameTextD, gloamAmountD, terraAmountD, ichorAmountD, waterAmountD, growthStageNumberD;
     public TextMeshProUGUI gloamNumber, terraNumber, ichorNumber, waterNumber;
-    public float reach = 5;
+    public float reach = 8;
     private FarmLand hitCrop;
     private string cropName = "Crop Name";
     string growthString;
