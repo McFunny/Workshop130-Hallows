@@ -102,6 +102,12 @@ public class HandItemManager : MonoBehaviour
         if (currentAnim) currentAnim.SetTrigger("SecondaryTrigger");
     }
 
+    public Animator AccessCurrentAnimator()
+    {
+        if(currentAnim) return currentAnim;
+        else return null;
+    }
+
     public void ClearHandModel()
     {
         if(currentHandObject) currentHandObject.SetActive(false);
