@@ -121,7 +121,7 @@ public class PyreFly : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 30)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 5)
         {
             timeSpent += 0.01f;
             yield return null;

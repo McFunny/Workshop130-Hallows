@@ -37,6 +37,11 @@ public class PlayerInventoryHolder : InventoryHolder
         {
             startingItems[i].name = startingItems[i].itemData.displayName;
         }
+
+        for(int i = 0; i < debugItems.Count; i++)
+        {
+            debugItems[i].name = debugItems[i].itemData.displayName;
+        }
     }
 
     protected override void Awake()
