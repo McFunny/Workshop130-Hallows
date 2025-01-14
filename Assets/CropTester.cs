@@ -8,9 +8,9 @@ public class CropTester : MonoBehaviour, IInteractable
 {
     public bool cropInserted;
     private CropData currentCrop; // Store the current crop
-    public float actionDuration = 5f; // Duration of the "thing"
     private bool isProcessing; // Whether the action is in progress
     public GameObject spriteObject;
+    public GameObject dome;
     private SpriteRenderer spriteRenderer;
 
     [SerializeField] private Database _database;
@@ -121,10 +121,35 @@ public class CropTester : MonoBehaviour, IInteractable
         private IEnumerator ProcessCrop()
     {
         isProcessing = true;
-        Debug.Log($"Processing crop {currentCrop.name}...");
+        Vector3 savedPosition = dome.transform.position;
+        Vector3 offset = new Vector3 ( 0, -0.75f, 0 );
+        Vector3 targetPosition = dome.transform.position + offset;
+        Vector3 currentPosition = dome.transform.position;
 
-       
-        yield return new WaitForSeconds(actionDuration);
+        float elapsedTime = 0;
+        float waitTime = 1f;
+
+        while (elapsedTime < waitTime)
+        {
+            dome.transform.position = Vector3.Lerp(currentPosition, targetPosition, (elapsedTime / waitTime));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        dome.transform.position = targetPosition;
+
+        elapsedTime = 0;
+
+        yield return new WaitForSeconds(3);
+
+        currentPosition = dome.transform.position;
+        while (elapsedTime < waitTime)
+        {
+            dome.transform.position = Vector3.Lerp(currentPosition, savedPosition, (elapsedTime / waitTime));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        dome.transform.position = savedPosition;
 
         Debug.Log($"Action completed for crop {currentCrop.name}.");
         isProcessing = false;
