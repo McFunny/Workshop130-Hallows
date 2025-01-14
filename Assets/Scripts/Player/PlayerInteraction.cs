@@ -29,8 +29,8 @@ public class PlayerInteraction : MonoBehaviour
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
 
-    public float waterHeld = 0; //for watering can
-    [HideInInspector] public readonly float maxWaterHeld = 15;
+    public float waterHeld = 20; //for watering can
+    [HideInInspector] public readonly float maxWaterHeld = 20;
 
     public bool torchLit = false;
 
@@ -197,7 +197,7 @@ public class PlayerInteraction : MonoBehaviour
             var structure = hit.collider.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
-                structure.ItemInteraction(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
+                structure.ItemInteraction(item);
                 //Debug.Log("Interacted with item");
                 return;
             }

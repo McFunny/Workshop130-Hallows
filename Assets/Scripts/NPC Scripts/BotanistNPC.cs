@@ -63,9 +63,10 @@ public class BotanistNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(dialogueController.IsInterruptable() == false)
+        ToolItem tItem = item as ToolItem;
+        if(dialogueController.IsInterruptable() == false || tItem)
         {
-            interactSuccessful = true;
+            interactSuccessful = false;
             return;
         } 
 
@@ -105,7 +106,6 @@ public class BotanistNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
-        //code for the item being edible
         Talk();
 
         interactSuccessful = true;

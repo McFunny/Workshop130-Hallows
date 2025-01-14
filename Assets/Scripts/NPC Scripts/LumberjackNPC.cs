@@ -93,9 +93,10 @@ public class LumberjackNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(dialogueController.IsInterruptable() == false)
+        ToolItem tItem = item as ToolItem;
+        if(dialogueController.IsInterruptable() == false || tItem)
         {
-            interactSuccessful = true;
+            interactSuccessful = false;
             return;
         } 
 

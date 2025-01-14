@@ -26,7 +26,7 @@ public class WaterCanBehavior : ToolBehavior
                     playAnim = true;
                     structure.Extinguish();
                     PlayerInteraction.Instance.waterHeld--;
-                    return;
+                    //return;
                 }
                 else structure.ToolInteraction(tool, out playAnim);
                 if(playAnim)

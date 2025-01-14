@@ -266,7 +266,7 @@ public class MistWalker : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance || timeSpent > 100)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 100)
         {
             timeSpent += 0.01f;
             if (playerInSightRange)
