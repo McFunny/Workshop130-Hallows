@@ -70,12 +70,14 @@ public class UIMenuButton : MonoBehaviour
             {
                 text.color = c_selected;
                 arrowImage.color = c_interactable;
+                arrowImage.enabled = true;
                 isSelected = true;
             }
             else
             {
                 text.color = c_deselected;
                 arrowImage.color = c_invisible;
+                arrowImage.enabled = false;
                 isSelected = false;
             }
         }

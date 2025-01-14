@@ -33,7 +33,7 @@ RectTransform:
   m_Father: {fileID: 7068496450343033447}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 40.331, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -114,9 +114,9 @@ RectTransform:
   - {fileID: 4890102820341181208}
   m_Father: {fileID: 2548602301040097306}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 312.35406, y: -19.95475}
   m_SizeDelta: {x: 624.7081, y: 39.9095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1583148930897671619
@@ -135,7 +135,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 7163667749107149708}
-    m_SelectOnDown: {fileID: 7175678608546756988}
+    m_SelectOnDown: {fileID: 7163667749107149708}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 395438783791548442}
+      - m_Target: {fileID: 512702470407561170}
         m_TargetAssemblyTypeName: SettingsValueManager, Assembly-CSharp
         m_MethodName: UpdateSensitivity
         m_Mode: 0
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 1910222135836643373}
+    m_SelectOnUp: {fileID: 1583148930897671619}
     m_SelectOnDown: {fileID: 1583148930897671619}
     m_SelectOnLeft: {fileID: 6019727232807109924}
     m_SelectOnRight: {fileID: 8032816500318173214}
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 395438783791548442}
+      - m_Target: {fileID: 512702470407561170}
         m_TargetAssemblyTypeName: SettingsValueManager, Assembly-CSharp
         m_MethodName: SaveSettings
         m_Mode: 1
@@ -912,10 +912,10 @@ RectTransform:
   - {fileID: 2548602301040097306}
   m_Father: {fileID: 2991188012348421711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.011768021, y: 0.000042637756}
-  m_SizeDelta: {x: 1407.1909, y: 811.4636}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.5, y: 0}
+  m_SizeDelta: {x: -504.00928, y: -269.5437}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8874689474005535789
 CanvasRenderer:
@@ -1122,7 +1122,7 @@ RectTransform:
   m_Father: {fileID: 4991601383353431813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1307,6 +1307,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2991188012348421711}
+  - component: {fileID: 512702470407561170}
   m_Layer: 5
   m_Name: SettingsContainer
   m_TagString: Untagged
@@ -1335,6 +1336,29 @@ RectTransform:
   m_AnchoredPosition: {x: 0.01171875, y: 0}
   m_SizeDelta: {x: -0.9000244, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &512702470407561170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3190638207403138668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be38235988b8f264c9c464af48670fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerObject: {fileID: 3190638207403138668}
+  previousMenuObject: {fileID: 0}
+  defaultMenuObject: {fileID: 381067235801237050}
+  applyButton: {fileID: 7163667749107149708}
+  defaultButton: {fileID: 6019727232807109924}
+  sensitivityDisplay: {fileID: 7113996270002179303}
+  musicDisplay: {fileID: 6250625835962149204}
+  sfxDisplay: {fileID: 556253051544544453}
+  sensitivitySlider: {fileID: 1583148930897671619}
+  musicSlider: {fileID: 7175678608546756988}
+  sfxSlider: {fileID: 1910222135836643373}
 --- !u!1 &3579538166468276720
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,7 +1676,7 @@ RectTransform:
   m_Father: {fileID: 6863520760363691260}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 40.331, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1727,7 +1751,7 @@ RectTransform:
   m_Father: {fileID: 7003069088009935502}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1833,7 +1857,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 1910222135836643373}
+    m_SelectOnUp: {fileID: 1583148930897671619}
     m_SelectOnDown: {fileID: 1583148930897671619}
     m_SelectOnLeft: {fileID: 7163667749107149708}
     m_SelectOnRight: {fileID: 6019727232807109924}
@@ -1862,7 +1886,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 395438783791548442}
+      - m_Target: {fileID: 512702470407561170}
         m_TargetAssemblyTypeName: SettingsValueManager, Assembly-CSharp
         m_MethodName: Back
         m_Mode: 1
@@ -1951,7 +1975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6123110713088390261
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1972,9 +1996,9 @@ RectTransform:
   - {fileID: 4987596671875389224}
   m_Father: {fileID: 2548602301040097306}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 312.35406, y: -157.80463}
   m_SizeDelta: {x: 624.7081, y: 39.9095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1910222135836643373
@@ -2028,7 +2052,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 395438783791548442}
+      - m_Target: {fileID: 512702470407561170}
         m_TargetAssemblyTypeName: SettingsValueManager, Assembly-CSharp
         m_MethodName: UpdateSFXVol
         m_Mode: 0
@@ -2117,7 +2141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8051662524939006735
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2138,9 +2162,9 @@ RectTransform:
   - {fileID: 2729339466434285944}
   m_Father: {fileID: 2548602301040097306}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 312.35406, y: -88.879684}
   m_SizeDelta: {x: 624.7081, y: 39.9095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7175678608546756988
@@ -2194,7 +2218,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 395438783791548442}
+      - m_Target: {fileID: 512702470407561170}
         m_TargetAssemblyTypeName: SettingsValueManager, Assembly-CSharp
         m_MethodName: UpdateMusicVol
         m_Mode: 0
@@ -2543,7 +2567,7 @@ RectTransform:
   m_Father: {fileID: 4229380738174102444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2618,7 +2642,7 @@ RectTransform:
   m_Father: {fileID: 3633492455834785152}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 40.331, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2734,8 +2758,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4281712601
+  m_fontColor: {r: 0.8509804, g: 0.7490196, b: 0.20784314, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2826,10 +2850,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2991188012348421711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000011979602, y: 0.00003949951}
-  m_SizeDelta: {x: 1921.1, y: 1080}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 3.0999756, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6361872001980681976
 CanvasRenderer:
@@ -3413,7 +3437,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 1910222135836643373}
+    m_SelectOnUp: {fileID: 1583148930897671619}
     m_SelectOnDown: {fileID: 1583148930897671619}
     m_SelectOnLeft: {fileID: 8032816500318173214}
     m_SelectOnRight: {fileID: 7163667749107149708}
@@ -3442,7 +3466,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 395438783791548442}
+      - m_Target: {fileID: 512702470407561170}
         m_TargetAssemblyTypeName: SettingsValueManager, Assembly-CSharp
         m_MethodName: defaultSettings
         m_Mode: 1
@@ -3770,7 +3794,6 @@ GameObject:
   - component: {fileID: 1277888769586938411}
   - component: {fileID: 4722083123112671439}
   - component: {fileID: 4522296519895302352}
-  - component: {fileID: 395438783791548442}
   m_Layer: 5
   m_Name: SettingsCanvas
   m_TagString: Untagged
@@ -3861,29 +3884,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &395438783791548442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8611773072973176322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be38235988b8f264c9c464af48670fdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  containerObject: {fileID: 3190638207403138668}
-  previousMenuObject: {fileID: 0}
-  defaultMenuObject: {fileID: 381067235801237050}
-  applyButton: {fileID: 7163667749107149708}
-  defaultButton: {fileID: 6019727232807109924}
-  sensitivityDisplay: {fileID: 7113996270002179303}
-  musicDisplay: {fileID: 6250625835962149204}
-  sfxDisplay: {fileID: 556253051544544453}
-  sensitivitySlider: {fileID: 1583148930897671619}
-  musicSlider: {fileID: 7175678608546756988}
-  sfxSlider: {fileID: 1910222135836643373}
 --- !u!1 &8842013906386835268
 GameObject:
   m_ObjectHideFlags: 0
