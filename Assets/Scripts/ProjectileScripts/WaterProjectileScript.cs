@@ -55,6 +55,7 @@ public class WaterProjectileScript : MonoBehaviour
             if (creature != null && creature.shovelVulnerable)
             {
                 creature.TakeDamage(0);
+                creature.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);

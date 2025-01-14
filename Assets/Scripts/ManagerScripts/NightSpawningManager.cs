@@ -176,7 +176,7 @@ public class NightSpawningManager : MonoBehaviour
     public Vector3 RandomMistPosition()
     {
         int r = Random.Range(0, testSpawns.Count);
-        float x = Random.Range(-20, 20);
+        float x = Random.Range(-2, 2);
         return testSpawns[r].position + (x * testSpawns[r].transform.right); 
         //Debug.Log(testSpawns[r]);
         return testSpawns[r].position;

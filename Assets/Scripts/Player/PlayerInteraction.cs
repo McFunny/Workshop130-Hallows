@@ -197,7 +197,7 @@ public class PlayerInteraction : MonoBehaviour
             var structure = hit.collider.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
-                structure.ItemInteraction(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
+                structure.ItemInteraction(item);
                 //Debug.Log("Interacted with item");
                 return;
             }

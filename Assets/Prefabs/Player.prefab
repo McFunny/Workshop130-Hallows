@@ -217,6 +217,23 @@ MonoBehaviour:
   secondaryInventorySystem:
     inventorySlots: []
   _database: {fileID: 11400000, guid: 778e7ccc03dfccb4294abbe8b57c710a, type: 2}
+  startingItems:
+  - name: Hoe
+    itemData: {fileID: 11400000, guid: 56a99e191735f144d96b00f92ada1698, type: 2}
+    amount: 1
+  - name: Shovel
+    itemData: {fileID: 11400000, guid: 24f43b4b21869a84c93ebb8ee93150aa, type: 2}
+    amount: 1
+  - name: WaterCan
+    itemData: {fileID: 11400000, guid: 1c675471aa3779f4da8dfdd5b4d89175, type: 2}
+    amount: 1
+  - name: Shotgun
+    itemData: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
+    amount: 1
+  - name: Ammo
+    itemData: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+    amount: 6
+  debugItems: []
 --- !u!114 &6650565928944350188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +249,7 @@ MonoBehaviour:
   mainCam: {fileID: 0}
   toolCooldown: 0
   currentMoney: 0
+  totalMoneyEarned: 0
   stamina: 200
   waterHeld: 0
   torchLit: 0

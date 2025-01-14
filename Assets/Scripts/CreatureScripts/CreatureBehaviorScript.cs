@@ -67,7 +67,7 @@ public class CreatureBehaviorScript : MonoBehaviour
             isDead = true;
             //turns into a corpse, and fertilizes nearby crops
         }
-        else if(canCorpseBreak)
+        if(canCorpseBreak)
         {
             if(health <= corpseHealth && isDead && !corpseDestroyed)
             {
@@ -128,6 +128,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnStun(float duration){}
 
     public virtual void EnteredFireRadius(FireFearTrigger fireSource){}
+
+    public virtual void HitWithWater(){}
 
     public virtual void NewPriorityTarget(StructureBehaviorScript newStruct){}
 
