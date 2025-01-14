@@ -13,23 +13,31 @@ public class WaterGunBehavior : ToolBehavior
 
     public GameObject targetHighlight;
     public int range = 3;
-    List<GameObject> highlights = new List<GameObject>();
+    List<GameObject> highlights = new List<GameObject>(); //Does this cause an issue if the game is exited midcharge?
 
     float speed = 240;
     float bulletSpread = 0.2f;
+    bool maxCharge = false;
+
+    Animator gunAnim;
+    Coroutine shootingGunCoroutine;
+    Coroutine chargingCoroutine;
+
+    //Do we want the multishot to only consume a unit of water or water for each shot?
+    //Fix when you look at the same position from looking up, the targets dont show
 
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
+        if(!gunAnim) gunAnim = HandItemManager.Instance.AccessCurrentAnimator();
 
         if(PlayerInteraction.Instance.waterHeld == 0) return;
-
-        //code for refilling gun
         
         tool = _tool;
         usingPrimary = true;
+        maxCharge = false;
 
         if(highlights.Count != range)
         {
@@ -46,13 +54,15 @@ public class WaterGunBehavior : ToolBehavior
         }
         //Shoot
         //HandItemManager.Instance.PlayPrimaryAnimation();
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, 0.5f));
+        gunAnim.SetBool("Charging", true);
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.0f, 0.5f));
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
+        if(!gunAnim) gunAnim = HandItemManager.Instance.AccessCurrentAnimator();
         tool = _tool;
 
         //GainWater
@@ -100,8 +110,11 @@ public class WaterGunBehavior : ToolBehavior
     {
         if (usingPrimary)
         {
-            HandItemManager.Instance.StartCoroutine(ChargeTimer());
-            HandItemManager.Instance.StartCoroutine(ShootGun());
+            if(shootingGunCoroutine == null) 
+            {
+                shootingGunCoroutine = HandItemManager.Instance.StartCoroutine(ShootGun());
+                chargingCoroutine = HandItemManager.Instance.StartCoroutine(ChargeTimer());
+            }
         }
         if (usingSecondary)
         {
@@ -113,11 +126,17 @@ public class WaterGunBehavior : ToolBehavior
 
     public IEnumerator ChargeTimer()
     {
+        bulletCount = 0;
+        Debug.Log("0");
+        yield return new WaitForSeconds(0.45f);
         bulletCount = 1;
+        Debug.Log("1");
         yield return new WaitForSeconds(0.7f);
         if(InputManager.isCharging)
         {
+            Debug.Log("Showing Range");
             HandItemManager.Instance.StartCoroutine(ShowRange());
+            maxCharge = true;
         }
     }
 
@@ -126,18 +145,19 @@ public class WaterGunBehavior : ToolBehavior
         Vector3 currentPos = new Vector3(0,0,0);
         Vector3 newPos;
 
-        Direction currentDirection = Direction.North;
+        Direction currentDirection = Direction.Null;
         Direction newDirection;
         List<Vector3> targets = new List<Vector3>();
         while(InputManager.isCharging && usingPrimary)
         {
             newPos = StructureManager.Instance.GetTileCenter(player.position);
             newDirection = GetDirection();
-            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0))
+            //Debug.Log(player.eulerAngles.x);
+            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 20))
             {
                 currentPos = newPos;
                 currentDirection = newDirection;
-                Debug.Log(currentDirection);
+                //Debug.Log(currentDirection);
                 targets = StructureManager.Instance.WaterGunTargets(currentPos, currentDirection, range);
                 if(targets.Count > 0)
                 {
@@ -149,11 +169,17 @@ public class WaterGunBehavior : ToolBehavior
                     }
                 }
             }
-            else if(newPos == new Vector3(0,0,0)) foreach(GameObject light in highlights)
+            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 20)) 
             {
-                bulletCount = 1;
-                light.SetActive(false);
-            } 
+                currentPos = new Vector3(0,0,0);
+                currentDirection = Direction.Null;
+
+                foreach(GameObject light in highlights)
+                {
+                    bulletCount = 1;
+                    light.SetActive(false);
+                } 
+            }
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitUntil(() => !usingPrimary);
@@ -166,8 +192,21 @@ public class WaterGunBehavior : ToolBehavior
     public IEnumerator ShootGun()
     {
         yield return new WaitUntil(() => !InputManager.isCharging);
-        yield return new WaitForSeconds(0.01f);
-        HandItemManager.Instance.StopCoroutine(ChargeTimer());
+        //yield return new WaitForSeconds(0.01f);
+        HandItemManager.Instance.StopCoroutine(chargingCoroutine);
+        chargingCoroutine = null;
+
+        if(bulletCount == 1) gunAnim.SetTrigger("Fire1");
+        if(bulletCount == 3) gunAnim.SetTrigger("Fire3");
+        if(bulletCount == 5) gunAnim.SetTrigger("Fire5");
+        gunAnim.SetBool("Charging", false);
+
+        if(bulletCount == 0)
+        {
+            usingPrimary = false;
+            shootingGunCoroutine = null;
+            yield break; //exit the coroutine
+        }
         if(!bulletStart)
         {
             bulletStart = HandItemManager.Instance.bulletStart;
@@ -179,7 +218,7 @@ public class WaterGunBehavior : ToolBehavior
 
         for (int i = 0; i < bulletCount; i++)
         {
-            Debug.Log(bulletCount);
+            //Debug.Log(bulletCount);
             HandItemManager.Instance.toolSource.PlayOneShot(shoot);
             /*if(bulletCount == 1)*/ newBullet = ProjectilePoolManager.Instance.GrabLargeWater();
             //else GameObject newBullet = ProjectilePoolManager.Instance.GrabSmallWater();
@@ -189,7 +228,7 @@ public class WaterGunBehavior : ToolBehavior
             {
                 newBullet.GetComponent<WaterProjectileScript>().homing = true;
                 newBullet.GetComponent<WaterProjectileScript>().target = highlights[i].transform.position;
-                dir = bulletStart.forward  + new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
+                dir = bulletStart.forward  ;//+ new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
                 newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (50 + (30/2)));
                 newBullet.GetComponent<Rigidbody>().AddForce(dir * (10 + extraForce));
                 extraForce += 30f;
@@ -197,8 +236,16 @@ public class WaterGunBehavior : ToolBehavior
             else
             {
                 dir = bulletStart.forward;
-                newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 30);
-                newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
+                if(maxCharge)
+                {
+                    newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 10);
+                    newBullet.GetComponent<Rigidbody>().AddForce(dir * (speed * 2));
+                }
+                else
+                {
+                    newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 30);
+                    newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
+                }
             } 
             yield return new WaitForSeconds(0.25f);
         }
@@ -206,8 +253,9 @@ public class WaterGunBehavior : ToolBehavior
         {
             light.SetActive(false);
         }
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         usingPrimary = false;
+        shootingGunCoroutine = null;
     }
 
     public Direction GetDirection()

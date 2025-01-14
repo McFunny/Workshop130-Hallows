@@ -92,13 +92,13 @@ public class MutatedCrow : CreatureBehaviorScript
 
     void Update()
     {
-        if (currentState == CreatureState.CirclePlayer)
+       /* if (currentState == CreatureState.CirclePlayer)
         {
             // Rotation clamp
             Vector3 rotation = transform.eulerAngles;
             rotation.x = Mathf.Clamp(rotation.x, minX, maxX);
             transform.eulerAngles = rotation;
-        }
+        }*/
         CheckState(currentState);
     }
 
@@ -163,7 +163,7 @@ public class MutatedCrow : CreatureBehaviorScript
             else
             {
                 UpdateStructureList();
-                GetRandomPoint(4);
+                GetRandomPoint(1);
                 point.y = height;
                 currentState = CreatureState.CirclePoint;
             }
@@ -333,7 +333,7 @@ public class MutatedCrow : CreatureBehaviorScript
         }
         else //Fly to CROP
         {
-            Vector3 targetPosition = targetStructure.transform.position + Vector3.down * (speed * 0.5f) * Time.deltaTime;
+            Vector3 targetPosition = targetStructure.transform.position + Vector3.down * speed * Time.deltaTime;
             transform.LookAt(targetPosition);
             float distance = Vector3.Distance(transform.position, targetPosition);
             float t = ((speed * 0.5f) * Time.deltaTime) / distance;
@@ -424,7 +424,7 @@ public class MutatedCrow : CreatureBehaviorScript
                         else
                         {
                             rb.useGravity = false;
-                            GetRandomPoint(6);
+                            GetRandomPoint(1);
                             point.y = height;
                             currentState = CreatureState.CirclePoint;
                             coroutineRunning = false;
@@ -620,6 +620,7 @@ public class MutatedCrow : CreatureBehaviorScript
         {
             if(TimeManager.Instance.isDay)
             {
+                Debug.Log("Crow no attack in daytime");
                 point = GetRandomPoint(15);
                 currentState = CreatureState.CirclePoint;
             }
