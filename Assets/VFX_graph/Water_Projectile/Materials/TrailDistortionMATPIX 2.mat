@@ -36,6 +36,7 @@ Material:
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
+  - SHADOWCASTER
   - DepthOnly
   m_LockedProperties: 
   m_SavedProperties:
@@ -62,11 +63,11 @@ Material:
     - _AlphaClip: 1
     - _AlphaToMask: 0
     - _Blend: 1
-    - _CastShadows: 1
+    - _CastShadows: 0
     - _Cull: 0
-    - _Distortion_amount: 0.03
+    - _Distortion_amount: 0.06
     - _DstBlend: 10
-    - _Noise_Scale: 2
+    - _Noise_Scale: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 1
