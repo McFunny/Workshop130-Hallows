@@ -14,8 +14,9 @@ public class BotanistNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
-    void Awake()
+    protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
+        base.Awake();
         movementHandler = GetComponent<NPCMovement>();
         faceCamera = GetComponent<FaceCamera>();
         faceCamera.enabled = false;
