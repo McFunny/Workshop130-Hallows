@@ -13,7 +13,7 @@ public class UICropStats : MonoBehaviour
     public TextMeshProUGUI cropNameText, gloamAmount, terraAmount, ichorAmount, waterAmount, growthStageNumber;
     public TextMeshProUGUI cropNameTextD, gloamAmountD, terraAmountD, ichorAmountD, waterAmountD, growthStageNumberD;
     public TextMeshProUGUI gloamNumber, terraNumber, ichorNumber, waterNumber;
-    public float reach = 5;
+    public float reach = 8;
     private FarmLand hitCrop;
     private string cropName = "Crop Name";
     string growthString;
@@ -32,6 +32,9 @@ public class UICropStats : MonoBehaviour
 
     //For Lerps
     public Transform lerpStart, lerpEnd, cropUITransform;
+    float timeSpendAnimating = 0;
+    float moveProgress = 0;
+    float maxMoveProgress = 0.5f;
 
     void Awake()
     {
@@ -76,16 +79,18 @@ public class UICropStats : MonoBehaviour
             growthStageText.SetActive(true);
         }
 
-
-        if(isActive && cropUITransform.position != lerpEnd.position)
+        if(isActive && moveProgress < maxMoveProgress)
         {
-            cropUITransform.position = Vector3.MoveTowards(cropUITransform.position, lerpEnd.position, 200 * Time.deltaTime);
+            moveProgress += Time.deltaTime;
+            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
         }
 
-        if(!isActive && cropUITransform.position != lerpStart.position)
+        if(!isActive && moveProgress > 0)
         {
-            cropUITransform.position = Vector3.MoveTowards(cropUITransform.position, lerpStart.position, 200 * Time.deltaTime);
+            moveProgress -= Time.deltaTime;
+            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
         }
+
     }
     
     private void MoreInfo(InputAction.CallbackContext obj)

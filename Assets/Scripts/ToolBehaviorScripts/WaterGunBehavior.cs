@@ -128,10 +128,11 @@ public class WaterGunBehavior : ToolBehavior
     {
         bulletCount = 0;
         Debug.Log("0");
-        yield return new WaitForSeconds(0.45f);
+        yield return new WaitForSeconds(0.35f);
+        gunAnim.SetBool("EarlyFire", true);
         bulletCount = 1;
         Debug.Log("1");
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.65f);
         if(InputManager.isCharging)
         {
             Debug.Log("Showing Range");
@@ -253,6 +254,7 @@ public class WaterGunBehavior : ToolBehavior
         {
             light.SetActive(false);
         }
+        gunAnim.SetBool("EarlyFire", false);
         yield return new WaitForSeconds(0.1f);
         usingPrimary = false;
         shootingGunCoroutine = null;

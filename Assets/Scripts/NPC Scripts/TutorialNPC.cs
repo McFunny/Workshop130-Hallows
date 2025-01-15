@@ -39,7 +39,7 @@ public class TutorialNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        interactSuccessful = true;
+        interactSuccessful = false;
         return;
     }
 
