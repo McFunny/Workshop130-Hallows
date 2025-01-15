@@ -20,6 +20,7 @@ public class PyreFly : CreatureBehaviorScript
     public Material ignitedMat, extinguishedMat;
     public MeshRenderer meshRenderer;
     float textureOffset = 0;
+    public float offsetRate = .005f;
 
 
     public PyreFlyHive homeHive;
@@ -68,9 +69,9 @@ public class PyreFly : CreatureBehaviorScript
             CheckState(currentState);
         }
 
-        //textureOffset = textureOffset + 0.001f;
-        //meshRenderer.material.mainTextureOffset = new Vector2(0, textureOffset);
-        //if(textureOffset > 500) textureOffset = 0;
+        textureOffset = textureOffset + offsetRate;
+        meshRenderer.material.mainTextureOffset = new Vector2(0, textureOffset);
+        if(textureOffset > 500) textureOffset = 0;
     }
 
     public void CheckState(CreatureState currentState)
