@@ -119,7 +119,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         }
     } //Triggers creature specific effects
 
-    void OnDestroy()
+    public void OnDestroy()
     {
         if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
     }
@@ -132,6 +132,11 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void HitWithWater(){}
 
     public virtual void NewPriorityTarget(StructureBehaviorScript newStruct){}
+
+    public virtual void ToolInteraction(ToolType tool, out bool success)
+    {
+        success = false;
+    }
 
     public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
     {
