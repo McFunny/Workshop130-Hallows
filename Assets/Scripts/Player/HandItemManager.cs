@@ -18,6 +18,8 @@ public class HandItemManager : MonoBehaviour
 
     public AudioSource toolSource;
 
+    public AudioClip extinguish;
+
     public Transform bulletStart;
 
     void Awake()
@@ -176,6 +178,8 @@ public class HandItemManager : MonoBehaviour
         }
         else
         {
+            toolSource.PlayOneShot(extinguish);
+            if(currentHandObject == torch) ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
             PlayerInteraction.Instance.torchLit = false;
             torchFlame.SetActive(false);
         }

@@ -172,6 +172,17 @@ public class StructureBehaviorScript : MonoBehaviour
     public void Extinguish()
     {
         onFire = false;
+        StartCoroutine(ExtinguishCooldown());
+    }
+
+    IEnumerator ExtinguishCooldown()
+    {
+        if(flammable)
+        {
+            flammable = false;
+            yield return new WaitForSeconds(3);
+            flammable = true;
+        }
     }
 
     IEnumerator Burn()

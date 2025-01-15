@@ -13,7 +13,6 @@ public class TorchBehavior : ToolBehavior
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
-        //make it so you can only ignite things with a lit torch. Also check if in front of you the struct is burning to also light torch
 
         //Debug.Log("Used");
         
@@ -89,7 +88,6 @@ public class TorchBehavior : ToolBehavior
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
-        //make it so you can only ignite things with a lit torch. Also check if in front of you the struct is burning to also light torch
 
         //Debug.Log("Used");
         
