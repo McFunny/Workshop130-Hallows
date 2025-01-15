@@ -457,7 +457,7 @@ public class MistWalker : CreatureBehaviorScript
             StartCoroutine(SwipePlayer());
             transform.LookAt(player.position);
         }
-        else if (distance > attackRange && distance <= lungeRange && canLunge)
+        else if (distance > attackRange && distance <= lungeRange && canLunge && !PlayerInteraction.Instance.torchLit)
         {
             StartCoroutine(LungeAtPlayer());
         }
