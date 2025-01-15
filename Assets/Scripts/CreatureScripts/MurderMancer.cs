@@ -36,7 +36,7 @@ public class MurderMancer : CreatureBehaviorScript
 
     void Update()
     {
-        //ISSUE, IT NEEDS TO OCCUPY THE CURRENT TILE ORTHERWISE THE PLAYER CAN BUILD STRUCTS ON IT
+        //ISSUE, IT NEEDS TO OCCUPY THE CURRENT TILE OTHERWISE THE PLAYER CAN BUILD STRUCTS ON IT
     }
 
     IEnumerator SecondTimer()
