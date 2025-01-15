@@ -84,6 +84,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public virtual void TimeLapse(int hours){}
 
+    public virtual void HitWithWater(){}
+
     public virtual bool IsFlammable()
     {
         return flammable;

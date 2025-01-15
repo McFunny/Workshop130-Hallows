@@ -17,8 +17,9 @@ public class PlayerInventoryHolder : InventoryHolder
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
 
     [System.Serializable]
-    public struct Item
+    public class Item
     {
+        public string name;
         public InventoryItemData itemData;
         public int amount;
     }
@@ -28,6 +29,20 @@ public class PlayerInventoryHolder : InventoryHolder
 
     [Header("Debug Items")]
     [SerializeField] private List<Item> debugItems;
+
+    [ContextMenu("Name Items")]
+    public void NameItems()
+    {
+        for(int i = 0; i < startingItems.Count; i++)
+        {
+            startingItems[i].name = startingItems[i].itemData.displayName;
+        }
+
+        for(int i = 0; i < debugItems.Count; i++)
+        {
+            debugItems[i].name = debugItems[i].itemData.displayName;
+        }
+    }
 
     protected override void Awake()
     {

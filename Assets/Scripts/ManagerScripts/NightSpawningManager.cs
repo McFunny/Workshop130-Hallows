@@ -104,7 +104,8 @@ public class NightSpawningManager : MonoBehaviour
             r = Random.Range(0, weightArray.Count);
             CreatureObject attemptedCreature = creatures[weightArray[r]];
             //If there is enough points to afford the creature and it hasnt reached it's spawn cap, spawn it
-            if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreaturesThisHour[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold && attemptedCreature.spawnCap > creatureTally[weightArray[r]])
+            if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreaturesThisHour[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold
+                && attemptedCreature.spawnCap > creatureTally[weightArray[r]] && PlayerInteraction.Instance.totalMoneyEarned >= attemptedCreature.wealthPrerequisite)
             {
                 spawnedCreaturesThisHour[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
@@ -126,6 +127,7 @@ public class NightSpawningManager : MonoBehaviour
         {
             r = Random.Range(0, weightArray.Count);
             CreatureObject newCreature = creatures[weightArray[r]];
+            if(PlayerInteraction.Instance.totalMoneyEarned < newCreature.wealthPrerequisite) return;
             spawnedCreaturesThisHour[weightArray[r]]++;
             SpawnCreature(newCreature);
         }
@@ -176,7 +178,7 @@ public class NightSpawningManager : MonoBehaviour
     public Vector3 RandomMistPosition()
     {
         int r = Random.Range(0, testSpawns.Count);
-        float x = Random.Range(-20, 20);
+        float x = Random.Range(-2, 2);
         return testSpawns[r].position + (x * testSpawns[r].transform.right); 
         //Debug.Log(testSpawns[r]);
         return testSpawns[r].position;

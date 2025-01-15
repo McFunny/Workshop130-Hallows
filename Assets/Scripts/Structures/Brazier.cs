@@ -20,7 +20,8 @@ public class Brazier : StructureBehaviorScript
         base.Start();
         fireTrigger.OnScare += EnemyScaredByFire;
         StartCoroutine(FireDrain());
-        flameLeft = maxFlame;
+        flameLeft = 0;
+        fire.SetActive(false);
     }
 
     void Update()
@@ -43,16 +44,31 @@ public class Brazier : StructureBehaviorScript
         float r;
         while(gameObject.activeSelf)
         {
-            r = Random.Range(5, 20);
+            r = Random.Range(10, 15);
             yield return new WaitForSeconds(r);
             r = Random.Range(0,2);
             flameLeft -= r;
             if(flameLeft < 0) flameLeft = 0;
             if(flameLeft == 0 && fire.activeSelf)
             {
-                fire.SetActive(false);
-                audioHandler.PlaySound(audioHandler.miscSounds1[0]);
+                ExtinguishFlame();
             }
+        }
+    }
+
+    void ExtinguishFlame()
+    {
+        ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = fire.transform.position;
+        fire.SetActive(false);
+        audioHandler.PlaySound(audioHandler.miscSounds1[0]);
+    }
+
+    public override void HitWithWater()
+    {
+        if(flameLeft > 0)
+        {
+            flameLeft = 0;
+            ExtinguishFlame();
         }
     }
 
@@ -65,7 +81,9 @@ public class Brazier : StructureBehaviorScript
 
     void EnemyScaredByFire()
     {
+        if(flameLeft <= 0) return;
         float r = Random.Range(0,10);
         if(r < 4) flameLeft -= r;
+        if(flameLeft <= 0) ExtinguishFlame();
     }
 }

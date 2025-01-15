@@ -67,7 +67,7 @@ public class CreatureBehaviorScript : MonoBehaviour
             isDead = true;
             //turns into a corpse, and fertilizes nearby crops
         }
-        else if(canCorpseBreak)
+        if(canCorpseBreak)
         {
             if(health <= corpseHealth && isDead && !corpseDestroyed)
             {
@@ -119,7 +119,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         }
     } //Triggers creature specific effects
 
-    void OnDestroy()
+    public void OnDestroy()
     {
         if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
     }
@@ -129,7 +129,14 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public virtual void EnteredFireRadius(FireFearTrigger fireSource){}
 
+    public virtual void HitWithWater(){}
+
     public virtual void NewPriorityTarget(StructureBehaviorScript newStruct){}
+
+    public virtual void ToolInteraction(ToolType tool, out bool success)
+    {
+        success = false;
+    }
 
     public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
     {
