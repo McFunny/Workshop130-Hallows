@@ -19,7 +19,8 @@ public class MutatedCrow : CreatureBehaviorScript
         Land,
         GoAway,
         Dead,
-        GoEatCrop
+        GoEatCrop,
+        AttackScarecrow
     }
 
     // ============================
@@ -39,6 +40,8 @@ public class MutatedCrow : CreatureBehaviorScript
     public List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
     public ParticleSystem attackParticle;
     public ParticleSystem cropParticle;
+
+    public StructureObject scareCrow;
 
 
     FarmLand foundFarmTile;
@@ -89,13 +92,13 @@ public class MutatedCrow : CreatureBehaviorScript
 
     void Update()
     {
-        if (currentState == CreatureState.CirclePlayer)
+       /* if (currentState == CreatureState.CirclePlayer)
         {
             // Rotation clamp
             Vector3 rotation = transform.eulerAngles;
             rotation.x = Mathf.Clamp(rotation.x, minX, maxX);
             transform.eulerAngles = rotation;
-        }
+        }*/
         CheckState(currentState);
     }
 
@@ -130,6 +133,9 @@ public class MutatedCrow : CreatureBehaviorScript
             case CreatureState.GoEatCrop:
                 Eat();
                 break;
+            case CreatureState.AttackScarecrow:
+                AttackScarecrow();
+                break;
             default:
                 Debug.LogError("Unknown state: " + currentState);
                 break;
@@ -149,7 +155,7 @@ public class MutatedCrow : CreatureBehaviorScript
             rb.useGravity = false;
             rb.freezeRotation = false;
 
-            if (isAttackCrow)
+            if (isAttackCrow && !CheckForScareCrow())
             {
                 StartCoroutine(DoAttackCooldown(attackCooldown));
                 currentState = CreatureState.CirclePlayer;
@@ -157,7 +163,7 @@ public class MutatedCrow : CreatureBehaviorScript
             else
             {
                 UpdateStructureList();
-                GetRandomPoint(4);
+                GetRandomPoint(1);
                 point.y = height;
                 currentState = CreatureState.CirclePoint;
             }
@@ -242,6 +248,38 @@ public class MutatedCrow : CreatureBehaviorScript
         }
     }
 
+    private void AttackScarecrow()
+    {
+        if (targetStructure == null)
+        {
+            currentState = CreatureState.Land;
+            return;
+        }
+        if (Vector3.Distance(transform.position, targetStructure.transform.position) < 3f) //Arrived at crop eat it
+        {
+            if (targetStructure == null) currentState = CreatureState.Idle;
+            rb.useGravity = true;
+
+            Vector3 rotation = transform.eulerAngles;
+            rotation.x = 0;
+            rotation.z = 0;
+            transform.eulerAngles = rotation;
+
+            targetStructure.TakeDamage(2);
+            targetStructure = null;
+            currentState = CreatureState.Idle;
+            Debug.Log("I attacked the scarecrow");
+        }
+        else //Fly to SCARECROW
+        {
+            Vector3 targetPosition = targetStructure.transform.position + Vector3.down * (speed) * Time.deltaTime;
+            transform.LookAt(targetPosition);
+            float distance = Vector3.Distance(transform.position, targetPosition);
+            float t = ((speed) * Time.deltaTime) / distance;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t));
+        }
+    }
+
     private void Land()
     {
         if (IsGrounded()) //bird is grounded
@@ -295,7 +333,7 @@ public class MutatedCrow : CreatureBehaviorScript
         }
         else //Fly to CROP
         {
-            Vector3 targetPosition = targetStructure.transform.position + Vector3.down * (speed * 0.5f) * Time.deltaTime;
+            Vector3 targetPosition = targetStructure.transform.position + Vector3.down * speed * Time.deltaTime;
             transform.LookAt(targetPosition);
             float distance = Vector3.Distance(transform.position, targetPosition);
             float t = ((speed * 0.5f) * Time.deltaTime) / distance;
@@ -350,9 +388,14 @@ public class MutatedCrow : CreatureBehaviorScript
                     {
                         rb.useGravity = false;
                         coroutineRunning = false;
+                        if(CheckForScareCrow())
+                        {
+                            currentState = CreatureState.AttackScarecrow;
+                            break;
+                        }
                         StartCoroutine(DoAttackCooldown(attackCooldown));
                         currentState = CreatureState.CirclePlayer;
-                        yield break; // Exit the coroutine
+                        break; // Exit the coroutine
                     }
                     else
                     {
@@ -364,6 +407,11 @@ public class MutatedCrow : CreatureBehaviorScript
                 case 3: // Find a CROP or random point to circle
                     if (!isAttackCrow)
                     {
+                        if(CheckForScareCrow())
+                        {
+                            currentState = CreatureState.AttackScarecrow;
+                            break;
+                        }
                         Vector3? cropPosition = FindCrop();
                         if (cropPosition.HasValue)
                         {
@@ -376,7 +424,7 @@ public class MutatedCrow : CreatureBehaviorScript
                         else
                         {
                             rb.useGravity = false;
-                            GetRandomPoint(6);
+                            GetRandomPoint(1);
                             point.y = height;
                             currentState = CreatureState.CirclePoint;
                             coroutineRunning = false;
@@ -412,6 +460,11 @@ public class MutatedCrow : CreatureBehaviorScript
                     yield return new WaitForSeconds(4);
                     break;
                 case 1: //if player is near, go ATTACK them, if not, GO AWAY
+                    if(CheckForScareCrow())
+                    {
+                        currentState = CreatureState.AttackScarecrow;
+                        break;
+                    }
                     if (Vector3.Distance(transform.position, player.position) < 50)
                     {
                         currentState = CreatureState.CirclePlayer;
@@ -435,12 +488,22 @@ public class MutatedCrow : CreatureBehaviorScript
                     currentState = CreatureState.Land;
                     break;
                 case 5: //Go CROP mode and circle a point
+                    if(CheckForScareCrow())
+                    {
+                        currentState = CreatureState.AttackScarecrow;
+                        break;
+                    }
                     isAttackCrow = false;
                     point = GetRandomPoint(15);
                     currentState = CreatureState.CirclePoint;
                     yield return new WaitForSeconds(5);
                     break;
                 case 6: //go CROP mode. If CROP available circle it, if not circle a random point
+                    if(CheckForScareCrow())
+                    {
+                        currentState = CreatureState.AttackScarecrow;
+                        break;
+                    }
                     isAttackCrow = false;
                     Vector3? cropPosition = FindCrop();
                     if (cropPosition.HasValue)
@@ -487,6 +550,11 @@ public class MutatedCrow : CreatureBehaviorScript
                         yield return new WaitForSeconds(6);
                         break;
                     case 2: //Find a CROP and if none are available go ATTACK mode. Dont attack crop at day
+                        if(CheckForScareCrow())
+                        {
+                            currentState = CreatureState.AttackScarecrow;
+                            break;
+                        }
                         Vector3? cropPosition = FindCrop();
                         if (cropPosition.HasValue)
                         {
@@ -501,6 +569,11 @@ public class MutatedCrow : CreatureBehaviorScript
                         }
                         break;
                     case 3: //Find a CROP and if none are available land the bird. Dont attack crop at day
+                        if(CheckForScareCrow())
+                        {
+                            currentState = CreatureState.AttackScarecrow;
+                            break;
+                        }
                         Vector3? cropPosition2 = FindCrop();
                         if (cropPosition2.HasValue && !TimeManager.Instance.isDay)
                         {
@@ -516,6 +589,11 @@ public class MutatedCrow : CreatureBehaviorScript
                     case 4: //ATTACK PLAYER if they are near and if not, circle random point
                         if (Vector3.Distance(transform.position, player.position) < 50)
                         {
+                            if(CheckForScareCrow())
+                            {
+                                currentState = CreatureState.AttackScarecrow;
+                                break;
+                            }
                             isAttackCrow = true;
                             currentState = CreatureState.CirclePlayer;
                             yield return new WaitForSeconds(6);
@@ -542,6 +620,7 @@ public class MutatedCrow : CreatureBehaviorScript
         {
             if(TimeManager.Instance.isDay)
             {
+                Debug.Log("Crow no attack in daytime");
                 point = GetRandomPoint(15);
                 currentState = CreatureState.CirclePoint;
             }
@@ -606,7 +685,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
         Vector3 abovePlayerPos = player.position + Vector3.up * attackHeight;
         Vector3 direction = (abovePlayerPos - transform.position).normalized;
-        while (Vector3.Distance(transform.position, abovePlayerPos) > 0.5f)
+        while (Vector3.Distance(transform.position, abovePlayerPos) > 0.7f)
         {
             float distance = Vector3.Distance(transform.position, abovePlayerPos);
             float t = (speed * Time.deltaTime) / distance;
@@ -685,11 +764,28 @@ public class MutatedCrow : CreatureBehaviorScript
        
     }
 
+    private bool CheckForScareCrow()
+    {
+        foreach (StructureBehaviorScript structure in structManager.allStructs)
+        {
+            int r = Random.Range(0,10);
+            if(structure.structData == scareCrow && r > 5)
+            {
+                targetStructure = structure;
+                print("Scarecrow");
+                return true;
+            }
+            else print("Scarecrow but ignored");
+        }
+        print("No Scarecrow");
+        return false;
+    }
+
     private void RandomizeStats() //Randomizes many of the birds stats
     {
         circleRadius = Random.Range(5, 15);
         height = Random.Range(4, 8);
-        speed = Random.Range(7, 8);
+        speed = Random.Range(9, 11);
         attackCooldown = Random.Range(3, 15);
         circleDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
     }
@@ -723,7 +819,7 @@ public class MutatedCrow : CreatureBehaviorScript
     //Consider making its collider a trigger, to prefent it from getting caught in trees
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("scarecrow") && !isFleeing)
+        /*if (other.CompareTag("scarecrow") && !isFleeing)
         {
             if (currentState == CreatureState.GoAway) return;
             StopAllCoroutines();
@@ -736,7 +832,7 @@ public class MutatedCrow : CreatureBehaviorScript
             point.y = height;
 
             currentState = CreatureState.CirclePoint;
-        }
+        }*/
     }
 
     void OnCollisionEnter(Collision other)
