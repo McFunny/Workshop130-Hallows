@@ -350,7 +350,7 @@ public class PlayerInteraction : MonoBehaviour
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         playerEffects.PlayClip(playerEffects.playerDie);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         TimeManager.Instance.GameOver();
         print("Time GameOver Complete");
         NightSpawningManager.Instance.GameOver();
@@ -358,7 +358,7 @@ public class PlayerInteraction : MonoBehaviour
         TownGate.Instance.GameOver();
         print("Gate GameOver Complete");
         //Potentially a spot where some structures get destroyed
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;

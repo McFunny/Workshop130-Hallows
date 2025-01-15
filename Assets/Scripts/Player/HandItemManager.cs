@@ -5,6 +5,7 @@ using UnityEngine;
 public class HandItemManager : MonoBehaviour
 {
     public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch;
+    public GameObject torchFlame;
 
     ToolType currentType = ToolType.Null;
 
@@ -161,6 +162,22 @@ public class HandItemManager : MonoBehaviour
             {
                 currentAnim.SetBool("HasAmmoLeft", true);
             }
+        }
+    }
+
+    public void TorchFlameToggle(bool ignite)
+    {
+        if((PlayerInteraction.Instance.torchLit && ignite) || (!PlayerInteraction.Instance.torchLit && !ignite)) return;
+
+        if(ignite)
+        {
+            PlayerInteraction.Instance.torchLit = true;
+            torchFlame.SetActive(true);
+        }
+        else
+        {
+            PlayerInteraction.Instance.torchLit = false;
+            torchFlame.SetActive(false);
         }
     }
 }

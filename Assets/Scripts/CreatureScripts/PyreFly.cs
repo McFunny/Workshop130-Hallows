@@ -363,5 +363,15 @@ public class PyreFly : CreatureBehaviorScript
         }
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if(type == ToolType.Torch && !PlayerInteraction.Instance.torchLit && ignited)
+        {
+            HandItemManager.Instance.TorchFlameToggle(true);
+            success = true;
+        }
+        else success = false;
+    }
+
     //
 }
