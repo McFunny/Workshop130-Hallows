@@ -99,7 +99,7 @@ public class PauseScript : MonoBehaviour
         if(isTransitioning) return;
         isTransitioning = true;
         StartCoroutine(MainMenuTransition());
-        //SceneManager.LoadSceneAsync("MainMenu");
+        //SceneManager.LoadSceneAsync(0);
     }
 
     IEnumerator MainMenuTransition()
@@ -107,7 +107,7 @@ public class PauseScript : MonoBehaviour
         pauseObject.SetActive(false);
         FadeScreen.coverScreen = true;
         yield return new WaitForSecondsRealtime(1);
-        SceneManager.LoadSceneAsync("MainMenu");
+        SceneManager.LoadSceneAsync(0);
     }
 
     public void OpenSettingsScreen()

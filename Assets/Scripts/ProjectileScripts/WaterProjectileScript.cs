@@ -29,6 +29,7 @@ public class WaterProjectileScript : MonoBehaviour
                     if(nutrients.waterLevel != 10) farmTile.WaterCrops();
                     else return;
                 }
+                structure.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Structure");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);

@@ -68,7 +68,7 @@ MonoBehaviour:
   playerInSightRange: 0
   playerInAttackRange: 0
   shovelVulnerable: 1
-  isTrapped: 0
+  fireVulnerable: 0
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 20
@@ -83,8 +83,9 @@ MonoBehaviour:
   agent: {fileID: 0}
   pyreFire: {fileID: 9061156446741105128}
   ignitedMat: {fileID: 2100000, guid: 8470e1ec53530ae439f837b725de6731, type: 2}
-  extinguishedMat: {fileID: 2100000, guid: 06dd1baaa16d9184280f7b81d2261514, type: 2}
+  extinguishedMat: {fileID: 2100000, guid: 9b08859ccf23f4f45a1ba5415972eebd, type: 2}
   meshRenderer: {fileID: 2404094924373996786}
+  offsetRate: 0.005
   homeHive: {fileID: 0}
   currentState: 0
 --- !u!195 &5191490688788952379
@@ -250,7 +251,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b99a98991c0c51048bc9c799af83ea4b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.82
+      value: 3.75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b99a98991c0c51048bc9c799af83ea4b,
         type: 3}
@@ -507,7 +508,7 @@ MonoBehaviour:
   hitSounds: []
   footSteps: []
   deathSound: {fileID: 0}
-  miscSound: {fileID: 0}
+  miscSound: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   miscSound2: {fileID: 0}
 --- !u!82 &2462495302870994233
 AudioSource:

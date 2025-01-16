@@ -12,6 +12,8 @@ public class MurderMancer : CreatureBehaviorScript
     public GameObject crowPrefab;
     public ParticleSystem stageParticles; //rates are 0, 2, 5, and 15
 
+    Vector3 origin;
+
     public enum CreatureState
     {
         FlyIn,
@@ -36,7 +38,26 @@ public class MurderMancer : CreatureBehaviorScript
 
     void Update()
     {
-        //ISSUE, IT NEEDS TO OCCUPY THE CURRENT TILE ORTHERWISE THE PLAYER CAN BUILD STRUCTS ON IT
+        //ISSUE, IT NEEDS TO OCCUPY THE CURRENT TILE OTHERWISE THE PLAYER CAN BUILD STRUCTS ON IT
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if(type == ToolType.Torch && PlayerInteraction.Instance.torchLit && !coroutineRunning)
+        {
+            StartCoroutine(SnuffTorch());
+            coroutineRunning = true;
+            success = true;
+        }
+        else success = false;
+    }
+
+    IEnumerator SnuffTorch()
+    {
+        yield return new WaitForSeconds(0.8f);
+        HandItemManager.Instance.TorchFlameToggle(false);
+        LowerStage();
+        coroutineRunning = false;
     }
 
     IEnumerator SecondTimer()
@@ -44,34 +65,14 @@ public class MurderMancer : CreatureBehaviorScript
         while(gameObject.activeSelf)
         {
             yield return new WaitForSeconds(1);
+            if(coroutineRunning) yield return null;
             if (TimeManager.Instance.isDay)
             {
                 base.OnDeath();
                 Destroy(this.gameObject);
             }
 
-            float distance = Vector3.Distance(player.position, transform.position);
-            playerInSightRange = distance <= sightRange;
-            if (playerInSightRange)
-            {
-                if (timeSinceLastSeenPlayer >= 60)
-                {
-                    timeSinceLastSeenPlayer = 60;
-                }
-                else if (timeSinceLastSeenPlayer >= 40)
-                {
-                    timeSinceLastSeenPlayer = 40;
-                }
-                else if (timeSinceLastSeenPlayer >= 20)
-                {
-                    timeSinceLastSeenPlayer = 20;
-                }
-                else if (timeSinceLastSeenPlayer < 20)
-                {
-                    timeSinceLastSeenPlayer = 0;
-                }
-            }
-            else { timeSinceLastSeenPlayer += 1; }
+            timeSinceLastSeenPlayer += 1;
             CheckStage();
             CheckState(currentState);
         }
@@ -83,26 +84,60 @@ public class MurderMancer : CreatureBehaviorScript
         if (timeSinceLastSeenPlayer >= 80)
         {
             currentState = CreatureState.SummonCrows;
+            anim.SetInteger("PowerLevel", 4);
         }
         else if (timeSinceLastSeenPlayer >= 60)
         {
             currentState = CreatureState.Stage3;
+            anim.SetInteger("PowerLevel", 3);
             pEmission.rateOverTime = 15;
         }
         else if (timeSinceLastSeenPlayer >= 40)
         {
             currentState = CreatureState.Stage2;
+            anim.SetInteger("PowerLevel", 2);
             pEmission.rateOverTime = 5;
         }
         else if (timeSinceLastSeenPlayer >= 20)
         {
             currentState = CreatureState.Stage1;
+            anim.SetInteger("PowerLevel", 1);
             pEmission.rateOverTime = 2;
         }
         else if (timeSinceLastSeenPlayer < 20)
         {
             currentState = CreatureState.Idle;
+            anim.SetInteger("PowerLevel", 0);
             pEmission.rateOverTime = 0;
+        }
+    }
+
+    void LowerStage()
+    {
+        if (timeSinceLastSeenPlayer >= 60)
+        {
+            timeSinceLastSeenPlayer = 60;
+        }
+        else if (timeSinceLastSeenPlayer >= 40)
+        {
+            timeSinceLastSeenPlayer = 40;
+        }
+        else if (timeSinceLastSeenPlayer >= 20)
+        {
+            timeSinceLastSeenPlayer = 20;
+        }
+        else if (timeSinceLastSeenPlayer < 20)
+        {
+            TakeDamage(50);
+            if(health <= 0)
+            {
+                //dropitems
+                Destroy(this.gameObject);
+                return;
+            }
+            StructureManager.Instance.ClearTile(origin);
+            SpawnIn();
+            timeSinceLastSeenPlayer = 0;
         }
     }
 
@@ -200,6 +235,7 @@ public class MurderMancer : CreatureBehaviorScript
         {
             transform.position = newPos;
             StructureManager.Instance.SetTile(newPos);
+            origin = transform.position;
         }
     }
 

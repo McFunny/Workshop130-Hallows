@@ -19,6 +19,8 @@ public class PyreFly : CreatureBehaviorScript
     public GameObject pyreFire;
     public Material ignitedMat, extinguishedMat;
     public MeshRenderer meshRenderer;
+    float textureOffset = 0;
+    public float offsetRate = .005f;
 
 
     public PyreFlyHive homeHive;
@@ -66,6 +68,10 @@ public class PyreFly : CreatureBehaviorScript
         {
             CheckState(currentState);
         }
+
+        textureOffset = textureOffset + offsetRate;
+        meshRenderer.material.mainTextureOffset = new Vector2(0, textureOffset);
+        if(textureOffset > 500) textureOffset = 0;
     }
 
     public void CheckState(CreatureState currentState)
@@ -184,7 +190,7 @@ public class PyreFly : CreatureBehaviorScript
             int r = Random.Range(0, availableStructure.Count);
             targetStructure = availableStructure[r];
         }
-        print("Searched for struct to burn. Found: " + targetStructure);
+        //print("Searched for struct to burn. Found: " + targetStructure);
     }
 
     void WalkTowardsClosestFlame()
@@ -202,7 +208,7 @@ public class PyreFly : CreatureBehaviorScript
                 currentState = CreatureState.Wander;
             }
         }
-        else if (Vector3.Distance(transform.position, targetFireSource.transform.position) < igniteDistance)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
+        else if (Vector3.Distance(transform.position, targetFireSource.transform.position) < igniteDistance + 1)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
         {
             agent.ResetPath();
             IgniteSelf();
@@ -283,12 +289,14 @@ public class PyreFly : CreatureBehaviorScript
             FindFireSource();
             if(targetFireSource) currentState = CreatureState.WalkTowardsClosestFlame;
             else if(homeHive) currentState = CreatureState.ReturnToHive;
+            else currentState = CreatureState.Wander;
         }
         
     }
 
-    void IgnitionToggle(bool IsIgnited)
+    public void IgnitionToggle(bool IsIgnited)
     {
+        if(ignited == IsIgnited) return;
         ignited = IsIgnited;
 
         if(ignited)
@@ -305,17 +313,66 @@ public class PyreFly : CreatureBehaviorScript
             {
                 currentState = CreatureState.Wander;
             }
+
+            if(effectsHandler)
+            {
+                ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = transform.position;
+                effectsHandler.MiscSound();
+            }
         }
 
     }
 
     void EnterHive()
     {
-        Destroy(this.gameObject);
+        if(homeHive == null) currentState = CreatureState.Wander;
+        if(homeHive.ignited)
+        {
+            IgnitionToggle(true);
+            currentState = CreatureState.Wander;
+        }
+        else
+        {
+            homeHive.FlyLost();
+            Destroy(this.gameObject);
+        }
     }
 
     public override void HitWithWater()
     {
         IgnitionToggle(false);
     }
+
+    public void OnDestroy()
+    {
+        base.OnDestroy();
+        if(!gameObject.scene.isLoaded) return;
+        if(homeHive) homeHive.FlyLost();
+
+        if(ignited)
+        {
+            if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f) PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1, 1 << 6);
+            foreach(Collider collider in hitColliders)
+            {
+                StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+                if(structure && structure.IsFlammable())
+                {
+                    structure.LitOnFire();
+                }
+            }
+        }
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if(type == ToolType.Torch && !PlayerInteraction.Instance.torchLit && ignited)
+        {
+            HandItemManager.Instance.TorchFlameToggle(true);
+            success = true;
+        }
+        else success = false;
+    }
+
+    //
 }
