@@ -113,7 +113,7 @@ public class InventorySlot_UI : MonoBehaviour
 
     private void Select(InputAction.CallbackContext obj)
     {
-        print("SelectCheck");
+        //print("SelectCheck");
         if(PlayerMovement.accessingInventory == true)
         {
            OnLeftUISlotClick();
