@@ -31,12 +31,38 @@ public class Brazier : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
+        return;
         if(flameLeft == 0)
         {
             flameLeft = maxFlame;
             fire.SetActive(true);
             audioHandler.PlaySound(audioHandler.activatedSound);
         }
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        print("Interacted");
+        if(type == ToolType.Torch)
+        {
+            print("Torch");
+            if(PlayerInteraction.Instance.torchLit && flameLeft <= 0)
+            {
+                flameLeft = maxFlame;
+                fire.SetActive(true);
+                audioHandler.PlaySound(audioHandler.activatedSound);
+                success = true;
+            }
+            else if(flameLeft > 0 && !PlayerInteraction.Instance.torchLit)
+            {
+                HandItemManager.Instance.TorchFlameToggle(true);
+                success = true;
+            }
+            else success = false;
+            return;
+        }
+        else success = false;
+        
     }
 
     IEnumerator FireDrain()

@@ -32,7 +32,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public bool playerInSightRange = false;
     public bool playerInAttackRange = false;
     public bool shovelVulnerable = true;
-    public bool isTrapped = false;
+    public bool fireVulnerable = true;
+    //public bool isTrapped = false;
     public bool isDead = false;
     bool corpseDestroyed = false;
     public int damageToStructure; //number must be positive

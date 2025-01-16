@@ -129,6 +129,11 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
             IgnitionToggle(false);
             success = true;
         }
+        else if(type == ToolType.Torch && !PlayerInteraction.Instance.torchLit && ignited)
+        {
+            HandItemManager.Instance.TorchFlameToggle(true);
+            success = true;
+        }
         else success = false;
     }
 

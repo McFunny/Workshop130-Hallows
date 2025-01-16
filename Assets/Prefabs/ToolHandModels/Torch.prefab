@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2158225379191062669}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Torch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,6 +115,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: torchmodel
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fa21f35dd8d95ec479a4ee26f08df616,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -174,10 +179,15 @@ PrefabInstance:
       propertyPath: m_AdditionalLightsShadowResolutionTier
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2559509585195891781, guid: 3de1502c9faa979489a0e014ef581b47,
+        type: 3}
+      propertyPath: fleeRange
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 3098245029451628288, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8756161649388292907, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
@@ -187,12 +197,12 @@ PrefabInstance:
     - target: {fileID: 8756161649388292907, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Layer
-      value: 15
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8756161649388292907, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8927657892277225567, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
