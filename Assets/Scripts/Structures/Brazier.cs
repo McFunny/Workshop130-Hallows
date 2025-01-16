@@ -8,7 +8,7 @@ public class Brazier : StructureBehaviorScript
     public GameObject fire;
 
     public float flameLeft; //if 0, fire is gone
-    float maxFlame = 5;
+    float maxFlame = 10;
 
     void Awake()
     {
@@ -67,13 +67,12 @@ public class Brazier : StructureBehaviorScript
 
     IEnumerator FireDrain()
     {
-        float r;
+        int r;
         while(gameObject.activeSelf)
         {
-            r = Random.Range(10, 15);
+            r = Random.Range(10, 16);
             yield return new WaitForSeconds(r);
-            r = Random.Range(0,2);
-            flameLeft -= r;
+            flameLeft -= 1;
             if(flameLeft < 0) flameLeft = 0;
             if(flameLeft == 0 && fire.activeSelf)
             {
@@ -105,11 +104,10 @@ public class Brazier : StructureBehaviorScript
         //if (!gameObject.scene.isLoaded) return; 
     }
 
-    void EnemyScaredByFire()
+    void EnemyScaredByFire(bool successful)
     {
-        if(flameLeft <= 0) return;
-        float r = Random.Range(0,10);
-        if(r < 4) flameLeft -= r;
+        if(flameLeft <= 0 || !successful) return;
+        flameLeft -= 2;
         if(flameLeft <= 0) ExtinguishFlame();
     }
 }

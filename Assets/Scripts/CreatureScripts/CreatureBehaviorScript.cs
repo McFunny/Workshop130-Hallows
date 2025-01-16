@@ -128,7 +128,10 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnSpawn(){}
     public virtual void OnStun(float duration){}
 
-    public virtual void EnteredFireRadius(FireFearTrigger fireSource){}
+    public virtual void EnteredFireRadius(FireFearTrigger fireSource, out bool fearSuccessful)
+    {
+        fearSuccessful = false;
+    }
 
     public virtual void HitWithWater(){}
 

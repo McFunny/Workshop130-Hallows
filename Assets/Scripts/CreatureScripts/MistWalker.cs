@@ -687,9 +687,10 @@ public class MistWalker : CreatureBehaviorScript
         rb.isKinematic = true;
     }
 
-    public override void EnteredFireRadius(FireFearTrigger _fireSource)
+    public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
     {
         fireSource = _fireSource;
+        successful = true;
     }
 
     public override void NewPriorityTarget(StructureBehaviorScript newStruct)
