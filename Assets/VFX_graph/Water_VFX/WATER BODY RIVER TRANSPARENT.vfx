@@ -31,7 +31,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: WATER BODY
+  m_Name: WATER BODY RIVER TRANSPARENT
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 0}
@@ -69,7 +69,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WATER BODY
+  m_Name: WATER BODY RIVER TRANSPARENT
   m_Graph: {fileID: 114350483966674976}
   m_Infos:
     m_RendererSettings:
@@ -875,7 +875,7 @@ MonoBehaviour:
   castShadows: 0
   useExposureWeight: 0
   needsOwnSort: 0
-  shaderGraph: {fileID: 4333940904281232215, guid: 8f848a2314209584c90d84365d7c4df0,
+  shaderGraph: {fileID: 4333940904281232215, guid: 8b25205f36af2e44d8b21aa12cb76934,
     type: 3}
   materialSettings:
     m_PropertyNames:
@@ -933,7 +933,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Mesh, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":-5051646149928047614,"guid":"b8c393fb277e43c4c94c196f81c8ec2b","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":3038657517665679525,"guid":"d0a499201bf550a4d9589c89b68870dd","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: mesh
@@ -1005,7 +1005,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.053623251616954806,"g":0.0,"b":0.4150943160057068,"a":1.0}'
+      m_SerializableObject: '{"r":0.0,"g":0.7575802803039551,"b":1.0,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _Base_Color
@@ -1341,7 +1341,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"090355fa9ae9dc84fbf13b7c59e6e2c7","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"b6a41d5c03188754caa3172deab02fce","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: _Main_Texture
@@ -1411,7 +1411,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":1.0,"y":0.20000000298023225}'
+      m_SerializableObject: '{"x":1.0,"y":1.2400000095367432}'
     m_Space: 2147483647
   m_Property:
     name: _MainTexTiling
@@ -1513,7 +1513,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":0.029999999329447748}'
+      m_SerializableObject: '{"x":0.029999999329447748,"y":0.009999999776482582}'
     m_Space: 2147483647
   m_Property:
     name: _MainTexSpeed
@@ -1938,7 +1938,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":-90.0,"y":0.0,"z":0.0}'
+      m_SerializableObject: '{"x":0.0,"y":0.0,"z":0.0}'
     m_Space: 2147483647
   m_Property:
     name: Angle
@@ -2105,7 +2105,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 0.25
     m_Space: 2147483647
   m_Property:
     name: _MainTexPower
@@ -2574,7 +2574,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"090355fa9ae9dc84fbf13b7c59e6e2c7","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"b6a41d5c03188754caa3172deab02fce","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: _Main_Texture
@@ -2608,7 +2608,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.521
+      m_SerializableObject: 0.582
     m_Space: 2147483647
   m_Property:
     name: _Clip
@@ -2644,7 +2644,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":2.299999952316284,"y":1.600000023841858}'
+      m_SerializableObject: '{"x":6.0,"y":6.0}'
     m_Space: 2147483647
   m_Property:
     name: _MainTexTiling
@@ -2746,7 +2746,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":0.20000000298023225}'
+      m_SerializableObject: '{"x":0.0,"y":0.019999999552965165}'
     m_Space: 2147483647
   m_Property:
     name: _MainTexSpeed
@@ -2846,7 +2846,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.78
+      m_SerializableObject: 2.94
     m_Space: 2147483647
   m_Property:
     name: _MainTexPower
@@ -2880,7 +2880,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Mesh, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":-5051646149928047614,"guid":"b8c393fb277e43c4c94c196f81c8ec2b","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":3038657517665679525,"guid":"d0a499201bf550a4d9589c89b68870dd","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: mesh

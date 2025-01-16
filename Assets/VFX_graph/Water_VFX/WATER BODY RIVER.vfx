@@ -20,7 +20,7 @@ MonoBehaviour:
     x: 476
     y: -190
     width: 3841
-    height: 1908
+    height: 1944
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -31,7 +31,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: Water VFX graph
+  m_Name: WATER BODY
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 0}
@@ -69,7 +69,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water VFX graph
+  m_Name: WATER BODY RIVER
   m_Graph: {fileID: 114350483966674976}
   m_Infos:
     m_RendererSettings:
@@ -933,7 +933,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Mesh, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":5013946073550604018,"guid":"5ab570e6c9fdeda4f8e446d8efba4ede","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":3038657517665679525,"guid":"d0a499201bf550a4d9589c89b68870dd","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: mesh
@@ -1005,7 +1005,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.8310704231262207,"b":1.0,"a":1.0}'
+      m_SerializableObject: '{"r":0.0,"g":0.33784741163253786,"b":0.6792452931404114,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _Base_Color
@@ -1175,7 +1175,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.02358490228652954,"g":0.7133800983428955,"b":1.0,"a":1.0}'
+      m_SerializableObject: '{"r":0.016193045303225519,"g":0.01638941653072834,"b":0.01642548106610775,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _Main_Tex_Color
@@ -1411,7 +1411,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":4.0,"y":4.0}'
+      m_SerializableObject: '{"x":1.0,"y":0.20000000298023225}'
     m_Space: 2147483647
   m_Property:
     name: _MainTexTiling
@@ -1513,7 +1513,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":2.0}'
+      m_SerializableObject: '{"x":0.0,"y":0.009999999776482582}'
     m_Space: 2147483647
   m_Property:
     name: _MainTexSpeed
@@ -1641,7 +1641,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 2
+      m_SerializableObject: 7
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -1740,7 +1740,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":1.649999976158142,"y":14.0,"z":1.7000000476837159}'
+      m_SerializableObject: '{"x":2.2300000190734865,"y":2.0,"z":2.569999933242798}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -1938,7 +1938,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":-7.300000190734863,"y":193.8000030517578,"z":0.0}'
+      m_SerializableObject: '{"x":0.0,"y":0.0,"z":0.0}'
     m_Space: 2147483647
   m_Property:
     name: Angle
@@ -2105,7 +2105,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1.9
+      m_SerializableObject: 0.86
     m_Space: 2147483647
   m_Property:
     name: _MainTexPower
@@ -2238,7 +2238,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.8310704231262207,"b":1.0,"a":1.0}'
+      m_SerializableObject: '{"r":0.0,"g":0.061769381165504459,"b":1.9663288593292237,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _Base_Color
@@ -2408,7 +2408,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":1.0,"g":1.0,"b":1.0,"a":1.0}'
+      m_SerializableObject: '{"r":0.900943398475647,"g":0.9058123826980591,"b":1.0,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _Main_Tex_Color
@@ -2644,7 +2644,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":4.0,"y":4.0}'
+      m_SerializableObject: '{"x":6.0,"y":6.0}'
     m_Space: 2147483647
   m_Property:
     name: _MainTexTiling
@@ -2746,7 +2746,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":1.2999999523162842}'
+      m_SerializableObject: '{"x":0.0,"y":0.019999999552965165}'
     m_Space: 2147483647
   m_Property:
     name: _MainTexSpeed
@@ -2880,7 +2880,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Mesh, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":5013946073550604018,"guid":"5ab570e6c9fdeda4f8e446d8efba4ede","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":3038657517665679525,"guid":"d0a499201bf550a4d9589c89b68870dd","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: mesh
@@ -2979,7 +2979,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":1.649999976158142,"y":14.0,"z":1.7000000476837159}'
+      m_SerializableObject: '{"x":2.2300000190734865,"y":2.0,"z":2.569999933242798}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -3174,7 +3174,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 2
+      m_SerializableObject: 7
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -3428,7 +3428,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: True
+      m_SerializableObject: False
     m_Space: 2147483647
   m_Property:
     name: _vfx_enabled
@@ -4131,7 +4131,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.8310704231262207,"b":1.0,"a":1.0}'
+      m_SerializableObject: '{"r":0.0,"g":0.025204181671142579,"b":1.0,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _Base_Color
@@ -4467,7 +4467,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"b6a41d5c03188754caa3172deab02fce","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"090355fa9ae9dc84fbf13b7c59e6e2c7","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: _Main_Texture
@@ -4640,7 +4640,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":0.25}'
+      m_SerializableObject: '{"x":0.0,"y":0.0}'
     m_Space: 2147483647
   m_Property:
     name: _MainTexSpeed
@@ -4740,7 +4740,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 1.49
     m_Space: 2147483647
   m_Property:
     name: _MainTexPower
@@ -4905,7 +4905,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 20
+      m_SerializableObject: 15
     m_Space: 2147483647
   m_Property:
     name: A
@@ -4939,7 +4939,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 21
+      m_SerializableObject: 17
     m_Space: 2147483647
   m_Property:
     name: B
@@ -5259,7 +5259,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: True
+      m_SerializableObject: False
     m_Space: 2147483647
   m_Property:
     name: _vfx_enabled
@@ -5934,7 +5934,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: True
+      m_SerializableObject: False
     m_Space: 2147483647
   m_Property:
     name: _vfx_enabled
@@ -6025,7 +6025,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: True
+      m_SerializableObject: False
     m_Space: 2147483647
   m_Property:
     name: _vfx_enabled
@@ -7468,7 +7468,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"b6a41d5c03188754caa3172deab02fce","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"090355fa9ae9dc84fbf13b7c59e6e2c7","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: _Main_Texture
@@ -8186,7 +8186,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 60
+      m_SerializableObject: 25
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -8584,7 +8584,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Position, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"position":{"x":-5.619999885559082,"y":27.299999237060548,"z":0.0000042776177906489469}}'
+      m_SerializableObject: '{"position":{"x":-3.27898907661438,"y":1.600000023841858,"z":0.0000042776177906489469}}'
     m_Space: 0
   m_Property:
     name: Position
@@ -8816,7 +8816,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Position, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"position":{"x":-7.0,"y":0.0,"z":-3.799999952316284}}'
+      m_SerializableObject: '{"position":{"x":0.5400000214576721,"y":3.0799999237060549,"z":0.0}}'
     m_Space: 0
   m_Property:
     name: Position
@@ -9048,7 +9048,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Position, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"position":{"x":-5.5,"y":0.0,"z":-3.450000047683716}}'
+      m_SerializableObject: '{"position":{"x":-5.5,"y":0.0,"z":0.0}}'
     m_Space: 0
   m_Property:
     name: Position
