@@ -79,7 +79,12 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
             }
 
             if(cycles < 6) cycles++;
-            if(cycles == 5) producedNectar = true;
+            if(cycles == 5)
+            {
+                producedNectar = true;
+                if(ignited) meshRenderer.material = ignitedHoneyMat;
+                else meshRenderer.material = extinguishedHoneyMat;
+            }
         }
     }
 
