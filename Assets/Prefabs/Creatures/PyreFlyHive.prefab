@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ddffcb1e66aa04aa60101bfe518666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 250
-  maxHealth: 250
+  health: 100
+  maxHealth: 100
   corpseHealth: 0
   ichorWorth: 0
   ichorDropRadius: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   playerInSightRange: 0
   playerInAttackRange: 0
   shovelVulnerable: 1
-  isTrapped: 0
+  fireVulnerable: 1
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
@@ -132,9 +132,13 @@ MonoBehaviour:
   pyreFire: {fileID: 6602609957410571494}
   ignitedMat: {fileID: 2100000, guid: c85d80daf9fac6140a59c43eacddfc49, type: 2}
   extinguishedMat: {fileID: 2100000, guid: 74e28c6c4cc1e13469550e667e778cb1, type: 2}
+  ignitedHoneyMat: {fileID: 2100000, guid: 67bb4ac5a1fb50e4c834d9077bac2ddf, type: 2}
+  extinguishedHoneyMat: {fileID: 2100000, guid: 715bd6eed42e83443894957c6b63714e,
+    type: 2}
   meshRenderer: {fileID: 3350798959703555850}
   flySpawn: {fileID: 8615862834029489243}
   pyreFlyData: {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
+  nectar: {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
 --- !u!114 &6607756853078463083
 MonoBehaviour:
   m_ObjectHideFlags: 0

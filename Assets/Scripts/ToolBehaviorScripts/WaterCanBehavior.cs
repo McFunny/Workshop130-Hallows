@@ -33,7 +33,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.3f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
                     return;
@@ -48,7 +48,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.3f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
                     return;
@@ -66,7 +66,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f, 1.5f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f, 1.6f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
                     return;
@@ -102,7 +102,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f, 1.5f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f, 1.6f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
                     return;
@@ -117,7 +117,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f, 1.5f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f, 1.6f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
                     return;
@@ -135,7 +135,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f, 1.5f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f, 1.6f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
                     return;

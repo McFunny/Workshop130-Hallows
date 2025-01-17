@@ -6,7 +6,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
 {
     public bool ignited = true;
     public GameObject pyreFire;
-    public Material ignitedMat, extinguishedMat;
+    public Material ignitedMat, extinguishedMat, ignitedHoneyMat, extinguishedHoneyMat;
     public MeshRenderer meshRenderer;
 
     public Transform flySpawn;
@@ -15,6 +15,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
     int maxFlies = 3;
 
     bool producedNectar = false;
+    public InventoryItemData nectar;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,7 +71,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
 
             if(!ignited)
             {
-                if(Random.Range(0, 10) > 3)
+                if(Random.Range(0, 10) > 4)
                 {
                     yield return new WaitForSeconds(2.5f);
                     IgnitionToggle(true);
@@ -78,7 +79,12 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
             }
 
             if(cycles < 6) cycles++;
-            if(cycles == 5) producedNectar = true;
+            if(cycles == 5)
+            {
+                producedNectar = true;
+                if(ignited) meshRenderer.material = ignitedHoneyMat;
+                else meshRenderer.material = extinguishedHoneyMat;
+            }
         }
     }
 
@@ -103,13 +109,14 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
         if(ignited)
         {
             pyreFire.SetActive(true);
-            meshRenderer.material = ignitedMat;
-            //mat changes
+            if(producedNectar) meshRenderer.material = ignitedHoneyMat;
+            else meshRenderer.material = ignitedMat;
         }
         else
         {
             pyreFire.SetActive(false);
-            meshRenderer.material = extinguishedMat;
+            if(producedNectar) meshRenderer.material = extinguishedHoneyMat;
+            else meshRenderer.material = extinguishedMat;
             ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = flySpawn.position;
             effectsHandler.MiscSound();
         }
@@ -135,6 +142,18 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
             success = true;
         }
         else success = false;
+    }
+
+    public void OnDestroy()
+    {
+        base.OnDestroy();
+        GameObject droppedItem;
+        int r = Random.Range(1,5);
+        for(int i = 0; i < r; i++)
+        {
+            droppedItem = ItemPoolManager.Instance.GrabItem(nectar);
+            droppedItem.transform.position = transform.position;
+        }
     }
 
 }
