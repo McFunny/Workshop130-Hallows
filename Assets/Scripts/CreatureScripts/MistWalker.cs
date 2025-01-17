@@ -266,7 +266,7 @@ public class MistWalker : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance || timeSpent > 100)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 100)
         {
             timeSpent += 0.01f;
             if (playerInSightRange)
@@ -457,7 +457,7 @@ public class MistWalker : CreatureBehaviorScript
             StartCoroutine(SwipePlayer());
             transform.LookAt(player.position);
         }
-        else if (distance > attackRange && distance <= lungeRange && canLunge)
+        else if (distance > attackRange && distance <= lungeRange && canLunge && !PlayerInteraction.Instance.torchLit)
         {
             StartCoroutine(LungeAtPlayer());
         }
@@ -687,9 +687,10 @@ public class MistWalker : CreatureBehaviorScript
         rb.isKinematic = true;
     }
 
-    public override void EnteredFireRadius(FireFearTrigger _fireSource)
+    public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
     {
         fireSource = _fireSource;
+        successful = true;
     }
 
     public override void NewPriorityTarget(StructureBehaviorScript newStruct)

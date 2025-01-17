@@ -39,7 +39,7 @@ public class TutorialNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        interactSuccessful = true;
+        interactSuccessful = false;
         return;
     }
 
@@ -64,7 +64,7 @@ public class TutorialNPC : NPC, ITalkable
         {
             FadeScreen.coverScreen = true;
             PlayerMovement.restrictMovementTokens++;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1.5f);
             PlayerMovement.restrictMovementTokens--;
             FadeScreen.coverScreen = false;
             Destroy(this.gameObject);

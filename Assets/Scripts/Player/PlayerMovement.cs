@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
         accessingInventory = false;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        restrictMovementTokens = 0;
     }
 
     private void OnEnable()

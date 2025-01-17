@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2559509585195891781}
   - component: {fileID: 151278521110719096}
   - component: {fileID: 2760334366413817041}
-  m_Layer: 1
+  m_Layer: 15
   m_Name: FIRE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,9 +32,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8756161649388292907}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.03799987, y: 1.51, z: -0.039001465}
-  m_LocalScale: {x: 1.0909245, y: 1.0909245, z: 1.0909245}
+  m_LocalScale: {x: 2.0380616, y: 2.0380611, z: 2.038061}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -180,7 +180,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 3
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 1
   m_LightLayerMask: 1
   m_RenderingLayers: 1
   m_CustomShadowLayers: 0
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7075231391691ad47910b660ff911e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fleeRange: 5
+  fleeRange: 15
 --- !u!54 &151278521110719096
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -306,5 +306,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 11.71, y: 4.960069, z: 12.09}
+  m_Size: {x: 13.47, y: 4.960069, z: 13.8}
   m_Center: {x: -0.008661509, y: 1.4014218, z: -0.018482447}

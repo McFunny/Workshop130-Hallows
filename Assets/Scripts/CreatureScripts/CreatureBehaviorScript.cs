@@ -32,7 +32,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public bool playerInSightRange = false;
     public bool playerInAttackRange = false;
     public bool shovelVulnerable = true;
-    public bool isTrapped = false;
+    public bool fireVulnerable = true;
+    //public bool isTrapped = false;
     public bool isDead = false;
     bool corpseDestroyed = false;
     public int damageToStructure; //number must be positive
@@ -67,7 +68,7 @@ public class CreatureBehaviorScript : MonoBehaviour
             isDead = true;
             //turns into a corpse, and fertilizes nearby crops
         }
-        else if(canCorpseBreak)
+        if(canCorpseBreak)
         {
             if(health <= corpseHealth && isDead && !corpseDestroyed)
             {
@@ -119,7 +120,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         }
     } //Triggers creature specific effects
 
-    void OnDestroy()
+    public void OnDestroy()
     {
         if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
     }
@@ -127,9 +128,19 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnSpawn(){}
     public virtual void OnStun(float duration){}
 
-    public virtual void EnteredFireRadius(FireFearTrigger fireSource){}
+    public virtual void EnteredFireRadius(FireFearTrigger fireSource, out bool fearSuccessful)
+    {
+        fearSuccessful = false;
+    }
+
+    public virtual void HitWithWater(){}
 
     public virtual void NewPriorityTarget(StructureBehaviorScript newStruct){}
+
+    public virtual void ToolInteraction(ToolType tool, out bool success)
+    {
+        success = false;
+    }
 
     public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
     {

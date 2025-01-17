@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Weed
   growthStages: 3
-  hoursPerStage: 4
+  hoursPerStage: 1
   harvestableGrowthStages: 010000000200000003000000
   cropSprites:
   - {fileID: -666897899, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
@@ -34,3 +34,4 @@ MonoBehaviour:
   stressLimit: 1
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
+  emitsGlow: 0

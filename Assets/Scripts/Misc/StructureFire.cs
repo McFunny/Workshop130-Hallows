@@ -45,7 +45,7 @@ public class StructureFire : MonoBehaviour
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-        if (creature != null && creature.shovelVulnerable)
+        if (creature != null && creature.shovelVulnerable && creature.fireVulnerable)
         {
             creature.TakeDamage(creatureDamage);
 

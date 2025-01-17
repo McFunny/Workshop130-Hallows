@@ -114,10 +114,8 @@ public class NPCMovement : MonoBehaviour
         {
             yield return null;
         }
-        print(isWorking);
         if(isWorking)
         {
-            print(isWorking);
             npcScript.StopWorking();
             isWorking = false;
         }

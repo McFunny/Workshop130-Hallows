@@ -194,6 +194,8 @@ MonoBehaviour:
   groundDrag: 5
   orientation: {fileID: 2948405178405840430}
   playerCamera: {fileID: 3801851222536505025}
+  toolCamera: {fileID: 0}
+  effectsCamera: {fileID: 0}
   isSprinting: 0
   velocity: 0
 --- !u!114 &4060353663220160237
@@ -215,6 +217,29 @@ MonoBehaviour:
   secondaryInventorySystem:
     inventorySlots: []
   _database: {fileID: 11400000, guid: 778e7ccc03dfccb4294abbe8b57c710a, type: 2}
+  startingItems:
+  - name: Hoe
+    itemData: {fileID: 11400000, guid: 56a99e191735f144d96b00f92ada1698, type: 2}
+    amount: 1
+  - name: Shovel
+    itemData: {fileID: 11400000, guid: 24f43b4b21869a84c93ebb8ee93150aa, type: 2}
+    amount: 1
+  - name: WaterCan
+    itemData: {fileID: 11400000, guid: 1c675471aa3779f4da8dfdd5b4d89175, type: 2}
+    amount: 1
+  - name: Shotgun
+    itemData: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
+    amount: 1
+  - name: Ammo
+    itemData: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+    amount: 6
+  - name: Torch
+    itemData: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
+    amount: 1
+  - name: WaterGun
+    itemData: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
+    amount: 1
+  debugItems: []
 --- !u!114 &6650565928944350188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +255,7 @@ MonoBehaviour:
   mainCam: {fileID: 0}
   toolCooldown: 0
   currentMoney: 0
+  totalMoneyEarned: 0
   stamina: 200
   waterHeld: 0
   torchLit: 0
@@ -601,7 +627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8248381022118270939}
   - component: {fileID: 3654864520224018771}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: HandSpriteTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -960,6 +986,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5634429398668762257}
+  - component: {fileID: 8977626513118030914}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -985,6 +1012,23 @@ Transform:
   - {fileID: 9121911881149854946}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8977626513118030914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953640713924337418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a2b45d0824c6b4ead3061aac959be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enable: 1
+  amplitude: 0.005
+  frequency: 10
+  _camera: {fileID: 8139505338580327214}
+  _cameraHolder: {fileID: 5990178222052467322}
 --- !u!1 &5686050863370877425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,7 +1123,7 @@ MonoBehaviour:
     FieldOfView: 60.000004
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 500
+    FarClipPlane: 2000
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
