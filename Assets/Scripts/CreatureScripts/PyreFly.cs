@@ -129,23 +129,29 @@ public class PyreFly : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 5)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 25)
         {
             timeSpent += 0.01f;
             yield return null;
         }
 
-        if(ignited)
+        float r = Random.Range(0,10);
+
+        if(r < 7) //otherwise wander
         {
-            FindBurnableStructure();
-            if(targetStructure) currentState = CreatureState.WalkTowardsClosestStructure;
+            if(ignited)
+            {
+                FindBurnableStructure();
+                if(targetStructure) currentState = CreatureState.WalkTowardsClosestStructure;
+            }
+            else
+            {
+                FindFireSource();
+                if(targetFireSource) currentState = CreatureState.WalkTowardsClosestFlame;
+                else if(homeHive) currentState = CreatureState.ReturnToHive;
+            }
         }
-        else
-        {
-            FindFireSource();
-            if(targetFireSource) currentState = CreatureState.WalkTowardsClosestFlame;
-            else if(homeHive) currentState = CreatureState.ReturnToHive;
-        }
+        else currentState = CreatureState.Wander;
 
         isMoving = false;
         coroutineRunning = false;
