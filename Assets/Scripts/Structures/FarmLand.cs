@@ -77,7 +77,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(((crop && growthStage >= crop.growthStages) || isWeed || onFire) && !finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = true;
 
-        if((!crop || growthStage < crop.growthStages) && !onFire && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
+        if((!crop || growthStage < crop.growthStages) && !isWeed && !onFire && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
 
         if(!crop && growthComplete) growthComplete.Stop();
     }
@@ -477,7 +477,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override bool IsFlammable()
     {
-        if(crop || isWeed) return true;
+        if((crop || isWeed) && !onFire) return true;
         else return false;
     }
 }

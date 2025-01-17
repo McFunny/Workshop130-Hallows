@@ -27,6 +27,8 @@ public class PyreFly : CreatureBehaviorScript
     private StructureBehaviorScript targetStructure; //Struct to burn
     private Brazier targetFireSource;
 
+    public LayerMask layerMask;
+
 
     public enum CreatureState
     {
@@ -352,15 +354,26 @@ public class PyreFly : CreatureBehaviorScript
         if(ignited)
         {
             ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
-            effectsHandler.ThrowSound(effectsHandler.deathSound);
+            if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);
             if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f) PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1, 1 << 6);
-            foreach(Collider collider in hitColliders)
+            Collider[] hitStructures = Physics.OverlapSphere(transform.position, 1.5f, 1 << 6);
+            foreach(Collider collider in hitStructures)
             {
                 StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
                 if(structure && structure.IsFlammable())
                 {
                     structure.LitOnFire();
+                }
+            }
+
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 8f, 1 << 9);
+            foreach(Collider collider in hitEnemies)
+            {
+                var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+                if (creature != null && creature.shovelVulnerable)
+                {
+                    creature.TakeDamage(75);
+                    creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 }
             }
         }
