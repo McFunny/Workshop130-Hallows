@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2115648217603635284}
   - component: {fileID: 5610765218238851745}
   - component: {fileID: 6398469467295882241}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Fire_explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,9 +27,9 @@ Transform:
   m_GameObject: {fileID: 400532594519997372}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.95, z: 0}
-  m_LocalScale: {x: 4.5709, y: 4.5709, z: 4.5709}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2697553020666199671}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4897,7 +4897,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2697553020666199671}
-  m_Layer: 0
+  - component: {fileID: 516981282175996101}
+  m_Layer: 12
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4913,7 +4914,7 @@ Transform:
   m_GameObject: {fileID: 1852729186730919364}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.09, y: 2, z: -521.26}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4924,6 +4925,19 @@ Transform:
   - {fileID: 7514915561133702189}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &516981282175996101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852729186730919364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ffa88f66334fd441944e16d825e85ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 2.5
 --- !u!1 &3027421814331777970
 GameObject:
   m_ObjectHideFlags: 0
@@ -4935,7 +4949,7 @@ GameObject:
   - component: {fileID: 8975060330153119705}
   - component: {fileID: 3913562756433342431}
   - component: {fileID: 2159797878886622235}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4951,9 +4965,9 @@ Transform:
   m_GameObject: {fileID: 3027421814331777970}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.95, z: 0}
-  m_LocalScale: {x: 4.5709, y: 4.5709, z: 4.5709}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2697553020666199671}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -4972,7 +4986,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -9823,7 +9837,7 @@ GameObject:
   - component: {fileID: 3886865802560409493}
   - component: {fileID: 3769951590749614147}
   - component: {fileID: 6417674289438118611}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9839,9 +9853,9 @@ Transform:
   m_GameObject: {fileID: 4553718508828379804}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.95, z: 0}
-  m_LocalScale: {x: 4.5709, y: 4.5709, z: 4.5709}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2697553020666199671}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -9860,7 +9874,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -14711,7 +14725,7 @@ GameObject:
   - component: {fileID: 7514915561133702189}
   - component: {fileID: 843794663410641869}
   - component: {fileID: 3258780527938801281}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14727,9 +14741,9 @@ Transform:
   m_GameObject: {fileID: 5398518884769032010}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.95, z: 0}
-  m_LocalScale: {x: 4.5709, y: 4.5709, z: 4.5709}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2697553020666199671}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -14748,7 +14762,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -19599,7 +19613,7 @@ GameObject:
   - component: {fileID: 949055144383580048}
   - component: {fileID: 4466709049680730556}
   - component: {fileID: 6701442020600992564}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Fire_explosion_flames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19615,9 +19629,9 @@ Transform:
   m_GameObject: {fileID: 6820805737239235768}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.95, z: 0}
-  m_LocalScale: {x: 4.5709, y: 4.5709, z: 4.5709}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2697553020666199671}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -19636,7 +19650,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0

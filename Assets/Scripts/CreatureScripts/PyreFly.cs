@@ -351,6 +351,8 @@ public class PyreFly : CreatureBehaviorScript
 
         if(ignited)
         {
+            ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
+            effectsHandler.ThrowSound(effectsHandler.deathSound);
             if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f) PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1, 1 << 6);
             foreach(Collider collider in hitColliders)
