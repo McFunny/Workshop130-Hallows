@@ -213,6 +213,11 @@ public class MurderMancer : CreatureBehaviorScript
             MutatedCrow crow1 = Instantiate(crowData.objectPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
             MutatedCrow crow2 = Instantiate(crowData.objectPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();
 
+            GameObject poofParticle1 = ParticlePoolManager.Instance.GrabCloudParticle();
+            poofParticle1.transform.position = crow1.transform.position;
+            GameObject poofParticle2 = ParticlePoolManager.Instance.GrabCloudParticle();
+            poofParticle2.transform.position = crow2.transform.position;
+
             crow1.isSummoned = true;
             crow2.isSummoned = true;
             crow1.isAttackCrow = true;
@@ -247,6 +252,10 @@ public class MurderMancer : CreatureBehaviorScript
             StructureManager.Instance.SetTile(newPos);
             origin = transform.position;
             effectsHandler.OnMove(1);
+
+            GameObject poofParticle = ParticlePoolManager.Instance.GrabCloudParticle();
+            poofParticle.transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+            
         }
     }
 
