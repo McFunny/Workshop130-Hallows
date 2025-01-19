@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +13,7 @@ public class CropTester : MonoBehaviour, IInteractable
     public GameObject spriteObject;
     public GameObject dome;
     private SpriteRenderer spriteRenderer;
+    public FireTypeController testerBrazier;
 
     [SerializeField] private Database _database;
 
@@ -138,9 +140,11 @@ public class CropTester : MonoBehaviour, IInteractable
         dome.transform.position = targetPosition;
 
         elapsedTime = 0;
-
+        int number = CheckForCropStats(currentCrop);
+        Debug.Log(number);
+        DoCropSwitchCase(number);
         yield return new WaitForSeconds(3);
-
+        testerBrazier.DoFire();
         currentPosition = dome.transform.position;
         while (elapsedTime < waitTime)
         {
@@ -173,4 +177,87 @@ public class CropTester : MonoBehaviour, IInteractable
         return null; // No matching crop found
     }
 
+    private int CheckForCropStats(CropData crop)
+    {
+        List<float> cropStats = new List<float>();
+        cropStats.Add(crop.gloamIntake);
+        cropStats.Add(crop.terraIntake);
+        cropStats.Add(crop.ichorIntake);
+        float max = cropStats.Max();
+        int maxes = 0;
+
+        if (max == crop.gloamIntake) maxes++;
+        if (max == crop.terraIntake) maxes++;
+        if (max == crop.ichorIntake) maxes++;
+
+        if (maxes == 1)
+        {
+            if (max == crop.gloamIntake) return 1;
+            if (max == crop.terraIntake) return 2;
+            if (max == crop.ichorIntake) return 3;
+            else return 0;
+        }
+
+        else
+        {
+            if (max == crop.gloamIntake && max == crop.terraIntake && max == crop.ichorIntake) return 7;
+            if (max == crop.gloamIntake && max == crop.terraIntake) return 4;
+            if (max == crop.gloamIntake && max == crop.ichorIntake) return 5;
+            if (max == crop.terraIntake && max == crop.ichorIntake) return 6;
+            else return 0;
+        }
+    }
+
+    private void DoCropSwitchCase(int number)
+    {
+        switch (number)
+        {
+            case 0:
+                testerBrazier.DoFire();
+                break;
+            case 1:
+                testerBrazier.DoGloam();
+                break;
+            case 2:
+                testerBrazier.DoTerra();
+                break;
+            case 3:
+                testerBrazier.DoIchor();
+                break;
+            default:
+                StartCoroutine(RareFireEffects(number));
+                break;
+        }
+
+    }
+
+    IEnumerator RareFireEffects(int number)
+    {
+        switch (number)
+        {
+            case 4:
+                testerBrazier.DoGloam();
+                yield return new WaitForSeconds(1.5f);
+                testerBrazier.DoTerra();
+                break;
+            case 5:
+                testerBrazier.DoGloam();
+                yield return new WaitForSeconds(1.5f);
+                testerBrazier.DoIchor();
+                break;
+            case 6:
+                testerBrazier.DoTerra();
+                yield return new WaitForSeconds(1.5f);
+                testerBrazier.DoIchor();
+                break;
+            case 7:
+                testerBrazier.DoGloam();
+                yield return new WaitForSeconds(1f);
+                testerBrazier.DoTerra();
+                yield return new WaitForSeconds(1f);
+                testerBrazier.DoIchor();
+                break;
+        }
+
+    }
 }
