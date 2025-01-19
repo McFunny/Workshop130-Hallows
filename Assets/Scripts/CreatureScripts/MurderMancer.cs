@@ -9,7 +9,8 @@ public class MurderMancer : CreatureBehaviorScript
     private bool coroutineRunning;
     public Transform rightArmCrowSummon;
     public Transform leftArmCrowSummon;
-    public GameObject crowPrefab;
+    public CreatureObject crowData;
+    public GameObject burningParticles;
     public ParticleSystem stageParticles; //rates are 0, 2, 5, and 15
 
     Vector3 origin;
@@ -46,7 +47,6 @@ public class MurderMancer : CreatureBehaviorScript
         if(type == ToolType.Torch && PlayerInteraction.Instance.torchLit && !coroutineRunning)
         {
             StartCoroutine(SnuffTorch());
-            coroutineRunning = true;
             success = true;
         }
         else success = false;
@@ -54,9 +54,14 @@ public class MurderMancer : CreatureBehaviorScript
 
     IEnumerator SnuffTorch()
     {
-        yield return new WaitForSeconds(0.8f);
+        coroutineRunning = true;
+        burningParticles.SetActive(true);
+        yield return new WaitForSeconds(1.8f);
+        effectsHandler.MiscSound();
         HandItemManager.Instance.TorchFlameToggle(false);
         LowerStage();
+        yield return new WaitForSeconds(0.4f);
+        burningParticles.SetActive(false);
         coroutineRunning = false;
     }
 
@@ -68,8 +73,7 @@ public class MurderMancer : CreatureBehaviorScript
             if(coroutineRunning) yield return null;
             if (TimeManager.Instance.isDay)
             {
-                base.OnDeath();
-                Destroy(this.gameObject);
+                TakeDamage(999);
             }
 
             timeSinceLastSeenPlayer += 1;
@@ -81,64 +85,56 @@ public class MurderMancer : CreatureBehaviorScript
     private void CheckStage()
     {
         var pEmission = stageParticles.emission;
-        if (timeSinceLastSeenPlayer >= 80)
+        if (timeSinceLastSeenPlayer >= 40 && currentState != CreatureState.SummonCrows)
         {
             currentState = CreatureState.SummonCrows;
             anim.SetInteger("PowerLevel", 4);
         }
-        else if (timeSinceLastSeenPlayer >= 60)
+        else if (timeSinceLastSeenPlayer >= 30 && currentState != CreatureState.Stage3)
         {
+            if(currentState != CreatureState.Stage3) effectsHandler.RandomIdle();
             currentState = CreatureState.Stage3;
             anim.SetInteger("PowerLevel", 3);
             pEmission.rateOverTime = 15;
         }
-        else if (timeSinceLastSeenPlayer >= 40)
+        else if (timeSinceLastSeenPlayer >= 20)
         {
+            if(currentState != CreatureState.Stage2) effectsHandler.RandomIdle();
             currentState = CreatureState.Stage2;
             anim.SetInteger("PowerLevel", 2);
             pEmission.rateOverTime = 5;
         }
-        else if (timeSinceLastSeenPlayer >= 20)
+        else if (timeSinceLastSeenPlayer >= 10 && currentState != CreatureState.Stage1)
         {
+            if(currentState != CreatureState.Stage1) effectsHandler.RandomIdle();
             currentState = CreatureState.Stage1;
             anim.SetInteger("PowerLevel", 1);
             pEmission.rateOverTime = 2;
         }
-        else if (timeSinceLastSeenPlayer < 20)
+        else if (timeSinceLastSeenPlayer < 10 && currentState != CreatureState.Idle)
         {
             currentState = CreatureState.Idle;
             anim.SetInteger("PowerLevel", 0);
             pEmission.rateOverTime = 0;
+            //effectsHandler.RandomIdle();
         }
     }
 
     void LowerStage()
     {
-        if (timeSinceLastSeenPlayer >= 60)
+        if (timeSinceLastSeenPlayer < 10)
         {
-            timeSinceLastSeenPlayer = 60;
-        }
-        else if (timeSinceLastSeenPlayer >= 40)
-        {
-            timeSinceLastSeenPlayer = 40;
-        }
-        else if (timeSinceLastSeenPlayer >= 20)
-        {
-            timeSinceLastSeenPlayer = 20;
-        }
-        else if (timeSinceLastSeenPlayer < 20)
-        {
-            TakeDamage(50);
+            /*TakeDamage(50);
             if(health <= 0)
             {
                 //dropitems
                 Destroy(this.gameObject);
                 return;
-            }
+            }*/
             StructureManager.Instance.ClearTile(origin);
             SpawnIn();
-            timeSinceLastSeenPlayer = 0;
         }
+        timeSinceLastSeenPlayer = 0;
     }
 
     public void CheckState(CreatureState currentState)
@@ -211,17 +207,31 @@ public class MurderMancer : CreatureBehaviorScript
     IEnumerator Summon()
     {
         coroutineRunning = true;
-        MutatedCrow crow1 = Instantiate(crowPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
-        MutatedCrow crow2 = Instantiate(crowPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();
+        effectsHandler.Idle1();
+        if(NightSpawningManager.Instance.ReportTotalOfCreature(crowData) < 10)
+        {
+            MutatedCrow crow1 = Instantiate(crowData.objectPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
+            MutatedCrow crow2 = Instantiate(crowData.objectPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();
 
-        crow1.isSummoned = true;
-        crow2.isSummoned = true;
-        crow1.isAttackCrow = true;
-        crow2.isAttackCrow = false;
+            crow1.isSummoned = true;
+            crow2.isSummoned = true;
+            crow1.isAttackCrow = true;
+            crow2.isAttackCrow = false;
+        }
         
+        yield return new WaitForSeconds(0.3f);
+        HandItemManager.Instance.TorchFlameToggle(false);
+        foreach (var structure in structManager.allStructs)
+        {
+            Brazier brazier = structure as Brazier;
+            if (brazier && brazier.flameLeft > 0)
+            {
+                brazier.flameLeft = 0;
+            }
+        }
+        effectsHandler.MiscSound2();
 
-
-        timeSinceLastSeenPlayer = 40f; //Put back into stage 2
+        timeSinceLastSeenPlayer = 0f; //Reset
        
         yield return new WaitForSeconds(0.1f);
         coroutineRunning = false;
@@ -236,6 +246,7 @@ public class MurderMancer : CreatureBehaviorScript
             transform.position = newPos;
             StructureManager.Instance.SetTile(newPos);
             origin = transform.position;
+            effectsHandler.OnMove(1);
         }
     }
 
@@ -258,5 +269,6 @@ public class MurderMancer : CreatureBehaviorScript
     {
         if (!gameObject.scene.isLoaded) return; 
         StructureManager.Instance.ClearTile(transform.position);
+
     }
 }

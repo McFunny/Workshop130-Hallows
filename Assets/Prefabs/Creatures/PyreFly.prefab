@@ -49,8 +49,8 @@ MonoBehaviour:
   health: 20
   maxHealth: 20
   corpseHealth: 0
-  ichorWorth: 0
-  ichorDropRadius: 0
+  ichorWorth: 1
+  ichorDropRadius: 2
   creatureData: {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
@@ -87,6 +87,9 @@ MonoBehaviour:
   meshRenderer: {fileID: 2404094924373996786}
   offsetRate: 0.005
   homeHive: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   currentState: 0
 --- !u!195 &5191490688788952379
 NavMeshAgent:
