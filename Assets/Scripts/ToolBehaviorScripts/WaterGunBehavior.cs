@@ -18,8 +18,6 @@ public class WaterGunBehavior : ToolBehavior
     float speed = 240;
     float bulletSpread = 0.2f;
     bool maxCharge = false;
-
-    Animator gunAnim;
     Coroutine shootingGunCoroutine;
     Coroutine chargingCoroutine;
 
@@ -31,7 +29,7 @@ public class WaterGunBehavior : ToolBehavior
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
-        if(!gunAnim) gunAnim = HandItemManager.Instance.AccessCurrentAnimator();
+        toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
 
         if(PlayerInteraction.Instance.waterHeld == 0) return;
         
@@ -54,7 +52,7 @@ public class WaterGunBehavior : ToolBehavior
         }
         //Shoot
         //HandItemManager.Instance.PlayPrimaryAnimation();
-        gunAnim.SetBool("Charging", true);
+        toolAnim.SetBool("Charging", true);
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.0f, 0.5f));
     }
 
@@ -62,7 +60,7 @@ public class WaterGunBehavior : ToolBehavior
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
-        if(!gunAnim) gunAnim = HandItemManager.Instance.AccessCurrentAnimator();
+        toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         tool = _tool;
 
         //GainWater
@@ -95,10 +93,11 @@ public class WaterGunBehavior : ToolBehavior
                 {
                     //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(refill);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.3f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.8f));
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
                     usingSecondary = true;
+                    toolAnim.Play("Reload");
                 }
 
             }
@@ -129,7 +128,7 @@ public class WaterGunBehavior : ToolBehavior
         bulletCount = 0;
         Debug.Log("0");
         yield return new WaitForSeconds(0.35f);
-        gunAnim.SetBool("EarlyFire", true);
+        toolAnim.SetBool("EarlyFire", true);
         bulletCount = 1;
         Debug.Log("1");
         yield return new WaitForSeconds(0.65f);
@@ -197,10 +196,10 @@ public class WaterGunBehavior : ToolBehavior
         HandItemManager.Instance.StopCoroutine(chargingCoroutine);
         chargingCoroutine = null;
 
-        if(bulletCount == 1) gunAnim.SetTrigger("Fire1");
-        if(bulletCount == 3) gunAnim.SetTrigger("Fire3");
-        if(bulletCount == 5) gunAnim.SetTrigger("Fire5");
-        gunAnim.SetBool("Charging", false);
+        if(bulletCount == 1) toolAnim.SetTrigger("Fire1");
+        if(bulletCount == 3) toolAnim.SetTrigger("Fire3");
+        if(bulletCount == 5) toolAnim.SetTrigger("Fire5");
+        toolAnim.SetBool("Charging", false);
 
         if(bulletCount == 0)
         {
@@ -254,7 +253,7 @@ public class WaterGunBehavior : ToolBehavior
         {
             light.SetActive(false);
         }
-        gunAnim.SetBool("EarlyFire", false);
+        toolAnim.SetBool("EarlyFire", false);
         yield return new WaitForSeconds(0.1f);
         usingPrimary = false;
         shootingGunCoroutine = null;

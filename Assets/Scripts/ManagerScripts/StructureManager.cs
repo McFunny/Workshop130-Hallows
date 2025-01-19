@@ -472,6 +472,7 @@ public class StructureManager : MonoBehaviour
             if(Random.Range(0f,10f) > 9)
             {
                 SpawnStructure(weedTile, weedPos);
+                break;
             }
         }
     }

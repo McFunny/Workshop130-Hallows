@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NightSpawningManager : MonoBehaviour
 {
+    //Consider using "pools" of enemies. Example: Pool 1, hare, walker, fly. Pool 2, hare, hive, mancer
+
     public static NightSpawningManager Instance;
 
     float difficultyPoints = 0;
@@ -92,7 +94,7 @@ public class NightSpawningManager : MonoBehaviour
             w++;
         }
 
-        //try to spawn up to 10 things per hour, with a failed attempt counting for 0.25f tries
+        //try to spawn up to 6 things per hour, with a failed attempt counting for 0.25f tries
         float spawnAttempts = 0;
         int r;
         float threshhold = difficultyPoints * GetThreshold();
@@ -121,7 +123,7 @@ public class NightSpawningManager : MonoBehaviour
             }
             
         }
-        while(spawnAttempts < 10); //add threshhold req too
+        while(spawnAttempts < 6); //add threshhold req too
 
         if(allCreatures.Count == 0)
         {
@@ -225,6 +227,16 @@ public class NightSpawningManager : MonoBehaviour
             else difficultyPoints += structure.wealthValue;
             accountedStructures.Add(structure);
         }
+    }
+
+    public int ReportTotalOfCreature(CreatureObject creatureType)
+    {
+        int tally = 0;
+        foreach (CreatureBehaviorScript creature in allCreatures)
+        {
+            if(creature.creatureData == creatureType) tally++;
+        }
+        return tally;
     }
 
     /*void ChooseCreatureTypesToSpawn()

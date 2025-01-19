@@ -88,6 +88,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public virtual bool IsFlammable()
     {
+        if(onFire) return false;
         return flammable;
     }
 

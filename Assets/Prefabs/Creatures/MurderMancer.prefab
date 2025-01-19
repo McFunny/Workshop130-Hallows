@@ -5662,7 +5662,7 @@ GameObject:
   - component: {fileID: 420264765594972481}
   - component: {fileID: 6149455387161133296}
   - component: {fileID: 2334144526224776611}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MurderMancer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5688,6 +5688,7 @@ Transform:
   - {fileID: 803328390608291217}
   - {fileID: 4228145263415500901}
   - {fileID: 1616942716417811813}
+  - {fileID: 4043316846748769927}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2085294012721970059
@@ -5727,9 +5728,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 250
   maxHealth: 250
-  corpseHealth: -50
-  ichorWorth: 0
-  ichorDropRadius: 0
+  corpseHealth: 0
+  ichorWorth: 5
+  ichorDropRadius: 4
   creatureData: {fileID: 11400000, guid: abab0bf02c715684088aee5b9057c8e1, type: 2}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
@@ -5738,28 +5739,28 @@ MonoBehaviour:
   corpseParticleTransform: {fileID: 0}
   corpseType: 2
   rb: {fileID: 0}
-  anim: {fileID: 0}
+  anim: {fileID: 5775585802064940682}
   droppedItems:
   - {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
   - {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
   dropChance:
-  - 5
-  - 5
-  sightRange: 5
-  attackRange: 6
+  - 7
+  - 7
+  sightRange: 0
+  attackRange: 0
   playerInSightRange: 0
   playerInAttackRange: 0
   shovelVulnerable: 0
-  fireVulnerable: 1
+  fireVulnerable: 0
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
-  canCorpseBreak: 0
+  canCorpseBreak: 1
   timeSinceLastSeenPlayer: 0
   rightArmCrowSummon: {fileID: 8863659400037285465}
   leftArmCrowSummon: {fileID: 4264028873677904481}
-  crowPrefab: {fileID: 1882577524237671823, guid: 9d2be0e4a2baa8c47a9e6197c85f1d4a,
-    type: 3}
+  crowData: {fileID: 0}
+  burningParticles: {fileID: 3448870784950267024}
   stageParticles: {fileID: 6895759269407337645}
   currentState: 0
 --- !u!114 &420264765594972481
@@ -5778,15 +5779,18 @@ MonoBehaviour:
   pitchMin: 0
   pitchMax: 0
   source: {fileID: 0}
-  moveSound: {fileID: 0}
-  idleSound1: {fileID: 0}
+  moveSound: {fileID: 8300000, guid: da91d464da2878e44bd10a2857ee9f7a, type: 3}
+  idleSound1: {fileID: 8300000, guid: 71d0ca140ac0ea04192cc91df19e3296, type: 3}
   idleSound2: {fileID: 0}
-  idleSounds: []
+  idleSounds:
+  - {fileID: 8300000, guid: 147369e4547d0e84786099e470be3844, type: 3}
+  - {fileID: 8300000, guid: a61e18e8dc156bf4fa185e37c1be3e00, type: 3}
+  - {fileID: 8300000, guid: 35e28df6bd758df46b755d80c9693207, type: 3}
   hitSounds: []
   footSteps: []
   deathSound: {fileID: 0}
-  miscSound: {fileID: 0}
-  miscSound2: {fileID: 0}
+  miscSound: {fileID: 8300000, guid: 08bc0fdcfa1356f40b333d0be45804f0, type: 3}
+  miscSound2: {fileID: 8300000, guid: ed9b2cdfbfea5ab49b9063e5901f8ef0, type: 3}
 --- !u!82 &6149455387161133296
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5798,8 +5802,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.375
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5808,7 +5812,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -5843,7 +5847,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -6052,6 +6056,91 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1001 &1571946083268603072
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1899047818282849931}
+    m_Modifications:
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4182846895135408208, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_Name
+      value: BurningFire
+      objectReference: {fileID: 0}
+    - target: {fileID: 4182846895135408208, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ebc9d4d1129f4404491d1e3b41fe0f78, type: 3}
+--- !u!1 &3448870784950267024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4182846895135408208, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+    type: 3}
+  m_PrefabInstance: {fileID: 1571946083268603072}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4043316846748769927 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
+    type: 3}
+  m_PrefabInstance: {fileID: 1571946083268603072}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8008012762958984506
 PrefabInstance:
   m_ObjectHideFlags: 0
