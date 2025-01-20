@@ -13,7 +13,6 @@ public class PopupHandler : MonoBehaviour
 
     // For Lerps
     public Transform lerpStart, lerpEnd, popupTransform;
-    float timeSpendAnimating = 0;
     float moveProgress = 0;
     float maxMoveProgress = 0.5f;
 
@@ -23,8 +22,9 @@ public class PopupHandler : MonoBehaviour
     private void Start()
     {
         PopupEvents.current.OnTillGround += OnTillGround;
-        popupContainer.SetActive(false);
+        //popupContainer.SetActive(false);
         groundTilled = false;
+        popupTransform.position = lerpStart.position;
     }
 
     private void OnDestroy()
@@ -43,6 +43,18 @@ public class PopupHandler : MonoBehaviour
         {
             AddToQueue(testPopup2);
         }
+
+        if(isActive && moveProgress < maxMoveProgress)
+        {
+            moveProgress += Time.deltaTime;
+            popupTransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
+        }
+
+        if(!isActive && moveProgress > 0)
+        {
+            moveProgress -= Time.deltaTime;
+            popupTransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
+        }
     }
 
     public void AddToQueue(PopupScript popup)
@@ -55,7 +67,7 @@ public class PopupHandler : MonoBehaviour
     private void ShowPopup(PopupScript popup)
     {
         isActive = true;
-        popupContainer.SetActive(true);
+        //popupContainer.SetActive(true);
         popupText.text = popup.text;
         currentPopup = popup;
     }
@@ -74,7 +86,7 @@ public class PopupHandler : MonoBehaviour
         // Clean up
         print("All popups processed");
         isActive = false;
-        popupContainer.SetActive(false);
+        //popupContainer.SetActive(false);
         queueChecker = null;
     }
 
