@@ -173,6 +173,8 @@ public class PlayerInteraction : MonoBehaviour
     {
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
 
+        if(item == null) return;
+
         //Is it a Tool item?
         ToolItem t_item = item as ToolItem;
         if (t_item) 
