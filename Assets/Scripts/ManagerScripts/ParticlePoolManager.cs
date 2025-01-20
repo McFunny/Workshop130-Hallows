@@ -11,7 +11,7 @@ public class ParticlePoolManager : MonoBehaviour
 
     public VisualEffect hitEffect;
 
-    public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle;
+    public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
@@ -22,6 +22,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> flamePool = new List<GameObject>();
     List<GameObject> dirtPixelPool = new List<GameObject>();
     List<GameObject> explosionPool = new List<GameObject>();
+    List<GameObject> cloudPool = new List<GameObject>();
 
     void Awake()
     {
@@ -99,6 +100,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(explosionParticle);
             explosionPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(cloudParticle);
+            cloudPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -255,6 +263,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(explosionParticle);
         explosionPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabCloudParticle()
+    {
+        foreach (GameObject particle in cloudPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(cloudParticle);
+        cloudPool.Add(newParticle);
         return newParticle;
     }
 
