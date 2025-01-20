@@ -78,9 +78,14 @@ public class CreatureBehaviorScript : MonoBehaviour
                     if(Random.Range(0f,10f) < dropChance[i])
                     {
                         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(droppedItems[i]);
-                        float x = Random.Range(-0.5f,0.5f);
-                        float z = Random.Range(-0.5f,0.5f);
-                        droppedItem.transform.position = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
+                        Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+                        droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+                        Vector3 dir3 = Random.onUnitSphere;
+                        dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+                        itemRB = droppedItem.GetComponent<Rigidbody>();
+                        itemRB.AddForce(dir3 * 20);
+                        itemRB.AddForce(Vector3.up * 50);
                     }
                 }
                 if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);

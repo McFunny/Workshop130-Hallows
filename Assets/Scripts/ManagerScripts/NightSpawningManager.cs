@@ -229,6 +229,16 @@ public class NightSpawningManager : MonoBehaviour
         }
     }
 
+    public int ReportTotalOfCreature(CreatureObject creatureType)
+    {
+        int tally = 0;
+        foreach (CreatureBehaviorScript creature in allCreatures)
+        {
+            if(creature.creatureData == creatureType) tally++;
+        }
+        return tally;
+    }
+
     /*void ChooseCreatureTypesToSpawn()
     {
         foreach(CreatureVarietyThreshold t in varietyThresholds)

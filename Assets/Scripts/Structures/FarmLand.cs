@@ -78,7 +78,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(((crop && growthStage >= crop.growthStages) || isWeed || onFire) && !finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = true;
 
-        if((!crop || growthStage < crop.growthStages) && !onFire && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
+        if((!crop || growthStage < crop.growthStages) && !isWeed && !onFire && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
 
         if(!crop && growthComplete) growthComplete.Stop();
     }
@@ -134,6 +134,7 @@ public class FarmLand : StructureBehaviorScript
                 else
                 {
                     GameObject droppedItem;
+                    Rigidbody itemRB;
 
                     int totalCropYield = 0;
 
@@ -150,7 +151,13 @@ public class FarmLand : StructureBehaviorScript
                     for (int i = 0; i < totalCropYield; i++)
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
-                        droppedItem.transform.position = transform.position;
+                        droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+                        Vector3 dir3 = Random.onUnitSphere;
+                        dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+                        itemRB = droppedItem.GetComponent<Rigidbody>();
+                        itemRB.AddForce(dir3 * 20);
+                        itemRB.AddForce(Vector3.up * 50);
                     }
 
                     r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
@@ -160,7 +167,13 @@ public class FarmLand : StructureBehaviorScript
                         if(crop.cropSeed && plantStress == 0 && crop.seedYieldAmount > 0)
                         {
                             droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSeed);
-                            droppedItem.transform.position = transform.position;
+                            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+                            Vector3 dir3 = Random.onUnitSphere;
+                            dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+                            itemRB = droppedItem.GetComponent<Rigidbody>();
+                            itemRB.AddForce(dir3 * 20);
+                            itemRB.AddForce(Vector3.up * 50);
                         }
                         
                     }
@@ -479,7 +492,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override bool IsFlammable()
     {
-        if(crop || isWeed) return true;
+        if((crop || isWeed) && !onFire) return true;
         else return false;
     }
 }

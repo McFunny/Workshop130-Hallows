@@ -348,10 +348,11 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator GameOver()
     {
+        //maybe pause time?
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         playerEffects.PlayClip(playerEffects.playerDie);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         TimeManager.Instance.GameOver();
         print("Time GameOver Complete");
         NightSpawningManager.Instance.GameOver();
@@ -359,7 +360,7 @@ public class PlayerInteraction : MonoBehaviour
         TownGate.Instance.GameOver();
         print("Gate GameOver Complete");
         //Potentially a spot where some structures get destroyed
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;

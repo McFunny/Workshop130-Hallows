@@ -49,8 +49,8 @@ MonoBehaviour:
   health: 20
   maxHealth: 20
   corpseHealth: 0
-  ichorWorth: 0
-  ichorDropRadius: 0
+  ichorWorth: 1
+  ichorDropRadius: 2
   creatureData: {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
@@ -87,6 +87,9 @@ MonoBehaviour:
   meshRenderer: {fileID: 2404094924373996786}
   offsetRate: 0.005
   homeHive: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   currentState: 0
 --- !u!195 &5191490688788952379
 NavMeshAgent:
@@ -118,6 +121,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 577307498091193494}
     m_Modifications:
+    - target: {fileID: 2559509585195891781, guid: 3de1502c9faa979489a0e014ef581b47,
+        type: 3}
+      propertyPath: fleeRange
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2760334366413817041, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Size.x
@@ -507,7 +515,7 @@ MonoBehaviour:
   idleSounds: []
   hitSounds: []
   footSteps: []
-  deathSound: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 4108a2624800e934eb5cd54569f2ee87, type: 3}
   miscSound: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   miscSound2: {fileID: 0}
 --- !u!82 &2462495302870994233

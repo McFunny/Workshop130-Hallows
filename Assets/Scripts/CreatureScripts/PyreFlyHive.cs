@@ -58,7 +58,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
         int cycles = 0;
         while(!isDead)
         {
-            randomTime = Random.Range(7, 20);
+            randomTime = Random.Range(13, 25);
             yield return new WaitForSeconds(randomTime);
             if(fliesActive < maxFlies && !TimeManager.Instance.isDay)
             {
@@ -78,8 +78,8 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
                 }
             }
 
-            if(cycles < 6) cycles++;
-            if(cycles == 5)
+            if(cycles < 8) cycles++;
+            if(cycles == 7)
             {
                 producedNectar = true;
                 if(ignited) meshRenderer.material = ignitedHoneyMat;
@@ -146,13 +146,22 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
 
     public void OnDestroy()
     {
+        if (!gameObject.scene.isLoaded) return; 
         base.OnDestroy();
+        if(!producedNectar) return;
         GameObject droppedItem;
+        Rigidbody itemRB;
         int r = Random.Range(1,5);
         for(int i = 0; i < r; i++)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(nectar);
-            droppedItem.transform.position = transform.position;
+            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+            Vector3 dir3 = Random.onUnitSphere;
+            dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+            itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB.AddForce(dir3 * 20);
+            itemRB.AddForce(Vector3.up * 50);
         }
     }
 
