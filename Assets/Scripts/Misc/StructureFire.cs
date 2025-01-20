@@ -75,6 +75,9 @@ public class StructureFire : MonoBehaviour
                     {
                         nearbyStructs.Add(newStruct);
                     }
+                    
+                    MurderMancer mancer = collider.gameObject.GetComponentInParent<MurderMancer>();
+                    if(mancer) mancer.IgnitedByOther();
                 }
 
                 foreach(StructureBehaviorScript structure in nearbyStructs)
