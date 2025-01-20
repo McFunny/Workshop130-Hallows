@@ -13,6 +13,7 @@ public class CompostBin : StructureBehaviorScript
     public InventoryItemData fertilizerI;
 
     public Transform itemDropTransform;
+    public GameObject fillPlane;
 
     public Animator anim;
 
@@ -124,6 +125,7 @@ public class CompostBin : StructureBehaviorScript
         }
         savedItems.Clear();
         isSpinning = false;
+        fillPlane.SetActive(false);
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -145,6 +147,8 @@ public class CompostBin : StructureBehaviorScript
             //poofParticle.transform.position = seedSocket.position;
 
             //audioHandler.PlaySound(audioHandler.itemInteractSound);
+
+            fillPlane.SetActive(true);
 
             if(savedItems.Count == maxContainedItems)
             {
