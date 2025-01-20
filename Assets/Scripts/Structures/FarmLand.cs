@@ -32,6 +32,7 @@ public class FarmLand : StructureBehaviorScript
 
     public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
     public GameObject light;
+    [SerializeField] private CropNeedsUI cropNeedsUI;
     // Start is called before the first frame update
     void Awake()
     {
@@ -214,6 +215,7 @@ public class FarmLand : StructureBehaviorScript
     public override void HourPassed()
     {
         if(isWeed && !TimeManager.Instance.isDay) StructureManager.Instance.WeedSpread(transform.position);
+        //print(cropNeedsUI);
         if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;
