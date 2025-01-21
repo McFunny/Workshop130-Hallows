@@ -55,10 +55,9 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        ToolItem tItem = item as ToolItem;
-        if(dialogueController.IsInterruptable() == false || tItem)
+        if(dialogueController.IsInterruptable() == false)
         {
-            interactSuccessful = false;
+            interactSuccessful = true;
             return;
         } 
         if(item.sellValueMultiplier == 0 || item.value == 0)

@@ -9,14 +9,12 @@ public class BotanistNPC : NPC, ITalkable
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
-    public InventoryItemData[] commonSeeds, rareSeeds, fertalizers;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
-    protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
+    void Awake()
     {
-        base.Awake();
         movementHandler = GetComponent<NPCMovement>();
         faceCamera = GetComponent<FaceCamera>();
         faceCamera.enabled = false;
@@ -63,10 +61,9 @@ public class BotanistNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        ToolItem tItem = item as ToolItem;
-        if(dialogueController.IsInterruptable() == false || tItem)
+        if(dialogueController.IsInterruptable() == false)
         {
-            interactSuccessful = false;
+            interactSuccessful = true;
             return;
         } 
 
@@ -106,6 +103,7 @@ public class BotanistNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
+        //code for the item being edible
         Talk();
 
         interactSuccessful = true;
@@ -174,48 +172,21 @@ public class BotanistNPC : NPC, ITalkable
         lastInteractedStoreItem = null;
         int i;
         float r;
-        int currentItem = 0;
         InventoryItemData newItem;
-
-        InventoryItemData rareSeedForSale;
-        i = Random.Range(0, rareSeeds.Length);
-        rareSeedForSale = rareSeeds[i];
-
-        List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
-        while(commonSeedsForSale.Count < 2)
-        {
-            i = Random.Range(0, commonSeeds.Length);
-            if(!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
-        }
-
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
-
-            if(currentItem < 6)
-            {
-                i = Random.Range(0, commonSeedsForSale.Count);
-                newItem = commonSeeds[i];
-            }
-            else if(currentItem < 9) newItem = rareSeedForSale;
-            else
-            {
-                i = Random.Range(0, fertalizers.Length);
-                newItem = fertalizers[i];
-            }
-            /*do
+            do
             {
                 i = Random.Range(0, possibleSoldItems.Length);
                 r = Random.Range(0f,1f);
                 if(r < itemWeight[i]) newItem = possibleSoldItems[i];
             }
-            while(!newItem); */
+            while(!newItem);
             int newCost = (int) (newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
             item.seller = this;
-            currentItem++;
         }
-        currentItem = 0;
     }
 
     public override void BeginWorking()

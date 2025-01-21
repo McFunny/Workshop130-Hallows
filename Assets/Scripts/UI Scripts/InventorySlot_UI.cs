@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Security.Principal;
+//using Unity.VisualScripting.Dependencies.Sqlite;
 
 public class InventorySlot_UI : MonoBehaviour
 {
@@ -113,7 +115,6 @@ public class InventorySlot_UI : MonoBehaviour
 
     private void Select(InputAction.CallbackContext obj)
     {
-        //print("SelectCheck");
         if(PlayerMovement.accessingInventory == true)
         {
            OnLeftUISlotClick();

@@ -48,7 +48,7 @@ public class PlayerCam : MonoBehaviour
 
         if (PlayerMovement.restrictMovementTokens > 0 || PlayerMovement.isCodexOpen) return;
         if (PauseScript.isPaused) return;
-        Vector2 look = controlManager.look.action.ReadValue<Vector2>() * PlayerPrefs.GetFloat("Sensitivity", 1.0f);
+        Vector2 look = controlManager.look.action.ReadValue<Vector2>();
         float lookX = look.x * sensX;
         float lookY = look.y * sensY;
         // Scaling sensitivity to match old input system;

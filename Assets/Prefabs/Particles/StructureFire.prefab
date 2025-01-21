@@ -33,7 +33,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1624863162641715813}
-  - {fileID: 7485492926445109101}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5891550292758706820
@@ -50,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   burningStruct: {fileID: 0}
   flameBase: {fileID: 1624863162641715813}
-  burnBox: {fileID: 4182179017854878137}
+  burnBox: {fileID: 3593416385093858182}
   extinguishedSFX: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
 --- !u!65 &3593416385093858182
 BoxCollider:
@@ -100,86 +99,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1001 &5345143517447392554
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 3178719569821813485}
-    m_Modifications:
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4182846895135408208, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-        type: 3}
-      propertyPath: m_Name
-      value: BurningFire
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ebc9d4d1129f4404491d1e3b41fe0f78, type: 3}
---- !u!65 &4182179017854878137 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 8081663476595559571, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-    type: 3}
-  m_PrefabInstance: {fileID: 5345143517447392554}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7485492926445109101 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3300034195066892871, guid: ebc9d4d1129f4404491d1e3b41fe0f78,
-    type: 3}
-  m_PrefabInstance: {fileID: 5345143517447392554}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7884050314725497402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,7 +115,7 @@ PrefabInstance:
     - target: {fileID: 3098245029451628288, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8756161649388292907, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
@@ -207,11 +126,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 8756161649388292907, guid: 3de1502c9faa979489a0e014ef581b47,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8927657892277225567, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}

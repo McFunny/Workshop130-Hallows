@@ -102,8 +102,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 16776479
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -666897899, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   m_Color: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
@@ -241,8 +241,6 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 0
   savedItems: []
-  damageParticles: {fileID: 0}
-  destructionParticles: {fileID: 0}
   highlight:
   - {fileID: 4189422400640491178}
   audioHandler: {fileID: 0}
@@ -251,7 +249,6 @@ MonoBehaviour:
   terraFert: {fileID: 11400000, guid: 0f0b9f1e36d584e46aefb25e70d4f50b, type: 2}
   gloamFert: {fileID: 11400000, guid: f3699f9261ee2074da3c66f0f2880b97, type: 2}
   ichorFert: {fileID: 11400000, guid: a213798768e67f442a88e35faf4c873b, type: 2}
-  compost: {fileID: 11400000, guid: ea07bb057af3e1e48b815126a425d0d0, type: 2}
   cropRenderer: {fileID: 6240152475005840231}
   itemDropTransform: {fileID: 5844641336483811334}
   finishedGrowingCollider: {fileID: 6458696476407528464}

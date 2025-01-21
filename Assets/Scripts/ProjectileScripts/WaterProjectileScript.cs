@@ -29,7 +29,6 @@ public class WaterProjectileScript : MonoBehaviour
                     if(nutrients.waterLevel != 10) farmTile.WaterCrops();
                     else return;
                 }
-                structure.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Structure");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
@@ -56,7 +55,6 @@ public class WaterProjectileScript : MonoBehaviour
             if (creature != null && creature.shovelVulnerable)
             {
                 creature.TakeDamage(0);
-                creature.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
@@ -95,10 +93,9 @@ public class WaterProjectileScript : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         if(homing && target != new Vector3(0,0,0))
         {
-            //rb.velocity = new Vector3(0,0,0);
             Vector3 dir = (transform.position - target).normalized;
             dir *= -1f;
-            rb.AddForce(dir * 150);
+            rb.AddForce(dir * 100);
             Debug.Log("ZOOM");
         }
         yield return new WaitForSeconds(3);

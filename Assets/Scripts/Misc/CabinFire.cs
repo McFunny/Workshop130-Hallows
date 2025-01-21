@@ -22,7 +22,7 @@ public class CabinFire : MonoBehaviour, IInteractable
         if((item == torch) && PlayerInteraction.Instance.torchLit == false)
         {
             interactSuccessful = true;
-            HandItemManager.Instance.TorchFlameToggle(true);
+            PlayerInteraction.Instance.torchLit = true;
             return;
         }
         else interactSuccessful = false;

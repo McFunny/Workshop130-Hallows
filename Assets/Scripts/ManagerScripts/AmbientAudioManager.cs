@@ -36,7 +36,7 @@ public class AmbientAudioManager : MonoBehaviour
         while (gameObject.activeSelf)
         {
             float trackCooldown = Random.Range(2f, 15f);
-            yield return new WaitForSeconds(trackCooldown);
+            yield return new WaitForSecondsRealtime(trackCooldown);
             float r = Random.Range(0, 1f);
             if(r > .65f) //blow wind
             {
@@ -55,7 +55,7 @@ public class AmbientAudioManager : MonoBehaviour
             }
             float trackRuntime = ambienceSource.clip.length;
             ambienceSource.Play();
-            yield return new WaitForSeconds(trackRuntime);
+            yield return new WaitForSecondsRealtime(trackRuntime);
         }
     }
 

@@ -11,7 +11,6 @@ public class WaterCanBehavior : ToolBehavior
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
-        toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         //water
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
@@ -22,31 +21,21 @@ public class WaterCanBehavior : ToolBehavior
             {
                 //play water anim
                 bool playAnim = false;
-                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0)
+                if(structure.onFire && PlayerInteraction.Instance.waterHeld < 0)
                 {
                     playAnim = true;
                     structure.Extinguish();
                     PlayerInteraction.Instance.waterHeld--;
-                    //return;
+                    return;
                 }
                 else structure.ToolInteraction(tool, out playAnim);
                 if(playAnim)
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.3f));
                     PlayerMovement.restrictMovementTokens++;
-
-                    if(PlayerInteraction.Instance.stamina > 25)
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 1f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
-                        PlayerInteraction.Instance.StaminaChange(-2);
-                    }
-                    else
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 0.75f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
-                    }
+                    PlayerInteraction.Instance.StaminaChange(-2);
                     return;
                 } 
             }
@@ -59,48 +48,11 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.3f));
                     PlayerMovement.restrictMovementTokens++;
-
-                    if(PlayerInteraction.Instance.stamina > 25)
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 1f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
-                        PlayerInteraction.Instance.StaminaChange(-2);
-                    }
-                    else
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 0.75f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
-                    }
-                    return;
+                    PlayerInteraction.Instance.StaminaChange(-2);
                 }
 
-            }
-        }
-        if (Physics.Raycast(player.position, fwd, out hit, 8, 1 << 9))
-        {
-            var enemy = hit.collider.GetComponent<CreatureBehaviorScript>();
-            if (enemy != null)
-            {
-                enemy.ToolInteraction(tool, out bool success);
-                if(success)
-                {
-                    HandItemManager.Instance.PlayPrimaryAnimation();
-                    HandItemManager.Instance.toolSource.PlayOneShot(pour);
-                    PlayerMovement.restrictMovementTokens++;
-                    if(PlayerInteraction.Instance.stamina > 25)
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 1f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
-                        PlayerInteraction.Instance.StaminaChange(-2);
-                    }
-                    else
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 0.75f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
-                    }
-                    return;
-                } 
             }
         }
     }
@@ -110,7 +62,6 @@ public class WaterCanBehavior : ToolBehavior
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
-        toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         //water
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
@@ -121,7 +72,7 @@ public class WaterCanBehavior : ToolBehavior
             {
                 //play water anim
                 bool playAnim = false;
-                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0)
+                if(structure.onFire)
                 {
                     playAnim = true;
                     structure.Extinguish();
@@ -133,19 +84,9 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.3f));
                     PlayerMovement.restrictMovementTokens++;
-
-                    if(PlayerInteraction.Instance.stamina > 25)
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 1f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
-                        PlayerInteraction.Instance.StaminaChange(-2);
-                    }
-                    else
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 0.75f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
-                    }
+                    PlayerInteraction.Instance.StaminaChange(-2);
                     return;
                 } 
             }
@@ -158,47 +99,11 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.3f));
                     PlayerMovement.restrictMovementTokens++;
-                    if(PlayerInteraction.Instance.stamina > 25)
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 1f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
-                        PlayerInteraction.Instance.StaminaChange(-2);
-                    }
-                    else
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 0.75f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
-                    }
-                    return;
+                    PlayerInteraction.Instance.StaminaChange(-2);
                 }
 
-            }
-        }
-        if (Physics.Raycast(player.position, fwd, out hit, 8, 1 << 9))
-        {
-            var enemy = hit.collider.GetComponent<CreatureBehaviorScript>();
-            if (enemy != null)
-            {
-                enemy.ToolInteraction(tool, out bool success);
-                if(success)
-                {
-                    HandItemManager.Instance.PlayPrimaryAnimation();
-                    HandItemManager.Instance.toolSource.PlayOneShot(pour);
-                    PlayerMovement.restrictMovementTokens++;
-                    if(PlayerInteraction.Instance.stamina > 25)
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 1f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
-                        PlayerInteraction.Instance.StaminaChange(-2);
-                    }
-                    else
-                    {
-                        toolAnim.SetFloat("AnimSpeed", 0.75f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
-                    }
-                    return;
-                } 
             }
         }
     }

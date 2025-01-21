@@ -18,7 +18,6 @@ public class HoeBehavior : ToolBehavior
         } 
         if (!player) player = _player;
         tool = _tool;
-        toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
 
         //till ground
         Vector3 fwd = player.TransformDirection(Vector3.forward);
@@ -48,18 +47,9 @@ public class HoeBehavior : ToolBehavior
                 usingPrimary = true;
                 HandItemManager.Instance.PlayPrimaryAnimation();
                 HandItemManager.Instance.toolSource.PlayOneShot(swing);
-                if(PlayerInteraction.Instance.stamina > 25)
-                {
-                    toolAnim.SetFloat("AnimSpeed", 1f);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.7f));
-                    PlayerInteraction.Instance.StaminaChange(-2);
-                }
-                else
-                {
-                    toolAnim.SetFloat("AnimSpeed", 0.75f);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * 1.25f, 1.7f * 1.25f));
-                }
+                PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.7f));
                 PlayerMovement.restrictMovementTokens++;
+                PlayerInteraction.Instance.StaminaChange(-2);
             }
 
         }

@@ -13,8 +13,9 @@ public class TorchBehavior : ToolBehavior
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
+        //make it so you can only ignite things with a lit torch. Also check if in front of you the struct is burning to also light torch
 
-        //Debug.Log("Used");
+        Debug.Log("Used");
         
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
@@ -26,7 +27,7 @@ public class TorchBehavior : ToolBehavior
                 //torch the thing
                 bool playAnim = false;
 
-                if(structure.IsFlammable() && !structure.onFire && PlayerInteraction.Instance.torchLit)
+                if(structure.IsFlammable() && !structure.onFire)
                 {
                     structure.LitOnFire();
                     playAnim = true;
@@ -37,7 +38,7 @@ public class TorchBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(ignite);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 0.2f));
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingPrimary = true;
@@ -45,7 +46,7 @@ public class TorchBehavior : ToolBehavior
                 } 
             }
 
-            var interactable = hit.collider.GetComponent<IInteractable>();
+            /*var interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
             {
                 interactable.InteractWithItem(PlayerInteraction.Instance, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
@@ -53,34 +54,14 @@ public class TorchBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(ignite);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 0.2f));
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingPrimary = true;
-                    return;
                 }
 
-            }
+            }*/
         } 
-
-        if (Physics.Raycast(player.position, fwd, out hit, 8, 1 << 9))
-        {
-            var enemy = hit.collider.GetComponentInParent<CreatureBehaviorScript>();
-            if (enemy != null)
-            {
-                enemy.ToolInteraction(tool, out bool success);
-                if(success)
-                {
-                    HandItemManager.Instance.PlayPrimaryAnimation();
-                    HandItemManager.Instance.toolSource.PlayOneShot(ignite);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
-                    PlayerMovement.restrictMovementTokens++;
-                    //PlayerInteraction.Instance.StaminaChange(-2);
-                    usingPrimary = true;
-                    return;
-                } 
-            }
-        }
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -88,74 +69,6 @@ public class TorchBehavior : ToolBehavior
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
         if (!player) player = _player;
         tool = _tool;
-
-        //Debug.Log("Used");
-        
-        Vector3 fwd = player.TransformDirection(Vector3.forward);
-        RaycastHit hit;
-        if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
-        {
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
-            if (structure != null)
-            {
-                //torch the thing
-                bool playAnim = false;
-
-                if(structure.IsFlammable() && !structure.onFire && PlayerInteraction.Instance.torchLit)
-                {
-                    structure.LitOnFire();
-                    playAnim = true;
-                }
-                else structure.ToolInteraction(tool, out playAnim);
-
-                if(playAnim)
-                {
-                    HandItemManager.Instance.PlayPrimaryAnimation();
-                    HandItemManager.Instance.toolSource.PlayOneShot(ignite);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
-                    PlayerMovement.restrictMovementTokens++;
-                    //PlayerInteraction.Instance.StaminaChange(-2);
-                    usingSecondary = true;
-                    return;
-                } 
-            }
-
-            var interactable = hit.collider.GetComponent<IInteractable>();
-            if (interactable != null)
-            {
-                interactable.InteractWithItem(PlayerInteraction.Instance, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
-                if(interactSuccessful)
-                {
-                    HandItemManager.Instance.PlayPrimaryAnimation();
-                    HandItemManager.Instance.toolSource.PlayOneShot(ignite);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
-                    PlayerMovement.restrictMovementTokens++;
-                    //PlayerInteraction.Instance.StaminaChange(-2);
-                    usingSecondary = true;
-                    return;
-                }
-
-            }
-        } 
-
-        if (Physics.Raycast(player.position, fwd, out hit, 8, 1 << 9))
-        {
-            var enemy = hit.collider.GetComponentInParent<CreatureBehaviorScript>();
-            if (enemy != null)
-            {
-                enemy.ToolInteraction(tool, out bool success);
-                if(success)
-                {
-                    HandItemManager.Instance.PlayPrimaryAnimation();
-                    HandItemManager.Instance.toolSource.PlayOneShot(ignite);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
-                    PlayerMovement.restrictMovementTokens++;
-                    //PlayerInteraction.Instance.StaminaChange(-2);
-                    usingSecondary = true;
-                    return;
-                } 
-            }
-        }
 
         
 
@@ -171,7 +84,7 @@ public class TorchBehavior : ToolBehavior
         if (usingSecondary)
         {
             usingSecondary = false;
-            PlayerMovement.restrictMovementTokens--;
+            //PlayerMovement.restrictMovementTokens--;
         }
 
     }

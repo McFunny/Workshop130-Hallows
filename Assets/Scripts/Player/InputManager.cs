@@ -17,7 +17,6 @@ public class InputManager : MonoBehaviour
     PauseScript pauseScript;
 
     public static bool isCharging = false;
-    bool chargeButtonHeld = false;
 
     public InventoryItemData waterGun;
 
@@ -117,15 +116,12 @@ public class InputManager : MonoBehaviour
 
     private void BeginCharge(InputAction.CallbackContext obj)
     {
-        chargeButtonHeld = !chargeButtonHeld;
-        //print("Is butten held? " + chargeButtonHeld);
-
-        if(chargeButtonHeld == false || PlayerMovement.restrictMovementTokens > 0 || PauseScript.isPaused || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != waterGun)
+        if(PlayerMovement.restrictMovementTokens > 0 || PauseScript.isPaused || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != waterGun)
         {
             isCharging = false;
-            //return;
+            return;
         }
-        else isCharging = !isCharging;
+        isCharging = !isCharging;
         //print(isCharging);
     }
 }

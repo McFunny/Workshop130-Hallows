@@ -1,4 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -8,7 +11,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuScript : MonoBehaviour
 {
     public InputActionReference hideUI;
-    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas;
+    public GameObject menuObject, defaultObject, controlsDefault, controlsCanvas;
     ControlManager controlManager;
     public AudioSource source;
     public AudioClip hover, select;
@@ -40,14 +43,14 @@ public class MainMenuScript : MonoBehaviour
         //print(controlManager.playerInput.currentActionMap);
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad)
         {
-            if(settingsDefault.activeInHierarchy)EventSystem.current.SetSelectedGameObject(settingsDefault);
+            if(controlsDefault.activeInHierarchy)EventSystem.current.SetSelectedGameObject(controlsDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
             print("Default Menu Object Selected");
         } 
 
         if(hideUI.action.WasPressedThisFrame())
         {
-            if(!settingsCanvas.activeInHierarchy){HideUI();}
+            if(!controlsCanvas.activeInHierarchy){HideUI();}
         }
     }
     void HideUI()
@@ -80,11 +83,11 @@ public class MainMenuScript : MonoBehaviour
         SceneManager.LoadSceneAsync(1);
     }
 
-    public void OpenSettingsScreen()
+    public void OpenControlsScreen()
     {
         if(isTransitioning) return;
-        settingsCanvas.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(settingsDefault);
+        controlsCanvas.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(controlsDefault);
     }
 
     public void OnHover()

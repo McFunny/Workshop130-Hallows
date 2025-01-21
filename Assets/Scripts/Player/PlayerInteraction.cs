@@ -10,8 +10,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     public Camera mainCam;
 
-    public PlayerInventoryHolder playerInventoryHolder { get; private set; }
-
+    PlayerInventoryHolder playerInventoryHolder;
     PlayerEffectsHandler playerEffects;
 
     ControlManager controlManager;
@@ -24,13 +23,12 @@ public class PlayerInteraction : MonoBehaviour
     public static PlayerInteraction Instance;
 
     public int currentMoney;
-    public int totalMoneyEarned;
 
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
 
-    public float waterHeld = 20; //for watering can
-    [HideInInspector] public readonly float maxWaterHeld = 20;
+    public float waterHeld = 0; //for watering can
+    [HideInInspector] public readonly float maxWaterHeld = 15;
 
     public bool torchLit = false;
 
@@ -173,8 +171,6 @@ public class PlayerInteraction : MonoBehaviour
     {
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
 
-        if(item == null) return;
-
         //Is it a Tool item?
         ToolItem t_item = item as ToolItem;
         if (t_item) 
@@ -199,7 +195,7 @@ public class PlayerInteraction : MonoBehaviour
             var structure = hit.collider.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
-                structure.ItemInteraction(item);
+                structure.ItemInteraction(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
                 //Debug.Log("Interacted with item");
                 return;
             }
@@ -242,7 +238,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void UseHotBarItem()
     {
-        //Debug.Log("UsingHandItem");
+        Debug.Log("UsingHandItem");
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(item == null) return;
 
@@ -290,6 +286,7 @@ public class PlayerInteraction : MonoBehaviour
         tool.ItemUsed();
         yield return new WaitForSeconds(coolDown - time);
         toolCooldown = false;
+        //use a bool that says i am done swinging to avoid tool overlap
     }
 
     void DisplayHologramCheck()
@@ -349,11 +346,10 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator GameOver()
     {
-        //maybe pause time?
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         playerEffects.PlayClip(playerEffects.playerDie);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         TimeManager.Instance.GameOver();
         print("Time GameOver Complete");
         NightSpawningManager.Instance.GameOver();
@@ -361,7 +357,7 @@ public class PlayerInteraction : MonoBehaviour
         TownGate.Instance.GameOver();
         print("Gate GameOver Complete");
         //Potentially a spot where some structures get destroyed
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;

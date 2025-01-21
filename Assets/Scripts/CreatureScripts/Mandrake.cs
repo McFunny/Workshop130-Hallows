@@ -61,7 +61,8 @@ public class Mandrake : CreatureBehaviorScript
 
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= sightRange;
-        if (playerInSightRange && currentState != CreatureState.Trapped && !coroutineRunning && currentState != CreatureState.WakeUp) { currentState = CreatureState.Run; }
+        if (isTrapped) { currentState = CreatureState.Trapped; }
+        if (playerInSightRange && !isTrapped && !coroutineRunning && currentState != CreatureState.WakeUp) { currentState = CreatureState.Run; }
         CheckState(currentState);
 
         if(agent.velocity.sqrMagnitude > 0) anim.SetBool("IsRunning", true);

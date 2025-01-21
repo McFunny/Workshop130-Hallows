@@ -250,7 +250,6 @@ public class DialogueController : MonoBehaviour
         float moneyGained = soldItem.value * soldItem.sellValueMultiplier * itemAmount;
         int moneyGainedInt = (int) moneyGained;
         PlayerInteraction.Instance.currentMoney += moneyGainedInt;
-        PlayerInteraction.Instance.totalMoneyEarned += moneyGainedInt;
         HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(itemAmount);
         PlayerInventoryHolder.Instance.UpdateInventory();
     }

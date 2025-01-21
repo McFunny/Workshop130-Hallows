@@ -51,10 +51,9 @@ public class RascalNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        ToolItem tItem = item as ToolItem;
-        if(dialogueController.IsInterruptable() == false || tItem)
+        if(dialogueController.IsInterruptable() == false)
         {
-            interactSuccessful = false;
+            interactSuccessful = true;
             return;
         } 
 

@@ -12,9 +12,8 @@ public class LumberjackNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
-    protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
+    void Awake()
     {
-        base.Awake();
         movementHandler = GetComponent<NPCMovement>();
         faceCamera = GetComponent<FaceCamera>();
         faceCamera.enabled = false;
@@ -93,10 +92,9 @@ public class LumberjackNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        ToolItem tItem = item as ToolItem;
-        if(dialogueController.IsInterruptable() == false || tItem)
+        if(dialogueController.IsInterruptable() == false)
         {
-            interactSuccessful = false;
+            interactSuccessful = true;
             return;
         } 
 

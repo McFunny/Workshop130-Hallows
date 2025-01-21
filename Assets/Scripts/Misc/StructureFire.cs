@@ -45,7 +45,7 @@ public class StructureFire : MonoBehaviour
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-        if (creature != null && creature.shovelVulnerable && creature.fireVulnerable)
+        if (creature != null && creature.shovelVulnerable)
         {
             creature.TakeDamage(creatureDamage);
 
@@ -75,9 +75,6 @@ public class StructureFire : MonoBehaviour
                     {
                         nearbyStructs.Add(newStruct);
                     }
-                    
-                    MurderMancer mancer = collider.gameObject.GetComponentInParent<MurderMancer>();
-                    if(mancer) mancer.IgnitedByOther();
                 }
 
                 foreach(StructureBehaviorScript structure in nearbyStructs)

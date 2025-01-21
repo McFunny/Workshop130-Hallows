@@ -6,7 +6,7 @@ using UnityEngine.VFX;
 public class FarmLand : StructureBehaviorScript
 {
     public CropData crop; //The current crop planted here
-    public InventoryItemData terraFert, gloamFert, ichorFert, compost;
+    public InventoryItemData terraFert, gloamFert, ichorFert;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
     public Collider finishedGrowingCollider;
@@ -77,7 +77,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(((crop && growthStage >= crop.growthStages) || isWeed || onFire) && !finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = true;
 
-        if((!crop || growthStage < crop.growthStages) && !isWeed && !onFire && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
+        if((!crop || growthStage < crop.growthStages) && !onFire && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
 
         if(!crop && growthComplete) growthComplete.Stop();
     }
@@ -101,16 +101,6 @@ public class FarmLand : StructureBehaviorScript
         if(item == ichorFert && nutrients.ichorLevel < 10)
         {
             nutrients.ichorLevel = 10;
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-            playerInventoryHolder.UpdateInventory();
-            return;
-        }
-        if(item == compost && (nutrients.gloamLevel < 10 || nutrients.terraLevel < 10))
-        {
-            nutrients.gloamLevel += 5;
-            nutrients.terraLevel += 5;
-            if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
-            if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
             return;
@@ -143,7 +133,6 @@ public class FarmLand : StructureBehaviorScript
                 else
                 {
                     GameObject droppedItem;
-                    Rigidbody itemRB;
 
                     int totalCropYield = 0;
 
@@ -160,13 +149,7 @@ public class FarmLand : StructureBehaviorScript
                     for (int i = 0; i < totalCropYield; i++)
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
-                        droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-
-                        Vector3 dir3 = Random.onUnitSphere;
-                        dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
-                        itemRB = droppedItem.GetComponent<Rigidbody>();
-                        itemRB.AddForce(dir3 * 20);
-                        itemRB.AddForce(Vector3.up * 50);
+                        droppedItem.transform.position = transform.position;
                     }
 
                     r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
@@ -176,13 +159,7 @@ public class FarmLand : StructureBehaviorScript
                         if(crop.cropSeed && plantStress == 0 && crop.seedYieldAmount > 0)
                         {
                             droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSeed);
-                            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-
-                            Vector3 dir3 = Random.onUnitSphere;
-                            dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
-                            itemRB = droppedItem.GetComponent<Rigidbody>();
-                            itemRB.AddForce(dir3 * 20);
-                            itemRB.AddForce(Vector3.up * 50);
+                            droppedItem.transform.position = transform.position;
                         }
                         
                     }
@@ -500,7 +477,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override bool IsFlammable()
     {
-        if((crop || isWeed) && !onFire) return true;
+        if(crop || isWeed) return true;
         else return false;
     }
 }

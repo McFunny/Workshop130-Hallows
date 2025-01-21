@@ -29,10 +29,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public ShopStall assignedStall;
 
-    protected virtual void Awake()
-    {
-        if(dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
-    }
+
 
     public void EndInteraction()
     {
