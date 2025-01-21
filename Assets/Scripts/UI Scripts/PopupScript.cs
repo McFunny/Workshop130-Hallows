@@ -8,7 +8,8 @@ public class PopupScript : ScriptableObject
     public enum EndCondition
     {
         TimeBased,
-        TillGround
+        TillGround,
+        ShovelSwing
     }
 
     [TextArea(2,2)]

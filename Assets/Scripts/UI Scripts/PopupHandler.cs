@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PopupHandler : MonoBehaviour
 {
-    public Queue<PopupScript> popupQueue = new Queue<PopupScript>();
-    public PopupScript testPopup, testPopup2;
+    public static Queue<PopupScript> popupQueue = new Queue<PopupScript>();
+    public PopupScript testPopup, testPopup2, testPopup3;
     private PopupScript currentPopup;
     public GameObject popupContainer;
     public TMP_Text popupText;
@@ -17,31 +17,37 @@ public class PopupHandler : MonoBehaviour
     float maxMoveProgress = 0.5f;
 
     private Coroutine queueChecker;
-    private bool isActive, groundTilled;
+    private bool isActive, conditionMet;
 
     private void Start()
     {
         PopupEvents.current.OnTillGround += OnTillGround;
+        PopupEvents.current.OnShovelSwing += OnShovelSwing;
         //popupContainer.SetActive(false);
-        groundTilled = false;
+        conditionMet = false;
         popupTransform.position = lerpStart.position;
     }
 
     private void OnDestroy()
     {
         PopupEvents.current.OnTillGround -= OnTillGround;
+        PopupEvents.current.OnShovelSwing -= OnShovelSwing;
     }
 
     void Update()
     {
         // Debug Inputs to force additions to the Queue
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             AddToQueue(testPopup);
         }
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.N))
         {
             AddToQueue(testPopup2);
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            AddToQueue(testPopup3);
         }
 
         if(isActive && moveProgress < maxMoveProgress)
@@ -100,9 +106,15 @@ public class PopupHandler : MonoBehaviour
         }
         else if (popup.endCondition == PopupScript.EndCondition.TillGround)
         {
-            yield return new WaitUntil(() => groundTilled); // Wait groundTilled is set to true
+            yield return new WaitUntil(() => conditionMet); // Wait groundTilled is set to true
             print("Ground Tilled");
-            groundTilled = false; // Reset
+            conditionMet = false; // Reset
+        }
+        else if (popup.endCondition == PopupScript.EndCondition.ShovelSwing)
+        {
+            yield return new WaitUntil(() => conditionMet); // Wait groundTilled is set to true
+            print("SHOVEL!!!");
+            conditionMet = false; // Reset
         }
     }
 
@@ -110,7 +122,15 @@ public class PopupHandler : MonoBehaviour
     {
         if (isActive && currentPopup.endCondition == PopupScript.EndCondition.TillGround)
         {
-            groundTilled = true;
+            conditionMet = true;
+        }
+    }
+
+    private void OnShovelSwing()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.ShovelSwing)
+        {
+            conditionMet = true;
         }
     }
 }
