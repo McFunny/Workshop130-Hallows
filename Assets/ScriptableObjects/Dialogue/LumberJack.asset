@@ -35,7 +35,8 @@ MonoBehaviour:
     emotions: 00000000
   - pathName: Want to buy this?
     paragraphs:
-    - I can sell you my {storeItemName} for {storeItemValue}.
+    - I can sell you my {storeItemName} for {storeItemValue} <color=#E0D38F>Mints</color>
+      <sprite index=0>.
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
@@ -44,7 +45,8 @@ MonoBehaviour:
     emotions: 01000000
   - pathName: No Money
     paragraphs:
-    - I don't do charity work here friend. No <color=#E0D38F>Mints</color>. No work.
+    - I don't do charity work here friend. No <color=#E0D38F>Mints</color> <sprite
+      index=0>. No work.
     emotions: 03000000
   fillerPaths:
   - pathName: Tree Variety
@@ -55,7 +57,8 @@ MonoBehaviour:
   - pathName: Do it for the money
     paragraphs:
     - Those pesky trees aren't as easy to take down as they look.
-    - But the Mints earned at the end of the job always make it worthwhile.
+    - But the <color=#E0D38F>Mints</color> <sprite index=0> earned at the end of
+      the job always make it worthwhile.
     emotions: 0200000001000000
   questPaths:
   - pathName: Wanna Cross the Bridge?
@@ -64,12 +67,13 @@ MonoBehaviour:
     - Listen here, I don't reckon what the mist has done to these trees, but they
       are sturdy I tell ya!
     - Chopping that thing wont be an easy task... But if Mints are involved...
-    - Tell you what. Bring me <color=#E0D38F>200 Mints</color> and we got a deal.
+    - Tell you what. Bring me <color=#E0D38F>200 Mints</color> <sprite index=0> and
+      we got a deal.
     emotions: 00000000020000000300000000000000
   - pathName: Still waiting for payment
     paragraphs:
-    - Once you bring me those <color=#E0D38F>200 Mints</color>, that tree is as good
-      as felled.
+    - Once you bring me those <color=#E0D38F>200 Mints</color> <sprite index=0>,
+      that tree is as good as felled.
     emotions: 00000000
   - pathName: Payment Recieved
     paragraphs:

@@ -30,8 +30,7 @@ public class SeedShooter360 : StructureBehaviorScript
     //Use DOT products to determine if it is facing it's target, then fire a raycast to check for any obstacles, then fire
     //Maybe add a feature where a seed can plant itself on the tile a target is hit on
     //Has a chance to misfire, shooting off its course
-    //Seeds should deal roughly 20 damage
-    //To reduce its power, maybe make it unable to fire over barricades
+    //Seeds should deal roughly 10 damage
 
     void Awake()
     {
