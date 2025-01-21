@@ -31,6 +31,7 @@ public class MistWalker : CreatureBehaviorScript
     private Coroutine trackPlayerRoutine; 
 
     private FireFearTrigger fireSource;
+    public GameObject fearParticle;
 
     public enum CreatureState
     {
@@ -109,6 +110,9 @@ public class MistWalker : CreatureBehaviorScript
     void Update()
     {
         if (health <= 0) isDead = true;
+
+        if(currentState == CreatureState.FleeFromFire && !fearParticle.activeSelf) fearParticle.SetActive(true);
+        else if(currentState != CreatureState.FleeFromFire && fearParticle.activeSelf) fearParticle.SetActive(false);
 
         if (!isDead && currentState != CreatureState.Stun && currentState != CreatureState.Trapped)
         {
@@ -266,7 +270,7 @@ public class MistWalker : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance || timeSpent > 100)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 100)
         {
             timeSpent += 0.01f;
             if (playerInSightRange)
@@ -423,6 +427,7 @@ public class MistWalker : CreatureBehaviorScript
             agent.destination = player.position;
             yield return new WaitForSeconds(0.5f); // update destination every 0.5 seconds to prevent overloading it
         }
+        trackPlayerRoutine = null;
     }
 
     private void StopTrackingPlayer()
@@ -457,7 +462,7 @@ public class MistWalker : CreatureBehaviorScript
             StartCoroutine(SwipePlayer());
             transform.LookAt(player.position);
         }
-        else if (distance > attackRange && distance <= lungeRange && canLunge)
+        else if (distance > attackRange && distance <= lungeRange && canLunge && !PlayerInteraction.Instance.torchLit)
         {
             StartCoroutine(LungeAtPlayer());
         }
@@ -687,9 +692,10 @@ public class MistWalker : CreatureBehaviorScript
         rb.isKinematic = true;
     }
 
-    public override void EnteredFireRadius(FireFearTrigger _fireSource)
+    public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
     {
         fireSource = _fireSource;
+        successful = true;
     }
 
     public override void NewPriorityTarget(StructureBehaviorScript newStruct)

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class HandItemManager : MonoBehaviour
 {
-    public GameObject hoe, shovel, wateringCan, shotGun;
+    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch;
+    public GameObject torchFlame;
 
     ToolType currentType = ToolType.Null;
 
@@ -16,6 +17,8 @@ public class HandItemManager : MonoBehaviour
     public static HandItemManager Instance;
 
     public AudioSource toolSource;
+
+    public AudioClip extinguish;
 
     public Transform bulletStart;
 
@@ -68,6 +71,14 @@ public class HandItemManager : MonoBehaviour
                 shotGun.SetActive(true);
                 currentHandObject = shotGun;
                 break;
+            case ToolType.WaterGun:
+                waterGun.SetActive(true);
+                currentHandObject = waterGun;
+                break;
+            case ToolType.Torch:
+                torch.SetActive(true);
+                currentHandObject = torch;
+                break;
             default:
             currentHandObject = null;
                 break;
@@ -92,6 +103,12 @@ public class HandItemManager : MonoBehaviour
     public void PlaySecondaryAnimation()
     {
         if (currentAnim) currentAnim.SetTrigger("SecondaryTrigger");
+    }
+
+    public Animator AccessCurrentAnimator()
+    {
+        if(currentAnim) return currentAnim;
+        else return null;
     }
 
     public void ClearHandModel()
@@ -147,6 +164,24 @@ public class HandItemManager : MonoBehaviour
             {
                 currentAnim.SetBool("HasAmmoLeft", true);
             }
+        }
+    }
+
+    public void TorchFlameToggle(bool ignite)
+    {
+        if((PlayerInteraction.Instance.torchLit && ignite) || (!PlayerInteraction.Instance.torchLit && !ignite)) return;
+
+        if(ignite)
+        {
+            PlayerInteraction.Instance.torchLit = true;
+            torchFlame.SetActive(true);
+        }
+        else
+        {
+            toolSource.PlayOneShot(extinguish);
+            if(currentHandObject == torch) ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
+            PlayerInteraction.Instance.torchLit = false;
+            torchFlame.SetActive(false);
         }
     }
 }

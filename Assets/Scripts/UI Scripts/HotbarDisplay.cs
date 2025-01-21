@@ -107,6 +107,8 @@ public class HotbarDisplay : MonoBehaviour
             //Debug.Log($"No item in hotbar slot {slotIndex + 1}");
             HandItemManager.Instance.ClearHandModel();
         }
+
+        HandItemManager.Instance.TorchFlameToggle(false);
     }
 
     private void UpdateHandItem(InventorySystem inv)

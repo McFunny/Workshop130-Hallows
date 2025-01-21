@@ -41,6 +41,7 @@ public class PlaceableItem : InventoryItemData
 
     public void DisplayHologram(Transform player)
     {
+        if(!hologramPrefab) return;
         if(!currentHologram)
         {
             currentHologram = Instantiate(hologramPrefab, new Vector3(0,0,0), Quaternion.identity);
@@ -83,11 +84,13 @@ public class PlaceableItem : InventoryItemData
 
     public void RotateHologram()
     {
+        if(!currentHologram) return;
         currentHologram.transform.Rotate(0, 90, 0);
     }
 
     public void DisableHologram()
     {
+        if(!currentHologram) return;
         currentHologram.SetActive(false);
     }
 

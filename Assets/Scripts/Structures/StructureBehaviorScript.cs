@@ -33,6 +33,9 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool isObstacle = true;
 
     [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
+
+    public ParticleSystem damageParticles;
+    public GameObject destructionParticles;
     
     [Header("Highlights")]
     public List<GameObject> highlight = new List<GameObject>();
@@ -81,8 +84,11 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public virtual void TimeLapse(int hours){}
 
+    public virtual void HitWithWater(){}
+
     public virtual bool IsFlammable()
     {
+        if(onFire) return false;
         return flammable;
     }
 
@@ -91,6 +97,7 @@ public class StructureBehaviorScript : MonoBehaviour
         if(!destructable) return;
         health -= damage;
         OnDamage?.Invoke();
+        if(damageParticles) damageParticles.Play();
     }
 
     //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
@@ -166,6 +173,17 @@ public class StructureBehaviorScript : MonoBehaviour
     public void Extinguish()
     {
         onFire = false;
+        StartCoroutine(ExtinguishCooldown());
+    }
+
+    IEnumerator ExtinguishCooldown()
+    {
+        if(flammable)
+        {
+            flammable = false;
+            yield return new WaitForSeconds(3);
+            flammable = true;
+        }
     }
 
     IEnumerator Burn()

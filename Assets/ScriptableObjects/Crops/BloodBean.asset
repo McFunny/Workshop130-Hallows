@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Blood Bean
   growthStages: 5
   hoursPerStage: 3
-  harvestableGrowthStages: 05000000
+  harvestableGrowthStages: 06000000
   cropSprites:
   - {fileID: -1473286942, guid: f034a46cf8726404598663e17643f2b4, type: 3}
   - {fileID: -1803544490, guid: f034a46cf8726404598663e17643f2b4, type: 3}
@@ -37,3 +37,4 @@ MonoBehaviour:
   stressLimit: 2
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 11400000, guid: 9249221e002b65c4ea54b09a7734cf9f, type: 2}
+  emitsGlow: 0

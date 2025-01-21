@@ -85,6 +85,11 @@ public class CreatureEffectsHandler : MonoBehaviour
         source.PlayOneShot(deathSound, volume);
     }
 
+    public void ThrowSound(AudioClip clip)
+    {
+        AudioSource.PlayClipAtPoint(clip, transform.position);
+    }
+
     public void MiscSound()
     {
         if(miscSound != null) source.PlayOneShot(miscSound, volume);

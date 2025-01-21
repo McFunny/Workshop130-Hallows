@@ -248,6 +248,24 @@ public class StructureManager : MonoBehaviour
         List<Vector3> newTargets = new List<Vector3>();
         Vector3Int currentPos = tileMap.WorldToCell(pos);
 
+        //for 1 tile offset
+        if(dir == Direction.North)
+        {
+            currentPos = new Vector3Int(currentPos.x, currentPos.y + 1);
+        }
+        if(dir == Direction.East)
+        {
+            currentPos = new Vector3Int(currentPos.x + 1, currentPos.y);
+        }
+        if(dir == Direction.South)
+        {
+            currentPos = new Vector3Int(currentPos.x, currentPos.y - 1);
+        }
+        if(dir == Direction.West)
+        {
+            currentPos = new Vector3Int(currentPos.x - 1, currentPos.y);
+        }
+
         for(int i = 0; i < range; i++)
         {
             if(dir == Direction.North)
@@ -454,6 +472,7 @@ public class StructureManager : MonoBehaviour
             if(Random.Range(0f,10f) > 9)
             {
                 SpawnStructure(weedTile, weedPos);
+                break;
             }
         }
     }
@@ -501,5 +520,6 @@ public enum Direction
     North,
     East,
     South,
-    West
+    West,
+    Null
 }
