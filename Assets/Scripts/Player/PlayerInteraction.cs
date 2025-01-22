@@ -102,6 +102,15 @@ public class PlayerInteraction : MonoBehaviour
             StartCoroutine(GameOver());
         }
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                currentMoney += 50;
+                totalMoneyEarned += 50;
+            }
+        }
+
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
 
