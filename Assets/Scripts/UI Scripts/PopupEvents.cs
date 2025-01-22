@@ -16,17 +16,11 @@ public class PopupEvents : MonoBehaviour
 
     public void TillGround()
     {
-        if (OnTillGround != null)
-        {
-            OnTillGround(); 
-        }
+        if (OnTillGround != null) OnTillGround();
     }
 
     public void ShovelSwing()
     {
-        if (OnShovelSwing != null)
-        {
-            OnShovelSwing(); 
-        }
+        if (OnShovelSwing != null) OnShovelSwing(); 
     }
 }

@@ -106,13 +106,13 @@ public class PopupHandler : MonoBehaviour
         }
         else if (popup.endCondition == PopupScript.EndCondition.TillGround)
         {
-            yield return new WaitUntil(() => conditionMet); // Wait groundTilled is set to true
+            yield return new WaitUntil(() => conditionMet);
             print("Ground Tilled");
             conditionMet = false; // Reset
         }
         else if (popup.endCondition == PopupScript.EndCondition.ShovelSwing)
         {
-            yield return new WaitUntil(() => conditionMet); // Wait groundTilled is set to true
+            yield return new WaitUntil(() => conditionMet);
             print("SHOVEL!!!");
             conditionMet = false; // Reset
         }
