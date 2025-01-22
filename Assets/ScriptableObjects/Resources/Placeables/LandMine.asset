@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: LandMine
+  m_EditorClassIdentifier: 
+  ID: -1
+  displayName: Pulse Mine
+  description: A multi-use landmine that deals damage to creatures and structures
+    in a 3x3 area. Fueled by consuming 10 units of a nutrient in a given tile. Activated
+    upon impact.
+  icon: {fileID: 21300000, guid: 27d286f5f85c94e4e85a18965f8ba131, type: 3}
+  maxStackSize: 5
+  value: 115
+  sellValueMultiplier: 0.5
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  bonusCompostValue: 0
+  placedPrefab: {fileID: 0}
+  hologramPrefab: {fileID: 0}
+  removeAfterUse: 1

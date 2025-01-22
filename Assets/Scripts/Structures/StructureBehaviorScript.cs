@@ -49,6 +49,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
     //[Header("Structure Specific")]
 
+    //Once we get structure specific UI to see health, then we can add repairability to structures so players can know if they can dig it up safely
+
 
     public void Awake()
     {

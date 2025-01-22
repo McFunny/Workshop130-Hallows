@@ -27,8 +27,7 @@ public class CompostBin : StructureBehaviorScript
     bool ignoreNextHour = true;
     bool isSpinning = false;
 
-    //Are we doing this dont starve style (Put in 5 things to make 1) 
-    //Items have an inherent "Bonus Compost Chance" value. Weeds have 0, carrots have 20
+    //Dont forget to implement how it works when loading saved data
 
     void Awake()
     {
@@ -149,6 +148,8 @@ public class CompostBin : StructureBehaviorScript
             //audioHandler.PlaySound(audioHandler.itemInteractSound);
 
             fillPlane.SetActive(true);
+
+            anim.Play("Recoil");
 
             if(savedItems.Count == maxContainedItems)
             {

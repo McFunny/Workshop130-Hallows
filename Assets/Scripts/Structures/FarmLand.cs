@@ -488,7 +488,7 @@ public class FarmLand : StructureBehaviorScript
         if(crop && crop.behavior) crop.behavior.OnIchorRefill(this);
     }
 
-    public NutrientStorage GetCropStats()
+    public NutrientStorage GetCropStats() //For the UI
     {
         return nutrients;
     }
