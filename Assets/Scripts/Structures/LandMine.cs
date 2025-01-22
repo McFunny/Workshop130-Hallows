@@ -7,7 +7,8 @@ public class LandMine : StructureBehaviorScript
     public InventoryItemData recoveredItem;
 
     public MeshRenderer light;
-    public Material yellow, red, purple, green, black;
+    //public Material yellow, red, purple, green, black;
+    public Color yellow, red, purple, green, black;
     public Animator anim;
     public ParticleSystem fizzParticles;
 
@@ -23,6 +24,8 @@ public class LandMine : StructureBehaviorScript
 
     private NutrientStorage nutrients;
 
+    //When loading from save data, just have it already armed
+
     void Awake()
     {
         base.Awake();
@@ -34,6 +37,8 @@ public class LandMine : StructureBehaviorScript
         OnDamage += TryExplosion;
         StartCoroutine(SecondTimer());
         nutrients = StructureManager.Instance.FetchNutrient(transform.position);
+
+        InitializeMine();
     }
 
 
@@ -42,6 +47,25 @@ public class LandMine : StructureBehaviorScript
         if(health <= 0)
         {
             //Destroy itself. If its primed, it will explode first
+        }
+    }
+
+    void InitializeMine()
+    {
+        if(nutrients.gloamLevel >= 8)
+        {
+            nutrientType = NutrientType.Gloamphage;
+            return;
+        }
+        if(nutrients.terraLevel >= 8)
+        {
+            nutrientType = NutrientType.Terrazyme;
+            return;
+        }
+        if(nutrients.ichorLevel >= 8)
+        {
+            nutrientType = NutrientType.Ichor;
+            return;
         }
     }
 
@@ -96,6 +120,8 @@ public class LandMine : StructureBehaviorScript
                     isPrimed = true;
                 }
             }
+            //code to check
+
         }
     }
 
