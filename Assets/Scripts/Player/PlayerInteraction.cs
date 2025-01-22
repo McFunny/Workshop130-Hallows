@@ -44,6 +44,7 @@ public class PlayerInteraction : MonoBehaviour
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
 
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();

@@ -20,6 +20,7 @@ public class ShovelBehavior : ToolBehavior
         //swing
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
+        PopupEvents.current.ShovelSwing();
         if(PlayerInteraction.Instance.stamina > 25)
         {
             toolAnim.SetFloat("AnimSpeed", 1f);
