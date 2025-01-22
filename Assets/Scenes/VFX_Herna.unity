@@ -61964,7 +61964,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2c4c051c4834c964b92470bcfe2820c6, type: 2}
+  - {fileID: 2100000, guid: 870ff2c456a686f4d9f2ed61c06e47dd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -62271,8 +62271,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.7
-      minScalar: 1.5
+      scalar: 1
+      minScalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -62854,7 +62854,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 200
+      scalar: 100
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -63303,7 +63303,7 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
         key1: {r: 0.6179246, g: 0.95163786, b: 1, a: 0.09411765}
-        key2: {r: 1, g: 1, b: 1, a: 1}
+        key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 1, g: 0.3726415, b: 0.3726415, a: 1}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -71606,7 +71606,7 @@ Transform:
   m_GameObject: {fileID: 1086241074}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.22, y: -0, z: -1.249}
+  m_LocalPosition: {x: 1.22, y: -0, z: -0.953}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72523,7 +72523,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 6
+      scalar: 8
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -76614,7 +76614,7 @@ PrefabInstance:
     - target: {fileID: 3512325135942247452, guid: 3746065ef25b0c94fb440ce026b91f34,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -391.46
+      value: -405.31
       objectReference: {fileID: 0}
     - target: {fileID: 3512325135942247452, guid: 3746065ef25b0c94fb440ce026b91f34,
         type: 3}
