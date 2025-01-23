@@ -650,7 +650,6 @@ public class MistWalker : CreatureBehaviorScript
             base.OnDeath();
             agent.enabled = false;
             rb.isKinematic = true;
-            agent.ResetPath();
             rb.freezeRotation = true;
             StopAllCoroutines();
         }
