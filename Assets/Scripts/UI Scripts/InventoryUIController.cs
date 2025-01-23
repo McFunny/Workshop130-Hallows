@@ -69,6 +69,11 @@ public class InventoryUIController : MonoBehaviour
         {
             toolTip.panel.SetActive(false);
         }
+
+        if (PlayerMovement.accessingInventory && ControlManager.isController && eventSystem.currentSelectedGameObject == null)
+        {
+            eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
+        }
     }
 
     private void OpenInventory(InputAction.CallbackContext obj)
@@ -83,7 +88,7 @@ public class InventoryUIController : MonoBehaviour
 
         if(!PlayerMovement.accessingInventory)
         {
-            if(ControlManager.isGamepad) eventSystem.SetSelectedGameObject(firstObject);
+            if(ControlManager.isGamepad) eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
             source.PlayOneShot(openInventory);
@@ -139,7 +144,7 @@ public class InventoryUIController : MonoBehaviour
     void DisplayInventory(InventorySystem invToDisplay)
     {
         //Chest Inventory
-        eventSystem.SetSelectedGameObject(firstObject);
+        eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
         PlayerMovement.accessingInventory = true;
         chestPanel.gameObject.SetActive(true);
         playerBackpackPanel.gameObject.SetActive(true);
