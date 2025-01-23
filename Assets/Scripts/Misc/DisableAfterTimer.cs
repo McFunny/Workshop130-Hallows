@@ -6,6 +6,8 @@ public class DisableAfterTimer : MonoBehaviour
 {
     public float lifeTime;
 
+    public bool destroyOnCompletion = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +17,7 @@ public class DisableAfterTimer : MonoBehaviour
     IEnumerator LifeTime()
     {
         yield return new WaitForSeconds(lifeTime);
+        if(destroyOnCompletion) Destroy(this.gameObject);
         gameObject.SetActive(false);
     }
 }

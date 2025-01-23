@@ -14,18 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: -1
   displayName: Witch Heart
-  description: Very nutrient dense root that leaves much to be desired in those with
-    picky taste pallets. Restores 125 stamina.
+  description: Very nutrient dense root that leaves much to be desired to those of
+    picky taste. Restores 97 stamina.
   icon: {fileID: 21300000, guid: eb855c323409a914a97a6dc818066c1e, type: 3}
   maxStackSize: 20
-  value: 97
+  value: 82
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 125
   itemInputsKBM:
   - LMB - Consume
   - RMB - Show Item
   itemInputsController:
   - LT - Show Item
   - RT - Consume
+  staminaValue: 97
+  bonusCompostValue: 90

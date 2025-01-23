@@ -6,7 +6,7 @@ using UnityEngine.VFX;
 public class FarmLand : StructureBehaviorScript
 {
     public CropData crop; //The current crop planted here
-    public InventoryItemData terraFert, gloamFert, ichorFert;
+    public InventoryItemData terraFert, gloamFert, ichorFert, compost;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
     public Collider finishedGrowingCollider;
@@ -102,6 +102,16 @@ public class FarmLand : StructureBehaviorScript
         if(item == ichorFert && nutrients.ichorLevel < 10)
         {
             nutrients.ichorLevel = 10;
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            playerInventoryHolder.UpdateInventory();
+            return;
+        }
+        if(item == compost && (nutrients.gloamLevel < 10 || nutrients.terraLevel < 10))
+        {
+            nutrients.gloamLevel += 5;
+            nutrients.terraLevel += 5;
+            if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
+            if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
             return;
@@ -480,7 +490,7 @@ public class FarmLand : StructureBehaviorScript
         if(crop && crop.behavior) crop.behavior.OnIchorRefill(this);
     }
 
-    public NutrientStorage GetCropStats()
+    public NutrientStorage GetCropStats() //For the UI
     {
         return nutrients;
     }

@@ -46,22 +46,32 @@ public class MurderMancer : CreatureBehaviorScript
     {
         if(type == ToolType.Torch && PlayerInteraction.Instance.torchLit && !coroutineRunning)
         {
-            StartCoroutine(SnuffTorch());
+            StartCoroutine(ExtinguishSelf(true));
             success = true;
         }
         else success = false;
     }
 
-    IEnumerator SnuffTorch()
+    public void IgnitedByOther()
+    {
+        if(!coroutineRunning) StartCoroutine(ExtinguishSelf(false));
+    }
+
+    IEnumerator ExtinguishSelf(bool litByPlayer)
     {
         coroutineRunning = true;
         burningParticles.SetActive(true);
+        anim.SetTrigger("OnFire");
         yield return new WaitForSeconds(1.8f);
-        effectsHandler.MiscSound();
-        HandItemManager.Instance.TorchFlameToggle(false);
+        if(litByPlayer)
+        {
+            effectsHandler.MiscSound();
+            HandItemManager.Instance.TorchFlameToggle(false);
+        }
         LowerStage();
         yield return new WaitForSeconds(0.4f);
         burningParticles.SetActive(false);
+        yield return new WaitForSeconds(0.6f);
         coroutineRunning = false;
     }
 
@@ -70,15 +80,20 @@ public class MurderMancer : CreatureBehaviorScript
         while(gameObject.activeSelf)
         {
             yield return new WaitForSeconds(1);
-            if(coroutineRunning) yield return null;
-            if (TimeManager.Instance.isDay)
+            if(!coroutineRunning)
             {
-                TakeDamage(999);
-            }
+                if (TimeManager.Instance.isDay)
+                {
+                    GameObject poofParticle = ParticlePoolManager.Instance.GrabCloudParticle();
+                    poofParticle.transform.position = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+                    TakeDamage(999);
+                }
 
-            timeSinceLastSeenPlayer += 1;
-            CheckStage();
-            CheckState(currentState);
+                timeSinceLastSeenPlayer += 1;
+                CheckStage();
+                CheckState(currentState);
+            }
+            
         }
     }
 
@@ -90,7 +105,7 @@ public class MurderMancer : CreatureBehaviorScript
             currentState = CreatureState.SummonCrows;
             anim.SetInteger("PowerLevel", 4);
         }
-        else if (timeSinceLastSeenPlayer >= 30 && currentState != CreatureState.Stage3)
+        else if (timeSinceLastSeenPlayer >= 30)
         {
             if(currentState != CreatureState.Stage3) effectsHandler.RandomIdle();
             currentState = CreatureState.Stage3;
@@ -104,7 +119,7 @@ public class MurderMancer : CreatureBehaviorScript
             anim.SetInteger("PowerLevel", 2);
             pEmission.rateOverTime = 5;
         }
-        else if (timeSinceLastSeenPlayer >= 10 && currentState != CreatureState.Stage1)
+        else if (timeSinceLastSeenPlayer >= 10)
         {
             if(currentState != CreatureState.Stage1) effectsHandler.RandomIdle();
             currentState = CreatureState.Stage1;
@@ -213,6 +228,11 @@ public class MurderMancer : CreatureBehaviorScript
             MutatedCrow crow1 = Instantiate(crowData.objectPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
             MutatedCrow crow2 = Instantiate(crowData.objectPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();
 
+            GameObject poofParticle1 = ParticlePoolManager.Instance.GrabCloudParticle();
+            poofParticle1.transform.position = crow1.transform.position;
+            GameObject poofParticle2 = ParticlePoolManager.Instance.GrabCloudParticle();
+            poofParticle2.transform.position = crow2.transform.position;
+
             crow1.isSummoned = true;
             crow2.isSummoned = true;
             crow1.isAttackCrow = true;
@@ -233,7 +253,7 @@ public class MurderMancer : CreatureBehaviorScript
 
         timeSinceLastSeenPlayer = 0f; //Reset
        
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.8f);
         coroutineRunning = false;
     }
 
@@ -243,10 +263,18 @@ public class MurderMancer : CreatureBehaviorScript
         if(newPos == new Vector3(0,0,0)) Destroy(this.gameObject);
         else
         {
+            GameObject poofParticle;
+            poofParticle = ParticlePoolManager.Instance.GrabCloudParticle();
+            poofParticle.transform.position = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+
             transform.position = newPos;
             StructureManager.Instance.SetTile(newPos);
             origin = transform.position;
             effectsHandler.OnMove(1);
+
+            poofParticle = ParticlePoolManager.Instance.GrabCloudParticle();
+            poofParticle.transform.position = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+            
         }
     }
 

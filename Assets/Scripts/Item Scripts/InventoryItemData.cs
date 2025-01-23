@@ -28,6 +28,7 @@ public class InventoryItemData : ScriptableObject
     [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
     public List<string> itemInputsKBM;
     public List<string> itemInputsController;
+    public float bonusCompostValue = 0;
    
     public void UseItem()
     {
