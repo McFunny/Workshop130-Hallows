@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TooltipControlsScript : MonoBehaviour
 {
-    [SerializeField] private GameObject KBMContainer, controllerContainer, defaultContainer;
+    [SerializeField] private GameObject KBMContainer, controllerContainer, defaultContainerKBM, defaultContainerController;
     public List<GameObject> kbmContainerList, controllerContainerList;
     [SerializeField] private TextMeshProUGUI textBox;
     private bool isEmpty;
@@ -31,6 +31,17 @@ public class TooltipControlsScript : MonoBehaviour
         {
             controllerContainer.SetActive(false);
             KBMContainer.SetActive(false);
+        }
+
+        if(ControlManager.isController)
+        {
+            defaultContainerController.SetActive(true);
+            defaultContainerKBM.SetActive(false);
+        }
+        else
+        {
+            defaultContainerController.SetActive(false);
+            defaultContainerKBM.SetActive(true);
         }
     }
     
@@ -125,16 +136,28 @@ public class TooltipControlsScript : MonoBehaviour
 
     public void DefaultControls()
     {
-        var invObj = Instantiate(textBox, defaultContainer.transform, worldPositionStays:false);
+        var invObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
         invObj.text = "E - Open Bag";
 
-        var lmbObj = Instantiate(textBox, defaultContainer.transform, worldPositionStays:false);
+        var lmbObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
         lmbObj.text = "LMB - Use Item";
 
-        var rmbObj = Instantiate(textBox, defaultContainer.transform, worldPositionStays:false);
+        var rmbObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
         rmbObj.text = "RMB - Use Item on Structure";
 
-        var spaceObj = Instantiate(textBox, defaultContainer.transform, worldPositionStays:false);
+        var spaceObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
         spaceObj.text = "Space - Interact";
+
+        var invObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
+        invObjC.text = "Y - Open Bag";
+
+        var lmbObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
+        lmbObjC.text = "RT - Use Item";
+
+        var rmbObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
+        rmbObjC.text = "LT - Use Item on Structure";
+
+        var spaceObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
+        spaceObjC.text = "X - Interact";
     }
 }
