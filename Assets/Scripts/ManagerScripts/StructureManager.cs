@@ -417,10 +417,12 @@ public class StructureManager : MonoBehaviour
         float x, z;
 
         StructurePoolManager pool = StructurePoolManager.Instance;
+        bool canSpawn;
 
         if (r <= 0) return;
         for(int i = 0; i < r; i++)
         {
+            canSpawn = true;
             int t = 0;
             p = Random.Range(0, pool.forageableSpots.Length);
             Vector3 spawnPos = pool.forageableSpots[p].position;
@@ -428,8 +430,21 @@ public class StructureManager : MonoBehaviour
             z = Random.Range(-5, 5);
             spawnPos = new Vector3(spawnPos.x + x, spawnPos.y, spawnPos.z + z);
 
-            GameObject newStructure = pool.GrabForageable();
-            newStructure.transform.position = spawnPos;
+            Collider[] hitPlants = Physics.OverlapSphere(transform.position, 3.5f, 1 << 6);
+            foreach(Collider collider in hitPlants)
+            {
+                Forgeable structure = collider.gameObject.GetComponentInParent<Forgeable>();
+                if(structure)
+                {
+                    canSpawn = false;
+                    break;
+                }
+            }
+            if(canSpawn)
+            {
+                GameObject newStructure = pool.GrabForageable();
+                newStructure.transform.position = spawnPos;
+            }
 
         }
     }
