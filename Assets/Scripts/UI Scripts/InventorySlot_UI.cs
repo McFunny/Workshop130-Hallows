@@ -81,6 +81,7 @@ public class InventorySlot_UI : MonoBehaviour
         if(!PlayerMovement.accessingInventory)
         {
             itemName.gameObject.SetActive(false);
+            if (HotbarDisplay.currentSlot == this) { slotHighlight.SetActive(true); }
         }  
     }
 
