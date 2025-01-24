@@ -165,6 +165,21 @@ public class PlayerInventoryHolder : InventoryHolder
         return false;
     }
 
+    public bool IsInventoryFull()
+    {
+        if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot))
+        {
+            return false;
+        }
+
+        if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public void UpdateInventory()
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);

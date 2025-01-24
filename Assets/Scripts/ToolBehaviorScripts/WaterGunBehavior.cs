@@ -228,7 +228,7 @@ public class WaterGunBehavior : ToolBehavior
             /*if(bulletCount == 1)*/ newBullet = ProjectilePoolManager.Instance.GrabLargeWater();
             //else GameObject newBullet = ProjectilePoolManager.Instance.GrabSmallWater();
             newBullet.transform.position = bulletStart.position;
-            newBullet.transform.rotation = Quaternion.identity;
+            newBullet.transform.rotation = bulletStart.rotation;
             if(highlights[i] != null && highlights[i].activeSelf)
             {
                 newBullet.GetComponent<WaterProjectileScript>().homing = true;
