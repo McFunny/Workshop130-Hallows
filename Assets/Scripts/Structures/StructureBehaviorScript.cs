@@ -47,6 +47,9 @@ public class StructureBehaviorScript : MonoBehaviour
 
     [HideInInspector] public bool clearTileOnDestroy = true;
 
+    [Tooltip("Specific UI for this structure, if it has any")]
+    public GameObject structureUI; 
+
     //[Header("Structure Specific")]
 
     //Once we get structure specific UI to see health, then we can add repairability to structures so players can know if they can dig it up safely
@@ -60,6 +63,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
         TimeManager.OnHourlyUpdate += HourPassed;
         foreach(GameObject thing in highlight) thing.SetActive(false);
+
+        if(structureUI) structureUI.SetActive(false);
 
     }
 
@@ -130,6 +135,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             highlightEnabled = true;
             foreach(GameObject thing in highlight) thing.SetActive(true);
+            if(structureUI) structureUI.SetActive(true);
             StartCoroutine(HightlightFlash());
         }
 
@@ -137,6 +143,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             highlightEnabled = false;
             foreach(GameObject thing in highlight) thing.SetActive(false);
+            if(structureUI) structureUI.SetActive(false);
         }
     }
 

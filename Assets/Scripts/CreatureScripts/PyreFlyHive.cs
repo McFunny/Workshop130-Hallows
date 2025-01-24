@@ -71,7 +71,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
 
             if(!ignited)
             {
-                if(Random.Range(0, 10) > 4)
+                if(Random.Range(0, 10) > 6)
                 {
                     yield return new WaitForSeconds(2.5f);
                     IgnitionToggle(true);

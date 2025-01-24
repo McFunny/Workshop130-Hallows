@@ -9739,7 +9739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7321681406074699039
 Transform:
   m_ObjectHideFlags: 0
@@ -9820,6 +9820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 15
+  destroyOnCompletion: 0
 --- !u!1 &2217522230317677983
 GameObject:
   m_ObjectHideFlags: 0
@@ -14819,7 +14820,7 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: 4503391ebe85edc4cb7be33b35a49871, type: 2}
   health: 25
   maxHealth: 25
-  wealthValue: 10
+  wealthValue: 5
   destructable: 1
   flammable: 0
   onFire: 0

@@ -482,6 +482,7 @@ public class FarmLand : StructureBehaviorScript
         nutrients.waterLevel = 10;
         waterSplash.Play();
         SpriteChange();
+        if(onFire) Extinguish();
     }
 
     public void IchorRefill()

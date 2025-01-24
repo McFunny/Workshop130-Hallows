@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Brazier : StructureBehaviorScript
 {
+    public InventoryItemData recoveredItem;
+
     public FireFearTrigger fireTrigger;
     public GameObject fire;
 
     public float flameLeft; //if 0, fire is gone
-    float maxFlame = 10;
+    float maxFlame = 20;
 
     void Awake()
     {
@@ -61,7 +63,21 @@ public class Brazier : StructureBehaviorScript
             else success = false;
             return;
         }
+        else if(type == ToolType.Shovel)
+        {
+            StartCoroutine(DugUp());
+            success = true;
+        }
         else success = false;
+        
+    }
+
+    IEnumerator DugUp()
+    {
+        yield return  new WaitForSeconds(1);
+        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
+        droppedItem.transform.position = transform.position;
+        Destroy(this.gameObject);
         
     }
 

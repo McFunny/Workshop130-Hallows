@@ -48,6 +48,7 @@ public class TooltipControlsScript : MonoBehaviour
 
     public void SelectedItem()
     {  
+        return; //disables item specific tooltips currently
         if (HotbarDisplay.currentSlot.AssignedInventorySlot != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null)
         {
             DestoryTextObjects();
@@ -95,10 +96,10 @@ public class TooltipControlsScript : MonoBehaviour
                     }
                     if (o_item.AssignedInventorySlot.ItemData.itemInputsController.Count != 0)
                     {
-                        for(int i = 0; i < t_item.itemInputsController.Count; i++)
+                        for(int i = 0; i < o_item.AssignedInventorySlot.ItemData.itemInputsController.Count; i++)
                         {
                             var newObj = Instantiate(textBox, controllerContainer.transform, worldPositionStays:false);
-                            newObj.text = t_item.itemInputsController[i];
+                            newObj.text =o_item.AssignedInventorySlot.ItemData.itemInputsController[i];
                             controllerContainerList.Add(newObj.gameObject);
                         }
                     }

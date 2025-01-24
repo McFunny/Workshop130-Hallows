@@ -349,6 +349,7 @@ public class MutatedCrow : CreatureBehaviorScript
         {
             isDead = true;
             StopAllCoroutines();
+            StartCoroutine(DeathTimer());
             rb.useGravity = true;
             rb.AddForce(-Vector3.up * 30);
             transform.LookAt(new Vector3(transform.position.x, 0, transform.position.z));
@@ -784,9 +785,9 @@ public class MutatedCrow : CreatureBehaviorScript
     private void RandomizeStats() //Randomizes many of the birds stats
     {
         circleRadius = Random.Range(5, 15);
-        height = Random.Range(5, 6.5f);
-        speed = Random.Range(9, 14);
-        attackCooldown = Random.Range(3, 15);
+        height = Random.Range(4.5f, 6f);
+        speed = Random.Range(7, 11);
+        attackCooldown = Random.Range(6, 15);
         circleDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
     }
 
@@ -842,6 +843,13 @@ public class MutatedCrow : CreatureBehaviorScript
             canCorpseBreak = true;
             TakeDamage(100);
         }
+    }
+
+    IEnumerator DeathTimer()
+    {
+        yield return new WaitForSeconds(3);
+        canCorpseBreak = true;
+        TakeDamage(100);
     }
 
     private Vector3? FindCrop()

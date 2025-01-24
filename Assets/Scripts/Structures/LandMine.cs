@@ -107,6 +107,11 @@ public class LandMine : StructureBehaviorScript
         else if(health < 0 && !isExploding) Destroy(this.gameObject);
     }
 
+    public override void HitWithWater()
+    {
+        TryExplosion();
+    }
+
     public override void StructureInteraction()
     {
         //Swap active nutrients
@@ -278,11 +283,11 @@ public class LandMine : StructureBehaviorScript
         base.OnDestroy();
         OnDamage -= TryExplosion;
         if (!gameObject.scene.isLoaded) return; 
-        if(dirtObject.activeSelf)
-        {
+        //if(dirtObject.activeSelf)
+        //{
             dirtObject.GetComponent<DisableAfterTimer>().destroyOnCompletion = true;
             dirtObject.transform.parent = null;
-        }
+        //}
         
     }
 }

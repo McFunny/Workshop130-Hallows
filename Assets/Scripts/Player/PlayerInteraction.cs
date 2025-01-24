@@ -20,6 +20,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public bool isInteracting { get; private set; }
     public bool toolCooldown;
+    bool itemUseCooldown;
 
     public static PlayerInteraction Instance;
 
@@ -102,6 +103,24 @@ public class PlayerInteraction : MonoBehaviour
             StartCoroutine(GameOver());
         }
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                currentMoney += 50;
+                totalMoneyEarned += 50;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                print(InputManager.isCharging);
+                InputManager.isCharging = false;
+            }
+        }
+
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
 
@@ -150,7 +169,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         //For showing/giving NPC's items
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null) interactable.InteractWithItem(this, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
-        else return;
+        else interactable.Interact(this, out bool interactSuccessful);
         isInteracting = false;
     }
 
@@ -267,6 +286,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
+            if(itemUseCooldown) return;
+            StartCoroutine(ItemUseCooldown());
             //eat it
             StaminaChange(item.staminaValue);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
@@ -284,7 +305,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
     {
-        rb.velocity = new Vector3(0,0,0);
+        if(time > 0) rb.velocity = new Vector3(0,0,0);
         if(toolCooldown) yield break;
         toolCooldown = true;
         yield return new WaitForSeconds(time);
@@ -350,7 +371,7 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator GameOver()
     {
-        //maybe pause time?
+        //maybe pause time? also make sure no issues arise when dying while talking to someone
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         playerEffects.PlayClip(playerEffects.playerDie);
@@ -371,6 +392,13 @@ public class PlayerInteraction : MonoBehaviour
         gameOver = false;
         stamina = 100;
 
+    }
+
+    IEnumerator ItemUseCooldown()
+    {
+        itemUseCooldown = true;
+        yield return new WaitForSeconds(0.1f);
+        itemUseCooldown = false;
     }
     
 }
