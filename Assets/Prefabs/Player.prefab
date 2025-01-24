@@ -217,6 +217,7 @@ MonoBehaviour:
   secondaryInventorySystem:
     inventorySlots: []
   _database: {fileID: 11400000, guid: 778e7ccc03dfccb4294abbe8b57c710a, type: 2}
+  useDebugItems: 0
   startingItems:
   - name: Hoe
     itemData: {fileID: 11400000, guid: 56a99e191735f144d96b00f92ada1698, type: 2}
@@ -262,6 +263,7 @@ MonoBehaviour:
   interactionLayers:
     serializedVersion: 2
     m_Bits: 320
+  lowStaminaWarning: {fileID: 11400000, guid: e159222587440be4088a83993405c954, type: 2}
 --- !u!114 &38908524066056234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -977,6 +979,68 @@ MonoBehaviour:
   collider: {fileID: 9208214954908016475}
   hitStruct: {fileID: 8300000, guid: 32902731c1131564a95c8392f4d81620, type: 3}
   hitFlesh: {fileID: 8300000, guid: 4d7da1a9abc17b84b89870c0cbf80d7b, type: 3}
+--- !u!1 &4710172168767217788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5686401068769705809}
+  m_Layer: 10
+  m_Name: WaterBulletStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5686401068769705809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4710172168767217788}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.01745245, z: 0, w: 0.99984777}
+  m_LocalPosition: {x: 0.91, y: -0.18, z: 1.92}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8139505338580327214}
+  m_LocalEulerAnglesHint: {x: 0, y: -11.062, z: 0}
+--- !u!1 &4953385996878901370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8400547778324120966}
+  m_Layer: 10
+  m_Name: WaterBulletCloseStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8400547778324120966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953385996878901370}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1, y: -0.15, z: 1.99}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8139505338580327214}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4953640713924337418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,6 +1160,8 @@ Transform:
   - {fileID: 771101908317818649}
   - {fileID: 8248381022118270939}
   - {fileID: 1161298806788455096}
+  - {fileID: 5686401068769705809}
+  - {fileID: 8400547778324120966}
   - {fileID: 6432652277440691360}
   m_Father: {fileID: 5990178222052467322}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1192,7 +1258,7 @@ Transform:
   m_GameObject: {fileID: 8451255029938577494}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.01701811, z: -0, w: 0.9998553}
-  m_LocalPosition: {x: 0.519, y: -0.057, z: 0.692}
+  m_LocalPosition: {x: 0.508, y: -0.057, z: 1.021}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -153,7 +153,7 @@ public class WaterGunBehavior : ToolBehavior
             newPos = StructureManager.Instance.GetTileCenter(player.position);
             newDirection = GetDirection();
             //Debug.Log(player.eulerAngles.x);
-            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 20))
+            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 30))
             {
                 currentPos = newPos;
                 currentDirection = newDirection;
@@ -169,7 +169,7 @@ public class WaterGunBehavior : ToolBehavior
                     }
                 }
             }
-            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 20)) 
+            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 30)) 
             {
                 currentPos = new Vector3(0,0,0);
                 currentDirection = Direction.Null;
@@ -207,10 +207,15 @@ public class WaterGunBehavior : ToolBehavior
             shootingGunCoroutine = null;
             yield break; //exit the coroutine
         }
-        if(!bulletStart)
-        {
-            bulletStart = HandItemManager.Instance.bulletStart;
-        }
+        //if(!bulletStart)
+        //{
+            if(HandItemManager.Instance.waterBulletStart)
+            {
+                if(maxCharge) bulletStart = HandItemManager.Instance.waterBulletCloseStart;
+                else bulletStart = HandItemManager.Instance.waterBulletStart;
+            } 
+            else bulletStart = HandItemManager.Instance.bulletStart;
+        //}
         PlayerInteraction.Instance.waterHeld--;
         GameObject newBullet;
         Vector3 dir;
