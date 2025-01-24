@@ -444,6 +444,7 @@ public class MistWalker : CreatureBehaviorScript
     {
         Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
         agent.destination = runTo;
+        if(agent.speed > 0 && agent.speed != 5) agent.speed = 5;
     }
     #endregion
 
@@ -585,7 +586,7 @@ public class MistWalker : CreatureBehaviorScript
 
         if (!coroutineRunning)
         {
-            int r = Random.Range(0, 11);
+            int r = Random.Range(0, 13);
             if (r < 2)
             {
                 if (availableStructure.Count > 0)
@@ -593,11 +594,11 @@ public class MistWalker : CreatureBehaviorScript
                     currentState = CreatureState.WalkTowardsClosestStructure;
                 }
             }
-            else if (r < 5)
+            else if (r < 6)
             {
                 StartCoroutine(WaitAround());
             }
-            else if (r >= 6)
+            else if (r >= 7)
             {
                 currentState = CreatureState.Wander;
             }
