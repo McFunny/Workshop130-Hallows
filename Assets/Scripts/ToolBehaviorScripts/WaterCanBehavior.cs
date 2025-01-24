@@ -79,7 +79,7 @@ public class WaterCanBehavior : ToolBehavior
         }
         if (Physics.Raycast(player.position, fwd, out hit, 8, 1 << 9))
         {
-            var enemy = hit.collider.GetComponent<CreatureBehaviorScript>();
+            var enemy = hit.collider.GetComponentInParent<CreatureBehaviorScript>();
             if (enemy != null)
             {
                 enemy.ToolInteraction(tool, out bool success);
@@ -177,7 +177,7 @@ public class WaterCanBehavior : ToolBehavior
         }
         if (Physics.Raycast(player.position, fwd, out hit, 8, 1 << 9))
         {
-            var enemy = hit.collider.GetComponent<CreatureBehaviorScript>();
+            var enemy = hit.collider.GetComponentInParent<CreatureBehaviorScript>();
             if (enemy != null)
             {
                 enemy.ToolInteraction(tool, out bool success);

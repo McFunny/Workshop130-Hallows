@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class PopupHandler : MonoBehaviour
 {
-    public static Queue<PopupScript> popupQueue = new Queue<PopupScript>();
+    public static PopupHandler Instance;
+    public Queue<PopupScript> popupQueue = new Queue<PopupScript>(); 
+    List<PopupScript> typesInQueue = new List<PopupScript>(); 
     public PopupScript testPopup, testPopup2, testPopup3;
+    public PopupScript nightWarningPopup;
     private PopupScript currentPopup;
     public GameObject popupContainer;
     public TMP_Text popupText;
@@ -19,6 +22,19 @@ public class PopupHandler : MonoBehaviour
     private Coroutine queueChecker;
     private bool isActive, conditionMet;
 
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     private void Start()
     {
         PopupEvents.current.OnTillGround += OnTillGround;
@@ -26,12 +42,14 @@ public class PopupHandler : MonoBehaviour
         //popupContainer.SetActive(false);
         conditionMet = false;
         popupTransform.position = lerpStart.position;
+        TimeManager.OnHourlyUpdate += NightWarning;
     }
 
     private void OnDestroy()
     {
         PopupEvents.current.OnTillGround -= OnTillGround;
         PopupEvents.current.OnShovelSwing -= OnShovelSwing;
+        TimeManager.OnHourlyUpdate -= NightWarning;
     }
 
     void Update()
@@ -63,8 +81,25 @@ public class PopupHandler : MonoBehaviour
         }
     }
 
+    void NightWarning()
+    {
+        if(TownGate.Instance.inTown && TimeManager.Instance.currentHour == 19) AddToQueue(nightWarningPopup);
+    }
+
     public void AddToQueue(PopupScript popup)
     {
+        for(int i = 0; i < typesInQueue.Count; i++)
+        {
+            print(typesInQueue[i].text);
+            print(popup.text);
+            if(typesInQueue[i].text == popup.text)
+            {
+                print("Deleting repeated popup");
+                return;
+            }
+        }
+        typesInQueue.Add(popup);
+
         popupQueue.Enqueue(popup);
         print("Added " + popup + " to Queue");
         if (queueChecker == null) queueChecker = StartCoroutine(CheckQueue());
@@ -87,6 +122,7 @@ public class PopupHandler : MonoBehaviour
             ShowPopup(popup);
 
             yield return StartCoroutine(CloseCondition(popup));
+            typesInQueue.Remove(popup);
         }
 
         // Clean up

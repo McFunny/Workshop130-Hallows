@@ -480,6 +480,14 @@ public class StructureManager : MonoBehaviour
 
     public void WeedSpread(Vector3 pos)
     {
+        int weedTotal = 0;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand weedScript = allStructs[i] as FarmLand;
+            if(weedScript && weedScript.isWeed) weedTotal++;
+        }
+        if(weedTotal > 30) return;
+
         List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
         if(weedSpots.Count == 0) return;
         foreach(Vector3 weedPos in weedSpots)

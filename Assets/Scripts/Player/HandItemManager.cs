@@ -20,7 +20,7 @@ public class HandItemManager : MonoBehaviour
 
     public AudioClip extinguish;
 
-    public Transform bulletStart;
+    public Transform bulletStart, waterBulletStart, waterBulletCloseStart;
 
     void Awake()
     {

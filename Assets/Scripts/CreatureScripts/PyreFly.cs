@@ -392,7 +392,7 @@ public class PyreFly : CreatureBehaviorScript
             HandItemManager.Instance.TorchFlameToggle(true);
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && ignited)
+        else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && ignited)
         {
             PlayerInteraction.Instance.waterHeld--;
             IgnitionToggle(false);

@@ -29,6 +29,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
+    bool sentLowStaminaMessage = false;
 
     public float waterHeld = 20; //for watering can
     [HideInInspector] public readonly float maxWaterHeld = 20;
@@ -41,6 +42,8 @@ public class PlayerInteraction : MonoBehaviour
     private bool ltCanPress = false;
 
     bool gameOver;
+
+    public PopupScript lowStaminaWarning;
 
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
@@ -301,6 +304,12 @@ public class PlayerInteraction : MonoBehaviour
     {
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
+        if(!sentLowStaminaMessage && stamina <= 25)
+        {
+            sentLowStaminaMessage = true;
+            PopupHandler.Instance.AddToQueue(lowStaminaWarning);
+        }
+        else if(stamina > 30) sentLowStaminaMessage = false;
     }
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
@@ -374,7 +383,7 @@ public class PlayerInteraction : MonoBehaviour
         //maybe pause time? also make sure no issues arise when dying while talking to someone
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        playerEffects.PlayClip(playerEffects.playerDie);
+        playerEffects.PlayClip(playerEffects.playerDie, 0.4f);
         yield return new WaitForSeconds(3f);
         TimeManager.Instance.GameOver();
         print("Time GameOver Complete");
@@ -397,7 +406,7 @@ public class PlayerInteraction : MonoBehaviour
     IEnumerator ItemUseCooldown()
     {
         itemUseCooldown = true;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(5f);
         itemUseCooldown = false;
     }
     
