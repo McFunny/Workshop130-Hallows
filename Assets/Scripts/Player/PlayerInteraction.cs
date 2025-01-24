@@ -383,7 +383,7 @@ public class PlayerInteraction : MonoBehaviour
         //maybe pause time? also make sure no issues arise when dying while talking to someone
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        playerEffects.PlayClip(playerEffects.playerDie);
+        playerEffects.PlayClip(playerEffects.playerDie, 0.4f);
         yield return new WaitForSeconds(3f);
         TimeManager.Instance.GameOver();
         print("Time GameOver Complete");

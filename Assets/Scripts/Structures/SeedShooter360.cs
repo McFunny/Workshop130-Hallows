@@ -29,7 +29,7 @@ public class SeedShooter360 : StructureBehaviorScript
     float RotAngleY;
     float RotAngleMax;
     float RotAngleMin;
-    float rotateSpeed = 1.5f;
+    float rotateSpeed = 2f;
 
     //Use DOT products to determine if it is facing it's target, then fire a raycast to check for any obstacles, then fire
     //Maybe add a feature where a seed can plant itself on the tile a target is hit on
@@ -71,11 +71,11 @@ public class SeedShooter360 : StructureBehaviorScript
             }
             else
             {
-                float rY = Mathf.SmoothStep(RotAngleMax,RotAngleMin,Mathf.PingPong(Time.time * (rotateSpeed/2),1));
+                float rY = Mathf.SmoothStep(RotAngleMax,RotAngleMin,Mathf.PingPong(Time.time * (rotateSpeed/4),1));
                 turretHead.rotation = Quaternion.Euler(0,rY,0);
             }
         }
-        else if(targetInSight && savedItems.Count > 0)
+        else if(targetInSight)
         {
             shotCooldown = true;
             StartCoroutine(Shoot());
@@ -87,6 +87,7 @@ public class SeedShooter360 : StructureBehaviorScript
 
     void CheckForTargets()
     {
+        CreatureBehaviorScript oldTarget = currentTarget;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, range, 1 << 9);
         foreach (Collider collider in hitColliders)
         {
@@ -99,6 +100,7 @@ public class SeedShooter360 : StructureBehaviorScript
                 currentTarget = newCreature;
             }
         }
+        if (currentTarget && oldTarget != currentTarget) audioHandler.PlaySound(audioHandler.miscSounds1[0]);
     }
 
     void RotateToTarget()
@@ -144,6 +146,14 @@ public class SeedShooter360 : StructureBehaviorScript
 
     IEnumerator Shoot()
     {
+        if(savedItems.Count == 0)
+        {
+            audioHandler.PlaySound(audioHandler.miscSounds1[1]);
+            yield return new WaitForSeconds(2f);
+            shotCooldown = false;
+            yield break;
+        }
+
         Vector3 targetPosition;
         /*if(currentTarget.corpseParticleTransform) targetPosition = currentTarget.corpseParticleTransform.position;
         else*/ targetPosition = currentTarget.transform.position;
@@ -162,7 +172,7 @@ public class SeedShooter360 : StructureBehaviorScript
             Vector3 dir = (targetPosition - turretHead.position).normalized;
 
             r = Random.Range(0,10);
-            if(r > 6.5f)
+            if(r > 7f)
             {
                 dir = dir + new Vector3(Random.Range(-0.5f,0.5f), 0, Random.Range(-0.5f,0.5f));
                 print("MISSFIRE");
@@ -176,7 +186,7 @@ public class SeedShooter360 : StructureBehaviorScript
             print("PEW");
 
             ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
-            ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = bulletOrigin.position;
+            ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
             yield return new WaitForSeconds(0.2f);
         }
         r = Random.Range(0,10);
