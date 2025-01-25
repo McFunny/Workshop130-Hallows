@@ -185,7 +185,7 @@ public class NightSpawningManager : MonoBehaviour
         float x = Random.Range(-2, 2);
         return testSpawns[r].position + (x * testSpawns[r].transform.right); 
         //Debug.Log(testSpawns[r]);
-        return testSpawns[r].position;
+        //return testSpawns[r].position;
     }
 
     public void GameOver()

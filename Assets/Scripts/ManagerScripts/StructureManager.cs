@@ -8,7 +8,8 @@ public class StructureManager : MonoBehaviour
     public static StructureManager Instance;
     [Header("Tiles")]
     public Tilemap tileMap;
-    public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them + helps with water gun tracking
+    public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them 
+    //Would also then need an occupied border tile
 
     public List<StructureBehaviorScript> allStructs;
 
@@ -486,7 +487,7 @@ public class StructureManager : MonoBehaviour
             FarmLand weedScript = allStructs[i] as FarmLand;
             if(weedScript && weedScript.isWeed) weedTotal++;
         }
-        if(weedTotal > 30) return;
+        if(weedTotal > 60) return;
 
         List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
         if(weedSpots.Count == 0) return;

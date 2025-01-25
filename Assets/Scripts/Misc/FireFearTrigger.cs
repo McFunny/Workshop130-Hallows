@@ -15,6 +15,15 @@ public class FireFearTrigger : MonoBehaviour
         {
             creature.EnteredFireRadius(this, out bool successful);
             OnScare?.Invoke(successful);
+            return;
+        }
+
+        StructureBehaviorScript structure = other.gameObject.GetComponentInParent<StructureBehaviorScript>();
+        if(structure)
+        {
+            //structure.EnteredFireRadius(this, out bool successful);
+            //OnScare?.Invoke(successful);
+            return;
         }
     }
 }

@@ -785,7 +785,7 @@ public class MutatedCrow : CreatureBehaviorScript
     private void RandomizeStats() //Randomizes many of the birds stats
     {
         circleRadius = Random.Range(5, 15);
-        height = Random.Range(4.5f, 6f);
+        height = Random.Range(4.5f, 5f);
         speed = Random.Range(7, 11);
         attackCooldown = Random.Range(6, 15);
         circleDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
