@@ -30,6 +30,7 @@ public class TimeManager : MonoBehaviour
     public delegate void HourlyUpdate();
     public static event HourlyUpdate OnHourlyUpdate;
     public bool timeSkipping = false; //Use for game over and sleeping
+    //Maybe make an event for onSecond, or at least a stoptime bool
 
     public Material skyMat;
     float desiredBlend;

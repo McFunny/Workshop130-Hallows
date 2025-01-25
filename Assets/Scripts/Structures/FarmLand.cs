@@ -22,6 +22,7 @@ public class FarmLand : StructureBehaviorScript
     public bool harvestable = false; //true if growth stage matches crop data growth stages
     public bool rotted = false;
     public bool isWeed = false;
+    public bool isFrosted = false;
     bool forceDig = false;
 
     private bool ignoreNextGrowthMoment = false; //tick this if crop was just planted
@@ -31,6 +32,7 @@ public class FarmLand : StructureBehaviorScript
     private NutrientStorage nutrients;
 
     public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
+    public GameObject frostParticles;
     public GameObject light;
     [SerializeField] private CropNeedsUI cropNeedsUI;
     // Start is called before the first frame update
@@ -226,12 +228,10 @@ public class FarmLand : StructureBehaviorScript
         }
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && nutrients.waterLevel < 10)
         {
-            PlayerInteraction.Instance.waterHeld--;
-            nutrients.waterLevel = 10;
-            SpriteChange();
+            WaterCrops();
             success = true;
 
-            waterSplash.Play();
+            PlayerInteraction.Instance.waterHeld--;
         }
     }
 
@@ -267,7 +267,8 @@ public class FarmLand : StructureBehaviorScript
             else
             {
                 hoursSpent = 0;
-                health = maxHealth;
+                health += 5;
+                if(health > maxHealth) health = maxHealth;
                 DrainNutrients(out bool gainedStress);
                 if(!isWeed)
                 {
@@ -482,6 +483,7 @@ public class FarmLand : StructureBehaviorScript
         nutrients.waterLevel = 10;
         waterSplash.Play();
         SpriteChange();
+        if(isFrosted) FrostDamage();
         if(onFire) Extinguish();
     }
 
@@ -505,5 +507,33 @@ public class FarmLand : StructureBehaviorScript
     {
         if((crop || isWeed) && !onFire) return true;
         else return false;
+    }
+
+    void FrostDamage() //When watering a frosted crop
+    {
+        //particle
+        TakeDamage(5);
+        if(isWeed) return;
+        plantStress++;
+        growthImpeded.Play();
+
+        if(plantStress > crop.stressLimit && !isWeed)
+        {
+            CropDied();
+        }
+    }
+
+    public void RecieveFrost()
+    {
+        print("Recieved Frost");
+        if(nearbyFires.Count == 0 && !isFrosted)
+        {
+            print("Afflicted");
+            isFrosted = true;
+            GameObject frost = ParticlePoolManager.Instance.GrabFrostParticle();
+            frost.transform.position = transform.position;
+            frost.GetComponent<CropFrost>().afflictedTile = this;
+            //spawn frost particle and assign it to this
+        }
     }
 }

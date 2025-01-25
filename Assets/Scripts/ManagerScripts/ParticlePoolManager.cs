@@ -11,7 +11,7 @@ public class ParticlePoolManager : MonoBehaviour
 
     public VisualEffect hitEffect;
 
-    public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle;
+    public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, frostParticle;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
@@ -23,6 +23,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> dirtPixelPool = new List<GameObject>();
     List<GameObject> explosionPool = new List<GameObject>();
     List<GameObject> cloudPool = new List<GameObject>();
+    List<GameObject> frostPool = new List<GameObject>();
 
     void Awake()
     {
@@ -107,6 +108,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(cloudParticle);
             cloudPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(frostParticle);
+            frostPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -280,6 +288,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(cloudParticle);
         cloudPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabFrostParticle()
+    {
+        foreach (GameObject particle in frostPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(frostParticle);
+        frostPool.Add(newParticle);
         return newParticle;
     }
 
