@@ -486,7 +486,7 @@ public class StructureManager : MonoBehaviour
             FarmLand weedScript = allStructs[i] as FarmLand;
             if(weedScript && weedScript.isWeed) weedTotal++;
         }
-        if(weedTotal > 30) return;
+        if(weedTotal > 60) return;
 
         List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
         if(weedSpots.Count == 0) return;
