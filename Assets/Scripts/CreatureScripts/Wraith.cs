@@ -11,6 +11,8 @@ public class Wraith : CreatureBehaviorScript
 
     public MeshRenderer meshRenderer;
 
+    public GameObject flowerPrefab;
+
     public float timeSpentInFire;
     public float flameDecayRate = 0.5f;
     public float maxFlameTime = 1.5f;
@@ -29,13 +31,12 @@ public class Wraith : CreatureBehaviorScript
     void Start()
     {
         base.Start();
+        SpawnFlower();
     }
 
 
     void Update()
     {
-        if (health <= 0) isDead = true;
-
         if (!isDead)
         {
             ChasePlayer();
@@ -107,6 +108,11 @@ public class Wraith : CreatureBehaviorScript
     {
         FireFearTrigger trigger = other.GetComponent<FireFearTrigger>();
         if(trigger && nearbyFires.Contains(trigger)) nearbyFires.Remove(trigger);
+    }
+
+    void SpawnFlower()
+    {
+        //
     }
 
     void UpdateTransparency()

@@ -69,6 +69,7 @@ MonoBehaviour:
   playerInAttackRange: 0
   shovelVulnerable: 1
   fireVulnerable: 0
+  bearTrapVulnerable: 0
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 35
@@ -509,6 +510,7 @@ MonoBehaviour:
   pitchMin: 0
   pitchMax: 0
   source: {fileID: 0}
+  loopingSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
