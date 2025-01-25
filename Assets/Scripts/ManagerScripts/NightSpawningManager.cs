@@ -13,6 +13,7 @@ public class NightSpawningManager : MonoBehaviour
     //float originalDifficultyPoints = 0;
 
     public CreatureObject[] creatures; //list of possible creatures to spawn
+    public CreatureObject[] fillerCreatures; //list of creatures that can spawn when out of danger points
     List<int> spawnedCreaturesThisHour = new List<int>(); //tracks how many of a specific type of creature was spawned this hour //CREATURES NEED TO BE REMOVED WHEN KILLED
 
     public List<CreatureBehaviorScript> allCreatures; //all creatures in the scene, have a limit to how many there can be in a scene
@@ -61,7 +62,7 @@ public class NightSpawningManager : MonoBehaviour
         //difficultyPoints += TimeManager.dayNum;
         //originalDifficultyPoints = difficultyPoints;
 
-        if(difficultyPoints > 0) HourlySpawns();
+        HourlySpawns();
     }
 
     void HourlySpawns()
@@ -125,13 +126,14 @@ public class NightSpawningManager : MonoBehaviour
         }
         while(spawnAttempts < 6); //add threshhold req too
 
-        if(allCreatures.Count == 0)
+        if(allCreatures.Count <= 2 && difficultyPoints < 10)
         {
-            r = Random.Range(0, weightArray.Count);
-            CreatureObject newCreature = creatures[weightArray[r]];
-            if(PlayerInteraction.Instance.totalMoneyEarned < newCreature.wealthPrerequisite) return;
-            spawnedCreaturesThisHour[weightArray[r]]++;
-            SpawnCreature(newCreature);
+            for(int i = 0; i < 2; i++)
+            {
+                r = Random.Range(0, fillerCreatures.Length);
+                CreatureObject newCreature = fillerCreatures[r];
+                SpawnCreature(newCreature);
+            }
         }
     }
 
@@ -183,7 +185,7 @@ public class NightSpawningManager : MonoBehaviour
         float x = Random.Range(-2, 2);
         return testSpawns[r].position + (x * testSpawns[r].transform.right); 
         //Debug.Log(testSpawns[r]);
-        return testSpawns[r].position;
+        //return testSpawns[r].position;
     }
 
     public void GameOver()

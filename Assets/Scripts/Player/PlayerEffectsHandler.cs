@@ -129,6 +129,11 @@ public class PlayerEffectsHandler : MonoBehaviour
         source.PlayOneShot(clip);
     }
 
+    public void PlayClip(AudioClip clip, float volume)
+    {
+        source.PlayOneShot(clip, volume);
+    }
+
     public void PlayFootstepSound()
     {
         footStepSource.pitch = Random.Range(0.7f, 1.3f);

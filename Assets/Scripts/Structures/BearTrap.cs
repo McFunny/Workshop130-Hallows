@@ -7,7 +7,7 @@ public class BearTrap : StructureBehaviorScript
     public InventoryItemData recoveredItem;
     public Transform topClamp, bottomClamp;
     float animationTimeLeft;
-    bool isTriggered, rearming;
+    bool isTriggered, rearming, caughtSomething;
 
     public AudioClip triggeredSFX;
 
@@ -45,7 +45,7 @@ public class BearTrap : StructureBehaviorScript
     // Update is called once per frame
     void Update()
     {
-        base.Update();
+        if(!caughtSomething) base.Update();
 
         if(animationTimeLeft > 0)
         {
@@ -74,7 +74,8 @@ public class BearTrap : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel && isTriggered && !rearming)
+        if(caughtSomething) return;
+        if(type == ToolType.Shovel && !rearming)
         {
             StartCoroutine(DugUp());
             success = true;
@@ -84,14 +85,19 @@ public class BearTrap : StructureBehaviorScript
     IEnumerator DugUp()
     {
         yield return  new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-        Destroy(this.gameObject);
+        if(!caughtSomething)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
+            droppedItem.transform.position = transform.position;
+            Destroy(this.gameObject);
+        }
+        
     }
 
     IEnumerator SpringTrap(Collider victim)
     {
         animationTimeLeft = 0.5f;
+        caughtSomething = true;
         yield return new WaitForSeconds(0.5f);
         topClamp.rotation = Quaternion.Euler(-161, 90, -90);
         bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
@@ -140,6 +146,7 @@ public class BearTrap : StructureBehaviorScript
                 creature.PlayHitParticle(new Vector3(0, 0, 0));
             }
         }
+        caughtSomething = false;
         
     }
 

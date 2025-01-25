@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+//using UnityEditor.EditorTools;
 using UnityEngine;
 
 
@@ -24,6 +25,10 @@ public class InventoryItemData : ScriptableObject
 
     public float staminaValue = 0; //if higher than 0, restores stamina when eaten, and is therefore consumable
     public float bonusCompostValue = 0;
+
+    [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
+    public List<string> itemInputsKBM;
+    public List<string> itemInputsController;
    
     public void UseItem()
     {

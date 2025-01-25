@@ -72,6 +72,7 @@ public class HoeBehavior : ToolBehavior
 
     public override void ItemUsed() 
     { 
+        PopupEvents.current.TillGround(); // Sends message to the PopupEvents to tell it when to close certain popups
         PlayerInteraction.Instance.StartCoroutine(ExtraLag());
         if(tile) tile.ToolInteraction(tool, out bool playAnim);
         else StructureManager.Instance.SpawnStructure(farmTile, pos);

@@ -559,17 +559,20 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: 3f3793583ac66604eb4c2579537bd84f, type: 2}
   health: 25
   maxHealth: 25
-  wealthValue: 20
+  wealthValue: 15
   destructable: 1
   flammable: 0
   onFire: 0
   isObstacle: 1
   savedItems: []
+  damageParticles: {fileID: 0}
+  destructionParticles: {fileID: 0}
   highlight:
   - {fileID: 5420653024611435711}
   - {fileID: 1935746049742081512}
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  structureUI: {fileID: 0}
   recoveredItem: {fileID: 11400000, guid: 55eb42636a4d2534dae716e7da5b6d45, type: 2}
   waterLevel: 0
   water: {fileID: 4281802548596243088}

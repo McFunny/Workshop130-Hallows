@@ -10,7 +10,7 @@ public class ShovelBehavior : ToolBehavior
     public AudioClip swing, dig;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
@@ -20,21 +20,22 @@ public class ShovelBehavior : ToolBehavior
         //swing
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
+        PopupEvents.current.ShovelSwing();
         if(PlayerInteraction.Instance.stamina > 25)
         {
             toolAnim.SetFloat("AnimSpeed", 1f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.55f, 1.2f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.55f, 0.9f));
         }
         else
         {
             toolAnim.SetFloat("AnimSpeed", 0.75f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.55f * 1.25f, 1.2f * 1.25f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.55f * 1.25f, 0.9f * 1.25f));
         }
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
@@ -60,13 +61,13 @@ public class ShovelBehavior : ToolBehavior
                     if(PlayerInteraction.Instance.stamina > 25)
                     {
                         toolAnim.SetFloat("AnimSpeed", 1f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f, 2f));
+                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f, 1.7f));
                         PlayerInteraction.Instance.StaminaChange(-2);
                     }
                     else
                     {
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f * 1.25f, 2f * 1.25f));
+                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f * 1.25f, 1.7f * 1.25f));
                     }
                     PlayerMovement.restrictMovementTokens++;
 

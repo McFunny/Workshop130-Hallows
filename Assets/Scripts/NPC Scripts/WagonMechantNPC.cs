@@ -114,6 +114,10 @@ public class WagonMerchantNPC : NPC, ITalkable
             {
                 currentPath = 6; //no money!?!?!?
             }
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                currentPath = 7; //No space in inventory
+            }
             else
             {
                 currentPath = 5; //item sold

@@ -100,33 +100,33 @@ public class MurderMancer : CreatureBehaviorScript
     private void CheckStage()
     {
         var pEmission = stageParticles.emission;
-        if (timeSinceLastSeenPlayer >= 40 && currentState != CreatureState.SummonCrows)
+        if (timeSinceLastSeenPlayer >= 80 && currentState != CreatureState.SummonCrows)
         {
             currentState = CreatureState.SummonCrows;
             anim.SetInteger("PowerLevel", 4);
         }
-        else if (timeSinceLastSeenPlayer >= 30)
+        else if (timeSinceLastSeenPlayer >= 60)
         {
             if(currentState != CreatureState.Stage3) effectsHandler.RandomIdle();
             currentState = CreatureState.Stage3;
             anim.SetInteger("PowerLevel", 3);
             pEmission.rateOverTime = 15;
         }
-        else if (timeSinceLastSeenPlayer >= 20)
+        else if (timeSinceLastSeenPlayer >= 40)
         {
             if(currentState != CreatureState.Stage2) effectsHandler.RandomIdle();
             currentState = CreatureState.Stage2;
             anim.SetInteger("PowerLevel", 2);
             pEmission.rateOverTime = 5;
         }
-        else if (timeSinceLastSeenPlayer >= 10)
+        else if (timeSinceLastSeenPlayer >= 20)
         {
             if(currentState != CreatureState.Stage1) effectsHandler.RandomIdle();
             currentState = CreatureState.Stage1;
             anim.SetInteger("PowerLevel", 1);
             pEmission.rateOverTime = 2;
         }
-        else if (timeSinceLastSeenPlayer < 10 && currentState != CreatureState.Idle)
+        else if (timeSinceLastSeenPlayer < 20 && currentState != CreatureState.Idle)
         {
             currentState = CreatureState.Idle;
             anim.SetInteger("PowerLevel", 0);

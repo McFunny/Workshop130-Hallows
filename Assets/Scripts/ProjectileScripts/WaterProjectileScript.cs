@@ -11,9 +11,14 @@ public class WaterProjectileScript : MonoBehaviour
 
     Rigidbody rb;
 
+    public GameObject[] thingsToTurnOff;
+    bool canCollide = true;
+    public TrailRenderer trail;
+
 
     void OnTriggerEnter(Collider other)
     {
+        if(!canCollide) return;
         if(other.gameObject.layer == 6)
         {
             //break
@@ -33,7 +38,8 @@ public class WaterProjectileScript : MonoBehaviour
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Structure");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+                StartCoroutine(TurnOff());
                 return;
             }
 
@@ -44,7 +50,8 @@ public class WaterProjectileScript : MonoBehaviour
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Person");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+                StartCoroutine(TurnOff());
                 return;
             }
             
@@ -60,7 +67,8 @@ public class WaterProjectileScript : MonoBehaviour
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+                StartCoroutine(TurnOff());
                 return;
             }
         }
@@ -71,7 +79,8 @@ public class WaterProjectileScript : MonoBehaviour
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
             ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            StartCoroutine(TurnOff());
             return;
         }
 
@@ -79,19 +88,40 @@ public class WaterProjectileScript : MonoBehaviour
 
     void OnEnable()
     {
+        canCollide = true;
+        trail.emitting = false;
         StartCoroutine(LifeTime());
         if(!rb) rb = GetComponent<Rigidbody>();
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(true);
+        }
     }
 
     void OnDisable()
     {
         StopCoroutine(LifeTime());
         homing = false;
+        canCollide = false;
         target = new Vector3(0,0,0);
+    }
+
+    IEnumerator TurnOff()
+    {
+        canCollide = false;
+        rb.velocity = new Vector3(0,0,0);
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(false);
+        }
+        yield return new WaitForSeconds(1.5f);
+        gameObject.SetActive(false);
     }
 
     IEnumerator LifeTime()
     {
+        yield return new WaitForSeconds(0.02f);
+        trail.emitting = true;
         yield return new WaitForSeconds(0.2f);
         if(homing && target != new Vector3(0,0,0))
         {
@@ -101,7 +131,7 @@ public class WaterProjectileScript : MonoBehaviour
             rb.AddForce(dir * 150);
             Debug.Log("ZOOM");
         }
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(20);
         gameObject.SetActive(false);
     }
 

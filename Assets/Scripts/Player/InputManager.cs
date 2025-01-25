@@ -81,7 +81,15 @@ public class InputManager : MonoBehaviour
     {
         if(PlayerMovement.isCodexOpen) return;
         if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
-        if(!PlayerMovement.accessingInventory) pauseScript.PauseGame();
+        if(!PlayerMovement.accessingInventory)
+        {
+            if(!PauseScript.isPaused)
+            {
+                isCharging = false;
+                chargeButtonHeld = false;
+            }
+            pauseScript.PauseGame();
+        } 
     }
 
     private void CheckForScrollInput()
@@ -117,15 +125,17 @@ public class InputManager : MonoBehaviour
 
     private void BeginCharge(InputAction.CallbackContext obj)
     {
-        chargeButtonHeld = !chargeButtonHeld;
-        //print("Is butten held? " + chargeButtonHeld);
+        if(PauseScript.isPaused) return;
 
-        if(chargeButtonHeld == false || PlayerMovement.restrictMovementTokens > 0 || PauseScript.isPaused || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != waterGun)
+        chargeButtonHeld = !chargeButtonHeld;
+        //print("Is button held? " + chargeButtonHeld);
+
+        if(chargeButtonHeld == false || PlayerMovement.restrictMovementTokens > 0 || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != waterGun)
         {
             isCharging = false;
             //return;
         }
         else isCharging = !isCharging;
-        //print(isCharging);
+        //print("Is the gun charging? " + isCharging);
     }
 }
