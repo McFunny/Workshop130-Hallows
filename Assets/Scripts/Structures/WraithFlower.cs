@@ -15,6 +15,8 @@ public class WraithFlower : StructureBehaviorScript
 
     bool isBurning = false;
 
+    Transform player;
+
     //Potential feature is applying fertalizer to the rose for various effects
     //Use small circle particles from mancer particle for this
 
@@ -27,6 +29,7 @@ public class WraithFlower : StructureBehaviorScript
     void Start()
     {
         base.Start();
+        player = PlayerInteraction.Instance.transform;
     }
 
     // Update is called once per frame
@@ -57,6 +60,19 @@ public class WraithFlower : StructureBehaviorScript
     void UpdateTransparency()
     {
         //calculate player distance
+        float distance = Vector3.Distance(player.position, transform.position);
+        Color newColor = r.color;
+        if(distance > appearRange)
+        {
+            newColor.a = 0;
+            anim.SetBool("Revealed", false);
+        }
+        else
+        {
+            newColor.a = 1 - (distance/appearRange);
+            anim.SetBool("Revealed", true);
+        }
+        r.color = newColor;
     }
 
     void OnDestroy()

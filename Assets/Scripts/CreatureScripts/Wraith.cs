@@ -112,7 +112,12 @@ public class Wraith : CreatureBehaviorScript
 
     void SpawnFlower()
     {
-        //
+        Vector3 flowerSpawn = StructureManager.Instance.GetRandomClearTile();
+        if(flowerSpawn == new Vector3(0,0,0)) Destroy(this.gameObject);
+        else
+        {
+            Instantiate(flowerPrefab, flowerSpawn, Quaternion.identity).GetComponent<WraithFlower>().assignedWraith = this;
+        }
     }
 
     void UpdateTransparency()
