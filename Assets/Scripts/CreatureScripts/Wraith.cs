@@ -42,7 +42,8 @@ public class Wraith : CreatureBehaviorScript
     {
         if (!isDead)
         {
-            ChasePlayer();
+            if(TownGate.Instance.inTown) Freeze();
+            else ChasePlayer();
         }
 
         if(nearbyFires.Count > 0)
@@ -73,8 +74,19 @@ public class Wraith : CreatureBehaviorScript
     {
         if (trackPlayerRoutine == null)
         {
+            agent.isStopped = false;
             trackPlayerRoutine = StartCoroutine(TrackPlayer());
         }
+    }
+
+    void Freeze()
+    {
+        if(trackPlayerRoutine != null)
+        {
+            trackPlayerRoutine = null;
+            agent.isStopped = true;
+        }
+        
     }
 
     private IEnumerator TrackPlayer()
