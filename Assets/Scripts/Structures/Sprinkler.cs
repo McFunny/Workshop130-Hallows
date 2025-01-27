@@ -92,6 +92,7 @@ public class Sprinkler : StructureBehaviorScript
                 FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
                 tile.WaterCrops();
             }
+            //else extinguish fires
         }
     }
 
