@@ -72,13 +72,6 @@ public class Wraith : CreatureBehaviorScript
         {
             trackPlayerRoutine = StartCoroutine(TrackPlayer());
         }
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= 3)
-        {
-            //DamagePlayer();
-        }
     }
 
     private IEnumerator TrackPlayer()
@@ -86,7 +79,13 @@ public class Wraith : CreatureBehaviorScript
         while (!isDead)
         {
             agent.destination = player.position;
-            yield return new WaitForSeconds(1f); // update destination every 0.5 seconds to prevent overloading it
+            yield return new WaitForSeconds(1.5f); // update destination every 0.5 seconds to prevent overloading it
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+            if (distanceToPlayer <= 5)
+            {
+                PlayerInteraction.Instance.StaminaChange(-7);
+            }
         }
         trackPlayerRoutine = null;
     }
