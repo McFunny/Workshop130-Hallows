@@ -22,7 +22,6 @@ public class WaterGunBehavior : ToolBehavior
     Coroutine chargingCoroutine;
 
     //Do we want the multishot to only consume a unit of water or water for each shot?
-    //Fix when you look at the same position from looking up, the targets dont show
 
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
@@ -82,6 +81,9 @@ public class WaterGunBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
                     usingSecondary = true;
+                    toolAnim.Play("Reload");
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    return;
                 } 
             }
 
@@ -98,6 +100,8 @@ public class WaterGunBehavior : ToolBehavior
                     PlayerInteraction.Instance.StaminaChange(-2);
                     usingSecondary = true;
                     toolAnim.Play("Reload");
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    return;
                 }
 
             }
@@ -119,6 +123,7 @@ public class WaterGunBehavior : ToolBehavior
         {
             usingSecondary = false;
             PlayerMovement.restrictMovementTokens--;
+            PlayerCam.Instance.ClearObjectOfInterest();
         }
 
     }
@@ -153,7 +158,7 @@ public class WaterGunBehavior : ToolBehavior
             newPos = StructureManager.Instance.GetTileCenter(player.position);
             newDirection = GetDirection();
             //Debug.Log(player.eulerAngles.x);
-            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 30))
+            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 35))
             {
                 currentPos = newPos;
                 currentDirection = newDirection;
@@ -169,7 +174,7 @@ public class WaterGunBehavior : ToolBehavior
                     }
                 }
             }
-            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 30)) 
+            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 35)) 
             {
                 currentPos = new Vector3(0,0,0);
                 currentDirection = Direction.Null;

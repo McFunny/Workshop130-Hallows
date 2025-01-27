@@ -125,7 +125,7 @@ public class WaterProjectileScript : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         if(homing && target != new Vector3(0,0,0))
         {
-            //rb.velocity = new Vector3(0,0,0);
+            rb.velocity = new Vector3(0,0,0);
             Vector3 dir = (transform.position - target).normalized;
             dir *= -1f;
             rb.AddForce(dir * 150);
