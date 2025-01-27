@@ -70,6 +70,7 @@ public class ShovelBehavior : ToolBehavior
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f * 1.25f, 1.7f * 1.25f));
                     }
                     PlayerMovement.restrictMovementTokens++;
+                    PlayerCam.Instance.NewObjectOfInterest(structure.transform.position);
 
                 }
             }
@@ -88,6 +89,7 @@ public class ShovelBehavior : ToolBehavior
         {
             usingSecondary = false;
             PlayerMovement.restrictMovementTokens--;
+            PlayerCam.Instance.ClearObjectOfInterest();
         }
 
     }
