@@ -34,6 +34,7 @@ public class StructureFire : MonoBehaviour
         ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = flameBase.position;
         AudioSource.PlayClipAtPoint(extinguishedSFX, transform.position);
         StopAllCoroutines();
+        burningStruct = null;
     }
 
     void OnTriggerEnter(Collider other) //Burn things that come into contact
@@ -75,6 +76,9 @@ public class StructureFire : MonoBehaviour
                     {
                         nearbyStructs.Add(newStruct);
                     }
+                    
+                    MurderMancer mancer = collider.gameObject.GetComponentInParent<MurderMancer>();
+                    if(mancer) mancer.IgnitedByOther();
                 }
 
                 foreach(StructureBehaviorScript structure in nearbyStructs)

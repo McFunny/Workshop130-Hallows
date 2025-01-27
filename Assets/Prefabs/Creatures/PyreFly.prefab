@@ -49,8 +49,8 @@ MonoBehaviour:
   health: 20
   maxHealth: 20
   corpseHealth: 0
-  ichorWorth: 0
-  ichorDropRadius: 0
+  ichorWorth: 1
+  ichorDropRadius: 2
   creatureData: {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
@@ -69,9 +69,10 @@ MonoBehaviour:
   playerInAttackRange: 0
   shovelVulnerable: 1
   fireVulnerable: 0
+  bearTrapVulnerable: 0
   isDead: 0
   damageToStructure: 0
-  damageToPlayer: 20
+  damageToPlayer: 35
   canCorpseBreak: 1
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
@@ -87,6 +88,9 @@ MonoBehaviour:
   meshRenderer: {fileID: 2404094924373996786}
   offsetRate: 0.005
   homeHive: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   currentState: 0
 --- !u!195 &5191490688788952379
 NavMeshAgent:
@@ -118,6 +122,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 577307498091193494}
     m_Modifications:
+    - target: {fileID: 2559509585195891781, guid: 3de1502c9faa979489a0e014ef581b47,
+        type: 3}
+      propertyPath: fleeRange
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2760334366413817041, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Size.x
@@ -501,6 +510,7 @@ MonoBehaviour:
   pitchMin: 0
   pitchMax: 0
   source: {fileID: 0}
+  loopingSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}

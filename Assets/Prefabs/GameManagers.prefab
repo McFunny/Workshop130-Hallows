@@ -1997,6 +1997,10 @@ MonoBehaviour:
     type: 3}
   explosionParticle: {fileID: 1852729186730919364, guid: 420363aa68b1f114fadaa5186b54801a,
     type: 3}
+  cloudParticle: {fileID: 5054312627468373542, guid: 6ee991e033f1768449e40a4605d959be,
+    type: 3}
+  frostParticle: {fileID: 8696013021138905484, guid: 51079bdaa08a0794eabdfd20c26ddcc5,
+    type: 3}
 --- !u!1 &4467738761642645672
 GameObject:
   m_ObjectHideFlags: 0
@@ -2219,8 +2223,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.3679245, g: 0.27784306, b: 0.078097194, a: 1}
-      maxColor: {r: 0.4433962, g: 0.28372893, b: 0.02300641, a: 1}
+      minColor: {r: 0.6415094, g: 0.49196836, b: 0.16037735, a: 0.50980395}
+      maxColor: {r: 0.6792453, g: 0.4398446, b: 0.05446779, a: 0.62352943}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -2283,9 +2287,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 1
-      minScalar: 1
+      minMaxState: 3
+      scalar: 0.7
+      minScalar: 0.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3423,8 +3427,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
-    mode: 0
+    enabled: 1
+    mode: 1
     timeMode: 0
     fps: 30
     frameOverTime:
@@ -3542,7 +3546,13 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: -2128903219, guid: 17b84a17f7562064b8bb433a553da8c6, type: 3}
+    - sprite: {fileID: -1341643020, guid: 17b84a17f7562064b8bb433a553da8c6, type: 3}
+    - sprite: {fileID: 1383722000, guid: 17b84a17f7562064b8bb433a553da8c6, type: 3}
+    - sprite: {fileID: -86984935, guid: 17b84a17f7562064b8bb433a553da8c6, type: 3}
+    - sprite: {fileID: -1351976865, guid: 17b84a17f7562064b8bb433a553da8c6, type: 3}
+    - sprite: {fileID: -1863050107, guid: 17b84a17f7562064b8bb433a553da8c6, type: 3}
+    - sprite: {fileID: 529167035, guid: 17b84a17f7562064b8bb433a553da8c6, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -7542,6 +7552,8 @@ MonoBehaviour:
   toolSource: {fileID: 2845003546474641417}
   extinguish: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   bulletStart: {fileID: 0}
+  waterBulletStart: {fileID: 0}
+  waterBulletCloseStart: {fileID: 0}
 --- !u!114 &3952483593475695091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7560,6 +7572,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   - {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
   - {fileID: 11400000, guid: 95ffc7b6187e26f4a90d2729967ca357, type: 2}
+  - {fileID: 11400000, guid: abab0bf02c715684088aee5b9057c8e1, type: 2}
+  fillerCreatures:
+  - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
+  - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
+  - {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
+  - {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
   allCreatures: []
   testSpawns:
   - {fileID: 7187795816526134101}

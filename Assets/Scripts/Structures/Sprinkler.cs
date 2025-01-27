@@ -58,13 +58,18 @@ public class Sprinkler : StructureBehaviorScript
             StartCoroutine(DugUp());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 5)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 4 && waterLevel < 5)
         {
-            PlayerInteraction.Instance.waterHeld--;
+            PlayerInteraction.Instance.waterHeld -= 5;
             waterLevel = 5;
             StartCoroutine(WaterTiles());
             success = true;
         }
+    }
+
+    public override void HitWithWater()
+    {
+        if(waterLevel < 5) waterLevel++;
     }
 
     public override void TimeLapse(int hours)
@@ -87,6 +92,7 @@ public class Sprinkler : StructureBehaviorScript
                 FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
                 tile.WaterCrops();
             }
+            //else extinguish fires
         }
     }
 

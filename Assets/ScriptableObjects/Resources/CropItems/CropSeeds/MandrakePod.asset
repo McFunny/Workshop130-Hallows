@@ -18,11 +18,16 @@ MonoBehaviour:
     Consumes Ichor and Terrazyme, and produces GloamPhage.
   icon: {fileID: -1358232093, guid: 737d75bd0db95ec438000c855501225a, type: 3}
   maxStackSize: 20
-  value: 25
+  value: 19
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
+  bonusCompostValue: 0
+  itemInputsKBM:
+  - RMB - Plant
+  itemInputsController:
+  - LT - Plant
   plantable: 1
   cropData: {fileID: 11400000, guid: 8172637bdf1f08549abde986d4a5a463, type: 2}
   ableToBeShot: 0

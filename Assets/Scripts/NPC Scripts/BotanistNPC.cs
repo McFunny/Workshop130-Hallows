@@ -124,6 +124,10 @@ public class BotanistNPC : NPC, ITalkable
             {
                 currentPath = 3; //no money!?!?!?
             }
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                currentPath = 4; //No space in inventory
+            }
             else
             {
                 currentPath = 2; //item sold

@@ -7,7 +7,8 @@ public class TimeManager : MonoBehaviour
 {
     //Time
     public int currentMinute = 0; //30 in an hour
-    int minPerHour = 30;
+    int minPerDayHour = 30;
+    int minPerNightHour = 30;
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
                                         /// /Day lasts 14 hours. Morning starts at 6, town opens at 8
@@ -29,6 +30,7 @@ public class TimeManager : MonoBehaviour
     public delegate void HourlyUpdate();
     public static event HourlyUpdate OnHourlyUpdate;
     public bool timeSkipping = false; //Use for game over and sleeping
+    //Maybe make an event for onSecond, or at least a stoptime bool
 
     public Material skyMat;
     float desiredBlend;
@@ -81,7 +83,8 @@ public class TimeManager : MonoBehaviour
 
         if(sunMoonPivot && canRotate && seconds != 0)
         {
-            sunMoonPivot.rotation = Quaternion.Lerp(fromQuaternion, toQuaternion, seconds/(minPerHour));
+            if(isDay) sunMoonPivot.rotation = Quaternion.Lerp(fromQuaternion, toQuaternion, seconds/(minPerDayHour));
+            else sunMoonPivot.rotation = Quaternion.Lerp(fromQuaternion, toQuaternion, seconds/(minPerNightHour));
         }
     }
 
@@ -90,16 +93,16 @@ public class TimeManager : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(1);
-            if(!DialogueController.Instance.IsTalking())
-            {
+            //if(!DialogueController.Instance.IsTalking())
+            //{
                 currentMinute++;
                 LerpSunAndMoon();
-                if(currentMinute >= minPerHour)
+                if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour))
                 {
                     currentMinute = 0;
                     HourPassed();
                 }
-            }
+            //}
 
         }
         while(gameObject.activeSelf);

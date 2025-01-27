@@ -27,6 +27,8 @@ public class PyreFly : CreatureBehaviorScript
     private StructureBehaviorScript targetStructure; //Struct to burn
     private Brazier targetFireSource;
 
+    public LayerMask layerMask;
+
 
     public enum CreatureState
     {
@@ -127,23 +129,29 @@ public class PyreFly : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 5)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 25)
         {
             timeSpent += 0.01f;
             yield return null;
         }
 
-        if(ignited)
+        float r = Random.Range(0,10);
+
+        if(r < 7) //otherwise wander
         {
-            FindBurnableStructure();
-            if(targetStructure) currentState = CreatureState.WalkTowardsClosestStructure;
+            if(ignited)
+            {
+                FindBurnableStructure();
+                if(targetStructure) currentState = CreatureState.WalkTowardsClosestStructure;
+            }
+            else
+            {
+                FindFireSource();
+                if(targetFireSource) currentState = CreatureState.WalkTowardsClosestFlame;
+                else if(homeHive) currentState = CreatureState.ReturnToHive;
+            }
         }
-        else
-        {
-            FindFireSource();
-            if(targetFireSource) currentState = CreatureState.WalkTowardsClosestFlame;
-            else if(homeHive) currentState = CreatureState.ReturnToHive;
-        }
+        else currentState = CreatureState.Wander;
 
         isMoving = false;
         coroutineRunning = false;
@@ -352,15 +360,26 @@ public class PyreFly : CreatureBehaviorScript
         if(ignited)
         {
             ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
-            effectsHandler.ThrowSound(effectsHandler.deathSound);
+            if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);
             if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f) PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1, 1 << 6);
-            foreach(Collider collider in hitColliders)
+            Collider[] hitStructures = Physics.OverlapSphere(transform.position, 1.5f, 1 << 6);
+            foreach(Collider collider in hitStructures)
             {
                 StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
                 if(structure && structure.IsFlammable())
                 {
                     structure.LitOnFire();
+                }
+            }
+
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 8f, 1 << 9);
+            foreach(Collider collider in hitEnemies)
+            {
+                var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+                if (creature != null && creature.shovelVulnerable)
+                {
+                    creature.TakeDamage(75);
+                    creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 }
             }
         }
@@ -371,6 +390,12 @@ public class PyreFly : CreatureBehaviorScript
         if(type == ToolType.Torch && !PlayerInteraction.Instance.torchLit && ignited)
         {
             HandItemManager.Instance.TorchFlameToggle(true);
+            success = true;
+        }
+        else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && ignited)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            IgnitionToggle(false);
             success = true;
         }
         else success = false;
