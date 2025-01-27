@@ -44,7 +44,7 @@ public class NewDayCounter : MonoBehaviour
     {
         animator.SetTrigger("NewDayTrigger");
         AnimatorReset(); // Makes sure the animation doesn't play twice, just in case
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
     }
 
     public void IncrementCounter()
