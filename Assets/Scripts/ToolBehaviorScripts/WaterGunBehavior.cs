@@ -158,7 +158,7 @@ public class WaterGunBehavior : ToolBehavior
             newPos = StructureManager.Instance.GetTileCenter(player.position);
             newDirection = GetDirection();
             //Debug.Log(player.eulerAngles.x);
-            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 35))
+            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 10))
             {
                 currentPos = newPos;
                 currentDirection = newDirection;
@@ -174,7 +174,7 @@ public class WaterGunBehavior : ToolBehavior
                     }
                 }
             }
-            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 35)) 
+            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 10)) 
             {
                 currentPos = new Vector3(0,0,0);
                 currentDirection = Direction.Null;
@@ -224,7 +224,7 @@ public class WaterGunBehavior : ToolBehavior
         PlayerInteraction.Instance.waterHeld--;
         GameObject newBullet;
         Vector3 dir;
-        float extraForce = 0;
+        float extraForce = 15;
 
         ParticleSystem[] particles = HandItemManager.Instance.waterGun.GetComponentsInChildren<ParticleSystem>();
 
@@ -241,9 +241,9 @@ public class WaterGunBehavior : ToolBehavior
                 newBullet.GetComponent<WaterProjectileScript>().homing = true;
                 newBullet.GetComponent<WaterProjectileScript>().target = highlights[i].transform.position;
                 dir = bulletStart.forward  ;//+ new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
-                newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (50 + (30/2)));
-                newBullet.GetComponent<Rigidbody>().AddForce(dir * (10 + extraForce));
-                extraForce += 30f;
+                newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (50 + (extraForce)));
+                newBullet.GetComponent<Rigidbody>().AddForce(dir * (30 + extraForce));
+                extraForce += 45;
             } 
             else
             {

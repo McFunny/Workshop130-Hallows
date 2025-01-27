@@ -48,6 +48,7 @@ public class WraithFlower : StructureBehaviorScript
 
     IEnumerator BurningRose()
     {
+        assignedWraith.anim.SetTrigger("Burning");
         yield return new WaitForSeconds(2);
         if(assignedWraith)
         {
