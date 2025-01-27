@@ -11,7 +11,7 @@ public class MurderMancer : CreatureBehaviorScript
     public Transform leftArmCrowSummon;
     public CreatureObject crowData;
     public GameObject burningParticles;
-    public ParticleSystem stageParticles; //rates are 0, 2, 5, and 15
+    public ParticleSystem[] stage1Particles, stage2Particles;
 
     Vector3 origin;
 
@@ -28,6 +28,18 @@ public class MurderMancer : CreatureBehaviorScript
     }
 
     public CreatureState currentState;
+
+    void Awake()
+    {
+        for(int i = 0; i < stage1Particles.Length; i++)
+        {
+            stage1Particles[i].enableEmission = false;
+        }
+        for(int i = 0; i < stage2Particles.Length; i++)
+        {
+            stage2Particles[i].enableEmission = false;
+        }
+    }
 
     void Start()
     {
@@ -99,7 +111,6 @@ public class MurderMancer : CreatureBehaviorScript
 
     private void CheckStage()
     {
-        var pEmission = stageParticles.emission;
         if (timeSinceLastSeenPlayer >= 80 && currentState != CreatureState.SummonCrows)
         {
             currentState = CreatureState.SummonCrows;
@@ -107,30 +118,72 @@ public class MurderMancer : CreatureBehaviorScript
         }
         else if (timeSinceLastSeenPlayer >= 60)
         {
-            if(currentState != CreatureState.Stage3) effectsHandler.RandomIdle();
+            if(currentState != CreatureState.Stage3)
+            {
+                effectsHandler.RandomIdle();
+                for(int i = 0; i < stage1Particles.Length; i++)
+                {
+                    stage1Particles[i].enableEmission = true;
+                }
+                for(int i = 0; i < stage2Particles.Length; i++)
+                {
+                    stage2Particles[i].enableEmission = true;
+                }
+            }
             currentState = CreatureState.Stage3;
             anim.SetInteger("PowerLevel", 3);
-            pEmission.rateOverTime = 15;
         }
         else if (timeSinceLastSeenPlayer >= 40)
         {
-            if(currentState != CreatureState.Stage2) effectsHandler.RandomIdle();
+            if(currentState != CreatureState.Stage2)
+            {
+                effectsHandler.RandomIdle();
+                for(int i = 0; i < stage1Particles.Length; i++)
+                {
+                    stage1Particles[i].enableEmission = true;
+                }
+                for(int i = 0; i < stage2Particles.Length; i++)
+                {
+                    stage2Particles[i].enableEmission = false;
+                }
+            }
             currentState = CreatureState.Stage2;
             anim.SetInteger("PowerLevel", 2);
-            pEmission.rateOverTime = 5;
         }
         else if (timeSinceLastSeenPlayer >= 20)
         {
-            if(currentState != CreatureState.Stage1) effectsHandler.RandomIdle();
+            if(currentState != CreatureState.Stage1)
+            {
+                effectsHandler.RandomIdle();
+                for(int i = 0; i < stage1Particles.Length; i++)
+                {
+                    stage1Particles[i].enableEmission = false;
+                }
+                for(int i = 0; i < stage2Particles.Length; i++)
+                {
+                    stage2Particles[i].enableEmission = false;
+                }
+            } 
             currentState = CreatureState.Stage1;
             anim.SetInteger("PowerLevel", 1);
-            pEmission.rateOverTime = 2;
         }
         else if (timeSinceLastSeenPlayer < 20 && currentState != CreatureState.Idle)
         {
+            if(currentState != CreatureState.Idle)
+            {
+                for(int i = 0; i < stage1Particles.Length; i++)
+                {
+                    stage1Particles[i].enableEmission = false;
+                }
+                for(int i = 0; i < stage2Particles.Length; i++)
+                {
+                    stage2Particles[i].enableEmission = false;
+                }
+            }
+
             currentState = CreatureState.Idle;
             anim.SetInteger("PowerLevel", 0);
-            pEmission.rateOverTime = 0;
+
             //effectsHandler.RandomIdle();
         }
     }
@@ -250,10 +303,9 @@ public class MurderMancer : CreatureBehaviorScript
             }
         }
         effectsHandler.MiscSound2();
-
-        timeSinceLastSeenPlayer = 0f; //Reset
        
         yield return new WaitForSeconds(0.8f);
+        timeSinceLastSeenPlayer = 0f; //Reset
         coroutineRunning = false;
     }
 

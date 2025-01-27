@@ -85,7 +85,7 @@ public class Wraith : CreatureBehaviorScript
             yield return new WaitForSeconds(1.5f); // update destination every 0.5 seconds to prevent overloading it
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            if (distanceToPlayer <= 5)
+            if (distanceToPlayer <= 4)
             {
                 PlayerInteraction.Instance.StaminaChange(-7);
             }

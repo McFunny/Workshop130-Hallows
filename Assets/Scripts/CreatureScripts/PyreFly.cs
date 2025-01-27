@@ -189,7 +189,8 @@ public class PyreFly : CreatureBehaviorScript
         List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
         foreach (var structure in structManager.allStructs)
         {
-            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable())
+            WraithFlower flower = structure as WraithFlower;
+            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower){}
                 availableStructure.Add(structure);
         }
 

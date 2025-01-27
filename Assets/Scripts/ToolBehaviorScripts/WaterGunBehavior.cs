@@ -226,6 +226,8 @@ public class WaterGunBehavior : ToolBehavior
         Vector3 dir;
         float extraForce = 0;
 
+        ParticleSystem[] particles = HandItemManager.Instance.waterGun.GetComponentsInChildren<ParticleSystem>();
+
         for (int i = 0; i < bulletCount; i++)
         {
             //Debug.Log(bulletCount);
@@ -257,6 +259,7 @@ public class WaterGunBehavior : ToolBehavior
                     newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
                 }
             } 
+            for(int p = 0; p < particles.Length; p++) particles[p].Play();
             yield return new WaitForSeconds(0.25f);
         }
         foreach(GameObject light in highlights)
