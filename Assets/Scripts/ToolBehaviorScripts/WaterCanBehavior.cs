@@ -47,6 +47,7 @@ public class WaterCanBehavior : ToolBehavior
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
                     }
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
             }
@@ -72,6 +73,7 @@ public class WaterCanBehavior : ToolBehavior
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
                     }
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 }
 
@@ -99,6 +101,7 @@ public class WaterCanBehavior : ToolBehavior
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
                     }
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
             }
@@ -146,6 +149,7 @@ public class WaterCanBehavior : ToolBehavior
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
                     }
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
             }
@@ -170,6 +174,7 @@ public class WaterCanBehavior : ToolBehavior
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
                     }
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 }
 
@@ -197,6 +202,7 @@ public class WaterCanBehavior : ToolBehavior
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
                     }
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
             }
@@ -206,6 +212,7 @@ public class WaterCanBehavior : ToolBehavior
     public override void ItemUsed() 
     { 
         PlayerMovement.restrictMovementTokens--;
+        PlayerCam.Instance.ClearObjectOfInterest();
     }
 
 

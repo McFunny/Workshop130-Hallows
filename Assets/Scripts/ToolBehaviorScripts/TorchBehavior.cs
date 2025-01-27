@@ -41,6 +41,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingPrimary = true;
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
             }
@@ -57,6 +58,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingPrimary = true;
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 }
 
@@ -77,6 +79,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingPrimary = true;
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
             }
@@ -116,6 +119,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingSecondary = true;
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
             }
@@ -132,6 +136,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingSecondary = true;
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 }
 
@@ -152,6 +157,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingSecondary = true;
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
             }
@@ -167,11 +173,13 @@ public class TorchBehavior : ToolBehavior
         {
             usingPrimary = false;
             PlayerMovement.restrictMovementTokens--;
+            PlayerCam.Instance.ClearObjectOfInterest();
         }
         if (usingSecondary)
         {
             usingSecondary = false;
             PlayerMovement.restrictMovementTokens--;
+            PlayerCam.Instance.ClearObjectOfInterest();
         }
 
     }

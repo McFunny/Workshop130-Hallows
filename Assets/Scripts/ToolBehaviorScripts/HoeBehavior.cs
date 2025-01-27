@@ -60,6 +60,7 @@ public class HoeBehavior : ToolBehavior
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * 1.25f, 1.7f * 1.25f));
                 }
                 PlayerMovement.restrictMovementTokens++;
+                PlayerCam.Instance.NewObjectOfInterest(pos);
             }
 
         }
@@ -76,6 +77,7 @@ public class HoeBehavior : ToolBehavior
         PlayerInteraction.Instance.StartCoroutine(ExtraLag());
         if(tile) tile.ToolInteraction(tool, out bool playAnim);
         else StructureManager.Instance.SpawnStructure(farmTile, pos);
+        PlayerCam.Instance.ClearObjectOfInterest();
     }
 
     IEnumerator ExtraLag()

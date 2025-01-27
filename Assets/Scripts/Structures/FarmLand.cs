@@ -526,7 +526,7 @@ public class FarmLand : StructureBehaviorScript
     public void RecieveFrost()
     {
         print("Recieved Frost");
-        if(nearbyFires.Count == 0 && !isFrosted)
+        if(nearbyFires.Count == 0 && !isFrosted && (isWeed || crop))
         {
             print("Afflicted");
             isFrosted = true;
