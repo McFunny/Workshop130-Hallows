@@ -18,11 +18,7 @@ public class CropNeedsUI : MonoBehaviour
     {
         farmLand = GetComponent<FarmLand>();
         nutrients = farmLand.GetCropStats();
-        gloam.SetActive(false);
-        terra.SetActive(false);
-        ichor.SetActive(false);
-        water.SetActive(false);
-        background.SetActive(false);
+        DisableStats();
         controlManager = FindObjectOfType<ControlManager>();
     }
 
@@ -35,8 +31,16 @@ public class CropNeedsUI : MonoBehaviour
     public void UpdateNeedsUI()
     {
         //if (farmLand.crop)
-        if (farmLand.crop == null) return;
-        if (farmLand.isWeed) return;
+        if (farmLand.crop == null) 
+        {
+            DisableStats();
+            return;
+        }
+        if (farmLand.isWeed)
+        {
+            DisableStats();
+            return;
+        }
 
         nutrients = farmLand.GetCropStats();
         cropData = farmLand.crop;
@@ -58,5 +62,14 @@ public class CropNeedsUI : MonoBehaviour
         if(!gloam.activeSelf && !terra.activeSelf && !ichor.activeSelf && !water.activeSelf) {background.SetActive(false);}
         else background.SetActive(true);
 
+    }
+
+    private void DisableStats()
+    {
+        gloam.SetActive(false);
+        terra.SetActive(false);
+        ichor.SetActive(false);
+        water.SetActive(false);
+        background.SetActive(false);
     }
 }
