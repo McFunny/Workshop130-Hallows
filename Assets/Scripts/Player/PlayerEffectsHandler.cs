@@ -137,7 +137,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     public void PlayFootstepSound()
     {
         footStepSource.pitch = Random.Range(0.7f, 1.3f);
-        //footStepSource.Play();
+        footStepSource.Play();
     }
 
 }

@@ -311,6 +311,7 @@ public class TimeManager : MonoBehaviour
 
     IEnumerator NewDayTransition()
     {
+        PlayerInteraction.Instance.rb.velocity = new Vector3(0,0,0);
         PlayerMovement.restrictMovementTokens++;
         Time.timeScale = 0;
         FadeScreen.coverScreen = true;

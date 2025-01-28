@@ -246,17 +246,29 @@ public class PyreFly : CreatureBehaviorScript
 
     void FindFireSource() //Find a way to ignite self
     {
+        targetFireSource = null;
         foreach (var structure in structManager.allStructs)
         {
             Brazier brazier = structure as Brazier;
             if (brazier && brazier.flameLeft > 0)
             {
                 targetFireSource = brazier;
-                print(targetFireSource);
+                //print(targetFireSource);
                 return;
             }
         }
-        print("Searched for fire source. Found None");
+
+        foreach (var creature in NightSpawningManager.Instance.allCreatures)
+        {
+            PyreFlyHive hive = creature as PyreFlyHive;
+            if (hive && hive.ignited)
+            {
+                homeHive = hive;
+                //print(targetFireSource);
+                return;
+            }
+        }
+       // print("Searched for fire source. Found None");
     }
 
     void ReturnToHive()
