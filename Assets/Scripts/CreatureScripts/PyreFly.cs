@@ -29,6 +29,8 @@ public class PyreFly : CreatureBehaviorScript
 
     public LayerMask layerMask;
 
+    bool idleTurn = false;
+
 
     public enum CreatureState
     {
@@ -59,6 +61,8 @@ public class PyreFly : CreatureBehaviorScript
 
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
+
+        StartCoroutine(PlayerTurn());
     }
 
     // Update is called once per frame
@@ -74,6 +78,17 @@ public class PyreFly : CreatureBehaviorScript
         textureOffset = textureOffset + offsetRate;
         meshRenderer.material.mainTextureOffset = new Vector2(0, textureOffset);
         if(textureOffset > 500) textureOffset = 0;
+
+        if(idleTurn)
+        {
+            Vector3 targetPosition = player.position;
+
+            Vector3 direction = targetPosition - transform.position;
+            direction.y = 0;
+            Quaternion toRotation = Quaternion.LookRotation(direction);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 3.5f * Time.deltaTime);
+        }
     }
 
     public void CheckState(CreatureState currentState)
@@ -189,7 +204,8 @@ public class PyreFly : CreatureBehaviorScript
         List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
         foreach (var structure in structManager.allStructs)
         {
-            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable())
+            WraithFlower flower = structure as WraithFlower;
+            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower){}
                 availableStructure.Add(structure);
         }
 
@@ -230,17 +246,29 @@ public class PyreFly : CreatureBehaviorScript
 
     void FindFireSource() //Find a way to ignite self
     {
+        targetFireSource = null;
         foreach (var structure in structManager.allStructs)
         {
             Brazier brazier = structure as Brazier;
             if (brazier && brazier.flameLeft > 0)
             {
                 targetFireSource = brazier;
-                print(targetFireSource);
+                //print(targetFireSource);
                 return;
             }
         }
-        print("Searched for fire source. Found None");
+
+        foreach (var creature in NightSpawningManager.Instance.allCreatures)
+        {
+            PyreFlyHive hive = creature as PyreFlyHive;
+            if (hive && hive.ignited)
+            {
+                homeHive = hive;
+                //print(targetFireSource);
+                return;
+            }
+        }
+       // print("Searched for fire source. Found None");
     }
 
     void ReturnToHive()
@@ -329,6 +357,24 @@ public class PyreFly : CreatureBehaviorScript
             }
         }
 
+    }
+
+    IEnumerator PlayerTurn()
+    {
+        while(health > 0)
+        {
+            float r = Random.Range(2,6);
+            yield return new WaitForSeconds(r);
+            r = Random.Range(0,10);
+            if(r > 2 && Vector3.Distance(transform.position, player.position) < 8)
+            {
+                agent.updateRotation = false;
+                idleTurn = true;
+                yield return new WaitForSeconds(1.5f);
+                idleTurn = false;
+                agent.updateRotation = true;
+            }
+        }
     }
 
     void EnterHive()

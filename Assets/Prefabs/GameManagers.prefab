@@ -1999,6 +1999,12 @@ MonoBehaviour:
     type: 3}
   cloudParticle: {fileID: 5054312627468373542, guid: 6ee991e033f1768449e40a4605d959be,
     type: 3}
+  frostParticle: {fileID: 8696013021138905484, guid: 51079bdaa08a0794eabdfd20c26ddcc5,
+    type: 3}
+  thawParticle: {fileID: 8026397282132409415, guid: 2bdba4bc8cf86b94385450b93d73a949,
+    type: 3}
+  frostBurstParticle: {fileID: 1877216878591505433, guid: 36dc1d73ac3b02a45b00228c7d8bdbc6,
+    type: 3}
 --- !u!1 &4467738761642645672
 GameObject:
   m_ObjectHideFlags: 0
@@ -7460,7 +7466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMap: {fileID: 0}
-  freeTile: {fileID: 11400000, guid: fb09f6225d3c7794f97e6f296c9e5a0d, type: 2}
+  freeTile: {fileID: 11400000, guid: 9d9d488400de3d04882230bc03c095b7, type: 2}
   occupiedTile: {fileID: 11400000, guid: 147fc03a3d7579845993f41d1f7b4ecc, type: 2}
   borderTile: {fileID: 0}
   allStructs: []
@@ -7493,8 +7499,9 @@ MonoBehaviour:
   nightLight: {fileID: 0}
   sunMoonPivot: {fileID: 0}
   timeSkipping: 0
+  stopTime: 0
   skyMat: {fileID: 2100000, guid: b765a272ba3f08b4cbd57e302799320e, type: 2}
-  nightColor: {r: 0.27058825, g: 0.29411766, b: 0.7254902, a: 1}
+  nightColor: {r: 0.374466, g: 0.39657408, b: 0.8018868, a: 1}
   dayColor: {r: 0.7058824, g: 0.68235296, b: 0.5647059, a: 1}
   playerRespawn: {fileID: 8003300629687511125}
 --- !u!114 &4750952263133987452
@@ -7510,7 +7517,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structGrid: {fileID: 0}
-  activeColor: {r: 0.78431374, g: 0.6392157, b: 0, a: 0.05490196}
+  activeColor: {r: 0.4627451, g: 0.3764706, b: 0, a: 0.05490196}
+  activeNightColor: {r: 0.26666668, g: 0, b: 0.4627451, a: 0.05490196}
   hiddenColor: {r: 1, g: 1, b: 1, a: 0}
   gridIsActive: 1
   waterGun: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
@@ -7571,6 +7579,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
   - {fileID: 11400000, guid: 95ffc7b6187e26f4a90d2729967ca357, type: 2}
   - {fileID: 11400000, guid: abab0bf02c715684088aee5b9057c8e1, type: 2}
+  - {fileID: 11400000, guid: 27c7e9804970e6e49bdbdb028abc6734, type: 2}
   fillerCreatures:
   - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}

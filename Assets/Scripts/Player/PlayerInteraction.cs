@@ -16,7 +16,7 @@ public class PlayerInteraction : MonoBehaviour
 
     ControlManager controlManager;
 
-    Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
 
     public bool isInteracting { get; private set; }
     public bool toolCooldown;

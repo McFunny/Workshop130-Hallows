@@ -9,7 +9,9 @@ public class Wraith : CreatureBehaviorScript
     //Wraith only moves towards player slowly. If it lingers in fire, its model gets brighter until it teleports. Doesn't avoid Braziers. Frosts crops it touches
     //Add frost collider and function to a child object
 
-    public MeshRenderer meshRenderer;
+    Renderer[] renderers; //make it a list of all children renderers
+
+    public GameObject flowerPrefab;
 
     public float timeSpentInFire;
     public float flameDecayRate = 0.5f;
@@ -21,6 +23,8 @@ public class Wraith : CreatureBehaviorScript
 
     [HideInInspector] public NavMeshAgent agent;
 
+    public Color unlightColor, lightColor;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -29,16 +33,17 @@ public class Wraith : CreatureBehaviorScript
     void Start()
     {
         base.Start();
+        SpawnFlower();
+        renderers = GetComponentsInChildren<Renderer>();
     }
 
 
     void Update()
     {
-        if (health <= 0) isDead = true;
-
         if (!isDead)
         {
-            ChasePlayer();
+            if(TownGate.Instance.inTown) Freeze();
+            else ChasePlayer();
         }
 
         if(nearbyFires.Count > 0)
@@ -69,15 +74,19 @@ public class Wraith : CreatureBehaviorScript
     {
         if (trackPlayerRoutine == null)
         {
+            agent.isStopped = false;
             trackPlayerRoutine = StartCoroutine(TrackPlayer());
         }
+    }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= 3)
+    void Freeze()
+    {
+        if(trackPlayerRoutine != null)
         {
-            //DamagePlayer();
+            trackPlayerRoutine = null;
+            agent.isStopped = true;
         }
+        
     }
 
     private IEnumerator TrackPlayer()
@@ -85,7 +94,13 @@ public class Wraith : CreatureBehaviorScript
         while (!isDead)
         {
             agent.destination = player.position;
-            yield return new WaitForSeconds(1f); // update destination every 0.5 seconds to prevent overloading it
+            yield return new WaitForSeconds(1.5f); // update destination every 0.5 seconds to prevent overloading it
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+            if (distanceToPlayer <= 3.5f)
+            {
+                PlayerInteraction.Instance.StaminaChange(-7);
+            }
         }
         trackPlayerRoutine = null;
     }
@@ -109,12 +124,29 @@ public class Wraith : CreatureBehaviorScript
         if(trigger && nearbyFires.Contains(trigger)) nearbyFires.Remove(trigger);
     }
 
+    void SpawnFlower()
+    {
+        Vector3 flowerSpawn = StructureManager.Instance.GetRandomClearTile();
+        if(flowerSpawn == new Vector3(0,0,0)) Destroy(this.gameObject);
+        else
+        {
+            Instantiate(flowerPrefab, flowerSpawn, Quaternion.identity).GetComponent<WraithFlower>().assignedWraith = this;
+        }
+    }
+
     void UpdateTransparency()
     {
-        Color newColor = meshRenderer.material.color;
+        /*Color newColor = renderers.material.color;
         if(timeSpentInFire <= 0) newColor.a = 0;
         else newColor.a = timeSpentInFire/maxFlameTime;
-        meshRenderer.material.color = newColor;
+        renderers.material.color = newColor; */
+
+        for(int i = 0; i < renderers.Length; i++)
+        {
+            Material mat = renderers[i].material;
+            Color newColor = Color.Lerp(unlightColor, lightColor, timeSpentInFire/maxFlameTime);
+            mat.SetColor("_EmissionColor", newColor);
+        }
 
         //change volume of fizzling sound when its getting deterred
     }

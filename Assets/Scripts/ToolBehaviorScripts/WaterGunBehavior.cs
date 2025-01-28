@@ -22,7 +22,6 @@ public class WaterGunBehavior : ToolBehavior
     Coroutine chargingCoroutine;
 
     //Do we want the multishot to only consume a unit of water or water for each shot?
-    //Fix when you look at the same position from looking up, the targets dont show
 
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
@@ -82,6 +81,9 @@ public class WaterGunBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     PlayerInteraction.Instance.StaminaChange(-2);
                     usingSecondary = true;
+                    toolAnim.Play("Reload");
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    return;
                 } 
             }
 
@@ -98,6 +100,8 @@ public class WaterGunBehavior : ToolBehavior
                     PlayerInteraction.Instance.StaminaChange(-2);
                     usingSecondary = true;
                     toolAnim.Play("Reload");
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    return;
                 }
 
             }
@@ -119,6 +123,7 @@ public class WaterGunBehavior : ToolBehavior
         {
             usingSecondary = false;
             PlayerMovement.restrictMovementTokens--;
+            PlayerCam.Instance.ClearObjectOfInterest();
         }
 
     }
@@ -153,7 +158,7 @@ public class WaterGunBehavior : ToolBehavior
             newPos = StructureManager.Instance.GetTileCenter(player.position);
             newDirection = GetDirection();
             //Debug.Log(player.eulerAngles.x);
-            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 30))
+            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 10))
             {
                 currentPos = newPos;
                 currentDirection = newDirection;
@@ -169,7 +174,7 @@ public class WaterGunBehavior : ToolBehavior
                     }
                 }
             }
-            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 30)) 
+            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 10)) 
             {
                 currentPos = new Vector3(0,0,0);
                 currentDirection = Direction.Null;
@@ -219,7 +224,9 @@ public class WaterGunBehavior : ToolBehavior
         PlayerInteraction.Instance.waterHeld--;
         GameObject newBullet;
         Vector3 dir;
-        float extraForce = 0;
+        float extraForce = 15;
+
+        ParticleSystem[] particles = HandItemManager.Instance.waterGun.GetComponentsInChildren<ParticleSystem>();
 
         for (int i = 0; i < bulletCount; i++)
         {
@@ -234,9 +241,9 @@ public class WaterGunBehavior : ToolBehavior
                 newBullet.GetComponent<WaterProjectileScript>().homing = true;
                 newBullet.GetComponent<WaterProjectileScript>().target = highlights[i].transform.position;
                 dir = bulletStart.forward  ;//+ new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
-                newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (50 + (30/2)));
-                newBullet.GetComponent<Rigidbody>().AddForce(dir * (10 + extraForce));
-                extraForce += 30f;
+                newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (50 + (extraForce)));
+                newBullet.GetComponent<Rigidbody>().AddForce(dir * (30 + extraForce));
+                extraForce += 45;
             } 
             else
             {
@@ -252,6 +259,7 @@ public class WaterGunBehavior : ToolBehavior
                     newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
                 }
             } 
+            for(int p = 0; p < particles.Length; p++) particles[p].Play();
             yield return new WaitForSeconds(0.25f);
         }
         foreach(GameObject light in highlights)
