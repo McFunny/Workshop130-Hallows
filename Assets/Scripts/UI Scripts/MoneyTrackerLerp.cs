@@ -19,7 +19,7 @@ public class MoneyTrackerLerp : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-        if((UICropStats.isDetailed && moveProgress > 0) || (forceActive && moveProgress > 0))
+        if((UICropStats.isDetailed && moveProgress > 0) || (forceActive && moveProgress >= 0))
         {
             moveProgress -= Time.deltaTime;
             moneyTrackerTransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
