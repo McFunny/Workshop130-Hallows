@@ -17,7 +17,7 @@ public class ShotGunBehavior : ToolBehavior
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || TownGate.Instance.inTown) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || TownGate.Instance.location == PlayerLocation.InTown) return;
         if (!player) player = _player;
 
         var inventory = PlayerInventoryHolder.Instance.PrimaryInventorySystem;
