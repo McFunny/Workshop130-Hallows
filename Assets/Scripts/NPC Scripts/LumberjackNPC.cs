@@ -12,8 +12,9 @@ public class LumberjackNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
-    void Awake()
+    protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
+        base.Awake();
         movementHandler = GetComponent<NPCMovement>();
         faceCamera = GetComponent<FaceCamera>();
         faceCamera.enabled = false;
@@ -28,7 +29,13 @@ public class LumberjackNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
+            if(!GameSaveData.Instance.lumberMet)
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.lumberMet = true;
+            }
+            else if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
             {
                 if(!GameSaveData.Instance.lumber_offersDeal)
                 {
@@ -92,9 +99,10 @@ public class LumberjackNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(dialogueController.IsInterruptable() == false)
+        ToolItem tItem = item as ToolItem;
+        if(dialogueController.IsInterruptable() == false || tItem)
         {
-            interactSuccessful = true;
+            interactSuccessful = false;
             return;
         } 
 
@@ -143,6 +151,10 @@ public class LumberjackNPC : NPC, ITalkable
             if(PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
             {
                 currentPath = 3; //no money!?!?!?
+            }
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                currentPath = 4; //No space in inventory
             }
             else
             {

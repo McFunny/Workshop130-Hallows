@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NightSpawningManager : MonoBehaviour
 {
+    //Consider using "pools" of enemies. Example: Pool 1, hare, walker, fly. Pool 2, hare, hive, mancer
+
     public static NightSpawningManager Instance;
 
     float difficultyPoints = 0;
@@ -11,6 +13,7 @@ public class NightSpawningManager : MonoBehaviour
     //float originalDifficultyPoints = 0;
 
     public CreatureObject[] creatures; //list of possible creatures to spawn
+    public CreatureObject[] fillerCreatures; //list of creatures that can spawn when out of danger points
     List<int> spawnedCreaturesThisHour = new List<int>(); //tracks how many of a specific type of creature was spawned this hour //CREATURES NEED TO BE REMOVED WHEN KILLED
 
     public List<CreatureBehaviorScript> allCreatures; //all creatures in the scene, have a limit to how many there can be in a scene
@@ -59,7 +62,7 @@ public class NightSpawningManager : MonoBehaviour
         //difficultyPoints += TimeManager.dayNum;
         //originalDifficultyPoints = difficultyPoints;
 
-        if(difficultyPoints > 0) HourlySpawns();
+        HourlySpawns();
     }
 
     void HourlySpawns()
@@ -92,7 +95,7 @@ public class NightSpawningManager : MonoBehaviour
             w++;
         }
 
-        //try to spawn up to 10 things per hour, with a failed attempt counting for 0.25f tries
+        //try to spawn up to 6 things per hour, with a failed attempt counting for 0.25f tries
         float spawnAttempts = 0;
         int r;
         float threshhold = difficultyPoints * GetThreshold();
@@ -104,7 +107,8 @@ public class NightSpawningManager : MonoBehaviour
             r = Random.Range(0, weightArray.Count);
             CreatureObject attemptedCreature = creatures[weightArray[r]];
             //If there is enough points to afford the creature and it hasnt reached it's spawn cap, spawn it
-            if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreaturesThisHour[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold && attemptedCreature.spawnCap > creatureTally[weightArray[r]])
+            if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreaturesThisHour[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold
+                && attemptedCreature.spawnCap > creatureTally[weightArray[r]] && PlayerInteraction.Instance.totalMoneyEarned >= attemptedCreature.wealthPrerequisite)
             {
                 spawnedCreaturesThisHour[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
@@ -120,14 +124,16 @@ public class NightSpawningManager : MonoBehaviour
             }
             
         }
-        while(spawnAttempts < 10); //add threshhold req too
+        while(spawnAttempts < 6); //add threshhold req too
 
-        if(allCreatures.Count == 0)
+        if(allCreatures.Count <= 2 && difficultyPoints < 10)
         {
-            r = Random.Range(0, weightArray.Count);
-            CreatureObject newCreature = creatures[weightArray[r]];
-            spawnedCreaturesThisHour[weightArray[r]]++;
-            SpawnCreature(newCreature);
+            for(int i = 0; i < 1; i++)
+            {
+                r = Random.Range(0, fillerCreatures.Length);
+                CreatureObject newCreature = fillerCreatures[r];
+                if(newCreature.wealthPrerequisite < PlayerInteraction.Instance.totalMoneyEarned) SpawnCreature(newCreature);
+            }
         }
     }
 
@@ -176,13 +182,18 @@ public class NightSpawningManager : MonoBehaviour
     public Vector3 RandomMistPosition()
     {
         int r = Random.Range(0, testSpawns.Count);
-        float x = Random.Range(-20, 20);
+        float x = Random.Range(-2, 2);
         return testSpawns[r].position + (x * testSpawns[r].transform.right); 
         //Debug.Log(testSpawns[r]);
-        return testSpawns[r].position;
+        //return testSpawns[r].position;
     }
 
     public void GameOver()
+    {
+        ClearAllCreatures();
+    }
+
+    public void ClearAllCreatures()
     {
         CreatureBehaviorScript[] creatures = FindObjectsOfType<CreatureBehaviorScript>();
 
@@ -223,6 +234,16 @@ public class NightSpawningManager : MonoBehaviour
             else difficultyPoints += structure.wealthValue;
             accountedStructures.Add(structure);
         }
+    }
+
+    public int ReportTotalOfCreature(CreatureObject creatureType)
+    {
+        int tally = 0;
+        foreach (CreatureBehaviorScript creature in allCreatures)
+        {
+            if(creature.creatureData == creatureType) tally++;
+        }
+        return tally;
     }
 
     /*void ChooseCreatureTypesToSpawn()

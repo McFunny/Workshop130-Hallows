@@ -15,7 +15,13 @@ public class RascalNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(!GameSaveData.Instance.rascalWantsFood)
+            if(!GameSaveData.Instance.rascalMet)
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.rascalMet = true;
+            }
+            else if(!GameSaveData.Instance.rascalWantsFood)
             {
                 currentPath = 1;
                 currentType = PathType.Quest;
@@ -51,9 +57,10 @@ public class RascalNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(dialogueController.IsInterruptable() == false)
+        ToolItem tItem = item as ToolItem;
+        if(dialogueController.IsInterruptable() == false || tItem)
         {
-            interactSuccessful = true;
+            interactSuccessful = false;
             return;
         } 
 

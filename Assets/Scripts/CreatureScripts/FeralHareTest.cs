@@ -304,8 +304,12 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         if(currentState != CreatureState.Stunned && health > 0)
         {
-            fleeTimeLeft = 3;
-            currentState = CreatureState.FleeFromPlayer;
+            if(currentState == CreatureState.Eat) TakeDamage(20);
+            else
+            {
+                fleeTimeLeft = 3;
+                currentState = CreatureState.FleeFromPlayer;
+            }
         } 
         effectsHandler.OnHit();
     }

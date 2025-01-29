@@ -19,8 +19,9 @@ public class PlayerInventoryHolder : InventoryHolder
     public bool useDebugItems;
 
     [System.Serializable]
-    public struct Item
+    public class Item
     {
+        public string name;
         public InventoryItemData itemData;
         public int amount;
     }
@@ -30,6 +31,20 @@ public class PlayerInventoryHolder : InventoryHolder
 
     [Header("Debug Items")]
     [SerializeField] private List<Item> debugItems;
+
+    [ContextMenu("Name Items")]
+    public void NameItems()
+    {
+        for(int i = 0; i < startingItems.Count; i++)
+        {
+            startingItems[i].name = startingItems[i].itemData.displayName;
+        }
+
+        for(int i = 0; i < debugItems.Count; i++)
+        {
+            debugItems[i].name = debugItems[i].itemData.displayName;
+        }
+    }
 
     protected override void Awake()
     {
@@ -148,6 +163,21 @@ public class PlayerInventoryHolder : InventoryHolder
         }
 
         return false;
+    }
+
+    public bool IsInventoryFull()
+    {
+        if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot))
+        {
+            return false;
+        }
+
+        if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public void UpdateInventory()

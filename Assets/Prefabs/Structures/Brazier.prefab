@@ -61,9 +61,14 @@ MonoBehaviour:
   destructable: 1
   flammable: 0
   onFire: 0
+  isObstacle: 1
+  savedItems: []
+  damageParticles: {fileID: 0}
+  destructionParticles: {fileID: 0}
   highlight: []
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  recoveredItem: {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
   fireTrigger: {fileID: 5957836886852858113}
   fire: {fileID: 625837473614497391}
   flameLeft: 0
@@ -10421,6 +10426,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8927657892277225567, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927657892277225567, guid: 3de1502c9faa979489a0e014ef581b47,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927657892277225567, guid: 3de1502c9faa979489a0e014ef581b47,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927657892277225567, guid: 3de1502c9faa979489a0e014ef581b47,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -10433,6 +10453,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927657892277225567, guid: 3de1502c9faa979489a0e014ef581b47,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

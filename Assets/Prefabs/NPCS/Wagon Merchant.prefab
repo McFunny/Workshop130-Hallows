@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1415391352653287734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7031332008590127860}
+  m_Layer: 6
+  m_Name: EyeLine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7031332008590127860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415391352653287734}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.38, y: 4.61, z: 0.12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5252130552531480017}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4972053857978914253
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +190,7 @@ Transform:
   - {fileID: 8661184831294596414}
   - {fileID: 3905378073140517167}
   - {fileID: 3494601991599767779}
+  - {fileID: 7031332008590127860}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 199.982, z: 0}
 --- !u!65 &1582551276013895435
@@ -203,6 +235,7 @@ MonoBehaviour:
   angry: {fileID: 8300000, guid: e2947ff42f3d61a49a4be449de5de570, type: 3}
   confused: {fileID: 8300000, guid: 7429ea34e6383834d98732c4fb970ee8, type: 3}
   shocked: {fileID: 8300000, guid: 9adcd4dc5f37cdc4e8749072f99ff2b5, type: 3}
+  eyeLine: {fileID: 7031332008590127860}
   currentPath: -1
   currentType: 0
   lastInteractedStoreItem: {fileID: 0}
@@ -227,19 +260,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
   - {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
   - {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
+  - {fileID: 11400000, guid: 1c3c20e899a81124d9d03ffd3cd1ad3b, type: 2}
   itemWeight:
-  - 0.5
-  - 0.5
+  - 0
+  - 0
   - 1
   - 1
-  - 0.5
-  - 0.5
-  - 0.5
+  - 0
+  - 0
+  - 1
   - 1
   - 1
   - 1
   - 0.75
   - 0.75
+  - 1
   storeItems:
   - {fileID: 7136066315645887399}
   - {fileID: 8212830714044354903}

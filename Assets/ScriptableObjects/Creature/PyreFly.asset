@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e14c53294b14d418d174be0feefd90, type: 3}
   m_Name: PyreFly
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 0}
+  objectPrefab: {fileID: 4938036239894532787, guid: 4f2ba8cc7e5521642b04236b7b908af1,
+    type: 3}
   health: 0
   position:
   - 0
   - 0
   - 0
-  dangerCost: 0
+  dangerCost: 2
   dangerThreshold: 0
-  spawnWeight: 0
-  spawnCap: 0
-  spawnCapPerHour: 0
+  spawnWeight: 2
+  spawnCap: 8
+  spawnCapPerHour: 2
   wealthPrerequisite: 300
   data:
     Name: 

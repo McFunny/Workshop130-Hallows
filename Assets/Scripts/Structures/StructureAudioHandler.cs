@@ -31,4 +31,9 @@ public class StructureAudioHandler : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(clip, pos);
     }
+
+    public AudioSource GetSource()
+    {
+        return source;
+    }
 }

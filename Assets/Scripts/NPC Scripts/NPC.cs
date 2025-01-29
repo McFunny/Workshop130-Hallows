@@ -10,9 +10,11 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
     public DialogueText dialogueText;
-    public DialogueController dialogueController;
+    [HideInInspector] public DialogueController dialogueController;
     public Animator anim;
     public AudioClip happy, sad, neutral, angry, confused, shocked;
+
+    public Transform eyeLine;
 
     [HideInInspector] public int currentPath = -1; //-1 means default path
     [HideInInspector] public PathType currentType;
@@ -29,7 +31,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public ShopStall assignedStall;
 
-
+    protected virtual void Awake()
+    {
+        if(dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
+    }
 
     public void EndInteraction()
     {

@@ -14,8 +14,9 @@ public class BotanistNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
-    void Awake()
+    protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
+        base.Awake();
         movementHandler = GetComponent<NPCMovement>();
         faceCamera = GetComponent<FaceCamera>();
         faceCamera.enabled = false;
@@ -30,7 +31,13 @@ public class BotanistNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(movementHandler.isWorking)
+            if(!GameSaveData.Instance.botMet)
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.botMet = true;
+            }
+            else if(movementHandler.isWorking)
             {
                 currentPath = 0;
                 currentType = PathType.Misc;
@@ -62,9 +69,10 @@ public class BotanistNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(dialogueController.IsInterruptable() == false)
+        ToolItem tItem = item as ToolItem;
+        if(dialogueController.IsInterruptable() == false || tItem)
         {
-            interactSuccessful = true;
+            interactSuccessful = false;
             return;
         } 
 
@@ -104,7 +112,6 @@ public class BotanistNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
-        //code for the item being edible
         Talk();
 
         interactSuccessful = true;
@@ -122,6 +129,10 @@ public class BotanistNPC : NPC, ITalkable
             if(PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
             {
                 currentPath = 3; //no money!?!?!?
+            }
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                currentPath = 4; //No space in inventory
             }
             else
             {

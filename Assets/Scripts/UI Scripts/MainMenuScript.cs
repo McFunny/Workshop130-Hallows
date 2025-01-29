@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -11,11 +8,24 @@ using UnityEngine.SceneManagement;
 public class MainMenuScript : MonoBehaviour
 {
     public InputActionReference hideUI;
-    public GameObject menuObject, defaultObject, controlsDefault, controlsCanvas;
+    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas;
     ControlManager controlManager;
     public AudioSource source;
     public AudioClip hover, select;
     bool isTransitioning = false;
+
+    public Transform sunMoonPivot;
+    float dayRotation; 
+    float nightRotation;
+
+    public Material skyMat;
+
+    public Transform menuPos1, menuPos2;
+
+    public GameObject camera;
+
+    public GameObject dayLight, nightLight;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -23,6 +33,10 @@ public class MainMenuScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         //source.GetComponent<AudioSource>();
+
+        int r = Random.Range(0,3);
+
+        ChangeMenu(r);
     }
 
     private void OnEnable()
@@ -43,14 +57,14 @@ public class MainMenuScript : MonoBehaviour
         //print(controlManager.playerInput.currentActionMap);
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad)
         {
-            if(controlsDefault.activeInHierarchy)EventSystem.current.SetSelectedGameObject(controlsDefault);
+            if(settingsDefault.activeInHierarchy)EventSystem.current.SetSelectedGameObject(settingsDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
             print("Default Menu Object Selected");
         } 
 
         if(hideUI.action.WasPressedThisFrame())
         {
-            if(!controlsCanvas.activeInHierarchy){HideUI();}
+            if(!settingsCanvas.activeInHierarchy){HideUI();}
         }
     }
     void HideUI()
@@ -83,11 +97,11 @@ public class MainMenuScript : MonoBehaviour
         SceneManager.LoadSceneAsync(1);
     }
 
-    public void OpenControlsScreen()
+    public void OpenSettingsScreen()
     {
         if(isTransitioning) return;
-        controlsCanvas.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(controlsDefault);
+        settingsCanvas.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(settingsDefault);
     }
 
     public void OnHover()
@@ -100,6 +114,37 @@ public class MainMenuScript : MonoBehaviour
     {
         if(isTransitioning) return;
         source.PlayOneShot(select);
+    }
+
+    void ChangeMenu(int num)
+    {
+        if(num == 0 || num == 1)
+        {
+            SetToMenu1();
+            return;
+        }
+        if(num == 2)
+        {
+            SetToMenu2();
+        }
+    }
+
+    [ContextMenu("Set To Menu 1")]
+    public void SetToMenu1()
+    {
+        camera.transform.position = menuPos1.position;
+        skyMat.SetFloat("_BlendCubemaps", 1f);
+        dayLight.SetActive(true);
+        nightLight.SetActive(false);
+    }
+
+    [ContextMenu("Set To Menu 2")]
+    public void SetToMenu2()
+    {
+        camera.transform.position = menuPos2.position;
+        skyMat.SetFloat("_BlendCubemaps", 0f);
+        dayLight.SetActive(false);
+        nightLight.SetActive(true);
     }
     
 }

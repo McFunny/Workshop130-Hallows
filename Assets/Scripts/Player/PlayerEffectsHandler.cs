@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using Cinemachine;
 
 
 public class PlayerEffectsHandler : MonoBehaviour
@@ -11,7 +12,11 @@ public class PlayerEffectsHandler : MonoBehaviour
     public float volume = 1f;
     public AudioSource source, footStepSource;
     public AudioClip itemPickup, itemEat, playerDie, playerDamage, footstep;
+
+    public float shakeIntensity;
     //public AudioClip footSteps;
+
+    private CinemachineImpulseSource impulseSource;
 
     Volume globalVolume;
     public Color damageColor, focusColor;
@@ -23,6 +28,7 @@ public class PlayerEffectsHandler : MonoBehaviour
         StartCoroutine("FootStepsPitchChanger");
 
         globalVolume = FindObjectOfType<Volume>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
 
         PlayerInteraction p = PlayerInteraction.Instance;
 
@@ -56,8 +62,9 @@ public class PlayerEffectsHandler : MonoBehaviour
     {
         StopCoroutine(DamageFlash());
         StartCoroutine(DamageFlash());
-            
-        
+        impulseSource.GenerateImpulseWithForce(shakeIntensity);
+        if(playerDamage) source.PlayOneShot(playerDamage);
+
     }
 
     IEnumerator DamageFlash()
@@ -65,7 +72,6 @@ public class PlayerEffectsHandler : MonoBehaviour
         if(globalVolume.profile.TryGet(out Vignette vignette))
         {
             vignette.color.Override(damageColor);
-            //source.PlayOneShot(playerDamage);
             vignette.intensity.value = 0;
             do
             {
@@ -127,6 +133,11 @@ public class PlayerEffectsHandler : MonoBehaviour
     public void PlayClip(AudioClip clip)
     {
         source.PlayOneShot(clip);
+    }
+
+    public void PlayClip(AudioClip clip, float volume)
+    {
+        source.PlayOneShot(clip, volume);
     }
 
     public void PlayFootstepSound()
