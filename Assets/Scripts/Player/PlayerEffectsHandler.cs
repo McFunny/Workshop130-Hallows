@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using Cinemachine;
 
 
 public class PlayerEffectsHandler : MonoBehaviour
@@ -11,7 +12,11 @@ public class PlayerEffectsHandler : MonoBehaviour
     public float volume = 1f;
     public AudioSource source, footStepSource;
     public AudioClip itemPickup, itemEat, playerDie, playerDamage, footstep;
+
+    public float shakeIntensity;
     //public AudioClip footSteps;
+
+    private CinemachineImpulseSource impulseSource;
 
     Volume globalVolume;
     public Color damageColor, focusColor;
@@ -23,6 +28,7 @@ public class PlayerEffectsHandler : MonoBehaviour
         StartCoroutine("FootStepsPitchChanger");
 
         globalVolume = FindObjectOfType<Volume>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
 
         PlayerInteraction p = PlayerInteraction.Instance;
 
@@ -56,8 +62,8 @@ public class PlayerEffectsHandler : MonoBehaviour
     {
         StopCoroutine(DamageFlash());
         StartCoroutine(DamageFlash());
-            
-        
+        impulseSource.GenerateImpulseWithForce(shakeIntensity);
+
     }
 
     IEnumerator DamageFlash()
