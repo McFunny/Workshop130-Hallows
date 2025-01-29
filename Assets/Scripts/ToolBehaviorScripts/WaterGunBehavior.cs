@@ -52,6 +52,7 @@ public class WaterGunBehavior : ToolBehavior
         //Shoot
         //HandItemManager.Instance.PlayPrimaryAnimation();
         toolAnim.SetBool("Charging", true);
+        HandItemManager.Instance.toolSource.PlayOneShot(charge);
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.0f, 0.5f));
     }
 
@@ -137,7 +138,7 @@ public class WaterGunBehavior : ToolBehavior
         bulletCount = 1;
         Debug.Log("1");
         yield return new WaitForSeconds(0.65f);
-        if(InputManager.isCharging)
+        if (InputManager.isCharging)
         {
             Debug.Log("Showing Range");
             HandItemManager.Instance.StartCoroutine(ShowRange());
@@ -205,8 +206,9 @@ public class WaterGunBehavior : ToolBehavior
         if(bulletCount == 3) toolAnim.SetTrigger("Fire3");
         if(bulletCount == 5) toolAnim.SetTrigger("Fire5");
         toolAnim.SetBool("Charging", false);
+        HandItemManager.Instance.toolSource.Stop();
 
-        if(bulletCount == 0)
+        if (bulletCount == 0)
         {
             usingPrimary = false;
             shootingGunCoroutine = null;
