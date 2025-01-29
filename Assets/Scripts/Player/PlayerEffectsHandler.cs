@@ -63,6 +63,7 @@ public class PlayerEffectsHandler : MonoBehaviour
         StopCoroutine(DamageFlash());
         StartCoroutine(DamageFlash());
         impulseSource.GenerateImpulseWithForce(shakeIntensity);
+        if(playerDamage) source.PlayOneShot(playerDamage);
 
     }
 
@@ -71,7 +72,6 @@ public class PlayerEffectsHandler : MonoBehaviour
         if(globalVolume.profile.TryGet(out Vignette vignette))
         {
             vignette.color.Override(damageColor);
-            //source.PlayOneShot(playerDamage);
             vignette.intensity.value = 0;
             do
             {

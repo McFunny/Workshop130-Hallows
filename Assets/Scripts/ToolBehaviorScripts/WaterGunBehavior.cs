@@ -210,17 +210,20 @@ public class WaterGunBehavior : ToolBehavior
         {
             usingPrimary = false;
             shootingGunCoroutine = null;
+            
             yield break; //exit the coroutine
         }
-        //if(!bulletStart)
-        //{
-            if(HandItemManager.Instance.waterBulletStart)
-            {
-                if(maxCharge) bulletStart = HandItemManager.Instance.waterBulletCloseStart;
-                else bulletStart = HandItemManager.Instance.waterBulletStart;
-            } 
-            else bulletStart = HandItemManager.Instance.bulletStart;
-        //}
+
+
+        if(HandItemManager.Instance.waterBulletStart)
+        {
+            if(maxCharge) bulletStart = HandItemManager.Instance.waterBulletCloseStart;
+            else bulletStart = HandItemManager.Instance.waterBulletStart;
+        } 
+        else bulletStart = HandItemManager.Instance.bulletStart;
+
+        if(bulletCount > 1) PlayerMovement.restrictMovementTokens++;
+
         PlayerInteraction.Instance.waterHeld--;
         GameObject newBullet;
         Vector3 dir;
@@ -270,6 +273,7 @@ public class WaterGunBehavior : ToolBehavior
         yield return new WaitForSeconds(0.1f);
         usingPrimary = false;
         shootingGunCoroutine = null;
+        if(bulletCount > 1) PlayerMovement.restrictMovementTokens--;
     }
 
     public Direction GetDirection()

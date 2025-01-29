@@ -120,7 +120,7 @@ public class HandItemManager : MonoBehaviour
 
     bool MissingObject()
     {
-        if(!hoe || !shovel || !wateringCan || !shotGun)
+        if(!hoe || !shovel || !wateringCan || !shotGun || !torch)
         {
             Debug.Log("Missing a reference to a hand object");
             return true;
