@@ -64,9 +64,15 @@ public class InventoryUIController : MonoBehaviour
     void Update()
     {
         //if(EventSystem.current.currentSelectedGameObject == null){toolTip.panel.SetActive(false);}
+        //print(eventSystem.currentSelectedGameObject);
         if(!PlayerMovement.accessingInventory)
         {
             toolTip.panel.SetActive(false);
+        }
+
+        if (PlayerMovement.accessingInventory && ControlManager.isController && eventSystem.currentSelectedGameObject == null)
+        {
+            eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
         }
     }
 
@@ -82,7 +88,7 @@ public class InventoryUIController : MonoBehaviour
 
         if(!PlayerMovement.accessingInventory)
         {
-            if(ControlManager.isGamepad) eventSystem.SetSelectedGameObject(firstObject);
+            if(ControlManager.isGamepad) eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
             source.PlayOneShot(openInventory);
@@ -101,7 +107,7 @@ public class InventoryUIController : MonoBehaviour
         }
         else if (isBackpackOpen)
         {
-            if(eventSystem.currentSelectedGameObject) eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            if(eventSystem.currentSelectedGameObject != null) eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
             eventSystem.SetSelectedGameObject(null);
             CloseBackpack();
             print("Closing backpack");
@@ -138,7 +144,7 @@ public class InventoryUIController : MonoBehaviour
     void DisplayInventory(InventorySystem invToDisplay)
     {
         //Chest Inventory
-        eventSystem.SetSelectedGameObject(firstObject);
+        eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
         PlayerMovement.accessingInventory = true;
         chestPanel.gameObject.SetActive(true);
         playerBackpackPanel.gameObject.SetActive(true);

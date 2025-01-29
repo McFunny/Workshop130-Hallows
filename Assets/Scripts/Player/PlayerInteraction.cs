@@ -16,10 +16,11 @@ public class PlayerInteraction : MonoBehaviour
 
     ControlManager controlManager;
 
-    Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
 
     public bool isInteracting { get; private set; }
     public bool toolCooldown;
+    bool itemUseCooldown;
 
     public static PlayerInteraction Instance;
 
@@ -28,9 +29,10 @@ public class PlayerInteraction : MonoBehaviour
 
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
+    bool sentLowStaminaMessage = false;
 
-    public float waterHeld = 0; //for watering can
-    [HideInInspector] public readonly float maxWaterHeld = 15;
+    public float waterHeld = 20; //for watering can
+    [HideInInspector] public readonly float maxWaterHeld = 20;
 
     public bool torchLit = false;
 
@@ -41,8 +43,11 @@ public class PlayerInteraction : MonoBehaviour
 
     bool gameOver;
 
+    public PopupScript lowStaminaWarning;
+
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
+
 
     void Awake()
     {
@@ -99,6 +104,24 @@ public class PlayerInteraction : MonoBehaviour
         {
             gameOver = true;
             StartCoroutine(GameOver());
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                currentMoney += 50;
+                totalMoneyEarned += 50;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                print(InputManager.isCharging);
+                InputManager.isCharging = false;
+            }
         }
 
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
@@ -173,6 +196,8 @@ public class PlayerInteraction : MonoBehaviour
     {
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
 
+        if(item == null) return;
+
         //Is it a Tool item?
         ToolItem t_item = item as ToolItem;
         if (t_item) 
@@ -197,7 +222,7 @@ public class PlayerInteraction : MonoBehaviour
             var structure = hit.collider.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
-                structure.ItemInteraction(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
+                structure.ItemInteraction(item);
                 //Debug.Log("Interacted with item");
                 return;
             }
@@ -264,6 +289,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
+            if(itemUseCooldown) return;
+            StartCoroutine(ItemUseCooldown());
             //eat it
             StaminaChange(item.staminaValue);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
@@ -277,11 +304,17 @@ public class PlayerInteraction : MonoBehaviour
     {
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
+        if(!sentLowStaminaMessage && stamina <= 25)
+        {
+            sentLowStaminaMessage = true;
+            PopupHandler.Instance.AddToQueue(lowStaminaWarning);
+        }
+        else if(stamina > 30) sentLowStaminaMessage = false;
     }
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
     {
-        rb.velocity = new Vector3(0,0,0);
+        if(time > 0) rb.velocity = new Vector3(0,0,0);
         if(toolCooldown) yield break;
         toolCooldown = true;
         yield return new WaitForSeconds(time);
@@ -347,10 +380,11 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator GameOver()
     {
+        //maybe pause time? also make sure no issues arise when dying while talking to someone
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        playerEffects.PlayClip(playerEffects.playerDie);
-        yield return new WaitForSeconds(1f);
+        playerEffects.PlayClip(playerEffects.playerDie, 0.4f);
+        yield return new WaitForSeconds(3f);
         TimeManager.Instance.GameOver();
         print("Time GameOver Complete");
         NightSpawningManager.Instance.GameOver();
@@ -358,7 +392,7 @@ public class PlayerInteraction : MonoBehaviour
         TownGate.Instance.GameOver();
         print("Gate GameOver Complete");
         //Potentially a spot where some structures get destroyed
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
@@ -367,6 +401,13 @@ public class PlayerInteraction : MonoBehaviour
         gameOver = false;
         stamina = 100;
 
+    }
+
+    IEnumerator ItemUseCooldown()
+    {
+        itemUseCooldown = true;
+        yield return new WaitForSeconds(5f);
+        itemUseCooldown = false;
     }
     
 }

@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: -1
   displayName: Fog Chime Bells
-  description: 
+  description: Blue flowers with a faint glow.
   icon: {fileID: -721071015, guid: 622c03175c06f69449d1967fc821866c, type: 3}
   maxStackSize: 20
-  value: 37
+  value: 43
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
+  bonusCompostValue: 30
+  itemInputsKBM:
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item

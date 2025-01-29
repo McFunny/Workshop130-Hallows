@@ -8,7 +8,8 @@ public class StructureManager : MonoBehaviour
     public static StructureManager Instance;
     [Header("Tiles")]
     public Tilemap tileMap;
-    public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them + helps with water gun tracking
+    public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them 
+    //Would also then need an occupied border tile
 
     public List<StructureBehaviorScript> allStructs;
 
@@ -417,10 +418,12 @@ public class StructureManager : MonoBehaviour
         float x, z;
 
         StructurePoolManager pool = StructurePoolManager.Instance;
+        bool canSpawn;
 
         if (r <= 0) return;
         for(int i = 0; i < r; i++)
         {
+            canSpawn = true;
             int t = 0;
             p = Random.Range(0, pool.forageableSpots.Length);
             Vector3 spawnPos = pool.forageableSpots[p].position;
@@ -428,8 +431,21 @@ public class StructureManager : MonoBehaviour
             z = Random.Range(-5, 5);
             spawnPos = new Vector3(spawnPos.x + x, spawnPos.y, spawnPos.z + z);
 
-            GameObject newStructure = pool.GrabForageable();
-            newStructure.transform.position = spawnPos;
+            Collider[] hitPlants = Physics.OverlapSphere(transform.position, 3.5f, 1 << 6);
+            foreach(Collider collider in hitPlants)
+            {
+                Forgeable structure = collider.gameObject.GetComponentInParent<Forgeable>();
+                if(structure)
+                {
+                    canSpawn = false;
+                    break;
+                }
+            }
+            if(canSpawn)
+            {
+                GameObject newStructure = pool.GrabForageable();
+                newStructure.transform.position = spawnPos;
+            }
 
         }
     }
@@ -465,6 +481,14 @@ public class StructureManager : MonoBehaviour
 
     public void WeedSpread(Vector3 pos)
     {
+        int weedTotal = 0;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand weedScript = allStructs[i] as FarmLand;
+            if(weedScript && weedScript.isWeed) weedTotal++;
+        }
+        if(weedTotal > 60) return;
+
         List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
         if(weedSpots.Count == 0) return;
         foreach(Vector3 weedPos in weedSpots)
@@ -472,6 +496,7 @@ public class StructureManager : MonoBehaviour
             if(Random.Range(0f,10f) > 9)
             {
                 SpawnStructure(weedTile, weedPos);
+                break;
             }
         }
     }

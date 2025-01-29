@@ -18,11 +18,16 @@ MonoBehaviour:
     Consumes Terrazyme and produces Gloamphage.
   icon: {fileID: -248741970, guid: be6afb23f3e5fc54cb6baa4782d3d68f, type: 3}
   maxStackSize: 20
-  value: 8
+  value: 6
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
+  bonusCompostValue: 0
+  itemInputsKBM:
+  - RMB - Plant
+  itemInputsController:
+  - LT - Plant
   plantable: 1
   cropData: {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
   ableToBeShot: 1

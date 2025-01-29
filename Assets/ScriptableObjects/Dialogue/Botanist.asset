@@ -34,7 +34,8 @@ MonoBehaviour:
     emotions: 00000000
   - pathName: Want to buy this?
     paragraphs:
-    - I see you looking at the {storeItemName} . Its yours for {storeItemValue} Mints!
+    - I see you looking at the {storeItemName} . Its yours for {storeItemValue} <color=#E0D38F>Mints</color>
+      <sprite index=0>!
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
@@ -44,6 +45,11 @@ MonoBehaviour:
     paragraphs:
     - Hey, you aren't trying to pull a fast one on me, are ya?
     emotions: 03000000
+  - pathName: No Space
+    paragraphs:
+    - Woah now, you can barely fit this in your pockets! Come again when you have
+      more room.
+    emotions: 05000000
   fillerPaths:
   - pathName: Hard Work
     paragraphs:

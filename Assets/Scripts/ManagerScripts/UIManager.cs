@@ -8,10 +8,13 @@ public class UIManager : MonoBehaviour
 
     int currentCoins = 0;
     public TextMeshProUGUI coinText;
+    private Animator coinAnimator;
     // Start is called before the first frame update
     void Start()
     {
-        
+        coinAnimator = coinText.transform.parent.gameObject.GetComponent<Animator>();
+        currentCoins = PlayerInteraction.Instance.currentMoney;
+        coinText.text = currentCoins.ToString();
     }
 
     // Update is called once per frame
@@ -19,8 +22,16 @@ public class UIManager : MonoBehaviour
     {
         if(currentCoins != PlayerInteraction.Instance.currentMoney)
         {
-            currentCoins = PlayerInteraction.Instance.currentMoney;
-            coinText.text = "X " + currentCoins;
+            coinAnimator.SetBool("MoneyChanging", true);
+            coinAnimator.SetTrigger("MoneyUpdate");
+            if(currentCoins < PlayerInteraction.Instance.currentMoney) { currentCoins++; }
+            if(currentCoins > PlayerInteraction.Instance.currentMoney) { currentCoins--; }
+             //= PlayerInteraction.Instance.currentMoney;
+            coinText.text = currentCoins.ToString();
+        }
+        else
+        {
+            coinAnimator.SetBool("MoneyChanging", false);
         }
     }
 }
