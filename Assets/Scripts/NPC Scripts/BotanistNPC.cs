@@ -31,7 +31,13 @@ public class BotanistNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(movementHandler.isWorking)
+            if(!GameSaveData.Instance.botMet)
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.botMet = true;
+            }
+            else if(movementHandler.isWorking)
             {
                 currentPath = 0;
                 currentType = PathType.Misc;

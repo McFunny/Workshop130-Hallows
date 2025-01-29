@@ -21,7 +21,7 @@ public class CropFrost : MonoBehaviour
     void OnDisable()
     {
         if(!gameObject.scene.isLoaded) return;
-        //ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = flameBase.position;
+        ParticlePoolManager.Instance.GrabThawParticle().transform.position = transform.position;
         if(afflictedTile)
         {
             afflictedTile.isFrosted = false;

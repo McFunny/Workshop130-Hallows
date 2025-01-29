@@ -325,6 +325,7 @@ MonoBehaviour:
   savedItems: []
   damageParticles: {fileID: 0}
   destructionParticles: {fileID: 0}
+  nearbyFires: []
   highlight:
   - {fileID: 2982133036384958463}
   audioHandler: {fileID: 0}
@@ -348,11 +349,13 @@ MonoBehaviour:
   harvestable: 0
   rotted: 0
   isWeed: 0
+  isFrosted: 0
   growth: {fileID: 1079407743898602144}
   growthComplete: {fileID: 8470056102640098900}
   growthImpeded: {fileID: 8427807927303994546}
   waterSplash: {fileID: 228014111827290631}
   ichorSplash: {fileID: 2126331523769017101}
+  frostParticles: {fileID: 0}
   light: {fileID: 5427759085007933845}
   cropNeedsUI: {fileID: 837279530193775678}
 --- !u!114 &837279530193775678
@@ -504,7 +507,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0

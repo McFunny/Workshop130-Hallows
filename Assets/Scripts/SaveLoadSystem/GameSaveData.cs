@@ -19,9 +19,8 @@ public class GameSaveData : MonoBehaviour
     public bool keyCollected; //Key was picked up
     public bool catacombUnlocked; //Key used to unlock door to catacombs
 
-    //[Header("NPC FriendShip Levels")]
-    //public float rascalFriendShip = 0;
-    //public float lumberJackFriendShip = 0;
+    [Header("NPC Bools. All must be false when building")]
+    public bool rascalMet, botMet, lumberMet;
 
     //IF WE HAVE THE GAME ONLY SAVE AT THE MORNING LIKE STARDEW, WE DONT HAVE TO SAVE ALOT OF STUFF LIKE TOWNSPEOPLE POS AND SHOP ITEMS
     

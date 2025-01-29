@@ -9,7 +9,7 @@ public class DisableAfterTimer : MonoBehaviour
     public bool destroyOnCompletion = false;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         StartCoroutine(LifeTime());
     }

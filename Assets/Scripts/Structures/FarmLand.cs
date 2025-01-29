@@ -513,6 +513,7 @@ public class FarmLand : StructureBehaviorScript
     {
         //particle
         TakeDamage(5);
+        ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
         if(isWeed) return;
         plantStress++;
         growthImpeded.Play();

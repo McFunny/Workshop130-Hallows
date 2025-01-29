@@ -122,7 +122,7 @@ public class WaterProjectileScript : MonoBehaviour
     {
         yield return new WaitForSeconds(0.02f);
         trail.emitting = true;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         if(homing && target != new Vector3(0,0,0))
         {
             rb.velocity = new Vector3(0,0,0);

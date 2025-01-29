@@ -9,7 +9,7 @@ public class Wraith : CreatureBehaviorScript
     //Wraith only moves towards player slowly. If it lingers in fire, its model gets brighter until it teleports. Doesn't avoid Braziers. Frosts crops it touches
     //Add frost collider and function to a child object
 
-    public MeshRenderer meshRenderer;
+    Renderer[] renderers; //make it a list of all children renderers
 
     public GameObject flowerPrefab;
 
@@ -23,6 +23,8 @@ public class Wraith : CreatureBehaviorScript
 
     [HideInInspector] public NavMeshAgent agent;
 
+    public Color unlightColor, lightColor;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -32,6 +34,7 @@ public class Wraith : CreatureBehaviorScript
     {
         base.Start();
         SpawnFlower();
+        renderers = GetComponentsInChildren<Renderer>();
     }
 
 
@@ -39,7 +42,8 @@ public class Wraith : CreatureBehaviorScript
     {
         if (!isDead)
         {
-            ChasePlayer();
+            if(TownGate.Instance.inTown) Freeze();
+            else ChasePlayer();
         }
 
         if(nearbyFires.Count > 0)
@@ -70,8 +74,19 @@ public class Wraith : CreatureBehaviorScript
     {
         if (trackPlayerRoutine == null)
         {
+            agent.isStopped = false;
             trackPlayerRoutine = StartCoroutine(TrackPlayer());
         }
+    }
+
+    void Freeze()
+    {
+        if(trackPlayerRoutine != null)
+        {
+            trackPlayerRoutine = null;
+            agent.isStopped = true;
+        }
+        
     }
 
     private IEnumerator TrackPlayer()
@@ -82,7 +97,7 @@ public class Wraith : CreatureBehaviorScript
             yield return new WaitForSeconds(1.5f); // update destination every 0.5 seconds to prevent overloading it
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            if (distanceToPlayer <= 5)
+            if (distanceToPlayer <= 3.5f)
             {
                 PlayerInteraction.Instance.StaminaChange(-7);
             }
@@ -121,10 +136,17 @@ public class Wraith : CreatureBehaviorScript
 
     void UpdateTransparency()
     {
-        Color newColor = meshRenderer.material.color;
+        /*Color newColor = renderers.material.color;
         if(timeSpentInFire <= 0) newColor.a = 0;
         else newColor.a = timeSpentInFire/maxFlameTime;
-        meshRenderer.material.color = newColor;
+        renderers.material.color = newColor; */
+
+        for(int i = 0; i < renderers.Length; i++)
+        {
+            Material mat = renderers[i].material;
+            Color newColor = Color.Lerp(unlightColor, lightColor, timeSpentInFire/maxFlameTime);
+            mat.SetColor("_EmissionColor", newColor);
+        }
 
         //change volume of fizzling sound when its getting deterred
     }

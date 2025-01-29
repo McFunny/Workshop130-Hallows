@@ -128,11 +128,11 @@ public class NightSpawningManager : MonoBehaviour
 
         if(allCreatures.Count <= 2 && difficultyPoints < 10)
         {
-            for(int i = 0; i < 2; i++)
+            for(int i = 0; i < 1; i++)
             {
                 r = Random.Range(0, fillerCreatures.Length);
                 CreatureObject newCreature = fillerCreatures[r];
-                SpawnCreature(newCreature);
+                if(newCreature.wealthPrerequisite < PlayerInteraction.Instance.totalMoneyEarned) SpawnCreature(newCreature);
             }
         }
     }
@@ -189,6 +189,11 @@ public class NightSpawningManager : MonoBehaviour
     }
 
     public void GameOver()
+    {
+        ClearAllCreatures();
+    }
+
+    public void ClearAllCreatures()
     {
         CreatureBehaviorScript[] creatures = FindObjectsOfType<CreatureBehaviorScript>();
 

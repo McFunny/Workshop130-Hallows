@@ -30,6 +30,7 @@ public class TimeManager : MonoBehaviour
     public delegate void HourlyUpdate();
     public static event HourlyUpdate OnHourlyUpdate;
     public bool timeSkipping = false; //Use for game over and sleeping
+    public bool stopTime = false;
     //Maybe make an event for onSecond, or at least a stoptime bool
 
     public Material skyMat;
@@ -93,8 +94,8 @@ public class TimeManager : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(1);
-            //if(!DialogueController.Instance.IsTalking())
-            //{
+            if(!timeSkipping && !stopTime)
+            {
                 currentMinute++;
                 LerpSunAndMoon();
                 if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour))
@@ -102,7 +103,7 @@ public class TimeManager : MonoBehaviour
                     currentMinute = 0;
                     HourPassed();
                 }
-            //}
+            }
 
         }
         while(gameObject.activeSelf);
@@ -118,7 +119,7 @@ public class TimeManager : MonoBehaviour
 
         //if hour is 8, new day transition. dark screen, invoke, save, then brighten screen
             
-        OnHourlyUpdate?.Invoke();
+        if(currentHour != 8) OnHourlyUpdate?.Invoke(); //We want this to trigger AFTER the transition
         //print("Hour passed. Time is now " + currentHour);
         //print("Is it day? " + isDay);
 
@@ -132,12 +133,14 @@ public class TimeManager : MonoBehaviour
                 ToggleDayNightLights(true);
                 break;
             case 6:
-                NextDay();
                 SetSkyBox(0.8f);
                 break;
             case 7:
                 SetSkyBox(1f);
                 ToggleDayNightLights(true);
+                break;
+            case 8:
+                StartCoroutine(NewDayTransition());
                 break;
             //case 17:
                 //ToggleDayNightLights(true);
@@ -261,6 +264,7 @@ public class TimeManager : MonoBehaviour
     {
         StopAllCoroutines();
         timeSkipping = true;
+        stopTime = true;
         int timeDif = 0;
         currentMinute = 0;
         if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
@@ -284,7 +288,7 @@ public class TimeManager : MonoBehaviour
         }
         else //Died during the night
         {
-            while(currentHour != 7)
+            while(currentHour != 8)
             {
                 currentHour++;
                 if(currentHour >= 24) currentHour = 0;
@@ -294,19 +298,35 @@ public class TimeManager : MonoBehaviour
                 {
                     structure.TimeLapse(1);
                 }*/
-                OnHourlyUpdate?.Invoke();
+                if(currentHour != 8) OnHourlyUpdate?.Invoke();
             }
-            NextDay();
+            StartCoroutine(NewDayTransition());
         }
         isDay = true;
         InitializeSkyBox();
         StartCoroutine(TimePassage());
         timeSkipping = false;
+        stopTime = false;
     }
 
-    void NextDay()
+    IEnumerator NewDayTransition()
     {
-        dayNum++; //Maybe play a little screen animation. This is also when the game saves
+        yield return new WaitUntil(() => PlayerInteraction.Instance.gameOver == false);
+
+        PlayerInteraction.Instance.rb.velocity = new Vector3(0,0,0);
+        PlayerMovement.restrictMovementTokens++;
+        Time.timeScale = 0;
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSecondsRealtime(2);
+        dayNum++;
+        //save game
+        NightSpawningManager.Instance.ClearAllCreatures();
+        yield return new WaitForSecondsRealtime(2);
+        FadeScreen.coverScreen = false;
+        yield return new WaitForSecondsRealtime(0.5f);
+        PlayerMovement.restrictMovementTokens--;
+        Time.timeScale = 1;
+        OnHourlyUpdate?.Invoke();
     }
 
     [ContextMenu("Set To Start Of Morning")]

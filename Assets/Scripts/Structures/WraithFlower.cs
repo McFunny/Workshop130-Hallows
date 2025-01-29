@@ -44,10 +44,16 @@ public class WraithFlower : StructureBehaviorScript
             collider.enabled = false;
             StartCoroutine(BurningRose());
         }
+        if(TimeManager.Instance.isDay)
+        {
+            if(assignedWraith) assignedWraith.TakeDamage(999);
+            Destroy(this.gameObject);
+        }
     }
 
     IEnumerator BurningRose()
     {
+        assignedWraith.anim.SetTrigger("Burning");
         yield return new WaitForSeconds(2);
         if(assignedWraith)
         {

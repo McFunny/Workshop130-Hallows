@@ -16,7 +16,7 @@ public class PlayerInteraction : MonoBehaviour
 
     ControlManager controlManager;
 
-    Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
 
     public bool isInteracting { get; private set; }
     public bool toolCooldown;
@@ -41,7 +41,7 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
 
-    bool gameOver;
+    [HideInInspector] public bool gameOver;
 
     public PopupScript lowStaminaWarning;
 
