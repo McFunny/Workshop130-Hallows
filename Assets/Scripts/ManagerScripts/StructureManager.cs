@@ -8,11 +8,12 @@ public class StructureManager : MonoBehaviour
     public static StructureManager Instance;
     [Header("Tiles")]
     public Tilemap tileMap;
-    public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them + helps with water gun tracking
+    public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them 
+    //Would also then need an occupied border tile
 
     public List<StructureBehaviorScript> allStructs;
 
-    public GameObject weedTile, farmTree, farmTile;
+    public GameObject weedTile, farmTree, farmTile, crowPod;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -62,6 +63,7 @@ public class StructureManager : MonoBehaviour
         if(TimeManager.Instance.currentHour == 8)
         {
             PopulateWeeds(-3, 8);
+            PopulateDecorCrows(0, 2);
         }
         if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
         if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(1, 6);
@@ -478,6 +480,25 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    void PopulateDecorCrows(int min, int max)
+    {
+        int r = Random.Range(min,max + 1);
+        print(r);
+        if (r <= 0) return;
+        Transform lastTransform = null;
+        for(int i = 0; i < r; i++)
+        {
+            int s = Random.Range(0, StructurePoolManager.Instance.crowSpots.Length);
+            Transform chosenPoint = StructurePoolManager.Instance.crowSpots[s];
+            if(lastTransform == null || chosenPoint != lastTransform)
+            {
+                lastTransform = chosenPoint;
+                Instantiate(crowPod, chosenPoint.transform.position, Quaternion.identity);
+                print("Spawned");
+            }
+        }
+    }
+
     public void WeedSpread(Vector3 pos)
     {
         int weedTotal = 0;
@@ -486,7 +507,7 @@ public class StructureManager : MonoBehaviour
             FarmLand weedScript = allStructs[i] as FarmLand;
             if(weedScript && weedScript.isWeed) weedTotal++;
         }
-        if(weedTotal > 30) return;
+        if(weedTotal > 60) return;
 
         List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
         if(weedSpots.Count == 0) return;

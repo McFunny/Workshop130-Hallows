@@ -128,7 +128,7 @@ public class NightSpawningManager : MonoBehaviour
 
         if(allCreatures.Count <= 2 && difficultyPoints < 10)
         {
-            for(int i = 0; i < 2; i++)
+            for(int i = 0; i < 1; i++)
             {
                 r = Random.Range(0, fillerCreatures.Length);
                 CreatureObject newCreature = fillerCreatures[r];
@@ -185,10 +185,15 @@ public class NightSpawningManager : MonoBehaviour
         float x = Random.Range(-2, 2);
         return testSpawns[r].position + (x * testSpawns[r].transform.right); 
         //Debug.Log(testSpawns[r]);
-        return testSpawns[r].position;
+        //return testSpawns[r].position;
     }
 
     public void GameOver()
+    {
+        ClearAllCreatures();
+    }
+
+    public void ClearAllCreatures()
     {
         CreatureBehaviorScript[] creatures = FindObjectsOfType<CreatureBehaviorScript>();
 

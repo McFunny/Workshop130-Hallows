@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class StructurePoolManager : MonoBehaviour
 {
-    //currently should use this for spawning weeds and forgeables
+    //currently should use this for spawning forgeables and crows
 
     public static StructurePoolManager Instance;
 
     public List<GameObject> forageablePool = new List<GameObject>();
     public GameObject forageablePrefab;
 
-    public Transform[] forageableSpots;
+    public Transform[] forageableSpots, crowSpots;
 
     void Awake()
     {

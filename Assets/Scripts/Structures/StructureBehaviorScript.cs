@@ -36,6 +36,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public ParticleSystem damageParticles;
     public GameObject destructionParticles;
+
+    public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
     
     [Header("Highlights")]
     public List<GameObject> highlight = new List<GameObject>();
@@ -200,7 +202,7 @@ public class StructureBehaviorScript : MonoBehaviour
         while(onFire)
         {
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
-            else TakeDamage(1);
+            else TakeDamage(2);
             yield return new WaitForSeconds(2f);
             if(onFire)
             {

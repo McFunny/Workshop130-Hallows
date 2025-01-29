@@ -188,6 +188,8 @@ public class BearTrap : StructureBehaviorScript
         if(isTriggered) return;
         if(other.gameObject.layer == 9 || other.gameObject.layer == 10)
         {
+            CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
+            if(creature && !creature.bearTrapVulnerable) return;
             isTriggered = true;
             StartCoroutine(SpringTrap(other)); //pass enemy script or player script variable
         }

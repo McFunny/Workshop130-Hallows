@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 7237576945179027775}
   - component: {fileID: 902897744702814336}
   - component: {fileID: 7048448750604761567}
+  - component: {fileID: 1971986981051475911}
   m_Layer: 9
   m_Name: body
   m_TagString: Untagged
@@ -359,13 +360,34 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.32, z: 0.5}
+  m_Center: {x: 0, y: 0.03, z: 0}
+--- !u!65 &1971986981051475911
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653353854984677738}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 49143
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.5, z: 1}
   m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1 &5466142219457334582
 GameObject:
@@ -473,6 +495,7 @@ MonoBehaviour:
   playerInAttackRange: 0
   shovelVulnerable: 1
   fireVulnerable: 1
+  bearTrapVulnerable: 0
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
@@ -521,6 +544,7 @@ MonoBehaviour:
   pitchMin: 0
   pitchMax: 0
   source: {fileID: 0}
+  loopingSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}

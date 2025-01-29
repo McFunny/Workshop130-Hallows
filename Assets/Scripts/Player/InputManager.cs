@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
 
     // FOR TOGGLING THE GRID
     public Tilemap structGrid;
-    public Color activeColor, hiddenColor;
+    public Color activeColor, activeNightColor, hiddenColor;
     public bool gridIsActive;
     ControlManager controlManager;
     PauseScript pauseScript;
@@ -49,7 +49,11 @@ public class InputManager : MonoBehaviour
         CheckForScrollInput();
         CheckNumberInput();
         
-        if (gridIsActive){ structGrid.color = activeColor;}
+        if (gridIsActive)
+        { 
+            if(TimeManager.Instance.isDay) structGrid.color = activeColor;
+            else structGrid.color = activeNightColor;
+        }
         else{ structGrid.color = hiddenColor;}
 
         //if(Input.GetKeyDown("t"))
