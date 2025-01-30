@@ -5,6 +5,7 @@ using UnityEngine;
 public class HandItemManager : MonoBehaviour
 {
     public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch;
+    public GameObject torchFlame;
 
     ToolType currentType = ToolType.Null;
 
@@ -17,7 +18,9 @@ public class HandItemManager : MonoBehaviour
 
     public AudioSource toolSource;
 
-    public Transform bulletStart;
+    public AudioClip extinguish;
+
+    public Transform bulletStart, waterBulletStart, waterBulletCloseStart;
 
     void Awake()
     {
@@ -117,7 +120,7 @@ public class HandItemManager : MonoBehaviour
 
     bool MissingObject()
     {
-        if(!hoe || !shovel || !wateringCan || !shotGun)
+        if(!hoe || !shovel || !wateringCan || !shotGun || !torch)
         {
             Debug.Log("Missing a reference to a hand object");
             return true;
@@ -161,6 +164,24 @@ public class HandItemManager : MonoBehaviour
             {
                 currentAnim.SetBool("HasAmmoLeft", true);
             }
+        }
+    }
+
+    public void TorchFlameToggle(bool ignite)
+    {
+        if((PlayerInteraction.Instance.torchLit && ignite) || (!PlayerInteraction.Instance.torchLit && !ignite)) return;
+
+        if(ignite)
+        {
+            PlayerInteraction.Instance.torchLit = true;
+            torchFlame.SetActive(true);
+        }
+        else
+        {
+            toolSource.PlayOneShot(extinguish);
+            if(currentHandObject == torch) ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
+            PlayerInteraction.Instance.torchLit = false;
+            torchFlame.SetActive(false);
         }
     }
 }

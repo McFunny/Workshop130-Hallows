@@ -18,8 +18,15 @@ MonoBehaviour:
     Restores 28 Stamina.
   icon: {fileID: 21300000, guid: f8681d3adf8699f44ae11ca52514822b, type: 3}
   maxStackSize: 20
-  value: 32
+  value: 24
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
   staminaValue: 28
+  bonusCompostValue: 20
+  itemInputsKBM:
+  - LMB - Consume
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item
+  - RT - Consume

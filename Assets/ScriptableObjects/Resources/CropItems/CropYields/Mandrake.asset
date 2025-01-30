@@ -17,8 +17,15 @@ MonoBehaviour:
   description: Valuable root that makes for a good broth base. Restores 89 Stamina.
   icon: {fileID: 21300000, guid: aa448fccc18453f4b9097f7bfb81f543, type: 3}
   maxStackSize: 20
-  value: 95
+  value: 76
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
   staminaValue: 89
+  bonusCompostValue: 0
+  itemInputsKBM:
+  - LMB - Consume
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item
+  - RT - Consume

@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Diagnostics;
-using Unity.VisualScripting;
 using UnityEngine.InputSystem;
 
 public class CodexScript : MonoBehaviour

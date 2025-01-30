@@ -20,11 +20,16 @@ public class PyreFly : CreatureBehaviorScript
     public Material ignitedMat, extinguishedMat;
     public MeshRenderer meshRenderer;
     float textureOffset = 0;
+    public float offsetRate = .005f;
 
 
     public PyreFlyHive homeHive;
     private StructureBehaviorScript targetStructure; //Struct to burn
     private Brazier targetFireSource;
+
+    public LayerMask layerMask;
+
+    bool idleTurn = false;
 
 
     public enum CreatureState
@@ -56,6 +61,8 @@ public class PyreFly : CreatureBehaviorScript
 
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
+
+        StartCoroutine(PlayerTurn());
     }
 
     // Update is called once per frame
@@ -68,9 +75,20 @@ public class PyreFly : CreatureBehaviorScript
             CheckState(currentState);
         }
 
-        //textureOffset = textureOffset + 0.001f;
-        //meshRenderer.material.mainTextureOffset = new Vector2(0, textureOffset);
-        //if(textureOffset > 500) textureOffset = 0;
+        textureOffset = textureOffset + offsetRate;
+        meshRenderer.material.mainTextureOffset = new Vector2(0, textureOffset);
+        if(textureOffset > 500) textureOffset = 0;
+
+        if(idleTurn)
+        {
+            Vector3 targetPosition = player.position;
+
+            Vector3 direction = targetPosition - transform.position;
+            direction.y = 0;
+            Quaternion toRotation = Quaternion.LookRotation(direction);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 3.5f * Time.deltaTime);
+        }
     }
 
     public void CheckState(CreatureState currentState)
@@ -126,23 +144,29 @@ public class PyreFly : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 5)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 25)
         {
             timeSpent += 0.01f;
             yield return null;
         }
 
-        if(ignited)
+        float r = Random.Range(0,10);
+
+        if(r < 7) //otherwise wander
         {
-            FindBurnableStructure();
-            if(targetStructure) currentState = CreatureState.WalkTowardsClosestStructure;
+            if(ignited)
+            {
+                FindBurnableStructure();
+                if(targetStructure) currentState = CreatureState.WalkTowardsClosestStructure;
+            }
+            else
+            {
+                FindFireSource();
+                if(targetFireSource) currentState = CreatureState.WalkTowardsClosestFlame;
+                else if(homeHive) currentState = CreatureState.ReturnToHive;
+            }
         }
-        else
-        {
-            FindFireSource();
-            if(targetFireSource) currentState = CreatureState.WalkTowardsClosestFlame;
-            else if(homeHive) currentState = CreatureState.ReturnToHive;
-        }
+        else currentState = CreatureState.Wander;
 
         isMoving = false;
         coroutineRunning = false;
@@ -180,7 +204,8 @@ public class PyreFly : CreatureBehaviorScript
         List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
         foreach (var structure in structManager.allStructs)
         {
-            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable())
+            WraithFlower flower = structure as WraithFlower;
+            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower){}
                 availableStructure.Add(structure);
         }
 
@@ -221,17 +246,29 @@ public class PyreFly : CreatureBehaviorScript
 
     void FindFireSource() //Find a way to ignite self
     {
+        targetFireSource = null;
         foreach (var structure in structManager.allStructs)
         {
             Brazier brazier = structure as Brazier;
             if (brazier && brazier.flameLeft > 0)
             {
                 targetFireSource = brazier;
-                print(targetFireSource);
+                //print(targetFireSource);
                 return;
             }
         }
-        print("Searched for fire source. Found None");
+
+        foreach (var creature in NightSpawningManager.Instance.allCreatures)
+        {
+            PyreFlyHive hive = creature as PyreFlyHive;
+            if (hive && hive.ignited)
+            {
+                homeHive = hive;
+                //print(targetFireSource);
+                return;
+            }
+        }
+       // print("Searched for fire source. Found None");
     }
 
     void ReturnToHive()
@@ -322,6 +359,24 @@ public class PyreFly : CreatureBehaviorScript
 
     }
 
+    IEnumerator PlayerTurn()
+    {
+        while(health > 0)
+        {
+            float r = Random.Range(2,6);
+            yield return new WaitForSeconds(r);
+            r = Random.Range(0,10);
+            if(r > 2 && Vector3.Distance(transform.position, player.position) < 8)
+            {
+                agent.updateRotation = false;
+                idleTurn = true;
+                yield return new WaitForSeconds(1.5f);
+                idleTurn = false;
+                agent.updateRotation = true;
+            }
+        }
+    }
+
     void EnterHive()
     {
         if(homeHive == null) currentState = CreatureState.Wander;
@@ -350,9 +405,11 @@ public class PyreFly : CreatureBehaviorScript
 
         if(ignited)
         {
+            ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
+            if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);
             if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f) PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1, 1 << 6);
-            foreach(Collider collider in hitColliders)
+            Collider[] hitStructures = Physics.OverlapSphere(transform.position, 1.5f, 1 << 6);
+            foreach(Collider collider in hitStructures)
             {
                 StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
                 if(structure && structure.IsFlammable())
@@ -360,7 +417,44 @@ public class PyreFly : CreatureBehaviorScript
                     structure.LitOnFire();
                 }
             }
+
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 8f, 1 << 9);
+            foreach(Collider collider in hitEnemies)
+            {
+                var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+                if (creature != null && creature.shovelVulnerable)
+                {
+                    creature.TakeDamage(75);
+                    creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
+                }
+            }
         }
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if(type == ToolType.Torch)
+        {
+            if(!PlayerInteraction.Instance.torchLit && ignited)
+            {
+                HandItemManager.Instance.TorchFlameToggle(true);
+                success = true;
+            }
+            if(PlayerInteraction.Instance.torchLit && !ignited)
+            {
+                IgnitionToggle(true);
+                currentState = CreatureState.Wander;
+                success = true;
+            }
+            else success = false;
+        }
+        else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && ignited)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            IgnitionToggle(false);
+            success = true;
+        }
+        else success = false;
     }
 
     //

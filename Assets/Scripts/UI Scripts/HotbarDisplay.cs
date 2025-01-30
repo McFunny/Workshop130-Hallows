@@ -7,6 +7,7 @@ public class HotbarDisplay : MonoBehaviour
     public InventorySlot_UI[] hotbarSlots;   // Array of hotbar slots (InventorySlot_UI)
     public static InventorySlot_UI currentSlot;
     private int currentIndex;
+    TooltipControlsScript tooltipControls; //Handles hovering over structure with item
 
     
 
@@ -14,6 +15,7 @@ public class HotbarDisplay : MonoBehaviour
     {
         currentIndex = 0;
         currentSlot = hotbarSlots[currentIndex];
+        tooltipControls = FindObjectOfType<TooltipControlsScript>();
         currentSlot.ToggleHighlight(); // Highlight the initial slot
         SelectHotbarSlot(currentIndex);
     }
@@ -85,6 +87,7 @@ public class HotbarDisplay : MonoBehaviour
 
         // Turn on highlight for the newly selected slot
         currentSlot.ToggleHighlight();
+        tooltipControls.SelectedItem();
 
         // Optionally, use the item in the selected slot
         if (currentSlot.AssignedInventorySlot != null && currentSlot.AssignedInventorySlot.ItemData != null)
@@ -107,6 +110,8 @@ public class HotbarDisplay : MonoBehaviour
             //Debug.Log($"No item in hotbar slot {slotIndex + 1}");
             HandItemManager.Instance.ClearHandModel();
         }
+
+        HandItemManager.Instance.TorchFlameToggle(false);
     }
 
     private void UpdateHandItem(InventorySystem inv)

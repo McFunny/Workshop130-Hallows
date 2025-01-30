@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System;
 
 public class InventorySlot_UI : MonoBehaviour
 {
@@ -16,7 +18,8 @@ public class InventorySlot_UI : MonoBehaviour
     public InventoryDisplay ParentDisplay { get; private set; }
     ControlManager controlManager;
     bool isSelected;
-    ToolTipScript toolTip;
+    ToolTipScript toolTip; //Handles hovering item in inventory
+    
     string itemDesc;
 
     Button button;
@@ -78,6 +81,7 @@ public class InventorySlot_UI : MonoBehaviour
         if(!PlayerMovement.accessingInventory)
         {
             itemName.gameObject.SetActive(false);
+            if (HotbarDisplay.currentSlot == this) { slotHighlight.SetActive(true); }
         }  
     }
 

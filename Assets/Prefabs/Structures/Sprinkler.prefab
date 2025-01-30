@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1011617151028352547}
   - component: {fileID: 3605468845812783774}
   - component: {fileID: 1329997061586256237}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 4643729739237613061}
   - component: {fileID: 8637354386963812768}
   - component: {fileID: 5781209343444854122}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,17 +559,21 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: 3f3793583ac66604eb4c2579537bd84f, type: 2}
   health: 25
   maxHealth: 25
-  wealthValue: 20
+  wealthValue: 15
   destructable: 1
   flammable: 0
   onFire: 0
   isObstacle: 1
   savedItems: []
+  damageParticles: {fileID: 0}
+  destructionParticles: {fileID: 0}
+  nearbyFires: []
   highlight:
   - {fileID: 5420653024611435711}
   - {fileID: 1935746049742081512}
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  structureUI: {fileID: 0}
   recoveredItem: {fileID: 11400000, guid: 55eb42636a4d2534dae716e7da5b6d45, type: 2}
   waterLevel: 0
   water: {fileID: 4281802548596243088}
@@ -769,6 +773,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sprinkler_WATER (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5998886750373085862, guid: 48dc4194b646be844a13e0f034cb6257,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -863,6 +872,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sprinkler_WATER (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 5998886750373085862, guid: 48dc4194b646be844a13e0f034cb6257,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -956,6 +970,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sprinkler_WATER (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998886750373085862, guid: 48dc4194b646be844a13e0f034cb6257,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2386480021878355852}
   - component: {fileID: 1635265688453986345}
   - component: {fileID: 3554842258521967843}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,10 +415,14 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 0
   savedItems: []
+  damageParticles: {fileID: 0}
+  destructionParticles: {fileID: 0}
+  nearbyFires: []
   highlight:
   - {fileID: 3050531527706307894}
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  structureUI: {fileID: 0}
   aloe: {fileID: 11400000, guid: a9318b4aa64bb2c4caba19dcc4372731, type: 2}
   yarrow: {fileID: 11400000, guid: 6f316f85a007ad645b60a914fa4f0367, type: 2}
   cropRenderer: {fileID: 6880864752236574915}
@@ -497,8 +501,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 16776479
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 1931674238, guid: 48b3766b678c142459e312073a2835f7, type: 3}
   m_Color: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}

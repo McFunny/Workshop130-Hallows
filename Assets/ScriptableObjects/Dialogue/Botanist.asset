@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Botanist
   defaultPath:
-    pathName: Hello
+    pathName: Introduction
     paragraphs:
-    - Well hi there! How is your day going?
-    emotions: 01000000
+    - Well hi there! Not often you meet a stranger in this town...
+    - Oh, you are our new farmer? Then we are going to get along just fine!
+    - Come visit my stall sometime if you are ever running low on seeds! I try to
+      be there a little bit after dawn.
+    emotions: 010000000400000000000000
   questCompletePath:
     pathName: 
     paragraphs: []
@@ -34,7 +37,8 @@ MonoBehaviour:
     emotions: 00000000
   - pathName: Want to buy this?
     paragraphs:
-    - I see you looking at the {storeItemName} . Its yours for {storeItemValue} Mints!
+    - I see you looking at the {storeItemName} . Its yours for {storeItemValue} <color=#E0D38F>Mints</color>
+      <sprite index=0>!
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
@@ -44,6 +48,11 @@ MonoBehaviour:
     paragraphs:
     - Hey, you aren't trying to pull a fast one on me, are ya?
     emotions: 03000000
+  - pathName: No Space
+    paragraphs:
+    - Woah now, you can barely fit this in your pockets! Come again when you have
+      more room.
+    emotions: 05000000
   fillerPaths:
   - pathName: Hard Work
     paragraphs:
@@ -73,6 +82,14 @@ MonoBehaviour:
     - If you have any questions, show me the crop seeds and I can tell you more about
       them!
     emotions: 0000000001000000
+  - pathName: Nutrient Explanation
+    paragraphs:
+    - Have you been mixing up where you plant your seeds?
+    - It helps to rotate your crops to better suite your soil and keep the nutrients
+      high.
+    - Or if that is too much of an ask, you can just use my fertalizer!
+    - I highly recommend the second option.
+    emotions: 04000000060000000000000001000000
   questPaths: []
   itemRecievedPaths:
   - pathName: Go Sell that
