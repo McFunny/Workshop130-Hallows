@@ -11,13 +11,20 @@ public class InputManager : MonoBehaviour
 
     // FOR TOGGLING THE GRID
     public Tilemap structGrid;
-    public Color activeColor, hiddenColor;
+    public Color activeColor, activeNightColor, hiddenColor;
     public bool gridIsActive;
     ControlManager controlManager;
+    PauseScript pauseScript;
+
+    public static bool isCharging = false;
+    bool chargeButtonHeld = false;
+
+    public InventoryItemData waterGun;
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        pauseScript = FindFirstObjectByType<PauseScript>();
     }
 
     private void OnEnable()
@@ -25,12 +32,16 @@ public class InputManager : MonoBehaviour
         controlManager.hotbarUp.action.started += HotbarUp;
         controlManager.hotbarDown.action.canceled += HotbarDown;  
         controlManager.showGrid.action.canceled += ShowGrid;
+        controlManager.pauseGame.action.started += PauseGame;
+        controlManager.waterGunCharge.action.performed += BeginCharge;
     }
     private void OnDisable()
     {
         controlManager.hotbarUp.action.started -= HotbarUp; 
         controlManager.hotbarDown.action.canceled -= HotbarDown;  
         controlManager.showGrid.action.canceled -= ShowGrid;
+        controlManager.pauseGame.action.started -= PauseGame;
+        controlManager.waterGunCharge.action.performed -= BeginCharge;
     }
 
     void Update()
@@ -38,29 +49,56 @@ public class InputManager : MonoBehaviour
         CheckForScrollInput();
         CheckNumberInput();
         
-        if (gridIsActive){ structGrid.color = activeColor;}
+        if (gridIsActive)
+        { 
+            if(TimeManager.Instance.isDay) structGrid.color = activeColor;
+            else structGrid.color = activeNightColor;
+        }
         else{ structGrid.color = hiddenColor;}
 
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+        //if(Input.GetKeyDown("t"))
+        //{
+        //    if(Time.timeScale == 1f) Time.timeScale = 4f;
+        //    else Time.timeScale = 1f;
+        //}
     }
     private void HotbarUp(InputAction.CallbackContext obj)
     {
+        if(PauseScript.isPaused) return;
+        if(PlayerMovement.isCodexOpen) return;
         if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(-1);}
     }
     private void HotbarDown(InputAction.CallbackContext obj)
     {
+        if(PauseScript.isPaused) return;
+        if(PlayerMovement.isCodexOpen) return;
         if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(1);}
     }
     private void ShowGrid(InputAction.CallbackContext obj)
     {
+        if(PauseScript.isPaused) return;
+        if(PlayerMovement.isCodexOpen) return;
         if(!PlayerMovement.accessingInventory){gridIsActive = !gridIsActive;}
+    }
+
+    private void PauseGame(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.isCodexOpen) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
+        if(!PlayerMovement.accessingInventory)
+        {
+            if(!PauseScript.isPaused)
+            {
+                isCharging = false;
+                chargeButtonHeld = false;
+            }
+            pauseScript.PauseGame();
+        } 
     }
 
     private void CheckForScrollInput()
     {
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerMovement.accessingInventory) return; //could cause issues with ui that use scrolling
         float scrollInput = controlManager.hotbarScroll.action.ReadValue<float>();
 
         if (scrollInput > 0f)
@@ -87,5 +125,21 @@ public class InputManager : MonoBehaviour
                 OnNumberPressed?.Invoke(i);
             }
         }
+    }
+
+    private void BeginCharge(InputAction.CallbackContext obj)
+    {
+        if(PauseScript.isPaused) return;
+
+        chargeButtonHeld = !chargeButtonHeld;
+        //print("Is button held? " + chargeButtonHeld);
+
+        if(chargeButtonHeld == false || PlayerMovement.restrictMovementTokens > 0 || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != waterGun)
+        {
+            isCharging = false;
+            //return;
+        }
+        else isCharging = !isCharging;
+        //print("Is the gun charging? " + isCharging);
     }
 }

@@ -11,7 +11,7 @@ public class StructureAudioHandler : MonoBehaviour
 
     AudioSource source;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         source = GetComponent<AudioSource>();
     }
@@ -25,5 +25,15 @@ public class StructureAudioHandler : MonoBehaviour
     public void PlaySound(AudioClip clip)
     {
         source.PlayOneShot(clip);
+    }
+
+    public void PlaySoundAtPoint(AudioClip clip, Vector3 pos)
+    {
+        AudioSource.PlayClipAtPoint(clip, pos);
+    }
+
+    public AudioSource GetSource()
+    {
+        return source;
     }
 }

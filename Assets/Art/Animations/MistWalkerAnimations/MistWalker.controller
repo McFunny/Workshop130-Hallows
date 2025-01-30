@@ -7,10 +7,7 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsWalking
-    m_EventTreshold: 0
+  m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4553025640304076886}
   m_Solo: 0
@@ -414,7 +411,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.24070895
   m_TransitionOffset: 0
   m_ExitTime: 0.086054824
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -515,10 +512,10 @@ AnimatorStateMachine:
     m_Position: {x: 230, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2057008142943445395}
-    m_Position: {x: 610, y: 180, z: 0}
+    m_Position: {x: 710, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5800655933974544746}
-    m_Position: {x: 540, y: -70, z: 0}
+    m_Position: {x: 530, y: -30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6456963517289473384}
     m_Position: {x: 430, y: 460, z: 0}
@@ -557,6 +554,31 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &4450123085671179914
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsLunging
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 6456963517289473384}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.8409091
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &4465575343326064827
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -590,11 +612,12 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MistSwipe
-  m_Speed: 2
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6772422241051776895}
   - {fileID: -7142478894811129725}
+  - {fileID: 4450123085671179914}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0

@@ -11,6 +11,11 @@ public class StructureBehaviorScript : MonoBehaviour
     public static event StructuresUpdated OnStructuresUpdated; //Unity Event that will notify enemies when structures are updated
     //Should this be static Abner?
 
+    public delegate void Damaged();
+    [HideInInspector] public event Damaged OnDamage; //Unity Event that will notify enemies when structures are updated
+
+    [Header("Structure Stats")]
+
     public StructureObject structData;
 
     public float health = 5;
@@ -18,26 +23,63 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public float wealthValue = 1; //dictates how hard a night could be 
 
+    [Tooltip("Can this structure be destroyed by lowering its health?")]
+    public bool destructable = true;
+    
+    [Tooltip("Does this structure burn?")]
+    public bool flammable = true;
+    public bool onFire = false;
+    [Tooltip("Does this structure impede movement? If yes, creatures will attack this if nearby and facing it")]
+    public bool isObstacle = true;
+
+    [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
+
+    public ParticleSystem damageParticles;
+    public GameObject destructionParticles;
+
+    public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
+    
+    [Header("Highlights")]
+    public List<GameObject> highlight = new List<GameObject>();
+    List<Material> highlightMaterial = new List<Material>();
+    [HideInInspector] bool highlightEnabled;
+
     [HideInInspector] public StructureAudioHandler audioHandler;
     //[HideInInspector] public AudioSource source;
 
     [HideInInspector] public bool clearTileOnDestroy = true;
 
+    [Tooltip("Specific UI for this structure, if it has any")]
+    public GameObject structureUI; 
+
+    //[Header("Structure Specific")]
+
+    //Once we get structure specific UI to see health, then we can add repairability to structures so players can know if they can dig it up safely
+
 
     public void Awake()
     {
-        StructureManager.Instance.allStructs.Add(this);
         OnStructuresUpdated?.Invoke();
         //source = GetComponent<AudioSource>();
         audioHandler = GetComponent<StructureAudioHandler>();
 
         TimeManager.OnHourlyUpdate += HourPassed;
+        foreach(GameObject thing in highlight) thing.SetActive(false);
+
+        if(structureUI) structureUI.SetActive(false);
+
     }
 
+    public void Start()
+    {
+        StructureManager.Instance.allStructs.Add(this);
+        if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
+        else StructureManager.Instance.SetTile(transform.position);
+    }
 
     public void Update()
     {
-        if(health <= 0) Destroy(this.gameObject);
+        if(health <= 0 && destructable) Destroy(this.gameObject);
     }
 
     public virtual void StructureInteraction(){}
@@ -51,8 +93,26 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public virtual void TimeLapse(int hours){}
 
+    public virtual void HitWithWater(){}
+
+    public virtual bool IsFlammable()
+    {
+        if(onFire) return false;
+        return flammable;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if(!destructable) return;
+        health -= damage;
+        OnDamage?.Invoke();
+        if(damageParticles) damageParticles.Play();
+    }
+
+    //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
     public void OnDestroy()
     {
+        TimeManager.OnHourlyUpdate -= HourPassed;
         if(!gameObject.scene.isLoaded) return;
         print("Destroyed");
         if(clearTileOnDestroy && structData)
@@ -61,8 +121,93 @@ public class StructureBehaviorScript : MonoBehaviour
             else StructureManager.Instance.ClearLargeTile(transform.position);
         } 
         StructureManager.Instance.allStructs.Remove(this);
+        NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
-        TimeManager.OnHourlyUpdate -= HourPassed;
 
+    }
+
+    public void ToggleHighlight(bool enable)
+    {
+        if(highlight.Count == 0) return;
+        if(highlightMaterial.Count == 0)
+        {
+            foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
+        }
+        if(enable && !highlightEnabled)
+        {
+            highlightEnabled = true;
+            foreach(GameObject thing in highlight) thing.SetActive(true);
+            if(structureUI) structureUI.SetActive(true);
+            StartCoroutine(HightlightFlash());
+        }
+
+        if(!enable && highlightEnabled)
+        {
+            highlightEnabled = false;
+            foreach(GameObject thing in highlight) thing.SetActive(false);
+            if(structureUI) structureUI.SetActive(false);
+        }
+    }
+
+    IEnumerator HightlightFlash()
+    {
+        float power = 1;
+        while(highlightEnabled)
+        {
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power -= 0.05f;
+                foreach(Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+            }
+            while(power > 0.7f && highlightEnabled);
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power += 0.05f;
+                foreach(Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+            }
+            while(power < 1.9f && highlightEnabled);
+        }
+    }
+
+    public void LitOnFire()
+    {
+        if(onFire || !flammable) return;
+        onFire = true;
+        GameObject flame = ParticlePoolManager.Instance.GrabFlameEffect();
+        flame.transform.position = transform.position;
+        flame.GetComponent<StructureFire>().burningStruct = this;
+        StartCoroutine(Burn());
+    }
+
+    public void Extinguish()
+    {
+        onFire = false;
+        StartCoroutine(ExtinguishCooldown());
+    }
+
+    IEnumerator ExtinguishCooldown()
+    {
+        if(flammable)
+        {
+            flammable = false;
+            yield return new WaitForSeconds(3);
+            flammable = true;
+        }
+    }
+
+    IEnumerator Burn()
+    {
+        while(onFire)
+        {
+            if(health > 10) TakeDamage(Mathf.Round(health / 5));
+            else TakeDamage(2);
+            yield return new WaitForSeconds(2f);
+            if(onFire)
+            {
+                //catch adjacent structs on fire randomly
+            }
+        }
     }
 }

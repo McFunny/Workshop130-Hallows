@@ -28,26 +28,27 @@ public class ShovelAttack : MonoBehaviour
         var structure = other.GetComponent<StructureBehaviorScript>();
         if (structure != null)
         {
-            structure.health -= 2;
+            structure.TakeDamage(2);
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             print("Hit Structure");
-            PlayerInteraction.Instance.StaminaChange(-1);
+            if(PlayerInteraction.Instance.stamina > 25) PlayerInteraction.Instance.StaminaChange(-1);
             collider.enabled = false;
             collisionPoint = other.ClosestPoint(transform.position);
             PlayHitParticle(collisionPoint);
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-        if (creature != null)
+        if (creature != null && creature.shovelVulnerable)
         {
             creature.TakeDamage(25);
             //playsound
             HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
             print("Hit Creature");
-            PlayerInteraction.Instance.StaminaChange(-1);
+            if(PlayerInteraction.Instance.stamina > 25) PlayerInteraction.Instance.StaminaChange(-1);
             collider.enabled = false;
             collisionPoint = other.ClosestPoint(transform.position);
             PlayHitParticle(collisionPoint);
+            creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
         }
 
         //Something to hit corpses
@@ -62,10 +63,10 @@ public class ShovelAttack : MonoBehaviour
         return;
         Vector3 direction = (transform.position - hitPoint).normalized;
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit, 10, hitDetection))
+        if (Physics.Raycast(transform.position, direction, out hit, 20, hitDetection))
         {
             ParticlePoolManager.Instance.MoveAndPlayVFX(hit.point, ParticlePoolManager.Instance.hitEffect);
-            print("Played");
+            print("Played Success");
         }
     }
 }

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1
   displayName: Shovel
-  description: Melee Weapon
+  description: Used as a melee tool against hostile creatures. Can also dig up crops
+    and structures.
   icon: {fileID: 21300000, guid: ccb6193f575d1844fb6d611daa515d67, type: 3}
   maxStackSize: 1
   value: 0
@@ -22,6 +23,12 @@ MonoBehaviour:
   isKeyItem: 1
   hasModel: 1
   staminaValue: 0
+  itemInputsKBM:
+  - LMB - Swing
+  - RMB - Dig
+  itemInputsController:
+  - LT - Dig
+  - RT - Swing
   durability: 100
   behavior: {fileID: 11400000, guid: 75cf61ebedc34634fa67743048ce44cc, type: 2}
   tool: 2

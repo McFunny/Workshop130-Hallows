@@ -26,7 +26,8 @@ public enum Emotion
     Sad,
     Angry,
     Confused,
-    Shocked
+    Shocked,
+    Null
 }
 
 public enum PathType
@@ -45,6 +46,7 @@ public enum PathType
 public class DialoguePath
 {
     public string pathName;
+    //public string functionName; //for calling a specific function
     [TextArea(5,10)]
     public string[] paragraphs;
     public Emotion[] emotions;

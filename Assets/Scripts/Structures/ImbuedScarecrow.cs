@@ -7,9 +7,15 @@ public class ImbuedScarecrow : StructureBehaviorScript
 {
     public static UnityAction<GameObject> OnScarecrowAttract;
 
+    void Awake()
+    {
+        base.Awake();
+    }
+
     void Start()
     {
-        StartCoroutine(AttractEnemies());
+        base.Start();
+        //StartCoroutine(AttractEnemies());
     }
 
     IEnumerator AttractEnemies()
@@ -28,11 +34,11 @@ public class ImbuedScarecrow : StructureBehaviorScript
         while (gameObject.activeSelf);
     }
 
-    private void OnDestroy()
+    /*private void OnDestroy()
     {
         SpawnInComponents();
         base.OnDestroy();
-    }
+    }*/
 
     private void SpawnInComponents()
     {
@@ -54,8 +60,8 @@ public class ImbuedScarecrow : StructureBehaviorScript
                     Destroy(child.gameObject);
                 }
 
-                }
             }
+        }
         this.transform.DetachChildren();
 
     }

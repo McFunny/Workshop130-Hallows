@@ -6,9 +6,11 @@ public class ProjectilePoolManager : MonoBehaviour
 {
     public static ProjectilePoolManager Instance;
 
-    public GameObject bulletPrefab;
+    public GameObject bulletPrefab, largeWaterPrefab, seedBulletPrefab;
 
-    public List<GameObject> bulletPool = new List<GameObject>();
+    List<GameObject> bulletPool = new List<GameObject>();
+    List<GameObject> largeWaterPool = new List<GameObject>();
+    List<GameObject> seedPool = new List<GameObject>();
 
     void Awake()
     {
@@ -35,6 +37,20 @@ public class ProjectilePoolManager : MonoBehaviour
             bulletPool.Add(newBullet);
             newBullet.SetActive(false);
         }
+
+        for(int i = 0; i < 12; i++)
+        {
+            GameObject newBullet = Instantiate(largeWaterPrefab);
+            largeWaterPool.Add(newBullet);
+            newBullet.SetActive(false);
+        }
+
+        for(int i = 0; i < 12; i++)
+        {
+            GameObject newBullet = Instantiate(seedBulletPrefab);
+            seedPool.Add(newBullet);
+            newBullet.SetActive(false);
+        }
     }
 
     public GameObject GrabBullet()
@@ -49,9 +65,47 @@ public class ProjectilePoolManager : MonoBehaviour
             }
         }
 
-        //No available items, must make a new one
+        //No available projectiles, must make a new one
         GameObject newBullet = Instantiate(bulletPrefab);
         bulletPool.Add(newBullet);
+        newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+        return newBullet;
+    }
+
+    public GameObject GrabLargeWater()
+    {
+        foreach (GameObject bullet in largeWaterPool)
+        {
+            if(!bullet.activeSelf)
+            {
+                bullet.SetActive(true);
+                bullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+                return bullet;
+            }
+        }
+
+        //No available projectiles, must make a new one
+        GameObject newBullet = Instantiate(largeWaterPrefab);
+        largeWaterPool.Add(newBullet);
+        newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+        return newBullet;
+    }
+
+    public GameObject GrabSeedBullet()
+    {
+        foreach (GameObject bullet in seedPool)
+        {
+            if(!bullet.activeSelf)
+            {
+                bullet.SetActive(true);
+                bullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+                return bullet;
+            }
+        }
+
+        //No available projectiles, must make a new one
+        GameObject newBullet = Instantiate(seedBulletPrefab);
+        seedPool.Add(newBullet);
         newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
         return newBullet;
     }

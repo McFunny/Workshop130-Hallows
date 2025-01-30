@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edfa73c5b2ca624f88c7f0fb8be25d6, type: 3}
+  m_Name: GloomStalkSeeds
+  m_EditorClassIdentifier: 
+  ID: -1
+  displayName: GloomStalk Seeds
+  description: Fast growing grain that needs constant water. Consumes Gloamphage
+    and produces Terrazyme. Hares ignore this crop.
+  icon: {fileID: 1685841986, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
+  maxStackSize: 20
+  value: 4
+  sellValueMultiplier: 0
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  itemInputsKBM:
+  - RMB - Plant
+  itemInputsController:
+  - LT - Plant
+  plantable: 1
+  cropData: {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
+  ableToBeShot: 1

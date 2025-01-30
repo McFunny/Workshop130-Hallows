@@ -11,6 +11,7 @@ public class FadeScreen : MonoBehaviour
 
     void Start()
     {
+        coverScreen = false;
         if(image) imageColor = image.color;
     }
 
@@ -20,13 +21,13 @@ public class FadeScreen : MonoBehaviour
         if(!image) return;
         if(coverScreen && imageColor.a < 1)
         {
-            imageColor.a += 0.01f;
+            imageColor.a += 0.02f;
             image.color = imageColor;
         }
 
         if(!coverScreen && imageColor.a > 0)
         {
-            imageColor.a -= 0.01f;
+            imageColor.a -= 0.02f;
             image.color = imageColor;
         }
     }

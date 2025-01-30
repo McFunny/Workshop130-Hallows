@@ -5,6 +5,9 @@ using Unity.Burst.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+// Abner To DO: Have it fly lower, make sure ontriggerenter works, Use transform.move + transform.lookat to have it land on the ground, When it dies, have it fall straight to the ground then destroy itself
+// Cam To DO: Code it stealing items sometimes, 
+
 public class Crow : CreatureBehaviorScript
 {
     #region Enums
@@ -29,7 +32,7 @@ public class Crow : CreatureBehaviorScript
     private StructureBehaviorScript scaryStructure;
 
     public float radius = 10f;
-    public float height = 5f;
+    private float height = 5f;
     public float attackHeight = 3f;
     public float circleSpeed = 2f;
     private float angle = 0f;
@@ -50,7 +53,19 @@ public class Crow : CreatureBehaviorScript
         attackCollider.enabled = false;
         if (isSummoned)
         {
-            currentState = CreatureState.CirclePlayer;
+            if (Vector3.Distance(transform.position, player.position) < 50)
+            {
+                currentState = CreatureState.CirclePlayer;
+            }
+
+            else
+            {
+                int randomOffset1 = Random.Range(0, 2) == 0 ? 10 : -10;
+                int randomOffset2 = Random.Range(0, 2) == 0 ? 10 : -10;
+
+                point = new Vector3(transform.position.x + randomOffset1, transform.position.y + 20, transform.position.z + randomOffset2);
+                currentState = CreatureState.CirclePoint;
+            }
         }
         else
         {
@@ -62,7 +77,7 @@ public class Crow : CreatureBehaviorScript
 
     private void OnDestroy()
     {
-        StructureBehaviorScript.OnStructuresUpdated -= UpdateStructureList;
+        //StructureBehaviorScript.OnStructuresUpdated -= UpdateStructureList;
     }
 
     private void Update()
@@ -251,7 +266,7 @@ public class Crow : CreatureBehaviorScript
 
     private void Die()
     {
-        throw new NotImplementedException();
+        Destroy(this.gameObject);
     }
 
     private void Trapped()
@@ -272,7 +287,7 @@ public class Crow : CreatureBehaviorScript
 
         if (Vector3.Distance(point, transform.position) > radius * 2)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.3f);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime);
             transform.LookAt(targetPosition);
         }
         else
@@ -306,13 +321,13 @@ public class Crow : CreatureBehaviorScript
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    /*private void OnTriggerStay(Collider other)
     {
        
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 Debug.Log("HIT PLAYER");
-                PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
+                PlayerInteraction playerInteraction = PlayerInteraction.Instance;
                 if (playerInteraction != null)
                 {
                     playerInteraction.StaminaChange(-10);
@@ -333,7 +348,7 @@ public class Crow : CreatureBehaviorScript
             coroutineRunning = false;
             currentState = CreatureState.Flee;
         }
-    }
+    } */
 
 
     private void OnTriggerEnter(Collider other)
@@ -445,7 +460,7 @@ public class Crow : CreatureBehaviorScript
                 else if (currentState == CreatureState.CirclePoint)
                 {
                     int y = Random.Range(0, 2);
-                    if (y == 0)
+                    if (y == 0 && Vector3.Distance(transform.position, player.position) < 50)
                     {
                         currentState = CreatureState.CirclePlayer;
                     }

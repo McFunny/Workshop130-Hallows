@@ -22,9 +22,12 @@ public class PlaceableItem : InventoryItemData
             Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
             if(pos != new Vector3(0,0,0)) 
             {
-                Quaternion rotate = currentHologram.transform.rotation;
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
-                newStruct.transform.rotation = rotate;
+                if(currentHologram)
+                {
+                    Quaternion rotate = currentHologram.transform.rotation;
+                    newStruct.transform.rotation = rotate;
+                }
                 if (removeAfterUse)
                 {
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
@@ -38,10 +41,12 @@ public class PlaceableItem : InventoryItemData
 
     public void DisplayHologram(Transform player)
     {
+        if(!hologramPrefab) return;
         if(!currentHologram)
         {
             currentHologram = Instantiate(hologramPrefab, new Vector3(0,0,0), Quaternion.identity);
             currentHologram.SetActive(false);
+            currentTilePos = new Vector3(0,0,0);
         }
 
         Vector3 fwd = player.TransformDirection(Vector3.forward);
@@ -54,7 +59,11 @@ public class PlaceableItem : InventoryItemData
             if(pos == new Vector3(0,0,0)) 
             {
                 Debug.Log("CantDisplay");
-                if(currentHologram.activeSelf) currentHologram.SetActive(false);
+                if(currentHologram.activeSelf)
+                {
+                    currentHologram.SetActive(false);
+                    currentTilePos = new Vector3(0,0,0);
+                }
                 return;
             }
             if(pos != currentTilePos)
@@ -66,16 +75,22 @@ public class PlaceableItem : InventoryItemData
             }
 
         }
-        else if(currentHologram.activeSelf) currentHologram.SetActive(false);
+        else if(currentHologram.activeSelf)
+        {
+            currentHologram.SetActive(false);
+            currentTilePos = new Vector3(0,0,0);
+        }
     }
 
     public void RotateHologram()
     {
+        if(!currentHologram) return;
         currentHologram.transform.Rotate(0, 90, 0);
     }
 
     public void DisableHologram()
     {
+        if(!currentHologram) return;
         currentHologram.SetActive(false);
     }
 

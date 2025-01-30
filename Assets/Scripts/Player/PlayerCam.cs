@@ -1,9 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCam : MonoBehaviour
 {
+    public static PlayerCam Instance;
+    //bool allowCameraInfluence = false;
+
+    Vector3 posOfInterest = new Vector3(0,0,0);
+    float interestRotSpeed = 3;
+
     public float sensX;
     public float sensY;
 
@@ -15,8 +22,19 @@ public class PlayerCam : MonoBehaviour
 
     const float contScalar = 5;
 
+    private bool isSprinting;
+
     void Awake()
     {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
         controlManager = FindFirstObjectByType<ControlManager>();
     }
     private void Start()
@@ -38,43 +56,67 @@ public class PlayerCam : MonoBehaviour
             Cursor.visible = true;
             return;
         }
-        else if (!PlayerMovement.accessingInventory)
+        else if (!PlayerMovement.accessingInventory && !PauseScript.isPaused)
         {
             CursorLock();
         }
 
-        if (PlayerMovement.restrictMovementTokens > 0 || PlayerMovement.isCodexOpen) return;
-
-        Vector2 look = controlManager.look.action.ReadValue<Vector2>();
-        float lookX = look.x * sensX;
-        float lookY = look.y * sensY;
-        // Scaling sensitivity to match old input system;
-        lookX *= 0.5f;
-        lookX *= 0.1f;
-        lookY *= 0.5f;
-        lookY *= 0.1f;
-
-        if(ControlManager.isGamepad)
+        if ((PlayerMovement.restrictMovementTokens > 0) || PlayerMovement.isCodexOpen || PauseScript.isPaused)
         {
-            lookX = lookX * contScalar;
-            lookY = lookY * contScalar;
+            //
         }
         else
         {
-            lookX = lookX * 1;
-            lookY = lookY * 1;
+            Vector2 look = controlManager.look.action.ReadValue<Vector2>() * PlayerPrefs.GetFloat("Sensitivity", 1.0f);
+            float lookX = look.x * sensX;
+            float lookY = look.y * sensY;
+            // Scaling sensitivity to match old input system;
+            lookX *= 0.5f;
+            lookX *= 0.1f;
+            lookY *= 0.5f;
+            lookY *= 0.1f;
+
+            if(ControlManager.isGamepad)
+            {
+                lookX = lookX * contScalar;
+                lookY = lookY * contScalar;
+            }
+            else
+            {
+                lookX = lookX * 1;
+                lookY = lookY * 1;
+            }
+
+
+            yRotation += lookX;
+            xRotation -= lookY;
+
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+        }
+        
+
+        if(posOfInterest != new Vector3(0,0,0))
+        {
+            if(PlayerMovement.restrictMovementTokens == 0)
+            {
+                ClearObjectOfInterest();
+                return;
+            }
+
+            Vector3 dir = posOfInterest - transform.position;
+
+            Quaternion rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), interestRotSpeed * Time.deltaTime);
+            transform.rotation = rot;
+            orientation.rotation = Quaternion.Euler(0, rot.y, 0);
+
+            xRotation = rot.eulerAngles.x;
+            yRotation = rot.eulerAngles.y;
         }
 
-
-        yRotation += lookX;
-        xRotation -= lookY;
-
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-
-        if (Input.GetKeyDown(KeyCode.RightBracket))
+        /*if (Input.GetKeyDown(KeyCode.RightBracket))
         {
             sensX += 1;
             sensY += 1;
@@ -84,8 +126,20 @@ public class PlayerCam : MonoBehaviour
         {
             sensX -= 1;
             sensY -= 1;
-        }
+        } */
 
 
+    }
+
+    public void NewObjectOfInterest(Vector3 newInterest)
+    {
+        posOfInterest = newInterest;
+        //allowCameraInfluence = allowInfluence;
+    }
+
+    public void ClearObjectOfInterest()
+    {
+        posOfInterest = new Vector3(0,0,0);
+        //allowCameraInfluence = false;
     }
 }

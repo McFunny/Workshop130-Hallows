@@ -14,33 +14,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Wagon Merchant
   defaultPath:
+    pathName: Selling Something?
     paragraphs:
     - Got something to sell?
     - Show me.
     emotions: 0000000003000000
+  questCompletePath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  repeatedItemPath:
+    pathName: 
+    paragraphs: []
+    emotions: 
   paths:
-  - paragraphs:
-    - 'For a {itemName} I can offer {itemValue} Mints.
+  - pathName: Want me to buy this?
+    paragraphs:
+    - 'For that {itemName} I can offer {itemValue} Mints.
 
       Do we have a deal?'
     emotions: 00000000
-  - paragraphs:
+  - pathName: Will Not Buy
+    paragraphs:
     - I have no need for that.
     emotions: 03000000
-  - paragraphs:
+  - pathName: Sold!
+    paragraphs:
     - Pleasure doing business. {itemSold}
     emotions: 01000000
-  - paragraphs:
+  - pathName: Want me to buy all of those?
+    paragraphs:
     - 'For all of those? I can offer {itemTotalValue} Mints.
 
       What do you say?'
     emotions: 00000000
-  - paragraphs:
-    - I see that caught your eye. Care to buy?
+  - pathName: Do you want to buy?
+    paragraphs:
+    - I see the {storeItemName} caught your eye. Care to buy for {storeItemValue}
+      Mints?
     emotions: 00000000
-  - paragraphs:
+  - pathName: Here you go!
+    paragraphs:
     - Sold! {itemBought}
     emotions: 01000000
-  - paragraphs:
+  - pathName: Poor
+    paragraphs:
     - Get some more money first.
     emotions: 03000000
+  - pathName: No Space
+    paragraphs:
+    - This transaction is encumbered by your lack of organization. I will be waiting
+      here until you make space.
+    emotions: 03000000
+  fillerPaths: []
+  questPaths: []
+  itemRecievedPaths: []
+  itemSpecificRemarks: []
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []

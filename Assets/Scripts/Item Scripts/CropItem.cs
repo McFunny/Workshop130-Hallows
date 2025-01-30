@@ -7,5 +7,6 @@ public class CropItem : InventoryItemData
 {
     public bool plantable = false; //for seeds
     public CropData cropData;
+    public bool ableToBeShot = true;
 
 }

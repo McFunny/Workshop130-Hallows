@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1415391352653287734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7031332008590127860}
+  m_Layer: 6
+  m_Name: EyeLine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7031332008590127860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415391352653287734}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.38, y: 4.61, z: 0.12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5252130552531480017}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4972053857978914253
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c9257b77559794dadc132752e10f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueController: {fileID: 0}
+  npcScript: {fileID: 7426511987197169560}
 --- !u!1 &6537779363550398370
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +190,7 @@ Transform:
   - {fileID: 8661184831294596414}
   - {fileID: 3905378073140517167}
   - {fileID: 3494601991599767779}
+  - {fileID: 7031332008590127860}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 199.982, z: 0}
 --- !u!65 &1582551276013895435
@@ -196,32 +228,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 11400000, guid: 153718bda3249f74f8329ced35b76c61, type: 2}
   dialogueController: {fileID: 0}
+  anim: {fileID: 5286844319778880741}
   happy: {fileID: 8300000, guid: 8a481601b53baa84bac83b6f5ddf2671, type: 3}
   sad: {fileID: 8300000, guid: 2d40c0cc504cc0e44a585ffde498d57e, type: 3}
   neutral: {fileID: 8300000, guid: 1fe89aa166877234faabb1b557479fff, type: 3}
   angry: {fileID: 8300000, guid: e2947ff42f3d61a49a4be449de5de570, type: 3}
   confused: {fileID: 8300000, guid: 7429ea34e6383834d98732c4fb970ee8, type: 3}
   shocked: {fileID: 8300000, guid: 9adcd4dc5f37cdc4e8749072f99ff2b5, type: 3}
+  eyeLine: {fileID: 7031332008590127860}
   currentPath: -1
   currentType: 0
   lastInteractedStoreItem: {fileID: 0}
   hasSpokeToday: 0
   hasEatenToday: 0
-  anim: {fileID: 5286844319778880741}
+  hasBeenFed: 0
+  startedDialogue: 0
+  movementHandler: {fileID: 0}
+  faceCamera: {fileID: 0}
+  assignedStall: {fileID: 0}
   sellMultiplier: 1
   possibleSoldItems:
   - {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
   - {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
   - {fileID: 11400000, guid: 1c6623afdf1e992468dd092ddbfe177d, type: 2}
-  - {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
   - {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
   - {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
+  - {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
+  - {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+  - {fileID: 11400000, guid: 55eb42636a4d2534dae716e7da5b6d45, type: 2}
+  - {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
+  - {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
+  - {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
+  - {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
+  - {fileID: 11400000, guid: 1c3c20e899a81124d9d03ffd3cd1ad3b, type: 2}
   itemWeight:
+  - 0
+  - 0
   - 1
-  - 0.1
-  - 0.25
-  - 0.25
-  - 0.25
+  - 1
+  - 0
+  - 0
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0.75
+  - 0.75
   - 1
   storeItems:
   - {fileID: 7136066315645887399}
@@ -238,6 +290,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5252130552531480017}
     m_Modifications:
+    - target: {fileID: 2448507190195595752, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
+        type: 3}
+      propertyPath: seller
+      value: 
+      objectReference: {fileID: 7426511987197169560}
     - target: {fileID: 4406330773239738922, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -324,6 +381,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5252130552531480017}
     m_Modifications:
+    - target: {fileID: 2448507190195595752, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
+        type: 3}
+      propertyPath: seller
+      value: 
+      objectReference: {fileID: 7426511987197169560}
     - target: {fileID: 4406330773239738922, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -410,6 +472,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5252130552531480017}
     m_Modifications:
+    - target: {fileID: 2448507190195595752, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
+        type: 3}
+      propertyPath: seller
+      value: 
+      objectReference: {fileID: 7426511987197169560}
     - target: {fileID: 4406330773239738922, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -496,6 +563,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5252130552531480017}
     m_Modifications:
+    - target: {fileID: 2448507190195595752, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
+        type: 3}
+      propertyPath: seller
+      value: 
+      objectReference: {fileID: 7426511987197169560}
     - target: {fileID: 4406330773239738922, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -592,6 +664,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5252130552531480017}
     m_Modifications:
+    - target: {fileID: 2448507190195595752, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
+        type: 3}
+      propertyPath: seller
+      value: 
+      objectReference: {fileID: 7426511987197169560}
     - target: {fileID: 4406330773239738922, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -678,6 +755,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5252130552531480017}
     m_Modifications:
+    - target: {fileID: 2448507190195595752, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
+        type: 3}
+      propertyPath: seller
+      value: 
+      objectReference: {fileID: 7426511987197169560}
     - target: {fileID: 4406330773239738922, guid: 88cf4095c9aea7f42b430c9aa7b195b5,
         type: 3}
       propertyPath: m_LocalPosition.x

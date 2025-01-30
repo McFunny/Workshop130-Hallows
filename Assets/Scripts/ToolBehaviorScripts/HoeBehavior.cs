@@ -12,12 +12,13 @@ public class HoeBehavior : ToolBehavior
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown)
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5)
         {
             return;
         } 
         if (!player) player = _player;
         tool = _tool;
+        toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
 
         //till ground
         Vector3 fwd = player.TransformDirection(Vector3.forward);
@@ -25,7 +26,7 @@ public class HoeBehavior : ToolBehavior
 
         tile = null;
 
-        if(Physics.Raycast(player.position, fwd, out hit, 5, mask))
+        if(Physics.Raycast(player.position, fwd, out hit, 7, mask))
         {
 
             //tile = hit.collider.GetComponent<UntilledTile>();
@@ -47,9 +48,19 @@ public class HoeBehavior : ToolBehavior
                 usingPrimary = true;
                 HandItemManager.Instance.PlayPrimaryAnimation();
                 HandItemManager.Instance.toolSource.PlayOneShot(swing);
-                PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.9f));
+                if(PlayerInteraction.Instance.stamina > 25)
+                {
+                    toolAnim.SetFloat("AnimSpeed", 1f);
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.7f));
+                    PlayerInteraction.Instance.StaminaChange(-2);
+                }
+                else
+                {
+                    toolAnim.SetFloat("AnimSpeed", 0.75f);
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * 1.25f, 1.7f * 1.25f));
+                }
                 PlayerMovement.restrictMovementTokens++;
-                PlayerInteraction.Instance.StaminaChange(-2);
+                PlayerCam.Instance.NewObjectOfInterest(pos);
             }
 
         }
@@ -62,14 +73,16 @@ public class HoeBehavior : ToolBehavior
 
     public override void ItemUsed() 
     { 
+        PopupEvents.current.TillGround(); // Sends message to the PopupEvents to tell it when to close certain popups
         PlayerInteraction.Instance.StartCoroutine(ExtraLag());
         if(tile) tile.ToolInteraction(tool, out bool playAnim);
         else StructureManager.Instance.SpawnStructure(farmTile, pos);
+        PlayerCam.Instance.ClearObjectOfInterest();
     }
 
     IEnumerator ExtraLag()
     {
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(1.1f);
         usingPrimary = false;
         PlayerMovement.restrictMovementTokens--;
     }

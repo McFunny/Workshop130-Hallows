@@ -11,13 +11,7 @@ public class Mandrake : CreatureBehaviorScript
     [HideInInspector] public NavMeshAgent agent;
     private bool coroutineRunning = false;
     public float fleeDistance = 3f;
-    public Tilemap tileMap; // Reference to your tilemap
 
-    public GameObject farmTile;
-    public CropData data;
-    //public GameObject mandrakeTile;
-    private GameObject spawnedFarmTile;
-    private Vector3 spot;
     public float timeBeforeLeavingFarm;
     private float savedTime;
 
@@ -44,7 +38,6 @@ public class Mandrake : CreatureBehaviorScript
         base.Start();
         agent = GetComponent<NavMeshAgent>();
         currentState = CreatureState.WakeUp;
-        tileMap = FindObjectOfType<Tilemap>();
         savedTime = timeBeforeLeavingFarm;
 
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
@@ -68,8 +61,7 @@ public class Mandrake : CreatureBehaviorScript
 
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= sightRange;
-        if (isTrapped) { currentState = CreatureState.Trapped; }
-        if (playerInSightRange && !isTrapped && !coroutineRunning && currentState != CreatureState.WakeUp) { currentState = CreatureState.Run; }
+        if (playerInSightRange && currentState != CreatureState.Trapped && !coroutineRunning && currentState != CreatureState.WakeUp) { currentState = CreatureState.Run; }
         CheckState(currentState);
 
         if(agent.velocity.sqrMagnitude > 0) anim.SetBool("IsRunning", true);
@@ -144,6 +136,7 @@ public class Mandrake : CreatureBehaviorScript
     {
         coroutineRunning = true;
         float r = 1.5f;
+        effectsHandler.MiscSound();
         anim.SetTrigger("IsScreaming");
         yield return new WaitForSeconds(r);
         coroutineRunning = false;
@@ -160,6 +153,7 @@ public class Mandrake : CreatureBehaviorScript
     IEnumerator FreakOut()
     {
         //Play freak out Animation
+        effectsHandler.MiscSound2();
         coroutineRunning = true;
         if (playerInSightRange)
         {
@@ -261,6 +255,11 @@ public class Mandrake : CreatureBehaviorScript
     private void LeaveFarm()
     {
         agent.SetDestination(despawnPos);
+    }
+
+    public override void OnDamage()
+    {
+        effectsHandler.OnHit();
     }
 
     public override void OnDeath()

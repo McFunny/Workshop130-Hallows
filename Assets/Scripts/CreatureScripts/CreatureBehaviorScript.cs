@@ -17,28 +17,35 @@ public class CreatureBehaviorScript : MonoBehaviour
     [HideInInspector] public CreatureEffectsHandler effectsHandler;
     [HideInInspector] public Transform player;
 
+    public Collider[] allColliders; //to be disabled when a corpse
+    public Transform corpseParticleTransform;
+    public CorpseParticleType corpseType;
+
     public Rigidbody rb;
     public Animator anim;
 
     public InventoryItemData[] droppedItems;
     public float[] dropChance;
 
-    public float sightRange = 4; //how far can it see the player
+    public float sightRange = 20; //how far can it see the player
+    public float attackRange = 6;
     public bool playerInSightRange = false;
     public bool playerInAttackRange = false;
     public bool shovelVulnerable = true;
-    public bool isTrapped = false;
+    public bool fireVulnerable = true;
+    public bool bearTrapVulnerable = true;
+    //public bool isTrapped = false;
     public bool isDead = false;
     bool corpseDestroyed = false;
-    public int damageToStructure;
-    public int damageToPlayer;
+    public int damageToStructure; //number must be positive
+    public int damageToPlayer; //number must be negative
     public bool canCorpseBreak;
 
     public void Start()
     {
         structManager = StructureManager.Instance;
-        effectsHandler = FindObjectOfType<CreatureEffectsHandler>();
-        player = FindObjectOfType<PlayerInteraction>().transform;
+        effectsHandler = GetComponentInChildren<CreatureEffectsHandler>();
+        player = PlayerInteraction.Instance.transform;
     }
 
     // Update is called once per frame
@@ -51,18 +58,20 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         print("Ouch");
         health -= damage;
+        if(!isDead)
+        {
+            OnDamage();
+        }
         if(health <= 0 && !isDead)
         {
             effectsHandler.OnDeath();
             OnDeath();
             isDead = true;
-            //turns into a corpse, and fertalizes nearby crops
+            //turns into a corpse, and fertilizes nearby crops
         }
-        else if(canCorpseBreak)
+        if(canCorpseBreak)
         {
-            effectsHandler.OnHit();
-            OnDamage();
-            if(health < corpseHealth && isDead && !corpseDestroyed)
+            if(health <= corpseHealth && isDead && !corpseDestroyed)
             {
                 corpseDestroyed = true;
                 for(int i = 0; i < droppedItems.Length; i++)
@@ -70,10 +79,22 @@ public class CreatureBehaviorScript : MonoBehaviour
                     if(Random.Range(0f,10f) < dropChance[i])
                     {
                         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(droppedItems[i]);
-                        float x = Random.Range(-0.5f,0.5f);
-                        float z = Random.Range(-0.5f,0.5f);
-                        droppedItem.transform.position = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
+                        Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+                        droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+                        Vector3 dir3 = Random.onUnitSphere;
+                        dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+                        itemRB = droppedItem.GetComponent<Rigidbody>();
+                        itemRB.AddForce(dir3 * 20);
+                        itemRB.AddForce(Vector3.up * 50);
                     }
+                }
+                if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
+                GameObject corpseParticle = ParticlePoolManager.Instance.GrabCorpseParticle(corpseType);
+                if(corpseParticle)
+                {
+                    if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
+                    else corpseParticle.transform.position = transform.position;
                 }
                 Destroy(this.gameObject);
             }
@@ -81,15 +102,63 @@ public class CreatureBehaviorScript : MonoBehaviour
         
     }
 
+    public void PlayHitParticle(Vector3 pos) //pass (0,0,0) for it to use its own transform instead
+    {
+        if(corpseType == CorpseParticleType.Red) 
+        {
+            GameObject bloodParticle = ParticlePoolManager.Instance.GrabBloodDropParticle();
+            if(pos == new Vector3(0,0,0))
+            {
+                if(corpseParticleTransform) pos = corpseParticleTransform.position;
+                else pos = transform.position;
+            }
+            bloodParticle.transform.position = pos;
+        }
+    }
+
     public virtual void OnDamage(){} //Triggers creature specific effects
     public virtual void OnDeath()
     {
-        if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
-        NightSpawningManager.Instance.allCreatures.Remove(this);
+        if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
+        foreach(Collider collider in allColliders)
+        {
+            collider.isTrigger = true;
+        }
     } //Triggers creature specific effects
+
+    public void OnDestroy()
+    {
+        if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
+    }
 
     public virtual void OnSpawn(){}
     public virtual void OnStun(float duration){}
+
+    public virtual void EnteredFireRadius(FireFearTrigger fireSource, out bool fearSuccessful)
+    {
+        fearSuccessful = false;
+    }
+
+    public virtual void HitWithWater(){}
+
+    public virtual void NewPriorityTarget(StructureBehaviorScript newStruct){}
+
+    public virtual void ToolInteraction(ToolType tool, out bool success)
+    {
+        success = false;
+    }
+
+    public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 2, 1 << 6))
+        {
+            StructureBehaviorScript obstacle = hit.collider.GetComponentInParent<StructureBehaviorScript>();
+            if(obstacle && obstacle.isObstacle) return obstacle;
+            else return null;
+        }
+        else return null;
+    }
 
 
     

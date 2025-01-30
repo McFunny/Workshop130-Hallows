@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class BearTrap : StructureBehaviorScript
 {
+    public InventoryItemData recoveredItem;
     public Transform topClamp, bottomClamp;
-    //float topClampTarget, bottomClampTarget;
     float animationTimeLeft;
-    bool isTriggered, rearming;
+    bool isTriggered, rearming, caughtSomething;
 
     public AudioClip triggeredSFX;
 
@@ -37,10 +37,15 @@ public class BearTrap : StructureBehaviorScript
         }
     }
 
+    void Start()
+    {
+        base.Start();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        base.Update();
+        if(!caughtSomething) base.Update();
 
         if(animationTimeLeft > 0)
         {
@@ -66,9 +71,33 @@ public class BearTrap : StructureBehaviorScript
         }
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+        if(caughtSomething) return;
+        if(type == ToolType.Shovel && !rearming)
+        {
+            StartCoroutine(DugUp());
+            success = true;
+        }
+    }
+
+    IEnumerator DugUp()
+    {
+        yield return  new WaitForSeconds(1);
+        if(!caughtSomething)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
+            droppedItem.transform.position = transform.position;
+            Destroy(this.gameObject);
+        }
+        
+    }
+
     IEnumerator SpringTrap(Collider victim)
     {
         animationTimeLeft = 0.5f;
+        caughtSomething = true;
         yield return new WaitForSeconds(0.5f);
         topClamp.rotation = Quaternion.Euler(-161, 90, -90);
         bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
@@ -102,7 +131,7 @@ public class BearTrap : StructureBehaviorScript
             {
                 CreatureBehaviorScript creature = victim.GetComponentInParent<CreatureBehaviorScript>();
                 //creature.isTrapped = true;
-                if(creature.health > 75)
+                if(creature.health >= 75)
                 {
                     //stun and damage
                     creature.TakeDamage(25);
@@ -114,8 +143,10 @@ public class BearTrap : StructureBehaviorScript
                     //kill
                     creature.TakeDamage(999);
                 }
+                creature.PlayHitParticle(new Vector3(0, 0, 0));
             }
         }
+        caughtSomething = false;
         
     }
 
@@ -157,6 +188,8 @@ public class BearTrap : StructureBehaviorScript
         if(isTriggered) return;
         if(other.gameObject.layer == 9 || other.gameObject.layer == 10)
         {
+            CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
+            if(creature && !creature.bearTrapVulnerable) return;
             isTriggered = true;
             StartCoroutine(SpringTrap(other)); //pass enemy script or player script variable
         }

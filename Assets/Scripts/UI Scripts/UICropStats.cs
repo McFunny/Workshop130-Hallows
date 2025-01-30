@@ -8,12 +8,12 @@ using System;
 
 public class UICropStats : MonoBehaviour
 {
-    public Camera mainCam;
+    private Camera mainCam;
     public GameObject cropStatsObject, growthStageText, cropStatsObjectD, growthStageTextD;
     public TextMeshProUGUI cropNameText, gloamAmount, terraAmount, ichorAmount, waterAmount, growthStageNumber;
     public TextMeshProUGUI cropNameTextD, gloamAmountD, terraAmountD, ichorAmountD, waterAmountD, growthStageNumberD;
     public TextMeshProUGUI gloamNumber, terraNumber, ichorNumber, waterNumber;
-    public float reach = 5;
+    public float reach = 8;
     private FarmLand hitCrop;
     private string cropName = "Crop Name";
     string growthString;
@@ -30,6 +30,12 @@ public class UICropStats : MonoBehaviour
 
     ControlManager controlManager;
 
+    //For Lerps
+    public Transform lerpStart, lerpEnd, cropUITransform;
+    float timeSpendAnimating = 0;
+    float moveProgress = 0;
+    float maxMoveProgress = 0.5f;
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
@@ -40,6 +46,8 @@ public class UICropStats : MonoBehaviour
         growthStageNumber.text = "";
         if(!mainCam) mainCam = FindObjectOfType<Camera>();
         StartCoroutine(CheckTimer());
+
+        cropUITransform.position = lerpStart.position;
     }
 
     private void OnEnable()
@@ -63,20 +71,26 @@ public class UICropStats : MonoBehaviour
             growthStageTextD.SetActive(true);
             growthStageText.SetActive(false);
         }
-        else if(isActive)
+        else
         {
             cropStatsObjectD.SetActive(false);
             cropStatsObject.SetActive(true);
             growthStageTextD.SetActive(false);
             growthStageText.SetActive(true);
         }
-        else
+
+        if(isActive && moveProgress < maxMoveProgress)
         {
-            cropStatsObjectD.SetActive(false);
-            cropStatsObject.SetActive(false);
-            growthStageTextD.SetActive(false);
-            growthStageText.SetActive(false);
+            moveProgress += Time.deltaTime;
+            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
         }
+
+        if(!isActive && moveProgress > 0)
+        {
+            moveProgress -= Time.deltaTime;
+            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
+        }
+
     }
     
     private void MoreInfo(InputAction.CallbackContext obj)
@@ -145,6 +159,7 @@ public class UICropStats : MonoBehaviour
             // I know this is a mess but I really don't feel like rewriting this script. If I have to write another if statement I WILL go insane.
 
             //Gloam Level Check I feel so gloaming
+            if (tileNutrients == null) { return; }
             if(tileNutrients.gloamLevel >= nHigh)
             {
                 gloamAmountD.text = "High";

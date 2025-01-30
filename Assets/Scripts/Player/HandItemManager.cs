@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class HandItemManager : MonoBehaviour
 {
-    public GameObject hoe, shovel, wateringCan, shotGun;
+    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch;
+    public GameObject torchFlame;
 
     ToolType currentType = ToolType.Null;
 
@@ -17,7 +18,9 @@ public class HandItemManager : MonoBehaviour
 
     public AudioSource toolSource;
 
-    public Transform bulletStart;
+    public AudioClip extinguish;
+
+    public Transform bulletStart, waterBulletStart, waterBulletCloseStart;
 
     void Awake()
     {
@@ -68,6 +71,14 @@ public class HandItemManager : MonoBehaviour
                 shotGun.SetActive(true);
                 currentHandObject = shotGun;
                 break;
+            case ToolType.WaterGun:
+                waterGun.SetActive(true);
+                currentHandObject = waterGun;
+                break;
+            case ToolType.Torch:
+                torch.SetActive(true);
+                currentHandObject = torch;
+                break;
             default:
             currentHandObject = null;
                 break;
@@ -82,6 +93,8 @@ public class HandItemManager : MonoBehaviour
         handRenderer.sprite = item.icon;
     }
 
+   
+
     public void PlayPrimaryAnimation()
     {
         if(currentAnim) currentAnim.SetTrigger("PrimaryTrigger");
@@ -92,15 +105,22 @@ public class HandItemManager : MonoBehaviour
         if (currentAnim) currentAnim.SetTrigger("SecondaryTrigger");
     }
 
+    public Animator AccessCurrentAnimator()
+    {
+        if(currentAnim) return currentAnim;
+        else return null;
+    }
+
     public void ClearHandModel()
     {
         if(currentHandObject) currentHandObject.SetActive(false);
         if (handRenderer != null) handRenderer.sprite = null;
+        currentType = ToolType.Null;
     }
 
     bool MissingObject()
     {
-        if(!hoe || !shovel || !wateringCan || !shotGun)
+        if(!hoe || !shovel || !wateringCan || !shotGun || !torch)
         {
             Debug.Log("Missing a reference to a hand object");
             return true;
@@ -132,4 +152,36 @@ public class HandItemManager : MonoBehaviour
         CheckSlotForTool();
     }
 
+    public void DoesShotgunReload(bool hasShotgunAmmoLeft)
+    {
+        if (currentAnim)
+        {
+            if (hasShotgunAmmoLeft == false)
+            {
+                currentAnim.SetBool("HasAmmoLeft", false);
+            }
+            else
+            {
+                currentAnim.SetBool("HasAmmoLeft", true);
+            }
+        }
+    }
+
+    public void TorchFlameToggle(bool ignite)
+    {
+        if((PlayerInteraction.Instance.torchLit && ignite) || (!PlayerInteraction.Instance.torchLit && !ignite)) return;
+
+        if(ignite)
+        {
+            PlayerInteraction.Instance.torchLit = true;
+            torchFlame.SetActive(true);
+        }
+        else
+        {
+            toolSource.PlayOneShot(extinguish);
+            if(currentHandObject == torch) ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
+            PlayerInteraction.Instance.torchLit = false;
+            torchFlame.SetActive(false);
+        }
+    }
 }

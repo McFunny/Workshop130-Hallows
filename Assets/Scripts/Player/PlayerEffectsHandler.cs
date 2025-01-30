@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using Cinemachine;
 
 
 public class PlayerEffectsHandler : MonoBehaviour
@@ -10,10 +11,15 @@ public class PlayerEffectsHandler : MonoBehaviour
     //HANDLES THE AUDIO AND EFFECTS THAT COME FROM THE PLAYER
     public float volume = 1f;
     public AudioSource source, footStepSource;
-    public AudioClip itemPickup;
+    public AudioClip itemPickup, itemEat, playerDie, playerDamage, footstep;
+
+    public float shakeIntensity;
     //public AudioClip footSteps;
 
+    private CinemachineImpulseSource impulseSource;
+
     Volume globalVolume;
+    public Color damageColor, focusColor;
 
     Rigidbody rb;
     void Start()
@@ -22,8 +28,11 @@ public class PlayerEffectsHandler : MonoBehaviour
         StartCoroutine("FootStepsPitchChanger");
 
         globalVolume = FindObjectOfType<Volume>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
 
         PlayerInteraction p = PlayerInteraction.Instance;
+
+        ResetVignette();
     }
 
     // Update is called once per frame
@@ -53,14 +62,16 @@ public class PlayerEffectsHandler : MonoBehaviour
     {
         StopCoroutine(DamageFlash());
         StartCoroutine(DamageFlash());
-            
-        
+        impulseSource.GenerateImpulseWithForce(shakeIntensity);
+        if(playerDamage) source.PlayOneShot(playerDamage);
+
     }
 
     IEnumerator DamageFlash()
     {
         if(globalVolume.profile.TryGet(out Vignette vignette))
         {
+            vignette.color.Override(damageColor);
             vignette.intensity.value = 0;
             do
             {
@@ -75,15 +86,64 @@ public class PlayerEffectsHandler : MonoBehaviour
                 vignette.intensity.value -= 0.05f;
             }
             while(vignette.intensity.value > 0);
+            ResetVignette();
         }
         
     }
 
-    IEnumerator DeathFlash()
+    public IEnumerator Focus()
     {
-        yield return new WaitForSeconds(1);
+        if(globalVolume.profile.TryGet(out Vignette vignette))
+        {
+            vignette.color.Override(focusColor);
+            vignette.intensity.value = 0;
+            do
+            {
+                yield return new WaitForSecondsRealtime(0.1f);
+                vignette.intensity.value += 0.25f;
+            }
+            while(vignette.intensity.value < .5f);
+
+            yield return new WaitForSeconds(0.1f);
+
+            while(PlayerMovement.restrictMovementTokens > 0)
+            {
+                yield return null;
+            }
+
+            do
+            {
+                yield return new WaitForSecondsRealtime(0.1f);
+                vignette.intensity.value -= 0.05f;
+            }
+            while(vignette.intensity.value > 0);
+            ResetVignette();
+        }
     }
 
-    
+    void ResetVignette()
+    {
+        if(globalVolume.profile.TryGet(out Vignette vignette))
+        {
+            vignette.color.Override(focusColor);
+            vignette.intensity.value = 0.25f;
+        }
+    }
+
+    public void PlayClip(AudioClip clip)
+    {
+        source.PlayOneShot(clip);
+    }
+
+    public void PlayClip(AudioClip clip, float volume)
+    {
+        source.PlayOneShot(clip, volume);
+    }
+
+    public void PlayFootstepSound()
+    {
+        footStepSource.pitch = Random.Range(0.7f, 1.3f);
+        footStepSource.Play();
+    }
 
 }

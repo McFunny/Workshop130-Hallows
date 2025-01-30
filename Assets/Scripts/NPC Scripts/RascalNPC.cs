@@ -6,20 +6,42 @@ public class RascalNPC : NPC, ITalkable
 {
     public InventoryItemData key, paleCarrot;
 
+    void Start()
+    {
+        anim.SetBool("IsLeaning", true);
+    }
+
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(!NPCManager.Instance.rascalWantsFood)
-            {
-                currentPath = 1;
-                currentType = PathType.Quest;
-                NPCManager.Instance.rascalWantsFood = true; //Possible issue: The player walks away, never being able to finish the dialogue. Some Dialogue should freeze the player.
-            }
-            else
+            if(!GameSaveData.Instance.rascalMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
+                GameSaveData.Instance.rascalMet = true;
+            }
+            else if(!GameSaveData.Instance.rascalWantsFood)
+            {
+                currentPath = 1;
+                currentType = PathType.Quest;
+                GameSaveData.Instance.rascalWantsFood = true; 
+            }
+            else
+            {
+                if(NPCManager.Instance.rascalSpoke)
+                {
+                    interactSuccessful = false;
+                    return;
+                }
+                if(currentPath == -1)
+                {
+                    int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentPath = i;
+                }
+                //currentPath = -1;
+                currentType = PathType.Filler;
+                NPCManager.Instance.rascalSpoke = true;
             }
         }
         Talk();
@@ -28,23 +50,26 @@ public class RascalNPC : NPC, ITalkable
 
     public void Talk()
     {
+        //anim.SetTrigger("IsTalking");
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
     }
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(dialogueController.IsInterruptable() == false)
+        ToolItem tItem = item as ToolItem;
+        if(dialogueController.IsInterruptable() == false || tItem)
         {
-            interactSuccessful = true;
+            interactSuccessful = false;
             return;
         } 
 
-        if(item == paleCarrot && NPCManager.Instance.rascalWantsFood == true && NPCManager.Instance.rascalMentionedKey == false)
+        if(item == paleCarrot && GameSaveData.Instance.rascalWantsFood == true && GameSaveData.Instance.rascalMentionedKey == false)
         {
             currentPath = 2;
             currentType = PathType.Quest;
-            NPCManager.Instance.rascalMentionedKey = true;
+            GameSaveData.Instance.rascalMentionedKey = true;
+            //anim.SetTrigger("TakeItem");
         }
 
         else if(item == key)
@@ -52,6 +77,26 @@ public class RascalNPC : NPC, ITalkable
             currentPath = 1;
             currentType = PathType.ItemSpecific;
         }
+        else if(item.staminaValue > 0)
+        {
+            currentPath = 0;
+            currentType = PathType.ItemRecieved;
+            /*
+            if(!NPCManager.Instance.rascalFed)
+            {
+                currentPath = 0;
+                currentType = PathType.ItemRecieved;
+                NPCManager.Instance.rascalFed = true;
+                //anim.SetTrigger("TakeItem");
+            }
+            else
+            {
+                currentPath = 1;
+                currentType = PathType.ItemRecieved;
+            }
+            */
+            //Its consumable and giftable
+        } 
         else
         {
             currentPath = 0;
@@ -66,7 +111,12 @@ public class RascalNPC : NPC, ITalkable
 
     public override void PlayerLeftRadius()
     {
+        base.PlayerLeftRadius();
+    }
 
+    public override void OnConvoEnd()
+    {
+        currentPath = -1;
     }
 
 }

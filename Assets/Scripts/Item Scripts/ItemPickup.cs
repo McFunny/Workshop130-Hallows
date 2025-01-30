@@ -16,8 +16,13 @@ public class ItemPickup : MonoBehaviour
 
     public SpriteRenderer r;
 
+    Rigidbody rb;
+
     [SerializeField] private ItemPickupSaveData itemSaveData;
     private string id;
+
+    bool beingCollected = false;
+    bool canBeCollected = false;
 
     private void Awake()
     {
@@ -25,20 +30,22 @@ public class ItemPickup : MonoBehaviour
         SaveLoad.OnLoadGame += LoadGame;
         itemSaveData = new ItemPickupSaveData(ItemData, transform.position, transform.rotation);
 
-
+        rb = GetComponent<Rigidbody>();
 
         myCollider = GetComponent<SphereCollider>();
         myCollider.isTrigger = true;
         myCollider.radius = PickUpRadius;
 
         if(!r) r = GetComponent<SpriteRenderer>();
+
+        if(ItemData) RefreshItem(ItemData);
     }
 
    
 
     private void Start()
     {
-        SaveGameManager.data.activeItems.Add(id, itemSaveData);
+        //SaveGameManager.data.activeItems.Add(id, itemSaveData);
     }
 
     private void LoadGame(SaveData data)
@@ -51,6 +58,14 @@ public class ItemPickup : MonoBehaviour
         
     }
 
+    void Update()
+    {
+        if(beingCollected)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, PlayerInteraction.Instance.transform.position, 0.1f);
+        }
+    }
+
     public void RefreshItem(InventoryItemData newItem)
     {
         r.sprite = newItem.icon;
@@ -59,6 +74,7 @@ public class ItemPickup : MonoBehaviour
 
     private void OnDestroy()
     {
+        return;
         if (SaveGameManager.data == null)
         {
             Debug.LogError("SaveGameManager.data is null");
@@ -82,19 +98,54 @@ public class ItemPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.layer == 7 /*|| other.gameObject.layer == 0)*/ && rb && rb.isKinematic == false)
+        {
+            rb.isKinematic = true;
+            rb.velocity = new Vector3(0,0,0);
+        }
+
         var inventory = other.transform.GetComponent<PlayerInventoryHolder>();
 
-        if (!inventory) return;
+        if (!inventory || !canBeCollected) return;
 
         if (inventory.AddToInventory(ItemData, 1))
         {
-            SaveGameManager.data.collectedItems.Add(id);
-            FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
-            gameObject.SetActive(false); // Make the item disappear
+            //SaveGameManager.data.collectedItems.Add(id);
+            beingCollected = true;
+            myCollider.enabled = false;
+            StartCoroutine(PickupDelay());
         }
+    }
 
+    void OnEnable()
+    {
+        //myCollider.enabled = false;
+        StartCoroutine(PickupTimer());
+    }
 
+    IEnumerator PickupTimer()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canBeCollected = true;
+        myCollider.enabled = false;
+        myCollider.enabled = true;
+    }
 
+    IEnumerator PickupDelay()
+    {
+        FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
+        yield return new WaitForSeconds(0.2f);
+        beingCollected = false;
+        canBeCollected = false;
+        if(rb) 
+        {
+            rb.isKinematic = false;
+            rb.velocity = new Vector3(0,0,0);
+        }
+        myCollider.enabled = true;
+        ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        
+        gameObject.SetActive(false); // Make the item disappear
     }
 }
 

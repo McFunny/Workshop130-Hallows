@@ -7,26 +7,45 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioSource ambienceSource, musicSource;
     public AudioClip[] biomeAmbience;
     public AudioClip[] nightAmbience;
+    public AudioClip[] windAmbience;
     public AudioClip[] musicAmbience;
+    public AudioClip[] musicNightAmbience;
 
     public AudioClip bellTower;
-    // Start is called before the first frame update
+
+    private Coroutine ambientMusicCoroutine;
+
+    public delegate void BlowWind(Vector3 dir);
+    public static event BlowWind OnWindBlow;
+
     void Start()
     {
-        StartCoroutine("PlayAmbientTrack");
-        StartCoroutine("PlayAmbientMusic");
+        StartCoroutine(PlayAmbientTrack());
+        ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //Making it trackable
 
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
+    void OnDisable()
+    {
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
     IEnumerator PlayAmbientTrack()
     {
-        while(gameObject.activeSelf)
+        while (gameObject.activeSelf)
         {
             float trackCooldown = Random.Range(2f, 15f);
-            yield return new WaitForSecondsRealtime(trackCooldown);
-            float r = Random.Range(0,2f);
-            if(TimeManager.Instance.currentHour < 6 && TimeManager.Instance.currentHour > 20)
+            yield return new WaitForSeconds(trackCooldown);
+            float r = Random.Range(0, 1f);
+            if(r > .65f) //blow wind
+            {
+                ambienceSource.clip = windAmbience[Random.Range(0, windAmbience.Length)];
+                Vector3 windDirection = new Vector3(Random.Range(-1, 1f), 0, 0);
+                OnWindBlow?.Invoke(windDirection);
+                print("Wind");
+            }
+            else if (TimeManager.Instance.currentHour < 6 || TimeManager.Instance.currentHour > 20)
             {
                 ambienceSource.clip = nightAmbience[Random.Range(0, nightAmbience.Length)];
             }
@@ -36,27 +55,72 @@ public class AmbientAudioManager : MonoBehaviour
             }
             float trackRuntime = ambienceSource.clip.length;
             ambienceSource.Play();
-            yield return new WaitForSecondsRealtime(trackRuntime);
+            yield return new WaitForSeconds(trackRuntime);
         }
     }
+
     IEnumerator PlayAmbientMusic()
     {
-        while(gameObject.activeSelf)
+        while (gameObject.activeSelf)
         {
-            float musicCooldown = Random.Range(10, 30);
+            float musicCooldown = Random.Range(5, 10);
             yield return new WaitForSecondsRealtime(musicCooldown);
-            musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
+            Debug.Log("CoolDown Done picking song");
+            if (TimeManager.Instance.isDay)
+                musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
+            else
+                musicSource.clip = musicNightAmbience[Random.Range(0, musicNightAmbience.Length)];
             float musicRuntime = musicSource.clip.length;
             musicSource.Play();
+            Debug.Log("Playing MUSIC");
             yield return new WaitForSecondsRealtime(musicRuntime);
+            Debug.Log("Song ended"); 
         }
     }
 
     void HourUpdate()
     {
-        if(TimeManager.Instance.currentHour == 8)
+        if (TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 20)
         {
-            ambienceSource.PlayOneShot(bellTower);
+            StartCoroutine(FadeBell());
+            //StopCoroutine(PlayAmbientMusic());
+            //StartCoroutine(FadeAudio());
+            //StartCoroutine(PlayAmbientMusic());
+
+            //ambienceSource.PlayOneShot(bellTower);
+            //This commented out bit of code would stop the current coroutine and then run it again
+
+            if (ambientMusicCoroutine != null)
+            {
+                StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+                //musicSource.Stop(); // Stop current music
+            }
+            Debug.Log("It's either 6 or 20 music time");
+            StartCoroutine(FadeAudio()); 
         }
+    }
+
+    IEnumerator FadeAudio()
+    {
+        float oldVolume = musicSource.volume;
+        float currentVolume = oldVolume;
+
+        while (currentVolume > 0)
+        {
+            yield return new WaitForSeconds(0.2f);
+            currentVolume -= 0.01f;
+            musicSource.volume = currentVolume;
+        }
+
+        musicSource.Stop();
+        musicSource.volume = oldVolume;
+
+        ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //restarts coroutine
+    }
+
+    IEnumerator FadeBell()
+    {
+        yield return new WaitForSeconds(2.5f);
+        ambienceSource.PlayOneShot(bellTower);
     }
 }

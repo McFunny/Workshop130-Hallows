@@ -1938,13 +1938,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 40
   maxHealth: 40
-  corpseHealth: -50
-  ichorWorth: 5
-  ichorDropRadius: 2
+  corpseHealth: -15
+  ichorWorth: 4
+  ichorDropRadius: 3.5
   creatureData: {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
+  allColliders: []
+  corpseParticleTransform: {fileID: 0}
+  corpseType: 0
   rb: {fileID: 6199325105305565090}
   anim: {fileID: 648429217254470646}
   droppedItems:
@@ -1954,10 +1957,11 @@ MonoBehaviour:
   - 5
   - 5
   sightRange: 8
+  attackRange: 6
   playerInSightRange: 0
   playerInAttackRange: 0
   shovelVulnerable: 1
-  isTrapped: 0
+  fireVulnerable: 1
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
@@ -1966,6 +1970,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
   - {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
   - {fileID: 11400000, guid: 8172637bdf1f08549abde986d4a5a463, type: 2}
+  - {fileID: 11400000, guid: 72c60368592508e4bb2600b17d058377, type: 2}
+  - {fileID: 11400000, guid: c340655b4291c0442892bcb81daa89f7, type: 2}
+  - {fileID: 11400000, guid: c2d33e782985c304b9119a73557d93ae, type: 2}
+  - {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   currentState: 0
 --- !u!135 &1211989634709210915
 SphereCollider:
@@ -2034,11 +2042,14 @@ MonoBehaviour:
   moveSound: {fileID: 8300000, guid: 41ee24f61477af04eb448d5aed4d56ee, type: 3}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
-  hitSound: {fileID: 0}
+  idleSounds:
+  - {fileID: 8300000, guid: bcf71669876779049bb2f29fc93c259c, type: 3}
+  hitSounds:
+  - {fileID: 8300000, guid: 107ccd5aff6be6a46a6a0a49b42850f0, type: 3}
+  footSteps: []
   deathSound: {fileID: 0}
-  miscSound: {fileID: 0}
-  hitParticles: {fileID: 0}
-  deathParticles: {fileID: 0}
+  miscSound: {fileID: 8300000, guid: 4b87ed1ad983d044c883859f18e18d15, type: 3}
+  miscSound2: {fileID: 8300000, guid: 89d4c6fca6a26464f87e65f2ebf86b75, type: 3}
 --- !u!82 &6149756961216673137
 AudioSource:
   m_ObjectHideFlags: 0

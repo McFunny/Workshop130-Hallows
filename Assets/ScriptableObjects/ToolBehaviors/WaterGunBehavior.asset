@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae5021b3ddc0fa4e9ad19de820f446b, type: 3}
+  m_Name: WaterGunBehavior
+  m_EditorClassIdentifier: 
+  usingPrimary: 0
+  usingSecondary: 0
+  player: {fileID: 0}
+  tool: 6
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
+  shoot: {fileID: 8300000, guid: 67ab51e620e973b43a0b41541538ae3c, type: 3}
+  charge: {fileID: 0}
+  refill: {fileID: 8300000, guid: 642cd19220282564bb9aed0b56c1eb57, type: 3}
+  targetHighlight: {fileID: 1466330864091927725, guid: bc954b06dcd4d0e4793da335de68d226,
+    type: 3}
+  range: 3

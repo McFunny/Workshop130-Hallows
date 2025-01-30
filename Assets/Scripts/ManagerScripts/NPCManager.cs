@@ -8,18 +8,20 @@ public class NPCManager : MonoBehaviour
 
     public static NPCManager Instance;
 
-    [Header("Main Quest Progression Bools")]
-    public bool rascalWantsFood;
-    public bool rascalMentionedKey;
+    //[Header("Main Quest Progression Bools")]
+    //public bool rascalWantsFood;
+    //public bool rascalMentionedKey;
 
-    //Look at how quantums saves their bool system with a dictionary. Take pics for ref
-    //static Dictionary<BoolKey, bool> NarrativeBools = new Dictionary<BoolKey, bool>(); 
-    //NarrativeBools.Add("BoolKey.RascalWantsFood", rascalWantsFood);
-    //NarrativeBools.Add("BoolKey.RascalMentionedKey", rascalMentionedKey);
 
-    //[Header("NPC Fed Bools")]
-    //public bool rascalFed = false;
-    //public bool lumberjackFed = false;
+    [Header("NPC Fed Bools")]
+    public bool rascalFed = false;
+    public bool lumberjackFed = false;
+    public bool botanistFed = false;
+
+    [Header("NPC Spoken Bools")]
+    public bool rascalSpoke = false;
+    public bool lumberjackSpoke = false;
+    public bool botanistSpoke = false;
 
     void Awake()
     {
@@ -34,15 +36,24 @@ public class NPCManager : MonoBehaviour
 
     }
 
-    public void InitializeDictionary()
+    void Start()
     {
-        //called after the save data becomes updated
+        TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
-}
+    public void HourUpdate()
+    {
+        if(TimeManager.Instance.currentHour == 6)
+        {
+            rascalSpoke = false;
+            lumberjackSpoke = false;
+            botanistSpoke = false;
+        }
+    }
 
-public enum BoolKey
-{
-    RascalWantsFood,
-    RascalMentionedKey
+    private void OnDisable()
+    {
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
 }

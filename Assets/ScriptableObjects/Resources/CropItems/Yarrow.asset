@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
+  m_Name: Yarrow
+  m_EditorClassIdentifier: 
+  ID: -1
+  displayName: Yarrow
+  description: Small yellow flower with leaves that have a surprisingly high vitamin
+    count. Restores 24 Stamina.
+  icon: {fileID: -1453312676, guid: 48b3766b678c142459e312073a2835f7, type: 3}
+  maxStackSize: 10
+  value: 14
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 24
+  itemInputsKBM:
+  - LMB - Consume
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item
+  - RT - Consume

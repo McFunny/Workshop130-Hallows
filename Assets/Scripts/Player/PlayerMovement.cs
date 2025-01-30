@@ -1,8 +1,6 @@
+using Cinemachine;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using System;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -14,9 +12,10 @@ public class PlayerMovement : MonoBehaviour
 
     public float groundDrag;
 
-
     public Transform orientation;
-  
+
+    public CinemachineVirtualCamera playerCamera;
+    public Camera toolCamera, effectsCamera;
 
     public static bool isStalled, isCodexOpen;
     public static bool accessingInventory;
@@ -30,43 +29,66 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     ControlManager controlManager;
-    private bool isSprinting;
+    HeadBobController headBobController;
+    public bool isSprinting;
+
+    private Coroutine fovCoroutine;
+
+    bool playerCanMove = true;
+
+    [HideInInspector]
+    public float velocity;
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        headBobController = FindFirstObjectByType<HeadBobController>();
     }
+
     private void Start()
-    {  
+    {
         isSprinting = false;
         savedMoveSpeed = moveSpeed;
         accessingInventory = false;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        restrictMovementTokens = 0;
     }
 
     private void OnEnable()
     {
         controlManager.sprint.action.started += Sprint;
-        //controlManager.sprint.action.canceled += Sprint;
+        controlManager.sprint.action.canceled += CancelSprint;
     }
+
     private void OnDisable()
     {
         controlManager.sprint.action.started -= Sprint;
-        //controlManager.sprint.action.canceled -= Sprint;
+        controlManager.sprint.action.canceled -= CancelSprint;
     }
 
     private void Update()
     {
+        if (playerCanMove && restrictMovementTokens > 0)
+        {
+            playerCanMove = false;
+            CancelSprintManually(); // Cancel sprinting and reset FOV when movement is restricted
+            print("Player cannot move");
+        }
+        if (!playerCanMove && restrictMovementTokens == 0)
+        {
+            playerCanMove = true;
+            print("Player is able to move");
+        }
+
         MyInput();
         if (isStalled || isCodexOpen)
             return;
 
-        //MyMovementInput();
+        HandleSprintCheck();
         SpeedControl();
         rb.drag = groundDrag;
         GroundedCheck();
-
     }
 
     private void FixedUpdate()
@@ -78,12 +100,44 @@ public class PlayerMovement : MonoBehaviour
 
     private void Sprint(InputAction.CallbackContext obj)
     {
-        isSprinting = !isSprinting;
+        Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
+
+        // Allow sprinting if moving forward (positive y) and tolerate slight sideways movement
+        if (moveInput.y > 0.1f && !isStalled) // Adjust threshold to detect forward movement
+        {
+            isSprinting = true;
+
+            if (fovCoroutine != null)
+                StopCoroutine(fovCoroutine);
+
+            float targetFoV = 70f;
+            fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f));
+        }
     }
 
+
+
+    private void CancelSprint(InputAction.CallbackContext obj)
+    {
+        // Return early if sprinting has already been cancelled
+        if (!isSprinting) return;
+
+        CancelSprintManually();
+    }
+
+    private void CancelSprintManually()
+    {
+        
+        isSprinting = false;
+
+        if (fovCoroutine != null)
+            StopCoroutine(fovCoroutine);
+
+        float targetFoV = 60f;
+        fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f));
+    }
     private void MyInput()
     {
-
         if (accessingInventory || restrictMovementTokens > 0)
         {
             isStalled = true;
@@ -94,25 +148,49 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     private void MovePlayer()
     {
-        // calculate movement direction
         Vector2 move = controlManager.movement.action.ReadValue<Vector2>();
         moveDirection = orientation.forward * move.y + orientation.right * move.x;
 
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
     }
+
+    private void HandleSprintCheck()
+    {
+        if (isSprinting && !isStalled)
+        {
+            Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
+
+           
+            if (moveInput.y <= 0.1f) 
+            {
+                isSprinting = false;
+
+                if (fovCoroutine != null)
+                    StopCoroutine(fovCoroutine);
+
+                fovCoroutine = StartCoroutine(LerpFieldOfView(60f, 0.5f));
+            }
+        }
+    }
+
+
 
     private void SpeedControl()
     {
-        if(isSprinting){moveSpeed = sprintSpeed;}
-        else{moveSpeed = savedMoveSpeed;}
+        if (isSprinting)
+        {
+            moveSpeed = sprintSpeed;
+        }
+        else
+        {
+            moveSpeed = savedMoveSpeed;
+        }
 
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        // limit velocity if needed
+        // Limit velocity if needed
         if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -123,10 +201,9 @@ public class PlayerMovement : MonoBehaviour
     private void GroundedCheck()
     {
         RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, 2f))
-        { 
-            //grounded
+        {
+            // Grounded
         }
         else
         {
@@ -134,4 +211,27 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private IEnumerator LerpFieldOfView(float targetFoV, float duration)
+    {
+        float startFoV = playerCamera.m_Lens.FieldOfView;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            playerCamera.m_Lens.FieldOfView = Mathf.Lerp(startFoV, targetFoV, elapsedTime / duration);
+            toolCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
+            effectsCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
+            yield return null;
+        }
+
+        playerCamera.m_Lens.FieldOfView = targetFoV;
+        toolCamera.fieldOfView = targetFoV;
+        effectsCamera.fieldOfView = targetFoV;
+    }
+
+    public Vector3 GetVelocity()
+    {
+        return rb.velocity;
+    }
 }

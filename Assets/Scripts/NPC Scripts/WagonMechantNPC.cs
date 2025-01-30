@@ -6,7 +6,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
 
-    public Animator anim;
+    //public Animator anim;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
@@ -21,6 +21,15 @@ public class WagonMerchantNPC : NPC, ITalkable
         shopUI = FindObjectOfType<WaypointScript>();
         RefreshStore();
         TimeManager.OnHourlyUpdate += HourlyUpdate;
+        for(int i = 0; i < storeItems.Length; i++)
+        {
+            storeItems[i].seller = this;
+        }
+    }
+
+    void OnDestroy()
+    {
+        TimeManager.OnHourlyUpdate -= HourlyUpdate;
     }
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -46,9 +55,10 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(dialogueController.IsInterruptable() == false)
+        ToolItem tItem = item as ToolItem;
+        if(dialogueController.IsInterruptable() == false || tItem)
         {
-            interactSuccessful = true;
+            interactSuccessful = false;
             return;
         } 
         if(item.sellValueMultiplier == 0 || item.value == 0)
@@ -64,8 +74,10 @@ public class WagonMerchantNPC : NPC, ITalkable
         else
         {
             //Can Buy
+            print("I Ran");
             if(lastSeenItem != item)
             {
+                print("I have not seen this item yet");
                 //Are you sure?
                 lastSeenItem = item;
                 dialogueController.restartDialogue = true;
@@ -77,6 +89,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             else
             {
+                print("Repeated item");
                 //Sold, remove item and gain money
                 currentPath = 2;
                 currentType = PathType.Misc;
@@ -100,6 +113,10 @@ public class WagonMerchantNPC : NPC, ITalkable
             if(PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
             {
                 currentPath = 6; //no money!?!?!?
+            }
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                currentPath = 7; //No space in inventory
             }
             else
             {
@@ -162,10 +179,11 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(lastInteractedStoreItem)
         {
             //lastInteractedStoreItem.arrowObject.SetActive(false);
-            shopUI.shopImgObj.SetActive(false);
+            //shopUI.shopImgObj.SetActive(false);
             lastInteractedStoreItem = null;
         }
-        if(lastSeenItem) lastSeenItem = null;
+        if(lastSeenItem) lastSeenItem = null; 
+        shopUI.shopImgObj.SetActive(false);
     }
 
     public void HourlyUpdate()

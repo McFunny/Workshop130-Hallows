@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Rascal
   defaultPath:
-    pathName: Default
+    pathName: Introduction
     paragraphs:
-    - What are you lookin at, gramps.
-    emotions: 00000000
+    - Ahh! Everyone, come look!
+    - One of those Mist Walkers got into town!
+    - .... Oh wait.... False alarm...
+    - Its just that new plant guy.
+    emotions: 05000000060000000000000006000000
   questCompletePath:
     pathName: 
     paragraphs:
@@ -33,35 +36,58 @@ MonoBehaviour:
   - pathName: Filler1
     paragraphs:
     - You look pretty old.
-    emotions: 00000000
+    emotions: 03000000
   - pathName: Filler2
     paragraphs:
     - You are from the farm?
     - Ha, I can tell.
     emotions: 0000000001000000
+  - pathName: Filler3
+    paragraphs:
+    - Everyone in this town is always "<color=#E0D38F>Mints</color> <sprite index=0>
+      this and <color=#E0D38F>Mints</color> <sprite index=0> that.
+    - Is no one going to mention the freak in the wagon handing them out?
+    emotions: 0300000002000000
+  - pathName: Filler4
+    paragraphs:
+    - I've always wanted to see what that hooded weirdo keeps in his wagon, but I
+      can never get the drop on him.
+    - He is always in there... Always watching...
+    - ...
+    - What a bore!
+    emotions: 00000000040000000600000001000000
   questPaths:
   - pathName: Fetch Quest
     paragraphs: []
     emotions: 
   - pathName: Food For Thought
     paragraphs:
-    - I see you eyeing that big door. I bet you want to know how to open it.
+    - I see you eyeing that big door. I bet you want to know how to open it. {freezePlayer}
     - Well, I MAY know where the key is... But I am just soooo hungry, I can barely
       remember...
     - Maybe a Pale Carrot would jog my memory...
-    emotions: 000000000000000000000000
+    emotions: 000000000100000002000000
   - pathName: Inform of Key
     paragraphs:
-    - Now we are talking! {itemGiven}
-    - Alright, I HEARD there lies the key to the catacombs across the broken bridge.
-    - Talk to that old wood guy. I'm sure he can rebuild that.
-    emotions: 000000000000000000000000
+    - Now we are talking! {itemGiven} {freezePlayer}
+    - Alright, I HEARD there lies the key to the catacombs across the bridge.
+    - Talk to that old wood guy. I'm sure he can clear that big tree in front of
+      it.
+    emotions: 010000000500000000000000
   itemRecievedPaths:
+  - pathName: Go Sell that
+    paragraphs:
+    - Hey, you should give that to me instead of that creep in the wagon. I'm famished!
+    emotions: 01000000
   - pathName: Thanks For Item!
     paragraphs:
-    - Oh man, I was starving!
+    - Oh man, I was starving! {itemGiven}
     - Thanks, geezer!
-    emotions: 0000000000000000
+    emotions: 0100000001000000
+  - pathName: Im Full
+    paragraphs:
+    - Chill gramps, I still ain't done with the last thing you brought me!
+    emotions: 05000000
   itemSpecificRemarks:
   - pathName: So What?
     paragraphs:
@@ -72,4 +98,7 @@ MonoBehaviour:
     - Wait, you actually found a key there??
     - I mean, of course you found the key!
     - Go open the door by the graveyard. At least, I think thats where it goes.
-    emotions: 050000000000000000000000
+    emotions: 050000000100000000000000
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 2
   displayName: WaterCan
-  description: I Wonder
+  description: Can be refilled at a well or water barrels to water crops.
   icon: {fileID: 21300000, guid: 72d7b55a005625a42828ce8559296887, type: 3}
   maxStackSize: 1
   value: 0
@@ -22,6 +22,10 @@ MonoBehaviour:
   isKeyItem: 1
   hasModel: 1
   staminaValue: 0
+  itemInputsKBM:
+  - LMB - Water Soil
+  itemInputsController:
+  - RT - Water Soil
   durability: 100
   behavior: {fileID: 11400000, guid: a14397d01a318ea469bfd45b59737143, type: 2}
   tool: 3

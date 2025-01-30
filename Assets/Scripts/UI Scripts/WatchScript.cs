@@ -1,22 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 
 public class WatchScript : MonoBehaviour
 {
-    public GameObject watchHand;
+    public GameObject watchHand, amImage, pmImage;
+    public Animator animator;
+    ControlManager controlManager;
+    bool isClockAnimating = false;
 
-    // Update is called once per frame
+
+    void Awake()
+    {
+        controlManager = FindFirstObjectByType<ControlManager>();
+    }
+
     void Update()
     {
-        //watchHand.transform.rotation *= Quaternion.Euler(0,0,-30);
         UpdateWatch();
+
+        if(!isClockAnimating && !PauseScript.isPaused)
+        {
+            if(controlManager.moreInfo.action.WasPressedThisFrame()){animator.SetBool("isClockRaised", true);}
+            if(controlManager.moreInfo.action.WasReleasedThisFrame()){animator.SetBool("isClockRaised", false);}
+        }
         
     }
 
-    void UpdateWatch() //Cam don't look at this again it's been a long week
+    void UpdateWatch() //Cam don't look at this again it's been a long week // :)
     {
        watchHand.transform.rotation = Quaternion.Euler(0,0,TimeManager.Instance.currentHour * 30 * -1);
+       //if(TimeManager.Instance.currentHour >= 12)
+       if(TimeManager.Instance.isDay == false)
+       {
+            amImage.SetActive(false);
+            pmImage.SetActive(true);
+       }
+       else
+       {
+            amImage.SetActive(true);
+            pmImage.SetActive(false);
+       }
+    }
+
+    void ClockIsAnimating()
+    {
+        isClockAnimating = true;
+    }
+
+    void ClockIsNotAnimating()
+    {
+        isClockAnimating = false;
     }
 }
