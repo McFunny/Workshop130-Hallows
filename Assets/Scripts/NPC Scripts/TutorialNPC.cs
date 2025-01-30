@@ -11,7 +11,11 @@ public class TutorialNPC : NPC, ITalkable
     void Start()
     {
         if(GameSaveData.Instance.tutorialMerchantSpoke) StartCoroutine(Despawn());
-        else goneAtStart = false;
+        else 
+        {
+            goneAtStart = false;
+            TimeManager.Instance.stopTime = true;
+        }
     }
 
     //void Update
@@ -67,6 +71,7 @@ public class TutorialNPC : NPC, ITalkable
             yield return new WaitForSeconds(1.5f);
             PlayerMovement.restrictMovementTokens--;
             FadeScreen.coverScreen = false;
+            TimeManager.Instance.stopTime = false;
             Destroy(this.gameObject);
         }
     }

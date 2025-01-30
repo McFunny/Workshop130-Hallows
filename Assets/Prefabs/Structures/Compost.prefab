@@ -62,6 +62,7 @@ MonoBehaviour:
   savedItems: []
   damageParticles: {fileID: 0}
   destructionParticles: {fileID: 0}
+  nearbyFires: []
   highlight:
   - {fileID: 5609018054074083657}
   - {fileID: 8731371064553629525}
@@ -69,6 +70,7 @@ MonoBehaviour:
   - {fileID: 8621251933416066402}
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  structureUI: {fileID: 0}
   recoveredItem: {fileID: 11400000, guid: 1c3c20e899a81124d9d03ffd3cd1ad3b, type: 2}
   compost: {fileID: 11400000, guid: ea07bb057af3e1e48b815126a425d0d0, type: 2}
   meat: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
@@ -253,7 +255,7 @@ GameObject:
   - component: {fileID: 7296635076538571882}
   - component: {fileID: 1476620935805824461}
   - component: {fileID: 1872010070382946212}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: handleHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,7 +446,7 @@ GameObject:
   - component: {fileID: 5468892422456064225}
   - component: {fileID: 2847883287396732620}
   - component: {fileID: 4273191586283473955}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: barrelHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,7 +581,7 @@ GameObject:
   - component: {fileID: 1305909206149513141}
   - component: {fileID: 6068137164437539936}
   - component: {fileID: 2952367631951585669}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -662,7 +664,7 @@ GameObject:
   - component: {fileID: 4348477424494770437}
   - component: {fileID: 3537703300427863633}
   - component: {fileID: 373839617063386196}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: doorHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}

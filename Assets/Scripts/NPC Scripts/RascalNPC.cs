@@ -15,7 +15,13 @@ public class RascalNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(!GameSaveData.Instance.rascalWantsFood)
+            if(!GameSaveData.Instance.rascalMet)
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.rascalMet = true;
+            }
+            else if(!GameSaveData.Instance.rascalWantsFood)
             {
                 currentPath = 1;
                 currentType = PathType.Quest;

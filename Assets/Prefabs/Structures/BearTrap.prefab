@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9061230521107757357}
   - component: {fileID: 6361040669296618836}
   - component: {fileID: 6172240808085305497}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BeartrapHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 3303987260021479580}
   - component: {fileID: 7958945479456574630}
   - component: {fileID: 3811635342104687582}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BeartrapHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 2098972546395427651}
   - component: {fileID: 8211214696264290534}
   - component: {fileID: 8978985696502755184}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BeartrapHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,12 +329,14 @@ MonoBehaviour:
   savedItems: []
   damageParticles: {fileID: 0}
   destructionParticles: {fileID: 0}
+  nearbyFires: []
   highlight:
   - {fileID: 3696817023155627874}
   - {fileID: 6231669314896205548}
   - {fileID: 6114969281155303996}
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  structureUI: {fileID: 0}
   recoveredItem: {fileID: 11400000, guid: 1c6623afdf1e992468dd092ddbfe177d, type: 2}
   topClamp: {fileID: 5502362934051062438}
   bottomClamp: {fileID: 3371680878194946726}

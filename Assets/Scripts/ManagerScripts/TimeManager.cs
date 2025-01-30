@@ -119,7 +119,7 @@ public class TimeManager : MonoBehaviour
 
         //if hour is 8, new day transition. dark screen, invoke, save, then brighten screen
             
-        OnHourlyUpdate?.Invoke();
+        if(currentHour != 8) OnHourlyUpdate?.Invoke(); //We want this to trigger AFTER the transition
         //print("Hour passed. Time is now " + currentHour);
         //print("Is it day? " + isDay);
 
@@ -298,7 +298,7 @@ public class TimeManager : MonoBehaviour
                 {
                     structure.TimeLapse(1);
                 }*/
-                OnHourlyUpdate?.Invoke();
+                if(currentHour != 8) OnHourlyUpdate?.Invoke();
             }
             StartCoroutine(NewDayTransition());
         }
@@ -311,6 +311,8 @@ public class TimeManager : MonoBehaviour
 
     IEnumerator NewDayTransition()
     {
+        yield return new WaitUntil(() => PlayerInteraction.Instance.gameOver == false);
+
         PlayerInteraction.Instance.rb.velocity = new Vector3(0,0,0);
         PlayerMovement.restrictMovementTokens++;
         Time.timeScale = 0;
@@ -324,6 +326,7 @@ public class TimeManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         PlayerMovement.restrictMovementTokens--;
         Time.timeScale = 1;
+        OnHourlyUpdate?.Invoke();
     }
 
     [ContextMenu("Set To Start Of Morning")]

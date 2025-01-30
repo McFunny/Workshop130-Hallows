@@ -43,6 +43,8 @@ public class MutatedCrow : CreatureBehaviorScript
 
     public StructureObject scareCrow;
 
+    public bool isDecorCrow = false;
+
 
     FarmLand foundFarmTile;
 
@@ -83,6 +85,9 @@ public class MutatedCrow : CreatureBehaviorScript
         UpdateStructureList();
         targetStructure = null;
         currentState = CreatureState.Idle;
+        point = GetRandomPoint(150);
+        point.y = height * 10;
+        if(isDecorCrow && Random.Range(0,9) > 3) currentState = CreatureState.GoAway;
     }
 
     private void OnDisable()
@@ -150,10 +155,18 @@ public class MutatedCrow : CreatureBehaviorScript
         rb.useGravity = true;
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= sightRange;
-        if (isSummoned || playerInSightRange) //If SUMMONED from a MURDERMANCER it will do its job asap
+        if (isSummoned || playerInSightRange || (isDecorCrow && !TimeManager.Instance.isDay)) //If SUMMONED from a MURDERMANCER it will do its job asap
         {
             rb.useGravity = false;
             rb.freezeRotation = false;
+
+            if(isDecorCrow)
+            {
+                point = GetRandomPoint(150);
+                point.y = height * 10;
+                currentState = CreatureState.GoAway;
+                return;
+            }
 
             if (isAttackCrow && !CheckForScareCrow())
             {
@@ -172,7 +185,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
         }
 
-        else if (!coroutineRunning && !playerInSightRange)
+        else if (!coroutineRunning && !playerInSightRange && !isDecorCrow)
         {
             StartCoroutine(IdleCoroutine()); //Will have it wait on ground or do its job after some time
         }
@@ -226,7 +239,7 @@ public class MutatedCrow : CreatureBehaviorScript
         //USE THIS TO DIVE FOR ITEM
         Vector3 targetPosition = point; //set this to item transform
         float distance = Vector3.Distance(transform.position, targetPosition);
-        float t = (speed * Time.deltaTime) / distance;
+        float t = (speed * 2 * Time.deltaTime) / distance;
         transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t));
         transform.LookAt(targetPosition);
         //After player has reached destination, have it go back to creaturestate.circlepoint and give it a random point
@@ -879,5 +892,15 @@ public class MutatedCrow : CreatureBehaviorScript
     {
         if(!IsGrounded() && health > 0) TakeDamage(100);
         if(IsGrounded() && health <= 0) canCorpseBreak = true;
+    }
+
+    public override void HitWithWater()
+    {
+        if(isDecorCrow && currentState == CreatureState.Idle)
+        {
+            point = GetRandomPoint(150);
+            point.y = height * 10;
+            currentState = CreatureState.GoAway;
+        }
     }
 }
