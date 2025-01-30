@@ -33,6 +33,11 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool isObstacle = true;
 
     [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
+
+    public ParticleSystem damageParticles;
+    public GameObject destructionParticles;
+
+    public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
     
     [Header("Highlights")]
     public List<GameObject> highlight = new List<GameObject>();
@@ -44,7 +49,12 @@ public class StructureBehaviorScript : MonoBehaviour
 
     [HideInInspector] public bool clearTileOnDestroy = true;
 
+    [Tooltip("Specific UI for this structure, if it has any")]
+    public GameObject structureUI; 
+
     //[Header("Structure Specific")]
+
+    //Once we get structure specific UI to see health, then we can add repairability to structures so players can know if they can dig it up safely
 
 
     public void Awake()
@@ -55,6 +65,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
         TimeManager.OnHourlyUpdate += HourPassed;
         foreach(GameObject thing in highlight) thing.SetActive(false);
+
+        if(structureUI) structureUI.SetActive(false);
 
     }
 
@@ -121,6 +133,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             highlightEnabled = true;
             foreach(GameObject thing in highlight) thing.SetActive(true);
+            if(structureUI) structureUI.SetActive(true);
             StartCoroutine(HightlightFlash());
         }
 
@@ -128,6 +141,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             highlightEnabled = false;
             foreach(GameObject thing in highlight) thing.SetActive(false);
+            if(structureUI) structureUI.SetActive(false);
         }
     }
 
@@ -173,7 +187,7 @@ public class StructureBehaviorScript : MonoBehaviour
         while(onFire)
         {
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
-            else TakeDamage(1);
+            else TakeDamage(2);
             yield return new WaitForSeconds(2f);
             if(onFire)
             {

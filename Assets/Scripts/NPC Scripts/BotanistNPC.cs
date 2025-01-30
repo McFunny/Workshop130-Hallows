@@ -29,7 +29,13 @@ public class BotanistNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(movementHandler.isWorking)
+            if(!GameSaveData.Instance.botMet)
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.botMet = true;
+            }
+            else if(movementHandler.isWorking)
             {
                 currentPath = 0;
                 currentType = PathType.Misc;
@@ -121,6 +127,10 @@ public class BotanistNPC : NPC, ITalkable
             if(PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
             {
                 currentPath = 3; //no money!?!?!?
+            }
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                currentPath = 4; //No space in inventory
             }
             else
             {

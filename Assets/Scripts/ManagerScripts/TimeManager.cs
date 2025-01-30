@@ -7,7 +7,8 @@ public class TimeManager : MonoBehaviour
 {
     //Time
     public int currentMinute = 0; //30 in an hour
-    int minPerHour = 30;
+    int minPerDayHour = 30;
+    int minPerNightHour = 30;
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
                                         /// /Day lasts 14 hours. Morning starts at 6, town opens at 8
@@ -29,6 +30,8 @@ public class TimeManager : MonoBehaviour
     public delegate void HourlyUpdate();
     public static event HourlyUpdate OnHourlyUpdate;
     public bool timeSkipping = false; //Use for game over and sleeping
+    public bool stopTime = false;
+    //Maybe make an event for onSecond, or at least a stoptime bool
 
     public Material skyMat;
     float desiredBlend;
@@ -81,7 +84,8 @@ public class TimeManager : MonoBehaviour
 
         if(sunMoonPivot && canRotate && seconds != 0)
         {
-            sunMoonPivot.rotation = Quaternion.Lerp(fromQuaternion, toQuaternion, seconds/(minPerHour));
+            if(isDay) sunMoonPivot.rotation = Quaternion.Lerp(fromQuaternion, toQuaternion, seconds/(minPerDayHour));
+            else sunMoonPivot.rotation = Quaternion.Lerp(fromQuaternion, toQuaternion, seconds/(minPerNightHour));
         }
     }
 
@@ -90,11 +94,11 @@ public class TimeManager : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(1);
-            if(!DialogueController.Instance.IsTalking())
+            if(!timeSkipping && !stopTime)
             {
                 currentMinute++;
                 LerpSunAndMoon();
-                if(currentMinute >= minPerHour)
+                if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour))
                 {
                     currentMinute = 0;
                     HourPassed();
@@ -115,7 +119,7 @@ public class TimeManager : MonoBehaviour
 
         //if hour is 8, new day transition. dark screen, invoke, save, then brighten screen
             
-        OnHourlyUpdate?.Invoke();
+        if(currentHour != 8) OnHourlyUpdate?.Invoke(); //We want this to trigger AFTER the transition
         //print("Hour passed. Time is now " + currentHour);
         //print("Is it day? " + isDay);
 
@@ -129,12 +133,14 @@ public class TimeManager : MonoBehaviour
                 ToggleDayNightLights(true);
                 break;
             case 6:
-                NextDay();
                 SetSkyBox(0.8f);
                 break;
             case 7:
                 SetSkyBox(1f);
                 ToggleDayNightLights(true);
+                break;
+            case 8:
+                StartCoroutine(NewDayTransition());
                 break;
             //case 17:
                 //ToggleDayNightLights(true);
@@ -258,6 +264,7 @@ public class TimeManager : MonoBehaviour
     {
         StopAllCoroutines();
         timeSkipping = true;
+        stopTime = true;
         int timeDif = 0;
         currentMinute = 0;
         if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
@@ -281,7 +288,7 @@ public class TimeManager : MonoBehaviour
         }
         else //Died during the night
         {
-            while(currentHour != 7)
+            while(currentHour != 8)
             {
                 currentHour++;
                 if(currentHour >= 24) currentHour = 0;
@@ -291,19 +298,35 @@ public class TimeManager : MonoBehaviour
                 {
                     structure.TimeLapse(1);
                 }*/
-                OnHourlyUpdate?.Invoke();
+                if(currentHour != 8) OnHourlyUpdate?.Invoke();
             }
-            NextDay();
+            StartCoroutine(NewDayTransition());
         }
         isDay = true;
         InitializeSkyBox();
         StartCoroutine(TimePassage());
         timeSkipping = false;
+        stopTime = false;
     }
 
-    void NextDay()
+    IEnumerator NewDayTransition()
     {
-        dayNum++; //Maybe play a little screen animation. This is also when the game saves
+        yield return new WaitUntil(() => PlayerInteraction.Instance.gameOver == false);
+
+        PlayerInteraction.Instance.rb.velocity = new Vector3(0,0,0);
+        PlayerMovement.restrictMovementTokens++;
+        Time.timeScale = 0;
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSecondsRealtime(2);
+        dayNum++;
+        //save game
+        NightSpawningManager.Instance.ClearAllCreatures();
+        yield return new WaitForSecondsRealtime(2);
+        FadeScreen.coverScreen = false;
+        yield return new WaitForSecondsRealtime(0.5f);
+        PlayerMovement.restrictMovementTokens--;
+        Time.timeScale = 1;
+        OnHourlyUpdate?.Invoke();
     }
 
     [ContextMenu("Set To Start Of Morning")]

@@ -28,7 +28,13 @@ public class LumberjackNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
+            if(!GameSaveData.Instance.lumberMet)
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.lumberMet = true;
+            }
+            else if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
             {
                 if(!GameSaveData.Instance.lumber_offersDeal)
                 {
@@ -143,6 +149,10 @@ public class LumberjackNPC : NPC, ITalkable
             if(PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
             {
                 currentPath = 3; //no money!?!?!?
+            }
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                currentPath = 4; //No space in inventory
             }
             else
             {

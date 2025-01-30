@@ -19,6 +19,36 @@ public class PlayerInventoryHolder : InventoryHolder
     // New: Unity Action for notifying any inventory changes
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
 
+    public bool useDebugItems;
+
+    [System.Serializable]
+    public class Item
+    {
+        public string name;
+        public InventoryItemData itemData;
+        public int amount;
+    }
+
+    [Header("Starting Items")]
+    [SerializeField] private List<Item> startingItems;
+
+    [Header("Debug Items")]
+    [SerializeField] private List<Item> debugItems;
+
+    [ContextMenu("Name Items")]
+    public void NameItems()
+    {
+        for(int i = 0; i < startingItems.Count; i++)
+        {
+            startingItems[i].name = startingItems[i].itemData.displayName;
+        }
+
+        for(int i = 0; i < debugItems.Count; i++)
+        {
+            debugItems[i].name = debugItems[i].itemData.displayName;
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -51,18 +81,39 @@ public class PlayerInventoryHolder : InventoryHolder
 
     private void EquipTools()
     {
-        InventoryItemData hoe = _database.GetItem(0);
-        InventoryItemData shovel = _database.GetItem(1);
-        InventoryItemData waterCan = _database.GetItem(2);
-        InventoryItemData shotgun = _database.GetItem(3);
-        InventoryItemData ammo = _database.GetItem(4);
-        AddToInventory(hoe, 1);
-        AddToInventory(shovel, 1);
-        AddToInventory(waterCan, 1);
-        AddToInventory(shotgun, 1);
-        AddToInventory(ammo, 2);
-        AddToInventory(ammo, 2);
-        AddToInventory(ammo, 2);
+        foreach (var startingItem in startingItems)
+        {
+            if (startingItem.itemData != null)
+            {
+                bool addedSuccessfully = AddToInventory(startingItem.itemData, startingItem.amount);
+                if (!addedSuccessfully)
+                {
+                    Debug.LogWarning($"Failed to add {startingItem.amount} of {startingItem.itemData.name} to inventory.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Starting item data is null.");
+            }
+        }
+        if (useDebugItems)
+        {
+            foreach (var debugItem in debugItems)
+            {
+                if (debugItem.itemData != null)
+                {
+                    bool addedSuccessfully = AddToInventory(debugItem.itemData, debugItem.amount);
+                    if (!addedSuccessfully)
+                    {
+                        Debug.LogWarning($"Failed to add {debugItem.amount} of {debugItem.itemData.name} to inventory.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Debug item data is null.");
+                }
+            }
+        }
     }
 
     // Method to add items to the correct inventory system (primary or secondary)
@@ -124,8 +175,21 @@ public class PlayerInventoryHolder : InventoryHolder
         return false;
     }
 
+    public bool IsInventoryFull()
+    {
+        if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot))
+        {
+            return false;
+        }
 
-    // Explicitly refresh both inventories (hotbar and backpack)
+        if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public void UpdateInventory()
     {
         //OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);   // Update primary (hotbar)

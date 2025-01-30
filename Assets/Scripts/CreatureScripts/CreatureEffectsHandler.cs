@@ -11,6 +11,7 @@ public class CreatureEffectsHandler : MonoBehaviour
     float originalPitch;
     [HideInInspector]
     public AudioSource source;
+    public AudioSource loopingSource;
     public AudioClip moveSound;
     public AudioClip idleSound1;
     public AudioClip idleSound2;

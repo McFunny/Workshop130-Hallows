@@ -14,14 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: -1
   displayName: Terra Tuber Seeds
-  description: Very easy to grow plant that has the chance to produce multiple crops.
+  description: A slow growing plant that has the chance to produce multiple crops.
     Consumes Terrazyme and produces Gloamphage.
   icon: {fileID: 1226185665, guid: ed83ed8fe1d65064cb837de055a83f95, type: 3}
   maxStackSize: 20
-  value: 10
+  value: 6
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
+  bonusCompostValue: 0
+  itemInputsKBM:
+  - RMB - Plant
+  itemInputsController:
+  - LT - Plant
   plantable: 1
   cropData: {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
+  ableToBeShot: 1

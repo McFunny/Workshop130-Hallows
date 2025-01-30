@@ -215,6 +215,8 @@ public class DialogueController : MonoBehaviour
                 }
                 break;
         }
+
+        if(freezePlayer && currentTalker && currentTalker.eyeLine) PlayerCam.Instance.NewObjectOfInterest(currentTalker.eyeLine.position);
         
     }
 
@@ -231,6 +233,7 @@ public class DialogueController : MonoBehaviour
         {
             freezePlayer = false;
             PlayerMovement.restrictMovementTokens--;
+            PlayerCam.Instance.ClearObjectOfInterest();
         }
 
         currentTalker.OnConvoEnd();

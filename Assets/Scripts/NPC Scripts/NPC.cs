@@ -10,9 +10,11 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
     public DialogueText dialogueText;
-    public DialogueController dialogueController;
+    [HideInInspector] public DialogueController dialogueController;
     public Animator anim;
     public AudioClip happy, sad, neutral, angry, confused, shocked;
+
+    public Transform eyeLine;
 
     [HideInInspector] public int currentPath = -1; //-1 means default path
     [HideInInspector] public PathType currentType;

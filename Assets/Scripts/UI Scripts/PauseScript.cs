@@ -50,7 +50,7 @@ public class PauseScript : MonoBehaviour
 
     public void PauseGame()
     {
-        if(isTransitioning) return;
+        if(isTransitioning || (!isPaused && PlayerMovement.restrictMovementTokens > 0)) return;
         isPaused = !isPaused;
         if(isPaused)
         {

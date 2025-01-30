@@ -6,12 +6,11 @@ using UnityEngine.Events;
 public class TownGate : MonoBehaviour, IInteractable
 {
     public GameObject townMist, farmMist;
-    public Transform townPos, farmPos;
-    public bool inTown = false;
-    bool transitioning = false;
+    //public Transform townPos, farmPos;
+    //public bool inTown = false;
 
-    public AudioSource source;
-    public UnityAction<IInteractable> OnInteractionComplete { get; set; }
+    public PlayerLocation location;
+    //bool transitioning = false;
 
     public static TownGate Instance;
 
@@ -34,47 +33,22 @@ public class TownGate : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(transitioning /*|| (!TimeManager.Instance.isDay && !inTown)*/)
+        //print(enteringTown);
+        if((location == PlayerLocation.InTown && enteringTown) || (location != PlayerLocation.InTown && !enteringTown)) return;
+        if(enteringTown)
         {
-            interactSuccessful = false;
-            return;
-        }
-        StartCoroutine(Transition());
-        interactSuccessful = true;
-    }
-
-    public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
-    {
-        interactSuccessful = false;
-        return;
-        
-    }
-    
-    public void EndInteraction()
-    {
-       
-    }
-
-    IEnumerator Transition()
-    {
-        transitioning = true;
-        PlayerMovement.restrictMovementTokens++;
-        FadeScreen.coverScreen = true;
-        source.Play();
-        yield return new WaitForSeconds(1);
-        if(inTown)
-        {
-            PlayerInteraction.Instance.transform.position = farmPos.position;
-            townMist.gameObject.SetActive(false);
-            farmPos.gameObject.SetActive(true);
-            inTown = false;
+            //PlayerInteraction.Instance.transform.position = farmPos.position;
+            townMist.gameObject.SetActive(true);
+            farmMist.gameObject.SetActive(false);
+            //inTown = true;
+            location = PlayerLocation.InTown;
         }
         else
         {
-            PlayerInteraction.Instance.transform.position = townPos.position;
-            townMist.gameObject.SetActive(true);
-            farmPos.gameObject.SetActive(false);
-            inTown = true;
+            //PlayerInteraction.Instance.transform.position = townPos.position;
+            townMist.gameObject.SetActive(false);
+            farmMist.gameObject.SetActive(true);
+            location = PlayerLocation.InFarm;
         }
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
@@ -83,7 +57,7 @@ public class TownGate : MonoBehaviour, IInteractable
 
     public void GameOver()
     {
-        inTown = false;
+        location = PlayerLocation.InFarm;
         townMist.gameObject.SetActive(false);
         farmPos.gameObject.SetActive(true);
     }
@@ -131,4 +105,12 @@ public class TownGate : MonoBehaviour, IInteractable
         }
     }
 
+}
+
+public enum PlayerLocation
+{
+    InFarm,
+    InTown,
+    InCrypt,
+    InWilderness
 }

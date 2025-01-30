@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Rascal
   defaultPath:
-    pathName: Default
+    pathName: Introduction
     paragraphs:
-    - What are you lookin at, gramps.
-    emotions: 00000000
+    - Ahh! Everyone, come look!
+    - One of those Mist Walkers got into town!
+    - .... Oh wait.... False alarm...
+    - Its just that new plant guy.
+    emotions: 05000000060000000000000006000000
   questCompletePath:
     pathName: 
     paragraphs:
@@ -53,8 +56,9 @@ MonoBehaviour:
   - pathName: Inform of Key
     paragraphs:
     - Now we are talking! {itemGiven} {freezePlayer}
-    - Alright, I HEARD there lies the key to the catacombs across the broken bridge.
-    - Talk to that old wood guy. I'm sure he can rebuild that.
+    - Alright, I HEARD there lies the key to the catacombs across the bridge.
+    - Talk to that old wood guy. I'm sure he can clear that big tree in front of
+      it.
     emotions: 010000000500000000000000
   itemRecievedPaths:
   - pathName: Go Sell that

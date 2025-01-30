@@ -40,6 +40,10 @@ public class MutatedCrow : CreatureBehaviorScript
     public ParticleSystem attackParticle;
     public ParticleSystem cropParticle;
 
+    public StructureObject scareCrow;
+
+    public bool isDecorCrow = false;
+
 
     FarmLand foundFarmTile;
 
@@ -80,6 +84,9 @@ public class MutatedCrow : CreatureBehaviorScript
         UpdateStructureList();
         targetStructure = null;
         currentState = CreatureState.Idle;
+        point = GetRandomPoint(150);
+        point.y = height * 10;
+        if(isDecorCrow && Random.Range(0,9) > 3) currentState = CreatureState.GoAway;
     }
 
     private void OnDisable()
@@ -144,12 +151,20 @@ public class MutatedCrow : CreatureBehaviorScript
         rb.useGravity = true;
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= sightRange;
-        if (isSummoned || playerInSightRange) //If SUMMONED from a MURDERMANCER it will do its job asap
+        if (isSummoned || playerInSightRange || (isDecorCrow && !TimeManager.Instance.isDay)) //If SUMMONED from a MURDERMANCER it will do its job asap
         {
             rb.useGravity = false;
             rb.freezeRotation = false;
 
-            if (isAttackCrow)
+            if(isDecorCrow)
+            {
+                point = GetRandomPoint(150);
+                point.y = height * 10;
+                currentState = CreatureState.GoAway;
+                return;
+            }
+
+            if (isAttackCrow && !CheckForScareCrow())
             {
                 StartCoroutine(DoAttackCooldown(attackCooldown));
                 currentState = CreatureState.CirclePlayer;
@@ -166,7 +181,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
         }
 
-        else if (!coroutineRunning && !playerInSightRange)
+        else if (!coroutineRunning && !playerInSightRange && !isDecorCrow)
         {
             StartCoroutine(IdleCoroutine()); //Will have it wait on ground or do its job after some time
         }
@@ -220,7 +235,7 @@ public class MutatedCrow : CreatureBehaviorScript
         //USE THIS TO DIVE FOR ITEM
         Vector3 targetPosition = point; //set this to item transform
         float distance = Vector3.Distance(transform.position, targetPosition);
-        float t = (speed * Time.deltaTime) / distance;
+        float t = (speed * 2 * Time.deltaTime) / distance;
         transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t));
         transform.LookAt(targetPosition);
         //After player has reached destination, have it go back to creaturestate.circlepoint and give it a random point
@@ -311,6 +326,7 @@ public class MutatedCrow : CreatureBehaviorScript
         {
             isDead = true;
             StopAllCoroutines();
+            StartCoroutine(DeathTimer());
             rb.useGravity = true;
             rb.AddForce(-Vector3.up * 30);
             transform.LookAt(new Vector3(transform.position.x, 0, transform.position.z));
@@ -688,9 +704,9 @@ public class MutatedCrow : CreatureBehaviorScript
     private void RandomizeStats() //Randomizes many of the birds stats
     {
         circleRadius = Random.Range(5, 15);
-        height = Random.Range(4, 8);
-        speed = Random.Range(7, 8);
-        attackCooldown = Random.Range(3, 15);
+        height = Random.Range(4.5f, 5f);
+        speed = Random.Range(7, 11);
+        attackCooldown = Random.Range(6, 15);
         circleDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
     }
 
@@ -748,6 +764,13 @@ public class MutatedCrow : CreatureBehaviorScript
         }
     }
 
+    IEnumerator DeathTimer()
+    {
+        yield return new WaitForSeconds(3);
+        canCorpseBreak = true;
+        TakeDamage(100);
+    }
+
     private Vector3? FindCrop()
     {
         if (availableStructure.Count == 0) return null;
@@ -775,5 +798,15 @@ public class MutatedCrow : CreatureBehaviorScript
     {
         if(!IsGrounded() && health > 0) TakeDamage(100);
         if(IsGrounded() && health <= 0) canCorpseBreak = true;
+    }
+
+    public override void HitWithWater()
+    {
+        if(isDecorCrow && currentState == CreatureState.Idle)
+        {
+            point = GetRandomPoint(150);
+            point.y = height * 10;
+            currentState = CreatureState.GoAway;
+        }
     }
 }

@@ -17,7 +17,9 @@ public class HandItemManager : MonoBehaviour
 
     public AudioSource toolSource;
 
-    public Transform bulletStart;
+    public AudioClip extinguish;
+
+    public Transform bulletStart, waterBulletStart, waterBulletCloseStart;
 
     void Awake()
     {
@@ -103,7 +105,7 @@ public class HandItemManager : MonoBehaviour
 
     bool MissingObject()
     {
-        if(!hoe || !shovel || !wateringCan || !shotGun)
+        if(!hoe || !shovel || !wateringCan || !shotGun || !torch)
         {
             Debug.Log("Missing a reference to a hand object");
             return true;

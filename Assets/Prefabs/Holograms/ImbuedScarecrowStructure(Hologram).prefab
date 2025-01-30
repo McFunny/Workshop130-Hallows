@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3489082432938875858}
   - component: {fileID: 2709844634184078178}
   - component: {fileID: 874770257443973815}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: scarf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3936378991154030386}
   - component: {fileID: 799793979288988758}
   - component: {fileID: 5551370727938732711}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 356942393471407083}
   - component: {fileID: 7204733138834249949}
   - component: {fileID: 3858145040872838248}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -828,7 +828,7 @@ GameObject:
   - component: {fileID: 6459276024884436515}
   - component: {fileID: 3097804882280435584}
   - component: {fileID: 7026942868267414363}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: rightarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -911,7 +911,7 @@ GameObject:
   - component: {fileID: 8935823617582303426}
   - component: {fileID: 7460885966061969763}
   - component: {fileID: 6619966314590443496}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: leftleg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -994,7 +994,7 @@ GameObject:
   - component: {fileID: 2703546741813378665}
   - component: {fileID: 2237528806357591003}
   - component: {fileID: 3407083562105100228}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1077,7 +1077,7 @@ GameObject:
   - component: {fileID: 2223287023130498082}
   - component: {fileID: 472399873282422918}
   - component: {fileID: 5008000654061534790}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: rightleg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1158,7 +1158,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5833498455101593944}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ImbuedScarecrowStructure(Hologram)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1201,7 +1201,7 @@ GameObject:
   - component: {fileID: 4144109354323269536}
   - component: {fileID: 3909720312117739419}
   - component: {fileID: 7595844221793432649}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1284,7 +1284,7 @@ GameObject:
   - component: {fileID: 2377307066350040087}
   - component: {fileID: 3740702500825281225}
   - component: {fileID: 3713329975695068890}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: leftarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1423,6 +1423,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: imbuedscarecrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

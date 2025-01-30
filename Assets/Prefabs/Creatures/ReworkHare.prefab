@@ -1939,8 +1939,8 @@ MonoBehaviour:
   health: 40
   maxHealth: 40
   corpseHealth: -15
-  ichorWorth: 2
-  ichorDropRadius: 3
+  ichorWorth: 4
+  ichorDropRadius: 3.5
   creatureData: {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
@@ -1957,10 +1957,11 @@ MonoBehaviour:
   - 5
   - 5
   sightRange: 8
+  attackRange: 6
   playerInSightRange: 0
   playerInAttackRange: 0
   shovelVulnerable: 1
-  isTrapped: 0
+  fireVulnerable: 1
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0

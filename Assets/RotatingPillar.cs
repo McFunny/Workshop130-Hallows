@@ -201,5 +201,47 @@ public class RotatingPillar : MonoBehaviour, IInteractable
     {
         isLocked = true;
     }
-    
+
+    public RotatingPillarSaveData ExportSaveData()
+    {
+        return new RotatingPillarSaveData
+        {
+            CurrentRotation = currentPillarRotation,
+            IsCorrectlyOriented = correctlyOrientated,
+            IsLocked = isLocked,
+            SpriteIndices = spriteSaveData
+        };
+    }
+
+    public void ImportSaveData(RotatingPillarSaveData data)
+    {
+        
+        currentPillarRotation = data.CurrentRotation;
+        correctlyOrientated = data.IsCorrectlyOriented;
+        isLocked = data.IsLocked;
+        spriteSaveData = data.SpriteIndices;
+
+       
+        SetRotation(currentPillarRotation);
+
+
+        for (int i = 0; i < spriteRenderers.Count; i++)
+        {
+            if (spriteSaveData.Length > i && specifiedCrop != null)
+            {
+                spriteRenderers[i].sprite = specifiedCrop.cropSprites[spriteSaveData[i]];
+            }
+        }
+    }
+
+}
+
+
+[System.Serializable]
+public struct RotatingPillarSaveData
+{
+    public float CurrentRotation;
+    public bool IsCorrectlyOriented;
+    public bool IsLocked;
+    public int[] SpriteIndices;
 }

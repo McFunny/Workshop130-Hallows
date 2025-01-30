@@ -49,7 +49,7 @@ public class HoeBehavior : ToolBehavior
                 HandItemManager.Instance.toolSource.PlayOneShot(swing);
                 PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.7f));
                 PlayerMovement.restrictMovementTokens++;
-                PlayerInteraction.Instance.StaminaChange(-2);
+                PlayerCam.Instance.NewObjectOfInterest(pos);
             }
 
         }
@@ -62,9 +62,11 @@ public class HoeBehavior : ToolBehavior
 
     public override void ItemUsed() 
     { 
+        PopupEvents.current.TillGround(); // Sends message to the PopupEvents to tell it when to close certain popups
         PlayerInteraction.Instance.StartCoroutine(ExtraLag());
         if(tile) tile.ToolInteraction(tool, out bool playAnim);
         else StructureManager.Instance.SpawnStructure(farmTile, pos);
+        PlayerCam.Instance.ClearObjectOfInterest();
     }
 
     IEnumerator ExtraLag()
