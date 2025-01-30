@@ -70,11 +70,11 @@ public class CodexScript : MonoBehaviour
     {  
         if(!PlayerMovement.accessingInventory && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens > 0)
         {
-            OpenCloseCodex();
+            if(codex.activeSelf){OpenCloseCodex();}
         }
     }
 
-    void CloseCodexPressed(InputAction.CallbackContext obj)
+    void CloseCodexPressed(InputAction.CallbackContext obj) // This doesn't do anything for some reason
     {
         if(!PlayerMovement.accessingInventory && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens > 0)
         {
@@ -83,7 +83,7 @@ public class CodexScript : MonoBehaviour
         
     }
 
-    void OpenCloseCodex()
+    public void OpenCloseCodex()
     {
         print("Codex Opened");
         currentEntry = 0;

@@ -527,7 +527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -25.998901, y: 115.509995}
+  m_AnchoredPosition: {x: -25.999146, y: 115.509995}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1987382957477208780
@@ -1026,7 +1026,6 @@ GameObject:
   - component: {fileID: 4940653931265055564}
   - component: {fileID: 3514895192765225954}
   - component: {fileID: 6519723750394817677}
-  - component: {fileID: 3777784410219745091}
   - component: {fileID: 6804024577458298505}
   - component: {fileID: 1245500353609969796}
   m_Layer: 0
@@ -1102,23 +1101,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &3777784410219745091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4336369602414093392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!95 &6804024577458298505
 Animator:
   serializedVersion: 5
@@ -1299,7 +1281,6 @@ GameObject:
   - component: {fileID: 2118500107798108056}
   - component: {fileID: 6797987342521504650}
   - component: {fileID: 3185194832301479387}
-  - component: {fileID: 1397799070711889916}
   m_Layer: 0
   m_Name: StructureUICanvas
   m_TagString: Untagged
@@ -1373,23 +1354,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &1397799070711889916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4856575402814224126}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &6426964390439792511
 GameObject:
   m_ObjectHideFlags: 0
@@ -2442,7 +2406,7 @@ PrefabInstance:
     - target: {fileID: 3034960757332457580, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -63.2
+      value: -63.19995
       objectReference: {fileID: 0}
     - target: {fileID: 3347663956314865594, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
