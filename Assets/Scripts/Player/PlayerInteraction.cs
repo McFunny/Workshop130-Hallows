@@ -41,7 +41,7 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
 
-    bool gameOver;
+    [HideInInspector] public bool gameOver;
 
     public PopupScript lowStaminaWarning;
 

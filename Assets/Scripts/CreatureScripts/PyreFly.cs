@@ -433,10 +433,20 @@ public class PyreFly : CreatureBehaviorScript
 
     public override void ToolInteraction(ToolType type, out bool success)
     {
-        if(type == ToolType.Torch && !PlayerInteraction.Instance.torchLit && ignited)
+        if(type == ToolType.Torch)
         {
-            HandItemManager.Instance.TorchFlameToggle(true);
-            success = true;
+            if(!PlayerInteraction.Instance.torchLit && ignited)
+            {
+                HandItemManager.Instance.TorchFlameToggle(true);
+                success = true;
+            }
+            if(PlayerInteraction.Instance.torchLit && !ignited)
+            {
+                IgnitionToggle(true);
+                currentState = CreatureState.Wander;
+                success = true;
+            }
+            else success = false;
         }
         else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && ignited)
         {
