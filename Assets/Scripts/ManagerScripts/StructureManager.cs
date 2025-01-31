@@ -46,6 +46,7 @@ public class StructureManager : MonoBehaviour
     void Start()
     {
         PopulateForageables(4, 8);
+        PopulateDecorCrows(0, 2);
     }
 
     void OnDestroy()

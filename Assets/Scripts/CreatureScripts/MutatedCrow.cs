@@ -31,7 +31,7 @@ public class MutatedCrow : CreatureBehaviorScript
     public bool isSummoned = false;
     public float circleRadius = 10f;
     public float height = 5f;
-    public float attackHeight = 2f;
+    public float attackHeight = 1.5f;
     public float speed = 5f;
     public float attackCooldown = 3f;
     public float rotationSpeed = 25f;
@@ -119,9 +119,11 @@ public class MutatedCrow : CreatureBehaviorScript
                 break;
             case CreatureState.CirclePlayer:
                 CircleAroundPlayer();
+                anim.SetBool("IsFlying", true);
                 break;
             case CreatureState.CirclePoint:
                 CircleAroundPoint();
+                anim.SetBool("IsFlying", true);
                 break;
             case CreatureState.AttackPlayer:
                 AttackPlayer();
@@ -131,8 +133,10 @@ public class MutatedCrow : CreatureBehaviorScript
                 break;
             case CreatureState.GoAway:
                 GoAway();
+                anim.SetBool("IsFlying", true);
                 break;
             case CreatureState.Dead:
+                anim.SetBool("IsAttacking", true);
                 DeadBird();
                 break;
             case CreatureState.GoEatCrop:
@@ -152,6 +156,8 @@ public class MutatedCrow : CreatureBehaviorScript
     // ============================
     private void Idle()
     {
+        anim.SetBool("IsFlying", false);
+
         rb.useGravity = true;
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= sightRange;
@@ -298,6 +304,7 @@ public class MutatedCrow : CreatureBehaviorScript
         if (IsGrounded()) //bird is grounded
         {
             Debug.Log("Bird has landed!");
+            anim.SetBool("IsFlying", false);
             rb.useGravity = true;
             coroutineRunning = false;
 
@@ -315,9 +322,9 @@ public class MutatedCrow : CreatureBehaviorScript
             rotation.z = 0;
             transform.eulerAngles = rotation;
 
-            Vector3 targetPosition = transform.position + Vector3.down * (speed * 0.5f) * Time.deltaTime;
+            Vector3 targetPosition = transform.position + Vector3.down * (speed * 0.9f) * Time.deltaTime;
             float distance = Vector3.Distance(transform.position, targetPosition);
-            float t = ((speed * 0.5f) * Time.deltaTime) / distance;
+            float t = ((speed * 0.9f) * Time.deltaTime) / distance;
             transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t));
         }
     }
@@ -331,6 +338,7 @@ public class MutatedCrow : CreatureBehaviorScript
         }
         if (Vector3.Distance(transform.position, targetStructure.transform.position) < 1f) //Arrived at crop eat it
         {
+            anim.SetBool("IsFlying", false);
             if (targetStructure == null) currentState = CreatureState.Idle;
             rb.useGravity = true;
 
@@ -346,6 +354,7 @@ public class MutatedCrow : CreatureBehaviorScript
         }
         else //Fly to CROP
         {
+            anim.SetBool("IsFlying", true);
             Vector3 targetPosition = targetStructure.transform.position + Vector3.down * speed * Time.deltaTime;
             transform.LookAt(targetPosition);
             float distance = Vector3.Distance(transform.position, targetPosition);
@@ -360,6 +369,7 @@ public class MutatedCrow : CreatureBehaviorScript
         currentState = CreatureState.Dead;
         if (!isDead)
         {
+            rb.isKinematic = false;
             isDead = true;
             StopAllCoroutines();
             StartCoroutine(DeathTimer());
@@ -489,9 +499,21 @@ public class MutatedCrow : CreatureBehaviorScript
                         currentState = CreatureState.GoAway;
                     }
                     break;
-                case 2: //GO AWAY
-                    point = GetRandomPoint(150);
-                    currentState = CreatureState.GoAway;
+                case 2: //if player is near, go ATTACK them, if not, GO AWAY
+                    if(CheckForScareCrow())
+                    {
+                        currentState = CreatureState.AttackScarecrow;
+                        break;
+                    }
+                    if (Vector3.Distance(transform.position, player.position) < 50)
+                    {
+                        currentState = CreatureState.CirclePlayer;
+                    }
+                    else
+                    {
+                        point = GetRandomPoint(150);
+                        currentState = CreatureState.GoAway;
+                    }
                     break;
                 case 3: //circle a random point
                     point = GetRandomPoint(15);
@@ -699,31 +721,39 @@ public class MutatedCrow : CreatureBehaviorScript
 
         Vector3 abovePlayerPos = player.position + Vector3.up * attackHeight;
         Vector3 direction = (abovePlayerPos - transform.position).normalized;
-        while (Vector3.Distance(transform.position, abovePlayerPos) > 0.7f)
+        anim.SetBool("IsAttacking", true);
+
+        float timer = 0;
+
+        while (Vector3.Distance(transform.position, abovePlayerPos) > 1.4f && timer < 1)
         {
             float distance = Vector3.Distance(transform.position, abovePlayerPos);
-            float t = (speed * Time.deltaTime) / distance;
+            float t = (speed * 1.5f * Time.deltaTime) / distance;
             transform.position = Vector3.Lerp(transform.position, abovePlayerPos, Mathf.Clamp01(t));
             transform.LookAt(abovePlayerPos);
+            timer += Time.deltaTime;
             yield return null;
         }
 
         // Post-swoop behavior
         Vector3 abovePlayerPosPostSwoop = player.position + Vector3.up * attackHeight;
-        if (Vector3.Distance(transform.position, abovePlayerPosPostSwoop) < 1f) //If close enough hit the player
+        if (Vector3.Distance(transform.position, abovePlayerPosPostSwoop) < 1.5f) //If close enough hit the player
         {
             PlayerInteraction.Instance.StaminaChange(-10);
         }
 
         Vector3 endPos = transform.position + direction * 10f + Vector3.up * height;
-        while (Vector3.Distance(transform.position, endPos) > 1f)
+        timer = 0;
+        while (Vector3.Distance(transform.position, endPos) > 1.4f && timer < 1)
         {
             float distance = Vector3.Distance(transform.position, endPos);
-            float t = (speed * Time.deltaTime) / distance;
+            float t = (speed * 1.5f * Time.deltaTime) / distance;
             transform.position = Vector3.Lerp(transform.position, endPos, Mathf.Clamp01(t));
             transform.LookAt(endPos);
+            timer += Time.deltaTime;
             yield return null;
         }
+        anim.SetBool("IsAttacking", false);
 
         StartCoroutine(DoAttackCooldown(attackCooldown)); //Start attack cooldown
         numberOfAttacks++;
@@ -800,7 +830,7 @@ public class MutatedCrow : CreatureBehaviorScript
         circleRadius = Random.Range(5, 15);
         height = Random.Range(4.5f, 5f);
         speed = Random.Range(7, 11);
-        attackCooldown = Random.Range(6, 15);
+        attackCooldown = Random.Range(3, 6);
         circleDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
     }
 

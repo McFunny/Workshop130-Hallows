@@ -70,4 +70,17 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual void StopWorking(){}
 
     public virtual void ShotAt(){}
+
+    public virtual bool ActionCheck1()
+    {
+        return true;
+    }
+    public virtual bool ActionCheck2()
+    {
+        return true;
+    }
+    public virtual bool ActionCheck3()
+    {
+        return true;
+    }
 }

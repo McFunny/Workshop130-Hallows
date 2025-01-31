@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LumberjackNPC : NPC, ITalkable
 {
-    //public InventoryItemData key, paleCarrot;
+    public InventoryItemData papers;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
