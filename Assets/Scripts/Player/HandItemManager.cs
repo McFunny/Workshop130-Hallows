@@ -178,8 +178,11 @@ public class HandItemManager : MonoBehaviour
         }
         else
         {
-            toolSource.PlayOneShot(extinguish);
-            if(currentHandObject == torch) ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
+            if(currentHandObject == torch)
+            {
+                //ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
+                //toolSource.PlayOneShot(extinguish);
+            } 
             PlayerInteraction.Instance.torchLit = false;
             torchFlame.SetActive(false);
         }

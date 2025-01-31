@@ -41,13 +41,13 @@ public class CodexScript : MonoBehaviour
     void OnEnable()
     {
         controlManager.openCodex.action.started += OpenCodexPressed;
-        controlManager.closeCodex.action.started += CloseCodexPressed;
+        //controlManager.closeCodex.action.started += CloseCodexPressed;
     }
 
     void OnDisable()
     {
         controlManager.openCodex.action.started -= OpenCodexPressed;
-        controlManager.closeCodex.action.started -= CloseCodexPressed;
+        //controlManager.closeCodex.action.started -= CloseCodexPressed;
     }
 
     // Update is called once per frame

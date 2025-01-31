@@ -67,6 +67,14 @@ public class NightSpawningManager : MonoBehaviour
 
     void HourlySpawns()
     {
+        int totalCreatures = 0;
+        for(int i = 0; i < allCreatures.Count; i++)
+        {
+            if(allCreatures[i].creatureData.contribuiteToCreatureCap) totalCreatures++;
+        }
+
+        int maxCreatures = CalculateMaxCreatures();
+
         List<int> creatureTally = new List<int>(); //this list keeps track of the amount of each specific creature
         //Each monster has their weight added to a list
         List<int> weightArray = new List<int>();
@@ -108,12 +116,14 @@ public class NightSpawningManager : MonoBehaviour
             CreatureObject attemptedCreature = creatures[weightArray[r]];
             //If there is enough points to afford the creature and it hasnt reached it's spawn cap, spawn it
             if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreaturesThisHour[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold
-                && attemptedCreature.spawnCap > creatureTally[weightArray[r]] && PlayerInteraction.Instance.totalMoneyEarned >= attemptedCreature.wealthPrerequisite)
+                && attemptedCreature.spawnCap > creatureTally[weightArray[r]] && PlayerInteraction.Instance.totalMoneyEarned >= attemptedCreature.wealthPrerequisite
+                && totalCreatures < maxCreatures)
             {
                 spawnedCreaturesThisHour[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
                 SpawnCreature(attemptedCreature);
                 spawnAttempts++;
+                totalCreatures++;
                 //print("Spawned Creature");
             }
             else 
@@ -155,11 +165,11 @@ public class NightSpawningManager : MonoBehaviour
                 case 1:
                     return 0.4f;
                 case 2:
-                    return 0.2f;
+                    return 0.4f;
                 case 3:
                     return 0.2f;
                 case 4:
-                    return 0;
+                    return 0.1f;
                 case 5:
                     return 0;
                 case 6:
@@ -169,7 +179,7 @@ public class NightSpawningManager : MonoBehaviour
                 case 21:
                     return 0.9f;
                 case 22:
-                    return 0.7f;
+                    return 0.8f;
                 case 23:
                     return 0.7f;
                 case 0:
@@ -244,6 +254,31 @@ public class NightSpawningManager : MonoBehaviour
             if(creature.creatureData == creatureType) tally++;
         }
         return tally;
+    }
+
+    int CalculateMaxCreatures()
+    {
+        switch (TimeManager.Instance.dayNum)
+        {
+            case 1:
+                return 3;
+            case 2:
+                return 6;
+            case 3:
+                return 6;
+            case 4:
+                return 8;
+            case 5:
+                return 8;
+            case 6:
+                return 12;
+            case 7:
+                return 12;
+            default:
+                //use greater than statements
+                return 20;
+        }
+
     }
 
     /*void ChooseCreatureTypesToSpawn()
