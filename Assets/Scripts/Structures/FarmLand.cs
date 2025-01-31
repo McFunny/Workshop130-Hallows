@@ -71,6 +71,8 @@ public class FarmLand : StructureBehaviorScript
 
         SpriteChange();
 
+        OnDamage += Damaged;
+
     }
 
     // Update is called once per frame
@@ -460,6 +462,7 @@ public class FarmLand : StructureBehaviorScript
 
     void OnDestroy()
     {
+        OnDamage -= Damaged;
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         if (crop != null && crop.creaturePrefab)
@@ -507,6 +510,11 @@ public class FarmLand : StructureBehaviorScript
     {
         if((crop || isWeed) && !onFire) return true;
         else return false;
+    }
+
+    void Damaged()
+    {
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }
 
     void FrostDamage() //When watering a frosted crop

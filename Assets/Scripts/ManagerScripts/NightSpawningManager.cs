@@ -10,6 +10,8 @@ public class NightSpawningManager : MonoBehaviour
 
     float difficultyPoints = 0;
     float removedDifficultyPoints = 0; //accumulates when a structure is destroyed by any means
+
+    float difficultyMultiplier = 1; //Increases to 1.25 after 2000 mints are collected. Multiplies difficulty points of structures
     //float originalDifficultyPoints = 0;
 
     public CreatureObject[] creatures; //list of possible creatures to spawn
@@ -229,19 +231,22 @@ public class NightSpawningManager : MonoBehaviour
 
     void CalculateDifficulty()
     {
+        if(PlayerInteraction.Instance.totalMoneyEarned > 2000) difficultyMultiplier = 1.25f;
+        else difficultyMultiplier = 1;
+
         foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
         {
             if(accountedStructures.Contains(structure) || structure.wealthValue == 0) continue;
             if(removedDifficultyPoints > 0) //To account for example, a player removing a barrel, to then replace it elsewhere.
             {
-                removedDifficultyPoints -= structure.wealthValue;
+                removedDifficultyPoints -= structure.wealthValue * difficultyMultiplier;
                 if(removedDifficultyPoints < 0) //removed difficulty points is a negative number
                 {
                     difficultyPoints -= removedDifficultyPoints;
                     removedDifficultyPoints = 0;
                 }
             }
-            else difficultyPoints += structure.wealthValue;
+            else difficultyPoints += structure.wealthValue * difficultyMultiplier;
             accountedStructures.Add(structure);
         }
     }
