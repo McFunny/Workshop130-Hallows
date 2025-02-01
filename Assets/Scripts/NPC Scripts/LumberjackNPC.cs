@@ -51,10 +51,10 @@ public class LumberjackNPC : NPC, ITalkable
                         currentPath = 2;
                         currentType = PathType.Quest;
                     }
-                    else if(PlayerInteraction.Instance.currentMoney >= 200)
+                    else if(PlayerInteraction.Instance.currentMoney >= 400)
                     {
                         //Takes money
-                        PlayerInteraction.Instance.currentMoney -= 200;
+                        PlayerInteraction.Instance.currentMoney -= 400;
                         currentPath = 3;
                         currentType = PathType.Quest;
                         GameSaveData.Instance.lumber_choppedTree = true;
