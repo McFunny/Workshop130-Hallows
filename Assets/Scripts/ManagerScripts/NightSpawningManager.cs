@@ -140,7 +140,8 @@ public class NightSpawningManager : MonoBehaviour
 
         if(allCreatures.Count <= 2 && difficultyPoints < 10)
         {
-            for(int i = 0; i < 1; i++)
+            r = Random.Range(1,4);
+            for(int i = 0; i < r; i++)
             {
                 r = Random.Range(0, fillerCreatures.Length);
                 CreatureObject newCreature = fillerCreatures[r];
@@ -268,7 +269,7 @@ public class NightSpawningManager : MonoBehaviour
             case 1:
                 return 3;
             case 2:
-                return 6;
+                return 5;
             case 3:
                 return 6;
             case 4:
