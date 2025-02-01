@@ -2602,7 +2602,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -2655,7 +2655,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -7481,7 +7481,7 @@ Transform:
   m_GameObject: {fileID: 4924845572783988131}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.1, y: 0, z: -106.2}
+  m_LocalPosition: {x: -9.1, y: 0, z: -98.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7756,6 +7756,8 @@ GameObject:
   - component: {fileID: 6272051581299996177}
   - component: {fileID: 8391427381802313727}
   - component: {fileID: 1864734984650053270}
+  - component: {fileID: 8128180679079574985}
+  - component: {fileID: 6875101852357414110}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -7823,8 +7825,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f9f1e80beadc54f9ec8f58837125c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMinute: 0
-  currentHour: 8
+  currentMinute: 20
+  currentHour: 7
   isDay: 1
   dayNum: 1
   timeText: {fileID: 0}
@@ -7875,7 +7877,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5905684624903694689}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd1f3fb90d70b65408b062340ada8658, type: 3}
   m_Name: 
@@ -7961,6 +7963,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pStamina: 0
   pWater: 0
+  pCurrentMoney: 0
+  pTotalMoneyEarned: 0
+  pDayNumber: 0
   tutorialMerchantSpoke: 0
   rascalWantsFood: 0
   rascalMentionedKey: 0
@@ -7991,6 +7996,30 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a14397d01a318ea469bfd45b59737143, type: 2}
   - {fileID: 11400000, guid: 4dbaa9cb42199164aaa5f5a09dfe838f, type: 2}
   - {fileID: 11400000, guid: 1d30b5f1895f3284bb65e90f4b0cd9af, type: 2}
+--- !u!114 &8128180679079574985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a94f622681e4145b8831f88ceb8f5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6875101852357414110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66ee1e7f6c37eb044a5754d6d86d36c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5964704809646925671
 GameObject:
   m_ObjectHideFlags: 0
@@ -8230,7 +8259,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spot
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -8785,7 +8814,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spot (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

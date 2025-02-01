@@ -6,13 +6,17 @@ using UnityEngine;
 
 public class SaveGameManager : MonoBehaviour
 {
+
+
+
     public static SaveData data;
 
     private void Awake()
     {
+       
         data = new SaveData();
         SaveLoad.OnLoadGame += LoadData;
-    }
+    }   
 
     private void OnDisable()
     {
@@ -24,10 +28,23 @@ public class SaveGameManager : MonoBehaviour
         SaveLoad.DeleteSaveData();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            SaveData();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            TryLoadData();
+        }
+    }
+
     public static void SaveData()
     {
        
-        SaveLoad.CurrentSaveData = data;
+        data = SaveLoad.CurrentSaveData;
 
         SaveLoad.SaveGame(data);
 

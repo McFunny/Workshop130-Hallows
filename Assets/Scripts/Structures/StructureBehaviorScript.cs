@@ -32,6 +32,8 @@ public class StructureBehaviorScript : MonoBehaviour
     [Tooltip("Does this structure impede movement? If yes, creatures will attack this if nearby and facing it")]
     public bool isObstacle = true;
 
+    //public abstract object GetSaveData();
+
     [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
 
     public ParticleSystem damageParticles;

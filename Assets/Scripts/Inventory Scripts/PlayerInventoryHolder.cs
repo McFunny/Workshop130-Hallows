@@ -46,10 +46,17 @@ public class PlayerInventoryHolder : InventoryHolder
         }
     }
 
+
+    private void OnDisable()
+    {
+        SaveLoad.OnLoadGame -= LoadInventory;
+    }
+
     protected override void Awake()
     {
         base.Awake();
         secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
+        SaveLoad.OnLoadGame += LoadInventory;
 
         if (Instance != null && Instance != this)
         {
@@ -62,10 +69,25 @@ public class PlayerInventoryHolder : InventoryHolder
         }
     }
 
+    private void LoadInventory(SaveData data)
+    {
+        if (data.playerInventoryData.primaryInvSystem != null && data.playerInventoryData.secondaryInvSystem != null)
+        {
+            this.primaryInventorySystem = data.playerInventoryData.primaryInvSystem;
+            this.secondaryInventorySize = data.playerInventoryData.secondaryInventorySizeSave;
+
+            // Ensure the secondary inventory system is properly sized
+            this.secondaryInventorySystem = new InventorySystem(this.secondaryInventorySize);
+            this.secondaryInventorySystem = data.playerInventoryData.secondaryInvSystem;
+            UpdateInventory();
+        }
+    }
+
+
     private void Start()
     {
-        var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem);
-        SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
+       
+       
         StartCoroutine(DelayedStart());
     }
 
@@ -73,6 +95,8 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         yield return new WaitForSeconds(0.5f);
         EquipStartingItems();
+        var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
+        SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
     }
 
     private void EquipStartingItems()
@@ -198,6 +222,8 @@ public class PlayerInventoryHolder : InventoryHolder
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
     }
+
+
 }
 
 [System.Serializable]
@@ -205,10 +231,12 @@ public struct PlayerInventorySaveData
 {
     public InventorySystem primaryInvSystem;
     public InventorySystem secondaryInvSystem;
+    public int secondaryInventorySizeSave;
 
-    public PlayerInventorySaveData(InventorySystem _primaryInvSystem, InventorySystem _secondaryInvSystem)
+    public PlayerInventorySaveData(InventorySystem _primaryInvSystem, InventorySystem _secondaryInvSystem, int _secondaryInventorySize)
     {
         primaryInvSystem = _primaryInvSystem;
         secondaryInvSystem = _secondaryInvSystem;
+        secondaryInventorySizeSave = _secondaryInventorySize;
     }
 }
