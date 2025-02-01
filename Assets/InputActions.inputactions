@@ -694,7 +694,7 @@
                 {
                     "name": "",
                     "id": "c99e707d-ea43-4a86-ab96-97c4cf04cc86",
-                    "path": "<Keyboard>/c",
+                    "path": "<Keyboard>/escape",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard",
@@ -705,7 +705,7 @@
                 {
                     "name": "",
                     "id": "88d70990-ea4c-428e-81ce-e7e953d2cd37",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Gamepad",
@@ -961,7 +961,7 @@
                 {
                     "name": "CloseCodex",
                     "type": "Button",
-                    "id": "ea358cd6-ee4d-4db0-ac4f-8d25cc83c537",
+                    "id": "58579211-8fdd-4361-96ff-6801b9d0f18c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1257,45 +1257,34 @@
                 },
                 {
                     "name": "",
-                    "id": "d2bbd11a-d79d-418a-ba27-57ec32f32b2e",
-                    "path": "<Keyboard>/c",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "CloseCodex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7d9520f9-5756-4aed-85db-3b5c0888cceb",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "CloseCodex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0c3e5fb8-0d0f-4daf-ad73-c316d939ab1b",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "CloseCodex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "33704691-4de0-4f86-a738-d6b58f1dc0b0",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9c19c1bf-2b6d-4ee4-be1d-a18c410580fa",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "CloseCodex",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3e2c573-5eeb-4891-b942-a6c8d6f31c40",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CloseCodex",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

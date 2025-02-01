@@ -9,6 +9,7 @@ public class HotbarDisplay : MonoBehaviour
     private int currentIndex;
     TooltipControlsScript tooltipControls; //Handles hovering over structure with item
 
+    public InventoryItemData torch;
     
 
     private void Start()
@@ -92,7 +93,7 @@ public class HotbarDisplay : MonoBehaviour
         // Optionally, use the item in the selected slot
         if (currentSlot.AssignedInventorySlot != null && currentSlot.AssignedInventorySlot.ItemData != null)
         {
-            currentSlot.AssignedInventorySlot.ItemData.UseItem(); //currently just reports what item is in the slot in the debugger
+            //currentSlot.AssignedInventorySlot.ItemData.UseItem(); //currently just reports what item is in the slot in the debugger
 
             ToolItem t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
             if (t_item)
@@ -111,7 +112,7 @@ public class HotbarDisplay : MonoBehaviour
             HandItemManager.Instance.ClearHandModel();
         }
 
-        HandItemManager.Instance.TorchFlameToggle(false);
+        if(PlayerInventoryHolder.Instance.FindItemInBothInventories(torch)) HandItemManager.Instance.TorchFlameToggle(false);
     }
 
     private void UpdateHandItem(InventorySystem inv)

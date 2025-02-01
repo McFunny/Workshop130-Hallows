@@ -9,6 +9,12 @@ public class GameSaveData : MonoBehaviour
     public float pStamina;
     public float pWater;
 
+    public float currentMoney, totalEarnedMoney;
+
+    public int dayNum;
+
+    //
+
     [Header("Main Quest Progression Bools. All must be false when building")]
     public bool tutorialMerchantSpoke; //Tutorial Complete
     public bool rascalWantsFood; //Rascal told the player they want a carrot

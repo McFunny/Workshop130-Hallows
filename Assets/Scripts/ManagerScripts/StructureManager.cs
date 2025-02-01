@@ -11,14 +11,14 @@ public class StructureManager : MonoBehaviour
     public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them 
     //Would also then need an occupied border tile
 
-    public List<StructureBehaviorScript> allStructs;
+    public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
     public GameObject weedTile, farmTree, farmTile, crowPod;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allTiles = new List<Vector3Int>();
-    List<NutrientStorage> storage = new List<NutrientStorage>();
+    List<NutrientStorage> storage = new List<NutrientStorage>(); //MUST BE SAVED
 
     [Header("CropDebugs")]
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
@@ -46,6 +46,7 @@ public class StructureManager : MonoBehaviour
     void Start()
     {
         PopulateForageables(4, 8);
+        PopulateDecorCrows(0, 2);
     }
 
     void OnDestroy()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LumberjackNPC : NPC, ITalkable
 {
-    //public InventoryItemData key, paleCarrot;
+    public InventoryItemData papers;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
@@ -106,6 +106,8 @@ public class LumberjackNPC : NPC, ITalkable
             return;
         } 
 
+        //Add special text for showing him his own tree papers
+
         else if(item.staminaValue > 0)
         {
             currentPath = 0;
@@ -186,11 +188,6 @@ public class LumberjackNPC : NPC, ITalkable
         }
         shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
-    }
-
-    public override void OnConvoEnd()
-    {
-        currentPath = -1;
     }
 
     public override void EmptyShopItem()

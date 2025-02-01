@@ -5,7 +5,7 @@ using UnityEngine.VFX;
 
 public class FarmLand : StructureBehaviorScript
 {
-    public CropData crop; //The current crop planted here
+    public CropData crop; //The current crop planted here //MUST BE SAVED
     public InventoryItemData terraFert, gloamFert, ichorFert, compost;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
@@ -15,13 +15,13 @@ public class FarmLand : StructureBehaviorScript
     public Material dry, wet, barren, barrenWet;
 
     //public float nutrients.waterLevel; //How much has this crop been watered
-    public int growthStage = -1; //-1 means there is no crop
+    public int growthStage = -1; //-1 means there is no crop //MUST BE SAVED
     public int hoursSpent = 0; //how long has the plant been in this growth stage for?
-    int plantStress = 0; //how much stress the plant has, gained from lack of nutrients/water. If 0 stress, the plant can produce seeds
+    int plantStress = 0; //how much stress the plant has, gained from lack of nutrients/water. If 0 stress, the plant can produce seeds //MUST BE SAVED
 
     public bool harvestable = false; //true if growth stage matches crop data growth stages
-    public bool rotted = false;
-    public bool isWeed = false;
+    public bool rotted = false; //MUST BE SAVED
+    public bool isWeed = false; //MUST BE SAVED
     public bool isFrosted = false;
     bool forceDig = false;
 
@@ -70,6 +70,8 @@ public class FarmLand : StructureBehaviorScript
         ichorSplash.Stop();
 
         SpriteChange();
+
+        OnDamage += Damaged;
 
     }
 
@@ -460,6 +462,7 @@ public class FarmLand : StructureBehaviorScript
 
     void OnDestroy()
     {
+        OnDamage -= Damaged;
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         if (crop != null && crop.creaturePrefab)
@@ -507,6 +510,11 @@ public class FarmLand : StructureBehaviorScript
     {
         if((crop || isWeed) && !onFire) return true;
         else return false;
+    }
+
+    void Damaged()
+    {
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }
 
     void FrostDamage() //When watering a frosted crop

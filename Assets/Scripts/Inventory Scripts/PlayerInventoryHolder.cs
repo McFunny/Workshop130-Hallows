@@ -180,6 +180,19 @@ public class PlayerInventoryHolder : InventoryHolder
         return true;
     }
 
+    public bool FindItemInBothInventories(InventoryItemData item)
+    {
+        if (!PrimaryInventorySystem.ContainsItem(item, out List<InventorySlot> invSlot))
+        {
+            if (!secondaryInventorySystem.ContainsItem(item, out List<InventorySlot> invSlot2))
+            {
+                return false;
+            }
+            else return true;
+        }
+        else return true;
+    }
+
     public void UpdateInventory()
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
