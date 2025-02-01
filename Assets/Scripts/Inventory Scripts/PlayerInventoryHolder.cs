@@ -94,7 +94,7 @@ public class PlayerInventoryHolder : InventoryHolder
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(0.5f);
-        EquipStartingItems();
+        if(TimeManager.Instance.dayNum == 1) EquipStartingItems();
         var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
         SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
     }
