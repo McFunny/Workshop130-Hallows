@@ -13,6 +13,9 @@ namespace SaveLoadSystem
 
         // Instead of a dictionary, we store a single instance of player inventory
         public PlayerInventorySaveData playerInventoryData;
+        public AllGameSaveData allGameSaveData;
+
+        //public AllStructuresSaveData allStructuresSaveData;
 
         public SaveData()
         {
@@ -20,6 +23,8 @@ namespace SaveLoadSystem
             activeItems = new SerializableDictionary<string, ItemPickupSaveData>();
             chestDictionary = new SerializableDictionary<string, ChestSaveData>();
             playerInventoryData = new PlayerInventorySaveData(); // Initialize player inventory data
+            allGameSaveData = new AllGameSaveData();
+            //allStructuresSaveData = new AllStructuresSaveData();
         }
     }
 }

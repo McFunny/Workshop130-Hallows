@@ -41,11 +41,30 @@ public class CreatureBehaviorScript : MonoBehaviour
     public int damageToPlayer; //number must be negative
     public bool canCorpseBreak;
 
+    List <Material> allMats = new List<Material>();
+    List <Color> allMatColors = new List<Color>();
+    bool flashing = false;
+    public Color hitColor;
+
     public void Start()
     {
         structManager = StructureManager.Instance;
         effectsHandler = GetComponentInChildren<CreatureEffectsHandler>();
         player = PlayerInteraction.Instance.transform;
+
+        if(hitColor != Color.black)
+        {
+            SkinnedMeshRenderer[] allChildRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+            for(int i = 0; i < allChildRenderers.Length; i++)
+            {
+                foreach(Material mat in allChildRenderers[i].materials)
+                {
+                    mat.EnableKeyword("_EMISSION");
+                    allMats.Add(mat);
+                    allMatColors.Add(mat.GetColor("_EmissionColor"));
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -58,6 +77,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         print("Ouch");
         health -= damage;
+        if(!flashing && hitColor != Color.black) StartCoroutine(DamageFlash());
         if(!isDead)
         {
             OnDamage();
@@ -66,6 +86,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             effectsHandler.OnDeath();
             OnDeath();
+            RefreshEmmision();
             isDead = true;
             //turns into a corpse, and fertilizes nearby crops
         }
@@ -158,6 +179,33 @@ public class CreatureBehaviorScript : MonoBehaviour
             else return null;
         }
         else return null;
+    }
+
+    IEnumerator DamageFlash()
+    {
+        flashing = true;
+        for(int t = 0; t < 2; t++)
+        {
+            for(int i = 0; i < allMats.Count; i++)
+            {
+                allMats[i].SetColor("_EmissionColor", hitColor);
+            }
+            yield return new WaitForSeconds(0.1f);
+            for(int i = 0; i < allMats.Count; i++)
+            {
+                allMats[i].SetColor("_EmissionColor", allMatColors[i]);
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+        flashing = false;
+    }
+
+    void RefreshEmmision()
+    {
+        for(int i = 0; i < allMats.Count; i++)
+        {
+            allMats[i].SetColor("_EmissionColor", allMatColors[i]);
+        }
     }
 
 

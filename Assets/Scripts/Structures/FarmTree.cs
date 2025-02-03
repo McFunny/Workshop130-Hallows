@@ -52,4 +52,29 @@ public class FarmTree : StructureBehaviorScript
             Destroy(this.gameObject);
         }
     }
+
+    /*public override object GetSaveData()
+    {
+        return new FarmTreeSaveData(this);
+    }*/
+}
+
+[System.Serializable]
+
+public struct FarmTreeSaveData
+{
+    public Vector3 position;
+    public float health;
+    public bool onFire;
+    public bool isObstacle;
+    public bool isLargeObject;
+
+    public FarmTreeSaveData(FarmTree farmTree)
+    {
+        position = farmTree.transform.position;
+        health = farmTree.health;
+        onFire = farmTree.onFire;
+        isObstacle = farmTree.isObstacle;
+        isLargeObject = farmTree.structData.isLarge;
+    }
 }

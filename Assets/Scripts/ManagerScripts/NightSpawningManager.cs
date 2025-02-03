@@ -43,6 +43,14 @@ public class NightSpawningManager : MonoBehaviour
         //load old danger values
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I) && !TimeManager.Instance.isDay)
+        {
+            SpawnCreature(creatures[6]);
+        }
+    }
+
     void OnDestroy()
     {
         TimeManager.OnHourlyUpdate -= HourUpdate;
@@ -286,6 +294,7 @@ public class NightSpawningManager : MonoBehaviour
         }
 
     }
+
 
     /*void ChooseCreatureTypesToSpawn()
     {
