@@ -167,11 +167,13 @@ MonoBehaviour:
   savedItems: []
   damageParticles: {fileID: 0}
   destructionParticles: {fileID: 0}
+  nearbyFires: []
   highlight:
   - {fileID: 5191880489385090083}
   - {fileID: 3998815617265785467}
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  structureUI: {fileID: 0}
   recoveredItem: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
   waterLevel: 0
   waterTexture: {fileID: 1932092458134671730}
@@ -308,7 +310,7 @@ GameObject:
   - component: {fileID: 4609617230249663123}
   - component: {fileID: 8438914098227854835}
   - component: {fileID: 4672985896736195808}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +393,7 @@ GameObject:
   - component: {fileID: 236100922340272408}
   - component: {fileID: 1516251892882304214}
   - component: {fileID: 2077513974815884888}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}

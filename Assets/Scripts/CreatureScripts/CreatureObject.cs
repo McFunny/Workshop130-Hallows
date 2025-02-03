@@ -18,6 +18,8 @@ public class CreatureObject : ScriptableObject
 
     public int wealthPrerequisite = 0; //How much money should the player have collected prior to seeing this creature
 
+    public bool contribuiteToCreatureCap = true; //EX Crows shouldnt contribuite to max amount of creatures loaded in. Instead use their spawn cap
+
     public Creature data = new Creature();
 
     public Creature CreateCreature()
