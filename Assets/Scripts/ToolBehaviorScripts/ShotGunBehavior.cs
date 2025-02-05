@@ -52,17 +52,7 @@ public class ShotGunBehavior : ToolBehavior
 
     private bool ShotgunAmmoCheck()
     {
-        var inventory = PlayerInventoryHolder.Instance.PrimaryInventorySystem;
-        if (!inventory.ContainsItem(bulletItem, out List<InventorySlot> invSlot))
-        {
-            inventory = PlayerInventoryHolder.Instance.secondaryInventorySystem;
-            if (!inventory.ContainsItem(bulletItem, out List<InventorySlot> invSlot2))
-            {
-                return false;
-            }
-            else return true;
-        }
-        else return true;
+        return PlayerInventoryHolder.Instance.FindItemInBothInventories(bulletItem);
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)

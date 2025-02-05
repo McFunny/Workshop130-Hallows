@@ -9,6 +9,8 @@ public class Schedule
     public int time;
     public Destination Destination;
     public Action Action;
+    public ActionCheck actionCheck;
+    public ActionAnim actionAnim;
 }
 
 public class NPCMovement : MonoBehaviour
@@ -24,7 +26,8 @@ public class NPCMovement : MonoBehaviour
 
     NPC npcScript;
     bool isTalking = false;
-    bool facePlayer = true;
+
+    ActionAnim actionToPlay = ActionAnim.Stand;
 
     Vector3 currentDestination;
 
@@ -48,6 +51,24 @@ public class NPCMovement : MonoBehaviour
         {
             if (schedule.time == TimeManager.Instance.currentHour)
             {
+                bool passedCheck = true;
+                switch(schedule.actionCheck)
+                {
+                    case ActionCheck.Check1:
+                    passedCheck = npcScript.ActionCheck1();
+                    break;
+                    case ActionCheck.Check2:
+                    passedCheck = npcScript.ActionCheck2();
+                    break;
+                    case ActionCheck.Check3:
+                    passedCheck = npcScript.ActionCheck3();
+                    break;
+                }
+
+                if(!passedCheck) break;
+                
+                
+
                 currentSchedule = schedule;
 
                 // Release the current sublocation if occupied
@@ -102,6 +123,11 @@ public class NPCMovement : MonoBehaviour
 
     IEnumerator MoveToDestination(Transform destination)
     {
+        npcScript.anim.SetBool("IsLeaning", false);
+        yield return new WaitForSeconds(1.5f);
+
+        actionToPlay = currentSchedule.actionAnim;
+
         agent.destination = destination.position;
         currentDestination = destination.position;
 
@@ -143,6 +169,17 @@ public class NPCMovement : MonoBehaviour
     void PerformAction()
     {
         npcScript.anim.SetBool("IsMoving", false);
+
+        switch (actionToPlay)
+        {
+            case ActionAnim.Stand:
+            break;
+            case ActionAnim.Lean:
+            npcScript.anim.SetBool("IsLeaning", true);
+            break;
+            case ActionAnim.Sit:
+            break;
+        }
         switch (currentSchedule.Action)
         {
             case Action.Working:
@@ -177,7 +214,7 @@ public class NPCMovement : MonoBehaviour
     public void TalkToPlayer()
     {
         agent.Stop();
-        if(facePlayer) npcScript.faceCamera.enabled = true;
+        if(actionToPlay == ActionAnim.Stand) npcScript.faceCamera.enabled = true;
         StartCoroutine(ReturnToSchedule());
     }
 
@@ -194,5 +231,20 @@ public class NPCMovement : MonoBehaviour
         agent.Resume();
         //agent.destination = currentDestination;
     }
+}
+
+public enum ActionCheck
+{
+    None,
+    Check1,
+    Check2,
+    Check3
+}
+
+public enum ActionAnim
+{
+    Stand,
+    Lean,
+    Sit
 }
 

@@ -267,7 +267,7 @@ public class FeralHareTest : CreatureBehaviorScript
     IEnumerator JumpCooldownTimer()
     {
         jumpCooldown = true;
-        float time = Random.Range(0.7f, 1.3f);
+        float time = Random.Range(0.9f, 1.3f);
         yield return new WaitForSeconds(currentState == CreatureState.FleeFromPlayer ? time / 2.7f : time);
         jumpCooldown = false;
     }
@@ -304,7 +304,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         if(currentState != CreatureState.Stunned && health > 0)
         {
-            if(currentState == CreatureState.Eat) TakeDamage(20);
+            if(currentState == CreatureState.Eat && health != maxHealth) TakeDamage(20);
             else
             {
                 fleeTimeLeft = 3;

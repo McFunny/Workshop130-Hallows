@@ -55,7 +55,7 @@ public class PopupHandler : MonoBehaviour
     void Update()
     {
         // Debug Inputs to force additions to the Queue
-        if (Input.GetKeyDown(KeyCode.B))
+        /*if (Input.GetKeyDown(KeyCode.B))
         {
             AddToQueue(testPopup);
         }
@@ -66,7 +66,7 @@ public class PopupHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
         {
             AddToQueue(testPopup3);
-        }
+        }*/
 
         if(isActive && moveProgress < maxMoveProgress)
         {

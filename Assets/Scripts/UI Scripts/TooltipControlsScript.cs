@@ -143,7 +143,7 @@ public class TooltipControlsScript : MonoBehaviour
         lmbObj.text = "LMB - Use Item";
 
         var rmbObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
-        rmbObj.text = "RMB - Use Item on Structure";
+        rmbObj.text = "RMB - Apply Item to Interactable";
 
         var spaceObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
         spaceObj.text = "Space - Interact";
@@ -155,7 +155,7 @@ public class TooltipControlsScript : MonoBehaviour
         lmbObjC.text = "RT - Use Item";
 
         var rmbObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
-        rmbObjC.text = "LT - Use Item on Structure";
+        rmbObjC.text = "LT - Apply Item to Interactable";
 
         var spaceObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
         spaceObjC.text = "X - Interact";
