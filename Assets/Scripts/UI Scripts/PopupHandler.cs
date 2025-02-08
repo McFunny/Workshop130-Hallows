@@ -84,7 +84,7 @@ public class PopupHandler : MonoBehaviour
         if (moveProgress == 0) { offScreen = true; }
         else { offScreen = false; }
 
-        print("MP: " + moveProgress);
+        //print("MP: " + moveProgress);
     }
 
     void NightWarning()
@@ -164,7 +164,7 @@ public class PopupHandler : MonoBehaviour
         yield return new WaitUntil(() => offScreen);
         yield return new WaitForSeconds(0.5f);
         isActive = true;
-        print("off");
+        //print("off");
     }
 
     private void OnTillGround()
