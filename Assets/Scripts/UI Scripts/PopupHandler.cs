@@ -55,7 +55,7 @@ public class PopupHandler : MonoBehaviour
     void Update()
     {
         // Debug Inputs to force additions to the Queue
-        if (Input.GetKeyDown(KeyCode.B))
+        /*if (Input.GetKeyDown(KeyCode.B))
         {
             AddToQueue(testPopup);
         }
@@ -66,7 +66,7 @@ public class PopupHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
         {
             AddToQueue(testPopup3);
-        }
+        }*/
 
         if(isActive && moveProgress < maxMoveProgress)
         {
@@ -83,7 +83,7 @@ public class PopupHandler : MonoBehaviour
 
     void NightWarning()
     {
-        if(TownGate.Instance.inTown && TimeManager.Instance.currentHour == 19) AddToQueue(nightWarningPopup);
+        if(TownGate.Instance.location == PlayerLocation.InTown && TimeManager.Instance.currentHour == 19) AddToQueue(nightWarningPopup);
     }
 
     public void AddToQueue(PopupScript popup)

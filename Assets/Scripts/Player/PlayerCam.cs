@@ -52,8 +52,17 @@ public class PlayerCam : MonoBehaviour
     {
         if (PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            if(!ControlManager.isController)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            
             return;
         }
         else if (!PlayerMovement.accessingInventory && !PauseScript.isPaused)

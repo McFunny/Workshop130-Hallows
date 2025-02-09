@@ -29,19 +29,25 @@ public class BotanistNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(dialogueController.IsTalking() == false)
+        if(dialogueController.IsTalking() == false) //Makes sure to not interrupt an existing dialogue branch
         {
-            if(movementHandler.isWorking)
+            if(!GameSaveData.Instance.botMet) //Introduction Check
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.botMet = true;
+            }
+            else if(movementHandler.isWorking) //Working Dialogue
             {
                 currentPath = 0;
                 currentType = PathType.Misc;
             }
-            else if(NPCManager.Instance.botanistSpoke)
+            else if(NPCManager.Instance.botanistSpoke) //Say nothing if already given flavor text
             {
                 interactSuccessful = false;
                 return;
             }
-            else if(currentPath == -1)
+            else if(currentPath == -1) //Give 1 daily flavor text
             {
                 int i = Random.Range(0, dialogueText.fillerPaths.Length);
                 currentPath = i;
@@ -53,7 +59,7 @@ public class BotanistNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    public void Talk() //progress what they are saying or start new conversation
     {
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
@@ -158,11 +164,6 @@ public class BotanistNPC : NPC, ITalkable
         }
         shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
-    }
-
-    public override void OnConvoEnd()
-    {
-        currentPath = -1;
     }
 
     public override void EmptyShopItem()

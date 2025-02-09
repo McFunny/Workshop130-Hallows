@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LumberjackNPC : NPC, ITalkable
 {
-    //public InventoryItemData key, paleCarrot;
+    public InventoryItemData papers;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
@@ -29,7 +29,13 @@ public class LumberjackNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
+            if(!GameSaveData.Instance.lumberMet)
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.lumberMet = true;
+            }
+            else if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
             {
                 if(!GameSaveData.Instance.lumber_offersDeal)
                 {
@@ -45,10 +51,10 @@ public class LumberjackNPC : NPC, ITalkable
                         currentPath = 2;
                         currentType = PathType.Quest;
                     }
-                    else if(PlayerInteraction.Instance.currentMoney >= 200)
+                    else if(PlayerInteraction.Instance.currentMoney >= 400)
                     {
                         //Takes money
-                        PlayerInteraction.Instance.currentMoney -= 200;
+                        PlayerInteraction.Instance.currentMoney -= 400;
                         currentPath = 3;
                         currentType = PathType.Quest;
                         GameSaveData.Instance.lumber_choppedTree = true;
@@ -99,6 +105,8 @@ public class LumberjackNPC : NPC, ITalkable
             interactSuccessful = false;
             return;
         } 
+
+        //Add special text for showing him his own tree papers
 
         else if(item.staminaValue > 0)
         {
@@ -180,11 +188,6 @@ public class LumberjackNPC : NPC, ITalkable
         }
         shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
-    }
-
-    public override void OnConvoEnd()
-    {
-        currentPath = -1;
     }
 
     public override void EmptyShopItem()

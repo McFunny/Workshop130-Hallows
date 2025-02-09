@@ -42,7 +42,7 @@ public class Wraith : CreatureBehaviorScript
     {
         if (!isDead)
         {
-            if(TownGate.Instance.inTown) Freeze();
+            if(TownGate.Instance.location != PlayerLocation.InFarm) Freeze();
             else ChasePlayer();
         }
 

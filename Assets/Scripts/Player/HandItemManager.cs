@@ -120,7 +120,7 @@ public class HandItemManager : MonoBehaviour
 
     bool MissingObject()
     {
-        if(!hoe || !shovel || !wateringCan || !shotGun)
+        if(!hoe || !shovel || !wateringCan || !shotGun || !torch)
         {
             Debug.Log("Missing a reference to a hand object");
             return true;
@@ -178,8 +178,11 @@ public class HandItemManager : MonoBehaviour
         }
         else
         {
-            toolSource.PlayOneShot(extinguish);
-            if(currentHandObject == torch) ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
+            if(currentHandObject == torch)
+            {
+                //ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
+                //toolSource.PlayOneShot(extinguish);
+            } 
             PlayerInteraction.Instance.torchLit = false;
             torchFlame.SetActive(false);
         }

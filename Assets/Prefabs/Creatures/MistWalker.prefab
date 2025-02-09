@@ -6474,6 +6474,7 @@ MonoBehaviour:
   pitchMin: 0
   pitchMax: 0
   source: {fileID: 0}
+  loopingSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 8300000, guid: 4ed83a296ee46a14382f4610b6328685, type: 3}
   idleSound2: {fileID: 8300000, guid: 45f89710a684633408759ec66332605e, type: 3}
@@ -8581,10 +8582,12 @@ MonoBehaviour:
   playerInAttackRange: 0
   shovelVulnerable: 1
   fireVulnerable: 1
+  bearTrapVulnerable: 1
   isDead: 0
   damageToStructure: 5
   damageToPlayer: -25
   canCorpseBreak: 0
+  hitColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 0.7176471}
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
   - {fileID: 11400000, guid: 0df10b19e29cb1c48940ea9ef2efcc81, type: 2}

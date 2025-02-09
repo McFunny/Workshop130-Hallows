@@ -8,6 +8,7 @@ public class TorchBehavior : ToolBehavior
     public InventoryItemData thisItem;
     FireFearTrigger fireScript;
     public AudioClip ignite, extinguish;
+    public GameObject placedPrefab;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
@@ -84,6 +85,20 @@ public class TorchBehavior : ToolBehavior
                 } 
             }
         }
+
+        //For placing it down
+        if (Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
+        {
+            //place it on the ground
+            Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
+            if(pos != new Vector3(0,0,0)) 
+            {
+                GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                HotbarDisplay.currentSlot.UpdateUISlot();
+                HandItemManager.Instance.ClearHandModel();
+            }
+        } 
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -93,7 +108,7 @@ public class TorchBehavior : ToolBehavior
         tool = _tool;
 
         //Debug.Log("Used");
-        
+
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
@@ -118,7 +133,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
-                    usingSecondary = true;
+                    usingPrimary = true;
                     PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
@@ -135,7 +150,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
-                    usingSecondary = true;
+                    usingPrimary = true;
                     PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 }
@@ -156,15 +171,26 @@ public class TorchBehavior : ToolBehavior
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
-                    usingSecondary = true;
+                    usingPrimary = true;
                     PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
             }
         }
-
         
-
+        //For placing it down
+        if (Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
+        {
+            //place it on the ground
+            Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
+            if(pos != new Vector3(0,0,0)) 
+            {
+                GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                HotbarDisplay.currentSlot.UpdateUISlot();
+                HandItemManager.Instance.ClearHandModel();
+            }
+        } 
     }
 
     public override void ItemUsed()

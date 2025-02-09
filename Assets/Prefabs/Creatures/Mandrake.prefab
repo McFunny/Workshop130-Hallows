@@ -244,10 +244,12 @@ MonoBehaviour:
   playerInAttackRange: 0
   shovelVulnerable: 1
   fireVulnerable: 1
+  bearTrapVulnerable: 1
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 0
+  hitColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 0.7176471}
   agent: {fileID: 0}
   fleeDistance: 3
   timeBeforeLeavingFarm: 30
@@ -807,6 +809,7 @@ MonoBehaviour:
   pitchMin: 0
   pitchMax: 0
   source: {fileID: 0}
+  loopingSource: {fileID: 0}
   moveSound: {fileID: 8300000, guid: c04b8172b5cdac844a036d62609e4da7, type: 3}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}

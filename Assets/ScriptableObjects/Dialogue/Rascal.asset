@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Rascal
   defaultPath:
-    pathName: Default
+    pathName: Introduction
     paragraphs:
-    - What are you lookin at, gramps.
-    emotions: 00000000
+    - Ahh! Everyone, come look!
+    - One of those Mist Walkers got into town!
+    - .... Oh wait.... False alarm...
+    - Its just that new plant guy.
+    emotions: 05000000060000000000000006000000
   questCompletePath:
     pathName: 
     paragraphs:
@@ -28,7 +31,28 @@ MonoBehaviour:
     paragraphs:
     - Bleh! Something NEW please?
     emotions: 03000000
-  paths: []
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - Hey! Come by my tras- I mean treasure I found!
+    emotions: 01000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - Oh I know you are interested in the {storeItemName}. For such a low price,
+      how could you NOT say yes?!
+    emotions: 01000000
+  - pathName: Sold!
+    paragraphs:
+    - This store stuff is such easy work!! {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - No Stealing! I found this stuff first!
+    emotions: 03000000
+  - pathName: No Space
+    paragraphs:
+    - You should talk to the town fanatic. You both LOVE hoarding useless junk!
+    emotions: 05000000
   fillerPaths:
   - pathName: Filler1
     paragraphs:
@@ -67,8 +91,9 @@ MonoBehaviour:
   - pathName: Inform of Key
     paragraphs:
     - Now we are talking! {itemGiven} {freezePlayer}
-    - Alright, I HEARD there lies the key to the catacombs across the broken bridge.
-    - Talk to that old wood guy. I'm sure he can rebuild that.
+    - Alright, I HEARD there lies the key to the catacombs across the bridge.
+    - Talk to that old wood guy. I'm sure he can clear that big tree in front of
+      it.
     emotions: 010000000500000000000000
   itemRecievedPaths:
   - pathName: Go Sell that
