@@ -20,7 +20,7 @@ public class PopupHandler : MonoBehaviour
     float maxMoveProgress = 0.5f;
 
     private Coroutine queueChecker;
-    private bool isActive, conditionMet;
+    private bool isActive, conditionMet, offScreen;
 
     void Awake()
     {
@@ -79,6 +79,12 @@ public class PopupHandler : MonoBehaviour
             moveProgress -= Time.deltaTime;
             popupTransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
         }
+        if (moveProgress < 0) { moveProgress = 0; }
+
+        if (moveProgress == 0) { offScreen = true; }
+        else { offScreen = false; }
+
+        //print("MP: " + moveProgress);
     }
 
     void NightWarning()
@@ -132,6 +138,7 @@ public class PopupHandler : MonoBehaviour
         queueChecker = null;
     }
 
+
     IEnumerator CloseCondition(PopupScript popup)
     {
         if (popup.endCondition == PopupScript.EndCondition.TimeBased)
@@ -152,6 +159,12 @@ public class PopupHandler : MonoBehaviour
             print("SHOVEL!!!");
             conditionMet = false; // Reset
         }
+        //print("HI!!!");
+        isActive = false;
+        yield return new WaitUntil(() => offScreen);
+        yield return new WaitForSeconds(0.5f);
+        isActive = true;
+        //print("off");
     }
 
     private void OnTillGround()
