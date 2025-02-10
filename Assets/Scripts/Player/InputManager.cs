@@ -83,6 +83,8 @@ public class InputManager : MonoBehaviour
 
     private void PauseGame(InputAction.CallbackContext obj)
     {
+        if(PauseScript.isPaused) { pauseScript.ResumeGame(); return; }
+
         if(PlayerMovement.isCodexOpen) return;
         if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
         if(!PlayerMovement.accessingInventory)
@@ -91,8 +93,8 @@ public class InputManager : MonoBehaviour
             {
                 isCharging = false;
                 chargeButtonHeld = false;
-            }
-            pauseScript.PauseGame();
+                pauseScript.PauseGame();
+            }          
         } 
     }
 
