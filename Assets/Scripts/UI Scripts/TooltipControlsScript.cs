@@ -149,15 +149,15 @@ public class TooltipControlsScript : MonoBehaviour
         spaceObj.text = "Space - Interact";
 
         var invObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
-        invObjC.text = "Y - Open Bag";
+        invObjC.text = "<sprite name=ButtonY> - Open Bag";
 
         var lmbObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
-        lmbObjC.text = "RT - Use Item";
+        lmbObjC.text = "<sprite name=ButtonRT> - Use Item";
 
         var rmbObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
-        rmbObjC.text = "LT - Apply Item to Interactable";
+        rmbObjC.text = "<sprite name=ButtonLT> - Apply Item to Interactable";
 
         var spaceObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
-        spaceObjC.text = "X - Interact";
+        spaceObjC.text = "<sprite name=ButtonX> - Interact";
     }
 }
