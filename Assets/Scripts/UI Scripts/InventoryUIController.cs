@@ -121,7 +121,7 @@ public class InventoryUIController : MonoBehaviour
 
         if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
 
-        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown) return;
         
         if (chestPanel.gameObject.activeInHierarchy)
         {
