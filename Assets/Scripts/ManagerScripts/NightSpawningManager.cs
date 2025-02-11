@@ -17,6 +17,7 @@ public class NightSpawningManager : MonoBehaviour
     public CreatureObject[] creatures; //list of possible creatures to spawn
     public CreatureObject[] fillerCreatures; //list of creatures that can spawn when out of danger points
     List<int> spawnedCreaturesThisHour = new List<int>(); //tracks how many of a specific type of creature was spawned this hour //CREATURES NEED TO BE REMOVED WHEN KILLED
+    Queue<CreatureObject> creatureQueue = new Queue<CreatureObject>(); //Holds the enemies that are set to spawn but have not spawned yet
 
     public List<CreatureBehaviorScript> allCreatures; //all creatures in the scene, have a limit to how many there can be in a scene
     //this list saves all current creatures, and all spawned creatures through this/saved by this manager should be assigned to this list
@@ -131,7 +132,9 @@ public class NightSpawningManager : MonoBehaviour
             {
                 spawnedCreaturesThisHour[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
-                SpawnCreature(attemptedCreature);
+                //SpawnCreature(attemptedCreature); /this is to spawn creatures instantly
+                if(creatureQueue.Count == 0) StartCoroutine(SpawnCreatures());
+                creatureQueue.Enqueue(attemptedCreature);
                 spawnAttempts++;
                 totalCreatures++;
                 //print("Spawned Creature");
@@ -166,6 +169,17 @@ public class NightSpawningManager : MonoBehaviour
         {
             enemy.OnSpawn();
             allCreatures.Add(enemy);
+        }
+    }
+
+    IEnumerator SpawnCreatures()
+    {
+        yield return new WaitForSeconds(0.5f);
+        while(creatureQueue.Count != 0)
+        {
+            yield return new WaitForSeconds(Random.Range(0.5f, 2.5f));
+            CreatureObject c = creatureQueue.Dequeue();
+            SpawnCreature(c);
         }
     }
 
