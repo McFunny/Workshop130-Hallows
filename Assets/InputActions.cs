@@ -926,7 +926,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""a1e819e8-2823-447b-ab9d-2c8cf565b0a6"",
                     ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""OpenInventory"",
