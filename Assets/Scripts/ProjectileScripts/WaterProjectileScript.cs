@@ -22,7 +22,7 @@ public class WaterProjectileScript : MonoBehaviour
         if(other.gameObject.layer == 6)
         {
             //break
-            var structure = other.GetComponent<StructureBehaviorScript>();
+            var structure = other.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 if(structure.onFire) structure.Extinguish();
@@ -31,12 +31,15 @@ public class WaterProjectileScript : MonoBehaviour
                 if(farmTile)
                 {
                     NutrientStorage nutrients = farmTile.GetCropStats();
-                    if(nutrients.waterLevel != 10) farmTile.WaterCrops();
+                    if(nutrients.waterLevel != 10)
+                    {
+                        farmTile.WaterCrops();
+                    }
                     else return;
                 }
                 structure.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-                print("Hit Structure");
+                print("Hit Structure: " + structure);
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                 //gameObject.SetActive(false);
                 StartCoroutine(TurnOff());
@@ -48,7 +51,7 @@ public class WaterProjectileScript : MonoBehaviour
             {
                 npc.ShotAt();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-                print("Hit Person");
+                //print("Hit Person");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                 //gameObject.SetActive(false);
                 StartCoroutine(TurnOff());
@@ -65,7 +68,7 @@ public class WaterProjectileScript : MonoBehaviour
                 creature.TakeDamage(0);
                 creature.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
-                print("Hit Creature");
+                //print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                 //gameObject.SetActive(false);
                 StartCoroutine(TurnOff());
@@ -128,8 +131,8 @@ public class WaterProjectileScript : MonoBehaviour
             rb.velocity = new Vector3(0,0,0);
             Vector3 dir = (transform.position - target).normalized;
             dir *= -1f;
-            rb.AddForce(dir * 150);
-            Debug.Log("ZOOM");
+            rb.AddForce(dir * 100);
+            //Debug.Log("ZOOM");
         }
         yield return new WaitForSeconds(20);
         gameObject.SetActive(false);

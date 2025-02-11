@@ -13,7 +13,8 @@ public class WaterPuzzleTile : StructureBehaviorScript
 
     public float waterLevel;
 
-
+    public bool isSolved = false;
+    public bool isLocked = false;
 
 
     public VisualEffect waterSplash;
@@ -46,15 +47,22 @@ public class WaterPuzzleTile : StructureBehaviorScript
 
         waterLevel -= Time.deltaTime;
 
-        if (waterLevel <= 0)
+        if (waterLevel <= 0 && !isLocked)
         {
             waterCanvas.SetActive(true);
             meshRenderer.material = dry;
+            isSolved = false;
+        }
+        else if (isLocked)
+        {
+            waterCanvas.SetActive(false);
+            meshRenderer.material = wet;
         }
         else
         {
             waterCanvas.SetActive(false);
             meshRenderer.material = wet;
+            isSolved = true;
         }
     }
 

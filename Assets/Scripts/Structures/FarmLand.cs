@@ -5,7 +5,7 @@ using UnityEngine.VFX;
 
 public class FarmLand : StructureBehaviorScript
 {
-    public CropData crop; //The current crop planted here
+    public CropData crop; //The current crop planted here //MUST BE SAVED
     public InventoryItemData terraFert, gloamFert, ichorFert, compost;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
@@ -15,13 +15,13 @@ public class FarmLand : StructureBehaviorScript
     public Material dry, wet, barren, barrenWet;
 
     //public float nutrients.waterLevel; //How much has this crop been watered
-    public int growthStage = -1; //-1 means there is no crop
+    public int growthStage = -1; //-1 means there is no crop //MUST BE SAVED
     public int hoursSpent = 0; //how long has the plant been in this growth stage for?
-    int plantStress = 0; //how much stress the plant has, gained from lack of nutrients/water. If 0 stress, the plant can produce seeds
+    public int plantStress = 0; //how much stress the plant has, gained from lack of nutrients/water. If 0 stress, the plant can produce seeds
 
     public bool harvestable = false; //true if growth stage matches crop data growth stages
-    public bool rotted = false;
-    public bool isWeed = false;
+    public bool rotted = false; //MUST BE SAVED
+    public bool isWeed = false; //MUST BE SAVED
     public bool isFrosted = false;
     bool forceDig = false;
 
@@ -70,6 +70,8 @@ public class FarmLand : StructureBehaviorScript
         ichorSplash.Stop();
 
         SpriteChange();
+
+        OnDamage += Damaged;
 
     }
 
@@ -460,6 +462,7 @@ public class FarmLand : StructureBehaviorScript
 
     void OnDestroy()
     {
+        OnDamage -= Damaged;
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         if (crop != null && crop.creaturePrefab)
@@ -509,6 +512,11 @@ public class FarmLand : StructureBehaviorScript
         else return false;
     }
 
+    void Damaged()
+    {
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+    }
+
     void FrostDamage() //When watering a frosted crop
     {
         //particle
@@ -536,5 +544,62 @@ public class FarmLand : StructureBehaviorScript
             frost.GetComponent<CropFrost>().afflictedTile = this;
             //spawn frost particle and assign it to this
         }
+    }
+
+   /* public override object GetSaveData()
+    {
+        return new FarmLandSaveData(this);
+    }*/
+}
+
+[System.Serializable]
+
+public struct FarmLandSaveData
+{
+    //General Save stuff
+    public Vector3 position;
+    public float health;
+    public bool onFire;
+    public bool isObstacle;
+    public bool isLargeObject;
+
+    //Farmland Specific saves
+    public string cropID;
+    public int growthStage;
+    public int hoursSpent;
+    public int plantStress;
+    public bool harvestable;
+    public bool rotted;
+    public bool isWeed;
+    public bool isFrosted;
+
+    // Nutrients
+    public float ichorLevel;
+    public float terraLevel;
+    public float gloamLevel;
+    public float waterLevel;
+
+    public FarmLandSaveData(FarmLand farmLand)
+    {
+        position = farmLand.transform.position;
+        health = farmLand.health;
+        onFire = farmLand.onFire;
+        isObstacle = farmLand.isObstacle;
+        isLargeObject = farmLand.structData.isLarge;
+
+        cropID = farmLand.crop ? farmLand.crop.name : "";
+        growthStage = farmLand.growthStage;
+        hoursSpent = farmLand.hoursSpent;
+        plantStress = farmLand.plantStress;
+        harvestable = farmLand.harvestable;
+        rotted = farmLand.rotted;
+        isWeed = farmLand.isWeed;
+        isFrosted = farmLand.isFrosted;
+
+        var nutrients = farmLand.GetCropStats();
+        ichorLevel = nutrients.ichorLevel;
+        terraLevel = nutrients.terraLevel;
+        gloamLevel = nutrients.gloamLevel;
+        waterLevel = nutrients.waterLevel;
     }
 }

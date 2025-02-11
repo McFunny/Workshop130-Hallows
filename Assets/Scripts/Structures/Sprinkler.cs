@@ -11,6 +11,8 @@ public class Sprinkler : StructureBehaviorScript
     public GameObject waterVFX;
     bool rotating = false;
 
+    //extinguish fire check
+
     // Start is called before the first frame update
     void Awake()
     {

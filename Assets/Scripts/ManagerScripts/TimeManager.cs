@@ -322,6 +322,7 @@ public class TimeManager : MonoBehaviour
         //save game
         NightSpawningManager.Instance.ClearAllCreatures();
         yield return new WaitForSecondsRealtime(2);
+        SaveGameManager.SaveData();
         FadeScreen.coverScreen = false;
         yield return new WaitForSecondsRealtime(0.5f);
         PlayerMovement.restrictMovementTokens--;

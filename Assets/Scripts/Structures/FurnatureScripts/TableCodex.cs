@@ -12,18 +12,27 @@ public class TableCodex : MonoBehaviour, IInteractable
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
+    private CodexScript codex;
+
+    private void Start()
+    {
+        codex = FindFirstObjectByType<CodexScript>();
+        //codex.gameObject.SetActive(false);
+    }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         print("I interacted!");
         interactSuccessful = true;
+        if(PlayerMovement.isCodexOpen) { return; }
+        //codex.gameObject.SetActive(true);
+        codex.OpenCloseCodex();
     }
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         //
         interactSuccessful = false;
-        
     }
     
     public void EndInteraction()

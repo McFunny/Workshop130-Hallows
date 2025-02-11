@@ -440,7 +440,7 @@ public class PyreFly : CreatureBehaviorScript
                 HandItemManager.Instance.TorchFlameToggle(true);
                 success = true;
             }
-            if(PlayerInteraction.Instance.torchLit && !ignited)
+            else if(PlayerInteraction.Instance.torchLit && !ignited)
             {
                 IgnitionToggle(true);
                 currentState = CreatureState.Wander;

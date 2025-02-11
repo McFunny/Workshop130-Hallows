@@ -131,15 +131,15 @@ public class WaterGunBehavior : ToolBehavior
     public IEnumerator ChargeTimer()
     {
         bulletCount = 0;
-        Debug.Log("0");
+        //Debug.Log("0");
         yield return new WaitForSeconds(0.35f);
         toolAnim.SetBool("EarlyFire", true);
         bulletCount = 1;
-        Debug.Log("1");
+        //Debug.Log("1");
         yield return new WaitForSeconds(0.65f);
         if(InputManager.isCharging)
         {
-            Debug.Log("Showing Range");
+            //Debug.Log("Showing Range");
             HandItemManager.Instance.StartCoroutine(ShowRange());
             maxCharge = true;
         }
@@ -158,7 +158,7 @@ public class WaterGunBehavior : ToolBehavior
             newPos = StructureManager.Instance.GetTileCenter(player.position);
             newDirection = GetDirection();
             //Debug.Log(player.eulerAngles.x);
-            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 90 && player.eulerAngles.x >= 10))
+            if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 45 && player.eulerAngles.x >= 10))
             {
                 currentPos = newPos;
                 currentDirection = newDirection;
@@ -174,7 +174,7 @@ public class WaterGunBehavior : ToolBehavior
                     }
                 }
             }
-            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 90 || player.eulerAngles.x < 10)) 
+            else if(newPos == new Vector3(0,0,0) || (player.eulerAngles.x > 45 || player.eulerAngles.x < 10)) 
             {
                 currentPos = new Vector3(0,0,0);
                 currentDirection = Direction.Null;
@@ -244,9 +244,9 @@ public class WaterGunBehavior : ToolBehavior
                 newBullet.GetComponent<WaterProjectileScript>().homing = true;
                 newBullet.GetComponent<WaterProjectileScript>().target = highlights[i].transform.position;
                 dir = bulletStart.forward  ;//+ new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
-                newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (50 + (extraForce)));
+                newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (60 + (extraForce)));
                 newBullet.GetComponent<Rigidbody>().AddForce(dir * (30 + extraForce));
-                extraForce += 45;
+                extraForce += 50;
             } 
             else
             {
@@ -282,7 +282,7 @@ public class WaterGunBehavior : ToolBehavior
 
         float rotation = player.eulerAngles.y; 
 
-        Debug.Log(rotation);
+        //Debug.Log(rotation);
 
         if(rotation <= 45 || rotation >= 315) newDirection = Direction.South;
 

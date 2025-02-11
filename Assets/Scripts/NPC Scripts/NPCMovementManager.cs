@@ -19,7 +19,8 @@ public enum Destination
     ApothecaryHouse,
     GravediggerHouse,
     Fountain,
-    Spring
+    Spring,
+    RascalSpot
 }
 
 public enum Action

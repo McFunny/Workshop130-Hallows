@@ -22,7 +22,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
     [HideInInspector] public StoreItem lastInteractedStoreItem;
     [HideInInspector] public bool hasSpokeToday, hasEatenToday = false;
 
-    [HideInInspector] public bool hasBeenFed = false;
+    [HideInInspector] public bool hasBeenFed = false; //outdated
     [HideInInspector] public bool startedDialogue = false; //to check if this is the first time the player spoke to them since entering their radius
 
     [HideInInspector] public NPCMovement movementHandler;
@@ -60,11 +60,27 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public virtual void GivePlayerItem(int id, int amount){}
 
-    public virtual void OnConvoEnd(){}
+    public virtual void OnConvoEnd()
+    {
+        currentPath = -1;
+    }
 
     public virtual void BeginWorking(){}
 
     public virtual void StopWorking(){}
 
     public virtual void ShotAt(){}
+
+    public virtual bool ActionCheck1()
+    {
+        return true;
+    }
+    public virtual bool ActionCheck2()
+    {
+        return true;
+    }
+    public virtual bool ActionCheck3()
+    {
+        return true;
+    }
 }

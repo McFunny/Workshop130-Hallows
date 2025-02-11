@@ -85,6 +85,20 @@ public class TorchBehavior : ToolBehavior
                 } 
             }
         }
+
+        //For placing it down
+        if (Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
+        {
+            //place it on the ground
+            Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
+            if(pos != new Vector3(0,0,0)) 
+            {
+                GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                HotbarDisplay.currentSlot.UpdateUISlot();
+                HandItemManager.Instance.ClearHandModel();
+            }
+        } 
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
