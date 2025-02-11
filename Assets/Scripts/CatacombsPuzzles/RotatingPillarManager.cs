@@ -69,7 +69,9 @@ public class RotatingPillarManager : MonoBehaviour
             matchingCrops.RemoveAt(randomIndex);
 
             // Assign the selected crop to the CropKey and set up its sprites
+            Debug.Log(specifiedCrop);
             cropKey.cropData = specifiedCrop;
+            Debug.Log(cropKey.cropData);
             cropKey.SetUpSprites();
 
             // Link the CropKey to the RotatingPillars
