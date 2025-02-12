@@ -14,7 +14,7 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     public abstract void AssignSlot(InventorySystem invToDisplay); // Implemented in child classes
 
-
+//Shift Left click quick move, Right click half stack
     protected virtual void Start()
     {
 
@@ -39,11 +39,16 @@ public abstract class InventoryDisplay : MonoBehaviour
         // Left-click logic:
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData == null)
         {
-            if (isShiftPress && clickedUISlot.AssignedInventorySlot.SplitStack(out InventorySlot halfStackSlot))
+            bool intoPrimary = false;
+            if(inventorySystem == PlayerInventoryHolder.Instance.secondaryInventorySystem) intoPrimary = true;
+            if (isShiftPress && PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
             {
-                mouseInventoryItem.UpdateMouseSlot(halfStackSlot);
-                clickedUISlot.UpdateUISlot();
+                /*mouseInventoryItem.UpdateMouseSlot(halfStackSlot);*/
+                //clickedUISlot.UpdateUISlot();
+                clickedUISlot.ClearSlot();
                 PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                PlayerInventoryHolder.Instance.UpdateInventory(); //WHY WONT IT UPDATE THE BACKPACK
+                if(slot != null) UpdateSlot(slot); //STILL NOTHING???
                 return;
             }
             else
@@ -53,7 +58,7 @@ public abstract class InventoryDisplay : MonoBehaviour
                 PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 return;
             }
-        }
+        } 
 
         if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
@@ -99,7 +104,27 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     public void HandleSlotRightClick(InventorySlot_UI clickedUISlot)
     {
+        bool isShiftPress = Input.GetKey(KeyCode.LeftShift);
+        PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
         // Right-click on an empty slot to add one from the mouse stack
+        if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData == null)
+        {
+            if (isShiftPress && clickedUISlot.AssignedInventorySlot.SplitStack(out InventorySlot halfStackSlot))
+            {
+                mouseInventoryItem.UpdateMouseSlot(halfStackSlot);
+                clickedUISlot.UpdateUISlot();
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                return;
+            }
+            else
+            {
+                //mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
+                //clickedUISlot.ClearSlot();
+                //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                return;
+            }
+        }
+
         if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
             // Add one item from the mouse inventory to the clicked slot

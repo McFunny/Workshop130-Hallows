@@ -8,6 +8,8 @@ public class PlayerInventoryHolder : InventoryHolder
 {
     public static PlayerInventoryHolder Instance;
 
+   //[HideInInspector] public InventorySystem PrimaryInventorySystem => primaryInventorySystem;
+
     [SerializeField] protected int secondaryInventorySize;
     [SerializeField] public InventorySystem secondaryInventorySystem;
     [SerializeField] private Database _database;
@@ -217,6 +219,80 @@ public class PlayerInventoryHolder : InventoryHolder
         }
 
         return true;
+    }
+
+    public bool CanQuickSwitch(bool intoPrimary, InventoryItemData itemToAdd, int amountToAdd, out InventorySlot _slot)
+    {
+        _slot = null; //returns the slot that is being swap to
+        //if intoPrimary, you are trying to move a slot into primary, else vice versa
+        if(intoPrimary)
+        {
+            if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot) || primaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+            {
+                if (primaryInventorySystem.ContainsItem(itemToAdd, out List<InventorySlot> primarySlots))
+                {
+                    foreach (var slot in primarySlots)
+                    {
+                        if (slot.EnoughRoomLeftInStack(amountToAdd))
+                        {
+                            slot.AddToStack(amountToAdd);
+                            OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
+                            OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+                            _slot = slot;
+                            return true;
+                        }
+                    }
+                }
+
+                if (freePrimarySlot != null)
+                {
+                    if (freePrimarySlot.EnoughRoomLeftInStack(amountToAdd))
+                    {
+                        freePrimarySlot.UpdateInventorySlot(itemToAdd, amountToAdd);
+                        OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
+                        OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+                        _slot = freePrimarySlot;
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
+        else
+        {
+            if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot) || secondaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+            {
+                if (secondaryInventorySystem.ContainsItem(itemToAdd, out List<InventorySlot> primarySlots))
+                {
+                    foreach (var slot in primarySlots)
+                    {
+                        if (slot.EnoughRoomLeftInStack(amountToAdd))
+                        {
+                            slot.AddToStack(amountToAdd);
+                            OnPlayerHotbarDisplayRequested?.Invoke(secondaryInventorySystem);
+                            OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+                            _slot = slot;
+                            return true;
+                        }
+                    }
+                }
+
+                if (freeSecondarySlot != null)
+                {
+                    if (freeSecondarySlot.EnoughRoomLeftInStack(amountToAdd))
+                    {
+                        freeSecondarySlot.UpdateInventorySlot(itemToAdd, amountToAdd);
+                        OnPlayerHotbarDisplayRequested?.Invoke(secondaryInventorySystem);
+                        OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+                        _slot = freeSecondarySlot;
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
     }
 
     public bool FindItemInBothInventories(InventoryItemData item)
