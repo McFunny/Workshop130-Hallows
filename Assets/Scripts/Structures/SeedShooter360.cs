@@ -5,6 +5,8 @@ using TMPro;
 
 public class SeedShooter360 : StructureBehaviorScript
 {
+    public bool townOwned = false;
+
     public InventoryItemData recoveredItem;
 
     public Transform turretHead, bulletOrigin, seedSocket;
@@ -38,12 +40,13 @@ public class SeedShooter360 : StructureBehaviorScript
 
     void Awake()
     {
-        base.Awake();
+        if(!townOwned) base.Awake();
+        else audioHandler = GetComponent<StructureAudioHandler>();
     }
 
     void Start()
     {
-        base.Start();
+        if(!townOwned) base.Start();
         RotAngleY = turretHead.eulerAngles.y;
         RotAngleMax = RotAngleY + 45;
         RotAngleMin = RotAngleY - 45;
@@ -66,7 +69,8 @@ public class SeedShooter360 : StructureBehaviorScript
         {
             if(returningToCenter)
             {
-                turretHead.rotation = Quaternion.Euler(0,turretHead.eulerAngles.y + 0.1f,0);
+                if(RotAngleY > turretHead.eulerAngles.y) turretHead.rotation = Quaternion.Euler(0,turretHead.eulerAngles.y + 0.1f,0);
+                else turretHead.rotation = Quaternion.Euler(0,turretHead.eulerAngles.y - 0.1f,0);
                 if(turretHead.eulerAngles.y < RotAngleY + 5 && turretHead.eulerAngles.y > RotAngleY - 5) returningToCenter = false;
             }
             else
@@ -146,7 +150,7 @@ public class SeedShooter360 : StructureBehaviorScript
 
     IEnumerator Shoot()
     {
-        if(savedItems.Count == 0)
+        if(savedItems.Count == 0 && !townOwned)
         {
             audioHandler.PlaySound(audioHandler.miscSounds1[1]);
             yield return new WaitForSeconds(2f);
@@ -162,7 +166,7 @@ public class SeedShooter360 : StructureBehaviorScript
         targetInSight = false;
         float r;
 
-        currentTarget.NewPriorityTarget(this);
+        if(!townOwned) currentTarget.NewPriorityTarget(this);
         //fire
         for(int i = 0; i < 4; i++)
         {
@@ -190,7 +194,7 @@ public class SeedShooter360 : StructureBehaviorScript
             yield return new WaitForSeconds(0.2f);
         }
         r = Random.Range(0,10);
-        if(r <= 9f) //chance to not consume seed
+        if(r <= 9f && !townOwned) //chance to not consume seed
         {
             InventoryItemData seedShot = savedItems[0];
             savedItems.Remove(seedShot);
@@ -247,7 +251,7 @@ public class SeedShooter360 : StructureBehaviorScript
 
     void OnDestroy()
     {
-        base.OnDestroy();
+        if(!townOwned) base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         //drop seeds
         GameObject droppedItem;

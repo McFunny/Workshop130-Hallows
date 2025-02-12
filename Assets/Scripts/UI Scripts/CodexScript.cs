@@ -70,6 +70,7 @@ public class CodexScript : MonoBehaviour
     {  
         if(!PlayerMovement.accessingInventory && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens > 0)
         {
+            print("Closing");
             if(codex.activeSelf){OpenCloseCodex();}
         }
     }
@@ -98,8 +99,16 @@ public class CodexScript : MonoBehaviour
 
         codex.SetActive(!codex.activeInHierarchy);
         PlayerMovement.isCodexOpen = codex.activeInHierarchy;
-        if(PlayerMovement.isCodexOpen) PlayerMovement.restrictMovementTokens++;
-        else PlayerMovement.restrictMovementTokens--;
+        if(PlayerMovement.isCodexOpen)
+        {
+            Time.timeScale = 0;
+            PlayerMovement.restrictMovementTokens++;
+        } 
+        else
+        {
+            Time.timeScale = 1;
+            PlayerMovement.restrictMovementTokens--;
+        } 
     }
     void UpdatePage(int page, CodexEntries[] currentCat)
     {

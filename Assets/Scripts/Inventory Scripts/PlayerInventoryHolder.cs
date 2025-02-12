@@ -204,6 +204,21 @@ public class PlayerInventoryHolder : InventoryHolder
         return true;
     }
 
+    public bool IsInventoryFull(InventoryItemData itemToAdd, int amountToAdd)
+    {
+        if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot) || primaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+        {
+            return false;
+        }
+
+        if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot) || secondaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public bool FindItemInBothInventories(InventoryItemData item)
     {
         if (!PrimaryInventorySystem.ContainsItem(item, out List<InventorySlot> invSlot))

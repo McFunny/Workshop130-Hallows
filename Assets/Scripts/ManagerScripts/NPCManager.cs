@@ -17,11 +17,13 @@ public class NPCManager : MonoBehaviour
     public bool rascalFed = false;
     public bool lumberjackFed = false;
     public bool botanistFed = false;
+    public bool barkeepFed = false;
 
     [Header("NPC Spoken Bools")]
     public bool rascalSpoke = false;
     public bool lumberjackSpoke = false;
     public bool botanistSpoke = false;
+    public bool barkeepSpoke = false;
 
     void Awake()
     {
@@ -48,6 +50,7 @@ public class NPCManager : MonoBehaviour
             rascalSpoke = false;
             lumberjackSpoke = false;
             botanistSpoke = false;
+            barkeepSpoke = false;
         }
     }
 
