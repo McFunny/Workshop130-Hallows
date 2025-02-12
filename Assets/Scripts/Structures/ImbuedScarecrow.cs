@@ -7,6 +7,8 @@ public class ImbuedScarecrow : StructureBehaviorScript
 {
     public static UnityAction<GameObject> OnScarecrowAttract;
 
+    public InventoryItemData recoveredItem;
+
     void Awake()
     {
         base.Awake();
@@ -16,6 +18,25 @@ public class ImbuedScarecrow : StructureBehaviorScript
     {
         base.Start();
         //StartCoroutine(AttractEnemies());
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+        if(type == ToolType.Shovel)
+        {
+            StartCoroutine(DugUp());
+            success = true;
+        }
+    }
+
+    IEnumerator DugUp()
+    {
+        yield return new WaitForSeconds(1);
+        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
+        droppedItem.transform.position = transform.position;
+
+        Destroy(this.gameObject);
     }
 
     IEnumerator AttractEnemies()

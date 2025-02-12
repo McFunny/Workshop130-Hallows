@@ -23,6 +23,8 @@ public class CropKey : MonoBehaviour, IInteractable
 
     public void SetUpSprites()
     {
+        backgroundSprite = backgroundCropGameObject.GetComponent<SpriteRenderer>();
+        foregroundSprite = foregroundCropGameObject.GetComponent<SpriteRenderer>();
         backgroundSprite.sprite = cropData.cropYield.icon;
         foregroundSprite.sprite = cropData.cropYield.icon;
         foregroundSprite.enabled = false;

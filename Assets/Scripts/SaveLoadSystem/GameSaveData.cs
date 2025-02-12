@@ -21,7 +21,7 @@ public class GameSaveData : MonoBehaviour
 
     [Header("Main Quest Progression Bools. All must be false when building")]
     public bool tutorialMerchantSpoke; //Tutorial Complete
-    public bool rascalWantsFood; //Rascal told the player they want a carrot
+    public bool rascalWantsFood; //Rascal told the player they want a carrot //Outdated
     public bool rascalMentionedKey; //Rascal got the carrot and told the player about the key
     public bool lumber_offersDeal; //Lumberjack was spoken to and offered to chop the tree for 200 mints
     public bool lumber_choppedTree; //Lumberjack said he will chop the tree
