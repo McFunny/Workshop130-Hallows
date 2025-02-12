@@ -7,9 +7,13 @@ using UnityEngine.Tilemaps;
 public class StructureObject : ScriptableObject
 {
     public GameObject objectPrefab;
+
+    public int id = -1;
     [HideInInspector] public float health;
 
     [HideInInspector]public float[] position = new float[3];
+
+    [HideInInspector]public float[] rotation = new float[3];
 
     [HideInInspector] public Structure data = new Structure();
 
@@ -32,8 +36,8 @@ public class Structure
     public int Id = -1;
     public float health;
     public float[] position = new float[3];
-    //public List<Item> savedItemList1;
-    //public List<Item> savedItemList2;
+    public float[] rotation = new float[3];
+    public List<InventoryItemData> savedItemList1;
     public int savedInt1, savedInt2, savedInt3;
     public float savedFloat1, savedFloat2, savedFloat3;
     public string savedString1, savedString2, savedString3;
@@ -46,7 +50,7 @@ public class Structure
     }
     public Structure(StructureObject structure)
     {
-        Name = structure.name;
+        //Name = structure.name;
         Id = structure.data.Id;
     }
 }

@@ -8062,9 +8062,11 @@ MonoBehaviour:
   rascalFed: 0
   lumberjackFed: 0
   botanistFed: 0
+  barkeepFed: 0
   rascalSpoke: 0
   lumberjackSpoke: 0
   botanistSpoke: 0
+  barkeepSpoke: 0
 --- !u!114 &8391427381802313727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8082,6 +8084,9 @@ MonoBehaviour:
   pCurrentMoney: 0
   pTotalMoneyEarned: 0
   pDayNumber: 0
+  currentMoney: 0
+  totalEarnedMoney: 0
+  dayNum: 0
   tutorialMerchantSpoke: 0
   rascalWantsFood: 0
   rascalMentionedKey: 0
@@ -8093,6 +8098,7 @@ MonoBehaviour:
   rascalMet: 0
   botMet: 0
   lumberMet: 0
+  barMet: 0
 --- !u!114 &1864734984650053270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8136,6 +8142,10509 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ee1e7f6c37eb044a5754d6d86d36c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  structureList:
+    Structures:
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+    - Name: 
+      Id: -1
+      health: 0
+      position:
+      - 0
+      - 0
+      - 0
+      rotation:
+      - 0
+      - 0
+      - 0
+      savedItemList1: []
+      savedInt1: 0
+      savedInt2: 0
+      savedInt3: 0
+      savedFloat1: 0
+      savedFloat2: 0
+      savedFloat3: 0
+      savedString1: 
+      savedString2: 
+      savedString3: 
+  database: {fileID: 11400000, guid: 8538c946adf54a2448130d447b25cd53, type: 2}
 --- !u!1 &5964704809646925671
 GameObject:
   m_ObjectHideFlags: 0
