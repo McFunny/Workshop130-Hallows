@@ -4,19 +4,20 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 
-public class CodexScript : MonoBehaviour
+public class CodexRework : MonoBehaviour
 {
-    /*CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted;
+    CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted;
+    CodexEntries currentEntry;
     int currentCategoryLength;
     public GameObject codex;
-    public TextMeshProUGUI nameText, leftDescriptionText, descriptionText, pageNumberText;
-    public int currentEntry = 0;
+    public TextMeshProUGUI nameText, descriptionText, pageNumberText;
+    public int currentPage = 0;
 
     string defaultName = "Undiscovered";
     string defaultDescLeft = "";
     string defaultDesc = "Undiscovered";
     ControlManager controlManager;
-    
+
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
@@ -29,13 +30,10 @@ public class CodexScript : MonoBehaviour
         //ToolEntries = Resources.LoadAll<CodexEntries>("Codex/Tools/");
         GettingStarted = Resources.LoadAll<CodexEntries>("Codex/GettingStarted");
         CurrentCategory = GettingStarted;
+        currentEntry = GettingStarted[0];
         nameText.text = GettingStarted[0].entryName;
-        descriptionText.text = GettingStarted[0].description;
+        descriptionText.text = GettingStarted[0].description[0];
         pageNumberText.text = "Page " + 1 + "/" + GettingStarted.Length;
-        if(!GettingStarted[currentEntry].hasImage)
-        {
-            leftDescriptionText.text = GettingStarted[currentEntry].leftDescription;
-        }
     }
 
     void OnEnable()
@@ -50,25 +48,24 @@ public class CodexScript : MonoBehaviour
         //controlManager.closeCodex.action.started -= CloseCodexPressed;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(codex.activeInHierarchy)
         {
             if(controlManager.codexPageUp.action.WasPressedThisFrame())
             {
-                UpdatePage(-1, CurrentCategory);
+                UpdatePage(-1, currentEntry);
             }
             else if (controlManager.codexPageDown.action.WasPressedThisFrame())
             {
-                UpdatePage(1, CurrentCategory);
+                UpdatePage(1, currentEntry);
             }
         }
     }
     
     void OpenCodexPressed(InputAction.CallbackContext obj)
     {  
-        if(!PlayerMovement.accessingInventory && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens > 0)
+        if(codex.activeInHierarchy)
         {
             print("Closing");
             if(codex.activeSelf){OpenCloseCodex();}
@@ -77,7 +74,7 @@ public class CodexScript : MonoBehaviour
 
     void CloseCodexPressed(InputAction.CallbackContext obj) // This doesn't do anything for some reason
     {
-        if(!PlayerMovement.accessingInventory && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens > 0)
+        if(codex.activeInHierarchy)
         {
             OpenCloseCodex();
         }
@@ -87,76 +84,58 @@ public class CodexScript : MonoBehaviour
     public void OpenCloseCodex()
     {
         print("Codex Opened");
-        currentEntry = 0;
+        currentPage = 0;
         CurrentCategory = GettingStarted;
-        nameText.text = GettingStarted[currentEntry].entryName;
-        descriptionText.text = GettingStarted[currentEntry].description;
+        nameText.text = GettingStarted[0].entryName;
+        descriptionText.text = GettingStarted[0].description[0];
         pageNumberText.text = "Page " + 1 + "/" + GettingStarted.Length;
-        if(!GettingStarted[currentEntry].hasImage)
-        {
-            leftDescriptionText.text = GettingStarted[currentEntry].leftDescription;
-        }
-
         codex.SetActive(!codex.activeInHierarchy);
         PlayerMovement.isCodexOpen = codex.activeInHierarchy;
-        if(PlayerMovement.isCodexOpen)
-        {
-            Time.timeScale = 0;
-            PlayerMovement.restrictMovementTokens++;
-        } 
-        else
-        {
-            Time.timeScale = 1;
-            PlayerMovement.restrictMovementTokens--;
-        } 
     }
-    void UpdatePage(int page, CodexEntries[] currentCat)
+    void UpdatePage(int page, CodexEntries entry)
     {
-        currentEntry = currentEntry + page;
-        currentEntry = Mathf.Clamp(currentEntry,0,currentCat.Length - 1);
-        pageNumberText.text = "Page " + (currentEntry + 1) + "/" + currentCat.Length;
-        if (currentCat[currentEntry].unlocked == true)
+        currentPage = currentPage + page;
+        currentPage = Mathf.Clamp(currentPage,0,entry.description.Length - 1);
+        pageNumberText.text = "Page " + (currentPage + 1) + "/" + entry.description.Length;
+        if (entry.unlocked == true)
         {
-            nameText.text = currentCat[currentEntry].entryName;
-            descriptionText.text = currentCat[currentEntry].description;
-            if(!currentCat[currentEntry].hasImage)
-            {
-                leftDescriptionText.text = currentCat[currentEntry].leftDescription;
-            }
+            nameText.text = entry.entryName;
+            descriptionText.text = entry.description[currentPage];
         }
         else
         {
             nameText.text = defaultName;
             descriptionText.text = defaultDesc;
-            leftDescriptionText.text = defaultDescLeft;
         }
     }
 
-    public void SwitchCategories(int cat)
+    public void ChangeCategory(int cat)
     {
         switch (cat)
         {
             case 0:
             CurrentCategory = CreatureEntries;
-            currentEntry = 0;
-            UpdatePage(0, CurrentCategory);
+            currentPage = 0;
+            UpdatePage(0, CurrentCategory[0]);
             break;
 
             case 1:
             CurrentCategory = CreatureEntries;
-            currentEntry = 0;
-            UpdatePage(0, CurrentCategory);
+            currentPage = 0;
+            UpdatePage(0, CurrentCategory[0]);
             break;
 
             case 2:
             CurrentCategory = ToolEntries;
-            currentEntry = 0;
-            UpdatePage(0, CurrentCategory);
+            currentPage = 0;
+            UpdatePage(0, CurrentCategory[0]);
             break;
 
             default:
             print("Default");
             break;
         }
-    }*/
+
+        currentPage = 0;
+    }
 }
