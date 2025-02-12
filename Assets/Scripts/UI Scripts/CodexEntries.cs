@@ -19,6 +19,8 @@ public class CodexEntries : ScriptableObject
         GettingStarted
     }
     public EntryType entryType;
+    public Button entryButton;
+    public Image buttonIcon;
 
     [Tooltip("Unlocked??? Yes or... no....? (True is yes, false is no)")]
     public bool unlocked = false;
@@ -27,15 +29,12 @@ public class CodexEntries : ScriptableObject
     public bool hasImage = false;
 
     [Tooltip("The assigned image")]
-    public Image image;
+    public Image largeImage;
 
     [Tooltip("Name of the entry personally I thought this was pretty self explanatory tho")]
     public string entryName;
 
-    [Tooltip("Text for the left page if there is no image")] [TextArea(4,10)]
-    public string leftDescription;
-
     [Tooltip("Description of the entry")] [TextArea(4,10)]
-    public string description;
+    public string[] description;
 
 }
