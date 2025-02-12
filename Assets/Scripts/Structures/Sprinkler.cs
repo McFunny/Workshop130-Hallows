@@ -120,4 +120,14 @@ public class Sprinkler : StructureBehaviorScript
         waterVFX.SetActive(false);
     }
 
+    public override void LoadVariables()
+    {
+        saveInt1 = waterLevel;
+    }
+
+    public override void SaveVariables()
+    {
+        waterLevel = saveInt1;
+    }
+
 }

@@ -345,8 +345,12 @@ public class FarmLand : StructureBehaviorScript
 
         if(nutrients == null)
         {
-            print("Nutrients are null. They Should not be");
-            return;
+            nutrients = StructureManager.Instance.FetchNutrient(transform.position);
+            if(nutrients == null)
+            {
+                print("Nutrients are null. They Should not be");
+                return;
+            }
         }
 
         if(nutrients.ichorLevel <= 1 || nutrients.terraLevel <= 1 || nutrients.gloamLevel <= 1)
@@ -550,6 +554,36 @@ public class FarmLand : StructureBehaviorScript
     {
         return new FarmLandSaveData(this);
     }*/
+
+    public override void LoadVariables() //Issues: Does not currently save the crop that is on it
+    {
+        if(isWeed) return;
+        if(saveString1 != "") crop = CropDatabase.GetCropByName(saveString1);
+        growthStage = saveInt1;
+        hoursSpent = saveInt2;
+        plantStress = saveInt3;
+        if(saveString2 == "true") rotted = true;
+        else rotted = false;
+
+        //SpriteChange();
+        if(crop) wealthValue = 5;
+        else wealthValue = 0;
+    }
+
+    public override void SaveVariables()
+    {
+        if(!isWeed)
+        {
+            if(crop) saveString1 = crop.name;
+            else saveString1 = "";
+            saveInt1 = growthStage;
+            saveInt2 = hoursSpent;
+            saveInt3 = plantStress;
+            if(rotted) saveString2 = "true";
+            else saveString2 = "false";
+        }
+
+    }
 }
 
 [System.Serializable]

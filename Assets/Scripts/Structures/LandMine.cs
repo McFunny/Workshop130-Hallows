@@ -290,6 +290,21 @@ public class LandMine : StructureBehaviorScript
         //}
         
     }
+
+    public override void LoadVariables()
+    {
+        if(saveString1 == "gloam") nutrientType = NutrientType.Gloamphage;
+        if(saveString1 == "terra") nutrientType = NutrientType.Terrazyme;
+        if(saveString1 == "ichor") nutrientType = NutrientType.Ichor;
+        //LightColorChange();
+    }
+
+    public override void SaveVariables()
+    {
+        if(nutrientType == NutrientType.Gloamphage) saveString1 = "gloam";
+        if(nutrientType == NutrientType.Terrazyme) saveString1 = "terra";
+        if(nutrientType == NutrientType.Ichor) saveString1 = "ichor";
+    }
 }
 
 public enum NutrientType

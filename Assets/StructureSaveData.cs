@@ -75,7 +75,7 @@ public class StructureSaveData : MonoBehaviour
         var structureData = new StructureInventory(structureList.Structures);
         SaveLoad.CurrentSaveData.allStructuresSaveData = structureData;
 
-        Debug.Log("Structures saved successfully.");
+        Debug.Log("Structures saved successfully. Total: " + x);
 
 
         /*List<FarmLandSaveData> farmlandDataList = new List<FarmLandSaveData>();
