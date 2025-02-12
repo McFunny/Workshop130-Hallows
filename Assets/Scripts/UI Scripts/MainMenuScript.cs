@@ -13,6 +13,7 @@ public class MainMenuScript : MonoBehaviour
     public AudioSource source;
     public AudioClip hover, select;
     bool isTransitioning = false;
+    public static bool loadingData = false;
 
     public Transform sunMoonPivot;
     float dayRotation; 
@@ -87,10 +88,19 @@ public class MainMenuScript : MonoBehaviour
     {
         if(isTransitioning) return;
         isTransitioning = true;
-        StartCoroutine(StartNewGame());
+        loadingData = false;
+        StartCoroutine(StartGame());
     }
 
-    IEnumerator StartNewGame()
+    public void LoadGame()
+    {
+        if(isTransitioning) return;
+        isTransitioning = true;
+        loadingData = true;
+        StartCoroutine(StartGame());
+    }
+
+    IEnumerator StartGame()
     {
         FadeScreen.coverScreen = true;
         yield return new WaitForSecondsRealtime(1);

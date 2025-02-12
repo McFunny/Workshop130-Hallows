@@ -98,6 +98,11 @@ public class StructureManager : MonoBehaviour
 
     public Vector3 GetRandomTile()
     {
+        if(allTiles.Count == 0)
+        {
+            print("No available tiles");
+            return new Vector3 (0,0,0);
+        }
         int r = Random.Range(0, allTiles.Count);
         return tileMap.GetCellCenterWorld(allTiles[r]);
     }

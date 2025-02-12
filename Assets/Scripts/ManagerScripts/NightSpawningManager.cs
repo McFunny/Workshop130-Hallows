@@ -177,7 +177,7 @@ public class NightSpawningManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         while(creatureQueue.Count != 0)
         {
-            yield return new WaitForSeconds(Random.Range(0.5f, 2.5f));
+            yield return new WaitForSeconds(Random.Range(1f, 4f));
             CreatureObject c = creatureQueue.Dequeue();
             SpawnCreature(c);
         }
@@ -254,7 +254,8 @@ public class NightSpawningManager : MonoBehaviour
 
     void CalculateDifficulty()
     {
-        if(PlayerInteraction.Instance.totalMoneyEarned > 2000) difficultyMultiplier = 1.25f;
+        if(PlayerInteraction.Instance.totalMoneyEarned > 4000) difficultyMultiplier = 1.5f;
+        else if(PlayerInteraction.Instance.totalMoneyEarned > 2000) difficultyMultiplier = 1.25f;
         else difficultyMultiplier = 1;
 
         foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
