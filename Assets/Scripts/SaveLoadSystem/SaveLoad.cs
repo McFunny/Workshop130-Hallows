@@ -51,6 +51,7 @@ public static class SaveLoad
             tempData = JsonUtility.FromJson<SaveData>(json);
 
             OnLoadGame?.Invoke(tempData);
+                Debug.Log("How many times is this running");
         }
         else
         {

@@ -35,9 +35,10 @@ public class SaveGameManager : MonoBehaviour
             SaveData();
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.P))
         {
             TryLoadData();
+            
         }
     }
 
