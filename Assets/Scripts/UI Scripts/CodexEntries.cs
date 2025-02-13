@@ -16,6 +16,7 @@ public class CodexEntries : ScriptableObject
         Tool,
         Lore,
         Misc,
+        Quest,
         GettingStarted
     }
     public EntryType entryType;
@@ -29,7 +30,7 @@ public class CodexEntries : ScriptableObject
     public bool hasImage = false;
 
     [Tooltip("The assigned image")]
-    public Sprite largeImage;
+    public Sprite mainImage;
 
     [Tooltip("Name of the entry personally I thought this was pretty self explanatory tho")]
     public string entryName;

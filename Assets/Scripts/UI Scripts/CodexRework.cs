@@ -11,7 +11,7 @@ public class CodexRework : MonoBehaviour
     public CodexEntries currentEntry;
     int currentCategoryLength;
     public GameObject codex, contentObject;
-    public TextMeshProUGUI nameText, descriptionText, pageNumberText;
+    public TextMeshProUGUI nameText, descriptionText, largeDescriptionText, pageNumberText;
     public int currentPage = 0;
 
     public GameObject entryButton;
@@ -20,7 +20,7 @@ public class CodexRework : MonoBehaviour
     string defaultDescLeft = "";
     string defaultDesc = "Undiscovered";
     ControlManager controlManager;
-
+    public Image largeImage;
     public List<GameObject> categoryList;
 
     void Awake()
@@ -55,6 +55,20 @@ public class CodexRework : MonoBehaviour
             tempSprite.sprite = CurrentCategory[i].buttonIcon;
             categoryList.Add(tempButton);
         }
+
+        if(CurrentCategory[0].mainImage != null)
+        {
+            largeImage.sprite = CurrentCategory[0].mainImage;
+            largeImage.gameObject.SetActive(true);
+            descriptionText.gameObject.SetActive(true);
+            largeDescriptionText.gameObject.SetActive(false);
+        }
+        else
+        {
+            largeImage.gameObject.SetActive(false);
+            descriptionText.gameObject.SetActive(false);
+            largeDescriptionText.gameObject.SetActive(true);
+        }
     }
 
     void OnEnable()
@@ -82,6 +96,8 @@ public class CodexRework : MonoBehaviour
                 UpdatePage(1, currentEntry, false);
             }
         }
+
+        PlayerMovement.isCodexOpen = codex.activeInHierarchy;
     }
     
     void OpenCodexPressed(InputAction.CallbackContext obj)
@@ -89,7 +105,6 @@ public class CodexRework : MonoBehaviour
         if(codex.activeInHierarchy)
         {
             print("Closing");
-            PlayerMovement.isCodexOpen = false;
             if(codex.activeSelf){OpenCloseCodex();}
         }
     }
@@ -111,26 +126,57 @@ public class CodexRework : MonoBehaviour
         nameText.text = GettingStarted[0].entryName;
         descriptionText.text = GettingStarted[0].description[0];
         pageNumberText.text = "Page 1"  + "/" + GettingStarted[0].description.Length;
-        codex.SetActive(!codex.activeInHierarchy);
-        PlayerMovement.isCodexOpen = codex.activeInHierarchy;
+        
+        if(CurrentCategory[0].mainImage != null)
+        {
+            largeImage.sprite = CurrentCategory[0].mainImage;
+            largeImage.gameObject.SetActive(true);
+            descriptionText.gameObject.SetActive(true);
+            largeDescriptionText.gameObject.SetActive(false);
+        }
+        else
+        {
+            largeImage.gameObject.SetActive(false);
+            descriptionText.gameObject.SetActive(false);
+            largeDescriptionText.gameObject.SetActive(true);
+        }
 
+        
+
+        codex.SetActive(!codex.activeInHierarchy);
     }
     public void UpdatePage(int page, CodexEntries entry, bool reset)
     {
         if (!reset) currentPage = currentPage + page;
         else currentPage = page;
-
         currentPage = Mathf.Clamp(currentPage,0,entry.description.Length - 1);
+
+        if (currentPage == 0 && entry.mainImage != null)
+        {
+            largeImage.sprite = entry.mainImage;
+            largeImage.gameObject.SetActive(true);
+            descriptionText.gameObject.SetActive(true);
+            largeDescriptionText.gameObject.SetActive(false);
+        }
+        else
+        {
+            largeImage.gameObject.SetActive(false);
+            descriptionText.gameObject.SetActive(false);
+            largeDescriptionText.gameObject.SetActive(true);
+        }
+
         pageNumberText.text = "Page " + (currentPage + 1) + "/" + entry.description.Length;
         if (entry.unlocked == true)
         {
             nameText.text = entry.entryName;
             descriptionText.text = entry.description[currentPage];
+            largeDescriptionText.text = entry.description[currentPage];
         }
         else
         {
             nameText.text = defaultName;
             descriptionText.text = defaultDesc;
+            largeDescriptionText.text = defaultDesc;
         }
     }
 
