@@ -49,16 +49,32 @@ public class GameSaveData : MonoBehaviour
             Instance = this;
         }
         SaveLoad.OnLoadGame += LoadData;
+        SaveLoad.OnSaveGame += SaveData;
     }
 
     private void OnDisable()
     {
         SaveLoad.OnLoadGame -= LoadData;
+        SaveLoad.OnSaveGame -= SaveData;
+    }
+
+    public void SaveData()
+    {
+        var currentSaveData = new AllGameSaveData(this);
+
+        //Debug.Log("Saving stamina. Result: " + currentSaveData.pStamina);
+
+        SaveLoad.CurrentSaveData.allGameSaveData = currentSaveData;
+
+        //var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
+        //SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
+
+        Debug.Log("General Stats saved");
+
     }
 
     private void LoadData(SaveData data)
     {
-
             PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
             PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
             PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
@@ -76,7 +92,7 @@ public class GameSaveData : MonoBehaviour
             catacombUnlocked = data.allGameSaveData.catacombUnlocked;
     }
 }
-
+    [System.Serializable]
     public struct AllGameSaveData
     {
         public float pStamina;
@@ -109,6 +125,7 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.bridgeCleared;
             keyCollected = data.keyCollected;
             catacombUnlocked = data.catacombUnlocked;
+            //Debug.Log("Saving stamina. Result: " + pStamina);
         }
     }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class StructureManager : MonoBehaviour
 {
@@ -65,7 +66,9 @@ public class StructureManager : MonoBehaviour
 
     public void LoadNutrients(NutrientStorage[] newStorage)
     {
-        for(int i = 0; i < storage.Count; i++) storage[i] = newStorage[i];
+        storage.Clear();
+        storage = newStorage.ToList();
+        //for(int i = 0; i < storage.Count; i++) storage[i] = newStorage[i];
     }
 
     public void HourUpdate()
