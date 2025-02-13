@@ -83,6 +83,7 @@ public class PlayerInventoryHolder : InventoryHolder
             this.secondaryInventorySystem = data.playerInventoryData.secondaryInvSystem;
             UpdateInventory();
         }
+        else Debug.Log("Missing inventories");
     }
 
 
@@ -96,7 +97,8 @@ public class PlayerInventoryHolder : InventoryHolder
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(0.5f);
-        if(TimeManager.Instance.dayNum == 1) EquipStartingItems();
+        if(!MainMenuScript.loadingData) EquipStartingItems();
+        //else
         var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
         SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
     }

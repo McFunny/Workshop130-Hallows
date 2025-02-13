@@ -18,6 +18,18 @@ public class SaveGameManager : MonoBehaviour
         SaveLoad.OnLoadGame += LoadData;
     }   
 
+    void Start()
+    {
+        //if(MainMenuScript.loadingData) TryLoadData();
+        StartCoroutine(DelayedStart());
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(0.2f);
+        if(MainMenuScript.loadingData) TryLoadData();
+    }
+
     private void OnDisable()
     {
         SaveLoad.OnLoadGame -= LoadData;

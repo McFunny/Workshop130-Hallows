@@ -58,8 +58,7 @@ public class GameSaveData : MonoBehaviour
 
     private void LoadData(SaveData data)
     {
-        if (data.allGameSaveData.tutorialMerchantSpoke)
-        {
+
             PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
             PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
             PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
@@ -75,7 +74,6 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.allGameSaveData.bridgeCleared;
             keyCollected = data.allGameSaveData.keyCollected;
             catacombUnlocked = data.allGameSaveData.catacombUnlocked;
-        }
     }
 }
 

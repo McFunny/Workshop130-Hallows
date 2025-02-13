@@ -3,6 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.IO;
+using UnityEngine.Events;
+using SaveLoadSystem;
+
 
 
 public class MainMenuScript : MonoBehaviour
@@ -89,11 +93,22 @@ public class MainMenuScript : MonoBehaviour
         if(isTransitioning) return;
         isTransitioning = true;
         loadingData = false;
+        //DeleteSaveData();
         StartCoroutine(StartGame());
     }
 
     public void LoadGame()
     {
+        string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + SaveLoad.FileName;
+        //SaveData tempData = new SaveData();
+
+        if (!File.Exists(fullPath))
+        {
+            Debug.Log("No save data");
+            return;
+        }
+
+
         if(isTransitioning) return;
         isTransitioning = true;
         loadingData = true;

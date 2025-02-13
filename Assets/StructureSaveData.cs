@@ -72,7 +72,9 @@ public class StructureSaveData : MonoBehaviour
             x++;
         }
 
-        var structureData = new StructureInventory(structureList.Structures);
+        for(int i = 0; i < StructureManager.Instance.Storage.Count; i++) structureList.Nutrients[i] = StructureManager.Instance.Storage[i];
+
+        var structureData = new StructureInventory(structureList.Structures, structureList.Nutrients);
         SaveLoad.CurrentSaveData.allStructuresSaveData = structureData;
 
         Debug.Log("Structures saved successfully. Total: " + x);
@@ -102,6 +104,8 @@ public class StructureSaveData : MonoBehaviour
     {
         Debug.Log("Loading Stuff");
         if (data.allStructuresSaveData == null) return;
+
+            StructureManager.Instance.LoadNutrients(structureList.Nutrients);
 
             for(int i = 0; i < data.allStructuresSaveData.Structures.Length; i++)
             {
@@ -224,15 +228,20 @@ public struct AllStructuresSaveData
 [System.Serializable]
 public class StructureInventory
 {
-    public Structure[] Structures = new Structure[500];
+    public Structure[] Structures = new Structure[800];
+    public NutrientStorage[] Nutrients = new NutrientStorage[800];
     public void Clear()
     {
         for(int i = 0; i < Structures.Length; i++)
         {
             Structures[i] = null;
         }
+        for(int i = 0; i < Nutrients.Length; i++)
+        {
+            Nutrients[i] = null;
+        }
     }
-    public StructureInventory(Structure[] structureList)
+    public StructureInventory(Structure[] structureList, NutrientStorage[] nutrientList)
     {
         //Clear();
         //for (int i = 0; i < structureList.Count; i++)
@@ -240,11 +249,13 @@ public class StructureInventory
         //    Structures[i] = structureList[i];
         //}
         Structures = structureList;
+        Nutrients = nutrientList;
     }
 
     public StructureInventory() //Just as a precaution, unsure if redundant
     {
-        Structures = new Structure[500];
+        Structures = new Structure[800];
+        Nutrients = new NutrientStorage[800];
     }
 }
 

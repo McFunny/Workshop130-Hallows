@@ -20,6 +20,8 @@ public class StructureManager : MonoBehaviour
     List<Vector3Int> allTiles = new List<Vector3Int>();
     List<NutrientStorage> storage = new List<NutrientStorage>(); //MUST BE SAVED
 
+    public List<NutrientStorage> Storage => storage;
+
     [Header("CropDebugs")]
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
 
@@ -38,8 +40,11 @@ public class StructureManager : MonoBehaviour
         }
         InstantiateNutrientStorage();
         //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
-        PopulateTrees(15, 20);
-        PopulateWeeds(10, 20); //Only do this when a new game has started.
+        if(!MainMenuScript.loadingData)
+        {
+            PopulateTrees(15, 20);
+            PopulateWeeds(10, 20); //Only do this when a new game has started.
+        }
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
@@ -56,6 +61,11 @@ public class StructureManager : MonoBehaviour
         {
             Instance = null;
         }
+    }
+
+    public void LoadNutrients(NutrientStorage[] newStorage)
+    {
+        for(int i = 0; i < storage.Count; i++) storage[i] = newStorage[i];
     }
 
     public void HourUpdate()

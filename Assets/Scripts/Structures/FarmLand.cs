@@ -5,6 +5,8 @@ using UnityEngine.VFX;
 
 public class FarmLand : StructureBehaviorScript
 {
+    public CropDatabase cropDatabase;
+
     public CropData crop; //The current crop planted here //MUST BE SAVED
     public InventoryItemData terraFert, gloamFert, ichorFert, compost;
     public SpriteRenderer cropRenderer;
@@ -557,8 +559,15 @@ public class FarmLand : StructureBehaviorScript
 
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it
     {
+        nutrients = StructureManager.Instance.FetchNutrient(transform.position);
         if(isWeed) return;
-        if(saveString1 != "") crop = CropDatabase.GetCropByName(saveString1);
+        print(saveString1);
+        if(saveString1 != "")
+        {
+            crop = cropDatabase.GetCropByName(saveString1);
+            print("Checked For Crop");
+            print(crop);
+        }
         growthStage = saveInt1;
         hoursSpent = saveInt2;
         plantStress = saveInt3;
