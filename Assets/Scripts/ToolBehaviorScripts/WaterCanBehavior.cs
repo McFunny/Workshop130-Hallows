@@ -130,6 +130,10 @@ public class WaterCanBehavior : ToolBehavior
                     structure.Extinguish();
                     PlayerInteraction.Instance.waterHeld--;
                 }
+                else if(structure.GetComponent<WaterBarrel>())
+                {
+                    structure.GetComponent<WaterBarrel>().ManualFill(out playAnim);
+                }
                 else structure.ToolInteraction(tool, out playAnim);
 
                 if(playAnim)

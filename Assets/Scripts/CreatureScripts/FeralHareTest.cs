@@ -34,6 +34,8 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public CreatureState currentState;
 
+    public LayerMask obstacleMask;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -227,16 +229,23 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public void Hop(Vector3 destination)
     {
+        bool obstructed = false;
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         if(TimeManager.Instance.isDay)
         {
             destination = despawnPos;
         }
+        if(CheckForObstruction()) //randomizes jump is running into a wall/tree
+        {
+            //print("Obstruction Detected");
+            destination = jumpPos;
+            obstructed = true;
+        }
         // hare will jump toward a random direction using physics, using rb.addforce to a random vector3 position in addition to a vector3.up force
         Vector3 jumpDirection = (transform.position - destination).normalized;
         jumpDirection *= -1f;
 
-        if (currentState == CreatureState.FleeFromPlayer)
+        if (currentState == CreatureState.FleeFromPlayer && !obstructed)
         {
             jumpDirection = (transform.position - player.position).normalized;
             destination = new Vector3(transform.position.x + jumpDirection.x, yOrigin, transform.position.z + jumpDirection.z);
@@ -322,6 +331,26 @@ public class FeralHareTest : CreatureBehaviorScript
             effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
         }
+    }
+
+    bool CheckForObstruction()
+    {
+        //if (CheckForObstacle(transform) != null) return true;
+        Vector3 checkPos = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+
+        RaycastHit hit;
+        if (Physics.Raycast(checkPos, transform.forward, out hit, 5, obstacleMask))
+        {
+            StructureBehaviorScript obstacle = hit.collider.GetComponentInParent<StructureBehaviorScript>(); //To check if its a tree because trees arent "obstacles"
+            if(obstacle)
+            {
+                if(obstacle.GetComponent<FarmTree>() || obstacle.isObstacle) return true;
+                else return false;
+            }
+            if(hit.collider) return true;
+            else return false;
+        }
+        else return false;
     }
 
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Creature Object", menuName = "Creature")]
 public class CreatureObject : ScriptableObject
 {
-    public GameObject objectPrefab;
+    public GameObject objectPrefab, wildernessPrefab;
     [HideInInspector] public float health;
 
     [HideInInspector] public float[] position = new float[3];

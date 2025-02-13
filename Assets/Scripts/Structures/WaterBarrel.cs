@@ -57,6 +57,18 @@ public class WaterBarrel : StructureBehaviorScript
         }
     }
 
+    public void ManualFill(out bool success)
+    {
+        if(PlayerInteraction.Instance.waterHeld >= 5 && waterLevel < 3)
+        {
+            PlayerInteraction.Instance.waterHeld -= 5;
+            waterLevel++;
+            WaterLevelChange();
+            success = true;
+        }
+        else success = false;
+    }
+
     IEnumerator DugUp()
     {
         yield return  new WaitForSeconds(1);
@@ -106,6 +118,7 @@ public class WaterBarrel : StructureBehaviorScript
     public override void HourPassed()
     {
         //simulate rain accumulation
+        return; //You can fill it manually so this is obsolete
         if(Random.Range(0,10) < 8) return;
         if(waterLevel < 3)
         {
