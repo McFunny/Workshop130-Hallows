@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class StructureManager : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class StructureManager : MonoBehaviour
     List<Vector3Int> allTiles = new List<Vector3Int>();
     List<NutrientStorage> storage = new List<NutrientStorage>(); //MUST BE SAVED
 
+    public List<NutrientStorage> Storage => storage;
+
     [Header("CropDebugs")]
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
 
@@ -37,9 +40,12 @@ public class StructureManager : MonoBehaviour
             Instance = this;
         }
         InstantiateNutrientStorage();
-        //load in all the saved data, such as the nutrient storages and alltiles list
-        PopulateTrees(15, 20);
-        PopulateWeeds(10, 20); //Only do this when a new game has started. Implement weeds spawning in over time
+        //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
+        if(!MainMenuScript.loadingData)
+        {
+            PopulateTrees(15, 20);
+            PopulateWeeds(10, 20); //Only do this when a new game has started.
+        }
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
@@ -55,6 +61,16 @@ public class StructureManager : MonoBehaviour
         if(Instance != null && Instance == this)
         {
             Instance = null;
+        }
+    }
+
+    public void LoadNutrients(NutrientStorage[] newStorage)
+    {
+        storage.Clear();
+        storage = newStorage.ToList();
+        for(int i = 0; i < storage.Count; i++)
+        {
+            if(storage[i].waterLevel > 3) print("Water!!!???");
         }
     }
 
@@ -98,6 +114,11 @@ public class StructureManager : MonoBehaviour
 
     public Vector3 GetRandomTile()
     {
+        if(allTiles.Count == 0)
+        {
+            print("No available tiles");
+            return new Vector3 (0,0,0);
+        }
         int r = Random.Range(0, allTiles.Count);
         return tileMap.GetCellCenterWorld(allTiles[r]);
     }

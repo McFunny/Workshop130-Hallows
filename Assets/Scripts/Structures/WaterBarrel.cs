@@ -117,4 +117,15 @@ public class WaterBarrel : StructureBehaviorScript
         if(waterLevel > 0) return false;
         else return true;
     }
+
+    public override void LoadVariables()
+    {
+        saveInt1 = waterLevel;
+        //WaterLevelChange();
+    }
+
+    public override void SaveVariables()
+    {
+        waterLevel = saveInt1;
+    }
 }

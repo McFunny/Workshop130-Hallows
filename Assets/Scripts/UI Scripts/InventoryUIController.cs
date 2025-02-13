@@ -40,7 +40,7 @@ public class InventoryUIController : MonoBehaviour
     void Start()
     {
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
-        CloseBackpack();
+        StartCoroutine(CloseBackpack());
         readyToPress = true;
         eventSystem = EventSystem.current;
     }
@@ -84,7 +84,7 @@ public class InventoryUIController : MonoBehaviour
 
         if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
 
-        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused || PlayerMovement.isCodexOpen) return;
 
         if(!PlayerMovement.accessingInventory)
         {
@@ -102,14 +102,14 @@ public class InventoryUIController : MonoBehaviour
                 eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
             }
             eventSystem.SetSelectedGameObject(null);
-            CloseInventory();
+            StartCoroutine(CloseInventory());
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
         }
         else if (isBackpackOpen)
         {
             if(eventSystem.currentSelectedGameObject != null) eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
             eventSystem.SetSelectedGameObject(null);
-            CloseBackpack();
+            StartCoroutine(CloseBackpack());
             print("Closing backpack");
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
         }
@@ -117,24 +117,31 @@ public class InventoryUIController : MonoBehaviour
 
     private void CloseInput(InputAction.CallbackContext obj)
     {
+        
         if(mouseData && mouseData.IsHoldingItem()) return;
-
+        print("Close Attempted");
         if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
 
-        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PlayerMovement.isCodexOpen) return;
         
         if (chestPanel.gameObject.activeInHierarchy)
         {
-            eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            if(eventSystem.currentSelectedGameObject != null)
+            {
+                eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            }
             eventSystem.SetSelectedGameObject(null);
-            CloseInventory();
+            StartCoroutine(CloseInventory());
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
         }
         else if (isBackpackOpen)
         {
-            eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            if(eventSystem.currentSelectedGameObject != null)
+            {
+                eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            }
             eventSystem.SetSelectedGameObject(null);
-            CloseBackpack();
+            StartCoroutine(CloseBackpack());
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
             print("Closing backpack");
         }
@@ -167,17 +174,19 @@ public class InventoryUIController : MonoBehaviour
         }
     }
 
-    void CloseInventory()
+    IEnumerator CloseInventory()
     {
         //Close Chest
+        yield return new WaitForEndOfFrame();
         chestPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
         isBackpackOpen = false; 
     }
 
-    void CloseBackpack()
+    IEnumerator CloseBackpack()
     {
+        yield return new WaitForEndOfFrame();
         //print("Closing");
         //HandItemManager.Instance.CheckSlotForTool();
         playerBackpackPanel.gameObject.SetActive(false);

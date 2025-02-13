@@ -15,7 +15,9 @@ namespace SaveLoadSystem
         public PlayerInventorySaveData playerInventoryData;
         public AllGameSaveData allGameSaveData;
 
-        //public AllStructuresSaveData allStructuresSaveData;
+        public StructureInventory allStructuresSaveData;
+
+        //save nutrients
 
         public SaveData()
         {
@@ -24,7 +26,7 @@ namespace SaveLoadSystem
             chestDictionary = new SerializableDictionary<string, ChestSaveData>();
             playerInventoryData = new PlayerInventorySaveData(); // Initialize player inventory data
             allGameSaveData = new AllGameSaveData();
-            //allStructuresSaveData = new AllStructuresSaveData();
+            allStructuresSaveData = new StructureInventory();
         }
     }
 }

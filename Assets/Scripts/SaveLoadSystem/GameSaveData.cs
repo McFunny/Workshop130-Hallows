@@ -21,7 +21,7 @@ public class GameSaveData : MonoBehaviour
 
     [Header("Main Quest Progression Bools. All must be false when building")]
     public bool tutorialMerchantSpoke; //Tutorial Complete
-    public bool rascalWantsFood; //Rascal told the player they want a carrot
+    public bool rascalWantsFood; //Rascal told the player they want a carrot //Outdated
     public bool rascalMentionedKey; //Rascal got the carrot and told the player about the key
     public bool lumber_offersDeal; //Lumberjack was spoken to and offered to chop the tree for 200 mints
     public bool lumber_choppedTree; //Lumberjack said he will chop the tree
@@ -49,17 +49,32 @@ public class GameSaveData : MonoBehaviour
             Instance = this;
         }
         SaveLoad.OnLoadGame += LoadData;
+        SaveLoad.OnSaveGame += SaveData;
     }
 
     private void OnDisable()
     {
         SaveLoad.OnLoadGame -= LoadData;
+        SaveLoad.OnSaveGame -= SaveData;
+    }
+
+    public void SaveData()
+    {
+        var currentSaveData = new AllGameSaveData(this);
+
+        //Debug.Log("Saving stamina. Result: " + currentSaveData.pStamina);
+
+        SaveLoad.CurrentSaveData.allGameSaveData = currentSaveData;
+
+        //var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
+        //SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
+
+        Debug.Log("General Stats saved");
+
     }
 
     private void LoadData(SaveData data)
     {
-        if (data.allGameSaveData.tutorialMerchantSpoke)
-        {
             PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
             PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
             PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
@@ -75,10 +90,9 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.allGameSaveData.bridgeCleared;
             keyCollected = data.allGameSaveData.keyCollected;
             catacombUnlocked = data.allGameSaveData.catacombUnlocked;
-        }
     }
 }
-
+    [System.Serializable]
     public struct AllGameSaveData
     {
         public float pStamina;
@@ -111,6 +125,7 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.bridgeCleared;
             keyCollected = data.keyCollected;
             catacombUnlocked = data.catacombUnlocked;
+            //Debug.Log("Saving stamina. Result: " + pStamina);
         }
     }
 

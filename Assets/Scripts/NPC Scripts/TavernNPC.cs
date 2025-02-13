@@ -125,7 +125,7 @@ public class TavernNPC : NPC, ITalkable
             {
                 currentPath = 3; //no money!?!?!?
             }
-            else if (PlayerInventoryHolder.Instance.IsInventoryFull())
+            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
             {
                 currentPath = 4; //No space in inventory
             }

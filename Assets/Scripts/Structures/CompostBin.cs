@@ -210,4 +210,26 @@ public class CompostBin : StructureBehaviorScript
             droppedItem.transform.position = itemDropTransform.position;
         }
     }
+
+    public override void LoadVariables()
+    {
+        saveInt1 = progress;
+        if(savedItems.Count == maxContainedItems)
+        {
+            isSpinning = true;
+            anim.SetBool("Spinning", true);
+            anim.SetBool("IsFull", true);
+        }
+
+        if(progress == maxProgress)
+        {
+            isSpinning = false;
+            anim.SetBool("Spinning", false);
+        }
+    }
+
+    public override void SaveVariables()
+    {
+        progress = saveInt1;
+    }
 }

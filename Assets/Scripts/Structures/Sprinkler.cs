@@ -11,6 +11,8 @@ public class Sprinkler : StructureBehaviorScript
     public GameObject waterVFX;
     bool rotating = false;
 
+    //extinguish fire check
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -116,6 +118,16 @@ public class Sprinkler : StructureBehaviorScript
         rotating = false;
         yield return new WaitForSeconds(2);
         waterVFX.SetActive(false);
+    }
+
+    public override void LoadVariables()
+    {
+        saveInt1 = waterLevel;
+    }
+
+    public override void SaveVariables()
+    {
+        waterLevel = saveInt1;
     }
 
 }

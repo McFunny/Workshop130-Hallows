@@ -32,9 +32,13 @@ public class StructureBehaviorScript : MonoBehaviour
     [Tooltip("Does this structure impede movement? If yes, creatures will attack this if nearby and facing it")]
     public bool isObstacle = true;
 
-    //public abstract object GetSaveData();
-
+    //Save Data
+    //[HideInInspector] public List<Item> itemList1;
+    //[HideInInspector] public List<Item> itemList2;
     [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
+    [HideInInspector] public int saveInt1, saveInt2, saveInt3;
+    [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
+    [HideInInspector] public string saveString1, saveString2, saveString3;
 
     public ParticleSystem damageParticles;
     public GameObject destructionParticles;
@@ -211,6 +215,16 @@ public class StructureBehaviorScript : MonoBehaviour
                 //catch adjacent structs on fire randomly
             }
         }
+    }
+
+    public virtual void SaveVariables()
+    {
+        //
+    }
+
+    public virtual void LoadVariables()
+    {
+        //
     }
 }
 

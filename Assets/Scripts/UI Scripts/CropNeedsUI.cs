@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
 
 public class CropNeedsUI : MonoBehaviour
 {
     private FarmLand farmLand;
     private CropData cropData;
     private NutrientStorage nutrients;
-    public GameObject gloam, terra, ichor, water, background, canvas;
+    public GameObject gloam, terra, ichor, water, rot, background, canvas;
     ControlManager controlManager;
     private bool isDetailed;
 
@@ -42,6 +40,9 @@ public class CropNeedsUI : MonoBehaviour
             return;
         }
 
+        if(!gloam.activeSelf && !terra.activeSelf && !ichor.activeSelf && !water.activeSelf && !rot.activeSelf) {background.SetActive(false);}
+        else background.SetActive(true);
+
         nutrients = farmLand.GetCropStats();
         cropData = farmLand.crop;
 
@@ -57,10 +58,14 @@ public class CropNeedsUI : MonoBehaviour
         if(nutrients.waterLevel < cropData.waterIntake) water.SetActive(true);
         else water.SetActive(false);
 
-        //canvas.SetActive(UICropStats.isDetailed);
+        if(farmLand.rotted)
+        {
+            rot.SetActive(true);
+            Rotten();
+        }
+        else {rot.SetActive(false);}
 
-        if(!gloam.activeSelf && !terra.activeSelf && !ichor.activeSelf && !water.activeSelf) {background.SetActive(false);}
-        else background.SetActive(true);
+        //canvas.SetActive(UICropStats.isDetailed);
 
     }
 
@@ -70,6 +75,16 @@ public class CropNeedsUI : MonoBehaviour
         terra.SetActive(false);
         ichor.SetActive(false);
         water.SetActive(false);
+        rot.SetActive(false);
         background.SetActive(false);
+    }
+
+    private void Rotten()
+    {
+        gloam.SetActive(false);
+        terra.SetActive(false);
+        ichor.SetActive(false);
+        water.SetActive(false);
+        //background.SetActive(false);
     }
 }

@@ -322,12 +322,14 @@ public class TimeManager : MonoBehaviour
         //save game
         NightSpawningManager.Instance.ClearAllCreatures();
         yield return new WaitForSecondsRealtime(2);
-        SaveGameManager.SaveData();
+        if(MainMenuScript.loadingData) SaveGameManager.SaveData();
         FadeScreen.coverScreen = false;
         yield return new WaitForSecondsRealtime(0.5f);
         PlayerMovement.restrictMovementTokens--;
         Time.timeScale = 1;
         OnHourlyUpdate?.Invoke();
+
+         if(MainMenuScript.loadingData) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.gameSavePopup);
     }
 
     [ContextMenu("Set To Start Of Morning")]

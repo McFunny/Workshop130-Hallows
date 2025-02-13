@@ -28,7 +28,7 @@ public class MistWalker : CreatureBehaviorScript
 
     private Vector3 despawnPos;
 
-    private Coroutine trackPlayerRoutine; 
+    private Coroutine trackPlayerRoutine, walkRoutine; 
 
     private FireFearTrigger fireSource;
     public GameObject fearParticle;
@@ -87,7 +87,7 @@ public class MistWalker : CreatureBehaviorScript
         if (!isMoving)
         {
             Vector3 randomPoint = StructureManager.Instance.GetRandomTile();
-            StartCoroutine(MoveToPoint(randomPoint));
+            walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
 
@@ -239,7 +239,7 @@ public class MistWalker : CreatureBehaviorScript
         if (!isMoving && currentState == CreatureState.Wander)
         {
             Vector3 randomPoint = GetRandomPointAround(transform.position, 5f);
-            StartCoroutine(MoveToPoint(randomPoint));
+            walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
 
@@ -270,7 +270,7 @@ public class MistWalker : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 10)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 20)
         {
             timeSpent += Time.deltaTime;
             if (playerInSightRange)
@@ -278,6 +278,7 @@ public class MistWalker : CreatureBehaviorScript
                 currentState = CreatureState.WalkTowardsPlayer;
                 isMoving = false;
                 coroutineRunning = false;
+                walkRoutine = null;
                 yield break;
             }
 
@@ -305,6 +306,7 @@ public class MistWalker : CreatureBehaviorScript
                 currentState = CreatureState.Idle;
             }
         }
+        walkRoutine = null;
     }
 
 
@@ -636,9 +638,17 @@ public class MistWalker : CreatureBehaviorScript
     {
         currentState = CreatureState.Stun;
         coroutineRunning = false;
-        StopAllCoroutines();
+        //StopAllCoroutines();
+        StopCoroutine(LungeAtPlayer());
+        StopCoroutine(SwipePlayer());
+        StopTrackingPlayer();
+        if(walkRoutine != null)
+        {
+            StopCoroutine(walkRoutine);
+            walkRoutine = null;
+        }
         yield return new WaitForSeconds(duration);
-        StartCoroutine(IdleSoundTimer());
+        //StartCoroutine(IdleSoundTimer());
         currentState = CreatureState.Wander;
     }
 
@@ -653,6 +663,7 @@ public class MistWalker : CreatureBehaviorScript
             rb.isKinematic = true;
             rb.freezeRotation = true;
             StopAllCoroutines();
+            fearParticle.SetActive(false);
         }
     }
 
