@@ -26,6 +26,8 @@ public class PlacedTorch : StructureBehaviorScript
     void Update()
     {
         base.Update();
+
+        if(fire.activeSelf && !PlayerInteraction.Instance.torchLit) ExtinguishFlame();
     }
 
     public override void StructureInteraction()

@@ -247,6 +247,7 @@ public class FarmLand : StructureBehaviorScript
         if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;
+            if(!rotted && crop.behavior) crop.behavior.OnHour(this);
             return;
         }
         if(!crop)

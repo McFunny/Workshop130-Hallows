@@ -278,21 +278,26 @@ public class MurderMancer : CreatureBehaviorScript
         effectsHandler.Idle1();
         if(NightSpawningManager.Instance.ReportTotalOfCreature(crowData) < 10)
         {
-            MutatedCrow crow1 = Instantiate(crowData.objectPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
-            MutatedCrow crow2 = Instantiate(crowData.objectPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();
+            for(int i = 0; i < 2; i++)
+            {
+                MutatedCrow crow1 = Instantiate(crowData.objectPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
+                MutatedCrow crow2 = Instantiate(crowData.objectPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();
 
-            GameObject poofParticle1 = ParticlePoolManager.Instance.GrabCloudParticle();
-            poofParticle1.transform.position = crow1.transform.position;
-            GameObject poofParticle2 = ParticlePoolManager.Instance.GrabCloudParticle();
-            poofParticle2.transform.position = crow2.transform.position;
+                GameObject poofParticle1 = ParticlePoolManager.Instance.GrabCloudParticle();
+                poofParticle1.transform.position = crow1.transform.position;
+                GameObject poofParticle2 = ParticlePoolManager.Instance.GrabCloudParticle();
+                poofParticle2.transform.position = crow2.transform.position;
 
-            crow1.isSummoned = true;
-            crow2.isSummoned = true;
-            crow1.isAttackCrow = true;
-            crow2.isAttackCrow = false;
+                crow1.isSummoned = true;
+                crow2.isSummoned = true;
+                crow1.isAttackCrow = true;
+                crow2.isAttackCrow = false;
+
+                yield return new WaitForSeconds(0.5f);
+            }
         }
         
-        yield return new WaitForSeconds(0.3f);
+        //yield return new WaitForSeconds(0.3f);
         HandItemManager.Instance.TorchFlameToggle(false);
         foreach (var structure in structManager.allStructs)
         {
