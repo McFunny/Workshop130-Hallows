@@ -68,7 +68,10 @@ public class StructureManager : MonoBehaviour
     {
         storage.Clear();
         storage = newStorage.ToList();
-        //for(int i = 0; i < storage.Count; i++) storage[i] = newStorage[i];
+        for(int i = 0; i < storage.Count; i++)
+        {
+            if(storage[i].waterLevel > 3) print("Water!!!???");
+        }
     }
 
     public void HourUpdate()

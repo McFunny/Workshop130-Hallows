@@ -42,7 +42,7 @@ public class SaveGameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        /*if (Input.GetKeyDown(KeyCode.O))
         {
             SaveData();
         }
@@ -51,7 +51,7 @@ public class SaveGameManager : MonoBehaviour
         {
             TryLoadData();
             
-        }
+        }*/
     }
 
     public static void SaveData()

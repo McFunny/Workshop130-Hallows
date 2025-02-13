@@ -122,6 +122,7 @@ public class FarmLand : StructureBehaviorScript
             playerInventoryHolder.UpdateInventory();
             return;
         }
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 
         if(crop) return;
         CropItem newCrop = item as CropItem;
@@ -450,6 +451,8 @@ public class FarmLand : StructureBehaviorScript
         {
             nutrients.gloamLevel += growthStage * crop.gloamIntake * 0.5f;
         }
+
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
     }
 
     IEnumerator DigPlant()
@@ -494,12 +497,15 @@ public class FarmLand : StructureBehaviorScript
         SpriteChange();
         if(isFrosted) FrostDamage();
         if(onFire) Extinguish();
+
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
     }
 
     public void IchorRefill()
     {
         ichorSplash.Play();
         if(crop && crop.behavior) crop.behavior.OnIchorRefill(this);
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
     }
 
     public NutrientStorage GetCropStats() //For the UI
@@ -561,7 +567,7 @@ public class FarmLand : StructureBehaviorScript
     {
         nutrients = StructureManager.Instance.FetchNutrient(transform.position);
         if(isWeed) return;
-        print(saveString1);
+        //print(saveString1);
         if(saveString1 != "")
         {
             crop = cropDatabase.GetCropByName(saveString1);
@@ -577,6 +583,8 @@ public class FarmLand : StructureBehaviorScript
         //SpriteChange();
         if(crop) wealthValue = 5;
         else wealthValue = 0;
+
+        GetCropStats();
     }
 
     public override void SaveVariables()
