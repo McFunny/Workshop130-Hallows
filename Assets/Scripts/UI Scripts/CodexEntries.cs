@@ -19,8 +19,8 @@ public class CodexEntries : ScriptableObject
         GettingStarted
     }
     public EntryType entryType;
-    public Button entryButton;
-    public Image buttonIcon;
+    //public GameObject entryButton;
+    public Sprite buttonIcon;
 
     [Tooltip("Unlocked??? Yes or... no....? (True is yes, false is no)")]
     public bool unlocked = false;
@@ -29,7 +29,7 @@ public class CodexEntries : ScriptableObject
     public bool hasImage = false;
 
     [Tooltip("The assigned image")]
-    public Image largeImage;
+    public Sprite largeImage;
 
     [Tooltip("Name of the entry personally I thought this was pretty self explanatory tho")]
     public string entryName;
