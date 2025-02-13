@@ -51,7 +51,7 @@ public class StructureManager : MonoBehaviour
 
     void Start()
     {
-        PopulateForageables(4, 8);
+        PopulateForageables(1, 4);
         PopulateDecorCrows(0, 2);
     }
 
@@ -79,10 +79,10 @@ public class StructureManager : MonoBehaviour
         //print("AllStructs: " + allStructs.Count);
         if(TimeManager.Instance.currentHour == 8)
         {
-            PopulateWeeds(-3, 8);
+            PopulateWeeds(-3, 5);
             PopulateDecorCrows(0, 2);
         }
-        if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
+        if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 3);
         if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(1, 6);
     }
 

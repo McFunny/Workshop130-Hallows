@@ -39,13 +39,13 @@ public class WaterCanBehavior : ToolBehavior
                     if(PlayerInteraction.Instance.stamina > 25)
                     {
                         toolAnim.SetFloat("AnimSpeed", 1f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
+                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.2f));
                         PlayerInteraction.Instance.StaminaChange(-2);
                     }
                     else
                     {
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
-                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.6f * 1.25f));
+                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.2f * 1.25f));
                     }
                     PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;

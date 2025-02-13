@@ -67,13 +67,15 @@ public class WaterBarrel : StructureBehaviorScript
 
     public void WaterLevelChange()
     {
+        if(waterLevel > 0) renderer.enabled = true;
+        else renderer.enabled = false;
         switch(waterLevel)
         {
             case 0:
-                waterTexture.position = new Vector3(waterTexture.position.x, 0.1f, waterTexture.position.z);
+                waterTexture.position = new Vector3(waterTexture.position.x, 0.2f, waterTexture.position.z);
                 break;
             case 1:
-                waterTexture.position = new Vector3(waterTexture.position.x, 0.4f, waterTexture.position.z);
+                waterTexture.position = new Vector3(waterTexture.position.x, 0.45f, waterTexture.position.z);
                 break;
             case 2:
                 waterTexture.position = new Vector3(waterTexture.position.x, 0.8f, waterTexture.position.z);
