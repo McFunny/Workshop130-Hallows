@@ -31,7 +31,7 @@ public class Spa : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(0.5f);
-            if(playerInSpa && PlayerInteraction.Instance.stamina < PlayerInteraction.Instance.maxStamina/2) PlayerInteraction.Instance.stamina += 5;
+            if(playerInSpa && PlayerInteraction.Instance.stamina < PlayerInteraction.Instance.maxStamina * 0.75f) PlayerInteraction.Instance.stamina += 5;
         }
         while(gameObject.activeSelf);
     }

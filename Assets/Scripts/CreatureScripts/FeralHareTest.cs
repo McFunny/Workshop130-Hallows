@@ -76,6 +76,12 @@ public class FeralHareTest : CreatureBehaviorScript
         {
             fleeTimeLeft -= Time.deltaTime;
         }
+
+        if(inEatingRange && foundFarmTile)
+        {
+            float distance = Vector3.Distance(foundFarmTile.transform.position, transform.position);
+            if(distance > 2.5f) inEatingRange = false;
+        }
     }
 
     private void CheckState(CreatureState state)

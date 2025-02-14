@@ -311,7 +311,7 @@ public class PlayerInteraction : MonoBehaviour
             sentLowStaminaMessage = true;
             PopupHandler.Instance.AddToQueue(lowStaminaWarning);
         }
-        else if(stamina > 30) sentLowStaminaMessage = false;
+        else if(stamina > 50) sentLowStaminaMessage = false;
     }
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)

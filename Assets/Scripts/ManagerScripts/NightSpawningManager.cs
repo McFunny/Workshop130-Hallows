@@ -156,7 +156,11 @@ public class NightSpawningManager : MonoBehaviour
             {
                 r = Random.Range(0, fillerCreatures.Length);
                 CreatureObject newCreature = fillerCreatures[r];
-                if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) SpawnCreature(newCreature);
+                if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && totalCreatures < maxCreatures) 
+                {
+                    totalCreatures++;
+                    SpawnCreature(newCreature);
+                }
             }
         }
     }
@@ -293,20 +297,20 @@ public class NightSpawningManager : MonoBehaviour
             case 1:
                 return 3;
             case 2:
-                return 5;
+                return 4;
             case 3:
-                return 6;
+                return 5;
             case 4:
-                return 8;
+                return 5;
             case 5:
                 return 8;
             case 6:
-                return 12;
+                return 8;
             case 7:
                 return 12;
             default:
                 //use greater than statements
-                return 20;
+                return 12;
         }
 
     }
