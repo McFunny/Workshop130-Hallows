@@ -16,10 +16,10 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - YAASSSS! New people to try my food.
-    - 'You cultivate? I culinate! '
-    - Come by my shop and buy my food!
-    emotions: 010000000400000000000000
+    - Hey you are new around here!
+    - Hopefully I'll be using your crops to make some great food!
+    - Come by my shop and try the cuisine of Veilwood!
+    emotions: 000000000000000001000000
   questCompletePath:
     pathName: 
     paragraphs: []
@@ -32,62 +32,45 @@ MonoBehaviour:
   paths:
   - pathName: Buy something!
     paragraphs:
-    - What food ya want hun?
+    - Anything looking appetizing?
     emotions: 00000000
   - pathName: Want to buy this?
     paragraphs:
-    - I see you looking at the {storeItemName}. Its yours for {storeItemValue} <color=#E0D38F>Mints</color>
-      <sprite index=0>!
+    - Your taste buds have landed on the {storeItemName}. Its yours for {storeItemValue}
+      <color=#E0D38F>Mints</color> <sprite index=0>!
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
-    - Enjoy! {itemBought}
+    - Enjoy your {itemBought}
     emotions: 01000000
   - pathName: No Money
     paragraphs:
-    - WOW!!! The rumors are true! You ARE broke!
-    emotions: 03000000
+    - You are gonna need some more money before you can have a bite of that
+    emotions: 02000000
   - pathName: No Space
     paragraphs:
-    - Your stomach, or perhaps inventory, seems to full to buy this!
+    - Your stomach, or perhaps inventory, seems to full to buy this
     emotions: 05000000
   fillerPaths:
-  - pathName: Hard Work
+  - pathName: Gloomstalk Bread
     paragraphs:
-    - I gotta say, I don't quite envy your position.
-    - Having to work that close to the mist must be very frightening.
-    emotions: 0400000000000000
-  - pathName: Mist is neat
+    - That gloomstalk is sure hard to turn into bread.
+    - I can see why gloomstalk is being made into barricades and not food.
+    emotions: 0000000000000000
+  - pathName: Mist food
     paragraphs:
-    - Can you believe plants used to take several months to mature??
-    - I could never imagine a world like that. Farming would be so boring!
-    emotions: 0500000001000000
+    - Some people have told me food tasted better before the mist showed up.
+    - I think they just haven't tried my cooking!
+    emotions: 0000000001000000
   - pathName: Come to my store
     paragraphs:
-    - Please stop at my little shop booth when I am there! I can sell you some seeds
-      that I happen to come across, as well as my bagged fertilizers.
+    - Hey come check out my shop. I got some fresh ingredients from that wagon guy!
     emotions: 01000000
-  - pathName: Ichor Explanation
+  - pathName: Baked Terratuber
     paragraphs:
-    - Some crops require a special nutrient known as Ichor. Unlike the other nutrients,
-      plants do not produce it, nor have I found a way to condense it into a fertilizer.
-    - I have traced high concentrations of Ichor in living creatures... Perhaps if
-      I could get a sample...
-    emotions: 0000000005000000
-  - pathName: Seed Explanation
-    paragraphs:
-    - There are many plants that have special properties to them.
-    - If you have any questions, show me the crop seeds and I can tell you more about
-      them!
-    emotions: 0000000001000000
-  - pathName: Nutrient Explanation
-    paragraphs:
-    - Have you been mixing up where you plant your seeds?
-    - It helps to rotate your crops to better suite your soil and keep the nutrients
-      high.
-    - Or if that is too much of an ask, you can just use my fertalizer!
-    - I highly recommend the second option.
-    emotions: 04000000060000000000000001000000
+    - The terratuber is one of my favorite things to make.
+    - It's just so simple.
+    emotions: 0000000000000000
   questPaths: []
   itemRecievedPaths:
   - pathName: Go Sell that

@@ -45,49 +45,34 @@ MonoBehaviour:
     emotions: 01000000
   - pathName: No Money
     paragraphs:
-    - Come back with some more money and I can sell this to you
-    emotions: 03000000
+    - Come back with some more money and I can sell this to you!
+    emotions: 02000000
   - pathName: No Space
     paragraphs:
-    - I don't think you would be able to carry this
+    - I don't think you would be able to carry this.
     emotions: 05000000
   fillerPaths:
-  - pathName: Hard Work
+  - pathName: Seed Shooter
     paragraphs:
-    - Hey how's the farm going?
-    - Don't be afraid to come to me for some upgrades!
-    emotions: 0400000000000000
-  - pathName: Mist is neat
-    paragraphs:
-    - Can you believe plants used to take several months to mature??
-    - I could never imagine a world like that. Farming would be so boring!
-    emotions: 0500000001000000
-  - pathName: Come to my store
-    paragraphs:
-    - Please stop at my little shop booth when I am there! I can sell you some seeds
-      that I happen to come across, as well as my bagged fertilizers.
-    emotions: 01000000
-  - pathName: Ichor Explanation
-    paragraphs:
-    - Some crops require a special nutrient known as Ichor. Unlike the other nutrients,
-      plants do not produce it, nor have I found a way to condense it into a fertilizer.
-    - I have traced high concentrations of Ichor in living creatures... Perhaps if
-      I could get a sample...
-    emotions: 0000000005000000
-  - pathName: Seed Explanation
-    paragraphs:
-    - There are many plants that have special properties to them.
-    - If you have any questions, show me the crop seeds and I can tell you more about
-      them!
+    - I've been working on making upgrades to the turrets.
+    - I'm glad I got one working where you can put your seeds in it!
     emotions: 0000000001000000
-  - pathName: Nutrient Explanation
+  - pathName: Braziers
     paragraphs:
-    - Have you been mixing up where you plant your seeds?
-    - It helps to rotate your crops to better suite your soil and keep the nutrients
-      high.
-    - Or if that is too much of an ask, you can just use my fertalizer!
-    - I highly recommend the second option.
-    emotions: 04000000060000000000000001000000
+    - I know how useful it is for you to have contained fires on your farm.
+    - That's why I love making you braziers!
+    - It helps you and puts some money in my pockets!
+    - If only I could find a way to prevent Murdermancers from putting it out!
+    emotions: 00000000010000000100000003000000
+  - pathName: Landmine
+    paragraphs:
+    - Those land mines I make are specially designed.
+    - You can switch what nutrient they consume when they blow up.
+    emotions: 0000000000000000
+  - pathName: Compost Bin
+    paragraphs:
+    - Have you ever tried putting hare meat in the compost bin?
+    emotions: 04000000
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks: []
