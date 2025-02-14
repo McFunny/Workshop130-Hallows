@@ -30,7 +30,7 @@ public class GameSaveData : MonoBehaviour
     public bool catacombUnlocked; //Key used to unlock door to catacombs
 
     [Header("NPC Bools. All must be false when building")]
-    public bool rascalMet, botMet, lumberMet, barMet;
+    public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet;
 
     //IF WE HAVE THE GAME ONLY SAVE AT THE MORNING LIKE STARDEW, WE DONT HAVE TO SAVE ALOT OF STUFF LIKE TOWNSPEOPLE POS AND SHOP ITEMS
 
@@ -90,6 +90,13 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.allGameSaveData.bridgeCleared;
             keyCollected = data.allGameSaveData.keyCollected;
             catacombUnlocked = data.allGameSaveData.catacombUnlocked;
+            rascalMet = data.allGameSaveData.rascalMet;
+            botMet = data.allGameSaveData.botMet;
+            lumberMet = data.allGameSaveData.lumberMet;
+            barMet = data.allGameSaveData.barMet;
+            tinkMet = data.allGameSaveData.tinkMet;
+            apothMet = data.allGameSaveData.apothMet;
+            culMet = data.allGameSaveData.culMet;
     }
 }
     [System.Serializable]
@@ -109,8 +116,15 @@ public class GameSaveData : MonoBehaviour
         public bool bridgeCleared;
         public bool keyCollected;
         public bool catacombUnlocked;
+        public bool rascalMet;
+        public bool botMet;
+        public bool lumberMet;
+        public bool barMet;
+        public bool tinkMet;
+        public bool apothMet;
+        public bool culMet;
 
-        public AllGameSaveData(GameSaveData data)
+    public AllGameSaveData(GameSaveData data)
         {
             pStamina = PlayerInteraction.Instance.stamina;
             pWater = PlayerInteraction.Instance.waterHeld;
@@ -125,7 +139,14 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.bridgeCleared;
             keyCollected = data.keyCollected;
             catacombUnlocked = data.catacombUnlocked;
-            //Debug.Log("Saving stamina. Result: " + pStamina);
-        }
+            rascalMet = data.rascalMet;
+            botMet = data.botMet;
+            lumberMet = data.lumberMet;
+            barMet = data.barMet;
+            tinkMet = data.tinkMet;
+            apothMet = data.apothMet;
+            culMet = data.culMet;
+    //Debug.Log("Saving stamina. Result: " + pStamina);
+}
     }
 

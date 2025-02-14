@@ -48,7 +48,7 @@ public abstract class InventoryDisplay : MonoBehaviour
                 //clickedUISlot.UpdateUISlot();
                 clickedUISlot.ClearSlot();
                 PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
-                PlayerInventoryHolder.Instance.UpdateInventory(); //WHY WONT IT UPDATE THE BACKPACK
+                PlayerInventoryHolder.Instance.UpdateOpenInventory();
                 if(slot != null) UpdateSlot(slot); //STILL NOTHING???
                 return;
             }

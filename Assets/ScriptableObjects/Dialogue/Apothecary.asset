@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Apothecary
   defaultPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Introduction
+    paragraphs:
+    - You are the new farmer, right?
+    - I heard your farm isn't protected from the mist!
+    - Must be scary!
+    emotions: 040000000500000005000000
   questCompletePath:
     pathName: 
     paragraphs: []
@@ -25,8 +28,49 @@ MonoBehaviour:
     pathName: 
     paragraphs: []
     emotions: 
-  paths: []
-  fillerPaths: []
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - Anything handy?
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - I see you got your eye on the {storeItemName}. It'll cost you {storeItemValue}
+      <color=#E0D38F>Mints</color> <sprite index=0>!
+    emotions: 00000000
+  - pathName: Sold!
+    paragraphs:
+    - Enjoy your new {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - Come back with some more money and I can sell this to you
+    emotions: 03000000
+  - pathName: No Space
+    paragraphs:
+    - I don't think you would be able to carry this
+    emotions: 05000000
+  fillerPaths:
+  - pathName: Mist Walkers
+    paragraphs:
+    - Those Mist Walkers sure are scary!
+    emotions: 05000000
+  - pathName: Hare
+    paragraphs:
+    - Those hares look cute from a distance.
+    - Too bad they are such a problem on the farm!
+    emotions: 0000000000000000
+  - pathName: Wraith
+    paragraphs:
+    - I've seen some kind of ghostly figure on your farm before!
+    - That's why I prefer to stay in the town!
+    emotions: 0500000001000000
+  - pathName: Crows
+    paragraphs:
+    - The crows around here act very strange.
+    - There is a big difference on how they act in the farm versus how they act in
+      the town.
+    emotions: 0000000000000000
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks: []

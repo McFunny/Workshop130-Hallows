@@ -314,9 +314,16 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
-        OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
+       
     }
 
+    public void UpdateOpenInventory()
+    {
+        OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+        OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+        OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
+    }
+   
 
 }
 

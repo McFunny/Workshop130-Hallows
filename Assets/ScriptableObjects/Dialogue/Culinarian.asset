@@ -14,22 +14,129 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Culinarian
   defaultPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Introduction
+    paragraphs:
+    - Hey you are new around here!
+    - Hopefully I'll be using your crops to make some great food!
+    - Come by my shop and try the cuisine of Veilwood!
+    emotions: 000000000000000001000000
   questCompletePath:
     pathName: 
     paragraphs: []
     emotions: 
   repeatedItemPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
-  paths: []
-  fillerPaths: []
+    pathName: Again...?
+    paragraphs:
+    - Oh joy.... {itemName}.... Again....  {itemGiven}
+    emotions: 03000000
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - Anything looking appetizing?
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - Your taste buds have landed on the {storeItemName}. Its yours for {storeItemValue}
+      <color=#E0D38F>Mints</color> <sprite index=0>!
+    emotions: 00000000
+  - pathName: Sold!
+    paragraphs:
+    - Enjoy your {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - You are gonna need some more money before you can have a bite of that
+    emotions: 02000000
+  - pathName: No Space
+    paragraphs:
+    - Your stomach, or perhaps inventory, seems to full to buy this
+    emotions: 05000000
+  fillerPaths:
+  - pathName: Gloomstalk Bread
+    paragraphs:
+    - That gloomstalk is sure hard to turn into bread.
+    - I can see why gloomstalk is being made into barricades and not food.
+    emotions: 0000000000000000
+  - pathName: Mist food
+    paragraphs:
+    - Some people have told me food tasted better before the mist showed up.
+    - I think they just haven't tried my cooking!
+    emotions: 0000000001000000
+  - pathName: Come to my store
+    paragraphs:
+    - Hey come check out my shop. I got some fresh ingredients from that wagon guy!
+    emotions: 01000000
+  - pathName: Baked Terratuber
+    paragraphs:
+    - The terratuber is one of my favorite things to make.
+    - It's just so simple.
+    emotions: 0000000000000000
   questPaths: []
-  itemRecievedPaths: []
-  itemSpecificRemarks: []
+  itemRecievedPaths:
+  - pathName: Go Sell that
+    paragraphs:
+    - Excellent harvest farmer! Glad to know the plants are in good hands.
+    emotions: 01000000
+  - pathName: Looks Great
+    paragraphs:
+    - 'Perfect, I have been starving all day! Thanks a bunch.
+
+      {itemGiven}'
+    emotions: 01000000
+  - pathName: Too Full
+    paragraphs:
+    - Oh, I positively couldn't have another.
+    - If you have extras, go share them with everyone!
+    emotions: 0500000001000000
+  itemSpecificRemarks:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
+  - pathName: Fertilizer
+    paragraphs:
+    - That stuff is real handy for when you have a plot of land that just can't support
+      life no more.
+    - One bag will fill up any tile of ground with its specified nutrient.
+    emotions: 0200000000000000
+  - pathName: CarrotSeeds
+    paragraphs:
+    - Pale carrots are a very well rounded crop. Not too picky, as long as you have
+      good levels of Gloamphage in your soil you are set!
+    emotions: 00000000
+  - pathName: TuberSeeds
+    paragraphs:
+    - TerraTubers are very easy to care for, and can tolerate very rough conditions
+      longer than other plants
+    - Just be sure to keep them away from any sources of that nasty blight!
+    emotions: 0000000005000000
+  - pathName: DrakeSeeds
+    paragraphs:
+    - Mandrakes are a nasty bunch. They aren't harmful, but they are such a pain
+      to chase down!
+    - Makes me thankful none of the other plants here fight back...
+    emotions: 0300000001000000
+  - pathName: StalkSeeds
+    paragraphs:
+    - With how fast these grow, I would personally classify them as a weed.
+    - Keep an eye on their water intake and you will have a field of Gloomstalk in
+      no time.
+    emotions: 0300000000000000
+  - pathName: BeanSeeds
+    paragraphs:
+    - Unlike most plants, BloodBeans continue to grow after harvest if left in the
+      soil.
+    - Keep its ichor levels steady to ensure multiple yields.
+    emotions: 0000000000000000
+  - pathName: GingerSeeds
+    paragraphs:
+    - Personally, I could never get these to grow. This plant is very picky regarding
+      its growing conditions, and requires constant maintenance.
+    - However, there is merit in a succesful yield. With how rare these roots are,
+      they fetch a high price.
+    emotions: 0400000005000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
