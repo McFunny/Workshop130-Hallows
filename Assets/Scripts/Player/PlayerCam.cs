@@ -8,7 +8,7 @@ public class PlayerCam : MonoBehaviour
     public static PlayerCam Instance;
     //bool allowCameraInfluence = false;
 
-    Vector3 posOfInterest = new Vector3(0,0,0);
+    Vector3 posOfInterest = new Vector3(0,0,0); //What the camera pans to
     float interestRotSpeed = 3;
 
     public float sensX;
