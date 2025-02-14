@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Tinkerer
   defaultPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Introduction
+    paragraphs:
+    - Oh hey! So you are the new one around here.
+    - I love puting gears in a box and hearing it purr!!!
+    - Come check out my shop when you can! It'll probably help you defend that farm
+      of yours.
+    emotions: 010000000100000000000000
   questCompletePath:
     pathName: 
     paragraphs: []
@@ -25,8 +29,65 @@ MonoBehaviour:
     pathName: 
     paragraphs: []
     emotions: 
-  paths: []
-  fillerPaths: []
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - Anything handy?
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - I see you got your eye on the {storeItemName}. It'll cost you {storeItemValue}
+      <color=#E0D38F>Mints</color> <sprite index=0>!
+    emotions: 00000000
+  - pathName: Sold!
+    paragraphs:
+    - Enjoy your new {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - Come back with some more money and I can sell this to you
+    emotions: 03000000
+  - pathName: No Space
+    paragraphs:
+    - I don't think you would be able to carry this
+    emotions: 05000000
+  fillerPaths:
+  - pathName: Hard Work
+    paragraphs:
+    - Hey how's the farm going?
+    - Don't be afraid to come to me for some upgrades!
+    emotions: 0400000000000000
+  - pathName: Mist is neat
+    paragraphs:
+    - Can you believe plants used to take several months to mature??
+    - I could never imagine a world like that. Farming would be so boring!
+    emotions: 0500000001000000
+  - pathName: Come to my store
+    paragraphs:
+    - Please stop at my little shop booth when I am there! I can sell you some seeds
+      that I happen to come across, as well as my bagged fertilizers.
+    emotions: 01000000
+  - pathName: Ichor Explanation
+    paragraphs:
+    - Some crops require a special nutrient known as Ichor. Unlike the other nutrients,
+      plants do not produce it, nor have I found a way to condense it into a fertilizer.
+    - I have traced high concentrations of Ichor in living creatures... Perhaps if
+      I could get a sample...
+    emotions: 0000000005000000
+  - pathName: Seed Explanation
+    paragraphs:
+    - There are many plants that have special properties to them.
+    - If you have any questions, show me the crop seeds and I can tell you more about
+      them!
+    emotions: 0000000001000000
+  - pathName: Nutrient Explanation
+    paragraphs:
+    - Have you been mixing up where you plant your seeds?
+    - It helps to rotate your crops to better suite your soil and keep the nutrients
+      high.
+    - Or if that is too much of an ask, you can just use my fertalizer!
+    - I highly recommend the second option.
+    emotions: 04000000060000000000000001000000
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks: []

@@ -14,22 +14,146 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Culinarian
   defaultPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Introduction
+    paragraphs:
+    - YAASSSS! New people to try my food.
+    - 'You cultivate? I culinate! '
+    - Come by my shop and buy my food!
+    emotions: 010000000400000000000000
   questCompletePath:
     pathName: 
     paragraphs: []
     emotions: 
   repeatedItemPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
-  paths: []
-  fillerPaths: []
+    pathName: Again...?
+    paragraphs:
+    - Oh joy.... {itemName}.... Again....  {itemGiven}
+    emotions: 03000000
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - What food ya want hun?
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - I see you looking at the {storeItemName}. Its yours for {storeItemValue} <color=#E0D38F>Mints</color>
+      <sprite index=0>!
+    emotions: 00000000
+  - pathName: Sold!
+    paragraphs:
+    - Enjoy! {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - WOW!!! The rumors are true! You ARE broke!
+    emotions: 03000000
+  - pathName: No Space
+    paragraphs:
+    - Your stomach, or perhaps inventory, seems to full to buy this!
+    emotions: 05000000
+  fillerPaths:
+  - pathName: Hard Work
+    paragraphs:
+    - I gotta say, I don't quite envy your position.
+    - Having to work that close to the mist must be very frightening.
+    emotions: 0400000000000000
+  - pathName: Mist is neat
+    paragraphs:
+    - Can you believe plants used to take several months to mature??
+    - I could never imagine a world like that. Farming would be so boring!
+    emotions: 0500000001000000
+  - pathName: Come to my store
+    paragraphs:
+    - Please stop at my little shop booth when I am there! I can sell you some seeds
+      that I happen to come across, as well as my bagged fertilizers.
+    emotions: 01000000
+  - pathName: Ichor Explanation
+    paragraphs:
+    - Some crops require a special nutrient known as Ichor. Unlike the other nutrients,
+      plants do not produce it, nor have I found a way to condense it into a fertilizer.
+    - I have traced high concentrations of Ichor in living creatures... Perhaps if
+      I could get a sample...
+    emotions: 0000000005000000
+  - pathName: Seed Explanation
+    paragraphs:
+    - There are many plants that have special properties to them.
+    - If you have any questions, show me the crop seeds and I can tell you more about
+      them!
+    emotions: 0000000001000000
+  - pathName: Nutrient Explanation
+    paragraphs:
+    - Have you been mixing up where you plant your seeds?
+    - It helps to rotate your crops to better suite your soil and keep the nutrients
+      high.
+    - Or if that is too much of an ask, you can just use my fertalizer!
+    - I highly recommend the second option.
+    emotions: 04000000060000000000000001000000
   questPaths: []
-  itemRecievedPaths: []
-  itemSpecificRemarks: []
+  itemRecievedPaths:
+  - pathName: Go Sell that
+    paragraphs:
+    - Excellent harvest farmer! Glad to know the plants are in good hands.
+    emotions: 01000000
+  - pathName: Looks Great
+    paragraphs:
+    - 'Perfect, I have been starving all day! Thanks a bunch.
+
+      {itemGiven}'
+    emotions: 01000000
+  - pathName: Too Full
+    paragraphs:
+    - Oh, I positively couldn't have another.
+    - If you have extras, go share them with everyone!
+    emotions: 0500000001000000
+  itemSpecificRemarks:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
+  - pathName: Fertilizer
+    paragraphs:
+    - That stuff is real handy for when you have a plot of land that just can't support
+      life no more.
+    - One bag will fill up any tile of ground with its specified nutrient.
+    emotions: 0200000000000000
+  - pathName: CarrotSeeds
+    paragraphs:
+    - Pale carrots are a very well rounded crop. Not too picky, as long as you have
+      good levels of Gloamphage in your soil you are set!
+    emotions: 00000000
+  - pathName: TuberSeeds
+    paragraphs:
+    - TerraTubers are very easy to care for, and can tolerate very rough conditions
+      longer than other plants
+    - Just be sure to keep them away from any sources of that nasty blight!
+    emotions: 0000000005000000
+  - pathName: DrakeSeeds
+    paragraphs:
+    - Mandrakes are a nasty bunch. They aren't harmful, but they are such a pain
+      to chase down!
+    - Makes me thankful none of the other plants here fight back...
+    emotions: 0300000001000000
+  - pathName: StalkSeeds
+    paragraphs:
+    - With how fast these grow, I would personally classify them as a weed.
+    - Keep an eye on their water intake and you will have a field of Gloomstalk in
+      no time.
+    emotions: 0300000000000000
+  - pathName: BeanSeeds
+    paragraphs:
+    - Unlike most plants, BloodBeans continue to grow after harvest if left in the
+      soil.
+    - Keep its ichor levels steady to ensure multiple yields.
+    emotions: 0000000000000000
+  - pathName: GingerSeeds
+    paragraphs:
+    - Personally, I could never get these to grow. This plant is very picky regarding
+      its growing conditions, and requires constant maintenance.
+    - However, there is merit in a succesful yield. With how rare these roots are,
+      they fetch a high price.
+    emotions: 0400000005000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
