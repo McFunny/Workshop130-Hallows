@@ -71,6 +71,8 @@ public class PlayerInteraction : MonoBehaviour
         playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
         playerEffects = FindObjectOfType<PlayerEffectsHandler>();
         rb = GetComponent<Rigidbody>();
+
+        StartCoroutine(WakeUp());
     }
 
     private void OnEnable()
@@ -403,6 +405,7 @@ public class PlayerInteraction : MonoBehaviour
         FadeScreen.coverScreen = false; //have the player gaze at a focal point on the bed, rising, then delete focal point. This should be done in its own function
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;
+        StartCoroutine(WakeUp());
 
     }
 
@@ -411,6 +414,32 @@ public class PlayerInteraction : MonoBehaviour
         itemUseCooldown = true;
         yield return new WaitForSeconds(5f);
         itemUseCooldown = false;
+    }
+
+    IEnumerator WakeUp() //Cant get this working smoothly.
+    {
+        print("Waking up");
+        PlayerMovement.restrictMovementTokens++;
+        //yield return new WaitForSeconds(1f);
+        PlayerCam.Instance.NewObjectOfInterest(TimeManager.Instance.respawnFocus.position);
+        int i = 0;
+        while(i < 10)
+        {
+            yield return new WaitForSeconds(0.2f);
+            TimeManager.Instance.respawnFocus.position = new Vector3(TimeManager.Instance.respawnFocus.position.x, TimeManager.Instance.respawnFocus.position.y + 0.4f, TimeManager.Instance.respawnFocus.position.z);
+            PlayerCam.Instance.NewObjectOfInterest(TimeManager.Instance.respawnFocus.position);
+            i++;
+        }
+        //yield return new WaitForSeconds(2);
+        PlayerMovement.restrictMovementTokens--;
+        PlayerCam.Instance.ClearObjectOfInterest();
+        print("Done");
+        while(i > 0)
+        {
+            yield return new WaitForSeconds(0.2f);
+            TimeManager.Instance.respawnFocus.position = new Vector3(TimeManager.Instance.respawnFocus.position.x, TimeManager.Instance.respawnFocus.position.y - 0.4f, TimeManager.Instance.respawnFocus.position.z);
+            i++;
+        }
     }
     
 }

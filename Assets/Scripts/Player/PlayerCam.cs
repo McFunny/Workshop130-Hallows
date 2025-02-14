@@ -111,6 +111,7 @@ public class PlayerCam : MonoBehaviour
         {
             if(PlayerMovement.restrictMovementTokens == 0)
             {
+                print("Clearing cuz player can move");
                 ClearObjectOfInterest();
                 return;
             }

@@ -40,7 +40,7 @@ public class TimeManager : MonoBehaviour
     public Color nightColor, dayColor;
     bool changingLights = false;
 
-    public Transform playerRespawn;
+    public Transform playerRespawn, respawnFocus;
 
     public static TimeManager Instance;
 
