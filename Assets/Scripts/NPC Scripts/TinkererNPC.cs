@@ -75,6 +75,7 @@ public class TinkererNPC : NPC, ITalkable
         if (dialogueController.IsInterruptable() == false || tItem)
         {
             interactSuccessful = false;
+            Talk();
             return;
         }
 

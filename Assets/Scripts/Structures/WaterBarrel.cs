@@ -93,7 +93,7 @@ public class WaterBarrel : StructureBehaviorScript
                 waterTexture.position = new Vector3(waterTexture.position.x, 0.8f, waterTexture.position.z);
                 break;
             case 3:
-                waterTexture.position = new Vector3(waterTexture.position.x, 1, waterTexture.position.z);
+                waterTexture.position = new Vector3(waterTexture.position.x, 1.1f, waterTexture.position.z);
                 break;
             default:
                 waterLevel = 0;

@@ -163,7 +163,8 @@ public class NightSpawningManager : MonoBehaviour
 
     void SpawnCreature(CreatureObject c)
     {
-        //int t = Random.Range(0,testSpawns.Count);
+        //Add chance of spawning variants here
+
         GameObject newCreature = Instantiate(c.objectPrefab, RandomMistPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {

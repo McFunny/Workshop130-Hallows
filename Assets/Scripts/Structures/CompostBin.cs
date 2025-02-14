@@ -78,14 +78,14 @@ public class CompostBin : StructureBehaviorScript
                         bonusCompostValue *= 0.5f;
                         for(int i = 0; i < 2; i++)
                         {
-                            r = Random.Range(0,10);
+                            r = Random.Range(0,80);
                             if(r < bonusCompostValue) compostYield++;
                         }
                         ready = true;
                     }
                     else
                     {
-                        r = Random.Range(0,10);
+                        r = Random.Range(0,80);
                         if(r < bonusCompostValue) compostYield++;
                         ready = true;
                     }
@@ -101,7 +101,7 @@ public class CompostBin : StructureBehaviorScript
         anim.SetBool("Spinning", false);
         anim.SetBool("IsFull", false);
 
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(0.7f);
 
         GameObject droppedItem;
         for(int i = 0; i < num; i++)
