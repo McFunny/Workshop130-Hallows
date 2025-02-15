@@ -36,7 +36,7 @@ public class WaterCanBehavior : ToolBehavior
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
                     PlayerMovement.restrictMovementTokens++;
 
-                    if(PlayerInteraction.Instance.stamina > 25)
+                    if(PlayerInteraction.Instance.stamina > 50)
                     {
                         toolAnim.SetFloat("AnimSpeed", 1f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.2f));
@@ -62,7 +62,7 @@ public class WaterCanBehavior : ToolBehavior
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
                     PlayerMovement.restrictMovementTokens++;
 
-                    if(PlayerInteraction.Instance.stamina > 25)
+                    if(PlayerInteraction.Instance.stamina > 50)
                     {
                         toolAnim.SetFloat("AnimSpeed", 1f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
@@ -90,7 +90,7 @@ public class WaterCanBehavior : ToolBehavior
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
                     PlayerMovement.restrictMovementTokens++;
-                    if(PlayerInteraction.Instance.stamina > 25)
+                    if(PlayerInteraction.Instance.stamina > 50)
                     {
                         toolAnim.SetFloat("AnimSpeed", 1f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
@@ -142,7 +142,7 @@ public class WaterCanBehavior : ToolBehavior
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
                     PlayerMovement.restrictMovementTokens++;
 
-                    if(PlayerInteraction.Instance.stamina > 25)
+                    if(PlayerInteraction.Instance.stamina > 50)
                     {
                         toolAnim.SetFloat("AnimSpeed", 1f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
@@ -167,7 +167,7 @@ public class WaterCanBehavior : ToolBehavior
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
                     PlayerMovement.restrictMovementTokens++;
-                    if(PlayerInteraction.Instance.stamina > 25)
+                    if(PlayerInteraction.Instance.stamina > 50)
                     {
                         toolAnim.SetFloat("AnimSpeed", 1f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
@@ -195,7 +195,7 @@ public class WaterCanBehavior : ToolBehavior
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
                     PlayerMovement.restrictMovementTokens++;
-                    if(PlayerInteraction.Instance.stamina > 25)
+                    if(PlayerInteraction.Instance.stamina > 50)
                     {
                         toolAnim.SetFloat("AnimSpeed", 1f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f, 1.6f));
