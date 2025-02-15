@@ -72,10 +72,16 @@ public class StructureSaveData : MonoBehaviour
             x++;
         }
 
-        var structureData = new StructureInventory(structureList.Structures);
+        for(int i = 0; i < StructureManager.Instance.Storage.Count; i++)
+        {
+            structureList.Nutrients[i] = StructureManager.Instance.Storage[i];
+            if(structureList.Nutrients[i].waterLevel > 3) print("Water!!!");
+        }
+
+        var structureData = new StructureInventory(structureList.Structures, structureList.Nutrients);
         SaveLoad.CurrentSaveData.allStructuresSaveData = structureData;
 
-        Debug.Log("Structures saved successfully.");
+        Debug.Log("Structures saved successfully. Total: " + x);
 
 
         /*List<FarmLandSaveData> farmlandDataList = new List<FarmLandSaveData>();
@@ -103,12 +109,14 @@ public class StructureSaveData : MonoBehaviour
         Debug.Log("Loading Stuff");
         if (data.allStructuresSaveData == null) return;
 
+            StructureManager.Instance.LoadNutrients(data.allStructuresSaveData.Nutrients);
+
             for(int i = 0; i < data.allStructuresSaveData.Structures.Length; i++)
             {
                 //spawn the Structure and give it it's stats
                 if(data.allStructuresSaveData.Structures[i] != null && data.allStructuresSaveData.Structures[i].Id != -1)
                 {
-                    Debug.Log("Structure Found: Spawning");
+                    //Debug.Log("Structure Found: Spawning");
                     //GameObject newStructurePrefab = database.Structures[data.allStructuresSaveData.Structures[i].Id].objectPrefab; //Reference the structure database to grab the prefab
                     GameObject newStructurePrefab = database.Structures[data.allStructuresSaveData.Structures[i].Id].objectPrefab;
                     GameObject newStructure = Instantiate(newStructurePrefab);
@@ -224,15 +232,20 @@ public struct AllStructuresSaveData
 [System.Serializable]
 public class StructureInventory
 {
-    public Structure[] Structures = new Structure[500];
+    public Structure[] Structures = new Structure[800];
+    public NutrientStorage[] Nutrients = new NutrientStorage[800];
     public void Clear()
     {
         for(int i = 0; i < Structures.Length; i++)
         {
             Structures[i] = null;
         }
+        for(int i = 0; i < Nutrients.Length; i++)
+        {
+            Nutrients[i] = null;
+        }
     }
-    public StructureInventory(Structure[] structureList)
+    public StructureInventory(Structure[] structureList, NutrientStorage[] nutrientList)
     {
         //Clear();
         //for (int i = 0; i < structureList.Count; i++)
@@ -240,11 +253,13 @@ public class StructureInventory
         //    Structures[i] = structureList[i];
         //}
         Structures = structureList;
+        Nutrients = nutrientList;
     }
 
     public StructureInventory() //Just as a precaution, unsure if redundant
     {
-        Structures = new Structure[500];
+        Structures = new Structure[800];
+        Nutrients = new NutrientStorage[800];
     }
 }
 

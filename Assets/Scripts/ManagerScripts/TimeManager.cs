@@ -6,6 +6,8 @@ using TMPro;
 public class TimeManager : MonoBehaviour
 {
     //Time
+    public bool stopSaving = false;
+
     public int currentMinute = 0; //30 in an hour
     int minPerDayHour = 30;
     int minPerNightHour = 30;
@@ -38,7 +40,7 @@ public class TimeManager : MonoBehaviour
     public Color nightColor, dayColor;
     bool changingLights = false;
 
-    public Transform playerRespawn;
+    public Transform playerRespawn, respawnFocus;
 
     public static TimeManager Instance;
 
@@ -94,7 +96,7 @@ public class TimeManager : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(1);
-            if(!timeSkipping && !stopTime)
+            if(!timeSkipping && !stopTime || (isDay && DialogueController.Instance.IsTalking()))
             {
                 currentMinute++;
                 LerpSunAndMoon();
@@ -322,12 +324,14 @@ public class TimeManager : MonoBehaviour
         //save game
         NightSpawningManager.Instance.ClearAllCreatures();
         yield return new WaitForSecondsRealtime(2);
-        SaveGameManager.SaveData();
+        if(!stopSaving) SaveGameManager.SaveData();
         FadeScreen.coverScreen = false;
         yield return new WaitForSecondsRealtime(0.5f);
         PlayerMovement.restrictMovementTokens--;
         Time.timeScale = 1;
         OnHourlyUpdate?.Invoke();
+
+        if(!stopSaving) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.gameSavePopup);
     }
 
     [ContextMenu("Set To Start Of Morning")]

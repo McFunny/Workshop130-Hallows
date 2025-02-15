@@ -21,15 +21,15 @@ public class ShovelBehavior : ToolBehavior
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
         PopupEvents.current.ShovelSwing();
-        if(PlayerInteraction.Instance.stamina > 25)
+        if(PlayerInteraction.Instance.stamina > 50)
         {
             toolAnim.SetFloat("AnimSpeed", 1f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.55f, 0.9f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.53f, 0.9f));
         }
         else
         {
             toolAnim.SetFloat("AnimSpeed", 0.75f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.55f * 1.25f, 0.9f * 1.25f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.53f * 1.25f, 0.9f * 1.25f));
         }
     }
 
@@ -58,7 +58,7 @@ public class ShovelBehavior : ToolBehavior
                     usingSecondary = true;
                     HandItemManager.Instance.PlaySecondaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(dig);
-                    if(PlayerInteraction.Instance.stamina > 25)
+                    if(PlayerInteraction.Instance.stamina > 50)
                     {
                         toolAnim.SetFloat("AnimSpeed", 1f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f, 1.9f));

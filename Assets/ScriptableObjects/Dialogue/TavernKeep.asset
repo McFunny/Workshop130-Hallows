@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: 
   defaultPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Introduction
+    paragraphs:
+    - It's always good to see new faces here.
+    - So how has that new farm been treating you?
+    - Well if you want some extra tasks, be sure to come talk to me.
+    emotions: 010000000100000000000000
   questCompletePath:
     pathName: 
     paragraphs: []
@@ -25,8 +28,50 @@ MonoBehaviour:
     pathName: 
     paragraphs: []
     emotions: 
-  paths: []
-  fillerPaths: []
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - Anything handy?
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - I see you got your eye on the {storeItemName}. It'll cost you {storeItemValue}
+      <color=#E0D38F>Mints</color> <sprite index=0>!
+    emotions: 00000000
+  - pathName: Sold!
+    paragraphs:
+    - Enjoy your new {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - Come back with some more money and I can sell this to you!
+    emotions: 02000000
+  - pathName: No Space
+    paragraphs:
+    - I don't think you would be able to carry this.
+    emotions: 05000000
+  fillerPaths:
+  - pathName: Seed Shooter
+    paragraphs:
+    - I've been working on making upgrades to the turrets.
+    - I'm glad I got one working where you can put your seeds in it!
+    emotions: 0000000001000000
+  - pathName: Braziers
+    paragraphs:
+    - I know how useful it is for you to have contained fires on your farm.
+    - That's why I love making you braziers!
+    - It helps you and puts some money in my pockets!
+    - If only I could find a way to prevent Murdermancers from putting it out!
+    emotions: 00000000010000000100000003000000
+  - pathName: Landmine
+    paragraphs:
+    - Those land mines I make are specially designed.
+    - You can switch what nutrient they consume when they blow up.
+    emotions: 0000000000000000
+  - pathName: Compost Bin
+    paragraphs:
+    - Have you ever tried putting hare meat in the compost bin?
+    emotions: 04000000
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks: []

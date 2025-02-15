@@ -41,11 +41,17 @@ public class InventorySlot_UI : MonoBehaviour
     {
         controlManager.select.action.started += Select;
         controlManager.split.action.started += Split;
+
+        controlManager.hotbarUp.action.started += LeftBumper;
+        controlManager.hotbarDown.action.started += RightBumper;
     }
     private void OnDisable()
     {
         controlManager.select.action.started -= Select;
         controlManager.split.action.started -= Split;
+
+        controlManager.hotbarUp.action.started += LeftBumper;
+        controlManager.hotbarDown.action.started += RightBumper;
     }
 
     void Update()
@@ -131,6 +137,22 @@ public class InventorySlot_UI : MonoBehaviour
         }
     }  
 
+    private void LeftBumper(InputAction.CallbackContext obj)
+    {
+        //print("SelectCheck");
+        if(PlayerMovement.accessingInventory == true)
+        {
+           OnLeftUISlotBumper();
+        }     
+    }
+    private void RightBumper(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.accessingInventory == true)
+        {
+            OnRightUISlotBumper();
+        }
+    }  
+
     public void Selected()
     {
         isSelected = true;
@@ -152,6 +174,18 @@ public class InventorySlot_UI : MonoBehaviour
     {
         // Handle right-click behavior
         if(isSelected){ParentDisplay?.HandleSlotRightClick(this);}
+    }
+
+    public void OnLeftUISlotBumper()
+    {
+        // Handle left-Bumper behavior
+        if(isSelected){ParentDisplay?.HandleLeftBumper(this);}
+    }
+
+    public void OnRightUISlotBumper()
+    {
+        // Handle right-Bumper behavior
+        if(isSelected){ParentDisplay?.HandleRightBumper(this);}
     }
 
     private void OnHighlight(bool selected)

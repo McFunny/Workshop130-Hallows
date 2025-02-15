@@ -19,7 +19,7 @@ public class MoneyTrackerLerp : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-        if(PlayerMovement.accessingInventory){ forceActive = true; }
+        if(PlayerMovement.accessingInventory || TownGate.Instance.location == PlayerLocation.InTown){ forceActive = true; }
         else { forceActive = false; }
 
         if((UICropStats.isDetailed && moveProgress > 0) || (forceActive && moveProgress >= 0))

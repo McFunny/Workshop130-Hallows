@@ -85,15 +85,22 @@ public class NPCMovement : MonoBehaviour
                 {
                     currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false, true);
                 }
-                else
+                else if (isWorker)
                 {
                     // Standard behavior for other actions
+
                     currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, isWorker);
+                }
+                else
+                {
+                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false);
+                   
                 }
 
                 // Claim the sublocation and move to it
                 if (currentSublocation != null)
                 {
+                  
                     if (!currentSublocation.isAtHome) // Only claim if it's not a home sublocation
                     {
                         currentSublocation.isOccupied = true;
@@ -145,7 +152,7 @@ public class NPCMovement : MonoBehaviour
             npcScript.StopWorking();
             isWorking = false;
         }
-
+        Debug.Log("We made it here");
         while (agent.remainingDistance > agent.stoppingDistance)
         {
             if(!agent.isStopped)
@@ -158,7 +165,7 @@ public class NPCMovement : MonoBehaviour
             }
             yield return null;
         }
-
+        
         if (currentSublocation.lookAtPoint != null)
         {
             transform.LookAt(currentSublocation.lookAtPoint);

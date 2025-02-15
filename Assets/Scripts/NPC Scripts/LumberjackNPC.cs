@@ -241,5 +241,11 @@ public class LumberjackNPC : NPC, ITalkable
         shopUI.shopImgObj.SetActive(false);
     }
 
+    public override bool ActionCheck1()
+    {
+        if(GameSaveData.Instance.lumber_choppedTree) return true;
+        return false;
+    }
+
 }
 

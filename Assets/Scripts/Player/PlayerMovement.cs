@@ -43,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         headBobController = FindFirstObjectByType<HeadBobController>();
+        restrictMovementTokens = 0;
     }
 
     private void Start()
@@ -52,7 +53,6 @@ public class PlayerMovement : MonoBehaviour
         accessingInventory = false;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        restrictMovementTokens = 0;
     }
 
     private void OnEnable()

@@ -13,6 +13,8 @@ public class NewDayCounter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI counterText;
     [SerializeField] private GameObject container;
     private Image containerImage;
+
+    bool hideCounter = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,13 +23,15 @@ public class NewDayCounter : MonoBehaviour
         animator = GetComponent<Animator>();
         counterText.text = " " + timeManager.dayNum.ToString();
         containerImage = container.GetComponent<Image>();
+
+        StartCoroutine(DelayStart());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Semicolon)) { timeManager.dayNum ++; }
-        if(Input.GetKeyDown(KeyCode.Quote)) { timeManager.dayNum --; }
+        //if(Input.GetKeyDown(KeyCode.Semicolon)) { timeManager.dayNum ++; }
+        //if(Input.GetKeyDown(KeyCode.Quote)) { timeManager.dayNum --; }
 
         if (currentDayCount != timeManager.dayNum && animator.GetCurrentAnimatorStateInfo(0).IsName("NewDayDisabled"))
         {
@@ -42,9 +46,15 @@ public class NewDayCounter : MonoBehaviour
     }
     IEnumerator NewDay()
     {
-        animator.SetTrigger("NewDayTrigger");
+        if(!hideCounter) animator.SetTrigger("NewDayTrigger");
         AnimatorReset(); // Makes sure the animation doesn't play twice, just in case
         yield return new WaitForSecondsRealtime(0.1f);
+    }
+
+    IEnumerator DelayStart()
+    {
+        yield return new WaitForSeconds(1f);
+        hideCounter = false;
     }
 
     public void IncrementCounter()

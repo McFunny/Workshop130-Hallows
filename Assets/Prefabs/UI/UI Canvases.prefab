@@ -338,6 +338,7 @@ MonoBehaviour:
   testPopup2: {fileID: 11400000, guid: c135734f482d72a48a16921ca51b8f88, type: 2}
   testPopup3: {fileID: 11400000, guid: 5d41c9c1819e71147af38cc7cb3dce11, type: 2}
   nightWarningPopup: {fileID: 11400000, guid: e41a4bddd35a64440b04d32688991877, type: 2}
+  gameSavePopup: {fileID: 11400000, guid: c8480d15b3fcd9541894d5275a319f51, type: 2}
   popupContainer: {fileID: 7567421055524657343}
   popupText: {fileID: 978089167120432420}
   lerpStart: {fileID: 7639093480582061477}
@@ -4858,6 +4859,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e74c8601f0334f342a1787dc892bd481,
         type: 3}
+    - target: {fileID: 2976709098205706316, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3016846727391040405, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
       propertyPath: m_text

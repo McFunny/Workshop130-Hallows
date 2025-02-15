@@ -9,6 +9,7 @@ public class NightSpawningManager : MonoBehaviour
     public static NightSpawningManager Instance;
 
     float difficultyPoints = 0;
+    float highestDifficultyPoints = 0;
     float removedDifficultyPoints = 0; //accumulates when a structure is destroyed by any means
 
     float difficultyMultiplier = 1; //Increases to 1.25 after 2000 mints are collected. Multiplies difficulty points of structures
@@ -64,6 +65,8 @@ public class NightSpawningManager : MonoBehaviour
         {
             if(accountedStructures.Count > 0) accountedStructures.Clear();
             removedDifficultyPoints = 0;
+            difficultyPoints = 0;
+            highestDifficultyPoints = 0;
             return;
         }
         CalculateDifficulty();
@@ -100,8 +103,8 @@ public class NightSpawningManager : MonoBehaviour
         int w = 0;
         foreach(CreatureObject c in creatures)
         {
-            //If there is more difficulty points than it's threshold, it has a chance to spawn
-            if(c.dangerThreshold <= difficultyPoints && c.wealthPrerequisite < PlayerInteraction.Instance.totalMoneyEarned);
+            //If there is more max difficulty points than it's threshold, it has a chance to spawn
+            if(c.dangerThreshold <= highestDifficultyPoints && c.wealthPrerequisite < PlayerInteraction.Instance.totalMoneyEarned);
             {
                 for(int s = 0; s < c.spawnWeight; s++) weightArray.Add(w);
             }
@@ -156,14 +159,19 @@ public class NightSpawningManager : MonoBehaviour
             {
                 r = Random.Range(0, fillerCreatures.Length);
                 CreatureObject newCreature = fillerCreatures[r];
-                if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) SpawnCreature(newCreature);
+                if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && totalCreatures < maxCreatures) 
+                {
+                    totalCreatures++;
+                    SpawnCreature(newCreature);
+                }
             }
         }
     }
 
     void SpawnCreature(CreatureObject c)
     {
-        //int t = Random.Range(0,testSpawns.Count);
+        //Add chance of spawning variants here
+
         GameObject newCreature = Instantiate(c.objectPrefab, RandomMistPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
@@ -177,7 +185,7 @@ public class NightSpawningManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         while(creatureQueue.Count != 0)
         {
-            yield return new WaitForSeconds(Random.Range(0.5f, 2.5f));
+            yield return new WaitForSeconds(Random.Range(1f, 4f));
             CreatureObject c = creatureQueue.Dequeue();
             SpawnCreature(c);
         }
@@ -254,7 +262,8 @@ public class NightSpawningManager : MonoBehaviour
 
     void CalculateDifficulty()
     {
-        if(PlayerInteraction.Instance.totalMoneyEarned > 2000) difficultyMultiplier = 1.25f;
+        if(PlayerInteraction.Instance.totalMoneyEarned > 4000) difficultyMultiplier = 1.5f;
+        else if(PlayerInteraction.Instance.totalMoneyEarned > 2000) difficultyMultiplier = 1.25f;
         else difficultyMultiplier = 1;
 
         foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
@@ -269,7 +278,11 @@ public class NightSpawningManager : MonoBehaviour
                     removedDifficultyPoints = 0;
                 }
             }
-            else difficultyPoints += structure.wealthValue * difficultyMultiplier;
+            else
+            {
+                difficultyPoints += structure.wealthValue * difficultyMultiplier;
+                highestDifficultyPoints += structure.wealthValue * difficultyMultiplier;
+            }
             accountedStructures.Add(structure);
         }
     }
@@ -286,26 +299,33 @@ public class NightSpawningManager : MonoBehaviour
 
     int CalculateMaxCreatures()
     {
+        if(highestDifficultyPoints > 300) return 15;
+        else if(highestDifficultyPoints > 200) return 12;
+        else if(highestDifficultyPoints > 100) return 8;
+        else if(highestDifficultyPoints > 50) return 6;
+        else return 4;
+        /*
         switch (TimeManager.Instance.dayNum)
         {
             case 1:
                 return 3;
             case 2:
-                return 5;
+                return 4;
             case 3:
-                return 6;
+                return 5;
             case 4:
-                return 8;
+                return 5;
             case 5:
                 return 8;
             case 6:
-                return 12;
+                return 8;
             case 7:
                 return 12;
             default:
                 //use greater than statements
-                return 20;
+                return 12;
         }
+        */
 
     }
 

@@ -3,6 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.IO;
+using UnityEngine.Events;
+using SaveLoadSystem;
+
 
 
 public class MainMenuScript : MonoBehaviour
@@ -13,6 +17,7 @@ public class MainMenuScript : MonoBehaviour
     public AudioSource source;
     public AudioClip hover, select;
     bool isTransitioning = false;
+    public static bool loadingData = false;
 
     public Transform sunMoonPivot;
     float dayRotation; 
@@ -87,10 +92,30 @@ public class MainMenuScript : MonoBehaviour
     {
         if(isTransitioning) return;
         isTransitioning = true;
-        StartCoroutine(StartNewGame());
+        loadingData = false;
+        //DeleteSaveData();
+        StartCoroutine(StartGame());
     }
 
-    IEnumerator StartNewGame()
+    public void LoadGame()
+    {
+        string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + SaveLoad.FileName;
+        //SaveData tempData = new SaveData();
+
+        if (!File.Exists(fullPath))
+        {
+            Debug.Log("No save data");
+            return;
+        }
+
+
+        if(isTransitioning) return;
+        isTransitioning = true;
+        loadingData = true;
+        StartCoroutine(StartGame());
+    }
+
+    IEnumerator StartGame()
     {
         FadeScreen.coverScreen = true;
         yield return new WaitForSecondsRealtime(1);
