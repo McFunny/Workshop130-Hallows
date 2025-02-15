@@ -15,7 +15,7 @@ public class CodexButtonID : MonoBehaviour
     public void ShowEntry()
     {
         print(assignedEntry.entryName);
-
+        if(!assignedEntry.unlocked) { return; }
         codex.currentEntry = assignedEntry;
         codex.UpdatePage(0, assignedEntry, true);
     }

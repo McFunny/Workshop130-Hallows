@@ -26,10 +26,7 @@ public class CodexEntries : ScriptableObject
     [Tooltip("Unlocked??? Yes or... no....? (True is yes, false is no)")]
     public bool unlocked = false;
 
-    [Tooltip("If the entry has an image??? Yes or no.....")]
-    public bool hasImage = false;
-
-    [Tooltip("The assigned image")]
+    [Tooltip("The assigned image. Will convert first page to a large page if left empty.")]
     public Sprite mainImage;
 
     [Tooltip("Name of the entry personally I thought this was pretty self explanatory tho")]
