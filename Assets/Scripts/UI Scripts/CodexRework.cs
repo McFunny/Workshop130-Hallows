@@ -7,20 +7,20 @@ using UnityEngine.UI;
 
 public class CodexRework : MonoBehaviour
 {
-    CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted;
+    CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted, PlantEntries, QuestEntries;
     public CodexEntries currentEntry;
-    int currentCategoryLength;
-    public GameObject codex, contentObject;
-    public TextMeshProUGUI nameText, descriptionText, largeDescriptionText, pageNumberText;
-    public int currentPage = 0;
+    [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject;
+    [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText;
+    [SerializeField] private int currentPage = 0;
 
-    public GameObject entryButton;
+    [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal;
 
     string defaultName = "???";
-    string defaultDesc = "Undiscovered";
+    string defaultDesc = "There is more to discover...";
     ControlManager controlManager;
-    public Image largeImage;
-    public List<GameObject> categoryList;
+    [SerializeField] private Image largeImage, smallImage;
+    [SerializeField] private List<GameObject> categoryList;
+    bool isGridCategory;
 
     void Awake()
     {
@@ -31,7 +31,9 @@ public class CodexRework : MonoBehaviour
     {
         CreatureEntries = Resources.LoadAll<CodexEntries>("Codex/Creatures/");
         ToolEntries = Resources.LoadAll<CodexEntries>("Codex/Tools/");
-        GettingStarted = Resources.LoadAll<CodexEntries>("Codex/GettingStarted");
+        GettingStarted = Resources.LoadAll<CodexEntries>("Codex/GettingStarted/");
+        PlantEntries = Resources.LoadAll<CodexEntries>("Codex/Plants/");
+        QuestEntries = Resources.LoadAll<CodexEntries>("Codex/Quests/");
         CurrentCategory = GettingStarted;
         currentEntry = null;
 
@@ -39,6 +41,10 @@ public class CodexRework : MonoBehaviour
         descriptionText.text = "";    //CurrentCategory[0].description[0];
         largeDescriptionText.text = "";
         pageNumberText.text = "";
+        horizontalEntryName.text = "";
+        horizontalDescriptionText.text = "";
+
+        codex.SetActive(false);
 
         //PopulateCodex();
     }
@@ -97,8 +103,10 @@ public class CodexRework : MonoBehaviour
         nameText.text = "";
         descriptionText.text = "";
         largeDescriptionText.text = "";
+        horizontalEntryName.text = "";
+        horizontalDescriptionText.text = "";
         pageNumberText.text = "";
-
+        isGridCategory = false;
         PopulateCodex(); 
         ImageCheck();
 
@@ -121,9 +129,7 @@ public class CodexRework : MonoBehaviour
             largeImage.gameObject.SetActive(false);
             descriptionText.gameObject.SetActive(false);
             largeDescriptionText.gameObject.SetActive(true);
-        }
-        
-
+        }      
 
         pageNumberText.text = "Page " + (currentPage + 1) + "/" + entry.description.Length;
         if (entry.unlocked == true)
@@ -131,13 +137,20 @@ public class CodexRework : MonoBehaviour
             nameText.text = entry.entryName;
             descriptionText.text = entry.description[currentPage];
             largeDescriptionText.text = entry.description[currentPage];
+            horizontalEntryName.text = entry.entryName;
+            horizontalDescriptionText.text = entry.description[currentPage];
         }
         else
         {
             nameText.text = defaultName;
             descriptionText.text = defaultDesc;
             largeDescriptionText.text = defaultDesc;
+            horizontalEntryName.text = defaultName;
+            horizontalDescriptionText.text = defaultDesc;
         }
+
+        //if(entry.description.Length == 1) pageNumberText.gameObject.SetActive(false); //Fix this later. Not very important :/
+        //else pageNumberText.gameObject.SetActive(true);                 
     }
 
     public void ChangeCategory(int cat)
@@ -147,23 +160,44 @@ public class CodexRework : MonoBehaviour
             case 0:
             CurrentCategory = GettingStarted;
             currentPage = 0;
+            isGridCategory = false;
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
             case 1:
-            CurrentCategory = CreatureEntries;
+            CurrentCategory = ToolEntries;
             currentPage = 0;
+            isGridCategory = true;
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
             case 2:
-            CurrentCategory = ToolEntries;
+            CurrentCategory = PlantEntries;
             currentPage = 0;
+            isGridCategory = true;
+            UpdatePage(0, CurrentCategory[0], true);
+            break;
+
+            case 3:
+            CurrentCategory = CreatureEntries;
+            currentPage = 0;
+            isGridCategory = true;
+            UpdatePage(0, CurrentCategory[0], true);
+            break;
+
+            case 4:
+            CurrentCategory = QuestEntries;
+            currentPage = 0;
+            isGridCategory = false;
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
             default:
-            print("Default");
+            CurrentCategory = GettingStarted;
+            currentPage = 0;
+            isGridCategory = false;
+            UpdatePage(0, CurrentCategory[0], true);
+            print("су́ка блядь! Category not found! Defaulting to GettingStarted... блядь...");
             break;
         }
 
@@ -175,60 +209,97 @@ public class CodexRework : MonoBehaviour
         ClearCodex();
         categoryList.Clear();
         PopulateCodex();
+        print(CurrentCategory);
     }
 
     void PopulateCodex()
     {
-        for (int i = 0; i < CurrentCategory.Length; i++)
+        if(isGridCategory)
         {
-            var tempButton = Instantiate(entryButton, contentObject.transform, worldPositionStays:false);
-            var tempName = tempButton.gameObject.transform.GetChild(0).gameObject;
-            var tempImage = tempButton.gameObject.transform.GetChild(1).gameObject;
-            var tempUnlock = tempButton.gameObject.transform.GetChild(2).gameObject;
+            grid.SetActive(true);
+            horizontal.SetActive(false);
 
-            var tempID = tempButton.GetComponent<CodexButtonID>();
-            var tempText = tempName.GetComponent<TextMeshProUGUI>();
-            var tempSprite = tempImage.GetComponent<Image>();
-
-            tempID.assignedEntry = CurrentCategory[i];
-
-            if(CurrentCategory[i].unlocked)
+            for (int i = 0; i < CurrentCategory.Length; i++)
             {
-                tempText.text = CurrentCategory[i].entryName;
-                tempImage.SetActive(true);
-                tempUnlock.SetActive(false);
-                tempSprite.sprite = CurrentCategory[i].buttonIcon;
+                var tempButton = Instantiate(entryButton, gridContentObject.transform, worldPositionStays:false);
+                var tempName = tempButton.gameObject.transform.GetChild(0).gameObject;
+                var tempImage = tempButton.gameObject.transform.GetChild(1).gameObject;
+                var tempUnlock = tempButton.gameObject.transform.GetChild(2).gameObject;
+
+                var tempID = tempButton.GetComponent<CodexButtonID>();
+                var tempText = tempName.GetComponent<TextMeshProUGUI>();
+                var tempSprite = tempImage.GetComponent<Image>();
+
+                tempID.assignedEntry = CurrentCategory[i];
+
+                if(CurrentCategory[i].unlocked)
+                {
+                    tempText.text = CurrentCategory[i].entryName;
+                    tempImage.SetActive(true);
+                    tempUnlock.SetActive(false);
+                    tempSprite.sprite = CurrentCategory[i].buttonIcon;
+                }
+                else
+                {
+                    tempText.text = defaultName;
+                    tempImage.SetActive(false);
+                    tempUnlock.SetActive(true);
+                }
+                categoryList.Add(tempButton);
             }
-            else
-            {
-                tempText.text = defaultName;
-                tempImage.SetActive(false);
-                tempUnlock.SetActive(true);
-            }
-            
-            categoryList.Add(tempButton);
         }
+        else
+        {
+            grid.SetActive(false);
+            horizontal.SetActive(true);
+
+            for (int i = 0; i < CurrentCategory.Length; i++)
+            {
+                if(!CurrentCategory[i].unlocked) {continue;}
+                
+                var tempButton = Instantiate(horizontalEntryButton, horizontalContentObject.transform, worldPositionStays:false);
+                var tempName = tempButton.gameObject.transform.GetChild(0).gameObject;
+                var tempID = tempButton.GetComponent<CodexButtonID>();
+                var tempText = tempName.GetComponent<TextMeshProUGUI>();
+
+
+                tempText.text = CurrentCategory[i].entryName;
+
+                tempID.assignedEntry = CurrentCategory[i];
+
+                categoryList.Add(tempButton);
+
+            }
+        }
+            
         print(categoryList.Count);
+        currentEntry = null;
         for(int i = 0; i < categoryList.Count; i++)
         {
             var temp = categoryList[i].GetComponent<CodexButtonID>();
-            print(temp.assignedEntry.entryName);
+            //print(temp.assignedEntry.entryName);
             if(temp.assignedEntry.unlocked) 
             {
                 HasUnlockedEntry(temp.assignedEntry);
-                print("Entry Found");
+                print("Unlocked Entry Found");
                 break;
             }
         }
         if(currentEntry == null) 
         {
             largeImage.gameObject.SetActive(false);
+            nameText.text = defaultName;
+            largeDescriptionText.text = defaultDesc;
+            horizontalEntryName.text = defaultName;
+            horizontalDescriptionText.text = defaultDesc;
             return;
         }
 
         nameText.text = currentEntry.entryName;     //CurrentCategory[0].entryName;
         descriptionText.text = currentEntry.description[0];     //CurrentCategory[0].description[0];
         largeDescriptionText.text = currentEntry.description[0];
+        horizontalEntryName.text = currentEntry.entryName;
+        horizontalDescriptionText.text = currentEntry.description[0];
         pageNumberText.text = "Page 1" + "/" + currentEntry.description.Length;
         
         ImageCheck();
@@ -245,19 +316,43 @@ public class CodexRework : MonoBehaviour
 
     void ImageCheck()
     {
-        if(currentEntry.mainImage != null && currentEntry.unlocked)
-        {
-            largeImage.sprite = currentEntry.mainImage;
-            largeImage.gameObject.SetActive(true);
-            descriptionText.gameObject.SetActive(true);
-            largeDescriptionText.gameObject.SetActive(false);
-        }
-        else
+        if (currentEntry == null)
         {
             largeImage.gameObject.SetActive(false);
             descriptionText.gameObject.SetActive(false);
             largeDescriptionText.gameObject.SetActive(true);
-        } 
+            largeImage.sprite = null;
+            smallImage.sprite = null;
+            return;
+        }
+
+        if(currentEntry.mainImage != null && currentEntry.unlocked)
+        {
+            if(isGridCategory)
+            {
+                largeImage.sprite = currentEntry.mainImage;
+                largeImage.gameObject.SetActive(true);
+                descriptionText.gameObject.SetActive(true);
+                largeDescriptionText.gameObject.SetActive(false);
+            }
+            else
+            {
+                largeImage.gameObject.SetActive(false);
+                descriptionText.gameObject.SetActive(false);
+                largeDescriptionText.gameObject.SetActive(true);
+                smallImage.gameObject.SetActive(true);
+                smallImage.sprite = currentEntry.mainImage;
+            } 
+        }
+        else
+        {
+            descriptionText.gameObject.SetActive(false);
+            largeDescriptionText.gameObject.SetActive(true);
+            largeImage.gameObject.SetActive(false);
+            smallImage.gameObject.SetActive(false);
+            largeImage.sprite = null;
+            smallImage.sprite = null;
+        }
     }
 
     void HasUnlockedEntry(CodexEntries entry)
