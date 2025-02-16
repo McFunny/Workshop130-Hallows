@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 8099546237378210087}
+  delay: 1
 --- !u!82 &7029622169448422337
 AudioSource:
   m_ObjectHideFlags: 0
@@ -371,6 +372,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
 --- !u!114 &5770263919306354549
@@ -902,6 +906,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
 --- !u!114 &7126609122133166510
@@ -1240,7 +1247,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 5116799660658809240}
-    m_SelectOnDown: {fileID: 6745393260789278329}
+    m_SelectOnDown: {fileID: 3011968593851614053}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1304,6 +1311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
 --- !u!114 &3478867617176513072
@@ -2095,7 +2105,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 8435152911847179366}
+    m_SelectOnUp: {fileID: 3011968593851614053}
     m_SelectOnDown: {fileID: 5116799660658809240}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -2160,6 +2170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
 --- !u!114 &157992151650969687

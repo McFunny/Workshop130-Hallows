@@ -8,12 +8,12 @@ using UnityEngine.UI;
 
 public class UIMenuButton : MonoBehaviour
 {
-    TextMeshProUGUI text;
+    [SerializeField] TextMeshProUGUI text;
     Color c_deselected, c_selected, c_disabled, c_interactable, c_noninteractable, c_invisible;
     bool isSelected;
     ControlManager controlManager;
-    Button button;
-    private Image arrowImage;
+    [SerializeField] Button button;
+    [SerializeField] private Image arrowImage;
     public bool isPauseButton = true;
     public bool isDisabled = false;
 
@@ -25,9 +25,9 @@ public class UIMenuButton : MonoBehaviour
     {
         isSelected = false;
         
-        arrowImage = GetComponentInChildren<Image>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
-        button = GetComponentInChildren<Button>();
+        if(arrowImage == null) arrowImage = GetComponentInChildren<Image>();
+        if(text == null) text = GetComponentInChildren<TextMeshProUGUI>();
+        if(button == null) button = GetComponentInChildren<Button>();
         c_selected = new Color(1f, 0.8870801f, 0.2877358f, 1.0f);
         c_deselected = new Color(0.8509804f, 0.7490196f, 0.2078431f, 1.0f);
         c_disabled = new Color(0.5660378f, 0.5029674f, 0.1682093f, 1.0f);
