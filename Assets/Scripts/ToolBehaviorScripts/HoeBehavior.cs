@@ -49,7 +49,7 @@ public class HoeBehavior : ToolBehavior
                 usingPrimary = true;
                 HandItemManager.Instance.PlayPrimaryAnimation();
                 HandItemManager.Instance.toolSource.PlayOneShot(swing);
-                if(PlayerInteraction.Instance.stamina > 25)
+                if(PlayerInteraction.Instance.stamina > 50)
                 {
                     toolAnim.SetFloat("AnimSpeed", 1f);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.7f));

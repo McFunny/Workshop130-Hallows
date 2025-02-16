@@ -12,6 +12,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public float ichorDropRadius = 2;
 
     public CreatureObject creatureData;
+    public bool inWilderness = false;
 
     [HideInInspector] public StructureManager structManager;
     [HideInInspector] public CreatureEffectsHandler effectsHandler;

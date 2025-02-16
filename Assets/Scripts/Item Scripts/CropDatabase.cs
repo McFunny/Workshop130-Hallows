@@ -21,11 +21,16 @@ public class CropDatabase : ScriptableObject
         }
     }
 
+    /*void OnEnable()
+    {
+        RegisterCrops(_cropDatabase);
+    }*/
+
     [SerializeField] private List<CropData> _cropDatabase;
 
-    private static Dictionary<string, CropData> cropLookup = new Dictionary<string, CropData>();
+    private Dictionary<string, CropData> cropLookup = new Dictionary<string, CropData>();
 
-    public static void RegisterCrops(List<CropData> crops)
+    public void RegisterCrops(List<CropData> crops)
     {
         cropLookup.Clear();
         foreach (var crop in crops)
@@ -34,8 +39,21 @@ public class CropDatabase : ScriptableObject
         }
     }
 
-    public static CropData GetCropByName(string name)
+    public CropData GetCropByName(string name)
     {
+        DumbAbnerFunction();
+        Debug.Log(cropLookup.Count);
         return cropLookup.ContainsKey(name) ? cropLookup[name] : null;
     }
+
+    void DumbAbnerFunction()
+    {
+        RegisterCrops(_cropDatabase);
+    }
+
+    /*for(int i = 0; i < cropDatabase.Count; i++)
+        {
+            if(cropDatabase[i].name == name) return cropDatabase[i];
+        }
+        return null; */
 }

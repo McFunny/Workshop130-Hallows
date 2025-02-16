@@ -12,8 +12,9 @@ public abstract class InventoryDisplay : MonoBehaviour
     public InventorySystem InventorySystem => inventorySystem;
     public Dictionary<InventorySlot_UI, InventorySlot> SlotDictionary => slotDictionary;
 
-    public abstract void AssignSlot(InventorySystem invToDisplay); // Implemented in child classes
+    ControlManager controlManager;
 
+    public abstract void AssignSlot(InventorySystem invToDisplay); // Implemented in child classes
 
     protected virtual void Start()
     {
@@ -39,11 +40,16 @@ public abstract class InventoryDisplay : MonoBehaviour
         // Left-click logic:
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData == null)
         {
-            if (isShiftPress && clickedUISlot.AssignedInventorySlot.SplitStack(out InventorySlot halfStackSlot))
+            bool intoPrimary = false;
+            if(inventorySystem == PlayerInventoryHolder.Instance.secondaryInventorySystem) intoPrimary = true;
+            if (isShiftPress && PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
             {
-                mouseInventoryItem.UpdateMouseSlot(halfStackSlot);
-                clickedUISlot.UpdateUISlot();
+                /*mouseInventoryItem.UpdateMouseSlot(halfStackSlot);*/
+                //clickedUISlot.UpdateUISlot();
+                clickedUISlot.ClearSlot();
                 PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                PlayerInventoryHolder.Instance.UpdateOpenInventory();
+                if(slot != null) UpdateSlot(slot); //STILL NOTHING???
                 return;
             }
             else
@@ -53,7 +59,7 @@ public abstract class InventoryDisplay : MonoBehaviour
                 PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 return;
             }
-        }
+        } 
 
         if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
@@ -99,7 +105,27 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     public void HandleSlotRightClick(InventorySlot_UI clickedUISlot)
     {
+       // bool isShiftPress = Input.GetKey(KeyCode.LeftShift);
+        PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
         // Right-click on an empty slot to add one from the mouse stack
+        if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData == null)
+        {
+            if (clickedUISlot.AssignedInventorySlot.SplitStack(out InventorySlot halfStackSlot))
+            {
+                mouseInventoryItem.UpdateMouseSlot(halfStackSlot);
+                clickedUISlot.UpdateUISlot();
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                return;
+            }
+            else
+            {
+                //mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
+                //clickedUISlot.ClearSlot();
+                //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                return;
+            }
+        }
+
         if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
             // Add one item from the mouse inventory to the clicked slot
@@ -161,9 +187,115 @@ public abstract class InventoryDisplay : MonoBehaviour
         }
     }
 
+    public void HandleLeftBumper(InventorySlot_UI clickedUISlot) //quick stack
+    {
+        PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+        if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData == null)
+        {
+            bool intoPrimary = false;
+            if(inventorySystem == PlayerInventoryHolder.Instance.secondaryInventorySystem) intoPrimary = true;
+            if (PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
+            {
+                /*mouseInventoryItem.UpdateMouseSlot(halfStackSlot);*/
+                //clickedUISlot.UpdateUISlot();
+                clickedUISlot.ClearSlot();
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                PlayerInventoryHolder.Instance.UpdateInventory(); //WHY WONT IT UPDATE THE BACKPACK
+                if(slot != null) UpdateSlot(slot); //STILL NOTHING???
+                return;
+            }
+            else
+            {
+                mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
+                clickedUISlot.ClearSlot();
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                return;
+            }
+        } 
+    }
 
+    public void HandleRightBumper(InventorySlot_UI clickedUISlot) //half stack
+    {
+        PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+        // Right-click on an empty slot to add one from the mouse stack
+        if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData == null)
+        {
+            if (clickedUISlot.AssignedInventorySlot.SplitStack(out InventorySlot halfStackSlot))
+            {
+                mouseInventoryItem.UpdateMouseSlot(halfStackSlot);
+                clickedUISlot.UpdateUISlot();
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                return;
+            }
+            else
+            {
+                //mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
+                //clickedUISlot.ClearSlot();
+                //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                return;
+            }
+        }
 
+        if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
+        {
+            // Add one item from the mouse inventory to the clicked slot
+            clickedUISlot.AssignedInventorySlot.AssignItem(new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, 1));
+            mouseInventoryItem.assignedInventorySlot.RemoveFromStack(1); // Remove one from the mouse
 
+            // Update the clicked slot UI
+            clickedUISlot.UpdateUISlot();
+
+            // Check if the mouse slot stack is empty after the removal
+            if (mouseInventoryItem.assignedInventorySlot.StackSize <= 0)
+            {
+                mouseInventoryItem.ClearSlot(); // Clear the mouse if stack is empty
+            }
+            else
+            {
+                // Create a new item representing the remaining stack on the mouse
+                var newItem = new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, mouseInventoryItem.assignedInventorySlot.StackSize);
+                mouseInventoryItem.ClearSlot();
+                mouseInventoryItem.UpdateMouseSlot(newItem); // Update the mouse UI with the new stack
+            }
+            PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+            return;
+        }
+
+        // Right-click on the same item to add one to the stack
+        if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
+        {
+            bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData == mouseInventoryItem.assignedInventorySlot.ItemData;
+
+            if (isSameItem && clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(1))
+            {
+                // Add one to the clicked slot
+                clickedUISlot.AssignedInventorySlot.AddToStack(1);
+                clickedUISlot.UpdateUISlot();
+
+                // Remove one from the mouse inventory
+                mouseInventoryItem.assignedInventorySlot.RemoveFromStack(1);
+
+                // Check if the mouse inventory stack is empty after removal
+                if (mouseInventoryItem.assignedInventorySlot.StackSize <= 0)
+                {
+                    mouseInventoryItem.ClearSlot(); // Clear the mouse if stack is empty
+                }
+                else
+                {
+                    // Create a new item for the remaining stack and update the mouse UI
+                    var newItem = new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, mouseInventoryItem.assignedInventorySlot.StackSize);
+                    mouseInventoryItem.ClearSlot();
+                    mouseInventoryItem.UpdateMouseSlot(newItem); // Update the mouse UI with the remaining stack
+                }
+                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                return;
+            }
+
+            // Right-click on a different item does nothing
+            PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+            return;
+        }
+    }
 
 
 

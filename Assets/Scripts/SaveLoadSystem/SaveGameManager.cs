@@ -18,6 +18,18 @@ public class SaveGameManager : MonoBehaviour
         SaveLoad.OnLoadGame += LoadData;
     }   
 
+    void Start()
+    {
+        //if(MainMenuScript.loadingData) TryLoadData();
+        StartCoroutine(DelayedStart());
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(0.2f);
+        if(MainMenuScript.loadingData) TryLoadData();
+    }
+
     private void OnDisable()
     {
         SaveLoad.OnLoadGame -= LoadData;
@@ -30,15 +42,16 @@ public class SaveGameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        /*if (Input.GetKeyDown(KeyCode.O))
         {
             SaveData();
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.P))
         {
             TryLoadData();
-        }
+            
+        }*/
     }
 
     public static void SaveData()

@@ -26,6 +26,7 @@ public class StructureDatabase : ScriptableObject
 
     private void OnEnable()
     {
+        UpdateID();
         prefabLookup = new Dictionary<string, GameObject>();
         foreach (var entry in structurePrefabs)
         {

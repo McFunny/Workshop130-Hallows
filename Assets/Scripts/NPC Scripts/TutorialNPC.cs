@@ -10,7 +10,7 @@ public class TutorialNPC : NPC, ITalkable
     public InventoryItemData seeds;
     void Start()
     {
-        if(GameSaveData.Instance.tutorialMerchantSpoke) StartCoroutine(Despawn());
+        if(MainMenuScript.loadingData) StartCoroutine(Despawn());
         else 
         {
             goneAtStart = false;
