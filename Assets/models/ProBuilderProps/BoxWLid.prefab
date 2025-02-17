@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1543413187519077076}
   - component: {fileID: 7105398680670950448}
   - component: {fileID: 8340506077810325071}
-  - component: {fileID: 5183400394415879595}
+  - component: {fileID: 5306352472180969112}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3510
+  m_VersionIndex: 3519
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -331,8 +331,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 984307725220671185}
   m_Mesh: {fileID: 0}
---- !u!64 &5183400394415879595
-MeshCollider:
+--- !u!65 &5306352472180969112
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -349,10 +349,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 3
+  m_Size: {x: 2.6070263, y: 0.16932392, z: 2.6062138}
+  m_Center: {x: -1.1199803, y: 1.3335897, z: -1.6954359}
 --- !u!1 &3179815092203065936
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +365,7 @@ GameObject:
   - component: {fileID: 899663309589302836}
   - component: {fileID: 4750767335963817062}
   - component: {fileID: 4886197333209174197}
-  - component: {fileID: 3302842066388310340}
+  - component: {fileID: 6369331252812824207}
   m_Layer: 0
   m_Name: BoxWLid
   m_TagString: Untagged
@@ -382,7 +381,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3179815092203065936}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.6886261, z: -0, w: 0.72511667}
+  m_LocalRotation: {x: 0, y: 0.68862677, z: 0, w: 0.725116}
   m_LocalPosition: {x: -232.1293, y: -48.304928, z: 33.210278}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1795,7 +1794,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 7727
+  m_VersionIndex: 7736
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1878,8 +1877,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3179815092203065936}
   m_Mesh: {fileID: 0}
---- !u!64 &3302842066388310340
-MeshCollider:
+--- !u!65 &6369331252812824207
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1896,7 +1895,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 3
+  m_Size: {x: 2.4811401, y: 1.248911, z: 2.4884644}
+  m_Center: {x: -1.2406006, y: 0.6244555, z: -1.2442017}
