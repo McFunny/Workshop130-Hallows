@@ -51,6 +51,31 @@ public class TownGate : MonoBehaviour
         }
     }
 
+    public void Transition(PlayerLocation newLocation)
+    {
+        switch(newLocation)
+        {
+            case PlayerLocation.InFarm:
+            townMist.gameObject.SetActive(false);
+            farmMist.gameObject.SetActive(true);
+            break;
+            case PlayerLocation.InTown:
+            townMist.gameObject.SetActive(true);
+            farmMist.gameObject.SetActive(false);
+            break;
+            case PlayerLocation.InCrypt:
+            townMist.gameObject.SetActive(false);
+            farmMist.gameObject.SetActive(false);
+            break;
+            case PlayerLocation.InWilderness:
+            townMist.gameObject.SetActive(false);
+            farmMist.gameObject.SetActive(false);
+            break;
+        }
+
+        location = newLocation;
+    }
+
     public void GameOver()
     {
         location = PlayerLocation.InFarm;

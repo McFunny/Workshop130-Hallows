@@ -56,6 +56,9 @@ public class WildernessManager : MonoBehaviour
             Debug.LogError("There are no available maps. Are they not active in your scene?");
             return;
         }
+
+        TownGate.Instance.Transition(PlayerLocation.InWilderness);
+        
         currentMap = allMaps[Random.Range(0, allMaps.Count)];
         PlayerInteraction.Instance.transform.position = currentMap.spawnPositions[Random.Range(0,currentMap.spawnPositions.Length)].position;
         currentMap.InitializeMap();
@@ -65,6 +68,7 @@ public class WildernessManager : MonoBehaviour
 
     public void ExitWilderness()
     {
+        if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InWilderness);
         PlayerInteraction.Instance.transform.position = returnPosition.position;
         currentMap = null;
         hoursSpentInWilderness = 0;
