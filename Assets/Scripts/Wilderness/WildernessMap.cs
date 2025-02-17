@@ -28,6 +28,19 @@ public class WildernessMap : MonoBehaviour
             r = Random.Range(0, obstacles.Length);
             obstacles[r].SetActive(true);
         }
+
+        List<Transform> usedSpots = new List<Transform>();
+        t = Random.Range(15, 25);
+        for(int i = 0; i < t; i++)
+        {
+            r = Random.Range(0, interactablePositions.Length);
+            if(!usedSpots.Contains(interactablePositions[r]))
+            {
+                usedSpots.Add(interactablePositions[r]);
+                GameObject prefab = WildernessManager.Instance.interactablesPrefab[Random.Range(0, WildernessManager.Instance.interactablesPrefab.Length)];
+                Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
+            }
+        }
     }
 
     public void ClearMap()

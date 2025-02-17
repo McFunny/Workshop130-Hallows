@@ -60,7 +60,7 @@ public class WildernessManager : MonoBehaviour
         PlayerInteraction.Instance.transform.position = currentMap.spawnPositions[Random.Range(0,currentMap.spawnPositions.Length)].position;
         currentMap.InitializeMap();
         hoursSpentInWilderness++;
-        CreatureSpawn();
+        StartCoroutine(CreatureSpawn());
     }
 
     public void ExitWilderness()
@@ -107,6 +107,7 @@ public class WildernessManager : MonoBehaviour
     void SpawnCreature(CreatureObject c)
     {
         //Add chance of spawning variants here
+        //Only spawn wilderness variants here
 
         GameObject newCreature = Instantiate(c.objectPrefab, RandomSpawnPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
