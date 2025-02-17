@@ -16,7 +16,7 @@ public class WildernessManager : MonoBehaviour
     public GameObject[] interactables;
     public GameObject[] setPieces;
 
-    public WildernessMap[] allMaps;
+    [HideInInspector] public List<WildernessMap> allMaps = new List<WildernessMap>();
     WildernessMap currentMap;
 
     public Transform returnPosition;
@@ -39,13 +39,11 @@ public class WildernessManager : MonoBehaviour
         TimeManager.OnHourlyUpdate -= HourUpdate;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -53,8 +51,14 @@ public class WildernessManager : MonoBehaviour
 
     public void EnterWilderness()
     {
-        currentMap = allMaps[Random.Range(0, allMaps.Length)];
+        if(allMaps.Count == 0)
+        {
+            Debug.LogError("There are no available maps. Are they not active in your scene?");
+            return;
+        }
+        currentMap = allMaps[Random.Range(0, allMaps.Count)];
         PlayerInteraction.Instance.transform.position = currentMap.spawnPositions[Random.Range(0,currentMap.spawnPositions.Length)].position;
+        currentMap.InitializeMap();
         hoursSpentInWilderness++;
         CreatureSpawn();
     }
@@ -65,6 +69,7 @@ public class WildernessManager : MonoBehaviour
         currentMap = null;
         hoursSpentInWilderness = 0;
         visitedWilderness = true;
+        currentMap.ClearMap();
     }
 
     void HourUpdate()
@@ -134,12 +139,4 @@ public class WildernessManager : MonoBehaviour
         else if(hoursSpentInWilderness > 2) maxCreatures = 8;
         else maxCreatures = 4;
     }
-}
-
-public class WildernessMap
-{
-    public Transform[] spawnPositions; //Possible player spawns
-    public Transform[] enemySpawnPositions; //spots enemies can spawn from. Should grab the closest 2 from the player
-    public Transform[] setPiecePositions; //Locations that the giant setpieces can take
-    public Transform[] interactablePositions; //Locations of small things like trees with nuts, hives, and foreagables can spawn near
 }
