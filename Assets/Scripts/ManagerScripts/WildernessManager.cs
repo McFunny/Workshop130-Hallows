@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class WildernessManager : MonoBehaviour
 {
+    int hoursSpentInWilderness = 0;
+
+    public CreatureObject[] creatures;
+
     // Start is called before the first frame update
     void Start()
     {
