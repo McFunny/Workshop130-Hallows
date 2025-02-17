@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -14,8 +15,13 @@ public class UIMenuButton : MonoBehaviour
     ControlManager controlManager;
     [SerializeField] Button button;
     [SerializeField] private Image arrowImage;
+    [SerializeField] private KeepSelectionOnScreen keepSelectionOnScreen;
+    RectTransform rectTransform;
     public bool isPauseButton = true;
     public bool isDisabled = false;
+    public bool ignoreColor = false;
+    public bool isWithinScrollRect = false;
+    bool hasSnapped = false;
 
     void Awake()
     {
@@ -34,6 +40,8 @@ public class UIMenuButton : MonoBehaviour
         c_interactable = new Color(1f, 1f, 1f, 1);
         c_noninteractable = new Color(0.5f, 0.5f, 0.5f, 1);
         c_invisible = new Color(0f,0f,0f,0f);
+
+        rectTransform = this.gameObject.GetComponent<RectTransform>();
     }
 
     void OnEnable()
@@ -63,22 +71,26 @@ public class UIMenuButton : MonoBehaviour
             if(EventSystem.current.currentSelectedGameObject == this.gameObject) arrowImage.color = c_noninteractable;
             else arrowImage.color = c_invisible;
         }
-            
+        
         if(!isDisabled)
         {
             if(EventSystem.current.currentSelectedGameObject == this.gameObject)
             {
-                text.color = c_selected;
+                isSelected = true;
                 arrowImage.color = c_interactable;
                 arrowImage.enabled = true;
-                isSelected = true;
+                if(ignoreColor) return;
+
+                text.color = c_selected;
             }
             else
             {
-                text.color = c_deselected;
+                isSelected = false;
                 arrowImage.color = c_invisible;
                 arrowImage.enabled = false;
-                isSelected = false;
+                if(ignoreColor) return;
+                
+                text.color = c_deselected;
             }
         }
 
@@ -98,7 +110,10 @@ public class UIMenuButton : MonoBehaviour
 
     void Select(InputAction.CallbackContext obj)
     {
-        if(isSelected) button.onClick.Invoke();
+        if(isSelected) 
+        {
+            button.onClick.Invoke();
+        }
     }
 
 }

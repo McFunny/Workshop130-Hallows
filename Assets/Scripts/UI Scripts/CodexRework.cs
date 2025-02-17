@@ -4,13 +4,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class CodexRework : MonoBehaviour
 {
     CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted, PlantEntries, QuestEntries;
     public CodexEntries currentEntry;
     [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject;
-    [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText;
+    [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText, contentsText;
     [SerializeField] private int currentPage = 0;
 
     [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal;
@@ -19,6 +20,9 @@ public class CodexRework : MonoBehaviour
     string defaultDesc = "There is more to discover...";
     ControlManager controlManager;
     [SerializeField] private Image largeImage, smallImage;
+    [SerializeField] private GameObject defaultButton;
+    [SerializeField] private Button[] categoryButtons;
+    private Button currentCategoryButton;
     [SerializeField] private List<GameObject> categoryList;
     bool isGridCategory;
 
@@ -35,6 +39,7 @@ public class CodexRework : MonoBehaviour
         PlantEntries = Resources.LoadAll<CodexEntries>("Codex/Plants/");
         QuestEntries = Resources.LoadAll<CodexEntries>("Codex/Quests/");
         CurrentCategory = GettingStarted;
+        contentsText.text = "Getting Started";
         currentEntry = null;
 
         nameText.text = "";     //CurrentCategory[0].entryName;
@@ -63,6 +68,13 @@ public class CodexRework : MonoBehaviour
 
     void Update()
     {
+        //print(EventSystem.current.currentSelectedGameObject);
+
+        if(codex.activeInHierarchy && EventSystem.current.currentSelectedGameObject == null && ControlManager.isController)
+        {
+            EventSystem.current.SetSelectedGameObject(defaultButton);
+        }
+
         if(codex.activeInHierarchy)
         {
             if(controlManager.codexPageUp.action.WasPressedThisFrame())
@@ -116,6 +128,11 @@ public class CodexRework : MonoBehaviour
         {
             ClearCodex();
         }
+        else
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(defaultButton);
+        }
     }
     public void UpdatePage(int page, CodexEntries entry, bool reset)
     {
@@ -161,6 +178,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = GettingStarted;
             currentPage = 0;
             isGridCategory = false;
+            contentsText.text = "Getting Started";
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
@@ -168,6 +186,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = ToolEntries;
             currentPage = 0;
             isGridCategory = true;
+            contentsText.text = "Tools";
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
@@ -175,6 +194,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = PlantEntries;
             currentPage = 0;
             isGridCategory = true;
+            contentsText.text = "Plants";
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
@@ -182,6 +202,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = CreatureEntries;
             currentPage = 0;
             isGridCategory = true;
+            contentsText.text = "Creatures";
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
@@ -189,6 +210,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = QuestEntries;
             currentPage = 0;
             isGridCategory = false;
+            contentsText.text = "Quests";
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
@@ -200,6 +222,8 @@ public class CodexRework : MonoBehaviour
             print("су́ка блядь! Category not found! Defaulting to GettingStarted... блядь...");
             break;
         }
+
+        //currentCategoryButton = categoryButtons[cat];
 
         for(int i = 0; i < categoryList.Count; i++)
         {
@@ -230,6 +254,8 @@ public class CodexRework : MonoBehaviour
                 var tempText = tempName.GetComponent<TextMeshProUGUI>();
                 var tempSprite = tempImage.GetComponent<Image>();
 
+                tempButton.name = "GridButton" + i;
+
                 tempID.assignedEntry = CurrentCategory[i];
 
                 if(CurrentCategory[i].unlocked)
@@ -258,9 +284,12 @@ public class CodexRework : MonoBehaviour
                 if(!CurrentCategory[i].unlocked) {continue;}
                 
                 var tempButton = Instantiate(horizontalEntryButton, horizontalContentObject.transform, worldPositionStays:false);
-                var tempName = tempButton.gameObject.transform.GetChild(0).gameObject;
+                var button = tempButton.gameObject.transform.GetChild(0).gameObject;
+                var tempName = tempButton.gameObject.transform.GetChild(1).gameObject;
                 var tempID = tempButton.GetComponent<CodexButtonID>();
                 var tempText = tempName.GetComponent<TextMeshProUGUI>();
+
+                button.name = "HorizontalButton" + i;
 
 
                 tempText.text = CurrentCategory[i].entryName;
@@ -292,6 +321,14 @@ public class CodexRework : MonoBehaviour
             largeDescriptionText.text = defaultDesc;
             horizontalEntryName.text = defaultName;
             horizontalDescriptionText.text = defaultDesc;
+            descriptionText.text = defaultDesc;
+            largeImage.gameObject.SetActive(false);
+            descriptionText.gameObject.SetActive(false);
+            largeDescriptionText.gameObject.SetActive(true);
+            largeImage.sprite = null;
+            smallImage.sprite = null;
+            pageNumberText.text = "";
+            UpdateNavigation();
             return;
         }
 
@@ -303,6 +340,7 @@ public class CodexRework : MonoBehaviour
         pageNumberText.text = "Page 1" + "/" + currentEntry.description.Length;
         
         ImageCheck();
+        UpdateNavigation();
     }
 
     void ClearCodex()
@@ -358,5 +396,50 @@ public class CodexRework : MonoBehaviour
     void HasUnlockedEntry(CodexEntries entry)
     {
         currentEntry = entry;
+    }
+
+    void UpdateNavigation() //Why cant unity let me change ONE THING with menu navigation without changing EVERYTHING about it I HATE UNITY
+    {
+        Navigation startNav = new Navigation(); // This fucking sucks dude I was almost finished with controller navigation for the Codex
+        Navigation toolNav = new Navigation();  // I have no idea what I'm doing with this man I hate unity
+        Navigation plantNav = new Navigation(); // I could be playing Trials of Osiris rn getting stomped by a 0.6kd bubble Titan but NOOOOO
+        Navigation creatureNav = new Navigation(); // Fuck my stupid chungus baka life
+        Navigation questNav = new Navigation(); // I blame Cam btw
+
+        startNav.mode = Navigation.Mode.Explicit;
+        startNav.selectOnUp = categoryButtons[4];
+        startNav.selectOnDown = categoryButtons[1];
+        if(isGridCategory){startNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+        else{startNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+        toolNav.mode = Navigation.Mode.Explicit;
+        toolNav.selectOnUp = categoryButtons[0];
+        toolNav.selectOnDown = categoryButtons[2];
+        if(isGridCategory){toolNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+        else{toolNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+        plantNav.mode = Navigation.Mode.Explicit;
+        plantNav.selectOnUp = categoryButtons[1];
+        plantNav.selectOnDown = categoryButtons[3];
+        if(isGridCategory){plantNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+        else{plantNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+        creatureNav.mode = Navigation.Mode.Explicit;
+        creatureNav.selectOnUp = categoryButtons[2];
+        creatureNav.selectOnDown = categoryButtons[4];
+        if(isGridCategory){creatureNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+        else{creatureNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+        questNav.mode = Navigation.Mode.Explicit;
+        questNav.selectOnUp = categoryButtons[3];
+        questNav.selectOnDown = categoryButtons[0];
+        if(isGridCategory){questNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+        else{questNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+        categoryButtons[0].navigation = startNav;
+        categoryButtons[1].navigation = toolNav;
+        categoryButtons[2].navigation = plantNav;
+        categoryButtons[3].navigation = creatureNav;
+        categoryButtons[4].navigation = questNav;
     }
 }

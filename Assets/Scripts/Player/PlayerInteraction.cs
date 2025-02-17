@@ -133,13 +133,13 @@ public class PlayerInteraction : MonoBehaviour
 
     private void UseHeldItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen) return;
         UseHotBarItem();
     }
 
     private void OnInteractWithItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen) return;
         if(!ControlManager.isController) StructureInteractionWithItem();
         else
         {
@@ -155,7 +155,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void InteractWithoutItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory)
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen)
         {
             if(DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
             return;
