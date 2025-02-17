@@ -13,8 +13,8 @@ public class WildernessManager : MonoBehaviour
     public List<CreatureBehaviorScript> allCreatures;
 
     public CreatureObject[] creatures;
-    public GameObject[] interactables;
-    public GameObject[] setPieces;
+    public GameObject[] interactablesPrefab;
+    public GameObject[] setPiecesPrefab;
 
     [HideInInspector] public List<WildernessMap> allMaps = new List<WildernessMap>();
     WildernessMap currentMap;
