@@ -12,6 +12,7 @@ public class Forgeable : StructureBehaviorScript
     public ForageType type;
 
     bool isDigging = false;
+    bool usingShovel = false;
 
 
     // Start is called before the first frame update
@@ -33,7 +34,7 @@ public class Forgeable : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(!isDigging)
+        if(!isDigging && usingShovel)
         {
             audioHandler.PlaySound(audioHandler.interactSound);
             isDigging = true;
@@ -107,6 +108,7 @@ public class Forgeable : StructureBehaviorScript
     IEnumerator DigPlant()
     {
         yield return new WaitForSeconds(1f);
+        usingShovel = true;
         StructureInteraction();
     }
 

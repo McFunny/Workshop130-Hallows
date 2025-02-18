@@ -1921,6 +1921,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 474536576919656251}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3524132471912834969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3274068372633532939}
+  m_Layer: 0
+  m_Name: WildernessRespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3274068372633532939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3524132471912834969}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3536135178992714009
 GameObject:
   m_ObjectHideFlags: 0
@@ -7935,6 +7966,7 @@ Transform:
   - {fileID: 8003300629687511125}
   - {fileID: 8786104782901986432}
   - {fileID: 7787821027441036890}
+  - {fileID: 3274068372633532939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4040343108907326756
@@ -8099,10 +8131,16 @@ MonoBehaviour:
   lumberjackFed: 0
   botanistFed: 0
   barkeepFed: 0
+  tinkererFed: 0
+  apothFed: 0
+  culinarianFed: 0
   rascalSpoke: 0
   lumberjackSpoke: 0
   botanistSpoke: 0
   barkeepSpoke: 0
+  tinkererSpoke: 0
+  apothSpoke: 0
+  culinarianSpoke: 0
 --- !u!114 &8391427381802313727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8135,6 +8173,9 @@ MonoBehaviour:
   botMet: 0
   lumberMet: 0
   barMet: 0
+  tinkMet: 0
+  apothMet: 0
+  culMet: 0
 --- !u!114 &1864734984650053270
 MonoBehaviour:
   m_ObjectHideFlags: 0

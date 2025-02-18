@@ -175,7 +175,7 @@ public class NightSpawningManager : MonoBehaviour
         GameObject newCreature = Instantiate(c.objectPrefab, RandomMistPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
-            enemy.OnSpawn();
+            enemy.OnSpawn(); //Why does the mist walker not do this?
             allCreatures.Add(enemy);
         }
     }
@@ -301,8 +301,8 @@ public class NightSpawningManager : MonoBehaviour
     {
         if(highestDifficultyPoints > 300) return 15;
         else if(highestDifficultyPoints > 200) return 12;
-        else if(highestDifficultyPoints > 100) return 8;
-        else if(highestDifficultyPoints > 50) return 6;
+        else if(highestDifficultyPoints > 150) return 8;
+        else if(highestDifficultyPoints > 80) return 6;
         else return 4;
         /*
         switch (TimeManager.Instance.dayNum)

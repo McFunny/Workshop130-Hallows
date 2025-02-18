@@ -332,6 +332,7 @@ public class TimeManager : MonoBehaviour
         OnHourlyUpdate?.Invoke();
 
         if(!stopSaving) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.gameSavePopup);
+        WildernessManager.Instance.visitedWilderness = false;
     }
 
     [ContextMenu("Set To Start Of Morning")]

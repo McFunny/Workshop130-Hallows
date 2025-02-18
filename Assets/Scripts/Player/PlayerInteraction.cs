@@ -306,7 +306,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
-        if(!sentLowStaminaMessage && stamina <= 25)
+        if(!sentLowStaminaMessage && stamina <= 50)
         {
             sentLowStaminaMessage = true;
             PopupHandler.Instance.AddToQueue(lowStaminaWarning);

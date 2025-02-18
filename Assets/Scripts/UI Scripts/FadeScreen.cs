@@ -25,7 +25,7 @@ public class FadeScreen : MonoBehaviour
         if(!image || delay) return;
         if(coverScreen && imageColor.a < 1)
         {
-            imageColor.a += 0.005f;
+            imageColor.a += 0.01f;
             image.color = imageColor;
         }
 

@@ -8554,9 +8554,10 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   corpseHealth: -30
-  ichorWorth: 6
+  ichorWorth: 5
   ichorDropRadius: 4.5
   creatureData: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
+  inWilderness: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -8572,10 +8573,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d06fed8a2ed642746af8ec6d863c5b72, type: 2}
   - {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
   dropChance:
-  - 1
-  - 1
-  - 1
-  - 1
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
   sightRange: 20
   attackRange: 5
   playerInSightRange: 0
