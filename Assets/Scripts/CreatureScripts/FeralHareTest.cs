@@ -63,6 +63,7 @@ public class FeralHareTest : CreatureBehaviorScript
         // If the player is in sight, switch to flee state
         if (playerInSightRange && currentState != CreatureState.Eat)
         {
+            fleeTimeLeft = 1;
             currentState = CreatureState.FleeFromPlayer;
         }
         if (!isStunned)
@@ -75,6 +76,12 @@ public class FeralHareTest : CreatureBehaviorScript
         if(fleeTimeLeft > 0)
         {
             fleeTimeLeft -= Time.deltaTime;
+        }
+
+        if(inEatingRange && foundFarmTile)
+        {
+            float distance = Vector3.Distance(foundFarmTile.transform.position, transform.position);
+            if(distance > 2.5f) inEatingRange = false;
         }
     }
 
@@ -316,7 +323,7 @@ public class FeralHareTest : CreatureBehaviorScript
             if(currentState == CreatureState.Eat && health != maxHealth) TakeDamage(20);
             else
             {
-                fleeTimeLeft = 3;
+                fleeTimeLeft = 3.5f;
                 currentState = CreatureState.FleeFromPlayer;
             }
         } 

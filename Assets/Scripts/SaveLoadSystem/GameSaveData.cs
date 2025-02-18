@@ -23,11 +23,12 @@ public class GameSaveData : MonoBehaviour
     public bool tutorialMerchantSpoke; //Tutorial Complete
     public bool rascalWantsFood; //Rascal told the player they want a carrot //Outdated
     public bool rascalMentionedKey; //Rascal got the carrot and told the player about the key
-    public bool lumber_offersDeal; //Lumberjack was spoken to and offered to chop the tree for 200 mints
+    public bool lumber_offersDeal; //Lumberjack was spoken to and offered to chop the tree for x amount of mints
     public bool lumber_choppedTree; //Lumberjack said he will chop the tree
     public bool bridgeCleared; //Tree was cleared
     public bool keyCollected; //Key was picked up
     public bool catacombUnlocked; //Key used to unlock door to catacombs
+    public bool wildernessIntroduced; //Merchant has informed the player about the wilderness
 
     [Header("NPC Bools. All must be false when building")]
     public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet;

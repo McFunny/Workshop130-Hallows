@@ -40,7 +40,7 @@ public class TimeManager : MonoBehaviour
     public Color nightColor, dayColor;
     bool changingLights = false;
 
-    public Transform playerRespawn;
+    public Transform playerRespawn, respawnFocus;
 
     public static TimeManager Instance;
 
@@ -96,7 +96,7 @@ public class TimeManager : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(1);
-            if(!timeSkipping && !stopTime)
+            if(!timeSkipping && !stopTime || (isDay && DialogueController.Instance.IsTalking()))
             {
                 currentMinute++;
                 LerpSunAndMoon();
@@ -332,6 +332,7 @@ public class TimeManager : MonoBehaviour
         OnHourlyUpdate?.Invoke();
 
         if(!stopSaving) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.gameSavePopup);
+        WildernessManager.Instance.visitedWilderness = false;
     }
 
     [ContextMenu("Set To Start Of Morning")]
