@@ -66,6 +66,23 @@ MonoBehaviour:
     - This transaction is encumbered by your lack of organization. I will be waiting
       here until you make space.
     emotions: 03000000
+  - pathName: Wilderness worthy
+    paragraphs:
+    - I have been watching you for some time now.
+    - You seem capable of fending for yourself. Perhaps you have some more untapped
+      worth.
+    - I will now take you on expeditions beyond the fog. In return, I expect great
+      returns.
+    - Interact with the lantern besides my wagon to inform me you are prepared.
+    emotions: 00000000050000000600000000000000
+  - pathName: Going to the Wilderness?
+    paragraphs:
+    - Are you adequately prepared for our foray? If so, then we are off.
+    emotions: 04000000
+  - pathName: Cannot go to Wilderness currently
+    paragraphs:
+    - The sun will be setting soon. Attend to other matters.
+    emotions: 02000000
   fillerPaths: []
   questPaths: []
   itemRecievedPaths: []
