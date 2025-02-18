@@ -262,8 +262,8 @@ public class WagonMerchantNPC : NPC, ITalkable
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         interactedWithLantern = false;
-        yield return new WaitForSeconds(3);
         WildernessManager.Instance.EnterWilderness();
+        yield return new WaitForSeconds(3);
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
     }
