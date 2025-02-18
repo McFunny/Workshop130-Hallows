@@ -9,7 +9,7 @@ public class MerchantLantern : MonoBehaviour, IInteractable
 
     //public Transform interior, exterior;
     [HideInInspector] public WagonMerchantNPC merchant;
-    public bool forceEnable = false; //MAKE THIS FALSE BEFORE BUILDING
+    //public bool forceEnable = false; //MAKE THIS FALSE BEFORE BUILDING
 
     public Collider myCollider;
     public GameObject enabledObject;
@@ -20,7 +20,7 @@ public class MerchantLantern : MonoBehaviour, IInteractable
 
     void Start()
     {
-        if(GameSaveData.Instance.wildernessIntroduced == true || forceEnable) EnableSelf();
+        if(GameSaveData.Instance.wildernessIntroduced == true/* || forceEnable*/) EnableSelf();
         else
         {
             myCollider.enabled = false;

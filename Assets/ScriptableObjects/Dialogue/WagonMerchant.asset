@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
   m_Name: WagonMerchant
   m_EditorClassIdentifier: 
-  speakerName: Wagon Merchant
+  speakerName: Mist Merchant
   defaultPath:
     pathName: Selling Something?
     paragraphs:
@@ -68,7 +68,7 @@ MonoBehaviour:
     emotions: 03000000
   - pathName: Wilderness worthy
     paragraphs:
-    - I have been watching you for some time now.
+    - I have been watching you for some time now. {freezePlayer}
     - You seem capable of fending for yourself. Perhaps you have some more untapped
       worth.
     - I will now take you on expeditions beyond the fog. In return, I expect great
@@ -77,12 +77,16 @@ MonoBehaviour:
     emotions: 00000000050000000600000000000000
   - pathName: Going to the Wilderness?
     paragraphs:
-    - Are you adequately prepared for our foray? If so, then we are off.
+    - Are you adequately prepared for our foray? If so, then we are off. {freezePlayer}
     emotions: 04000000
   - pathName: Cannot go to Wilderness currently
     paragraphs:
-    - The sun will be setting soon. Attend to other matters.
+    - The sun will be setting soon. Attend to other matters. {freezePlayer}
     emotions: 02000000
+  - pathName: Ready to return?
+    paragraphs:
+    - Time to return to VeilWood?
+    emotions: 04000000
   fillerPaths: []
   questPaths: []
   itemRecievedPaths: []

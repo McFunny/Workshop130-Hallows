@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
+  m_Name: WildernessMerchant
+  m_EditorClassIdentifier: 
+  speakerName: Mist Merchant
+  defaultPath:
+    pathName: Ready to return?
+    paragraphs:
+    - Time to return to VeilWood?
+    emotions: 04000000
+  questCompletePath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  repeatedItemPath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  paths:
+  - pathName: 
+    paragraphs:
+    - There you are.
+    - 'The carriage awaits. '
+    - I will be enforcing a fee for your carelessness.
+    emotions: 030000000600000003000000
+  fillerPaths: []
+  questPaths: []
+  itemRecievedPaths: []
+  itemSpecificRemarks: []
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []

@@ -5,6 +5,7 @@ using UnityEngine;
 public class WildernessMap : MonoBehaviour
 {
     public Transform[] spawnPositions; //Possible player spawns
+    public Transform[] wagonPositions; //Associated wagon spawns
     public Transform[] enemySpawnPositions; //Spots enemies can spawn from. Should grab the closest 2 from the player
     public Transform[] setPiecePositions; //Locations that the giant setpieces can take
     public Transform[] interactablePositions; //Locations of small things like trees with nuts, hives, and foreagables can spawn near
