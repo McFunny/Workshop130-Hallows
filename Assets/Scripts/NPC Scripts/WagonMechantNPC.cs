@@ -59,6 +59,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                 currentType = PathType.Default;
             }
             lastSeenItem = null;
+            interactedWithLantern = false;
             dialogueController.SetInterruptable(false);
 
             anim.SetTrigger("IsTalking");
@@ -205,6 +206,8 @@ public class WagonMerchantNPC : NPC, ITalkable
         }
         if(lastSeenItem) lastSeenItem = null; 
         shopUI.shopImgObj.SetActive(false);
+
+        interactedWithLantern = false;
     }
 
     public void HourlyUpdate()
@@ -228,7 +231,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             else //Are you sure you want to go/You cannot go yet
             {
-                if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay)
+                if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay || WildernessManager.Instance.visitedWilderness)
                 {
                     currentPath = 10;
                     currentType = PathType.Misc;
@@ -256,7 +259,13 @@ public class WagonMerchantNPC : NPC, ITalkable
     IEnumerator TakeToWilderness()
     {
         //restrict movement and darken screen
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        interactedWithLantern = false;
         yield return new WaitForSeconds(3);
+        WildernessManager.Instance.EnterWilderness();
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
     }
     
 }
