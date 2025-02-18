@@ -53,23 +53,29 @@ public class TownGate : MonoBehaviour
 
     public void Transition(PlayerLocation newLocation)
     {
+        //Section to change music
+
         switch(newLocation)
         {
             case PlayerLocation.InFarm:
             townMist.gameObject.SetActive(false);
             farmMist.gameObject.SetActive(true);
+            RenderSettings.fogDensity = 0.012f;
             break;
             case PlayerLocation.InTown:
             townMist.gameObject.SetActive(true);
             farmMist.gameObject.SetActive(false);
+            RenderSettings.fogDensity = 0.012f;
             break;
             case PlayerLocation.InCrypt:
             townMist.gameObject.SetActive(false);
             farmMist.gameObject.SetActive(false);
+            RenderSettings.fogDensity = 0.035f;
             break;
             case PlayerLocation.InWilderness:
             townMist.gameObject.SetActive(false);
             farmMist.gameObject.SetActive(false);
+            RenderSettings.fogDensity = 0.035f;
             break;
         }
 
