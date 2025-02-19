@@ -32,7 +32,7 @@ public class CodexEntries : ScriptableObject
     [Tooltip("Name of the entry personally I thought this was pretty self explanatory tho")]
     public string entryName;
 
-    [Tooltip("Description of the entry")] [TextArea(4,10)]
+    /*[Tooltip("Description of the entry")]*/ [TextArea(4,10)]
     public string[] description;
 
 }
