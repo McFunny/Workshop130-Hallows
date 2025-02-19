@@ -6,15 +6,17 @@ using UnityEngine.Rendering;
 
 public class TinkererNPC : NPC, ITalkable
 {
-    //public InventoryItemData fertalizerT, fertalizerG, fertalizerI;
-    //public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk, s_bean, s_ginger, s_spores; //seeds
+    // InventoryItemData papers;
+    //public InventoryItemData[] upgrades; //Save this for later
 
-    // public float sellMultiplier = 1;
-    //public InventoryItemData[] possibleSoldItems;
-    //public InventoryItemData[] commonSeeds, rareSeeds, fertalizers;
-    //public float[] itemWeight; //likelyness of being sold, from 0 - 1
-    //List<StoreItem> storeItems = new List<StoreItem>();
-    //WaypointScript shopUI;
+  
+
+    public float sellMultiplier = 1;
+    public InventoryItemData watergun;
+    public InventoryItemData[] possibleSoldItems;
+    public float[] itemWeight; //likelyness of being sold, from 0 - 1
+    List<StoreItem> storeItems = new List<StoreItem>();
+    WaypointScript shopUI;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -26,47 +28,79 @@ public class TinkererNPC : NPC, ITalkable
 
     void Start()
     {
-        //shopUI = FindObjectOfType<WaypointScript>();
+        shopUI = FindObjectOfType<WaypointScript>();
     }
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if (dialogueController.IsTalking() == false) //Makes sure to not interrupt an existing dialogue branch
+        if (dialogueController.IsTalking() == false)
         {
-            if (!GameSaveData.Instance.botMet) //Introduction Check
+            if (!GameSaveData.Instance.tinkMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
-                GameSaveData.Instance.barMet = true;
+                GameSaveData.Instance.tinkMet = true;
             }
-            else if (movementHandler.isWorking) //Working Dialogue
+            /*  else if (GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
+              {
+                  if (!GameSaveData.Instance.lumber_offersDeal)
+                  {
+                      GameSaveData.Instance.lumber_offersDeal = true;
+                      currentPath = 0;
+                      currentType = PathType.Quest;
+                  }
+                  else if (!GameSaveData.Instance.lumber_choppedTree)
+                  {
+                      if (!startedDialogue)
+                      {
+                          //Asks if the player wants to hand over the money
+                          currentPath = 2;
+                          currentType = PathType.Quest;
+                      }
+                      else if (PlayerInteraction.Instance.currentMoney >= 400)
+                      {
+                          //Takes money
+                          PlayerInteraction.Instance.currentMoney -= 400;
+                          currentPath = 3;
+                          currentType = PathType.Quest;
+                          GameSaveData.Instance.lumber_choppedTree = true;
+                          print("I took ur money");
+                          anim.SetTrigger("TakeItem");
+                      }
+                      else
+                      {
+                          currentPath = 1;
+                          currentType = PathType.Quest;
+                      }
+                  }
+              }*/
+            else
             {
-                currentPath = 0;
-                currentType = PathType.Misc;
-            }
-            else if (NPCManager.Instance.barkeepSpoke) //Say nothing if already given flavor text
-            {
-                interactSuccessful = false;
-                return;
-            }
-            else if (currentPath == -1) //Give 1 daily flavor text
-            {
-                int i = Random.Range(0, dialogueText.fillerPaths.Length);
-                currentPath = i;
+                if (NPCManager.Instance.tinkererSpoke)
+                {
+                    interactSuccessful = false;
+                    return;
+                }
+                if (currentPath == -1)
+                {
+                    int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentPath = i;
+                    NPCManager.Instance.tinkererSpoke = true;
+                }
                 currentType = PathType.Filler;
-                NPCManager.Instance.barkeepSpoke = true;
             }
         }
         Talk();
         interactSuccessful = true;
     }
 
-    public void Talk() //progress what they are saying or start new conversation
+    public void Talk()
     {
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
+        startedDialogue = true;
     }
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
@@ -78,43 +112,42 @@ public class TinkererNPC : NPC, ITalkable
             return;
         }
 
-        /* if (item == fertalizerI || item == fertalizerT || item == fertalizerG) //Reenable if we want barkeep to see specific items
-         {
-             currentPath = 1;
-             currentType = PathType.ItemSpecific;
-         }*/
-
+        //Add special text for showing him his own tree papers
 
         else if (item.staminaValue > 0)
         {
             currentPath = 0;
             currentType = PathType.ItemRecieved;
-            /*if(!NPCManager.Instance.botanistFed)
+            /*
+            if(!NPCManager.Instance.lumberjackFed)
             {
                 currentPath = 0;
                 currentType = PathType.ItemRecieved;
-                NPCManager.Instance.botanistFed = true;
+                NPCManager.Instance.lumberjackFed = true;
                 anim.SetTrigger("TakeItem");
             }
             else
             {
                 currentPath = 1;
                 currentType = PathType.ItemRecieved;
-            }*/
+            }
+            */
             //Its consumable and giftable
         }
+
         else
         {
             currentPath = 0;
             currentType = PathType.ItemSpecific;
         }
 
+        //code for the item being edible
         Talk();
 
         interactSuccessful = true;
     }
 
-    /*public override void PurchaseAttempt(StoreItem item)
+    public override void PurchaseAttempt(StoreItem item)
     {
         if (dialogueController.IsInterruptable() == false)
         {
@@ -151,94 +184,77 @@ public class TinkererNPC : NPC, ITalkable
         }
         currentType = PathType.Misc;
         Talk();
-    }*/
+    }
 
     public override void PlayerLeftRadius()
     {
-        /*        if (lastInteractedStoreItem)
-                {
-                    lastInteractedStoreItem = null;
-                }
-                shopUI.shopImgObj.SetActive(false);
-        */
+        if (lastInteractedStoreItem)
+        {
+            lastInteractedStoreItem = null;
+        }
+        shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
     }
 
-    /*public override void EmptyShopItem()
+    public override void EmptyShopItem()
     {
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
-    }*/
+    }
 
-    /* public override void RefreshStore()
-     {
-         //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
-         if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-         lastInteractedStoreItem = null;
-         int i;
-         float r;
-         int currentItem = 0;
-         InventoryItemData newItem;
+    public override void RefreshStore()
+    {
+        //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
+        if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
+        lastInteractedStoreItem = null;
+        int i;
+        float r;
+        InventoryItemData newItem;
 
-         InventoryItemData rareSeedForSale;
-         i = Random.Range(0, rareSeeds.Length);
-         rareSeedForSale = rareSeeds[i];
-
-         List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
-         while (commonSeedsForSale.Count < 2)
-         {
-             i = Random.Range(0, commonSeeds.Length);
-             if (!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
-         }
-
-         foreach (StoreItem item in storeItems)
-         {
-             newItem = null;
-
-             if (currentItem < 6)
-             {
-                 i = Random.Range(0, commonSeedsForSale.Count);
-                 newItem = commonSeeds[i];
-             }
-             else if (currentItem < 9) newItem = rareSeedForSale;
-             else
-             {
-                 i = Random.Range(0, fertalizers.Length);
-                 newItem = fertalizers[i];
-             }
-             *//*do
-             {
-                 i = Random.Range(0, possibleSoldItems.Length);
-                 r = Random.Range(0f,1f);
-                 if(r < itemWeight[i]) newItem = possibleSoldItems[i];
-             }
-             while(!newItem); *//*
-             int newCost = (int)(newItem.value * sellMultiplier);
-             item.RefreshItem(newItem, newCost);
-             item.seller = this;
-             currentItem++;
-         }
-         currentItem = 0;
-     }*/
+        if (assignedStall.storeItems.Count < 2) //used for selling the water gun
+        {
+            newItem = watergun;
+            int newCost = (int)(newItem.value * sellMultiplier);
+            storeItems[0].RefreshItem(newItem, newCost);
+            storeItems[0].seller = this;
+        }
+        else //used for other general shop items
+        {
+            foreach (StoreItem item in storeItems)
+            {
+                newItem = null;
+                do
+                {
+                    i = Random.Range(0, possibleSoldItems.Length);
+                    r = Random.Range(0f, 1f);
+                    if (r < itemWeight[i]) newItem = possibleSoldItems[i];
+                }
+                while (!newItem);
+                int newCost = (int)(newItem.value * sellMultiplier);
+                item.RefreshItem(newItem, newCost);
+                item.seller = this;
+            }
+        }
+    }
 
     public override void BeginWorking()
     {
-        /* if (!assignedStall) return;
-         storeItems = assignedStall.storeItems;
-         RefreshStore();*/
+        if (!assignedStall) return;
+        storeItems = assignedStall.storeItems;
+        RefreshStore();
     }
 
     public override void StopWorking()
     {
-        /* if (!assignedStall || storeItems.Count == 0) return;
-         for (int i = 0; i < storeItems.Count; i++)
-         {
-             storeItems[i].Empty();
-         }
-         if (lastInteractedStoreItem)
-         {
-             lastInteractedStoreItem = null;
-         }
-         shopUI.shopImgObj.SetActive(false);*/
+        if (!assignedStall || storeItems.Count == 0) return;
+        for (int i = 0; i < storeItems.Count; i++)
+        {
+            storeItems[i].Empty();
+        }
+        if (lastInteractedStoreItem)
+        {
+            lastInteractedStoreItem = null;
+        }
+        shopUI.shopImgObj.SetActive(false);
     }
 }

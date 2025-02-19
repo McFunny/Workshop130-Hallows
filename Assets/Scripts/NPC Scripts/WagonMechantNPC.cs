@@ -59,6 +59,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(dialogueController.IsInterruptable() == false || tItem)
         {
             interactSuccessful = false;
+            Talk();
             return;
         } 
         if(item.sellValueMultiplier == 0 || item.value == 0)

@@ -76,6 +76,7 @@ public class RascalNPC : NPC, ITalkable
         if(dialogueController.IsInterruptable() == false || tItem)
         {
             interactSuccessful = false;
+            Talk();
             return;
         } 
 
@@ -227,7 +228,7 @@ public class RascalNPC : NPC, ITalkable
 
     public override bool ActionCheck1()
     {
-        if(GameSaveData.Instance.rascalWantsFood /*&& Random.Range(0,10) > 4*/) return true;
+        if(GameSaveData.Instance.rascalMentionedKey && Random.Range(0,10) > 4) return true;
         return false;
     }
 

@@ -57,6 +57,18 @@ public class WaterBarrel : StructureBehaviorScript
         }
     }
 
+    public void ManualFill(out bool success)
+    {
+        if(PlayerInteraction.Instance.waterHeld >= 5 && waterLevel < 3)
+        {
+            PlayerInteraction.Instance.waterHeld -= 5;
+            waterLevel++;
+            WaterLevelChange();
+            success = true;
+        }
+        else success = false;
+    }
+
     IEnumerator DugUp()
     {
         yield return  new WaitForSeconds(1);
@@ -67,19 +79,21 @@ public class WaterBarrel : StructureBehaviorScript
 
     public void WaterLevelChange()
     {
+        if(waterLevel > 0) renderer.enabled = true;
+        else renderer.enabled = false;
         switch(waterLevel)
         {
             case 0:
-                waterTexture.position = new Vector3(waterTexture.position.x, 0.1f, waterTexture.position.z);
+                waterTexture.position = new Vector3(waterTexture.position.x, 0.2f, waterTexture.position.z);
                 break;
             case 1:
-                waterTexture.position = new Vector3(waterTexture.position.x, 0.4f, waterTexture.position.z);
+                waterTexture.position = new Vector3(waterTexture.position.x, 0.45f, waterTexture.position.z);
                 break;
             case 2:
                 waterTexture.position = new Vector3(waterTexture.position.x, 0.8f, waterTexture.position.z);
                 break;
             case 3:
-                waterTexture.position = new Vector3(waterTexture.position.x, 1, waterTexture.position.z);
+                waterTexture.position = new Vector3(waterTexture.position.x, 1.1f, waterTexture.position.z);
                 break;
             default:
                 waterLevel = 0;
@@ -104,6 +118,7 @@ public class WaterBarrel : StructureBehaviorScript
     public override void HourPassed()
     {
         //simulate rain accumulation
+        return; //You can fill it manually so this is obsolete
         if(Random.Range(0,10) < 8) return;
         if(waterLevel < 3)
         {

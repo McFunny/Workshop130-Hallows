@@ -52,13 +52,15 @@ MonoBehaviour:
   health: 40
   maxHealth: 40
   corpseHealth: -15
-  ichorWorth: 4
+  ichorWorth: 3
   ichorDropRadius: 3.5
   creatureData: {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
+  inWilderness: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
-  allColliders: []
+  allColliders:
+  - {fileID: 1211989634709210915}
   corpseParticleTransform: {fileID: 0}
   corpseType: 0
   rb: {fileID: 6199325105305565090}
@@ -90,6 +92,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c2d33e782985c304b9119a73557d93ae, type: 2}
   - {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   currentState: 0
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 65
 --- !u!135 &1211989634709210915
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -178,7 +183,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.622
+  m_Volume: 0.53
   m_Pitch: 1
   Loop: 0
   Mute: 0
