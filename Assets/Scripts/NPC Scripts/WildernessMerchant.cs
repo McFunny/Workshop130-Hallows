@@ -63,8 +63,8 @@ public class WildernessMerchant : NPC, ITalkable
         yield return new WaitUntil(() => PlayerMovement.accessingInventory == false);
         TimeManager.Instance.stopTime = false;
 
-        Vector3 pos = PlayerInteraction.Instance.transform.position;// + PlayerInteraction.Instance.transform.forward * -5;
-        pos.z -= 5;
+        Vector3 pos = PlayerInteraction.Instance.transform.position + PlayerInteraction.Instance.mainCam.transform.forward * -5;
+        pos.y = PlayerInteraction.Instance.transform.position.y;
         //pos = new Vector3(pos.x, pos.y - 1, pos.z);
         merchant.position = pos;
         currentPath = 0;
@@ -92,7 +92,7 @@ public class WildernessMerchant : NPC, ITalkable
     {
         PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
         yield return new WaitUntil(() => DialogueController.Instance.IsTalking() == false);
-        PlayerCam.Instance.ClearObjectOfInterest();
+        //PlayerCam.Instance.ClearObjectOfInterest();
         PlayerInteraction.Instance.currentMoney -= 250;
         if(PlayerInteraction.Instance.currentMoney < 0) PlayerInteraction.Instance.currentMoney = 0;
         StartCoroutine(TakeToTown());
