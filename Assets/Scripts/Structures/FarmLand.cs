@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using TMPro;
 
 public class FarmLand : StructureBehaviorScript
 {
@@ -36,6 +37,8 @@ public class FarmLand : StructureBehaviorScript
     public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
     public GameObject frostParticles;
     public GameObject light;
+
+    public TextMeshProUGUI harvestText;
     [SerializeField] private CropNeedsUI cropNeedsUI;
     // Start is called before the first frame update
     void Awake()
@@ -57,6 +60,11 @@ public class FarmLand : StructureBehaviorScript
         {
             harvestable = true;
             if(growthComplete) growthComplete.Play();
+        }
+        if(harvestText)
+        {
+            if(harvestable) harvestText.text = "Interact To Harvest";
+            else harvestText.text = "";
         }
         playerInventoryHolder = PlayerInventoryHolder.Instance;
 
@@ -367,6 +375,12 @@ public class FarmLand : StructureBehaviorScript
         {
             if(meshRenderer.material == barren) meshRenderer.material = barrenWet;
             else meshRenderer.material = wet;
+        }
+
+        if(harvestText)
+        {
+            if(harvestable) harvestText.text = "Interact To Harvest";
+            else harvestText.text = "";
         }
     }
 

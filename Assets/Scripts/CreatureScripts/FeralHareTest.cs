@@ -63,7 +63,7 @@ public class FeralHareTest : CreatureBehaviorScript
         // If the player is in sight, switch to flee state
         if (playerInSightRange && currentState != CreatureState.Eat)
         {
-            fleeTimeLeft = 2;
+            fleeTimeLeft = 1;
             currentState = CreatureState.FleeFromPlayer;
         }
         if (!isStunned)

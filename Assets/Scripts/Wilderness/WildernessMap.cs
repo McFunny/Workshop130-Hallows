@@ -5,6 +5,7 @@ using UnityEngine;
 public class WildernessMap : MonoBehaviour
 {
     public Transform[] spawnPositions; //Possible player spawns
+    public Transform[] wagonPositions; //Associated wagon spawns
     public Transform[] enemySpawnPositions; //Spots enemies can spawn from. Should grab the closest 2 from the player
     public Transform[] setPiecePositions; //Locations that the giant setpieces can take
     public Transform[] interactablePositions; //Locations of small things like trees with nuts, hives, and foreagables can spawn near
@@ -21,8 +22,8 @@ public class WildernessMap : MonoBehaviour
 
     public void InitializeMap()
     {
-        int r;
-        int t = Random.Range(1, 5);
+        int r; //random number
+        int t = Random.Range(1, 5); //random number of interations
         for(int i = 0; i < t; i++)
         {
             r = Random.Range(0, obstacles.Length);
@@ -37,8 +38,17 @@ public class WildernessMap : MonoBehaviour
             if(!usedSpots.Contains(interactablePositions[r]))
             {
                 usedSpots.Add(interactablePositions[r]);
-                GameObject prefab = WildernessManager.Instance.interactablesPrefab[Random.Range(0, WildernessManager.Instance.interactablesPrefab.Length)];
-                Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
+                int x = 0; //iterations of while loop
+                int l; //random num for spawn chance
+                GameObject prefab = null;
+                while(x < 5 && prefab == null)
+                {
+                    l = Random.Range(0, WildernessManager.Instance.interactablePrefabs.Length);
+                    prefab = WildernessManager.Instance.interactablePrefabs[l];
+                    if(Random.Range(0,100) <= WildernessManager.Instance.interactableSpawnChances[l])
+                    x++;
+                }
+                if(prefab != null) Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
             }
         }
     }
