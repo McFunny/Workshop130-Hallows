@@ -41,7 +41,7 @@ public class WildernessMap : MonoBehaviour
                 int x = 0; //iterations of while loop
                 int l; //random num for spawn chance
                 GameObject prefab = null;
-                while(x < 0 && prefab == null)
+                while(x < 5 && prefab == null)
                 {
                     l = Random.Range(0, WildernessManager.Instance.interactablePrefabs.Length);
                     prefab = WildernessManager.Instance.interactablePrefabs[l];
