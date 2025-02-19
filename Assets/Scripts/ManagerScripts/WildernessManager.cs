@@ -20,7 +20,7 @@ public class WildernessManager : MonoBehaviour
     [HideInInspector] public List<WildernessMap> allMaps = new List<WildernessMap>();
     WildernessMap currentMap;
 
-    public WildernessMerchant wagon;
+    [HideInInspector] public WildernessMerchant wagon;
 
     public Transform returnPosition;
 
@@ -77,7 +77,7 @@ public class WildernessManager : MonoBehaviour
 
     public void ExitWilderness()
     {
-        if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InWilderness);
+        if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InTown);
         PlayerInteraction.Instance.transform.position = returnPosition.position;
         currentMap.ClearMap();
         currentMap = null;
@@ -92,9 +92,10 @@ public class WildernessManager : MonoBehaviour
             return;
         }
 
-        if(!TimeManager.Instance.isDay)
+        if(!TimeManager.Instance.isDay && currentMap)
         {
             //Play the force cutscene back to the town
+            wagon.StartCoroutine(wagon.PlayerTooLate());
             return;
         }
         
@@ -104,11 +105,11 @@ public class WildernessManager : MonoBehaviour
 
     IEnumerator CreatureSpawn()
     {
-        while(hoursSpentInWilderness > 0)
+        while(currentMap)
         {
-            float t = Random.Range(5, 20);
+            float t = Random.Range(5, 15);
             yield return new WaitForSeconds(t);
-            if(allCreatures.Count < maxCreatures)
+            if(allCreatures.Count < maxCreatures && currentMap)
             {
                 int r = Random.Range(0, creatures.Length);
                 CreatureObject newCreature = creatures[r];
@@ -159,6 +160,6 @@ public class WildernessManager : MonoBehaviour
         if(hoursSpentInWilderness > 6) maxCreatures = 16;
         else if(hoursSpentInWilderness > 4) maxCreatures = 12;
         else if(hoursSpentInWilderness > 2) maxCreatures = 8;
-        else maxCreatures = 4;
+        else maxCreatures = 6;
     }
 }

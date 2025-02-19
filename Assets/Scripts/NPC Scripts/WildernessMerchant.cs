@@ -6,10 +6,12 @@ public class WildernessMerchant : NPC, ITalkable
 {
     //private InventoryItemData lastSeenItem;
     [HideInInspector] public bool interactedWithRecently;
+    public Transform merchantWagonPos;
+    public Transform merchant;
 
     void Start()
     {
-        //
+        WildernessManager.Instance.wagon = this;
     }
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -55,6 +57,23 @@ public class WildernessMerchant : NPC, ITalkable
         interactedWithRecently = false;
     }
 
+    public IEnumerator PlayerTooLate()
+    {
+        TimeManager.Instance.stopTime = true;
+        yield return new WaitUntil(() => PlayerMovement.accessingInventory == false);
+        TimeManager.Instance.stopTime = false;
+
+        Vector3 pos = PlayerInteraction.Instance.transform.position;// + PlayerInteraction.Instance.transform.forward * -5;
+        pos.z -= 5;
+        //pos = new Vector3(pos.x, pos.y - 1, pos.z);
+        merchant.position = pos;
+        currentPath = 0;
+        currentType = PathType.Misc;
+        dialogueController.SetInterruptable(false);
+        Talk();
+        StartCoroutine(WaitUntilDoneTalking());
+    }
+
     IEnumerator TakeToTown()
     {
         interactedWithRecently = false;
@@ -66,5 +85,16 @@ public class WildernessMerchant : NPC, ITalkable
         WildernessManager.Instance.ExitWilderness();
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
+        merchant.position = merchantWagonPos.position;
+    }
+
+    IEnumerator WaitUntilDoneTalking()
+    {
+        PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
+        yield return new WaitUntil(() => DialogueController.Instance.IsTalking() == false);
+        PlayerCam.Instance.ClearObjectOfInterest();
+        PlayerInteraction.Instance.currentMoney -= 250;
+        if(PlayerInteraction.Instance.currentMoney < 0) PlayerInteraction.Instance.currentMoney = 0;
+        StartCoroutine(TakeToTown());
     }
 }
