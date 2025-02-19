@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Creature Object", menuName = "Creature")]
 public class CreatureObject : ScriptableObject
 {
-    public GameObject objectPrefab, wildernessPrefab;
+    public GameObject objectPrefab;//, wildernessPrefab;
     public List<CreatureVariant> creatureVariants = new List<CreatureVariant>();
     [HideInInspector] public float health;
 
@@ -52,9 +52,13 @@ public class Creature
     }
 }
 
+[System.Serializable]
 public class CreatureVariant
 {
     public string name;
     public GameObject prefab;
-    public float probability = 100; //Probability of spawning
+    public float probabilityInFarm = 100; //Probability of spawning
+    public float probabilityInWilderness = 100;
+    public bool canSpawnInWilderness;
+    public int wealthPrerequisite = 0;
 }

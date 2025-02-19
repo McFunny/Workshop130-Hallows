@@ -126,6 +126,7 @@ Transform:
   - {fileID: 4492990818056231864}
   - {fileID: 6417454025253256516}
   - {fileID: 34180377439238289}
+  - {fileID: 4363058580884312923}
   m_Father: {fileID: 5634429398668762257}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!54 &954386218018464814
@@ -255,6 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCam: {fileID: 0}
+  playerFeet: {fileID: 4363058580884312923}
   rb: {fileID: 0}
   toolCooldown: 0
   currentMoney: 0
@@ -888,6 +890,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &3560011455005960692
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4363058580884312923}
+  m_Layer: 10
+  m_Name: PlayerGround
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4363058580884312923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3560011455005960692}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.017, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 968838946076285070}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3587143605586732582
 GameObject:
   m_ObjectHideFlags: 0

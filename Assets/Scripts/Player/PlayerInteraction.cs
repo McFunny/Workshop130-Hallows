@@ -10,6 +10,8 @@ public class PlayerInteraction : MonoBehaviour
 {
     public Camera mainCam;
 
+    public Transform playerFeet;
+
     public PlayerInventoryHolder playerInventoryHolder { get; private set; }
 
     PlayerEffectsHandler playerEffects;
