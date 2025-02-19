@@ -13,5 +13,6 @@ public class ShopStall : MonoBehaviour
         {
             npcScript.assignedStall = this;
         }
+        
     }
 }

@@ -18,11 +18,10 @@ public class PlacedHoe : StructureBehaviorScript
     {
         base.Awake();
 
-        //add random starting rotation
 
         startingAngle = hoe.eulerAngles;
         currentAngle = startingAngle;
-        endingAngle = new Vector3(hoe.eulerAngles.x + 90, 0, 0);
+        endingAngle = new Vector3(hoe.eulerAngles.x + 90, hoe.eulerAngles.y, hoe.eulerAngles.z); //change this to just adding 90 to the start angle. Reference Seed Shooter
 
         isTriggered = true;
         StartCoroutine(StartingCooldown());
@@ -31,6 +30,7 @@ public class PlacedHoe : StructureBehaviorScript
     void Start()
     {
         base.Start();
+        ChangeRotation();
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class PlacedHoe : StructureBehaviorScript
         do
         {
             lerp += 0.1f;
-            currentAngle = new Vector3( Mathf.LerpAngle(currentAngle.x, endingAngle.x, lerp), 0, -0);
+            currentAngle = new Vector3( Mathf.LerpAngle(currentAngle.x, endingAngle.x, lerp), currentAngle.y, currentAngle.z);
 
             hoe.eulerAngles = currentAngle;
 
@@ -83,7 +83,7 @@ public class PlacedHoe : StructureBehaviorScript
         do
         {
             lerp -= 0.1f;
-            currentAngle = new Vector3( Mathf.LerpAngle(currentAngle.x, startingAngle.x, lerp), 0, -0);
+            currentAngle = new Vector3( Mathf.LerpAngle(currentAngle.x, startingAngle.x, lerp), currentAngle.y, currentAngle.z);
 
             hoe.eulerAngles = currentAngle;
 
@@ -123,5 +123,58 @@ public class PlacedHoe : StructureBehaviorScript
     {
         base.OnDestroy();
         //if (!gameObject.scene.isLoaded) return; 
+    }
+
+    void ChangeRotation() //Issue: This screws up the animation of it
+    {
+        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) > 10) return;
+        
+        
+        int r = Random.Range(0,4);
+
+        switch(r)
+        {
+            case 0:
+            break;
+            case 1:
+            transform.Rotate(0, 90, 0);
+            break;
+            case 2:
+            transform.Rotate(0, 180, 0);
+            break;
+            case 3:
+            transform.Rotate(0, 270, 0);
+            break;
+        }
+
+        startingAngle = startingAngle + transform.eulerAngles;
+        currentAngle = startingAngle;
+        endingAngle = endingAngle + transform.eulerAngles;
+
+        /*float rotation = player.eulerAngles.y; 
+
+        //Debug.Log(rotation);
+
+        if(rotation <= 45 || rotation >= 315)
+        {
+            newDirection = Direction.South;
+            transform.rotation.y = 5;
+        }
+
+        else if(rotation >= 45 && rotation <= 135)
+        {
+            newDirection = Direction.East;
+        }
+
+        else if(rotation >= 135 && rotation <= 225)
+        {
+            newDirection = Direction.North;
+        }
+
+        else 
+        {
+            newDirection = Direction.West;
+        } */
+
     }
 }

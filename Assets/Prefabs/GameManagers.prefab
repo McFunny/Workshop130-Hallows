@@ -222,6 +222,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8883901233060397173}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &740721970565847200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8786104782901986432}
+  m_Layer: 0
+  m_Name: PlayerRespawnFocusPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8786104782901986432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740721970565847200}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -29.84, y: 2.23, z: 38.83}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &796712121161079814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1890,6 +1921,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 474536576919656251}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3524132471912834969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3274068372633532939}
+  m_Layer: 0
+  m_Name: WildernessRespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3274068372633532939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3524132471912834969}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3536135178992714009
 GameObject:
   m_ObjectHideFlags: 0
@@ -2347,6 +2409,8 @@ MonoBehaviour:
   thawParticle: {fileID: 8026397282132409415, guid: 2bdba4bc8cf86b94385450b93d73a949,
     type: 3}
   frostBurstParticle: {fileID: 1877216878591505433, guid: 36dc1d73ac3b02a45b00228c7d8bdbc6,
+    type: 3}
+  splashParticle: {fileID: 8103510642182244075, guid: 6fe66ed917d73144ea510b28cc0f7094,
     type: 3}
 --- !u!1 &4467738761642645672
 GameObject:
@@ -7900,7 +7964,9 @@ Transform:
   - {fileID: 1008784946656914511}
   - {fileID: 1287338855952621716}
   - {fileID: 8003300629687511125}
+  - {fileID: 8786104782901986432}
   - {fileID: 7787821027441036890}
+  - {fileID: 3274068372633532939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4040343108907326756
@@ -7941,6 +8007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f9f1e80beadc54f9ec8f58837125c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stopSaving: 0
   currentMinute: 20
   currentHour: 7
   isDay: 1
@@ -7955,6 +8022,7 @@ MonoBehaviour:
   nightColor: {r: 0.374466, g: 0.39657408, b: 0.8018868, a: 1}
   dayColor: {r: 0.7058824, g: 0.68235296, b: 0.5647059, a: 1}
   playerRespawn: {fileID: 8003300629687511125}
+  respawnFocus: {fileID: 8786104782901986432}
 --- !u!114 &4750952263133987452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8063,10 +8131,16 @@ MonoBehaviour:
   lumberjackFed: 0
   botanistFed: 0
   barkeepFed: 0
+  tinkererFed: 0
+  apothFed: 0
+  culinarianFed: 0
   rascalSpoke: 0
   lumberjackSpoke: 0
   botanistSpoke: 0
   barkeepSpoke: 0
+  tinkererSpoke: 0
+  apothSpoke: 0
+  culinarianSpoke: 0
 --- !u!114 &8391427381802313727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8099,6 +8173,9 @@ MonoBehaviour:
   botMet: 0
   lumberMet: 0
   barMet: 0
+  tinkMet: 0
+  apothMet: 0
+  culMet: 0
 --- !u!114 &1864734984650053270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18644,6 +18721,4007 @@ MonoBehaviour:
       savedString1: 
       savedString2: 
       savedString3: 
+    Nutrients:
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
+    - ichorLevel: 5
+      terraLevel: 10
+      gloamLevel: 10
+      waterLevel: 3
+      blightLevel: 0
   database: {fileID: 11400000, guid: 8538c946adf54a2448130d447b25cd53, type: 2}
 --- !u!1 &5964704809646925671
 GameObject:

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class StructureManager : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class StructureManager : MonoBehaviour
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allTiles = new List<Vector3Int>();
     List<NutrientStorage> storage = new List<NutrientStorage>(); //MUST BE SAVED
+
+    public List<NutrientStorage> Storage => storage;
 
     [Header("CropDebugs")]
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
@@ -38,14 +41,17 @@ public class StructureManager : MonoBehaviour
         }
         InstantiateNutrientStorage();
         //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
-        PopulateTrees(15, 20);
-        PopulateWeeds(10, 20); //Only do this when a new game has started.
+        if(!MainMenuScript.loadingData)
+        {
+            PopulateTrees(15, 20);
+            PopulateWeeds(10, 20); //Only do this when a new game has started.
+        }
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
     void Start()
     {
-        PopulateForageables(4, 8);
+        PopulateForageables(1, 4);
         PopulateDecorCrows(0, 2);
     }
 
@@ -58,16 +64,46 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void LoadNutrients(NutrientStorage[] newStorage)
+    {
+        storage.Clear();
+        storage = newStorage.ToList();
+        for(int i = 0; i < storage.Count; i++)
+        {
+            if(storage[i].waterLevel > 3) print("Water!!!???");
+        }
+    }
+
     public void HourUpdate()
     {
         //print("AllStructs: " + allStructs.Count);
         if(TimeManager.Instance.currentHour == 8)
         {
-            PopulateWeeds(-3, 8);
+            PopulateWeeds(-3, 5);
             PopulateDecorCrows(0, 2);
         }
-        if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
+        if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 3);
         if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(1, 6);
+    }
+
+    public void GameOver()
+    {
+        if(TimeManager.Instance.isDay) return;
+        float r;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            if(allStructs[i] && !allStructs[i].destructable)
+            {
+                FarmLand potentialWeed = allStructs[i] as FarmLand;
+                if(potentialWeed && potentialWeed.isWeed) return;
+
+                r = Random.Range(0, 10);
+                if(r > 8) //Destroy structure. Could even replace some with rubble struct when we add it
+                {
+                    Destroy(allStructs[i].gameObject);
+                }
+            }
+        }
     }
 
 #region TileCommands
@@ -98,6 +134,11 @@ public class StructureManager : MonoBehaviour
 
     public Vector3 GetRandomTile()
     {
+        if(allTiles.Count == 0)
+        {
+            print("No available tiles");
+            return new Vector3 (0,0,0);
+        }
         int r = Random.Range(0, allTiles.Count);
         return tileMap.GetCellCenterWorld(allTiles[r]);
     }

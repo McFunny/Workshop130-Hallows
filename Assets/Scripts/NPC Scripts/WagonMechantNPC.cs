@@ -5,6 +5,9 @@ using UnityEngine;
 public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
+    [HideInInspector] public bool interactedWithLantern;
+
+    public MerchantLantern lantern;
 
     //public Animator anim;
 
@@ -25,6 +28,13 @@ public class WagonMerchantNPC : NPC, ITalkable
         {
             storeItems[i].seller = this;
         }
+
+        if(lantern)
+        {
+            lantern.merchant = this;
+            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) lantern.EnableSelf();
+        }
+
     }
 
     void OnDestroy()
@@ -36,9 +46,20 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            currentPath = -1;
-            currentType = PathType.Default;
+            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) //Open Wilderness
+            {
+                currentPath = 8;
+                currentType = PathType.Misc;
+                GameSaveData.Instance.wildernessIntroduced = true;
+                lantern.EnableSelf();
+            }
+            else
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+            }
             lastSeenItem = null;
+            interactedWithLantern = false;
             dialogueController.SetInterruptable(false);
 
             anim.SetTrigger("IsTalking");
@@ -59,6 +80,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(dialogueController.IsInterruptable() == false || tItem)
         {
             interactSuccessful = false;
+            Talk();
             return;
         } 
         if(item.sellValueMultiplier == 0 || item.value == 0)
@@ -184,6 +206,8 @@ public class WagonMerchantNPC : NPC, ITalkable
         }
         if(lastSeenItem) lastSeenItem = null; 
         shopUI.shopImgObj.SetActive(false);
+
+        interactedWithLantern = false;
     }
 
     public void HourlyUpdate()
@@ -193,6 +217,55 @@ public class WagonMerchantNPC : NPC, ITalkable
         {
             RefreshStore();
         }
+    }
+
+    public void LanternInteraction()
+    {
+        if(dialogueController.IsTalking() == false)
+        {
+            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) //Open Wilderness
+            {
+                currentPath = 8;
+                currentType = PathType.Misc;
+                GameSaveData.Instance.wildernessIntroduced = true;
+            }
+            else //Are you sure you want to go/You cannot go yet
+            {
+                if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay || WildernessManager.Instance.visitedWilderness)
+                {
+                    currentPath = 10;
+                    currentType = PathType.Misc;
+                }
+                else if(!interactedWithLantern)
+                {
+                    currentPath = 9;
+                    currentType = PathType.Misc;
+                    interactedWithLantern = true;
+                }
+                else
+                {
+                    StartCoroutine(TakeToWilderness());
+                    return;
+                }
+            }
+            lastSeenItem = null;
+            dialogueController.SetInterruptable(false);
+
+            anim.SetTrigger("IsTalking");
+        }
+        Talk();
+    }
+
+    IEnumerator TakeToWilderness()
+    {
+        //restrict movement and darken screen
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        interactedWithLantern = false;
+        yield return new WaitForSeconds(3);
+        WildernessManager.Instance.EnterWilderness();
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
     }
     
 }

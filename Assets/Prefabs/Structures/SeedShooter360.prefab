@@ -488,12 +488,21 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: 32d9717879d059d49be29891222e32a1, type: 2}
   health: 20
   maxHealth: 20
-  wealthValue: 5
+  wealthValue: 10
   destructable: 1
   flammable: 1
   onFire: 0
   isObstacle: 1
   savedItems: []
+  saveInt1: 0
+  saveInt2: 0
+  saveInt3: 0
+  saveFloat1: 0
+  saveFloat2: 0
+  saveFloat3: 0
+  saveString1: 
+  saveString2: 
+  saveString3: 
   damageParticles: {fileID: 0}
   destructionParticles: {fileID: 0}
   nearbyFires: []
@@ -503,6 +512,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 1696547498468872269}
+  townOwned: 0
   recoveredItem: {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
   turretHead: {fileID: 5197192804061470831}
   bulletOrigin: {fileID: 7144713208050597919}
@@ -709,8 +719,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0/20
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
+  m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

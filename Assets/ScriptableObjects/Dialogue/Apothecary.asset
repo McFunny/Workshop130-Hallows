@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
+  m_Name: Apothecary
+  m_EditorClassIdentifier: 
+  speakerName: Apothecary
+  defaultPath:
+    pathName: Introduction
+    paragraphs:
+    - You are the new farmer, right?
+    - I heard your farm isn't protected from the mist!
+    - Must be scary!
+    emotions: 040000000500000005000000
+  questCompletePath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  repeatedItemPath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - Anything handy?
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - I see you got your eye on the {storeItemName}. It'll cost you {storeItemValue}
+      <color=#E0D38F>Mints</color> <sprite index=0>!
+    emotions: 00000000
+  - pathName: Sold!
+    paragraphs:
+    - Enjoy your new {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - Come back with some more money and I can sell this to you
+    emotions: 03000000
+  - pathName: No Space
+    paragraphs:
+    - I don't think you would be able to carry this
+    emotions: 05000000
+  fillerPaths:
+  - pathName: Mist Walkers
+    paragraphs:
+    - Those Mist Walkers sure are scary!
+    emotions: 05000000
+  - pathName: Hare
+    paragraphs:
+    - Those hares look cute from a distance.
+    - Too bad they are such a problem on the farm!
+    emotions: 0000000000000000
+  - pathName: Wraith
+    paragraphs:
+    - I've seen some kind of ghostly figure on your farm before!
+    - That's why I prefer to stay in the town!
+    emotions: 0500000001000000
+  - pathName: Crows
+    paragraphs:
+    - The crows around here act very strange.
+    - There is a big difference on how they act in the farm versus how they act in
+      the town.
+    emotions: 0000000000000000
+  questPaths: []
+  itemRecievedPaths: []
+  itemSpecificRemarks: []
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []

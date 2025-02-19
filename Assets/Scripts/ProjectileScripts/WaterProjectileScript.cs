@@ -41,6 +41,7 @@ public class WaterProjectileScript : MonoBehaviour
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Structure: " + structure);
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
                 //gameObject.SetActive(false);
                 StartCoroutine(TurnOff());
                 return;
@@ -53,6 +54,7 @@ public class WaterProjectileScript : MonoBehaviour
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 //print("Hit Person");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
                 //gameObject.SetActive(false);
                 StartCoroutine(TurnOff());
                 return;
@@ -70,6 +72,7 @@ public class WaterProjectileScript : MonoBehaviour
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 //print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
                 //gameObject.SetActive(false);
                 StartCoroutine(TurnOff());
                 return;
@@ -81,7 +84,7 @@ public class WaterProjectileScript : MonoBehaviour
             HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-            ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
+            ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
             //gameObject.SetActive(false);
             StartCoroutine(TurnOff());
             return;
@@ -95,6 +98,7 @@ public class WaterProjectileScript : MonoBehaviour
         trail.emitting = false;
         StartCoroutine(LifeTime());
         if(!rb) rb = GetComponent<Rigidbody>();
+        //rb.isKinematic = false;
         foreach(GameObject thing in thingsToTurnOff)
         {
             thing.SetActive(true);
@@ -112,6 +116,7 @@ public class WaterProjectileScript : MonoBehaviour
     IEnumerator TurnOff()
     {
         canCollide = false;
+        //rb.isKinematic = true;
         rb.velocity = new Vector3(0,0,0);
         foreach(GameObject thing in thingsToTurnOff)
         {

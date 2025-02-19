@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using TMPro;
 
 public class FarmLand : StructureBehaviorScript
 {
+    public CropDatabase cropDatabase;
+
     public CropData crop; //The current crop planted here //MUST BE SAVED
     public InventoryItemData terraFert, gloamFert, ichorFert, compost;
     public SpriteRenderer cropRenderer;
@@ -34,6 +37,8 @@ public class FarmLand : StructureBehaviorScript
     public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
     public GameObject frostParticles;
     public GameObject light;
+
+    public TextMeshProUGUI harvestText;
     [SerializeField] private CropNeedsUI cropNeedsUI;
     // Start is called before the first frame update
     void Awake()
@@ -55,6 +60,11 @@ public class FarmLand : StructureBehaviorScript
         {
             harvestable = true;
             if(growthComplete) growthComplete.Play();
+        }
+        if(harvestText)
+        {
+            if(harvestable) harvestText.text = "Interact To Harvest";
+            else harvestText.text = "";
         }
         playerInventoryHolder = PlayerInventoryHolder.Instance;
 
@@ -120,6 +130,7 @@ public class FarmLand : StructureBehaviorScript
             playerInventoryHolder.UpdateInventory();
             return;
         }
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 
         if(crop) return;
         CropItem newCrop = item as CropItem;
@@ -244,6 +255,7 @@ public class FarmLand : StructureBehaviorScript
         if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;
+            if(!rotted && crop.behavior) crop.behavior.OnHour(this);
             return;
         }
         if(!crop)
@@ -345,8 +357,12 @@ public class FarmLand : StructureBehaviorScript
 
         if(nutrients == null)
         {
-            print("Nutrients are null. They Should not be");
-            return;
+            nutrients = StructureManager.Instance.FetchNutrient(transform.position);
+            if(nutrients == null)
+            {
+                print("Nutrients are null. They Should not be");
+                return;
+            }
         }
 
         if(nutrients.ichorLevel <= 1 || nutrients.terraLevel <= 1 || nutrients.gloamLevel <= 1)
@@ -359,6 +375,12 @@ public class FarmLand : StructureBehaviorScript
         {
             if(meshRenderer.material == barren) meshRenderer.material = barrenWet;
             else meshRenderer.material = wet;
+        }
+
+        if(harvestText)
+        {
+            if(harvestable) harvestText.text = "Interact To Harvest";
+            else harvestText.text = "";
         }
     }
 
@@ -444,6 +466,8 @@ public class FarmLand : StructureBehaviorScript
         {
             nutrients.gloamLevel += growthStage * crop.gloamIntake * 0.5f;
         }
+
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
     }
 
     IEnumerator DigPlant()
@@ -488,12 +512,15 @@ public class FarmLand : StructureBehaviorScript
         SpriteChange();
         if(isFrosted) FrostDamage();
         if(onFire) Extinguish();
+
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
     }
 
     public void IchorRefill()
     {
         ichorSplash.Play();
         if(crop && crop.behavior) crop.behavior.OnIchorRefill(this);
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
     }
 
     public NutrientStorage GetCropStats() //For the UI
@@ -550,6 +577,45 @@ public class FarmLand : StructureBehaviorScript
     {
         return new FarmLandSaveData(this);
     }*/
+
+    public override void LoadVariables() //Issues: Does not currently save the crop that is on it
+    {
+        nutrients = StructureManager.Instance.FetchNutrient(transform.position);
+        if(isWeed) return;
+        //print(saveString1);
+        if(saveString1 != "")
+        {
+            crop = cropDatabase.GetCropByName(saveString1);
+            print("Checked For Crop");
+            print(crop);
+        }
+        growthStage = saveInt1;
+        hoursSpent = saveInt2;
+        plantStress = saveInt3;
+        if(saveString2 == "true") rotted = true;
+        else rotted = false;
+
+        //SpriteChange();
+        if(crop) wealthValue = 5;
+        else wealthValue = 0;
+
+        GetCropStats();
+    }
+
+    public override void SaveVariables()
+    {
+        if(!isWeed)
+        {
+            if(crop) saveString1 = crop.name;
+            else saveString1 = "";
+            saveInt1 = growthStage;
+            saveInt2 = hoursSpent;
+            saveInt3 = plantStress;
+            if(rotted) saveString2 = "true";
+            else saveString2 = "false";
+        }
+
+    }
 }
 
 [System.Serializable]

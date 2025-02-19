@@ -9,6 +9,11 @@ public class MandrakeCropBehavior : CropBehavior
     public CreatureObject mandrakeData;
     public override void OnHour(FarmLand tile)
     {
+        if(TimeManager.Instance.isDay == false && TimeManager.Instance.timeSkipping == true)
+        {
+            tile.CropDestroyed();
+            return;
+        }
         if(TimeManager.Instance.isDay == false && tile.crop.growthStages == tile.growthStage)
         {
             float r = Random.Range(0, 4);

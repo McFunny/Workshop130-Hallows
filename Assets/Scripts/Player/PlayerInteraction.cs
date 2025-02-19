@@ -31,8 +31,8 @@ public class PlayerInteraction : MonoBehaviour
     [HideInInspector] public readonly float maxStamina = 200;
     bool sentLowStaminaMessage = false;
 
-    public float waterHeld = 20; //for watering can
-    [HideInInspector] public readonly float maxWaterHeld = 20;
+    public float waterHeld = 15; //for watering can
+    [HideInInspector] public readonly float maxWaterHeld = 15;
 
     public bool torchLit = false;
 
@@ -71,6 +71,8 @@ public class PlayerInteraction : MonoBehaviour
         playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
         playerEffects = FindObjectOfType<PlayerEffectsHandler>();
         rb = GetComponent<Rigidbody>();
+
+        StartCoroutine(WakeUp());
     }
 
     private void OnEnable()
@@ -304,12 +306,12 @@ public class PlayerInteraction : MonoBehaviour
     {
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
-        if(!sentLowStaminaMessage && stamina <= 25)
+        if(!sentLowStaminaMessage && stamina <= 50)
         {
             sentLowStaminaMessage = true;
             PopupHandler.Instance.AddToQueue(lowStaminaWarning);
         }
-        else if(stamina > 30) sentLowStaminaMessage = false;
+        else if(stamina > 50) sentLowStaminaMessage = false;
     }
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
@@ -385,21 +387,25 @@ public class PlayerInteraction : MonoBehaviour
         FadeScreen.coverScreen = true;
         playerEffects.PlayClip(playerEffects.playerDie, 0.4f);
         yield return new WaitForSeconds(3f);
-        TimeManager.Instance.GameOver();
-        print("Time GameOver Complete");
         NightSpawningManager.Instance.GameOver();
         print("Night GameOver Complete");
         TownGate.Instance.GameOver();
         print("Gate GameOver Complete");
+        StructureManager.Instance.GameOver();
+        print("Structure GameOver Complete");
+
+        stamina = 100;
+        if(currentMoney > 0) currentMoney = currentMoney/2;
+        TimeManager.Instance.GameOver(); //Has to be last, this is where it saves
+        print("Time GameOver Complete");
         //Potentially a spot where some structures get destroyed
         yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
-        FadeScreen.coverScreen = false;
-        if(currentMoney > 0) currentMoney = currentMoney/2;
+        FadeScreen.coverScreen = false; //have the player gaze at a focal point on the bed, rising, then delete focal point. This should be done in its own function
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;
-        stamina = 100;
+        StartCoroutine(WakeUp());
 
     }
 
@@ -408,6 +414,32 @@ public class PlayerInteraction : MonoBehaviour
         itemUseCooldown = true;
         yield return new WaitForSeconds(5f);
         itemUseCooldown = false;
+    }
+
+    IEnumerator WakeUp() //Cant get this working smoothly.
+    {
+        print("Waking up");
+        PlayerMovement.restrictMovementTokens++;
+        //yield return new WaitForSeconds(1f);
+        PlayerCam.Instance.NewObjectOfInterest(TimeManager.Instance.respawnFocus.position);
+        int i = 0;
+        while(i < 10)
+        {
+            yield return new WaitForSeconds(0.2f);
+            TimeManager.Instance.respawnFocus.position = new Vector3(TimeManager.Instance.respawnFocus.position.x, TimeManager.Instance.respawnFocus.position.y + 0.4f, TimeManager.Instance.respawnFocus.position.z);
+            PlayerCam.Instance.NewObjectOfInterest(TimeManager.Instance.respawnFocus.position);
+            i++;
+        }
+        //yield return new WaitForSeconds(2);
+        PlayerMovement.restrictMovementTokens--;
+        PlayerCam.Instance.ClearObjectOfInterest();
+        print("Done");
+        while(i > 0)
+        {
+            yield return new WaitForSeconds(0.2f);
+            TimeManager.Instance.respawnFocus.position = new Vector3(TimeManager.Instance.respawnFocus.position.x, TimeManager.Instance.respawnFocus.position.y - 0.4f, TimeManager.Instance.respawnFocus.position.z);
+            i++;
+        }
     }
     
 }

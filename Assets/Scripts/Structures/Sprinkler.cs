@@ -5,7 +5,7 @@ using UnityEngine;
 public class Sprinkler : StructureBehaviorScript
 {
     public InventoryItemData recoveredItem;
-    public int waterLevel = 0; //max is 5
+    public int waterLevel = 0; //max is 3
     public GameObject water;
     public Transform head;
     public GameObject waterVFX;
@@ -60,10 +60,10 @@ public class Sprinkler : StructureBehaviorScript
             StartCoroutine(DugUp());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 4 && waterLevel < 5)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 3 && waterLevel < 3)
         {
-            PlayerInteraction.Instance.waterHeld -= 5;
-            waterLevel = 5;
+            PlayerInteraction.Instance.waterHeld -= 3;
+            waterLevel = 3;
             StartCoroutine(WaterTiles());
             success = true;
         }
@@ -71,7 +71,7 @@ public class Sprinkler : StructureBehaviorScript
 
     public override void HitWithWater()
     {
-        if(waterLevel < 5) waterLevel++;
+        if(waterLevel < 3) waterLevel++;
     }
 
     public override void TimeLapse(int hours)
@@ -102,6 +102,25 @@ public class Sprinkler : StructureBehaviorScript
         }
     }
 
+    IEnumerator WaterAdjacentTiles()
+    {
+        List<Vector3> nearbyTiles = StructureManager.Instance.GetAdjacentClearTiles(transform.position);
+        StartCoroutine(SprinkleAnimation());
+        yield return new WaitForSeconds(1);
+        foreach(Vector3 pos in nearbyTiles)
+        {
+            StructureBehaviorScript structure = StructureManager.Instance.GrabStructureOnTile(pos);
+            if(!structure) continue;
+            FarmLand tile = structure as FarmLand;
+            if(tile)
+            {
+                tile.WaterCrops();
+            }
+            else if(structure.onFire) structure.Extinguish();
+        }
+
+    }
+
     IEnumerator DugUp()
     {
         yield return  new WaitForSeconds(1);
@@ -118,6 +137,16 @@ public class Sprinkler : StructureBehaviorScript
         rotating = false;
         yield return new WaitForSeconds(2);
         waterVFX.SetActive(false);
+    }
+
+    public override void LoadVariables()
+    {
+        saveInt1 = waterLevel;
+    }
+
+    public override void SaveVariables()
+    {
+        waterLevel = saveInt1;
     }
 
 }

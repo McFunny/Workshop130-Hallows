@@ -12,7 +12,7 @@ public class ParticlePoolManager : MonoBehaviour
     public VisualEffect hitEffect;
 
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
-    frostParticle, thawParticle, frostBurstParticle;
+    frostParticle, thawParticle, frostBurstParticle, splashParticle;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
@@ -27,6 +27,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> frostPool = new List<GameObject>();
     List<GameObject> thawPool = new List<GameObject>();
     List<GameObject> frostBurstPool = new List<GameObject>();
+    List<GameObject> splashPool = new List<GameObject>();
 
     void Awake()
     {
@@ -132,6 +133,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(frostBurstParticle);
             frostBurstPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(splashParticle);
+            splashPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -356,6 +364,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(frostBurstParticle);
         frostBurstPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabSplashParticle()
+    {
+        foreach (GameObject particle in splashPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(splashParticle);
+        splashPool.Add(newParticle);
         return newParticle;
     }
 

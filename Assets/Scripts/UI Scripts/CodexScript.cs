@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class CodexScript : MonoBehaviour
 {
-    CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted;
+    /*CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted;
     int currentCategoryLength;
     public GameObject codex;
     public TextMeshProUGUI nameText, leftDescriptionText, descriptionText, pageNumberText;
@@ -158,5 +158,5 @@ public class CodexScript : MonoBehaviour
             print("Default");
             break;
         }
-    }
+    }*/
 }
