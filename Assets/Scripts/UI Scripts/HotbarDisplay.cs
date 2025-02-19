@@ -47,6 +47,7 @@ public class HotbarDisplay : MonoBehaviour
     {
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return; //to solve the issue where there is a skip in the hotbar
 
+        if (PlayerMovement.isCodexOpen) return;
         currentIndex += direction;
 
         if (currentIndex > (hotbarSlots.Length - 1)) currentIndex = 0;
@@ -58,6 +59,7 @@ public class HotbarDisplay : MonoBehaviour
     private void HandleNumberPressed(int number)
     {
         if(PauseScript.isPaused) return;
+        if (PlayerMovement.isCodexOpen) return;
         if (number > 0 && number <= hotbarSlots.Length)
         {
             SelectHotbarSlot(number - 1);  // Hotbar slots are 0-indexed
@@ -67,6 +69,7 @@ public class HotbarDisplay : MonoBehaviour
     private void SelectHotbarSlot(int slotIndex) //if possible, call this again when picking up an item to refresh hand item, or find a workaround (preferred)
     {
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || InputManager.isCharging) return;
+        if (PlayerMovement.isCodexOpen) return;
 
         // Turn off highlight on the current slot
         if (currentSlot != null)
