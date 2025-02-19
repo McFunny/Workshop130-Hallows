@@ -20,6 +20,8 @@ public class WildernessManager : MonoBehaviour
     [HideInInspector] public List<WildernessMap> allMaps = new List<WildernessMap>();
     WildernessMap currentMap;
 
+    [HideInInspector] public WildernessMerchant wagon;
+
     public Transform returnPosition;
 
     public bool visitedWilderness = false; //marked true when leaving, cannot return until next day
@@ -61,7 +63,13 @@ public class WildernessManager : MonoBehaviour
         TownGate.Instance.Transition(PlayerLocation.InWilderness);
         
         currentMap = allMaps[Random.Range(0, allMaps.Count)];
-        PlayerInteraction.Instance.transform.position = currentMap.spawnPositions[Random.Range(0,currentMap.spawnPositions.Length)].position;
+
+        int r = Random.Range(0,currentMap.spawnPositions.Length);
+        PlayerInteraction.Instance.transform.position = currentMap.spawnPositions[r].position;
+        wagon.transform.position = currentMap.wagonPositions[r].position;
+        wagon.transform.LookAt(PlayerInteraction.Instance.transform.position);
+
+
         currentMap.InitializeMap();
         hoursSpentInWilderness++;
         StartCoroutine(CreatureSpawn());
@@ -69,12 +77,12 @@ public class WildernessManager : MonoBehaviour
 
     public void ExitWilderness()
     {
-        if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InWilderness);
+        if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InTown);
         PlayerInteraction.Instance.transform.position = returnPosition.position;
+        currentMap.ClearMap();
         currentMap = null;
         hoursSpentInWilderness = 0;
         visitedWilderness = true;
-        currentMap.ClearMap();
     }
 
     void HourUpdate()
@@ -84,9 +92,10 @@ public class WildernessManager : MonoBehaviour
             return;
         }
 
-        if(!TimeManager.Instance.isDay)
+        if(!TimeManager.Instance.isDay && currentMap)
         {
             //Play the force cutscene back to the town
+            wagon.StartCoroutine(wagon.PlayerTooLate());
             return;
         }
         
@@ -96,11 +105,11 @@ public class WildernessManager : MonoBehaviour
 
     IEnumerator CreatureSpawn()
     {
-        while(hoursSpentInWilderness > 0)
+        while(currentMap)
         {
-            float t = Random.Range(5, 20);
+            float t = Random.Range(5, 15);
             yield return new WaitForSeconds(t);
-            if(allCreatures.Count < maxCreatures)
+            if(allCreatures.Count < maxCreatures && currentMap)
             {
                 int r = Random.Range(0, creatures.Length);
                 CreatureObject newCreature = creatures[r];
@@ -122,20 +131,28 @@ public class WildernessManager : MonoBehaviour
         }
     }
 
-    //probably higher after 2 days ago
+    public void ClearCreatures()
+    {
+        //
+    }
 
     Vector3 RandomSpawnPosition()
     {
         int r;
-        List<Vector3> possiblePos = new List<Vector3>();
+        Vector3 closestPos = new Vector3 (0,0,0);
+        float minDistance = 1000;
+        float dist;
         for(int i = 0; i < 4; i++)
         {
             r = Random.Range(0, currentMap.enemySpawnPositions.Length);
-            if(!possiblePos.Contains(currentMap.enemySpawnPositions[r].position)) possiblePos.Add(currentMap.enemySpawnPositions[r].position);
+            dist = Vector3.Distance(PlayerInteraction.Instance.transform.position, currentMap.enemySpawnPositions[r].position);
+            if(dist < minDistance)
+            {
+                closestPos = currentMap.enemySpawnPositions[r].position;
+                minDistance = dist;
+            }
         }
-
-        int x = Random.Range(0, possiblePos.Count);
-        return possiblePos[x]; 
+        return closestPos; 
     }
 
     void CalculateDifficulty()
@@ -143,6 +160,6 @@ public class WildernessManager : MonoBehaviour
         if(hoursSpentInWilderness > 6) maxCreatures = 16;
         else if(hoursSpentInWilderness > 4) maxCreatures = 12;
         else if(hoursSpentInWilderness > 2) maxCreatures = 8;
-        else maxCreatures = 4;
+        else maxCreatures = 6;
     }
 }

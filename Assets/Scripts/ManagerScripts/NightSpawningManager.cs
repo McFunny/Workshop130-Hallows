@@ -76,7 +76,7 @@ public class NightSpawningManager : MonoBehaviour
         //difficultyPoints += TimeManager.dayNum;
         //originalDifficultyPoints = difficultyPoints;
 
-        HourlySpawns();
+        if(TownGate.Instance.location != PlayerLocation.InWilderness) HourlySpawns();
     }
 
     void HourlySpawns()
