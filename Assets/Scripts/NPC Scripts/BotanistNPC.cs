@@ -201,7 +201,7 @@ public class BotanistNPC : NPC, ITalkable
             if(currentItem < 6)
             {
                 i = Random.Range(0, commonSeedsForSale.Count);
-                newItem = commonSeeds[i];
+                newItem = commonSeedsForSale[i];
             }
             else if(currentItem < 9) newItem = rareSeedForSale;
             else
