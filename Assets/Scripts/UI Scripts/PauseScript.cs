@@ -54,6 +54,8 @@ public class PauseScript : MonoBehaviour
         isPaused = !isPaused;
         if(isPaused)
         {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(defaultObject);
             if(!pEffectsHandler) pEffectsHandler = PlayerInteraction.Instance.GetComponent<PlayerEffectsHandler>();
             pEffectsHandler.footStepSource.enabled = false;
             Time.timeScale = 0;

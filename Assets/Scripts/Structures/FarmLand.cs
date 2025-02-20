@@ -186,7 +186,7 @@ public class FarmLand : StructureBehaviorScript
                     }
 
                     r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
-                    if(r == 0) r = 1;
+                    if(r == 0 && Random.Range(0,10) >= 6) r = 1;
                     for (int i = 0; i < r; i++)
                     {
                         if(crop.cropSeed && plantStress == 0 && crop.seedYieldAmount > 0)
@@ -255,13 +255,13 @@ public class FarmLand : StructureBehaviorScript
         if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;
-            if(!rotted && crop.behavior) crop.behavior.OnHour(this);
+            if(!rotted && crop && crop.behavior) crop.behavior.OnHour(this);
             return;
         }
         if(!crop)
         {
             float r = Random.Range(0, 10);
-            if(r > 9.5f) Destroy(this.gameObject);
+            if(r > 6f) Destroy(this.gameObject);
             return;
         }
         hoursSpent++;

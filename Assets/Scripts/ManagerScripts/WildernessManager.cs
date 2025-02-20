@@ -122,10 +122,21 @@ public class WildernessManager : MonoBehaviour
     {
         //Add chance of spawning variants here
         //Only spawn wilderness variants here
+        GameObject prefab = null;
+        int t = 0;
+        while(c.creatureVariants.Count > 0 && t < 5 && prefab == null)
+        {
+            int r = Random.Range(0, c.creatureVariants.Count);
+            int p = Random.Range(0,100);
+            if(c.creatureVariants[r].probabilityInWilderness > p && c.creatureVariants[r].wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) prefab = c.creatureVariants[r].prefab;
+            t++;
+        }
+        if(prefab == null) prefab = c.objectPrefab;
 
-        GameObject newCreature = Instantiate(c.objectPrefab, RandomSpawnPosition(), Quaternion.identity);
+        GameObject newCreature = Instantiate(prefab, RandomSpawnPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
+            enemy.inWilderness = true;
             enemy.OnSpawn();
             allCreatures.Add(enemy);
         }

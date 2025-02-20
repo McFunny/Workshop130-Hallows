@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 
 public class MistWalker : CreatureBehaviorScript
 {
+    public Variant variant; // what variant of creature is this?
+
     public List<StructureObject> targettableStructures;
 
     private StructureBehaviorScript targetStructure;
@@ -23,6 +25,7 @@ public class MistWalker : CreatureBehaviorScript
     public float lungeCooldown = 6f; // Time between lunges
     public float lungeRange = 9f; // Distance at which it will lunge
     private bool canLunge = true;
+    bool canDoubleLunge = false;
     private bool recoilCooldown = false; //To prevent stunlocking
     private bool isRecoiling = false;
 
@@ -49,6 +52,12 @@ public class MistWalker : CreatureBehaviorScript
         FleeFromFire
     }
 
+    public enum Variant
+    {
+        Normal,
+        Strong
+    }
+
     public CreatureState currentState;
 
     void Awake()
@@ -73,6 +82,8 @@ public class MistWalker : CreatureBehaviorScript
         targetStructure = null;
         currentState = CreatureState.SpawnIn;
         StartCoroutine(IdleSoundTimer());
+
+        if(variant == Variant.Strong) canDoubleLunge = true;
     }
 
     void OnDisable()
@@ -84,6 +95,10 @@ public class MistWalker : CreatureBehaviorScript
 
     public override void OnSpawn()
     {
+        if(inWilderness)
+        {
+            currentState = CreatureState.WalkTowardsPlayer;
+        }
         if (!isMoving)
         {
             Vector3 randomPoint = StructureManager.Instance.GetRandomTile();
@@ -230,7 +245,7 @@ public class MistWalker : CreatureBehaviorScript
     #region WanderingFunctions
     public void Wander()
     {
-        if (playerInSightRange)
+        if (playerInSightRange || inWilderness)
         {
             currentState = CreatureState.WalkTowardsPlayer;
             return;
@@ -264,7 +279,7 @@ public class MistWalker : CreatureBehaviorScript
         isMoving = true;
         coroutineRunning = true;
 
-        if (TimeManager.Instance.isDay) destination = despawnPos;
+        if (TimeManager.Instance.isDay && !inWilderness) destination = despawnPos;
 
         agent.destination = destination;
 
@@ -411,7 +426,7 @@ public class MistWalker : CreatureBehaviorScript
             targetStructure = CheckForObstacle(transform);
             currentState = CreatureState.AttackStructure;
         }
-        else if (!playerInSightRange)
+        else if (!playerInSightRange && !inWilderness)
         {
             if(targetStructure)
             {
@@ -424,7 +439,7 @@ public class MistWalker : CreatureBehaviorScript
 
     private IEnumerator TrackPlayer()
     {
-        while (playerInSightRange && currentState == CreatureState.WalkTowardsPlayer)
+        while ((playerInSightRange || inWilderness) && currentState == CreatureState.WalkTowardsPlayer)
         {
             agent.destination = player.position;
             yield return new WaitForSeconds(0.5f); // update destination every 0.5 seconds to prevent overloading it
@@ -519,7 +534,8 @@ public class MistWalker : CreatureBehaviorScript
         attackingPlayer = true;
 
         recoilCooldown = true;
-        anim.SetTrigger("IsLunging");
+        //anim.SetTrigger("IsLunging");
+        anim.Play("MistLunge", -1, 0);
         canLunge = false;
 
         effectsHandler.MiscSound();
@@ -537,10 +553,20 @@ public class MistWalker : CreatureBehaviorScript
 
         attackingPlayer = false;
         agent.velocity = Vector3.zero;
-        currentState = CreatureState.WalkTowardsPlayer;
-        coroutineRunning = false;
-        recoilCooldown = false;
-        StartCoroutine(LungeCooldown());
+        if(canDoubleLunge && !isDead)
+        {
+            yield return new WaitForSeconds(0.1f);
+            StartCoroutine(LungeAtPlayer());
+            canDoubleLunge = false;
+        }
+        else
+        {
+            currentState = CreatureState.WalkTowardsPlayer;
+            coroutineRunning = false;
+            recoilCooldown = false;
+            StartCoroutine(LungeCooldown());
+        }
+
     }
 
     private IEnumerator SwipePlayer()
@@ -573,6 +599,11 @@ public class MistWalker : CreatureBehaviorScript
 
     private IEnumerator LungeCooldown()
     {
+        if(variant == Variant.Strong)
+        {
+            float r = Random.Range(0, 100);
+            if(r > 30) canDoubleLunge = true;
+        }
         yield return new WaitForSeconds(lungeCooldown);
         canLunge = true;
     }
@@ -606,8 +637,6 @@ public class MistWalker : CreatureBehaviorScript
             }
         }
     }
-
-    
 
     private void OnTriggerEnter(Collider other)
     {

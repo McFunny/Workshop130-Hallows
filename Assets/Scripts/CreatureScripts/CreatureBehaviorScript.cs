@@ -12,7 +12,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public float ichorDropRadius = 2;
 
     public CreatureObject creatureData;
-    public bool inWilderness = false;
+    public bool inWilderness = false; //Creatures have dif behavior depending on where they are. This is changed by the Wilderness Manager
 
     [HideInInspector] public StructureManager structManager;
     [HideInInspector] public CreatureEffectsHandler effectsHandler;
@@ -51,7 +51,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         structManager = StructureManager.Instance;
         effectsHandler = GetComponentInChildren<CreatureEffectsHandler>();
-        player = PlayerInteraction.Instance.transform;
+        player = PlayerInteraction.Instance.playerFeet;
 
         if(hitColor != Color.black)
         {
@@ -111,7 +111,11 @@ public class CreatureBehaviorScript : MonoBehaviour
                         itemRB.AddForce(Vector3.up * 50);
                     }
                 }
-                if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
+                if(ichorWorth > 0)
+                {
+                    if(corpseParticleTransform) structManager.IchorRefill(corpseParticleTransform.position, ichorWorth, ichorDropRadius);
+                    else structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
+                }
                 GameObject corpseParticle = ParticlePoolManager.Instance.GrabCorpseParticle(corpseType);
                 if(corpseParticle)
                 {
@@ -141,7 +145,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnDamage(){} //Triggers creature specific effects
     public virtual void OnDeath()
     {
-        if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
+        if(NightSpawningManager.Instance.allCreatures.Contains(this)) NightSpawningManager.Instance.allCreatures.Remove(this);
+        if(WildernessManager.Instance.allCreatures.Contains(this)) WildernessManager.Instance.allCreatures.Remove(this);
         foreach(Collider collider in allColliders)
         {
             collider.isTrigger = true;
@@ -151,6 +156,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public void OnDestroy()
     {
         if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
+        if(WildernessManager.Instance.allCreatures.Contains(this)) WildernessManager.Instance.allCreatures.Remove(this);
     }
 
     public virtual void OnSpawn(){}
