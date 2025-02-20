@@ -306,6 +306,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
+        if(DialogueController.Instance.IsTalking()) return; //Dont take stamina damage during talking with npcs
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
