@@ -128,7 +128,7 @@ public class WildernessManager : MonoBehaviour
         {
             int r = Random.Range(0, c.creatureVariants.Count);
             int p = Random.Range(0,100);
-            if(c.creatureVariants[r].probabilityInWilderness > p && c.creatureVariants[r].wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) prefab = c.creatureVariants[r].prefab;
+            if(c.creatureVariants[r].probabilityInWilderness > p) prefab = c.creatureVariants[r].prefab;
             t++;
         }
         if(prefab == null) prefab = c.objectPrefab;
