@@ -5,6 +5,7 @@ using UnityEngine;
 public class WildernessMap : MonoBehaviour
 {
     public Transform[] spawnPositions; //Possible player spawns
+    public Transform[] wagonPositions; //Associated wagon spawns
     public Transform[] enemySpawnPositions; //Spots enemies can spawn from. Should grab the closest 2 from the player
     public Transform[] setPiecePositions; //Locations that the giant setpieces can take
     public Transform[] interactablePositions; //Locations of small things like trees with nuts, hives, and foreagables can spawn near
@@ -40,7 +41,7 @@ public class WildernessMap : MonoBehaviour
                 int x = 0; //iterations of while loop
                 int l; //random num for spawn chance
                 GameObject prefab = null;
-                while(x < 0 && prefab == null)
+                while(x < 5 && prefab == null)
                 {
                     l = Random.Range(0, WildernessManager.Instance.interactablePrefabs.Length);
                     prefab = WildernessManager.Instance.interactablePrefabs[l];

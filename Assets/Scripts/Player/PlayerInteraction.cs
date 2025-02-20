@@ -10,6 +10,8 @@ public class PlayerInteraction : MonoBehaviour
 {
     public Camera mainCam;
 
+    public Transform playerFeet;
+
     public PlayerInventoryHolder playerInventoryHolder { get; private set; }
 
     PlayerEffectsHandler playerEffects;
@@ -133,13 +135,13 @@ public class PlayerInteraction : MonoBehaviour
 
     private void UseHeldItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen) return;
         UseHotBarItem();
     }
 
     private void OnInteractWithItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen) return;
         if(!ControlManager.isController) StructureInteractionWithItem();
         else
         {
@@ -155,7 +157,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void InteractWithoutItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory)
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen)
         {
             if(DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
             return;
@@ -304,6 +306,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
+        if(DialogueController.Instance.IsTalking()) return; //Dont take stamina damage during talking with npcs
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)

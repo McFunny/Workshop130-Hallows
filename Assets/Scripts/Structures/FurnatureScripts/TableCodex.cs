@@ -24,8 +24,9 @@ public class TableCodex : MonoBehaviour, IInteractable
     {
         print("I interacted!");
         interactSuccessful = true;
-        return; // Disabled for build
+        //return; // Disabled for build
         if(PlayerMovement.isCodexOpen) { return; }
+        PlayerMovement.isCodexOpen = true;
         //codex.gameObject.SetActive(true);
         codex.OpenCloseCodex();
     }

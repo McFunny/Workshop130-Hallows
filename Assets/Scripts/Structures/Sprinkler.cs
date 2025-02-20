@@ -102,9 +102,9 @@ public class Sprinkler : StructureBehaviorScript
         }
     }
 
-    IEnumerator WaterAdjacentTiles()
+    /*IEnumerator WaterAdjacentTiles()
     {
-        List<Vector3> nearbyTiles = StructureManager.Instance.GetAdjacentClearTiles(transform.position);
+        List<Vector3> nearbyTiles = StructureManager.Instance.GetAdjacentClearTiles(transform.position); //this says get adjacent CLEAR tiles dummy
         StartCoroutine(SprinkleAnimation());
         yield return new WaitForSeconds(1);
         foreach(Vector3 pos in nearbyTiles)
@@ -119,7 +119,7 @@ public class Sprinkler : StructureBehaviorScript
             else if(structure.onFire) structure.Extinguish();
         }
 
-    }
+    }*/
 
     IEnumerator DugUp()
     {
