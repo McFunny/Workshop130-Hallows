@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Forgeable : StructureBehaviorScript
 {
-    public InventoryItemData aloe, yarrow;
+    //public InventoryItemData aloe, yarrow;
     public SpriteRenderer cropRenderer;
-    public Sprite aloeSprite, yarrowSprite;
+    //public Sprite aloeSprite, yarrowSprite;
     public Transform itemDropTransform;
 
-    public ForageType type;
+    public ForageableItem type; //current Type
+    public ForageableItem[] possibleItems;
 
     bool isDigging = false;
     bool usingShovel = false;
@@ -40,33 +41,35 @@ public class Forgeable : StructureBehaviorScript
             isDigging = true;
             GameObject droppedItem;
 
-            if(type == ForageType.Aloe)
-            {
-                droppedItem = ItemPoolManager.Instance.GrabItem(aloe);
-                droppedItem.transform.position = transform.position;
-            }
+            droppedItem = ItemPoolManager.Instance.GrabItem(type.item);
+            droppedItem.transform.position = transform.position;
 
-            if(type == ForageType.Yarrow)
-            {
-                droppedItem = ItemPoolManager.Instance.GrabItem(yarrow);
-                droppedItem.transform.position = transform.position;
-            }
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
 
             gameObject.SetActive(false);
         }
     }
 
-    public void Refresh()
+    public void Refresh(bool inWilderness)
     {
-        int r = Random.Range(0,2);
-        if(r == 0)
+        bool decided = false;
+        int t = 0;
+        type = possibleItems[0];
+        while(!decided && t < 10)
         {
-            type = ForageType.Aloe;
-        }
-        else
-        {
-            type = ForageType.Yarrow;
+            int r = Random.Range(0, possibleItems.Length);
+            int p = Random.Range(0,100);
+            if(possibleItems[r].wildernessSpawnRate > p && inWilderness)
+            {
+                type = possibleItems[r];
+                decided = true;
+            }
+            else if(possibleItems[r].townSpawnRate > p && !inWilderness)
+            {
+                type = possibleItems[r];
+                decided = true;
+            }
+            t++;
         }
         isDigging = false;
         SpriteChange();
@@ -93,7 +96,7 @@ public class Forgeable : StructureBehaviorScript
 
     void SpriteChange()
     {
-        if(type == ForageType.Aloe)
+        /*if(type == ForageType.Aloe)
         {
             cropRenderer.sprite = aloeSprite;
         }
@@ -101,7 +104,9 @@ public class Forgeable : StructureBehaviorScript
         if(type == ForageType.Yarrow)
         {
             cropRenderer.sprite = yarrowSprite;
-        }
+        }*/
+
+        cropRenderer.sprite = type.sprite;
     }
 
 
@@ -118,4 +123,14 @@ public enum ForageType
 {
     Aloe,
     Yarrow
+}
+
+[System.Serializable]
+public class ForageableItem
+{
+    //public ForageType type;
+    public InventoryItemData item;
+    public int wildernessSpawnRate;
+    public int townSpawnRate;
+    public Sprite sprite;
 }

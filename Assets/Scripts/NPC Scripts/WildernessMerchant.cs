@@ -81,7 +81,7 @@ public class WildernessMerchant : NPC, ITalkable
         //restrict movement and darken screen
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         WildernessManager.Instance.ExitWilderness();
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
@@ -91,8 +91,9 @@ public class WildernessMerchant : NPC, ITalkable
     IEnumerator WaitUntilDoneTalking()
     {
         PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
+        WildernessManager.Instance.ClearCreatures();
         yield return new WaitUntil(() => DialogueController.Instance.IsTalking() == false);
-        //PlayerCam.Instance.ClearObjectOfInterest();
+        PlayerCam.Instance.ClearObjectOfInterest();
         PlayerInteraction.Instance.currentMoney -= 250;
         if(PlayerInteraction.Instance.currentMoney < 0) PlayerInteraction.Instance.currentMoney = 0;
         StartCoroutine(TakeToTown());

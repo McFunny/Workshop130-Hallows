@@ -114,8 +114,8 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                currentMoney += 50;
-                totalMoneyEarned += 50;
+                currentMoney += 200;
+                totalMoneyEarned += 200;
             }
         }
 
@@ -409,7 +409,7 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
-        FadeScreen.coverScreen = false; //have the player gaze at a focal point on the bed, rising, then delete focal point. This should be done in its own function
+        FadeScreen.coverScreen = false;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;
         //StartCoroutine(WakeUp());

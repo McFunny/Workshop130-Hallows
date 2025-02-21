@@ -11,6 +11,8 @@ public class WildernessMap : MonoBehaviour
     public Transform[] interactablePositions; //Locations of small things like trees with nuts, hives, and foreagables can spawn near
     public GameObject[] obstacles; //Locations that block paths. Must be enabled or disabled
 
+    public GameObject forageablePrefab;//to make sure it no spawn new one
+
     void Start()
     {
         if(!WildernessManager.Instance.allMaps.Contains(this)) WildernessManager.Instance.allMaps.Add(this);
@@ -31,13 +33,12 @@ public class WildernessMap : MonoBehaviour
         }
 
         List<Transform> usedSpots = new List<Transform>();
-        t = Random.Range(15, 25);
+        t = Random.Range(25, 40);
         for(int i = 0; i < t; i++)
         {
             r = Random.Range(0, interactablePositions.Length);
             if(!usedSpots.Contains(interactablePositions[r]))
             {
-                usedSpots.Add(interactablePositions[r]);
                 int x = 0; //iterations of while loop
                 int l; //random num for spawn chance
                 GameObject prefab = null;
@@ -48,7 +49,16 @@ public class WildernessMap : MonoBehaviour
                     if(Random.Range(0,100) <= WildernessManager.Instance.interactableSpawnChances[l])
                     x++;
                 }
-                if(prefab != null) Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
+                if(prefab != null)
+                {
+                    if(prefab == forageablePrefab)
+                    {
+                        GameObject newPrefab = StructurePoolManager.Instance.GrabForageable(true);
+                        newPrefab.transform.position = interactablePositions[r].position;
+                    }
+                    else Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
+                    usedSpots.Add(interactablePositions[r]);
+                }
             }
         }
     }

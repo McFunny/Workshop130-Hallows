@@ -79,6 +79,7 @@ public class WildernessManager : MonoBehaviour
     {
         if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InTown);
         PlayerInteraction.Instance.transform.position = returnPosition.position;
+        ClearCreatures();
         currentMap.ClearMap();
         currentMap = null;
         hoursSpentInWilderness = 0;
@@ -105,11 +106,12 @@ public class WildernessManager : MonoBehaviour
 
     IEnumerator CreatureSpawn()
     {
+        //If the cap is reached (or randomly), pick a random monster that is far from the player and teleport them elsewhere
         while(currentMap)
         {
             float t = Random.Range(5, 15);
             yield return new WaitForSeconds(t);
-            if(allCreatures.Count < maxCreatures && currentMap)
+            if(allCreatures.Count < maxCreatures && currentMap && DialogueController.Instance.IsTalking())
             {
                 int r = Random.Range(0, creatures.Length);
                 CreatureObject newCreature = creatures[r];
@@ -144,7 +146,16 @@ public class WildernessManager : MonoBehaviour
 
     public void ClearCreatures()
     {
-        //
+        CreatureBehaviorScript[] creatures = FindObjectsOfType<CreatureBehaviorScript>();
+
+        foreach (CreatureBehaviorScript creature in creatures)
+        {
+            if (creature != null && creature.gameObject != null)
+            {
+                Destroy(creature.gameObject);
+            }
+        }
+        allCreatures.Clear();
     }
 
     Vector3 RandomSpawnPosition()
