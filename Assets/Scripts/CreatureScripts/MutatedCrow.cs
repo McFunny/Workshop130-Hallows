@@ -168,10 +168,18 @@ public class MutatedCrow : CreatureBehaviorScript
 
             if(isDecorCrow)
             {
-                point = GetRandomPoint(150);
-                point.y = height * 10;
-                currentState = CreatureState.GoAway;
-                return;
+                if(inWilderness)
+                {
+                    StartCoroutine(DoAttackCooldown(attackCooldown));
+                    currentState = CreatureState.CirclePlayer;
+                }
+                else
+                {
+                    point = GetRandomPoint(150);
+                    point.y = height * 10;
+                    currentState = CreatureState.GoAway;
+                    return;
+                }
             }
 
             if (isAttackCrow && !CheckForScareCrow())
@@ -654,7 +662,7 @@ public class MutatedCrow : CreatureBehaviorScript
         int r = Random.Range(0, 3);
         if (r == 0)
         {
-            if(TimeManager.Instance.isDay)
+            if(TimeManager.Instance.isDay && !inWilderness)
             {
                 Debug.Log("Crow no attack in daytime");
                 point = GetRandomPoint(15);
@@ -725,7 +733,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
         float timer = 0;
 
-        while (Vector3.Distance(transform.position, abovePlayerPos) > 1.4f && timer < 1)
+        while (Vector3.Distance(transform.position, abovePlayerPos) > 2.5f && timer < 1.2f)
         {
             float distance = Vector3.Distance(transform.position, abovePlayerPos);
             float t = (speed * 1.5f * Time.deltaTime) / distance;
@@ -737,7 +745,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
         // Post-swoop behavior
         Vector3 abovePlayerPosPostSwoop = player.position + Vector3.up * attackHeight;
-        if (Vector3.Distance(transform.position, abovePlayerPosPostSwoop) < 1.5f) //If close enough hit the player
+        if (Vector3.Distance(transform.position, abovePlayerPosPostSwoop) < 3f) //If close enough hit the player
         {
             PlayerInteraction.Instance.StaminaChange(-10);
         }
@@ -757,7 +765,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
         StartCoroutine(DoAttackCooldown(attackCooldown)); //Start attack cooldown
         numberOfAttacks++;
-        if (numberOfAttacks >= 3) //Once the crow attacks 3 times, Decide what to do next
+        if (numberOfAttacks >= 3 && !inWilderness) //Once the crow attacks 3 times, Decide what to do next
         {
             coroutineRunning = false;
             numberOfAttacks = 0;
