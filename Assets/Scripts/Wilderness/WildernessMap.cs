@@ -31,13 +31,12 @@ public class WildernessMap : MonoBehaviour
         }
 
         List<Transform> usedSpots = new List<Transform>();
-        t = Random.Range(15, 25);
+        t = Random.Range(25, 40);
         for(int i = 0; i < t; i++)
         {
             r = Random.Range(0, interactablePositions.Length);
             if(!usedSpots.Contains(interactablePositions[r]))
             {
-                usedSpots.Add(interactablePositions[r]);
                 int x = 0; //iterations of while loop
                 int l; //random num for spawn chance
                 GameObject prefab = null;
@@ -48,7 +47,11 @@ public class WildernessMap : MonoBehaviour
                     if(Random.Range(0,100) <= WildernessManager.Instance.interactableSpawnChances[l])
                     x++;
                 }
-                if(prefab != null) Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
+                if(prefab != null)
+                {
+                    Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
+                    usedSpots.Add(interactablePositions[r]);
+                }
             }
         }
     }
