@@ -114,8 +114,8 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                currentMoney += 50;
-                totalMoneyEarned += 50;
+                currentMoney += 200;
+                totalMoneyEarned += 200;
             }
         }
 

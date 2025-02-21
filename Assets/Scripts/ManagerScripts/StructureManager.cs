@@ -487,7 +487,7 @@ public class StructureManager : MonoBehaviour
             }
             if(canSpawn)
             {
-                GameObject newStructure = pool.GrabForageable();
+                GameObject newStructure = pool.GrabForageable(false);
                 newStructure.transform.position = spawnPos;
             }
 
