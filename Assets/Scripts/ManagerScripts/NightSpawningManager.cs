@@ -152,9 +152,9 @@ public class NightSpawningManager : MonoBehaviour
         }
         while(spawnAttempts < 6); //add threshhold req too
 
-        if(allCreatures.Count <= 2 && difficultyPoints < 10)
+        if(allCreatures.Count < maxCreatures && difficultyPoints < 10)
         {
-            r = Random.Range(1,4);
+            r = Random.Range(1,3);
             for(int i = 0; i < r; i++)
             {
                 r = Random.Range(0, fillerCreatures.Length);

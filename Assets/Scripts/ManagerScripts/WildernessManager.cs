@@ -61,6 +61,7 @@ public class WildernessManager : MonoBehaviour
         }
 
         TownGate.Instance.Transition(PlayerLocation.InWilderness);
+        AmbientAudioManager.Instance.ChangeMusic();
         
         currentMap = allMaps[Random.Range(0, allMaps.Count)];
 
@@ -78,6 +79,7 @@ public class WildernessManager : MonoBehaviour
     public void ExitWilderness()
     {
         if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InTown);
+        AmbientAudioManager.Instance.ChangeMusic();
         PlayerInteraction.Instance.transform.position = returnPosition.position;
         ClearCreatures();
         currentMap.ClearMap();
@@ -109,10 +111,12 @@ public class WildernessManager : MonoBehaviour
         //If the cap is reached (or randomly), pick a random monster that is far from the player and teleport them elsewhere
         while(currentMap)
         {
-            float t = Random.Range(5, 15);
+            print("Ran");
+            float t = Random.Range(10, 25);
             yield return new WaitForSeconds(t);
-            if(allCreatures.Count < maxCreatures && currentMap && DialogueController.Instance.IsTalking())
+            if(allCreatures.Count < maxCreatures && currentMap && !DialogueController.Instance.IsTalking())
             {
+                print("Spawned");
                 int r = Random.Range(0, creatures.Length);
                 CreatureObject newCreature = creatures[r];
                 SpawnCreature(newCreature);
@@ -164,7 +168,7 @@ public class WildernessManager : MonoBehaviour
         Vector3 closestPos = new Vector3 (0,0,0);
         float minDistance = 1000;
         float dist;
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 3; i++)
         {
             r = Random.Range(0, currentMap.enemySpawnPositions.Length);
             dist = Vector3.Distance(PlayerInteraction.Instance.transform.position, currentMap.enemySpawnPositions[r].position);
@@ -179,9 +183,9 @@ public class WildernessManager : MonoBehaviour
 
     void CalculateDifficulty()
     {
-        if(hoursSpentInWilderness > 6) maxCreatures = 16;
-        else if(hoursSpentInWilderness > 4) maxCreatures = 12;
-        else if(hoursSpentInWilderness > 2) maxCreatures = 8;
-        else maxCreatures = 6;
+        if(hoursSpentInWilderness > 6) maxCreatures = 12;
+        else if(hoursSpentInWilderness > 4) maxCreatures = 8;
+        else if(hoursSpentInWilderness > 2) maxCreatures = 6;
+        else maxCreatures = 4;
     }
 }
