@@ -818,6 +818,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
     private bool CheckForScareCrow()
     {
+        if(inWilderness) return false;
         foreach (StructureBehaviorScript structure in structManager.allStructs)
         {
             int r = Random.Range(0,10);

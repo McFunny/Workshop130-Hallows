@@ -1532,13 +1532,16 @@ MonoBehaviour:
   windAmbience:
   - {fileID: 8300000, guid: dc1d2b153c1561549ad289abc05a68d6, type: 3}
   musicAmbience:
-  - {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
-  - {fileID: 8300000, guid: 43669110dda5d074abaa19a13597b1e3, type: 3}
-  - {fileID: 8300000, guid: 67dafc27b66951640839ae19b5d2b0dd, type: 3}
-  - {fileID: 8300000, guid: d976ee0959d01b042a9191b3af594e93, type: 3}
+  - {fileID: 8300000, guid: 67382012d342e1f47a07e2bec60d3c5a, type: 3}
+  - {fileID: 8300000, guid: 345841a36f60b07489ee1c81e5069371, type: 3}
+  - {fileID: 8300000, guid: f605af913a2a2304a81c380855fe9917, type: 3}
   musicNightAmbience:
   - {fileID: 8300000, guid: f7c3a44a2fbb5ef438c6b2ffdfe24176, type: 3}
-  - {fileID: 8300000, guid: 3a50d7a5e007c7a479149520cd0b77e2, type: 3}
+  - {fileID: 8300000, guid: 64aeac4a7083231439a32d713993f958, type: 3}
+  wildernessAmbience:
+  - {fileID: 8300000, guid: dbc3ebbc41c88ff4d98946b385b3d81c, type: 3}
+  - {fileID: 8300000, guid: eeb8fc2d4c0fdb54f8f9a6b0d2150ce7, type: 3}
+  catacombAmbience: []
   bellTower: {fileID: 8300000, guid: 0b7f67cc2ca54644eade598edf5e0563, type: 3}
 --- !u!82 &4487365083115385320
 AudioSource:
@@ -1648,7 +1651,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.112
+  m_Volume: 0.104
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -22748,8 +22751,8 @@ MonoBehaviour:
   - {fileID: 3672103349891704917, guid: f9c56390acf3b2248a1b1b77c4e30d4f, type: 3}
   - {fileID: 446895733223214618, guid: 33cdc1b0f9171ba49b8921f09f1f76c3, type: 3}
   interactableSpawnChances:
-  - 80
-  - 10
+  - 100
+  - 5
   setPiecePrefabs: []
   allMaps: []
   wagon: {fileID: 0}

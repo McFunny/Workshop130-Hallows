@@ -33,7 +33,7 @@ public class WildernessMap : MonoBehaviour
         }
 
         List<Transform> usedSpots = new List<Transform>();
-        t = Random.Range(25, 40);
+        t = Random.Range(30, 50);
         for(int i = 0; i < t; i++)
         {
             r = Random.Range(0, interactablePositions.Length);
