@@ -418,7 +418,11 @@ public class FarmLand : StructureBehaviorScript
 
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 
-        if(!isWeed && CheckForWeeds()) plantStress++;
+        if(!isWeed && CheckForWeeds())
+        {
+            plantStress++;
+            gainedStress = true;
+        }
 
         if(plantStress > crop.stressLimit && !isWeed)
         {

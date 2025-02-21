@@ -124,6 +124,7 @@ public class PlayerCam : MonoBehaviour
             orientation.rotation = Quaternion.Euler(0, rot.y, 0);
 
             xRotation = rot.eulerAngles.x;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
             yRotation = rot.eulerAngles.y;
         }
 
