@@ -58,6 +58,8 @@ public class StructureBehaviorScript : MonoBehaviour
     [Tooltip("Specific UI for this structure, if it has any")]
     public GameObject structureUI; 
 
+    Coroutine highlightCoroutine;
+
     //[Header("Structure Specific")]
 
     //Once we get structure specific UI to see health, then we can add repairability to structures so players can know if they can dig it up safely
@@ -144,7 +146,7 @@ public class StructureBehaviorScript : MonoBehaviour
             highlightEnabled = true;
             foreach(GameObject thing in highlight) thing.SetActive(true);
             if(structureUI) structureUI.SetActive(true);
-            StartCoroutine(HightlightFlash());
+            if(highlightCoroutine == null) highlightCoroutine = StartCoroutine(HightlightFlash());
         }
 
         if(!enable && highlightEnabled)
@@ -175,6 +177,7 @@ public class StructureBehaviorScript : MonoBehaviour
             }
             while(power < 1.9f && highlightEnabled);
         }
+        highlightCoroutine = null;
     }
 
     public void LitOnFire()
