@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class AmbientAudioManager : MonoBehaviour
 {
+    public static AmbientAudioManager Instance;
+
     public AudioSource ambienceSource, musicSource;
     public AudioClip[] biomeAmbience;
     public AudioClip[] nightAmbience;
     public AudioClip[] windAmbience;
     public AudioClip[] musicAmbience;
     public AudioClip[] musicNightAmbience;
+    public AudioClip[] wildernessAmbience;
+    public AudioClip[] catacombAmbience;
 
     public AudioClip bellTower;
 
@@ -17,6 +21,20 @@ public class AmbientAudioManager : MonoBehaviour
 
     public delegate void BlowWind(Vector3 dir);
     public static event BlowWind OnWindBlow;
+
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            print("Destroyed Copy");
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     void Start()
     {
@@ -67,7 +85,10 @@ public class AmbientAudioManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(musicCooldown);
             Debug.Log("CoolDown Done picking song");
             if (TimeManager.Instance.isDay)
-                musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
+            {
+                if(TownGate.Instance.location == PlayerLocation.InWilderness) musicSource.clip = wildernessAmbience[Random.Range(0, wildernessAmbience.Length)];
+                else musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
+            }
             else
                 musicSource.clip = musicNightAmbience[Random.Range(0, musicNightAmbience.Length)];
             float musicRuntime = musicSource.clip.length;
@@ -122,5 +143,15 @@ public class AmbientAudioManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2.5f);
         ambienceSource.PlayOneShot(bellTower);
+    }
+
+    public void ChangeMusic() //Call this when the player changes location or dies
+    {
+        if (ambientMusicCoroutine != null)
+        {
+            StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+            //musicSource.Stop(); // Stop current music
+        }
+        StartCoroutine(FadeAudio()); 
     }
 }
