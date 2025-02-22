@@ -16,6 +16,11 @@ public class CropStatsRework : MonoBehaviour
     public Slider gloamFill, terraFill, ichorFill, waterFill, gloamFillD, terraFillD, ichorFillD, waterFillD;
     string growthString;
     ControlManager controlManager;
+    //For Lerps
+    public Transform lerpStart, lerpEnd, lerpEndD, cropUITransform, cropUITransformD;
+    float timeSpendAnimating = 0;
+    float moveProgress = 0;
+    float maxMoveProgress = 0.5f;
 
     void Awake()
     {
@@ -23,6 +28,8 @@ public class CropStatsRework : MonoBehaviour
     }
     void Start()
     {
+        cropUITransform.position = lerpStart.position;
+        cropUITransformD.position = lerpStart.position;
         growthStageNumber.text = "";
         growthStageNumberD.text = "";
         mainCam = Camera.main;
@@ -40,6 +47,20 @@ public class CropStatsRework : MonoBehaviour
         {
             cropStats.SetActive(true);
             cropStatsDetailed.SetActive(false);
+        }
+
+        if(isActive && moveProgress < maxMoveProgress)
+        {
+            moveProgress += Time.deltaTime;
+            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
+            cropUITransformD.position = Vector3.Lerp(lerpStart.position, lerpEndD.position, moveProgress/maxMoveProgress);
+        }
+
+        if(!isActive && moveProgress > 0)
+        {
+            moveProgress -= Time.deltaTime;
+            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
+            cropUITransformD.position = Vector3.Lerp(lerpStart.position, lerpEndD.position, moveProgress/maxMoveProgress);
         }
     }
 
