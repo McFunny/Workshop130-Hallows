@@ -21,7 +21,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public float health = 5;
     public float maxHealth = 5;
 
-    public float wealthValue = 1; //dictates how hard a night could be 
+    public float wealthValue = 0; //dictates how hard a night could be 
 
     [Tooltip("Can this structure be destroyed by lowering its health?")]
     public bool destructable = true;
@@ -31,6 +31,8 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool onFire = false;
     [Tooltip("Does this structure impede movement? If yes, creatures will attack this if nearby and facing it")]
     public bool isObstacle = true;
+
+    public Transform focalPoint; //for when the camera needs to focus on the object
 
     //Save Data
     //[HideInInspector] public List<Item> itemList1;
@@ -58,6 +60,8 @@ public class StructureBehaviorScript : MonoBehaviour
     [Tooltip("Specific UI for this structure, if it has any")]
     public GameObject structureUI; 
 
+    Coroutine highlightCoroutine;
+
     //[Header("Structure Specific")]
 
     //Once we get structure specific UI to see health, then we can add repairability to structures so players can know if they can dig it up safely
@@ -76,7 +80,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     }
 
-    public void Start()
+    public void Start() //dont call this if the structure is not on the farm
     {
         StructureManager.Instance.allStructs.Add(this);
         if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
@@ -144,7 +148,7 @@ public class StructureBehaviorScript : MonoBehaviour
             highlightEnabled = true;
             foreach(GameObject thing in highlight) thing.SetActive(true);
             if(structureUI) structureUI.SetActive(true);
-            StartCoroutine(HightlightFlash());
+            if(highlightCoroutine == null) highlightCoroutine = StartCoroutine(HightlightFlash());
         }
 
         if(!enable && highlightEnabled)
@@ -175,6 +179,7 @@ public class StructureBehaviorScript : MonoBehaviour
             }
             while(power < 1.9f && highlightEnabled);
         }
+        highlightCoroutine = null;
     }
 
     public void LitOnFire()

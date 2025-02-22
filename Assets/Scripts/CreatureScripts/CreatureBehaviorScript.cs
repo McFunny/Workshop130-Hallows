@@ -102,7 +102,8 @@ public class CreatureBehaviorScript : MonoBehaviour
                     {
                         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(droppedItems[i]);
                         Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
-                        droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                        if(corpseParticleTransform) droppedItem.transform.position = new Vector3(corpseParticleTransform.position.x, corpseParticleTransform.position.y + 0.5f, corpseParticleTransform.position.z);
+                        else droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
                         Vector3 dir3 = Random.onUnitSphere;
                         dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);

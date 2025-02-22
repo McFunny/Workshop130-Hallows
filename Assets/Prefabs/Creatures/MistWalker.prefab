@@ -8551,8 +8551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6fcf48293826934b8cf7b4f43801648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 125
-  maxHealth: 125
+  health: 100
+  maxHealth: 100
   corpseHealth: -30
   ichorWorth: 5
   ichorDropRadius: 4.5
@@ -8589,6 +8589,7 @@ MonoBehaviour:
   damageToPlayer: -25
   canCorpseBreak: 0
   hitColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.7176471}
+  variant: 0
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
   - {fileID: 11400000, guid: 0df10b19e29cb1c48940ea9ef2efcc81, type: 2}

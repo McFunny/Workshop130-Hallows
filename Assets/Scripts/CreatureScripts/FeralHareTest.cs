@@ -147,7 +147,7 @@ public class FeralHareTest : CreatureBehaviorScript
         if (!jumpCooldown)
         {
             StartCoroutine(JumpCooldownTimer());
-            if(inWilderness) //Seek the player
+            if(variant == Variant.Albino) //Seek the player
             {
                 Hop(player.position);
                 if(playerInSightRange) burstJumps--;
@@ -236,7 +236,7 @@ public class FeralHareTest : CreatureBehaviorScript
         base.OnDeath();
         anim.SetTrigger("IsDead");
         rb.isKinematic = true;
-        cooldownEffect.SetActive(false);
+        if(cooldownEffect) cooldownEffect.SetActive(false);
     }
 
     // CropCheck Coroutine to search for crops periodically
@@ -344,10 +344,10 @@ public class FeralHareTest : CreatureBehaviorScript
             attackingPlayer = false;
         }
 
-        if(burstJumps <= 0)
+        if(burstJumps <= 0 && variant == Variant.Albino)
         {
             cooldownEffect.SetActive(true);
-            yield return new WaitForSeconds(Random.Range(2, 4));
+            yield return new WaitForSeconds(Random.Range(3, 5));
             cooldownEffect.SetActive(false);
             burstJumps = Random.Range(3,5);
         }

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e14c53294b14d418d174be0feefd90, type: 3}
+  m_Name: PyreFly
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 4938036239894532787, guid: 4f2ba8cc7e5521642b04236b7b908af1,
+    type: 3}
+  creatureVariants:
+  - name: NapalmFly
+    prefab: {fileID: 8047774157542622550, guid: bd649138bb8c55246bdbe979d3e55830,
+      type: 3}
+    probabilityInFarm: 5
+    probabilityInWilderness: 100
+    canSpawnInWilderness: 1
+    wealthPrerequisite: 1500
+  health: 0
+  position:
+  - 0
+  - 0
+  - 0
+  dangerCost: 2
+  dangerThreshold: 0
+  spawnWeight: 4
+  spawnCap: 6
+  spawnCapPerHour: 2
+  wealthPrerequisite: 800
+  contribuiteToCreatureCap: 0
+  data:
+    Name: 
+    Id: -1
+    health: 0
+    position:
+    - 0
+    - 0
+    - 0

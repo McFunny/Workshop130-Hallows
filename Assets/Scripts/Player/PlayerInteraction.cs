@@ -114,8 +114,8 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                currentMoney += 50;
-                totalMoneyEarned += 50;
+                currentMoney += 200;
+                totalMoneyEarned += 200;
             }
         }
 
@@ -306,6 +306,11 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
+        if (DialogueController.Instance.IsTalking())
+        {
+            print("Damage negated! Stamina is : " + stamina);
+            return;
+        }
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
@@ -387,8 +392,10 @@ public class PlayerInteraction : MonoBehaviour
         //maybe pause time? also make sure no issues arise when dying while talking to someone
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        playerEffects.PlayClip(playerEffects.playerDie, 0.4f);
-        yield return new WaitForSeconds(3f);
+        AmbientAudioManager.Instance.ChangeMusic();
+        yield return new WaitForSeconds(0.5f);
+        playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
+        yield return new WaitForSeconds(1.5f);
         NightSpawningManager.Instance.GameOver();
         print("Night GameOver Complete");
         TownGate.Instance.GameOver();
@@ -404,10 +411,10 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
-        FadeScreen.coverScreen = false; //have the player gaze at a focal point on the bed, rising, then delete focal point. This should be done in its own function
+        FadeScreen.coverScreen = false;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;
-        StartCoroutine(WakeUp());
+        //StartCoroutine(WakeUp());
 
     }
 
