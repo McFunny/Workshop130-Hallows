@@ -224,7 +224,7 @@ public class InventorySlot_UI : MonoBehaviour
         {
             itemSprite.sprite = slot.ItemData.icon;
             itemSprite.color = Color.white;
-            itemName.text = slot.ItemData.name;
+            itemName.text = slot.ItemData.displayName;
             itemDesc = slot.ItemData.description;
             if (slot.StackSize > 1)
                 itemCount.text = slot.StackSize.ToString();
