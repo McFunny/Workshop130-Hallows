@@ -347,7 +347,7 @@ public class FeralHareTest : CreatureBehaviorScript
         if(burstJumps <= 0 && variant == Variant.Albino)
         {
             cooldownEffect.SetActive(true);
-            yield return new WaitForSeconds(Random.Range(2, 4));
+            yield return new WaitForSeconds(Random.Range(3, 5));
             cooldownEffect.SetActive(false);
             burstJumps = Random.Range(3,5);
         }
