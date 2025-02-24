@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
-using System;
 
 public class InventorySlot_UI : MonoBehaviour
 {
@@ -75,7 +73,7 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 if(itemName.text != "")
                 {
-                    if(itemDesc!= null){toolTip.UpdateToolTip(itemDesc);}
+                    if(itemDesc!= null){toolTip.UpdateToolTip(assignedInventorySlot.ItemData);}
                     toolTip.panel.SetActive(true);
                 }
                 else
@@ -209,7 +207,7 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 toolTip.panel.SetActive(false);
             }
-            if(itemDesc!= null){toolTip.UpdateToolTip(itemDesc);}
+            if(assignedInventorySlot.ItemData!= null){toolTip.UpdateToolTip(assignedInventorySlot.ItemData);}
         }
             
     }
