@@ -402,6 +402,8 @@ public class PlayerInteraction : MonoBehaviour
         print("Gate GameOver Complete");
         StructureManager.Instance.GameOver();
         print("Structure GameOver Complete");
+        WildernessManager.Instance.GameOver();
+        print("Wilderness GameOver Complete");
 
         stamina = 100;
         if(currentMoney > 0) currentMoney = currentMoney/2;

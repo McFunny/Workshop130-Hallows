@@ -83,13 +83,15 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             OnDamage();
         }
-        if(health <= 0 && !isDead)
+        if(health <= 0 && !isDead) //turns into a corpse, and fertilizes nearby crops
         {
             effectsHandler.OnDeath();
             OnDeath();
             RefreshEmmision();
             isDead = true;
-            //turns into a corpse, and fertilizes nearby crops
+
+            //Send event of death for quests
+            QuestManager.Instance.CreatureDeath(creatureData);
         }
         if(canCorpseBreak)
         {
@@ -123,6 +125,7 @@ public class CreatureBehaviorScript : MonoBehaviour
                     if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
                     else corpseParticle.transform.position = transform.position;
                 }
+                
                 Destroy(this.gameObject);
             }
         }

@@ -51,7 +51,7 @@ public class NPCManager : MonoBehaviour
 
     public void HourUpdate()
     {
-        if(TimeManager.Instance.currentHour == 6)
+        if(TimeManager.Instance.currentHour == 8)
         {
             rascalSpoke = false;
             lumberjackSpoke = false;

@@ -526,7 +526,7 @@ public class StructureManager : MonoBehaviour
     void PopulateDecorCrows(int min, int max)
     {
         int r = Random.Range(min,max + 1);
-        print(r);
+        //print(r);
         if (r <= 0) return;
         Transform lastTransform = null;
         for(int i = 0; i < r; i++)
