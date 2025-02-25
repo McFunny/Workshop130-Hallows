@@ -17,7 +17,7 @@ public class InventoryUIController : MonoBehaviour
     [SerializeField] private GameObject firstObject;
     ControlManager controlManager;
     EventSystem eventSystem;
-    ToolTipScript toolTip;
+    public ToolTipScript toolTip;
     MouseItemData mouseData;
 
     AudioSource source;
