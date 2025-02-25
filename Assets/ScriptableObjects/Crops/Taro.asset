@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Taro
   growthStages: 5
-  hoursPerStage: 1
-  harvestableGrowthStages: 
+  hoursPerStage: 2
+  harvestableGrowthStages: 05000000
   cropSprites:
   - {fileID: 305723951, guid: 66f06eb655397394999a0bf471dae613, type: 3}
   - {fileID: -225154516, guid: 66f06eb655397394999a0bf471dae613, type: 3}
@@ -23,17 +23,17 @@ MonoBehaviour:
   - {fileID: 1234047048, guid: 66f06eb655397394999a0bf471dae613, type: 3}
   - {fileID: -563755991, guid: 66f06eb655397394999a0bf471dae613, type: 3}
   rottedImage: {fileID: 1764523180, guid: 66f06eb655397394999a0bf471dae613, type: 3}
-  cropYield: {fileID: 0}
-  cropSeed: {fileID: 0}
+  cropYield: {fileID: 11400000, guid: 27896107abf33c44abc3c74431a72d74, type: 2}
+  cropSeed: {fileID: 11400000, guid: e20f6ca05ecf8b1449762a09684ad75b, type: 2}
   cropYieldAmount: 1
   cropYieldVariance: 0
   seedYieldAmount: 1
-  seedYieldVariance: 1
+  seedYieldVariance: 0
   waterIntake: 5
   ichorIntake: 0
-  terraIntake: 0
-  gloamIntake: 0
-  stressLimit: 1
+  terraIntake: -0.5
+  gloamIntake: 1
+  stressLimit: 3
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0

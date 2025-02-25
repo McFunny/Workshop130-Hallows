@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Dare
   m_EditorClassIdentifier: 
   name: Dare
-  growthStages: 5
-  hoursPerStage: 1
+  growthStages: 6
+  hoursPerStage: 3
   harvestableGrowthStages: 06000000
   cropSprites:
   - {fileID: -207084151, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
@@ -24,17 +24,17 @@ MonoBehaviour:
   - {fileID: -719629085, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
   - {fileID: -825667176, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
   rottedImage: {fileID: 1617872667, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
-  cropYield: {fileID: 0}
-  cropSeed: {fileID: 0}
+  cropYield: {fileID: 11400000, guid: de018e0513a39de4fa014811f87add4b, type: 2}
+  cropSeed: {fileID: 11400000, guid: e32ed33e3f66537479427ee3cb55dba3, type: 2}
   cropYieldAmount: 1
   cropYieldVariance: 0
   seedYieldAmount: 1
-  seedYieldVariance: 1
-  waterIntake: 5
-  ichorIntake: 0
-  terraIntake: 0
-  gloamIntake: 0
-  stressLimit: 1
+  seedYieldVariance: 0
+  waterIntake: 10
+  ichorIntake: 1
+  terraIntake: -0.5
+  gloamIntake: 0.75
+  stressLimit: 2
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0
