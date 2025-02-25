@@ -12,6 +12,8 @@ public class RascalNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
+    public FetchQuest carrotQuest;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -36,11 +38,12 @@ public class RascalNPC : NPC, ITalkable
                 currentType = PathType.Default;
                 GameSaveData.Instance.rascalMet = true;
             }
-            else if(!GameSaveData.Instance.rascalWantsFood)
+            else if(!GameSaveData.Instance.rascalWantsFood) //Will give carrot quest
             {
                 currentPath = 1;
                 currentType = PathType.Quest;
                 GameSaveData.Instance.rascalWantsFood = true; 
+                QuestManager.Instance.activeQuests.Add(carrotQuest);
             }
             else
             {
@@ -80,11 +83,16 @@ public class RascalNPC : NPC, ITalkable
             return;
         } 
 
-        if(item == paleCarrot && GameSaveData.Instance.rascalWantsFood == true && GameSaveData.Instance.rascalMentionedKey == false)
+        if(item == paleCarrot && GameSaveData.Instance.rascalWantsFood == true && GameSaveData.Instance.rascalMentionedKey == false) //Completed Carrot Quest
         {
             currentPath = 2;
             currentType = PathType.Quest;
             GameSaveData.Instance.rascalMentionedKey = true;
+
+            for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
+            {
+                if(QuestManager.Instance.activeQuests[i] == carrotQuest) QuestManager.Instance.activeQuests[i].progress = QuestManager.Instance.activeQuests[i].maxProgress;
+            }
             //anim.SetTrigger("TakeItem");
         }
 

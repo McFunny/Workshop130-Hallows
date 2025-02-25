@@ -12,7 +12,7 @@ public class StructureBehaviorScript : MonoBehaviour
     //Should this be static Abner?
 
     public delegate void Damaged();
-    [HideInInspector] public event Damaged OnDamage; //Unity Event that will notify enemies when structures are updated
+    [HideInInspector] public event Damaged OnDamage;
 
     [Header("Structure Stats")]
 
@@ -21,7 +21,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public float health = 5;
     public float maxHealth = 5;
 
-    public float wealthValue = 1; //dictates how hard a night could be 
+    public float wealthValue = 0; //dictates how hard a night could be 
 
     [Tooltip("Can this structure be destroyed by lowering its health?")]
     public bool destructable = true;
@@ -31,6 +31,8 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool onFire = false;
     [Tooltip("Does this structure impede movement? If yes, creatures will attack this if nearby and facing it")]
     public bool isObstacle = true;
+
+    public Transform focalPoint; //for when the camera needs to focus on the object
 
     //Save Data
     //[HideInInspector] public List<Item> itemList1;
@@ -78,7 +80,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     }
 
-    public void Start()
+    public void Start() //dont call this if the structure is not on the farm
     {
         StructureManager.Instance.allStructs.Add(this);
         if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
@@ -111,9 +113,9 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        OnDamage?.Invoke();
         if(!destructable) return;
         health -= damage;
-        OnDamage?.Invoke();
         if(damageParticles) damageParticles.Play();
     }
 

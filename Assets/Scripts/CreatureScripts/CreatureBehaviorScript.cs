@@ -83,13 +83,15 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             OnDamage();
         }
-        if(health <= 0 && !isDead)
+        if(health <= 0 && !isDead) //turns into a corpse, and fertilizes nearby crops
         {
             effectsHandler.OnDeath();
             OnDeath();
             RefreshEmmision();
             isDead = true;
-            //turns into a corpse, and fertilizes nearby crops
+
+            //Send event of death for quests
+            QuestManager.Instance.CreatureDeath(creatureData);
         }
         if(canCorpseBreak)
         {
@@ -102,7 +104,8 @@ public class CreatureBehaviorScript : MonoBehaviour
                     {
                         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(droppedItems[i]);
                         Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
-                        droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                        if(corpseParticleTransform) droppedItem.transform.position = new Vector3(corpseParticleTransform.position.x, corpseParticleTransform.position.y + 0.5f, corpseParticleTransform.position.z);
+                        else droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
                         Vector3 dir3 = Random.onUnitSphere;
                         dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
@@ -122,6 +125,7 @@ public class CreatureBehaviorScript : MonoBehaviour
                     if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
                     else corpseParticle.transform.position = transform.position;
                 }
+                
                 Destroy(this.gameObject);
             }
         }
