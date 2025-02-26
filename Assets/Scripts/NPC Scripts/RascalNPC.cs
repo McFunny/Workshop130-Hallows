@@ -43,11 +43,16 @@ public class RascalNPC : NPC, ITalkable
                 currentPath = 1;
                 currentType = PathType.Quest;
                 GameSaveData.Instance.rascalWantsFood = true; 
-                QuestManager.Instance.activeQuests.Add(carrotQuest);
+                QuestManager.Instance.AddQuest(carrotQuest);
             }
             else
             {
-                if(NPCManager.Instance.rascalSpoke)
+                if(CompletedQuest())
+                {
+                    currentPath = 0;
+                    currentType = PathType.QuestComplete;
+                }
+                else if(NPCManager.Instance.rascalSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -83,16 +88,24 @@ public class RascalNPC : NPC, ITalkable
             return;
         } 
 
-        if(item == paleCarrot && GameSaveData.Instance.rascalWantsFood == true && GameSaveData.Instance.rascalMentionedKey == false) //Completed Carrot Quest
+        if(CompletedQuestWithItem())
+        {
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
+
+        else if(item == paleCarrot && GameSaveData.Instance.rascalWantsFood == true && GameSaveData.Instance.rascalMentionedKey == false) //Completed Carrot Quest
         {
             currentPath = 2;
             currentType = PathType.Quest;
             GameSaveData.Instance.rascalMentionedKey = true;
 
-            for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
+            QuestManager.Instance.ForceCompleteQuest(carrotQuest);
+
+            /*for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
             {
                 if(QuestManager.Instance.activeQuests[i] == carrotQuest) QuestManager.Instance.activeQuests[i].progress = QuestManager.Instance.activeQuests[i].maxProgress;
-            }
+            }*/
             //anim.SetTrigger("TakeItem");
         }
 

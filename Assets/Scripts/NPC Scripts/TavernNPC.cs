@@ -36,6 +36,11 @@ public class TavernNPC : NPC, ITalkable
                 currentType = PathType.Default;
                 GameSaveData.Instance.barMet = true;
             }
+            else if(CompletedQuest())
+            {
+                currentPath = 0;
+                currentType = PathType.QuestComplete;
+            }
             /*else if (movementHandler.isWorking) //Working Dialogue
             {
                 currentPath = 0;
@@ -87,11 +92,11 @@ public class TavernNPC : NPC, ITalkable
             return;
         }
 
-       /* if (item == fertalizerI || item == fertalizerT || item == fertalizerG) //Reenable if we want barkeep to see specific items
+        if(CompletedQuestWithItem())
         {
-            currentPath = 1;
-            currentType = PathType.ItemSpecific;
-        }*/
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
 
 
         else if (item.staminaValue > 0)
@@ -125,10 +130,9 @@ public class TavernNPC : NPC, ITalkable
 
     void GiveQuest()
     {
-        QuestManager.Instance.activeQuests.Add(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+       // QuestManager.Instance.activeQuests.Add(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+        QuestManager.Instance.AddQuest(possibleQuests[Random.Range(0, possibleQuests.Count)]);
         int questNum = QuestManager.Instance.activeQuests.Count - 1;//To grab the newly added quest
-
-        //QuestManager.Instance.activeQuests[0].assignee = (Character)Random.Range(1, System.Enum.GetValues(typeof(Character)).Length);
 
         FetchQuest f = QuestManager.Instance.activeQuests[questNum] as FetchQuest;
 
@@ -148,7 +152,7 @@ public class TavernNPC : NPC, ITalkable
         int subQuestsActive = 0;
         foreach(Quest q in QuestManager.Instance.activeQuests)
         {
-            if(q.isMajorQuest == false) subQuestsActive++;
+            if(q.isMajorQuest == false && q.alreadyCompleted == false) subQuestsActive++;
         }
         if(subQuestsActive < 3) return true;
         else return false;

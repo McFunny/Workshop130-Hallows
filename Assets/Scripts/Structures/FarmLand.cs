@@ -154,7 +154,7 @@ public class FarmLand : StructureBehaviorScript
             {
                 if (crop.creaturePrefab)
                 {
-                    Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Code needs work once mandrake crop is added
+                    Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Outdated code
                 }
                 else
                 {
@@ -205,6 +205,7 @@ public class FarmLand : StructureBehaviorScript
                     }
                     
                 }
+                QuestManager.Instance.CropHarvested(crop);
             }
 
             if(rotted)
