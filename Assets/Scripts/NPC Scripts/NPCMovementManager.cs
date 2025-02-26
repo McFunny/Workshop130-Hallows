@@ -23,7 +23,8 @@ public enum Destination
     RascalSpot,
     CulinarianHouse,
     ButcherHouse,
-    Graveyard
+    Graveyard,
+    TinkererWorkbench
 }
 
 public enum Action
