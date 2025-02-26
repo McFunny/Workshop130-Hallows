@@ -11,6 +11,7 @@ public class FarmTree : StructureBehaviorScript
     public GameObject papers;
 
     public Transform itemDrop;
+    public ParticleSystem leafBurst;
     void Awake()
     {
         base.Awake();
@@ -20,6 +21,7 @@ public class FarmTree : StructureBehaviorScript
     {
         base.Start();
         if(taggedForCutting) papers.SetActive(true);
+        OnDamage += TreeHit;
     }
 
     public override void StructureInteraction()
@@ -53,28 +55,19 @@ public class FarmTree : StructureBehaviorScript
         }
     }
 
+    void OnDestroy()
+    {
+        OnDamage -= TreeHit;
+        base.OnDestroy();
+    }
+
+    void TreeHit()
+    {
+        leafBurst.Play();
+    }
+
     /*public override object GetSaveData()
     {
         return new FarmTreeSaveData(this);
     }*/
-}
-
-[System.Serializable]
-
-public struct FarmTreeSaveData
-{
-    public Vector3 position;
-    public float health;
-    public bool onFire;
-    public bool isObstacle;
-    public bool isLargeObject;
-
-    public FarmTreeSaveData(FarmTree farmTree)
-    {
-        position = farmTree.transform.position;
-        health = farmTree.health;
-        onFire = farmTree.onFire;
-        isObstacle = farmTree.isObstacle;
-        isLargeObject = farmTree.structData.isLarge;
-    }
 }

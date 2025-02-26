@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: Dare
+  m_EditorClassIdentifier: 
+  name: Dare
+  growthStages: 6
+  hoursPerStage: 3
+  harvestableGrowthStages: 06000000
+  cropSprites:
+  - {fileID: -207084151, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
+  - {fileID: -1675039726, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
+  - {fileID: -716149640, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
+  - {fileID: 1693079009, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
+  - {fileID: -719629085, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
+  - {fileID: -825667176, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
+  rottedImage: {fileID: 1617872667, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
+  cropYield: {fileID: 11400000, guid: de018e0513a39de4fa014811f87add4b, type: 2}
+  cropSeed: {fileID: 11400000, guid: e32ed33e3f66537479427ee3cb55dba3, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 1
+  seedYieldVariance: 0
+  waterIntake: 10
+  ichorIntake: 1
+  terraIntake: -0.5
+  gloamIntake: 0.75
+  stressLimit: 2
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 0}
+  emitsGlow: 0
