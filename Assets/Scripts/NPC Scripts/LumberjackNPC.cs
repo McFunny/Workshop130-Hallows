@@ -75,7 +75,12 @@ public class LumberjackNPC : NPC, ITalkable
             }
             else
             {
-                if(NPCManager.Instance.lumberjackSpoke)
+                if(CompletedQuest())
+                {
+                    currentPath = 0;
+                    currentType = PathType.QuestComplete;
+                }
+                else if(NPCManager.Instance.lumberjackSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -111,7 +116,13 @@ public class LumberjackNPC : NPC, ITalkable
             return;
         } 
 
-        if(item == papers)
+        if(CompletedQuestWithItem())
+        {
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
+
+        else if(item == papers)
         {
             currentPath = 1;
             currentType = PathType.ItemSpecific;
