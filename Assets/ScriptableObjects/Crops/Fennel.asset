@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Fennel
   growthStages: 4
-  hoursPerStage: 1
+  hoursPerStage: 2
   harvestableGrowthStages: 04000000
   cropSprites:
   - {fileID: -1880864362, guid: 0cca7e469e212d64093bd4a18376a1a3, type: 3}
@@ -22,17 +22,17 @@ MonoBehaviour:
   - {fileID: -921071537, guid: 0cca7e469e212d64093bd4a18376a1a3, type: 3}
   - {fileID: -1055820892, guid: 0cca7e469e212d64093bd4a18376a1a3, type: 3}
   rottedImage: {fileID: -606297440, guid: 0cca7e469e212d64093bd4a18376a1a3, type: 3}
-  cropYield: {fileID: 0}
-  cropSeed: {fileID: 0}
+  cropYield: {fileID: 11400000, guid: 344ae7d106f0b2646bc557fde3166d30, type: 2}
+  cropSeed: {fileID: 11400000, guid: 886e87244c15ac344a3db92d9525c930, type: 2}
   cropYieldAmount: 1
   cropYieldVariance: 0
   seedYieldAmount: 1
-  seedYieldVariance: 1
+  seedYieldVariance: 0
   waterIntake: 5
   ichorIntake: 0
-  terraIntake: 0
-  gloamIntake: 0
-  stressLimit: 1
+  terraIntake: 0.5
+  gloamIntake: -0.25
+  stressLimit: 2
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0
