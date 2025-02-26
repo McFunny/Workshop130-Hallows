@@ -154,7 +154,7 @@ public class FarmLand : StructureBehaviorScript
             {
                 if (crop.creaturePrefab)
                 {
-                    Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Code needs work once mandrake crop is added
+                    Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Outdated code
                 }
                 else
                 {
@@ -173,6 +173,7 @@ public class FarmLand : StructureBehaviorScript
                     int r = Random.Range(crop.cropYieldAmount - crop.cropYieldVariance, crop.cropYieldAmount + crop.cropYieldVariance);
                     if(totalCropYield == 0) r = 1;
                     totalCropYield += r;
+                    if (totalCropYield <= 0) totalCropYield = 1;
                     for (int i = 0; i < totalCropYield; i++)
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
@@ -204,6 +205,7 @@ public class FarmLand : StructureBehaviorScript
                     }
                     
                 }
+                QuestManager.Instance.CropHarvested(crop);
             }
 
             if(rotted)

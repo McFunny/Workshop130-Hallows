@@ -12,7 +12,7 @@ public class StructureBehaviorScript : MonoBehaviour
     //Should this be static Abner?
 
     public delegate void Damaged();
-    [HideInInspector] public event Damaged OnDamage; //Unity Event that will notify enemies when structures are updated
+    [HideInInspector] public event Damaged OnDamage;
 
     [Header("Structure Stats")]
 
@@ -113,9 +113,9 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        OnDamage?.Invoke();
         if(!destructable) return;
         health -= damage;
-        OnDamage?.Invoke();
         if(damageParticles) damageParticles.Play();
     }
 

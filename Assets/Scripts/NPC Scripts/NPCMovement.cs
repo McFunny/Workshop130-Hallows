@@ -152,7 +152,7 @@ public class NPCMovement : MonoBehaviour
             npcScript.StopWorking();
             isWorking = false;
         }
-        Debug.Log("We made it here");
+        //Debug.Log("We made it here");
         while (agent.remainingDistance > agent.stoppingDistance)
         {
             if(!agent.isStopped)

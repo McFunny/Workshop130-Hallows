@@ -88,6 +88,17 @@ public class WildernessManager : MonoBehaviour
         visitedWilderness = true;
     }
 
+    public void GameOver()
+    {
+        if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InFarm);
+        AmbientAudioManager.Instance.ChangeMusic();
+        ClearCreatures();
+        currentMap.ClearMap();
+        currentMap = null;
+        hoursSpentInWilderness = 0;
+        visitedWilderness = true;
+    }
+
     void HourUpdate()
     {
         if(currentMap == null)
