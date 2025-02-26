@@ -43,7 +43,7 @@ public class RascalNPC : NPC, ITalkable
                 currentPath = 1;
                 currentType = PathType.Quest;
                 GameSaveData.Instance.rascalWantsFood = true; 
-                QuestManager.Instance.activeQuests.Add(carrotQuest);
+                QuestManager.Instance.AddQuest(carrotQuest);
             }
             else
             {
@@ -89,10 +89,12 @@ public class RascalNPC : NPC, ITalkable
             currentType = PathType.Quest;
             GameSaveData.Instance.rascalMentionedKey = true;
 
-            for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
+            QuestManager.Instance.ForceCompleteQuest(carrotQuest);
+
+            /*for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
             {
                 if(QuestManager.Instance.activeQuests[i] == carrotQuest) QuestManager.Instance.activeQuests[i].progress = QuestManager.Instance.activeQuests[i].maxProgress;
-            }
+            }*/
             //anim.SetTrigger("TakeItem");
         }
 

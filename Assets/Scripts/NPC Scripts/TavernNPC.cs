@@ -125,10 +125,9 @@ public class TavernNPC : NPC, ITalkable
 
     void GiveQuest()
     {
-        QuestManager.Instance.activeQuests.Add(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+       // QuestManager.Instance.activeQuests.Add(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+        QuestManager.Instance.AddQuest(possibleQuests[Random.Range(0, possibleQuests.Count)]);
         int questNum = QuestManager.Instance.activeQuests.Count - 1;//To grab the newly added quest
-
-        //QuestManager.Instance.activeQuests[0].assignee = (Character)Random.Range(1, System.Enum.GetValues(typeof(Character)).Length);
 
         FetchQuest f = QuestManager.Instance.activeQuests[questNum] as FetchQuest;
 
@@ -148,7 +147,7 @@ public class TavernNPC : NPC, ITalkable
         int subQuestsActive = 0;
         foreach(Quest q in QuestManager.Instance.activeQuests)
         {
-            if(q.isMajorQuest == false) subQuestsActive++;
+            if(q.isMajorQuest == false && q.alreadyCompleted == false) subQuestsActive++;
         }
         if(subQuestsActive < 3) return true;
         else return false;

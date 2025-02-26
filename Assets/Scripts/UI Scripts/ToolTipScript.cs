@@ -57,21 +57,19 @@ public class ToolTipScript : MonoBehaviour
             itemStamina.text = "Heals " + itemData.staminaValue + " stamina.";
             itemStamina.gameObject.SetActive(true);
             itemType.text = "Consumable";
+            intakeParent.SetActive(false);
         }
-        else
-        {
-            itemStamina.gameObject.SetActive(false);
-        }
-
-        if(type.Equals(typeof(ToolItem)))
+        else if(type.Equals(typeof(ToolItem)))
         {
             itemType.text = "Tool";
             intakeParent.SetActive(false);
+            itemStamina.gameObject.SetActive(false);
         }
         else if(type.Equals(typeof(PlaceableItem)))
         {
             itemType.text = "Structure";
             intakeParent.SetActive(false);
+            itemStamina.gameObject.SetActive(false);
         }
         else if(type.Equals(typeof(CropItem)))
         {
@@ -91,11 +89,13 @@ public class ToolTipScript : MonoBehaviour
             else{water.SetActive(false);}
             
             intakeParent.SetActive(true);
+            itemStamina.gameObject.SetActive(false);
         }
         else
         {
-            itemType.text = "Sellable";
+            itemType.text = "Miscellaneous";
             intakeParent.SetActive(false);
+            itemStamina.gameObject.SetActive(false);
         }
 
         //if(itemData.GetType)

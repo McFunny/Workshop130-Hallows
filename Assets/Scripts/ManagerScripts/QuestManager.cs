@@ -31,6 +31,28 @@ public class QuestManager : MonoBehaviour
         
     }
 
+    public void AddQuest(Quest q)
+    {
+        if(!activeQuests.Contains(q))
+        {
+            activeQuests.Add(q);
+        }
+    }
+
+    public void ForceCompleteQuest(Quest q)
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            if(activeQuests[i] == q)
+            {
+                activeQuests[i].progress = activeQuests[i].maxProgress;
+                activeQuests[i].alreadyCompleted = true;
+                print("Quest was successfully completed");
+                return;
+            }
+        }
+    }
+
     //This is probably bad practice, and should be changed into using Unity Events instead
     public void CreatureDeath(CreatureObject c)
     {
@@ -39,7 +61,26 @@ public class QuestManager : MonoBehaviour
             HuntQuest hQuest = activeQuests[i] as HuntQuest;
             if(hQuest == null) continue;
             
-            if(hQuest.targetCreature == c && hQuest.progress != hQuest.maxProgress) hQuest.progress++;
+            if(hQuest.targetCreature == c && hQuest.progress != hQuest.maxProgress)
+            {
+                hQuest.progress++;
+                return;
+            }
+        }
+    }
+
+    public void CropHarvested(CropData c)
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            GrowQuest gQuest = activeQuests[i] as GrowQuest;
+            if(gQuest == null) continue;
+            
+            if(gQuest.desiredCrop == c && gQuest.progress != gQuest.maxProgress)
+            {
+                gQuest.progress++;
+                return;
+            }
         }
     }
 }
@@ -60,6 +101,7 @@ public class Quest
     public int progress;
     public int maxProgress; 
     //public InventoryItemData[] itemRewards;
+    public int daysLeft = -1; //if -1, there is no time limit. Will need to setup this with the new day function to tick these down by 1 and then remove them later. Unimplemented
 
     public Character assignee; //use an enum to keep track of NPCs, and fill that in here
 
@@ -78,6 +120,11 @@ public class FetchQuest: Quest //Should hide progress
         desiredItem = _desiredItem;
         amount = _amount;
     }
+
+    /*public FetchQuest(InventoryItemData _desiredItem, int amountMax, int amountMin) //randomizes fetch quest
+    {
+        //
+    }*/
 }
 
 [System.Serializable]
