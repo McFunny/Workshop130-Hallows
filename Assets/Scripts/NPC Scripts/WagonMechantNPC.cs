@@ -53,6 +53,11 @@ public class WagonMerchantNPC : NPC, ITalkable
                 GameSaveData.Instance.wildernessIntroduced = true;
                 lantern.EnableSelf();
             }
+            else if(CompletedQuest())
+            {
+                currentPath = 0;
+                currentType = PathType.QuestComplete;
+            }
             else
             {
                 currentPath = -1;

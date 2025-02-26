@@ -82,6 +82,7 @@ public class GameSaveData : MonoBehaviour
             PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
             TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
 
+            for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
 
             tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
             rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -109,6 +110,8 @@ public class GameSaveData : MonoBehaviour
         public int pTotalMoneyEarned;
         public int pDayNumber;
 
+        public Quest[] activeQuests;
+
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
         public bool rascalMentionedKey;
@@ -132,6 +135,10 @@ public class GameSaveData : MonoBehaviour
             pCurrentMoney = PlayerInteraction.Instance.currentMoney;
             pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
             pDayNumber = TimeManager.Instance.dayNum;
+
+            activeQuests = QuestManager.Instance.activeQuests.ToArray();
+
+
             tutorialMerchantSpoke = data.tutorialMerchantSpoke;
             rascalWantsFood = data.rascalWantsFood;
             rascalMentionedKey = data.rascalMentionedKey;

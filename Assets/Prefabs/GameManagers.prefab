@@ -8576,6 +8576,7 @@ GameObject:
   - component: {fileID: 8128180679079574985}
   - component: {fileID: 6875101852357414110}
   - component: {fileID: 724479302985038853}
+  - component: {fileID: 1908568139050500351}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -23396,6 +23397,19 @@ MonoBehaviour:
   wagon: {fileID: 0}
   returnPosition: {fileID: 3274068372633532939}
   visitedWilderness: 0
+--- !u!114 &1908568139050500351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c926f80c96e1e04c8b790f2b543dba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeQuests: []
 --- !u!1 &5964704809646925671
 GameObject:
   m_ObjectHideFlags: 0
