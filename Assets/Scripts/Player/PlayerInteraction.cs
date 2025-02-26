@@ -10,6 +10,8 @@ public class PlayerInteraction : MonoBehaviour
 {
     public Camera mainCam;
 
+    public Transform playerFeet;
+
     public PlayerInventoryHolder playerInventoryHolder { get; private set; }
 
     PlayerEffectsHandler playerEffects;
@@ -112,8 +114,8 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                currentMoney += 50;
-                totalMoneyEarned += 50;
+                currentMoney += 200;
+                totalMoneyEarned += 200;
             }
         }
 
@@ -133,13 +135,13 @@ public class PlayerInteraction : MonoBehaviour
 
     private void UseHeldItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen) return;
         UseHotBarItem();
     }
 
     private void OnInteractWithItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen) return;
         if(!ControlManager.isController) StructureInteractionWithItem();
         else
         {
@@ -155,7 +157,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void InteractWithoutItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory)
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen)
         {
             if(DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
             return;
@@ -304,6 +306,11 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
+        if (DialogueController.Instance.IsTalking())
+        {
+            print("Damage negated! Stamina is : " + stamina);
+            return;
+        }
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
@@ -385,14 +392,18 @@ public class PlayerInteraction : MonoBehaviour
         //maybe pause time? also make sure no issues arise when dying while talking to someone
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        playerEffects.PlayClip(playerEffects.playerDie, 0.4f);
-        yield return new WaitForSeconds(3f);
+        AmbientAudioManager.Instance.ChangeMusic();
+        yield return new WaitForSeconds(0.5f);
+        playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
+        yield return new WaitForSeconds(1.5f);
         NightSpawningManager.Instance.GameOver();
         print("Night GameOver Complete");
         TownGate.Instance.GameOver();
         print("Gate GameOver Complete");
         StructureManager.Instance.GameOver();
         print("Structure GameOver Complete");
+        WildernessManager.Instance.GameOver();
+        print("Wilderness GameOver Complete");
 
         stamina = 100;
         if(currentMoney > 0) currentMoney = currentMoney/2;
@@ -402,10 +413,10 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
-        FadeScreen.coverScreen = false; //have the player gaze at a focal point on the bed, rising, then delete focal point. This should be done in its own function
+        FadeScreen.coverScreen = false;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;
-        StartCoroutine(WakeUp());
+        //StartCoroutine(WakeUp());
 
     }
 

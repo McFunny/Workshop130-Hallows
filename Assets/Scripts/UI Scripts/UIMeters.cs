@@ -6,8 +6,9 @@ using TMPro;
 
 public class UIMeters : MonoBehaviour
 {
-    public Image waterBar, staminaBar;
-    public GameObject waterEmptyFill, staminaEmptyFill, leftTextbox, rightTextbox;
+    public Slider waterBar, staminaBar;
+    public Image waterFill, staminaFill;
+    public GameObject leftTextbox, rightTextbox;
     public Color c_stamina, c_damage;
     PlayerInteraction p;
     float currentStamina;
@@ -42,8 +43,8 @@ public class UIMeters : MonoBehaviour
 
     public void UpdateMeters()
     {
-        waterBar.fillAmount = p.waterHeld/p.maxWaterHeld;
-        staminaBar.fillAmount = p.stamina/p.maxStamina;
+        waterBar.value = p.waterHeld/p.maxWaterHeld;
+        staminaBar.value = p.stamina/p.maxStamina;
 
         leftText.text = p.waterHeld + "/" + p.maxWaterHeld;
         rightText.text = p.stamina + "/" + p.maxStamina;
@@ -59,11 +60,11 @@ public class UIMeters : MonoBehaviour
     {
         for(int i = 0; i < 4; i++)
         {
-            staminaBar.color = c_damage;
-            //staminaEmptyImage.color = c_damage;
+            staminaFill.color = c_damage;
+
             yield return new WaitForSeconds(.1f);
-            staminaBar.color = c_stamina;
-            //staminaEmptyImage.color = c_stamina;
+            staminaFill.color = c_stamina;
+ 
             yield return new WaitForSeconds(.1f);
             
         }

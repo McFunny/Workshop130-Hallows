@@ -14,7 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 6507201721181545267, guid: 9bada7e4223709b40a5f5694c13b7505,
     type: 3}
-  wildernessPrefab: {fileID: 0}
+  creatureVariants:
+  - name: MistRunner
+    prefab: {fileID: 9182699557056190295, guid: ca18cbf2d6513bd48b28d588bd39fa95,
+      type: 3}
+    probabilityInFarm: 5
+    probabilityInWilderness: 20
+    canSpawnInWilderness: 1
+    wealthPrerequisite: 1000
   health: 100
   position:
   - 0

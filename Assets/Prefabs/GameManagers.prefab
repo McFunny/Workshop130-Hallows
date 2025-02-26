@@ -284,6 +284,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4922044940484644158}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &828561198100479962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3346180091967456471}
+  m_Layer: 0
+  m_Name: ButcherHouse
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3346180091967456471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828561198100479962}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 501.61, y: 1.34, z: -49.52}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6121070549681216910}
+  m_Father: {fileID: 7787821027441036890}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &865426667757270835
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,6 +1021,8 @@ Transform:
   - {fileID: 2055487060678113770}
   - {fileID: 4506046353892270426}
   - {fileID: 5680106217731862769}
+  - {fileID: 1207189002854949995}
+  - {fileID: 3346180091967456471}
   - {fileID: 564916328386176895}
   - {fileID: 8661613370349243988}
   m_Father: {fileID: 8883901233060397173}
@@ -1532,13 +1566,16 @@ MonoBehaviour:
   windAmbience:
   - {fileID: 8300000, guid: dc1d2b153c1561549ad289abc05a68d6, type: 3}
   musicAmbience:
-  - {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
-  - {fileID: 8300000, guid: 43669110dda5d074abaa19a13597b1e3, type: 3}
-  - {fileID: 8300000, guid: 67dafc27b66951640839ae19b5d2b0dd, type: 3}
-  - {fileID: 8300000, guid: d976ee0959d01b042a9191b3af594e93, type: 3}
+  - {fileID: 8300000, guid: 67382012d342e1f47a07e2bec60d3c5a, type: 3}
+  - {fileID: 8300000, guid: 345841a36f60b07489ee1c81e5069371, type: 3}
+  - {fileID: 8300000, guid: f605af913a2a2304a81c380855fe9917, type: 3}
   musicNightAmbience:
   - {fileID: 8300000, guid: f7c3a44a2fbb5ef438c6b2ffdfe24176, type: 3}
-  - {fileID: 8300000, guid: 3a50d7a5e007c7a479149520cd0b77e2, type: 3}
+  - {fileID: 8300000, guid: 64aeac4a7083231439a32d713993f958, type: 3}
+  wildernessAmbience:
+  - {fileID: 8300000, guid: dbc3ebbc41c88ff4d98946b385b3d81c, type: 3}
+  - {fileID: 8300000, guid: eeb8fc2d4c0fdb54f8f9a6b0d2150ce7, type: 3}
+  catacombAmbience: []
   bellTower: {fileID: 8300000, guid: 0b7f67cc2ca54644eade598edf5e0563, type: 3}
 --- !u!82 &4487365083115385320
 AudioSource:
@@ -1648,7 +1685,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.112
+  m_Volume: 0.104
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -7503,6 +7540,8 @@ MonoBehaviour:
     type: 3}
   seedBulletPrefab: {fileID: 4626338264351226871, guid: 8b9fadc5ff532a84e83c736918fa9fc0,
     type: 3}
+  fireBallPrefab: {fileID: 1625334908140150664, guid: 7f07ce0f5dcc82c43af09eb725823e0c,
+    type: 3}
 --- !u!114 &1087822415833838726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7938,6 +7977,7 @@ GameObject:
   - component: {fileID: 1864734984650053270}
   - component: {fileID: 8128180679079574985}
   - component: {fileID: 6875101852357414110}
+  - component: {fileID: 724479302985038853}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -8169,6 +8209,7 @@ MonoBehaviour:
   bridgeCleared: 0
   keyCollected: 0
   catacombUnlocked: 0
+  wildernessIntroduced: 0
   rascalMet: 0
   botMet: 0
   lumberMet: 0
@@ -22723,6 +22764,40 @@ MonoBehaviour:
       waterLevel: 3
       blightLevel: 0
   database: {fileID: 11400000, guid: 8538c946adf54a2448130d447b25cd53, type: 2}
+--- !u!114 &724479302985038853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1baa1e786aaea6c42b5034f4ce6c5fd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allCreatures: []
+  creatures:
+  - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
+  - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
+  - {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
+  interactablePrefabs:
+  - {fileID: 3672103349891704917, guid: f9c56390acf3b2248a1b1b77c4e30d4f, type: 3}
+  - {fileID: 446895733223214618, guid: 33cdc1b0f9171ba49b8921f09f1f76c3, type: 3}
+  - {fileID: 4227526203200057079, guid: fe3a357dee8f270419aba535ed8036ba, type: 3}
+  - {fileID: 5491249356900402680, guid: 6dfb73471b4019747be46fdc96575edc, type: 3}
+  - {fileID: 7210125489205192339, guid: 46ee7ea9c05813544a37a43efebad774, type: 3}
+  interactableSpawnChances:
+  - 100
+  - 5
+  - 80
+  - 10
+  - 10
+  setPiecePrefabs: []
+  allMaps: []
+  wagon: {fileID: 0}
+  returnPosition: {fileID: 3274068372633532939}
+  visitedWilderness: 0
 --- !u!1 &5964704809646925671
 GameObject:
   m_ObjectHideFlags: 0
@@ -22887,6 +22962,38 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 644985625366510528}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7269766327478679328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1207189002854949995}
+  m_Layer: 0
+  m_Name: CulinarianHouse
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1207189002854949995
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7269766327478679328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 512.34, y: 1.34, z: -82.74}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7829984579947024063}
+  m_Father: {fileID: 7787821027441036890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7476745946240115211
 GameObject:
@@ -23114,6 +23221,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2881688292652800857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7934643634035801070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6121070549681216910}
+  m_Layer: 0
+  m_Name: ButcherHome
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6121070549681216910
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7934643634035801070}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.9, y: 0, z: -10.43}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3346180091967456471}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8172639859454865802
 GameObject:
   m_ObjectHideFlags: 0
@@ -23269,6 +23407,37 @@ Transform:
   m_Children:
   - {fileID: 2431200981638991560}
   m_Father: {fileID: 7787821027441036890}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8385267299176665842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7829984579947024063}
+  m_Layer: 0
+  m_Name: CulinarianHome
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7829984579947024063
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8385267299176665842}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13, y: 0, z: -9.14}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1207189002854949995}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8405694426556912463
 GameObject:

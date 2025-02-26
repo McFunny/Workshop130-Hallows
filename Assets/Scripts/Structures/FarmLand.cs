@@ -173,6 +173,7 @@ public class FarmLand : StructureBehaviorScript
                     int r = Random.Range(crop.cropYieldAmount - crop.cropYieldVariance, crop.cropYieldAmount + crop.cropYieldVariance);
                     if(totalCropYield == 0) r = 1;
                     totalCropYield += r;
+                    if (totalCropYield <= 0) totalCropYield = 1;
                     for (int i = 0; i < totalCropYield; i++)
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
@@ -186,7 +187,7 @@ public class FarmLand : StructureBehaviorScript
                     }
 
                     r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
-                    if(r == 0) r = 1;
+                    if(r == 0 && Random.Range(0,10) >= 6) r = 1;
                     for (int i = 0; i < r; i++)
                     {
                         if(crop.cropSeed && plantStress == 0 && crop.seedYieldAmount > 0)
@@ -255,13 +256,13 @@ public class FarmLand : StructureBehaviorScript
         if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
         {
             ignoreNextGrowthMoment = false;
-            if(!rotted && crop.behavior) crop.behavior.OnHour(this);
+            if(!rotted && crop && crop.behavior) crop.behavior.OnHour(this);
             return;
         }
         if(!crop)
         {
             float r = Random.Range(0, 10);
-            if(r > 9.5f) Destroy(this.gameObject);
+            if(r > 6f) Destroy(this.gameObject);
             return;
         }
         hoursSpent++;
@@ -392,41 +393,37 @@ public class FarmLand : StructureBehaviorScript
         {
             return;
         }
-        nutrients.ichorLevel -= crop.ichorIntake;
-        if(nutrients.ichorLevel < 0)
-        {
-            nutrients.ichorLevel = 0;
-            plantStress++;
-            gainedStress = true;
-        }
-        else if(nutrients.ichorLevel > 10) nutrients.ichorLevel = 10;
 
-        nutrients.terraLevel -= crop.terraIntake;
-        if(nutrients.terraLevel < 0)
-        {
-            nutrients.terraLevel = 0;
-            plantStress++;
-            gainedStress = true;
-        }
-        else if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
-
-        nutrients.gloamLevel -= crop.gloamIntake;
-        if(nutrients.gloamLevel < 0)
-        {
-            nutrients.gloamLevel = 0;
-            plantStress++;
-            gainedStress = true;
-        }
-        else if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
+        //Check if it can properly grow before draining
+        if(nutrients.ichorLevel - crop.ichorIntake < 0) gainedStress = true;
+        if(nutrients.terraLevel - crop.terraIntake < 0) gainedStress = true;
+        if(nutrients.gloamLevel - crop.gloamIntake < 0) gainedStress = true;
+        if(nutrients.waterLevel - crop.waterIntake < 0) gainedStress = true;
 
         nutrients.waterLevel -= crop.waterIntake;
-        if(nutrients.waterLevel < 0)
+        if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
+
+        if(!gainedStress)
         {
-            nutrients.waterLevel = 0;
+            nutrients.ichorLevel -= crop.ichorIntake;
+            if(nutrients.ichorLevel > 10) nutrients.ichorLevel = 10;
+
+            nutrients.terraLevel -= crop.terraIntake;
+            if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
+
+            nutrients.gloamLevel -= crop.gloamIntake;
+            if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
+
+        }
+        else plantStress++;
+
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
+
+        if(!isWeed && CheckForWeeds())
+        {
             plantStress++;
             gainedStress = true;
         }
-        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 
         if(plantStress > crop.stressLimit && !isWeed)
         {
@@ -573,10 +570,20 @@ public class FarmLand : StructureBehaviorScript
         }
     }
 
-   /* public override object GetSaveData()
+    bool CheckForWeeds()
     {
-        return new FarmLandSaveData(this);
-    }*/
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f);
+        foreach(Collider collider in hitColliders)
+        {
+            FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
+            if(tile && tile.isWeed)
+            {
+                return true;
+                break;
+            }
+        }
+        return false;
+    }
 
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it
     {
@@ -618,54 +625,4 @@ public class FarmLand : StructureBehaviorScript
     }
 }
 
-[System.Serializable]
 
-public struct FarmLandSaveData
-{
-    //General Save stuff
-    public Vector3 position;
-    public float health;
-    public bool onFire;
-    public bool isObstacle;
-    public bool isLargeObject;
-
-    //Farmland Specific saves
-    public string cropID;
-    public int growthStage;
-    public int hoursSpent;
-    public int plantStress;
-    public bool harvestable;
-    public bool rotted;
-    public bool isWeed;
-    public bool isFrosted;
-
-    // Nutrients
-    public float ichorLevel;
-    public float terraLevel;
-    public float gloamLevel;
-    public float waterLevel;
-
-    public FarmLandSaveData(FarmLand farmLand)
-    {
-        position = farmLand.transform.position;
-        health = farmLand.health;
-        onFire = farmLand.onFire;
-        isObstacle = farmLand.isObstacle;
-        isLargeObject = farmLand.structData.isLarge;
-
-        cropID = farmLand.crop ? farmLand.crop.name : "";
-        growthStage = farmLand.growthStage;
-        hoursSpent = farmLand.hoursSpent;
-        plantStress = farmLand.plantStress;
-        harvestable = farmLand.harvestable;
-        rotted = farmLand.rotted;
-        isWeed = farmLand.isWeed;
-        isFrosted = farmLand.isFrosted;
-
-        var nutrients = farmLand.GetCropStats();
-        ichorLevel = nutrients.ichorLevel;
-        terraLevel = nutrients.terraLevel;
-        gloamLevel = nutrients.gloamLevel;
-        waterLevel = nutrients.waterLevel;
-    }
-}

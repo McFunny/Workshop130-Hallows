@@ -76,7 +76,7 @@ public class NightSpawningManager : MonoBehaviour
         //difficultyPoints += TimeManager.dayNum;
         //originalDifficultyPoints = difficultyPoints;
 
-        HourlySpawns();
+        if(TownGate.Instance.location != PlayerLocation.InWilderness) HourlySpawns();
     }
 
     void HourlySpawns()
@@ -152,9 +152,9 @@ public class NightSpawningManager : MonoBehaviour
         }
         while(spawnAttempts < 6); //add threshhold req too
 
-        if(allCreatures.Count <= 2 && difficultyPoints < 10)
+        if(allCreatures.Count < maxCreatures && difficultyPoints < 10)
         {
-            r = Random.Range(1,4);
+            r = Random.Range(1,3);
             for(int i = 0; i < r; i++)
             {
                 r = Random.Range(0, fillerCreatures.Length);
@@ -171,8 +171,16 @@ public class NightSpawningManager : MonoBehaviour
     void SpawnCreature(CreatureObject c)
     {
         //Add chance of spawning variants here
+        GameObject prefab = null;
+        if(c.creatureVariants.Count > 0)
+        {
+            int r = Random.Range(0, c.creatureVariants.Count);
+            int p = Random.Range(0,100);
+            if(c.creatureVariants[r].probabilityInFarm > p && c.creatureVariants[r].wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) prefab = c.creatureVariants[r].prefab;
+        }
+        if(prefab == null) prefab = c.objectPrefab;
 
-        GameObject newCreature = Instantiate(c.objectPrefab, RandomMistPosition(), Quaternion.identity);
+        GameObject newCreature = Instantiate(prefab, RandomMistPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
             enemy.OnSpawn(); //Why does the mist walker not do this?

@@ -20,7 +20,9 @@ public enum Destination
     GravediggerHouse,
     Fountain,
     Spring,
-    RascalSpot
+    RascalSpot,
+    CulinarianHouse,
+    ButcherHouse
 }
 
 public enum Action

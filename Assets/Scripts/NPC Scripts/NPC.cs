@@ -16,6 +16,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public Transform eyeLine;
 
+    public Character character;
+
     [HideInInspector] public int currentPath = -1; //-1 means default path
     [HideInInspector] public PathType currentType;
 
@@ -83,4 +85,22 @@ public abstract class NPC : MonoBehaviour, IInteractable
     {
         return true;
     }
+}
+
+public enum Character
+{
+    Null,
+    MistMerchant,
+    Botanist,
+    Rascal,
+    LumberJack,
+    Apothocary,
+    Tinkerer,
+    Culinarian,
+    Tavern,
+    Traveler,
+    Fanatic,
+    GraveDigger,
+    Butcher,
+    Carpenter
 }

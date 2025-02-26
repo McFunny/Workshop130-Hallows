@@ -96,7 +96,7 @@ public class TimeManager : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(1);
-            if(!timeSkipping && !stopTime || (isDay && DialogueController.Instance.IsTalking()))
+            if(!timeSkipping && !stopTime && (!DialogueController.Instance.IsTalking()) && !PlayerInteraction.Instance.gameOver)
             {
                 currentMinute++;
                 LerpSunAndMoon();
