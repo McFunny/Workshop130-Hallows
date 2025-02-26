@@ -56,16 +56,16 @@ public class NPCMovement : MonoBehaviour
                 {
                     case ActionCheck.Check1:
                     passedCheck = npcScript.ActionCheck1();
-                    break;
+                    continue;
                     case ActionCheck.Check2:
                     passedCheck = npcScript.ActionCheck2();
-                    break;
+                    continue;
                     case ActionCheck.Check3:
                     passedCheck = npcScript.ActionCheck3();
-                    break;
+                    continue;
                 }
 
-                if(!passedCheck) break;
+                if(!passedCheck) continue;
                 
                 
 
