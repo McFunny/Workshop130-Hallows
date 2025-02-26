@@ -123,7 +123,7 @@ public class NPCMovement : MonoBehaviour
                         Debug.LogWarning($"No available destination or sublocation for {schedule.Destination}");
                     }
                 }
-                break;
+                return;
             }
         }
     }
