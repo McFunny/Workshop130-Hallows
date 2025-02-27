@@ -35,42 +35,14 @@ public class ApothNPC : NPC, ITalkable
                 currentType = PathType.Default;
                 GameSaveData.Instance.culMet = true;
             }
-            /*  else if (GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
-              {
-                  if (!GameSaveData.Instance.lumber_offersDeal)
-                  {
-                      GameSaveData.Instance.lumber_offersDeal = true;
-                      currentPath = 0;
-                      currentType = PathType.Quest;
-                  }
-                  else if (!GameSaveData.Instance.lumber_choppedTree)
-                  {
-                      if (!startedDialogue)
-                      {
-                          //Asks if the player wants to hand over the money
-                          currentPath = 2;
-                          currentType = PathType.Quest;
-                      }
-                      else if (PlayerInteraction.Instance.currentMoney >= 400)
-                      {
-                          //Takes money
-                          PlayerInteraction.Instance.currentMoney -= 400;
-                          currentPath = 3;
-                          currentType = PathType.Quest;
-                          GameSaveData.Instance.lumber_choppedTree = true;
-                          print("I took ur money");
-                          anim.SetTrigger("TakeItem");
-                      }
-                      else
-                      {
-                          currentPath = 1;
-                          currentType = PathType.Quest;
-                      }
-                  }
-              }*/
             else
             {
-                if (NPCManager.Instance.culinarianSpoke)
+                if(CompletedQuest())
+                {
+                    currentPath = 0;
+                    currentType = PathType.QuestComplete;
+                }
+                else if (NPCManager.Instance.culinarianSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -107,6 +79,12 @@ public class ApothNPC : NPC, ITalkable
         }
 
         //Add special text for showing him his own tree papers
+
+        if(CompletedQuestWithItem())
+        {
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
 
         else if (item.staminaValue > 0)
         {

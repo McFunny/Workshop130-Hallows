@@ -99,7 +99,7 @@ public class Quest
     public bool alreadyCompleted = false; //if you want to store completed quests, or just store completed main quests.
     public int mintReward;
     public int progress;
-    public int maxProgress; 
+    public int maxProgress; //Just because its at max progress does NOT mean a quest is completed. You still need to check in with the assignee if there is one
     //public InventoryItemData[] itemRewards;
     public int daysLeft = -1; //if -1, there is no time limit. Will need to setup this with the new day function to tick these down by 1 and then remove them later. Unimplemented
 
@@ -110,7 +110,7 @@ public class Quest
     //Find a way to tie this quest into an empty new codex page. Should have like 20 empty pages just in case
 }
 [System.Serializable]
-public class FetchQuest: Quest //Should hide progress
+public class FetchQuest: Quest //Should hide progress, and max progress should be 0
 {
     public InventoryItemData desiredItem;
     public int amount;
@@ -128,7 +128,7 @@ public class FetchQuest: Quest //Should hide progress
 }
 
 [System.Serializable]
-public class HuntQuest: Quest
+public class HuntQuest: Quest //max progress should be amount
 {
     public CreatureObject targetCreature;
     public int amount;
@@ -141,7 +141,7 @@ public class HuntQuest: Quest
 }
 
 [System.Serializable]
-public class GrowQuest: Quest
+public class GrowQuest: Quest //max progress should be amount
 {
     public CropData desiredCrop;
     public InventoryItemData desiredItem;

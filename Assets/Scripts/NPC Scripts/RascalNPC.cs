@@ -47,7 +47,12 @@ public class RascalNPC : NPC, ITalkable
             }
             else
             {
-                if(NPCManager.Instance.rascalSpoke)
+                if(CompletedQuest())
+                {
+                    currentPath = 0;
+                    currentType = PathType.QuestComplete;
+                }
+                else if(NPCManager.Instance.rascalSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -83,7 +88,13 @@ public class RascalNPC : NPC, ITalkable
             return;
         } 
 
-        if(item == paleCarrot && GameSaveData.Instance.rascalWantsFood == true && GameSaveData.Instance.rascalMentionedKey == false) //Completed Carrot Quest
+        if(CompletedQuestWithItem())
+        {
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
+
+        else if(item == paleCarrot && GameSaveData.Instance.rascalWantsFood == true && GameSaveData.Instance.rascalMentionedKey == false) //Completed Carrot Quest
         {
             currentPath = 2;
             currentType = PathType.Quest;

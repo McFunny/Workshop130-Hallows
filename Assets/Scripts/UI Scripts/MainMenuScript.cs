@@ -118,7 +118,7 @@ public class MainMenuScript : MonoBehaviour
     IEnumerator StartGame()
     {
         FadeScreen.coverScreen = true;
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSecondsRealtime(2);
         SceneManager.LoadSceneAsync(1);
     }
 

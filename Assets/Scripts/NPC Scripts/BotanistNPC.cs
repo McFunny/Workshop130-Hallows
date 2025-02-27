@@ -37,6 +37,11 @@ public class BotanistNPC : NPC, ITalkable
                 currentType = PathType.Default;
                 GameSaveData.Instance.botMet = true;
             }
+            else if(CompletedQuest())
+            {
+                currentPath = 0;
+                currentType = PathType.QuestComplete;
+            }
             else if(movementHandler.isWorking) //Working Dialogue
             {
                 currentPath = 0;
@@ -77,7 +82,13 @@ public class BotanistNPC : NPC, ITalkable
             return;
         } 
 
-        if(item == fertalizerI || item == fertalizerT || item == fertalizerG)
+        if(CompletedQuestWithItem())
+        {
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
+
+        else if(item == fertalizerI || item == fertalizerT || item == fertalizerG)
         {
             currentPath = 1;
             currentType = PathType.ItemSpecific;
