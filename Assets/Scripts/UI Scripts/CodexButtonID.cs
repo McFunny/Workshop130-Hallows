@@ -5,6 +5,7 @@ using UnityEngine;
 public class CodexButtonID : MonoBehaviour
 {
     public CodexEntries assignedEntry;
+    public Quest assignedQuest;
     private CodexRework codex;
 
     void Awake()
@@ -14,9 +15,16 @@ public class CodexButtonID : MonoBehaviour
 
     public void ShowEntry()
     {
-        print(assignedEntry.entryName);
-        if(!assignedEntry.unlocked) { return; }
-        codex.currentEntry = assignedEntry;
-        codex.UpdatePage(0, assignedEntry, true);
+        if(assignedEntry != null)
+        {
+            print(assignedEntry.entryName);
+            if(!assignedEntry.unlocked) { return; }
+            codex.currentEntry = assignedEntry;
+            codex.UpdatePage(0, assignedEntry, true);
+        }
+        else
+        {
+            print(assignedQuest.name);
+        }
     }
 }

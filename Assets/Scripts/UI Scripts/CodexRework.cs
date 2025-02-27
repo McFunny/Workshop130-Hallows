@@ -8,8 +8,9 @@ using UnityEngine.EventSystems;
 
 public class CodexRework : MonoBehaviour
 {
-    CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted, PlantEntries, QuestEntries;
+    CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted, PlantEntries; //, QuestEntries;
     public CodexEntries currentEntry;
+    public Quest currentQuest;
     [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject;
     [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText, contentsText;
     [SerializeField] private int currentPage = 0;
@@ -24,11 +25,14 @@ public class CodexRework : MonoBehaviour
     [SerializeField] private Button[] categoryButtons;
     private Button currentCategoryButton;
     [SerializeField] private List<GameObject> categoryList;
-    bool isGridCategory;
+    bool isGridCategory, isQuestCategoty;
+    private QuestManager questManager;
+    public List<Quest> activeQuests = new List<Quest>();
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        questManager = FindFirstObjectByType<QuestManager>();
     }
 
     void Start()
@@ -37,7 +41,7 @@ public class CodexRework : MonoBehaviour
         ToolEntries = Resources.LoadAll<CodexEntries>("Codex/Tools/");
         GettingStarted = Resources.LoadAll<CodexEntries>("Codex/GettingStarted/");
         PlantEntries = Resources.LoadAll<CodexEntries>("Codex/Plants/");
-        QuestEntries = Resources.LoadAll<CodexEntries>("Codex/Quests/");
+        //QuestEntries = Resources.LoadAll<CodexEntries>("Codex/Quests/");
         CurrentCategory = GettingStarted;
         contentsText.text = "Getting Started";
         currentEntry = null;
@@ -69,6 +73,7 @@ public class CodexRework : MonoBehaviour
     void Update()
     {
         //print(EventSystem.current.currentSelectedGameObject);
+        activeQuests = questManager.activeQuests;
 
         if(codex.activeInHierarchy && EventSystem.current.currentSelectedGameObject == null && ControlManager.isController)
         {
@@ -178,6 +183,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = GettingStarted;
             currentPage = 0;
             isGridCategory = false;
+            isQuestCategoty = false;
             contentsText.text = "Getting Started";
             UpdatePage(0, CurrentCategory[0], true);
             break;
@@ -186,6 +192,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = ToolEntries;
             currentPage = 0;
             isGridCategory = true;
+            isQuestCategoty = false;
             contentsText.text = "Tools";
             UpdatePage(0, CurrentCategory[0], true);
             break;
@@ -194,6 +201,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = PlantEntries;
             currentPage = 0;
             isGridCategory = true;
+            isQuestCategoty = false;
             contentsText.text = "Plants";
             UpdatePage(0, CurrentCategory[0], true);
             break;
@@ -202,16 +210,18 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = CreatureEntries;
             currentPage = 0;
             isGridCategory = true;
+            isQuestCategoty = false;
             contentsText.text = "Creatures";
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
             case 4:
-            CurrentCategory = QuestEntries;
+            CurrentCategory = null;
             currentPage = 0;
             isGridCategory = false;
+            isQuestCategoty = true;
             contentsText.text = "Quests";
-            UpdatePage(0, CurrentCategory[0], true);
+            //UpdatePage(0, CurrentCategory[0], true);
             break;
 
             default:
@@ -274,7 +284,7 @@ public class CodexRework : MonoBehaviour
                 categoryList.Add(tempButton);
             }
         }
-        else
+        else if (!isQuestCategoty)
         {
             grid.SetActive(false);
             horizontal.SetActive(true);
@@ -297,8 +307,26 @@ public class CodexRework : MonoBehaviour
                 tempID.assignedEntry = CurrentCategory[i];
 
                 categoryList.Add(tempButton);
-
             }
+        }
+        else
+        {
+            for (int i = 0; i < activeQuests.Count; i++)
+            {
+                var tempButton = Instantiate(horizontalEntryButton, horizontalContentObject.transform, worldPositionStays:false);
+                var button = tempButton.gameObject.transform.GetChild(0).gameObject;
+                var tempName = tempButton.gameObject.transform.GetChild(1).gameObject;
+                var tempID = tempButton.GetComponent<CodexButtonID>();
+                var tempText = tempName.GetComponent<TextMeshProUGUI>();
+
+                button.name = "QuestButton" + i;
+
+                tempText.text = activeQuests[i].name;
+                tempID.assignedQuest = activeQuests[i];
+
+                categoryList.Add(tempButton);
+            }
+            return;
         }
             
         print(categoryList.Count);
