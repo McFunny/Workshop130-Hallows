@@ -33,6 +33,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool isObstacle = true;
 
     public Transform focalPoint; //for when the camera needs to focus on the object
+    public Transform particleCenter; //for particles
 
     //Save Data
     //[HideInInspector] public List<Item> itemList1;
@@ -42,8 +43,10 @@ public class StructureBehaviorScript : MonoBehaviour
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
     [HideInInspector] public string saveString1, saveString2, saveString3;
 
-    public ParticleSystem damageParticles;
-    public GameObject destructionParticles;
+    public GameObject damageParticlesObject;
+    List<ParticleSystem> damageParticles = new List<ParticleSystem>();
+    public DestructionType destructionType;
+    public GameObject gibs;
 
     public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
     
@@ -77,6 +80,14 @@ public class StructureBehaviorScript : MonoBehaviour
         foreach(GameObject thing in highlight) thing.SetActive(false);
 
         if(structureUI) structureUI.SetActive(false);
+
+        if(damageParticlesObject)
+        {
+            foreach(Transform child in damageParticlesObject.transform)
+            {
+                damageParticles.Add(child.GetComponent<ParticleSystem>());
+            }
+        }
 
     }
 
@@ -116,7 +127,11 @@ public class StructureBehaviorScript : MonoBehaviour
         OnDamage?.Invoke();
         if(!destructable) return;
         health -= damage;
-        if(damageParticles) damageParticles.Play();
+        //if(damageParticles) damageParticles.Play();
+        for(int i = 0; i < damageParticles.Count; i++)
+        {
+            damageParticles[i].Play();
+        }
     }
 
     //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
@@ -133,6 +148,22 @@ public class StructureBehaviorScript : MonoBehaviour
         StructureManager.Instance.allStructs.Remove(this);
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
+        
+        if(health <= 0)
+        {
+            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(destructionType);
+            if(p)
+            {
+                if(particleCenter) p.transform.position = particleCenter.position;
+                else p.transform.position = transform.position;
+            }
+
+            if(gibs)
+            {
+                if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
+                else Instantiate(gibs, transform.position, Quaternion.identity);
+            }
+        }
 
     }
 
