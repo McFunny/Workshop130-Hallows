@@ -311,6 +311,7 @@ public class TimeManager : MonoBehaviour
         isDay = true;
         InitializeSkyBox();
         StartCoroutine(TimePassage());
+        if(sunRenderer) StartCoroutine(AnimateSun());
         timeSkipping = false;
         stopTime = false;
     }

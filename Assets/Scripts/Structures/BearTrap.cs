@@ -145,7 +145,7 @@ public class BearTrap : StructureBehaviorScript
                 {
                     //kill
                     capturedCreature.TakeDamage(999);
-                    TakeDamage(1);
+                    TakeDamage(2);
                 }
                 capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
             }
