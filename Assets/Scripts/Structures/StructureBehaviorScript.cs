@@ -149,17 +149,20 @@ public class StructureBehaviorScript : MonoBehaviour
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
         
-        GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(destructionType);
-        if(p)
+        if(health <= 0)
         {
-            if(particleCenter) p.transform.position = particleCenter.position;
-            else p.transform.position = transform.position;
-        }
+            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(destructionType);
+            if(p)
+            {
+                if(particleCenter) p.transform.position = particleCenter.position;
+                else p.transform.position = transform.position;
+            }
 
-        if(gibs)
-        {
-            if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
-            else Instantiate(gibs, transform.position, Quaternion.identity);
+            if(gibs)
+            {
+                if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
+                else Instantiate(gibs, transform.position, Quaternion.identity);
+            }
         }
 
     }
