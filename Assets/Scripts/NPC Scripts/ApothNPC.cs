@@ -218,4 +218,10 @@ public class ApothNPC : NPC, ITalkable
         }
         shopUI.shopImgObj.SetActive(false);
     }
+
+    public override bool ActionCheck1()
+    {
+        if (GameSaveData.Instance.bridgeCleared) return true;
+        return false;
+    }
 }
