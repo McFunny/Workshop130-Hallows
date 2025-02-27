@@ -175,6 +175,20 @@ public class CodexRework : MonoBehaviour
         //else pageNumberText.gameObject.SetActive(true);                 
     }
 
+    public void UpdateQuests(Quest quest)
+    {
+        if(quest == null) return;
+
+        nameText.text = quest.name;
+        largeDescriptionText.text = quest.description;
+
+        largeImage.gameObject.SetActive(false);
+        descriptionText.gameObject.SetActive(false);
+        largeDescriptionText.gameObject.SetActive(true);
+        smallImage.gameObject.SetActive(true);
+        //smallImage.sprite = currentEntry.mainImage;
+    }
+
     public void ChangeCategory(int cat)
     {
         switch (cat)

@@ -24,7 +24,8 @@ public class CodexButtonID : MonoBehaviour
         }
         else
         {
-            print(assignedQuest.name);
+            codex.currentEntry = null;
+            codex.UpdateQuests(assignedQuest);
         }
     }
 }
