@@ -19,7 +19,7 @@ public class NPCMovement : MonoBehaviour
     private NavMeshAgent agent;
 
     private Schedule currentSchedule;
-    private Sublocation currentSublocation; // Track assigned sublocation
+    public Sublocation currentSublocation; // Track assigned sublocation
 
     public bool isWorking; // Determines if this NPC is actively working
     public List<Schedule> scheduleList = new List<Schedule>();
@@ -56,13 +56,13 @@ public class NPCMovement : MonoBehaviour
                 {
                     case ActionCheck.Check1:
                     passedCheck = npcScript.ActionCheck1();
-                    continue;
+                    break;
                     case ActionCheck.Check2:
                     passedCheck = npcScript.ActionCheck2();
-                    continue;
+                    break;
                     case ActionCheck.Check3:
                     passedCheck = npcScript.ActionCheck3();
-                    continue;
+                    break;
                 }
 
                 if(!passedCheck) continue;
@@ -93,7 +93,7 @@ public class NPCMovement : MonoBehaviour
                 }
                 else
                 {
-                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false);
+                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false, false);
                    
                 }
 
