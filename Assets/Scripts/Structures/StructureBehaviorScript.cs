@@ -46,6 +46,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public GameObject damageParticlesObject;
     List<ParticleSystem> damageParticles = new List<ParticleSystem>();
     public DestructionType destructionType;
+    public GameObject gibs;
 
     public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
     
@@ -153,6 +154,12 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             if(particleCenter) p.transform.position = particleCenter.position;
             else p.transform.position = transform.position;
+        }
+
+        if(gibs)
+        {
+            if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
+            else Instantiate(gibs, transform.position, Quaternion.identity);
         }
 
     }

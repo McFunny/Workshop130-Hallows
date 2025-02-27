@@ -27,6 +27,9 @@ public class TimeManager : MonoBehaviour
     Quaternion toQuaternion, fromQuaternion;
     bool canRotate;
     float seconds;
+    public SpriteRenderer sunRenderer;
+    public GameObject stupidSunGlow;
+    public Sprite[] sunSprites;
 
     //Events
     public delegate void HourlyUpdate();
@@ -71,6 +74,7 @@ public class TimeManager : MonoBehaviour
             timeText.text = currentHour + ":00";
         }
         if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
+        if(sunRenderer) StartCoroutine(AnimateSun());
     }
 
     // Update is called once per frame
@@ -410,6 +414,21 @@ public class TimeManager : MonoBehaviour
 
         if(sunMoonPivot && !Application.isPlaying) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
     }  
+
+    IEnumerator AnimateSun()
+    {
+        int currentSprite = -1;
+        do
+        {
+            currentSprite++;
+            if(currentSprite >= sunSprites.Length) currentSprite = 0;
+            yield return new WaitForSeconds(0.3f);
+            sunRenderer.sprite = sunSprites[currentSprite];
+            if(currentSprite <= 1) stupidSunGlow.transform.localScale = new Vector3(stupidSunGlow.transform.localScale.x + .4f, stupidSunGlow.transform.localScale.y + .4f, stupidSunGlow.transform.localScale.z + .4f);
+            else stupidSunGlow.transform.localScale = new Vector3(stupidSunGlow.transform.localScale.x - .4f, stupidSunGlow.transform.localScale.y - .4f, stupidSunGlow.transform.localScale.z - .4f);
+        }
+        while(gameObject.activeSelf);
+    }
 
     void ToggleDayNightLights(bool fadeTransition)
     {
