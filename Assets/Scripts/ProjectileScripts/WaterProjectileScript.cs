@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaterProjectileScript : MonoBehaviour
 {
-    public AudioClip hitStruct, hitEnemy, hitGround;
+    public AudioClip hitStruct, hitEnemy, hitGround, hitIce;
 
     public bool homing = false;
     public Vector3 target;
@@ -14,6 +14,9 @@ public class WaterProjectileScript : MonoBehaviour
     public GameObject[] thingsToTurnOff;
     bool canCollide = true;
     public TrailRenderer trail;
+
+    public bool isFrozen = false;
+    public GameObject iceObject;
 
 
     void OnTriggerEnter(Collider other)
@@ -25,6 +28,15 @@ public class WaterProjectileScript : MonoBehaviour
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
+                if(isFrozen)
+                {
+                    structure.TakeDamage(2);
+                    ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                    ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+                    StartCoroutine(TurnOff());
+                    return;
+                }
+
                 if(structure.onFire) structure.Extinguish();
 
                 FarmLand farmTile = structure as FarmLand;
@@ -67,6 +79,15 @@ public class WaterProjectileScript : MonoBehaviour
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
+                if(isFrozen)
+                {
+                    creature.TakeDamage(50);
+                    ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                    ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+                    StartCoroutine(TurnOff());
+                    return;
+                }
+
                 creature.TakeDamage(0);
                 creature.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
@@ -77,10 +98,27 @@ public class WaterProjectileScript : MonoBehaviour
                 StartCoroutine(TurnOff());
                 return;
             }
+
+            if(creature)
+            {
+                Wraith wraith = creature as Wraith;
+                if(wraith && !isFrozen)
+                {
+                    FreezeShot();
+                }
+            }
         }
 
         if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
         {
+
+            if(isFrozen)
+            {
+                ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+                StartCoroutine(TurnOff());
+                return;
+            }
             HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
@@ -90,6 +128,17 @@ public class WaterProjectileScript : MonoBehaviour
             return;
         }
 
+    }
+
+    void FreezeShot()
+    {
+        if(isFrozen) return;
+        isFrozen = true;
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(false);
+        }
+        iceObject.SetActive(true);
     }
 
     void OnEnable()
@@ -111,6 +160,9 @@ public class WaterProjectileScript : MonoBehaviour
         homing = false;
         canCollide = false;
         target = new Vector3(0,0,0);
+
+        isFrozen = false;
+        iceObject.SetActive(false);
     }
 
     IEnumerator TurnOff()
@@ -122,6 +174,7 @@ public class WaterProjectileScript : MonoBehaviour
         {
             thing.SetActive(false);
         }
+        iceObject.SetActive(false);
         yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
     }

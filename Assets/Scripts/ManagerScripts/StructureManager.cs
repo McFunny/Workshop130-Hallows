@@ -82,7 +82,10 @@ public class StructureManager : MonoBehaviour
             PopulateWeeds(-3, 5);
             PopulateDecorCrows(0, 2);
         }
-        if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 3);
+        if(TimeManager.Instance.currentHour == 6)
+        {
+            PopulateForageables(-2, 3);
+        }
         if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(1, 6);
     }
 
@@ -561,6 +564,27 @@ public class StructureManager : MonoBehaviour
                 SpawnStructure(weedTile, weedPos);
                 break;
             }
+        }
+    }
+
+    public void IncreaseNutrients()
+    {
+        //Vector3Int gridPos = tileMap.WorldToCell(pos);
+        for(int i = 0; i < storage.Count; i++)
+        {
+            if(storage[i] != null)
+            {
+                storage[i].gloamLevel += 0.5f;
+                if(storage[i].gloamLevel > 10) storage[i].gloamLevel = 10;
+                storage[i].terraLevel += 0.5f;
+                if(storage[i].terraLevel > 10) storage[i].terraLevel = 10;
+            }
+        }
+        //
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand farmTile = allStructs[i] as FarmLand;
+            if(farmTile) farmTile.RefreshNutrients();
         }
     }
 
