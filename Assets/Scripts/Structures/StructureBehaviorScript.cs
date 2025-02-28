@@ -132,6 +132,8 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             damageParticles[i].Play();
         }
+
+        if(audioHandler && audioHandler.hitSounds.Length > 0) audioHandler.PlayRandomSound(audioHandler.hitSounds);
     }
 
     //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
@@ -164,6 +166,8 @@ public class StructureBehaviorScript : MonoBehaviour
                 else Instantiate(gibs, transform.position, Quaternion.identity);
             }
         }
+
+        if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
 
     }
 

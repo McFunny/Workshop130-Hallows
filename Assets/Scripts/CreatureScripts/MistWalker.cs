@@ -111,7 +111,7 @@ public class MistWalker : CreatureBehaviorScript
         availableStructure.Clear();
         foreach (var structure in structManager.allStructs)
         {
-            if (targettableStructures.Contains(structure.structData))
+            if (structure && targettableStructures.Contains(structure.structData))
                 availableStructure.Add(structure);
         }
 
@@ -163,6 +163,7 @@ public class MistWalker : CreatureBehaviorScript
         else
         {
             lungeAttackHitbox.enabled = false;
+            fearParticle.SetActive(false);
         }
     }
 

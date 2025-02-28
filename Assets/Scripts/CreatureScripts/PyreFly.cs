@@ -262,8 +262,11 @@ public class PyreFly : CreatureBehaviorScript
         foreach (var structure in structManager.allStructs)
         {
             WraithFlower flower = structure as WraithFlower;
-            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower){}
-                availableStructure.Add(structure);
+            FarmLand tile = structure as FarmLand;
+            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower)
+            {
+                if(!tile || (tile && !tile.isWeed)) availableStructure.Add(structure);
+            }
         }
 
         if (availableStructure.Count > 0)
@@ -553,7 +556,7 @@ public class PyreFly : CreatureBehaviorScript
                 var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
                 if (creature != null && creature.shovelVulnerable)
                 {
-                    creature.TakeDamage(75);
+                    creature.TakeDamage(125);
                     creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 }
             }
