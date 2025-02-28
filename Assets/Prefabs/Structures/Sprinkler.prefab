@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1011617151028352547}
   - component: {fileID: 3605468845812783774}
   - component: {fileID: 1329997061586256237}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 4643729739237613061}
   - component: {fileID: 8637354386963812768}
   - component: {fileID: 5781209343444854122}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,6 +335,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5759488711103592622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7385525290544069576}
+  m_Layer: 6
+  m_Name: ParticleCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7385525290544069576
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759488711103592622}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.519, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1327804833790868697}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6959678744993610692
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +437,8 @@ Transform:
   - {fileID: 7262709279532820404}
   - {fileID: 4643729739237613061}
   - {fileID: 4118288352510159701}
+  - {fileID: 7385525290544069576}
+  - {fileID: 3215418637983945434}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6146503043688072916
@@ -559,17 +592,32 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: 3f3793583ac66604eb4c2579537bd84f, type: 2}
   health: 25
   maxHealth: 25
-  wealthValue: 20
+  wealthValue: 15
   destructable: 1
   flammable: 0
   onFire: 0
   isObstacle: 1
+  focalPoint: {fileID: 0}
+  particleCenter: {fileID: 7385525290544069576}
   savedItems: []
+  saveInt1: 0
+  saveInt2: 0
+  saveInt3: 0
+  saveFloat1: 0
+  saveFloat2: 0
+  saveFloat3: 0
+  saveString1: 
+  saveString2: 
+  saveString3: 
+  damageParticlesObject: {fileID: 161570244837502503}
+  destructionType: 2
+  nearbyFires: []
   highlight:
   - {fileID: 5420653024611435711}
   - {fileID: 1935746049742081512}
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  structureUI: {fileID: 0}
   recoveredItem: {fileID: 11400000, guid: 55eb42636a4d2534dae716e7da5b6d45, type: 2}
   waterLevel: 0
   water: {fileID: 4281802548596243088}
@@ -769,6 +817,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sprinkler_WATER (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5998886750373085862, guid: 48dc4194b646be844a13e0f034cb6257,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -863,6 +916,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sprinkler_WATER (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 5998886750373085862, guid: 48dc4194b646be844a13e0f034cb6257,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -873,6 +931,86 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4476197226282749393, guid: 48dc4194b646be844a13e0f034cb6257,
     type: 3}
   m_PrefabInstance: {fileID: 1921428343595138964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2084210387113869431
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1327804833790868697}
+    m_Modifications:
+    - target: {fileID: 2221005816907296336, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_Name
+      value: Metal_Structure_Damage
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.524
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 572741077e234c649b77377bfb54cf27, type: 3}
+--- !u!1 &161570244837502503 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2221005816907296336, guid: 572741077e234c649b77377bfb54cf27,
+    type: 3}
+  m_PrefabInstance: {fileID: 2084210387113869431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3215418637983945434 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3491394148767765165, guid: 572741077e234c649b77377bfb54cf27,
+    type: 3}
+  m_PrefabInstance: {fileID: 2084210387113869431}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4532614430318112531
 PrefabInstance:
@@ -956,6 +1094,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sprinkler_WATER (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998886750373085862, guid: 48dc4194b646be844a13e0f034cb6257,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

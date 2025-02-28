@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Diagnostics;
-using Unity.VisualScripting;
 using UnityEngine.InputSystem;
 
 public class CodexScript : MonoBehaviour
 {
-    CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted;
+    /*CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted;
     int currentCategoryLength;
     public GameObject codex;
     public TextMeshProUGUI nameText, leftDescriptionText, descriptionText, pageNumberText;
@@ -43,13 +41,13 @@ public class CodexScript : MonoBehaviour
     void OnEnable()
     {
         controlManager.openCodex.action.started += OpenCodexPressed;
-        controlManager.closeCodex.action.started += CloseCodexPressed;
+        //controlManager.closeCodex.action.started += CloseCodexPressed;
     }
 
     void OnDisable()
     {
         controlManager.openCodex.action.started -= OpenCodexPressed;
-        controlManager.closeCodex.action.started -= CloseCodexPressed;
+        //controlManager.closeCodex.action.started -= CloseCodexPressed;
     }
 
     // Update is called once per frame
@@ -72,11 +70,12 @@ public class CodexScript : MonoBehaviour
     {  
         if(!PlayerMovement.accessingInventory && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens > 0)
         {
-            OpenCloseCodex();
+            print("Closing");
+            if(codex.activeSelf){OpenCloseCodex();}
         }
     }
 
-    void CloseCodexPressed(InputAction.CallbackContext obj)
+    void CloseCodexPressed(InputAction.CallbackContext obj) // This doesn't do anything for some reason
     {
         if(!PlayerMovement.accessingInventory && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens > 0)
         {
@@ -85,7 +84,7 @@ public class CodexScript : MonoBehaviour
         
     }
 
-    void OpenCloseCodex()
+    public void OpenCloseCodex()
     {
         print("Codex Opened");
         currentEntry = 0;
@@ -100,8 +99,16 @@ public class CodexScript : MonoBehaviour
 
         codex.SetActive(!codex.activeInHierarchy);
         PlayerMovement.isCodexOpen = codex.activeInHierarchy;
-        if(PlayerMovement.isCodexOpen) PlayerMovement.restrictMovementTokens++;
-        else PlayerMovement.restrictMovementTokens--;
+        if(PlayerMovement.isCodexOpen)
+        {
+            Time.timeScale = 0;
+            PlayerMovement.restrictMovementTokens++;
+        } 
+        else
+        {
+            Time.timeScale = 1;
+            PlayerMovement.restrictMovementTokens--;
+        } 
     }
     void UpdatePage(int page, CodexEntries[] currentCat)
     {
@@ -151,5 +158,5 @@ public class CodexScript : MonoBehaviour
             print("Default");
             break;
         }
-    }
+    }*/
 }

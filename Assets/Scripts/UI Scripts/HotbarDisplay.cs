@@ -7,13 +7,16 @@ public class HotbarDisplay : MonoBehaviour
     public InventorySlot_UI[] hotbarSlots;   // Array of hotbar slots (InventorySlot_UI)
     public static InventorySlot_UI currentSlot;
     private int currentIndex;
+    TooltipControlsScript tooltipControls; //Handles hovering over structure with item
 
+    public InventoryItemData torch;
     
 
     private void Start()
     {
         currentIndex = 0;
         currentSlot = hotbarSlots[currentIndex];
+        tooltipControls = FindObjectOfType<TooltipControlsScript>();
         currentSlot.ToggleHighlight(); // Highlight the initial slot
         SelectHotbarSlot(currentIndex);
     }
@@ -44,6 +47,7 @@ public class HotbarDisplay : MonoBehaviour
     {
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return; //to solve the issue where there is a skip in the hotbar
 
+        if (PlayerMovement.isCodexOpen) return;
         currentIndex += direction;
 
         if (currentIndex > (hotbarSlots.Length - 1)) currentIndex = 0;
@@ -55,6 +59,7 @@ public class HotbarDisplay : MonoBehaviour
     private void HandleNumberPressed(int number)
     {
         if(PauseScript.isPaused) return;
+        if (PlayerMovement.isCodexOpen) return;
         if (number > 0 && number <= hotbarSlots.Length)
         {
             SelectHotbarSlot(number - 1);  // Hotbar slots are 0-indexed
@@ -64,6 +69,7 @@ public class HotbarDisplay : MonoBehaviour
     private void SelectHotbarSlot(int slotIndex) //if possible, call this again when picking up an item to refresh hand item, or find a workaround (preferred)
     {
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || InputManager.isCharging) return;
+        if (PlayerMovement.isCodexOpen) return;
 
         // Turn off highlight on the current slot
         if (currentSlot != null)
@@ -85,11 +91,12 @@ public class HotbarDisplay : MonoBehaviour
 
         // Turn on highlight for the newly selected slot
         currentSlot.ToggleHighlight();
+        tooltipControls.SelectedItem();
 
         // Optionally, use the item in the selected slot
         if (currentSlot.AssignedInventorySlot != null && currentSlot.AssignedInventorySlot.ItemData != null)
         {
-            currentSlot.AssignedInventorySlot.ItemData.UseItem(); //currently just reports what item is in the slot in the debugger
+            //currentSlot.AssignedInventorySlot.ItemData.UseItem(); //currently just reports what item is in the slot in the debugger
 
             ToolItem t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
             if (t_item)
@@ -107,6 +114,8 @@ public class HotbarDisplay : MonoBehaviour
             //Debug.Log($"No item in hotbar slot {slotIndex + 1}");
             HandItemManager.Instance.ClearHandModel();
         }
+
+        if(PlayerInventoryHolder.Instance.FindItemInBothInventories(torch)) HandItemManager.Instance.TorchFlameToggle(false);
     }
 
     private void UpdateHandItem(InventorySystem inv)

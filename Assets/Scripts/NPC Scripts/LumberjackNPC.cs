@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class LumberjackNPC : NPC, ITalkable
 {
-    //public InventoryItemData key, paleCarrot;
+    public InventoryItemData papers;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
+
+    public Quest treeQuest;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -29,13 +31,20 @@ public class LumberjackNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
+            if(!GameSaveData.Instance.lumberMet)
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.lumberMet = true;
+            }
+            else if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
             {
                 if(!GameSaveData.Instance.lumber_offersDeal)
                 {
                     GameSaveData.Instance.lumber_offersDeal = true;
                     currentPath = 0;
                     currentType = PathType.Quest;
+                    QuestManager.Instance.AddQuest(treeQuest);
                 }
                 else if(!GameSaveData.Instance.lumber_choppedTree)
                 {
@@ -45,15 +54,17 @@ public class LumberjackNPC : NPC, ITalkable
                         currentPath = 2;
                         currentType = PathType.Quest;
                     }
-                    else if(PlayerInteraction.Instance.currentMoney >= 200)
+                    else if(PlayerInteraction.Instance.currentMoney >= 400)
                     {
                         //Takes money
-                        PlayerInteraction.Instance.currentMoney -= 200;
+                        PlayerInteraction.Instance.currentMoney -= 400;
                         currentPath = 3;
                         currentType = PathType.Quest;
                         GameSaveData.Instance.lumber_choppedTree = true;
                         print("I took ur money");
                         anim.SetTrigger("TakeItem");
+
+                        QuestManager.Instance.ForceCompleteQuest(treeQuest);
                     }
                     else
                     {
@@ -64,7 +75,12 @@ public class LumberjackNPC : NPC, ITalkable
             }
             else
             {
-                if(NPCManager.Instance.lumberjackSpoke)
+                if(CompletedQuest())
+                {
+                    currentPath = 0;
+                    currentType = PathType.QuestComplete;
+                }
+                else if(NPCManager.Instance.lumberjackSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -99,6 +115,18 @@ public class LumberjackNPC : NPC, ITalkable
             interactSuccessful = false;
             return;
         } 
+
+        if(CompletedQuestWithItem())
+        {
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
+
+        else if(item == papers)
+        {
+            currentPath = 1;
+            currentType = PathType.ItemSpecific;
+        }
 
         else if(item.staminaValue > 0)
         {
@@ -146,6 +174,10 @@ public class LumberjackNPC : NPC, ITalkable
             {
                 currentPath = 3; //no money!?!?!?
             }
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
+            {
+                currentPath = 4; //No space in inventory
+            }
             else
             {
                 currentPath = 2; //item sold
@@ -176,11 +208,6 @@ public class LumberjackNPC : NPC, ITalkable
         }
         shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
-    }
-
-    public override void OnConvoEnd()
-    {
-        currentPath = -1;
     }
 
     public override void EmptyShopItem()
@@ -232,6 +259,12 @@ public class LumberjackNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+    }
+
+    public override bool ActionCheck1()
+    {
+        if(GameSaveData.Instance.lumber_choppedTree) return true;
+        return false;
     }
 
 }

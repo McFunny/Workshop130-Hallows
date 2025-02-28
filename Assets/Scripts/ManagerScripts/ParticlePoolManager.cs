@@ -11,7 +11,10 @@ public class ParticlePoolManager : MonoBehaviour
 
     public VisualEffect hitEffect;
 
-    public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle;
+    public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
+    frostParticle, thawParticle, frostBurstParticle, splashParticle;
+
+    public GameObject woodDestructionP, metalDestructionP, gloomDestructionP;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
@@ -21,6 +24,17 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> sparkPool = new List<GameObject>();
     List<GameObject> flamePool = new List<GameObject>();
     List<GameObject> dirtPixelPool = new List<GameObject>();
+    List<GameObject> explosionPool = new List<GameObject>();
+    List<GameObject> cloudPool = new List<GameObject>();
+    List<GameObject> frostPool = new List<GameObject>();
+    List<GameObject> thawPool = new List<GameObject>();
+    List<GameObject> frostBurstPool = new List<GameObject>();
+    List<GameObject> splashPool = new List<GameObject>();
+
+    //Destruction
+    List<GameObject> woodPool = new List<GameObject>();
+    List<GameObject> metalPool = new List<GameObject>();
+    List<GameObject> gloomPool = new List<GameObject>();
 
     void Awake()
     {
@@ -91,6 +105,69 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(dirtPixelParticle);
             dirtPixelPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(explosionParticle);
+            explosionPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(cloudParticle);
+            cloudPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(frostParticle);
+            frostPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(thawParticle);
+            thawPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(frostBurstParticle);
+            frostBurstPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(splashParticle);
+            splashPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(woodDestructionP);
+            woodPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(metalDestructionP);
+            metalPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(gloomDestructionP);
+            gloomPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -233,6 +310,162 @@ public class ParticlePoolManager : MonoBehaviour
         return newParticle;
     }
 
+    public GameObject GrabExplosionParticle()
+    {
+        foreach (GameObject particle in explosionPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(explosionParticle);
+        explosionPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabCloudParticle()
+    {
+        foreach (GameObject particle in cloudPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(cloudParticle);
+        cloudPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabFrostParticle()
+    {
+        foreach (GameObject particle in frostPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(frostParticle);
+        frostPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabThawParticle()
+    {
+        foreach (GameObject particle in thawPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(thawParticle);
+        thawPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabFrostBurstParticle()
+    {
+        foreach (GameObject particle in frostBurstPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(frostBurstParticle);
+        frostBurstPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabSplashParticle()
+    {
+        foreach (GameObject particle in splashPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(splashParticle);
+        splashPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabDestructionParticle(DestructionType type)
+    {
+        if(type == DestructionType.Null) return null;
+        if(type == DestructionType.Wood)
+        {
+            foreach (GameObject particle in woodPool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(woodDestructionP);
+            woodPool.Add(newParticle);
+            return newParticle;
+        }
+        else if(type == DestructionType.Metal)
+        {
+            foreach (GameObject particle in metalPool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(metalDestructionP);
+            metalPool.Add(newParticle);
+            return newParticle;
+        }
+        else if(type == DestructionType.Gloom)
+        {
+            foreach (GameObject particle in gloomPool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(gloomDestructionP);
+            gloomPool.Add(newParticle);
+            return newParticle;
+        }
+        else return null;
+    }
+
     public void MoveAndPlayParticle(Vector3 pos, ParticleSystem p)
     {
         p.transform.position = pos;
@@ -251,4 +484,12 @@ public enum CorpseParticleType
     Red,
     Yellow,
     Null
+}
+
+public enum DestructionType
+{
+    Null,
+    Wood,
+    Metal,
+    Gloom
 }

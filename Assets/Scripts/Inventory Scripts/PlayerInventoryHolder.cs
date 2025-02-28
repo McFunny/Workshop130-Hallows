@@ -1,4 +1,4 @@
-using SaveLoadSystem;
+ using SaveLoadSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +8,8 @@ public class PlayerInventoryHolder : InventoryHolder
 {
     public static PlayerInventoryHolder Instance;
 
+   //[HideInInspector] public InventorySystem PrimaryInventorySystem => primaryInventorySystem;
+
     [SerializeField] protected int secondaryInventorySize;
     [SerializeField] public InventorySystem secondaryInventorySystem;
     [SerializeField] private Database _database;
@@ -15,6 +17,8 @@ public class PlayerInventoryHolder : InventoryHolder
     public static UnityAction<InventorySystem> OnPlayerHotbarDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerBackpackDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
+
+    public bool useDebugItems;
 
     [System.Serializable]
     public class Item
@@ -44,10 +48,17 @@ public class PlayerInventoryHolder : InventoryHolder
         }
     }
 
+
+    private void OnDisable()
+    {
+        SaveLoad.OnLoadGame -= LoadInventory;
+    }
+
     protected override void Awake()
     {
         base.Awake();
         secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
+        SaveLoad.OnLoadGame += LoadInventory;
 
         if (Instance != null && Instance != this)
         {
@@ -60,17 +71,36 @@ public class PlayerInventoryHolder : InventoryHolder
         }
     }
 
+    private void LoadInventory(SaveData data)
+    {
+        if (data.playerInventoryData.primaryInvSystem != null && data.playerInventoryData.secondaryInvSystem != null)
+        {
+            this.primaryInventorySystem = data.playerInventoryData.primaryInvSystem;
+            this.secondaryInventorySize = data.playerInventoryData.secondaryInventorySizeSave;
+
+            // Ensure the secondary inventory system is properly sized
+            this.secondaryInventorySystem = new InventorySystem(this.secondaryInventorySize);
+            this.secondaryInventorySystem = data.playerInventoryData.secondaryInvSystem;
+            UpdateInventory();
+        }
+        else Debug.Log("Missing inventories");
+    }
+
+
     private void Start()
     {
-        var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem);
-        SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
+       
+       
         StartCoroutine(DelayedStart());
     }
 
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(0.5f);
-        EquipStartingItems();
+        if(!MainMenuScript.loadingData) EquipStartingItems();
+        //else
+        var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
+        SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
     }
 
     private void EquipStartingItems()
@@ -90,20 +120,22 @@ public class PlayerInventoryHolder : InventoryHolder
                 Debug.LogWarning("Starting item data is null.");
             }
         }
-
-        foreach (var debugItem in debugItems)
+        if (useDebugItems)
         {
-            if (debugItem.itemData != null)
+            foreach (var debugItem in debugItems)
             {
-                bool addedSuccessfully = AddToInventory(debugItem.itemData, debugItem.amount);
-                if (!addedSuccessfully)
+                if (debugItem.itemData != null)
                 {
-                    Debug.LogWarning($"Failed to add {debugItem.amount} of {debugItem.itemData.name} to inventory.");
+                    bool addedSuccessfully = AddToInventory(debugItem.itemData, debugItem.amount);
+                    if (!addedSuccessfully)
+                    {
+                        Debug.LogWarning($"Failed to add {debugItem.amount} of {debugItem.itemData.name} to inventory.");
+                    }
                 }
-            }
-            else
-            {
-                Debug.LogWarning("Debug item data is null.");
+                else
+                {
+                    Debug.LogWarning("Debug item data is null.");
+                }
             }
         }
     }
@@ -161,11 +193,138 @@ public class PlayerInventoryHolder : InventoryHolder
         return false;
     }
 
+    public bool IsInventoryFull()
+    {
+        if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot))
+        {
+            return false;
+        }
+
+        if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool IsInventoryFull(InventoryItemData itemToAdd, int amountToAdd)
+    {
+        if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot) || primaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+        {
+            return false;
+        }
+
+        if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot) || secondaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool CanQuickSwitch(bool intoPrimary, InventoryItemData itemToAdd, int amountToAdd, out InventorySlot _slot)
+    {
+        _slot = null; //returns the slot that is being swap to
+        //if intoPrimary, you are trying to move a slot into primary, else vice versa
+        if(intoPrimary)
+        {
+            if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot) || primaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+            {
+                if (primaryInventorySystem.ContainsItem(itemToAdd, out List<InventorySlot> primarySlots))
+                {
+                    foreach (var slot in primarySlots)
+                    {
+                        if (slot.EnoughRoomLeftInStack(amountToAdd))
+                        {
+                            slot.AddToStack(amountToAdd);
+                            OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
+                            OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+                            _slot = slot;
+                            return true;
+                        }
+                    }
+                }
+
+                if (freePrimarySlot != null)
+                {
+                    if (freePrimarySlot.EnoughRoomLeftInStack(amountToAdd))
+                    {
+                        freePrimarySlot.UpdateInventorySlot(itemToAdd, amountToAdd);
+                        OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
+                        OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+                        _slot = freePrimarySlot;
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
+        else
+        {
+            if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot) || secondaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+            {
+                if (secondaryInventorySystem.ContainsItem(itemToAdd, out List<InventorySlot> primarySlots))
+                {
+                    foreach (var slot in primarySlots)
+                    {
+                        if (slot.EnoughRoomLeftInStack(amountToAdd))
+                        {
+                            slot.AddToStack(amountToAdd);
+                            OnPlayerHotbarDisplayRequested?.Invoke(secondaryInventorySystem);
+                            OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+                            _slot = slot;
+                            return true;
+                        }
+                    }
+                }
+
+                if (freeSecondarySlot != null)
+                {
+                    if (freeSecondarySlot.EnoughRoomLeftInStack(amountToAdd))
+                    {
+                        freeSecondarySlot.UpdateInventorySlot(itemToAdd, amountToAdd);
+                        OnPlayerHotbarDisplayRequested?.Invoke(secondaryInventorySystem);
+                        OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+                        _slot = freeSecondarySlot;
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
+    }
+
+    public bool FindItemInBothInventories(InventoryItemData item)
+    {
+        if (!PrimaryInventorySystem.ContainsItem(item, out List<InventorySlot> invSlot))
+        {
+            if (!secondaryInventorySystem.ContainsItem(item, out List<InventorySlot> invSlot2))
+            {
+                return false;
+            }
+            else return true;
+        }
+        else return true;
+    }
+
     public void UpdateInventory()
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+       
     }
+
+    public void UpdateOpenInventory()
+    {
+        OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+        OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+        OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
+    }
+   
+
 }
 
 [System.Serializable]
@@ -173,10 +332,12 @@ public struct PlayerInventorySaveData
 {
     public InventorySystem primaryInvSystem;
     public InventorySystem secondaryInvSystem;
+    public int secondaryInventorySizeSave;
 
-    public PlayerInventorySaveData(InventorySystem _primaryInvSystem, InventorySystem _secondaryInvSystem)
+    public PlayerInventorySaveData(InventorySystem _primaryInvSystem, InventorySystem _secondaryInvSystem, int _secondaryInventorySize)
     {
         primaryInvSystem = _primaryInvSystem;
         secondaryInvSystem = _secondaryInvSystem;
+        secondaryInventorySizeSave = _secondaryInventorySize;
     }
 }

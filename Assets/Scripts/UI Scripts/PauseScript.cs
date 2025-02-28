@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -22,11 +21,13 @@ public class PauseScript : MonoBehaviour
 
     private void OnEnable()
     {
-        controlManager.uiPause.action.started += PausePressed;
+        controlManager.pauseGame.action.started += PausePressed;
+        //controlManager.closeCodex.action.started += UnPause;
     }
     private void OnDisable()
     {
-        controlManager.uiPause.action.started -= PausePressed;
+        controlManager.pauseGame.action.started -= PausePressed;
+        //controlManager.closeCodex.action.started -= UnPause;
     }
 
     // Update is called once per frame
@@ -44,15 +45,17 @@ public class PauseScript : MonoBehaviour
 
     private void PausePressed(InputAction.CallbackContext obj)
     {
-        if(isPaused) PauseGame(); 
+        //ResumeGame();
     }
 
     public void PauseGame()
     {
-        if(isTransitioning) return;
+        if(isTransitioning || (!isPaused && PlayerMovement.restrictMovementTokens > 0)) return;
         isPaused = !isPaused;
         if(isPaused)
         {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(defaultObject);
             if(!pEffectsHandler) pEffectsHandler = PlayerInteraction.Instance.GetComponent<PlayerEffectsHandler>();
             pEffectsHandler.footStepSource.enabled = false;
             Time.timeScale = 0;
@@ -90,6 +93,13 @@ public class PauseScript : MonoBehaviour
     public void ResumeGame()
     {
         print("Resume Game Pressed");
+        if(settingsCanvas.activeSelf)
+        {
+            settingsCanvas.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(defaultObject);
+            return;
+        }
+
         PauseGame();
         controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
     }

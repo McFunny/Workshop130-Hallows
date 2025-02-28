@@ -1,373 +1,274 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
+
 public class PlantMimic : CreatureBehaviorScript
 {
     [HideInInspector] public NavMeshAgent agent;
     private bool coroutineRunning = false;
-    public float fleeDistance = 3f;
-    public Tilemap tileMap; // Reference to your tilemap
+    bool hasTarget, attackingPlayer;
 
-    public GameObject farmTile;
-    public CropData data;
-    //public GameObject mandrakeTile;
-    private GameObject spawnedFarmTile;
-    private Vector3 spot;
+    Vector3 despawnPos;
 
+    public Collider attackHitbox;
+
+    public GameObject burrow, fakeCrop;
+
+    int pacesUntilIdle = 5; //How many times does this wander before trying to idle
+
+    private StructureBehaviorScript targetStructure;
 
     public enum CreatureState
     {
-        WakeUp,
-        Run,
-        Wander,
-        FindAvaliableLand,
-        Dig,
-        Replant,
+        InitialBury, //Spawned in
+        Emerge, //Was dug up
+        Wander, //if it runs into a structure or player, will swipe at it
+        Idle, //Will resume wandering after x amount of time or it was struck
+        Rebury, //if ignored, will dig a hole and replant itself elsewhere, or despawn at day
         Die,
-        Trapped
+        Buried,
+        Stunned
     }
 
     public CreatureState currentState;
-    private bool hasTarget = false;
-    private bool isMoving;
+
+    //When it buries, it will fully heal. It hides in the scene when it is buried
+
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
 
     void Start()
     {
         base.Start();
-        agent = GetComponent<NavMeshAgent>();
-        currentState = CreatureState.Wander;
-        tileMap = FindObjectOfType<Tilemap>();
 
+        currentState = CreatureState.InitialBury;
     }
 
-    private void Update()
+    void Update()
     {
+        if (health <= 0) isDead = true;
+
+        if (!isDead && currentState != CreatureState.Stunned)
+        {
+            CheckState(currentState);
+        }
+
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= sightRange;
-        if (isTrapped) { currentState = CreatureState.Trapped; }
-        if (playerInSightRange && !isTrapped && !coroutineRunning && currentState != CreatureState.WakeUp) { currentState = CreatureState.Run; }
-        CheckState(currentState);
+
+        if(agent.velocity.sqrMagnitude > 0) anim.SetBool("IsMoving", true);
+        else anim.SetBool("IsMoving", false);
+
     }
 
     public void CheckState(CreatureState currentState)
     {
         switch (currentState)
         {
-            case CreatureState.WakeUp:
-                WakeUp();
+            case CreatureState.InitialBury:
+                InitialBury();
                 break;
 
-            case CreatureState.Run:
-                Run();
+            case CreatureState.Emerge:
+                //EmergeFromTile();
                 break;
 
             case CreatureState.Wander:
                 Wander();
                 break;
 
-            case CreatureState.FindAvaliableLand:
-                FindAvaliableLand();
+            case CreatureState.Idle:
+                Idle();
                 break;
 
-            case CreatureState.Dig:
-                Dig();
-                break;
-
-            case CreatureState.Replant:
-                Replant();
+            case CreatureState.Rebury:
+                //Rebury();
                 break;
 
             case CreatureState.Die:
-                //OnDeath();
+                // OnDeath();
                 break;
 
-            case CreatureState.Trapped:
-                Trapped();
+            case CreatureState.Stunned:
+                //StrafePlayer();
+                break;
+
+            case CreatureState.Buried:
+                break;
+
+            default:
+                Debug.LogError("Unknown state: " + currentState);
                 break;
         }
     }
 
+    void InitialBury()
+    {
+        anim.SetBool("IsBuried", true);
+    }
 
-
-    private void WakeUp()
+    private void Idle()
     {
         if (!coroutineRunning)
         {
-            StartCoroutine(FreakOut());
+            if(playerInSightRange)
+            {
+                currentState = CreatureState.Wander;
+                return;
+            }
+            int r = Random.Range(0, 10);
+               
+            if (r > 9 || TimeManager.Instance.isDay) currentState = CreatureState.Rebury;
+            else currentState = CreatureState.Wander;
         }
     }
 
-    IEnumerator FreakOut()
+    private IEnumerator WaitAround()
     {
-        //Play freak out Animation
-        if (playerInSightRange)
-        {
-            transform.LookAt(player);
-        }
-        yield return new WaitForSeconds(1); //Adjust this based off of animation time
-        currentState = CreatureState.Run;
-    }
-
-    private void Run()
-    {
-        agent.speed = 10;
-        agent.angularSpeed = 150;
-        if (playerInSightRange)
-        {
-            if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
-            {
-                hasTarget = false;
-            }
-            else if (!hasTarget)
-            {
-                hasTarget = true;
-                Vector3 fleeDirection = (transform.position - player.position).normalized;
-
-
-                float randomAngle = Random.Range(-30f, 30f); //random offset for random movement
-
-                fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
-
-                Vector3 newDestination = transform.position + fleeDirection * fleeDistance;
-
-
-                agent.SetDestination(newDestination);
-            }
-
-        }
-        else { currentState = CreatureState.Wander; }
+        coroutineRunning = true;
+        float r = Random.Range(2f, 4f);
+        yield return new WaitForSeconds(r);
+        coroutineRunning = false;
     }
 
     private void Wander()
     {
-        agent.speed = 3.5f;
-        agent.angularSpeed = 120f;
-        if (!isMoving)
+        if(coroutineRunning) return;
+
+        if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
         {
-            Vector3 randomPoint = GetRandomPointAround(transform.position, 15f); //gets a random point within a 5 unit radius of itself
-            StartCoroutine(MoveToPoint(randomPoint));
-        }
-    }
-
-    private Vector3 GetRandomPointAround(Vector3 origin, float radius)
-    {
-
-        Vector2 randomDirection = Random.insideUnitCircle * radius;
-
-
-        Vector3 randomPoint = new Vector3(randomDirection.x, origin.y, randomDirection.y) + origin;
-
-        return randomPoint;
-    }
-
-    private IEnumerator MoveToPoint(Vector3 destination)
-    {
-        isMoving = true;
-
-
-        agent.destination = destination;
-
-
-        while (!agent.pathPending && agent.remainingDistance > agent.stoppingDistance + 1f && !playerInSightRange)
-        {
-            yield return null;
-        }
-
-        // Agent has reached the destination, now decide the next action (50/50 chance)
-        int randomChoice = Random.Range(0, 3);
-        if (randomChoice == 0)
-        {
-            currentState = CreatureState.Wander;
-        }
-        else
-        {
-            currentState = CreatureState.FindAvaliableLand;
-        }
-
-        isMoving = false;
-    }
-
-    private void FindAvaliableLand()
-    {
-
-        Vector3? availableLand = GetClosestAvailableLand(transform.position);
-        if (availableLand.HasValue)
-        {
-
-            Vector3Int cellPosition = tileMap.WorldToCell(availableLand.Value);  // Convert availableLand world position to a cell position
-
-
-            spot = tileMap.GetCellCenterWorld(cellPosition); // Get the center of the cell in world space
-
-
-            agent.SetDestination(spot);
-
-            if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 0.1f)
+            hasTarget = false;
+            pacesUntilIdle--;
+               
+            if (pacesUntilIdle <= 0)
             {
-                currentState = CreatureState.Dig;
+                pacesUntilIdle = Random.Range(5, 11);
+                if(!playerInSightRange)
+                {
+                    StartCoroutine(WaitAround());
+                    currentState = CreatureState.Idle;
+                    return;
+                }
             }
         }
-        else
+        else if (!hasTarget)
         {
-            Debug.Log("No available land found!");
+            hasTarget = true;
+            Vector3 fleeDirection = transform.forward;
+
+               
+            float randomAngle = Random.Range(-70f, 70f); //random offset for random movement
+
+            fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
+
+            Vector3 newDestination = transform.position + fleeDirection * 3;
+
+           
+            agent.SetDestination(newDestination);
         }
+
+        targetStructure = CheckForObstacle(transform);
+        if(targetStructure)
+        {
+            //attack the structure and stop moving
+            StartCoroutine(SwipeStructure());
+        }
+        else if(CheckForPlayer(transform))
+        {
+            StartCoroutine(SwipePlayer());
+        }
+
     }
 
-
-    private Vector3? GetClosestAvailableLand(Vector3 startPosition)
-    {
-        List<(Vector3 tilePosition, float distance)> tileDistances = new List<(Vector3, float)>();
-
-
-        foreach (var position in tileMap.cellBounds.allPositionsWithin)
-        {
-
-            Vector3 worldPosition = tileMap.CellToWorld(position);
-
-
-            if (tileMap.HasTile(position))
-            {
-
-                float distance = Vector3.Distance(startPosition, worldPosition);
-
-
-                tileDistances.Add((worldPosition, distance));
-            }
-        }
-
-
-        tileDistances.Sort((a, b) => a.distance.CompareTo(b.distance));
-
-        // Find the closest available tile that is not taken
-        foreach (var (tilePosition, _) in tileDistances)
-        {
-            if (!IsTileTaken(tilePosition))
-            {
-                return tilePosition; // Return the first available tile
-            }
-        }
-
-        return null; // No available land found
-    }
-
-    private bool IsTileTaken(Vector3 tilePosition)
-    {
-        foreach (StructureBehaviorScript structure in structManager.allStructs)
-        {
-
-            if (Vector3.Distance(structure.transform.position, tilePosition) < 0.1f)
-            {
-                return true; // Tile is taken
-            }
-        }
-        return false; // Tile is available
-    }
-
-    private void Dig()
-    {
-        if (!coroutineRunning)
-        {
-            StartCoroutine(Digging());
-        }
-    }
-
-    IEnumerator Digging()
+    IEnumerator SwipeStructure()
     {
         coroutineRunning = true;
-
-        // Play dig animation
-        float digDuration = 5f;
-        float elapsedTime = 0f;
-
-        // Check if the player is nearby when digging; if so, break the coroutine
-        while (elapsedTime < digDuration)
-        {
-            if (playerInSightRange)
-            {
-                Debug.Log("Player is too close! Cancelling dig.");
-                coroutineRunning = false;
-                yield break;
-            }
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Spawn the farm tile
-        spawnedFarmTile = structManager.SpawnStructureWithInstance(farmTile, spot);
-
-        // Wait for a frame to ensure the farm tile is instantiated before searching
-
-        if (spawnedFarmTile == null)
-        {
-            Debug.LogWarning("No farm tile found at the location!");
-        }
-
-        currentState = CreatureState.Replant;
+        anim.SetTrigger("IsAttackingStructure");
+        yield return new WaitForSeconds(1);
+        targetStructure.TakeDamage(damageToStructure);
+        yield return new WaitForSeconds(1);
         coroutineRunning = false;
-
-        // Pass the reference to the Replant coroutine
-        StartCoroutine(Replanting(spawnedFarmTile));
     }
 
-
-
-
-    private void Replant()
-    {
-        if (!coroutineRunning)
-        {
-            StartCoroutine(Replanting(spawnedFarmTile));
-        }
-    }
-
-    IEnumerator Replanting(GameObject spawnedFarmTile)
+    IEnumerator SwipePlayer()
     {
         coroutineRunning = true;
-
-        // Play replant animation
-        float replantDuration = 5f;
-        float elapsedTime = 0f;
-
-        // Check if the player is nearby when replanting; if so, break the coroutine
-        while (elapsedTime < replantDuration)
-        {
-            if (playerInSightRange)
-            {
-                Debug.Log("Player is too close! Cancelling replant.");
-                coroutineRunning = false;
-                yield break;
-            }
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        if (spawnedFarmTile != null)
-        {
-            //Destroy(spawnedFarmTile);
-
-            //spawnedFarmTile.GetComponent<FarmLand>().InsertCreature(data, 4); //this is mimic behavior btw, the mandrake should not replant itself
-        }
-
-        // Spawn the mandrake tile
-        //structManager.SpawnStructure(mandrakeTile, spot);
+        anim.SetTrigger("IsAttackingPlayer");
+        yield return new WaitForSeconds(1);
+        attackingPlayer = true;
+        yield return new WaitForSeconds(2);
+        attackingPlayer = false;
         coroutineRunning = false;
-        Destroy(this.gameObject);
     }
 
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (attackingPlayer && other.CompareTag("Player") && !isDead)
+        {
+            PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
+            if (playerInteraction != null)
+            {
+                playerInteraction.StaminaChange(damageToPlayer);
+                attackHitbox.enabled = false;
+            }
+        }
+    }
+
+    public override void OnStun(float duration)
+    {
+        if (currentState != CreatureState.Stunned)
+        {
+            StartCoroutine(Stun(duration));
+            agent.destination = transform.position;
+            agent.ResetPath();
+        }
+    }
+
+    private IEnumerator Stun(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        /*
+        currentState = CreatureState.Stun;
+        coroutineRunning = false;
+        //StopAllCoroutines();
+        StopCoroutine(LungeAtPlayer());
+        StopCoroutine(SwipePlayer());
+        StopTrackingPlayer();
+        if(walkRoutine != null)
+        {
+            StopCoroutine(walkRoutine);
+            walkRoutine = null;
+        }
+        yield return new WaitForSeconds(duration);
+        //StartCoroutine(IdleSoundTimer());
+        currentState = CreatureState.Wander;
+        */
+    }
 
     public override void OnDeath()
     {
-        base.OnDeath();
+        if (!isDead)
+        {
+            isDead = true;
+            anim.Play("Death");
+            base.OnDeath();
+            agent.enabled = false;
+            rb.isKinematic = true;
+            rb.freezeRotation = true;
+            StopAllCoroutines();
+        }
     }
 
-    private void Trapped()
+    public override void OnDamage()
     {
-        rb.isKinematic = true;
+        if(currentState == CreatureState.Idle)
+        {
+            currentState = CreatureState.Wander;
+        }
     }
+
 }

@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2386480021878355852}
   - component: {fileID: 1635265688453986345}
   - component: {fileID: 3554842258521967843}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,17 +415,43 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 0
   savedItems: []
+  saveInt1: 0
+  saveInt2: 0
+  saveInt3: 0
+  saveFloat1: 0
+  saveFloat2: 0
+  saveFloat3: 0
+  saveString1: 
+  saveString2: 
+  saveString3: 
+  damageParticles: {fileID: 0}
+  destructionParticles: {fileID: 0}
+  nearbyFires: []
   highlight:
   - {fileID: 3050531527706307894}
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
-  aloe: {fileID: 11400000, guid: a9318b4aa64bb2c4caba19dcc4372731, type: 2}
-  yarrow: {fileID: 11400000, guid: 6f316f85a007ad645b60a914fa4f0367, type: 2}
+  structureUI: {fileID: 0}
   cropRenderer: {fileID: 6880864752236574915}
-  aloeSprite: {fileID: -1459842230, guid: dde1cdb333d3ca5438a95b2bdfc2c39f, type: 3}
-  yarrowSprite: {fileID: 1931674238, guid: 48b3766b678c142459e312073a2835f7, type: 3}
   itemDropTransform: {fileID: 0}
-  type: 0
+  type:
+    item: {fileID: 0}
+    wildernessSpawnRate: 0
+    townSpawnRate: 0
+    sprite: {fileID: 0}
+  possibleItems:
+  - item: {fileID: 11400000, guid: a9318b4aa64bb2c4caba19dcc4372731, type: 2}
+    wildernessSpawnRate: 70
+    townSpawnRate: 30
+    sprite: {fileID: -1459842230, guid: dde1cdb333d3ca5438a95b2bdfc2c39f, type: 3}
+  - item: {fileID: 11400000, guid: 6f316f85a007ad645b60a914fa4f0367, type: 2}
+    wildernessSpawnRate: 20
+    townSpawnRate: 70
+    sprite: {fileID: 1931674238, guid: 48b3766b678c142459e312073a2835f7, type: 3}
+  - item: {fileID: 11400000, guid: 573cd785fcc35aa4297d6cbb67192d97, type: 2}
+    wildernessSpawnRate: 100
+    townSpawnRate: 0
+    sprite: {fileID: -744603937, guid: 5632b8a23f1338d459e5f3bfd4745e8a, type: 3}
 --- !u!1 &4952454737248816691
 GameObject:
   m_ObjectHideFlags: 0

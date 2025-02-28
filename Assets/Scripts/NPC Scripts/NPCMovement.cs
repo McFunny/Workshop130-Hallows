@@ -9,6 +9,8 @@ public class Schedule
     public int time;
     public Destination Destination;
     public Action Action;
+    public ActionCheck actionCheck;
+    public ActionAnim actionAnim;
 }
 
 public class NPCMovement : MonoBehaviour
@@ -17,14 +19,15 @@ public class NPCMovement : MonoBehaviour
     private NavMeshAgent agent;
 
     private Schedule currentSchedule;
-    private Sublocation currentSublocation; // Track assigned sublocation
+    public Sublocation currentSublocation; // Track assigned sublocation
 
     public bool isWorking; // Determines if this NPC is actively working
     public List<Schedule> scheduleList = new List<Schedule>();
 
     NPC npcScript;
     bool isTalking = false;
-    bool facePlayer = true;
+
+    ActionAnim actionToPlay = ActionAnim.Stand;
 
     Vector3 currentDestination;
 
@@ -48,6 +51,24 @@ public class NPCMovement : MonoBehaviour
         {
             if (schedule.time == TimeManager.Instance.currentHour)
             {
+                bool passedCheck = true;
+                switch(schedule.actionCheck)
+                {
+                    case ActionCheck.Check1:
+                    passedCheck = npcScript.ActionCheck1();
+                    break;
+                    case ActionCheck.Check2:
+                    passedCheck = npcScript.ActionCheck2();
+                    break;
+                    case ActionCheck.Check3:
+                    passedCheck = npcScript.ActionCheck3();
+                    break;
+                }
+
+                if(!passedCheck) continue;
+                
+                
+
                 currentSchedule = schedule;
 
                 // Release the current sublocation if occupied
@@ -64,15 +85,22 @@ public class NPCMovement : MonoBehaviour
                 {
                     currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false, true);
                 }
-                else
+                else if (isWorker)
                 {
                     // Standard behavior for other actions
+
                     currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, isWorker);
+                }
+                else
+                {
+                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false, false);
+                   
                 }
 
                 // Claim the sublocation and move to it
                 if (currentSublocation != null)
                 {
+                  
                     if (!currentSublocation.isAtHome) // Only claim if it's not a home sublocation
                     {
                         currentSublocation.isOccupied = true;
@@ -95,13 +123,18 @@ public class NPCMovement : MonoBehaviour
                         Debug.LogWarning($"No available destination or sublocation for {schedule.Destination}");
                     }
                 }
-                break;
+                return;
             }
         }
     }
 
     IEnumerator MoveToDestination(Transform destination)
     {
+        npcScript.anim.SetBool("IsLeaning", false);
+        yield return new WaitForSeconds(1.5f);
+
+        actionToPlay = currentSchedule.actionAnim;
+
         agent.destination = destination.position;
         currentDestination = destination.position;
 
@@ -119,7 +152,7 @@ public class NPCMovement : MonoBehaviour
             npcScript.StopWorking();
             isWorking = false;
         }
-
+        //Debug.Log("We made it here");
         while (agent.remainingDistance > agent.stoppingDistance)
         {
             if(!agent.isStopped)
@@ -132,7 +165,7 @@ public class NPCMovement : MonoBehaviour
             }
             yield return null;
         }
-
+        
         if (currentSublocation.lookAtPoint != null)
         {
             transform.LookAt(currentSublocation.lookAtPoint);
@@ -143,6 +176,17 @@ public class NPCMovement : MonoBehaviour
     void PerformAction()
     {
         npcScript.anim.SetBool("IsMoving", false);
+
+        switch (actionToPlay)
+        {
+            case ActionAnim.Stand:
+            break;
+            case ActionAnim.Lean:
+            npcScript.anim.SetBool("IsLeaning", true);
+            break;
+            case ActionAnim.Sit:
+            break;
+        }
         switch (currentSchedule.Action)
         {
             case Action.Working:
@@ -177,7 +221,7 @@ public class NPCMovement : MonoBehaviour
     public void TalkToPlayer()
     {
         agent.Stop();
-        if(facePlayer) npcScript.faceCamera.enabled = true;
+        if(actionToPlay == ActionAnim.Stand) npcScript.faceCamera.enabled = true;
         StartCoroutine(ReturnToSchedule());
     }
 
@@ -194,5 +238,20 @@ public class NPCMovement : MonoBehaviour
         agent.Resume();
         //agent.destination = currentDestination;
     }
+}
+
+public enum ActionCheck
+{
+    None,
+    Check1,
+    Check2,
+    Check3
+}
+
+public enum ActionAnim
+{
+    Stand,
+    Lean,
+    Sit
 }
 

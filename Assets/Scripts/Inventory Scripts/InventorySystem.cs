@@ -56,6 +56,23 @@ public class InventorySystem
         return false;
     }
 
+    public bool CanAddToInventory(InventoryItemData itemToAdd, int amountToAdd)
+    {
+        if (ContainsItem(itemToAdd, out List<InventorySlot> invSlot)) //check if item already exists in inventory
+        {
+            foreach (var slot in invSlot)
+            {
+                if(slot.EnoughRoomLeftInStack(amountToAdd))
+                {
+                    return true;
+                }
+            }
+           
+        }
+
+        return false;
+    }
+
     public bool ContainsItem(InventoryItemData itemToAdd, out List<InventorySlot> invSlot) //Do any of our slots have the item to add in them?
     {
        invSlot = InventorySlots.Where(i => i.ItemData == itemToAdd).ToList(); // If they do get a list of all of them

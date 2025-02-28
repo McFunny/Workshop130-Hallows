@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: GloamCabbage
+  m_EditorClassIdentifier: 
+  name: Gloam Cabbage
+  growthStages: 4
+  hoursPerStage: 3
+  harvestableGrowthStages: 04000000
+  cropSprites:
+  - {fileID: 1040097512, guid: 155f174b135799a4a81db99e0365b654, type: 3}
+  - {fileID: 2031994945, guid: 155f174b135799a4a81db99e0365b654, type: 3}
+  - {fileID: 1555694287, guid: 155f174b135799a4a81db99e0365b654, type: 3}
+  - {fileID: -135884055, guid: 155f174b135799a4a81db99e0365b654, type: 3}
+  rottedImage: {fileID: -160229803, guid: 155f174b135799a4a81db99e0365b654, type: 3}
+  cropYield: {fileID: 11400000, guid: fdfadc98faaac3a43a9625ea63f6a3b6, type: 2}
+  cropSeed: {fileID: 11400000, guid: cc7f76b3888a1db478d53dcf6e08195a, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 1
+  seedYieldVariance: 0
+  waterIntake: 10
+  ichorIntake: 0
+  terraIntake: -1
+  gloamIntake: 1.5
+  stressLimit: 2
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 0}
+  emitsGlow: 0

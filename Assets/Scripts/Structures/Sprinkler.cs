@@ -5,11 +5,13 @@ using UnityEngine;
 public class Sprinkler : StructureBehaviorScript
 {
     public InventoryItemData recoveredItem;
-    public int waterLevel = 0; //max is 5
+    public int waterLevel = 0; //max is 3
     public GameObject water;
     public Transform head;
     public GameObject waterVFX;
     bool rotating = false;
+
+    //extinguish fire check
 
     // Start is called before the first frame update
     void Awake()
@@ -58,13 +60,18 @@ public class Sprinkler : StructureBehaviorScript
             StartCoroutine(DugUp());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 5)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 3 && waterLevel < 3)
         {
-            PlayerInteraction.Instance.waterHeld--;
-            waterLevel = 5;
+            PlayerInteraction.Instance.waterHeld -= 3;
+            waterLevel = 3;
             StartCoroutine(WaterTiles());
             success = true;
         }
+    }
+
+    public override void HitWithWater()
+    {
+        if(waterLevel < 3) waterLevel++;
     }
 
     public override void TimeLapse(int hours)
@@ -87,8 +94,32 @@ public class Sprinkler : StructureBehaviorScript
                 FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
                 tile.WaterCrops();
             }
+            else
+            {
+                StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+                if(structure && structure.onFire) structure.Extinguish();
+            }
         }
     }
+
+    /*IEnumerator WaterAdjacentTiles()
+    {
+        List<Vector3> nearbyTiles = StructureManager.Instance.GetAdjacentClearTiles(transform.position); //this says get adjacent CLEAR tiles dummy
+        StartCoroutine(SprinkleAnimation());
+        yield return new WaitForSeconds(1);
+        foreach(Vector3 pos in nearbyTiles)
+        {
+            StructureBehaviorScript structure = StructureManager.Instance.GrabStructureOnTile(pos);
+            if(!structure) continue;
+            FarmLand tile = structure as FarmLand;
+            if(tile)
+            {
+                tile.WaterCrops();
+            }
+            else if(structure.onFire) structure.Extinguish();
+        }
+
+    }*/
 
     IEnumerator DugUp()
     {
@@ -106,6 +137,16 @@ public class Sprinkler : StructureBehaviorScript
         rotating = false;
         yield return new WaitForSeconds(2);
         waterVFX.SetActive(false);
+    }
+
+    public override void LoadVariables()
+    {
+        saveInt1 = waterLevel;
+    }
+
+    public override void SaveVariables()
+    {
+        waterLevel = saveInt1;
     }
 
 }

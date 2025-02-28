@@ -11,6 +11,7 @@ public class FarmTree : StructureBehaviorScript
     public GameObject papers;
 
     public Transform itemDrop;
+    public ParticleSystem leafBurst;
     void Awake()
     {
         base.Awake();
@@ -20,6 +21,7 @@ public class FarmTree : StructureBehaviorScript
     {
         base.Start();
         if(taggedForCutting) papers.SetActive(true);
+        OnDamage += TreeHit;
     }
 
     public override void StructureInteraction()
@@ -52,4 +54,20 @@ public class FarmTree : StructureBehaviorScript
             Destroy(this.gameObject);
         }
     }
+
+    void OnDestroy()
+    {
+        OnDamage -= TreeHit;
+        base.OnDestroy();
+    }
+
+    void TreeHit()
+    {
+        leafBurst.Play();
+    }
+
+    /*public override object GetSaveData()
+    {
+        return new FarmTreeSaveData(this);
+    }*/
 }

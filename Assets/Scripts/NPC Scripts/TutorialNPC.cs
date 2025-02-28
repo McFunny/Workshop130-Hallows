@@ -8,10 +8,16 @@ public class TutorialNPC : NPC, ITalkable
     bool finishedTalking = false;
 
     public InventoryItemData seeds;
+
+    public Quest mainQuest;
     void Start()
     {
-        if(GameSaveData.Instance.tutorialMerchantSpoke) StartCoroutine(Despawn());
-        else goneAtStart = false;
+        if(MainMenuScript.loadingData) StartCoroutine(Despawn());
+        else 
+        {
+            goneAtStart = false;
+            TimeManager.Instance.stopTime = true;
+        }
     }
 
     //void Update
@@ -67,6 +73,10 @@ public class TutorialNPC : NPC, ITalkable
             yield return new WaitForSeconds(1.5f);
             PlayerMovement.restrictMovementTokens--;
             FadeScreen.coverScreen = false;
+            TimeManager.Instance.stopTime = false;
+
+            QuestManager.Instance.AddQuest(mainQuest);
+
             Destroy(this.gameObject);
         }
     }

@@ -15,11 +15,18 @@ MonoBehaviour:
   ID: -1
   displayName: Yarrow
   description: Small yellow flower with leaves that have a surprisingly high vitamin
-    count. Restores 24 Stamina.
+    count. Restores 36 Stamina.
   icon: {fileID: -1453312676, guid: 48b3766b678c142459e312073a2835f7, type: 3}
   maxStackSize: 10
-  value: 14
+  value: 22
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 24
+  staminaValue: 36
+  bonusCompostValue: 20
+  itemInputsKBM:
+  - LMB - Consume
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item
+  - RT - Consume

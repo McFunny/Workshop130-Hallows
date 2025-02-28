@@ -17,11 +17,19 @@ public class NPCManager : MonoBehaviour
     public bool rascalFed = false;
     public bool lumberjackFed = false;
     public bool botanistFed = false;
+    public bool barkeepFed = false;
+    public bool tinkererFed = false;
+    public bool apothFed = false;
+    public bool culinarianFed = false;
 
     [Header("NPC Spoken Bools")]
     public bool rascalSpoke = false;
     public bool lumberjackSpoke = false;
     public bool botanistSpoke = false;
+    public bool barkeepSpoke = false;
+    public bool tinkererSpoke = false;
+    public bool apothSpoke = false;
+    public bool culinarianSpoke = false;
 
     void Awake()
     {
@@ -43,11 +51,15 @@ public class NPCManager : MonoBehaviour
 
     public void HourUpdate()
     {
-        if(TimeManager.Instance.currentHour == 6)
+        if(TimeManager.Instance.currentHour == 8)
         {
             rascalSpoke = false;
             lumberjackSpoke = false;
             botanistSpoke = false;
+            barkeepSpoke = false;
+            tinkererSpoke = false;
+            apothSpoke = false;
+            culinarianSpoke = false;
         }
     }
 

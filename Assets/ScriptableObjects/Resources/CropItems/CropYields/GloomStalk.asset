@@ -15,11 +15,16 @@ MonoBehaviour:
   ID: -1
   displayName: GloomStalk
   description: Sturdy grain that is used in baking. The stalk is commonly used for
-    binding or weaving thanks to its thick fibres.
+    binding or weaving thanks to its thick fibres. Can repair barricades.
   icon: {fileID: 21300000, guid: 57d1ae6806ad96449a64970dda183014, type: 3}
   maxStackSize: 20
-  value: 12
+  value: 18
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
+  bonusCompostValue: 15
+  itemInputsKBM:
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item

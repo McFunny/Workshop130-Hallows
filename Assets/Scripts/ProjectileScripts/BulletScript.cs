@@ -8,6 +8,9 @@ public class BulletScript : MonoBehaviour
 
     public float structureDamage, creatureDamage, playerDamage;
 
+    public bool fireBullet;
+    public float bulletLifetime = 3;
+
 
     void OnTriggerEnter(Collider other)
     {
@@ -15,14 +18,26 @@ public class BulletScript : MonoBehaviour
         {
             //break
             var structure = other.GetComponent<StructureBehaviorScript>();
-            if (structure != null && structureDamage > 0)
+            if (structure != null && (structureDamage > 0 || fireBullet))
             {
-                structure.TakeDamage(structureDamage);
-                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-                print("Hit Structure");
-                ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                gameObject.SetActive(false);
-                return;
+                if(structureDamage > 0)
+                {
+                    structure.TakeDamage(structureDamage);
+                    HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                    print("Hit Structure");
+                    ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                    gameObject.SetActive(false);
+                    if(fireBullet && structure.IsFlammable()) structure.LitOnFire(); 
+                    return;
+                }
+                else if(fireBullet && structure.IsFlammable())
+                {
+                    HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                    print("Hit Structure");
+                    structure.LitOnFire(); 
+                    return;
+                }
+                
             }
 
             var npc = other.GetComponent<NPC>();
@@ -43,6 +58,7 @@ public class BulletScript : MonoBehaviour
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
+                if(fireBullet && !creature.fireVulnerable) return;
                 creature.TakeDamage(creatureDamage);
                 //playsound
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
@@ -59,9 +75,18 @@ public class BulletScript : MonoBehaviour
             HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-            ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
+            if(!fireBullet) ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
             gameObject.SetActive(false);
             return;
+        }
+
+        if(other.gameObject.layer == 10)
+        {
+            if(playerDamage == 0) return;
+            PlayerInteraction.Instance.StaminaChange(-playerDamage);
+            ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+            HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            gameObject.SetActive(false);
         }
 
     }
@@ -78,7 +103,7 @@ public class BulletScript : MonoBehaviour
 
     IEnumerator LifeTime()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(bulletLifetime);
         gameObject.SetActive(false);
     }
 

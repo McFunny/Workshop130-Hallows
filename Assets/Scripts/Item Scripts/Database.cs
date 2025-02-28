@@ -63,4 +63,10 @@ public class Database : ScriptableObject
     {
         return _itemDatabase.Find(i => i.ID == id);
     }
+
+    public List<CropItem> GetAllCrops()
+    {
+        return Resources.LoadAll<CropItem>("").ToList();
+    }
+
 }

@@ -10,22 +10,35 @@ public class ShovelBehavior : ToolBehavior
     public AudioClip swing, dig;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
         tool = _tool;
+        toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         if(!shovelAttack) shovelAttack = FindObjectOfType<ShovelAttack>();
         usingPrimary = true;
+        
         //swing
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.55f, 1.2f));
+        PopupEvents.current.ShovelSwing();
+        if(PlayerInteraction.Instance.stamina > 50)
+        {
+            toolAnim.SetFloat("AnimSpeed", 1f);
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.53f, 0.9f));
+        }
+        else
+        {
+            toolAnim.SetFloat("AnimSpeed", 0.75f);
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.53f * 1.25f, 0.9f * 1.25f));
+        }
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
         tool = _tool;
+        toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
 
         Debug.Log("Secondary");
 
@@ -45,9 +58,19 @@ public class ShovelBehavior : ToolBehavior
                     usingSecondary = true;
                     HandItemManager.Instance.PlaySecondaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(dig);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f, 2f));
+                    if(PlayerInteraction.Instance.stamina > 50)
+                    {
+                        toolAnim.SetFloat("AnimSpeed", 1f);
+                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f, 1.9f));
+                        PlayerInteraction.Instance.StaminaChange(-2);
+                    }
+                    else
+                    {
+                        toolAnim.SetFloat("AnimSpeed", 0.75f);
+                        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f * 1.25f, 1.9f * 1.25f));
+                    }
                     PlayerMovement.restrictMovementTokens++;
-                    PlayerInteraction.Instance.StaminaChange(-2);
+                    PlayerCam.Instance.NewObjectOfInterest(structure.transform.position);
 
                 }
             }
@@ -66,6 +89,7 @@ public class ShovelBehavior : ToolBehavior
         {
             usingSecondary = false;
             PlayerMovement.restrictMovementTokens--;
+            PlayerCam.Instance.ClearObjectOfInterest();
         }
 
     }

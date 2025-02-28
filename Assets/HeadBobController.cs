@@ -112,7 +112,7 @@ public class HeadBobController : MonoBehaviour
             {
                 lastStepTime = Time.time;
 
-                if (playerEffectsHandler != null)
+                if (playerEffectsHandler != null && !TimeManager.Instance.stopTime)
                 {
                     playerEffectsHandler.PlayFootstepSound();
                 }

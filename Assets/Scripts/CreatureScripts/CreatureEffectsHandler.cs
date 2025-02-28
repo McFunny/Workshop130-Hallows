@@ -11,6 +11,7 @@ public class CreatureEffectsHandler : MonoBehaviour
     float originalPitch;
     [HideInInspector]
     public AudioSource source;
+    public AudioSource loopingSource;
     public AudioClip moveSound;
     public AudioClip idleSound1;
     public AudioClip idleSound2;
@@ -83,6 +84,11 @@ public class CreatureEffectsHandler : MonoBehaviour
         if (!source) return;
         //source.pitch = originalPitch + r;
         source.PlayOneShot(deathSound, volume);
+    }
+
+    public void ThrowSound(AudioClip clip)
+    {
+        AudioSource.PlayClipAtPoint(clip, transform.position);
     }
 
     public void MiscSound()

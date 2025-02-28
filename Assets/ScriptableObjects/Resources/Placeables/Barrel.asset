@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: -1
   displayName: Barrel
-  description: Every hour has a chance to collect water that can be used to refill
-    the watering can.
+  description: Stores water that can be taken or supplied by a watering can. Can
+    hold 15 units of water.
   icon: {fileID: 21300000, guid: 95cedaa18d2a388479434a5279a56f35, type: 3}
   maxStackSize: 5
-  value: 45
-  sellValueMultiplier: 1
+  value: 70
+  sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
+  bonusCompostValue: 0
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
   placedPrefab: {fileID: 3161338315516755844, guid: e8af2d42c07a0964f8e6a3cb435718fe,
     type: 3}
   hologramPrefab: {fileID: 7802777430985526171, guid: 9710dc7990abe2a42844d3a2de79144e,

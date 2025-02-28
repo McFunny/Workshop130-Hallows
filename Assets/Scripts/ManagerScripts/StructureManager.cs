@@ -2,22 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class StructureManager : MonoBehaviour
 {
     public static StructureManager Instance;
     [Header("Tiles")]
     public Tilemap tileMap;
-    public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them + helps with water gun tracking
+    public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them 
+    //Would also then need an occupied border tile
 
-    public List<StructureBehaviorScript> allStructs;
+    public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile;
+    public GameObject weedTile, farmTree, farmTile, crowPod;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allTiles = new List<Vector3Int>();
-    List<NutrientStorage> storage = new List<NutrientStorage>();
+    List<NutrientStorage> storage = new List<NutrientStorage>(); //MUST BE SAVED
+
+    public List<NutrientStorage> Storage => storage;
 
     [Header("CropDebugs")]
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
@@ -36,15 +40,19 @@ public class StructureManager : MonoBehaviour
             Instance = this;
         }
         InstantiateNutrientStorage();
-        //load in all the saved data, such as the nutrient storages and alltiles list
-        PopulateTrees(15, 20);
-        PopulateWeeds(10, 20); //Only do this when a new game has started. Implement weeds spawning in over time
+        //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
+        if(!MainMenuScript.loadingData)
+        {
+            PopulateTrees(15, 20);
+            PopulateWeeds(10, 20); //Only do this when a new game has started.
+        }
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
     void Start()
     {
-        PopulateForageables(4, 8);
+        PopulateForageables(1, 4);
+        PopulateDecorCrows(0, 2);
     }
 
     void OnDestroy()
@@ -56,15 +64,47 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void LoadNutrients(NutrientStorage[] newStorage)
+    {
+        storage.Clear();
+        storage = newStorage.ToList();
+        for(int i = 0; i < storage.Count; i++)
+        {
+            if(storage[i].waterLevel > 3) print("Water!!!???");
+        }
+    }
+
     public void HourUpdate()
     {
         //print("AllStructs: " + allStructs.Count);
         if(TimeManager.Instance.currentHour == 8)
         {
-            PopulateWeeds(-3, 8);
+            PopulateWeeds(-3, 5);
+            PopulateDecorCrows(0, 2);
         }
-        if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 6);
+        if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 3);
         if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(1, 6);
+    }
+
+    public void GameOver()
+    {
+        if(TimeManager.Instance.isDay) return;
+        float r;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            if(allStructs[i] && allStructs[i].destructable)
+            {
+                FarmLand potentialWeed = allStructs[i] as FarmLand;
+                if(potentialWeed && potentialWeed.isWeed) continue;
+
+                r = Random.Range(0, 10);
+                if(r >= 8) //Destroy structure. Could even replace some with rubble struct when we add it
+                {
+                    print("Deleting: " + allStructs[i]);
+                    Destroy(allStructs[i].gameObject);
+                }
+            }
+        }
     }
 
 #region TileCommands
@@ -95,6 +135,11 @@ public class StructureManager : MonoBehaviour
 
     public Vector3 GetRandomTile()
     {
+        if(allTiles.Count == 0)
+        {
+            print("No available tiles");
+            return new Vector3 (0,0,0);
+        }
         int r = Random.Range(0, allTiles.Count);
         return tileMap.GetCellCenterWorld(allTiles[r]);
     }
@@ -417,10 +462,12 @@ public class StructureManager : MonoBehaviour
         float x, z;
 
         StructurePoolManager pool = StructurePoolManager.Instance;
+        bool canSpawn;
 
         if (r <= 0) return;
         for(int i = 0; i < r; i++)
         {
+            canSpawn = true;
             int t = 0;
             p = Random.Range(0, pool.forageableSpots.Length);
             Vector3 spawnPos = pool.forageableSpots[p].position;
@@ -428,8 +475,21 @@ public class StructureManager : MonoBehaviour
             z = Random.Range(-5, 5);
             spawnPos = new Vector3(spawnPos.x + x, spawnPos.y, spawnPos.z + z);
 
-            GameObject newStructure = pool.GrabForageable();
-            newStructure.transform.position = spawnPos;
+            Collider[] hitPlants = Physics.OverlapSphere(transform.position, 3.5f, 1 << 6);
+            foreach(Collider collider in hitPlants)
+            {
+                Forgeable structure = collider.gameObject.GetComponentInParent<Forgeable>();
+                if(structure)
+                {
+                    canSpawn = false;
+                    break;
+                }
+            }
+            if(canSpawn)
+            {
+                GameObject newStructure = pool.GrabForageable(false);
+                newStructure.transform.position = spawnPos;
+            }
 
         }
     }
@@ -463,15 +523,43 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    void PopulateDecorCrows(int min, int max)
+    {
+        int r = Random.Range(min,max + 1);
+        //print(r);
+        if (r <= 0) return;
+        Transform lastTransform = null;
+        for(int i = 0; i < r; i++)
+        {
+            int s = Random.Range(0, StructurePoolManager.Instance.crowSpots.Length);
+            Transform chosenPoint = StructurePoolManager.Instance.crowSpots[s];
+            if(lastTransform == null || chosenPoint != lastTransform)
+            {
+                lastTransform = chosenPoint;
+                Instantiate(crowPod, chosenPoint.transform.position, Quaternion.identity);
+                print("Spawned");
+            }
+        }
+    }
+
     public void WeedSpread(Vector3 pos)
     {
+        int weedTotal = 0;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand weedScript = allStructs[i] as FarmLand;
+            if(weedScript && weedScript.isWeed) weedTotal++;
+        }
+        if(weedTotal > 60) return;
+
         List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
         if(weedSpots.Count == 0) return;
         foreach(Vector3 weedPos in weedSpots)
         {
-            if(Random.Range(0f,10f) > 9)
+            if(Random.Range(0f,10f) > 9.5f)
             {
                 SpawnStructure(weedTile, weedPos);
+                break;
             }
         }
     }

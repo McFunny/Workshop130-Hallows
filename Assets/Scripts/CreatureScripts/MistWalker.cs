@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 
 public class MistWalker : CreatureBehaviorScript
 {
+    public Variant variant; // what variant of creature is this?
+
     public List<StructureObject> targettableStructures;
 
     private StructureBehaviorScript targetStructure;
@@ -23,14 +25,16 @@ public class MistWalker : CreatureBehaviorScript
     public float lungeCooldown = 6f; // Time between lunges
     public float lungeRange = 9f; // Distance at which it will lunge
     private bool canLunge = true;
+    bool canDoubleLunge = false;
     private bool recoilCooldown = false; //To prevent stunlocking
     private bool isRecoiling = false;
 
     private Vector3 despawnPos;
 
-    private Coroutine trackPlayerRoutine; 
+    private Coroutine trackPlayerRoutine, walkRoutine; 
 
     private FireFearTrigger fireSource;
+    public GameObject fearParticle;
 
     public enum CreatureState
     {
@@ -46,6 +50,12 @@ public class MistWalker : CreatureBehaviorScript
         Die,
         Trapped,
         FleeFromFire
+    }
+
+    public enum Variant
+    {
+        Normal,
+        Strong
     }
 
     public CreatureState currentState;
@@ -72,6 +82,8 @@ public class MistWalker : CreatureBehaviorScript
         targetStructure = null;
         currentState = CreatureState.SpawnIn;
         StartCoroutine(IdleSoundTimer());
+
+        if(variant == Variant.Strong) canDoubleLunge = true;
     }
 
     void OnDisable()
@@ -83,10 +95,14 @@ public class MistWalker : CreatureBehaviorScript
 
     public override void OnSpawn()
     {
+        if(inWilderness)
+        {
+            currentState = CreatureState.WalkTowardsPlayer;
+        }
         if (!isMoving)
         {
             Vector3 randomPoint = StructureManager.Instance.GetRandomTile();
-            StartCoroutine(MoveToPoint(randomPoint));
+            walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
 
@@ -109,6 +125,9 @@ public class MistWalker : CreatureBehaviorScript
     void Update()
     {
         if (health <= 0) isDead = true;
+
+        if(currentState == CreatureState.FleeFromFire && !fearParticle.activeSelf) fearParticle.SetActive(true);
+        else if(currentState != CreatureState.FleeFromFire && fearParticle.activeSelf) fearParticle.SetActive(false);
 
         if (!isDead && currentState != CreatureState.Stun && currentState != CreatureState.Trapped)
         {
@@ -144,6 +163,7 @@ public class MistWalker : CreatureBehaviorScript
         else
         {
             lungeAttackHitbox.enabled = false;
+            fearParticle.SetActive(false);
         }
     }
 
@@ -226,7 +246,7 @@ public class MistWalker : CreatureBehaviorScript
     #region WanderingFunctions
     public void Wander()
     {
-        if (playerInSightRange)
+        if (playerInSightRange || inWilderness)
         {
             currentState = CreatureState.WalkTowardsPlayer;
             return;
@@ -235,7 +255,7 @@ public class MistWalker : CreatureBehaviorScript
         if (!isMoving && currentState == CreatureState.Wander)
         {
             Vector3 randomPoint = GetRandomPointAround(transform.position, 5f);
-            StartCoroutine(MoveToPoint(randomPoint));
+            walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
 
@@ -260,20 +280,21 @@ public class MistWalker : CreatureBehaviorScript
         isMoving = true;
         coroutineRunning = true;
 
-        if (TimeManager.Instance.isDay) destination = despawnPos;
+        if (TimeManager.Instance.isDay && !inWilderness) destination = despawnPos;
 
         agent.destination = destination;
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 100)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 20)
         {
-            timeSpent += 0.01f;
+            timeSpent += Time.deltaTime;
             if (playerInSightRange)
             {
                 currentState = CreatureState.WalkTowardsPlayer;
                 isMoving = false;
                 coroutineRunning = false;
+                walkRoutine = null;
                 yield break;
             }
 
@@ -301,6 +322,7 @@ public class MistWalker : CreatureBehaviorScript
                 currentState = CreatureState.Idle;
             }
         }
+        walkRoutine = null;
     }
 
 
@@ -405,7 +427,7 @@ public class MistWalker : CreatureBehaviorScript
             targetStructure = CheckForObstacle(transform);
             currentState = CreatureState.AttackStructure;
         }
-        else if (!playerInSightRange)
+        else if (!playerInSightRange && !inWilderness)
         {
             if(targetStructure)
             {
@@ -418,11 +440,12 @@ public class MistWalker : CreatureBehaviorScript
 
     private IEnumerator TrackPlayer()
     {
-        while (playerInSightRange && currentState == CreatureState.WalkTowardsPlayer)
+        while ((playerInSightRange || inWilderness) && currentState == CreatureState.WalkTowardsPlayer)
         {
             agent.destination = player.position;
             yield return new WaitForSeconds(0.5f); // update destination every 0.5 seconds to prevent overloading it
         }
+        trackPlayerRoutine = null;
     }
 
     private void StopTrackingPlayer()
@@ -439,6 +462,7 @@ public class MistWalker : CreatureBehaviorScript
     {
         Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
         agent.destination = runTo;
+        if(agent.speed > 0 && agent.speed != 5) agent.speed = 5;
     }
     #endregion
 
@@ -457,7 +481,7 @@ public class MistWalker : CreatureBehaviorScript
             StartCoroutine(SwipePlayer());
             transform.LookAt(player.position);
         }
-        else if (distance > attackRange && distance <= lungeRange && canLunge)
+        else if (distance > attackRange && distance <= lungeRange && canLunge && !PlayerInteraction.Instance.torchLit)
         {
             StartCoroutine(LungeAtPlayer());
         }
@@ -511,7 +535,8 @@ public class MistWalker : CreatureBehaviorScript
         attackingPlayer = true;
 
         recoilCooldown = true;
-        anim.SetTrigger("IsLunging");
+        //anim.SetTrigger("IsLunging");
+        anim.Play("MistLunge", -1, 0);
         canLunge = false;
 
         effectsHandler.MiscSound();
@@ -529,10 +554,20 @@ public class MistWalker : CreatureBehaviorScript
 
         attackingPlayer = false;
         agent.velocity = Vector3.zero;
-        currentState = CreatureState.WalkTowardsPlayer;
-        coroutineRunning = false;
-        recoilCooldown = false;
-        StartCoroutine(LungeCooldown());
+        if(canDoubleLunge && !isDead)
+        {
+            yield return new WaitForSeconds(0.1f);
+            StartCoroutine(LungeAtPlayer());
+            canDoubleLunge = false;
+        }
+        else
+        {
+            currentState = CreatureState.WalkTowardsPlayer;
+            coroutineRunning = false;
+            recoilCooldown = false;
+            StartCoroutine(LungeCooldown());
+        }
+
     }
 
     private IEnumerator SwipePlayer()
@@ -565,6 +600,11 @@ public class MistWalker : CreatureBehaviorScript
 
     private IEnumerator LungeCooldown()
     {
+        if(variant == Variant.Strong)
+        {
+            float r = Random.Range(0, 100);
+            if(r > 30) canDoubleLunge = true;
+        }
         yield return new WaitForSeconds(lungeCooldown);
         canLunge = true;
     }
@@ -580,7 +620,7 @@ public class MistWalker : CreatureBehaviorScript
 
         if (!coroutineRunning)
         {
-            int r = Random.Range(0, 11);
+            int r = Random.Range(0, 13);
             if (r < 2)
             {
                 if (availableStructure.Count > 0)
@@ -588,18 +628,16 @@ public class MistWalker : CreatureBehaviorScript
                     currentState = CreatureState.WalkTowardsClosestStructure;
                 }
             }
-            else if (r < 5)
+            else if (r < 6)
             {
                 StartCoroutine(WaitAround());
             }
-            else if (r >= 6)
+            else if (r >= 7)
             {
                 currentState = CreatureState.Wander;
             }
         }
     }
-
-    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -630,9 +668,17 @@ public class MistWalker : CreatureBehaviorScript
     {
         currentState = CreatureState.Stun;
         coroutineRunning = false;
-        StopAllCoroutines();
+        //StopAllCoroutines();
+        StopCoroutine(LungeAtPlayer());
+        StopCoroutine(SwipePlayer());
+        StopTrackingPlayer();
+        if(walkRoutine != null)
+        {
+            StopCoroutine(walkRoutine);
+            walkRoutine = null;
+        }
         yield return new WaitForSeconds(duration);
-        StartCoroutine(IdleSoundTimer());
+        //StartCoroutine(IdleSoundTimer());
         currentState = CreatureState.Wander;
     }
 
@@ -645,9 +691,9 @@ public class MistWalker : CreatureBehaviorScript
             base.OnDeath();
             agent.enabled = false;
             rb.isKinematic = true;
-            agent.ResetPath();
             rb.freezeRotation = true;
             StopAllCoroutines();
+            fearParticle.SetActive(false);
         }
     }
 
@@ -687,9 +733,10 @@ public class MistWalker : CreatureBehaviorScript
         rb.isKinematic = true;
     }
 
-    public override void EnteredFireRadius(FireFearTrigger _fireSource)
+    public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
     {
         fireSource = _fireSource;
+        successful = true;
     }
 
     public override void NewPriorityTarget(StructureBehaviorScript newStruct)

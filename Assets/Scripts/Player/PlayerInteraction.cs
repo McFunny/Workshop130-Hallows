@@ -10,16 +10,19 @@ public class PlayerInteraction : MonoBehaviour
 {
     public Camera mainCam;
 
+    public Transform playerFeet;
+
     public PlayerInventoryHolder playerInventoryHolder { get; private set; }
 
     PlayerEffectsHandler playerEffects;
 
     ControlManager controlManager;
 
-    Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
 
     public bool isInteracting { get; private set; }
     public bool toolCooldown;
+    bool itemUseCooldown;
 
     public static PlayerInteraction Instance;
 
@@ -28,9 +31,10 @@ public class PlayerInteraction : MonoBehaviour
 
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
+    bool sentLowStaminaMessage = false;
 
-    public float waterHeld = 20; //for watering can
-    [HideInInspector] public readonly float maxWaterHeld = 20;
+    public float waterHeld = 15; //for watering can
+    [HideInInspector] public readonly float maxWaterHeld = 15;
 
     public bool torchLit = false;
 
@@ -39,10 +43,13 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
 
-    bool gameOver;
+    [HideInInspector] public bool gameOver;
+
+    public PopupScript lowStaminaWarning;
 
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
+
 
     void Awake()
     {
@@ -66,6 +73,8 @@ public class PlayerInteraction : MonoBehaviour
         playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
         playerEffects = FindObjectOfType<PlayerEffectsHandler>();
         rb = GetComponent<Rigidbody>();
+
+        StartCoroutine(WakeUp());
     }
 
     private void OnEnable()
@@ -101,6 +110,24 @@ public class PlayerInteraction : MonoBehaviour
             StartCoroutine(GameOver());
         }
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                currentMoney += 200;
+                totalMoneyEarned += 200;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                print(InputManager.isCharging);
+                InputManager.isCharging = false;
+            }
+        }
+
         if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
 
@@ -108,13 +135,13 @@ public class PlayerInteraction : MonoBehaviour
 
     private void UseHeldItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen) return;
         UseHotBarItem();
     }
 
     private void OnInteractWithItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen) return;
         if(!ControlManager.isController) StructureInteractionWithItem();
         else
         {
@@ -130,7 +157,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void InteractWithoutItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory)
+        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen)
         {
             if(DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
             return;
@@ -149,7 +176,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         //For showing/giving NPC's items
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null) interactable.InteractWithItem(this, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
-        else return;
+        else interactable.Interact(this, out bool interactSuccessful);
         isInteracting = false;
     }
 
@@ -172,6 +199,8 @@ public class PlayerInteraction : MonoBehaviour
     void StructureInteractionWithItem()
     {
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
+
+        if(item == null) return;
 
         //Is it a Tool item?
         ToolItem t_item = item as ToolItem;
@@ -264,6 +293,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
+            if(itemUseCooldown) return;
+            StartCoroutine(ItemUseCooldown());
             //eat it
             StaminaChange(item.staminaValue);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
@@ -275,13 +306,24 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
+        if (DialogueController.Instance.IsTalking())
+        {
+            print("Damage negated! Stamina is : " + stamina);
+            return;
+        }
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
+        if(!sentLowStaminaMessage && stamina <= 50)
+        {
+            sentLowStaminaMessage = true;
+            PopupHandler.Instance.AddToQueue(lowStaminaWarning);
+        }
+        else if(stamina > 50) sentLowStaminaMessage = false;
     }
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
     {
-        rb.velocity = new Vector3(0,0,0);
+        if(time > 0) rb.velocity = new Vector3(0,0,0);
         if(toolCooldown) yield break;
         toolCooldown = true;
         yield return new WaitForSeconds(time);
@@ -347,26 +389,68 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator GameOver()
     {
+        //maybe pause time? also make sure no issues arise when dying while talking to someone
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
-        playerEffects.PlayClip(playerEffects.playerDie);
-        yield return new WaitForSeconds(1f);
-        TimeManager.Instance.GameOver();
-        print("Time GameOver Complete");
+        AmbientAudioManager.Instance.ChangeMusic();
+        yield return new WaitForSeconds(0.5f);
+        playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
+        yield return new WaitForSeconds(1.5f);
         NightSpawningManager.Instance.GameOver();
         print("Night GameOver Complete");
         TownGate.Instance.GameOver();
         print("Gate GameOver Complete");
+        StructureManager.Instance.GameOver();
+        print("Structure GameOver Complete");
+        WildernessManager.Instance.GameOver();
+        print("Wilderness GameOver Complete");
+
+        stamina = 100;
+        if(currentMoney > 0) currentMoney = currentMoney/2;
+        TimeManager.Instance.GameOver(); //Has to be last, this is where it saves
+        print("Time GameOver Complete");
         //Potentially a spot where some structures get destroyed
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
         FadeScreen.coverScreen = false;
-        if(currentMoney > 0) currentMoney = currentMoney/2;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;
-        stamina = 100;
+        //StartCoroutine(WakeUp());
 
+    }
+
+    IEnumerator ItemUseCooldown()
+    {
+        itemUseCooldown = true;
+        yield return new WaitForSeconds(5f);
+        itemUseCooldown = false;
+    }
+
+    IEnumerator WakeUp() //Cant get this working smoothly.
+    {
+        print("Waking up");
+        PlayerMovement.restrictMovementTokens++;
+        //yield return new WaitForSeconds(1f);
+        PlayerCam.Instance.NewObjectOfInterest(TimeManager.Instance.respawnFocus.position);
+        int i = 0;
+        while(i < 10)
+        {
+            yield return new WaitForSeconds(0.2f);
+            TimeManager.Instance.respawnFocus.position = new Vector3(TimeManager.Instance.respawnFocus.position.x, TimeManager.Instance.respawnFocus.position.y + 0.4f, TimeManager.Instance.respawnFocus.position.z);
+            PlayerCam.Instance.NewObjectOfInterest(TimeManager.Instance.respawnFocus.position);
+            i++;
+        }
+        //yield return new WaitForSeconds(2);
+        PlayerMovement.restrictMovementTokens--;
+        PlayerCam.Instance.ClearObjectOfInterest();
+        print("Done");
+        while(i > 0)
+        {
+            yield return new WaitForSeconds(0.2f);
+            TimeManager.Instance.respawnFocus.position = new Vector3(TimeManager.Instance.respawnFocus.position.x, TimeManager.Instance.respawnFocus.position.y - 0.4f, TimeManager.Instance.respawnFocus.position.z);
+            i++;
+        }
     }
     
 }

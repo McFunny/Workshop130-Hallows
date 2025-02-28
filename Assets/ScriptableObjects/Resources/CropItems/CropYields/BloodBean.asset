@@ -14,11 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: -1
   displayName: Blood Beans
-  description: Restores 22 Stamina.
+  description: Restores 28 Stamina.
   icon: {fileID: -392329907, guid: 720bca9c821c9a34e95b984ada4cb125, type: 3}
   maxStackSize: 20
-  value: 15
+  value: 27
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 22
+  staminaValue: 28
+  bonusCompostValue: 20
+  itemInputsKBM:
+  - LMB - Consume
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item
+  - RT - Consume

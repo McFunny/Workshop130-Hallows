@@ -16,7 +16,8 @@ public class InventorySlot_UI : MonoBehaviour
     public InventoryDisplay ParentDisplay { get; private set; }
     ControlManager controlManager;
     bool isSelected;
-    ToolTipScript toolTip;
+    ToolTipScript toolTip; //Handles hovering item in inventory
+    
     string itemDesc;
 
     Button button;
@@ -38,11 +39,17 @@ public class InventorySlot_UI : MonoBehaviour
     {
         controlManager.select.action.started += Select;
         controlManager.split.action.started += Split;
+
+        controlManager.hotbarUp.action.started += LeftBumper;
+        controlManager.hotbarDown.action.started += RightBumper;
     }
     private void OnDisable()
     {
         controlManager.select.action.started -= Select;
         controlManager.split.action.started -= Split;
+
+        controlManager.hotbarUp.action.started += LeftBumper;
+        controlManager.hotbarDown.action.started += RightBumper;
     }
 
     void Update()
@@ -66,7 +73,7 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 if(itemName.text != "")
                 {
-                    if(itemDesc!= null){toolTip.UpdateToolTip(itemDesc);}
+                    if(itemDesc!= null){toolTip.UpdateToolTip(assignedInventorySlot.ItemData);}
                     toolTip.panel.SetActive(true);
                 }
                 else
@@ -78,6 +85,7 @@ public class InventorySlot_UI : MonoBehaviour
         if(!PlayerMovement.accessingInventory)
         {
             itemName.gameObject.SetActive(false);
+            if (HotbarDisplay.currentSlot == this) { slotHighlight.SetActive(true); }
         }  
     }
 
@@ -127,6 +135,22 @@ public class InventorySlot_UI : MonoBehaviour
         }
     }  
 
+    private void LeftBumper(InputAction.CallbackContext obj)
+    {
+        //print("SelectCheck");
+        if(PlayerMovement.accessingInventory == true)
+        {
+           OnLeftUISlotBumper();
+        }     
+    }
+    private void RightBumper(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.accessingInventory == true)
+        {
+            OnRightUISlotBumper();
+        }
+    }  
+
     public void Selected()
     {
         isSelected = true;
@@ -150,6 +174,18 @@ public class InventorySlot_UI : MonoBehaviour
         if(isSelected){ParentDisplay?.HandleSlotRightClick(this);}
     }
 
+    public void OnLeftUISlotBumper()
+    {
+        // Handle left-Bumper behavior
+        if(isSelected){ParentDisplay?.HandleLeftBumper(this);}
+    }
+
+    public void OnRightUISlotBumper()
+    {
+        // Handle right-Bumper behavior
+        if(isSelected){ParentDisplay?.HandleRightBumper(this);}
+    }
+
     private void OnHighlight(bool selected)
     {
         if(!ControlManager.isGamepad)
@@ -171,7 +207,7 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 toolTip.panel.SetActive(false);
             }
-            if(itemDesc!= null){toolTip.UpdateToolTip(itemDesc);}
+            if(assignedInventorySlot.ItemData!= null){toolTip.UpdateToolTip(assignedInventorySlot.ItemData);}
         }
             
     }
@@ -188,7 +224,7 @@ public class InventorySlot_UI : MonoBehaviour
         {
             itemSprite.sprite = slot.ItemData.icon;
             itemSprite.color = Color.white;
-            itemName.text = slot.ItemData.name;
+            itemName.text = slot.ItemData.displayName;
             itemDesc = slot.ItemData.description;
             if (slot.StackSize > 1)
                 itemCount.text = slot.StackSize.ToString();

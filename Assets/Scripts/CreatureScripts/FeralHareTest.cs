@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FeralHareTest : CreatureBehaviorScript
 {
+    public Variant variant; // what variant of creature is this?
+
     public List<CropData> desiredCrops; // what crops does this creature want to eat
 
     FarmLand foundFarmTile;
@@ -22,6 +24,15 @@ public class FeralHareTest : CreatureBehaviorScript
 
     Vector3 despawnPos;
 
+    [Header("Albino Variables")]
+
+    int burstJumps = 3; //How many attacks in quick succession the hare can do
+
+    public GameObject cooldownEffect;
+
+    public Collider attackCollider;
+    bool attackingPlayer = false;
+
     public enum CreatureState
     {
         Wander,
@@ -30,19 +41,31 @@ public class FeralHareTest : CreatureBehaviorScript
         FleeFromPlayer,
         Stunned,
         Dead,
+        //AttackPlayer,
+        //AttackCooldown
+    }
+
+    public enum Variant
+    {
+        Normal,
+        Albino
     }
 
     public CreatureState currentState;
+
+    public LayerMask obstacleMask;
 
     // Start is called before the first frame update
     void Start()
     {
         base.Start();
         currentState = CreatureState.Wander;
-        StartCoroutine(CropCheck());
+        if(variant == Variant.Normal && !inWilderness) StartCoroutine(CropCheck());
         despawnPos = NightSpawningManager.Instance.despawnPositions[Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length)].position;
         yOrigin = transform.position.y;
         StartCoroutine(IdleSoundTimer());
+
+        if(attackCollider) attackCollider.enabled = false;
     }
 
     // Update is called once per frame
@@ -59,8 +82,9 @@ public class FeralHareTest : CreatureBehaviorScript
         } 
 
         // If the player is in sight, switch to flee state
-        if (playerInSightRange && currentState != CreatureState.Eat)
+        if (playerInSightRange && currentState != CreatureState.Eat && variant == Variant.Normal)
         {
+            fleeTimeLeft = 1;
             currentState = CreatureState.FleeFromPlayer;
         }
         if (!isStunned)
@@ -73,6 +97,12 @@ public class FeralHareTest : CreatureBehaviorScript
         if(fleeTimeLeft > 0)
         {
             fleeTimeLeft -= Time.deltaTime;
+        }
+
+        if(inEatingRange && foundFarmTile)
+        {
+            float distance = Vector3.Distance(foundFarmTile.transform.position, transform.position);
+            if(distance > 2.5f) inEatingRange = false;
         }
     }
 
@@ -98,12 +128,18 @@ public class FeralHareTest : CreatureBehaviorScript
             case CreatureState.Dead:
                 //Dead();
                 break;
+            /*case CreatureState.AttackPlayer:
+                //Dead();
+                break;
+            case CreatureState.AttackCooldown:
+                //Dead();
+                break; */
         }
     }
 
     public override void OnSpawn()
     {
-        startingDestination = StructureManager.Instance.GetRandomTile();
+        if(!inWilderness) startingDestination = StructureManager.Instance.GetRandomTile();
     }
 
     private void Wander()
@@ -111,8 +147,16 @@ public class FeralHareTest : CreatureBehaviorScript
         if (!jumpCooldown)
         {
             StartCoroutine(JumpCooldownTimer());
-            if(startingDestination != new Vector3(0,0,0))Hop(startingDestination);
-            else Hop(jumpPos);
+            if(variant == Variant.Albino) //Seek the player
+            {
+                Hop(player.position);
+                if(playerInSightRange) burstJumps--;
+            }
+            else
+            {
+                if(startingDestination != new Vector3(0,0,0)) Hop(startingDestination);
+                else Hop(jumpPos);
+            }
         }
         float r = Random.Range(0, 10f);
         if (r > 2 && foundFarmTile)
@@ -192,6 +236,7 @@ public class FeralHareTest : CreatureBehaviorScript
         base.OnDeath();
         anim.SetTrigger("IsDead");
         rb.isKinematic = true;
+        if(cooldownEffect) cooldownEffect.SetActive(false);
     }
 
     // CropCheck Coroutine to search for crops periodically
@@ -227,16 +272,25 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public void Hop(Vector3 destination)
     {
+        if(variant == Variant.Albino) rb.velocity = new Vector3(0,0,0);
+
+        bool obstructed = false;
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
-        if(TimeManager.Instance.isDay)
+        if(TimeManager.Instance.isDay && !inWilderness)
         {
             destination = despawnPos;
+        }
+        if(CheckForObstruction()) //randomizes jump is running into a wall/tree
+        {
+            //print("Obstruction Detected");
+            destination = jumpPos;
+            obstructed = true;
         }
         // hare will jump toward a random direction using physics, using rb.addforce to a random vector3 position in addition to a vector3.up force
         Vector3 jumpDirection = (transform.position - destination).normalized;
         jumpDirection *= -1f;
 
-        if (currentState == CreatureState.FleeFromPlayer)
+        if (currentState == CreatureState.FleeFromPlayer && !obstructed)
         {
             jumpDirection = (transform.position - player.position).normalized;
             destination = new Vector3(transform.position.x + jumpDirection.x, yOrigin, transform.position.z + jumpDirection.z);
@@ -245,8 +299,13 @@ public class FeralHareTest : CreatureBehaviorScript
 
         // Apply force to make the hare hop
         float r = Random.Range(170, 210f);
-        if(playerInSightRange) r += 150;
-        rb.AddForce(Vector3.up * 80);
+        float v = 80; //vertical height
+        if(playerInSightRange)
+        {
+            r += 150;
+            v = 40;
+        }
+        rb.AddForce(Vector3.up * v);
         rb.AddForce(jumpDirection * r);
         transform.LookAt(destination);
 
@@ -267,8 +326,31 @@ public class FeralHareTest : CreatureBehaviorScript
     IEnumerator JumpCooldownTimer()
     {
         jumpCooldown = true;
-        float time = Random.Range(0.7f, 1.3f);
-        yield return new WaitForSeconds(currentState == CreatureState.FleeFromPlayer ? time / 2.7f : time);
+
+        if(variant == Variant.Albino)
+        {
+            attackCollider.enabled = true;
+            attackingPlayer = true;
+        }
+
+        float time = Random.Range(0.9f, 1.3f);
+        if(currentState == CreatureState.FleeFromPlayer) time = time / 2.7f;
+        if(variant == Variant.Albino && playerInSightRange) time =  0.4f;
+        yield return new WaitForSeconds(time);
+
+        if(variant == Variant.Albino)
+        {
+            attackCollider.enabled = false;
+            attackingPlayer = false;
+        }
+
+        if(burstJumps <= 0 && variant == Variant.Albino)
+        {
+            cooldownEffect.SetActive(true);
+            yield return new WaitForSeconds(Random.Range(3, 5));
+            cooldownEffect.SetActive(false);
+            burstJumps = Random.Range(3,5);
+        }
         jumpCooldown = false;
     }
 
@@ -302,10 +384,14 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public override void OnDamage()
     {
-        if(currentState != CreatureState.Stunned && health > 0)
+        if(currentState != CreatureState.Stunned && health > 0 && variant != Variant.Albino)
         {
-            fleeTimeLeft = 3;
-            currentState = CreatureState.FleeFromPlayer;
+            //if(currentState == CreatureState.Eat && health != maxHealth) TakeDamage(20);
+            //else
+            //{
+                fleeTimeLeft = 3.5f;
+                currentState = CreatureState.FleeFromPlayer;
+            //}
         } 
         effectsHandler.OnHit();
     }
@@ -317,6 +403,35 @@ public class FeralHareTest : CreatureBehaviorScript
             int i = Random.Range(7,16);
             effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
+        }
+    }
+
+    bool CheckForObstruction()
+    {
+        //if (CheckForObstacle(transform) != null) return true;
+        Vector3 checkPos = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+
+        RaycastHit hit;
+        if (Physics.Raycast(checkPos, transform.forward, out hit, 5, obstacleMask))
+        {
+            StructureBehaviorScript obstacle = hit.collider.GetComponentInParent<StructureBehaviorScript>(); //To check if its a tree because trees arent "obstacles"
+            if(obstacle)
+            {
+                if(obstacle.GetComponent<FarmTree>() || obstacle.isObstacle) return true;
+                else return false;
+            }
+            if(hit.collider) return true;
+            else return false;
+        }
+        else return false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (attackingPlayer && other.CompareTag("Player") && !isDead)
+        {
+            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            attackCollider.enabled = false;
         }
     }
 

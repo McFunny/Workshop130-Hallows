@@ -49,8 +49,8 @@ MonoBehaviour:
   health: 20
   maxHealth: 20
   corpseHealth: 0
-  ichorWorth: 0
-  ichorDropRadius: 0
+  ichorWorth: 1
+  ichorDropRadius: 2
   creatureData: {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
@@ -68,10 +68,11 @@ MonoBehaviour:
   playerInSightRange: 0
   playerInAttackRange: 0
   shovelVulnerable: 1
-  isTrapped: 0
+  fireVulnerable: 0
+  bearTrapVulnerable: 0
   isDead: 0
   damageToStructure: 0
-  damageToPlayer: 20
+  damageToPlayer: 35
   canCorpseBreak: 1
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
@@ -83,9 +84,13 @@ MonoBehaviour:
   agent: {fileID: 0}
   pyreFire: {fileID: 9061156446741105128}
   ignitedMat: {fileID: 2100000, guid: 8470e1ec53530ae439f837b725de6731, type: 2}
-  extinguishedMat: {fileID: 2100000, guid: 06dd1baaa16d9184280f7b81d2261514, type: 2}
+  extinguishedMat: {fileID: 2100000, guid: 9b08859ccf23f4f45a1ba5415972eebd, type: 2}
   meshRenderer: {fileID: 2404094924373996786}
+  offsetRate: 0.005
   homeHive: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   currentState: 0
 --- !u!195 &5191490688788952379
 NavMeshAgent:
@@ -117,6 +122,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 577307498091193494}
     m_Modifications:
+    - target: {fileID: 2559509585195891781, guid: 3de1502c9faa979489a0e014ef581b47,
+        type: 3}
+      propertyPath: fleeRange
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2760334366413817041, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Size.x
@@ -500,13 +510,14 @@ MonoBehaviour:
   pitchMin: 0
   pitchMax: 0
   source: {fileID: 0}
+  loopingSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
   idleSounds: []
   hitSounds: []
   footSteps: []
-  deathSound: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 4108a2624800e934eb5cd54569f2ee87, type: 3}
   miscSound: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   miscSound2: {fileID: 0}
 --- !u!82 &2462495302870994233

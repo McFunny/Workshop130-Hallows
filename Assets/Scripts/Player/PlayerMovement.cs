@@ -43,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         headBobController = FindFirstObjectByType<HeadBobController>();
+        restrictMovementTokens = 0;
     }
 
     private void Start()
@@ -52,7 +53,6 @@ public class PlayerMovement : MonoBehaviour
         accessingInventory = false;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        restrictMovementTokens = 0;
     }
 
     private void OnEnable()
@@ -100,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Sprint(InputAction.CallbackContext obj)
     {
+        if (PlayerInteraction.Instance.stamina <= 50) return;
         Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
 
         // Allow sprinting if moving forward (positive y) and tolerate slight sideways movement

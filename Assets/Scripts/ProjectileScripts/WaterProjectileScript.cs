@@ -11,13 +11,18 @@ public class WaterProjectileScript : MonoBehaviour
 
     Rigidbody rb;
 
+    public GameObject[] thingsToTurnOff;
+    bool canCollide = true;
+    public TrailRenderer trail;
+
 
     void OnTriggerEnter(Collider other)
     {
+        if(!canCollide) return;
         if(other.gameObject.layer == 6)
         {
             //break
-            var structure = other.GetComponent<StructureBehaviorScript>();
+            var structure = other.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 if(structure.onFire) structure.Extinguish();
@@ -26,14 +31,19 @@ public class WaterProjectileScript : MonoBehaviour
                 if(farmTile)
                 {
                     NutrientStorage nutrients = farmTile.GetCropStats();
-                    if(nutrients.waterLevel != 10) farmTile.WaterCrops();
+                    if(nutrients.waterLevel != 10)
+                    {
+                        farmTile.WaterCrops();
+                    }
                     else return;
                 }
                 structure.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-                print("Hit Structure");
+                print("Hit Structure: " + structure);
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                gameObject.SetActive(false);
+                ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
+                //gameObject.SetActive(false);
+                StartCoroutine(TurnOff());
                 return;
             }
 
@@ -42,9 +52,11 @@ public class WaterProjectileScript : MonoBehaviour
             {
                 npc.ShotAt();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-                print("Hit Person");
+                //print("Hit Person");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                gameObject.SetActive(false);
+                ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
+                //gameObject.SetActive(false);
+                StartCoroutine(TurnOff());
                 return;
             }
             
@@ -58,9 +70,11 @@ public class WaterProjectileScript : MonoBehaviour
                 creature.TakeDamage(0);
                 creature.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
-                print("Hit Creature");
+                //print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                gameObject.SetActive(false);
+                ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
+                //gameObject.SetActive(false);
+                StartCoroutine(TurnOff());
                 return;
             }
         }
@@ -70,8 +84,9 @@ public class WaterProjectileScript : MonoBehaviour
             HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-            ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
-            gameObject.SetActive(false);
+            ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
+            //gameObject.SetActive(false);
+            StartCoroutine(TurnOff());
             return;
         }
 
@@ -79,29 +94,52 @@ public class WaterProjectileScript : MonoBehaviour
 
     void OnEnable()
     {
+        canCollide = true;
+        trail.emitting = false;
         StartCoroutine(LifeTime());
         if(!rb) rb = GetComponent<Rigidbody>();
+        //rb.isKinematic = false;
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(true);
+        }
     }
 
     void OnDisable()
     {
         StopCoroutine(LifeTime());
         homing = false;
+        canCollide = false;
         target = new Vector3(0,0,0);
+    }
+
+    IEnumerator TurnOff()
+    {
+        canCollide = false;
+        //rb.isKinematic = true;
+        rb.velocity = new Vector3(0,0,0);
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(false);
+        }
+        yield return new WaitForSeconds(1.5f);
+        gameObject.SetActive(false);
     }
 
     IEnumerator LifeTime()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.02f);
+        trail.emitting = true;
+        yield return new WaitForSeconds(0.3f);
         if(homing && target != new Vector3(0,0,0))
         {
-            //rb.velocity = new Vector3(0,0,0);
+            rb.velocity = new Vector3(0,0,0);
             Vector3 dir = (transform.position - target).normalized;
             dir *= -1f;
-            rb.AddForce(dir * 150);
-            Debug.Log("ZOOM");
+            rb.AddForce(dir * 100);
+            //Debug.Log("ZOOM");
         }
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(20);
         gameObject.SetActive(false);
     }
 

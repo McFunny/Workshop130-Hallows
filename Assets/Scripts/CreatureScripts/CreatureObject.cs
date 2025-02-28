@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Creature Object", menuName = "Creature")]
 public class CreatureObject : ScriptableObject
 {
-    public GameObject objectPrefab;
+    public GameObject objectPrefab;//, wildernessPrefab;
+    public List<CreatureVariant> creatureVariants = new List<CreatureVariant>();
     [HideInInspector] public float health;
 
     [HideInInspector] public float[] position = new float[3];
@@ -17,6 +18,8 @@ public class CreatureObject : ScriptableObject
     public int spawnCapPerHour = 3; //how many can spawn per hour at max
 
     public int wealthPrerequisite = 0; //How much money should the player have collected prior to seeing this creature
+
+    public bool contribuiteToCreatureCap = true; //EX Crows shouldnt contribuite to max amount of creatures loaded in. Instead use their spawn cap
 
     public Creature data = new Creature();
 
@@ -47,4 +50,15 @@ public class Creature
         Name = Creature.name;
         Id = Creature.data.Id;
     }
+}
+
+[System.Serializable]
+public class CreatureVariant
+{
+    public string name;
+    public GameObject prefab;
+    public float probabilityInFarm = 100; //Probability of spawning
+    public float probabilityInWilderness = 100;
+    public bool canSpawnInWilderness;
+    public int wealthPrerequisite = 0;
 }

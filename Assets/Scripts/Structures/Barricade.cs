@@ -85,4 +85,9 @@ public class Barricade : StructureBehaviorScript
         if (!gameObject.scene.isLoaded) return; 
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }
+
+    public override void LoadVariables()
+    {
+        //UpdateModel();
+    }
 }

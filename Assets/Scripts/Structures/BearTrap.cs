@@ -7,7 +7,7 @@ public class BearTrap : StructureBehaviorScript
     public InventoryItemData recoveredItem;
     public Transform topClamp, bottomClamp;
     float animationTimeLeft;
-    bool isTriggered, rearming;
+    bool isTriggered, rearming, caughtSomething;
 
     public AudioClip triggeredSFX;
 
@@ -21,6 +21,8 @@ public class BearTrap : StructureBehaviorScript
     Vector3 startingAngleBottom;
 
     float stunTime = 5;
+
+    CreatureBehaviorScript capturedCreature;
 
     // Start is called before the first frame update
     void Awake()
@@ -39,13 +41,13 @@ public class BearTrap : StructureBehaviorScript
 
     void Start()
     {
-        base.Start();
+        if(TownGate.Instance.location != PlayerLocation.InWilderness) base.Start();
     }
 
     // Update is called once per frame
     void Update()
     {
-        base.Update();
+        if(!caughtSomething) base.Update();
 
         if(animationTimeLeft > 0)
         {
@@ -74,7 +76,8 @@ public class BearTrap : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel && isTriggered && !rearming)
+        if(caughtSomething) return;
+        if(type == ToolType.Shovel && !rearming)
         {
             StartCoroutine(DugUp());
             success = true;
@@ -84,14 +87,19 @@ public class BearTrap : StructureBehaviorScript
     IEnumerator DugUp()
     {
         yield return  new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-        Destroy(this.gameObject);
+        if(!caughtSomething)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
+            droppedItem.transform.position = transform.position;
+            Destroy(this.gameObject);
+        }
+        
     }
 
     IEnumerator SpringTrap(Collider victim)
     {
         animationTimeLeft = 0.5f;
+        caughtSomething = true;
         yield return new WaitForSeconds(0.5f);
         topClamp.rotation = Quaternion.Euler(-161, 90, -90);
         bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
@@ -120,26 +128,29 @@ public class BearTrap : StructureBehaviorScript
                 yield return new WaitForSeconds(0.5f);
                 PlayerMovement.restrictMovementTokens -= 1;
                 //enable player movement
+
+                TakeDamage(1);
             } 
             else
             {
-                CreatureBehaviorScript creature = victim.GetComponentInParent<CreatureBehaviorScript>();
+                capturedCreature = victim.GetComponentInParent<CreatureBehaviorScript>();
                 //creature.isTrapped = true;
-                if(creature.health > 75)
+                if(capturedCreature.health >= 75)
                 {
                     //stun and damage
-                    creature.TakeDamage(25);
-                    creature.OnStun(stunTime);
+                    capturedCreature.TakeDamage(25);
                     StartCoroutine(HoldCreature());
                 }
                 else
                 {
                     //kill
-                    creature.TakeDamage(999);
+                    capturedCreature.TakeDamage(999);
+                    TakeDamage(2);
                 }
-                creature.PlayHitParticle(new Vector3(0, 0, 0));
+                capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
             }
         }
+        caughtSomething = false;
         
     }
 
@@ -169,11 +180,30 @@ public class BearTrap : StructureBehaviorScript
         rearming = false;
     }
 
-    IEnumerator HoldCreature()
+    IEnumerator HoldCreature() //Maybe have this lose durability for every second it holds a creature
     {
-        rearming = true;
+        /*rearming = true;
         yield return new WaitForSeconds(stunTime);
-        StartCoroutine(Rearm());
+        if (capturedCreature.health > 0)
+        {
+            TakeDamage(5);
+            rearming = false;
+        }
+        else
+        {
+            StartCoroutine(Rearm());
+            TakeDamage(1);
+        } */
+
+        rearming = true;
+        while(health > 0 && capturedCreature.health > 0)
+        {
+            capturedCreature.OnStun(2);
+            yield return new WaitForSeconds(2.01f);
+            if(capturedCreature.health > 0) TakeDamage(1);
+        }
+        rearming = false;
+        //StartCoroutine(Rearm());
     }
 
     void OnTriggerEnter(Collider other)
@@ -181,6 +211,8 @@ public class BearTrap : StructureBehaviorScript
         if(isTriggered) return;
         if(other.gameObject.layer == 9 || other.gameObject.layer == 10)
         {
+            CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
+            if(creature && !creature.bearTrapVulnerable) return;
             isTriggered = true;
             StartCoroutine(SpringTrap(other)); //pass enemy script or player script variable
         }

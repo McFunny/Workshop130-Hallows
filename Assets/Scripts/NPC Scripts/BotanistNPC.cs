@@ -29,19 +29,30 @@ public class BotanistNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(dialogueController.IsTalking() == false)
+        if(dialogueController.IsTalking() == false) //Makes sure to not interrupt an existing dialogue branch
         {
-            if(movementHandler.isWorking)
+            if(!GameSaveData.Instance.botMet) //Introduction Check
+            {
+                currentPath = -1;
+                currentType = PathType.Default;
+                GameSaveData.Instance.botMet = true;
+            }
+            else if(CompletedQuest())
+            {
+                currentPath = 0;
+                currentType = PathType.QuestComplete;
+            }
+            else if(movementHandler.isWorking) //Working Dialogue
             {
                 currentPath = 0;
                 currentType = PathType.Misc;
             }
-            else if(NPCManager.Instance.botanistSpoke)
+            else if(NPCManager.Instance.botanistSpoke) //Say nothing if already given flavor text
             {
                 interactSuccessful = false;
                 return;
             }
-            else if(currentPath == -1)
+            else if(currentPath == -1) //Give 1 daily flavor text
             {
                 int i = Random.Range(0, dialogueText.fillerPaths.Length);
                 currentPath = i;
@@ -53,7 +64,7 @@ public class BotanistNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    public void Talk() //progress what they are saying or start new conversation
     {
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
@@ -67,10 +78,17 @@ public class BotanistNPC : NPC, ITalkable
         if(dialogueController.IsInterruptable() == false || tItem)
         {
             interactSuccessful = false;
+            Talk();
             return;
         } 
 
-        if(item == fertalizerI || item == fertalizerT || item == fertalizerG)
+        if(CompletedQuestWithItem())
+        {
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
+
+        else if(item == fertalizerI || item == fertalizerT || item == fertalizerG)
         {
             currentPath = 1;
             currentType = PathType.ItemSpecific;
@@ -124,6 +142,10 @@ public class BotanistNPC : NPC, ITalkable
             {
                 currentPath = 3; //no money!?!?!?
             }
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
+            {
+                currentPath = 4; //No space in inventory
+            }
             else
             {
                 currentPath = 2; //item sold
@@ -154,11 +176,6 @@ public class BotanistNPC : NPC, ITalkable
         }
         shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
-    }
-
-    public override void OnConvoEnd()
-    {
-        currentPath = -1;
     }
 
     public override void EmptyShopItem()
@@ -195,7 +212,7 @@ public class BotanistNPC : NPC, ITalkable
             if(currentItem < 6)
             {
                 i = Random.Range(0, commonSeedsForSale.Count);
-                newItem = commonSeeds[i];
+                newItem = commonSeedsForSale[i];
             }
             else if(currentItem < 9) newItem = rareSeedForSale;
             else

@@ -12,18 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e14c53294b14d418d174be0feefd90, type: 3}
   m_Name: Wraith
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 0}
+  objectPrefab: {fileID: 9065206578167672808, guid: af60279a8901bf245a1e3e59b374692a,
+    type: 3}
+  wildernessPrefab: {fileID: 0}
   health: 0
   position:
   - 0
   - 0
   - 0
-  dangerCost: 1
-  dangerThreshold: 0
-  spawnWeight: 10
-  spawnCap: 5
-  spawnCapPerHour: 3
-  wealthPrerequisite: 0
+  dangerCost: 17
+  dangerThreshold: 130
+  spawnWeight: 3
+  spawnCap: 1
+  spawnCapPerHour: 1
+  wealthPrerequisite: 1700
+  contribuiteToCreatureCap: 1
   data:
     Name: 
     Id: -1

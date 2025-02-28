@@ -11,12 +11,13 @@ public class InputManager : MonoBehaviour
 
     // FOR TOGGLING THE GRID
     public Tilemap structGrid;
-    public Color activeColor, hiddenColor;
+    public Color activeColor, activeNightColor, hiddenColor;
     public bool gridIsActive;
     ControlManager controlManager;
     PauseScript pauseScript;
 
     public static bool isCharging = false;
+    bool chargeButtonHeld = false;
 
     public InventoryItemData waterGun;
 
@@ -48,8 +49,17 @@ public class InputManager : MonoBehaviour
         CheckForScrollInput();
         CheckNumberInput();
         
-        if (gridIsActive){ structGrid.color = activeColor;}
+        if (gridIsActive)
+        { 
+            if(TimeManager.Instance.isDay) structGrid.color = activeColor;
+            else structGrid.color = activeNightColor;
+        }
         else{ structGrid.color = hiddenColor;}
+
+        if (ControlManager.isController && PauseScript.isPaused && Gamepad.current.buttonEast.wasPressedThisFrame)
+        {
+            pauseScript.ResumeGame();
+        }
 
         //if(Input.GetKeyDown("t"))
         //{
@@ -78,9 +88,19 @@ public class InputManager : MonoBehaviour
 
     private void PauseGame(InputAction.CallbackContext obj)
     {
+        if(PauseScript.isPaused) { pauseScript.ResumeGame(); return; }
+
         if(PlayerMovement.isCodexOpen) return;
         if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
-        if(!PlayerMovement.accessingInventory) pauseScript.PauseGame();
+        if(!PlayerMovement.accessingInventory)
+        {
+            if(!PauseScript.isPaused)
+            {
+                isCharging = false;
+                chargeButtonHeld = false;
+                pauseScript.PauseGame();
+            }          
+        } 
     }
 
     private void CheckForScrollInput()
@@ -116,12 +136,17 @@ public class InputManager : MonoBehaviour
 
     private void BeginCharge(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || PauseScript.isPaused || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != waterGun)
+        if(PauseScript.isPaused) return;
+
+        chargeButtonHeld = !chargeButtonHeld;
+        //print("Is button held? " + chargeButtonHeld);
+
+        if(chargeButtonHeld == false || PlayerMovement.restrictMovementTokens > 0 || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != waterGun)
         {
             isCharging = false;
-            return;
+            //return;
         }
-        isCharging = !isCharging;
-        //print(isCharging);
+        else isCharging = !isCharging;
+        //print("Is the gun charging? " + isCharging);
     }
 }

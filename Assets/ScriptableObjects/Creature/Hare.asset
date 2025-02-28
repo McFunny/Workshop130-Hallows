@@ -14,6 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 6623111765486677896, guid: 29856514ebb1bf546aec234b149d0a50,
     type: 3}
+  creatureVariants:
+  - name: Albino Hare
+    prefab: {fileID: 2033714470042923742, guid: ecfd7c232fbd62142ab67acef659124b,
+      type: 3}
+    probabilityInFarm: 10
+    probabilityInWilderness: 100
+    canSpawnInWilderness: 1
+    wealthPrerequisite: 1300
   health: 25
   position:
   - 0
@@ -22,8 +30,10 @@ MonoBehaviour:
   dangerCost: 6
   dangerThreshold: 0
   spawnWeight: 5
-  spawnCap: 8
-  spawnCapPerHour: 3
+  spawnCap: 6
+  spawnCapPerHour: 2
+  wealthPrerequisite: 0
+  contribuiteToCreatureCap: 1
   data:
     Name: 
     Id: -1
