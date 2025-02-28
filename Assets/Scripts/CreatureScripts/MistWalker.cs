@@ -163,6 +163,7 @@ public class MistWalker : CreatureBehaviorScript
         else
         {
             lungeAttackHitbox.enabled = false;
+            fearParticle.SetActive(false);
         }
     }
 
