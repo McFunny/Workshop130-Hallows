@@ -8,13 +8,13 @@ using UnityEngine.EventSystems;
 
 public class CodexRework : MonoBehaviour
 {
-    CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted, PlantEntries, QuestEntries;
+    CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted, PlantEntries; //, QuestEntries;
     public CodexEntries currentEntry;
-    [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject;
-    [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText, contentsText;
+    [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject, questContentObject;
+    [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questCompleteText;
     [SerializeField] private int currentPage = 0;
 
-    [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal;
+    [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal, questObj;
 
     string defaultName = "???";
     string defaultDesc = "There is more to discover...";
@@ -24,11 +24,14 @@ public class CodexRework : MonoBehaviour
     [SerializeField] private Button[] categoryButtons;
     private Button currentCategoryButton;
     [SerializeField] private List<GameObject> categoryList;
-    bool isGridCategory;
+    bool isGridCategory, isQuestCategory;
+    private QuestManager questManager;
+    public List<Quest> activeQuests = new List<Quest>();
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        questManager = FindFirstObjectByType<QuestManager>();
     }
 
     void Start()
@@ -37,7 +40,7 @@ public class CodexRework : MonoBehaviour
         ToolEntries = Resources.LoadAll<CodexEntries>("Codex/Tools/");
         GettingStarted = Resources.LoadAll<CodexEntries>("Codex/GettingStarted/");
         PlantEntries = Resources.LoadAll<CodexEntries>("Codex/Plants/");
-        QuestEntries = Resources.LoadAll<CodexEntries>("Codex/Quests/");
+        //QuestEntries = Resources.LoadAll<CodexEntries>("Codex/Quests/");
         CurrentCategory = GettingStarted;
         contentsText.text = "Getting Started";
         currentEntry = null;
@@ -69,13 +72,14 @@ public class CodexRework : MonoBehaviour
     void Update()
     {
         //print(EventSystem.current.currentSelectedGameObject);
+        activeQuests = questManager.activeQuests;
 
         if(codex.activeInHierarchy && EventSystem.current.currentSelectedGameObject == null && ControlManager.isController)
         {
             EventSystem.current.SetSelectedGameObject(defaultButton);
         }
 
-        if(codex.activeInHierarchy)
+        if(codex.activeInHierarchy && !isQuestCategory)
         {
             if(controlManager.codexPageUp.action.WasPressedThisFrame())
             {
@@ -109,19 +113,6 @@ public class CodexRework : MonoBehaviour
 
     public void OpenCloseCodex()
     {
-        print("Codex Opened");
-        currentPage = 0;
-        CurrentCategory = GettingStarted;
-        nameText.text = "";
-        descriptionText.text = "";
-        largeDescriptionText.text = "";
-        horizontalEntryName.text = "";
-        horizontalDescriptionText.text = "";
-        pageNumberText.text = "";
-        isGridCategory = false;
-        PopulateCodex(); 
-        ImageCheck();
-
         codex.SetActive(!codex.activeInHierarchy);
 
         if(!codex.activeInHierarchy)
@@ -130,6 +121,9 @@ public class CodexRework : MonoBehaviour
         }
         else
         {
+            print("Codex Opened");
+            ChangeCategory(0);
+
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(defaultButton);
         }
@@ -159,15 +153,100 @@ public class CodexRework : MonoBehaviour
         }
         else
         {
-            nameText.text = defaultName;
-            descriptionText.text = defaultDesc;
-            largeDescriptionText.text = defaultDesc;
-            horizontalEntryName.text = defaultName;
-            horizontalDescriptionText.text = defaultDesc;
+            SetTextToDefault();
         }
 
         //if(entry.description.Length == 1) pageNumberText.gameObject.SetActive(false); //Fix this later. Not very important :/
         //else pageNumberText.gameObject.SetActive(true);                 
+    }
+
+    public void UpdateQuests(Quest quest)
+    {
+        nameText.text = quest.name;
+
+        questNameText.text = quest.assignee.ToString();
+        questNameText.text = questNameText.text.Replace("Null", "Task");
+
+        questDescriptionText.text = quest.description;
+
+        largeImage.gameObject.SetActive(false);
+        descriptionText.gameObject.SetActive(true);
+        largeDescriptionText.gameObject.SetActive(false);
+        smallImage.gameObject.SetActive(true);
+        //smallImage.sprite = currentEntry.mainImage;
+
+        var type = quest.GetType();
+
+        if(type.Equals(typeof(FetchQuest)))
+        {
+            var q = quest as FetchQuest;
+            var t = q.description;
+
+            if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+            else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+
+            t = t.Replace("{itemAmount}", q.amount.ToString());
+
+            questDescriptionText.text = t;
+            questProgressText.text = q.progress + "/" + q.maxProgress;
+            questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+        }
+        if(type.Equals(typeof(HuntQuest)))
+        {
+            var q = quest as HuntQuest;
+            var t = q.description;
+
+            if (q.amount > 1) t = t.Replace("{itemName}", q.targetCreature.name.ToString() + "s");
+            else t = t.Replace("{itemName}", q.targetCreature.name.ToString());
+
+            t = t.Replace("{itemAmount}", q.amount.ToString());
+
+            questDescriptionText.text = t;
+            questProgressText.text = q.targetCreature.name + " eliminited: " + q.progress + "/" + q.maxProgress;
+        }
+        if(type.Equals(typeof(GrowQuest)))
+        {
+            var q = quest as GrowQuest;
+            var t = q.description;
+
+            if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+            else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+
+            t = t.Replace("{itemAmount}", q.amount.ToString());
+
+            questDescriptionText.text = t;
+            questProgressText.text = q.progress + "/" + q.maxProgress;
+            questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+        }
+
+        if(quest.progress >= quest.maxProgress && quest.alreadyCompleted != true) questCompleteText.text = "Return to " + quest.assignee;
+        else if (quest.alreadyCompleted == true) questCompleteText.text = "Completed";
+        else questCompleteText.text = "";
+
+        //print(type);
+    }
+
+    private void SetTextToDefault()
+    {
+        nameText.text = defaultName;
+        descriptionText.text = defaultDesc;
+        largeDescriptionText.text = defaultDesc;
+        horizontalEntryName.text = defaultName;
+        horizontalDescriptionText.text = defaultDesc;
+    }
+
+    private void NoEntries()
+    {
+        largeImage.gameObject.SetActive(false);
+        smallImage.gameObject.SetActive(false);
+        SetTextToDefault();
+        descriptionText.gameObject.SetActive(false);
+        largeDescriptionText.gameObject.SetActive(true);
+        largeImage.sprite = null;
+        smallImage.sprite = null;
+        pageNumberText.text = "";
+        UpdateNavigation();
+        return;
     }
 
     public void ChangeCategory(int cat)
@@ -178,6 +257,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = GettingStarted;
             currentPage = 0;
             isGridCategory = false;
+            isQuestCategory = false;
             contentsText.text = "Getting Started";
             UpdatePage(0, CurrentCategory[0], true);
             break;
@@ -186,6 +266,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = ToolEntries;
             currentPage = 0;
             isGridCategory = true;
+            isQuestCategory = false;
             contentsText.text = "Tools";
             UpdatePage(0, CurrentCategory[0], true);
             break;
@@ -194,6 +275,7 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = PlantEntries;
             currentPage = 0;
             isGridCategory = true;
+            isQuestCategory = false;
             contentsText.text = "Plants";
             UpdatePage(0, CurrentCategory[0], true);
             break;
@@ -202,16 +284,21 @@ public class CodexRework : MonoBehaviour
             CurrentCategory = CreatureEntries;
             currentPage = 0;
             isGridCategory = true;
+            isQuestCategory = false;
             contentsText.text = "Creatures";
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
             case 4:
-            CurrentCategory = QuestEntries;
+            CurrentCategory = null;
             currentPage = 0;
             isGridCategory = false;
+            isQuestCategory = true;
             contentsText.text = "Quests";
-            UpdatePage(0, CurrentCategory[0], true);
+            if(activeQuests.Count > 0) {UpdateQuests(activeQuests[0]); print("Active Quests = " + activeQuests.Count);}
+            else NoEntries();
+            pageNumberText.text = "";
+            //UpdatePage(0, CurrentCategory[0], true);
             break;
 
             default:
@@ -233,7 +320,7 @@ public class CodexRework : MonoBehaviour
         ClearCodex();
         categoryList.Clear();
         PopulateCodex();
-        print(CurrentCategory);
+        //print(CurrentCategory);
     }
 
     void PopulateCodex()
@@ -242,6 +329,7 @@ public class CodexRework : MonoBehaviour
         {
             grid.SetActive(true);
             horizontal.SetActive(false);
+            questObj.SetActive(false);
 
             for (int i = 0; i < CurrentCategory.Length; i++)
             {
@@ -274,10 +362,11 @@ public class CodexRework : MonoBehaviour
                 categoryList.Add(tempButton);
             }
         }
-        else
+        else if (!isQuestCategory)
         {
             grid.SetActive(false);
             horizontal.SetActive(true);
+            questObj.SetActive(false);
 
             for (int i = 0; i < CurrentCategory.Length; i++)
             {
@@ -297,8 +386,71 @@ public class CodexRework : MonoBehaviour
                 tempID.assignedEntry = CurrentCategory[i];
 
                 categoryList.Add(tempButton);
-
             }
+        }
+        else
+        {
+            grid.SetActive(false);
+            horizontal.SetActive(false);
+            questObj.SetActive(true);
+
+            for (int i = 0; i < activeQuests.Count; i++)
+            {
+                var tempButton = Instantiate(horizontalEntryButton, questContentObject.transform, worldPositionStays:false);
+                var button = tempButton.gameObject.transform.GetChild(0).gameObject;
+                var tempName = tempButton.gameObject.transform.GetChild(1).gameObject;
+                var tempID = tempButton.GetComponent<CodexButtonID>();
+                var tempText = tempName.GetComponent<TextMeshProUGUI>();
+
+                var type = activeQuests[i].GetType();
+                if(type.Equals(typeof(FetchQuest)))
+                {
+                    var q = activeQuests[i] as FetchQuest;
+                    var t = q.name;
+
+                    if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+                    else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+
+                    t = t.Replace("{itemAmount}", q.amount.ToString());
+
+                    tempText.text = t;
+                }
+                if(type.Equals(typeof(HuntQuest)))
+                {
+                    var q = activeQuests[i] as HuntQuest;
+                    var t = q.name;
+
+                    if (q.amount > 1) t = t.Replace("{creatureName}", q.targetCreature.name.ToString() + "s");
+                    else t = t.Replace("{creatureName}", q.targetCreature.name.ToString());
+
+                    t = t.Replace("{creatureAmount}", q.amount.ToString());
+
+                    tempText.text = t;
+                }
+                if(type.Equals(typeof(GrowQuest)))
+                {
+                    var q = activeQuests[i] as GrowQuest;
+                    var t = q.name;
+
+                    if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+                    else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+
+                    t = t.Replace("{itemAmount}", q.amount.ToString());
+
+                    tempText.text = t;
+                }
+
+                if(!activeQuests[i].alreadyCompleted) tempText.text = tempText.text;
+                else tempText.text = "<s>" + tempText.text + "</s>";
+
+                button.name = "QuestButton" + i;
+                
+                tempID.assignedQuest = activeQuests[i];
+
+                categoryList.Add(tempButton);
+            }
+            UpdateNavigation();
+            return;
         }
             
         print(categoryList.Count);
@@ -314,33 +466,22 @@ public class CodexRework : MonoBehaviour
                 break;
             }
         }
-        if(currentEntry == null) 
+        if(currentEntry == null && !isQuestCategory) 
         {
-            largeImage.gameObject.SetActive(false);
-            nameText.text = defaultName;
-            largeDescriptionText.text = defaultDesc;
-            horizontalEntryName.text = defaultName;
-            horizontalDescriptionText.text = defaultDesc;
-            descriptionText.text = defaultDesc;
-            largeImage.gameObject.SetActive(false);
-            descriptionText.gameObject.SetActive(false);
-            largeDescriptionText.gameObject.SetActive(true);
-            largeImage.sprite = null;
-            smallImage.sprite = null;
-            pageNumberText.text = "";
-            UpdateNavigation();
-            return;
+            NoEntries();
         }
-
-        nameText.text = currentEntry.entryName;     //CurrentCategory[0].entryName;
-        descriptionText.text = currentEntry.description[0];     //CurrentCategory[0].description[0];
-        largeDescriptionText.text = currentEntry.description[0];
-        horizontalEntryName.text = currentEntry.entryName;
-        horizontalDescriptionText.text = currentEntry.description[0];
-        pageNumberText.text = "Page 1" + "/" + currentEntry.description.Length;
-        
-        ImageCheck();
-        UpdateNavigation();
+        else
+        {
+            nameText.text = currentEntry.entryName;     //CurrentCategory[0].entryName;
+            descriptionText.text = currentEntry.description[0];     //CurrentCategory[0].description[0];
+            largeDescriptionText.text = currentEntry.description[0];
+            horizontalEntryName.text = currentEntry.entryName;
+            horizontalDescriptionText.text = currentEntry.description[0];
+            pageNumberText.text = "Page 1" + "/" + currentEntry.description.Length;
+            
+            ImageCheck();
+            UpdateNavigation();
+        }
     }
 
     void ClearCodex()
@@ -409,33 +550,42 @@ public class CodexRework : MonoBehaviour
         startNav.mode = Navigation.Mode.Explicit;
         startNav.selectOnUp = categoryButtons[4];
         startNav.selectOnDown = categoryButtons[1];
-        if(isGridCategory){startNav.selectOnRight = categoryList[0].GetComponent<Button>();}
-        else{startNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
 
         toolNav.mode = Navigation.Mode.Explicit;
         toolNav.selectOnUp = categoryButtons[0];
         toolNav.selectOnDown = categoryButtons[2];
-        if(isGridCategory){toolNav.selectOnRight = categoryList[0].GetComponent<Button>();}
-        else{toolNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
 
         plantNav.mode = Navigation.Mode.Explicit;
         plantNav.selectOnUp = categoryButtons[1];
         plantNav.selectOnDown = categoryButtons[3];
-        if(isGridCategory){plantNav.selectOnRight = categoryList[0].GetComponent<Button>();}
-        else{plantNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
 
         creatureNav.mode = Navigation.Mode.Explicit;
         creatureNav.selectOnUp = categoryButtons[2];
         creatureNav.selectOnDown = categoryButtons[4];
-        if(isGridCategory){creatureNav.selectOnRight = categoryList[0].GetComponent<Button>();}
-        else{creatureNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
 
         questNav.mode = Navigation.Mode.Explicit;
         questNav.selectOnUp = categoryButtons[3];
         questNav.selectOnDown = categoryButtons[0];
-        if(isGridCategory){questNav.selectOnRight = categoryList[0].GetComponent<Button>();}
-        else{questNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
 
+        if(categoryList[0] != null)
+        {
+            if(isGridCategory){startNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+            else{startNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+            if(isGridCategory){toolNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+            else{toolNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+            if(isGridCategory){plantNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+            else{plantNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+            if(isGridCategory){creatureNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+            else{creatureNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+            if(isGridCategory){questNav.selectOnRight = categoryList[0].GetComponent<Button>();}
+            else{questNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
+
+        }
+        
         categoryButtons[0].navigation = startNav;
         categoryButtons[1].navigation = toolNav;
         categoryButtons[2].navigation = plantNav;
