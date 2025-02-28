@@ -27,7 +27,7 @@ public class PyreFly : CreatureBehaviorScript
 
     public PyreFlyHive homeHive;
     private StructureBehaviorScript targetStructure; //Struct to burn
-    private Brazier targetFireSource;
+    private StructureBehaviorScript targetFireSource;
 
     //public LayerMask layerMask;
 
@@ -281,7 +281,7 @@ public class PyreFly : CreatureBehaviorScript
     {
         if (targetFireSource == null || !targetFireSource.gameObject.activeSelf)
         {
-            FindBurnableStructure();
+            FindFireSource();
             if (targetFireSource != null)
             {
                 target = targetFireSource.transform;
@@ -313,6 +313,13 @@ public class PyreFly : CreatureBehaviorScript
             if (brazier && brazier.flameLeft > 0)
             {
                 targetFireSource = brazier;
+                //print(targetFireSource);
+                return;
+            }
+            PlacedTorch torch = structure as PlacedTorch;
+            if (torch && PlayerInteraction.Instance.torchLit)
+            {
+                targetFireSource = torch;
                 //print(targetFireSource);
                 return;
             }
@@ -375,7 +382,9 @@ public class PyreFly : CreatureBehaviorScript
 
     void IgniteSelf()
     {
-        if(targetFireSource && targetFireSource.flameLeft > 0)
+        PlacedTorch t = targetFireSource as PlacedTorch;
+        Brazier b = targetFireSource as Brazier;
+        if((b && b.flameLeft > 0) || (t && PlayerInteraction.Instance.torchLit))
         {
             IgnitionToggle(true);
             currentState = CreatureState.Wander;
