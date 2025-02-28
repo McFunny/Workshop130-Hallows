@@ -19,7 +19,7 @@ public class CodexRework : MonoBehaviour
     string defaultName = "???";
     string defaultDesc = "There is more to discover...";
     ControlManager controlManager;
-    [SerializeField] private Image largeImage, smallImage;
+    [SerializeField] private Image largeImage, smallImage, questImage;
     [SerializeField] private GameObject defaultButton;
     [SerializeField] private Button[] categoryButtons;
     private Button currentCategoryButton;
@@ -233,17 +233,23 @@ public class CodexRework : MonoBehaviour
         largeDescriptionText.text = defaultDesc;
         horizontalEntryName.text = defaultName;
         horizontalDescriptionText.text = defaultDesc;
+        questCompleteText.text = "";
+        questDescriptionText.text = defaultDesc;
+        questNameText.text = defaultName;
+        questProgressText.text = "";
     }
 
     private void NoEntries()
     {
         largeImage.gameObject.SetActive(false);
         smallImage.gameObject.SetActive(false);
+        questImage.gameObject.SetActive(false);
         SetTextToDefault();
         descriptionText.gameObject.SetActive(false);
         largeDescriptionText.gameObject.SetActive(true);
         largeImage.sprite = null;
         smallImage.sprite = null;
+        //questImage.sprite = null;
         pageNumberText.text = "";
         UpdateNavigation();
         return;
@@ -295,8 +301,16 @@ public class CodexRework : MonoBehaviour
             isGridCategory = false;
             isQuestCategory = true;
             contentsText.text = "Quests";
-            if(activeQuests.Count > 0) {UpdateQuests(activeQuests[0]); print("Active Quests = " + activeQuests.Count);}
-            else NoEntries();
+            if(activeQuests.Count > 0) 
+            {
+                UpdateQuests(activeQuests[0]); 
+                print("Active Quests = " + activeQuests.Count);
+                questImage.gameObject.SetActive(true);
+            }
+            else
+            {
+                NoEntries();
+            }
             pageNumberText.text = "";
             //UpdatePage(0, CurrentCategory[0], true);
             break;
@@ -567,7 +581,7 @@ public class CodexRework : MonoBehaviour
         questNav.selectOnUp = categoryButtons[3];
         questNav.selectOnDown = categoryButtons[0];
 
-        if(categoryList[0] != null)
+        if(categoryList.Count != 0)
         {
             if(isGridCategory){startNav.selectOnRight = categoryList[0].GetComponent<Button>();}
             else{startNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
@@ -583,7 +597,6 @@ public class CodexRework : MonoBehaviour
 
             if(isGridCategory){questNav.selectOnRight = categoryList[0].GetComponent<Button>();}
             else{questNav.selectOnRight = categoryList[0].GetComponentInChildren<Button>();}
-
         }
         
         categoryButtons[0].navigation = startNav;
