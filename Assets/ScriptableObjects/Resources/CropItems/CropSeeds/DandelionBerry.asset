@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edfa73c5b2ca624f88c7f0fb8be25d6, type: 3}
+  m_Name: DandelionBerry
+  m_EditorClassIdentifier: 
+  ID: -1
+  displayName: Dandelion Berry
+  description: 
+  icon: {fileID: 31738408, guid: 449124c102f530d48a57d7a6ebc30606, type: 3}
+  maxStackSize: 20
+  value: 8
+  sellValueMultiplier: 0
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  bonusCompostValue: 0
+  itemInputsKBM:
+  - RMB - Plant
+  itemInputsController:
+  - LT - Plant
+  plantable: 1
+  cropData: {fileID: 11400000, guid: cf8af9956b089464085a930ba02b3711, type: 2}
+  ableToBeShot: 1

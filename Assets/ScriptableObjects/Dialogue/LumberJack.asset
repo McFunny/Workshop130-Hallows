@@ -22,9 +22,10 @@ MonoBehaviour:
       afford it.
     emotions: 000000000300000002000000
   questCompletePath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Thanks for completing quest
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 06000000
   repeatedItemPath:
     pathName: Sigh
     paragraphs:
@@ -111,6 +112,12 @@ MonoBehaviour:
     - ...
     - Why are you showing me this?
     emotions: 000000000000000004000000
+  - pathName: Tree Papers
+    paragraphs:
+    - I do believe those are the papers you bought from me.
+    - ... What more do you want from me? An autograph?
+    - Place those on the trees in your farm to let me know which ones to remove.
+    emotions: 050000000400000000000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

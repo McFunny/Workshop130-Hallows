@@ -92,14 +92,15 @@ public class StructureManager : MonoBehaviour
         float r;
         for(int i = 0; i < allStructs.Count; i++)
         {
-            if(allStructs[i] && !allStructs[i].destructable)
+            if(allStructs[i] && allStructs[i].destructable)
             {
                 FarmLand potentialWeed = allStructs[i] as FarmLand;
-                if(potentialWeed && potentialWeed.isWeed) return;
+                if(potentialWeed && potentialWeed.isWeed) continue;
 
                 r = Random.Range(0, 10);
-                if(r > 8) //Destroy structure. Could even replace some with rubble struct when we add it
+                if(r >= 8) //Destroy structure. Could even replace some with rubble struct when we add it
                 {
+                    print("Deleting: " + allStructs[i]);
                     Destroy(allStructs[i].gameObject);
                 }
             }
@@ -486,7 +487,7 @@ public class StructureManager : MonoBehaviour
             }
             if(canSpawn)
             {
-                GameObject newStructure = pool.GrabForageable();
+                GameObject newStructure = pool.GrabForageable(false);
                 newStructure.transform.position = spawnPos;
             }
 
@@ -525,7 +526,7 @@ public class StructureManager : MonoBehaviour
     void PopulateDecorCrows(int min, int max)
     {
         int r = Random.Range(min,max + 1);
-        print(r);
+        //print(r);
         if (r <= 0) return;
         Transform lastTransform = null;
         for(int i = 0; i < r; i++)

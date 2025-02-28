@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: Foxglove
+  m_EditorClassIdentifier: 
+  name: Foxglove
+  growthStages: 5
+  hoursPerStage: 1
+  harvestableGrowthStages: 05000000
+  cropSprites:
+  - {fileID: -1948318975, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
+  - {fileID: 1951648478, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
+  - {fileID: -549786709, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
+  - {fileID: 1418615255, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
+  - {fileID: -2102857513, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
+  rottedImage: {fileID: -1124249375, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
+  cropYield: {fileID: 11400000, guid: e17a35f1d70b23a4699d1887727d5504, type: 2}
+  cropSeed: {fileID: 11400000, guid: 5daec7923b3fc2a4b9cf52d052f5a9ad, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 1
+  seedYieldVariance: 2
+  waterIntake: 5
+  ichorIntake: 1
+  terraIntake: -0.5
+  gloamIntake: 1.25
+  stressLimit: 2
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 0}
+  emitsGlow: 0

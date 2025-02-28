@@ -10,6 +10,7 @@ public class PlayerCam : MonoBehaviour
 
     Vector3 posOfInterest = new Vector3(0,0,0); //What the camera pans to
     float interestRotSpeed = 3;
+    bool focusOnInterest = false;
 
     public float sensX;
     public float sensY;
@@ -107,7 +108,7 @@ public class PlayerCam : MonoBehaviour
         }
         
 
-        if(posOfInterest != new Vector3(0,0,0))
+        if(focusOnInterest)
         {
             if(PlayerMovement.restrictMovementTokens == 0)
             {
@@ -123,6 +124,7 @@ public class PlayerCam : MonoBehaviour
             orientation.rotation = Quaternion.Euler(0, rot.y, 0);
 
             xRotation = rot.eulerAngles.x;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
             yRotation = rot.eulerAngles.y;
         }
 
@@ -144,12 +146,14 @@ public class PlayerCam : MonoBehaviour
     public void NewObjectOfInterest(Vector3 newInterest)
     {
         posOfInterest = newInterest;
+        focusOnInterest = true;
         //allowCameraInfluence = allowInfluence;
     }
 
     public void ClearObjectOfInterest()
     {
-        posOfInterest = new Vector3(0,0,0);
+        focusOnInterest = false;
+        //posOfInterest = new Vector3(0,0,0);
         //allowCameraInfluence = false;
     }
 }

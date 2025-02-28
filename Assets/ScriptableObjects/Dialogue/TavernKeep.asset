@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
   m_Name: TavernKeep
   m_EditorClassIdentifier: 
-  speakerName: 
+  speakerName: TavernKeep
   defaultPath:
     pathName: Introduction
     paragraphs:
@@ -21,9 +21,10 @@ MonoBehaviour:
     - Well if you want some extra tasks, be sure to come talk to me.
     emotions: 010000000100000000000000
   questCompletePath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Thanks for completing quest
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 06000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -51,28 +52,21 @@ MonoBehaviour:
     - I don't think you would be able to carry this.
     emotions: 05000000
   fillerPaths:
-  - pathName: Seed Shooter
+  - pathName: Question
     paragraphs:
-    - I've been working on making upgrades to the turrets.
-    - I'm glad I got one working where you can put your seeds in it!
-    emotions: 0000000001000000
-  - pathName: Braziers
+    - Hows the farm going?
+    emotions: 00000000
+  - pathName: Merchant
     paragraphs:
-    - I know how useful it is for you to have contained fires on your farm.
-    - That's why I love making you braziers!
-    - It helps you and puts some money in my pockets!
-    - If only I could find a way to prevent Murdermancers from putting it out!
-    emotions: 00000000010000000100000003000000
-  - pathName: Landmine
+    - That guy in the wagon never brings me more drinks to sell!
+    emotions: 03000000
+  questPaths:
+  - pathName: Got a job for ya
     paragraphs:
-    - Those land mines I make are specially designed.
-    - You can switch what nutrient they consume when they blow up.
-    emotions: 0000000000000000
-  - pathName: Compost Bin
-    paragraphs:
-    - Have you ever tried putting hare meat in the compost bin?
-    emotions: 04000000
-  questPaths: []
+    - Looking for some extra work?
+    - I have been tipped off to an individual needing some assistance. I'll give
+      you the details on this note.
+    emotions: 0400000000000000
   itemRecievedPaths: []
   itemSpecificRemarks: []
   friendshipPath1: []

@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class PyreFly : CreatureBehaviorScript
 {
+    public Variant variant; // what variant of creature is this?
+
     private bool isMoving = false;
     private bool coroutineRunning = false;
     private Transform target;
@@ -27,9 +29,14 @@ public class PyreFly : CreatureBehaviorScript
     private StructureBehaviorScript targetStructure; //Struct to burn
     private Brazier targetFireSource;
 
-    public LayerMask layerMask;
+    //public LayerMask layerMask;
 
     bool idleTurn = false;
+
+    public Transform strafePointL, strafePointR;
+    //Coroutine strafeCoroutine = null;
+    bool strafing = false;
+    public GameObject fireball;
 
 
     public enum CreatureState
@@ -39,9 +46,16 @@ public class PyreFly : CreatureBehaviorScript
         WalkTowardsClosestFlame,
         ReturnToHive,
         Stun,
-        Die
+        Die,
+        StrafePlayer
         //WalkTowardsPlayer,
         //AttackPlayer,
+    }
+
+    public enum Variant
+    {
+        Normal,
+        Napalm
     }
 
     public CreatureState currentState;
@@ -55,14 +69,14 @@ public class PyreFly : CreatureBehaviorScript
     void Start()
     {
         base.Start();
-
-        if(ignited) currentState = CreatureState.WalkTowardsClosestStructure;
+        if(variant == Variant.Napalm || inWilderness) currentState = CreatureState.Wander;
+        else if(ignited) currentState = CreatureState.WalkTowardsClosestStructure;
         else currentState = CreatureState.WalkTowardsClosestFlame;
 
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
 
-        StartCoroutine(PlayerTurn());
+        if(variant != Variant.Napalm) StartCoroutine(PlayerTurn());
     }
 
     // Update is called once per frame
@@ -78,6 +92,11 @@ public class PyreFly : CreatureBehaviorScript
         textureOffset = textureOffset + offsetRate;
         meshRenderer.material.mainTextureOffset = new Vector2(0, textureOffset);
         if(textureOffset > 500) textureOffset = 0;
+
+        float distance = Vector3.Distance(player.position, transform.position);
+        playerInSightRange = distance <= sightRange;
+        if(playerInAttackRange) playerInAttackRange = distance <= attackRange + 5;
+        else playerInAttackRange = distance <= attackRange;
 
         if(idleTurn)
         {
@@ -118,6 +137,10 @@ public class PyreFly : CreatureBehaviorScript
                 // OnDeath();
                 break;
 
+            case CreatureState.StrafePlayer:
+                StrafePlayer();
+                break;
+
             default:
                 Debug.LogError("Unknown state: " + currentState);
                 break;
@@ -128,9 +151,36 @@ public class PyreFly : CreatureBehaviorScript
     {
         if (!isMoving && currentState == CreatureState.Wander)
         {
-            Vector3 randomPoint = StructureManager.Instance.GetRandomTile();
-            StartCoroutine(MoveToPoint(randomPoint));
+            if(!inWilderness)
+            {
+                if(variant == Variant.Napalm && playerInSightRange)
+                {
+                    StartCoroutine(MoveToPoint(player.position)); //move to player
+                }
+                else
+                {
+                    Vector3 randomTile = StructureManager.Instance.GetRandomTile(); //wander to farm tile
+                    StartCoroutine(MoveToPoint(randomTile));
+                }
+            }
+            else
+            {
+                if(variant == Variant.Napalm) StartCoroutine(MoveToPoint(player.position)); //move to player
+                else
+                {
+                    //randomly wander
+                    Vector3 randomPoint = GetRandomPointAround(transform.position, 5f);
+                    StartCoroutine(MoveToPoint(randomPoint));
+                }
+            }
         }
+    }
+
+    private Vector3 GetRandomPointAround(Vector3 origin, float radius)
+    {
+        Vector2 randomDirection = Random.insideUnitCircle * radius;
+        Vector3 randomPoint = new Vector3(randomDirection.x, origin.y, randomDirection.y) + origin;
+        return randomPoint;
     }
 
     private IEnumerator MoveToPoint(Vector3 destination)
@@ -138,7 +188,7 @@ public class PyreFly : CreatureBehaviorScript
         isMoving = true;
         coroutineRunning = true;
 
-        if (TimeManager.Instance.isDay) destination = despawnPos;
+        if (TimeManager.Instance.isDay && !inWilderness) destination = despawnPos;
 
         agent.destination = destination;
 
@@ -146,13 +196,20 @@ public class PyreFly : CreatureBehaviorScript
 
         while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 25)
         {
-            timeSpent += 0.01f;
+            if((playerInAttackRange && variant == Variant.Napalm)) timeSpent += 25;
+            if(variant == Variant.Napalm && playerInSightRange) agent.destination = destination;
+
+            timeSpent += Time.deltaTime;
             yield return null;
         }
 
         float r = Random.Range(0,10);
 
-        if(r < 7) //otherwise wander
+        if((playerInAttackRange && variant == Variant.Napalm))
+        {
+            currentState = CreatureState.StrafePlayer;
+        }
+        else if(r < 7 && !inWilderness && variant != Variant.Napalm) //otherwise wander
         {
             if(ignited)
             {
@@ -359,6 +416,78 @@ public class PyreFly : CreatureBehaviorScript
 
     }
 
+    void StrafePlayer()
+    {
+        if(!playerInAttackRange)
+        {
+            print("Stop Strafing");
+            agent.speed -= 2;
+            strafing = false;
+            StopCoroutine(Strafe());
+
+            currentState = CreatureState.Wander;
+            agent.updateRotation = true;
+            return;
+        }
+        transform.LookAt(player.position);
+        if(strafing == false)
+        {
+            strafing = true;
+            agent.speed += 2;
+            StartCoroutine(Strafe());
+        }
+        //
+    }
+
+    IEnumerator Strafe()
+    {
+        int r;
+        int attackCooldown = 5;
+        int x = 0; //keeps track of how long its been unlit
+
+        while(strafing)
+        {
+            r = Random.Range(0, 10);
+            if(r > 5) agent.SetDestination(strafePointL.position);
+            else agent.SetDestination(strafePointR.position);
+
+            attackCooldown -= Random.Range(1, 4);
+            if(attackCooldown <= 0)
+            {
+                if(ignited) Attack();
+                else x++;
+                attackCooldown = 5;
+                if(x >= 10)
+                {
+                    IgnitionToggle(true);
+                    x = 0;
+                }
+            }
+            yield return new WaitForSeconds(0.8f);
+            print("Strafed");
+        }
+    }
+
+    void Attack()
+    {
+        print("Attacking");
+        if(!ignited)
+        {
+            IgnitionToggle(true);
+            return;
+        }
+        effectsHandler.MiscSound2();
+        GameObject newBullet;
+        Vector3 dir;
+
+        newBullet = ProjectilePoolManager.Instance.GrabFireBall();
+        newBullet.transform.position = corpseParticleTransform.position;
+        newBullet.transform.rotation = transform.rotation;
+
+        dir = transform.forward;
+        newBullet.GetComponent<Rigidbody>().AddForce(dir * 70);
+    }
+
     IEnumerator PlayerTurn()
     {
         while(health > 0)
@@ -424,7 +553,7 @@ public class PyreFly : CreatureBehaviorScript
                 var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
                 if (creature != null && creature.shovelVulnerable)
                 {
-                    creature.TakeDamage(75);
+                    creature.TakeDamage(125);
                     creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 }
             }

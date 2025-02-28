@@ -12,7 +12,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public float ichorDropRadius = 2;
 
     public CreatureObject creatureData;
-    public bool inWilderness = false;
+    public bool inWilderness = false; //Creatures have dif behavior depending on where they are. This is changed by the Wilderness Manager
 
     [HideInInspector] public StructureManager structManager;
     [HideInInspector] public CreatureEffectsHandler effectsHandler;
@@ -51,7 +51,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         structManager = StructureManager.Instance;
         effectsHandler = GetComponentInChildren<CreatureEffectsHandler>();
-        player = PlayerInteraction.Instance.transform;
+        player = PlayerInteraction.Instance.playerFeet;
 
         if(hitColor != Color.black)
         {
@@ -83,13 +83,15 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             OnDamage();
         }
-        if(health <= 0 && !isDead)
+        if(health <= 0 && !isDead) //turns into a corpse, and fertilizes nearby crops
         {
             effectsHandler.OnDeath();
             OnDeath();
             RefreshEmmision();
             isDead = true;
-            //turns into a corpse, and fertilizes nearby crops
+
+            //Send event of death for quests
+            QuestManager.Instance.CreatureDeath(creatureData);
         }
         if(canCorpseBreak)
         {
@@ -102,7 +104,8 @@ public class CreatureBehaviorScript : MonoBehaviour
                     {
                         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(droppedItems[i]);
                         Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
-                        droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                        if(corpseParticleTransform) droppedItem.transform.position = new Vector3(corpseParticleTransform.position.x, corpseParticleTransform.position.y + 0.5f, corpseParticleTransform.position.z);
+                        else droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
                         Vector3 dir3 = Random.onUnitSphere;
                         dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
@@ -111,13 +114,18 @@ public class CreatureBehaviorScript : MonoBehaviour
                         itemRB.AddForce(Vector3.up * 50);
                     }
                 }
-                if(ichorWorth > 0) structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
+                if(ichorWorth > 0)
+                {
+                    if(corpseParticleTransform) structManager.IchorRefill(corpseParticleTransform.position, ichorWorth, ichorDropRadius);
+                    else structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
+                }
                 GameObject corpseParticle = ParticlePoolManager.Instance.GrabCorpseParticle(corpseType);
                 if(corpseParticle)
                 {
                     if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
                     else corpseParticle.transform.position = transform.position;
                 }
+                
                 Destroy(this.gameObject);
             }
         }
@@ -141,7 +149,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public virtual void OnDamage(){} //Triggers creature specific effects
     public virtual void OnDeath()
     {
-        if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
+        if(NightSpawningManager.Instance.allCreatures.Contains(this)) NightSpawningManager.Instance.allCreatures.Remove(this);
+        if(WildernessManager.Instance.allCreatures.Contains(this)) WildernessManager.Instance.allCreatures.Remove(this);
         foreach(Collider collider in allColliders)
         {
             collider.isTrigger = true;
@@ -151,6 +160,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public void OnDestroy()
     {
         if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
+        if(WildernessManager.Instance.allCreatures.Contains(this)) WildernessManager.Instance.allCreatures.Remove(this);
     }
 
     public virtual void OnSpawn(){}
@@ -180,6 +190,16 @@ public class CreatureBehaviorScript : MonoBehaviour
             else return null;
         }
         else return null;
+    }
+
+    public bool CheckForPlayer(Transform checkTransform)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 2, 1 << 10))
+        {
+            return true;
+        }
+        else return false;
     }
 
     IEnumerator DamageFlash()

@@ -20,7 +20,11 @@ public enum Destination
     GravediggerHouse,
     Fountain,
     Spring,
-    RascalSpot
+    RascalSpot,
+    CulinarianHouse,
+    ButcherHouse,
+    Graveyard,
+    TinkererWorkbench
 }
 
 public enum Action
@@ -46,6 +50,7 @@ public class Sublocation
 [System.Serializable]
 public class DestinationData
 {
+    public string name;
     public Destination destination; // general destination
     public Transform mainTransform; // main location for fallback
     public List<Sublocation> sublocations = new List<Sublocation>(); // all of the sub locations per location

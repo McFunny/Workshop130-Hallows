@@ -22,6 +22,8 @@ public class BearTrap : StructureBehaviorScript
 
     float stunTime = 5;
 
+    CreatureBehaviorScript capturedCreature;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -39,7 +41,7 @@ public class BearTrap : StructureBehaviorScript
 
     void Start()
     {
-        base.Start();
+        if(TownGate.Instance.location != PlayerLocation.InWilderness) base.Start();
     }
 
     // Update is called once per frame
@@ -126,24 +128,26 @@ public class BearTrap : StructureBehaviorScript
                 yield return new WaitForSeconds(0.5f);
                 PlayerMovement.restrictMovementTokens -= 1;
                 //enable player movement
+
+                TakeDamage(1);
             } 
             else
             {
-                CreatureBehaviorScript creature = victim.GetComponentInParent<CreatureBehaviorScript>();
+                capturedCreature = victim.GetComponentInParent<CreatureBehaviorScript>();
                 //creature.isTrapped = true;
-                if(creature.health >= 75)
+                if(capturedCreature.health >= 75)
                 {
                     //stun and damage
-                    creature.TakeDamage(25);
-                    creature.OnStun(stunTime);
+                    capturedCreature.TakeDamage(25);
                     StartCoroutine(HoldCreature());
                 }
                 else
                 {
                     //kill
-                    creature.TakeDamage(999);
+                    capturedCreature.TakeDamage(999);
+                    TakeDamage(2);
                 }
-                creature.PlayHitParticle(new Vector3(0, 0, 0));
+                capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
             }
         }
         caughtSomething = false;
@@ -176,11 +180,30 @@ public class BearTrap : StructureBehaviorScript
         rearming = false;
     }
 
-    IEnumerator HoldCreature()
+    IEnumerator HoldCreature() //Maybe have this lose durability for every second it holds a creature
     {
-        rearming = true;
+        /*rearming = true;
         yield return new WaitForSeconds(stunTime);
-        StartCoroutine(Rearm());
+        if (capturedCreature.health > 0)
+        {
+            TakeDamage(5);
+            rearming = false;
+        }
+        else
+        {
+            StartCoroutine(Rearm());
+            TakeDamage(1);
+        } */
+
+        rearming = true;
+        while(health > 0 && capturedCreature.health > 0)
+        {
+            capturedCreature.OnStun(2);
+            yield return new WaitForSeconds(2.01f);
+            if(capturedCreature.health > 0) TakeDamage(1);
+        }
+        rearming = false;
+        //StartCoroutine(Rearm());
     }
 
     void OnTriggerEnter(Collider other)

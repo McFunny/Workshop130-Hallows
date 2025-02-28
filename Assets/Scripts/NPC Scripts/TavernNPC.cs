@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class TavernNPC : NPC, ITalkable
 {
-    //public InventoryItemData fertalizerT, fertalizerG, fertalizerI;
-    //public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk, s_bean, s_ginger, s_spores; //seeds
+    List<Quest> possibleQuests = new List<Quest>();
+    public List<FetchQuest> possibleFetchQuests;
+    public List<HuntQuest> possibleHuntQuests;
+    public List<GrowQuest> possibleGrowQuests;
 
-   // public float sellMultiplier = 1;
-    //public InventoryItemData[] possibleSoldItems;
-    //public InventoryItemData[] commonSeeds, rareSeeds, fertalizers;
-    //public float[] itemWeight; //likelyness of being sold, from 0 - 1
-    //List<StoreItem> storeItems = new List<StoreItem>();
-    //WaypointScript shopUI;
+    public List<Character> possibleFetchAssignees, possibleHuntAssignees, possibleGrowAssignees;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -24,24 +21,31 @@ public class TavernNPC : NPC, ITalkable
 
     void Start()
     {
-        //shopUI = FindObjectOfType<WaypointScript>();
+        possibleQuests.AddRange(possibleFetchQuests);
+        possibleQuests.AddRange(possibleHuntQuests);
+        possibleQuests.AddRange(possibleGrowQuests);
     }
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if (dialogueController.IsTalking() == false) //Makes sure to not interrupt an existing dialogue branch
         {
-            if (!GameSaveData.Instance.botMet) //Introduction Check
+            if (!GameSaveData.Instance.barMet) //Introduction Check
             {
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.barMet = true;
             }
-            else if (movementHandler.isWorking) //Working Dialogue
+            else if(CompletedQuest())
+            {
+                currentPath = 0;
+                currentType = PathType.QuestComplete;
+            }
+            /*else if (movementHandler.isWorking) //Working Dialogue
             {
                 currentPath = 0;
                 currentType = PathType.Misc;
-            }
+            }*/
             else if (NPCManager.Instance.barkeepSpoke) //Say nothing if already given flavor text
             {
                 interactSuccessful = false;
@@ -49,10 +53,21 @@ public class TavernNPC : NPC, ITalkable
             }
             else if (currentPath == -1) //Give 1 daily flavor text
             {
-                int i = Random.Range(0, dialogueText.fillerPaths.Length);
-                currentPath = i;
-                currentType = PathType.Filler;
-                NPCManager.Instance.barkeepSpoke = true;
+                if(/*Random.Range(0, 10) >= 6 &&*/ CanGiveQuest())
+                {
+                    GiveQuest();
+                    int i = Random.Range(0, dialogueText.questPaths.Length);
+                    currentPath = i;
+                    currentType = PathType.Quest;
+                    NPCManager.Instance.barkeepSpoke = true;
+                }
+                else
+                {
+                    int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentPath = i;
+                    currentType = PathType.Filler;
+                    NPCManager.Instance.barkeepSpoke = true;
+                }
             }
         }
         Talk();
@@ -77,11 +92,11 @@ public class TavernNPC : NPC, ITalkable
             return;
         }
 
-       /* if (item == fertalizerI || item == fertalizerT || item == fertalizerG) //Reenable if we want barkeep to see specific items
+        if(CompletedQuestWithItem())
         {
-            currentPath = 1;
-            currentType = PathType.ItemSpecific;
-        }*/
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
 
 
         else if (item.staminaValue > 0)
@@ -113,130 +128,42 @@ public class TavernNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    /*public override void PurchaseAttempt(StoreItem item)
+    void GiveQuest()
     {
-        if (dialogueController.IsInterruptable() == false)
-        {
-            return;
-        }
-        if (lastInteractedStoreItem == item)
-        {
-            //check price, then give item
-            if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
-            {
-                currentPath = 3; //no money!?!?!?
-            }
-            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
-            {
-                currentPath = 4; //No space in inventory
-            }
-            else
-            {
-                currentPath = 2; //item sold
-                shopUI.shopImgObj.SetActive(false);
-            }
-            anim.SetTrigger("IsTalking");
-        }
-        else
-        {
-            dialogueController.restartDialogue = true;
-            currentPath = 1; //item selected
-            anim.SetTrigger("IsTalking");
-            if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-            lastInteractedStoreItem = item;
-            shopUI.shopTarget = item.arrowObject.transform;
-            shopUI.shopImgObj.SetActive(true);
+       // QuestManager.Instance.activeQuests.Add(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+        QuestManager.Instance.AddQuest(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+        int questNum = QuestManager.Instance.activeQuests.Count - 1;//To grab the newly added quest
 
-        }
-        currentType = PathType.Misc;
-        Talk();
-    }*/
+        FetchQuest f = QuestManager.Instance.activeQuests[questNum] as FetchQuest;
 
-    public override void PlayerLeftRadius()
-    {
-/*        if (lastInteractedStoreItem)
-        {
-            lastInteractedStoreItem = null;
-        }
-        shopUI.shopImgObj.SetActive(false);
-*/        base.PlayerLeftRadius();
+        if(f != null) QuestManager.Instance.activeQuests[questNum].assignee = possibleFetchAssignees[Random.Range(0, possibleFetchAssignees.Count)];
+
+        HuntQuest h = QuestManager.Instance.activeQuests[questNum] as HuntQuest;
+
+        if(h != null) QuestManager.Instance.activeQuests[questNum].assignee = possibleHuntAssignees[Random.Range(0, possibleHuntAssignees.Count)];
+
+        GrowQuest g = QuestManager.Instance.activeQuests[questNum] as GrowQuest;
+
+        if(g != null) QuestManager.Instance.activeQuests[questNum].assignee = possibleGrowAssignees[Random.Range(0, possibleGrowAssignees.Count)];
     }
 
-    /*public override void EmptyShopItem()
+    bool CanGiveQuest()
     {
-        lastInteractedStoreItem.Empty();
-        lastInteractedStoreItem = null;
-    }*/
-
-   /* public override void RefreshStore()
-    {
-        //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
-        if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-        lastInteractedStoreItem = null;
-        int i;
-        float r;
-        int currentItem = 0;
-        InventoryItemData newItem;
-
-        InventoryItemData rareSeedForSale;
-        i = Random.Range(0, rareSeeds.Length);
-        rareSeedForSale = rareSeeds[i];
-
-        List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
-        while (commonSeedsForSale.Count < 2)
+        int subQuestsActive = 0;
+        foreach(Quest q in QuestManager.Instance.activeQuests)
         {
-            i = Random.Range(0, commonSeeds.Length);
-            if (!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
+            if(q.isMajorQuest == false && q.alreadyCompleted == false) subQuestsActive++;
         }
+        if(subQuestsActive < 3) return true;
+        else return false;
+    }
 
-        foreach (StoreItem item in storeItems)
-        {
-            newItem = null;
-
-            if (currentItem < 6)
-            {
-                i = Random.Range(0, commonSeedsForSale.Count);
-                newItem = commonSeeds[i];
-            }
-            else if (currentItem < 9) newItem = rareSeedForSale;
-            else
-            {
-                i = Random.Range(0, fertalizers.Length);
-                newItem = fertalizers[i];
-            }
-            *//*do
-            {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f,1f);
-                if(r < itemWeight[i]) newItem = possibleSoldItems[i];
-            }
-            while(!newItem); *//*
-            int newCost = (int)(newItem.value * sellMultiplier);
-            item.RefreshItem(newItem, newCost);
-            item.seller = this;
-            currentItem++;
-        }
-        currentItem = 0;
-    }*/
 
     public override void BeginWorking()
     {
-       /* if (!assignedStall) return;
-        storeItems = assignedStall.storeItems;
-        RefreshStore();*/
     }
 
     public override void StopWorking()
     {
-       /* if (!assignedStall || storeItems.Count == 0) return;
-        for (int i = 0; i < storeItems.Count; i++)
-        {
-            storeItems[i].Empty();
-        }
-        if (lastInteractedStoreItem)
-        {
-            lastInteractedStoreItem = null;
-        }
-        shopUI.shopImgObj.SetActive(false);*/
     }
 }

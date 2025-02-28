@@ -12,7 +12,7 @@ public class StructureBehaviorScript : MonoBehaviour
     //Should this be static Abner?
 
     public delegate void Damaged();
-    [HideInInspector] public event Damaged OnDamage; //Unity Event that will notify enemies when structures are updated
+    [HideInInspector] public event Damaged OnDamage;
 
     [Header("Structure Stats")]
 
@@ -21,7 +21,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public float health = 5;
     public float maxHealth = 5;
 
-    public float wealthValue = 1; //dictates how hard a night could be 
+    public float wealthValue = 0; //dictates how hard a night could be 
 
     [Tooltip("Can this structure be destroyed by lowering its health?")]
     public bool destructable = true;
@@ -32,6 +32,9 @@ public class StructureBehaviorScript : MonoBehaviour
     [Tooltip("Does this structure impede movement? If yes, creatures will attack this if nearby and facing it")]
     public bool isObstacle = true;
 
+    public Transform focalPoint; //for when the camera needs to focus on the object
+    public Transform particleCenter; //for particles
+
     //Save Data
     //[HideInInspector] public List<Item> itemList1;
     //[HideInInspector] public List<Item> itemList2;
@@ -40,8 +43,10 @@ public class StructureBehaviorScript : MonoBehaviour
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
     [HideInInspector] public string saveString1, saveString2, saveString3;
 
-    public ParticleSystem damageParticles;
-    public GameObject destructionParticles;
+    public GameObject damageParticlesObject;
+    List<ParticleSystem> damageParticles = new List<ParticleSystem>();
+    public DestructionType destructionType;
+    public GameObject gibs;
 
     public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
     
@@ -57,6 +62,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
     [Tooltip("Specific UI for this structure, if it has any")]
     public GameObject structureUI; 
+
+    Coroutine highlightCoroutine;
 
     //[Header("Structure Specific")]
 
@@ -74,9 +81,17 @@ public class StructureBehaviorScript : MonoBehaviour
 
         if(structureUI) structureUI.SetActive(false);
 
+        if(damageParticlesObject)
+        {
+            foreach(Transform child in damageParticlesObject.transform)
+            {
+                damageParticles.Add(child.GetComponent<ParticleSystem>());
+            }
+        }
+
     }
 
-    public void Start()
+    public void Start() //dont call this if the structure is not on the farm
     {
         StructureManager.Instance.allStructs.Add(this);
         if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
@@ -109,10 +124,14 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        OnDamage?.Invoke();
         if(!destructable) return;
         health -= damage;
-        OnDamage?.Invoke();
-        if(damageParticles) damageParticles.Play();
+        //if(damageParticles) damageParticles.Play();
+        for(int i = 0; i < damageParticles.Count; i++)
+        {
+            damageParticles[i].Play();
+        }
     }
 
     //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
@@ -129,6 +148,22 @@ public class StructureBehaviorScript : MonoBehaviour
         StructureManager.Instance.allStructs.Remove(this);
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
+        
+        if(health <= 0)
+        {
+            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(destructionType);
+            if(p)
+            {
+                if(particleCenter) p.transform.position = particleCenter.position;
+                else p.transform.position = transform.position;
+            }
+
+            if(gibs)
+            {
+                if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
+                else Instantiate(gibs, transform.position, Quaternion.identity);
+            }
+        }
 
     }
 
@@ -144,7 +179,7 @@ public class StructureBehaviorScript : MonoBehaviour
             highlightEnabled = true;
             foreach(GameObject thing in highlight) thing.SetActive(true);
             if(structureUI) structureUI.SetActive(true);
-            StartCoroutine(HightlightFlash());
+            if(highlightCoroutine == null) highlightCoroutine = StartCoroutine(HightlightFlash());
         }
 
         if(!enable && highlightEnabled)
@@ -175,6 +210,7 @@ public class StructureBehaviorScript : MonoBehaviour
             }
             while(power < 1.9f && highlightEnabled);
         }
+        highlightCoroutine = null;
     }
 
     public void LitOnFire()

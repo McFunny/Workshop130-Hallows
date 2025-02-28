@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
   m_Name: WagonMerchant
   m_EditorClassIdentifier: 
-  speakerName: Wagon Merchant
+  speakerName: Mist Merchant
   defaultPath:
     pathName: Selling Something?
     paragraphs:
@@ -20,9 +20,10 @@ MonoBehaviour:
     - Show me.
     emotions: 0000000003000000
   questCompletePath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Thanks for completing quest
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 06000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -66,6 +67,23 @@ MonoBehaviour:
     - This transaction is encumbered by your lack of organization. I will be waiting
       here until you make space.
     emotions: 03000000
+  - pathName: Wilderness worthy
+    paragraphs:
+    - I have been watching you for some time now. {freezePlayer}
+    - You seem capable of fending for yourself. Perhaps you have some more untapped
+      worth.
+    - I will now take you on expeditions beyond the fog. In return, I expect great
+      returns.
+    - Interact with the lantern besides my wagon to inform me you are prepared.
+    emotions: 00000000050000000600000000000000
+  - pathName: Going to the Wilderness?
+    paragraphs:
+    - Are you adequately prepared for our foray? If so, then we are off. {freezePlayer}
+    emotions: 04000000
+  - pathName: Cannot go to Wilderness currently
+    paragraphs:
+    - The sun will be setting soon. Attend to other matters. {freezePlayer}
+    emotions: 02000000
   fillerPaths: []
   questPaths: []
   itemRecievedPaths: []

@@ -7,7 +7,7 @@ public class TableCodex : MonoBehaviour, IInteractable
 {
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
-    //
+    public Animator anim;
 
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
@@ -24,8 +24,9 @@ public class TableCodex : MonoBehaviour, IInteractable
     {
         print("I interacted!");
         interactSuccessful = true;
-        return; // Disabled for build
+        //return; // Disabled for build
         if(PlayerMovement.isCodexOpen) { return; }
+        PlayerMovement.isCodexOpen = true;
         //codex.gameObject.SetActive(true);
         codex.OpenCloseCodex();
     }
@@ -39,6 +40,16 @@ public class TableCodex : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
        
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        //anim.SetBool("IsOpen", true);
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        //anim.SetBool("IsOpen", false);
     }
 
 

@@ -9,8 +9,8 @@ public class PopupHandler : MonoBehaviour
     public Queue<PopupScript> popupQueue = new Queue<PopupScript>(); 
     List<PopupScript> typesInQueue = new List<PopupScript>(); 
     public PopupScript testPopup, testPopup2, testPopup3;
-    public PopupScript nightWarningPopup;
-    public PopupScript gameSavePopup;
+    public PopupScript nightWarningPopup, nightWildernessWarningPopup;
+    public PopupScript gameSavePopup, wildernessUnlockedPopup;
     private PopupScript currentPopup;
     public GameObject popupContainer;
     public TMP_Text popupText;
@@ -91,6 +91,13 @@ public class PopupHandler : MonoBehaviour
     void NightWarning()
     {
         if(TownGate.Instance.location == PlayerLocation.InTown && TimeManager.Instance.currentHour == 19) AddToQueue(nightWarningPopup);
+
+        if(TownGate.Instance.location == PlayerLocation.InWilderness && (TimeManager.Instance.currentHour == 18 || TimeManager.Instance.currentHour == 19)) AddToQueue(nightWildernessWarningPopup);
+    }
+
+    public void NewsForNewDay()
+    {
+        if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) AddToQueue(wildernessUnlockedPopup);
     }
 
     public void AddToQueue(PopupScript popup)

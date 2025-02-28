@@ -19,7 +19,7 @@ public class NPCMovement : MonoBehaviour
     private NavMeshAgent agent;
 
     private Schedule currentSchedule;
-    private Sublocation currentSublocation; // Track assigned sublocation
+    public Sublocation currentSublocation; // Track assigned sublocation
 
     public bool isWorking; // Determines if this NPC is actively working
     public List<Schedule> scheduleList = new List<Schedule>();
@@ -65,7 +65,7 @@ public class NPCMovement : MonoBehaviour
                     break;
                 }
 
-                if(!passedCheck) break;
+                if(!passedCheck) continue;
                 
                 
 
@@ -93,7 +93,7 @@ public class NPCMovement : MonoBehaviour
                 }
                 else
                 {
-                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false);
+                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false, false);
                    
                 }
 
@@ -123,7 +123,7 @@ public class NPCMovement : MonoBehaviour
                         Debug.LogWarning($"No available destination or sublocation for {schedule.Destination}");
                     }
                 }
-                break;
+                return;
             }
         }
     }
@@ -152,7 +152,7 @@ public class NPCMovement : MonoBehaviour
             npcScript.StopWorking();
             isWorking = false;
         }
-        Debug.Log("We made it here");
+        //Debug.Log("We made it here");
         while (agent.remainingDistance > agent.stoppingDistance)
         {
             if(!agent.isStopped)

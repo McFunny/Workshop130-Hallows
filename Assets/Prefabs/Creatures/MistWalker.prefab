@@ -8573,10 +8573,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d06fed8a2ed642746af8ec6d863c5b72, type: 2}
   - {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
   dropChance:
-  - 1
-  - 1
-  - 1
-  - 1
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
   sightRange: 20
   attackRange: 5
   playerInSightRange: 0
@@ -8589,6 +8589,7 @@ MonoBehaviour:
   damageToPlayer: -25
   canCorpseBreak: 0
   hitColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.7176471}
+  variant: 0
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
   - {fileID: 11400000, guid: 0df10b19e29cb1c48940ea9ef2efcc81, type: 2}

@@ -12,6 +12,8 @@ public class LumberjackNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
+    public Quest treeQuest;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -42,6 +44,7 @@ public class LumberjackNPC : NPC, ITalkable
                     GameSaveData.Instance.lumber_offersDeal = true;
                     currentPath = 0;
                     currentType = PathType.Quest;
+                    QuestManager.Instance.AddQuest(treeQuest);
                 }
                 else if(!GameSaveData.Instance.lumber_choppedTree)
                 {
@@ -60,6 +63,8 @@ public class LumberjackNPC : NPC, ITalkable
                         GameSaveData.Instance.lumber_choppedTree = true;
                         print("I took ur money");
                         anim.SetTrigger("TakeItem");
+
+                        QuestManager.Instance.ForceCompleteQuest(treeQuest);
                     }
                     else
                     {
@@ -70,7 +75,12 @@ public class LumberjackNPC : NPC, ITalkable
             }
             else
             {
-                if(NPCManager.Instance.lumberjackSpoke)
+                if(CompletedQuest())
+                {
+                    currentPath = 0;
+                    currentType = PathType.QuestComplete;
+                }
+                else if(NPCManager.Instance.lumberjackSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -106,7 +116,17 @@ public class LumberjackNPC : NPC, ITalkable
             return;
         } 
 
-        //Add special text for showing him his own tree papers
+        if(CompletedQuestWithItem())
+        {
+            currentPath = 0;
+            currentType = PathType.QuestComplete;
+        }
+
+        else if(item == papers)
+        {
+            currentPath = 1;
+            currentType = PathType.ItemSpecific;
+        }
 
         else if(item.staminaValue > 0)
         {

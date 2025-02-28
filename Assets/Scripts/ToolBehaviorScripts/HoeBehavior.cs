@@ -101,7 +101,7 @@ public class HoeBehavior : ToolBehavior
 
     IEnumerator ExtraLag()
     {
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(1.0f);
         usingPrimary = false;
         PlayerMovement.restrictMovementTokens--;
     }

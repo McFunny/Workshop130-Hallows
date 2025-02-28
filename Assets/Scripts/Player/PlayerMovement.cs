@@ -100,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Sprint(InputAction.CallbackContext obj)
     {
+        if (PlayerInteraction.Instance.stamina <= 50) return;
         Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
 
         // Allow sprinting if moving forward (positive y) and tolerate slight sideways movement
