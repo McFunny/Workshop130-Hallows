@@ -262,8 +262,11 @@ public class PyreFly : CreatureBehaviorScript
         foreach (var structure in structManager.allStructs)
         {
             WraithFlower flower = structure as WraithFlower;
-            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower){}
-                availableStructure.Add(structure);
+            FarmLand tile = structure as FarmLand;
+            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower)
+            {
+                if(!tile || (tile && !tile.isWeed)) availableStructure.Add(structure);
+            }
         }
 
         if (availableStructure.Count > 0)
