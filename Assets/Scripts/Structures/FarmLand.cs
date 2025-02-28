@@ -586,6 +586,30 @@ public class FarmLand : StructureBehaviorScript
         return false;
     }
 
+    public void DrainNutrientsByMimic()
+    {
+        if(!crop || nutrients == null)
+        {
+            return;
+        }
+
+
+        nutrients.waterLevel -= 5;
+        if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
+
+        nutrients.ichorLevel -= 1;
+        if(nutrients.ichorLevel < 0) nutrients.ichorLevel = 0;
+
+        nutrients.terraLevel -= 1;
+        if(nutrients.terraLevel < 0) nutrients.terraLevel = 0;
+
+        nutrients.gloamLevel -= 1;
+        if(nutrients.gloamLevel < 0) nutrients.gloamLevel = 0;
+
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
+
+    }
+
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it
     {
         nutrients = StructureManager.Instance.FetchNutrient(transform.position);
