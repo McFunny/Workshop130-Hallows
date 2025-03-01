@@ -33,6 +33,7 @@ public class WaterProjectileScript : MonoBehaviour
                     structure.TakeDamage(2);
                     ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                     ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+                    HandItemManager.Instance.toolSource.PlayOneShot(hitIce);
                     StartCoroutine(TurnOff());
                     return;
                 }
@@ -84,6 +85,7 @@ public class WaterProjectileScript : MonoBehaviour
                     creature.TakeDamage(50);
                     ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                     ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+                    HandItemManager.Instance.toolSource.PlayOneShot(hitIce);
                     StartCoroutine(TurnOff());
                     return;
                 }
@@ -116,6 +118,7 @@ public class WaterProjectileScript : MonoBehaviour
             {
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                 ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+                HandItemManager.Instance.toolSource.PlayOneShot(hitIce);
                 StartCoroutine(TurnOff());
                 return;
             }
