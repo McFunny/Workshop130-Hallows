@@ -347,7 +347,7 @@ public class MistWalker : CreatureBehaviorScript
             target = targetStructure.transform;
             agent.destination = target.position;
         }
-        else if (Vector3.Distance(transform.position, targetStructure.transform.position) < 4f)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
+        else if (targetStructure && Vector3.Distance(transform.position, targetStructure.transform.position) < 4f)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
         {
             agent.ResetPath();
             currentState = CreatureState.AttackStructure;

@@ -54,11 +54,11 @@ public class PlaceableItem : InventoryItemData
 
         if(Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
         {
-            Debug.Log("Displaying");
+            //Debug.Log("Displaying");
             Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
             if(pos == new Vector3(0,0,0)) 
             {
-                Debug.Log("CantDisplay");
+                //Debug.Log("CantDisplay");
                 if(currentHologram.activeSelf)
                 {
                     currentHologram.SetActive(false);
@@ -68,7 +68,7 @@ public class PlaceableItem : InventoryItemData
             }
             if(pos != currentTilePos)
             {
-                Debug.Log("PlacedHologram");
+                //Debug.Log("PlacedHologram");
                 currentTilePos = pos;
                 if(!currentHologram.activeSelf) currentHologram.SetActive(true);
                 currentHologram.transform.position = currentTilePos;

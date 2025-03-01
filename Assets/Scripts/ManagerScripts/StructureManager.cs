@@ -132,7 +132,7 @@ public class StructureManager : MonoBehaviour
         //Grab tile position
         Vector3Int gridPos = tileMap.WorldToCell(pos);
 
-        if(tileMap.GetTile(gridPos) != null) return tileMap.GetCellCenterWorld(gridPos);
+        if(tileMap.GetTile(gridPos) != null && tileMap.GetTile(gridPos) != borderTile) return tileMap.GetCellCenterWorld(gridPos);
         else return new Vector3 (0,0,0);
     }
 
@@ -612,9 +612,58 @@ public class StructureManager : MonoBehaviour
 
                 x++;
             }
+            //code for replacing a crop
         }
 
         return GetRandomClearTile();
+    }
+
+    public Transform FindBurrow(bool returnFarthest, Vector3 pos)
+    {
+        List<Transform> burrows = new List<Transform>();
+
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            Burrow burrow = allStructs[i] as Burrow;
+            if(burrow) burrows.Add(burrow.transform);
+        }
+
+        if(burrows.Count > 0)
+        {
+            if(returnFarthest)
+            {
+                Transform furthestBurrow = null;
+                float minDistance = 25;
+                for(int i = 0; i < burrows.Count; i++)
+                {
+                    float dist = Vector3.Distance(pos, burrows[i].transform.position);
+                    if(dist > minDistance)
+                    {
+                        furthestBurrow = burrows[i];
+                        minDistance = dist;
+                    }
+                }
+                return furthestBurrow;
+            }
+            else
+            {
+                return burrows[Random.Range(0, burrows.Count)];
+            }
+        }
+
+        return null;
+    }
+
+    public int BurrowCount()
+    {
+        List<Transform> burrows = new List<Transform>();
+
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            Burrow burrow = allStructs[i] as Burrow;
+            if(burrow) burrows.Add(burrow.transform);
+        }
+        return burrows.Count;
     }
 
 

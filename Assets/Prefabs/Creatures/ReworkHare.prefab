@@ -83,6 +83,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 0
   hitColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 0.7176471}
+  variant: 0
   desiredCrops:
   - {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
   - {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
@@ -91,6 +92,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c340655b4291c0442892bcb81daa89f7, type: 2}
   - {fileID: 11400000, guid: c2d33e782985c304b9119a73557d93ae, type: 2}
   - {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
+  burrow: {fileID: 7255452786975544648, guid: a7f024629f7649543ab098046aced1a2, type: 3}
+  cooldownEffect: {fileID: 0}
+  attackCollider: {fileID: 0}
   currentState: 0
   obstacleMask:
     serializedVersion: 2
@@ -108,7 +112,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
