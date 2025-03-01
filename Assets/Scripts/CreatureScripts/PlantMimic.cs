@@ -7,7 +7,7 @@ public class PlantMimic : CreatureBehaviorScript
 {
     [HideInInspector] public NavMeshAgent agent;
     private bool coroutineRunning = false;
-    bool hasTarget, attackingPlayer;
+    bool hasTarget, attackingPlayer, attackCooldown;
 
     Vector3 despawnPos;
 
@@ -73,7 +73,7 @@ public class PlantMimic : CreatureBehaviorScript
                 break;
 
             case CreatureState.Emerge:
-                //EmergeFromTile();
+                EmergeFromTile();
                 break;
 
             case CreatureState.Wander:
@@ -97,6 +97,7 @@ public class PlantMimic : CreatureBehaviorScript
                 break;
 
             case CreatureState.Buried:
+                if(agent.enabled && !coroutineRunning) agent.enabled = false;
                 break;
 
             default:
@@ -108,6 +109,14 @@ public class PlantMimic : CreatureBehaviorScript
     void InitialBury()
     {
         anim.SetBool("IsBuried", true);
+        currentState = CreatureState.Buried;
+
+        Vector3 cropSpawn = StructureManager.Instance.FindMimicTile();
+        if(cropSpawn == new Vector3(0,0,0)) Destroy(this.gameObject);
+        else
+        {
+            Instantiate(fakeCrop, cropSpawn, Quaternion.identity).GetComponent<FakeFarmLand>().mimic = this;
+        }
     }
 
     private void Idle()
@@ -171,7 +180,7 @@ public class PlantMimic : CreatureBehaviorScript
         }
 
         targetStructure = CheckForObstacle(transform);
-        if(targetStructure)
+        if(targetStructure && !attackCooldown)
         {
             //attack the structure and stop moving
             StartCoroutine(SwipeStructure());
@@ -183,13 +192,34 @@ public class PlantMimic : CreatureBehaviorScript
 
     }
 
+    void EmergeFromTile()
+    {
+        if(coroutineRunning) return;
+        anim.SetBool("IsBuried", false);
+        StartCoroutine(EmergeCoroutine());
+    }
+
+    IEnumerator EmergeCoroutine()
+    {
+        coroutineRunning = true;
+        health = maxHealth;
+        StructureManager.Instance.SpawnStructure(burrow, StructureManager.Instance.GetTileCenter(transform.position));
+        yield return new WaitForSeconds(1.5f);
+        agent.enabled = true;
+        currentState = CreatureState.Wander;
+        coroutineRunning = false;
+    }
+
     IEnumerator SwipeStructure()
     {
         coroutineRunning = true;
         anim.SetTrigger("IsAttackingStructure");
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
+        targetStructure.TakeDamage(damageToStructure);
+        yield return new WaitForSeconds(0.2f);
         targetStructure.TakeDamage(damageToStructure);
         yield return new WaitForSeconds(1);
+        StartCoroutine(AttackCooldown());
         coroutineRunning = false;
     }
 
@@ -197,11 +227,21 @@ public class PlantMimic : CreatureBehaviorScript
     {
         coroutineRunning = true;
         anim.SetTrigger("IsAttackingPlayer");
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.7f);
         attackingPlayer = true;
-        yield return new WaitForSeconds(2);
+        attackHitbox.enabled = true;
+        yield return new WaitForSeconds(0.3f);
+        attackHitbox.enabled = false;
+        yield return new WaitForSeconds(1);
         attackingPlayer = false;
         coroutineRunning = false;
+    }
+
+    IEnumerator AttackCooldown()
+    {
+        attackCooldown = true;
+        yield return new WaitForSeconds(Random.Range(1, 3));
+        attackCooldown = false;
     }
 
 
