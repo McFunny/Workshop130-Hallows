@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3720941011608264432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &64084163240654374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2028403555804751831}
+  m_Layer: 0
+  m_Name: LookAtPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2028403555804751831
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64084163240654374}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7039297230457351503}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &289711325291889709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,6 +1249,7 @@ Transform:
   - {fileID: 8661613370349243988}
   - {fileID: 3781084255436816083}
   - {fileID: 2794440075271643951}
+  - {fileID: 7661946937384327007}
   m_Father: {fileID: 8883901233060397173}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7729490182468287304
@@ -1582,19 +1614,19 @@ MonoBehaviour:
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 0}
     - name: Hangout
-      transform: {fileID: 4418962522789579273}
+      transform: {fileID: 162988165806571821}
       isForWorkers: 0
-      isAtHome: 1
+      isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
-      lookAtPoint: {fileID: 2894179551287940281}
+      lookAtPoint: {fileID: 7588880217219358071}
     - name: Hangout
-      transform: {fileID: 5542592426671307018}
+      transform: {fileID: 4851630794369284984}
       isForWorkers: 0
-      isAtHome: 1
+      isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
-      lookAtPoint: {fileID: 2894179551287940281}
+      lookAtPoint: {fileID: 7588880217219358071}
   - name: Graveyard
     destination: 19
     mainTransform: {fileID: 3781084255436816083}
@@ -1627,6 +1659,17 @@ MonoBehaviour:
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 131306775414169814}
+  - name: TinkererWorkbench
+    destination: 20
+    mainTransform: {fileID: 7661946937384327007}
+    sublocations:
+    - name: Workbench
+      transform: {fileID: 7039297230457351503}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 2028403555804751831}
 --- !u!1 &1970095750116158757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,6 +1860,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 644985625366510528}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2303619925391095919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7661946937384327007}
+  m_Layer: 0
+  m_Name: TinkererWorkbench
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7661946937384327007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2303619925391095919}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 373.63, y: 0.47486305, z: 122.56}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7039297230457351503}
+  m_Father: {fileID: 7787821027441036890}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2457017068570305555
 GameObject:
   m_ObjectHideFlags: 0
@@ -1934,7 +2009,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e210646716a183940a9cfce104a23d8e, type: 3}
   - {fileID: 8300000, guid: dc8f0511d735ddc4c8c9b5ebc2bb0559, type: 3}
   - {fileID: 8300000, guid: 9d6c4a95e8197a6438d3d3182eec757c, type: 3}
-  - {fileID: 8300000, guid: cfedab036a6276a44af79599cccad0ac, type: 3}
+  - {fileID: 8300000, guid: e9fc68dcfbed74a42a06e2189885b771, type: 3}
   - {fileID: 8300000, guid: cafce7a69597c3e4d8fcf0ad07e580e9, type: 3}
   - {fileID: 8300000, guid: cafce7a69597c3e4d8fcf0ad07e580e9, type: 3}
   windAmbience:
@@ -8403,6 +8478,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8661613370349243988}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5573362755509610465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7039297230457351503}
+  m_Layer: 0
+  m_Name: Workspace
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7039297230457351503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5573362755509610465}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.2815979, z: -0, w: 0.95953256}
+  m_LocalPosition: {x: 4.022, y: 0, z: 0.876}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2028403555804751831}
+  m_Father: {fileID: 7661946937384327007}
+  m_LocalEulerAnglesHint: {x: 0, y: 32.711, z: 0}
 --- !u!1 &5640903420662922545
 GameObject:
   m_ObjectHideFlags: 0
@@ -8654,13 +8761,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stopSaving: 0
   currentMinute: 0
-  currentHour: 7
+  currentHour: 8
   isDay: 1
   dayNum: 1
   timeText: {fileID: 0}
   dayLight: {fileID: 0}
   nightLight: {fileID: 0}
   sunMoonPivot: {fileID: 0}
+  sunRenderer: {fileID: 0}
+  stupidSunGlow: {fileID: 0}
+  sunSprites:
+  - {fileID: -748165038, guid: f0c3e189adf5afb4287f5a21d11e110f, type: 3}
+  - {fileID: 1321047257, guid: f0c3e189adf5afb4287f5a21d11e110f, type: 3}
+  - {fileID: -247414257, guid: f0c3e189adf5afb4287f5a21d11e110f, type: 3}
+  - {fileID: 53474412, guid: f0c3e189adf5afb4287f5a21d11e110f, type: 3}
   timeSkipping: 0
   stopTime: 0
   skyMat: {fileID: 2100000, guid: b765a272ba3f08b4cbd57e302799320e, type: 2}

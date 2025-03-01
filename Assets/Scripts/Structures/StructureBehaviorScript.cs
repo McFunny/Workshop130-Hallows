@@ -46,6 +46,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public GameObject damageParticlesObject;
     List<ParticleSystem> damageParticles = new List<ParticleSystem>();
     public DestructionType destructionType;
+    public GameObject gibs;
 
     public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
     
@@ -131,6 +132,8 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             damageParticles[i].Play();
         }
+
+        if(audioHandler && audioHandler.hitSounds.Length > 0) audioHandler.PlayRandomSound(audioHandler.hitSounds);
     }
 
     //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
@@ -148,12 +151,23 @@ public class StructureBehaviorScript : MonoBehaviour
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
         
-        GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(destructionType);
-        if(p)
+        if(health <= 0)
         {
-            if(particleCenter) p.transform.position = particleCenter.position;
-            else p.transform.position = transform.position;
+            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(destructionType);
+            if(p)
+            {
+                if(particleCenter) p.transform.position = particleCenter.position;
+                else p.transform.position = transform.position;
+            }
+
+            if(gibs)
+            {
+                if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
+                else Instantiate(gibs, transform.position, Quaternion.identity);
+            }
         }
+
+        if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
 
     }
 

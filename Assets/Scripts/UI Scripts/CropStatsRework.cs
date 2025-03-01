@@ -233,7 +233,7 @@ public class CropStatsRework : MonoBehaviour
             cropSpriteD.sprite = tile.crop.cropYield.icon;
             cropSpriteD.gameObject.SetActive(true);
         } 
-        else if(tile.rotted)
+        else if(tile.rotted && tile.crop)
         {
             growthString = "Rotten";
             growthStageNumberD.text = growthString;
