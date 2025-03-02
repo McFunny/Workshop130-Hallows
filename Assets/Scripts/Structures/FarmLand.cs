@@ -184,6 +184,8 @@ public class FarmLand : StructureBehaviorScript
                         itemRB = droppedItem.GetComponent<Rigidbody>();
                         itemRB.AddForce(dir3 * 20);
                         itemRB.AddForce(Vector3.up * 50);
+
+                        QuestManager.Instance.CropHarvested(crop);//Increase progress per crop yield
                     }
 
                     r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
@@ -205,7 +207,6 @@ public class FarmLand : StructureBehaviorScript
                     }
                     
                 }
-                QuestManager.Instance.CropHarvested(crop);
             }
 
             if(rotted)
