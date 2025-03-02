@@ -77,6 +77,15 @@ public class PyreFly : CreatureBehaviorScript
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
 
         if(variant != Variant.Napalm) StartCoroutine(PlayerTurn());
+
+        if(!inWilderness && Random.Range(0,10) > 8)
+        {
+            Transform burrowPos = StructureManager.Instance.FindBurrow(false, transform.position);
+            if(burrowPos != null)
+            {
+                transform.position = burrowPos.position;
+            }
+        }
     }
 
     // Update is called once per frame

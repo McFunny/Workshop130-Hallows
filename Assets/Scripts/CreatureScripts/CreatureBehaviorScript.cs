@@ -183,7 +183,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
     {
         RaycastHit hit;
-        if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 2, 1 << 6))
+        if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 3, 1 << 6))
         {
             StructureBehaviorScript obstacle = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if(obstacle && obstacle.isObstacle) return obstacle;
@@ -195,7 +195,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public bool CheckForPlayer(Transform checkTransform)
     {
         RaycastHit hit;
-        if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 2, 1 << 10))
+        if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 8, 1 << 10))
         {
             return true;
         }

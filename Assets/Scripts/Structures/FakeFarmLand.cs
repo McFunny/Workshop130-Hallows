@@ -37,6 +37,8 @@ public class FakeFarmLand : StructureBehaviorScript
         ichorSplash.Stop();
 
         OnDamage += Damaged;
+
+        CopyNearbyPlant();
     }
 
     // Update is called once per frame
@@ -149,7 +151,9 @@ public class FakeFarmLand : StructureBehaviorScript
         if (!gameObject.scene.isLoaded) return; 
         if (mimic)
         {
-            //moveit and the mimic will make the burrow
+            mimic.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
+            mimic.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            mimic.currentState = PlantMimic.CreatureState.Emerge;
         }
         if(health <= 0) ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }
