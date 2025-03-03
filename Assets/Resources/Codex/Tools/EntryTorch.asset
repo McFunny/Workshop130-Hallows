@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3b4c4f202173f4c8b374726138955a, type: 3}
+  m_Name: EntryTorch
+  m_EditorClassIdentifier: 
+  entryType: 3
+  buttonIcon: {fileID: -915184107, guid: 8715eb310ed4af949ab091abb29eb44e, type: 3}
+  unlocked: 1
+  mainImage: {fileID: -915184107, guid: 8715eb310ed4af949ab091abb29eb44e, type: 3}
+  entryName: Torch
+  description:
+  - Interacting with a fire source while holding the torch ignites it, allowing you
+    to set structures on fire and ward off specific creatures. Switching to another
+    slot will extinguish the flame.
+  - The torch can also be placed on the ground. However, the flame will go out after
+    spending enough time on the field.

@@ -8,6 +8,8 @@ public class QuestManager : MonoBehaviour
 
     public List<Quest> activeQuests = new List<Quest>();
 
+    public List<Quest> completedQuests = new List<Quest>();
+
     void Awake()
     {
         if(Instance != null && Instance != this)

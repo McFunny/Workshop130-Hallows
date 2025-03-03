@@ -13,16 +13,23 @@ public class FeralHareTest : CreatureBehaviorScript
     Vector3 jumpPos, startingDestination;
     bool isFleeing = false;
     bool jumpCooldown = false;
-    bool isEating = false;
+    bool isDigging = false;
     bool inEatingRange = false;
     bool isStunned = false;
+    bool burrowCooldown = false;
     float eatingTimeLeft = 5f; // how many seconds does it take to eat a crop
     float fleeTimeLeft = 0;
     float yOrigin;
+    float diggingTimeLeft = 0;
 
     float extendedSightRange;
 
     Vector3 despawnPos;
+
+    Transform targetBurrow, exitBurrow;
+
+    public GameObject burrow;
+    Vector3 newBurrowPos;
 
     [Header("Albino Variables")]
 
@@ -41,6 +48,7 @@ public class FeralHareTest : CreatureBehaviorScript
         FleeFromPlayer,
         Stunned,
         Dead,
+        MakingBurrow
         //AttackPlayer,
         //AttackCooldown
     }
@@ -66,6 +74,35 @@ public class FeralHareTest : CreatureBehaviorScript
         StartCoroutine(IdleSoundTimer());
 
         if(attackCollider) attackCollider.enabled = false;
+
+        if(!inWilderness && Random.Range(0,10) > 4)
+        {
+            exitBurrow = StructureManager.Instance.FindBurrow(false, transform.position);
+            if(exitBurrow != null)
+            {
+                EnterBurrow();
+                if(variant == Variant.Normal) //Immediately find crop
+                {
+
+                    List<FarmLand> availableLands = new List<FarmLand>();
+                    foreach (StructureBehaviorScript structure in structManager.allStructs)
+                    {
+                        FarmLand potentialFarmTile = structure as FarmLand;
+                        if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop) && Vector3.Distance(transform.position, potentialFarmTile.transform.position) < 25);
+                        {
+                            availableLands.Add(potentialFarmTile);
+                        }
+                    }
+                    if (availableLands.Count > 0)
+                    {
+                        int r = Random.Range(0, availableLands.Count);
+                        foundFarmTile = availableLands[r];
+                    }
+
+                    
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -128,12 +165,9 @@ public class FeralHareTest : CreatureBehaviorScript
             case CreatureState.Dead:
                 //Dead();
                 break;
-            /*case CreatureState.AttackPlayer:
-                //Dead();
+            case CreatureState.MakingBurrow:
+                MakeBurrow();
                 break;
-            case CreatureState.AttackCooldown:
-                //Dead();
-                break; */
         }
     }
 
@@ -163,6 +197,7 @@ public class FeralHareTest : CreatureBehaviorScript
         { 
             currentState = CreatureState.MoveTowardsCrop;
         }
+        if(targetBurrow) targetBurrow = null;
     }
 
     private void MoveTowardsCrop()
@@ -192,9 +227,9 @@ public class FeralHareTest : CreatureBehaviorScript
 
     private void Eat()
     {
-        if (!isEating)
+        if (!isDigging)
         {
-            isEating = true;
+            isDigging = true;
             StartCoroutine(EatCrop());
         }
 
@@ -216,14 +251,76 @@ public class FeralHareTest : CreatureBehaviorScript
             if (!jumpCooldown)
             {
                 StartCoroutine(JumpCooldownTimer());
-                Hop(jumpPos);
+
+                //Look for nearest
+                if(!targetBurrow && StructureManager.Instance.BurrowCount() > 1)
+                {
+                    Collider[] hitColliders = Physics.OverlapSphere(transform.position, 20f, 1 << 6);
+                    foreach(Collider collider in hitColliders)
+                    {
+                        Burrow burrow = collider.gameObject.GetComponentInParent<Burrow>();
+                        if(burrow)
+                        {
+                            targetBurrow = burrow.transform;
+                            break;
+                        }
+                    }
+                }
+                exitBurrow = StructureManager.Instance.FindBurrow(true, transform.position);
+                if(StructureManager.Instance.BurrowCount() < 2 || exitBurrow == null) targetBurrow = null;
+
+                if(targetBurrow) Hop(targetBurrow.position);
+                else Hop(jumpPos);
                 if(foundFarmTile) foundFarmTile = null;
             }
         }
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= (sightRange + 8);
 
-        if(!playerInSightRange && fleeTimeLeft <= 0) currentState = CreatureState.Wander;
+        if(!playerInSightRange && fleeTimeLeft <= 0)
+        {
+            currentState = CreatureState.Wander;
+            targetBurrow = null;
+        }
+    }
+
+    void MakeBurrow()
+    {
+        if (!isDigging)
+        {
+            isDigging = true;
+            newBurrowPos = StructureManager.Instance.CheckTile(transform.position);
+            if(newBurrowPos == new Vector3(0,0,0))
+            {
+                currentState = CreatureState.Wander;
+                return;
+            }
+            StartCoroutine(MakeBurrowCoroutine());
+        }
+
+
+        var lookPos = newBurrowPos - transform.position;
+        lookPos.y = 0;
+        var rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 2);
+
+        diggingTimeLeft -= Time.deltaTime;
+
+    }
+
+    IEnumerator MakeBurrowCoroutine()
+    {
+        anim.SetBool("IsDigging", true);
+        effectsHandler.MiscSound();
+        diggingTimeLeft = 3;
+        yield return new WaitUntil(() => diggingTimeLeft <= 0 || playerInSightRange);
+        if (!playerInSightRange)
+        {
+            StructureManager.Instance.SpawnStructure(burrow, newBurrowPos);
+        }
+        anim.SetBool("IsDigging", false);
+        if(currentState == CreatureState.MakingBurrow) currentState = CreatureState.Wander;
+        isDigging = false;
     }
 
     private void Stunned()
@@ -246,25 +343,32 @@ public class FeralHareTest : CreatureBehaviorScript
         do
         {
             yield return new WaitForSeconds(10);
-            if ((foundFarmTile && foundFarmTile.crop) || structManager.allStructs.Count == 0)
+            if(StructureManager.Instance.CheckTile(transform.position) != new Vector3(0,0,0) && Random.Range(0,10) > 7 && StructureManager.Instance.BurrowCount() < 5 && currentState == CreatureState.Wander)
             {
-                yield return new WaitForSeconds(5);
+                currentState = CreatureState.MakingBurrow;
             }
             else
             {
-                List<FarmLand> availableLands = new List<FarmLand>();
-                foreach (StructureBehaviorScript structure in structManager.allStructs)
+                if ((foundFarmTile && foundFarmTile.crop) || structManager.allStructs.Count == 0)
                 {
-                    FarmLand potentialFarmTile = structure as FarmLand;
-                    if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop))
-                    {
-                        availableLands.Add(potentialFarmTile);
-                    }
+                    yield return new WaitForSeconds(5);
                 }
-                if (availableLands.Count > 0)
+                else
                 {
-                    int r = Random.Range(0, availableLands.Count);
-                    foundFarmTile = availableLands[r];
+                    List<FarmLand> availableLands = new List<FarmLand>();
+                    foreach (StructureBehaviorScript structure in structManager.allStructs)
+                    {
+                        FarmLand potentialFarmTile = structure as FarmLand;
+                        if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop))
+                        {
+                            availableLands.Add(potentialFarmTile);
+                        }
+                    }
+                    if (availableLands.Count > 0)
+                    {
+                        int r = Random.Range(0, availableLands.Count);
+                        foundFarmTile = availableLands[r];
+                    }
                 }
             }
         } while (gameObject.activeSelf);
@@ -272,6 +376,13 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public void Hop(Vector3 destination)
     {
+        if(burrowCooldown)
+        {
+            burrowCooldown = false;
+            SearchWanderPoint();
+            return;
+        }
+
         if(variant == Variant.Albino) rb.velocity = new Vector3(0,0,0);
 
         bool obstructed = false;
@@ -290,7 +401,7 @@ public class FeralHareTest : CreatureBehaviorScript
         Vector3 jumpDirection = (transform.position - destination).normalized;
         jumpDirection *= -1f;
 
-        if (currentState == CreatureState.FleeFromPlayer && !obstructed)
+        if (currentState == CreatureState.FleeFromPlayer && !obstructed && !targetBurrow) //will flee from player instead
         {
             jumpDirection = (transform.position - player.position).normalized;
             destination = new Vector3(transform.position.x + jumpDirection.x, yOrigin, transform.position.z + jumpDirection.z);
@@ -372,13 +483,23 @@ public class FeralHareTest : CreatureBehaviorScript
         yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile == null || foundFarmTile.crop == null || currentState != CreatureState.Eat);
         if (inEatingRange && foundFarmTile && foundFarmTile.crop && currentState == CreatureState.Eat)
         {
-            foundFarmTile.CropDestroyed();
+            if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20)
+            {
+                Vector3 pos = foundFarmTile.transform.position;
+                Destroy(foundFarmTile.gameObject);
+                StructureManager.Instance.SpawnStructure(burrow, StructureManager.Instance.GetTileCenter(pos));
+            }
+            else
+            {
+                foundFarmTile.CropDestroyed();
+            }
             foundFarmTile = null;
             inEatingRange = false;
             effectsHandler.MiscSound2();
+            health = maxHealth;
         }
         anim.SetBool("IsDigging", false);
-        isEating = false;
+        isDigging = false;
         if(currentState == CreatureState.Eat) currentState = CreatureState.Wander;
     }
 
@@ -426,12 +547,36 @@ public class FeralHareTest : CreatureBehaviorScript
         else return false;
     }
 
+    void EnterBurrow()
+    {
+        burrowCooldown = true;
+        
+
+        ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+
+        fleeTimeLeft = 0;
+        rb.velocity = new Vector3(0,0,0);
+
+        transform.position = exitBurrow.position;
+        ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+        targetBurrow = null;
+        exitBurrow = null;
+
+        startingDestination = new Vector3(0,0,0);
+        if(currentState == CreatureState.FleeFromPlayer) currentState = CreatureState.Wander;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (attackingPlayer && other.CompareTag("Player") && !isDead)
         {
             PlayerInteraction.Instance.StaminaChange(damageToPlayer);
             attackCollider.enabled = false;
+        }
+
+        if(other.transform == targetBurrow && exitBurrow)
+        {
+            EnterBurrow();
         }
     }
 

@@ -549,7 +549,7 @@ MonoBehaviour:
   anim: {fileID: 7455547942244045318}
   droppedItems:
   - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
-  - {fileID: 11400000, guid: 1dd6f9f1dcb60e74390c88d5df494ec7, type: 2}
+  - {fileID: 11400000, guid: 77cbb6db30ada5a4988f545585cd29c2, type: 2}
   dropChance:
   - 5
   - 1
@@ -567,6 +567,7 @@ MonoBehaviour:
   hitColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0.8}
   variant: 1
   desiredCrops: []
+  burrow: {fileID: 0}
   cooldownEffect: {fileID: 243490587304530927}
   attackCollider: {fileID: 8306627786561367154}
   currentState: 0
@@ -586,7 +587,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

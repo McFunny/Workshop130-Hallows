@@ -125,13 +125,15 @@ public class StructureBehaviorScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         OnDamage?.Invoke();
-        if(!destructable) return;
+        if(!destructable || health <= 0) return;
         health -= damage;
         //if(damageParticles) damageParticles.Play();
         for(int i = 0; i < damageParticles.Count; i++)
         {
             damageParticles[i].Play();
         }
+
+        if(audioHandler && audioHandler.hitSounds.Length > 0) audioHandler.PlayRandomSound(audioHandler.hitSounds);
     }
 
     //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
@@ -164,6 +166,8 @@ public class StructureBehaviorScript : MonoBehaviour
                 else Instantiate(gibs, transform.position, Quaternion.identity);
             }
         }
+
+        if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
 
     }
 
