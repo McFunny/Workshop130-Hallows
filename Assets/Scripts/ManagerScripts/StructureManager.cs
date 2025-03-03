@@ -595,13 +595,13 @@ public class StructureManager : MonoBehaviour
         for(int i = 0; i < allStructs.Count; i++)
         {
             FarmLand farmTile = allStructs[i] as FarmLand;
-            if(farmTile && !farmTile.isWeed && farmTile.crop) cropTiles.Add(GetTileCenter(farmTile.transform.position));
+            if(farmTile && !farmTile.isWeed && farmTile.crop && !farmTile.rotted) cropTiles.Add(GetTileCenter(farmTile.transform.position));
         }
         if(cropTiles.Count > 0)
         {
             int x = 0;
             List<Vector3> clearTiles = new List<Vector3>();
-            while(x < 20)
+            while(x < 50)
             {
                 int r = Random.Range(0, cropTiles.Count);
                 clearTiles = GetAdjacentClearTiles(cropTiles[r]);
