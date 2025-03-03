@@ -18,7 +18,20 @@ public class CatacombDoor : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        interactSuccessful = true;
+        if(GameSaveData.Instance.catacombUnlocked || debugMode)
+        {
+            if(TownGate.Instance.location == PlayerLocation.InTown)
+            {
+                StartCoroutine(Transition(true));
+            }
+            else
+            {
+                StartCoroutine(Transition(false));
+            }
+            interactSuccessful = true;
+            return;
+        }
+        interactSuccessful = false;
     }
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
@@ -70,7 +83,7 @@ public class CatacombDoor : MonoBehaviour, IInteractable
         }
         TimeManager.Instance.ToggleSkyLights();
         PlayerMovement.restrictMovementTokens--;
-        FadeScreen.coverScreen = true;
+        FadeScreen.coverScreen = false;
     }
 
     public void ToggleHighlight(bool enable)

@@ -40,7 +40,7 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
 
     public void ToggleHighlight(bool enabled)
     {
-        hightlightObject.SetActive(enabled);
+        //hightlightObject.SetActive(enabled);
     }
 
     // Start is called before the first frame update
