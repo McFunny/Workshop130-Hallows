@@ -187,4 +187,9 @@ public class HandItemManager : MonoBehaviour
             torchFlame.SetActive(false);
         }
     }
+
+    public ToolType GetCurrentType()
+    {
+        return currentType;
+    }
 }

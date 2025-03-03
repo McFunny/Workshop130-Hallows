@@ -236,6 +236,7 @@ public class WaterGunBehavior : ToolBehavior
 
         for (int i = 0; i < bulletCount; i++)
         {
+            if(HandItemManager.Instance.GetCurrentType() != ToolType.WaterGun) continue;
             //Debug.Log(bulletCount);
             HandItemManager.Instance.toolSource.PlayOneShot(shoot);
             /*if(bulletCount == 1)*/ newBullet = ProjectilePoolManager.Instance.GrabLargeWater();
