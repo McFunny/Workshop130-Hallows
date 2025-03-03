@@ -112,8 +112,9 @@ public class LogBarricade : MonoBehaviour, IInteractable
 
     void CheckData()
     {
-        if(checkStart || TimeManager.Instance.currentHour == 8)
-        checkStart = false;
+        if(checkStart || TimeManager.Instance.currentHour == 8) checkStart = false;
+        else return;
+        
         switch(id)
         {
             case TreeID.TownTree:
