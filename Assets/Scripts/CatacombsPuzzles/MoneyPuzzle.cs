@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +11,12 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
     public bool donationComplete = false;
     private AudioSource audioSource;
     private Animator animator;
-    public GameObject highlightObject;
+    public List<GameObject> highlight = new List<GameObject>();
+    List<Material> highlightMaterial = new List<Material>();
+    bool highlightEnabled;
+    //public GameObject structureUI;
+
+    
 
     public void EndInteraction()
     {
@@ -28,6 +34,7 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
                 donationComplete = true;
                 audioSource.Play();
                 animator.SetTrigger("OnInsert");
+                PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
             }
             else interactSuccessful = false;
         }
@@ -38,9 +45,47 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
         interactSuccessful = false;
     }
 
-    public void ToggleHighlight(bool enabled)
+    public void ToggleHighlight(bool enable)
     {
-        hightlightObject.SetActive(enabled);
+        if (highlight.Count == 0) return;
+        if (highlightMaterial.Count == 0)
+        {
+            foreach (GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
+        }
+        if (enable && !highlightEnabled && !donationComplete)
+        {
+            highlightEnabled = true;
+            foreach (GameObject thing in highlight) thing.SetActive(true);
+            StartCoroutine(HightlightFlash());
+        }
+
+        if (!enable && highlightEnabled)
+        {
+            highlightEnabled = false;
+            foreach (GameObject thing in highlight) thing.SetActive(false);
+        }
+    }
+
+    IEnumerator HightlightFlash()
+    {
+        float power = 1;
+        while (highlightEnabled)
+        {
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power -= 0.05f;
+                foreach (Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+            }
+            while (power > 0.7f && highlightEnabled);
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power += 0.05f;
+                foreach (Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+            }
+            while (power < 1.9f && highlightEnabled);
+        }
     }
 
     // Start is called before the first frame update

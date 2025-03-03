@@ -4,15 +4,41 @@ using UnityEngine;
 
 public class PuzzleManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static PuzzleManager Instance;
+
+    public MoneyPuzzle moneyPuzzle;
+    public RotatingPillarManager pillarPuzzle;
+    public BrazierPuzzleManager brazierPuzzle;
+    public WaterPuzzleManager waterPuzzle;
+
+    public AudioSource audioSource;
+
+    public bool allPuzzlesSolved;
+
+    public GameObject puzzleBeforeMove;
+    public GameObject puzzleAfterMove;
+
+    private void Start()
     {
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CheckToSeeIfPuzzlesAreComplete()
     {
-        
-    }
+        if(moneyPuzzle.donationComplete && pillarPuzzle.rotatingPillarPuzzleSolved && brazierPuzzle.brazierPuzzleSolved && waterPuzzle.waterPuzzleSolved)
+        {
+            allPuzzlesSolved = true;
+            audioSource.Play();
+            puzzleBeforeMove.SetActive(false);
+            puzzleAfterMove.SetActive(true);
+        }
+    }    
 }
