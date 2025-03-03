@@ -225,6 +225,8 @@ public class WaterGunBehavior : ToolBehavior
 
         if(bulletCount > 1) PlayerMovement.restrictMovementTokens++;
 
+        if(maxCharge && bulletCount == 1) bulletCount = 3; //testing this out for triple shot without lock on
+
         PlayerInteraction.Instance.waterHeld--;
         GameObject newBullet;
         Vector3 dir;
