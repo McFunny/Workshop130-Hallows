@@ -12,6 +12,8 @@ public class RotatingPillarManager : MonoBehaviour
 
     private int puzzlesSolved = 0;
 
+    public bool rotatingPillarPuzzleSolved = false;
+
     [SerializeField] private Database _database;
 
     private void Start()
@@ -111,6 +113,7 @@ public class RotatingPillarManager : MonoBehaviour
         if (puzzlesSolved == 3)
         {
             Debug.Log("All puzzles solved! Great job!");
+            rotatingPillarPuzzleSolved = true;
         }
     }
 
