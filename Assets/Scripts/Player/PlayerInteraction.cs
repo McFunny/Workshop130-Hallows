@@ -405,6 +405,8 @@ public class PlayerInteraction : MonoBehaviour
         WildernessManager.Instance.GameOver();
         print("Wilderness GameOver Complete");
 
+        TownGate.Instance.Transition(PlayerLocation.InFarm);
+
         stamina = 100;
         if(currentMoney > 0) currentMoney = currentMoney/2;
         TimeManager.Instance.GameOver(); //Has to be last, this is where it saves

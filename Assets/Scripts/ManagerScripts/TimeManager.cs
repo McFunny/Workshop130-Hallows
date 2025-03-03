@@ -18,7 +18,7 @@ public class TimeManager : MonoBehaviour
     public bool isDay;
     public int dayNum = 1; //what day is it?
     public TextMeshProUGUI timeText;
-    public Light dayLight, nightLight;
+    public Light dayLight, nightLight, cryptLight;
 
     //Sun and moon Variables
     public Transform sunMoonPivot;
@@ -308,6 +308,7 @@ public class TimeManager : MonoBehaviour
             }
             StartCoroutine(NewDayTransition());
         }
+        ToggleSkyLights();
         isDay = true;
         InitializeSkyBox();
         StartCoroutine(TimePassage());
@@ -434,6 +435,8 @@ public class TimeManager : MonoBehaviour
 
     void ToggleDayNightLights(bool fadeTransition)
     {
+        if(TownGate.Instance.location == PlayerLocation.InCrypt) return;
+
         if(currentHour > 5 && currentHour < 18 && nightLight.enabled)
         {
             if(!Application.isPlaying || !fadeTransition)
@@ -495,6 +498,30 @@ public class TimeManager : MonoBehaviour
                 nightLight.color = Color.Lerp(Color.black, c_NightOriginal, lerp);
             }
             dayLight.enabled = false;
+        }
+    }
+
+    public void ToggleSkyLights() //for moving between town and crypt, without a smooth transition
+    {
+        if(TownGate.Instance.location == PlayerLocation.InCrypt)
+        {
+            dayLight.enabled = false;
+            nightLight.enabled = false;
+            cryptLight.enabled = true;
+            return;
+        }
+        cryptLight.enabled = false;
+
+
+        if(currentHour > 5 && currentHour < 18)
+        {
+            dayLight.enabled = true;
+            nightLight.enabled = false;
+        }
+        else if(currentHour <= 5 || currentHour >= 18)
+        {
+            dayLight.enabled = false;
+            nightLight.enabled = true;
         }
     }
 }
