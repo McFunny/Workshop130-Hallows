@@ -52,6 +52,7 @@ MonoBehaviour:
   ichorWorth: 1
   ichorDropRadius: 2
   creatureData: {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
+  inWilderness: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -72,8 +73,10 @@ MonoBehaviour:
   bearTrapVulnerable: 0
   isDead: 0
   damageToStructure: 0
-  damageToPlayer: 35
+  damageToPlayer: 30
   canCorpseBreak: 1
+  hitColor: {r: 0, g: 0, b: 0, a: 0}
+  variant: 0
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
   - {fileID: 11400000, guid: b1b94011ab4c8ce449eeef3b1c2f3c44, type: 2}
@@ -88,9 +91,9 @@ MonoBehaviour:
   meshRenderer: {fileID: 2404094924373996786}
   offsetRate: 0.005
   homeHive: {fileID: 0}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
+  strafePointL: {fileID: 0}
+  strafePointR: {fileID: 0}
+  fireball: {fileID: 0}
   currentState: 0
 --- !u!195 &5191490688788952379
 NavMeshAgent:
@@ -532,7 +535,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a55e25a490059294d9aa4aaab61a5bcc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.375
+  m_Volume: 0.461
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -540,8 +543,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 3
+  MinDistance: 3
+  MaxDistance: 5.05
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

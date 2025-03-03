@@ -150,7 +150,7 @@ public class NightSpawningManager : MonoBehaviour
             }
             
         }
-        while(spawnAttempts < 6); //add threshhold req too
+        while(spawnAttempts < 4); //add threshhold req too
 
         if(allCreatures.Count < maxCreatures && difficultyPoints < 10)
         {
@@ -307,8 +307,8 @@ public class NightSpawningManager : MonoBehaviour
 
     int CalculateMaxCreatures()
     {
-        if(highestDifficultyPoints > 300) return 15;
-        else if(highestDifficultyPoints > 200) return 12;
+        if(highestDifficultyPoints > 350) return 15;
+        else if(highestDifficultyPoints > 250) return 12;
         else if(highestDifficultyPoints > 150) return 8;
         else if(highestDifficultyPoints > 80) return 6;
         else return 4;

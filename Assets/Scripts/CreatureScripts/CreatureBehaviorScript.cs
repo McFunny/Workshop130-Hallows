@@ -192,6 +192,16 @@ public class CreatureBehaviorScript : MonoBehaviour
         else return null;
     }
 
+    public bool CheckForPlayer(Transform checkTransform)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 2, 1 << 10))
+        {
+            return true;
+        }
+        else return false;
+    }
+
     IEnumerator DamageFlash()
     {
         flashing = true;

@@ -260,7 +260,7 @@ public class FarmLand : StructureBehaviorScript
             if(!rotted && crop && crop.behavior) crop.behavior.OnHour(this);
             return;
         }
-        if(!crop)
+        if(!crop && !isWeed)
         {
             float r = Random.Range(0, 10);
             if(r > 6f) Destroy(this.gameObject);
@@ -399,7 +399,7 @@ public class FarmLand : StructureBehaviorScript
         if(nutrients.ichorLevel - crop.ichorIntake < 0) gainedStress = true;
         if(nutrients.terraLevel - crop.terraIntake < 0) gainedStress = true;
         if(nutrients.gloamLevel - crop.gloamIntake < 0) gainedStress = true;
-        if(nutrients.waterLevel - crop.waterIntake < 0) gainedStress = true;
+        if(nutrients.waterLevel - crop.waterIntake < 0 && !isWeed) gainedStress = true;
 
         nutrients.waterLevel -= crop.waterIntake;
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
@@ -584,6 +584,35 @@ public class FarmLand : StructureBehaviorScript
             }
         }
         return false;
+    }
+
+    public void DrainNutrientsByMimic()
+    {
+        if(!crop || nutrients == null)
+        {
+            return;
+        }
+
+
+        nutrients.waterLevel -= 5;
+        if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
+
+        nutrients.ichorLevel -= 1;
+        if(nutrients.ichorLevel < 0) nutrients.ichorLevel = 0;
+
+        nutrients.terraLevel -= 1;
+        if(nutrients.terraLevel < 0) nutrients.terraLevel = 0;
+
+        nutrients.gloamLevel -= 1;
+        if(nutrients.gloamLevel < 0) nutrients.gloamLevel = 0;
+
+        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
+
+    }
+
+    public void RefreshNutrients()
+    {
+        nutrients = StructureManager.Instance.FetchNutrient(transform.position);
     }
 
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it

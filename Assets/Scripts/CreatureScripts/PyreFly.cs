@@ -27,7 +27,7 @@ public class PyreFly : CreatureBehaviorScript
 
     public PyreFlyHive homeHive;
     private StructureBehaviorScript targetStructure; //Struct to burn
-    private Brazier targetFireSource;
+    private StructureBehaviorScript targetFireSource;
 
     //public LayerMask layerMask;
 
@@ -262,8 +262,11 @@ public class PyreFly : CreatureBehaviorScript
         foreach (var structure in structManager.allStructs)
         {
             WraithFlower flower = structure as WraithFlower;
-            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower){}
-                availableStructure.Add(structure);
+            FarmLand tile = structure as FarmLand;
+            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower)
+            {
+                if(!tile || (tile && !tile.isWeed)) availableStructure.Add(structure);
+            }
         }
 
         if (availableStructure.Count > 0)
@@ -278,7 +281,7 @@ public class PyreFly : CreatureBehaviorScript
     {
         if (targetFireSource == null || !targetFireSource.gameObject.activeSelf)
         {
-            FindBurnableStructure();
+            FindFireSource();
             if (targetFireSource != null)
             {
                 target = targetFireSource.transform;
@@ -310,6 +313,13 @@ public class PyreFly : CreatureBehaviorScript
             if (brazier && brazier.flameLeft > 0)
             {
                 targetFireSource = brazier;
+                //print(targetFireSource);
+                return;
+            }
+            PlacedTorch torch = structure as PlacedTorch;
+            if (torch && PlayerInteraction.Instance.torchLit)
+            {
+                targetFireSource = torch;
                 //print(targetFireSource);
                 return;
             }
@@ -372,7 +382,9 @@ public class PyreFly : CreatureBehaviorScript
 
     void IgniteSelf()
     {
-        if(targetFireSource && targetFireSource.flameLeft > 0)
+        PlacedTorch t = targetFireSource as PlacedTorch;
+        Brazier b = targetFireSource as Brazier;
+        if((b && b.flameLeft > 0) || (t && PlayerInteraction.Instance.torchLit))
         {
             IgnitionToggle(true);
             currentState = CreatureState.Wander;
@@ -553,7 +565,7 @@ public class PyreFly : CreatureBehaviorScript
                 var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
                 if (creature != null && creature.shovelVulnerable)
                 {
-                    creature.TakeDamage(75);
+                    creature.TakeDamage(125);
                     creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 }
             }
