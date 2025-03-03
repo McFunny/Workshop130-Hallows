@@ -21,7 +21,14 @@ MonoBehaviour:
     probabilityInFarm: 5
     probabilityInWilderness: 20
     canSpawnInWilderness: 1
-    wealthPrerequisite: 1000
+    wealthPrerequisite: 1500
+  - name: PissWalker
+    prefab: {fileID: 5556471907326941768, guid: e8db8512442349e4892db7b2a20f49ff,
+      type: 3}
+    probabilityInFarm: 1
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 300
   health: 100
   position:
   - 0

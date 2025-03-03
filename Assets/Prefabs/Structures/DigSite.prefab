@@ -369,7 +369,7 @@ MonoBehaviour:
   miscSounds2: []
   interactSound: {fileID: 8300000, guid: 670c8869953582347943c68fdb8f866b, type: 3}
   itemInteractSound: {fileID: 0}
-  breakSound: {fileID: 0}
+  breakSound: {fileID: 8300000, guid: 1a51bf8f5a7c1c144a9b44c993eefb63, type: 3}
   activatedSound: {fileID: 0}
 --- !u!114 &1973206287464096642
 MonoBehaviour:
@@ -392,6 +392,7 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 0
   focalPoint: {fileID: 0}
+  particleCenter: {fileID: 0}
   savedItems: []
   saveInt1: 0
   saveInt2: 0
@@ -402,8 +403,9 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
-  damageParticles: {fileID: 0}
-  destructionParticles: {fileID: 0}
+  damageParticlesObject: {fileID: 0}
+  destructionType: 0
+  gibs: {fileID: 0}
   nearbyFires: []
   highlight:
   - {fileID: 1894434091595668953}
@@ -416,7 +418,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
   itemProbabilities:
   - 30
-  - 20
+  - 40
 --- !u!1 &9112103938443658095
 GameObject:
   m_ObjectHideFlags: 0

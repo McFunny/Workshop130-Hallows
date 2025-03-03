@@ -311,6 +311,7 @@ public class TimeManager : MonoBehaviour
         isDay = true;
         InitializeSkyBox();
         StartCoroutine(TimePassage());
+        if(sunRenderer) StartCoroutine(AnimateSun());
         timeSkipping = false;
         stopTime = false;
     }
@@ -327,6 +328,7 @@ public class TimeManager : MonoBehaviour
         dayNum++;
         //save game
         NightSpawningManager.Instance.ClearAllCreatures();
+        StructureManager.Instance.IncreaseNutrients();
         yield return new WaitForSecondsRealtime(2);
         if(!stopSaving) SaveGameManager.SaveData();
         FadeScreen.coverScreen = false;

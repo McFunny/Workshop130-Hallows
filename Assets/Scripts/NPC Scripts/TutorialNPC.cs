@@ -8,6 +8,8 @@ public class TutorialNPC : NPC, ITalkable
     bool finishedTalking = false;
 
     public InventoryItemData seeds;
+
+    public Quest mainQuest;
     void Start()
     {
         if(MainMenuScript.loadingData) StartCoroutine(Despawn());
@@ -72,6 +74,9 @@ public class TutorialNPC : NPC, ITalkable
             PlayerMovement.restrictMovementTokens--;
             FadeScreen.coverScreen = false;
             TimeManager.Instance.stopTime = false;
+
+            QuestManager.Instance.AddQuest(mainQuest);
+
             Destroy(this.gameObject);
         }
     }

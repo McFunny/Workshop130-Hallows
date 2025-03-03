@@ -375,8 +375,11 @@ MonoBehaviour:
   text: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 0}
+  keepSelectionOnScreen: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
+  ignoreColor: 0
+  isWithinScrollRect: 0
 --- !u!114 &5770263919306354549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,8 +912,11 @@ MonoBehaviour:
   text: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 0}
+  keepSelectionOnScreen: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
+  ignoreColor: 0
+  isWithinScrollRect: 0
 --- !u!114 &7126609122133166510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,6 +937,18 @@ MonoBehaviour:
         - m_Target: {fileID: 3907745876582147834}
           m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
           m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1434222433619529303}
+          m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
+          m_MethodName: OnHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1314,8 +1332,11 @@ MonoBehaviour:
   text: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 0}
+  keepSelectionOnScreen: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
+  ignoreColor: 0
+  isWithinScrollRect: 0
 --- !u!114 &3478867617176513072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2173,8 +2194,11 @@ MonoBehaviour:
   text: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 0}
+  keepSelectionOnScreen: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
+  ignoreColor: 0
+  isWithinScrollRect: 0
 --- !u!114 &157992151650969687
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -398,6 +398,8 @@ MonoBehaviour:
   flammable: 1
   onFire: 0
   isObstacle: 0
+  focalPoint: {fileID: 0}
+  particleCenter: {fileID: 0}
   savedItems: []
   saveInt1: 0
   saveInt2: 0
@@ -408,8 +410,9 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
-  damageParticles: {fileID: 0}
-  destructionParticles: {fileID: 0}
+  damageParticlesObject: {fileID: 0}
+  destructionType: 0
+  gibs: {fileID: 0}
   nearbyFires: []
   highlight:
   - {fileID: 2982133036384958463}
@@ -1177,7 +1180,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5670479295969307255}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 

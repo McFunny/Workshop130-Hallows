@@ -12,18 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e14c53294b14d418d174be0feefd90, type: 3}
   m_Name: PlantMimic
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 0}
+  objectPrefab: {fileID: 1645269528816035111, guid: 75530530e24a2204894ba24c3158a1ad,
+    type: 3}
+  creatureVariants: []
   health: 0
   position:
   - 0
   - 0
   - 0
-  dangerCost: 1
-  dangerThreshold: 0
-  spawnWeight: 10
-  spawnCap: 5
-  spawnCapPerHour: 3
-  wealthPrerequisite: 0
+  dangerCost: 10
+  dangerThreshold: 50
+  spawnWeight: 1
+  spawnCap: 3
+  spawnCapPerHour: 1
+  wealthPrerequisite: 500
+  contribuiteToCreatureCap: 1
   data:
     Name: 
     Id: -1
