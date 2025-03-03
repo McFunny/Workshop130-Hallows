@@ -14,6 +14,12 @@ public class CropTester : MonoBehaviour, IInteractable
     public GameObject dome;
     private SpriteRenderer spriteRenderer;
     public FireTypeController testerBrazier;
+    public SpriteRenderer gloamSprite;
+    public SpriteRenderer terraSprite;
+    public SpriteRenderer ichorSprite;
+
+    public List<Sprite> stoneNutrientSprites = new List<Sprite>();
+    public List<Sprite> regularNutrientSprites = new List<Sprite>();
 
     [SerializeField] private Database _database;
 
@@ -145,6 +151,9 @@ public class CropTester : MonoBehaviour, IInteractable
         DoCropSwitchCase(number);
         yield return new WaitForSeconds(3);
         testerBrazier.DoFire();
+        gloamSprite.sprite = stoneNutrientSprites[0];
+        terraSprite.sprite = stoneNutrientSprites[1];
+        ichorSprite.sprite = stoneNutrientSprites[2];
         currentPosition = dome.transform.position;
         while (elapsedTime < waitTime)
         {
@@ -217,12 +226,15 @@ public class CropTester : MonoBehaviour, IInteractable
                 break;
             case 1:
                 testerBrazier.DoGloam();
+                gloamSprite.sprite = regularNutrientSprites[0];
                 break;
             case 2:
                 testerBrazier.DoTerra();
+                terraSprite.sprite = regularNutrientSprites[1];
                 break;
             case 3:
                 testerBrazier.DoIchor();
+                ichorSprite.sprite = regularNutrientSprites[2];
                 break;
             default:
                 StartCoroutine(RareFireEffects(number));
@@ -237,25 +249,34 @@ public class CropTester : MonoBehaviour, IInteractable
         {
             case 4:
                 testerBrazier.DoGloam();
+                gloamSprite.sprite = regularNutrientSprites[0];
                 yield return new WaitForSeconds(1.5f);
                 testerBrazier.DoTerra();
+                terraSprite.sprite = regularNutrientSprites[1];
                 break;
             case 5:
                 testerBrazier.DoGloam();
+                gloamSprite.sprite = regularNutrientSprites[0];
                 yield return new WaitForSeconds(1.5f);
                 testerBrazier.DoIchor();
+                ichorSprite.sprite = regularNutrientSprites[2];
                 break;
             case 6:
                 testerBrazier.DoTerra();
+                terraSprite.sprite = regularNutrientSprites[1];
                 yield return new WaitForSeconds(1.5f);
                 testerBrazier.DoIchor();
+                ichorSprite.sprite = regularNutrientSprites[2];
                 break;
             case 7:
                 testerBrazier.DoGloam();
+                gloamSprite.sprite = regularNutrientSprites[0];
                 yield return new WaitForSeconds(1f);
                 testerBrazier.DoTerra();
+                terraSprite.sprite = regularNutrientSprites[1];
                 yield return new WaitForSeconds(1f);
                 testerBrazier.DoIchor();
+                ichorSprite.sprite = regularNutrientSprites[2];
                 break;
         }
 

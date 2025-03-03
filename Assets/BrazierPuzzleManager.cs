@@ -8,8 +8,11 @@ public class BrazierPuzzleManager : MonoBehaviour
 {
     [SerializeField] private List<PuzzleBrazier> brazierList = new List<PuzzleBrazier>();
 
+    [SerializeField] private bool brazierPuzzleSolved;
+
     private void Start()
     {
+        brazierPuzzleSolved = false;
         InitializePuzzles();
     }
 
@@ -44,5 +47,7 @@ public class BrazierPuzzleManager : MonoBehaviour
         {
             brazier.isLocked = true;
         }
+
+        brazierPuzzleSolved = true;
     }
 }

@@ -15,11 +15,14 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
     [SerializeField] public int currentFire;
 
     [SerializeField] public List<Sprite> nutrientSprites = new List<Sprite>();
+    [SerializeField] public Sprite fireSprite;
     [SerializeField] public SpriteRenderer spriteRenderer;
+    [SerializeField] public SpriteRenderer fireSpriteRenderer;
 
     public void Start()
     {
         spriteRenderer.sprite = nutrientSprites[correctFire - 1];
+        fireSpriteRenderer.sprite = fireSprite;
     }
 
     public bool isLocked = false;
@@ -116,29 +119,35 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
             case 0:
                 fire.DoFire();
                 currentFire = 0;
+                fireSpriteRenderer.sprite = fireSprite;
                 break;
             case 1:
                 fire.DoGloam();
                 currentFire = 1;
+                fireSpriteRenderer.sprite = nutrientSprites[0];
                 break;
             case 2:
                 fire.DoTerra();
                 currentFire = 2;
+                fireSpriteRenderer.sprite = nutrientSprites[1];
                 break;
             case 3:
                 fire.DoIchor();
                 currentFire = 3;
+                fireSpriteRenderer.sprite = nutrientSprites[2];
                 break;
             case 4:
                 if (correctFire == 1)
                 {
                     fire.DoGloam();
                     currentFire = 1;
+                    fireSpriteRenderer.sprite = nutrientSprites[0];
                 }
                 else
                 {
                     fire.DoTerra();
                     currentFire = 2;
+                    fireSpriteRenderer.sprite = nutrientSprites[1];
                 }
                 break;
             case 5:
@@ -146,11 +155,13 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 {
                     fire.DoGloam();
                     currentFire = 1;
+                    fireSpriteRenderer.sprite = nutrientSprites[0];
                 }
                 else
                 {
                     fire.DoIchor();
                     currentFire = 3;
+                    fireSpriteRenderer.sprite = nutrientSprites[2];
                 }
                 break;
             case 6:
@@ -158,11 +169,13 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 {
                     fire.DoTerra();
                     currentFire = 2;
+                    fireSpriteRenderer.sprite = nutrientSprites[1];
                 }
                 else
                 {
                     fire.DoIchor();
                     currentFire = 3;
+                    fireSpriteRenderer.sprite = nutrientSprites[2];
                 }
                 break;
             case 7:
@@ -170,16 +183,19 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 {
                     fire.DoGloam();
                     currentFire = 1;
+                    fireSpriteRenderer.sprite = nutrientSprites[0];
                 }
                 else if (correctFire == 2)
                 {
                     fire.DoTerra();
                     currentFire = 2;
+                    fireSpriteRenderer.sprite = nutrientSprites[1];
                 }
                 else if (correctFire == 3)
                 {
                     fire.DoIchor();
                     currentFire = 3;
+                    fireSpriteRenderer.sprite = nutrientSprites[2];
                 }
                 break;
 
