@@ -10,6 +10,7 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
     public bool donationComplete = false;
     private AudioSource audioSource;
     private Animator animator;
+    public GameObject highlightObject;
 
     public void EndInteraction()
     {
@@ -39,7 +40,7 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
 
     public void ToggleHighlight(bool enabled)
     {
-       
+        hightlightObject.SetActive(enabled);
     }
 
     // Start is called before the first frame update
