@@ -21,7 +21,7 @@ public class FireTypeController : MonoBehaviour
         if (gloam) gloam.SetActive(false);
         if (terra) terra.SetActive(false);
         if (ichor) ichor.SetActive(false);
-        audioSource.Play();
+        if (audioSource) audioSource.Play();
     }
 
     public void DoGloam()
@@ -30,7 +30,7 @@ public class FireTypeController : MonoBehaviour
         if (gloam) gloam.SetActive(true);
         if (terra) terra.SetActive(false);
         if (ichor) ichor.SetActive(false);
-        audioSource.Play();
+        if(audioSource) audioSource.Play();
     }
     public void DoTerra()
     {
@@ -38,7 +38,7 @@ public class FireTypeController : MonoBehaviour
         if (gloam) gloam.SetActive(false);
         if (terra) terra.SetActive(true);
         if (ichor) ichor.SetActive(false);
-        audioSource.Play();
+        if (audioSource) audioSource.Play();
     }
 
     public void DoIchor()
@@ -47,7 +47,7 @@ public class FireTypeController : MonoBehaviour
         if (gloam) gloam.SetActive(false);
         if (terra) terra.SetActive(false);
         if (fire) fire.SetActive(false);
-        audioSource.Play();
+        if (audioSource) audioSource.Play();
     }
 
     public void DoTypeBasedOnNumber(int number)
