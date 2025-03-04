@@ -17,7 +17,7 @@ public class FakeFarmLand : StructureBehaviorScript
 
     public VisualEffect waterSplash, ichorSplash;
 
-    bool isDigging;
+    bool isDigging, destroyed;
 
     void Awake()
     {
@@ -44,7 +44,11 @@ public class FakeFarmLand : StructureBehaviorScript
     // Update is called once per frame
     void Update()
     {
-        
+        if(health <= 0 && !destroyed)
+        {
+            destroyed = true;
+            Destroy(gameObject);
+        }
     }
 
     void CopyNearbyPlant()
