@@ -119,6 +119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hideUI: {fileID: 3822106428959392108, guid: 060d319d61d58794a97cf0963535b7d5, type: 3}
+  UICancel: {fileID: -6036335663324098137, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
   menuObject: {fileID: 6558621050106413478}
   defaultObject: {fileID: 6349875656029862726}
   settingsDefault: {fileID: 0}
@@ -133,6 +135,12 @@ MonoBehaviour:
   camera: {fileID: 0}
   dayLight: {fileID: 0}
   nightLight: {fileID: 0}
+  buttons:
+  - {fileID: 8435152911847179366}
+  - {fileID: 3011968593851614053}
+  - {fileID: 1110847146067672426}
+  - {fileID: 6745393260789278329}
+  - {fileID: 5116799660658809240}
 --- !u!114 &3963329220757005163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1400,8 +1408,8 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 8435152911847179366}
-    m_SelectOnDown: {fileID: 6745393260789278329}
+    m_SelectOnUp: {fileID: 6745393260789278329}
+    m_SelectOnDown: {fileID: 5116799660658809240}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1431,18 +1439,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1434222433619529303}
         m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
-        m_MethodName: LoadGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1434222433619529303}
-        m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
         m_MethodName: OnSelect
         m_Mode: 1
         m_Arguments:
@@ -1452,6 +1448,30 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
+        m_MethodName: SetSelectedGameObject
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &6328317745474886600
 MonoBehaviour:
@@ -1637,8 +1657,8 @@ RectTransform:
   m_Children:
   - {fileID: 8009652937017764830}
   - {fileID: 5532796009042821575}
-  - {fileID: 8937397805115283400}
   - {fileID: 6926982313301629354}
+  - {fileID: 8937397805115283400}
   - {fileID: 516573151328623867}
   m_Father: {fileID: 4268348861071090410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2599,7 +2619,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 3011968593851614053}
-    m_SelectOnDown: {fileID: 5116799660658809240}
+    m_SelectOnDown: {fileID: 1110847146067672426}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1

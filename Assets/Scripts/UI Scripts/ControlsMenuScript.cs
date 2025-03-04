@@ -6,8 +6,26 @@ using UnityEngine.InputSystem;
 
 public class ControlsMenuScript : MonoBehaviour
 {
-   public GameObject previousMenuObject, kbmContainer, controllerContainer;
+   public GameObject previousMenuObject, kbmContainer, controllerContainer, defaultMenuObject;
+   public GameObject[] kbmObjects, controllerObjects;
    public InputActionReference UICancel;
+
+    void OnEnable()
+    {
+        EventSystem.current.SetSelectedGameObject(defaultMenuObject);
+        for(int i = 0; i < kbmObjects.Length; i++)
+        {
+            kbmObjects[i].SetActive(false);
+        }
+        for(int i = 0; i < controllerObjects.Length; i++)
+        {
+            controllerObjects[i].SetActive(false);
+        }
+        
+        kbmObjects[0].SetActive(true);
+        controllerObjects[0].SetActive(true);
+        
+    }
 
     void Update()
     {
