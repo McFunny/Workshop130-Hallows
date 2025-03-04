@@ -10,7 +10,7 @@ public class PauseScript : MonoBehaviour
 {
     public static bool isPaused;
     bool isTransitioning = false;
-    public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault;
+    public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault, controlsDefault;
     public Button[] buttons;
     ControlManager controlManager;
     PlayerEffectsHandler pEffectsHandler;
@@ -140,6 +140,13 @@ public class PauseScript : MonoBehaviour
         print("Settings Pressed");
         settingsCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(settingsDefault);
+    }
+
+    public void OpenControlsScreen()
+    {
+        print("Controls Pressed");
+        controlsObject.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(controlsDefault);
     }
     
 }

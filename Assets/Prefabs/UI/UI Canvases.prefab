@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 2830400083933040886}
   - component: {fileID: 563844626683364513}
   - component: {fileID: 6368154248059823157}
+  - component: {fileID: 2510684590714358804}
   m_Layer: 5
   m_Name: Quests
   m_TagString: Untagged
@@ -330,6 +331,51 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+--- !u!114 &2510684590714358804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162941173930357306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6368154248059823157}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6368154248059823157}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &373341014574583150
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,6 +543,7 @@ GameObject:
   - component: {fileID: 7813841543972726495}
   - component: {fileID: 3454268255769975923}
   - component: {fileID: 3379716355725727234}
+  - component: {fileID: 6769041562474193783}
   m_Layer: 5
   m_Name: Tools
   m_TagString: Untagged
@@ -639,6 +686,51 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+--- !u!114 &6769041562474193783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420631102775094147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3379716355725727234}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3379716355725727234}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &440193647340442303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1966,6 +2058,7 @@ GameObject:
   - component: {fileID: 3417393924707772606}
   - component: {fileID: 6108000898129521370}
   - component: {fileID: 53411022058266451}
+  - component: {fileID: 5315389899011157007}
   m_Layer: 5
   m_Name: Plants
   m_TagString: Untagged
@@ -2108,6 +2201,51 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+--- !u!114 &5315389899011157007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804035635524015909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 53411022058266451}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 53411022058266451}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &880082859448421643
 GameObject:
   m_ObjectHideFlags: 0
@@ -5539,13 +5677,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
-        m_MethodName: SetSelectedGameObject
-        m_Mode: 2
+      - m_Target: {fileID: 6016166376874706016}
+        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
+        m_MethodName: OpenControlsScreen
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 8090894624005223688}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6412,6 +6550,7 @@ GameObject:
   - component: {fileID: 1921515102211302668}
   - component: {fileID: 6485062975442879674}
   - component: {fileID: 5653651417690847183}
+  - component: {fileID: 9127632979637729557}
   m_Layer: 5
   m_Name: GettingStarted
   m_TagString: Untagged
@@ -6554,6 +6693,51 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+--- !u!114 &9127632979637729557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3455744189880125210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5653651417690847183}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5653651417690847183}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3462762123040294026
 GameObject:
   m_ObjectHideFlags: 0
@@ -11138,6 +11322,7 @@ GameObject:
   - component: {fileID: 2139142780634282727}
   - component: {fileID: 369235532158744674}
   - component: {fileID: 910124651603447881}
+  - component: {fileID: 3159036301023220305}
   m_Layer: 5
   m_Name: Creatures
   m_TagString: Untagged
@@ -11280,6 +11465,51 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+--- !u!114 &3159036301023220305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6139659607287741918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 910124651603447881}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 910124651603447881}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &6150439877635249023
 GameObject:
   m_ObjectHideFlags: 0
@@ -18861,13 +19091,18 @@ PrefabInstance:
     - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 5942213225615146407}
+    - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 6016166376874706016}
     - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
@@ -18881,7 +19116,7 @@ PrefabInstance:
     - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetSelectedGameObject
+      value: OpenSettingsScreen
       objectReference: {fileID: 0}
     - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
@@ -18891,12 +19126,12 @@ PrefabInstance:
     - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
+      value: PauseScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
@@ -18907,11 +19142,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 5362530104480101576}
+      objectReference: {fileID: 0}
     - target: {fileID: 5434960265001126219, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5477795663174528757, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
@@ -18949,7 +19184,7 @@ PrefabInstance:
         type: 3}
       propertyPath: controlsDefault
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8090894624005223688}
     - target: {fileID: 5574030070680645502, guid: 36388552b8137224b948d5a929f15370,
         type: 3}
       propertyPath: settingsDefault
