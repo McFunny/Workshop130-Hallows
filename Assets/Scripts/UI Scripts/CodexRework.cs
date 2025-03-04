@@ -118,9 +118,14 @@ public class CodexRework : MonoBehaviour
         if(!codex.activeInHierarchy)
         {
             ClearCodex();
+            //TimeManager.Instance.stopTime = false;
+            Time.timeScale = 1;
         }
         else
         {
+            //TimeManager.Instance.stopTime = false;
+            Time.timeScale = 0;
+
             print("Codex Opened");
             ChangeCategory(0);
 
