@@ -223,8 +223,9 @@ public class CodexRework : MonoBehaviour
             questProgressText.text = q.progress + "/" + q.maxProgress;
             questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
         }
+        if(quest.displayProgress == false) questProgressText.text = "";
 
-        if(quest.progress >= quest.maxProgress && quest.alreadyCompleted != true) questCompleteText.text = "Return to " + quest.assignee;
+        if(quest.progress >= quest.maxProgress && quest.alreadyCompleted != true && quest.assignee != 0) questCompleteText.text = "Return to " + quest.assignee;
         else if (quest.alreadyCompleted == true) questCompleteText.text = "Completed";
         else questCompleteText.text = "";
 
@@ -434,7 +435,7 @@ public class CodexRework : MonoBehaviour
 
                     tempText.text = t;
                 }
-                if(type.Equals(typeof(HuntQuest)))
+                else if(type.Equals(typeof(HuntQuest)))
                 {
                     var q = activeQuests[i] as HuntQuest;
                     var t = q.name;
@@ -446,7 +447,7 @@ public class CodexRework : MonoBehaviour
 
                     tempText.text = t;
                 }
-                if(type.Equals(typeof(GrowQuest)))
+                else if(type.Equals(typeof(GrowQuest)))
                 {
                     var q = activeQuests[i] as GrowQuest;
                     var t = q.name;
@@ -457,6 +458,10 @@ public class CodexRework : MonoBehaviour
                     t = t.Replace("{itemAmount}", q.amount.ToString());
 
                     tempText.text = t;
+                }
+                else
+                {
+                    tempText.text = activeQuests[i].name;
                 }
 
                 if(!activeQuests[i].alreadyCompleted) tempText.text = tempText.text;
