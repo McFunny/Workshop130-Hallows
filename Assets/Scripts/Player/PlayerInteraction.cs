@@ -216,7 +216,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach + 4, interactionLayers))
         {
-            var interactable = hit.collider.GetComponent<IInteractable>();
+            var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
                 StartInteractionWithItem(interactable); //Interacts with chest and npc's. I should eventually make this compatable with the structures I made - Cam
@@ -353,7 +353,7 @@ public class PlayerInteraction : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
         {
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 if(structure == lastSeenStruct) return;
@@ -364,7 +364,7 @@ public class PlayerInteraction : MonoBehaviour
                 return;
             }
 
-            var interactable = hit.collider.GetComponent<IInteractable>();
+            var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
                 if(interactable == lastSeenInteractable) return;
@@ -404,6 +404,8 @@ public class PlayerInteraction : MonoBehaviour
         print("Structure GameOver Complete");
         WildernessManager.Instance.GameOver();
         print("Wilderness GameOver Complete");
+
+        TownGate.Instance.Transition(PlayerLocation.InFarm);
 
         stamina = 100;
         if(currentMoney > 0) currentMoney = currentMoney/2;
