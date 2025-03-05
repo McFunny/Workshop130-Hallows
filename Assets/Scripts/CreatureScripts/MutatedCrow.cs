@@ -52,6 +52,7 @@ public class MutatedCrow : CreatureBehaviorScript
     // Serialized Fields
     // ============================
     [SerializeField] private LayerMask groundLayer;
+    public LayerMask obstacleMask;
 
     // ============================
     // Private Variables
@@ -249,6 +250,11 @@ public class MutatedCrow : CreatureBehaviorScript
 
     private void GoAway() //Will despawn when far enough away
     {
+        if(CheckForObstruction())
+        {
+            print("Time to go up");
+            point = new Vector3(transform.position.x, 300, transform.position.z);
+        }
         ///////////////////////////////////////////////////////////////////////////////////////////////
         //USE THIS TO DIVE FOR ITEM
         Vector3 targetPosition = point; //set this to item transform
@@ -259,6 +265,7 @@ public class MutatedCrow : CreatureBehaviorScript
         //After player has reached destination, have it go back to creaturestate.circlepoint and give it a random point
         //USE THIS TO DIVE FOR ITEM
         //////////////////////////////////////////////////////////////////////////////////////////////
+
 
         float playerDistance = Vector3.Distance(player.position, transform.position);
         if (playerDistance > 100f)
@@ -941,5 +948,19 @@ public class MutatedCrow : CreatureBehaviorScript
             point.y = height * 10;
             currentState = CreatureState.GoAway;
         }
+    }
+
+    bool CheckForObstruction()
+    {
+        //if (CheckForObstacle(transform) != null) return true;
+        Vector3 checkPos = new Vector3(transform.position.x, transform.position.y + 0.4f, transform.position.z);
+
+        RaycastHit hit;
+        if (Physics.Raycast(checkPos, transform.forward, out hit, 6, obstacleMask))
+        {
+            if(hit.collider) return true;
+            else return false;
+        }
+        else return false;
     }
 }

@@ -3,13 +3,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class PauseScript : MonoBehaviour
 {
     public static bool isPaused;
     bool isTransitioning = false;
-    public GameObject settingsCanvas, pauseObject, defaultObject, settingsDefault;
+    public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault, controlsDefault;
+    public Button[] buttons;
     ControlManager controlManager;
     PlayerEffectsHandler pEffectsHandler;
     // Start is called before the first frame update
@@ -33,8 +35,20 @@ public class PauseScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(controlManager.playerInput.currentActionMap);
-        //print(isPaused);
+        if(pauseObject.activeSelf)
+        {
+            if(ControlManager.isGamepad)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+        }
+        
 
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused)
         {
@@ -75,8 +89,6 @@ public class PauseScript : MonoBehaviour
             pauseObject.SetActive(true);
             settingsCanvas.SetActive(false);
             //controlManager.playerInput.SwitchCurrentActionMap("UI");
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
         else
         {
@@ -84,8 +96,6 @@ public class PauseScript : MonoBehaviour
             pauseObject.SetActive(false);
             settingsCanvas.SetActive(false);
             //controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
             EventSystem.current.SetSelectedGameObject(null);
         }
     }
@@ -96,7 +106,12 @@ public class PauseScript : MonoBehaviour
         if(settingsCanvas.activeSelf)
         {
             settingsCanvas.SetActive(false);
-            EventSystem.current.SetSelectedGameObject(defaultObject);
+            EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
+            return;
+        }
+        if(controlsObject.activeSelf)
+        {
+            EventSystem.current.SetSelectedGameObject(buttons[2].gameObject);
             return;
         }
 
@@ -125,6 +140,13 @@ public class PauseScript : MonoBehaviour
         print("Settings Pressed");
         settingsCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(settingsDefault);
+    }
+
+    public void OpenControlsScreen()
+    {
+        print("Controls Pressed");
+        controlsObject.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(controlsDefault);
     }
     
 }
