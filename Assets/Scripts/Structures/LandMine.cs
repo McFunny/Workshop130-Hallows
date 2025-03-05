@@ -18,7 +18,7 @@ public class LandMine : StructureBehaviorScript
     bool flashOn = true;
 
     float structureRange = 3;
-    float creatureRange = 4.5f;
+    float creatureRange = 5.5f;
     float cooldownProgress = 0;
     float cooldownLength = 45; //seconds
     float newPitch = 0.8f;
@@ -154,7 +154,7 @@ public class LandMine : StructureBehaviorScript
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         
-        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 4.5f) PlayerInteraction.Instance.StaminaChange(-65);
+        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 5.5f) PlayerInteraction.Instance.StaminaChange(-65);
         Collider[] hitStructures = Physics.OverlapSphere(transform.position, structureRange, 1 << 6);
         foreach(Collider collider in hitStructures)
         {
@@ -171,7 +171,7 @@ public class LandMine : StructureBehaviorScript
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
-                creature.TakeDamage(75);
+                creature.TakeDamage(100);
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
             }
         }

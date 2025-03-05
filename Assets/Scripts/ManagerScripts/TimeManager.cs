@@ -436,8 +436,10 @@ public class TimeManager : MonoBehaviour
 
     void ToggleDayNightLights(bool fadeTransition)
     {
-        if (TownGate.Instance == null) return;
-        if (TownGate.Instance.location == PlayerLocation.InCrypt) return;
+        if (TownGate.Instance != null)
+        {
+            if (TownGate.Instance.location == PlayerLocation.InCrypt) return;
+        }
 
         if(currentHour > 5 && currentHour < 18 && nightLight.enabled)
         {

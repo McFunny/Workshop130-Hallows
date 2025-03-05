@@ -51,6 +51,14 @@ public class NightSpawningManager : MonoBehaviour
         {
             SpawnCreature(creatures[6]);
         }
+        if (Input.GetKeyDown(KeyCode.O) && !TimeManager.Instance.isDay)
+        {
+            SpawnCreature(creatures[7]);
+        }
+        if (Input.GetKeyDown(KeyCode.P) && !TimeManager.Instance.isDay)
+        {
+            SpawnCreature(creatures[0]);
+        }
     }
 
     void OnDestroy()
