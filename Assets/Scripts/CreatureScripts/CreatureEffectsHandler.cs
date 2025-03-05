@@ -32,6 +32,11 @@ public class CreatureEffectsHandler : MonoBehaviour
         originalPitch = source.pitch;
     }
 
+    public void PlaySound(AudioClip clip)
+    {
+        source.PlayOneShot(clip);
+    }
+
     public void OnMove(float _volume)
     {
         r = Random.Range(pitchMin,pitchMax);

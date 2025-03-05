@@ -16,6 +16,10 @@ public class PlantMimic : CreatureBehaviorScript
     public GameObject burrow, fakeCrop;
 
     int pacesUntilIdle = 5; //How many times does this wander before trying to idle
+    int pacesUntilCalm = 0;
+
+    float originalSpeed;
+    float fleeSpeed = 15;
 
     private StructureBehaviorScript targetStructure;
 
@@ -45,6 +49,7 @@ public class PlantMimic : CreatureBehaviorScript
         base.Start();
 
         currentState = CreatureState.InitialBury;
+        originalSpeed = agent.speed;
     }
 
     void Update()
@@ -58,9 +63,13 @@ public class PlantMimic : CreatureBehaviorScript
 
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= sightRange;
+        playerInAttackRange = distance <= attackRange;
 
         if(agent.velocity.sqrMagnitude > 0) anim.SetBool("IsMoving", true);
         else anim.SetBool("IsMoving", false);
+
+        if(pacesUntilCalm > 0 && agent.speed != fleeSpeed) agent.speed = fleeSpeed;
+        if(pacesUntilCalm <= 0 && agent.speed != originalSpeed) agent.speed = originalSpeed;
 
     }
 
@@ -151,16 +160,15 @@ public class PlantMimic : CreatureBehaviorScript
         {
             hasTarget = false;
             pacesUntilIdle--;
+            if(pacesUntilCalm > 0) pacesUntilCalm--;
                
             if (pacesUntilIdle <= 0)
             {
-                pacesUntilIdle = Random.Range(3, 9);
-                if(!playerInSightRange)
-                {
-                    StartCoroutine(WaitAround());
-                    currentState = CreatureState.Idle;
-                    return;
-                }
+                pacesUntilIdle = Random.Range(5, 11);
+                StartCoroutine(WaitAround());
+                currentState = CreatureState.Idle;
+                effectsHandler.Idle1();
+                return;
             }
         }
         else if (!hasTarget && !attackCooldown)
@@ -173,7 +181,7 @@ public class PlantMimic : CreatureBehaviorScript
 
             fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
 
-            Vector3 newDestination = transform.position + fleeDirection * 3;
+            Vector3 newDestination = transform.position + fleeDirection * 5;
 
            
             agent.SetDestination(newDestination);
@@ -186,7 +194,7 @@ public class PlantMimic : CreatureBehaviorScript
             StartCoroutine(SwipeStructure());
             hasTarget = false;
         }
-        else if(CheckForPlayer(corpseParticleTransform) && !attackCooldown)
+        else if((CheckForPlayer(corpseParticleTransform) || playerInAttackRange) && !attackCooldown)
         {
             StartCoroutine(SwipePlayer());
             agent.SetDestination(player.position);
@@ -238,7 +246,9 @@ public class PlantMimic : CreatureBehaviorScript
         coroutineRunning = true;
         health = maxHealth;
         StructureManager.Instance.SpawnStructure(burrow, StructureManager.Instance.GetTileCenter(transform.position));
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
+        effectsHandler.Idle2();
+        yield return new WaitForSeconds(0.5f);
         agent.enabled = true;
         currentState = CreatureState.Wander;
         coroutineRunning = false;
@@ -274,6 +284,7 @@ public class PlantMimic : CreatureBehaviorScript
         anim.SetTrigger("IsAttackingStructure");
         StartCoroutine(AttackCooldown());
         yield return new WaitForSeconds(1.1f);
+        effectsHandler.MiscSound2();
         targetStructure.TakeDamage(damageToStructure);
         yield return new WaitForSeconds(0.2f);
         targetStructure.TakeDamage(damageToStructure);
@@ -288,6 +299,7 @@ public class PlantMimic : CreatureBehaviorScript
         anim.SetTrigger("IsAttackingPlayer");
         StartCoroutine(AttackCooldown());
         yield return new WaitForSeconds(0.7f);
+        effectsHandler.MiscSound();
         attackingPlayer = true;
         attackHitbox.enabled = true;
         yield return new WaitForSeconds(0.3f);
@@ -369,6 +381,7 @@ public class PlantMimic : CreatureBehaviorScript
         {
             currentState = CreatureState.Wander;
         }
+        pacesUntilCalm = Random.Range(4, 8);
     }
 
 }

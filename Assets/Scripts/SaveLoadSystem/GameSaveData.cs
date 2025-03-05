@@ -24,11 +24,14 @@ public class GameSaveData : MonoBehaviour
     public bool rascalWantsFood; //Rascal told the player they want a carrot //Outdated
     public bool rascalMentionedKey; //Rascal got the carrot and told the player about the key
     public bool lumber_offersDeal; //Lumberjack was spoken to and offered to chop the tree for x amount of mints
-    public bool lumber_choppedTree; //Lumberjack said he will chop the tree
-    public bool bridgeCleared; //Tree was cleared
+    public bool lumber_choppedTree; //Lumberjack said he will chop the tree //OBSOLETE
+    public bool bridgeCleared; //Tree was cleared //OBSOLETE
     public bool keyCollected; //Key was picked up
     public bool catacombUnlocked; //Key used to unlock door to catacombs
     public bool wildernessIntroduced; //Merchant has informed the player about the wilderness
+
+    public bool townTreeCleared1; //Tree by bridge
+    public bool townTreeCleared2; //Extra tree by cabin
 
     [Header("NPC Bools. All must be false when building")]
     public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet;
@@ -99,6 +102,9 @@ public class GameSaveData : MonoBehaviour
             tinkMet = data.allGameSaveData.tinkMet;
             apothMet = data.allGameSaveData.apothMet;
             culMet = data.allGameSaveData.culMet;
+
+            townTreeCleared1 = data.allGameSaveData.townTreeCleared1;
+            townTreeCleared2 = data.allGameSaveData.townTreeCleared2;
     }
 }
     [System.Serializable]
@@ -128,6 +134,8 @@ public class GameSaveData : MonoBehaviour
         public bool apothMet;
         public bool culMet;
 
+        public bool townTreeCleared1, townTreeCleared2;
+
     public AllGameSaveData(GameSaveData data)
         {
             pStamina = PlayerInteraction.Instance.stamina;
@@ -154,6 +162,9 @@ public class GameSaveData : MonoBehaviour
             tinkMet = data.tinkMet;
             apothMet = data.apothMet;
             culMet = data.culMet;
+
+            townTreeCleared1 = data.townTreeCleared1;
+            townTreeCleared2 = data.townTreeCleared2;
     //Debug.Log("Saving stamina. Result: " + pStamina);
 }
     }

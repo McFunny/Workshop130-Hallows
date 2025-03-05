@@ -36,6 +36,8 @@ public class CropData : ScriptableObject
 
     public bool emitsGlow = false;
 
+    public int amountHarvested, amountKilled; //make sure this resets to 0 when quitting gameplay, or when loading a new save. Figure it out, talk to code team
+
     public void OnHour(FarmLand tile)
     {
         if(behavior) behavior.OnHour(tile);
