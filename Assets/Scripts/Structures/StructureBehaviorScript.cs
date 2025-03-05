@@ -32,6 +32,8 @@ public class StructureBehaviorScript : MonoBehaviour
     [Tooltip("Does this structure impede movement? If yes, creatures will attack this if nearby and facing it")]
     public bool isObstacle = true;
 
+    public bool absentFromGrid = false; //if true, this object wont count as all structs, nor will it interact with tiles, allowing free placement.
+
     public Transform focalPoint; //for when the camera needs to focus on the object
     public Transform particleCenter; //for particles
 
@@ -91,8 +93,9 @@ public class StructureBehaviorScript : MonoBehaviour
 
     }
 
-    public void Start() //dont call this if the structure is not on the farm
+    public void Start() //make sure absent from grid is checked if not on farm
     {
+        if (absentFromGrid) return;
         StructureManager.Instance.allStructs.Add(this);
         if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
         else StructureManager.Instance.SetTile(transform.position);
@@ -125,7 +128,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         OnDamage?.Invoke();
-        if(!destructable) return;
+        if(!destructable || health <= 0) return;
         health -= damage;
         //if(damageParticles) damageParticles.Play();
         for(int i = 0; i < damageParticles.Count; i++)

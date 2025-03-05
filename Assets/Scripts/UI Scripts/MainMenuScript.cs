@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.Events;
 using SaveLoadSystem;
+using UnityEngine.UI;
 
 
 
 public class MainMenuScript : MonoBehaviour
 {
-    public InputActionReference hideUI;
+    public InputActionReference hideUI, UICancel;
     public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas;
     ControlManager controlManager;
     public AudioSource source;
@@ -30,6 +31,7 @@ public class MainMenuScript : MonoBehaviour
     public GameObject camera;
 
     public GameObject dayLight, nightLight;
+    public Button[] buttons;
 
     // Start is called before the first frame update
     void Awake()
@@ -38,7 +40,7 @@ public class MainMenuScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         //source.GetComponent<AudioSource>();
-
+        controlManager.playerInput.SwitchCurrentActionMap("UI");
         int r = Random.Range(0,3);
 
         ChangeMenu(r);
@@ -71,6 +73,23 @@ public class MainMenuScript : MonoBehaviour
         {
             if(!settingsCanvas.activeInHierarchy){HideUI();}
         }
+
+        if(settingsCanvas.activeInHierarchy && UICancel.action.WasPressedThisFrame())
+        {
+            EventSystem.current.SetSelectedGameObject(buttons[3].gameObject);
+            settingsCanvas.SetActive(false);
+        }
+
+        if(ControlManager.isGamepad)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
     }
     void HideUI()
     {

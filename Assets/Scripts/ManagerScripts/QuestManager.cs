@@ -8,6 +8,8 @@ public class QuestManager : MonoBehaviour
 
     public List<Quest> activeQuests = new List<Quest>();
 
+    public List<Quest> completedQuests = new List<Quest>();
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -36,6 +38,7 @@ public class QuestManager : MonoBehaviour
         if(!activeQuests.Contains(q))
         {
             activeQuests.Add(q);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.newQuestPopup);
         }
     }
 
@@ -43,7 +46,7 @@ public class QuestManager : MonoBehaviour
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
-            if(activeQuests[i] == q)
+            if(activeQuests[i].name == q.name)
             {
                 activeQuests[i].progress = activeQuests[i].maxProgress;
                 activeQuests[i].alreadyCompleted = true;
@@ -91,7 +94,7 @@ public class Quest
     //A quest is completed by either achieving its goal (main quests) or telling an npc it is done (sub quests)
     //If its a subquest, it will use the progress variables to determine if it is done. Main quest stuff is on a case by case basis currently
     //Later I should add a thing to randomize stuff, such as random crop type, random amount, and a multiplier for the money earned
-    public string name;
+    public string name; //NEVER CHANGE THE NAME OF THIS FOR MAIN QUESTS, OR ELSE IT WILL MAKE SAVE FILES CORRUPT
     [TextArea(5,10)]
     public string description; //Use the same method I used in the dialogue controller to parse the code in the strings
     public QuestType type; //Dont worry about this, currently unnused

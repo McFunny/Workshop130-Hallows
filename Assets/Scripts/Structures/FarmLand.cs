@@ -184,6 +184,8 @@ public class FarmLand : StructureBehaviorScript
                         itemRB = droppedItem.GetComponent<Rigidbody>();
                         itemRB.AddForce(dir3 * 20);
                         itemRB.AddForce(Vector3.up * 50);
+
+                        QuestManager.Instance.CropHarvested(crop);//Increase progress per crop yield
                     }
 
                     r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
@@ -205,7 +207,7 @@ public class FarmLand : StructureBehaviorScript
                     }
                     
                 }
-                QuestManager.Instance.CropHarvested(crop);
+                crop.amountHarvested++;
             }
 
             if(rotted)
@@ -439,6 +441,7 @@ public class FarmLand : StructureBehaviorScript
         harvestable = true;
         growthStage = crop.growthStages;
         SpriteChange();
+        crop.amountKilled++;
     }
 
     public void CropDestroyed()
@@ -492,6 +495,7 @@ public class FarmLand : StructureBehaviorScript
             Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Code needs work once Plant Mimic is added
         }
         if(health <= 0) ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        if(crop && !rotted) crop.amountKilled++;
     }
 
     public override void TimeLapse(int hours)

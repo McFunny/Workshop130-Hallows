@@ -132,7 +132,7 @@ public class StructureManager : MonoBehaviour
         //Grab tile position
         Vector3Int gridPos = tileMap.WorldToCell(pos);
 
-        if(tileMap.GetTile(gridPos) != null) return tileMap.GetCellCenterWorld(gridPos);
+        if(tileMap.GetTile(gridPos) != null && tileMap.GetTile(gridPos) != borderTile) return tileMap.GetCellCenterWorld(gridPos);
         else return new Vector3 (0,0,0);
     }
 
@@ -595,13 +595,13 @@ public class StructureManager : MonoBehaviour
         for(int i = 0; i < allStructs.Count; i++)
         {
             FarmLand farmTile = allStructs[i] as FarmLand;
-            if(farmTile && !farmTile.isWeed && farmTile.crop) cropTiles.Add(GetTileCenter(farmTile.transform.position));
+            if(farmTile && !farmTile.isWeed && farmTile.crop && !farmTile.rotted) cropTiles.Add(GetTileCenter(farmTile.transform.position));
         }
         if(cropTiles.Count > 0)
         {
             int x = 0;
             List<Vector3> clearTiles = new List<Vector3>();
-            while(x < 20)
+            while(x < 50)
             {
                 int r = Random.Range(0, cropTiles.Count);
                 clearTiles = GetAdjacentClearTiles(cropTiles[r]);
@@ -612,9 +612,58 @@ public class StructureManager : MonoBehaviour
 
                 x++;
             }
+            //code for replacing a crop
         }
 
         return GetRandomClearTile();
+    }
+
+    public Transform FindBurrow(bool returnFarthest, Vector3 pos)
+    {
+        List<Transform> burrows = new List<Transform>();
+
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            Burrow burrow = allStructs[i] as Burrow;
+            if(burrow) burrows.Add(burrow.transform);
+        }
+
+        if(burrows.Count > 0)
+        {
+            if(returnFarthest)
+            {
+                Transform furthestBurrow = null;
+                float minDistance = 25;
+                for(int i = 0; i < burrows.Count; i++)
+                {
+                    float dist = Vector3.Distance(pos, burrows[i].transform.position);
+                    if(dist > minDistance)
+                    {
+                        furthestBurrow = burrows[i];
+                        minDistance = dist;
+                    }
+                }
+                return furthestBurrow;
+            }
+            else
+            {
+                return burrows[Random.Range(0, burrows.Count)];
+            }
+        }
+
+        return null;
+    }
+
+    public int BurrowCount()
+    {
+        List<Transform> burrows = new List<Transform>();
+
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            Burrow burrow = allStructs[i] as Burrow;
+            if(burrow) burrows.Add(burrow.transform);
+        }
+        return burrows.Count;
     }
 
 
@@ -623,7 +672,7 @@ public class StructureManager : MonoBehaviour
 [System.Serializable]
 public class NutrientStorage
 {
-    public float ichorLevel = 5; //max is 10
+    public float ichorLevel = 6; //max is 10
     public float terraLevel = 10; //max is 10
     public float gloamLevel = 10; //max is 10
 
@@ -633,7 +682,7 @@ public class NutrientStorage
 
     public NutrientStorage()
     {
-        ichorLevel = 5; 
+        ichorLevel = 6; 
         terraLevel = 10; 
         gloamLevel = 10; 
         waterLevel = 3;
@@ -641,7 +690,7 @@ public class NutrientStorage
 
     public void ResetStorage(NutrientStorage s)
     {
-        s.ichorLevel = 5;
+        s.ichorLevel = 6;
         s.terraLevel = 10;
         s.gloamLevel = 10;
         s.waterLevel = 3;

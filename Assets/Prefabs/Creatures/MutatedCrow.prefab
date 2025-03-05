@@ -376,6 +376,7 @@ MonoBehaviour:
   ichorWorth: 2
   ichorDropRadius: 2.5
   creatureData: {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
+  inWilderness: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -427,6 +428,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 193
   coroutineRunning: 0
 --- !u!114 &2298879742833186136
 MonoBehaviour:

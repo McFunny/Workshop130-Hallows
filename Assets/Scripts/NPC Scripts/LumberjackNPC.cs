@@ -37,16 +37,14 @@ public class LumberjackNPC : NPC, ITalkable
                 currentType = PathType.Default;
                 GameSaveData.Instance.lumberMet = true;
             }
-            else if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_choppedTree)
+            else if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_offersDeal)
             {
-                if(!GameSaveData.Instance.lumber_offersDeal)
-                {
-                    GameSaveData.Instance.lumber_offersDeal = true;
-                    currentPath = 0;
-                    currentType = PathType.Quest;
-                    QuestManager.Instance.AddQuest(treeQuest);
-                }
-                else if(!GameSaveData.Instance.lumber_choppedTree)
+                GameSaveData.Instance.lumber_offersDeal = true; //He will now start selling his papers at his shop
+                currentPath = 0;
+                currentType = PathType.Quest;
+                QuestManager.Instance.AddQuest(treeQuest);
+
+                /*else if(!GameSaveData.Instance.lumber_choppedTree)
                 {
                     if(!startedDialogue)
                     {
@@ -71,7 +69,7 @@ public class LumberjackNPC : NPC, ITalkable
                         currentPath = 1;
                         currentType = PathType.Quest;
                     }
-                }
+                }*/
             }
             else
             {
@@ -261,9 +259,9 @@ public class LumberjackNPC : NPC, ITalkable
         shopUI.shopImgObj.SetActive(false);
     }
 
-    public override bool ActionCheck1()
+    public override bool ActionCheck1() //To check if he starts selling papers
     {
-        if(GameSaveData.Instance.lumber_choppedTree) return true;
+        if(GameSaveData.Instance.lumber_offersDeal) return true;
         return false;
     }
 
