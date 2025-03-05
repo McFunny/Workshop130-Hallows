@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -70,10 +66,10 @@ public class SettingsValueManager : MonoBehaviour
             print(PlayerPrefs.GetFloat("SFXVolume", sfxVolume));
         }
 
-        if(Input.GetKeyDown("0"))
+        /*if(Input.GetKeyDown("0"))
         {
             containerObject.SetActive(!containerObject.activeSelf);
-        }
+        }*/
     }
 
     public void SaveSettings()

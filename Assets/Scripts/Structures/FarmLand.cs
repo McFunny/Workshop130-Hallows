@@ -207,6 +207,7 @@ public class FarmLand : StructureBehaviorScript
                     }
                     
                 }
+                crop.amountHarvested++;
             }
 
             if(rotted)
@@ -440,6 +441,7 @@ public class FarmLand : StructureBehaviorScript
         harvestable = true;
         growthStage = crop.growthStages;
         SpriteChange();
+        crop.amountKilled++;
     }
 
     public void CropDestroyed()
@@ -493,6 +495,7 @@ public class FarmLand : StructureBehaviorScript
             Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Code needs work once Plant Mimic is added
         }
         if(health <= 0) ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        if(crop && !rotted) crop.amountKilled++;
     }
 
     public override void TimeLapse(int hours)

@@ -330,13 +330,14 @@ public class TimeManager : MonoBehaviour
         //save game
         NightSpawningManager.Instance.ClearAllCreatures();
         StructureManager.Instance.IncreaseNutrients();
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitForSecondsRealtime(1);
+        OnHourlyUpdate?.Invoke();
+        yield return new WaitForSecondsRealtime(1);
         if(!stopSaving) SaveGameManager.SaveData();
         FadeScreen.coverScreen = false;
         yield return new WaitForSecondsRealtime(0.5f);
         PlayerMovement.restrictMovementTokens--;
         Time.timeScale = 1;
-        OnHourlyUpdate?.Invoke();
 
         if(!stopSaving) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.gameSavePopup);
         WildernessManager.Instance.visitedWilderness = false;
@@ -435,7 +436,10 @@ public class TimeManager : MonoBehaviour
 
     void ToggleDayNightLights(bool fadeTransition)
     {
-        if(TownGate.Instance.location == PlayerLocation.InCrypt) return;
+        if (TownGate.Instance != null)
+        {
+            if (TownGate.Instance.location == PlayerLocation.InCrypt) return;
+        }
 
         if(currentHour > 5 && currentHour < 18 && nightLight.enabled)
         {
@@ -503,7 +507,8 @@ public class TimeManager : MonoBehaviour
 
     public void ToggleSkyLights() //for moving between town and crypt, without a smooth transition
     {
-        if(TownGate.Instance.location == PlayerLocation.InCrypt)
+        if(TownGate.Instance == null) return;
+        if (TownGate.Instance.location == PlayerLocation.InCrypt)
         {
             dayLight.enabled = false;
             nightLight.enabled = false;
