@@ -174,7 +174,7 @@ public class RotatingPillar : MonoBehaviour, IInteractable
 
         float elapsedTime = 0f;
         float rotationDuration = 1.5f;
-
+        audioSource.pitch = Random.Range(0.75f, 0.9f);
         audioSource.Play();
 
         currentPillarRotation += 90f;
@@ -189,6 +189,8 @@ public class RotatingPillar : MonoBehaviour, IInteractable
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        audioSource.Stop();
 
         transform.rotation = targetRotation;
 

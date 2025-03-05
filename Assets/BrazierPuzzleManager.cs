@@ -8,7 +8,7 @@ public class BrazierPuzzleManager : MonoBehaviour
 {
     [SerializeField] private List<PuzzleBrazier> brazierList = new List<PuzzleBrazier>();
 
-    [SerializeField] private bool brazierPuzzleSolved;
+    public bool brazierPuzzleSolved;
 
     private void Start()
     {
@@ -49,5 +49,6 @@ public class BrazierPuzzleManager : MonoBehaviour
         }
 
         brazierPuzzleSolved = true;
+        PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
     }
 }
