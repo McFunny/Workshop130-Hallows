@@ -120,60 +120,85 @@ public class RotatingPillarManager : MonoBehaviour
 
     public RotatingPuzzleSaveData ExportSaveData()
     {
-        var saveData = new RotatingPuzzleSaveData
+        return new RotatingPuzzleSaveData
         {
-            RotatingPillars = new List<RotatingPillarSaveData>(),
-            CropKeys = new List<CropKeySaveData>(),
+            PuzzleSet1 = ExportPuzzleSet(puzzleSet1),
+            PuzzleSet2 = ExportPuzzleSet(puzzleSet2),
+            PuzzleSet3 = ExportPuzzleSet(puzzleSet3),
+            CropKeys = ExportCropKeys(),
             PuzzlesSolved = puzzlesSolved
         };
+    }
 
-        foreach (var pillar in puzzleSet1) saveData.RotatingPillars.Add(pillar.ExportSaveData()); 
-        foreach (var pillar in puzzleSet2) saveData.RotatingPillars.Add(pillar.ExportSaveData());
-        foreach (var pillar in puzzleSet3) saveData.RotatingPillars.Add(pillar.ExportSaveData());
-        foreach (var cropKey in cropKeys) saveData.CropKeys.Add(cropKey.ExportSaveData());
+    public void ImportSaveData(RotatingPuzzleSaveData data)
+    {
+        puzzlesSolved = data.PuzzlesSolved;
+        rotatingPillarPuzzleSolved = (puzzlesSolved == 3);
+        ImportCropKeys(data.CropKeys);
+        ImportPuzzleSet(puzzleSet1, data.PuzzleSet1);
+        ImportPuzzleSet(puzzleSet2, data.PuzzleSet2);
+        ImportPuzzleSet(puzzleSet3, data.PuzzleSet3);
+       
+    }
 
+
+    private CropData GetCropDataByYieldID(int cropYieldID)
+    {
+        foreach (var crop in cropData)
+        {
+            if (crop.cropYield != null && crop.cropYield.ID == cropYieldID)
+            {
+                return crop;
+            }
+        }
+        return null;
+    }
+
+
+    private List<RotatingPillarSaveData> ExportPuzzleSet(List<RotatingPillar> puzzleSet)
+    {
+        List<RotatingPillarSaveData> saveData = new List<RotatingPillarSaveData>();
+        foreach (var pillar in puzzleSet)
+        {
+            saveData.Add(pillar.ExportSaveData());
+        }
         return saveData;
     }
 
-    public void ImportSaveData(RotatingPuzzleSaveData saveData)
+    private void ImportPuzzleSet(List<RotatingPillar> puzzleSet, List<RotatingPillarSaveData> saveData)
     {
-        puzzlesSolved = saveData.PuzzlesSolved;
-
-        // Restore Rotating Pillars
-        int pillarIndex = 0;
-        foreach (var pillar in puzzleSet1)
+        for (int i = 0; i < puzzleSet.Count; i++)
         {
-            pillar.ImportSaveData(saveData.RotatingPillars[pillarIndex]);
-            pillarIndex++;
-        }
-        foreach (var pillar in puzzleSet2)
-        {
-            pillar.ImportSaveData(saveData.RotatingPillars[pillarIndex]);
-            pillarIndex++;
-        }
-        foreach (var pillar in puzzleSet3)
-        {
-            pillar.ImportSaveData(saveData.RotatingPillars[pillarIndex]);
-            pillarIndex++;
-        }
-
-        // Restore CropKeys
-        for (int i = 0; i < cropKeys.Count; i++)
-        {
-            var item = Database.Instance.GetItem(saveData.CropKeys[i].CropYieldID);
-            cropKeys[i].ImportSaveData(saveData.CropKeys[i], item);
+            puzzleSet[i].ImportSaveData(saveData[i]);
         }
     }
 
+    private List<CropKeySaveData> ExportCropKeys()
+    {
+        List<CropKeySaveData> saveData = new List<CropKeySaveData>();
+        foreach (var cropKey in cropKeys)
+        {
+            saveData.Add(cropKey.ExportSaveData());
+        }
+        return saveData;
+    }
 
-
-
+    private void ImportCropKeys(List<CropKeySaveData> saveData)
+    {
+        for (int i = 0; i < cropKeys.Count; i++)
+        {
+            var item = Database.Instance.GetItem(saveData[i].CropYieldID);
+            cropKeys[i].ImportSaveData(saveData[i], item);
+        }
+    }
 }
 
 [System.Serializable]
 public struct RotatingPuzzleSaveData
 {
-    public List<RotatingPillarSaveData> RotatingPillars;
+    public List<RotatingPillarSaveData> PuzzleSet1;
+    public List<RotatingPillarSaveData> PuzzleSet2;
+    public List<RotatingPillarSaveData> PuzzleSet3;
     public List<CropKeySaveData> CropKeys;
     public int PuzzlesSolved;
 }
