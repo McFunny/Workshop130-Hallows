@@ -13,11 +13,13 @@ public class CropKey : MonoBehaviour, IInteractable
     private SpriteRenderer foregroundSprite;
     public CropData cropData;
     public bool cropInserted;
+    private AudioSource audioSource;
 
     void Start()
     {
         backgroundSprite = backgroundCropGameObject.GetComponent<SpriteRenderer>();
         foregroundSprite = foregroundCropGameObject.GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -55,6 +57,8 @@ public class CropKey : MonoBehaviour, IInteractable
             foregroundSprite.enabled = true;
 
             interactSuccessful = true;
+
+            audioSource.Play();
 
             OnCropInserted?.Invoke(this);
         }

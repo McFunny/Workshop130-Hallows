@@ -103,22 +103,22 @@ public class DialogueController : MonoBehaviour
         switch(e)
         {
             case Emotion.Neutral:
-                source.PlayOneShot(currentTalker.neutral);
+                source.PlayOneShot(currentTalker.neutral[Random.Range(0, currentTalker.neutral.Length)]);
                 break;
             case Emotion.Happy:
-                source.PlayOneShot(currentTalker.happy);
+                source.PlayOneShot(currentTalker.happy[Random.Range(0, currentTalker.happy.Length)]);
                 break;
             case Emotion.Sad:
-                source.PlayOneShot(currentTalker.sad);
+                source.PlayOneShot(currentTalker.sad[Random.Range(0, currentTalker.sad.Length)]);
                 break;
             case Emotion.Angry:
-                source.PlayOneShot(currentTalker.angry);
+                source.PlayOneShot(currentTalker.angry[Random.Range(0, currentTalker.angry.Length)]);
                 break;
             case Emotion.Shocked:
-                source.PlayOneShot(currentTalker.shocked);
+                source.PlayOneShot(currentTalker.shocked[Random.Range(0, currentTalker.shocked.Length)]);
                 break;
             case Emotion.Confused:
-                source.PlayOneShot(currentTalker.confused);
+                source.PlayOneShot(currentTalker.confused[Random.Range(0, currentTalker.confused.Length)]);
                 break;
             default:
                 break;

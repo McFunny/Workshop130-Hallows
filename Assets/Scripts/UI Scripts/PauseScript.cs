@@ -52,8 +52,10 @@ public class PauseScript : MonoBehaviour
 
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused)
         {
-            print("Default Pause Object Selected");
-            EventSystem.current.SetSelectedGameObject(defaultObject);
+            if(settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsDefault);
+            else if(controlsObject.activeSelf) EventSystem.current.SetSelectedGameObject(controlsDefault);
+            else EventSystem.current.SetSelectedGameObject(defaultObject);
+            print("Default Pause Object Selected");  
         } 
     }
 

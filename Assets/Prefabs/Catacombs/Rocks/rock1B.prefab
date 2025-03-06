@@ -92,7 +92,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4231008932898024832}
-  - component: {fileID: 2592580156455502315}
   m_Layer: 0
   m_Name: rock1B
   m_TagString: Untagged
@@ -108,32 +107,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3514685356892588431}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000037748947, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1421.9994, y: 0, z: -54.459476}
-  m_LocalScale: {x: 1.356891, y: 1.356891, z: 1.356891}
+  m_LocalScale: {x: 1.3568912, y: 1.356891, z: 1.3568912}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8826473739558336292}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2592580156455502315
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3514685356892588431}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.60311294, y: 0.58180934, z: 0.9512361}
-  m_Center: {x: 0.00000030749152, y: 0.23125425, z: -0.17748833}
