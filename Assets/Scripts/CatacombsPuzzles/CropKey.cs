@@ -85,14 +85,15 @@ public class CropKey : MonoBehaviour, IInteractable
         return new CropKeySaveData
         {
             CropInserted = cropInserted,
-            CropYieldID = cropData?.cropYield?.ID ?? -1
+            CropYieldID = cropData.cropYield.ID,
+            CropdataName = cropData.name
         };
     }
-
 
     public void ImportSaveData(CropKeySaveData data, InventoryItemData cropYieldItem)
     {
         cropInserted = data.CropInserted;
+        cropData = CropDatabase.Instance.GetCropByName(data.CropdataName);
 
         if (cropYieldItem != null)
         {
@@ -103,19 +104,23 @@ public class CropKey : MonoBehaviour, IInteractable
         {
             Debug.LogWarning($"CropYield with ID {data.CropYieldID} not found in the database.");
         }
-
+        Debug.Log("Crop:" + cropYieldItem);
+        Debug.Log("Crop Inserted: " + cropInserted);
         foregroundSprite.enabled = cropInserted;
+        Debug.Log("Foreground Inserted: " + foregroundSprite.enabled);
+        if (cropInserted)
+        {
+            OnCropInserted?.Invoke(this);
+        }
     }
-
-
-
 }
 
 [System.Serializable]
 public struct CropKeySaveData
 {
     public bool CropInserted;
-    public int CropYieldID; 
+    public int CropYieldID;
+    public string CropdataName;
 }
 
 
