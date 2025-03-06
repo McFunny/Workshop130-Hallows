@@ -436,7 +436,10 @@ public class TimeManager : MonoBehaviour
 
     void ToggleDayNightLights(bool fadeTransition)
     {
-        if(TownGate.Instance.location == PlayerLocation.InCrypt) return;
+        if (TownGate.Instance != null)
+        {
+            if (TownGate.Instance.location == PlayerLocation.InCrypt) return;
+        }
 
         if(currentHour > 5 && currentHour < 18 && nightLight.enabled)
         {
@@ -504,7 +507,8 @@ public class TimeManager : MonoBehaviour
 
     public void ToggleSkyLights() //for moving between town and crypt, without a smooth transition
     {
-        if(TownGate.Instance.location == PlayerLocation.InCrypt)
+        if(TownGate.Instance == null) return;
+        if (TownGate.Instance.location == PlayerLocation.InCrypt)
         {
             dayLight.enabled = false;
             nightLight.enabled = false;

@@ -88,7 +88,7 @@ public class FeralHareTest : CreatureBehaviorScript
                     foreach (StructureBehaviorScript structure in structManager.allStructs)
                     {
                         FarmLand potentialFarmTile = structure as FarmLand;
-                        if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop) && Vector3.Distance(transform.position, potentialFarmTile.transform.position) < 25);
+                        if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop) && Vector3.Distance(transform.position, potentialFarmTile.transform.position) < 25) //why did a hare eat a weed?
                         {
                             availableLands.Add(potentialFarmTile);
                         }
@@ -343,7 +343,7 @@ public class FeralHareTest : CreatureBehaviorScript
         do
         {
             yield return new WaitForSeconds(10);
-            if(StructureManager.Instance.CheckTile(transform.position) != new Vector3(0,0,0) && Random.Range(0,10) > 7 && StructureManager.Instance.BurrowCount() < 5 && currentState == CreatureState.Wander)
+            if(StructureManager.Instance.CheckTile(transform.position) != new Vector3(0,0,0) && Random.Range(0,10) > 5 && StructureManager.Instance.BurrowCount() < 5 && currentState == CreatureState.Wander)
             {
                 currentState = CreatureState.MakingBurrow;
             }

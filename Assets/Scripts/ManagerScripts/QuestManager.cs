@@ -38,6 +38,7 @@ public class QuestManager : MonoBehaviour
         if(!activeQuests.Contains(q))
         {
             activeQuests.Add(q);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.newQuestPopup);
         }
     }
 
