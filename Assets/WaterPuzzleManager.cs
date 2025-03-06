@@ -21,6 +21,7 @@ public class WaterPuzzleManager : MonoBehaviour
             puzzle2.isLocked = true;
             puzzle3.isLocked = true;
             waterPuzzleSolved = true;
+            PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
         }
     }
 

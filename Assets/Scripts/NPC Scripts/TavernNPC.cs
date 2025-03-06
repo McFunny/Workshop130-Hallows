@@ -131,6 +131,7 @@ public class TavernNPC : NPC, ITalkable
     void GiveQuest()
     {
        // QuestManager.Instance.activeQuests.Add(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+       //Potential bug
         QuestManager.Instance.AddQuest(possibleQuests[Random.Range(0, possibleQuests.Count)]);
         int questNum = QuestManager.Instance.activeQuests.Count - 1;//To grab the newly added quest
 

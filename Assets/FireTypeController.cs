@@ -8,8 +8,10 @@ public class FireTypeController : MonoBehaviour
     [SerializeField] private GameObject gloam;
     [SerializeField] private GameObject terra;
     [SerializeField] private GameObject ichor;
+    private AudioSource audioSource;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         DoFire();
     }
 
@@ -19,6 +21,7 @@ public class FireTypeController : MonoBehaviour
         if (gloam) gloam.SetActive(false);
         if (terra) terra.SetActive(false);
         if (ichor) ichor.SetActive(false);
+        if (audioSource) audioSource.Play();
     }
 
     public void DoGloam()
@@ -27,6 +30,7 @@ public class FireTypeController : MonoBehaviour
         if (gloam) gloam.SetActive(true);
         if (terra) terra.SetActive(false);
         if (ichor) ichor.SetActive(false);
+        if(audioSource) audioSource.Play();
     }
     public void DoTerra()
     {
@@ -34,6 +38,7 @@ public class FireTypeController : MonoBehaviour
         if (gloam) gloam.SetActive(false);
         if (terra) terra.SetActive(true);
         if (ichor) ichor.SetActive(false);
+        if (audioSource) audioSource.Play();
     }
 
     public void DoIchor()
@@ -42,6 +47,7 @@ public class FireTypeController : MonoBehaviour
         if (gloam) gloam.SetActive(false);
         if (terra) terra.SetActive(false);
         if (fire) fire.SetActive(false);
+        if (audioSource) audioSource.Play();
     }
 
     public void DoTypeBasedOnNumber(int number)

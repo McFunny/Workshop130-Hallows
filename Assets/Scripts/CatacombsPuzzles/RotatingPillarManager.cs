@@ -114,6 +114,7 @@ public class RotatingPillarManager : MonoBehaviour
         {
             Debug.Log("All puzzles solved! Great job!");
             rotatingPillarPuzzleSolved = true;
+            PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
         }
     }
 

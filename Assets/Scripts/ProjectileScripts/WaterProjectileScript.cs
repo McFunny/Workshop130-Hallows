@@ -7,6 +7,7 @@ public class WaterProjectileScript : MonoBehaviour
     public AudioClip hitStruct, hitEnemy, hitGround, hitIce;
 
     public bool homing = false;
+    bool bigShot = false;
     public Vector3 target;
 
     Rigidbody rb;
@@ -37,6 +38,7 @@ public class WaterProjectileScript : MonoBehaviour
                     StartCoroutine(TurnOff());
                     return;
                 }
+                else if(bigShot) BigSplash(transform.position);
 
                 if(structure.onFire) structure.Extinguish();
 
@@ -57,6 +59,7 @@ public class WaterProjectileScript : MonoBehaviour
                 ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
                 //gameObject.SetActive(false);
                 StartCoroutine(TurnOff());
+
                 return;
             }
 
@@ -122,6 +125,7 @@ public class WaterProjectileScript : MonoBehaviour
                 StartCoroutine(TurnOff());
                 return;
             }
+            else if(bigShot) BigSplash(transform.position);
             HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
@@ -144,10 +148,33 @@ public class WaterProjectileScript : MonoBehaviour
         iceObject.SetActive(true);
     }
 
+    void BigSplash(Vector3 pos)
+    {
+        if (homing) {
+            return;}
+
+        print("Big shot");
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2f);
+        foreach(Collider collider in hitColliders)
+        {
+            if(collider.gameObject.GetComponentInParent<FarmLand>())
+            {
+                FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
+                tile.WaterCrops();
+            }
+            else
+            {
+                StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+                if(structure && structure.onFire) structure.Extinguish();
+            }
+        }
+    }
+
     void OnEnable()
     {
         canCollide = true;
         trail.emitting = false;
+        bigShot = false;
         StartCoroutine(LifeTime());
         if(!rb) rb = GetComponent<Rigidbody>();
         //rb.isKinematic = false;
@@ -195,6 +222,8 @@ public class WaterProjectileScript : MonoBehaviour
             rb.AddForce(dir * 100);
             //Debug.Log("ZOOM");
         }
+        yield return new WaitForSeconds(0.2f);
+        bigShot = true;
         yield return new WaitForSeconds(20);
         gameObject.SetActive(false);
     }
