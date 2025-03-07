@@ -38,7 +38,6 @@ public class TutorialNPC : NPC, ITalkable
         interactSuccessful = true;
         finishedTalking = true;
 
-        tutorial.SetActive(true);
     }
 
     public void Talk()
@@ -74,10 +73,10 @@ public class TutorialNPC : NPC, ITalkable
         {
             FadeScreen.coverScreen = true;
             PlayerMovement.restrictMovementTokens++;
+            TimeManager.Instance.stopTime = false;
             yield return new WaitForSeconds(1.5f);
             PlayerMovement.restrictMovementTokens--;
             FadeScreen.coverScreen = false;
-            TimeManager.Instance.stopTime = false;
 
             QuestManager.Instance.AddQuest(mainQuest);
 

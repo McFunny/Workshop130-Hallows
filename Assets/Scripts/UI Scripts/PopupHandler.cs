@@ -40,6 +40,10 @@ public class PopupHandler : MonoBehaviour
     {
         PopupEvents.current.OnTillGround += OnTillGround;
         PopupEvents.current.OnShovelSwing += OnShovelSwing;
+        PopupEvents.current.OnPlant += OnPlant;
+        PopupEvents.current.OnKill += OnKill;
+        PopupEvents.current.OnWeedDug += OnWeedDug;
+        PopupEvents.current.OnWateredCrop += OnWateredCrop;
         //popupContainer.SetActive(false);
         conditionMet = false;
         popupTransform.position = lerpStart.position;
@@ -50,6 +54,10 @@ public class PopupHandler : MonoBehaviour
     {
         PopupEvents.current.OnTillGround -= OnTillGround;
         PopupEvents.current.OnShovelSwing -= OnShovelSwing;
+        PopupEvents.current.OnPlant -= OnPlant;
+        PopupEvents.current.OnKill -= OnKill;
+        PopupEvents.current.OnWeedDug -= OnWeedDug;
+        PopupEvents.current.OnWateredCrop -= OnWateredCrop;
         TimeManager.OnHourlyUpdate -= NightWarning;
     }
 
@@ -167,6 +175,30 @@ public class PopupHandler : MonoBehaviour
             print("SHOVEL!!!");
             conditionMet = false; // Reset
         }
+        else if (popup.endCondition == PopupScript.EndCondition.PlantSeed)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Planted");
+            conditionMet = false; // Reset
+        }
+        else if (popup.endCondition == PopupScript.EndCondition.KillStructure)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Killed!!!");
+            conditionMet = false; // Reset
+        }
+        else if (popup.endCondition == PopupScript.EndCondition.WeedDug)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Dug Weed!!!");
+            conditionMet = false; // Reset
+        }
+        else if (popup.endCondition == PopupScript.EndCondition.WateredCrop)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Water!!!");
+            conditionMet = false; // Reset
+        }
         //print("HI!!!");
         isActive = false;
         yield return new WaitUntil(() => offScreen);
@@ -186,6 +218,38 @@ public class PopupHandler : MonoBehaviour
     private void OnShovelSwing()
     {
         if (isActive && currentPopup.endCondition == PopupScript.EndCondition.ShovelSwing)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnPlant()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.PlantSeed)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnKill()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.KillStructure)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnWeedDug()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.WeedDug)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnWateredCrop()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.WateredCrop)
         {
             conditionMet = true;
         }

@@ -10,6 +10,8 @@ public class Tutorial : MonoBehaviour
 
     public GameObject scarecrow, weed;
 
+    public StructureObject weedData;
+
     public TutorialPhase phase;
 
     public enum TutorialPhase
@@ -38,6 +40,7 @@ public class Tutorial : MonoBehaviour
     void Start()
     {
         PopupHandler.Instance.AddToQueue(tillP);
+        TimeManager.Instance.stopTime = true;
     }
     
     public void TilledGround()
@@ -55,6 +58,7 @@ public class Tutorial : MonoBehaviour
         {
             PopupHandler.Instance.AddToQueue(waterP);
             phase = TutorialPhase.Water;
+            PopupEvents.current.PlantSeed();
         }
     }
 
@@ -65,6 +69,7 @@ public class Tutorial : MonoBehaviour
             PopupHandler.Instance.AddToQueue(dontDestroySeedsP);
             PopupHandler.Instance.AddToQueue(killP);
             phase = TutorialPhase.Kill;
+            PopupEvents.current.WateredCrop();
 
             StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();;
             guy.health = 4;
@@ -77,6 +82,7 @@ public class Tutorial : MonoBehaviour
         {
             PopupHandler.Instance.AddToQueue(killP);
             phase = TutorialPhase.Kill;
+            PopupEvents.current.WateredCrop();
             //spawnScarecrow
             StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();
             guy.health = 4;
@@ -87,8 +93,20 @@ public class Tutorial : MonoBehaviour
     {
         if(phase == TutorialPhase.Kill)
         {
-            PopupHandler.Instance.AddToQueue(weedP);
-            phase = TutorialPhase.Weed;
+            PopupEvents.current.KillStructure();
+
+            if(StructureManager.Instance.TallyStructure(weedData) == 0)
+            {
+                PopupHandler.Instance.AddToQueue(completeP);
+                phase = TutorialPhase.Complete;
+                PopupEvents.current.WeedDug();
+                Destroy(gameObject);
+            }
+            else
+            {
+                PopupHandler.Instance.AddToQueue(weedP);
+                phase = TutorialPhase.Weed;
+            }
         }
     }
 
@@ -98,12 +116,18 @@ public class Tutorial : MonoBehaviour
         {
             PopupHandler.Instance.AddToQueue(completeP);
             phase = TutorialPhase.Complete;
+            PopupEvents.current.WeedDug();
             Destroy(gameObject);
         }
     }
 
     public void WeedDestroyed()
     {
-        Instantiate(weed, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity);
+        //Instantiate(weed, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity);
+    }
+
+    void OnDestroy()
+    {
+        TimeManager.Instance.stopTime = false;
     }
 }
