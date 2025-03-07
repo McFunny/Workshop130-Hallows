@@ -123,7 +123,7 @@ public class Tutorial : MonoBehaviour
 
     public void WeedDestroyed()
     {
-        //Instantiate(weed, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity);
+        if(StructureManager.Instance.TallyStructure(weedData) == 0) Instantiate(weed, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity);
     }
 
     void OnDestroy()
