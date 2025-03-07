@@ -577,6 +577,9 @@ public class FarmLand : StructureBehaviorScript
 
     bool CheckForWeeds()
     {
+        //save this later when able to explain this mechanic
+        return false;
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f);
         foreach(Collider collider in hitColliders)
         {
