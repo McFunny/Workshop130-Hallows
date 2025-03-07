@@ -42,16 +42,16 @@ public class SaveGameManager : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.V))
         {
             SaveData();
         }
 
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.B))
         {
             TryLoadData();
             
-        }*/
+        }
     }
 
     public static void SaveData()

@@ -91,7 +91,7 @@ public class WildernessManager : MonoBehaviour
     public void GameOver()
     {
         if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InFarm);
-        //else return;
+        if(currentMap == null) return;
         AmbientAudioManager.Instance.ChangeMusic();
         ClearCreatures();
         currentMap.ClearMap();
