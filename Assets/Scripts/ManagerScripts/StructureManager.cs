@@ -667,6 +667,16 @@ public class StructureManager : MonoBehaviour
         return burrows.Count;
     }
 
+    public int TallyStructure(StructureObject data)
+    {
+        int x = 0;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            if(allStructs[i].structData && allStructs[i].structData == data) x++;
+        }
+        return x;
+    }
+
 
 }
 

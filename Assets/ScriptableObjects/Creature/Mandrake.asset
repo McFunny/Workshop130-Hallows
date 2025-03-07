@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 8095277121360393263, guid: 55c91fa69fe128a4a9df242ebb665a9a,
     type: 3}
+  creatureVariants: []
   health: 75
   position:
   - 0
@@ -21,9 +22,11 @@ MonoBehaviour:
   - 0
   dangerCost: 3
   dangerThreshold: 50
-  spawnWeight: 1
+  spawnWeight: 0
   spawnCap: 5
   spawnCapPerHour: 1
+  wealthPrerequisite: 0
+  contribuiteToCreatureCap: 1
   data:
     Name: 
     Id: -1
