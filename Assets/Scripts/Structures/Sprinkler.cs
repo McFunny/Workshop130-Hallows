@@ -45,7 +45,7 @@ public class Sprinkler : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(waterLevel > 0)
+        if(waterLevel > 0 && !TimeManager.Instance.isDay)
         {
             waterLevel--;
             StartCoroutine(WaterTiles());

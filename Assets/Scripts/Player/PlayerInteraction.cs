@@ -306,7 +306,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
-        if (DialogueController.Instance.IsTalking())
+        if (DialogueController.Instance.IsTalking() && amount < 0)
         {
             print("Damage negated! Stamina is : " + stamina);
             return;

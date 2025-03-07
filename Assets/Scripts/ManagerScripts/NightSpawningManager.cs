@@ -315,10 +315,10 @@ public class NightSpawningManager : MonoBehaviour
 
     int CalculateMaxCreatures()
     {
-        if(highestDifficultyPoints > 350) return 15;
+        if(highestDifficultyPoints > 350) return 16;
         else if(highestDifficultyPoints > 250) return 12;
         else if(highestDifficultyPoints > 150) return 8;
-        else if(highestDifficultyPoints > 80) return 6;
+        else if(highestDifficultyPoints > 50) return 6;
         else return 4;
         /*
         switch (TimeManager.Instance.dayNum)
