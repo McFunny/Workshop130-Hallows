@@ -69,4 +69,9 @@ public class Database : ScriptableObject
         return Resources.LoadAll<CropItem>("").ToList();
     }
 
+    public List<InventoryItemData> GetItemDatabase()
+    {
+        return _itemDatabase;
+    }
+
 }

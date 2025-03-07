@@ -51,7 +51,7 @@ public class PlayerCam : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen)
+        if (PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen || DebugUI.isDebugMenuOpen)
         {
             if(!ControlManager.isController)
             {
