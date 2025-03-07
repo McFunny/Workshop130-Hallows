@@ -29,11 +29,13 @@ public class RotatingPillar : MonoBehaviour, IInteractable
     private bool isLocked = false;
     private AudioSource audioSource;
     private bool cropInserted = false;
+    private float savedTransformRotation;
 
 
     public void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        savedTransformRotation = transform.rotation.y;
     }
 
     public void SetUpSprites(CropData crop)
@@ -174,7 +176,7 @@ public class RotatingPillar : MonoBehaviour, IInteractable
 
         float elapsedTime = 0f;
         float rotationDuration = 1.5f;
-
+        audioSource.pitch = Random.Range(0.75f, 0.9f);
         audioSource.Play();
 
         currentPillarRotation += 90f;
@@ -190,6 +192,8 @@ public class RotatingPillar : MonoBehaviour, IInteractable
             yield return null;
         }
 
+        audioSource.Stop();
+
         transform.rotation = targetRotation;
 
        
@@ -203,8 +207,18 @@ public class RotatingPillar : MonoBehaviour, IInteractable
     private void SetRotation(float rotationAmount)
     {
         Quaternion targetRotation = Quaternion.Euler(transform.eulerAngles + new Vector3(0, rotationAmount, 0));
-        transform.rotation = targetRotation;
+        transform.localRotation = targetRotation;
         currentPillarRotation = rotationAmount;
+
+        if (currentPillarRotation == 0f) correctlyOrientated = true;
+        else correctlyOrientated = false;
+
+    }
+
+    private void DirectSetRotation(float rotationAmount)
+    {
+        Quaternion targetRotation = Quaternion.Euler(0,rotationAmount + savedTransformRotation + 90,0);
+        transform.localRotation = targetRotation;
 
         if (currentPillarRotation == 0f) correctlyOrientated = true;
         else correctlyOrientated = false;
@@ -220,6 +234,7 @@ public class RotatingPillar : MonoBehaviour, IInteractable
     {
         return new RotatingPillarSaveData
         {
+            crop = specifiedCrop.name,
             CurrentRotation = currentPillarRotation,
             IsCorrectlyOriented = correctlyOrientated,
             IsLocked = isLocked,
@@ -229,24 +244,32 @@ public class RotatingPillar : MonoBehaviour, IInteractable
 
     public void ImportSaveData(RotatingPillarSaveData data)
     {
-        
+        Debug.Log(CropDatabase.Instance.GetCropByName(data.crop));
+        specifiedCrop = CropDatabase.Instance.GetCropByName(data.crop);
         currentPillarRotation = data.CurrentRotation;
         correctlyOrientated = data.IsCorrectlyOriented;
         isLocked = data.IsLocked;
         spriteSaveData = data.SpriteIndices;
 
-       
-        SetRotation(currentPillarRotation);
+        DirectSetRotation(currentPillarRotation);
 
-
-        for (int i = 0; i < spriteRenderers.Count; i++)
+        if (specifiedCrop != null)  // Ensure cropData is properly assigned
         {
-            if (spriteSaveData.Length > i && specifiedCrop != null)
+            for (int i = 0; i < spriteRenderers.Count; i++)
             {
-                spriteRenderers[i].sprite = specifiedCrop.cropSprites[spriteSaveData[i]];
+                    spriteRenderers[i].sprite = specifiedCrop.cropSprites[spriteSaveData[i]];
             }
         }
+        else
+        {
+            Debug.LogWarning($"specifiedCrop is null for pillar {name}. CropData was not assigned correctly.");
+        }
+
+
+
     }
+
+   
 
 }
 
@@ -254,6 +277,7 @@ public class RotatingPillar : MonoBehaviour, IInteractable
 [System.Serializable]
 public struct RotatingPillarSaveData
 {
+    public string crop;
     public float CurrentRotation;
     public bool IsCorrectlyOriented;
     public bool IsLocked;

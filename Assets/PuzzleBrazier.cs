@@ -112,6 +112,8 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
         }
     }
 
+
+
     private void DoCropSwitchCase(int number)
     {
         switch (number)
@@ -203,5 +205,34 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
 
         }
 
+
+
     }
+
+    public BrazierSaveData ExportSaveData()
+    {
+        return new BrazierSaveData
+        {
+            correctFireSave = correctFire,
+            currentFireSave = currentFire,
+            isLockedSave = isLocked
+        };
+    }
+
+    public void ImportSaveData(BrazierSaveData data)
+    {
+        correctFire = data.correctFireSave;
+        currentFire = data.currentFireSave;
+        isLocked = data.isLockedSave;
+
+        fire.DoTypeBasedOnNumber(currentFire);
+    }
+}
+
+[System.Serializable]
+public struct BrazierSaveData
+{
+    public int correctFireSave;
+    public int currentFireSave;
+    public bool isLockedSave;
 }

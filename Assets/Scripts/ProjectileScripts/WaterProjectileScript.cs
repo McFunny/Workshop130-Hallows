@@ -150,6 +150,9 @@ public class WaterProjectileScript : MonoBehaviour
 
     void BigSplash(Vector3 pos)
     {
+        if (homing) {
+            return;}
+
         print("Big shot");
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2f);
         foreach(Collider collider in hitColliders)

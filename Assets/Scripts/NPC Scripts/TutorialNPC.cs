@@ -10,6 +10,8 @@ public class TutorialNPC : NPC, ITalkable
     public InventoryItemData seeds;
 
     public Quest mainQuest;
+
+    public GameObject tutorial;
     void Start()
     {
         if(MainMenuScript.loadingData) StartCoroutine(Despawn());
@@ -35,6 +37,8 @@ public class TutorialNPC : NPC, ITalkable
         Talk();
         interactSuccessful = true;
         finishedTalking = true;
+
+        tutorial.SetActive(true);
     }
 
     public void Talk()
@@ -76,6 +80,8 @@ public class TutorialNPC : NPC, ITalkable
             TimeManager.Instance.stopTime = false;
 
             QuestManager.Instance.AddQuest(mainQuest);
+
+            tutorial.SetActive(true);
 
             Destroy(this.gameObject);
         }

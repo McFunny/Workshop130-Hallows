@@ -90,7 +90,7 @@ public class PopupHandler : MonoBehaviour
 
     void NightWarning()
     {
-        if(TownGate.Instance.location == PlayerLocation.InTown && TimeManager.Instance.currentHour == 19) AddToQueue(nightWarningPopup);
+        if((TownGate.Instance.location == PlayerLocation.InTown || TownGate.Instance.location == PlayerLocation.InCrypt) && TimeManager.Instance.currentHour == 19) AddToQueue(nightWarningPopup);
 
         if(TownGate.Instance.location == PlayerLocation.InWilderness && (TimeManager.Instance.currentHour == 18 || TimeManager.Instance.currentHour == 19)) AddToQueue(nightWildernessWarningPopup);
     }

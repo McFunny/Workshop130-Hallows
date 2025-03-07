@@ -9,12 +9,10 @@ public class LogBarricade : MonoBehaviour, IInteractable
 
     public TreeID id;
     bool checkStart = true;
-    bool isPapered;
+    public bool isPapered;
 
     public InventoryItemData papers;
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
-
-    public bool forceCut = false;
 
     public GameObject paperSprite;
 
@@ -27,8 +25,8 @@ public class LogBarricade : MonoBehaviour, IInteractable
     void Start()
     {
         checkStart = true;
-        CheckData();
         TimeManager.OnHourlyUpdate += CheckData;
+        StartCoroutine(DelayedCheck());
     }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -134,6 +132,12 @@ public class LogBarricade : MonoBehaviour, IInteractable
             }
             break;
         }
+    }
+
+    IEnumerator DelayedCheck()
+    {
+        yield return new WaitForSeconds(2);
+        CheckData();
     }
 
     void OnDestroy()

@@ -37,7 +37,7 @@ public class WildernessMap : MonoBehaviour
         for(int i = 0; i < t; i++)
         {
             r = Random.Range(0, interactablePositions.Length);
-            if(!usedSpots.Contains(interactablePositions[r]))
+            if(!usedSpots.Contains(interactablePositions[r]) && SpotAvailable(interactablePositions[r]))
             {
                 int x = 0; //iterations of while loop
                 int l; //random num for spawn chance
@@ -61,6 +61,17 @@ public class WildernessMap : MonoBehaviour
                 }
             }
         }
+    }
+
+    bool SpotAvailable(Transform t)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(t.position, 1f);
+        foreach(Collider collider in hitColliders)
+        {
+            StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+            if(structure) return false;
+        }
+        return true;
     }
 
     public void ClearMap()

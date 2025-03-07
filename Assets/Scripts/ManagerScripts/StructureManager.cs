@@ -520,6 +520,7 @@ public class StructureManager : MonoBehaviour
                 {
                     FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
                     script.InsertCrop(fogChime);
+                    script.wealthValue = 0;
                     SetTile(spawnPos);
                 }
             }
