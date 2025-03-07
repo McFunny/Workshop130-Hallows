@@ -6,6 +6,7 @@ public class TutorialNPC : NPC, ITalkable
 {
     bool goneAtStart = true;
     bool finishedTalking = false;
+    bool shotAt;
 
     public InventoryItemData seeds;
 
@@ -64,6 +65,7 @@ public class TutorialNPC : NPC, ITalkable
         currentType = PathType.Misc;
         Talk();
         finishedTalking = true;
+        shotAt = true;
     }
 
     IEnumerator Despawn()
@@ -80,7 +82,7 @@ public class TutorialNPC : NPC, ITalkable
 
             QuestManager.Instance.AddQuest(mainQuest);
 
-            tutorial.SetActive(true);
+            if(!shotAt) tutorial.SetActive(true);
 
             Destroy(this.gameObject);
         }

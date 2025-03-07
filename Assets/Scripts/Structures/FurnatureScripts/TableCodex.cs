@@ -18,6 +18,8 @@ public class TableCodex : MonoBehaviour, IInteractable
     {
         codex = FindFirstObjectByType<CodexRework>();
         //codex.gameObject.SetActive(false);
+
+        StartCoroutine(DistanceCheck());
     }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -40,16 +42,6 @@ public class TableCodex : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
        
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        //anim.SetBool("IsOpen", true);
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        //anim.SetBool("IsOpen", false);
     }
 
 
@@ -94,6 +86,16 @@ public class TableCodex : MonoBehaviour, IInteractable
                 foreach(Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
             }
             while(power < 1.9f && highlightEnabled);
+        }
+    }
+
+    IEnumerator DistanceCheck()
+    {
+        while(gameObject.activeSelf)
+        {
+            yield return new WaitForSeconds(0.5f);
+            if(Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) < 15) anim.SetBool("IsOpen", true);
+            else anim.SetBool("IsOpen", false);
         }
     }
 }
