@@ -162,7 +162,7 @@ public class NightSpawningManager : MonoBehaviour
 
         if(allCreatures.Count < maxCreatures && difficultyPoints < 10)
         {
-            r = Random.Range(1,3);
+            r = Random.Range(1,4);
             for(int i = 0; i < r; i++)
             {
                 r = Random.Range(0, fillerCreatures.Length);
@@ -315,10 +315,10 @@ public class NightSpawningManager : MonoBehaviour
 
     int CalculateMaxCreatures()
     {
-        if(highestDifficultyPoints > 350) return 15;
+        if(highestDifficultyPoints > 350) return 16;
         else if(highestDifficultyPoints > 250) return 12;
         else if(highestDifficultyPoints > 150) return 8;
-        else if(highestDifficultyPoints > 80) return 6;
+        else if(highestDifficultyPoints > 50) return 6;
         else return 4;
         /*
         switch (TimeManager.Instance.dayNum)

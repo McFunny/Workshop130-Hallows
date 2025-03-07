@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28907f87ec5c0c64d87d203db291a723, type: 3}
   m_Name: PlantSeeds
   m_EditorClassIdentifier: 
-  text: Use the Pale Carrot seed on the tile to plant the crop.
-  endCondition: 1
-  endTimeInSeconds: 0
+  text: Use the Pale Carrot seed on the tile to plant the crop. Before planting seeds,
+    it is always important to make sure the tile has sufficient nutrients for the
+    crop you are trying to grow.
+  endCondition: 3
+  endTimeInSeconds: 5
