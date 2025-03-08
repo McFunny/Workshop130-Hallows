@@ -30,6 +30,7 @@ public class InventorySlot_UI : MonoBehaviour
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
         toolTip = FindFirstObjectByType<ToolTipScript>();
         AddEventTriggers();
+        itemName.gameObject.SetActive(false);
     }
     void Start()
     {
@@ -67,7 +68,7 @@ public class InventorySlot_UI : MonoBehaviour
         if(PlayerMovement.accessingInventory && ControlManager.isGamepad)
         {
             slotHighlight.SetActive(isSelected);
-            itemName.gameObject.SetActive(isSelected);
+            //itemName.gameObject.SetActive(isSelected);
 
             if(isSelected)
             {
@@ -191,7 +192,7 @@ public class InventorySlot_UI : MonoBehaviour
         if(!ControlManager.isGamepad)
         {
             slotHighlight.SetActive(selected);
-            itemName.gameObject.SetActive(selected);
+            //itemName.gameObject.SetActive(selected);
             if(selected)
             {
                 if(itemName.text != "")

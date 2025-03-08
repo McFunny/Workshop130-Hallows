@@ -262,6 +262,7 @@ public class CodexRework : MonoBehaviour
         smallImage.gameObject.SetActive(false);
         questImage.gameObject.SetActive(false);
         SetTextToDefault();
+        questSlider.gameObject.SetActive(false);
         descriptionText.gameObject.SetActive(false);
         largeDescriptionText.gameObject.SetActive(true);
         largeImage.sprite = null;
