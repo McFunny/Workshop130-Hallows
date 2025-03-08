@@ -31,6 +31,9 @@ public class CropTester : MonoBehaviour, IInteractable
     bool highlightEnabled;
     public GameObject canvas;
 
+    public Color gray;
+    public Color white;
+
     private void Start()
     {
         spriteRenderer = spriteObject.GetComponent<SpriteRenderer>();
@@ -177,6 +180,9 @@ public class CropTester : MonoBehaviour, IInteractable
         gloamSprite.sprite = stoneNutrientSprites[0];
         terraSprite.sprite = stoneNutrientSprites[1];
         ichorSprite.sprite = stoneNutrientSprites[2];
+        gloamSprite.color = gray;
+        terraSprite.color = gray;
+        ichorSprite.color = gray;
         currentPosition = dome.transform.position;
         while (elapsedTime < waitTime)
         {
@@ -295,14 +301,17 @@ public class CropTester : MonoBehaviour, IInteractable
                 break;
             case 1:
                 testerBrazier.DoGloam();
+                gloamSprite.color = white;
                 gloamSprite.sprite = regularNutrientSprites[0];
                 break;
             case 2:
                 testerBrazier.DoTerra();
+                terraSprite.color = white;
                 terraSprite.sprite = regularNutrientSprites[1];
                 break;
             case 3:
                 testerBrazier.DoIchor();
+                ichorSprite.color = white;
                 ichorSprite.sprite = regularNutrientSprites[2];
                 break;
             default:
@@ -318,33 +327,42 @@ public class CropTester : MonoBehaviour, IInteractable
         {
             case 4:
                 testerBrazier.DoGloam();
+                gloamSprite.color = white;
                 gloamSprite.sprite = regularNutrientSprites[0];
                 yield return new WaitForSeconds(1.5f);
                 testerBrazier.DoTerra();
+                terraSprite.color = white;
                 terraSprite.sprite = regularNutrientSprites[1];
                 break;
             case 5:
                 testerBrazier.DoGloam();
+                gloamSprite.color = white;
                 gloamSprite.sprite = regularNutrientSprites[0];
                 yield return new WaitForSeconds(1.5f);
                 testerBrazier.DoIchor();
+                ichorSprite.color = white;
                 ichorSprite.sprite = regularNutrientSprites[2];
                 break;
             case 6:
                 testerBrazier.DoTerra();
+                terraSprite.color = white;
                 terraSprite.sprite = regularNutrientSprites[1];
                 yield return new WaitForSeconds(1.5f);
                 testerBrazier.DoIchor();
+                ichorSprite.color = white;
                 ichorSprite.sprite = regularNutrientSprites[2];
                 break;
             case 7:
                 testerBrazier.DoGloam();
+                gloamSprite.color = white;
                 gloamSprite.sprite = regularNutrientSprites[0];
                 yield return new WaitForSeconds(1f);
                 testerBrazier.DoTerra();
+                terraSprite.color = white;
                 terraSprite.sprite = regularNutrientSprites[1];
                 yield return new WaitForSeconds(1f);
                 testerBrazier.DoIchor();
+                ichorSprite.color = white;
                 ichorSprite.sprite = regularNutrientSprites[2];
                 break;
         }

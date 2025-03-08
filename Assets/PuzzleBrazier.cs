@@ -23,6 +23,8 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
     public GameObject canvas;
+    public Color gray;
+    public Color gold;
 
 
 
@@ -179,30 +181,30 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
             case 1:
                 fire.DoGloam();
                 currentFire = 1;
-                fireSpriteRenderer.sprite = nutrientSprites[0];
+                
                 break;
             case 2:
                 fire.DoTerra();
                 currentFire = 2;
-                fireSpriteRenderer.sprite = nutrientSprites[1];
+               
                 break;
             case 3:
                 fire.DoIchor();
                 currentFire = 3;
-                fireSpriteRenderer.sprite = nutrientSprites[2];
+               
                 break;
             case 4:
                 if (correctFire == 1)
                 {
                     fire.DoGloam();
                     currentFire = 1;
-                    fireSpriteRenderer.sprite = nutrientSprites[0];
+                   
                 }
                 else
                 {
                     fire.DoTerra();
                     currentFire = 2;
-                    fireSpriteRenderer.sprite = nutrientSprites[1];
+                   
                 }
                 break;
             case 5:
@@ -210,13 +212,13 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 {
                     fire.DoGloam();
                     currentFire = 1;
-                    fireSpriteRenderer.sprite = nutrientSprites[0];
+                   
                 }
                 else
                 {
                     fire.DoIchor();
                     currentFire = 3;
-                    fireSpriteRenderer.sprite = nutrientSprites[2];
+                  
                 }
                 break;
             case 6:
@@ -224,13 +226,13 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 {
                     fire.DoTerra();
                     currentFire = 2;
-                    fireSpriteRenderer.sprite = nutrientSprites[1];
+                   
                 }
                 else
                 {
                     fire.DoIchor();
                     currentFire = 3;
-                    fireSpriteRenderer.sprite = nutrientSprites[2];
+                    
                 }
                 break;
             case 7:
@@ -238,31 +240,40 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 {
                     fire.DoGloam();
                     currentFire = 1;
-                    fireSpriteRenderer.sprite = nutrientSprites[0];
+                    
                 }
                 else if (correctFire == 2)
                 {
                     fire.DoTerra();
                     currentFire = 2;
-                    fireSpriteRenderer.sprite = nutrientSprites[1];
+                    
                 }
                 else if (correctFire == 3)
                 {
                     fire.DoIchor();
                     currentFire = 3;
-                    fireSpriteRenderer.sprite = nutrientSprites[2];
+                    
                 }
                 break;
 
                 //add in do specific effect for brazier
 
         }
+        if (currentFire == correctFire)
+        {
+            Debug.Log("Color");
+            fireSpriteRenderer.color = gold;
+        }
+        else if (currentFire != correctFire)
+        {
+            fireSpriteRenderer.color = gray;
+        }
 
 
 
-    }
+        }
 
-    public BrazierSaveData ExportSaveData()
+        public BrazierSaveData ExportSaveData()
     {
         return new BrazierSaveData
         {
@@ -277,6 +288,15 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
         correctFire = data.correctFireSave;
         currentFire = data.currentFireSave;
         isLocked = data.isLockedSave;
+
+        if (currentFire == correctFire)
+        {
+            fireSpriteRenderer.color = gold;
+        }
+        else if (currentFire != correctFire)
+        {
+            fireSpriteRenderer.color = gray;
+        }
 
         fire.DoTypeBasedOnNumber(currentFire);
     }
