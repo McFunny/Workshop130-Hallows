@@ -73,14 +73,13 @@ public class TutorialNPC : NPC, ITalkable
         if(goneAtStart) Destroy(this.gameObject);
         else
         {
+            QuestManager.Instance.AddQuest(mainQuest);
             FadeScreen.coverScreen = true;
             PlayerMovement.restrictMovementTokens++;
             TimeManager.Instance.stopTime = false;
             yield return new WaitForSeconds(1.5f);
             PlayerMovement.restrictMovementTokens--;
             FadeScreen.coverScreen = false;
-
-            QuestManager.Instance.AddQuest(mainQuest);
 
             if(!shotAt) tutorial.SetActive(true);
 
