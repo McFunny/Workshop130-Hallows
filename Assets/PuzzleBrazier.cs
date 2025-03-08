@@ -23,6 +23,8 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
     public GameObject canvas;
+    public Color gray;
+    public Color gold;
 
 
 
@@ -257,12 +259,21 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 //add in do specific effect for brazier
 
         }
+        if (currentFire == correctFire)
+        {
+            Debug.Log("Color");
+            fireSpriteRenderer.color = gold;
+        }
+        else if (currentFire != correctFire)
+        {
+            fireSpriteRenderer.color = gray;
+        }
 
 
 
-    }
+        }
 
-    public BrazierSaveData ExportSaveData()
+        public BrazierSaveData ExportSaveData()
     {
         return new BrazierSaveData
         {
@@ -277,6 +288,15 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
         correctFire = data.correctFireSave;
         currentFire = data.currentFireSave;
         isLocked = data.isLockedSave;
+
+        if (currentFire == correctFire)
+        {
+            fireSpriteRenderer.color = gold;
+        }
+        else if (currentFire != correctFire)
+        {
+            fireSpriteRenderer.color = gray;
+        }
 
         fire.DoTypeBasedOnNumber(currentFire);
     }
