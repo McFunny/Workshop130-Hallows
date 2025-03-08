@@ -13,7 +13,7 @@ public class CodexRework : MonoBehaviour
     [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject, questContentObject;
     [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questCompleteText;
     [SerializeField] private int currentPage = 0;
-
+    [SerializeField] private Slider questSlider;
     [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal, questObj;
 
     string defaultName = "???";
@@ -223,7 +223,15 @@ public class CodexRework : MonoBehaviour
             questProgressText.text = q.progress + "/" + q.maxProgress;
             questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
         }
-        if(quest.displayProgress == false) questProgressText.text = "";
+        if(quest.displayProgress == false)
+        {
+            questProgressText.text = "";
+            questSlider.gameObject.SetActive(false);
+        } 
+        else
+        {
+            questSlider.gameObject.SetActive(true); //Finish this idk
+        }
 
         if(quest.progress >= quest.maxProgress && quest.alreadyCompleted != true && quest.assignee != 0) questCompleteText.text = "Return to " + quest.assignee;
         else if (quest.alreadyCompleted == true) questCompleteText.text = "Completed";
