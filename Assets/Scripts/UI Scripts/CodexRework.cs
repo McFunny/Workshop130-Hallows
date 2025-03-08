@@ -231,6 +231,9 @@ public class CodexRework : MonoBehaviour
         else
         {
             questSlider.gameObject.SetActive(true); //Finish this idk
+            questSlider.minValue = 0;
+            questSlider.maxValue = quest.maxProgress;
+            questSlider.value = quest.progress;
         }
 
         if(quest.progress >= quest.maxProgress && quest.alreadyCompleted != true && quest.assignee != 0) questCompleteText.text = "Return to " + quest.assignee;
