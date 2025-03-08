@@ -520,6 +520,7 @@ public class StructureManager : MonoBehaviour
                 {
                     FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
                     script.InsertCrop(fogChime);
+                    script.wealthValue = 0;
                     SetTile(spawnPos);
                 }
             }
@@ -664,6 +665,16 @@ public class StructureManager : MonoBehaviour
             if(burrow) burrows.Add(burrow.transform);
         }
         return burrows.Count;
+    }
+
+    public int TallyStructure(StructureObject data)
+    {
+        int x = 0;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            if(allStructs[i].structData && allStructs[i].structData == data) x++;
+        }
+        return x;
     }
 
 

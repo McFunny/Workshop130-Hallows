@@ -182,7 +182,7 @@ public class LandMine : StructureBehaviorScript
         newPitch = 0.8f;
         fizzParticles.Play();
         source.Play();
-        yield return new WaitForSeconds(1.6f);
+        yield return new WaitForSeconds(0.8f);
         fizzParticles.Stop();
         source.Stop();
 

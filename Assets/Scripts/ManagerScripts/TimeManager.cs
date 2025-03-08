@@ -343,6 +343,45 @@ public class TimeManager : MonoBehaviour
         WildernessManager.Instance.visitedWilderness = false;
     }
 
+    public IEnumerator Sleep()
+    {
+        StopAllCoroutines();
+        timeSkipping = true;
+        stopTime = true;
+        int timeDif = 0;
+        currentMinute = 0;
+        if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
+
+        FadeScreen.coverScreen = true;
+        PlayerMovement.restrictMovementTokens++;
+        yield return new WaitForSeconds(2f);
+        //change time and day
+        if(isDay) //Died during the day
+        {
+            int targetHour = 19;
+            while(currentHour != targetHour)
+            {
+                currentHour++;
+                print(currentHour);
+                PlayerInteraction.Instance.StaminaChange(5);
+                OnHourlyUpdate?.Invoke();
+            }
+        }
+
+        ToggleSkyLights();
+        isDay = true;
+        InitializeSkyBox();
+        StartCoroutine(TimePassage());
+        if(sunRenderer) StartCoroutine(AnimateSun());
+        timeSkipping = false;
+        stopTime = false;
+
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
+    }
+
+    
+
     [ContextMenu("Set To Start Of Morning")]
     public void SetToMorning()
     {
