@@ -4,12 +4,13 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class CropTester : MonoBehaviour, IInteractable
 {
     public bool cropInserted;
     private CropData currentCrop; // Store the current crop
-    private bool isProcessing; // Whether the action is in progress
+    public bool isProcessing; // Whether the action is in progress
     public GameObject spriteObject;
     public GameObject dome;
     private SpriteRenderer spriteRenderer;
@@ -17,6 +18,8 @@ public class CropTester : MonoBehaviour, IInteractable
     public SpriteRenderer gloamSprite;
     public SpriteRenderer terraSprite;
     public SpriteRenderer ichorSprite;
+
+    public TextMeshProUGUI tutorialText;
 
     public List<Sprite> stoneNutrientSprites = new List<Sprite>();
     public List<Sprite> regularNutrientSprites = new List<Sprite>();
@@ -26,10 +29,12 @@ public class CropTester : MonoBehaviour, IInteractable
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
+    public GameObject canvas;
 
     private void Start()
     {
         spriteRenderer = spriteObject.GetComponent<SpriteRenderer>();
+        canvas.SetActive(false);
     }
 
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
@@ -51,6 +56,8 @@ public class CropTester : MonoBehaviour, IInteractable
         if (cropInserted)
         {
 
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
             InventoryItemData cropYield = currentCrop.cropYield;
 
             if (cropYield != null)
@@ -65,6 +72,8 @@ public class CropTester : MonoBehaviour, IInteractable
 
 
             cropInserted = false;
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
             currentCrop = null;
             spriteRenderer.sprite = null;
             interactSuccessful = true;
@@ -84,6 +93,8 @@ public class CropTester : MonoBehaviour, IInteractable
 
         if (cropInserted)
         {
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
 
             InventoryItemData cropYield = currentCrop.cropYield;
 
@@ -100,6 +111,8 @@ public class CropTester : MonoBehaviour, IInteractable
 
             cropInserted = false;
             currentCrop = null;
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
             spriteRenderer.sprite = null;
             interactSuccessful = true;
             return;
@@ -130,9 +143,15 @@ public class CropTester : MonoBehaviour, IInteractable
     }
 
 
+
     private IEnumerator ProcessCrop()
     {
         isProcessing = true;
+        for (int i = 0; i < highlight.Count; i++)
+        {
+            highlight[0].SetActive(false);
+        }
+        canvas.SetActive(false);
         Vector3 savedPosition = dome.transform.position;
         Vector3 offset = new Vector3(0, -0.75f, 0);
         Vector3 targetPosition = dome.transform.position + offset;
@@ -175,14 +194,17 @@ public class CropTester : MonoBehaviour, IInteractable
     public void ToggleHighlight(bool enable)
     {
         if (highlight.Count == 0) return;
+        if (isProcessing) return;
+       
         if (highlightMaterial.Count == 0)
         {
             foreach (GameObject thing in highlight)
-                highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
+            highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
         }
         if (enable && !highlightEnabled)
         {
             highlightEnabled = true;
+            canvas.SetActive(true);
             foreach (GameObject thing in highlight) thing.SetActive(true);
             StartCoroutine(HightlightFlash());
         }
@@ -190,6 +212,7 @@ public class CropTester : MonoBehaviour, IInteractable
         if (!enable && highlightEnabled)
         {
             highlightEnabled = false;
+            canvas.SetActive(false);
             foreach (GameObject thing in highlight) thing.SetActive(false);
         }
     }
@@ -199,11 +222,14 @@ public class CropTester : MonoBehaviour, IInteractable
         float power = 1;
         while (highlightEnabled)
         {
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
             do
             {
                 yield return new WaitForSeconds(0.1f);
                 power -= 0.05f;
                 foreach (Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+ 
             }
             while (power > 0.7f && highlightEnabled);
             do
