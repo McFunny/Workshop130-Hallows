@@ -17223,12 +17223,30 @@ MonoBehaviour:
   dialogueText: {fileID: 11400000, guid: 72978df2473ecee43ba643b79d20ba3f, type: 2}
   dialogueController: {fileID: 0}
   anim: {fileID: 1080744935}
-  happy: {fileID: 8300000, guid: b1aa3350bd141a8468a269acbf245644, type: 3}
-  sad: {fileID: 8300000, guid: 631821d74abf6494892c8bf8b04cf79b, type: 3}
-  neutral: {fileID: 8300000, guid: 64af3a8fd7f68344cb5c02409319be4e, type: 3}
-  angry: {fileID: 8300000, guid: fb03d102e7705e1428c83f6b4d900490, type: 3}
-  confused: {fileID: 8300000, guid: 64af3a8fd7f68344cb5c02409319be4e, type: 3}
-  shocked: {fileID: 8300000, guid: f34d4fe9d0038bb4db044bf557339d54, type: 3}
+  happy:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  sad:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  neutral:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  angry:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  confused:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  shocked:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   eyeLine: {fileID: 1000275559}
   character: 3
   currentPath: -1
@@ -44929,6 +44947,7 @@ Transform:
   - {fileID: 270953214}
   - {fileID: 737361274}
   - {fileID: 1048304364}
+  - {fileID: 425919969}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &323376042
@@ -58388,17 +58407,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425919965}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 120.20372}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1280232897}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 321918881}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -404.38922, y: -39.980473}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &427911205
@@ -230115,8 +230134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   person: {fileID: 0}
   id: 0
+  isPapered: 0
   papers: {fileID: 0}
-  forceCut: 0
   paperSprite: {fileID: 0}
   itemDropTransform: {fileID: 0}
   highlight: []
@@ -249491,12 +249510,18 @@ MonoBehaviour:
   dialogueText: {fileID: 11400000, guid: 2e85fc7d50cec6944a4e847cc22ea6c6, type: 2}
   dialogueController: {fileID: 0}
   anim: {fileID: 2086650556}
-  happy: {fileID: 0}
-  sad: {fileID: 0}
-  neutral: {fileID: 0}
-  angry: {fileID: 0}
-  confused: {fileID: 0}
-  shocked: {fileID: 0}
+  happy:
+  - {fileID: 0}
+  sad:
+  - {fileID: 0}
+  neutral:
+  - {fileID: 0}
+  angry:
+  - {fileID: 0}
+  confused:
+  - {fileID: 0}
+  shocked:
+  - {fileID: 0}
   eyeLine: {fileID: 2025704281}
   character: 7
   currentPath: -1
@@ -298441,12 +298466,18 @@ MonoBehaviour:
   dialogueText: {fileID: 11400000, guid: 035281f900d046344b1733d0f4f3a0a4, type: 2}
   dialogueController: {fileID: 0}
   anim: {fileID: 1548045646}
-  happy: {fileID: 0}
-  sad: {fileID: 0}
-  neutral: {fileID: 0}
-  angry: {fileID: 0}
-  confused: {fileID: 0}
-  shocked: {fileID: 0}
+  happy:
+  - {fileID: 0}
+  sad:
+  - {fileID: 0}
+  neutral:
+  - {fileID: 0}
+  angry:
+  - {fileID: 0}
+  confused:
+  - {fileID: 0}
+  shocked:
+  - {fileID: 0}
   eyeLine: {fileID: 1141831270}
   character: 8
   currentPath: -1
@@ -300507,8 +300538,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   person: {fileID: 0}
   id: 0
+  isPapered: 0
   papers: {fileID: 0}
-  forceCut: 0
   paperSprite: {fileID: 0}
   itemDropTransform: {fileID: 0}
   highlight: []
@@ -358707,12 +358738,30 @@ MonoBehaviour:
   dialogueText: {fileID: 11400000, guid: 9e4a7d947e943c046a1d283c4bea4cfc, type: 2}
   dialogueController: {fileID: 0}
   anim: {fileID: 472234038}
-  happy: {fileID: 8300000, guid: 06cad8f45d7eb6544adf308d7e9d0540, type: 3}
-  sad: {fileID: 8300000, guid: 4f122c17afb30e941967d1aae9b308eb, type: 3}
-  neutral: {fileID: 8300000, guid: f2a827d72dc431847a420848a8cb1ca1, type: 3}
-  angry: {fileID: 8300000, guid: 75d19b5bd1eb6ae4897e1ed3285cf635, type: 3}
-  confused: {fileID: 8300000, guid: c593b6d999fc24842971ea50664a86af, type: 3}
-  shocked: {fileID: 8300000, guid: d0f82fa6c5a008b42be4b49a00c7ff1d, type: 3}
+  happy:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  sad:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  neutral:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  angry:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  confused:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  shocked:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   eyeLine: {fileID: 1718563853}
   character: 2
   currentPath: -1
@@ -364325,12 +364374,30 @@ MonoBehaviour:
   dialogueText: {fileID: 11400000, guid: 3999d2e3ac256ea4f81dcc8040fad17d, type: 2}
   dialogueController: {fileID: 0}
   anim: {fileID: 379159560}
-  happy: {fileID: 8300000, guid: 7f21851ff0551bc4eb478dc3a49e20e0, type: 3}
-  sad: {fileID: 8300000, guid: 6808a899d60f784409a350d2ebab93da, type: 3}
-  neutral: {fileID: 8300000, guid: 68a69626485ff374d81dd3811e5d762f, type: 3}
-  angry: {fileID: 8300000, guid: dcb4b654ff1f727419c6e1673e09b8a2, type: 3}
-  confused: {fileID: 8300000, guid: 47bc07d41dd40524f97dc8cb040567f7, type: 3}
-  shocked: {fileID: 8300000, guid: bbc63da4499adb04e81da05f8af3272c, type: 3}
+  happy:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  sad:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  neutral:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  angry:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  confused:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  shocked:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   eyeLine: {fileID: 394517556}
   character: 4
   currentPath: -1
@@ -372661,12 +372728,18 @@ MonoBehaviour:
   dialogueText: {fileID: 11400000, guid: b16f3feef2fa69c4c9ff33e82ac21c94, type: 2}
   dialogueController: {fileID: 0}
   anim: {fileID: 1591271137}
-  happy: {fileID: 0}
-  sad: {fileID: 0}
-  neutral: {fileID: 0}
-  angry: {fileID: 0}
-  confused: {fileID: 0}
-  shocked: {fileID: 0}
+  happy:
+  - {fileID: 0}
+  sad:
+  - {fileID: 0}
+  neutral:
+  - {fileID: 0}
+  angry:
+  - {fileID: 0}
+  confused:
+  - {fileID: 0}
+  shocked:
+  - {fileID: 0}
   eyeLine: {fileID: 633965052}
   character: 6
   currentPath: -1
@@ -448984,12 +449057,18 @@ MonoBehaviour:
   dialogueText: {fileID: 11400000, guid: bde5743f762bc6b46988c774c709596f, type: 2}
   dialogueController: {fileID: 0}
   anim: {fileID: 1746059374}
-  happy: {fileID: 0}
-  sad: {fileID: 0}
-  neutral: {fileID: 0}
-  angry: {fileID: 0}
-  confused: {fileID: 0}
-  shocked: {fileID: 0}
+  happy:
+  - {fileID: 0}
+  sad:
+  - {fileID: 0}
+  neutral:
+  - {fileID: 0}
+  angry:
+  - {fileID: 0}
+  confused:
+  - {fileID: 0}
+  shocked:
+  - {fileID: 0}
   eyeLine: {fileID: 1026596900}
   character: 5
   currentPath: -1
@@ -463123,4 +463202,3 @@ SceneRoots:
   - {fileID: 2105618657}
   - {fileID: 1798031261}
   - {fileID: 321918881}
-  - {fileID: 425919969}
