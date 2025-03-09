@@ -5,5 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Crop Behavior", menuName = "Crop Behavior/MistBreaker")]
 public class MistBreaker : CropBehavior
 {
-    //destory method
+    public override void OnCropDestroyed(FarmLand tile)
+    {
+        Debug.Log("Finale Turned Off");
+        NightSpawningManager.Instance.DeactivateFinale();
+    }
+
+    public override void OnHour(FarmLand tile)
+    {
+        //Call Creatures to this
+    }
 }

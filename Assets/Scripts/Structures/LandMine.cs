@@ -33,6 +33,7 @@ public class LandMine : StructureBehaviorScript
     private NutrientStorage nutrients;
 
     //When loading from save data, just have it already armed
+    //Should rework this to be less clunky to use
 
     void Awake()
     {
@@ -161,7 +162,7 @@ public class LandMine : StructureBehaviorScript
             StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
             if(structure && structure != this)
             {
-                structure.TakeDamage(25);
+                structure.TakeDamage(20);
             }
         }
 
@@ -171,7 +172,7 @@ public class LandMine : StructureBehaviorScript
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
-                creature.TakeDamage(100);
+                creature.TakeDamage(125);
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
             }
         }
@@ -296,6 +297,8 @@ public class LandMine : StructureBehaviorScript
         if(saveString1 == "gloam") nutrientType = NutrientType.Gloamphage;
         if(saveString1 == "terra") nutrientType = NutrientType.Terrazyme;
         if(saveString1 == "ichor") nutrientType = NutrientType.Ichor;
+
+        cooldownProgress = cooldownLength;
         //LightColorChange();
     }
 

@@ -163,7 +163,7 @@ public class NightSpawningManager : MonoBehaviour
             }
             
         }
-        while(spawnAttempts < 6);
+        while(spawnAttempts < 4);
 
         if(allCreatures.Count < maxCreatures && difficultyPoints < 10)
         {
@@ -287,7 +287,7 @@ public class NightSpawningManager : MonoBehaviour
         {
             if(difficultyPoints < 150)
             {
-                difficultyPoints = 300;
+                difficultyPoints = 50;
                 highestDifficultyPoints = 300;
             }
             return;
@@ -364,6 +364,15 @@ public class NightSpawningManager : MonoBehaviour
     {
         finaleActivated = true;
         boxPlaced = false;
+        
+        AmbientAudioManager.Instance.ChangeMusic();
+    }
+
+    public void DeactivateFinale()
+    {
+        finaleActivated = false;
+        difficultyPoints = 0;
+        highestDifficultyPoints = 0;
         
         AmbientAudioManager.Instance.ChangeMusic();
     }
