@@ -32,6 +32,8 @@ public class RotatingPillar : MonoBehaviour, IInteractable
     private float savedTransformRotation;
 
 
+
+
     public void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -128,6 +130,8 @@ public class RotatingPillar : MonoBehaviour, IInteractable
     public void ToggleHighlight(bool enable)
     {
         if(highlight.Count == 0) return;
+        if(!cropInserted) { return; }
+        if (isLocked) { return; }
         if(highlightMaterial.Count == 0)
         {
             foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
@@ -228,9 +232,13 @@ public class RotatingPillar : MonoBehaviour, IInteractable
     public void LockPuzzle()
     {
         isLocked = true;
+        for (int i = 0; i < highlight.Count; i++)
+        {
+            highlight[i].SetActive(false);
+        }
     }
 
-    public RotatingPillarSaveData ExportSaveData()
+        public RotatingPillarSaveData ExportSaveData()
     {
         return new RotatingPillarSaveData
         {

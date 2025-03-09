@@ -19,10 +19,20 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
     [SerializeField] public SpriteRenderer spriteRenderer;
     [SerializeField] public SpriteRenderer fireSpriteRenderer;
 
+    public List<GameObject> highlight = new List<GameObject>();
+    List<Material> highlightMaterial = new List<Material>();
+    bool highlightEnabled;
+    public GameObject canvas;
+    public Color gray;
+    public Color gold;
+
+
+
     public void Start()
     {
         spriteRenderer.sprite = nutrientSprites[correctFire - 1];
         fireSpriteRenderer.sprite = fireSprite;
+        canvas.SetActive(false);
     }
 
     public bool isLocked = false;
@@ -35,12 +45,14 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         interactSuccessful = false;
+        if (currentFire == correctFire) { return; }
         if (isLocked) return;
     }
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         interactSuccessful = false;
+        if (currentFire == correctFire) { return; }
         if (isLocked) return;
         if (item != null)
         {
@@ -63,9 +75,52 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
         }
     }
 
-    public void ToggleHighlight(bool enabled)
+    public void ToggleHighlight(bool enable)
     {
+        if (highlight.Count == 0) return;
 
+        if (highlightMaterial.Count == 0)
+        {
+            foreach (GameObject thing in highlight)
+                highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
+        }
+        if (enable && !highlightEnabled)
+        {
+            highlightEnabled = true;
+            canvas.SetActive(true);
+            foreach (GameObject thing in highlight) thing.SetActive(true);
+            StartCoroutine(HightlightFlash());
+        }
+
+        if (!enable && highlightEnabled)
+        {
+            highlightEnabled = false;
+            canvas.SetActive(false);
+            foreach (GameObject thing in highlight) thing.SetActive(false);
+        }
+    }
+
+    IEnumerator HightlightFlash()
+    {
+        float power = 1;
+        while (highlightEnabled)
+        {
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power -= 0.05f;
+                foreach (Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+
+            }
+            while (power > 0.7f && highlightEnabled);
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power += 0.05f;
+                foreach (Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+            }
+            while (power < 1.9f && highlightEnabled);
+        }
     }
 
     private CropData FindCropByYield(InventoryItemData item)
@@ -126,30 +181,30 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
             case 1:
                 fire.DoGloam();
                 currentFire = 1;
-                fireSpriteRenderer.sprite = nutrientSprites[0];
+                
                 break;
             case 2:
                 fire.DoTerra();
                 currentFire = 2;
-                fireSpriteRenderer.sprite = nutrientSprites[1];
+               
                 break;
             case 3:
                 fire.DoIchor();
                 currentFire = 3;
-                fireSpriteRenderer.sprite = nutrientSprites[2];
+               
                 break;
             case 4:
                 if (correctFire == 1)
                 {
                     fire.DoGloam();
                     currentFire = 1;
-                    fireSpriteRenderer.sprite = nutrientSprites[0];
+                   
                 }
                 else
                 {
                     fire.DoTerra();
                     currentFire = 2;
-                    fireSpriteRenderer.sprite = nutrientSprites[1];
+                   
                 }
                 break;
             case 5:
@@ -157,13 +212,13 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 {
                     fire.DoGloam();
                     currentFire = 1;
-                    fireSpriteRenderer.sprite = nutrientSprites[0];
+                   
                 }
                 else
                 {
                     fire.DoIchor();
                     currentFire = 3;
-                    fireSpriteRenderer.sprite = nutrientSprites[2];
+                  
                 }
                 break;
             case 6:
@@ -171,13 +226,13 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 {
                     fire.DoTerra();
                     currentFire = 2;
-                    fireSpriteRenderer.sprite = nutrientSprites[1];
+                   
                 }
                 else
                 {
                     fire.DoIchor();
                     currentFire = 3;
-                    fireSpriteRenderer.sprite = nutrientSprites[2];
+                    
                 }
                 break;
             case 7:
@@ -185,31 +240,40 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
                 {
                     fire.DoGloam();
                     currentFire = 1;
-                    fireSpriteRenderer.sprite = nutrientSprites[0];
+                    
                 }
                 else if (correctFire == 2)
                 {
                     fire.DoTerra();
                     currentFire = 2;
-                    fireSpriteRenderer.sprite = nutrientSprites[1];
+                    
                 }
                 else if (correctFire == 3)
                 {
                     fire.DoIchor();
                     currentFire = 3;
-                    fireSpriteRenderer.sprite = nutrientSprites[2];
+                    
                 }
                 break;
 
                 //add in do specific effect for brazier
 
         }
+        if (currentFire == correctFire)
+        {
+            Debug.Log("Color");
+            fireSpriteRenderer.color = gold;
+        }
+        else if (currentFire != correctFire)
+        {
+            fireSpriteRenderer.color = gray;
+        }
 
 
 
-    }
+        }
 
-    public BrazierSaveData ExportSaveData()
+        public BrazierSaveData ExportSaveData()
     {
         return new BrazierSaveData
         {
@@ -224,6 +288,15 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
         correctFire = data.correctFireSave;
         currentFire = data.currentFireSave;
         isLocked = data.isLockedSave;
+
+        if (currentFire == correctFire)
+        {
+            fireSpriteRenderer.color = gold;
+        }
+        else if (currentFire != correctFire)
+        {
+            fireSpriteRenderer.color = gray;
+        }
 
         fire.DoTypeBasedOnNumber(currentFire);
     }

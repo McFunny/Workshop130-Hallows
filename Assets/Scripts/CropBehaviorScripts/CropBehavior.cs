@@ -15,4 +15,6 @@ public class CropBehavior : ScriptableObject
     {
         cropBonus = 0;
     }
+
+    public virtual void OnCropDestroyed(FarmLand tile){}
 }

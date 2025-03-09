@@ -13,7 +13,7 @@ public class CodexRework : MonoBehaviour
     [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject, questContentObject;
     [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questCompleteText;
     [SerializeField] private int currentPage = 0;
-
+    [SerializeField] private Slider questSlider;
     [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal, questObj;
 
     string defaultName = "???";
@@ -26,6 +26,7 @@ public class CodexRework : MonoBehaviour
     [SerializeField] private List<GameObject> categoryList;
     bool isGridCategory, isQuestCategory;
     private QuestManager questManager;
+    public Sprite[] characterPortraits;
     public List<Quest> activeQuests = new List<Quest>();
 
     void Awake()
@@ -223,11 +224,33 @@ public class CodexRework : MonoBehaviour
             questProgressText.text = q.progress + "/" + q.maxProgress;
             questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
         }
-        if(quest.displayProgress == false) questProgressText.text = "";
+        if(quest.displayProgress == false)
+        {
+            questProgressText.text = "";
+            questSlider.gameObject.SetActive(false);
+        } 
+        else
+        {
+            questSlider.gameObject.SetActive(true); //Finish this idk
+            questSlider.minValue = 0;
+            questSlider.maxValue = quest.maxProgress;
+            questSlider.value = quest.progress;
+        }
 
         if(quest.progress >= quest.maxProgress && quest.alreadyCompleted != true && quest.assignee != 0) questCompleteText.text = "Return to " + quest.assignee;
         else if (quest.alreadyCompleted == true) questCompleteText.text = "Completed";
         else questCompleteText.text = "";
+
+        if(characterPortraits[(int)quest.assignee] != null)
+        {
+            questImage.sprite = characterPortraits[(int)quest.assignee];
+            questImage.preserveAspect = true;
+        }
+        else
+        {
+            questImage.sprite = characterPortraits[0];
+            questImage.preserveAspect = true;
+        }
 
         //print(type);
     }
@@ -251,6 +274,7 @@ public class CodexRework : MonoBehaviour
         smallImage.gameObject.SetActive(false);
         questImage.gameObject.SetActive(false);
         SetTextToDefault();
+        questSlider.gameObject.SetActive(false);
         descriptionText.gameObject.SetActive(false);
         largeDescriptionText.gameObject.SetActive(true);
         largeImage.sprite = null;

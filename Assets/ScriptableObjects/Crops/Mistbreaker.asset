@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
   m_Name: Mistbreaker
   m_EditorClassIdentifier: 
-  name: 
+  name: Mist Breaker
   growthStages: 6
-  hoursPerStage: 1
-  harvestableGrowthStages: 06000000
+  hoursPerStage: 2
+  harvestableGrowthStages: 07000000
   cropSprites:
   - {fileID: -1663355631, guid: 0f30a3ca87842ac478804baef0e0d7ef, type: 3}
   - {fileID: 412523518, guid: 0f30a3ca87842ac478804baef0e0d7ef, type: 3}
@@ -24,17 +24,19 @@ MonoBehaviour:
   - {fileID: 1896111466, guid: 0f30a3ca87842ac478804baef0e0d7ef, type: 3}
   - {fileID: -520306795, guid: 0f30a3ca87842ac478804baef0e0d7ef, type: 3}
   rottedImage: {fileID: -1624847985, guid: 0f30a3ca87842ac478804baef0e0d7ef, type: 3}
-  cropYield: {fileID: 0}
+  cropYield: {fileID: 11400000, guid: e505b9c244165464a9e94558ed7e8d3c, type: 2}
   cropSeed: {fileID: 0}
   cropYieldAmount: 1
   cropYieldVariance: 0
   seedYieldAmount: 1
   seedYieldVariance: 1
-  waterIntake: 5
-  ichorIntake: 0
-  terraIntake: 0
-  gloamIntake: 0
-  stressLimit: 1
+  waterIntake: 10
+  ichorIntake: 2
+  terraIntake: 1
+  gloamIntake: 1
+  stressLimit: 3
   creaturePrefab: {fileID: 0}
-  behavior: {fileID: 0}
+  behavior: {fileID: 11400000, guid: f2441a6fab9c0a84883d1c1c4af7c0e5, type: 2}
   emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

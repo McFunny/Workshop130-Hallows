@@ -28,6 +28,8 @@ public class NightSpawningManager : MonoBehaviour
 
     List<StructureBehaviorScript> accountedStructures = new List<StructureBehaviorScript>(); //keeps track of the structures counted for wealth points. Clears at day
 
+    public bool boxPlaced, finaleActivated;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -47,7 +49,7 @@ public class NightSpawningManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I) && !TimeManager.Instance.isDay)
+        /*if (Input.GetKeyDown(KeyCode.I) && !TimeManager.Instance.isDay)
         {
             SpawnCreature(creatures[6]);
         }
@@ -58,7 +60,7 @@ public class NightSpawningManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) && !TimeManager.Instance.isDay)
         {
             SpawnCreature(creatures[0]);
-        }
+        }*/
     }
 
     void OnDestroy()
@@ -77,6 +79,9 @@ public class NightSpawningManager : MonoBehaviour
             highestDifficultyPoints = 0;
             return;
         }
+
+        if(boxPlaced && TimeManager.Instance.currentHour == 20) ActivateFinale();
+
         CalculateDifficulty();
 
         //if(difficultyPoints < 20 && TimeManager.Instance.currentHour == 21) difficultyPoints = 20;
@@ -125,7 +130,7 @@ public class NightSpawningManager : MonoBehaviour
             w++;
         }
 
-        //try to spawn up to 6 things per hour, with a failed attempt counting for 0.25f tries
+        //try to spawn up to 6 things per hour, with a failed attempt counting for 0.5f tries
         float spawnAttempts = 0;
         int r;
         float threshhold = difficultyPoints * GetThreshold();
@@ -143,7 +148,7 @@ public class NightSpawningManager : MonoBehaviour
             {
                 spawnedCreaturesThisHour[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
-                //SpawnCreature(attemptedCreature); /this is to spawn creatures instantly
+                //SpawnCreature(attemptedCreature); //this is to spawn creatures instantly
                 if(creatureQueue.Count == 0) StartCoroutine(SpawnCreatures());
                 creatureQueue.Enqueue(attemptedCreature);
                 spawnAttempts++;
@@ -152,13 +157,13 @@ public class NightSpawningManager : MonoBehaviour
             }
             else 
             {
-                spawnAttempts += 0.25f;
+                spawnAttempts += 0.5f;
                 //print("Unable to Spawn");
                 //if(difficultyPoints <= threshhold) print("Points under threshhold");
             }
             
         }
-        while(spawnAttempts < 4); //add threshhold req too
+        while(spawnAttempts < 4);
 
         if(allCreatures.Count < maxCreatures && difficultyPoints < 10)
         {
@@ -278,6 +283,16 @@ public class NightSpawningManager : MonoBehaviour
 
     void CalculateDifficulty()
     {
+        if(finaleActivated)
+        {
+            if(difficultyPoints < 150)
+            {
+                difficultyPoints = 50;
+                highestDifficultyPoints = 300;
+            }
+            return;
+        }
+
         if(PlayerInteraction.Instance.totalMoneyEarned > 4000) difficultyMultiplier = 1.5f;
         else if(PlayerInteraction.Instance.totalMoneyEarned > 2000) difficultyMultiplier = 1.25f;
         else difficultyMultiplier = 1;
@@ -343,6 +358,23 @@ public class NightSpawningManager : MonoBehaviour
         }
         */
 
+    }
+
+    void ActivateFinale()
+    {
+        finaleActivated = true;
+        boxPlaced = false;
+        
+        AmbientAudioManager.Instance.ChangeMusic();
+    }
+
+    public void DeactivateFinale()
+    {
+        finaleActivated = false;
+        difficultyPoints = 0;
+        highestDifficultyPoints = 0;
+        
+        AmbientAudioManager.Instance.ChangeMusic();
     }
 
 
