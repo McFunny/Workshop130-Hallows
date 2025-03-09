@@ -26,6 +26,7 @@ public class CodexRework : MonoBehaviour
     [SerializeField] private List<GameObject> categoryList;
     bool isGridCategory, isQuestCategory;
     private QuestManager questManager;
+    public Sprite[] characterPortraits;
     public List<Quest> activeQuests = new List<Quest>();
 
     void Awake()
@@ -239,6 +240,17 @@ public class CodexRework : MonoBehaviour
         if(quest.progress >= quest.maxProgress && quest.alreadyCompleted != true && quest.assignee != 0) questCompleteText.text = "Return to " + quest.assignee;
         else if (quest.alreadyCompleted == true) questCompleteText.text = "Completed";
         else questCompleteText.text = "";
+
+        if(characterPortraits[(int)quest.assignee] != null)
+        {
+            questImage.sprite = characterPortraits[(int)quest.assignee];
+            questImage.preserveAspect = true;
+        }
+        else
+        {
+            questImage.sprite = characterPortraits[0];
+            questImage.preserveAspect = true;
+        }
 
         //print(type);
     }
