@@ -12,6 +12,8 @@ public class Brazier : StructureBehaviorScript
     public float flameLeft; //if 0, fire is gone
     float maxFlame = 20;
 
+    //Rework to incorporate a fuel based system rather than static time.
+
     void Awake()
     {
         base.Awake();

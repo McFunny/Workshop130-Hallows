@@ -2146,6 +2146,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: eeb8fc2d4c0fdb54f8f9a6b0d2150ce7, type: 3}
   - {fileID: 8300000, guid: aed83e19c312a3b47b78b747a982d42e, type: 3}
   catacombAmbience: []
+  finaleTheme: {fileID: 8300000, guid: ed6675581b6ee584e892f9812ecad236, type: 3}
   bellTower: {fileID: 8300000, guid: 0b7f67cc2ca54644eade598edf5e0563, type: 3}
 --- !u!82 &4487365083115385320
 AudioSource:
@@ -2255,7 +2256,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.145
+  m_Volume: 0.113
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -8995,6 +8996,8 @@ MonoBehaviour:
   - {fileID: 1731178260283816800}
   - {fileID: 7121509994226977754}
   - {fileID: 5601921412493070958}
+  boxPlaced: 0
+  finaleActivated: 0
 --- !u!114 &6272051581299996177
 MonoBehaviour:
   m_ObjectHideFlags: 0

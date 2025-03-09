@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1452043245191847046}
-  m_Layer: 0
+  - component: {fileID: 5548354935822019564}
+  - component: {fileID: 9055622553038787482}
+  m_Layer: 6
   m_Name: Catacombs Torch
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,9 +33,73 @@ Transform:
   m_Children:
   - {fileID: 7601921826943149861}
   - {fileID: 1350460946117151133}
-  - {fileID: 459248461627843055}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5548354935822019564
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326173506249308938}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9055622553038787482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326173506249308938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071ad8a720cdaf843a00adef2e4de1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  structData: {fileID: 0}
+  health: 5
+  maxHealth: 5
+  wealthValue: 0
+  destructable: 0
+  flammable: 0
+  onFire: 0
+  isObstacle: 0
+  absentFromGrid: 0
+  focalPoint: {fileID: 1350460946117151133}
+  particleCenter: {fileID: 0}
+  savedItems: []
+  saveInt1: 0
+  saveInt2: 0
+  saveInt3: 0
+  saveFloat1: 0
+  saveFloat2: 0
+  saveFloat3: 0
+  saveString1: 
+  saveString2: 
+  saveString3: 
+  damageParticlesObject: {fileID: 0}
+  destructionType: 0
+  gibs: {fileID: 0}
+  nearbyFires: []
+  highlight: []
+  audioHandler: {fileID: 0}
+  clearTileOnDestroy: 1
+  structureUI: {fileID: 0}
+  fire: {fileID: 5214225989987023913}
+  startActive: 0
+  fireAlwaysActive: 0
 --- !u!1 &3897827510745732152
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,11 +127,11 @@ Transform:
   m_GameObject: {fileID: 3897827510745732152}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0030517578, y: 0.711, z: -0.257}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.04886986, y: -0.087493435, z: -0.0022307169}
+  m_LocalScale: {x: 4.4982233, y: 4.4982233, z: 4.4982233}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1452043245191847046}
+  m_Father: {fileID: 1350460946117151133}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &7101083516263881448
 Light:
@@ -79,8 +145,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.8962264, g: 0.51605266, b: 0, a: 1}
-  m_Intensity: 2.5
-  m_Range: 10
+  m_Intensity: 30
+  m_Range: 40
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -182,7 +248,8 @@ Transform:
   m_LocalPosition: {x: -0.0078125, y: 0.73045063, z: -0.25650406}
   m_LocalScale: {x: 0.22231, y: 0.22231, z: 0.22231}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 459248461627843055}
   m_Father: {fileID: 1452043245191847046}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &9052031368172209535

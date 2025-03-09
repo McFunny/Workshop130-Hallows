@@ -9,7 +9,11 @@ public class PopupScript : ScriptableObject
     {
         TimeBased,
         TillGround,
-        ShovelSwing
+        ShovelSwing,
+        PlantSeed,
+        KillStructure,
+        WeedDug,
+        WateredCrop
     }
 
     [TextArea(2,2)]

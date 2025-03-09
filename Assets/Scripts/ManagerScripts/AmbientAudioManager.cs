@@ -15,6 +15,8 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip[] wildernessAmbience;
     public AudioClip[] catacombAmbience;
 
+    public AudioClip finaleTheme;
+
     public AudioClip bellTower;
 
     private Coroutine ambientMusicCoroutine;
@@ -79,12 +81,18 @@ public class AmbientAudioManager : MonoBehaviour
 
     IEnumerator PlayAmbientMusic()
     {
+        float musicCooldown = 0;
         while (gameObject.activeSelf)
         {
-            float musicCooldown = Random.Range(5, 10);
+            if(NightSpawningManager.Instance.finaleActivated) musicCooldown = 0;
+            else musicCooldown = Random.Range(5, 10);
             yield return new WaitForSecondsRealtime(musicCooldown);
             Debug.Log("CoolDown Done picking song");
-            if (TimeManager.Instance.isDay)
+            if(NightSpawningManager.Instance.finaleActivated)
+            {
+                musicSource.clip = finaleTheme;
+            }
+            else if (TimeManager.Instance.isDay)
             {
                 if(TownGate.Instance.location == PlayerLocation.InWilderness) musicSource.clip = wildernessAmbience[Random.Range(0, wildernessAmbience.Length)];
                 else musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];

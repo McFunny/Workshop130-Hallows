@@ -14,13 +14,9 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
-    //public GameObject structureUI;
-
-    
 
     public void EndInteraction()
     {
-      
     }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -34,9 +30,9 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
                 donationComplete = true;
                 audioSource.Play();
                 animator.SetTrigger("OnInsert");
+
                 PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
             }
-            else interactSuccessful = false;
         }
     }
 
@@ -50,7 +46,8 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
         if (highlight.Count == 0) return;
         if (highlightMaterial.Count == 0)
         {
-            foreach (GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
+            foreach (GameObject thing in highlight)
+                highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
         }
         if (enable && !highlightEnabled && !donationComplete)
         {
@@ -88,16 +85,23 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
+
+        //LoadPuzzleState();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LoadPuzzleState()
     {
-        
+        if (PuzzleManager.Instance != null)
+        {
+            donationComplete = PuzzleManager.Instance.GetPuzzleData().moneyPuzzleCompleted;
+            if (donationComplete)
+            {
+                //animator.SetTrigger("OnInsert");
+            }
+        }
     }
 }
