@@ -78,7 +78,7 @@ public class MurderMancer : CreatureBehaviorScript
         if(litByPlayer)
         {
             effectsHandler.MiscSound();
-            HandItemManager.Instance.TorchFlameToggle(false);
+            //HandItemManager.Instance.TorchFlameToggle(false);
         }
         LowerStage();
         yield return new WaitForSeconds(0.4f);
@@ -276,9 +276,13 @@ public class MurderMancer : CreatureBehaviorScript
     {
         coroutineRunning = true;
         effectsHandler.Idle1();
-        if(NightSpawningManager.Instance.ReportTotalOfCreature(crowData) < 10)
+
+        int totalCrows = NightSpawningManager.Instance.ReportTotalOfCreature(crowData);
+        if(totalCrows < 6)
         {
-            for(int i = 0; i < 2; i++)
+            int spawnCycles = 1;
+            if(totalCrows < 4) spawnCycles++;
+            for(int i = 0; i < spawnCycles; i++)
             {
                 MutatedCrow crow1 = Instantiate(crowData.objectPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
                 MutatedCrow crow2 = Instantiate(crowData.objectPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();

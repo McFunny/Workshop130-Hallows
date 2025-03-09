@@ -117,7 +117,9 @@ public class TimeManager : MonoBehaviour
 
     void HourPassed()
     {
-        currentHour++;
+
+        if(currentHour != 2 || !NightSpawningManager.Instance.finaleActivated) currentHour++;
+        
         if(currentHour >= 24) currentHour = 0;
 
         if(currentHour >= 6 && currentHour < 20) isDay = true;
