@@ -4,12 +4,13 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class CropTester : MonoBehaviour, IInteractable
 {
     public bool cropInserted;
     private CropData currentCrop; // Store the current crop
-    private bool isProcessing; // Whether the action is in progress
+    public bool isProcessing; // Whether the action is in progress
     public GameObject spriteObject;
     public GameObject dome;
     private SpriteRenderer spriteRenderer;
@@ -18,14 +19,25 @@ public class CropTester : MonoBehaviour, IInteractable
     public SpriteRenderer terraSprite;
     public SpriteRenderer ichorSprite;
 
+    public TextMeshProUGUI tutorialText;
+
     public List<Sprite> stoneNutrientSprites = new List<Sprite>();
     public List<Sprite> regularNutrientSprites = new List<Sprite>();
 
     [SerializeField] private Database _database;
 
+    public List<GameObject> highlight = new List<GameObject>();
+    List<Material> highlightMaterial = new List<Material>();
+    bool highlightEnabled;
+    public GameObject canvas;
+
+    public Color gray;
+    public Color white;
+
     private void Start()
     {
         spriteRenderer = spriteObject.GetComponent<SpriteRenderer>();
+        canvas.SetActive(false);
     }
 
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
@@ -47,6 +59,8 @@ public class CropTester : MonoBehaviour, IInteractable
         if (cropInserted)
         {
 
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
             InventoryItemData cropYield = currentCrop.cropYield;
 
             if (cropYield != null)
@@ -61,6 +75,8 @@ public class CropTester : MonoBehaviour, IInteractable
 
 
             cropInserted = false;
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
             currentCrop = null;
             spriteRenderer.sprite = null;
             interactSuccessful = true;
@@ -80,6 +96,8 @@ public class CropTester : MonoBehaviour, IInteractable
 
         if (cropInserted)
         {
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
 
             InventoryItemData cropYield = currentCrop.cropYield;
 
@@ -96,6 +114,8 @@ public class CropTester : MonoBehaviour, IInteractable
 
             cropInserted = false;
             currentCrop = null;
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
             spriteRenderer.sprite = null;
             interactSuccessful = true;
             return;
@@ -126,9 +146,15 @@ public class CropTester : MonoBehaviour, IInteractable
     }
 
 
+
     private IEnumerator ProcessCrop()
     {
         isProcessing = true;
+        for (int i = 0; i < highlight.Count; i++)
+        {
+            highlight[0].SetActive(false);
+        }
+        canvas.SetActive(false);
         Vector3 savedPosition = dome.transform.position;
         Vector3 offset = new Vector3(0, -0.75f, 0);
         Vector3 targetPosition = dome.transform.position + offset;
@@ -154,6 +180,9 @@ public class CropTester : MonoBehaviour, IInteractable
         gloamSprite.sprite = stoneNutrientSprites[0];
         terraSprite.sprite = stoneNutrientSprites[1];
         ichorSprite.sprite = stoneNutrientSprites[2];
+        gloamSprite.color = gray;
+        terraSprite.color = gray;
+        ichorSprite.color = gray;
         currentPosition = dome.transform.position;
         while (elapsedTime < waitTime)
         {
@@ -168,9 +197,55 @@ public class CropTester : MonoBehaviour, IInteractable
         isProcessing = false;
     }
 
-    public void ToggleHighlight(bool enabled)
+    public void ToggleHighlight(bool enable)
     {
+        if (highlight.Count == 0) return;
+        if (isProcessing) return;
+       
+        if (highlightMaterial.Count == 0)
+        {
+            foreach (GameObject thing in highlight)
+            highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
+        }
+        if (enable && !highlightEnabled)
+        {
+            highlightEnabled = true;
+            canvas.SetActive(true);
+            foreach (GameObject thing in highlight) thing.SetActive(true);
+            StartCoroutine(HightlightFlash());
+        }
 
+        if (!enable && highlightEnabled)
+        {
+            highlightEnabled = false;
+            canvas.SetActive(false);
+            foreach (GameObject thing in highlight) thing.SetActive(false);
+        }
+    }
+
+    IEnumerator HightlightFlash()
+    {
+        float power = 1;
+        while (highlightEnabled)
+        {
+            if (cropInserted) { tutorialText.text = "Remove Crop"; }
+            else if (!cropInserted) { tutorialText.text = "Insert Crop"; }
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power -= 0.05f;
+                foreach (Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+ 
+            }
+            while (power > 0.7f && highlightEnabled);
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power += 0.05f;
+                foreach (Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+            }
+            while (power < 1.9f && highlightEnabled);
+        }
     }
 
     private CropData FindCropByYield(InventoryItemData item)
@@ -226,14 +301,17 @@ public class CropTester : MonoBehaviour, IInteractable
                 break;
             case 1:
                 testerBrazier.DoGloam();
+                gloamSprite.color = white;
                 gloamSprite.sprite = regularNutrientSprites[0];
                 break;
             case 2:
                 testerBrazier.DoTerra();
+                terraSprite.color = white;
                 terraSprite.sprite = regularNutrientSprites[1];
                 break;
             case 3:
                 testerBrazier.DoIchor();
+                ichorSprite.color = white;
                 ichorSprite.sprite = regularNutrientSprites[2];
                 break;
             default:
@@ -249,33 +327,42 @@ public class CropTester : MonoBehaviour, IInteractable
         {
             case 4:
                 testerBrazier.DoGloam();
+                gloamSprite.color = white;
                 gloamSprite.sprite = regularNutrientSprites[0];
                 yield return new WaitForSeconds(1.5f);
                 testerBrazier.DoTerra();
+                terraSprite.color = white;
                 terraSprite.sprite = regularNutrientSprites[1];
                 break;
             case 5:
                 testerBrazier.DoGloam();
+                gloamSprite.color = white;
                 gloamSprite.sprite = regularNutrientSprites[0];
                 yield return new WaitForSeconds(1.5f);
                 testerBrazier.DoIchor();
+                ichorSprite.color = white;
                 ichorSprite.sprite = regularNutrientSprites[2];
                 break;
             case 6:
                 testerBrazier.DoTerra();
+                terraSprite.color = white;
                 terraSprite.sprite = regularNutrientSprites[1];
                 yield return new WaitForSeconds(1.5f);
                 testerBrazier.DoIchor();
+                ichorSprite.color = white;
                 ichorSprite.sprite = regularNutrientSprites[2];
                 break;
             case 7:
                 testerBrazier.DoGloam();
+                gloamSprite.color = white;
                 gloamSprite.sprite = regularNutrientSprites[0];
                 yield return new WaitForSeconds(1f);
                 testerBrazier.DoTerra();
+                terraSprite.color = white;
                 terraSprite.sprite = regularNutrientSprites[1];
                 yield return new WaitForSeconds(1f);
                 testerBrazier.DoIchor();
+                ichorSprite.color = white;
                 ichorSprite.sprite = regularNutrientSprites[2];
                 break;
         }

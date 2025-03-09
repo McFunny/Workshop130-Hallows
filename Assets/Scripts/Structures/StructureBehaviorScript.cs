@@ -205,17 +205,17 @@ public class StructureBehaviorScript : MonoBehaviour
             do
             {
                 yield return new WaitForSeconds(0.1f);
-                power -= 0.05f;
+                power -= 0.1f;
                 foreach(Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
             }
-            while(power > 0.7f && highlightEnabled);
+            while(power > 1f && highlightEnabled);
             do
             {
                 yield return new WaitForSeconds(0.1f);
-                power += 0.05f;
+                power += 0.1f;
                 foreach(Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
             }
-            while(power < 1.9f && highlightEnabled);
+            while(power < 2.5f && highlightEnabled);
         }
         highlightCoroutine = null;
     }

@@ -16,6 +16,7 @@ namespace SaveLoadSystem
         public AllGameSaveData allGameSaveData;
 
         public StructureInventory allStructuresSaveData;
+        public PuzzleManagerSaveData puzzleSaveData;
 
         //save nutrients
 
@@ -27,6 +28,7 @@ namespace SaveLoadSystem
             playerInventoryData = new PlayerInventorySaveData(); // Initialize player inventory data
             allGameSaveData = new AllGameSaveData();
             allStructuresSaveData = new StructureInventory();
+            puzzleSaveData = new PuzzleManagerSaveData();
         }
     }
 }

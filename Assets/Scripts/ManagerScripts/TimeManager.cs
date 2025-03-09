@@ -117,7 +117,9 @@ public class TimeManager : MonoBehaviour
 
     void HourPassed()
     {
-        currentHour++;
+
+        if(currentHour != 2 || !NightSpawningManager.Instance.finaleActivated) currentHour++;
+        
         if(currentHour >= 24) currentHour = 0;
 
         if(currentHour >= 6 && currentHour < 20) isDay = true;
@@ -342,6 +344,45 @@ public class TimeManager : MonoBehaviour
         if(!stopSaving) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.gameSavePopup);
         WildernessManager.Instance.visitedWilderness = false;
     }
+
+    public IEnumerator Sleep()
+    {
+        StopAllCoroutines();
+        timeSkipping = true;
+        stopTime = true;
+        int timeDif = 0;
+        currentMinute = 0;
+        if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
+
+        FadeScreen.coverScreen = true;
+        PlayerMovement.restrictMovementTokens++;
+        yield return new WaitForSeconds(2f);
+        //change time and day
+        if(isDay) //Died during the day
+        {
+            int targetHour = 19;
+            while(currentHour != targetHour)
+            {
+                currentHour++;
+                print(currentHour);
+                PlayerInteraction.Instance.StaminaChange(5);
+                OnHourlyUpdate?.Invoke();
+            }
+        }
+
+        ToggleSkyLights();
+        isDay = true;
+        InitializeSkyBox();
+        StartCoroutine(TimePassage());
+        if(sunRenderer) StartCoroutine(AnimateSun());
+        timeSkipping = false;
+        stopTime = false;
+
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
+    }
+
+    
 
     [ContextMenu("Set To Start Of Morning")]
     public void SetToMorning()
