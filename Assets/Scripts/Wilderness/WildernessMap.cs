@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WildernessMap : MonoBehaviour
 {
+    public GameObject mapObject;
+
     public Transform[] spawnPositions; //Possible player spawns
     public Transform[] wagonPositions; //Associated wagon spawns
     public Transform[] enemySpawnPositions; //Spots enemies can spawn from. Should grab the closest 2 from the player
@@ -15,10 +17,14 @@ public class WildernessMap : MonoBehaviour
 
     void Start()
     {
-        if(!WildernessManager.Instance.allMaps.Contains(this)) WildernessManager.Instance.allMaps.Add(this);
-        for(int i = 0; i < obstacles.Length; i++)
+        if(!WildernessManager.Instance.allMaps.Contains(this))
         {
-            obstacles[i].SetActive(false);
+            WildernessManager.Instance.allMaps.Add(this);
+            for(int i = 0; i < obstacles.Length; i++)
+            {
+                obstacles[i].SetActive(false);
+            }
+            mapObject.SetActive(false);
         }
     }
 
