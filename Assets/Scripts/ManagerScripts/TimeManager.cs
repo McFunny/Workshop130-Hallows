@@ -554,9 +554,11 @@ public class TimeManager : MonoBehaviour
             dayLight.enabled = false;
             nightLight.enabled = false;
             cryptLight.enabled = true;
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             return;
         }
         cryptLight.enabled = false;
+        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
 
 
         if(currentHour > 5 && currentHour < 18)

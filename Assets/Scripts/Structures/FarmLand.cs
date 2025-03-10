@@ -264,7 +264,7 @@ public class FarmLand : StructureBehaviorScript
     {
         if(isWeed && !TimeManager.Instance.isDay) StructureManager.Instance.WeedSpread(transform.position);
         //print(cropNeedsUI);
-        if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay)
+        if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay || isFrosted)
         {
             ignoreNextGrowthMoment = false;
             if(!rotted && crop && crop.behavior) crop.behavior.OnHour(this);

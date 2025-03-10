@@ -9,6 +9,7 @@ public class ToolTipScript : MonoBehaviour
 {
     public GameObject toolTip, panel;
     public TextMeshProUGUI itemName, itemDesc, itemStamina, itemType;
+    public Color c_default, c_tool, c_placeable, c_crop, c_consumable;
     public GameObject gloam, terra, ichor, water, intakeParent;
     //protected Vector3[] corners;
 
@@ -58,18 +59,21 @@ public class ToolTipScript : MonoBehaviour
             itemStamina.gameObject.SetActive(true);
             itemType.text = "Consumable";
             intakeParent.SetActive(false);
+            itemType.color = c_consumable;
         }
         else if(type.Equals(typeof(ToolItem)))
         {
             itemType.text = "Tool";
             intakeParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
+            itemType.color = c_tool;
         }
         else if(type.Equals(typeof(PlaceableItem)))
         {
             itemType.text = "Structure";
             intakeParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
+            itemType.color = c_placeable;
         }
         else if(type.Equals(typeof(CropItem)))
         {
@@ -90,12 +94,14 @@ public class ToolTipScript : MonoBehaviour
             
             intakeParent.SetActive(true);
             itemStamina.gameObject.SetActive(false);
+            itemType.color = c_crop;
         }
         else
         {
             itemType.text = "Miscellaneous";
             intakeParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
+            itemType.color = c_default;
         }
 
         //if(itemData.GetType)
