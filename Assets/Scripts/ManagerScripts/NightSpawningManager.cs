@@ -285,7 +285,7 @@ public class NightSpawningManager : MonoBehaviour
     {
         if(finaleActivated)
         {
-            if(difficultyPoints < 150)
+            if(difficultyPoints < 100)
             {
                 difficultyPoints = 50;
                 highestDifficultyPoints = 300;
