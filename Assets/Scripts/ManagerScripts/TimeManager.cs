@@ -342,6 +342,7 @@ public class TimeManager : MonoBehaviour
         Time.timeScale = 1;
 
         if(!stopSaving) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.gameSavePopup);
+        PopupHandler.Instance.NewsForNewDay();
         WildernessManager.Instance.visitedWilderness = false;
     }
 

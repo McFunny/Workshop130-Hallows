@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WaterBarrel : StructureBehaviorScript
 {
@@ -10,6 +11,8 @@ public class WaterBarrel : StructureBehaviorScript
     public Transform waterTexture;
     public SpriteRenderer renderer;
     public Sprite[] waterSprites;
+
+    public TextMeshProUGUI waterText;
     // Start is called before the first frame update
     void Awake()
     {
@@ -27,6 +30,9 @@ public class WaterBarrel : StructureBehaviorScript
     void Update()
     {
         base.Update();
+
+        waterText.text = waterLevel + "/" + 3;
+
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -93,7 +99,7 @@ public class WaterBarrel : StructureBehaviorScript
                 waterTexture.position = new Vector3(waterTexture.position.x, 0.8f, waterTexture.position.z);
                 break;
             case 3:
-                waterTexture.position = new Vector3(waterTexture.position.x, 1.1f, waterTexture.position.z);
+                waterTexture.position = new Vector3(waterTexture.position.x, 1.3f, waterTexture.position.z);
                 break;
             default:
                 waterLevel = 0;
