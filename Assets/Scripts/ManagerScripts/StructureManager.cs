@@ -86,7 +86,7 @@ public class StructureManager : MonoBehaviour
         {
             PopulateForageables(-2, 3);
         }
-        if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(1, 6);
+        if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
     }
 
     public void GameOver()

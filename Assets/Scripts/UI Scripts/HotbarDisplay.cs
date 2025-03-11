@@ -66,7 +66,17 @@ public class HotbarDisplay : MonoBehaviour
         }
     }
 
-    private void SelectHotbarSlot(int slotIndex) //if possible, call this again when picking up an item to refresh hand item, or find a workaround (preferred)
+    public int FindItemInHotbar(InventoryItemData item)
+    {
+        for(int i = 0; i < hotbarSlots.Length; i++)
+        {
+            InventorySlot_UI s = hotbarSlots[i];
+            if(s.AssignedInventorySlot != null && s.AssignedInventorySlot.ItemData == item) return i;
+        }
+        return -1;
+    }
+
+    public void SelectHotbarSlot(int slotIndex) //if possible, call this again when picking up an item to refresh hand item, or find a workaround (preferred)
     {
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || InputManager.isCharging) return;
         if (PlayerMovement.isCodexOpen) return;

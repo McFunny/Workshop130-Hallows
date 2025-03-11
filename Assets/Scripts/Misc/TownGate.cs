@@ -82,12 +82,12 @@ public class TownGate : MonoBehaviour
         location = newLocation;
     }
 
-    public void GameOver()
+    /*public void GameOver()
     {
         location = PlayerLocation.InFarm;
         townMist.gameObject.SetActive(false);
         farmMist.gameObject.SetActive(true);
-    }
+    }*/
 
 }
 

@@ -398,8 +398,6 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         NightSpawningManager.Instance.GameOver();
         print("Night GameOver Complete");
-        TownGate.Instance.GameOver();
-        print("Gate GameOver Complete");
         StructureManager.Instance.GameOver();
         print("Structure GameOver Complete");
         WildernessManager.Instance.GameOver();
