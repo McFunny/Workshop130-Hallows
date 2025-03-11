@@ -165,7 +165,7 @@ public class SettingsValueManager : MonoBehaviour
 
     public void Back()
     {
-        if(applyButton.interactable == true) OpenConfirmationBox("Changed settings will not be applied. Continue?", backButton);
+        if(applyButton.interactable == true && !confirmationBox.gameObject.activeSelf) OpenConfirmationBox("Changed settings will not be applied. Continue?", backButton);
         else if(confirmationBox.gameObject.activeSelf) confirmationBox.noButton.onClick.Invoke();
         else
         {

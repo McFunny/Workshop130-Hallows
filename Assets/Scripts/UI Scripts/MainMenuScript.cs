@@ -83,6 +83,10 @@ public class MainMenuScript : MonoBehaviour
         {
             settingsValueManager.Back();
         }
+        else if(confirmationBox.gameObject.activeInHierarchy && UICancel.action.WasPressedThisFrame())
+        {
+            confirmationBox.noButton.onClick.Invoke();
+        }
 
         if(ControlManager.isGamepad)
         {
