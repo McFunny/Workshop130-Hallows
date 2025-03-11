@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using SaveLoadSystem;
 using UnityEngine.UI;
-using System.Runtime.CompilerServices;
 
 public class MainMenuScript : MonoBehaviour
 {
     public InputActionReference hideUI, UICancel;
     public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault;
+    private SettingsValueManager settingsValueManager;
     ControlManager controlManager;
     public AudioSource source;
     public AudioClip hover, select;
@@ -41,6 +41,7 @@ public class MainMenuScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         webObject = FindFirstObjectByType<OpenWebsite>();
+        settingsValueManager = settingsCanvas.GetComponent<SettingsValueManager>();
         //source.GetComponent<AudioSource>();
         controlManager.playerInput.SwitchCurrentActionMap("UI");
         int r = Random.Range(0,3);
@@ -66,20 +67,21 @@ public class MainMenuScript : MonoBehaviour
         //print(controlManager.playerInput.currentActionMap);
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad)
         {
-            if(settingsDefault.activeInHierarchy)EventSystem.current.SetSelectedGameObject(settingsDefault);
+            if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+            else if(controlsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
+            else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
             print("Default Menu Object Selected");
         } 
 
-        if(hideUI.action.WasPressedThisFrame())
+        /*if(hideUI.action.WasPressedThisFrame())
         {
             if(!settingsCanvas.activeInHierarchy){HideUI();}
-        }
+        }*/
 
         if(settingsCanvas.activeInHierarchy && UICancel.action.WasPressedThisFrame())
         {
-            EventSystem.current.SetSelectedGameObject(buttons[3].gameObject);
-            settingsCanvas.SetActive(false);
+            settingsValueManager.Back();
         }
 
         if(ControlManager.isGamepad)
@@ -100,7 +102,7 @@ public class MainMenuScript : MonoBehaviour
             Cursor.visible = true;
         }
 
-        if(settingsCanvas.activeSelf || controlsCanvas.activeSelf) webObject.canOpen = false;
+        if(settingsCanvas.activeSelf || controlsCanvas.activeSelf || confirmationBox.gameObject.activeSelf) webObject.canOpen = false;
         else webObject.canOpen = true;
     }
     void HideUI()
@@ -112,42 +114,59 @@ public class MainMenuScript : MonoBehaviour
     {
         print("Test");
     }
-    private void OpenConfirmationBox(string message)
+    public void OpenConfirmationBox(string message, Button b)
     {
+        if(isTransitioning) return;
+        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(null);
         confirmationBox.messageText.text = message;
         confirmationBox.gameObject.SetActive(true);
+        confirmationBox.calledBy = b;
         confirmationBox.yesButton.onClick.AddListener(YesPressed);
-        confirmationBox.yesButton.onClick.AddListener(NoPressed);
+        confirmationBox.noButton.onClick.AddListener(NoPressed);
     }
 
     private void YesPressed()
     {
+        if(confirmationBox.calledBy == buttons[0]) // New Game
+        {
+            if(isTransitioning) return;
+            isTransitioning = true;
+            loadingData = false;
+            //DeleteSaveData();
+            StartCoroutine(StartGame());
+        }
+        else if(confirmationBox.calledBy == buttons[4]) // Quit Game
+        {
+            if(isTransitioning) return;
+            Application.Quit();
+            print("Game Exited Successfully :)");
+        }
+
         confirmationBox.gameObject.SetActive(false);
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
         confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
+        EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
     }
 
     private void NoPressed()
     {
+        print("No Pressed");
         confirmationBox.gameObject.SetActive(false);
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
         confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
+        EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
     }
 
     public void ExitGame()
     {
-        if(isTransitioning) return;
-        Application.Quit();
-        print("Game Exited Successfully :)");
+        OpenConfirmationBox("Are you sure you want to quit?", buttons[4]);
+        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
     }
 
     public void NewGame()
     {
-        if(isTransitioning) return;
-        isTransitioning = true;
-        loadingData = false;
-        //DeleteSaveData();
-        StartCoroutine(StartGame());
+        OpenConfirmationBox("Are you sure you want to start a new game?", buttons[0]);
+        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
     }
 
     public void LoadGame()
