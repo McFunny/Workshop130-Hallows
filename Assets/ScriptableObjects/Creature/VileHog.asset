@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: VileHog
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 0}
+  creatureVariants: []
   health: 0
   position:
   - 0
   - 0
   - 0
-  dangerCost: 1
+  dangerCost: 8
   dangerThreshold: 0
   spawnWeight: 10
-  spawnCap: 5
-  spawnCapPerHour: 3
+  spawnCap: 3
+  spawnCapPerHour: 2
   wealthPrerequisite: 0
   contribuiteToCreatureCap: 1
   data:

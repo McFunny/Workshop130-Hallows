@@ -472,7 +472,7 @@ public class PyreFly : CreatureBehaviorScript
             if(r > 5) agent.SetDestination(strafePointL.position);
             else agent.SetDestination(strafePointR.position);
 
-            attackCooldown -= Random.Range(1, 2);
+            attackCooldown -= Random.Range(1, 3);
             if(attackCooldown <= 0)
             {
                 if(ignited) Attack();
