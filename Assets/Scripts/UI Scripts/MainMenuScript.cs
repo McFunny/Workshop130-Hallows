@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.IO;
-using UnityEngine.Events;
 using SaveLoadSystem;
 using UnityEngine.UI;
 
@@ -32,6 +31,7 @@ public class MainMenuScript : MonoBehaviour
 
     public GameObject dayLight, nightLight;
     public Button[] buttons;
+    public Button[] nonNavigableButtons;
 
     // Start is called before the first frame update
     void Awake()
@@ -84,6 +84,13 @@ public class MainMenuScript : MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                for(int i = 0; i < nonNavigableButtons.Length; i++)
+                {
+                    if (EventSystem.current.currentSelectedGameObject == nonNavigableButtons[i])
+                    {
+                        EventSystem.current.SetSelectedGameObject(defaultObject);
+                    }
+                }       
             }
             else
             {
