@@ -325,7 +325,7 @@ MonoBehaviour:
       - m_Target: {fileID: 8359634411743591791}
         m_TargetAssemblyTypeName: OpenWebsite, Assembly-CSharp
         m_MethodName: OpenFeedbackForm
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -346,6 +346,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ce2cdb7a1769b43ae4a2a85b5ef8ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canOpen: 1
+  openInput: {fileID: 1129054881254305582, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  moreDetails: {fileID: 8165805058168795206, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  feedbackLink: https://forms.gle/TnzA38P7yDkJd5yU9
 --- !u!114 &6292917496133256514
 MonoBehaviour:
   m_ObjectHideFlags: 0
