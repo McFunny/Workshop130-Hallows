@@ -23,7 +23,7 @@ public class ImbuedScarecrow : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel)
+        if(type == ToolType.Shovel && !TimeManager.Instance.stopTime)
         {
             StartCoroutine(DugUp());
             success = true;
@@ -55,36 +55,10 @@ public class ImbuedScarecrow : StructureBehaviorScript
         while (gameObject.activeSelf);
     }
 
-    /*private void OnDestroy()
+    private void OnDestroy()
     {
-        SpawnInComponents();
         base.OnDestroy();
-    }*/
-
-    private void SpawnInComponents()
-    {
-        foreach (Transform child in this.transform)
-        {
-            Rigidbody rb = child.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-                DestroyAfterTime destroyMe;
-                destroyMe = child.GetComponent<DestroyAfterTime>();
-                if (destroyMe != null)
-                {
-                    destroyMe.enabled = true;
-                    destroyMe.destroy = true;
-                }
-                else
-                {
-                    Destroy(child.gameObject);
-                }
-
-            }
-        }
-        this.transform.DetachChildren();
-
+        if(Tutorial.Instance) Tutorial.Instance.KillScarecrow();
     }
 
 }

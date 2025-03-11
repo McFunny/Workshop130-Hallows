@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Sprinkler : StructureBehaviorScript
 {
@@ -10,6 +11,8 @@ public class Sprinkler : StructureBehaviorScript
     public Transform head;
     public GameObject waterVFX;
     bool rotating = false;
+
+    public TextMeshProUGUI waterText;
 
     //extinguish fire check
 
@@ -41,11 +44,13 @@ public class Sprinkler : StructureBehaviorScript
 
         if(rotating) head.Rotate(0, Time.deltaTime * 20, 0, Space.Self);
 
+        waterText.text = waterLevel + "/" + 3;
+
     }
 
     public override void HourPassed()
     {
-        if(waterLevel > 0)
+        if(waterLevel > 0 && !TimeManager.Instance.isDay)
         {
             waterLevel--;
             StartCoroutine(WaterTiles());

@@ -221,7 +221,7 @@ public class ApothNPC : NPC, ITalkable
 
     public override bool ActionCheck1()
     {
-        if (GameSaveData.Instance.bridgeCleared) return true;
+        if (GameSaveData.Instance.townTreeCleared1) return true;
         return false;
     }
 }

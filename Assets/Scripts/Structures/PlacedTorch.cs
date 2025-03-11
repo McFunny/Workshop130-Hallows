@@ -9,6 +9,8 @@ public class PlacedTorch : StructureBehaviorScript
     //public FireFearTrigger fireTrigger;
     public GameObject fire;
 
+    bool currentlyLit;
+
     void Awake()
     {
         base.Awake();
@@ -35,19 +37,28 @@ public class PlacedTorch : StructureBehaviorScript
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
         if (addedSuccessfully)
         {
+            HotbarDisplay display = FindObjectOfType<HotbarDisplay>();
+            int i = display.FindItemInHotbar(recoveredItem);
+            if(i != -1)
+            {
+                display.SelectHotbarSlot(i);
+                if(currentlyLit) HandItemManager.Instance.TorchFlameToggle(true);
+            }
             Destroy(this.gameObject);
         }
     }
 
     IEnumerator FireDrain()
     {
-        float r = Random.Range(15, 20);
+        currentlyLit = true;
+        float r = Random.Range(30, 35);
         yield return new WaitForSeconds(r);
         ExtinguishFlame();
     }
 
     void ExtinguishFlame()
     {
+        currentlyLit = false;
         //ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = fire.transform.position;
         fire.SetActive(false);
         //audioHandler.PlaySound(audioHandler.miscSounds1[0]);

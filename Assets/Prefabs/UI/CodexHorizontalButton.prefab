@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Rascal wants a Carrot for Some Reason
+  m_text: ...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.6
+  m_fontSize: 45
   m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -350,6 +350,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   assignedEntry: {fileID: 0}
+  assignedQuest:
+    name: 
+    description: 
+    type: 0
+    isMajorQuest: 0
+    alreadyCompleted: 0
+    mintReward: 0
+    progress: 0
+    maxProgress: 0
+    daysLeft: -1
+    assignee: 0
+    displayProgress: 0
 --- !u!114 &4842968159573781111
 MonoBehaviour:
   m_ObjectHideFlags: 0

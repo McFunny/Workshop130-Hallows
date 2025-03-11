@@ -14,12 +14,17 @@ public class Database : ScriptableObject
         {
             if (_instance == null)
             {
-                // Load the instance of the Database if not already set
-                _instance = Resources.Load<Database>("ItemDatabase");
+                _instance = Resources.Load<Database>("Database");
+
+                if (_instance == null)
+                {
+                    Debug.LogError("Database could not be loaded! Make sure ItemDatabase exists in Resources.");
+                }
             }
             return _instance;
         }
     }
+
 
     [SerializeField] private List<InventoryItemData> _itemDatabase;
 
@@ -67,6 +72,11 @@ public class Database : ScriptableObject
     public List<CropItem> GetAllCrops()
     {
         return Resources.LoadAll<CropItem>("").ToList();
+    }
+
+    public List<InventoryItemData> GetItemDatabase()
+    {
+        return _itemDatabase;
     }
 
 }

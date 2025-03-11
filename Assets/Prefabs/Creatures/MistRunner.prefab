@@ -14977,15 +14977,13 @@ MonoBehaviour:
   rb: {fileID: 3768720028828805083}
   anim: {fileID: 7894619946580476923}
   droppedItems:
-  - {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
-  - {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
+  - {fileID: 11400000, guid: d25a0f4a47914b54a90b7ba093cdd6ee, type: 2}
+  - {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
   - {fileID: 11400000, guid: d06fed8a2ed642746af8ec6d863c5b72, type: 2}
-  - {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
   dropChance:
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
+  - 1
+  - 1
+  - 1
   sightRange: 20
   attackRange: 5
   playerInSightRange: 0
@@ -15016,7 +15014,7 @@ MonoBehaviour:
   lungeCooldown: 3
   lungeRange: 9
   fearParticle: {fileID: 92581288168611160}
-  currentState: 2
+  currentState: 0
 --- !u!195 &8529519470804197080
 NavMeshAgent:
   m_ObjectHideFlags: 0

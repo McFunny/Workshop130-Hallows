@@ -13,11 +13,19 @@ public class CropKey : MonoBehaviour, IInteractable
     private SpriteRenderer foregroundSprite;
     public CropData cropData;
     public bool cropInserted;
+    private AudioSource audioSource;
+
+    public List<GameObject> highlight = new List<GameObject>();
+    List<Material> highlightMaterial = new List<Material>();
+    bool highlightEnabled;
+    public GameObject canvas;
 
     void Start()
     {
         backgroundSprite = backgroundCropGameObject.GetComponent<SpriteRenderer>();
         foregroundSprite = foregroundCropGameObject.GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
+        canvas.SetActive(false);
 
     }
 
@@ -53,8 +61,12 @@ public class CropKey : MonoBehaviour, IInteractable
 
             cropInserted = true;
             foregroundSprite.enabled = true;
+            highlight[0].SetActive(false);
+            canvas.SetActive(false);
 
             interactSuccessful = true;
+
+            audioSource.Play();
 
             OnCropInserted?.Invoke(this);
         }
@@ -66,11 +78,57 @@ public class CropKey : MonoBehaviour, IInteractable
 
 
 
-    public void ToggleHighlight(bool enabled)
+    public void ToggleHighlight(bool enable)
     {
+        if (highlight.Count == 0) return;
+        if (cropInserted) { return; }
+
+        if (highlightMaterial.Count == 0)
+        {
+            foreach (GameObject thing in highlight)
+                highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
+        }
+        if (enable && !highlightEnabled)
+        {
+            highlightEnabled = true;
+            canvas.SetActive(true);
+            foreach (GameObject thing in highlight) thing.SetActive(true);
+            StartCoroutine(HightlightFlash());
+        }
+
+        if (!enable && highlightEnabled)
+        {
+            highlightEnabled = false;
+            canvas.SetActive(false);
+            foreach (GameObject thing in highlight) thing.SetActive(false);
+        }
     }
 
-    
+    IEnumerator HightlightFlash()
+    {
+        float power = 1;
+        while (highlightEnabled)
+        {
+            
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power -= 0.05f;
+                foreach (Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+
+            }
+            while (power > 0.7f && highlightEnabled);
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                power += 0.05f;
+                foreach (Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
+            }
+            while (power < 1.9f && highlightEnabled);
+        }
+    }
+
+
     void Update()
     {
         
@@ -81,14 +139,15 @@ public class CropKey : MonoBehaviour, IInteractable
         return new CropKeySaveData
         {
             CropInserted = cropInserted,
-            CropYieldID = cropData?.cropYield?.ID ?? -1
+            CropYieldID = cropData.cropYield.ID,
+            CropdataName = cropData.name
         };
     }
-
 
     public void ImportSaveData(CropKeySaveData data, InventoryItemData cropYieldItem)
     {
         cropInserted = data.CropInserted;
+        cropData = CropDatabase.Instance.GetCropByName(data.CropdataName);
 
         if (cropYieldItem != null)
         {
@@ -99,19 +158,23 @@ public class CropKey : MonoBehaviour, IInteractable
         {
             Debug.LogWarning($"CropYield with ID {data.CropYieldID} not found in the database.");
         }
-
+        Debug.Log("Crop:" + cropYieldItem);
+        Debug.Log("Crop Inserted: " + cropInserted);
         foregroundSprite.enabled = cropInserted;
+        Debug.Log("Foreground Inserted: " + foregroundSprite.enabled);
+        if (cropInserted)
+        {
+            OnCropInserted?.Invoke(this);
+        }
     }
-
-
-
 }
 
 [System.Serializable]
 public struct CropKeySaveData
 {
     public bool CropInserted;
-    public int CropYieldID; 
+    public int CropYieldID;
+    public string CropdataName;
 }
 
 

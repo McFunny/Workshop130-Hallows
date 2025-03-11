@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WildernessMap : MonoBehaviour
 {
+    public GameObject mapObject;
+
     public Transform[] spawnPositions; //Possible player spawns
     public Transform[] wagonPositions; //Associated wagon spawns
     public Transform[] enemySpawnPositions; //Spots enemies can spawn from. Should grab the closest 2 from the player
@@ -13,12 +15,18 @@ public class WildernessMap : MonoBehaviour
 
     public GameObject forageablePrefab;//to make sure it no spawn new one
 
+    List<GameObject> currentInteractables = new List<GameObject>();
+
     void Start()
     {
-        if(!WildernessManager.Instance.allMaps.Contains(this)) WildernessManager.Instance.allMaps.Add(this);
-        for(int i = 0; i < obstacles.Length; i++)
+        if(!WildernessManager.Instance.allMaps.Contains(this))
         {
-            obstacles[i].SetActive(false);
+            WildernessManager.Instance.allMaps.Add(this);
+            for(int i = 0; i < obstacles.Length; i++)
+            {
+                obstacles[i].SetActive(false);
+            }
+            mapObject.SetActive(false);
         }
     }
 
@@ -37,7 +45,7 @@ public class WildernessMap : MonoBehaviour
         for(int i = 0; i < t; i++)
         {
             r = Random.Range(0, interactablePositions.Length);
-            if(!usedSpots.Contains(interactablePositions[r]))
+            if(!usedSpots.Contains(interactablePositions[r]) /*&& SpotAvailable(interactablePositions[r])*/)
             {
                 int x = 0; //iterations of while loop
                 int l; //random num for spawn chance
@@ -51,16 +59,29 @@ public class WildernessMap : MonoBehaviour
                 }
                 if(prefab != null)
                 {
+                    GameObject newPrefab;
                     if(prefab == forageablePrefab)
                     {
-                        GameObject newPrefab = StructurePoolManager.Instance.GrabForageable(true);
+                        newPrefab = StructurePoolManager.Instance.GrabForageable(true);
                         newPrefab.transform.position = interactablePositions[r].position;
                     }
-                    else Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
+                    else newPrefab = Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
                     usedSpots.Add(interactablePositions[r]);
+                    currentInteractables.Add(newPrefab);
                 }
             }
         }
+    }
+
+    bool SpotAvailable(Transform t)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(t.position, 1f);
+        foreach(Collider collider in hitColliders)
+        {
+            StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+            if(structure) return false;
+        }
+        return true;
     }
 
     public void ClearMap()
@@ -69,5 +90,15 @@ public class WildernessMap : MonoBehaviour
         {
             obstacles[i].SetActive(false);
         }
+
+        foreach (GameObject obj in currentInteractables)
+        {
+            if (obj != null)
+            {
+                if(obj.GetComponent<Forgeable>()) obj.SetActive(false);
+                else Destroy(obj);
+            }
+        }
+        currentInteractables.Clear();
     }
 }

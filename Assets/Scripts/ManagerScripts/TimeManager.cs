@@ -18,7 +18,7 @@ public class TimeManager : MonoBehaviour
     public bool isDay;
     public int dayNum = 1; //what day is it?
     public TextMeshProUGUI timeText;
-    public Light dayLight, nightLight;
+    public Light dayLight, nightLight, cryptLight;
 
     //Sun and moon Variables
     public Transform sunMoonPivot;
@@ -117,7 +117,9 @@ public class TimeManager : MonoBehaviour
 
     void HourPassed()
     {
-        currentHour++;
+
+        if(currentHour != 2 || !NightSpawningManager.Instance.finaleActivated) currentHour++;
+        
         if(currentHour >= 24) currentHour = 0;
 
         if(currentHour >= 6 && currentHour < 20) isDay = true;
@@ -308,6 +310,7 @@ public class TimeManager : MonoBehaviour
             }
             StartCoroutine(NewDayTransition());
         }
+        ToggleSkyLights();
         isDay = true;
         InitializeSkyBox();
         StartCoroutine(TimePassage());
@@ -324,21 +327,63 @@ public class TimeManager : MonoBehaviour
         PlayerMovement.restrictMovementTokens++;
         Time.timeScale = 0;
         FadeScreen.coverScreen = true;
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitForSecondsRealtime(1.5f);
         dayNum++;
         //save game
         NightSpawningManager.Instance.ClearAllCreatures();
+        StructureManager.Instance.IncreaseNutrients();
+        yield return new WaitForSecondsRealtime(0.2f);
+        OnHourlyUpdate?.Invoke();
         yield return new WaitForSecondsRealtime(2);
         if(!stopSaving) SaveGameManager.SaveData();
         FadeScreen.coverScreen = false;
         yield return new WaitForSecondsRealtime(0.5f);
         PlayerMovement.restrictMovementTokens--;
         Time.timeScale = 1;
-        OnHourlyUpdate?.Invoke();
 
         if(!stopSaving) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.gameSavePopup);
+        PopupHandler.Instance.NewsForNewDay();
         WildernessManager.Instance.visitedWilderness = false;
     }
+
+    public IEnumerator Sleep()
+    {
+        StopAllCoroutines();
+        timeSkipping = true;
+        stopTime = true;
+        int timeDif = 0;
+        currentMinute = 0;
+        if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
+
+        FadeScreen.coverScreen = true;
+        PlayerMovement.restrictMovementTokens++;
+        yield return new WaitForSeconds(2f);
+        //change time and day
+        if(isDay) //Died during the day
+        {
+            int targetHour = 19;
+            while(currentHour != targetHour)
+            {
+                currentHour++;
+                print(currentHour);
+                PlayerInteraction.Instance.StaminaChange(5);
+                OnHourlyUpdate?.Invoke();
+            }
+        }
+
+        ToggleSkyLights();
+        isDay = true;
+        InitializeSkyBox();
+        StartCoroutine(TimePassage());
+        if(sunRenderer) StartCoroutine(AnimateSun());
+        timeSkipping = false;
+        stopTime = false;
+
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
+    }
+
+    
 
     [ContextMenu("Set To Start Of Morning")]
     public void SetToMorning()
@@ -433,6 +478,11 @@ public class TimeManager : MonoBehaviour
 
     void ToggleDayNightLights(bool fadeTransition)
     {
+        if (TownGate.Instance != null)
+        {
+            if (TownGate.Instance.location == PlayerLocation.InCrypt) return;
+        }
+
         if(currentHour > 5 && currentHour < 18 && nightLight.enabled)
         {
             if(!Application.isPlaying || !fadeTransition)
@@ -494,6 +544,33 @@ public class TimeManager : MonoBehaviour
                 nightLight.color = Color.Lerp(Color.black, c_NightOriginal, lerp);
             }
             dayLight.enabled = false;
+        }
+    }
+
+    public void ToggleSkyLights() //for moving between town and crypt, without a smooth transition
+    {
+        if(TownGate.Instance == null) return;
+        if (TownGate.Instance.location == PlayerLocation.InCrypt)
+        {
+            dayLight.enabled = false;
+            nightLight.enabled = false;
+            cryptLight.enabled = true;
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+            return;
+        }
+        cryptLight.enabled = false;
+        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+
+
+        if(currentHour > 5 && currentHour < 18)
+        {
+            dayLight.enabled = true;
+            nightLight.enabled = false;
+        }
+        else if(currentHour <= 5 || currentHour >= 18)
+        {
+            dayLight.enabled = false;
+            nightLight.enabled = true;
         }
     }
 }

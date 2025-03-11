@@ -82,8 +82,11 @@ public class StructureManager : MonoBehaviour
             PopulateWeeds(-3, 5);
             PopulateDecorCrows(0, 2);
         }
-        if(TimeManager.Instance.currentHour == 6) PopulateForageables(-2, 3);
-        if(TimeManager.Instance.currentHour == 20) PopulateNightWeeds(1, 6);
+        if(TimeManager.Instance.currentHour == 6)
+        {
+            PopulateForageables(-2, 3);
+        }
+        if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
     }
 
     public void GameOver()
@@ -129,7 +132,7 @@ public class StructureManager : MonoBehaviour
         //Grab tile position
         Vector3Int gridPos = tileMap.WorldToCell(pos);
 
-        if(tileMap.GetTile(gridPos) != null) return tileMap.GetCellCenterWorld(gridPos);
+        if(tileMap.GetTile(gridPos) != null && tileMap.GetTile(gridPos) != borderTile) return tileMap.GetCellCenterWorld(gridPos);
         else return new Vector3 (0,0,0);
     }
 
@@ -517,6 +520,7 @@ public class StructureManager : MonoBehaviour
                 {
                     FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
                     script.InsertCrop(fogChime);
+                    script.wealthValue = 0;
                     SetTile(spawnPos);
                 }
             }
@@ -564,13 +568,122 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void IncreaseNutrients()
+    {
+        //Vector3Int gridPos = tileMap.WorldToCell(pos);
+        for(int i = 0; i < storage.Count; i++)
+        {
+            if(storage[i] != null)
+            {
+                storage[i].gloamLevel += 0.5f;
+                if(storage[i].gloamLevel > 10) storage[i].gloamLevel = 10;
+                storage[i].terraLevel += 0.5f;
+                if(storage[i].terraLevel > 10) storage[i].terraLevel = 10;
+            }
+        }
+        //
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand farmTile = allStructs[i] as FarmLand;
+            if(farmTile) farmTile.RefreshNutrients();
+        }
+    }
+
+    public Vector3 FindMimicTile()
+    {
+        List<Vector3> cropTiles = new List<Vector3>();
+
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand farmTile = allStructs[i] as FarmLand;
+            if(farmTile && !farmTile.isWeed && farmTile.crop && !farmTile.rotted) cropTiles.Add(GetTileCenter(farmTile.transform.position));
+        }
+        if(cropTiles.Count > 0)
+        {
+            int x = 0;
+            List<Vector3> clearTiles = new List<Vector3>();
+            while(x < 50)
+            {
+                int r = Random.Range(0, cropTiles.Count);
+                clearTiles = GetAdjacentClearTiles(cropTiles[r]);
+                if(clearTiles.Count > 0)
+                {
+                    return clearTiles[Random.Range(0,clearTiles.Count)];
+                }
+
+                x++;
+            }
+            //code for replacing a crop
+        }
+
+        return GetRandomClearTile();
+    }
+
+    public Transform FindBurrow(bool returnFarthest, Vector3 pos)
+    {
+        List<Transform> burrows = new List<Transform>();
+
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            Burrow burrow = allStructs[i] as Burrow;
+            if(burrow) burrows.Add(burrow.transform);
+        }
+
+        if(burrows.Count > 0)
+        {
+            if(returnFarthest)
+            {
+                Transform furthestBurrow = null;
+                float minDistance = 25;
+                for(int i = 0; i < burrows.Count; i++)
+                {
+                    float dist = Vector3.Distance(pos, burrows[i].transform.position);
+                    if(dist > minDistance)
+                    {
+                        furthestBurrow = burrows[i];
+                        minDistance = dist;
+                    }
+                }
+                return furthestBurrow;
+            }
+            else
+            {
+                return burrows[Random.Range(0, burrows.Count)];
+            }
+        }
+
+        return null;
+    }
+
+    public int BurrowCount()
+    {
+        List<Transform> burrows = new List<Transform>();
+
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            Burrow burrow = allStructs[i] as Burrow;
+            if(burrow) burrows.Add(burrow.transform);
+        }
+        return burrows.Count;
+    }
+
+    public int TallyStructure(StructureObject data)
+    {
+        int x = 0;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            if(allStructs[i].structData && allStructs[i].structData == data) x++;
+        }
+        return x;
+    }
+
 
 }
 
 [System.Serializable]
 public class NutrientStorage
 {
-    public float ichorLevel = 5; //max is 10
+    public float ichorLevel = 6; //max is 10
     public float terraLevel = 10; //max is 10
     public float gloamLevel = 10; //max is 10
 
@@ -580,7 +693,7 @@ public class NutrientStorage
 
     public NutrientStorage()
     {
-        ichorLevel = 5; 
+        ichorLevel = 6; 
         terraLevel = 10; 
         gloamLevel = 10; 
         waterLevel = 3;
@@ -588,7 +701,7 @@ public class NutrientStorage
 
     public void ResetStorage(NutrientStorage s)
     {
-        s.ichorLevel = 5;
+        s.ichorLevel = 6;
         s.terraLevel = 10;
         s.gloamLevel = 10;
         s.waterLevel = 3;

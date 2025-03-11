@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class WaterProjectileScript : MonoBehaviour
 {
-    public AudioClip hitStruct, hitEnemy, hitGround;
+    public AudioClip hitStruct, hitEnemy, hitGround, hitIce;
 
     public bool homing = false;
+    bool bigShot = false;
     public Vector3 target;
 
     Rigidbody rb;
@@ -14,6 +15,9 @@ public class WaterProjectileScript : MonoBehaviour
     public GameObject[] thingsToTurnOff;
     bool canCollide = true;
     public TrailRenderer trail;
+
+    public bool isFrozen = false;
+    public GameObject iceObject;
 
 
     void OnTriggerEnter(Collider other)
@@ -25,6 +29,17 @@ public class WaterProjectileScript : MonoBehaviour
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
+                if(isFrozen)
+                {
+                    structure.TakeDamage(2);
+                    ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                    ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+                    HandItemManager.Instance.toolSource.PlayOneShot(hitIce);
+                    StartCoroutine(TurnOff());
+                    return;
+                }
+                else if(bigShot) BigSplash(transform.position);
+
                 if(structure.onFire) structure.Extinguish();
 
                 FarmLand farmTile = structure as FarmLand;
@@ -44,6 +59,7 @@ public class WaterProjectileScript : MonoBehaviour
                 ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
                 //gameObject.SetActive(false);
                 StartCoroutine(TurnOff());
+
                 return;
             }
 
@@ -67,6 +83,16 @@ public class WaterProjectileScript : MonoBehaviour
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
+                if(isFrozen)
+                {
+                    creature.TakeDamage(50);
+                    ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                    ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+                    HandItemManager.Instance.toolSource.PlayOneShot(hitIce);
+                    StartCoroutine(TurnOff());
+                    return;
+                }
+
                 creature.TakeDamage(0);
                 creature.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
@@ -77,10 +103,29 @@ public class WaterProjectileScript : MonoBehaviour
                 StartCoroutine(TurnOff());
                 return;
             }
+
+            if(creature)
+            {
+                Wraith wraith = creature as Wraith;
+                if(wraith && !isFrozen)
+                {
+                    FreezeShot();
+                }
+            }
         }
 
         if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
         {
+
+            if(isFrozen)
+            {
+                ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+                HandItemManager.Instance.toolSource.PlayOneShot(hitIce);
+                StartCoroutine(TurnOff());
+                return;
+            }
+            else if(bigShot) BigSplash(transform.position);
             HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
@@ -92,10 +137,44 @@ public class WaterProjectileScript : MonoBehaviour
 
     }
 
+    void FreezeShot()
+    {
+        if(isFrozen) return;
+        isFrozen = true;
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(false);
+        }
+        iceObject.SetActive(true);
+    }
+
+    void BigSplash(Vector3 pos)
+    {
+        if (homing) {
+            return;}
+
+        print("Big shot");
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2f);
+        foreach(Collider collider in hitColliders)
+        {
+            if(collider.gameObject.GetComponentInParent<FarmLand>())
+            {
+                FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
+                tile.WaterCrops();
+            }
+            else
+            {
+                StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+                if(structure && structure.onFire) structure.Extinguish();
+            }
+        }
+    }
+
     void OnEnable()
     {
         canCollide = true;
         trail.emitting = false;
+        bigShot = false;
         StartCoroutine(LifeTime());
         if(!rb) rb = GetComponent<Rigidbody>();
         //rb.isKinematic = false;
@@ -111,6 +190,9 @@ public class WaterProjectileScript : MonoBehaviour
         homing = false;
         canCollide = false;
         target = new Vector3(0,0,0);
+
+        isFrozen = false;
+        iceObject.SetActive(false);
     }
 
     IEnumerator TurnOff()
@@ -122,6 +204,7 @@ public class WaterProjectileScript : MonoBehaviour
         {
             thing.SetActive(false);
         }
+        iceObject.SetActive(false);
         yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
     }
@@ -139,6 +222,8 @@ public class WaterProjectileScript : MonoBehaviour
             rb.AddForce(dir * 100);
             //Debug.Log("ZOOM");
         }
+        yield return new WaitForSeconds(0.2f);
+        bigShot = true;
         yield return new WaitForSeconds(20);
         gameObject.SetActive(false);
     }

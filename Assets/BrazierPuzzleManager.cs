@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class BrazierPuzzleManager : MonoBehaviour
 {
     [SerializeField] private List<PuzzleBrazier> brazierList = new List<PuzzleBrazier>();
 
+    public bool brazierPuzzleSolved;
+
     private void Start()
     {
+        brazierPuzzleSolved = false;
         InitializePuzzles();
     }
 
@@ -44,5 +45,40 @@ public class BrazierPuzzleManager : MonoBehaviour
         {
             brazier.isLocked = true;
         }
+
+        brazierPuzzleSolved = true;
+        PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
     }
+
+    public BrazierPuzzleSaveData ExportSaveData()
+    {
+        List<BrazierSaveData> braziers = new List<BrazierSaveData>();
+        foreach (var brazier in brazierList)
+        {
+            braziers.Add(brazier.ExportSaveData());
+        }
+
+        return new BrazierPuzzleSaveData
+        {
+            braziers = braziers,
+            brazierPuzzleSolved = brazierPuzzleSolved
+        };
+    }
+
+    public void ImportSaveData(BrazierPuzzleSaveData data)
+    {
+        brazierPuzzleSolved = data.brazierPuzzleSolved;
+
+        for (int i = 0; i < brazierList.Count; i++)
+        {
+            brazierList[i].ImportSaveData(data.braziers[i]);
+        }
+    }
+}
+
+[System.Serializable]
+public struct BrazierPuzzleSaveData
+{
+    public List<BrazierSaveData> braziers;
+    public bool brazierPuzzleSolved;
 }

@@ -48,7 +48,7 @@ public class HeadBobController : MonoBehaviour
     void Update()
     {
         if (!_enable) return;
-        if (PauseScript.isPaused) return;
+        if (PauseScript.isPaused || Time.timeScale == 0) return;
         SprintCheck(playerMovement.isSprinting);
         CheckMotion();
         if (playerMovement.GetVelocity() != Vector3.zero)

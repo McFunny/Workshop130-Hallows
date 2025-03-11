@@ -18,7 +18,7 @@ public class LandMine : StructureBehaviorScript
     bool flashOn = true;
 
     float structureRange = 3;
-    float creatureRange = 4.5f;
+    float creatureRange = 5.5f;
     float cooldownProgress = 0;
     float cooldownLength = 45; //seconds
     float newPitch = 0.8f;
@@ -33,6 +33,7 @@ public class LandMine : StructureBehaviorScript
     private NutrientStorage nutrients;
 
     //When loading from save data, just have it already armed
+    //Should rework this to be less clunky to use
 
     void Awake()
     {
@@ -154,14 +155,14 @@ public class LandMine : StructureBehaviorScript
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         
-        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 4.5f) PlayerInteraction.Instance.StaminaChange(-65);
+        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 5.5f) PlayerInteraction.Instance.StaminaChange(-65);
         Collider[] hitStructures = Physics.OverlapSphere(transform.position, structureRange, 1 << 6);
         foreach(Collider collider in hitStructures)
         {
             StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
             if(structure && structure != this)
             {
-                structure.TakeDamage(25);
+                structure.TakeDamage(20);
             }
         }
 
@@ -171,7 +172,7 @@ public class LandMine : StructureBehaviorScript
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
-                creature.TakeDamage(75);
+                creature.TakeDamage(125);
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
             }
         }
@@ -182,7 +183,7 @@ public class LandMine : StructureBehaviorScript
         newPitch = 0.8f;
         fizzParticles.Play();
         source.Play();
-        yield return new WaitForSeconds(1.6f);
+        yield return new WaitForSeconds(0.8f);
         fizzParticles.Stop();
         source.Stop();
 
@@ -296,6 +297,8 @@ public class LandMine : StructureBehaviorScript
         if(saveString1 == "gloam") nutrientType = NutrientType.Gloamphage;
         if(saveString1 == "terra") nutrientType = NutrientType.Terrazyme;
         if(saveString1 == "ichor") nutrientType = NutrientType.Ichor;
+
+        cooldownProgress = cooldownLength;
         //LightColorChange();
     }
 

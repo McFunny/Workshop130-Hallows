@@ -10,26 +10,41 @@ public class CatacombDoor : MonoBehaviour, IInteractable
 
     public Transform interior, exterior;
 
+    public bool debugMode = false;
+
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        interactSuccessful = true;
+        if(GameSaveData.Instance.catacombUnlocked || debugMode)
+        {
+            if(TownGate.Instance.location == PlayerLocation.InTown)
+            {
+                StartCoroutine(Transition(true));
+            }
+            else
+            {
+                StartCoroutine(Transition(false));
+            }
+            interactSuccessful = true;
+            return;
+        }
+        interactSuccessful = false;
     }
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(GameSaveData.Instance.catacombUnlocked)
+        if(GameSaveData.Instance.catacombUnlocked || debugMode)
         {
             if(TownGate.Instance.location == PlayerLocation.InTown)
             {
-                //enter
+                StartCoroutine(Transition(true));
             }
             else
             {
-                //exit
+                StartCoroutine(Transition(false));
             }
             interactSuccessful = true;
             return;
@@ -49,6 +64,26 @@ public class CatacombDoor : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
        
+    }
+
+    IEnumerator Transition(bool goingToCrypt)
+    {
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSeconds(3);
+        if(goingToCrypt)
+        {
+            PlayerInteraction.Instance.transform.position = interior.position;
+            TownGate.Instance.Transition(PlayerLocation.InCrypt);
+        }
+        else
+        {
+            PlayerInteraction.Instance.transform.position = exterior.position;
+            TownGate.Instance.Transition(PlayerLocation.InTown);
+        }
+        TimeManager.Instance.ToggleSkyLights();
+        PlayerMovement.restrictMovementTokens--;
+        FadeScreen.coverScreen = false;
     }
 
     public void ToggleHighlight(bool enable)

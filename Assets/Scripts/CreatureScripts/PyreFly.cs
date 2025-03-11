@@ -27,7 +27,7 @@ public class PyreFly : CreatureBehaviorScript
 
     public PyreFlyHive homeHive;
     private StructureBehaviorScript targetStructure; //Struct to burn
-    private Brazier targetFireSource;
+    private StructureBehaviorScript targetFireSource;
 
     //public LayerMask layerMask;
 
@@ -77,6 +77,15 @@ public class PyreFly : CreatureBehaviorScript
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
 
         if(variant != Variant.Napalm) StartCoroutine(PlayerTurn());
+
+        if(!inWilderness && Random.Range(0,10) > 8)
+        {
+            Transform burrowPos = StructureManager.Instance.FindBurrow(false, transform.position);
+            if(burrowPos != null)
+            {
+                transform.position = burrowPos.position;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -262,8 +271,11 @@ public class PyreFly : CreatureBehaviorScript
         foreach (var structure in structManager.allStructs)
         {
             WraithFlower flower = structure as WraithFlower;
-            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower){}
-                availableStructure.Add(structure);
+            FarmLand tile = structure as FarmLand;
+            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower)
+            {
+                if(!tile || (tile && !tile.isWeed)) availableStructure.Add(structure);
+            }
         }
 
         if (availableStructure.Count > 0)
@@ -278,7 +290,7 @@ public class PyreFly : CreatureBehaviorScript
     {
         if (targetFireSource == null || !targetFireSource.gameObject.activeSelf)
         {
-            FindBurnableStructure();
+            FindFireSource();
             if (targetFireSource != null)
             {
                 target = targetFireSource.transform;
@@ -310,6 +322,13 @@ public class PyreFly : CreatureBehaviorScript
             if (brazier && brazier.flameLeft > 0)
             {
                 targetFireSource = brazier;
+                //print(targetFireSource);
+                return;
+            }
+            PlacedTorch torch = structure as PlacedTorch;
+            if (torch && PlayerInteraction.Instance.torchLit)
+            {
+                targetFireSource = torch;
                 //print(targetFireSource);
                 return;
             }
@@ -372,7 +391,9 @@ public class PyreFly : CreatureBehaviorScript
 
     void IgniteSelf()
     {
-        if(targetFireSource && targetFireSource.flameLeft > 0)
+        PlacedTorch t = targetFireSource as PlacedTorch;
+        Brazier b = targetFireSource as Brazier;
+        if((b && b.flameLeft > 0) || (t && PlayerInteraction.Instance.torchLit))
         {
             IgnitionToggle(true);
             currentState = CreatureState.Wander;
@@ -442,7 +463,7 @@ public class PyreFly : CreatureBehaviorScript
     IEnumerator Strafe()
     {
         int r;
-        int attackCooldown = 5;
+        int attackCooldown = 7;
         int x = 0; //keeps track of how long its been unlit
 
         while(strafing)
@@ -451,12 +472,12 @@ public class PyreFly : CreatureBehaviorScript
             if(r > 5) agent.SetDestination(strafePointL.position);
             else agent.SetDestination(strafePointR.position);
 
-            attackCooldown -= Random.Range(1, 4);
+            attackCooldown -= Random.Range(1, 2);
             if(attackCooldown <= 0)
             {
                 if(ignited) Attack();
                 else x++;
-                attackCooldown = 5;
+                attackCooldown = 7;
                 if(x >= 10)
                 {
                     IgnitionToggle(true);

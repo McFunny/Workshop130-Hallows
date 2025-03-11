@@ -19488,6 +19488,7 @@ MonoBehaviour:
   ichorWorth: 5
   ichorDropRadius: 4
   creatureData: {fileID: 11400000, guid: abab0bf02c715684088aee5b9057c8e1, type: 2}
+  inWilderness: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -19515,6 +19516,7 @@ MonoBehaviour:
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 1
+  hitColor: {r: 0, g: 0, b: 0, a: 0}
   timeSinceLastSeenPlayer: 0
   rightArmCrowSummon: {fileID: 8863659400037285465}
   leftArmCrowSummon: {fileID: 4264028873677904481}
@@ -19577,7 +19579,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 3
   MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0

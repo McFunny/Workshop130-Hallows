@@ -6,16 +6,16 @@ using UnityEngine;
 
 public class CropDatabase : ScriptableObject
 {
-    private static Database _instance;
+    private static CropDatabase _instance;
 
-    public static Database Instance
+    public static CropDatabase Instance
     {
         get
         {
             if (_instance == null)
             {
                 // Load the instance of the Database if not already set
-                _instance = Resources.Load<Database>("ItemDatabase");
+                _instance = Resources.Load<CropDatabase>("CropDatabase");
             }
             return _instance;
         }
