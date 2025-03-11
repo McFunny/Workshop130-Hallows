@@ -54,6 +54,7 @@ public class UIMenuButton : MonoBehaviour
     
     void Update()
     {
+        //print(controlManager.select.action.ReadValue<float>());
         if(button.interactable == false) isDisabled = true;
         else isDisabled = false;
 
@@ -109,10 +110,15 @@ public class UIMenuButton : MonoBehaviour
 
     void Select(InputAction.CallbackContext obj)
     {
-        if(isSelected) 
+        if(isSelected && controlManager.select.action.ReadValue<float>() == 0) 
         {
+            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
+            button.onClick.Invoke();
+        }
+        else if(isSelected && ControlManager.isController)
+        {
+            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
             button.onClick.Invoke();
         }
     }
-
 }

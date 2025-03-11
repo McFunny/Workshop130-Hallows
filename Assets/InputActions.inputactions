@@ -922,7 +922,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Cancel",
@@ -973,6 +973,15 @@
                     "name": "CloseCodex",
                     "type": "Button",
                     "id": "58579211-8fdd-4361-96ff-6801b9d0f18c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OpenWebsite",
+                    "type": "Button",
+                    "id": "b14e29bb-2e5f-433c-b87e-23c4e0d9c5dc",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1281,7 +1290,7 @@
                     "name": "",
                     "id": "33704691-4de0-4f86-a738-d6b58f1dc0b0",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Press(behavior=1)",
+                    "interactions": "Press(pressPoint=1)",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Select",
@@ -1307,6 +1316,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "CloseCodex",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "db36a083-176f-4dcc-8a1e-90b0643ced72",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "OpenWebsite",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -14,6 +14,7 @@ public class PauseScript : MonoBehaviour
     public Button[] buttons;
     ControlManager controlManager;
     PlayerEffectsHandler pEffectsHandler;
+    public OpenWebsite openWebsite;
     // Start is called before the first frame update
     void Awake()
     {
@@ -47,6 +48,12 @@ public class PauseScript : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
+
+            if(settingsCanvas.activeSelf || controlsObject.activeSelf)
+            {
+                openWebsite.canOpen = false;
+            }
+            else openWebsite.canOpen = true;
         }
         
 

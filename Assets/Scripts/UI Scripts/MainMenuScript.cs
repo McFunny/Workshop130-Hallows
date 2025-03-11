@@ -6,18 +6,18 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using SaveLoadSystem;
 using UnityEngine.UI;
-
-
+using System.Runtime.CompilerServices;
 
 public class MainMenuScript : MonoBehaviour
 {
     public InputActionReference hideUI, UICancel;
-    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas;
+    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault;
     ControlManager controlManager;
     public AudioSource source;
     public AudioClip hover, select;
     bool isTransitioning = false;
     public static bool loadingData = false;
+    private OpenWebsite webObject;
 
     public Transform sunMoonPivot;
     float dayRotation; 
@@ -32,6 +32,7 @@ public class MainMenuScript : MonoBehaviour
     public GameObject dayLight, nightLight;
     public Button[] buttons;
     public Button[] nonNavigableButtons;
+    public ConfirmationBox confirmationBox;
 
     // Start is called before the first frame update
     void Awake()
@@ -39,6 +40,7 @@ public class MainMenuScript : MonoBehaviour
         controlManager = FindFirstObjectByType<ControlManager>();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        webObject = FindFirstObjectByType<OpenWebsite>();
         //source.GetComponent<AudioSource>();
         controlManager.playerInput.SwitchCurrentActionMap("UI");
         int r = Random.Range(0,3);
@@ -81,22 +83,25 @@ public class MainMenuScript : MonoBehaviour
         }
 
         if(ControlManager.isGamepad)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            for(int i = 0; i < nonNavigableButtons.Length; i++)
             {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                for(int i = 0; i < nonNavigableButtons.Length; i++)
+                if (EventSystem.current.currentSelectedGameObject == nonNavigableButtons[i])
                 {
-                    if (EventSystem.current.currentSelectedGameObject == nonNavigableButtons[i])
-                    {
-                        EventSystem.current.SetSelectedGameObject(defaultObject);
-                    }
-                }       
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
+                    EventSystem.current.SetSelectedGameObject(defaultObject);
+                }
+            }       
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        if(settingsCanvas.activeSelf || controlsCanvas.activeSelf) webObject.canOpen = false;
+        else webObject.canOpen = true;
     }
     void HideUI()
     {
@@ -107,6 +112,28 @@ public class MainMenuScript : MonoBehaviour
     {
         print("Test");
     }
+    private void OpenConfirmationBox(string message)
+    {
+        confirmationBox.messageText.text = message;
+        confirmationBox.gameObject.SetActive(true);
+        confirmationBox.yesButton.onClick.AddListener(YesPressed);
+        confirmationBox.yesButton.onClick.AddListener(NoPressed);
+    }
+
+    private void YesPressed()
+    {
+        confirmationBox.gameObject.SetActive(false);
+        confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
+        confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
+    }
+
+    private void NoPressed()
+    {
+        confirmationBox.gameObject.SetActive(false);
+        confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
+        confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
+    }
+
     public void ExitGame()
     {
         if(isTransitioning) return;
@@ -153,6 +180,14 @@ public class MainMenuScript : MonoBehaviour
         if(isTransitioning) return;
         settingsCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(settingsDefault);
+    }
+
+    public void OpenControlsScreen()
+    {
+        if(isTransitioning) return;
+        controlsCanvas.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(controlsDefault);
+        print("Controls Opened");
     }
 
     public void OnHover()
