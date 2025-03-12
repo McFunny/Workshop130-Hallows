@@ -4,7 +4,7 @@ using UnityEngine;
 public class LoadSaveButton : MonoBehaviour
 {
     private UIMenuButton uIMenuButton;
-    public TextMeshProUGUI[] textBoxes;
+    public TextMeshProUGUI[] textBoxes; //0 No save, 1 Save Stats
     Color c_deselected, c_selected;
     // Start is called before the first frame update
     void Start()
@@ -19,17 +19,19 @@ public class LoadSaveButton : MonoBehaviour
     {
         if(uIMenuButton.GetSelected())
         {
-            for(int i = 0; i < textBoxes.Length; i++)
+            /*for(int i = 0; i < textBoxes.Length; i++)
             {
                 textBoxes[i].color = c_selected;
-            }
+            }*/
+            textBoxes[1].color = c_selected;
         }
         else
         {
-            for(int i = 0; i < textBoxes.Length; i++)
+            /*for(int i = 0; i < textBoxes.Length; i++)
             {
                 textBoxes[i].color = c_deselected;
-            }
+            }*/
+            textBoxes[1].color = c_deselected;
         }
     }
 }
