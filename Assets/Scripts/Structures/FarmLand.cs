@@ -173,7 +173,6 @@ public class FarmLand : StructureBehaviorScript
                     }
 
                     int r = Random.Range(0, crop.cropYieldAmount + crop.cropYieldVariance);
-                    if(totalCropYield == 0) r = 1;
                     totalCropYield += r;
                     if (totalCropYield <= 0) totalCropYield = 1;
                     for (int i = 0; i < totalCropYield; i++)

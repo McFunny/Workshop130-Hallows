@@ -14,6 +14,8 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
     int fliesActive = 0;
     int maxFlies = 3;
 
+    int reignitionProgress = 0;
+
     bool producedNectar = false;
     public InventoryItemData nectar;
     // Start is called before the first frame update
@@ -58,7 +60,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
         int cycles = 0;
         while(!isDead)
         {
-            randomTime = Random.Range(13, 25);
+            randomTime = Random.Range(13, 20);
             yield return new WaitForSeconds(randomTime);
             if(fliesActive < maxFlies && !TimeManager.Instance.isDay)
             {
@@ -71,8 +73,10 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
 
             if(!ignited)
             {
-                if(Random.Range(0, 10) > 6)
+                reignitionProgress += Random.Range(1, 3);
+                if(reignitionProgress > 4)
                 {
+                    reignitionProgress = 0;
                     yield return new WaitForSeconds(2.5f);
                     IgnitionToggle(true);
                 }
