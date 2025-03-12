@@ -10,7 +10,7 @@ public class UIMenuButton : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI text;
     Color c_deselected, c_selected, c_disabled, c_interactable, c_noninteractable, c_invisible;
-    bool isSelected;
+    private bool isSelected;
     ControlManager controlManager;
     [SerializeField] Button button;
     [SerializeField] private Image arrowImage;
@@ -120,5 +120,10 @@ public class UIMenuButton : MonoBehaviour
             if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
             button.onClick.Invoke();
         }
+    }
+
+    public bool GetSelected()
+    {
+        return isSelected;
     }
 }
