@@ -32,8 +32,7 @@ public class NewDayCounter : MonoBehaviour
     {
         //if(Input.GetKeyDown(KeyCode.Semicolon)) { timeManager.dayNum ++; }
         //if(Input.GetKeyDown(KeyCode.Quote)) { timeManager.dayNum --; }
-
-        if (currentDayCount != timeManager.dayNum && animator.GetCurrentAnimatorStateInfo(0).IsName("NewDayDisabled"))
+        if (currentDayCount != timeManager.dayNum && animator.GetCurrentAnimatorStateInfo(0).IsName("NewDayDisabled") && !hideCounter)
         {
             StartCoroutine(NewDay());
         }
@@ -53,7 +52,9 @@ public class NewDayCounter : MonoBehaviour
 
     IEnumerator DelayStart()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(5f);
+        currentDayCount = timeManager.dayNum;
+        counterText.text = " " + currentDayCount.ToString();
         hideCounter = false;
     }
 

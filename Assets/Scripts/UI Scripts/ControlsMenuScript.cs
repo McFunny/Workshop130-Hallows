@@ -42,9 +42,15 @@ public class ControlsMenuScript : MonoBehaviour
 
         if(UICancel.action.WasPressedThisFrame())
         {
-            EventSystem.current.SetSelectedGameObject(previousMenuObject);
-            this.gameObject.SetActive(false);
-            print("Controls hidden");
+            CloseMenu();
         }
+    }
+
+    public void CloseMenu()
+    {
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(previousMenuObject);
+        else EventSystem.current.SetSelectedGameObject(null);
+        this.gameObject.SetActive(false);
+        print("Controls hidden");
     }
 }
