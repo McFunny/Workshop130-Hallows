@@ -196,12 +196,15 @@ public class BearTrap : StructureBehaviorScript
         } */
 
         rearming = true;
-        while(health > 0 && capturedCreature.health > 0)
+        while(capturedCreature && health > 0 && capturedCreature.health > 0)
         {
-            capturedCreature.OnStun(2);
-            capturedCreature.transform.position = transform.position;
-            yield return new WaitForSeconds(2.01f);
-            if(capturedCreature.health > 0) TakeDamage(1);
+            if(!capturedCreature.OnStun(2)) capturedCreature = null;
+            else
+            {
+                capturedCreature.transform.position = transform.position;
+                yield return new WaitForSeconds(2.01f);
+                if(capturedCreature.health > 0) TakeDamage(1);
+            }
         }
         rearming = false;
         //StartCoroutine(Rearm());
