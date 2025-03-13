@@ -126,6 +126,8 @@ public class GameSaveData : MonoBehaviour
         public bool bridgeCleared;
         public bool keyCollected;
         public bool catacombUnlocked;
+        public bool wildernessIntroduced;
+
         public bool rascalMet;
         public bool botMet;
         public bool lumberMet;
@@ -155,6 +157,8 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.bridgeCleared;
             keyCollected = data.keyCollected;
             catacombUnlocked = data.catacombUnlocked;
+            wildernessIntroduced = data.wildernessIntroduced;
+
             rascalMet = data.rascalMet;
             botMet = data.botMet;
             lumberMet = data.lumberMet;
@@ -166,6 +170,6 @@ public class GameSaveData : MonoBehaviour
             townTreeCleared1 = data.townTreeCleared1;
             townTreeCleared2 = data.townTreeCleared2;
     //Debug.Log("Saving stamina. Result: " + pStamina);
-}
+        }
     }
 
