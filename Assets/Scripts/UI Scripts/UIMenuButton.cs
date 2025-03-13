@@ -104,6 +104,7 @@ public class UIMenuButton : MonoBehaviour
 
     public void PointerExit()
     {
+        //print("ButtonExited");
         if(!isDisabled) EventSystem.current.SetSelectedGameObject(null);
         arrowImage.enabled = false;
     }
@@ -112,13 +113,14 @@ public class UIMenuButton : MonoBehaviour
     {
         if(isSelected && controlManager.select.action.ReadValue<float>() == 0) 
         {
-            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
+            //print("Onlcick Attempted");
             button.onClick.Invoke();
+            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
         }
         else if(isSelected && ControlManager.isController)
         {
-            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
             button.onClick.Invoke();
+            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
         }
     }
 
