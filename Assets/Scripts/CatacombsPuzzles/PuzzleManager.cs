@@ -76,6 +76,7 @@ public class PuzzleManager : MonoBehaviour
         waterPuzzle.LoadFromData(data.waterPuzzleData);
         pillarPuzzle.ImportSaveData(data.rotatingPuzzleData);
         brazierPuzzle.ImportSaveData(data.brazierPuzzleData);
+        CheckToSeeIfPuzzlesAreComplete();
     }
 }
 
