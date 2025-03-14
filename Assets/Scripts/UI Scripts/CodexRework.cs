@@ -120,6 +120,7 @@ public class CodexRework : MonoBehaviour
         {
             ClearCodex();
             //TimeManager.Instance.stopTime = false;
+            EventSystem.current.SetSelectedGameObject(null);
             Time.timeScale = 1;
         }
         else
