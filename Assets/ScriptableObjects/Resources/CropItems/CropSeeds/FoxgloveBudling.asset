@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: FoxgloveBudling
   m_EditorClassIdentifier: 
   ID: -1
-  displayName: Foxglove Budling
-  description: Smells poisonous. Might be good to keep these alive for pest control.
-    Consumes Ichor and Gloamphage, Produces Terrazyme.
+  displayName: Foxglove Seeds
+  description: The presence of ichor in the soil has increased the potency of the
+    poison in this flower, causing serious injury to any that digest this plant's
+    blossoms.
   icon: {fileID: -2013770652, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
   maxStackSize: 20
-  value: 6
+  value: 18
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
@@ -28,4 +29,4 @@ MonoBehaviour:
   itemInputsController: []
   plantable: 1
   cropData: {fileID: 11400000, guid: e7f84fbc95567f84e8d00919f4781bf9, type: 2}
-  ableToBeShot: 0
+  ableToBeShot: 1

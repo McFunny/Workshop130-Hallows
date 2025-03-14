@@ -332,6 +332,11 @@ public class PlayerInteraction : MonoBehaviour
         toolCooldown = false;
     }
 
+    public void ToolUseToggle(bool x)
+    {
+        toolCooldown = x;
+    }
+
     void DisplayHologramCheck()
     {
         if(!HotbarDisplay.currentSlot) return;
