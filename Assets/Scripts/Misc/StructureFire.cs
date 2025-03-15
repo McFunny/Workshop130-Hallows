@@ -66,7 +66,7 @@ public class StructureFire : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             burnTimer++;
 
-            if(burnTimer >= 3)
+            if(burnTimer >= 5)
             {
                 Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f);
                 foreach(Collider collider in hitColliders)

@@ -45,7 +45,7 @@ public class WildernessMap : MonoBehaviour
         for(int i = 0; i < t; i++)
         {
             r = Random.Range(0, interactablePositions.Length);
-            if(!usedSpots.Contains(interactablePositions[r]) && SpotAvailable(interactablePositions[r]))
+            if(!usedSpots.Contains(interactablePositions[r]) /*&& SpotAvailable(interactablePositions[r])*/)
             {
                 int x = 0; //iterations of while loop
                 int l; //random num for spawn chance
@@ -95,7 +95,8 @@ public class WildernessMap : MonoBehaviour
         {
             if (obj != null)
             {
-                Destroy(obj);
+                if(obj.GetComponent<Forgeable>()) obj.SetActive(false);
+                else Destroy(obj);
             }
         }
         currentInteractables.Clear();

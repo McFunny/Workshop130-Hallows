@@ -242,6 +242,8 @@ public class WaterGunBehavior : ToolBehavior
 
         ParticleSystem[] particles = HandItemManager.Instance.waterGun.GetComponentsInChildren<ParticleSystem>();
 
+        PlayerInteraction.Instance.ToolUseToggle(true);
+
         for (int i = 0; i < bulletCount; i++)
         {
             if(HandItemManager.Instance.GetCurrentType() != ToolType.WaterGun) continue;
@@ -286,6 +288,8 @@ public class WaterGunBehavior : ToolBehavior
         usingPrimary = false;
         shootingGunCoroutine = null;
         if(bulletCount > 1 && !freeMultishotting) PlayerMovement.restrictMovementTokens--;
+
+        PlayerInteraction.Instance.ToolUseToggle(false);
     }
 
     public Direction GetDirection()

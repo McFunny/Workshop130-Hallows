@@ -20,6 +20,9 @@ public class TutorialNPC : NPC, ITalkable
         {
             goneAtStart = false;
             TimeManager.Instance.stopTime = true;
+            CabinFog f = FindObjectOfType<CabinFog>();
+            if(f) Destroy(f.gameObject);
+            AmbientAudioManager.Instance.playMusicAtStart = false;
         }
     }
 
@@ -38,6 +41,7 @@ public class TutorialNPC : NPC, ITalkable
         Talk();
         interactSuccessful = true;
         finishedTalking = true;
+        QuestManager.Instance.AddQuest(mainQuest);
 
     }
 
@@ -66,17 +70,22 @@ public class TutorialNPC : NPC, ITalkable
         Talk();
         finishedTalking = true;
         shotAt = true;
+        QuestManager.Instance.AddQuest(mainQuest);
     }
 
     IEnumerator Despawn()
     {
-        if(goneAtStart) Destroy(this.gameObject);
+        if(goneAtStart)
+        {
+            Destroy(this.gameObject);
+        }
         else
         {
-            QuestManager.Instance.AddQuest(mainQuest);
+            //QuestManager.Instance.AddQuest(mainQuest);
             FadeScreen.coverScreen = true;
             PlayerMovement.restrictMovementTokens++;
             TimeManager.Instance.stopTime = false;
+            AmbientAudioManager.Instance.BeginPlayingMusic();
             yield return new WaitForSeconds(1.5f);
             PlayerMovement.restrictMovementTokens--;
             FadeScreen.coverScreen = false;

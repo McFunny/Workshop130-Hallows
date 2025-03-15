@@ -314,7 +314,7 @@ public class FeralHareTest : CreatureBehaviorScript
         effectsHandler.MiscSound();
         diggingTimeLeft = 3;
         yield return new WaitUntil(() => diggingTimeLeft <= 0 || playerInSightRange);
-        if (!playerInSightRange)
+        if (!playerInSightRange && StructureManager.Instance.CheckTile(newBurrowPos) != new Vector3(0,0,0))
         {
             StructureManager.Instance.SpawnStructure(burrow, newBurrowPos);
         }
@@ -483,7 +483,12 @@ public class FeralHareTest : CreatureBehaviorScript
         yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile == null || foundFarmTile.crop == null || currentState != CreatureState.Eat);
         if (inEatingRange && foundFarmTile && foundFarmTile.crop && currentState == CreatureState.Eat)
         {
-            if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20)
+            if(foundFarmTile.crop.behavior && foundFarmTile.harvestable) 
+            {
+                foundFarmTile.crop.behavior.OnConsumed(this);
+                foundFarmTile.CropDestroyed();
+            }
+            else if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20)
             {
                 Vector3 pos = foundFarmTile.transform.position;
                 Destroy(foundFarmTile.gameObject);

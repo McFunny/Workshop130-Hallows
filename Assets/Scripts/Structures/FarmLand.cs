@@ -39,6 +39,8 @@ public class FarmLand : StructureBehaviorScript
 
     public TextMeshProUGUI harvestText;
     [SerializeField] private CropNeedsUI cropNeedsUI;
+
+    float oldMaxHealth;
     // Start is called before the first frame update
     void Awake()
     {
@@ -51,6 +53,8 @@ public class FarmLand : StructureBehaviorScript
 
         //tutorial
         if(Tutorial.Instance && !isWeed) Tutorial.Instance.TilledGround();
+
+        oldMaxHealth = maxHealth;
     }
 
     void Start()
@@ -167,16 +171,28 @@ public class FarmLand : StructureBehaviorScript
 
                     if(crop.behavior)
                     {
-                        crop.behavior.CropBonusYield(this, out int bonusYield);
+                        crop.behavior.CropBonusYield(this, out int bonusYield, out int secondaryBonusYield);
                         totalCropYield += bonusYield;
                         print(bonusYield);
+
+                        for (int i = 0; i < secondaryBonusYield; i++) //Secondary crop yield
+                        {
+                            if(!crop.cropSecondaryYield) continue;
+                            droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSecondaryYield);
+                            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+                            Vector3 dir3 = Random.onUnitSphere;
+                            dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+                            itemRB = droppedItem.GetComponent<Rigidbody>();
+                            itemRB.AddForce(dir3 * 20);
+                            itemRB.AddForce(Vector3.up * 50);
+                        }
                     }
 
                     int r = Random.Range(0, crop.cropYieldAmount + crop.cropYieldVariance);
-                    if(totalCropYield == 0) r = 1;
                     totalCropYield += r;
                     if (totalCropYield <= 0) totalCropYield = 1;
-                    for (int i = 0; i < totalCropYield; i++)
+                    for (int i = 0; i < totalCropYield; i++) //Primary crop yield
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
                         droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
@@ -190,9 +206,10 @@ public class FarmLand : StructureBehaviorScript
                         QuestManager.Instance.CropHarvested(crop);//Increase progress per crop yield
                     }
 
+
                     r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
                     if(r == 0 && Random.Range(0,10) >= 6) r = 1;
-                    for (int i = 0; i < r; i++)
+                    for (int i = 0; i < r; i++) //Seed yield
                     {
                         if(crop.cropSeed && plantStress == 0 && crop.seedYieldAmount > 0)
                         {
@@ -205,9 +222,7 @@ public class FarmLand : StructureBehaviorScript
                             itemRB.AddForce(dir3 * 20);
                             itemRB.AddForce(Vector3.up * 50);
                         }
-                        
                     }
-                    
                 }
                 crop.amountHarvested++;
             }
@@ -251,7 +266,7 @@ public class FarmLand : StructureBehaviorScript
             StartCoroutine(DigPlant());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && nutrients.waterLevel < 10)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && (nutrients.waterLevel < 10 || onFire))
         {
             WaterCrops();
             success = true;
@@ -279,7 +294,7 @@ public class FarmLand : StructureBehaviorScript
         hoursSpent++;
         if(crop.behavior) crop.behavior.OnHour(this);
 
-        if(hoursSpent >= crop.hoursPerStage || StructureManager.Instance.ignoreCropGrowthTime)
+        if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
             if(growthStage >= crop.growthStages && !isWeed)
             {
@@ -337,6 +352,9 @@ public class FarmLand : StructureBehaviorScript
         if(audioHandler != null) audioHandler.PlayRandomSound(audioHandler.miscSounds1);
         wealthValue = 5;
         ignoreNextGrowthMoment = true;
+        maxHealth = oldMaxHealth;
+
+        if(crop.behavior) crop.behavior.OnPlanted(this);
 
         if(Tutorial.Instance) Tutorial.Instance.PlantedSeed();
     }
@@ -393,7 +411,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(harvestText)
         {
-            if(harvestable) harvestText.text = "Interact To Harvest";
+            if(harvestable && !rotted) harvestText.text = "Interact To Harvest";
             else harvestText.text = "";
         }
     }
@@ -465,6 +483,8 @@ public class FarmLand : StructureBehaviorScript
         {
             crop.behavior.OnCropDestroyed(this);
         }
+
+        if(crop && !rotted) crop.amountKilled++;
 
         crop = null;
         harvestable = false;
@@ -543,6 +563,8 @@ public class FarmLand : StructureBehaviorScript
         if(isFrosted) FrostDamage();
         if(onFire) Extinguish();
 
+        if(crop && crop.behavior) crop.behavior.OnWatered(this);
+
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 
         if(Tutorial.Instance && !isWeed) Tutorial.Instance.WateredSeed();
@@ -582,13 +604,7 @@ public class FarmLand : StructureBehaviorScript
         TakeDamage(5);
         ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
         if(isWeed) return;
-        plantStress++;
-        growthImpeded.Play();
-
-        if(plantStress > crop.stressLimit && !isWeed)
-        {
-            CropDied();
-        }
+        TakeStressDamage();
     }
 
     public void RecieveFrost()
@@ -602,6 +618,18 @@ public class FarmLand : StructureBehaviorScript
             frost.transform.position = transform.position;
             frost.GetComponent<CropFrost>().afflictedTile = this;
             //spawn frost particle and assign it to this
+        }
+    }
+
+    public void TakeStressDamage()
+    {
+        if(!crop) return;
+        plantStress++;
+        growthImpeded.Play();
+
+        if(plantStress > crop.stressLimit && !isWeed)
+        {
+            CropDied();
         }
     }
 

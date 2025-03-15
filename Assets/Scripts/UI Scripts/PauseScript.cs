@@ -11,14 +11,18 @@ public class PauseScript : MonoBehaviour
     public static bool isPaused;
     bool isTransitioning = false;
     public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault, controlsDefault;
+    private SettingsValueManager settingsValueManager;
     public Button[] buttons;
     ControlManager controlManager;
     PlayerEffectsHandler pEffectsHandler;
+    public OpenWebsite openWebsite;
+    public ConfirmationBox confirmationBox;
     // Start is called before the first frame update
     void Awake()
     {
         isPaused = false;
         controlManager = FindFirstObjectByType<ControlManager>();
+        settingsValueManager = settingsCanvas.GetComponent<SettingsValueManager>();
     }
 
     private void OnEnable()
@@ -47,15 +51,22 @@ public class PauseScript : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
+
+            if(settingsCanvas.activeSelf || controlsObject.activeSelf || confirmationBox.gameObject.activeSelf)
+            {
+                openWebsite.canOpen = false;
+            }
+            else openWebsite.canOpen = true;
         }
         
 
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused)
         {
-            if(settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsDefault);
-            else if(controlsObject.activeSelf) EventSystem.current.SetSelectedGameObject(controlsDefault);
-            else EventSystem.current.SetSelectedGameObject(defaultObject);
-            print("Default Pause Object Selected");  
+            if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+            else if(controlsObject.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
+            else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
+            else{EventSystem.current.SetSelectedGameObject(defaultObject);}
+            print("Default Menu Object Selected");
         } 
     }
 
@@ -102,13 +113,51 @@ public class PauseScript : MonoBehaviour
         }
     }
 
+    public void OpenConfirmationBox(string message, Button b)
+    {
+        confirmationBox.messageText.text = message;
+        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+        confirmationBox.gameObject.SetActive(true);
+        confirmationBox.calledBy = b;
+        confirmationBox.yesButton.onClick.AddListener(YesPressed);
+        confirmationBox.noButton.onClick.AddListener(NoPressed);
+    }
+
+    private void YesPressed()
+    {
+        if(confirmationBox.calledBy == buttons[3]) //Main Menu
+        {
+            if(isTransitioning) return;
+            isTransitioning = true;
+            StartCoroutine(MainMenuTransition());
+            //SceneManager.LoadSceneAsync(0);
+        }
+
+        confirmationBox.gameObject.SetActive(false);
+        confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
+        confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
+        EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
+    }
+
+    private void NoPressed()
+    {
+        confirmationBox.gameObject.SetActive(false);
+        confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
+        confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
+        EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
+    }
+
     public void ResumeGame()
     {
         print("Resume Game Pressed");
+        if(confirmationBox.gameObject.activeSelf)
+        {
+            NoPressed();
+            return;
+        }
         if(settingsCanvas.activeSelf)
         {
-            settingsCanvas.SetActive(false);
-            EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
+            settingsValueManager.Back();
             return;
         }
         if(controlsObject.activeSelf)
@@ -123,10 +172,7 @@ public class PauseScript : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        if(isTransitioning) return;
-        isTransitioning = true;
-        StartCoroutine(MainMenuTransition());
-        //SceneManager.LoadSceneAsync(0);
+        OpenConfirmationBox("Are you sure? All progress since last daybreak will be lost.", buttons[3]);
     }
 
     IEnumerator MainMenuTransition()

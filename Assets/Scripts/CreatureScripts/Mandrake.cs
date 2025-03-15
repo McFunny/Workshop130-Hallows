@@ -238,11 +238,13 @@ public class Mandrake : CreatureBehaviorScript
         isMoving = false;
     }
 
-    public override void OnStun(float duration)
+    public override bool OnStun(float duration)
     {
+        if(currentState == CreatureState.Trapped) return false;
         StartCoroutine(Stun(duration));
         agent.destination = transform.position;
         anim.SetBool("IsRunning", false);
+        return true;
     }
 
     IEnumerator Stun(float duration)

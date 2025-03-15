@@ -25,6 +25,7 @@ public class InventoryItemData : ScriptableObject
 
     public float staminaValue = 0; //if higher than 0, restores stamina when eaten, and is therefore consumable
     public float bonusCompostValue = 0;
+    public InventoryItemData pickledForm;
 
     [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
     public List<string> itemInputsKBM;

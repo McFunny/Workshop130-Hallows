@@ -93,6 +93,7 @@ public class StructureManager : MonoBehaviour
     {
         if(TimeManager.Instance.isDay) return;
         float r;
+        int s = 0;
         for(int i = 0; i < allStructs.Count; i++)
         {
             if(allStructs[i] && allStructs[i].destructable)
@@ -105,9 +106,11 @@ public class StructureManager : MonoBehaviour
                 {
                     print("Deleting: " + allStructs[i]);
                     Destroy(allStructs[i].gameObject);
+                    s++;
                 }
             }
         }
+        print(s + " Structures were deleted");
     }
 
 #region TileCommands
@@ -560,7 +563,7 @@ public class StructureManager : MonoBehaviour
         if(weedSpots.Count == 0) return;
         foreach(Vector3 weedPos in weedSpots)
         {
-            if(Random.Range(0f,10f) > 9.5f)
+            if(Random.Range(0f,10f) > 9.7f)
             {
                 SpawnStructure(weedTile, weedPos);
                 break;

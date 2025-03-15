@@ -652,7 +652,7 @@ public class MistWalker : CreatureBehaviorScript
         }
     }
 
-    public override void OnStun(float duration)
+    public override bool OnStun(float duration)
     {
         if (currentState != CreatureState.Stun)
         {
@@ -661,7 +661,9 @@ public class MistWalker : CreatureBehaviorScript
             agent.ResetPath();
             anim.SetBool("IsWalking", false);
             anim.SetTrigger("IsRecoiling");
+            return true;
         }
+        return false;
     }
 
     private IEnumerator Stun(float duration)

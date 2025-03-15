@@ -26,9 +26,18 @@ public class ChestInventory : InventoryHolder , IInteractable
 
     private void Start()
     {
-        var chestSavedData = new ChestSaveData(primaryInventorySystem, transform.position, transform.rotation);
 
-        SaveLoad.CurrentSaveData.chestDictionary.Add(GetComponent<UniqueID>().ID, chestSavedData);
+        string chestID = GetComponent<UniqueID>().ID;
+
+        if (SaveLoad.CurrentSaveData.chestDictionary.ContainsKey(chestID))
+        {
+            var chestSavedData = new ChestSaveData(primaryInventorySystem, transform.position, transform.rotation);
+        }
+        else
+        {
+            var chestSavedData = new ChestSaveData(primaryInventorySystem, transform.position, transform.rotation);
+            SaveLoad.CurrentSaveData.chestDictionary.Add(chestID, chestSavedData);
+        }
     }
 
 
