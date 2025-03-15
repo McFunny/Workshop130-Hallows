@@ -1202,13 +1202,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.107
+  m_Volume: 0.09
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 105
   DopplerLevel: 0
   MinDistance: 1980.198
   MaxDistance: 2000
@@ -2148,6 +2148,7 @@ MonoBehaviour:
   catacombAmbience: []
   finaleTheme: {fileID: 8300000, guid: ed6675581b6ee584e892f9812ecad236, type: 3}
   bellTower: {fileID: 8300000, guid: 0b7f67cc2ca54644eade598edf5e0563, type: 3}
+  playMusicAtStart: 1
 --- !u!82 &4487365083115385320
 AudioSource:
   m_ObjectHideFlags: 0

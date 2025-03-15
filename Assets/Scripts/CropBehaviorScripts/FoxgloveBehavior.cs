@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FoxgloveBehavior : MonoBehaviour
+[CreateAssetMenu(fileName = "New Crop Behavior", menuName = "Crop Behavior/Foxglove")]
+public class FoxgloveBehavior : CropBehavior
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void OnConsumed(CreatureBehaviorScript creature)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        creature.TakeDamage(100);
     }
 }

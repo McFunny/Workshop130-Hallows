@@ -159,6 +159,7 @@ public class FeralHare : CreatureBehaviorScript
         yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile.crop == null);
         if(inEatingRange && foundFarmTile.crop != null)
         {
+            if(foundFarmTile.crop.behavior) foundFarmTile.crop.behavior.OnConsumed(this);
             foundFarmTile.CropDestroyed();
             foundFarmTile = null;
             inEatingRange = false;

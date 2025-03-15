@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: -256722766, guid: 3e14c572fde42b24889b033cd54aee28, type: 3}
   rottedImage: {fileID: 1788057535, guid: 3e14c572fde42b24889b033cd54aee28, type: 3}
   cropYield: {fileID: 11400000, guid: 7eb0e08c0201cb148be1622895f5c1fd, type: 2}
+  cropSecondaryYield: {fileID: 0}
   cropSeed: {fileID: 11400000, guid: f29bb69da0fd7b24ea926a45c638e197, type: 2}
   cropYieldAmount: 1
   cropYieldVariance: 0
@@ -32,9 +33,9 @@ MonoBehaviour:
   ichorIntake: 2
   terraIntake: -0.25
   gloamIntake: 0.5
-  stressLimit: 1
+  stressLimit: 0
   creaturePrefab: {fileID: 0}
-  behavior: {fileID: 0}
+  behavior: {fileID: 11400000, guid: 389b844fd720c2149bfbae32f76d4b53, type: 2}
   emitsGlow: 0
   amountHarvested: 0
   amountKilled: 0

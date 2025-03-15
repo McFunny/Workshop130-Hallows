@@ -414,7 +414,7 @@ public class PlayerInteraction : MonoBehaviour
         if(currentMoney > 0) currentMoney = currentMoney/2;
         TimeManager.Instance.GameOver(); //Has to be last, this is where it saves
         print("Time GameOver Complete");
-        //Potentially a spot where some structures get destroyed
+
         yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
