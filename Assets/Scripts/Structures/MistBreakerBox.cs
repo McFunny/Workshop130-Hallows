@@ -19,7 +19,9 @@ public class MistBreakerBox : StructureBehaviorScript
     {
         base.Start();
         //fire.SetActive(false);
+        if(absentFromGrid) return;
         NightSpawningManager.Instance.boxPlaced = true;
+        GameSaveData.Instance.playerHasBox = true;
     }
 
     void Update()
@@ -29,10 +31,10 @@ public class MistBreakerBox : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        return;
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
         if (addedSuccessfully)
         {
+            if(absentFromGrid) GameSaveData.Instance.playerHasBox = true;
             Destroy(this.gameObject);
         }
     }
@@ -51,7 +53,11 @@ public class MistBreakerBox : StructureBehaviorScript
     void OnDestroy()
     {
         base.OnDestroy();
-        if(TimeManager.Instance.currentHour != 20) NightSpawningManager.Instance.boxPlaced = false;
-        //if (!gameObject.scene.isLoaded) return; 
+        if(!gameObject.scene.isLoaded) return;
+        if(TimeManager.Instance.currentHour != 20)
+        {
+            NightSpawningManager.Instance.boxPlaced = false;
+            GameSaveData.Instance.playerHasBox = false;
+        }
     }
 }
