@@ -32,6 +32,7 @@ public class PlayerInteraction : MonoBehaviour
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
     bool sentLowStaminaMessage = false;
+    public bool invincible = false;
 
     public float waterHeld = 15; //for watering can
     [HideInInspector] public readonly float maxWaterHeld = 15;
@@ -306,7 +307,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
-        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance)
+        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible)
         {
             print("Damage negated! Stamina is : " + stamina);
             return;
