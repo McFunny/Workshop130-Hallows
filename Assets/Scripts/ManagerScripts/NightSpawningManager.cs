@@ -377,6 +377,27 @@ public class NightSpawningManager : MonoBehaviour
         AmbientAudioManager.Instance.ChangeMusic();
     }
 
+    public void FinaleComplete()
+    {
+        StartCoroutine(GameCompleted());
+        foreach(CreatureBehaviorScript c in allCreatures)
+        {
+            c.TakeDamage(999);
+        }
+    }
+
+    IEnumerator GameCompleted()
+    {
+        TimeManager.Instance.stopTime = true;
+        PlayerInteraction.Instance.invincible = true;
+        yield return new WaitForSeconds(5);
+        FadeScreen.coverScreen = true;
+        PlayerMovement.restrictMovementTokens++;
+        //AmbientAudioManager.Instance.FadeMusic();
+        yield return new WaitForSeconds(3);
+        //Credits screen
+    }
+
 
     /*void ChooseCreatureTypesToSpawn()
     {

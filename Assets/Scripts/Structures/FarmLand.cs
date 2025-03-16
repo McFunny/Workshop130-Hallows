@@ -332,6 +332,8 @@ public class FarmLand : StructureBehaviorScript
                         growthComplete.Stop();
                         growthComplete.Play();
                     }
+
+                    if(crop.behavior) crop.behavior.OnFullyGrown(this);
                 }
                 else harvestable = false;
                 SpriteChange();

@@ -9,6 +9,7 @@ public class CropBehavior : ScriptableObject
         return false;
     }
     public virtual void OnHour(FarmLand tile){}
+    public virtual void OnFullyGrown(FarmLand tile){}
     public virtual bool DestroyOnHarvest()
     {
         return true;
