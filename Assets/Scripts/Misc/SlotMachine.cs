@@ -15,20 +15,20 @@ public class SlotMachine : MonoBehaviour,IInteractable
     public int SlotIndex2;
     public int SlotIndex3;
 
-    public int moneySpent = 0;
+    private int moneySpent = 0;
     public int cost = 50;
 
     public float speed, timePerSlot;
 
     public InventoryItemData bullet, mints;
 
-    public List<InventoryItemData> randomPlant = new List<InventoryItemData>();
+    private List<InventoryItemData> randomPlant = new List<InventoryItemData>();
     public List<InventoryItemData> bannedCrops = new List<InventoryItemData>();
     public InventoryItemData carrotSeed;
 
     public Transform itemCollection;
 
-    public GameObject droppedItem;
+    private GameObject droppedItem;
 
     private GameObject pyreflyEnemy;
     public GameObject pyreflyPrefab;
@@ -43,6 +43,10 @@ public class SlotMachine : MonoBehaviour,IInteractable
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
 
+    private AudioSource Slot1Source, Slot2Source, Slot3Source, audiosource;
+
+
+
 
 
     public UnityAction<IInteractable> OnInteractionComplete { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
@@ -50,6 +54,19 @@ public class SlotMachine : MonoBehaviour,IInteractable
     void Start()
     {
         animator = GetComponent<Animator>();
+        TimeManager.OnHourlyUpdate += FixMachine;
+        audiosource = GetComponent<AudioSource>();
+        Slot1Source = Slot1.GetComponent<AudioSource>();
+        Slot2Source = Slot2.GetComponent<AudioSource>();
+        Slot3Source = Slot3.GetComponent<AudioSource>();
+    }
+
+    private void FixMachine()
+    {
+        if (TimeManager.Instance.currentHour == 8)
+        {
+            broken = false;
+        }
     }
 
     // Update is called once per frame
@@ -270,18 +287,26 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
         IEnumerator RotateSlots()
     {
+        audiosource.Play();
         animator.SetTrigger("OpenEyes");
         float animLength = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(animLength);
+        audiosource.Stop();
+        Slot1Source.Play();
+        Slot2Source.Play();
+        Slot3Source.Play();
         StartCoroutine(SpinSlot(Slot1.transform, timePerSlot)); 
         StartCoroutine(SpinSlot(Slot2.transform, timePerSlot*2)); 
         StartCoroutine(SpinSlot(Slot3.transform, timePerSlot*3));
         yield return new WaitForSeconds(timePerSlot);
-        Slot1.transform.rotation = Quaternion.Euler(0, 0, SlotIndex1 * 60f);
+        Slot1.transform.localRotation = Quaternion.Euler(0, 0, SlotIndex1 * 60f);
+        Slot1Source.Stop();
         yield return new WaitForSeconds(timePerSlot);
-        Slot2.transform.rotation = Quaternion.Euler(0, 0, SlotIndex2 * 60f);
+        Slot2.transform.localRotation = Quaternion.Euler(0, 0, SlotIndex2 * 60f);
+        Slot2Source.Stop();
         yield return new WaitForSeconds(timePerSlot);
-        Slot3.transform.rotation = Quaternion.Euler(0, 0, SlotIndex3 * 60f);
+        Slot3.transform.localRotation = Quaternion.Euler(0, 0, SlotIndex3 * 60f);
+        Slot3Source.Stop();
     }
 
     IEnumerator SpinSlot(Transform slot, float duration)
@@ -308,9 +333,14 @@ public class SlotMachine : MonoBehaviour,IInteractable
                 interactSuccessful = true;
             }
         }
+        else if (broken)
+        {
+            animator.SetTrigger("Broken");
+            interactSuccessful = true;
+        }
     }
 
-    public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
+        public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         interactSuccessful = false;
     }
@@ -368,5 +398,33 @@ public class SlotMachine : MonoBehaviour,IInteractable
     {
         stayWithItem = false;
     }
+
+    public SlotMachineSaveData ExportSaveData()
+    {
+
+        return new SlotMachineSaveData
+        {
+            _moneySpent = moneySpent,
+            _puzzleSolved = puzzleSolved,
+            _broken = broken
+        };
+    }
+
+    public void ImportSaveData(SlotMachineSaveData data)
+    {
+        puzzleSolved = data._puzzleSolved;
+        moneySpent = data._moneySpent;
+        broken = data._broken;
+    }
+
+
+
 }
 
+[System.Serializable]
+public struct SlotMachineSaveData
+{
+    public int _moneySpent;
+    public bool _puzzleSolved;
+    public bool _broken;
+}
