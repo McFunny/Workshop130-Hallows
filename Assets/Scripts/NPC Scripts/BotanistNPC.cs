@@ -10,7 +10,7 @@ public class BotanistNPC : NPC, ITalkable
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
     public InventoryItemData[] commonSeeds, rareSeeds, fertalizers;
-    public float[] itemWeight; //likelyness of being sold, from 0 - 1
+    //public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
