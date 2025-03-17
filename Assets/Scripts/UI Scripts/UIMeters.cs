@@ -9,15 +9,16 @@ public class UIMeters : MonoBehaviour
     public Slider waterBar, staminaBar;
     public Image waterFill, staminaFill;
     public GameObject leftTextbox, rightTextbox;
-    public Color c_stamina, c_damage;
+    public Color c_stamina, c_water, c_damage;
     PlayerInteraction p;
-    float currentStamina;
+    float currentStamina, currentWater;
     ControlManager controlManager;
     public TextMeshProUGUI leftText, rightText;
     void Start()
     {
         p = PlayerInteraction.Instance;
         currentStamina = p.stamina;
+        currentWater = p.waterHeld;
         controlManager = FindFirstObjectByType<ControlManager>();
 
         rightTextbox.SetActive(false);
@@ -54,6 +55,12 @@ public class UIMeters : MonoBehaviour
             StartCoroutine(PlayerDamaged());
             currentStamina = p.stamina;
         }
+
+        if(p.waterHeld < currentWater)
+        {
+            StartCoroutine(WaterLowered());
+            currentWater = p.waterHeld;
+        }
     }
 
     IEnumerator PlayerDamaged()
@@ -64,6 +71,20 @@ public class UIMeters : MonoBehaviour
 
             yield return new WaitForSeconds(.1f);
             staminaFill.color = c_stamina;
+ 
+            yield return new WaitForSeconds(.1f);
+            
+        }
+    }
+
+    IEnumerator WaterLowered()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            waterFill.color = c_damage;
+
+            yield return new WaitForSeconds(.1f);
+            waterFill.color = c_water;
  
             yield return new WaitForSeconds(.1f);
             
