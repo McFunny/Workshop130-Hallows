@@ -15,29 +15,37 @@ public class SlotMachine : MonoBehaviour,IInteractable
     public int SlotIndex2;
     public int SlotIndex3;
 
-    public int moneySpent = 0;
+    private int moneySpent = 0;
     public int cost = 50;
 
     public float speed, timePerSlot;
 
-    public InventoryItemData bullet;
+    public InventoryItemData bullet, mints;
 
-    public List<InventoryItemData> randomPlant = new List<InventoryItemData>();
+    private List<InventoryItemData> randomPlant = new List<InventoryItemData>();
     public List<InventoryItemData> bannedCrops = new List<InventoryItemData>();
     public InventoryItemData carrotSeed;
 
     public Transform itemCollection;
 
-    public GameObject droppedItem;
+    private GameObject droppedItem;
 
     private GameObject pyreflyEnemy;
     public GameObject pyreflyPrefab;
 
-    public bool coroutineRunning = false, broken = false, puzzleSolved = false;
+    private Animator animator;
+
+    public bool coroutineRunning = false, broken = false, puzzleSolved = false, stayWithItem = false;
+
+    public bool DebugMode = false;
 
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
+
+    private AudioSource Slot1Source, Slot2Source, Slot3Source, audiosource;
+
+
 
 
 
@@ -45,13 +53,26 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
+        TimeManager.OnHourlyUpdate += FixMachine;
+        audiosource = GetComponent<AudioSource>();
+        Slot1Source = Slot1.GetComponent<AudioSource>();
+        Slot2Source = Slot2.GetComponent<AudioSource>();
+        Slot3Source = Slot3.GetComponent<AudioSource>();
+    }
+
+    private void FixMachine()
+    {
+        if (TimeManager.Instance.currentHour == 8)
+        {
+            broken = false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-      if (Input.GetKeyUp(KeyCode.G) && !coroutineRunning)
+     /* if (Input.GetKeyUp(KeyCode.G) && !coroutineRunning)
         {
             if (!broken)
             {
@@ -62,7 +83,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
                     StartCoroutine(LetsGamble());
                 }
             }
-        }
+        }*/
     }
 
     IEnumerator LetsGamble()
@@ -74,8 +95,22 @@ public class SlotMachine : MonoBehaviour,IInteractable
             SlotIndex2 = 1;
             SlotIndex3 = 1;
             yield return StartCoroutine(RotateSlots());
-            Reward();
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(Reward());
             coroutineRunning = false;
+        }
+        else if (DebugMode)
+        {
+            SlotIndex1 = 2;
+            SlotIndex2 = 2;
+            SlotIndex3 = 2;
+            yield return StartCoroutine(RotateSlots());
+
+            yield return new WaitForSeconds(0.5f);
+
+            StartCoroutine(Reward());
+            coroutineRunning = false;
+
         }
         else
         {
@@ -89,15 +124,16 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
             yield return StartCoroutine(RotateSlots());
 
-            yield return new WaitForSeconds(r);
+            yield return new WaitForSeconds(0.5f);
 
-            Reward();
+            StartCoroutine(Reward());
             coroutineRunning = false;
         }
     }
 
-    private void Reward()
+    IEnumerator Reward()
     {
+        float animLength;
         if (SlotIndex1 == SlotIndex2 && SlotIndex2 == SlotIndex3)
         {
             switch (SlotIndex1)
@@ -107,66 +143,170 @@ public class SlotMachine : MonoBehaviour,IInteractable
                     {
                         puzzleSolved = true;
                         //play sound effect
+                        animator.SetTrigger("OpenMouth");
+                        animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                        yield return new WaitForSeconds(animLength);
+                        mints.maxStackSize = (cost * 5);
+                        droppedItem = ItemPoolManager.Instance.GrabItem(mints);
+                        droppedItem.transform.position = itemCollection.position;
+                        stayWithItem = true;
+                        animator.SetTrigger("CloseMouth");
+                        animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                        while (stayWithItem)
+                        {
+                            droppedItem.transform.position = itemCollection.position;
+                            yield return null;
+                        }
+                        yield return new WaitForSeconds(animLength);
                     }
-                    else PlayerInteraction.Instance.currentMoney += (cost * 4);
+                    else
+                    {
+                        animator.SetTrigger("OpenMouth");
+                        animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                        yield return new WaitForSeconds(animLength);
+                        mints.maxStackSize = (cost * 5);
+                        droppedItem = ItemPoolManager.Instance.GrabItem(mints);
+                        droppedItem.transform.position = itemCollection.position;
+                        stayWithItem = true;
+                        animator.SetTrigger("CloseMouth");
+                        animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                        while (stayWithItem)
+                        {
+                            droppedItem.transform.position = itemCollection.position;
+                            yield return null;
+                        }
+                        yield return new WaitForSeconds(animLength);
+
+                    }
                     break;
                 case 2:
 
-                    PlayerInteraction.Instance.currentMoney += (cost * 2);
+                    animator.SetTrigger("OpenMouth");
+                    animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                    yield return new WaitForSeconds(animLength);
+                    mints.maxStackSize = (cost * 2);
+                    droppedItem = ItemPoolManager.Instance.GrabItem(mints);
+                    droppedItem.transform.position = itemCollection.position;
+                    stayWithItem = true;
+                    animator.SetTrigger("CloseMouth");
+                    animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                    while (stayWithItem)
+                    {
+                        droppedItem.transform.position = itemCollection.position;
+                        yield return null;
+                    }
+                    yield return new WaitForSeconds(animLength);
                     break;
                 case 3:
-                    
+                    animator.SetTrigger("OpenMouth");
+                    animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                    yield return new WaitForSeconds(animLength);
                     droppedItem = ItemPoolManager.Instance.GrabItem(bullet);
                     droppedItem.transform.position = itemCollection.position;
+                    stayWithItem = true;
+                    animator.SetTrigger("CloseMouth");
+                    animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                    while (stayWithItem)
+                    {
+                        droppedItem.transform.position = itemCollection.position;
+                        yield return null;
+                    }
+                    yield return new WaitForSeconds(animLength);
+
                     break;
                 case 4:
                     if (puzzleSolved)
                     {
-                        StartCoroutine(SummonPyreFly());
+                        yield return StartCoroutine(SummonPyreFly());
                         broken = true;
                     }
-                    StartCoroutine(SummonPyreFly());
-                    //play broken sound effect
+                    else 
+                    {
+                        yield return StartCoroutine(SummonPyreFly());
+
+                        //play broken sound effect
+                    }
                     break;
                 case 5:
                     List<InventoryItemData> randomPlant = Database.Instance.GetAllCrops().Cast<InventoryItemData>().ToList();
                     int r = Random.Range(1, randomPlant.Count);
                     for (int i = 0; i < bannedCrops.Count; i++)
-                        {
+                    {
                         if (randomPlant[r] == bannedCrops[i])
                         {
                             randomPlant[r] = carrotSeed;
                         }
-                        }
+                    }
+                    animator.SetTrigger("OpenMouth");
+                    animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                    yield return new WaitForSeconds(animLength);
                     droppedItem = ItemPoolManager.Instance.GrabItem(randomPlant[r]);
                     droppedItem.transform.position = itemCollection.position;
+                    stayWithItem = true;
+                    animator.SetTrigger("CloseMouth");
+                    animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+                    while (stayWithItem)
+                    {
+                        droppedItem.transform.position = itemCollection.position;
+                        yield return null;
+                    }
+                    yield return new WaitForSeconds(animLength);
                     break;
                 case 6:
-                    StartCoroutine(SummonPyreFly());
+                    yield return StartCoroutine(SummonPyreFly());
                     break;
             }
         }
+        else
+        {
+            animator.SetTrigger("CloseEyes");
+            animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+            yield return new WaitForSeconds(animLength);
+        }
     }
 
-    IEnumerator SummonPyreFly()
+        IEnumerator SummonPyreFly()
     {
-        pyreflyEnemy = Instantiate(pyreflyPrefab, itemCollection.position, itemCollection.rotation);
-        yield return new WaitForSeconds(0.5f);
+        float animLength;
+        animator.SetTrigger("OpenMouth");
+        animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(animLength);
+        pyreflyEnemy = Instantiate(pyreflyPrefab, new Vector3(itemCollection.position.x, itemCollection.position.y - 1f, itemCollection.position.z), itemCollection.rotation);
+        stayWithItem = true;
+        animator.SetTrigger("CloseMouth");
+        animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+        while (stayWithItem)
+        {
+            pyreflyEnemy.transform.position = new Vector3 (itemCollection.position.x, itemCollection.position.y - 1f, itemCollection.position.z);
+            yield return null;
+        }
+        yield return new WaitForSeconds(animLength);
         PyreFly pyreFlyScript = pyreflyEnemy.GetComponent<PyreFly>();
         pyreFlyScript.OnDestroy();
     }
 
         IEnumerator RotateSlots()
     {
+        audiosource.Play();
+        animator.SetTrigger("OpenEyes");
+        float animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(animLength);
+        audiosource.Stop();
+        Slot1Source.Play();
+        Slot2Source.Play();
+        Slot3Source.Play();
         StartCoroutine(SpinSlot(Slot1.transform, timePerSlot)); 
         StartCoroutine(SpinSlot(Slot2.transform, timePerSlot*2)); 
         StartCoroutine(SpinSlot(Slot3.transform, timePerSlot*3));
         yield return new WaitForSeconds(timePerSlot);
-        Slot1.transform.rotation = Quaternion.Euler(0, 0, SlotIndex1 * 60f);
+        Slot1.transform.localRotation = Quaternion.Euler(0, 0, SlotIndex1 * 60f);
+        Slot1Source.Stop();
         yield return new WaitForSeconds(timePerSlot);
-        Slot2.transform.rotation = Quaternion.Euler(0, 0, SlotIndex2 * 60f);
+        Slot2.transform.localRotation = Quaternion.Euler(0, 0, SlotIndex2 * 60f);
+        Slot2Source.Stop();
         yield return new WaitForSeconds(timePerSlot);
-        Slot3.transform.rotation = Quaternion.Euler(0, 0, SlotIndex3 * 60f);
+        Slot3.transform.localRotation = Quaternion.Euler(0, 0, SlotIndex3 * 60f);
+        Slot3Source.Stop();
     }
 
     IEnumerator SpinSlot(Transform slot, float duration)
@@ -193,9 +333,14 @@ public class SlotMachine : MonoBehaviour,IInteractable
                 interactSuccessful = true;
             }
         }
+        else if (broken)
+        {
+            animator.SetTrigger("Broken");
+            interactSuccessful = true;
+        }
     }
 
-    public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
+        public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         interactSuccessful = false;
     }
@@ -248,5 +393,38 @@ public class SlotMachine : MonoBehaviour,IInteractable
             while (power < 1.9f && highlightEnabled);
         }
     }
+
+    public void SetStayWithItemFalse()
+    {
+        stayWithItem = false;
+    }
+
+    public SlotMachineSaveData ExportSaveData()
+    {
+
+        return new SlotMachineSaveData
+        {
+            _moneySpent = moneySpent,
+            _puzzleSolved = puzzleSolved,
+            _broken = broken
+        };
+    }
+
+    public void ImportSaveData(SlotMachineSaveData data)
+    {
+        puzzleSolved = data._puzzleSolved;
+        moneySpent = data._moneySpent;
+        broken = data._broken;
+    }
+
+
+
 }
 
+[System.Serializable]
+public struct SlotMachineSaveData
+{
+    public int _moneySpent;
+    public bool _puzzleSolved;
+    public bool _broken;
+}

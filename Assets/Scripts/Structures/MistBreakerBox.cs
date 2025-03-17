@@ -41,7 +41,7 @@ public class MistBreakerBox : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(TimeManager.Instance.currentHour == 20)
+        if(TimeManager.Instance.currentHour == 20 && !absentFromGrid)
         {
             clearTileOnDestroy = false;
             FarmLand script = Instantiate(cropTile, transform.position, Quaternion.identity).GetComponent<FarmLand>();
@@ -54,7 +54,7 @@ public class MistBreakerBox : StructureBehaviorScript
     {
         base.OnDestroy();
         if(!gameObject.scene.isLoaded) return;
-        if(TimeManager.Instance.currentHour != 20)
+        if(TimeManager.Instance.currentHour != 20 && !absentFromGrid)
         {
             NightSpawningManager.Instance.boxPlaced = false;
             GameSaveData.Instance.playerHasBox = false;
