@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DesertRoseBehavior : MonoBehaviour
+[CreateAssetMenu(fileName = "New Crop Behavior", menuName = "Crop Behavior/DesertRose")]
+public class DesertRoseBehavior : CropBehavior
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void OnWatered(FarmLand tile)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        tile.TakeStressDamage();
     }
 }

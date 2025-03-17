@@ -7,7 +7,7 @@ public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager Instance;
 
-    public MoneyPuzzle moneyPuzzle;
+    public SlotMachine slotMachinePuzzle;
     public RotatingPillarManager pillarPuzzle;
     public BrazierPuzzleManager brazierPuzzle;
     public WaterPuzzleManager waterPuzzle;
@@ -39,7 +39,7 @@ public class PuzzleManager : MonoBehaviour
 
     public void CheckToSeeIfPuzzlesAreComplete()
     {
-        if (moneyPuzzle.donationComplete && pillarPuzzle.rotatingPillarPuzzleSolved
+        if (slotMachinePuzzle.puzzleSolved && pillarPuzzle.rotatingPillarPuzzleSolved
             && brazierPuzzle.brazierPuzzleSolved && waterPuzzle.waterPuzzleSolved)
         {
             allPuzzlesSolved = true;
@@ -63,7 +63,7 @@ public class PuzzleManager : MonoBehaviour
     {
         return new PuzzleManagerSaveData
         {
-            moneyPuzzleCompleted = moneyPuzzle.donationComplete,
+            slotMachineSaveData = slotMachinePuzzle.ExportSaveData(),
             waterPuzzleData = waterPuzzle.GetPuzzleData(),
             rotatingPuzzleData = pillarPuzzle.ExportSaveData(),
             brazierPuzzleData = brazierPuzzle.ExportSaveData()
@@ -72,7 +72,7 @@ public class PuzzleManager : MonoBehaviour
 
     public void LoadFromData(PuzzleManagerSaveData data)
     {
-        moneyPuzzle.donationComplete = data.moneyPuzzleCompleted;
+        slotMachinePuzzle.ImportSaveData(data.slotMachineSaveData);
         waterPuzzle.LoadFromData(data.waterPuzzleData);
         pillarPuzzle.ImportSaveData(data.rotatingPuzzleData);
         brazierPuzzle.ImportSaveData(data.brazierPuzzleData);
@@ -83,7 +83,7 @@ public class PuzzleManager : MonoBehaviour
 [System.Serializable]
 public struct PuzzleManagerSaveData
 {
-    public bool moneyPuzzleCompleted;
+    public SlotMachineSaveData slotMachineSaveData;
     public WaterPuzzleData waterPuzzleData;
     public RotatingPuzzleSaveData rotatingPuzzleData;
     public BrazierPuzzleSaveData brazierPuzzleData;

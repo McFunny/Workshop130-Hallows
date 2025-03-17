@@ -144,8 +144,8 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         TimeManager.OnHourlyUpdate -= HourPassed;
         if(!gameObject.scene.isLoaded) return;
-        print("Destroyed");
-        if(clearTileOnDestroy && structData)
+        //print("Destroyed");
+        if(clearTileOnDestroy && structData && !absentFromGrid)
         {
             if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
             else StructureManager.Instance.ClearLargeTile(transform.position);

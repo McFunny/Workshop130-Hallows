@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GloamCabbageBehavior : MonoBehaviour
+[CreateAssetMenu(fileName = "New Crop Behavior", menuName = "Crop Behavior/GloamCabbage")]
+public class GloamCabbageBehavior : CropBehavior
 {
-    // Start is called before the first frame update
-    void Start()
+    public int newMaxHealth = 25;
+    public override void OnPlanted(FarmLand tile)
     {
-        
+        tile.maxHealth = newMaxHealth;
+        tile.health = tile.maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnHour(FarmLand tile)
     {
-        
+        tile.maxHealth = newMaxHealth;
+        tile.health = tile.maxHealth;
     }
 }
