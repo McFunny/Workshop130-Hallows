@@ -120,6 +120,7 @@ public class CodexRework : MonoBehaviour
         {
             ClearCodex();
             //TimeManager.Instance.stopTime = false;
+            EventSystem.current.SetSelectedGameObject(null);
             Time.timeScale = 1;
         }
         else
@@ -417,12 +418,11 @@ public class CodexRework : MonoBehaviour
                 if(!CurrentCategory[i].unlocked) {continue;}
                 
                 var tempButton = Instantiate(horizontalEntryButton, horizontalContentObject.transform, worldPositionStays:false);
-                var button = tempButton.gameObject.transform.GetChild(0).gameObject;
-                var tempName = tempButton.gameObject.transform.GetChild(1).gameObject;
+                var tempName = tempButton.gameObject.transform.GetChild(0).gameObject;
                 var tempID = tempButton.GetComponent<CodexButtonID>();
                 var tempText = tempName.GetComponent<TextMeshProUGUI>();
 
-                button.name = "HorizontalButton" + i;
+                tempButton.name = "HorizontalButton" + i;
 
 
                 tempText.text = CurrentCategory[i].entryName;
@@ -505,7 +505,7 @@ public class CodexRework : MonoBehaviour
         currentEntry = null;
         for(int i = 0; i < categoryList.Count; i++)
         {
-            var temp = categoryList[i].GetComponent<CodexButtonID>();
+            var temp = categoryList[i].GetComponentInChildren<CodexButtonID>();
             //print(temp.assignedEntry.entryName);
             if(temp.assignedEntry.unlocked) 
             {
