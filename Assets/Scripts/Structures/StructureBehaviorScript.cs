@@ -144,8 +144,8 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         TimeManager.OnHourlyUpdate -= HourPassed;
         if(!gameObject.scene.isLoaded) return;
-        print("Destroyed");
-        if(clearTileOnDestroy && structData)
+        //print("Destroyed");
+        if(clearTileOnDestroy && structData && !absentFromGrid)
         {
             if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
             else StructureManager.Instance.ClearLargeTile(transform.position);
@@ -252,11 +252,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
             else TakeDamage(2);
-            yield return new WaitForSeconds(2f);
-            if(onFire)
-            {
-                //catch adjacent structs on fire randomly
-            }
+            yield return new WaitForSeconds(4f);
         }
     }
 

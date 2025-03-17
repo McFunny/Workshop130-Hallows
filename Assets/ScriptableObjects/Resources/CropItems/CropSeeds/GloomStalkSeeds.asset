@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: -1
   displayName: GloomStalk Seeds
-  description: Fast growing grain that needs constant water. Consumes Gloamphage
-    and produces Terrazyme. Hares ignore this crop.
+  description: Fast growing grain that needs constant water. Hares don't care for
+    this plant and will ignore this crop.
   icon: {fileID: 1685841986, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
   maxStackSize: 20
   value: 3
@@ -24,6 +24,7 @@ MonoBehaviour:
   hasModel: 0
   staminaValue: 0
   bonusCompostValue: 0
+  pickledForm: {fileID: 0}
   itemInputsKBM:
   - RMB - Plant
   itemInputsController:

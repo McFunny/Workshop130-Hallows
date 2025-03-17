@@ -88,7 +88,7 @@ public class Brazier : StructureBehaviorScript
         int r;
         while(gameObject.activeSelf)
         {
-            r = Random.Range(10, 16);
+            r = Random.Range(10, 20);
             yield return new WaitForSeconds(r);
             flameLeft -= 1;
             if(flameLeft < 0) flameLeft = 0;

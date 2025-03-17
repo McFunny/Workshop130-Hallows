@@ -32,6 +32,7 @@ public class PlayerInteraction : MonoBehaviour
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
     bool sentLowStaminaMessage = false;
+    public bool invincible = false;
 
     public float waterHeld = 15; //for watering can
     [HideInInspector] public readonly float maxWaterHeld = 15;
@@ -306,7 +307,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
-        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance)
+        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible)
         {
             print("Damage negated! Stamina is : " + stamina);
             return;
@@ -330,6 +331,11 @@ public class PlayerInteraction : MonoBehaviour
         tool.ItemUsed();
         yield return new WaitForSeconds(coolDown - time);
         toolCooldown = false;
+    }
+
+    public void ToolUseToggle(bool x)
+    {
+        toolCooldown = x;
     }
 
     void DisplayHologramCheck()
@@ -409,7 +415,7 @@ public class PlayerInteraction : MonoBehaviour
         if(currentMoney > 0) currentMoney = currentMoney/2;
         TimeManager.Instance.GameOver(); //Has to be last, this is where it saves
         print("Time GameOver Complete");
-        //Potentially a spot where some structures get destroyed
+
         yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;

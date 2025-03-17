@@ -7,6 +7,7 @@ public class WaterBarrel : StructureBehaviorScript
 {
     public InventoryItemData recoveredItem;
     public int waterLevel = 3; //max is 3
+    int oldLevel;
 
     public Transform waterTexture;
     public SpriteRenderer renderer;
@@ -32,6 +33,12 @@ public class WaterBarrel : StructureBehaviorScript
         base.Update();
 
         waterText.text = waterLevel + "/" + 3;
+
+        if(oldLevel != waterLevel)
+        {
+            print("Old level was " + oldLevel +". New level is " + waterLevel);
+            oldLevel = waterLevel;
+        }
 
     }
 
@@ -141,12 +148,12 @@ public class WaterBarrel : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        saveInt1 = waterLevel;
+        waterLevel = saveInt1;
         //WaterLevelChange();
     }
 
     public override void SaveVariables()
     {
-        waterLevel = saveInt1;
+        saveInt1 = waterLevel;
     }
 }

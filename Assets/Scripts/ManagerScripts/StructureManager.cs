@@ -93,6 +93,7 @@ public class StructureManager : MonoBehaviour
     {
         if(TimeManager.Instance.isDay) return;
         float r;
+        int s = 0;
         for(int i = 0; i < allStructs.Count; i++)
         {
             if(allStructs[i] && allStructs[i].destructable)
@@ -101,13 +102,15 @@ public class StructureManager : MonoBehaviour
                 if(potentialWeed && potentialWeed.isWeed) continue;
 
                 r = Random.Range(0, 10);
-                if(r >= 8) //Destroy structure. Could even replace some with rubble struct when we add it
+                if(r >= 7) //Destroy structure. Could even replace some with rubble struct when we add it
                 {
                     print("Deleting: " + allStructs[i]);
                     Destroy(allStructs[i].gameObject);
+                    s++;
                 }
             }
         }
+        print(s + " Structures were deleted");
     }
 
 #region TileCommands

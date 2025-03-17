@@ -12,6 +12,8 @@ public class ItemPickup : MonoBehaviour
 
     public InventoryItemData ItemData;
 
+    [SerializeField] private InventoryItemData mintItem;
+
     private SphereCollider myCollider;
 
     public SpriteRenderer r;
@@ -102,6 +104,14 @@ public class ItemPickup : MonoBehaviour
         {
             rb.isKinematic = true;
             rb.velocity = new Vector3(0,0,0);
+        }
+
+        if (ItemData.ID == mintItem.ID && canBeCollected)
+        {
+            PlayerInteraction.Instance.currentMoney += ItemData.maxStackSize;
+            beingCollected = true;
+            myCollider.enabled = false;
+            StartCoroutine(PickupDelay());
         }
 
         var inventory = other.transform.GetComponent<PlayerInventoryHolder>();

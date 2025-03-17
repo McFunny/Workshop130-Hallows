@@ -97,11 +97,11 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
     {
         if (PuzzleManager.Instance != null)
         {
-            donationComplete = PuzzleManager.Instance.GetPuzzleData().moneyPuzzleCompleted;
+           /* donationComplete = PuzzleManager.Instance.GetPuzzleData().moneyPuzzleCompleted;
             if (donationComplete)
             {
                 //animator.SetTrigger("OnInsert");
-            }
+            }*/
         }
     }
 }

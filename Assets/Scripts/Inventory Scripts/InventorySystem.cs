@@ -80,6 +80,13 @@ public class InventorySystem
         return invSlot == null || invSlot.Count == 0 ? false : true; // If they do return true, if not return false
     }
 
+    public bool ContainsItems(List<InventoryItemData> itemsToAdd, out List<InventorySlot> invSlot) //Do any of our slots have the item to add in them?
+    {
+       invSlot = InventorySlots.Where(i => itemsToAdd.Contains(i.ItemData)).ToList(); // If they do get a list of all of them
+
+        return invSlot == null || invSlot.Count == 0 ? false : true; // If they do return true, if not return false
+    }
+
     public bool HasFreeSlot(out InventorySlot freeSlot)
     {
       freeSlot = InventorySlots.FirstOrDefault(i => i.ItemData == null); //Get the first free slot

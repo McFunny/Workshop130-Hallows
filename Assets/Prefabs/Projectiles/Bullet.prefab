@@ -254,7 +254,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 3
   m_Height: 5.15
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -276,6 +276,8 @@ MonoBehaviour:
   structureDamage: 2
   creatureDamage: 40
   playerDamage: 0
+  fireBullet: 0
+  bulletLifetime: 3
 --- !u!54 &7974301051254786444
 Rigidbody:
   m_ObjectHideFlags: 0

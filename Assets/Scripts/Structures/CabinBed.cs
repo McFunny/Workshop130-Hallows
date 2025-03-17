@@ -48,7 +48,7 @@ public class CabinBed : MonoBehaviour, IInteractable
 
     bool SleepCheck()
     {
-        if(TimeManager.Instance.stopTime || TimeManager.Instance.currentHour < 8 || TimeManager.Instance.currentHour > 19) return false;
+        if(TimeManager.Instance.stopTime || TimeManager.Instance.currentHour < 8 || TimeManager.Instance.currentHour >= 19) return false;
         else return true;
     }
 

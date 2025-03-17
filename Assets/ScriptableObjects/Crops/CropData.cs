@@ -15,6 +15,7 @@ public class CropData : ScriptableObject
     public Sprite rottedImage;
 
     public InventoryItemData cropYield; //what does the crop drop
+    public InventoryItemData cropSecondaryYield; //for if crops can drop 2 items
     public InventoryItemData cropSeed;
     public int cropYieldAmount = 1;
     public int cropYieldVariance = 0;

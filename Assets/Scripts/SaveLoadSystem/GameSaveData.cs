@@ -29,6 +29,7 @@ public class GameSaveData : MonoBehaviour
     public bool keyCollected; //Key was picked up
     public bool catacombUnlocked; //Key used to unlock door to catacombs
     public bool wildernessIntroduced; //Merchant has informed the player about the wilderness
+    public bool playerHasBox; //Player currently has the box in their inventory, chest, or farm
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
@@ -95,6 +96,8 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.allGameSaveData.bridgeCleared;
             keyCollected = data.allGameSaveData.keyCollected;
             catacombUnlocked = data.allGameSaveData.catacombUnlocked;
+            playerHasBox = data.allGameSaveData.playerHasBox;
+
             rascalMet = data.allGameSaveData.rascalMet;
             botMet = data.allGameSaveData.botMet;
             lumberMet = data.allGameSaveData.lumberMet;
@@ -126,6 +129,9 @@ public class GameSaveData : MonoBehaviour
         public bool bridgeCleared;
         public bool keyCollected;
         public bool catacombUnlocked;
+        public bool wildernessIntroduced;
+        public bool playerHasBox;
+
         public bool rascalMet;
         public bool botMet;
         public bool lumberMet;
@@ -155,6 +161,9 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.bridgeCleared;
             keyCollected = data.keyCollected;
             catacombUnlocked = data.catacombUnlocked;
+            wildernessIntroduced = data.wildernessIntroduced;
+            playerHasBox = data.playerHasBox;
+
             rascalMet = data.rascalMet;
             botMet = data.botMet;
             lumberMet = data.lumberMet;
@@ -166,6 +175,6 @@ public class GameSaveData : MonoBehaviour
             townTreeCleared1 = data.townTreeCleared1;
             townTreeCleared2 = data.townTreeCleared2;
     //Debug.Log("Saving stamina. Result: " + pStamina);
-}
+        }
     }
 

@@ -24,6 +24,9 @@ public class AmbientAudioManager : MonoBehaviour
     public delegate void BlowWind(Vector3 dir);
     public static event BlowWind OnWindBlow;
 
+    bool firstTrackPlayed = false;
+    [HideInInspector] public bool playMusicAtStart = true;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -41,9 +44,21 @@ public class AmbientAudioManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(PlayAmbientTrack());
-        ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //Making it trackable
+
+        StartCoroutine(PlayMusicCheck());
 
         TimeManager.OnHourlyUpdate += HourUpdate;
+    }
+
+    public void BeginPlayingMusic()
+    {
+        ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //Making it trackable
+    }
+
+    IEnumerator PlayMusicCheck()
+    {
+        yield return new WaitForSeconds(7);
+        if(playMusicAtStart) BeginPlayingMusic();
     }
 
     void OnDisable()
@@ -85,6 +100,11 @@ public class AmbientAudioManager : MonoBehaviour
         while (gameObject.activeSelf)
         {
             if(NightSpawningManager.Instance.finaleActivated) musicCooldown = 0;
+            else if(!firstTrackPlayed)
+            {
+                firstTrackPlayed = true;
+                musicCooldown = 5;
+            }
             else musicCooldown = Random.Range(5, 10);
             yield return new WaitForSecondsRealtime(musicCooldown);
             Debug.Log("CoolDown Done picking song");
@@ -162,4 +182,5 @@ public class AmbientAudioManager : MonoBehaviour
         }
         StartCoroutine(FadeAudio()); 
     }
+    
 }
