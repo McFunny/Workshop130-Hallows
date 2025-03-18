@@ -27,11 +27,11 @@ public class TravelerNPC : NPC, ITalkable
     {
         if (dialogueController.IsTalking() == false)
         {
-            if (!GameSaveData.Instance.culMet)
+            if (!GameSaveData.Instance.travMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
-                GameSaveData.Instance.culMet = true;
+                GameSaveData.Instance.travMet = true;
             }
             else
             {
@@ -40,7 +40,7 @@ public class TravelerNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
-                else if (NPCManager.Instance.culinarianSpoke)
+                else if (NPCManager.Instance.travSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -49,7 +49,7 @@ public class TravelerNPC : NPC, ITalkable
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
-                    NPCManager.Instance.culinarianSpoke = true;
+                    NPCManager.Instance.travSpoke = true;
                 }
                 currentType = PathType.Filler;
             }
@@ -82,11 +82,11 @@ public class TravelerNPC : NPC, ITalkable
             currentType = PathType.QuestComplete;
         }
 
-        else if (item.staminaValue > 0)
+        /*else if (item.staminaValue > 0)
         {
             currentPath = 0;
             currentType = PathType.ItemRecieved;
-            /*
+            *//*
             if(!NPCManager.Instance.lumberjackFed)
             {
                 currentPath = 0;
@@ -99,9 +99,9 @@ public class TravelerNPC : NPC, ITalkable
                 currentPath = 1;
                 currentType = PathType.ItemRecieved;
             }
-            */
+            *//*
             //Its consumable and giftable
-        }
+        }*/
 
         else
         {
