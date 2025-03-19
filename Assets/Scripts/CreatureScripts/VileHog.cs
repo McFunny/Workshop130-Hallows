@@ -69,8 +69,6 @@ public class VileHog : CreatureBehaviorScript
 
     public CreatureState currentState;
 
-    /////// Should it be able to do a normal tusk thrust attack? Also Behavior for variants, it fleeing, and it eating fully grown crops
-
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -78,6 +76,14 @@ public class VileHog : CreatureBehaviorScript
 
     void Start()
     {
+        if(babies.Length > 0)
+        {
+            for(int i = 0; i < babies.Length; i++)
+            {
+                babies[i].transform.SetParent(null);
+            }
+        }
+
         base.Start();
         attackHitbox.enabled = false;
         
@@ -89,13 +95,6 @@ public class VileHog : CreatureBehaviorScript
         targetStructure = null;
         StartCoroutine(IdleSoundTimer());
 
-        if(babies.Length > 0)
-        {
-            for(int i = 0; i < babies.Length; i++)
-            {
-                babies[i].transform.SetParent(null);
-            }
-        }
     }
 
     public void Spawn()
@@ -503,8 +502,9 @@ public class VileHog : CreatureBehaviorScript
         agent.ResetPath();
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         anim.SetBool("IsRunning", false);
-        yield return new WaitForSeconds(recoilTime + 0.5f); //Charge Cooldown
+        yield return new WaitForSeconds(0.5f);
         chargeParticles.Stop();
+        yield return new WaitForSeconds(recoilTime); //Charge Cooldown
 
         //Should probably flee for about 5 seconds or so to prevent constant charging
         agent.speed = runSpeed;

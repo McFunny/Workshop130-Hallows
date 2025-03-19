@@ -262,6 +262,7 @@ MonoBehaviour:
   currentMoney: 0
   totalMoneyEarned: 0
   stamina: 200
+  invincible: 0
   waterHeld: 0
   torchLit: 0
   interactionLayers:
@@ -979,7 +980,7 @@ GameObject:
   - component: {fileID: 9208214954908016475}
   - component: {fileID: 5518798902475761872}
   - component: {fileID: 482822957764350694}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WeaponAttackCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
