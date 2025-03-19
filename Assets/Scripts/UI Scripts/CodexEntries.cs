@@ -9,17 +9,6 @@ using UnityEngine.UI;
 [CreateAssetMenu]
 public class CodexEntries : ScriptableObject
 {
-    public enum EntryType{
-        Creature,
-        Plant,
-        NPC,
-        Tool,
-        Lore,
-        Misc,
-        Quest,
-        GettingStarted
-    }
-    public EntryType entryType;
     //public GameObject entryButton;
     public Sprite buttonIcon;
 
@@ -32,7 +21,10 @@ public class CodexEntries : ScriptableObject
     [Tooltip("Name of the entry personally I thought this was pretty self explanatory tho")]
     public string entryName;
 
-    /*[Tooltip("Description of the entry")]*/ [TextArea(4,10)]
+    public CropData cropData;
+    public CreatureObject creatureData;
+
+    [TextArea(4,10)]
     public string[] description;
 
 }

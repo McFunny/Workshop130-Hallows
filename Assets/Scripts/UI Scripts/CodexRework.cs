@@ -12,6 +12,7 @@ public class CodexRework : MonoBehaviour
     public CodexEntries currentEntry;
     [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject, questContentObject;
     [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questCompleteText;
+    [SerializeField] private TextMeshProUGUI timesDone;
     [SerializeField] private int currentPage = 0;
     [SerializeField] private Slider questSlider;
     [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal, questObj;
@@ -397,6 +398,17 @@ public class CodexRework : MonoBehaviour
                     tempImage.SetActive(true);
                     tempUnlock.SetActive(false);
                     tempSprite.sprite = CurrentCategory[i].buttonIcon;
+
+                    if(tempID.assignedEntry.cropData != null)
+                    {
+                        timesDone.text = "Times harvested: " + tempID.assignedEntry.cropData.amountHarvested;
+                        timesDone.gameObject.SetActive(true);
+                    }
+                    else if(tempID.assignedEntry.creatureData != null)
+                    {
+                        //timesDone.text = "Times Killed: " + tempID.assignedEntry.creatureData.;
+                        timesDone.gameObject.SetActive(true);
+                    }
                 }
                 else
                 {
@@ -441,8 +453,7 @@ public class CodexRework : MonoBehaviour
             for (int i = 0; i < activeQuests.Count; i++)
             {
                 var tempButton = Instantiate(horizontalEntryButton, questContentObject.transform, worldPositionStays:false);
-                var button = tempButton.gameObject.transform.GetChild(0).gameObject;
-                var tempName = tempButton.gameObject.transform.GetChild(1).gameObject;
+                var tempName = tempButton.gameObject.transform.GetChild(0).gameObject;
                 var tempID = tempButton.GetComponent<CodexButtonID>();
                 var tempText = tempName.GetComponent<TextMeshProUGUI>();
 
@@ -491,7 +502,7 @@ public class CodexRework : MonoBehaviour
                 if(!activeQuests[i].alreadyCompleted) tempText.text = tempText.text;
                 else tempText.text = "<s>" + tempText.text + "</s>";
 
-                button.name = "QuestButton" + i;
+                tempButton.name = "QuestButton" + i;
                 
                 tempID.assignedQuest = activeQuests[i];
 
