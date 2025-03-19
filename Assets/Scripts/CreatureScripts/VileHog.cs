@@ -7,6 +7,9 @@ public class VileHog : CreatureBehaviorScript
 {
     public Variant variant; // what variant of creature is this?
 
+    public VileHog parent;
+    public VileHog[] babies;
+
     public List<CropData> desiredCrops; // what crops does this creature want to eat
 
     FarmLand foundFarmTile;
@@ -53,7 +56,8 @@ public class VileHog : CreatureBehaviorScript
         FetchCrop,
         Stun,
         Flee,
-        Die
+        Die,
+        FollowParent
     }
 
     public enum Variant
@@ -84,6 +88,14 @@ public class VileHog : CreatureBehaviorScript
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
         targetStructure = null;
         StartCoroutine(IdleSoundTimer());
+
+        if(babies.Length > 0)
+        {
+            for(int i = 0; i < babies.Length; i++)
+            {
+                babies[i].transform.SetParent(null);
+            }
+        }
     }
 
     public void Spawn()
@@ -182,6 +194,10 @@ public class VileHog : CreatureBehaviorScript
 
             case CreatureState.Die:
                 // OnDeath();
+                break;
+
+            case CreatureState.FollowParent:
+                FollowParent();
                 break;
 
             default:
@@ -463,7 +479,6 @@ public class VileHog : CreatureBehaviorScript
         //Actively Charging
         effectsHandler.MiscSound2();
         anim.SetBool("ChargePrep", false);
-        chargeParticles.Play();
         faceTarget = false;
         agent.speed = chargeSpeed;
         isCharging = true;
@@ -510,7 +525,7 @@ public class VileHog : CreatureBehaviorScript
         if (!coroutineRunning)
         {
             int r = Random.Range(0, 13);
-            if(r < 5)
+            if(r < 5 && variant != Variant.Tiny)
             {
                 CropCheck();
             }
@@ -576,7 +591,7 @@ public class VileHog : CreatureBehaviorScript
         if(other.gameObject.layer == 9)
         {
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if (creature != null && creature.shovelVulnerable && creature.creatureData != creatureData)
+            if (creature != null && creature.shovelVulnerable && creature.creatureData != creatureData && variant != Variant.Tiny)
             {
                 creature.TakeDamage(10);
                 creature.PlayHitParticle(new Vector3(0,0,0));
@@ -624,6 +639,11 @@ public class VileHog : CreatureBehaviorScript
     public override void OnDamage()
     {
         effectsHandler.OnHit();
+        if(variant == Variant.Tiny)
+        {
+            fleeTimeLeft = Random.Range(10, 12);
+            currentState = CreatureState.Flee;
+        }
     }
 
     public override void OnDeath()
@@ -669,4 +689,37 @@ public class VileHog : CreatureBehaviorScript
         if(currentState == CreatureState.Idle || currentState == CreatureState.Wander || currentState == CreatureState.WalkTowards) currentState = CreatureState.Charging;
         
     }
+
+    public void FollowParent()
+    {
+        //follow parent at a set distance
+        if (parent.isDead)
+        {
+            fleeTimeLeft = Random.Range(6, 12);
+            currentState = CreatureState.Flee;
+            return;
+        }
+
+        if (!coroutineRunning)
+        {
+            agent.speed = runSpeed;
+            walkRoutine = StartCoroutine(TrackParent());
+        }
+
+        if(agent.velocity.sqrMagnitude > 0) anim.SetBool("IsRunning", true);
+        else anim.SetBool("IsRunning", false);
+        
+    }
+
+    private IEnumerator TrackParent()
+    {
+        coroutineRunning = true;
+        while (currentState == CreatureState.FollowParent && parent)
+        {
+            agent.destination = parent.transform.position;
+            yield return new WaitForSeconds(1.2f); // update destination every 0.5 seconds to prevent overloading it
+        }
+        coroutineRunning = false;
+    }
+
 }
