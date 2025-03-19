@@ -21,6 +21,7 @@ public class NPCManager : MonoBehaviour
     public bool tinkererFed = false;
     public bool apothFed = false;
     public bool culinarianFed = false;
+    //we can add more npcs later when we decide more about them - abner
 
     [Header("NPC Spoken Bools")]
     public bool rascalSpoke = false;
@@ -30,6 +31,11 @@ public class NPCManager : MonoBehaviour
     public bool tinkererSpoke = false;
     public bool apothSpoke = false;
     public bool culinarianSpoke = false;
+    public bool travSpoke = false;
+    public bool graveSpoke = false;
+    public bool fanSpoke = false;
+    public bool butchSpoke = false;
+    public bool carpSpoke = false;
 
     void Awake()
     {
@@ -60,6 +66,11 @@ public class NPCManager : MonoBehaviour
             tinkererSpoke = false;
             apothSpoke = false;
             culinarianSpoke = false;
+            travSpoke = false;
+            graveSpoke = false;
+            fanSpoke = false;
+            butchSpoke = false;
+            carpSpoke = false;
         }
     }
 
