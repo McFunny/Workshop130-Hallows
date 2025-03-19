@@ -333,7 +333,7 @@ public class DeerStalker : CreatureBehaviorScript
         {
             if(!target) target = player;
             agent.destination = target.position;
-            yield return new WaitForSeconds(0.5f); // update destination every 0.5 seconds to prevent overloading it
+            yield return new WaitForSeconds(0.2f); // update destination every 0.5 seconds to prevent overloading it
         }
         trackPlayerRoutine = null;
     }
@@ -362,13 +362,14 @@ public class DeerStalker : CreatureBehaviorScript
     {
         coroutineRunning = true;
         animTransformed.Play("Attack");
-        agent.SetDestination(transform.position);
         yield return new WaitForSeconds(0.5f);
         attackHitbox.enabled = true;
+        agent.SetDestination(transform.position);
         yield return new WaitForSeconds(0.1f);
         attackHitbox.enabled = false;
         if(hitPlayer)
         {
+            hitPlayer = false;
             animTransformed.SetBool("AttackSuccessful", true);
             yield return new WaitForSeconds(3.5f);
             animTransformed.SetBool("AttackSuccessful", false);
@@ -487,10 +488,11 @@ public class DeerStalker : CreatureBehaviorScript
     {
         if(!recoilCooldown && hasTransformed && !isDead)
         {
-            recoilCooldown = true;
+            //Giving me too much trouble right now
+            /*recoilCooldown = true;
             effectsHandler.OnHit();
             animTransformed.SetTrigger("Recoiling");
-            StartCoroutine(RecoilCooldown());
+            StartCoroutine(RecoilCooldown());*/
         }
         else if(!hasTransformed)
         {
