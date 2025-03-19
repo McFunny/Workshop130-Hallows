@@ -196,9 +196,9 @@ public class FanaticNPC : NPC, ITalkable
 
     public override void BeginWorking()
     {
-        if (!assignedStall) return;
+        /*if (!assignedStall) return;
         storeItems = assignedStall.storeItems;
-        RefreshStore();
+        RefreshStore();*/
     }
 
     public override void StopWorking()

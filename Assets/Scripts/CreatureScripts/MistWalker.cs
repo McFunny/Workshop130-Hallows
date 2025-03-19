@@ -346,7 +346,7 @@ public class MistWalker : CreatureBehaviorScript
             agent.ResetPath();
             currentState = CreatureState.AttackStructure;
         }
-        else if(target == null || agent.destination != target.position)
+        else if((target == null || agent.destination != target.position) && targetStructure)
         {
             target = targetStructure.transform;
             agent.destination = target.position;
