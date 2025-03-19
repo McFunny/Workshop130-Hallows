@@ -639,7 +639,7 @@ public class VileHog : CreatureBehaviorScript
     public override void OnDamage()
     {
         effectsHandler.OnHit();
-        if(variant == Variant.Tiny)
+        if(currentState == CreatureState.FollowParent)
         {
             fleeTimeLeft = Random.Range(10, 12);
             currentState = CreatureState.Flee;
