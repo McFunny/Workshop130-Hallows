@@ -155,6 +155,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             collider.isTrigger = true;
         }
+        if(creatureData) creatureData.amountKilled++;
     } //Triggers creature specific effects
 
     public void OnDestroy()

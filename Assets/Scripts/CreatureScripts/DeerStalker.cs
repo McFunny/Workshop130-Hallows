@@ -21,19 +21,22 @@ public class DeerStalker : CreatureBehaviorScript
     private bool isMoving = false;
     private bool coroutineRunning = false;
     private Transform target;
-    private bool attackingPlayer = false;
+    float walkSpeed = 4;
+    float runSpeed = 13;
+    float transformedSightRange = 30;
 
     [HideInInspector] public NavMeshAgent agent;
-    public AnimEvents animEvents;
     public Collider attackHitbox;
     private bool recoilCooldown = false; //To prevent stunlocking
-    private bool isRecoiling = false;
+    private bool Recoiling = false;
+    bool hitPlayer = false;
 
     private Vector3 despawnPos;
 
     private Coroutine trackPlayerRoutine, walkRoutine; 
 
     //Its purpose is a player attacker only. Only attacks structures that impede it
+    //Still needs Idle anim variance and transform particles
 
     public enum CreatureState
     {
@@ -98,6 +101,34 @@ public class DeerStalker : CreatureBehaviorScript
             float distance = Vector3.Distance(player.position, transform.position);
             playerInSightRange = distance <= sightRange;
             playerInAttackRange = distance <= attackRange;
+
+            if(currentState == CreatureState.ChaseTarget)
+            {
+                agent.speed = runSpeed;
+            }
+            else agent.speed = walkSpeed;
+
+            if(agent.velocity.sqrMagnitude > 0) 
+            {
+                if(agent.speed == runSpeed)
+                {
+                    anim.SetBool("IsRunning", true);
+                    animTransformed.SetBool("IsRunning", true);
+                }
+                else
+                {
+                    anim.SetBool("IsRunning", false);
+                    animTransformed.SetBool("IsRunning", false);
+
+                    anim.SetBool("IsMoving", true);
+                    animTransformed.SetBool("IsMoving", true);
+                }
+            }
+            else
+            {
+                anim.SetBool("IsMoving", false);
+                animTransformed.SetBool("IsMoving", false);
+            }
 
             CheckState(currentState);
         }
@@ -197,10 +228,21 @@ public class DeerStalker : CreatureBehaviorScript
             timeSpent += Time.deltaTime;
             if (playerInSightRange)
             {
-                currentState = CreatureState.ChaseTarget;
-                isMoving = false;
-                coroutineRunning = false;
-                walkRoutine = null;
+                if(hasTransformed)
+                {
+                    currentState = CreatureState.ChaseTarget;
+                    isMoving = false;
+                    coroutineRunning = false;
+                    walkRoutine = null;
+                }
+                else
+                {
+                    currentState = CreatureState.Transformation;
+                    isMoving = false;
+                    coroutineRunning = false;
+                    walkRoutine = null;
+                }
+                
                 yield break;
             }
 
@@ -273,7 +315,7 @@ public class DeerStalker : CreatureBehaviorScript
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (playerInAttackRange)
+        if (playerInSightRange)
         {
             StopTrackingPlayer();
             currentState = CreatureState.Transformation;
@@ -287,7 +329,7 @@ public class DeerStalker : CreatureBehaviorScript
 
     private IEnumerator TrackPlayer()
     {
-        while ((playerInSightRange || inWilderness) && !hasTransformed)
+        while ((playerInSightRange || inWilderness))
         {
             if(!target) target = player;
             agent.destination = target.position;
@@ -308,7 +350,35 @@ public class DeerStalker : CreatureBehaviorScript
     #endregion
     private void Attack()
     {
-        //
+        if (coroutineRunning || Recoiling)
+            return;
+
+        transform.LookAt(player.position);
+
+        StartCoroutine(AttackRoutine());
+    }
+
+    IEnumerator AttackRoutine()
+    {
+        coroutineRunning = true;
+        animTransformed.Play("Attack");
+        agent.SetDestination(transform.position);
+        yield return new WaitForSeconds(0.5f);
+        attackHitbox.enabled = true;
+        yield return new WaitForSeconds(0.1f);
+        attackHitbox.enabled = false;
+        if(hitPlayer)
+        {
+            animTransformed.SetBool("AttackSuccessful", true);
+            yield return new WaitForSeconds(3.5f);
+            animTransformed.SetBool("AttackSuccessful", false);
+        }
+        else if(targetStructure)
+        {
+            targetStructure.TakeDamage(damageToStructure);
+        }
+        coroutineRunning = false;
+        currentState = CreatureState.ChaseTarget;
     }
 
     void Transformation()
@@ -321,11 +391,12 @@ public class DeerStalker : CreatureBehaviorScript
     IEnumerator Transforming()
     {
         coroutineRunning = true;
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1.5f);
         deer.SetActive(false);
         taintedDeer.SetActive(true);
         hasTransformed = true;
         currentState = CreatureState.Wander;
+        sightRange = transformedSightRange;
         coroutineRunning = false;
     }
 
@@ -354,12 +425,13 @@ public class DeerStalker : CreatureBehaviorScript
 
     private void OnTriggerEnter(Collider other)
     {
-        if (attackingPlayer && other.CompareTag("Player") && !isDead)
+        if (other.CompareTag("Player") && !isDead)
         {
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
                 playerInteraction.StaminaChange(damageToPlayer);
+                hitPlayer = true;
                 attackHitbox.enabled = false;
             }
         }
@@ -372,7 +444,7 @@ public class DeerStalker : CreatureBehaviorScript
             StartCoroutine(Stun(duration));
             agent.destination = transform.position;
             agent.ResetPath();
-            anim.SetTrigger("IsRecoiling");
+            anim.SetTrigger("Recoiling");
             return true;
         }
         return false;
@@ -383,6 +455,8 @@ public class DeerStalker : CreatureBehaviorScript
         currentState = CreatureState.Stun;
         coroutineRunning = false;
         StopTrackingPlayer();
+        StopCoroutine(AttackRoutine());
+        attackHitbox.enabled = false;
         if(walkRoutine != null)
         {
             StopCoroutine(walkRoutine);
@@ -405,26 +479,44 @@ public class DeerStalker : CreatureBehaviorScript
             rb.isKinematic = true;
             rb.freezeRotation = true;
             StopAllCoroutines();
+            StartCoroutine(DeathTimer());
         }
     }
 
     public override void OnDamage()
     {
-        if(!recoilCooldown)
+        if(!recoilCooldown && hasTransformed && !isDead)
         {
             recoilCooldown = true;
             effectsHandler.OnHit();
-            anim.SetTrigger("IsRecoiling");
+            animTransformed.SetTrigger("Recoiling");
             StartCoroutine(RecoilCooldown());
         }
+        else if(!hasTransformed)
+        {
+            currentState = CreatureState.Transformation;
+        }
+    }
+
+    IEnumerator DeathTimer()
+    {
+        if(hasTransformed) yield return new WaitForSeconds(2);
+        else yield return new WaitForSeconds(0.5f);
+        health = 0;
+        canCorpseBreak = true;
     }
 
     IEnumerator RecoilCooldown()
     {
-        isRecoiling = true;
-        yield return new WaitForSeconds(1);
-        isRecoiling = false;
-        yield return new WaitForSeconds(4);
+        Recoiling = true;
+        coroutineRunning = true;
+        StopTrackingPlayer();
+        StopCoroutine(AttackRoutine());
+        attackHitbox.enabled = false;
+        yield return new WaitForSeconds(0.7f);
+        coroutineRunning = false;
+        Recoiling = false;
+        yield return new WaitForSeconds(5);
         recoilCooldown = false;
     }
 
