@@ -24,7 +24,12 @@ public enum Destination
     CulinarianHouse,
     ButcherHouse,
     Graveyard,
-    TinkererWorkbench
+    TinkererWorkbench,
+    TravelerHouse,
+    MistMerchantWagon,
+    CarpenterHouse,
+    RandomLocation,
+
 }
 
 public enum Action
