@@ -16,10 +16,9 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - Hey you are new around here!
-    - Hopefully I'll be using your crops to make some great food!
-    - Come by my shop and try the cuisine of Veilwood!
-    emotions: 000000000000000001000000
+    - I can hear what happens on your farm at night
+    - Hopefully I don't have to make a casket for you as well
+    emotions: 0000000000000000
   questCompletePath:
     pathName: Thanks for completing quest
     paragraphs:
@@ -53,61 +52,22 @@ MonoBehaviour:
     - Your stomach, or perhaps inventory, seems to full to buy this
     emotions: 05000000
   fillerPaths:
-  - pathName: Hi
+  - pathName: Catacombs
     paragraphs:
-    - Hi
-    emotions: 03000000
+    - That one entrance in the graveyard?
+    - It has some kind of key
+    - I don't know where it is
+    emotions: 040000000000000000000000
+  - pathName: Rascal
+    paragraphs:
+    - Have you seen that one kid?
+    - I don't know where he came from
+    - But I know my wife would have wanted to care for him
+    - So that's what I'm doing
+    emotions: 04000000000000000000000000000000
   questPaths: []
   itemRecievedPaths: []
-  itemSpecificRemarks:
-  - pathName: Go Sell it instead
-    paragraphs:
-    - I don't have much use for something like that.
-    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
-      it.
-    emotions: 0200000000000000
-  - pathName: Fertilizer
-    paragraphs:
-    - That stuff is real handy for when you have a plot of land that just can't support
-      life no more.
-    - One bag will fill up any tile of ground with its specified nutrient.
-    emotions: 0200000000000000
-  - pathName: CarrotSeeds
-    paragraphs:
-    - Pale carrots are a very well rounded crop. Not too picky, as long as you have
-      good levels of Gloamphage in your soil you are set!
-    emotions: 00000000
-  - pathName: TuberSeeds
-    paragraphs:
-    - TerraTubers are very easy to care for, and can tolerate very rough conditions
-      longer than other plants
-    - Just be sure to keep them away from any sources of that nasty blight!
-    emotions: 0000000005000000
-  - pathName: DrakeSeeds
-    paragraphs:
-    - Mandrakes are a nasty bunch. They aren't harmful, but they are such a pain
-      to chase down!
-    - Makes me thankful none of the other plants here fight back...
-    emotions: 0300000001000000
-  - pathName: StalkSeeds
-    paragraphs:
-    - With how fast these grow, I would personally classify them as a weed.
-    - Keep an eye on their water intake and you will have a field of Gloomstalk in
-      no time.
-    emotions: 0300000000000000
-  - pathName: BeanSeeds
-    paragraphs:
-    - Unlike most plants, BloodBeans continue to grow after harvest if left in the
-      soil.
-    - Keep its ichor levels steady to ensure multiple yields.
-    emotions: 0000000000000000
-  - pathName: GingerSeeds
-    paragraphs:
-    - Personally, I could never get these to grow. This plant is very picky regarding
-      its growing conditions, and requires constant maintenance.
-    - However, there is merit in a succesful yield. With how rare these roots are,
-      they fetch a high price.
-    emotions: 0400000005000000
+  itemSpecificRemarks: []
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

@@ -115,7 +115,7 @@ public class GraveDiggerNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    /*public override void PurchaseAttempt(StoreItem item)
     {
         if (dialogueController.IsInterruptable() == false)
         {
@@ -196,9 +196,9 @@ public class GraveDiggerNPC : NPC, ITalkable
 
     public override void BeginWorking()
     {
-        if (!assignedStall) return;
+       *//* if (!assignedStall) return;
         storeItems = assignedStall.storeItems;
-        RefreshStore();
+        RefreshStore();*//*
     }
 
     public override void StopWorking()
@@ -213,5 +213,5 @@ public class GraveDiggerNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
-    }
+    }*/
 }
