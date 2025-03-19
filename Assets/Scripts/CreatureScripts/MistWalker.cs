@@ -14,7 +14,6 @@ public class MistWalker : CreatureBehaviorScript
     public List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
 
     private bool isMoving = false;
-    private bool isBeingAttacked = false; // For priority target tracking (seed shooter)
     private bool coroutineRunning = false;
     private Transform target;
     private bool attackingPlayer = false;
@@ -48,7 +47,6 @@ public class MistWalker : CreatureBehaviorScript
         AttackPlayer,
         Stun,
         Die,
-        Trapped,
         FleeFromFire
     }
 
@@ -99,7 +97,7 @@ public class MistWalker : CreatureBehaviorScript
         {
             currentState = CreatureState.WalkTowardsPlayer;
         }
-        if (!isMoving)
+        else if (!isMoving)
         {
             Vector3 randomPoint = StructureManager.Instance.GetRandomTile();
             walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
@@ -129,7 +127,7 @@ public class MistWalker : CreatureBehaviorScript
         if(currentState == CreatureState.FleeFromFire && !fearParticle.activeSelf) fearParticle.SetActive(true);
         else if(currentState != CreatureState.FleeFromFire && fearParticle.activeSelf) fearParticle.SetActive(false);
 
-        if (!isDead && currentState != CreatureState.Stun && currentState != CreatureState.Trapped)
+        if (!isDead && currentState != CreatureState.Stun)
         {
             if(fireSource)
             {
@@ -228,10 +226,6 @@ public class MistWalker : CreatureBehaviorScript
                 // OnDeath();
                 break;
 
-            case CreatureState.Trapped:
-                Trapped();
-                anim.SetBool("IsWalking", false);
-                break;
             case CreatureState.FleeFromFire:
                 FleeFromFire();
                 anim.SetBool("IsWalking", true);
@@ -727,12 +721,6 @@ public class MistWalker : CreatureBehaviorScript
             effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
         }
-    }
-
-    private void Trapped()
-    {
-        agent.ResetPath();
-        rb.isKinematic = true;
     }
 
     public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
