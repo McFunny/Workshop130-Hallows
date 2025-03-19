@@ -141,6 +141,7 @@ public class CodexRework : MonoBehaviour
         if (!reset) currentPage = currentPage + page;
         else currentPage = page;
         currentPage = Mathf.Clamp(currentPage,0,entry.description.Length - 1);
+        currentEntry = entry;
 
         if(currentPage == 0) ImageCheck();
         else 
@@ -158,6 +159,22 @@ public class CodexRework : MonoBehaviour
             largeDescriptionText.text = entry.description[currentPage];
             horizontalEntryName.text = entry.entryName;
             horizontalDescriptionText.text = entry.description[currentPage];
+
+            if(entry.cropData != null)
+            {
+                timesDone.text = "Times harvested: " + entry.cropData.amountHarvested;
+                timesDone.gameObject.SetActive(true);
+            }
+            else if(entry.creatureData != null)
+            {
+                //timesDone.text = "Times Killed: " + tempID.assignedEntry.creatureData.;
+                timesDone.gameObject.SetActive(false);
+            }
+            else
+            {
+                timesDone.gameObject.SetActive(false);
+            }
+            
         }
         else
         {
@@ -407,7 +424,11 @@ public class CodexRework : MonoBehaviour
                     else if(tempID.assignedEntry.creatureData != null)
                     {
                         //timesDone.text = "Times Killed: " + tempID.assignedEntry.creatureData.;
-                        timesDone.gameObject.SetActive(true);
+                        timesDone.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        timesDone.gameObject.SetActive(false);
                     }
                 }
                 else
@@ -559,6 +580,7 @@ public class CodexRework : MonoBehaviour
             largeImage.gameObject.SetActive(false);
             descriptionText.gameObject.SetActive(false);
             largeDescriptionText.gameObject.SetActive(true);
+            timesDone.gameObject.SetActive(false);
             largeImage.sprite = null;
             smallImage.sprite = null;
             return;
@@ -572,6 +594,7 @@ public class CodexRework : MonoBehaviour
                 largeImage.gameObject.SetActive(true);
                 descriptionText.gameObject.SetActive(true);
                 largeDescriptionText.gameObject.SetActive(false);
+                timesDone.gameObject.SetActive(true);
             }
             else
             {
@@ -580,6 +603,7 @@ public class CodexRework : MonoBehaviour
                 largeDescriptionText.gameObject.SetActive(true);
                 smallImage.gameObject.SetActive(true);
                 smallImage.sprite = currentEntry.mainImage;
+                timesDone.gameObject.SetActive(false);
             } 
         }
         else
@@ -588,6 +612,7 @@ public class CodexRework : MonoBehaviour
             largeDescriptionText.gameObject.SetActive(true);
             largeImage.gameObject.SetActive(false);
             smallImage.gameObject.SetActive(false);
+            timesDone.gameObject.SetActive(false);
             largeImage.sprite = null;
             smallImage.sprite = null;
         }
