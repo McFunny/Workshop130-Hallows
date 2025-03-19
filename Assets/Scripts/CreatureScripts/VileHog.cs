@@ -25,8 +25,10 @@ public class VileHog : CreatureBehaviorScript
     public Collider attackHitbox;
     public Transform chargePosition;
     public SpriteRenderer r;
+    public ParticleSystem chargeParticles;
+
     float beginChargeTime = 1f; // Time it takes to initiate a charge
-    float chargeTime = 2.3f; // Time it takes to complete a charge
+    float chargeTime = 2f; // Time it takes to complete a charge
     private bool isCharging = false;
     float recoilTime = 2;
     float fleeTimeLeft = 0;
@@ -397,6 +399,7 @@ public class VileHog : CreatureBehaviorScript
     {
         float digTimeElapsed = 0;
         anim.Play("Dig");
+        effectsHandler.Idle1();
         while(foundFarmTile && foundFarmTile.crop && foundFarmTile.harvestable && !isDead && digTimeElapsed < 2f)
         {
             digTimeElapsed += Time.deltaTime;
@@ -410,7 +413,7 @@ public class VileHog : CreatureBehaviorScript
             foundFarmTile.CropDestroyed();
             foundFarmTile = null;
             
-            fleeTimeLeft = 8;
+            fleeTimeLeft = Random.Range(6, 12);
             currentState = CreatureState.Flee;
         }
         else currentState = CreatureState.Wander;
@@ -421,6 +424,7 @@ public class VileHog : CreatureBehaviorScript
     {
         anim.SetBool("IsRunning", false);
         anim.Play("Chew");
+        effectsHandler.Idle2();
         agent.SetDestination(transform.position);
         coroutineRunning = true;
         yield return new WaitForSeconds(2.3f);
@@ -429,6 +433,8 @@ public class VileHog : CreatureBehaviorScript
         {
             currentState = CreatureState.Wander;
             health = maxHealth;
+            r.sprite = null;
+            heldItem = null;
         }
         coroutineRunning = false;
     }
@@ -455,7 +461,9 @@ public class VileHog : CreatureBehaviorScript
         yield return new WaitForSeconds(beginChargeTime); //Beginning to charge
 
         //Actively Charging
+        effectsHandler.MiscSound2();
         anim.SetBool("ChargePrep", false);
+        chargeParticles.Play();
         faceTarget = false;
         agent.speed = chargeSpeed;
         isCharging = true;
@@ -470,14 +478,18 @@ public class VileHog : CreatureBehaviorScript
         if(chargeTimeElapsed >= chargeTime)
         {
             recoilTime = 2f;
-            if(!anim.GetBool("Attacked") && !anim.GetBool("Recoiled")) anim.SetTrigger("Missed");
+            if(!anim.GetBool("Attacked") && !anim.GetBool("Recoiled")) 
+            {
+                anim.SetTrigger("Missed");
+                chargeParticles.Play();
+            }
         }
-        print(recoilTime);
         isCharging = false;
         agent.ResetPath();
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         anim.SetBool("IsRunning", false);
         yield return new WaitForSeconds(recoilTime + 0.5f); //Charge Cooldown
+        chargeParticles.Stop();
 
         //Should probably flee for about 5 seconds or so to prevent constant charging
         agent.speed = runSpeed;
@@ -566,7 +578,7 @@ public class VileHog : CreatureBehaviorScript
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable && creature.creatureData != creatureData)
             {
-                creature.TakeDamage(25);
+                creature.TakeDamage(10);
                 creature.PlayHitParticle(new Vector3(0,0,0));
             }
         }
@@ -609,6 +621,11 @@ public class VileHog : CreatureBehaviorScript
         currentState = CreatureState.Wander;
     }
 
+    public override void OnDamage()
+    {
+        effectsHandler.OnHit();
+    }
+
     public override void OnDeath()
     {
         if (!isDead)
@@ -638,7 +655,7 @@ public class VileHog : CreatureBehaviorScript
     {
         while(health > 0)
         {
-            int i = Random.Range(4,10);
+            int i = Random.Range(2,5);
             effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
         }

@@ -21,6 +21,9 @@ public class CreatureEffectsHandler : MonoBehaviour
     public AudioClip deathSound;
     public AudioClip miscSound;
     public AudioClip miscSound2;
+    public AudioClip miscSound3;
+
+    public ParticleSystem particle1;
 
 
 
@@ -104,5 +107,15 @@ public class CreatureEffectsHandler : MonoBehaviour
     public void MiscSound2()
     {
         if(miscSound2 != null) source.PlayOneShot(miscSound2, volume);
+    }
+
+    public void MiscSound3()
+    {
+        if(miscSound2 != null) source.PlayOneShot(miscSound3, volume);
+    }
+
+    public void PlayParticle1()
+    {
+        particle1.Play();
     }
 }
