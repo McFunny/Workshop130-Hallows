@@ -16,10 +16,9 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - Hey you are new around here!
-    - Hopefully I'll be using your crops to make some great food!
-    - Come by my shop and try the cuisine of Veilwood!
-    emotions: 000000000000000001000000
+    - Hey...
+    - I haven't seen you around here...
+    emotions: 0000000000000000
   questCompletePath:
     pathName: Thanks for completing quest
     paragraphs:
@@ -53,10 +52,21 @@ MonoBehaviour:
     - Your stomach, or perhaps inventory, seems to full to buy this
     emotions: 05000000
   fillerPaths:
-  - pathName: Hi
+  - pathName: Lost Family
     paragraphs:
-    - Hi
-    emotions: 03000000
+    - My family got lost in this mist...
+    emotions: 02000000
+  - pathName: Grown Up In VeilWood
+    paragraphs:
+    - I've grown up in VeilWood...
+    - I can still see glimpses of my past...
+    - I wish I could go back...
+    emotions: 000000000000000002000000
+  - pathName: Not Much To Do
+    paragraphs:
+    - There isn't much to do around here...
+    - I want to go explore, but I know it's safer here...
+    emotions: 0000000000000000
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks:
