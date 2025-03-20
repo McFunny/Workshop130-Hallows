@@ -27,9 +27,11 @@ public class DeerStalker : CreatureBehaviorScript
 
     [HideInInspector] public NavMeshAgent agent;
     public Collider attackHitbox;
+    public Transform head;
     private bool recoilCooldown = false; //To prevent stunlocking
     private bool Recoiling = false;
     bool hitPlayer = false;
+    bool hitStruct = false;
 
     private Vector3 despawnPos;
 
@@ -191,7 +193,9 @@ public class DeerStalker : CreatureBehaviorScript
 
         if (!isMoving && currentState == CreatureState.Wander)
         {
-            Vector3 randomPoint = GetRandomPointAround(transform.position, 5f);
+            Vector3 randomPoint;
+            if(inWilderness) randomPoint = GetRandomPointAround(transform.position, 5);
+            else randomPoint = StructureManager.Instance.GetRandomTile();
             walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
@@ -223,7 +227,7 @@ public class DeerStalker : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 20)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 3)
         {
             timeSpent += Time.deltaTime;
             if (playerInSightRange)
@@ -292,6 +296,13 @@ public class DeerStalker : CreatureBehaviorScript
             return;
         }
 
+        //head.LookAt(target);
+        targetStructure = CheckForObstacle(corpseParticleTransform);
+        if(targetStructure)
+        {
+            target = targetStructure.transform;
+        }
+
         if (target && Vector3.Distance(transform.position, target.position) < 5)
         {
             StopTrackingPlayer();
@@ -333,7 +344,7 @@ public class DeerStalker : CreatureBehaviorScript
         {
             if(!target) target = player;
             agent.destination = target.position;
-            yield return new WaitForSeconds(0.2f); // update destination every 0.5 seconds to prevent overloading it
+            yield return new WaitForSeconds(0.05f);
         }
         trackPlayerRoutine = null;
     }
@@ -371,13 +382,16 @@ public class DeerStalker : CreatureBehaviorScript
         {
             hitPlayer = false;
             animTransformed.SetBool("AttackSuccessful", true);
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(3f);
             animTransformed.SetBool("AttackSuccessful", false);
         }
-        else if(targetStructure)
+        else if(hitStruct)
         {
             targetStructure.TakeDamage(damageToStructure);
+            targetStructure = null;
+            hitStruct = false;
         }
+        yield return new WaitForSeconds(0.5f);
         coroutineRunning = false;
         currentState = CreatureState.ChaseTarget;
     }
@@ -435,6 +449,16 @@ public class DeerStalker : CreatureBehaviorScript
                 hitPlayer = true;
                 attackHitbox.enabled = false;
             }
+        }
+
+        if(other.gameObject.layer == 6)
+        {
+            var structure = other.GetComponentInParent<StructureBehaviorScript>();
+            if (structure != null && targetStructure && structure == targetStructure)
+            {
+                hitStruct = true;
+                return;
+            }           
         }
     }
 

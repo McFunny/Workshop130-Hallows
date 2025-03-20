@@ -217,7 +217,9 @@ public class VileHog : CreatureBehaviorScript
         if (!isMoving && currentState == CreatureState.Wander)
         {
             agent.speed = walkSpeed;
-            Vector3 randomPoint = GetRandomPointAround(transform.position, 10f);
+            Vector3 randomPoint;
+            if(inWilderness) randomPoint = GetRandomPointAround(transform.position, 10f);
+            else randomPoint = StructureManager.Instance.GetRandomTile();
             walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
@@ -249,7 +251,7 @@ public class VileHog : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 10)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 3)
         {
             timeSpent += Time.deltaTime;
             if (playerInSightRange)
@@ -525,7 +527,7 @@ public class VileHog : CreatureBehaviorScript
         if (!coroutineRunning)
         {
             int r = Random.Range(0, 13);
-            if(r < 5 && variant != Variant.Tiny)
+            if(r < 5 && variant != Variant.Tiny && !inWilderness)
             {
                 CropCheck();
             }
