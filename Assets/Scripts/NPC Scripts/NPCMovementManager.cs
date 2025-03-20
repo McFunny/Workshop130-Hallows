@@ -24,7 +24,12 @@ public enum Destination
     CulinarianHouse,
     ButcherHouse,
     Graveyard,
-    TinkererWorkbench
+    TinkererWorkbench,
+    TravelerHouse,
+    MistMerchantWagon,
+    CarpenterHouse,
+    RandomLocation,
+
 }
 
 public enum Action
@@ -71,26 +76,40 @@ public class NPCMovementManager : MonoBehaviour
     public Sublocation GetRandomSublocation(Destination destination, bool isWorker, bool isAtHome = false)
     {
         DestinationData destinationData = destinations.Find(d => d.destination == destination);
-
         if (destinationData == null) return null;
 
         if (isAtHome)
         {
-            List<Sublocation> homeSublocations = destinationData.sublocations.FindAll(s => s.isAtHome);
+            List<Sublocation> homeSublocations = destinationData.sublocations.FindAll(s => s.isAtHome && !s.isOccupied);
             if (homeSublocations.Count > 0)
             {
-                return homeSublocations[Random.Range(0, homeSublocations.Count)];
+                Sublocation chosen = homeSublocations[Random.Range(0, homeSublocations.Count)];
+                chosen.isOccupied = true;
+                return chosen;
+            }
+            else
+            {
+                Debug.LogWarning("No available home sublocations, NPC will remain in place.");
+                return null;
             }
         }
+        else
+        {
+            // Get only NON-home sublocations
+            List<Sublocation> availableSublocations = destinationData.sublocations.FindAll(s =>
+                s.isForWorkers == isWorker && !s.isOccupied && !s.isAtHome);
 
-       
-        List<Sublocation> availableSublocations = destinationData.sublocations.FindAll(s =>
-            s.isForWorkers == isWorker && !s.isOccupied);
+            if (availableSublocations.Count == 0)
+            {
+                Debug.LogWarning($"No valid non-home sublocation for {destination}. Returning null.");
+                return null;
+            }
 
-        if (availableSublocations.Count == 0) return null;
-
-       
-        return availableSublocations[Random.Range(0, availableSublocations.Count)];
+            Sublocation chosenSublocation = availableSublocations[Random.Range(0, availableSublocations.Count)];
+            chosenSublocation.isOccupied = true;
+            return chosenSublocation;
+        }
     }
+
 }
 

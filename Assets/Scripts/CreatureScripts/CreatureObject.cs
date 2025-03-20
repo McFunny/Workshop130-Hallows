@@ -21,6 +21,8 @@ public class CreatureObject : ScriptableObject
 
     public bool contribuiteToCreatureCap = true; //EX Crows shouldnt contribuite to max amount of creatures loaded in. Instead use their spawn cap
 
+    public int amountKilled = 0;
+
     public Creature data = new Creature();
 
     public Creature CreateCreature()

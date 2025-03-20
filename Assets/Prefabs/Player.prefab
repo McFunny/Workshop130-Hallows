@@ -262,6 +262,7 @@ MonoBehaviour:
   currentMoney: 0
   totalMoneyEarned: 0
   stamina: 200
+  invincible: 0
   waterHeld: 0
   torchLit: 0
   interactionLayers:
@@ -803,7 +804,8 @@ AudioSource:
   m_GameObject: {fileID: 2073419245538793214}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.077
@@ -979,7 +981,7 @@ GameObject:
   - component: {fileID: 9208214954908016475}
   - component: {fileID: 5518798902475761872}
   - component: {fileID: 482822957764350694}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WeaponAttackCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1533,7 +1535,8 @@ AudioSource:
   m_GameObject: {fileID: 9079152816299130295}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 2bfc2099e4ceed24b951a7982085d5f6, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0

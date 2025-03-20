@@ -11,7 +11,7 @@ public static class SaveLoad
     public static SaveData CurrentSaveData = new SaveData();
 
     public const string SaveDirectory = "/SaveData/";
-    public const string FileName = "SaveGame.sav";
+    public const string FileName = "SaveGame.sav"; 
 
     //public static string saveDirectory => SaveDirectory;
     //public static string fileName => FileName;
@@ -23,7 +23,7 @@ public static class SaveLoad
     {
         OnSaveGame?.Invoke();
 
-        var dir = Application.persistentDataPath + SaveDirectory; //check what full directory is
+        var dir = Application.persistentDataPath + SaveDirectory + MainMenuScript.currentSaveSlot; //check what full directory is
 
         if (!Directory.Exists(dir)) //if it doesnt exist create the folder
         {
@@ -45,7 +45,7 @@ public static class SaveLoad
 
 
 
-        string fullPath = Application.persistentDataPath + SaveDirectory + FileName;
+        string fullPath = Application.persistentDataPath + SaveDirectory + MainMenuScript.currentSaveSlot + FileName;
         SaveData tempData = new SaveData();
 
         if (File.Exists(fullPath))
@@ -68,7 +68,7 @@ public static class SaveLoad
 
         public static void DeleteSaveData()
         {
-            string fullPath = Application.persistentDataPath + SaveDirectory + FileName;
+            string fullPath = Application.persistentDataPath + SaveDirectory + MainMenuScript.currentSaveSlot + FileName;
             if (File.Exists(fullPath))
             { 
                 File.Delete(fullPath); 
@@ -77,7 +77,7 @@ public static class SaveLoad
 
     public static bool IsThereSaveData()
     {
-        string fullPath = Application.persistentDataPath + SaveDirectory + FileName;
+        string fullPath = Application.persistentDataPath + SaveDirectory + MainMenuScript.currentSaveSlot + FileName;
         if (File.Exists(fullPath)) return true;
         else return false;
     }

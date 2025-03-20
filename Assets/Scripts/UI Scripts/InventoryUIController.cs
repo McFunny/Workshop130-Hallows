@@ -151,7 +151,16 @@ public class InventoryUIController : MonoBehaviour
     void DisplayInventory(InventorySystem invToDisplay)
     {
         //Chest Inventory
-        eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
+        if(ControlManager.isController) 
+        {
+            eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+        }
+        else
+        {
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
+        }
+        
         PlayerMovement.accessingInventory = true;
         chestPanel.gameObject.SetActive(true);
         playerBackpackPanel.gameObject.SetActive(true);

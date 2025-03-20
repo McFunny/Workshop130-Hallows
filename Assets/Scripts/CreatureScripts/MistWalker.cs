@@ -14,7 +14,6 @@ public class MistWalker : CreatureBehaviorScript
     public List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
 
     private bool isMoving = false;
-    private bool isBeingAttacked = false; // For priority target tracking (seed shooter)
     private bool coroutineRunning = false;
     private Transform target;
     private bool attackingPlayer = false;
@@ -48,7 +47,6 @@ public class MistWalker : CreatureBehaviorScript
         AttackPlayer,
         Stun,
         Die,
-        Trapped,
         FleeFromFire
     }
 
@@ -99,7 +97,7 @@ public class MistWalker : CreatureBehaviorScript
         {
             currentState = CreatureState.WalkTowardsPlayer;
         }
-        if (!isMoving)
+        else if (!isMoving)
         {
             Vector3 randomPoint = StructureManager.Instance.GetRandomTile();
             walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
@@ -129,7 +127,7 @@ public class MistWalker : CreatureBehaviorScript
         if(currentState == CreatureState.FleeFromFire && !fearParticle.activeSelf) fearParticle.SetActive(true);
         else if(currentState != CreatureState.FleeFromFire && fearParticle.activeSelf) fearParticle.SetActive(false);
 
-        if (!isDead && currentState != CreatureState.Stun && currentState != CreatureState.Trapped)
+        if (!isDead && currentState != CreatureState.Stun)
         {
             if(fireSource)
             {
@@ -228,10 +226,6 @@ public class MistWalker : CreatureBehaviorScript
                 // OnDeath();
                 break;
 
-            case CreatureState.Trapped:
-                Trapped();
-                anim.SetBool("IsWalking", false);
-                break;
             case CreatureState.FleeFromFire:
                 FleeFromFire();
                 anim.SetBool("IsWalking", true);
@@ -352,7 +346,7 @@ public class MistWalker : CreatureBehaviorScript
             agent.ResetPath();
             currentState = CreatureState.AttackStructure;
         }
-        else if(target == null || agent.destination != target.position)
+        else if((target == null || agent.destination != target.position) && targetStructure)
         {
             target = targetStructure.transform;
             agent.destination = target.position;
@@ -522,7 +516,7 @@ public class MistWalker : CreatureBehaviorScript
         }
         else
         {
-            currentState = CreatureState.WalkTowardsClosestStructure;
+            if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsClosestStructure;
         }
 
         yield return new WaitForSeconds(1.5f); // Cooldown between attacks
@@ -562,7 +556,7 @@ public class MistWalker : CreatureBehaviorScript
         }
         else
         {
-            currentState = CreatureState.WalkTowardsPlayer;
+            if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsPlayer;
             coroutineRunning = false;
             recoilCooldown = false;
             StartCoroutine(LungeCooldown());
@@ -592,7 +586,7 @@ public class MistWalker : CreatureBehaviorScript
         agent.velocity = Vector3.zero;
 
         attackingPlayer = false;
-        currentState = CreatureState.WalkTowardsPlayer;
+        if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsPlayer;
         recoilCooldown = false;
         yield return new WaitForSeconds(0.5f); 
         coroutineRunning = false;
@@ -641,6 +635,7 @@ public class MistWalker : CreatureBehaviorScript
 
     private void OnTriggerEnter(Collider other)
     {
+        if(currentState == CreatureState.Stun) return;
         if (attackingPlayer && other.CompareTag("Player") && !isDead)
         {
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
@@ -656,6 +651,7 @@ public class MistWalker : CreatureBehaviorScript
     {
         if (currentState != CreatureState.Stun)
         {
+            StopCoroutine(Stun(duration));
             StartCoroutine(Stun(duration));
             agent.destination = transform.position;
             agent.ResetPath();
@@ -727,12 +723,6 @@ public class MistWalker : CreatureBehaviorScript
             effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
         }
-    }
-
-    private void Trapped()
-    {
-        agent.ResetPath();
-        rb.isKinematic = true;
     }
 
     public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
