@@ -78,7 +78,7 @@ public class UIMenuButton : MonoBehaviour
             {
                 isSelected = true;
                 arrowImage.color = c_interactable;
-                arrowImage.enabled = true;
+                //arrowImage.enabled = true;
                 if(ignoreColor) return;
 
                 text.color = c_selected;
@@ -87,7 +87,7 @@ public class UIMenuButton : MonoBehaviour
             {
                 isSelected = false;
                 arrowImage.color = c_invisible;
-                arrowImage.enabled = false;
+                //arrowImage.enabled = false;
                 if(ignoreColor) return;
                 
                 text.color = c_deselected;
@@ -98,15 +98,15 @@ public class UIMenuButton : MonoBehaviour
 
     public void PointerEnter()
     {
-        if(!isDisabled) EventSystem.current.SetSelectedGameObject(this.gameObject);
-        arrowImage.enabled = true;
+        EventSystem.current.SetSelectedGameObject(this.gameObject);
+        //arrowImage.enabled = true;
     }
 
     public void PointerExit()
     {
         //print("ButtonExited");
-        if(!isDisabled) EventSystem.current.SetSelectedGameObject(null);
-        arrowImage.enabled = false;
+        EventSystem.current.SetSelectedGameObject(null);
+        //arrowImage.enabled = false;
     }
 
     void Select(InputAction.CallbackContext obj)
