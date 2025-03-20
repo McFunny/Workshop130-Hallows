@@ -64,7 +64,7 @@ public class ShovelAttack : MonoBehaviour
             //collider.enabled = false;
             //collisionPoint = other.ClosestPoint(transform.position);
             PlayHitParticle(c_Collision);
-            hitCreature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
+            ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
             return;
         }
 
@@ -84,7 +84,7 @@ public class ShovelAttack : MonoBehaviour
     void PlayHitParticle(Vector3 hitPoint)
     {
         print("Played");
-        ParticlePoolManager.Instance.MoveAndPlayVFX(hitPoint, ParticlePoolManager.Instance.hitEffect);
+        ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
         return;
         /*
         Vector3 direction = (transform.position - hitPoint).normalized;

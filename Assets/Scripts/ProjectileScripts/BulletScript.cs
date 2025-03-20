@@ -25,7 +25,7 @@ public class BulletScript : MonoBehaviour
                     structure.TakeDamage(structureDamage);
                     HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                     print("Hit Structure");
-                    ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                    ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
                     gameObject.SetActive(false);
                     if(fireBullet && structure.IsFlammable()) structure.LitOnFire(); 
                     return;
@@ -46,7 +46,7 @@ public class BulletScript : MonoBehaviour
                 npc.ShotAt();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Person");
-                ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
                 gameObject.SetActive(false);
                 return;
             }
@@ -63,7 +63,7 @@ public class BulletScript : MonoBehaviour
                 //playsound
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 print("Hit Creature");
-                ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+                ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 gameObject.SetActive(false);
                 return;
@@ -74,7 +74,7 @@ public class BulletScript : MonoBehaviour
         {
             HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
             print("Missed");
-            ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+            ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
             if(!fireBullet) ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
             gameObject.SetActive(false);
             return;
@@ -84,7 +84,7 @@ public class BulletScript : MonoBehaviour
         {
             if(playerDamage == 0) return;
             PlayerInteraction.Instance.StaminaChange(-playerDamage);
-            ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
+            ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             gameObject.SetActive(false);
         }
