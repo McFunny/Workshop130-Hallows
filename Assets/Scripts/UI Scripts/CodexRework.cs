@@ -12,6 +12,7 @@ public class CodexRework : MonoBehaviour
     public CodexEntries currentEntry;
     [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject, questContentObject;
     [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questCompleteText;
+    [SerializeField] private TextMeshProUGUI timesDone;
     [SerializeField] private int currentPage = 0;
     [SerializeField] private Slider questSlider;
     [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal, questObj;
@@ -140,6 +141,7 @@ public class CodexRework : MonoBehaviour
         if (!reset) currentPage = currentPage + page;
         else currentPage = page;
         currentPage = Mathf.Clamp(currentPage,0,entry.description.Length - 1);
+        currentEntry = entry;
 
         if(currentPage == 0) ImageCheck();
         else 
@@ -157,6 +159,25 @@ public class CodexRework : MonoBehaviour
             largeDescriptionText.text = entry.description[currentPage];
             horizontalEntryName.text = entry.entryName;
             horizontalDescriptionText.text = entry.description[currentPage];
+
+            if(entry.cropData != null)
+            {
+                timesDone.text = "Times harvested: " + entry.cropData.amountHarvested;
+                //print("Crop Data Found");
+                timesDone.gameObject.SetActive(true);
+            }
+            else if(entry.creatureData != null)
+            {
+                timesDone.text = "Times Killed: " + entry.creatureData.amountKilled;
+                //print("Creature Data Found");
+                timesDone.gameObject.SetActive(true);
+            }
+            else
+            {
+                //print("No Data Found");
+                timesDone.gameObject.SetActive(false);
+            }
+            
         }
         else
         {
@@ -441,8 +462,7 @@ public class CodexRework : MonoBehaviour
             for (int i = 0; i < activeQuests.Count; i++)
             {
                 var tempButton = Instantiate(horizontalEntryButton, questContentObject.transform, worldPositionStays:false);
-                var button = tempButton.gameObject.transform.GetChild(0).gameObject;
-                var tempName = tempButton.gameObject.transform.GetChild(1).gameObject;
+                var tempName = tempButton.gameObject.transform.GetChild(0).gameObject;
                 var tempID = tempButton.GetComponent<CodexButtonID>();
                 var tempText = tempName.GetComponent<TextMeshProUGUI>();
 
@@ -491,7 +511,7 @@ public class CodexRework : MonoBehaviour
                 if(!activeQuests[i].alreadyCompleted) tempText.text = tempText.text;
                 else tempText.text = "<s>" + tempText.text + "</s>";
 
-                button.name = "QuestButton" + i;
+                tempButton.name = "QuestButton" + i;
                 
                 tempID.assignedQuest = activeQuests[i];
 
@@ -510,6 +530,25 @@ public class CodexRework : MonoBehaviour
             if(temp.assignedEntry.unlocked) 
             {
                 HasUnlockedEntry(temp.assignedEntry);
+
+                if(temp.assignedEntry.cropData != null)
+                {
+                    timesDone.text = "Times harvested: " + temp.assignedEntry.cropData.amountHarvested;
+                    //print("Crop Data Found");
+                    timesDone.gameObject.SetActive(true);
+                }
+                else if(temp.assignedEntry.creatureData != null)
+                {
+                    timesDone.text = "Times Killed: " + temp.assignedEntry.creatureData.amountKilled;
+                    //print("Creature Data Found");
+                    timesDone.gameObject.SetActive(true);
+                }
+                else
+                {
+                    //print("No Data Found");
+                    timesDone.gameObject.SetActive(false);
+                }
+
                 print("Unlocked Entry Found");
                 break;
             }
@@ -548,6 +587,7 @@ public class CodexRework : MonoBehaviour
             largeImage.gameObject.SetActive(false);
             descriptionText.gameObject.SetActive(false);
             largeDescriptionText.gameObject.SetActive(true);
+            //timesDone.gameObject.SetActive(false);
             largeImage.sprite = null;
             smallImage.sprite = null;
             return;
@@ -561,6 +601,7 @@ public class CodexRework : MonoBehaviour
                 largeImage.gameObject.SetActive(true);
                 descriptionText.gameObject.SetActive(true);
                 largeDescriptionText.gameObject.SetActive(false);
+                //timesDone.gameObject.SetActive(true);
             }
             else
             {
@@ -569,6 +610,7 @@ public class CodexRework : MonoBehaviour
                 largeDescriptionText.gameObject.SetActive(true);
                 smallImage.gameObject.SetActive(true);
                 smallImage.sprite = currentEntry.mainImage;
+                //timesDone.gameObject.SetActive(false);
             } 
         }
         else
@@ -577,6 +619,7 @@ public class CodexRework : MonoBehaviour
             largeDescriptionText.gameObject.SetActive(true);
             largeImage.gameObject.SetActive(false);
             smallImage.gameObject.SetActive(false);
+            //timesDone.gameObject.SetActive(false);
             largeImage.sprite = null;
             smallImage.sprite = null;
         }

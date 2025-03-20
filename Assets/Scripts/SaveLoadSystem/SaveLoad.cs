@@ -23,7 +23,7 @@ public static class SaveLoad
     {
         OnSaveGame?.Invoke();
 
-        var dir = Application.persistentDataPath + SaveDirectory + MainMenuScript.currentSaveSlot + FileName; //check what full directory is
+        var dir = Application.persistentDataPath + SaveDirectory + MainMenuScript.currentSaveSlot; //check what full directory is
 
         if (!Directory.Exists(dir)) //if it doesnt exist create the folder
         {
@@ -31,7 +31,7 @@ public static class SaveLoad
         }
 
         string json = JsonUtility.ToJson(CurrentSaveData, true); //writes the save file
-        File.WriteAllText(dir, json);
+        File.WriteAllText(dir + FileName, json);
 
         Debug.Log("Saving Game");
 
