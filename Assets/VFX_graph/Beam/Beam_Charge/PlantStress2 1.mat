@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-283117319342800468
+--- !u!114 &-6978129449008836599
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,16 +20,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fog_Material_Smoke
-  m_Shader: {fileID: -6465566751694194690, guid: 3eb35c8b2dd7e694ca4f587a9d9caef2,
+  m_Name: PlantStress2 1
+  m_Shader: {fileID: -6465566751694194690, guid: 6c0e40ad478c2134887ed7d437ae74ec,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHATEST_ON
   - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords:
-  - _RECEIVE_SHADOWS_OFF
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -37,14 +35,14 @@ Material:
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
-  - SHADOWCASTER
   - DepthOnly
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: ca6ffa4c0142af0468748bb600698bb3, type: 3}
+        m_Texture: {fileID: 2800000, guid: c782e220595af2d44a6c0a9f0b18be84, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -61,24 +59,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 1
+    - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0
-    - _BlendModePreserveSpecular: 1
+    - _Blend: 2
     - _CastShadows: 0
-    - _Cull: 0
-    - _DstBlend: 10
-    - _Normal_Offset: 0
-    - _Normal_Strength: 0
+    - _Cull: 2
+    - _Distortion_amount: -0.02
+    - _DstBlend: 1
+    - _Noise_Scale: 5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 0
     - _SrcBlend: 5
     - _Surface: 1
-    - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
+    - _Color: {r: 12.844468, g: 12.844468, b: 12.844468, a: 0}
+    - _MainSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _Noise_Speed: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
