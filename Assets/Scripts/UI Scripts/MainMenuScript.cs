@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -6,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using SaveLoadSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -35,6 +37,9 @@ public class MainMenuScript : MonoBehaviour
     public Button[] nonNavigableButtons;
     public ConfirmationBox confirmationBox;
 
+    public List<FileData> fileDatas = new List<FileData>();
+    public static int currentSaveSlot = -1;//-1 means nothing is selected
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -48,6 +53,11 @@ public class MainMenuScript : MonoBehaviour
         int r = Random.Range(0,3);
 
         ChangeMenu(r);
+    }
+
+    void Start()
+    {
+        LoadSaveFileInfo();
     }
 
     private void OnEnable()
@@ -157,7 +167,7 @@ public class MainMenuScript : MonoBehaviour
         {
             if(confirmationBox.calledBy == loadButtons[i]) // Load Game
             {
-                string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + SaveLoad.FileName;
+                string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + SaveLoad.FileName + MainMenuScript.currentSaveSlot;
                 //SaveData tempData = new SaveData();
 
                 if (!File.Exists(fullPath))
@@ -263,6 +273,34 @@ public class MainMenuScript : MonoBehaviour
         }
     }
 
+    void LoadSaveFileInfo()
+    {
+        //for each filedata in fileDatas, load the info. if there is a save file, populate text, else say no file
+        for(int i = 0; i < fileDatas.Count; i++)
+        {
+            string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + SaveLoad.FileName + fileDatas[i];
+            SaveData tempData = new SaveData();
+                //SaveData tempData = new SaveData();
+
+            if (!File.Exists(fullPath))
+            {
+                Debug.Log("No save data");
+                //Have the text say no data
+                fileDatas[i].saveDataPresent = false;
+                return;
+            }
+            else
+            {
+                string json = File.ReadAllText(fullPath);
+                tempData = JsonUtility.FromJson<SaveData>(json);
+                fileDatas[i].dayNum = tempData.allGameSaveData.pDayNumber;
+                fileDatas[i].mintsCurrent = tempData.allGameSaveData.pCurrentMoney;
+                fileDatas[i].mintsTotal = tempData.allGameSaveData.pTotalMoneyEarned;
+                //populate the text variables
+            }
+        }
+    }
+
     [ContextMenu("Set To Menu 1")]
     public void SetToMenu1()
     {
@@ -281,4 +319,15 @@ public class MainMenuScript : MonoBehaviour
         nightLight.SetActive(true);
     }
     
+}
+
+[System.Serializable]
+public class FileData
+{
+    public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText;
+    public bool saveDataPresent = false;
+
+    public int dayNum;
+    public int mintsCurrent;
+    public int mintsTotal;
 }
