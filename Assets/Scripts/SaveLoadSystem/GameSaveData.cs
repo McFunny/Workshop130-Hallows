@@ -30,6 +30,7 @@ public class GameSaveData : MonoBehaviour
     public bool catacombUnlocked; //Key used to unlock door to catacombs
     public bool wildernessIntroduced; //Merchant has informed the player about the wilderness
     public bool playerHasBox; //Player currently has the box in their inventory, chest, or farm
+    public bool watergunObtained;
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
@@ -108,6 +109,7 @@ public class GameSaveData : MonoBehaviour
 
             townTreeCleared1 = data.allGameSaveData.townTreeCleared1;
             townTreeCleared2 = data.allGameSaveData.townTreeCleared2;
+            watergunObtained = data.allGameSaveData.watergunObtained;
     }
 }
     [System.Serializable]
@@ -141,6 +143,7 @@ public class GameSaveData : MonoBehaviour
         public bool culMet;
 
         public bool townTreeCleared1, townTreeCleared2;
+        public bool watergunObtained;
 
     public AllGameSaveData(GameSaveData data)
         {
@@ -174,6 +177,7 @@ public class GameSaveData : MonoBehaviour
 
             townTreeCleared1 = data.townTreeCleared1;
             townTreeCleared2 = data.townTreeCleared2;
+            watergunObtained = data.watergunObtained;
     //Debug.Log("Saving stamina. Result: " + pStamina);
         }
     }
