@@ -56,11 +56,6 @@ public class InputManager : MonoBehaviour
         }
         else{ structGrid.color = hiddenColor;}
 
-        if (ControlManager.isController && PauseScript.isPaused && Gamepad.current.buttonEast.wasPressedThisFrame)
-        {
-            pauseScript.ResumeGame();
-        }
-
         //if(Input.GetKeyDown("t"))
         //{
         //    if(Time.timeScale == 1f) Time.timeScale = 4f;
@@ -88,7 +83,7 @@ public class InputManager : MonoBehaviour
 
     private void PauseGame(InputAction.CallbackContext obj)
     {
-        if(PauseScript.isPaused) { pauseScript.ResumeGame(); return; }
+        if(PauseScript.isPaused && !PlayerMovement.isCodexOpen) { pauseScript.ResumeGame(); return; }
 
         if(PlayerMovement.isCodexOpen) return;
         if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;

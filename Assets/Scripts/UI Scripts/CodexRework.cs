@@ -29,11 +29,13 @@ public class CodexRework : MonoBehaviour
     private QuestManager questManager;
     public Sprite[] characterPortraits;
     public List<Quest> activeQuests = new List<Quest>();
+    private PauseScript pauseScript;
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         questManager = FindFirstObjectByType<QuestManager>();
+        pauseScript = FindFirstObjectByType<PauseScript>();
     }
 
     void Start()
@@ -121,7 +123,8 @@ public class CodexRework : MonoBehaviour
         {
             ClearCodex();
             //TimeManager.Instance.stopTime = false;
-            EventSystem.current.SetSelectedGameObject(null);
+            if(!PauseScript.isPaused) EventSystem.current.SetSelectedGameObject(null);
+            else EventSystem.current.SetSelectedGameObject(pauseScript.buttons[4].gameObject); //Codex button in pause menu
             Time.timeScale = 1;
         }
         else

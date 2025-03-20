@@ -10,19 +10,22 @@ public class PauseScript : MonoBehaviour
 {
     public static bool isPaused;
     bool isTransitioning = false;
-    public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault, controlsDefault;
+    public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault, controlsDefault, codexObject, codexDefault;
     private SettingsValueManager settingsValueManager;
     public Button[] buttons;
     ControlManager controlManager;
     PlayerEffectsHandler pEffectsHandler;
     public OpenWebsite openWebsite;
     public ConfirmationBox confirmationBox;
+    
+    private CodexRework codex;
     // Start is called before the first frame update
     void Awake()
     {
         isPaused = false;
         controlManager = FindFirstObjectByType<ControlManager>();
         settingsValueManager = settingsCanvas.GetComponent<SettingsValueManager>();
+        codex = FindFirstObjectByType<CodexRework>();
     }
 
     private void OnEnable()
@@ -58,6 +61,11 @@ public class PauseScript : MonoBehaviour
             }
             else openWebsite.canOpen = true;
         }
+
+        if (ControlManager.isController && isPaused && !PlayerMovement.isCodexOpen && Gamepad.current.buttonEast.wasPressedThisFrame)
+        {
+            ResumeGame();
+        }
         
 
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused)
@@ -65,10 +73,13 @@ public class PauseScript : MonoBehaviour
             if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             else if(controlsObject.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
             else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
+            else if(codexObject.activeSelf)EventSystem.current.SetSelectedGameObject(codexDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
             print("Default Menu Object Selected");
         } 
     }
+
+    
 
     private void PausePressed(InputAction.CallbackContext obj)
     {
@@ -136,7 +147,7 @@ public class PauseScript : MonoBehaviour
         confirmationBox.gameObject.SetActive(false);
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
         confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
-        EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
     }
 
     private void NoPressed()
@@ -144,7 +155,7 @@ public class PauseScript : MonoBehaviour
         confirmationBox.gameObject.SetActive(false);
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
         confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
-        EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
     }
 
     public void ResumeGame()
@@ -162,7 +173,13 @@ public class PauseScript : MonoBehaviour
         }
         if(controlsObject.activeSelf)
         {
-            EventSystem.current.SetSelectedGameObject(buttons[2].gameObject);
+            if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[2].gameObject);
+            return;
+        }
+        if(codexObject.activeSelf)
+        {
+            if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
+            PlayerMovement.isCodexOpen = false;
             return;
         }
 
@@ -187,14 +204,21 @@ public class PauseScript : MonoBehaviour
     {
         print("Settings Pressed");
         settingsCanvas.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(settingsDefault);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsDefault);
     }
 
     public void OpenControlsScreen()
     {
         print("Controls Pressed");
         controlsObject.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(controlsDefault);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(controlsDefault);
+    }
+
+    public void OpenPauseCodex()
+    {
+        codex.OpenCloseCodex();
+        PlayerMovement.isCodexOpen = true;
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(codexDefault);
     }
     
 }
