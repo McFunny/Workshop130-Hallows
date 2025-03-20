@@ -516,7 +516,7 @@ public class MistWalker : CreatureBehaviorScript
         }
         else
         {
-            currentState = CreatureState.WalkTowardsClosestStructure;
+            if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsClosestStructure;
         }
 
         yield return new WaitForSeconds(1.5f); // Cooldown between attacks
@@ -556,7 +556,7 @@ public class MistWalker : CreatureBehaviorScript
         }
         else
         {
-            currentState = CreatureState.WalkTowardsPlayer;
+            if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsPlayer;
             coroutineRunning = false;
             recoilCooldown = false;
             StartCoroutine(LungeCooldown());
@@ -586,7 +586,7 @@ public class MistWalker : CreatureBehaviorScript
         agent.velocity = Vector3.zero;
 
         attackingPlayer = false;
-        currentState = CreatureState.WalkTowardsPlayer;
+        if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsPlayer;
         recoilCooldown = false;
         yield return new WaitForSeconds(0.5f); 
         coroutineRunning = false;
@@ -635,6 +635,7 @@ public class MistWalker : CreatureBehaviorScript
 
     private void OnTriggerEnter(Collider other)
     {
+        if(currentState == CreatureState.Stun) return;
         if (attackingPlayer && other.CompareTag("Player") && !isDead)
         {
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
@@ -650,6 +651,7 @@ public class MistWalker : CreatureBehaviorScript
     {
         if (currentState != CreatureState.Stun)
         {
+            StopCoroutine(Stun(duration));
             StartCoroutine(Stun(duration));
             agent.destination = transform.position;
             agent.ResetPath();
