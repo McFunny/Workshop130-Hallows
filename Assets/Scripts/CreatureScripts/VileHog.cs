@@ -28,7 +28,7 @@ public class VileHog : CreatureBehaviorScript
     public Collider attackHitbox;
     public Transform chargePosition;
     public SpriteRenderer r;
-    public ParticleSystem chargeParticles;
+    public ParticleSystem chargeParticles, dashParticles;
 
     float beginChargeTime = 1f; // Time it takes to initiate a charge
     float chargeTime = 2f; // Time it takes to complete a charge
@@ -480,6 +480,7 @@ public class VileHog : CreatureBehaviorScript
         //Actively Charging
         effectsHandler.MiscSound2();
         anim.SetBool("ChargePrep", false);
+        dashParticles.Play();
         faceTarget = false;
         agent.speed = chargeSpeed;
         isCharging = true;
@@ -491,6 +492,7 @@ public class VileHog : CreatureBehaviorScript
             yield return null;
         }
         attackHitbox.enabled = false;
+        dashParticles.Stop();
         if(chargeTimeElapsed >= chargeTime)
         {
             recoilTime = 2f;
@@ -640,7 +642,7 @@ public class VileHog : CreatureBehaviorScript
 
     public override void OnDamage()
     {
-        effectsHandler.OnHit();
+        if(health > 0) effectsHandler.OnHit();
         if(currentState == CreatureState.FollowParent)
         {
             fleeTimeLeft = Random.Range(10, 12);
@@ -658,6 +660,8 @@ public class VileHog : CreatureBehaviorScript
             agent.enabled = false;
             rb.isKinematic = true;
             rb.freezeRotation = true;
+            dashParticles.Stop();
+            chargeParticles.Stop();
             StopAllCoroutines();
         }
     }

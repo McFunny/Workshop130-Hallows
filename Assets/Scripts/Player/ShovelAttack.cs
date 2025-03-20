@@ -61,10 +61,10 @@ public class ShovelAttack : MonoBehaviour
             HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
             print("Hit Creature");
             if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
-            //collider.enabled = false;
-            //collisionPoint = other.ClosestPoint(transform.position);
-            PlayHitParticle(c_Collision);
-            ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
+
+            //PlayHitParticle(c_Collision);
+            ParticlePoolManager.Instance.MoveAndPlayVFX(c_Collision, ParticlePoolManager.Instance.hitEffect);
+            hitCreature.PlayHitParticle(c_Collision);
             return;
         }
 
@@ -74,8 +74,7 @@ public class ShovelAttack : MonoBehaviour
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             print("Hit Structure");
             if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
-            //collider.enabled = false;
-            //collisionPoint = other.ClosestPoint(transform.position);
+
             PlayHitParticle(s_Collision);
         }
     }
