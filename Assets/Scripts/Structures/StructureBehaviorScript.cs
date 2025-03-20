@@ -56,6 +56,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     [HideInInspector] bool highlightEnabled;
+    public bool canShowHighlight = true;
 
     [HideInInspector] public StructureAudioHandler audioHandler;
     //[HideInInspector] public AudioSource source;
@@ -176,7 +177,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void ToggleHighlight(bool enable)
     {
-        if(highlight.Count == 0) return;
+        if(highlight.Count == 0 || !canShowHighlight) return;
         if(highlightMaterial.Count == 0)
         {
             foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);

@@ -262,7 +262,8 @@ AudioSource:
   m_GameObject: {fileID: 4227526203200057079}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.228
@@ -391,6 +392,7 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  absentFromGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -409,6 +411,7 @@ MonoBehaviour:
   nearbyFires: []
   highlight:
   - {fileID: 1894434091595668953}
+  canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 0}
@@ -416,9 +419,13 @@ MonoBehaviour:
   possibleItems:
   - {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
   - {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+  - {fileID: 11400000, guid: 0d9d14475dbf9bf4db367b3ec3b3f639, type: 2}
+  - {fileID: 11400000, guid: 00579eb2e7981124d9372e2f3176cb84, type: 2}
   itemProbabilities:
   - 30
   - 40
+  - 40
+  - 30
 --- !u!1 &9112103938443658095
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,12 +27,12 @@ public class FogTeleporter : MonoBehaviour
             else if(enemyTeleport)
             {
                 var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
-                if(creature) other.transform.position = enemyTeleport.position;
+                if(creature) creature.transform.position = enemyTeleport.position;
             } 
             else if(otherEnd) 
             {
                 var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
-                if(creature) other.transform.position = otherEnd.position;
+                if(creature) creature.transform.position = otherEnd.position;
             }
         }
 

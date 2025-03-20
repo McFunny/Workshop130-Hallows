@@ -163,7 +163,7 @@ public class NightSpawningManager : MonoBehaviour
             }
             
         }
-        while(spawnAttempts < 4);
+        while(spawnAttempts < 5);
 
         if(allCreatures.Count < maxCreatures && difficultyPoints < 10)
         {

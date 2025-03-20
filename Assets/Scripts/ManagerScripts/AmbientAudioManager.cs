@@ -115,6 +115,7 @@ public class AmbientAudioManager : MonoBehaviour
             else if (TimeManager.Instance.isDay)
             {
                 if(TownGate.Instance.location == PlayerLocation.InWilderness) musicSource.clip = wildernessAmbience[Random.Range(0, wildernessAmbience.Length)];
+                else if(TownGate.Instance.location == PlayerLocation.InCrypt) musicSource.clip = catacombAmbience[Random.Range(0, wildernessAmbience.Length)];
                 else musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
             }
             else
