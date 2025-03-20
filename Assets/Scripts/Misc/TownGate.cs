@@ -55,6 +55,8 @@ public class TownGate : MonoBehaviour
     {
         //Section to change music
 
+        if(location == newLocation) return;
+
         switch(newLocation)
         {
             case PlayerLocation.InFarm:

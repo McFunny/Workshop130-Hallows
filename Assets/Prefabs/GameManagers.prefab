@@ -1294,7 +1294,8 @@ AudioSource:
   m_GameObject: {fileID: 1929285858655016751}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.09
@@ -2282,6 +2283,7 @@ GameObject:
   - component: {fileID: 3561388021602643860}
   - component: {fileID: 4487365083115385320}
   - component: {fileID: 5300856800128639941}
+  - component: {fileID: 5462721188549945287}
   m_Layer: 0
   m_Name: AmbientAudio
   m_TagString: Untagged
@@ -2338,11 +2340,14 @@ MonoBehaviour:
   musicNightAmbience:
   - {fileID: 8300000, guid: f7c3a44a2fbb5ef438c6b2ffdfe24176, type: 3}
   - {fileID: 8300000, guid: 64aeac4a7083231439a32d713993f958, type: 3}
+  - {fileID: 8300000, guid: 73d96c0169715924cbc868f73aae37e2, type: 3}
   wildernessAmbience:
   - {fileID: 8300000, guid: dbc3ebbc41c88ff4d98946b385b3d81c, type: 3}
   - {fileID: 8300000, guid: eeb8fc2d4c0fdb54f8f9a6b0d2150ce7, type: 3}
   - {fileID: 8300000, guid: aed83e19c312a3b47b78b747a982d42e, type: 3}
-  catacombAmbience: []
+  catacombAmbience:
+  - {fileID: 8300000, guid: 9669ac320599a30469fd58e4d0c265a3, type: 3}
+  - {fileID: 8300000, guid: 04efaf1b22fd52c498957bcf3cb47662, type: 3}
   finaleTheme: {fileID: 8300000, guid: ed6675581b6ee584e892f9812ecad236, type: 3}
   bellTower: {fileID: 8300000, guid: 0b7f67cc2ca54644eade598edf5e0563, type: 3}
   playMusicAtStart: 1
@@ -2355,7 +2360,8 @@ AudioSource:
   m_GameObject: {fileID: 2610442829083595049}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: cfedab036a6276a44af79599cccad0ac, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
@@ -2451,7 +2457,8 @@ AudioSource:
   m_GameObject: {fileID: 2610442829083595049}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8573670765242314924, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.113
@@ -2538,6 +2545,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5462721188549945287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2610442829083595049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e975468d2c81541bc1386a1c6fd071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d, type: 2}
 --- !u!1 &2672306667178793352
 GameObject:
   m_ObjectHideFlags: 0

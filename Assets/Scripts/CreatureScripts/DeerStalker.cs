@@ -39,6 +39,7 @@ public class DeerStalker : CreatureBehaviorScript
 
     //Its purpose is a player attacker only. Only attacks structures that impede it
     //Still needs Idle anim variance and transform particles
+    //Occasionally will laugh after a bite or chase, giving the player a chance to run or hit
 
     public enum CreatureState
     {
