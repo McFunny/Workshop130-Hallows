@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class DeerStalker : CreatureBehaviorScript
 {
-    /*
+    
     public Variant variant; // what variant of creature is this?
 
     bool hasTransformed = false;
@@ -13,6 +13,10 @@ public class DeerStalker : CreatureBehaviorScript
     public Animator animTransformed; //anim of the tainted deer
 
     public GameObject deer,taintedDeer;
+
+    private StructureBehaviorScript targetStructure;
+
+    //public ParticleSystem transformParticles;
 
     private bool isMoving = false;
     private bool coroutineRunning = false;
@@ -36,20 +40,17 @@ public class DeerStalker : CreatureBehaviorScript
         SpawnIn,
         Idle,
         Wander,
-        Transform,
+        Transformation,
         ChaseTarget,
-        WalkTowardsPlayer,
-        AttackStructure,
-        AttackPlayer,
+        AttackInFront,
         Stun,
-        Die,
-        FleeFromFire
+        Die
     }
 
     public enum Variant
     {
         Normal,
-        Pure //Wont Transform
+        Pure //Wont Transformation
     }
 
     public CreatureState currentState;
@@ -78,7 +79,7 @@ public class DeerStalker : CreatureBehaviorScript
     {
         if(inWilderness)
         {
-            currentState = CreatureState.WalkTowardsPlayer;
+            currentState = CreatureState.ChaseTarget;
         }
         else if (!isMoving)
         {
@@ -87,131 +88,59 @@ public class DeerStalker : CreatureBehaviorScript
         }
     }
 
-    private void UpdateStructureList()
-    {
-        availableStructure.Clear();
-        foreach (var structure in structManager.allStructs)
-        {
-            if (structure && targettableStructures.Contains(structure.structData))
-                availableStructure.Add(structure);
-        }
-
-        if (availableStructure.Count > 0)
-        {
-            int r = Random.Range(0, availableStructure.Count);
-            targetStructure = availableStructure[r];
-        }
-    }
-
     void Update()
     {
         if (health <= 0) isDead = true;
 
-        if(currentState == CreatureState.FleeFromFire && !fearParticle.activeSelf) fearParticle.SetActive(true);
-        else if(currentState != CreatureState.FleeFromFire && fearParticle.activeSelf) fearParticle.SetActive(false);
-
         if (!isDead && currentState != CreatureState.Stun)
         {
-            if(fireSource)
-            {
-                float distFromFire = Vector3.Distance(fireSource.transform.position, transform.position);
-
-                if(currentState != CreatureState.FleeFromFire && !coroutineRunning) currentState = CreatureState.FleeFromFire;
-
-                if(fireSource.gameObject.activeSelf == false || distFromFire > fireSource.fleeRange)
-                {
-                    fireSource = null;
-                    currentState = CreatureState.Wander;
-                }
-                if(fireSource)
-                {
-                    CheckState(currentState);
-                    return;
-                } 
-            }
 
             float distance = Vector3.Distance(player.position, transform.position);
             playerInSightRange = distance <= sightRange;
             playerInAttackRange = distance <= attackRange;
-
-            if (playerInSightRange && currentState != CreatureState.AttackPlayer && currentState != CreatureState.WalkTowardsPlayer && (currentState != CreatureState.AttackStructure || playerInAttackRange))
-            {
-                currentState = CreatureState.WalkTowardsPlayer;
-            }
 
             CheckState(currentState);
         }
         else
         {
             attackHitbox.enabled = false;
-            fearParticle.SetActive(false);
         }
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        float attackRange = 3f;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     public void CheckState(CreatureState currentState)
     {
         switch (currentState)
         {
-            case CreatureState.AttackPlayer:
-                AttackPlayer();
-                anim.SetBool("IsWalking", true);
-                break;
-
             case CreatureState.SpawnIn:
                 Spawn();
-                anim.SetBool("IsWalking", true);
                 break;
 
             case CreatureState.Idle:
                 Idle();
-                anim.SetBool("IsWalking", false);
                 break;
 
             case CreatureState.Wander:
                 Wander();
-                anim.SetBool("IsWalking", true);
                 break;
 
-            case CreatureState.WalkTowardsClosestStructure:
-                WalkTowardsClosestStructure();
-                anim.SetBool("IsWalking", true);
+            case CreatureState.Transformation:
+                Transformation();
                 break;
 
-            case CreatureState.WalkTowardsPriorityStructure:
-                //WalkTowardsPriorityStructure();
-                Debug.LogError("Should not be in this state");
-                anim.SetBool("IsWalking", true);
+            case CreatureState.ChaseTarget:
+                if(hasTransformed) ChaseTarget();
+                else WalkTowardsPlayer();
                 break;
 
-            case CreatureState.WalkTowardsPlayer:
-                WalkTowardsPlayer();
-                anim.SetBool("IsWalking", true);
-                break;
-
-            case CreatureState.AttackStructure:
-                AttackStructure();
-                anim.SetBool("IsWalking", false);
+            case CreatureState.AttackInFront:
+                Attack();
                 break;
 
             case CreatureState.Stun:
-                anim.SetBool("IsWalking", false);
                 break;
 
             case CreatureState.Die:
                 // OnDeath();
-                break;
-
-            case CreatureState.FleeFromFire:
-                FleeFromFire();
-                anim.SetBool("IsWalking", true);
                 break;
 
             default:
@@ -223,9 +152,9 @@ public class DeerStalker : CreatureBehaviorScript
     #region WanderingFunctions
     public void Wander()
     {
-        if (playerInSightRange || inWilderness)
+        if ((playerInSightRange && hasTransformed) || inWilderness)
         {
-            currentState = CreatureState.WalkTowardsPlayer;
+            currentState = CreatureState.ChaseTarget;
             return;
         }
 
@@ -268,7 +197,7 @@ public class DeerStalker : CreatureBehaviorScript
             timeSpent += Time.deltaTime;
             if (playerInSightRange)
             {
-                currentState = CreatureState.WalkTowardsPlayer;
+                currentState = CreatureState.ChaseTarget;
                 isMoving = false;
                 coroutineRunning = false;
                 walkRoutine = null;
@@ -302,89 +231,40 @@ public class DeerStalker : CreatureBehaviorScript
         walkRoutine = null;
     }
 
-
-    private void WalkTowardsClosestStructure()
+    void ChaseTarget()
     {
-        if (targetStructure == null || !targetStructure.gameObject.activeSelf)
+        if (trackPlayerRoutine == null)
         {
-            targetStructure = FindClosestStructure();
-            if (targetStructure != null)
+            trackPlayerRoutine = StartCoroutine(TrackPlayer());
+        }
+        if(target == null)
+        {
+            if(playerInSightRange)
             {
-                target = targetStructure.transform;
-                agent.destination = target.position;
+                target = player;
             }
             else
             {
                 currentState = CreatureState.Wander;
             }
-        }
-        if(CheckForObstacle(transform) != null)
-        {
-            targetStructure = CheckForObstacle(transform);
-            target = targetStructure.transform;
-            agent.destination = target.position;
-        }
-        else if (targetStructure && Vector3.Distance(transform.position, targetStructure.transform.position) < 4f)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
-        {
-            agent.ResetPath();
-            currentState = CreatureState.AttackStructure;
-        }
-        else if(target == null || agent.destination != target.position)
-        {
-            target = targetStructure.transform;
-            agent.destination = target.position;
-        }
-    }
-
-    private StructureBehaviorScript FindClosestStructure()
-    {
-        StructureBehaviorScript closestStructure = null;
-        float closestDistance = Mathf.Infinity;
-
-        float distanceToStructure;
-        float r;
-
-        foreach (var structure in availableStructure)
-        {
-            if (structure == null) continue;
-
-            distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
-
-            r = Random.Range(0,10); //to add randomness to what they chose to seek out
-
-            if(structure.wealthValue == 0) continue; //to prevent mistwalkers from targetting dirt without a crop
-
-            if (distanceToStructure < closestDistance && r > 1)
-            {
-                closestDistance = distanceToStructure;
-                closestStructure = structure;
-            }
-        }
-        return closestStructure;
-    }
-
-    /*private void WalkTowardsPriorityStructure()
-    {
-        if (targetStructure == null)
-        {
-            currentState = CreatureState.Wander;
             return;
         }
 
-        if (target != targetStructure.transform)
+        if (target && Vector3.Distance(transform.position, target.position) < 5)
         {
-            target = targetStructure.transform;
-            agent.destination = target.position;
+            StopTrackingPlayer();
+            currentState = CreatureState.AttackInFront;
         }
+        else if (!playerInSightRange && !inWilderness && target == player)
+        {
+            currentState = CreatureState.Wander;
+            target = null;
+            StopTrackingPlayer();
+            //Code for losing sight
+        }
+    }
 
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 3f)
-        {
-            agent.ResetPath();
-            currentState = CreatureState.AttackStructure;
-        }
-    } */
-/*
-    private void WalkTowardsPlayer()
+    private void WalkTowardsPlayer() //Movement for passive Deer in the wilderness
     {
         if (trackPlayerRoutine == null)
         {
@@ -393,33 +273,24 @@ public class DeerStalker : CreatureBehaviorScript
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= 3 || (distanceToPlayer <= lungeRange && canLunge))
+        if (playerInAttackRange)
         {
             StopTrackingPlayer();
-            currentState = CreatureState.AttackPlayer;
-        }
-        else if(!playerInAttackRange && CheckForObstacle(transform) != null)
-        {
-            StopTrackingPlayer();
-            targetStructure = CheckForObstacle(transform);
-            currentState = CreatureState.AttackStructure;
+            currentState = CreatureState.Transformation;
         }
         else if (!playerInSightRange && !inWilderness)
         {
-            if(targetStructure)
-            {
-                currentState = CreatureState.WalkTowardsClosestStructure;
-            }
-            else currentState = CreatureState.Wander;
+            currentState = CreatureState.Wander;
             StopTrackingPlayer();
         }
     }
 
     private IEnumerator TrackPlayer()
     {
-        while ((playerInSightRange || inWilderness) && currentState == CreatureState.WalkTowardsPlayer)
+        while ((playerInSightRange || inWilderness) && !hasTransformed)
         {
-            agent.destination = player.position;
+            if(!target) target = player;
+            agent.destination = target.position;
             yield return new WaitForSeconds(0.5f); // update destination every 0.5 seconds to prevent overloading it
         }
         trackPlayerRoutine = null;
@@ -434,182 +305,47 @@ public class DeerStalker : CreatureBehaviorScript
         }
         agent.ResetPath();
     }
-
-    private void FleeFromFire()
-    {
-        Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
-        agent.destination = runTo;
-        if(agent.speed > 0 && agent.speed != 5) agent.speed = 5;
-    }
     #endregion
-
-    #region AttackingFunctions
-    private void AttackPlayer()
+    private void Attack()
     {
-        if (coroutineRunning || isRecoiling)
-            return;
-
-        transform.LookAt(player.position);
-
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance <= attackRange)
-        {
-            StartCoroutine(SwipePlayer());
-            transform.LookAt(player.position);
-        }
-        else if (distance > attackRange && distance <= lungeRange && canLunge && (!PlayerInteraction.Instance.torchLit || (PlayerInteraction.Instance.torchLit && HandItemManager.Instance.GetCurrentType() != ToolType.Torch)))
-        {
-            StartCoroutine(LungeAtPlayer());
-        }
-        else
-        {
-            currentState = CreatureState.WalkTowardsPlayer;
-        }
+        //
     }
 
-    private void AttackStructure()
+    void Transformation()
     {
-        if (targetStructure == null)
-        {
-            currentState = CreatureState.Wander;
-        }
-        else if (!coroutineRunning)
-        {
-            StartCoroutine(AttackingStructure());
-        }
+        if(coroutineRunning) return;
+
+        StartCoroutine(Transforming());
     }
 
-    private IEnumerator AttackingStructure()
+    IEnumerator Transforming()
     {
         coroutineRunning = true;
-        anim.SetTrigger("IsAttacking");
-        transform.LookAt(targetStructure.transform.position);
-
-        yield return new WaitForSeconds(1f); 
-
-        if (Vector3.Distance(transform.position, targetStructure.transform.position) < 5f)
-        {
-            coroutineRunning = true;
-            targetStructure.TakeDamage(damageToStructure);
-            transform.LookAt(targetStructure.transform.position);
-            if (targetStructure != null && targetStructure.health <= 0) { targetStructure = null; }
-            //yield return new WaitForSeconds(3f);
-            //coroutineRunning = false;
-        }
-        else
-        {
-            currentState = CreatureState.WalkTowardsClosestStructure;
-        }
-
-        yield return new WaitForSeconds(1.5f); // Cooldown between attacks
+        yield return new WaitForSeconds(2.5f);
+        deer.SetActive(false);
+        taintedDeer.SetActive(true);
+        hasTransformed = true;
+        currentState = CreatureState.Wander;
         coroutineRunning = false;
     }
-
-    private IEnumerator LungeAtPlayer()
-    {
-        coroutineRunning = true;
-        attackingPlayer = true;
-
-        recoilCooldown = true;
-        //anim.SetTrigger("IsLunging");
-        anim.Play("MistLunge", -1, 0);
-        canLunge = false;
-
-        effectsHandler.MiscSound();
-
-        yield return new WaitForSeconds(0.75f); 
-
-       
-        if(currentState != CreatureState.Stun)
-        {
-            Vector3 lungeDirection = (player.position - transform.position).normalized;
-            agent.velocity = lungeDirection * 20f; //better lunge
-        }
-
-        yield return new WaitForSeconds(0.5f);
-
-        attackingPlayer = false;
-        agent.velocity = Vector3.zero;
-        if(canDoubleLunge && !isDead)
-        {
-            yield return new WaitForSeconds(0.1f);
-            StartCoroutine(LungeAtPlayer());
-            canDoubleLunge = false;
-        }
-        else
-        {
-            currentState = CreatureState.WalkTowardsPlayer;
-            coroutineRunning = false;
-            recoilCooldown = false;
-            StartCoroutine(LungeCooldown());
-        }
-
-    }
-
-    private IEnumerator SwipePlayer()
-    {
-        coroutineRunning = true;
-        attackingPlayer = true;
-
-        anim.SetTrigger("IsAttacking");
-
-        effectsHandler.MiscSound2();
-        recoilCooldown = true;
-
-        yield return new WaitForSeconds(0.5f); 
-
-        if(currentState != CreatureState.Stun)
-        {
-            Vector3 lungeDirection = (player.position - transform.position).normalized;
-            agent.velocity = lungeDirection * 8; 
-        }
-
-        yield return new WaitForSeconds(0.8f);
-        agent.velocity = Vector3.zero;
-
-        attackingPlayer = false;
-        currentState = CreatureState.WalkTowardsPlayer;
-        recoilCooldown = false;
-        yield return new WaitForSeconds(0.5f); 
-        coroutineRunning = false;
-    }
-
-    private IEnumerator LungeCooldown()
-    {
-        if(variant == Variant.Strong)
-        {
-            float r = Random.Range(0, 100);
-            if(r > 30) canDoubleLunge = true;
-        }
-        yield return new WaitForSeconds(lungeCooldown);
-        canLunge = true;
-    }
-    #endregion
 
     private void Idle()
     {
         if (playerInSightRange)
         {
-            currentState = CreatureState.WalkTowardsPlayer;
+            if(hasTransformed) currentState = CreatureState.ChaseTarget;
+            else currentState = CreatureState.Transformation;
             return;
         }
 
         if (!coroutineRunning)
         {
             int r = Random.Range(0, 13);
-            if (r < 2)
-            {
-                if (availableStructure.Count > 0)
-                {
-                    currentState = CreatureState.WalkTowardsClosestStructure;
-                }
-            }
-            else if (r < 6)
+            if (r < 6)
             {
                 StartCoroutine(WaitAround());
             }
-            else if (r >= 7)
+            else
             {
                 currentState = CreatureState.Wander;
             }
@@ -636,7 +372,6 @@ public class DeerStalker : CreatureBehaviorScript
             StartCoroutine(Stun(duration));
             agent.destination = transform.position;
             agent.ResetPath();
-            anim.SetBool("IsWalking", false);
             anim.SetTrigger("IsRecoiling");
             return true;
         }
@@ -647,9 +382,6 @@ public class DeerStalker : CreatureBehaviorScript
     {
         currentState = CreatureState.Stun;
         coroutineRunning = false;
-        //StopAllCoroutines();
-        StopCoroutine(LungeAtPlayer());
-        StopCoroutine(SwipePlayer());
         StopTrackingPlayer();
         if(walkRoutine != null)
         {
@@ -666,13 +398,13 @@ public class DeerStalker : CreatureBehaviorScript
         if (!isDead)
         {
             isDead = true;
-            anim.SetTrigger("IsDead");
+            anim.Play("Death");
+            animTransformed.Play("Death");
             base.OnDeath();
             agent.enabled = false;
             rb.isKinematic = true;
             rb.freezeRotation = true;
             StopAllCoroutines();
-            fearParticle.SetActive(false);
         }
     }
 
@@ -692,7 +424,7 @@ public class DeerStalker : CreatureBehaviorScript
         isRecoiling = true;
         yield return new WaitForSeconds(1);
         isRecoiling = false;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(4);
         recoilCooldown = false;
     }
 
@@ -706,27 +438,11 @@ public class DeerStalker : CreatureBehaviorScript
         }
     }
 
-    public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
-    {
-        fireSource = _fireSource;
-        successful = true;
-    }
-
     public override void NewPriorityTarget(StructureBehaviorScript newStruct)
     {
         if(targetStructure) return;
         targetStructure = newStruct;
-        if(currentState == CreatureState.Idle || currentState == CreatureState.Wander) currentState = CreatureState.WalkTowardsClosestStructure;
+        if(currentState == CreatureState.Idle || currentState == CreatureState.Wander) currentState = CreatureState.ChaseTarget;
         
     }
-
-    public void WalkSpeedToggle(float _speed)
-    {
-        agent.speed = _speed;
-    }
-
-    public void ColliderChange(bool enabled)
-    {
-        attackHitbox.enabled = enabled;
-    } */
 }
