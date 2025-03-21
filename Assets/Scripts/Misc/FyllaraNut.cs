@@ -53,13 +53,9 @@ public class FyllaraNut : StructureBehaviorScript
         if(hasDealtDamage) return;
         if(other.gameObject.CompareTag("Player"))
         {
-            PlayerInteraction playerInteraction = other.gameObject.GetComponent<PlayerInteraction>();
-            if (playerInteraction != null)
-            {
-                playerInteraction.StaminaChange(damageToPlayer);
-                hasDealtDamage = true;
-                return;
-            }
+            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            hasDealtDamage = true;
+            return;
         }
 
         if(other.gameObject.layer == 9)
