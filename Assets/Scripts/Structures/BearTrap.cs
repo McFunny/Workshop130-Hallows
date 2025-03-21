@@ -41,7 +41,8 @@ public class BearTrap : StructureBehaviorScript
 
     void Start()
     {
-        if(TownGate.Instance.location != PlayerLocation.InWilderness) base.Start();
+        if(TownGate.Instance.location == PlayerLocation.InWilderness) absentFromGrid = true;
+        base.Start();
     }
 
     // Update is called once per frame

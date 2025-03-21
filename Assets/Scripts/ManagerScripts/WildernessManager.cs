@@ -14,6 +14,7 @@ public class WildernessManager : MonoBehaviour
 
     public CreatureObject[] creatures;
     public GameObject[] interactablePrefabs;
+    public GameObject[] interactableLargePrefabs;
     public float[] interactableSpawnChances;
     public GameObject[] setPiecePrefabs;
 
