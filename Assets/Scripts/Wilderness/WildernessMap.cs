@@ -46,24 +46,24 @@ public class WildernessMap : MonoBehaviour
             if(!interactablePositions[r].occupied)
             {
                 int x = 0; //iterations of while loop
-                int l; //random num for spawn chance
-                GameObject prefab = null;
-                while(x < 7 && prefab == null)
+                int l; //random num for spawn chance 
+                WildernessInteractable wI = null;
+                while(x < 7 && wI == null)
                 {
-                    l = Random.Range(0, WildernessManager.Instance.interactablePrefabs.Length);
-                    prefab = WildernessManager.Instance.interactablePrefabs[l];
-                    if(Random.Range(0,100) <= WildernessManager.Instance.interactableSpawnChances[l])
+                    l = Random.Range(0, WildernessManager.Instance.wildernessInteractables.Length);
+                    wI = WildernessManager.Instance.wildernessInteractables[l];
+                    if(Random.Range(0,100) > wI.spawnChance || (!interactablePositions[r].fitsLargeObjects && wI.isLarge)) wI = null;
                     x++;
                 }
-                if(prefab != null)
+                if(wI != null)
                 {
                     GameObject newPrefab;
-                    if(prefab == forageablePrefab)
+                    if(wI.prefab == forageablePrefab)
                     {
                         newPrefab = StructurePoolManager.Instance.GrabForageable(true);
                         newPrefab.transform.position = interactablePositions[r].transform.position;
                     }
-                    else newPrefab = Instantiate(prefab, interactablePositions[r].transform.position, Quaternion.identity);
+                    else newPrefab = Instantiate(wI.prefab, interactablePositions[r].transform.position, Quaternion.identity);
                     interactablePositions[r].occupied = true;
                     currentInteractables.Add(newPrefab);
                 }

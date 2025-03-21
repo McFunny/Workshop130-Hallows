@@ -7,18 +7,17 @@ public class FyllaraTree : StructureBehaviorScript
     public GameObject treeNut;
 
     public List<Transform> nutSpawns; //possible places nuts can spawn
-    List<Transform> nutSpawnsInUse; //used spots
     public SpriteRenderer renderer; //for water
     bool isFilled = false;
     public int treeStage = -1;
 
     public GameObject[] treeStages; //Tree objects
-    public List<GameObject> currentTreeNuts; //Current nuts on the tree
+    public GameObject[] currentTreeNuts = new GameObject[2]; //Current nuts on the tree
 
     int progressUntilNextGrowth = 0;
-    int maxProgress = 2;
+    int maxProgress = 3;
 
-    //When nuts drop, have the item fling to the player
+    public ParticleSystem leafBurst;
 
 
     void Awake()
@@ -30,11 +29,12 @@ public class FyllaraTree : StructureBehaviorScript
     {
         base.Start();
         if(treeStage == -1) RandomizeTreeStage();
-        OnDamage += TreeNutDrop;
 
         renderer.enabled = false;
 
         transform.localEulerAngles = new Vector3(0, Random.Range(0,360), 0);
+
+        OnDamage += TreeHit;
     }
 
     void Update()
@@ -65,7 +65,7 @@ public class FyllaraTree : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(isFilled && treeStage == treeStages.Length)
+        if(isFilled && treeStage == (treeStages.Length - 1))
         {
             progressUntilNextGrowth += Random.Range(1,3);
             if(progressUntilNextGrowth < maxProgress) return;
@@ -82,26 +82,13 @@ public class FyllaraTree : StructureBehaviorScript
         renderer.enabled = true;
     }
 
-    void TreeNutDrop()
-    {
-        for(int i = 0; i < currentTreeNuts.Count; i++)
-        {
-            if(currentTreeNuts[i])
-            {
-                currentTreeNuts[i].GetComponent<Rigidbody>().useGravity = true;
-                return;
-            }
-        }
-    }
-
     void PopulateTreeNut()
     {
         for(int i = 0; i < nutSpawns.Count; i++)
         {
-            if(nutSpawnsInUse[i] != nutSpawns[i])
+            if(currentTreeNuts[i] == null)
             {
-                nutSpawnsInUse.Add(nutSpawns[i]);
-                currentTreeNuts.Add(Instantiate(treeNut, nutSpawns[i].position, Quaternion.identity));
+                currentTreeNuts[i] = Instantiate(treeNut, nutSpawns[i].position, Quaternion.identity);
                 return;
             }
         }
@@ -121,7 +108,12 @@ public class FyllaraTree : StructureBehaviorScript
 
     void OnDestroy()
     {
-        OnDamage -= TreeNutDrop;
-        base.OnDestroy();
+        OnDamage -= TreeHit;
+        //base.OnDestroy();
+    }
+
+    void TreeHit()
+    {
+        leafBurst.Play();
     }
 }

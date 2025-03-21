@@ -9500,6 +9500,7 @@ MonoBehaviour:
   catacombUnlocked: 0
   wildernessIntroduced: 0
   playerHasBox: 0
+  watergunObtained: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   rascalMet: 0
@@ -24078,18 +24079,31 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
   - {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
-  interactablePrefabs:
-  - {fileID: 3672103349891704917, guid: f9c56390acf3b2248a1b1b77c4e30d4f, type: 3}
-  - {fileID: 446895733223214618, guid: 33cdc1b0f9171ba49b8921f09f1f76c3, type: 3}
-  - {fileID: 4227526203200057079, guid: fe3a357dee8f270419aba535ed8036ba, type: 3}
-  - {fileID: 5491249356900402680, guid: 6dfb73471b4019747be46fdc96575edc, type: 3}
-  - {fileID: 7210125489205192339, guid: 46ee7ea9c05813544a37a43efebad774, type: 3}
-  interactableSpawnChances:
-  - 100
-  - 5
-  - 80
-  - 10
-  - 10
+  wildernessInteractables:
+  - name: Foragable
+    prefab: {fileID: 3672103349891704917, guid: f9c56390acf3b2248a1b1b77c4e30d4f,
+      type: 3}
+    isLarge: 0
+    spawnChance: 90
+  - name: DigSite
+    prefab: {fileID: 4227526203200057079, guid: fe3a357dee8f270419aba535ed8036ba,
+      type: 3}
+    isLarge: 0
+    spawnChance: 70
+  - name: BearTrap
+    prefab: {fileID: 7210125489205192339, guid: 46ee7ea9c05813544a37a43efebad774,
+      type: 3}
+    isLarge: 0
+    spawnChance: 40
+  - name: BirdBath
+    prefab: {fileID: 5491249356900402680, guid: 6dfb73471b4019747be46fdc96575edc,
+      type: 3}
+    isLarge: 0
+    spawnChance: 40
+  - name: NutTree
+    prefab: {fileID: 961734341835733743, guid: 8ab60daef09d902458f56812eb07eef0, type: 3}
+    isLarge: 1
+    spawnChance: 10
   setPiecePrefabs: []
   allMaps: []
   wagon: {fileID: 0}
