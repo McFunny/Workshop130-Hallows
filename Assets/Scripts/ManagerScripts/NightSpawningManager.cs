@@ -196,8 +196,9 @@ public class NightSpawningManager : MonoBehaviour
         GameObject newCreature = Instantiate(prefab, RandomMistPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
-            enemy.OnSpawn(); //Why does the mist walker not do this?
+            enemy.OnSpawn(); 
             allCreatures.Add(enemy);
+            if(enemy.creatureData) enemy.creatureData.hasSpawned = true;
         }
     }
 
