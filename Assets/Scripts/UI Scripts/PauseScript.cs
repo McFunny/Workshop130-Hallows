@@ -60,6 +60,8 @@ public class PauseScript : MonoBehaviour
                 openWebsite.canOpen = false;
             }
             else openWebsite.canOpen = true;
+
+            Time.timeScale = 0;
         }
 
         if (ControlManager.isController && isPaused && !PlayerMovement.isCodexOpen && Gamepad.current.buttonEast.wasPressedThisFrame)

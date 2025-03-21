@@ -30,6 +30,7 @@ public class CodexRework : MonoBehaviour
     public Sprite[] characterPortraits;
     public List<Quest> activeQuests = new List<Quest>();
     private PauseScript pauseScript;
+    [SerializeField] private GameObject RBLB;
 
     void Awake()
     {
@@ -96,6 +97,9 @@ public class CodexRework : MonoBehaviour
         }
 
         PlayerMovement.isCodexOpen = codex.activeInHierarchy;
+
+        if(ControlManager.isController) RBLB.SetActive(true);
+        else RBLB.SetActive(false);
     }
 
     void OpenCodexPressed(InputAction.CallbackContext obj)

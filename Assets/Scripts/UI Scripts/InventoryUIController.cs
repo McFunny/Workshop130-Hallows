@@ -22,6 +22,7 @@ public class InventoryUIController : MonoBehaviour
 
     AudioSource source;
     public AudioClip openInventory;
+    private TooltipControlsScript tooltipControlsScript;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class InventoryUIController : MonoBehaviour
         StartCoroutine(CloseBackpack());
         readyToPress = true;
         eventSystem = EventSystem.current;
+        tooltipControlsScript = FindFirstObjectByType<TooltipControlsScript>();
     }
 
     private void OnEnable()
@@ -92,6 +94,7 @@ public class InventoryUIController : MonoBehaviour
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
             source.PlayOneShot(openInventory);
+            tooltipControlsScript.ShowInventoryControls();
             return;
         }
         
@@ -190,7 +193,8 @@ public class InventoryUIController : MonoBehaviour
         chestPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
-        isBackpackOpen = false; 
+        isBackpackOpen = false;
+        tooltipControlsScript.ShowDefaultControls(); 
     }
 
     IEnumerator CloseBackpack()
@@ -201,5 +205,6 @@ public class InventoryUIController : MonoBehaviour
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
         isBackpackOpen = false; 
+        tooltipControlsScript.ShowDefaultControls(); 
     }
 }
