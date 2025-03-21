@@ -256,7 +256,7 @@ public class CodexRework : MonoBehaviour
         } 
         else
         {
-            questSlider.gameObject.SetActive(true); //Finish this idk
+            questSlider.gameObject.SetActive(true);
             questSlider.minValue = 0;
             questSlider.maxValue = quest.maxProgress;
             questSlider.value = quest.progress;
