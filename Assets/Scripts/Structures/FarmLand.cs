@@ -207,11 +207,11 @@ public class FarmLand : StructureBehaviorScript
                     }
 
 
-                    r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1);
+                    r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1);
                     if(r == 0 && Random.Range(0,10) >= 6) r = 1;
                     for (int i = 0; i < r; i++) //Seed yield
                     {
-                        if(crop.cropSeed && plantStress == 0 && crop.seedYieldAmount > 0)
+                        if(crop.cropSeed && plantStress == 0)
                         {
                             droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSeed);
                             droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
@@ -674,6 +674,8 @@ public class FarmLand : StructureBehaviorScript
         if(nutrients.gloamLevel < 0) nutrients.gloamLevel = 0;
 
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);
+
+        SpriteChange();
 
     }
 

@@ -346,7 +346,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
     private void Eat()
     {
-        if (targetStructure == null)
+        if (targetStructure == null || TimeManager.Instance.isDay)
         {
             currentState = CreatureState.Land;
             return;
@@ -698,7 +698,7 @@ public class MutatedCrow : CreatureBehaviorScript
             float distance = Vector3.Distance(transform.position, player.position);
 
            //if player is near run
-            if (distance <= sightRange)
+            if (distance <= sightRange || TimeManager.Instance.isDay)
             {
                 rb.useGravity = false;
                 GetRandomPoint(15);

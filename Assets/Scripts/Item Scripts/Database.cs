@@ -25,6 +25,11 @@ public class Database : ScriptableObject
         }
     }
 
+    private void Awake()
+    {
+        SetItemIDs();
+    }
+
 
     [SerializeField] private List<InventoryItemData> _itemDatabase;
 
