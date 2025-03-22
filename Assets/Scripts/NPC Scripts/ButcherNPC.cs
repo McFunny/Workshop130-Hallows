@@ -29,11 +29,11 @@ public class ButcherNPC : NPC, ITalkable
     {
         if (dialogueController.IsTalking() == false)
         {
-            if (!GameSaveData.Instance.culMet)
+            if (!GameSaveData.Instance.butchMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
-                GameSaveData.Instance.culMet = true;
+                GameSaveData.Instance.butchMet = true;
             }
             else
             {
@@ -42,7 +42,7 @@ public class ButcherNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
-                else if (NPCManager.Instance.culinarianSpoke)
+                else if (NPCManager.Instance.butchSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -51,9 +51,10 @@ public class ButcherNPC : NPC, ITalkable
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
-                    NPCManager.Instance.culinarianSpoke = true;
+                    currentType = PathType.Filler;
+                    NPCManager.Instance.butchSpoke = true;
                 }
-                currentType = PathType.Filler;
+              
             }
         }
         Talk();

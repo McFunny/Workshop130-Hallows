@@ -58,8 +58,9 @@ public class TinkererNPC : NPC, ITalkable
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
                     NPCManager.Instance.tinkererSpoke = true;
+                    currentType = PathType.Filler;
                 }
-                currentType = PathType.Filler;
+              
             }
         }
         Talk();

@@ -96,8 +96,9 @@ public class LumberjackNPC : NPC, ITalkable
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
                     NPCManager.Instance.lumberjackSpoke = true;
+                    currentType = PathType.Filler;
                 }
-                currentType = PathType.Filler;
+               
             }
         }
         Talk();
