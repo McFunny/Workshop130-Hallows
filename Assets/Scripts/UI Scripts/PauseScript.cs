@@ -10,7 +10,7 @@ public class PauseScript : MonoBehaviour
 {
     public static bool isPaused;
     bool isTransitioning = false;
-    public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault, controlsDefault, codexObject, codexDefault;
+    public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault, controlsDefault, codexObject, codexDefault, resolutionBox;
     private SettingsValueManager settingsValueManager;
     public Button[] buttons;
     ControlManager controlManager;
@@ -60,6 +60,8 @@ public class PauseScript : MonoBehaviour
                 openWebsite.canOpen = false;
             }
             else openWebsite.canOpen = true;
+
+            Time.timeScale = 0;
         }
 
         if (ControlManager.isController && isPaused && !PlayerMovement.isCodexOpen && Gamepad.current.buttonEast.wasPressedThisFrame)
@@ -72,6 +74,7 @@ public class PauseScript : MonoBehaviour
         {
             if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             else if(controlsObject.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
+            else if(resolutionBox.activeSelf)EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
             else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
             else if(codexObject.activeSelf)EventSystem.current.SetSelectedGameObject(codexDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
@@ -212,6 +215,12 @@ public class PauseScript : MonoBehaviour
         print("Controls Pressed");
         controlsObject.SetActive(true);
         if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(controlsDefault);
+    }
+
+    public void OpenResolutionScreen()
+    {
+        resolutionBox.SetActive(true);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
     }
 
     public void OpenPauseCodex()

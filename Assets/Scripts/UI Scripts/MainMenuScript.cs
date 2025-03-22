@@ -13,7 +13,7 @@ using System.Linq;
 public class MainMenuScript : MonoBehaviour
 {
     public InputActionReference hideUI, UICancel;
-    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault, loadCanvas, loadDefault;
+    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault, loadCanvas, loadDefault, resolutionBox;
     private SettingsValueManager settingsValueManager;
     ControlManager controlManager;
     public AudioSource source;
@@ -83,6 +83,7 @@ public class MainMenuScript : MonoBehaviour
         {
             if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             else if(controlsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
+            else if(resolutionBox.activeSelf)EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
             else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
             else if(loadCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(loadDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
@@ -279,6 +280,11 @@ public class MainMenuScript : MonoBehaviour
         isNewGame = n;
         loadCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(loadDefault);
+    }
+    public void OpenResolutionScreen()
+    {
+        resolutionBox.SetActive(true);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
     }
 
     public void OnHover()
