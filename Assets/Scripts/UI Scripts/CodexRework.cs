@@ -104,7 +104,7 @@ public class CodexRework : MonoBehaviour
 
     void OpenCodexPressed(InputAction.CallbackContext obj)
     {  
-        if(codex.activeInHierarchy && !pauseScript.gameObject.activeInHierarchy)
+        if(codex.activeInHierarchy && !pauseScript.gameObject.transform.GetChild(0).gameObject.activeSelf) //ts pmo.....
         {
             print("Closing");
             if(codex.activeSelf){OpenCloseCodex();}
