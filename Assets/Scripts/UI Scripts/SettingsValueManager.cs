@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,9 +9,19 @@ public class SettingsValueManager : MonoBehaviour
 {
     public ConfirmationBox confirmationBox;
     [SerializeField] GameObject containerObject, previousMenuObject, defaultMenuObject;
-    [SerializeField] private Button applyButton, defaultButton, backButton;
+    [SerializeField] private Button applyButton, defaultButton, backButton, resolutionButton;
     [SerializeField] private TextMeshProUGUI sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay;
     [SerializeField] private Slider sensitivitySlider, masterVolSlider, musicSlider, sfxSlider;
+    //[SerializeField] private TMP_Dropdown resolutionDropDown;
+    [SerializeField] private GameObject horizontalMenuButton, resolutionBox, resolutionContent;
+    public GameObject resolutionDefault;
+    private Resolution[] resolutions;
+    private List<Resolution> filteredResolutions;
+
+    [SerializeField] private List<GameObject> resolutionButtons;
+    private float currentRefreshRate;
+    private int currentResolutionIndex;
+    private int tempResolutionIndex;
     private float defaultSensitivity, defaultVolume; // Default values
     private float sensitivity, masterVolume, musicVolume, sfxVolume; // Current Values
     private VolumeManager volumeManager;
@@ -26,10 +37,74 @@ public class SettingsValueManager : MonoBehaviour
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
         sfxVolume = PlayerPrefs.GetFloat("SFXVolume", defaultVolume);
         volumeManager = FindFirstObjectByType<VolumeManager>();
+
+        resolutions = Screen.resolutions;
+        filteredResolutions = new List<Resolution>();
+
+        currentRefreshRate = (float)Screen.currentResolution.refreshRateRatio.value;
+
+        for(int i = 0; i < resolutions.Length; i++)
+        {
+            if((float)resolutions[i].refreshRateRatio.value == currentRefreshRate)
+            {
+                filteredResolutions.Add(resolutions[i]);
+            }
+        }
+
+        filteredResolutions.Reverse();
+
+        for (int i = 0; i < filteredResolutions.Count; i++)
+        {
+            string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height;
+
+            var buttonObj = Instantiate(horizontalMenuButton, resolutionContent.transform, false);
+            var buttonID = buttonObj.GetComponent<ResolutionButtonID>();
+            buttonID.ID = i;
+            buttonID.text.text = resolutionOption;
+            buttonID.settingsValueManager = this;
+
+            buttonObj.name = resolutionOption;
+            if(filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height)
+            {
+                currentResolutionIndex = i;
+            }
+
+            if(i == 0) resolutionDefault = buttonObj;
+
+            resolutionButtons.Add(buttonObj);
+        }
+        tempResolutionIndex = currentResolutionIndex;
+
+        for(int i = 0; i < resolutionButtons.Count; i++)
+        {
+            if(i == 0) continue;
+            if(i == resolutionButtons.Count - 1) continue;
+
+            Navigation Nav = new Navigation();
+            Nav.mode = Navigation.Mode.Explicit;
+
+            Nav.selectOnUp = resolutionButtons[i - 1].GetComponent<Button>();
+            Nav.selectOnDown = resolutionButtons[i + 1].GetComponent<Button>();
+
+            resolutionButtons[i].GetComponent<Button>().navigation = Nav;
+        }
+
+        Navigation TopNav = new Navigation();
+        Navigation BottomNav = new Navigation();
+        TopNav.mode = Navigation.Mode.Explicit;
+        BottomNav.mode = Navigation.Mode.Explicit;
+
+        TopNav.selectOnDown = resolutionButtons[1].GetComponent<Button>();
+        BottomNav.selectOnUp = resolutionButtons[resolutionButtons.Count - 2].GetComponent<Button>();
+
+        resolutionButtons[0].GetComponent<Button>().navigation = TopNav;
+        resolutionButtons[resolutionButtons.Count - 1].GetComponent<Button>().navigation = BottomNav;
+
     }
 
     void Start()
     {
+        print("Test");
         inputSystem = FindObjectOfType<InputSystemUIInputModule>(); // try to change input module settings when the settings menu is opened
     }
 
@@ -101,7 +176,10 @@ public class SettingsValueManager : MonoBehaviour
             PlayerPrefs.SetFloat("MasterVolume", masterVolume);
             PlayerPrefs.SetFloat("MusicVolume", musicVolume);
             PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
-            print("Sensitivity Multiplier: " + PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity));
+
+            Resolution resolution = filteredResolutions[tempResolutionIndex];
+            Screen.SetResolution(resolution.width, resolution.height, true); 
+            //print("Sensitivity Multiplier: " + PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity));
 
             if(applyButton.interactable == true)
             {
@@ -184,10 +262,25 @@ public class SettingsValueManager : MonoBehaviour
         sfxDisplay.SetText($"{(sfxSlider.value * 100).ToString("N1")}" + "%");
 
         applyButton.interactable = true;
+    }
+
+    public void SetResolution(int resolutionIndex)
+    {
+        tempResolutionIndex = resolutionIndex;
+        resolutionBox.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(resolutionButton.gameObject);
+        applyButton.interactable = true;
     } 
 
     public void Back()
     {
+        if(resolutionBox.activeSelf)
+        {
+            resolutionBox.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(resolutionButton.gameObject);
+            return;
+        } 
+
         if(applyButton.interactable == true && !confirmationBox.gameObject.activeSelf) OpenConfirmationBox("Changed settings will not be applied. Continue?", backButton);
         else if(confirmationBox.gameObject.activeSelf) confirmationBox.noButton.onClick.Invoke();
         else

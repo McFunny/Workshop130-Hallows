@@ -41,6 +41,10 @@ public class UIMenuButton : MonoBehaviour
         c_invisible = new Color(0f,0f,0f,0f);
 
         rectTransform = this.gameObject.GetComponent<RectTransform>();
+        if(isWithinScrollRect && keepSelectionOnScreen == null)
+        {
+            keepSelectionOnScreen = GetComponentInParent<KeepSelectionOnScreen>();
+        }
     }
 
     void OnEnable()

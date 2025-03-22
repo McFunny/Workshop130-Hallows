@@ -559,6 +559,26 @@ public class CodexRework : MonoBehaviour
                 print("Unlocked Entry Found");
                 break;
             }
+            else
+            {
+                if(temp.assignedEntry.cropData != null)
+                {
+                    timesDone.text = "";
+                    //print("Crop Data Found");
+                    timesDone.gameObject.SetActive(true);
+                }
+                else if(temp.assignedEntry.creatureData != null)
+                {
+                    timesDone.text = "";
+                    //print("Creature Data Found");
+                    timesDone.gameObject.SetActive(true);
+                }
+                else
+                {
+                    //print("No Data Found");
+                    timesDone.text = "";
+                }
+            }
         }
         if(currentEntry == null && !isQuestCategory) 
         {
