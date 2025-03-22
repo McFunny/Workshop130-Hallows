@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LumberjackNPC : NPC, ITalkable
 {
-    public InventoryItemData papers;
+    public InventoryItemData papers, treeNut;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
@@ -123,6 +123,12 @@ public class LumberjackNPC : NPC, ITalkable
         else if(item == papers)
         {
             currentPath = 1;
+            currentType = PathType.ItemSpecific;
+        }
+
+        else if(item == treeNut)
+        {
+            currentPath = 2;
             currentType = PathType.ItemSpecific;
         }
 
