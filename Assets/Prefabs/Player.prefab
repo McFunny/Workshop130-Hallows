@@ -239,9 +239,6 @@ MonoBehaviour:
   - name: Torch
     itemData: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
     amount: 1
-  - name: WaterGun
-    itemData: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
-    amount: 1
   debugItems: []
 --- !u!114 &6650565928944350188
 MonoBehaviour:
@@ -293,6 +290,7 @@ MonoBehaviour:
   shakeIntensity: 1
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   focusColor: {r: 0, g: 0, b: 0, a: 0}
+  onItemSoundCooldown: 0
 --- !u!114 &1326828943737913890
 MonoBehaviour:
   m_ObjectHideFlags: 0

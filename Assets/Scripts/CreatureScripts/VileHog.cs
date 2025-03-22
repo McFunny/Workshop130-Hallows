@@ -295,6 +295,7 @@ public class VileHog : CreatureBehaviorScript
         if (trackPlayerRoutine == null)
         {
             trackPlayerRoutine = StartCoroutine(TrackPlayer());
+            target = player;
             agent.speed = runSpeed;
         }
         if(target == null)
