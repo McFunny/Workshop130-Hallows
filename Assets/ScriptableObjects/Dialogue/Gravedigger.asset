@@ -41,7 +41,7 @@ MonoBehaviour:
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
-    - Enjoy your {itemBought}
+    - ...{itemBought}
     emotions: 01000000
   - pathName: No Money
     paragraphs:
@@ -74,7 +74,13 @@ MonoBehaviour:
     emotions: 04000000000000000300000005000000
   questPaths: []
   itemRecievedPaths: []
-  itemSpecificRemarks: []
+  itemSpecificRemarks:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - What do you take me for, a charity?
+    - I have need to spend my precious <color=#E0D38F> Mints</color> <sprite index=0>
+      on your junk.
+    emotions: 0200000000000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

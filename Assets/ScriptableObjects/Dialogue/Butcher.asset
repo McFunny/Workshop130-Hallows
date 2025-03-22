@@ -16,9 +16,9 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - You got a lot of creatures on that farm
+    - You got a lot of creatures on that farm.
     - If you need something to do with them...
-    - Come see me
+    - Come see me.
     emotions: 000000000000000000000000
   questCompletePath:
     pathName: Thanks for completing quest
@@ -33,7 +33,7 @@ MonoBehaviour:
   paths:
   - pathName: Buy something!
     paragraphs:
-    - These could be of use to you
+    - These could be of use to you.
     emotions: 00000000
   - pathName: Want to buy this?
     paragraphs:
@@ -42,7 +42,7 @@ MonoBehaviour:
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
-    - The {itemBought} is all yours
+    - It is all yours. {itemBought}
     emotions: 01000000
   - pathName: No Money
     paragraphs:
@@ -67,7 +67,13 @@ MonoBehaviour:
     emotions: 05000000
   questPaths: []
   itemRecievedPaths: []
-  itemSpecificRemarks: []
+  itemSpecificRemarks:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - What do you take me for, a charity?
+    - I have need to spend my precious <color=#E0D38F> Mints</color> <sprite index=0>
+      on your junk.
+    emotions: 0200000000000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

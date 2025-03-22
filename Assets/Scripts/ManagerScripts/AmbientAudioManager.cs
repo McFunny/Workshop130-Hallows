@@ -10,10 +10,11 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip[] biomeAmbience;
     public AudioClip[] nightAmbience;
     public AudioClip[] windAmbience;
+    public AudioClip[] wildernessAmbience;
     public AudioClip[] musicAmbience;
     public AudioClip[] musicNightAmbience;
-    public AudioClip[] wildernessAmbience;
-    public AudioClip[] catacombAmbience;
+    public AudioClip[] wildernessMusicAmbience;
+    public AudioClip[] catacombMusicAmbience;
 
     public AudioClip finaleTheme;
 
@@ -114,8 +115,8 @@ public class AmbientAudioManager : MonoBehaviour
             }
             else if (TimeManager.Instance.isDay)
             {
-                if(TownGate.Instance.location == PlayerLocation.InWilderness) musicSource.clip = wildernessAmbience[Random.Range(0, wildernessAmbience.Length)];
-                else if(TownGate.Instance.location == PlayerLocation.InCrypt) musicSource.clip = catacombAmbience[Random.Range(0, wildernessAmbience.Length)];
+                if(TownGate.Instance.location == PlayerLocation.InWilderness) musicSource.clip = wildernessMusicAmbience[Random.Range(0, wildernessMusicAmbience.Length)];
+                else if(TownGate.Instance.location == PlayerLocation.InCrypt) musicSource.clip = catacombMusicAmbience[Random.Range(0, catacombMusicAmbience.Length)];
                 else musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
             }
             else

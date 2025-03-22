@@ -18,10 +18,10 @@ MonoBehaviour:
   - name: Momma Hog
     prefab: {fileID: 3950954694662362984, guid: 5c35fc27737ad2d4abf354a4b3721304,
       type: 3}
-    probabilityInFarm: 5
+    probabilityInFarm: 10
     probabilityInWilderness: 0
     canSpawnInWilderness: 0
-    wealthPrerequisite: 1500
+    wealthPrerequisite: 1000
   health: 0
   position:
   - 0
@@ -34,6 +34,8 @@ MonoBehaviour:
   spawnCapPerHour: 2
   wealthPrerequisite: 0
   contribuiteToCreatureCap: 1
+  amountKilled: 22
+  hasSpawned: 1
   data:
     Name: 
     Id: -1

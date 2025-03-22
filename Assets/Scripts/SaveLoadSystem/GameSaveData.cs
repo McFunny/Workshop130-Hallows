@@ -90,6 +90,9 @@ public class GameSaveData : MonoBehaviour
             //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
             QuestManager.Instance.LoadData(data.allGameSaveData);
 
+            CropDatabase.Instance.LoadStats(data.allGameSaveData);
+            CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
+
             tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
             rascalWantsFood = data.allGameSaveData.rascalWantsFood;
             rascalMentionedKey = data.allGameSaveData.rascalMentionedKey;
@@ -127,6 +130,9 @@ public class GameSaveData : MonoBehaviour
         public HuntQuest[] activeHuntQuests;
         public GrowQuest[] activeGrowQuests;
 
+        public CropPlayerStats[] cropStats;
+        public CreaturePlayerStats[] creatureStats;
+
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
         public bool rascalMentionedKey;
@@ -160,6 +166,9 @@ public class GameSaveData : MonoBehaviour
             //activeQuests = QuestManager.Instance.activeQuests.ToArray();
 
             QuestManager.Instance.SaveQuestData(out activeQuests, out activeFetchQuests, out activeHuntQuests, out activeGrowQuests);
+
+            CropDatabase.Instance.SaveStats(out cropStats);
+            CreatureDatabase.Instance.SaveStats(out creatureStats);
 
 
             tutorialMerchantSpoke = data.tutorialMerchantSpoke;
