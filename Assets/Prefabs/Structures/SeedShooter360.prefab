@@ -380,7 +380,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24acd9ba387ddb41bb2f8f181c3e512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitSounds: []
+  hitSounds:
+  - {fileID: 8300000, guid: fdad68a7e6445d64e8b82f6ac9397e7b, type: 3}
   miscSounds1:
   - {fileID: 8300000, guid: 9c6821a4e479e644884e0b67f47dc7d9, type: 3}
   - {fileID: 8300000, guid: f2492755d6250ec4ca99f215c5856338, type: 3}
@@ -522,7 +523,7 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: 32d9717879d059d49be29891222e32a1, type: 2}
   health: 20
   maxHealth: 20
-  wealthValue: 10
+  wealthValue: 5
   destructable: 1
   flammable: 1
   onFire: 0
@@ -547,6 +548,7 @@ MonoBehaviour:
   highlight:
   - {fileID: 7281646737993303384}
   - {fileID: 6603900818642952883}
+  canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 1696547498468872269}

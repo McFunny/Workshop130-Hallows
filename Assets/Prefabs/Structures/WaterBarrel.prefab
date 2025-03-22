@@ -278,7 +278,7 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: 045a35b3e3380ed41848d0d35a370181, type: 2}
   health: 10
   maxHealth: 10
-  wealthValue: 5
+  wealthValue: 2
   destructable: 1
   flammable: 1
   onFire: 0
@@ -330,7 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24acd9ba387ddb41bb2f8f181c3e512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitSounds: []
+  hitSounds:
+  - {fileID: 8300000, guid: ac590ee887859d847ada730d76cd1ab1, type: 3}
   miscSounds1: []
   miscSounds2: []
   interactSound: {fileID: 8300000, guid: 670c8869953582347943c68fdb8f866b, type: 3}

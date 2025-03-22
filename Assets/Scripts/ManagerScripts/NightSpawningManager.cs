@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NightSpawningManager : MonoBehaviour
 {
@@ -397,6 +398,7 @@ public class NightSpawningManager : MonoBehaviour
         //AmbientAudioManager.Instance.FadeMusic();
         yield return new WaitForSeconds(3);
         //Credits screen
+        SceneManager.LoadSceneAsync(2);
     }
 
 
