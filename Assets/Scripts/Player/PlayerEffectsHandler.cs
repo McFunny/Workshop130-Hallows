@@ -22,6 +22,8 @@ public class PlayerEffectsHandler : MonoBehaviour
     public Color damageColor, focusColor;
 
     Rigidbody rb;
+
+    public bool onItemSoundCooldown = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -55,7 +57,16 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     public void ItemCollectSFX()
     {
+        if(onItemSoundCooldown) return;
+        onItemSoundCooldown = true;
+        StartCoroutine(ItemCollectCooldown());
         source.PlayOneShot(itemPickup);
+    }
+
+    IEnumerator ItemCollectCooldown()
+    {
+        yield return new WaitForSeconds(0.1f);
+        onItemSoundCooldown = false;
     }
 
     public void PlayerDamage()
