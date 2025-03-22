@@ -59,7 +59,12 @@ public class UIMenuButton : MonoBehaviour
     
     void Update()
     {
-        if(r != null) return;
+        if(r != null)
+        {
+            if(EventSystem.current.currentSelectedGameObject == this.gameObject) isSelected = true;
+            else isSelected = false;
+            return;
+        } 
 
         //print(controlManager.select.action.ReadValue<float>());
         if(button.interactable == false) isDisabled = true;

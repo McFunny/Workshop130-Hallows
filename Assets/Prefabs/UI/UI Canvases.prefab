@@ -327,6 +327,7 @@ MonoBehaviour:
   button: {fileID: 563844626683364513}
   arrowImage: {fileID: 1922603078676505380}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -757,6 +758,7 @@ MonoBehaviour:
   button: {fileID: 3454268255769975923}
   arrowImage: {fileID: 1913911165727875415}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -1023,7 +1025,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -2408,6 +2410,7 @@ MonoBehaviour:
   button: {fileID: 6108000898129521370}
   arrowImage: {fileID: 4722777784251093223}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -6164,6 +6167,7 @@ MonoBehaviour:
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
   isPauseButton: 1
   isDisabled: 0
   ignoreColor: 0
@@ -7284,6 +7288,7 @@ MonoBehaviour:
   button: {fileID: 6485062975442879674}
   arrowImage: {fileID: 3969221054232332048}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -8357,6 +8362,7 @@ MonoBehaviour:
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
   isPauseButton: 1
   isDisabled: 0
   ignoreColor: 0
@@ -10489,6 +10495,7 @@ MonoBehaviour:
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -12944,6 +12951,7 @@ MonoBehaviour:
   button: {fileID: 369235532158744674}
   arrowImage: {fileID: 8159522799559523313}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -21432,7 +21440,7 @@ PrefabInstance:
     - target: {fileID: 6618451763018252870, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -32.99878
+      value: -32.999023
       objectReference: {fileID: 0}
     - target: {fileID: 7397489583040884350, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
@@ -21603,6 +21611,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
         type: 2}
+    - target: {fileID: 8400881667396027317, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
+        type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8400881667396027317, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
       propertyPath: m_MatchWidthOrHeight
@@ -24891,6 +24904,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2689088621538793493, guid: f4bce2365b9ceec4c813ad5bd1bc13ba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2767424420415919140, guid: f4bce2365b9ceec4c813ad5bd1bc13ba,
         type: 3}
