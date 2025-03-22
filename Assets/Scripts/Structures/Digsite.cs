@@ -33,7 +33,7 @@ public class Digsite : StructureBehaviorScript
     {
         if(!isDigging && usingShovel)
         {
-            audioHandler.PlaySound(audioHandler.interactSound);
+            audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             isDigging = true;
             GameObject droppedItem;
             InventoryItemData newItem = DroppedItem();

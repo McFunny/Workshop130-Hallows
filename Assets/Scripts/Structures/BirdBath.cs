@@ -5,7 +5,7 @@ using UnityEngine;
 public class BirdBath : StructureBehaviorScript
 {
     public InventoryItemData recoveredItem;
-    public int waterLevel = 3; //max is 3
+    public int waterLevel = 1; //max is 1
 
     public bool inWilderness = false;
 

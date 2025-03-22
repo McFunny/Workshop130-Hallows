@@ -8,6 +8,7 @@ using System.IO;
 using SaveLoadSystem;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -169,7 +170,7 @@ public class MainMenuScript : MonoBehaviour
         {
             if(confirmationBox.calledBy == loadButtons[i]) // Load Game
             {
-                string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + MainMenuScript.currentSaveSlot + SaveLoad.FileName;
+                string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + i + SaveLoad.FileName;
                 //SaveData tempData = new SaveData();
 
                 if (!File.Exists(fullPath) && !isNewGame)
@@ -217,7 +218,7 @@ public class MainMenuScript : MonoBehaviour
         if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
     }
 
-    public void NewGame()
+    public void NewGame() // USELESS!!!!! DIE!!!
     {
         OpenConfirmationBox("Are you sure you want to start a new game?", buttons[0]);
         if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
@@ -225,9 +226,18 @@ public class MainMenuScript : MonoBehaviour
 
     public void LoadGame(Button loadSlot)
     {
-        if(isNewGame) OpenConfirmationBox("Are you sure you want to start a new game in this slot?", loadSlot);
-        else OpenConfirmationBox("Are you sure you want to load this save?", loadSlot);  
-        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+        if(isNewGame)
+        {
+            OpenConfirmationBox("Are you sure you want to start a new game in this slot?", loadSlot);
+            if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+            return;
+        } 
+        if(loadSlot.interactable)
+        {
+            OpenConfirmationBox("Are you sure you want to load this save?", loadSlot);
+            if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+            return;
+        }   
     }
 
     IEnumerator StartGame()
@@ -254,6 +264,17 @@ public class MainMenuScript : MonoBehaviour
 
     public void OpenLoadScreen(bool n)
     {
+        if(n)
+        {
+            for(int i = 0; i < loadButtons.Length; i++)
+            {
+                loadButtons[i].interactable = true;
+            }
+        }
+        else
+        {
+            LoadSaveFileInfo();
+        }
         if(isTransitioning) return;
         isNewGame = n;
         loadCanvas.SetActive(true);
@@ -287,6 +308,7 @@ public class MainMenuScript : MonoBehaviour
 
     void LoadSaveFileInfo()
     {
+        var saveCount = 0;
         //for each filedata in fileDatas, load the info. if there is a save file, populate text, else say no file
         for(int i = 0; i < fileDatas.Count; i++)
         {
@@ -303,12 +325,14 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(false);
                 fileDatas[i].mintsTotalText.gameObject.SetActive(false);
                 fileDatas[i].emptySlot.gameObject.SetActive(true);
+                loadButtons[i].interactable = false;
                 continue;
             }
             else
             {
                 string json = File.ReadAllText(fullPath);
                 tempData = JsonUtility.FromJson<SaveData>(json);
+                fileDatas[i].saveDataPresent = true;
                 fileDatas[i].dayNum = tempData.allGameSaveData.pDayNumber;
                 fileDatas[i].mintsCurrent = tempData.allGameSaveData.pCurrentMoney;
                 fileDatas[i].mintsTotal = tempData.allGameSaveData.pTotalMoneyEarned;
@@ -321,8 +345,16 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(true);
                 fileDatas[i].mintsTotalText.gameObject.SetActive(true);
                 fileDatas[i].emptySlot.gameObject.SetActive(false);
+                saveCount++;
 
+                //Enable/Disable uhh the thing idk I forgot
+                loadButtons[i].interactable = true;
             }
+        }
+
+        if(saveCount == 0)
+        {
+            buttons[1].interactable = false;
         }
     }
 

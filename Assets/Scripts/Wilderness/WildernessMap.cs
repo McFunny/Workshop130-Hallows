@@ -10,7 +10,7 @@ public class WildernessMap : MonoBehaviour
     public Transform[] wagonPositions; //Associated wagon spawns
     public Transform[] enemySpawnPositions; //Spots enemies can spawn from. Should grab the closest 2 from the player
     public Transform[] setPiecePositions; //Locations that the giant setpieces can take
-    public Transform[] interactablePositions; //Locations of small things like trees with nuts, hives, and foreagables can spawn near
+    public WildernessInteractableSpot[] interactablePositions; //Locations of small things like trees with nuts, hives, and foreagables can spawn near
     public GameObject[] obstacles; //Locations that block paths. Must be enabled or disabled
 
     public GameObject forageablePrefab;//to make sure it no spawn new one
@@ -39,34 +39,32 @@ public class WildernessMap : MonoBehaviour
             r = Random.Range(0, obstacles.Length);
             obstacles[r].SetActive(true);
         }
-
-        List<Transform> usedSpots = new List<Transform>();
         t = Random.Range(30, 50);
         for(int i = 0; i < t; i++)
         {
             r = Random.Range(0, interactablePositions.Length);
-            if(!usedSpots.Contains(interactablePositions[r]) /*&& SpotAvailable(interactablePositions[r])*/)
+            if(!interactablePositions[r].occupied)
             {
                 int x = 0; //iterations of while loop
-                int l; //random num for spawn chance
-                GameObject prefab = null;
-                while(x < 7 && prefab == null)
+                int l; //random num for spawn chance 
+                WildernessInteractable wI = null;
+                while(x < 7 && wI == null)
                 {
-                    l = Random.Range(0, WildernessManager.Instance.interactablePrefabs.Length);
-                    prefab = WildernessManager.Instance.interactablePrefabs[l];
-                    if(Random.Range(0,100) <= WildernessManager.Instance.interactableSpawnChances[l])
+                    l = Random.Range(0, WildernessManager.Instance.wildernessInteractables.Length);
+                    wI = WildernessManager.Instance.wildernessInteractables[l];
+                    if(Random.Range(0,100) > wI.spawnChance || (!interactablePositions[r].fitsLargeObjects && wI.isLarge)) wI = null;
                     x++;
                 }
-                if(prefab != null)
+                if(wI != null)
                 {
                     GameObject newPrefab;
-                    if(prefab == forageablePrefab)
+                    if(wI.prefab == forageablePrefab)
                     {
                         newPrefab = StructurePoolManager.Instance.GrabForageable(true);
-                        newPrefab.transform.position = interactablePositions[r].position;
+                        newPrefab.transform.position = interactablePositions[r].transform.position;
                     }
-                    else newPrefab = Instantiate(prefab, interactablePositions[r].position, Quaternion.identity);
-                    usedSpots.Add(interactablePositions[r]);
+                    else newPrefab = Instantiate(wI.prefab, interactablePositions[r].transform.position, Quaternion.identity);
+                    interactablePositions[r].occupied = true;
                     currentInteractables.Add(newPrefab);
                 }
             }
@@ -98,6 +96,11 @@ public class WildernessMap : MonoBehaviour
                 if(obj.GetComponent<Forgeable>()) obj.SetActive(false);
                 else Destroy(obj);
             }
+        }
+
+        foreach(WildernessInteractableSpot spot in interactablePositions)
+        {
+            spot.occupied = false;
         }
         currentInteractables.Clear();
     }

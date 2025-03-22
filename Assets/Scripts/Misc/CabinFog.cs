@@ -12,11 +12,13 @@ public class CabinFog : MonoBehaviour
     public GameObject background;
 
     public AudioSource source;
+    private NewDayCounter newDayCounter;
 
     void Start()
     {
         TimeManager.Instance.stopTime = true;
         AmbientAudioManager.Instance.playMusicAtStart = false;
+        newDayCounter = FindFirstObjectByType<NewDayCounter>();
     }
 
 
@@ -26,6 +28,7 @@ public class CabinFog : MonoBehaviour
         isFading = true;
         TimeManager.Instance.stopTime = false;
         source.Play();
+        StartCoroutine(newDayCounter.ForceAnim());
         background.SetActive(false);
         for(int i = 0; i < mists.Length; i++)
         {
@@ -38,6 +41,9 @@ public class CabinFog : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(!isFading) StartCoroutine(FadeOut());
+        if(!isFading)
+        {
+            StartCoroutine(FadeOut());
+        } 
     }
 }

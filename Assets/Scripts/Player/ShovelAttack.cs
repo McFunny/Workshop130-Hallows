@@ -33,7 +33,7 @@ public class ShovelAttack : MonoBehaviour
     {
         //Vector3 collisionPoint;
 
-        var structure = other.GetComponent<StructureBehaviorScript>();
+        var structure = other.GetComponentInParent<StructureBehaviorScript>();
         if (structure != null && hitStructure == null)
         {
             hitStructure = structure;

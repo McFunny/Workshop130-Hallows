@@ -224,7 +224,7 @@ public class PlayerInteraction : MonoBehaviour
                 return;
             }
 
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 structure.ItemInteraction(item);
@@ -242,7 +242,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
         {
-            var interactable = hit.collider.GetComponent<IInteractable>();
+            var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
                 StartInteraction(interactable);
@@ -253,7 +253,7 @@ public class PlayerInteraction : MonoBehaviour
                 return;
             }
 
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 structure.StructureInteraction();
