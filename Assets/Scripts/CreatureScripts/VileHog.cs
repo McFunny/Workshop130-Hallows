@@ -7,6 +7,9 @@ public class VileHog : CreatureBehaviorScript
 {
     public Variant variant; // what variant of creature is this?
 
+    public VileHog parent;
+    public VileHog[] babies;
+
     public List<CropData> desiredCrops; // what crops does this creature want to eat
 
     FarmLand foundFarmTile;
@@ -25,8 +28,10 @@ public class VileHog : CreatureBehaviorScript
     public Collider attackHitbox;
     public Transform chargePosition;
     public SpriteRenderer r;
+    public ParticleSystem chargeParticles, dashParticles;
+
     float beginChargeTime = 1f; // Time it takes to initiate a charge
-    float chargeTime = 2.3f; // Time it takes to complete a charge
+    float chargeTime = 2f; // Time it takes to complete a charge
     private bool isCharging = false;
     float recoilTime = 2;
     float fleeTimeLeft = 0;
@@ -51,7 +56,8 @@ public class VileHog : CreatureBehaviorScript
         FetchCrop,
         Stun,
         Flee,
-        Die
+        Die,
+        FollowParent
     }
 
     public enum Variant
@@ -63,8 +69,6 @@ public class VileHog : CreatureBehaviorScript
 
     public CreatureState currentState;
 
-    /////// Should it be able to do a normal tusk thrust attack? Also Behavior for variants, it fleeing, and it eating fully grown crops
-
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -72,6 +76,14 @@ public class VileHog : CreatureBehaviorScript
 
     void Start()
     {
+        if(babies.Length > 0)
+        {
+            for(int i = 0; i < babies.Length; i++)
+            {
+                babies[i].transform.SetParent(null);
+            }
+        }
+
         base.Start();
         attackHitbox.enabled = false;
         
@@ -82,6 +94,7 @@ public class VileHog : CreatureBehaviorScript
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
         targetStructure = null;
         StartCoroutine(IdleSoundTimer());
+
     }
 
     public void Spawn()
@@ -182,6 +195,10 @@ public class VileHog : CreatureBehaviorScript
                 // OnDeath();
                 break;
 
+            case CreatureState.FollowParent:
+                FollowParent();
+                break;
+
             default:
                 Debug.LogError("Unknown state: " + currentState);
                 break;
@@ -200,7 +217,9 @@ public class VileHog : CreatureBehaviorScript
         if (!isMoving && currentState == CreatureState.Wander)
         {
             agent.speed = walkSpeed;
-            Vector3 randomPoint = GetRandomPointAround(transform.position, 10f);
+            Vector3 randomPoint;
+            if(inWilderness) randomPoint = GetRandomPointAround(transform.position, 10f);
+            else randomPoint = StructureManager.Instance.GetRandomTile();
             walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
@@ -232,7 +251,7 @@ public class VileHog : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 10)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 3)
         {
             timeSpent += Time.deltaTime;
             if (playerInSightRange)
@@ -397,6 +416,7 @@ public class VileHog : CreatureBehaviorScript
     {
         float digTimeElapsed = 0;
         anim.Play("Dig");
+        effectsHandler.Idle1();
         while(foundFarmTile && foundFarmTile.crop && foundFarmTile.harvestable && !isDead && digTimeElapsed < 2f)
         {
             digTimeElapsed += Time.deltaTime;
@@ -410,7 +430,7 @@ public class VileHog : CreatureBehaviorScript
             foundFarmTile.CropDestroyed();
             foundFarmTile = null;
             
-            fleeTimeLeft = 8;
+            fleeTimeLeft = Random.Range(6, 12);
             currentState = CreatureState.Flee;
         }
         else currentState = CreatureState.Wander;
@@ -421,6 +441,7 @@ public class VileHog : CreatureBehaviorScript
     {
         anim.SetBool("IsRunning", false);
         anim.Play("Chew");
+        effectsHandler.Idle2();
         agent.SetDestination(transform.position);
         coroutineRunning = true;
         yield return new WaitForSeconds(2.3f);
@@ -429,6 +450,8 @@ public class VileHog : CreatureBehaviorScript
         {
             currentState = CreatureState.Wander;
             health = maxHealth;
+            r.sprite = null;
+            heldItem = null;
         }
         coroutineRunning = false;
     }
@@ -455,7 +478,9 @@ public class VileHog : CreatureBehaviorScript
         yield return new WaitForSeconds(beginChargeTime); //Beginning to charge
 
         //Actively Charging
+        effectsHandler.MiscSound2();
         anim.SetBool("ChargePrep", false);
+        dashParticles.Play();
         faceTarget = false;
         agent.speed = chargeSpeed;
         isCharging = true;
@@ -467,17 +492,23 @@ public class VileHog : CreatureBehaviorScript
             yield return null;
         }
         attackHitbox.enabled = false;
+        dashParticles.Stop();
         if(chargeTimeElapsed >= chargeTime)
         {
             recoilTime = 2f;
-            if(!anim.GetBool("Attacked") && !anim.GetBool("Recoiled")) anim.SetTrigger("Missed");
+            if(!anim.GetBool("Attacked") && !anim.GetBool("Recoiled")) 
+            {
+                anim.SetTrigger("Missed");
+                chargeParticles.Play();
+            }
         }
-        print(recoilTime);
         isCharging = false;
         agent.ResetPath();
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         anim.SetBool("IsRunning", false);
-        yield return new WaitForSeconds(recoilTime + 0.5f); //Charge Cooldown
+        yield return new WaitForSeconds(0.5f);
+        chargeParticles.Stop();
+        yield return new WaitForSeconds(recoilTime); //Charge Cooldown
 
         //Should probably flee for about 5 seconds or so to prevent constant charging
         agent.speed = runSpeed;
@@ -498,7 +529,7 @@ public class VileHog : CreatureBehaviorScript
         if (!coroutineRunning)
         {
             int r = Random.Range(0, 13);
-            if(r < 5)
+            if(r < 5 && variant != Variant.Tiny && !inWilderness)
             {
                 CropCheck();
             }
@@ -564,9 +595,9 @@ public class VileHog : CreatureBehaviorScript
         if(other.gameObject.layer == 9)
         {
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if (creature != null && creature.shovelVulnerable && creature.creatureData != creatureData)
+            if (creature != null && creature.shovelVulnerable && creature.creatureData != creatureData && variant != Variant.Tiny)
             {
-                creature.TakeDamage(25);
+                creature.TakeDamage(10);
                 creature.PlayHitParticle(new Vector3(0,0,0));
             }
         }
@@ -609,6 +640,16 @@ public class VileHog : CreatureBehaviorScript
         currentState = CreatureState.Wander;
     }
 
+    public override void OnDamage()
+    {
+        if(health > 0) effectsHandler.OnHit();
+        if(currentState == CreatureState.FollowParent)
+        {
+            fleeTimeLeft = Random.Range(10, 12);
+            currentState = CreatureState.Flee;
+        }
+    }
+
     public override void OnDeath()
     {
         if (!isDead)
@@ -619,6 +660,8 @@ public class VileHog : CreatureBehaviorScript
             agent.enabled = false;
             rb.isKinematic = true;
             rb.freezeRotation = true;
+            dashParticles.Stop();
+            chargeParticles.Stop();
             StopAllCoroutines();
         }
     }
@@ -638,7 +681,7 @@ public class VileHog : CreatureBehaviorScript
     {
         while(health > 0)
         {
-            int i = Random.Range(4,10);
+            int i = Random.Range(2,5);
             effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
         }
@@ -652,4 +695,37 @@ public class VileHog : CreatureBehaviorScript
         if(currentState == CreatureState.Idle || currentState == CreatureState.Wander || currentState == CreatureState.WalkTowards) currentState = CreatureState.Charging;
         
     }
+
+    public void FollowParent()
+    {
+        //follow parent at a set distance
+        if (parent.isDead)
+        {
+            fleeTimeLeft = Random.Range(6, 12);
+            currentState = CreatureState.Flee;
+            return;
+        }
+
+        if (!coroutineRunning)
+        {
+            agent.speed = runSpeed;
+            walkRoutine = StartCoroutine(TrackParent());
+        }
+
+        if(agent.velocity.sqrMagnitude > 0) anim.SetBool("IsRunning", true);
+        else anim.SetBool("IsRunning", false);
+        
+    }
+
+    private IEnumerator TrackParent()
+    {
+        coroutineRunning = true;
+        while (currentState == CreatureState.FollowParent && parent)
+        {
+            agent.destination = parent.transform.position;
+            yield return new WaitForSeconds(1.2f); // update destination every 0.5 seconds to prevent overloading it
+        }
+        coroutineRunning = false;
+    }
+
 }

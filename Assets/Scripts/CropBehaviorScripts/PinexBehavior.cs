@@ -13,11 +13,11 @@ public class PinexBehavior : CropBehavior
     public override void CropBonusYield(FarmLand tile, out int cropBonus, out int secondaryCropBonus)
     {
         int r = Random.Range(0,10);
-        if(r >= 5)
+        if(r >= 7)
         {
-            if(r >= 7)
+            if(r >= 8)
             {
-                cropBonus = 0;
+                cropBonus = -1;
                 secondaryCropBonus = 1;
             }
             else

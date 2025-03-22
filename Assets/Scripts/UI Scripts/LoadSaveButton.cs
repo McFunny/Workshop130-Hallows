@@ -19,19 +19,19 @@ public class LoadSaveButton : MonoBehaviour
     {
         if(uIMenuButton.GetSelected())
         {
-            /*for(int i = 0; i < textBoxes.Length; i++)
+            for(int i = 1; i < textBoxes.Length; i++)
             {
                 textBoxes[i].color = c_selected;
-            }*/
-            textBoxes[1].color = c_selected;
+            }
+            //textBoxes[1].color = c_selected;
         }
         else
         {
-            /*for(int i = 0; i < textBoxes.Length; i++)
+            for(int i = 1; i < textBoxes.Length; i++)
             {
                 textBoxes[i].color = c_deselected;
-            }*/
-            textBoxes[1].color = c_deselected;
+            }
+            //textBoxes[1].color = c_deselected;
         }
     }
 }

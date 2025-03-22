@@ -12,7 +12,10 @@ public class FogTeleporter : MonoBehaviour
     {
         if(other.gameObject.layer == 10)
         {
-            if(otherEnd) other.transform.position = otherEnd.position;
+            if(otherEnd) 
+            {
+                other.transform.position = otherEnd.position;
+            }
         }
         else if(other.gameObject.layer == 9)
         {
@@ -21,8 +24,16 @@ public class FogTeleporter : MonoBehaviour
                 var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
                 Destroy(creature.gameObject);
             }
-            else if(enemyTeleport) other.transform.position = enemyTeleport.position;
-            else if(otherEnd) other.transform.position = otherEnd.position;
+            else if(enemyTeleport)
+            {
+                var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+                if(creature) creature.transform.position = enemyTeleport.position;
+            } 
+            else if(otherEnd) 
+            {
+                var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+                if(creature) creature.transform.position = otherEnd.position;
+            }
         }
 
 

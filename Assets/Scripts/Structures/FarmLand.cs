@@ -189,9 +189,9 @@ public class FarmLand : StructureBehaviorScript
                         }
                     }
 
-                    int r = Random.Range(0, crop.cropYieldAmount + crop.cropYieldVariance);
+                    int r = Random.Range(1, crop.cropYieldAmount + crop.cropYieldVariance);
                     totalCropYield += r;
-                    if (totalCropYield <= 0) totalCropYield = 1;
+                    //if (totalCropYield <= 0) totalCropYield = 1;
                     for (int i = 0; i < totalCropYield; i++) //Primary crop yield
                     {
                         droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
