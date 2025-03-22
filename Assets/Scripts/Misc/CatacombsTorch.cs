@@ -7,6 +7,7 @@ public class CatacombsTorch : StructureBehaviorScript
     public GameObject fire;
     public bool startActive;
     public bool fireAlwaysActive;
+    public bool disableHighlight;
     void Start()
     {
         if (!startActive) { fire.SetActive(false); }
