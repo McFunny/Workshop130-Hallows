@@ -200,9 +200,10 @@ public class PauseScript : MonoBehaviour
         }
         if(codexObject.activeSelf)
         {
+            //print("COdex");
             codex.OpenCloseCodex();
             if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
-            PlayerMovement.isCodexOpen = false;
+            //PlayerMovement.isCodexOpen = false;
             return;
         }
 
@@ -246,7 +247,7 @@ public class PauseScript : MonoBehaviour
     public void OpenPauseCodex()
     {
         codex.OpenCloseCodex();
-        PlayerMovement.isCodexOpen = true;
+        //PlayerMovement.isCodexOpen = true;
         if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(codexDefault);
     }
     
