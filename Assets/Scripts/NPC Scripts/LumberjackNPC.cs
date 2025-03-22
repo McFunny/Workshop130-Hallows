@@ -14,14 +14,6 @@ public class LumberjackNPC : NPC, ITalkable
 
     public Quest treeQuest;
 
-    [Header("Nut Stuff")]
-    public Transform nutFocalPoint;
-    public Animator nutMachineAnim;
-    public GameObject nut;
-    public Animator nutAnim;
-    public InventoryItemData[] possibleNutItems;
-    public float[] nutItemWeight;
-
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -136,22 +128,8 @@ public class LumberjackNPC : NPC, ITalkable
 
         else if(item == treeNut)
         {
-            if(movementHandler.isWorking) //I am going to chop ur nuts
-            {
-                //nut stuff
-                //currentPath = 3;
-                //currentType = PathType.ItemSpecific;
-                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-                PlayerInventoryHolder.Instance.UpdateInventory();
-                StartCoroutine(ChopNut());
-                interactSuccessful = true;
-                return;
-            }
-            else //Come see me at my place so I can chop ur nuts
-            {
-                currentPath = 2;
-                currentType = PathType.ItemSpecific;
-            }
+            currentPath = 2;
+            currentType = PathType.ItemSpecific;
         }
 
         else if(item.staminaValue > 0)
@@ -291,32 +269,6 @@ public class LumberjackNPC : NPC, ITalkable
     {
         if(GameSaveData.Instance.lumber_offersDeal) return true;
         return false;
-    }
-
-    IEnumerator ChopNut()
-    {
-        //put player focal point on the machine, do the machine anim stuff, spawn item, then break focal point
-        PlayerMovement.restrictMovementTokens++;
-        PlayerCam.Instance.NewObjectOfInterest(nutFocalPoint.position);
-        yield return new WaitForSeconds(1.5f);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(RandomNutItem());
-        droppedItem.transform.position = new Vector3(nutFocalPoint.position.x, nutFocalPoint.position.y + 0.5f, nutFocalPoint.position.z);
-        yield return new WaitForSeconds(1.5f);
-        PlayerCam.Instance.ClearObjectOfInterest();
-        PlayerMovement.restrictMovementTokens--;
-    }
-
-    InventoryItemData RandomNutItem()
-    {
-        int x = 0;
-        while(x < 10)
-        {
-            int i = Random.Range(0, possibleNutItems.Length);
-            float r = Random.Range(0f,1f);
-            if(r < nutItemWeight[i]) return possibleNutItems[i];
-            x++;
-        }
-        return possibleNutItems[0];
     }
 
 }
