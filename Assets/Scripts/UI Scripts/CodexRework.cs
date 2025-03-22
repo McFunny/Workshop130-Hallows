@@ -214,6 +214,7 @@ public class CodexRework : MonoBehaviour
 
         if(type.Equals(typeof(FetchQuest)))
         {
+            //print("Fetch Quest");
             var q = quest as FetchQuest;
             var t = q.description;
 
@@ -228,6 +229,7 @@ public class CodexRework : MonoBehaviour
         }
         if(type.Equals(typeof(HuntQuest)))
         {
+            //print("Hunt Quest");
             var q = quest as HuntQuest;
             var t = q.description;
 
@@ -237,10 +239,11 @@ public class CodexRework : MonoBehaviour
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
             questDescriptionText.text = t;
-            questProgressText.text = q.targetCreature.name + " eliminited: " + q.progress + "/" + q.maxProgress;
+            questProgressText.text = q.targetCreature.name + " eliminated: " + q.progress + "/" + q.maxProgress;
         }
         if(type.Equals(typeof(GrowQuest)))
         {
+            //print("Grow Quest");
             var q = quest as GrowQuest;
             var t = q.description;
 
@@ -251,7 +254,7 @@ public class CodexRework : MonoBehaviour
 
             questDescriptionText.text = t;
             questProgressText.text = q.progress + "/" + q.maxProgress;
-            questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+            questProgressText.text = q.desiredItem.displayName + " grown: " + q.progress + "/" + q.maxProgress;
         }
         if(quest.displayProgress == false)
         {
@@ -474,8 +477,10 @@ public class CodexRework : MonoBehaviour
                 var tempText = tempName.GetComponent<TextMeshProUGUI>();
 
                 var type = activeQuests[i].GetType();
+                print(type);
                 if(type.Equals(typeof(FetchQuest)))
                 {
+                    //print("Fetch Quest");
                     var q = activeQuests[i] as FetchQuest;
                     var t = q.name;
 
@@ -488,6 +493,7 @@ public class CodexRework : MonoBehaviour
                 }
                 else if(type.Equals(typeof(HuntQuest)))
                 {
+                    //print("Hunt Quest");
                     var q = activeQuests[i] as HuntQuest;
                     var t = q.name;
 
@@ -500,6 +506,7 @@ public class CodexRework : MonoBehaviour
                 }
                 else if(type.Equals(typeof(GrowQuest)))
                 {
+                    //print("Grow Quest");
                     var q = activeQuests[i] as GrowQuest;
                     var t = q.name;
 

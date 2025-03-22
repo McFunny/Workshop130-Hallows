@@ -65,7 +65,7 @@ public class NewDayCounter : MonoBehaviour
 
     IEnumerator DelayStart()
     {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(2f);
         currentDayCount = timeManager.dayNum;
         counterText.text = " " + currentDayCount.ToString();
         hideCounter = false;
