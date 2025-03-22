@@ -12,6 +12,8 @@ public class PlaceableItem : InventoryItemData
     Vector3 currentTilePos;
     GameObject currentHologram;
 
+    public AudioClip placeSound;
+
     public void PlaceStructure(Transform player)
     {
         Vector3 fwd = player.TransformDirection(Vector3.forward);
@@ -34,6 +36,7 @@ public class PlaceableItem : InventoryItemData
                     HotbarDisplay.currentSlot.UpdateUISlot();
                     DisableHologram();
                 }
+                if(placeSound) HandItemManager.Instance.toolSource.PlayOneShot(placeSound);
             }
 
         }
