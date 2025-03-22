@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2edfa73c5b2ca624f88c7f0fb8be25d6, type: 3}
   m_Name: TerraTuberSeeds
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 27
   displayName: Terra Tuber Seeds
   description: A slow growing plant that has the chance to produce multiple crops.
-    Consumes Terrazyme and produces Gloamphage.
   icon: {fileID: -489677668, guid: f48b512e5d8b5114791199b0773fbc02, type: 3}
   maxStackSize: 20
   value: 8
@@ -24,6 +23,7 @@ MonoBehaviour:
   hasModel: 0
   staminaValue: 0
   bonusCompostValue: 0
+  pickledForm: {fileID: 0}
   itemInputsKBM:
   - RMB - Plant
   itemInputsController:
