@@ -27,11 +27,11 @@ public class GraveDiggerNPC : NPC, ITalkable
     {
         if (dialogueController.IsTalking() == false)
         {
-            if (!GameSaveData.Instance.culMet)
+            if (!GameSaveData.Instance.graveMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
-                GameSaveData.Instance.culMet = true;
+                GameSaveData.Instance.graveMet = true;
             }
             else
             {
@@ -40,7 +40,7 @@ public class GraveDiggerNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
-                else if (NPCManager.Instance.culinarianSpoke)
+                else if (NPCManager.Instance.graveSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -49,9 +49,10 @@ public class GraveDiggerNPC : NPC, ITalkable
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
-                    NPCManager.Instance.culinarianSpoke = true;
+                    NPCManager.Instance.graveSpoke = true;
+                    currentType = PathType.Filler;
                 }
-                currentType = PathType.Filler;
+              
             }
         }
         Talk();

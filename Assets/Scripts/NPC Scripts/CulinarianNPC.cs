@@ -53,9 +53,10 @@ public class CulinarianNPC : NPC, ITalkable
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
+                    currentType = PathType.Filler;
                     NPCManager.Instance.culinarianSpoke = true;
                 }
-                currentType = PathType.Filler;
+               
             }
         }
         Talk();
