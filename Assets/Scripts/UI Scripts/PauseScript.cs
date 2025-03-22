@@ -64,10 +64,12 @@ public class PauseScript : MonoBehaviour
             Time.timeScale = 0;
         }
 
-        if (ControlManager.isController && isPaused && !PlayerMovement.isCodexOpen && Gamepad.current.buttonEast.wasPressedThisFrame)
+        if (ControlManager.isController && isPaused && Gamepad.current.buttonEast.wasPressedThisFrame)
         {
             ResumeGame();
+            //StartCoroutine(CodexCheck());
         }
+        
         
 
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused)
@@ -82,7 +84,22 @@ public class PauseScript : MonoBehaviour
         } 
     }
 
-    
+    IEnumerator CodexCheck()
+    {
+        print("HELP!!!");
+        if(!codexObject.activeSelf)
+        {
+            ResumeGame();
+            yield return new WaitForSeconds(.5f);
+            StopCoroutine(CodexCheck());
+        }
+        /*else
+        {
+            PlayerMovement.isCodexOpen = false;
+            codex.OpenCloseCodex();
+            EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
+        }*/
+    }
 
     private void PausePressed(InputAction.CallbackContext obj)
     {
@@ -164,6 +181,8 @@ public class PauseScript : MonoBehaviour
     public void ResumeGame()
     {
         print("Resume Game Pressed");
+        //if(codexObject.activeSelf) return;
+
         if(confirmationBox.gameObject.activeSelf)
         {
             NoPressed();
@@ -181,6 +200,7 @@ public class PauseScript : MonoBehaviour
         }
         if(codexObject.activeSelf)
         {
+            codex.OpenCloseCodex();
             if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
             PlayerMovement.isCodexOpen = false;
             return;

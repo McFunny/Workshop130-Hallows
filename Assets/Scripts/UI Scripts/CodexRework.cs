@@ -104,20 +104,20 @@ public class CodexRework : MonoBehaviour
 
     void OpenCodexPressed(InputAction.CallbackContext obj)
     {  
-        if(codex.activeInHierarchy)
+        if(codex.activeInHierarchy && !pauseScript.gameObject.activeInHierarchy)
         {
             print("Closing");
             if(codex.activeSelf){OpenCloseCodex();}
         }
     }
 
-    void CloseCodexPressed(InputAction.CallbackContext obj) // This doesn't do anything for some reason
+    /*void CloseCodexPressed(InputAction.CallbackContext obj) // This doesn't do anything for some reason
     {
         if(codex.activeInHierarchy)
         {
             OpenCloseCodex();
         } 
-    }
+    }*/
 
     public void OpenCloseCodex()
     {

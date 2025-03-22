@@ -15,6 +15,7 @@ public class UIMenuButton : MonoBehaviour
     [SerializeField] Button button;
     [SerializeField] private Image arrowImage;
     [SerializeField] private KeepSelectionOnScreen keepSelectionOnScreen;
+    [SerializeField] private ResolutionButtonID r;
     RectTransform rectTransform;
     public bool isPauseButton = true;
     public bool isDisabled = false;
@@ -58,6 +59,8 @@ public class UIMenuButton : MonoBehaviour
     
     void Update()
     {
+        if(r != null) return;
+
         //print(controlManager.select.action.ReadValue<float>());
         if(button.interactable == false) isDisabled = true;
         else isDisabled = false;

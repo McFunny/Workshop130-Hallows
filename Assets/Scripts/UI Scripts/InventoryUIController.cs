@@ -122,7 +122,7 @@ public class InventoryUIController : MonoBehaviour
     {
         
         if(mouseData && mouseData.IsHoldingItem()) return;
-        print("Close Attempted");
+        //print("Close Attempted");
         if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
 
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PlayerMovement.isCodexOpen) return;
