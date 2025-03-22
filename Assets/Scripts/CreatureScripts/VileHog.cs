@@ -495,7 +495,7 @@ public class VileHog : CreatureBehaviorScript
         dashParticles.Stop();
         if(chargeTimeElapsed >= chargeTime)
         {
-            recoilTime = 2f;
+            recoilTime = 1.5f;
             if(!anim.GetBool("Attacked") && !anim.GetBool("Recoiled")) 
             {
                 anim.SetTrigger("Missed");

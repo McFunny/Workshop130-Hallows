@@ -106,7 +106,7 @@ public class ItemPickup : MonoBehaviour
             rb.velocity = new Vector3(0,0,0);
         }
 
-        if (ItemData.ID == mintItem.ID && canBeCollected)
+        if (mintItem && ItemData.ID == mintItem.ID && canBeCollected)
         {
             PlayerInteraction.Instance.currentMoney += ItemData.maxStackSize;
             beingCollected = true;

@@ -23,6 +23,8 @@ public class CreatureObject : ScriptableObject
 
     public int amountKilled = 0;
 
+    public bool hasSpawned = false;
+
     public Creature data = new Creature();
 
     public Creature CreateCreature()

@@ -17,7 +17,7 @@ public class WaterCanBehavior : ToolBehavior
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 //play water anim
@@ -120,7 +120,7 @@ public class WaterCanBehavior : ToolBehavior
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 //play water anim

@@ -13,8 +13,9 @@ public class WildernessManager : MonoBehaviour
     public List<CreatureBehaviorScript> allCreatures;
 
     public CreatureObject[] creatures;
-    public GameObject[] interactablePrefabs;
-    public float[] interactableSpawnChances;
+    //public GameObject[] interactablePrefabs;
+    public WildernessInteractable[] wildernessInteractables;
+    //public float[] interactableSpawnChances;
     public GameObject[] setPiecePrefabs;
 
     [HideInInspector] public List<WildernessMap> allMaps = new List<WildernessMap>();
@@ -204,4 +205,12 @@ public class WildernessManager : MonoBehaviour
         else if(hoursSpentInWilderness > 2) maxCreatures = 6;
         else maxCreatures = 4;
     }
+}
+[System.Serializable]
+public class WildernessInteractable
+{
+    public string name;
+    public GameObject prefab;
+    public bool isLarge = false;
+    public float spawnChance = 100;
 }
