@@ -47,6 +47,7 @@ public class BrazierPuzzleManager : MonoBehaviour
         }
 
         brazierPuzzleSolved = true;
+        PuzzleManager.Instance.totalPuzzlesSolved++;
         PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
     }
 

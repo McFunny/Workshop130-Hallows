@@ -295,6 +295,7 @@ public class VileHog : CreatureBehaviorScript
         if (trackPlayerRoutine == null)
         {
             trackPlayerRoutine = StartCoroutine(TrackPlayer());
+            target = player;
             agent.speed = runSpeed;
         }
         if(target == null)
@@ -476,6 +477,7 @@ public class VileHog : CreatureBehaviorScript
         faceTarget = true;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
         yield return new WaitForSeconds(beginChargeTime); //Beginning to charge
+        bearTrapVulnerable = false;
 
         //Actively Charging
         effectsHandler.MiscSound2();
@@ -509,6 +511,7 @@ public class VileHog : CreatureBehaviorScript
         yield return new WaitForSeconds(0.5f);
         chargeParticles.Stop();
         yield return new WaitForSeconds(recoilTime); //Charge Cooldown
+        bearTrapVulnerable = true;
 
         //Should probably flee for about 5 seconds or so to prevent constant charging
         agent.speed = runSpeed;
@@ -615,9 +618,11 @@ public class VileHog : CreatureBehaviorScript
 
     public override bool OnStun(float duration)
     {
-        if (currentState != CreatureState.Stun && currentState != CreatureState.Charging)
+        if (currentState != CreatureState.Stun)
         {
             StartCoroutine(Stun(duration));
+            StopCoroutine(ChargeRoutine());
+            faceTarget = false;
             agent.destination = transform.position;
             agent.ResetPath();
             return true;
@@ -635,9 +640,13 @@ public class VileHog : CreatureBehaviorScript
             StopCoroutine(walkRoutine);
             walkRoutine = null;
         }
+        agent.ResetPath();
+        anim.SetBool("IsWalking", false);
+        anim.SetBool("IsRunning", false);
         yield return new WaitForSeconds(duration);
         //StartCoroutine(IdleSoundTimer());
         currentState = CreatureState.Wander;
+        bearTrapVulnerable = true;
     }
 
     public override void OnDamage()

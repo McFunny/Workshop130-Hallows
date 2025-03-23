@@ -239,9 +239,6 @@ MonoBehaviour:
   - name: Torch
     itemData: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
     amount: 1
-  - name: WaterGun
-    itemData: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
-    amount: 1
   debugItems: []
 --- !u!114 &6650565928944350188
 MonoBehaviour:
@@ -293,6 +290,7 @@ MonoBehaviour:
   shakeIntensity: 1
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   focusColor: {r: 0, g: 0, b: 0, a: 0}
+  onItemSoundCooldown: 0
 --- !u!114 &1326828943737913890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,6 +644,8 @@ MonoBehaviour:
   select: {fileID: 668919531283680143, guid: 060d319d61d58794a97cf0963535b7d5, type: 3}
   split: {fileID: -1999698616602045232, guid: 060d319d61d58794a97cf0963535b7d5, type: 3}
   waterGunCharge: {fileID: 6660244490654419795, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  dropItem: {fileID: 2433354606798157684, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
   playerInput: {fileID: 3987123363838110697}
 --- !u!114 &3987123363838110697
@@ -1016,7 +1016,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32768
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0

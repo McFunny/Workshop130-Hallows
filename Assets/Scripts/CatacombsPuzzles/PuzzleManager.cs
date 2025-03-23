@@ -1,4 +1,5 @@
 using SaveLoadSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,10 @@ public class PuzzleManager : MonoBehaviour
 
     public GameObject puzzleBeforeMove;
     public GameObject puzzleAfterMove;
+
+    public int totalPuzzlesSolved = 0;
+
+    public GameObject[] fireObjects;
 
     private void Awake()
     {
@@ -47,9 +52,18 @@ public class PuzzleManager : MonoBehaviour
             puzzleBeforeMove.SetActive(false);
             puzzleAfterMove.SetActive(true);
         }
+        RunForLoop();
     }
 
-    private void SaveData()
+    private void RunForLoop()
+    {
+        for (int i = 0; i < totalPuzzlesSolved; i++)
+        {
+            fireObjects[i].gameObject.SetActive(true);
+        }
+    }
+
+        private void SaveData()
     {
         SaveLoad.CurrentSaveData.puzzleSaveData = GetPuzzleData();
     }
@@ -76,7 +90,14 @@ public class PuzzleManager : MonoBehaviour
         waterPuzzle.LoadFromData(data.waterPuzzleData);
         pillarPuzzle.ImportSaveData(data.rotatingPuzzleData);
         brazierPuzzle.ImportSaveData(data.brazierPuzzleData);
-        CheckToSeeIfPuzzlesAreComplete();
+        totalPuzzlesSolved = data.totalPuzzlesSolved;
+        allPuzzlesSolved = data.allPuzzlesSolved;
+        if (allPuzzlesSolved)
+        {
+            puzzleBeforeMove.SetActive(false);
+            puzzleAfterMove.SetActive(true);
+        }
+        RunForLoop();
     }
 }
 
@@ -87,4 +108,6 @@ public struct PuzzleManagerSaveData
     public WaterPuzzleData waterPuzzleData;
     public RotatingPuzzleSaveData rotatingPuzzleData;
     public BrazierPuzzleSaveData brazierPuzzleData;
+    public int totalPuzzlesSolved;
+    public bool allPuzzlesSolved;
 }

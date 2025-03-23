@@ -30,6 +30,7 @@ public class CodexRework : MonoBehaviour
     public Sprite[] characterPortraits;
     public List<Quest> activeQuests = new List<Quest>();
     private PauseScript pauseScript;
+    [SerializeField] private GameObject RBLB;
 
     void Awake()
     {
@@ -96,24 +97,27 @@ public class CodexRework : MonoBehaviour
         }
 
         PlayerMovement.isCodexOpen = codex.activeInHierarchy;
+
+        if(ControlManager.isController) RBLB.SetActive(true);
+        else RBLB.SetActive(false);
     }
 
     void OpenCodexPressed(InputAction.CallbackContext obj)
     {  
-        if(codex.activeInHierarchy)
+        if(codex.activeInHierarchy && !pauseScript.gameObject.transform.GetChild(0).gameObject.activeSelf) //ts pmo.....
         {
             print("Closing");
             if(codex.activeSelf){OpenCloseCodex();}
         }
     }
 
-    void CloseCodexPressed(InputAction.CallbackContext obj) // This doesn't do anything for some reason
+    /*void CloseCodexPressed(InputAction.CallbackContext obj) // This doesn't do anything for some reason
     {
         if(codex.activeInHierarchy)
         {
             OpenCloseCodex();
         } 
-    }
+    }*/
 
     public void OpenCloseCodex()
     {
@@ -210,6 +214,7 @@ public class CodexRework : MonoBehaviour
 
         if(type.Equals(typeof(FetchQuest)))
         {
+            //print("Fetch Quest");
             var q = quest as FetchQuest;
             var t = q.description;
 
@@ -224,6 +229,7 @@ public class CodexRework : MonoBehaviour
         }
         if(type.Equals(typeof(HuntQuest)))
         {
+            //print("Hunt Quest");
             var q = quest as HuntQuest;
             var t = q.description;
 
@@ -233,10 +239,11 @@ public class CodexRework : MonoBehaviour
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
             questDescriptionText.text = t;
-            questProgressText.text = q.targetCreature.name + " eliminited: " + q.progress + "/" + q.maxProgress;
+            questProgressText.text = q.targetCreature.name + " eliminated: " + q.progress + "/" + q.maxProgress;
         }
         if(type.Equals(typeof(GrowQuest)))
         {
+            //print("Grow Quest");
             var q = quest as GrowQuest;
             var t = q.description;
 
@@ -247,7 +254,7 @@ public class CodexRework : MonoBehaviour
 
             questDescriptionText.text = t;
             questProgressText.text = q.progress + "/" + q.maxProgress;
-            questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+            questProgressText.text = q.desiredItem.displayName + " grown: " + q.progress + "/" + q.maxProgress;
         }
         if(quest.displayProgress == false)
         {
@@ -470,8 +477,10 @@ public class CodexRework : MonoBehaviour
                 var tempText = tempName.GetComponent<TextMeshProUGUI>();
 
                 var type = activeQuests[i].GetType();
+                print(type);
                 if(type.Equals(typeof(FetchQuest)))
                 {
+                    //print("Fetch Quest");
                     var q = activeQuests[i] as FetchQuest;
                     var t = q.name;
 
@@ -484,6 +493,7 @@ public class CodexRework : MonoBehaviour
                 }
                 else if(type.Equals(typeof(HuntQuest)))
                 {
+                    //print("Hunt Quest");
                     var q = activeQuests[i] as HuntQuest;
                     var t = q.name;
 
@@ -496,6 +506,7 @@ public class CodexRework : MonoBehaviour
                 }
                 else if(type.Equals(typeof(GrowQuest)))
                 {
+                    //print("Grow Quest");
                     var q = activeQuests[i] as GrowQuest;
                     var t = q.name;
 
@@ -554,6 +565,26 @@ public class CodexRework : MonoBehaviour
 
                 print("Unlocked Entry Found");
                 break;
+            }
+            else
+            {
+                if(temp.assignedEntry.cropData != null)
+                {
+                    timesDone.text = "";
+                    //print("Crop Data Found");
+                    timesDone.gameObject.SetActive(true);
+                }
+                else if(temp.assignedEntry.creatureData != null)
+                {
+                    timesDone.text = "";
+                    //print("Creature Data Found");
+                    timesDone.gameObject.SetActive(true);
+                }
+                else
+                {
+                    //print("No Data Found");
+                    timesDone.text = "";
+                }
             }
         }
         if(currentEntry == null && !isQuestCategory) 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,13 +7,14 @@ using UnityEngine;
 public class TooltipControlsScript : MonoBehaviour
 {
     [SerializeField] private GameObject KBMContainer, controllerContainer, defaultContainerKBM, defaultContainerController;
-    public List<GameObject> kbmContainerList, controllerContainerList;
+    public List<GameObject> kbmContainerList, controllerContainerList, defaultKBMContainerList, defaultControllerContainerList;
     [SerializeField] private TextMeshProUGUI textBox;
+    public List<string> DefaultControlsKBM, DefaultControlsController, InventoryControlsKBM, InventoryControlsController;
     private bool isEmpty;
 
     void Start()
     {
-        DefaultControls();
+        ShowDefaultControls();
     }
 
     void Update()
@@ -134,30 +136,60 @@ public class TooltipControlsScript : MonoBehaviour
         controllerContainerList.Clear();
     }
 
-    public void DefaultControls()
+    public void DestoryDefaultTextObjects() //For The Left Side Tooltips
     {
-        var invObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
-        invObj.text = "E - Open Bag";
+        if(defaultKBMContainerList.Count == 0 || defaultControllerContainerList.Count == 0) return;
 
-        var lmbObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
-        lmbObj.text = "LMB - Use Item";
+        for(int i = 0; i < defaultKBMContainerList.Count; i++)
+        {
+            Destroy(defaultKBMContainerList[i].gameObject);
+        }
 
-        var rmbObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
-        rmbObj.text = "RMB - Apply Item to Interactable";
+        for(int i = 0; i < defaultControllerContainerList.Count; i++)
+        {
+            Destroy(defaultControllerContainerList[i].gameObject);
+        }
 
-        var spaceObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
-        spaceObj.text = "Space - Interact";
+        defaultKBMContainerList.Clear();
+        defaultControllerContainerList.Clear();
+    }
+    
 
-        var invObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
-        invObjC.text = "<sprite name=ButtonY> - Open Bag";
+    public void ShowDefaultControls()
+    {
+        DestoryDefaultTextObjects();
 
-        var lmbObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
-        lmbObjC.text = "<sprite name=ButtonRT> - Use Item";
+        for(int i = 0; i < DefaultControlsKBM.Count; i++)
+        {
+            var tempObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
+            tempObj.text = DefaultControlsKBM[i];
+            defaultKBMContainerList.Add(tempObj.gameObject);
+        }
+        
+        for(int i = 0; i < DefaultControlsController.Count; i++)
+        {
+            var tempObj = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
+            tempObj.text = DefaultControlsController[i];
+            defaultControllerContainerList.Add(tempObj.gameObject);
+        }
+    }
 
-        var rmbObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
-        rmbObjC.text = "<sprite name=ButtonLT> - Apply Item to Interactable";
+    public void ShowInventoryControls()
+    {
+        DestoryDefaultTextObjects();
 
-        var spaceObjC = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
-        spaceObjC.text = "<sprite name=ButtonX> - Interact";
+        for(int i = 0; i < InventoryControlsKBM.Count; i++)
+        {
+            var tempObj = Instantiate(textBox, defaultContainerKBM.transform, worldPositionStays:false);
+            tempObj.text = InventoryControlsKBM[i];
+            defaultKBMContainerList.Add(tempObj.gameObject);
+        }
+        
+        for(int i = 0; i < InventoryControlsController.Count; i++)
+        {
+            var tempObj = Instantiate(textBox, defaultContainerController.transform, worldPositionStays:false);
+            tempObj.text = InventoryControlsController[i];
+            defaultControllerContainerList.Add(tempObj.gameObject);
+        }
     }
 }

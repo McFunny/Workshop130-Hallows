@@ -8,9 +8,9 @@ public class TimeManager : MonoBehaviour
     //Time
     public bool stopSaving = false;
 
-    public int currentMinute = 0; //30 in an hour
-    int minPerDayHour = 30;
-    int minPerNightHour = 30;
+    public int currentMinute = 0; 
+    int minPerDayHour = 45; //how long an hour lasts at day
+    int minPerNightHour = 30; //how long an hour lasts at night
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
                                         /// /Day lasts 14 hours. Morning starts at 6, town opens at 8

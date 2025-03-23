@@ -31,7 +31,8 @@ MonoBehaviour:
   paths:
   - pathName: Want me to buy this?
     paragraphs:
-    - 'For that {itemName} I can offer {itemValue} Mints.
+    - 'For that {itemName} I can offer <color=#E0D38F> {itemValue} Mints</color>
+      <sprite index=0>.
 
       Do we have a deal?'
     emotions: 00000000
@@ -45,7 +46,8 @@ MonoBehaviour:
     emotions: 01000000
   - pathName: Want me to buy all of those?
     paragraphs:
-    - 'For all of those? I can offer {itemTotalValue} Mints.
+    - 'For all of those? I can offer <color=#E0D38F> {itemTotalValue} Mints</color>
+      <sprite index=0>.
 
       What do you say?'
     emotions: 00000000

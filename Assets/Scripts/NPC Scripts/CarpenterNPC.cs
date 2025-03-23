@@ -29,11 +29,11 @@ public class CarpenterNPC : NPC, ITalkable
     {
         if (dialogueController.IsTalking() == false)
         {
-            if (!GameSaveData.Instance.culMet)
+            if (!GameSaveData.Instance.carpMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
-                GameSaveData.Instance.culMet = true;
+                GameSaveData.Instance.carpMet = true;
             }
             else
             {
@@ -42,7 +42,7 @@ public class CarpenterNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
-                else if (NPCManager.Instance.culinarianSpoke)
+                else if (NPCManager.Instance.carpSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -51,9 +51,10 @@ public class CarpenterNPC : NPC, ITalkable
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
-                    NPCManager.Instance.culinarianSpoke = true;
+                    NPCManager.Instance.carpSpoke = true;
+                    currentType = PathType.Filler;
                 }
-                currentType = PathType.Filler;
+             
             }
         }
         Talk();

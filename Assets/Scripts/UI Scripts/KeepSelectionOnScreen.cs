@@ -47,7 +47,7 @@ public class KeepSelectionOnScreen : MonoBehaviour //Bro I stg...
         //print("Selected object is not the same as the last frame");
 
         // Get the rect tranform for the selected game object.
-        if(selected.transform.parent.GetComponent<Button>() == null) selectedRectTransform = selected.transform.parent.GetComponent<RectTransform>();
+        if(selected.GetComponent<Button>() == null) selectedRectTransform = selected.GetComponent<RectTransform>();
         else selectedRectTransform = selected.GetComponent<RectTransform>();
         // The position of the selected UI element is the absolute anchor position,
         // ie. the local position within the scroll rect + its height if we're

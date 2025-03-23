@@ -50,8 +50,9 @@ public class TravelerNPC : NPC, ITalkable
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
                     NPCManager.Instance.travSpoke = true;
+                    currentType = PathType.Filler;
                 }
-                currentType = PathType.Filler;
+               
             }
         }
         Talk();

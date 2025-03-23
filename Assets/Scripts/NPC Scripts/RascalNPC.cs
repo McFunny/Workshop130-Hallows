@@ -60,11 +60,11 @@ public class RascalNPC : NPC, ITalkable
                 if(currentPath == -1)
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentType = PathType.Filler;
+                    NPCManager.Instance.rascalSpoke = true;
                     currentPath = i;
                 }
                 //currentPath = -1;
-                currentType = PathType.Filler;
-                NPCManager.Instance.rascalSpoke = true;
             }
         }
         Talk();

@@ -53,12 +53,18 @@ public class MouseItemData : MonoBehaviour
                 DropItem();
             }
 
+            if(controlManager.dropItem.action.WasReleasedThisFrame())
+            {
+                print("Item Drop Attempted");
+                if(assignedInventorySlot.ItemData.isKeyItem) return;
+                DropItem();
+                print("Item Dropped");
+            } 
         }
     }
 
     public void DropItem()
     {
-
         for(int i = 0; i < assignedInventorySlot.StackSize; i++)
         {
             GameObject droppedItem = ItemPoolManager.Instance.GrabItem(assignedInventorySlot.ItemData);

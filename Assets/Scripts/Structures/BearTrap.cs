@@ -106,16 +106,16 @@ public class BearTrap : StructureBehaviorScript
         bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
         audioHandler.PlaySound(triggeredSFX);
 
-        if(victim.gameObject.layer == 9) victim.transform.position = transform.position;
+        //if(victim.gameObject.layer == 9) victim.transform.position = transform.position;
         Vector3 victimPos = new Vector3(victim.transform.position.x, transform.position.y, victim.transform.position.z);
 
         float distance = Vector3.Distance(victimPos, transform.position);
-        print(distance);
-        if(distance < 1.5f)
+        //print(distance);
+        if(victim/*distance < 1.5f*/)
         {
 
             //does the damage
-            if(victim.GetComponent<PlayerInteraction>())
+            if(victim.GetComponent<PlayerInteraction>() && distance < 1.5f)
             {
                 PlayerInteraction player = victim.GetComponent<PlayerInteraction>();
                 player.StaminaChange(-25);

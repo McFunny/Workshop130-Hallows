@@ -17,8 +17,7 @@ MonoBehaviour:
     pathName: Introduction
     paragraphs:
     - You are the new farmer, right?
-    - I heard your farm isn't protected from the mist!
-    - Must be scary!
+    - I do hope you didn't bring any of that mist in with you.
     emotions: 040000000500000005000000
   questCompletePath:
     pathName: Thanks for completing quest
@@ -41,44 +40,39 @@ MonoBehaviour:
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
-    - Enjoy your new {itemBought}
+    - Enjoy. {itemBought}
     emotions: 01000000
   - pathName: No Money
     paragraphs:
-    - Come back with some more money and I can sell this to you
+    - Come back with some more money and I can sell this to you.
     emotions: 03000000
   - pathName: No Space
     paragraphs:
-    - I don't think you would be able to carry this
+    - I don't think you would be able to carry this.
     emotions: 05000000
   fillerPaths:
-  - pathName: Mist Walkers
+  - pathName: Aloe
     paragraphs:
-    - Those Mist Walkers sure are scary!
-    emotions: 05000000
-  - pathName: Hare
-    paragraphs:
-    - Those hares look cute from a distance.
-    - Too bad they are such a problem on the farm!
-    emotions: 0000000000000000
-  - pathName: Wraith
-    paragraphs:
-    - I've seen some kind of ghostly figure on your farm before!
-    - That's why I prefer to stay in the town!
-    emotions: 0500000001000000
+    - It seems that the presence of the mist escalates varying attributes in the
+      local plant life.
+    - For instance, I have found that the Aloe that grows in the town has incredible
+      restorative properties.
+    emotions: 0000000005000000
   - pathName: Crows
     paragraphs:
-    - The crows around here act very strange.
-    - There is a big difference on how they act in the farm versus how they act in
-      the town.
-    emotions: 0000000000000000
+    - 'The crows around here act very strange. Have you ever noticed how docile they
+      become at dawn? '
+    - The old farmer used to have so many horror stories, but I haven't seen them
+      hurt anyone!
+    emotions: 0500000001000000
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:
     - What do you take me for, a charity?
-    - I have no use for that.
+    - I have need to spend my precious <color=#E0D38F> Mints</color> <sprite index=0>
+      on your junk.
     emotions: 0200000000000000
   friendshipPath1: []
   friendshipPath2: []

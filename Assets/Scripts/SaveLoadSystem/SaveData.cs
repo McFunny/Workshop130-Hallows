@@ -18,7 +18,6 @@ namespace SaveLoadSystem
         public StructureInventory allStructuresSaveData;
         public PuzzleManagerSaveData puzzleSaveData;
 
-        //save nutrients
 
         public SaveData()
         {

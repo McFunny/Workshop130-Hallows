@@ -87,7 +87,11 @@ public class GameSaveData : MonoBehaviour
             PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
             TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
 
-            for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
+            //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
+            QuestManager.Instance.LoadData(data.allGameSaveData);
+
+            CropDatabase.Instance.LoadStats(data.allGameSaveData);
+            CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
 
             tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
             rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -122,6 +126,12 @@ public class GameSaveData : MonoBehaviour
         public int pDayNumber;
 
         public Quest[] activeQuests;
+        public FetchQuest[] activeFetchQuests;
+        public HuntQuest[] activeHuntQuests;
+        public GrowQuest[] activeGrowQuests;
+
+        public CropPlayerStats[] cropStats;
+        public CreaturePlayerStats[] creatureStats;
 
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
@@ -153,7 +163,12 @@ public class GameSaveData : MonoBehaviour
             pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
             pDayNumber = TimeManager.Instance.dayNum;
 
-            activeQuests = QuestManager.Instance.activeQuests.ToArray();
+            //activeQuests = QuestManager.Instance.activeQuests.ToArray();
+
+            QuestManager.Instance.SaveQuestData(out activeQuests, out activeFetchQuests, out activeHuntQuests, out activeGrowQuests);
+
+            CropDatabase.Instance.SaveStats(out cropStats);
+            CreatureDatabase.Instance.SaveStats(out creatureStats);
 
 
             tutorialMerchantSpoke = data.tutorialMerchantSpoke;
