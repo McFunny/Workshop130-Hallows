@@ -26,7 +26,7 @@ public class CropDatabase : ScriptableObject
         RegisterCrops(_cropDatabase);
     }*/
 
-    [SerializeField] private List<CropData> _cropDatabase;
+    [SerializeField] private List<CropData> _cropDatabase; //DONT ALTER ORDER
 
     private Dictionary<string, CropData> cropLookup = new Dictionary<string, CropData>();
 
@@ -56,4 +56,47 @@ public class CropDatabase : ScriptableObject
             if(cropDatabase[i].name == name) return cropDatabase[i];
         }
         return null; */
+
+    public void ResetStats()
+    {
+        for(int i = 0; i < _cropDatabase.Count; i++)
+        {
+            _cropDatabase[i].amountHarvested = 0;
+            _cropDatabase[i].amountKilled = 0;
+        }
+    }
+
+    public void SaveStats(out CropPlayerStats[] cropStats)
+    {
+        List<CropPlayerStats> temp = new List<CropPlayerStats>();
+
+        foreach(CropData c in _cropDatabase)
+        {
+            temp.Add(new CropPlayerStats(c.amountHarvested, c.amountKilled));
+        }
+        cropStats = temp.ToArray();
+    }
+
+    public void LoadStats(AllGameSaveData data)
+    {
+        int i = 0;
+        foreach(CropData c in _cropDatabase)
+        {
+            c.amountHarvested = data.cropStats[i].amountHarvested;
+            c.amountKilled = data.cropStats[i].amountKilled;
+            i++;
+        }
+    }
+}
+[System.Serializable]
+public class CropPlayerStats
+{
+    public int amountHarvested = 0;
+    public int amountKilled = 0;
+
+    public CropPlayerStats(int _harvest, int _killed)
+    {
+        amountHarvested = _harvest;
+        amountKilled = _killed;
+    }
 }

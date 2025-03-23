@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NightSpawningManager : MonoBehaviour
 {
@@ -288,7 +289,7 @@ public class NightSpawningManager : MonoBehaviour
         {
             if(difficultyPoints < 100)
             {
-                difficultyPoints = 50;
+                difficultyPoints = 100;
                 highestDifficultyPoints = 300;
             }
             return;
@@ -381,9 +382,9 @@ public class NightSpawningManager : MonoBehaviour
     public void FinaleComplete()
     {
         StartCoroutine(GameCompleted());
-        foreach(CreatureBehaviorScript c in allCreatures)
+        for(int i = 0; i < allCreatures.Count; i++)
         {
-            c.TakeDamage(999);
+            allCreatures[i].TakeDamage(999);
         }
     }
 
@@ -397,6 +398,7 @@ public class NightSpawningManager : MonoBehaviour
         //AmbientAudioManager.Instance.FadeMusic();
         yield return new WaitForSeconds(3);
         //Credits screen
+        SceneManager.LoadSceneAsync(2);
     }
 
 

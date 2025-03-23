@@ -13,5 +13,8 @@ public class ScriptableObjectRefresher : MonoBehaviour
             t.usingPrimary = false;
             t.usingSecondary = false;
         }
+
+        CropDatabase.Instance.ResetStats();
+        CreatureDatabase.Instance.ResetStats();
     }
 }

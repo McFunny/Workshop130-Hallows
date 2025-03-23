@@ -150,12 +150,17 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
 
     public void OnDestroy()
     {
-        if (!gameObject.scene.isLoaded) return; 
         base.OnDestroy();
+        if (!gameObject.scene.isLoaded) return; 
+        int r = Random.Range(0, 3);
+        for(int i = 0; i < r; i++)
+        {
+            FlyDeathSpawn();
+        } 
         if(!producedNectar) return;
         GameObject droppedItem;
         Rigidbody itemRB;
-        int r = Random.Range(1,5);
+        r = Random.Range(1,5);
         for(int i = 0; i < r; i++)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(nectar);
@@ -167,6 +172,12 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
             itemRB.AddForce(dir3 * 20);
             itemRB.AddForce(Vector3.up * 50);
         }
+    }
+
+    void FlyDeathSpawn()
+    {
+        PyreFly newFly = Instantiate(pyreFlyData.objectPrefab, transform.position, Quaternion.identity).GetComponent<PyreFly>();
+        if(!ignited) newFly.IgnitionToggle(false);
     }
 
 }

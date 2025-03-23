@@ -157,6 +157,8 @@ public class SlotMachine : MonoBehaviour,IInteractable
                             droppedItem.transform.position = itemCollection.position;
                             yield return null;
                         }
+                        PuzzleManager.Instance.totalPuzzlesSolved++;
+                        PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
                         yield return new WaitForSeconds(animLength);
                     }
                     else

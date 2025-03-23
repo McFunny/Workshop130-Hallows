@@ -29,6 +29,7 @@ public class WaterPuzzleManager : MonoBehaviour
             waterPuzzleSolved = true;
 
             //SavePuzzleState();
+            PuzzleManager.Instance.totalPuzzlesSolved++;
             PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
         }
     }

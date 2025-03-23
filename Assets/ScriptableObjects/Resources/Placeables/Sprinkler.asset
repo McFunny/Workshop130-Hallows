@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
   m_Name: Sprinkler
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 81
   displayName: Sprinkler
   description: Waters the adjacent 8 crops every hour. Can store 3 units of water.
   icon: {fileID: 21300000, guid: be0cd249de8ca4640bc2595357943c15, type: 3}
@@ -23,6 +23,7 @@ MonoBehaviour:
   hasModel: 0
   staminaValue: 0
   bonusCompostValue: 0
+  pickledForm: {fileID: 0}
   itemInputsKBM:
   - LMB - Place Structure
   itemInputsController: []
@@ -31,3 +32,4 @@ MonoBehaviour:
   hologramPrefab: {fileID: 4711182863736477841, guid: 2a8c3d1816f3c9146b5fbf88ee06a977,
     type: 3}
   removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 65f88b6da79e9d548906f86cb540e72f, type: 3}

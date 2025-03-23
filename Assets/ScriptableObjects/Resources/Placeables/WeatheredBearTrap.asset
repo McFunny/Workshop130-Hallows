@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
   m_Name: WeatheredBearTrap
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 82
   displayName: Weathered Bear Trap
   description: Eroded by the flow of time, this beartrap can still function, albiet
     with less durability.
@@ -24,6 +24,7 @@ MonoBehaviour:
   hasModel: 0
   staminaValue: 0
   bonusCompostValue: 0
+  pickledForm: {fileID: 0}
   itemInputsKBM:
   - LMB - Place Structure
   itemInputsController: []
@@ -32,3 +33,4 @@ MonoBehaviour:
   hologramPrefab: {fileID: 3090579548848699978, guid: e45cca6ae30d8d44ab0817dd198602a1,
     type: 3}
   removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 65f88b6da79e9d548906f86cb540e72f, type: 3}

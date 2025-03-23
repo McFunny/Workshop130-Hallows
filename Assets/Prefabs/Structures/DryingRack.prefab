@@ -100,7 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24acd9ba387ddb41bb2f8f181c3e512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitSounds: []
+  hitSounds:
+  - {fileID: 8300000, guid: fdad68a7e6445d64e8b82f6ac9397e7b, type: 3}
   miscSounds1: []
   miscSounds2: []
   interactSound: {fileID: 0}
@@ -244,6 +245,7 @@ MonoBehaviour:
   nearbyFires: []
   highlight:
   - {fileID: 1696558457012360028}
+  canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 0}
