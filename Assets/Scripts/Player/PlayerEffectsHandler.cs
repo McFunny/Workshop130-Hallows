@@ -78,6 +78,8 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     }
 
+
+
     IEnumerator DamageFlash()
     {
         if(globalVolume.profile.TryGet(out Vignette vignette))
