@@ -12,6 +12,7 @@ public class SettingsValueManager : MonoBehaviour
     [SerializeField] private Button applyButton, defaultButton, backButton, resolutionButton;
     [SerializeField] private TextMeshProUGUI sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay;
     [SerializeField] private Slider sensitivitySlider, masterVolSlider, musicSlider, sfxSlider;
+    [SerializeField] private Toggle sprint;
     //[SerializeField] private TMP_Dropdown resolutionDropDown;
     [SerializeField] private GameObject horizontalMenuButton, resolutionBox, resolutionContent;
     public GameObject resolutionDefault;
@@ -22,9 +23,11 @@ public class SettingsValueManager : MonoBehaviour
     private float currentRefreshRate;
     private int currentResolutionIndex;
     private int tempResolutionIndex;
+    private int sprintValue;
     private float defaultSensitivity, defaultVolume; // Default values
     private float sensitivity, masterVolume, musicVolume, sfxVolume; // Current Values
     private VolumeManager volumeManager;
+    
 
     private InputSystemUIInputModule inputSystem;
 
@@ -36,6 +39,7 @@ public class SettingsValueManager : MonoBehaviour
         masterVolume = PlayerPrefs.GetFloat("MasterVolume", defaultVolume);
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
         sfxVolume = PlayerPrefs.GetFloat("SFXVolume", defaultVolume);
+        sprintValue = PlayerPrefs.GetInt("ToggleSprint", 0);
         volumeManager = FindFirstObjectByType<VolumeManager>();
 
         resolutions = Screen.resolutions;
@@ -124,6 +128,10 @@ public class SettingsValueManager : MonoBehaviour
         sfxSlider.value = sfxVolume;
         sfxDisplay.SetText($"{(sfxSlider.value * 100).ToString("N1")}" + "%");
 
+        if (sprintValue == 0) sprint.isOn = false;
+        else sprint.isOn = true;
+        
+
         //print("Sensitivity Multiplier: " + sensitivity);
         applyButton.interactable = false;
     }
@@ -176,6 +184,7 @@ public class SettingsValueManager : MonoBehaviour
             PlayerPrefs.SetFloat("MasterVolume", masterVolume);
             PlayerPrefs.SetFloat("MusicVolume", musicVolume);
             PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
+            PlayerPrefs.SetInt("ToggleSprint", sprintValue);
 
             Resolution resolution = filteredResolutions[tempResolutionIndex];
             Screen.SetResolution(resolution.width, resolution.height, true); 
@@ -261,6 +270,13 @@ public class SettingsValueManager : MonoBehaviour
         sfxVolume = vol;
         sfxDisplay.SetText($"{(sfxSlider.value * 100).ToString("N1")}" + "%");
 
+        applyButton.interactable = true;
+    }
+
+    public void UpdateSprintToggle(bool s)
+    {
+        if(s == false) sprintValue = 0;
+        else sprintValue = 1;
         applyButton.interactable = true;
     }
 
