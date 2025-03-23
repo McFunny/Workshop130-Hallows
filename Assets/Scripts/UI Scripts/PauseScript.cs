@@ -237,13 +237,13 @@ public class PauseScript : MonoBehaviour
         while(!operation.isDone)
         {
             loadText.text = load1;
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSecondsRealtime(.2f);
             loadText.text = load2;
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSecondsRealtime(.2f);
             loadText.text = load3;
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSecondsRealtime(.2f);
             loadText.text = load4;
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSecondsRealtime(.2f);
         }
     }
 
