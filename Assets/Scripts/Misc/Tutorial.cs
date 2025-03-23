@@ -14,6 +14,8 @@ public class Tutorial : MonoBehaviour
 
     public TutorialPhase phase;
 
+    public bool hasWatered;
+
     public enum TutorialPhase
     {
         Till,
@@ -40,6 +42,7 @@ public class Tutorial : MonoBehaviour
     void Start()
     {
         PopupHandler.Instance.AddToQueue(tillP);
+        PopupHandler.Instance.AddToQueue(plantP);
         TimeManager.Instance.stopTime = true;
     }
     
@@ -56,10 +59,11 @@ public class Tutorial : MonoBehaviour
     {
         if(phase == TutorialPhase.Sow)
         {
-            PopupHandler.Instance.AddToQueue(waterP);
+            if(!hasWatered) PopupHandler.Instance.AddToQueue(waterP);
             phase = TutorialPhase.Water;
-            PopupEvents.current.PlantSeed();
+            //PopupEvents.current.PlantSeed();
         }
+        PopupEvents.current.PlantSeed();
     }
 
     public void LostSeed()
@@ -82,11 +86,13 @@ public class Tutorial : MonoBehaviour
         {
             PopupHandler.Instance.AddToQueue(killP);
             phase = TutorialPhase.Kill;
-            PopupEvents.current.WateredCrop();
+            //PopupEvents.current.WateredCrop();
             //spawnScarecrow
             StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();
             guy.health = 4;
         }
+        PopupEvents.current.WateredCrop();
+        hasWatered = true;
     }
 
     public void KillScarecrow()

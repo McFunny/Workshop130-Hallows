@@ -504,6 +504,7 @@ public class VileHog : CreatureBehaviorScript
                 chargeParticles.Play();
             }
         }
+        if(anim.GetBool("Recoiled")) agent.speed = 0;
         isCharging = false;
         agent.ResetPath();
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
