@@ -80,7 +80,9 @@ public class PuzzleManager : MonoBehaviour
             slotMachineSaveData = slotMachinePuzzle.ExportSaveData(),
             waterPuzzleData = waterPuzzle.GetPuzzleData(),
             rotatingPuzzleData = pillarPuzzle.ExportSaveData(),
-            brazierPuzzleData = brazierPuzzle.ExportSaveData()
+            brazierPuzzleData = brazierPuzzle.ExportSaveData(),
+            totalPuzzlesSolved = totalPuzzlesSolved,
+            allPuzzlesSolved = allPuzzlesSolved
         };
     }
 
