@@ -101,6 +101,7 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.allGameSaveData.bridgeCleared;
             keyCollected = data.allGameSaveData.keyCollected;
             catacombUnlocked = data.allGameSaveData.catacombUnlocked;
+            wildernessIntroduced = data.allGameSaveData.wildernessIntroduced;
             playerHasBox = data.allGameSaveData.playerHasBox;
 
             rascalMet = data.allGameSaveData.rascalMet;

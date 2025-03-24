@@ -26,7 +26,7 @@ public class LandMine : StructureBehaviorScript
     bool validTile = true;
     bool isExploding = false;
     bool pulseLight = false;
-    //bool isDestroyed = false;
+    bool isDestroyed = false;
     NutrientType nutrientType;
     
 
@@ -54,12 +54,13 @@ public class LandMine : StructureBehaviorScript
 
     void Update()
     {
-        /*if(health <= 0 && isDestroyed)
+        if(health <= 0 && isDestroyed)
         {
             isDestroyed = true;
-            //if(isPrimed)
+            
+            if(!isPrimed) Destroy(gameObject);
             //Destroy itself. If its primed, it will explode first
-        }*/
+        }
 
 
         if(flashOn && lightLerp >= 1) flashOn = false;
