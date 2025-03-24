@@ -34,7 +34,7 @@ public class MistBreakerBox : StructureBehaviorScript
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
         if (addedSuccessfully)
         {
-            if(absentFromGrid) GameSaveData.Instance.playerHasBox = true;
+            GameSaveData.Instance.playerHasBox = true;
             Destroy(this.gameObject);
         }
     }
