@@ -135,6 +135,7 @@ public class BearTrap : StructureBehaviorScript
             else
             {
                 capturedCreature = victim.GetComponentInParent<CreatureBehaviorScript>();
+                if(!capturedCreature) yield break;
                 //creature.isTrapped = true;
                 if(capturedCreature.health >= 75)
                 {

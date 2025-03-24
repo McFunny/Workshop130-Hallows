@@ -57,7 +57,7 @@ public class QuestManager : MonoBehaviour
                 hQuest.progress++;
                 if(hQuest.progress == hQuest.maxProgress)
                 {
-                    PopupHandler.Instance.AddToQueue(PopupHandler.Instance.newQuestPopup);
+                    PopupHandler.Instance.AddToQueue(PopupHandler.Instance.questCompletePopup);
                 }
                 return;
             }
@@ -76,7 +76,7 @@ public class QuestManager : MonoBehaviour
                 gQuest.progress++;
                 if(gQuest.progress >= gQuest.maxProgress)
                 {
-                    PopupHandler.Instance.AddToQueue(PopupHandler.Instance.newQuestPopup);
+                    PopupHandler.Instance.AddToQueue(PopupHandler.Instance.questCompletePopup);
                 }
                 return;
             }
