@@ -42,7 +42,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingPrimary = true;
-                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    if(structure.focalPoint != null ) PlayerCam.Instance.NewObjectOfInterest(structure.focalPoint.position);
                     return;
                 } 
             }
@@ -134,7 +134,7 @@ public class TorchBehavior : ToolBehavior
                     PlayerMovement.restrictMovementTokens++;
                     //PlayerInteraction.Instance.StaminaChange(-2);
                     usingPrimary = true;
-                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    if(structure.focalPoint != null ) PlayerCam.Instance.NewObjectOfInterest(structure.focalPoint.position);
                     return;
                 } 
             }
