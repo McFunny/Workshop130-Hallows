@@ -288,6 +288,7 @@ MonoBehaviour:
   button: {fileID: 0}
   arrowImage: {fileID: 7291741442035221041}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -362,6 +363,7 @@ MonoBehaviour:
     daysLeft: -1
     assignee: 0
     displayProgress: 0
+    orderIndex: 0
 --- !u!1 &6884370113047126746
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

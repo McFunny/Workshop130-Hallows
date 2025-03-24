@@ -106,6 +106,11 @@ public class PlayerMovement : MonoBehaviour
         // Allow sprinting if moving forward (positive y) and tolerate slight sideways movement
         if (moveInput.y > 0.1f && !isStalled) // Adjust threshold to detect forward movement
         {
+            if(PlayerPrefs.GetInt("ToggleSprint") == 1 && isSprinting == true)
+            {
+                CancelSprintManually();
+                return;
+            }
             isSprinting = true;
 
             if (fovCoroutine != null)
@@ -122,6 +127,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Return early if sprinting has already been cancelled
         if (!isSprinting) return;
+
+        if(PlayerPrefs.GetInt("ToggleSprint") == 1) return; //1 is when toggle sprint is active
 
         CancelSprintManually();
     }

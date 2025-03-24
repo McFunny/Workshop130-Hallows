@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class SettingsValueManager : MonoBehaviour
@@ -10,21 +11,25 @@ public class SettingsValueManager : MonoBehaviour
     public ConfirmationBox confirmationBox;
     [SerializeField] GameObject containerObject, previousMenuObject, defaultMenuObject;
     [SerializeField] private Button applyButton, defaultButton, backButton, resolutionButton;
-    [SerializeField] private TextMeshProUGUI sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay;
-    [SerializeField] private Slider sensitivitySlider, masterVolSlider, musicSlider, sfxSlider;
+    [SerializeField] private TextMeshProUGUI brightnessDisplay, sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay;
+    [SerializeField] private Slider brightnessSlider, sensitivitySlider, masterVolSlider, musicSlider, sfxSlider;
+    [SerializeField] private Toggle sprint;
     //[SerializeField] private TMP_Dropdown resolutionDropDown;
     [SerializeField] private GameObject horizontalMenuButton, resolutionBox, resolutionContent;
     public GameObject resolutionDefault;
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
-
     [SerializeField] private List<GameObject> resolutionButtons;
     private float currentRefreshRate;
     private int currentResolutionIndex;
     private int tempResolutionIndex;
+    private int sprintValue;
+    private float brightnessValue;
     private float defaultSensitivity, defaultVolume; // Default values
     private float sensitivity, masterVolume, musicVolume, sfxVolume; // Current Values
     private VolumeManager volumeManager;
+    private ApplySettings applySettings;
+    
 
     private InputSystemUIInputModule inputSystem;
 
@@ -36,7 +41,10 @@ public class SettingsValueManager : MonoBehaviour
         masterVolume = PlayerPrefs.GetFloat("MasterVolume", defaultVolume);
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
         sfxVolume = PlayerPrefs.GetFloat("SFXVolume", defaultVolume);
+        brightnessValue = PlayerPrefs.GetFloat("Brightness", 0);
+        sprintValue = PlayerPrefs.GetInt("ToggleSprint", 0);
         volumeManager = FindFirstObjectByType<VolumeManager>();
+        applySettings = FindFirstObjectByType<ApplySettings>();
 
         resolutions = Screen.resolutions;
         filteredResolutions = new List<Resolution>();
@@ -124,6 +132,13 @@ public class SettingsValueManager : MonoBehaviour
         sfxSlider.value = sfxVolume;
         sfxDisplay.SetText($"{(sfxSlider.value * 100).ToString("N1")}" + "%");
 
+        brightnessSlider.value = brightnessValue;
+        brightnessDisplay.SetText($"{(brightnessSlider.value * 100).ToString("N1")}" + "%");
+
+        if (sprintValue == 0) sprint.isOn = false;
+        else sprint.isOn = true;
+        
+
         //print("Sensitivity Multiplier: " + sensitivity);
         applyButton.interactable = false;
     }
@@ -176,6 +191,8 @@ public class SettingsValueManager : MonoBehaviour
             PlayerPrefs.SetFloat("MasterVolume", masterVolume);
             PlayerPrefs.SetFloat("MusicVolume", musicVolume);
             PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
+            PlayerPrefs.SetFloat("Brightness", brightnessValue);
+            PlayerPrefs.SetInt("ToggleSprint", sprintValue);
 
             Resolution resolution = filteredResolutions[tempResolutionIndex];
             Screen.SetResolution(resolution.width, resolution.height, true); 
@@ -189,6 +206,7 @@ public class SettingsValueManager : MonoBehaviour
 
             PlayerPrefs.Save();
             volumeManager.SettingsChanged(); 
+            applySettings.UpdateSettings();
         }
         else if (confirmationBox.calledBy == backButton)
         {
@@ -226,6 +244,10 @@ public class SettingsValueManager : MonoBehaviour
         sfxVolume = defaultVolume;
         sfxSlider.value = sfxVolume;
         sfxDisplay.SetText($"{(sfxSlider.value * 100).ToString("N1")}" + "%");
+
+        brightnessValue = 0;
+        brightnessSlider.value = brightnessValue;
+        brightnessDisplay.SetText($"{(brightnessSlider.value * 100).ToString("N1")}" + "%");
         
         //print("Sensitivity Multiplier: " + PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity));
 
@@ -261,6 +283,20 @@ public class SettingsValueManager : MonoBehaviour
         sfxVolume = vol;
         sfxDisplay.SetText($"{(sfxSlider.value * 100).ToString("N1")}" + "%");
 
+        applyButton.interactable = true;
+    }
+
+    public void UpdateSprintToggle(bool s)
+    {
+        if(s == false) sprintValue = 0;
+        else sprintValue = 1;
+        applyButton.interactable = true;
+    }
+
+    public void UpdatebrightnessValue(float gam)
+    {
+        brightnessValue = gam;
+        brightnessDisplay.SetText($"{(brightnessSlider.value * 100).ToString("N1")}" + "%");
         applyButton.interactable = true;
     }
 

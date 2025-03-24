@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -17,6 +18,7 @@ public class PauseScript : MonoBehaviour
     PlayerEffectsHandler pEffectsHandler;
     public OpenWebsite openWebsite;
     public ConfirmationBox confirmationBox;
+    public GameObject loadingScreen;
     
     private CodexRework codex;
     // Start is called before the first frame update
@@ -220,8 +222,29 @@ public class PauseScript : MonoBehaviour
     {
         pauseObject.SetActive(false);
         FadeScreen.coverScreen = true;
-        yield return new WaitForSecondsRealtime(1);
-        SceneManager.LoadSceneAsync(0);
+        yield return new WaitForSecondsRealtime(2);
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(0);
+
+        loadingScreen.SetActive(true);
+        var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
+
+        var load1 = "Loading";
+        var load2 = "Loading.";
+        var load3 = "Loading..";
+        var load4 = "Loading...";
+
+        while(!operation.isDone)
+        {
+            loadText.text = load1;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load2;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load3;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load4;
+            yield return new WaitForSecondsRealtime(.2f);
+        }
     }
 
     public void OpenSettingsScreen()
