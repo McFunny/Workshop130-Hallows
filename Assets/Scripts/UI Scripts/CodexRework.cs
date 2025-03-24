@@ -284,14 +284,16 @@ public class CodexRework : MonoBehaviour
             var q = quest as FetchQuest;
             var t = q.description;
 
-            if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
-            else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+            if (q.maxProgress != 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+            else t = t.Replace("{itemName}", q.desiredItem.displayName.ToString());
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
             questDescriptionText.text = t;
-            questProgressText.text = q.progress + "/" + q.maxProgress;
-            questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+            //questProgressText.text = q.progress + "/" + q.maxProgress;
+
+            if (q.maxProgress == 1) questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+            else questProgressText.text = q.desiredItem.displayName + "s handed in: " + q.progress + "/" + q.maxProgress;
         }
         if(type.Equals(typeof(HuntQuest)))
         {
@@ -299,13 +301,15 @@ public class CodexRework : MonoBehaviour
             var q = quest as HuntQuest;
             var t = q.description;
 
-            if (q.amount > 1) t = t.Replace("{itemName}", q.targetCreature.name.ToString() + "s");
+            if (q.maxProgress != 1) t = t.Replace("{itemName}", q.targetCreature.name.ToString() + "s");
             else t = t.Replace("{itemName}", q.targetCreature.name.ToString());
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
             questDescriptionText.text = t;
-            questProgressText.text = q.targetCreature.name + " eliminated: " + q.progress + "/" + q.maxProgress;
+
+            if (q.maxProgress == 1) questProgressText.text = q.targetCreature.name + " eliminated: " + q.progress + "/" + q.maxProgress;
+            else questProgressText.text = q.targetCreature.name + "s eliminated: " + q.progress + "/" + q.maxProgress;
         }
         if(type.Equals(typeof(GrowQuest)))
         {
@@ -313,14 +317,16 @@ public class CodexRework : MonoBehaviour
             var q = quest as GrowQuest;
             var t = q.description;
 
-            if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
-            else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+            if (q.maxProgress != 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+            else t = t.Replace("{itemName}", q.desiredItem.displayName.ToString());
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
             questDescriptionText.text = t;
-            questProgressText.text = q.progress + "/" + q.maxProgress;
-            questProgressText.text = q.desiredItem.displayName + " grown: " + q.progress + "/" + q.maxProgress;
+            //questProgressText.text = q.progress + "/" + q.maxProgress;
+
+            if (q.maxProgress == 1) questProgressText.text = q.desiredItem.displayName + " grown: " + q.progress + "/" + q.maxProgress;
+            else questProgressText.text = q.desiredItem.displayName + "s grown: " + q.progress + "/" + q.maxProgress;
         }
         if(quest.displayProgress == false)
         {
