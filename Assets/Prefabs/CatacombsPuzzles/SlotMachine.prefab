@@ -660,7 +660,8 @@ AudioSource:
   m_GameObject: {fileID: 2480793655610918425}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -789,7 +790,8 @@ AudioSource:
   m_GameObject: {fileID: 2636453632093625027}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -4920,7 +4922,8 @@ AudioSource:
   m_GameObject: {fileID: 6212049681057571054}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -5186,6 +5189,12 @@ MonoBehaviour:
   stayWithItem: 0
   DebugMode: 0
   highlight: []
+  winAudioSource: {fileID: 0}
+  mouthOpen: {fileID: 0}
+  mouthClose: {fileID: 0}
+  clickInPlace: {fileID: 0}
+  win: {fileID: 0}
+  brokenSound: {fileID: 0}
 --- !u!65 &6005834946982583020
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5216,7 +5225,8 @@ AudioSource:
   m_GameObject: {fileID: 6369921536754930851}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
