@@ -13,7 +13,7 @@ public class DryingRack : StructureBehaviorScript
     public SpriteRenderer itemSprite;
 
     public int progress = 0;
-    int maxProgress = 12;
+    int maxProgress = 6;
     int maxContainedItems = 1;
 
     bool ignoreNextHour = false;
