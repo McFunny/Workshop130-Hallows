@@ -379,6 +379,8 @@ public class TimeManager : MonoBehaviour
         timeSkipping = false;
         stopTime = false;
 
+        currentMinute = 25;
+
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
     }

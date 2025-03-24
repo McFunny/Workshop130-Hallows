@@ -200,7 +200,7 @@ public class LandMine : StructureBehaviorScript
 
         anim.SetTrigger("Exploded");
 
-
+        health -= 2;
         if(health < 0) Destroy(this.gameObject);
     }
 
