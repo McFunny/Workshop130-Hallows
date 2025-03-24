@@ -47,7 +47,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
     public AudioSource winAudioSource;
 
-    public AudioClip mouthOpen, mouthClose, clickInPlace, win;
+    public AudioClip mouthOpen, mouthClose, clickInPlace, win, brokenSound;
 
 
 
@@ -347,6 +347,9 @@ public class SlotMachine : MonoBehaviour,IInteractable
         yield return new WaitForSeconds(animLength);
         PyreFly pyreFlyScript = pyreflyEnemy.GetComponent<PyreFly>();
         pyreFlyScript.OnDestroy();
+        audiosource.clip = brokenSound;
+        audiosource.Play();
+
     }
 
         IEnumerator RotateSlots()
