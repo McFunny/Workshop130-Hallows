@@ -76,12 +76,14 @@ public class ToolTipScript : MonoBehaviour
             itemStamina.gameObject.SetActive(true);
             itemType.text = "Consumable";
             intakeParent.SetActive(false);
+            outputParent.SetActive(false);
             itemType.color = c_consumable;
         }
         else if(type.Equals(typeof(ToolItem)))
         {
             itemType.text = "Tool";
             intakeParent.SetActive(false);
+            outputParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
             itemType.color = c_tool;
         }
@@ -89,6 +91,7 @@ public class ToolTipScript : MonoBehaviour
         {
             itemType.text = "Structure";
             intakeParent.SetActive(false);
+            outputParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
             itemType.color = c_placeable;
         }

@@ -18,7 +18,9 @@ public class CodexButtonID : MonoBehaviour
         if(assignedEntry != null)
         {
             print(assignedEntry.entryName);
-            if(!assignedEntry.unlocked) { return; }
+
+            if(!assignedEntry.unlocked && CreatureCheck() && CropCheck()) return; // I mean, it works, I guess
+
             codex.currentEntry = assignedEntry;
             codex.UpdatePage(0, assignedEntry, true);
         }
@@ -27,5 +29,33 @@ public class CodexButtonID : MonoBehaviour
             codex.currentEntry = null;
             codex.UpdateQuests(assignedQuest);
         }
+    }
+
+    bool CreatureCheck()
+    {
+        if(assignedEntry.creatureData != null)
+        {
+            if(assignedEntry.creatureData.amountKilled > 0)
+            {
+                print("Is a creature");
+                return true;
+            }
+            else return false;
+        }
+        else return false;
+    }
+
+    bool CropCheck()
+    {
+        if(assignedEntry.cropData != null)
+        {
+            if(assignedEntry.cropData.amountHarvested > 0)
+            {
+                 print("Is a crop");
+                return true;
+            }
+            else return false;
+        }
+        else return false;
     }
 }

@@ -241,6 +241,7 @@ public class Mandrake : CreatureBehaviorScript
     public override bool OnStun(float duration)
     {
         if(currentState == CreatureState.Trapped) return false;
+        currentState = CreatureState.Trapped;
         StartCoroutine(Stun(duration));
         agent.destination = transform.position;
         anim.SetBool("IsRunning", false);
@@ -249,7 +250,7 @@ public class Mandrake : CreatureBehaviorScript
 
     IEnumerator Stun(float duration)
     {
-        currentState = CreatureState.Trapped;
+        agent.ResetPath();
         yield return new WaitForSeconds(duration);
         currentState = CreatureState.Wander;
     }
