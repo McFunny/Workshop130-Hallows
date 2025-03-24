@@ -15,7 +15,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
     public int SlotIndex2;
     public int SlotIndex3;
 
-    private int moneySpent = 0;
+    private int moneySpent = 0, timesSpun; 
     public int cost = 50;
 
     public float speed, timePerSlot;
@@ -70,6 +70,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
         if (TimeManager.Instance.currentHour == 8)
         {
             broken = false;
+            timesSpun = 0;
         }
     }
 
@@ -100,6 +101,18 @@ public class SlotMachine : MonoBehaviour,IInteractable
             SlotIndex3 = 1;
             yield return StartCoroutine(RotateSlots());
             yield return new WaitForSeconds(0.5f);
+            StartCoroutine(Reward());
+            coroutineRunning = false;
+        }
+        else if(CheckIfBreaks())
+        {
+            SlotIndex1 = 4;
+            SlotIndex2 = 4;
+            SlotIndex3 = 4;
+            yield return StartCoroutine(RotateSlots());
+
+            yield return new WaitForSeconds(0.5f);
+
             StartCoroutine(Reward());
             coroutineRunning = false;
         }
@@ -299,6 +312,19 @@ public class SlotMachine : MonoBehaviour,IInteractable
         }
     }
 
+    private bool CheckIfBreaks()
+    {
+        float baseChance = 0.05f;
+        float incrementalChance = 0.05f;
+        float breakchance = baseChance + (timesSpun * incrementalChance);
+
+        breakchance = Mathf.Clamp01(breakchance);
+
+        float roll = Random.Range(0f, 1f);
+
+        return roll < breakchance;
+    }
+
         IEnumerator SummonPyreFly()
     {
         float animLength;
@@ -370,6 +396,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
         {
             if (!coroutineRunning)
             {
+                timesSpun++;
                 moneySpent += cost;
                 StartCoroutine(LetsGamble());
                 interactSuccessful = true;
