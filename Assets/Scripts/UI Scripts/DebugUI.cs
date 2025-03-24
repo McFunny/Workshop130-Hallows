@@ -41,6 +41,7 @@ public class DebugUI : MonoBehaviour
 
     void Update()
     {
+        return;
         if(!isDebug) return;
 
         isDebugMenuOpen = panel.activeSelf;
