@@ -3791,7 +3791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -25.999146, y: 115.509995}
+  m_AnchoredPosition: {x: -25.999084, y: 115.509995}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1571881281661285715
@@ -15622,7 +15622,8 @@ MonoBehaviour:
   - <sprite name=ButtonY>/<sprite name=ButtonB> - Close Bag
   - <sprite name=ButtonA> - Pick Up Item
   - <sprite name=ButtonLB> - Quick Move
-  - <sprite name=ButtonRB>/<sprite name=ButtonX> - Split Stack
+  - <sprite name=ButtonRB> - Split Stack
+  - <sprite name=ButtonX> - Drop Held Item
 --- !u!1 &6553624355812570058
 GameObject:
   m_ObjectHideFlags: 0
@@ -23209,7 +23210,7 @@ PrefabInstance:
     - target: {fileID: 6618451763018252870, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -32.999146
+      value: -32.999084
       objectReference: {fileID: 0}
     - target: {fileID: 7397489583040884350, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
@@ -25117,6 +25118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEntry: {fileID: 0}
   mandrakeEntry: {fileID: 11400000, guid: 7ecb3528fc70e214a83788b6013713ac, type: 2}
+  graspEntry: {fileID: 11400000, guid: 5917079f7fddadc4f8e071cc4b62e5c6, type: 2}
   codex: {fileID: 2168309736666272010}
   gridContentObject: {fileID: 6702246425919380678}
   horizontalContentObject: {fileID: 5985789365195979719}

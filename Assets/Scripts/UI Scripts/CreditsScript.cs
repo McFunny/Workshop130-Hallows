@@ -30,9 +30,17 @@ public class CreditsScript : MonoBehaviour
             skipKBM.SetActive(true);
         }
 
-        if(skipContainer.activeSelf && canPress && (Gamepad.current.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Escape)))
+        if(skipContainer.activeSelf && canPress)
         {
-            StartCoroutine(GoToMainMenu());
+            if(Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame)
+            {
+                StartCoroutine(GoToMainMenu());
+            }
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                StartCoroutine(GoToMainMenu());
+            }
+            
         }
     }
 
@@ -50,6 +58,7 @@ public class CreditsScript : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         animator.SetTrigger("StartAnim");
+        print("Anim Started");
     }
 
     IEnumerator CheckForInput() //Fix this post-alpha
