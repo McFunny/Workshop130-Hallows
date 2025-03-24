@@ -8,7 +8,6 @@ using System.IO;
 using SaveLoadSystem;
 using UnityEngine.UI;
 using TMPro;
-using System.Linq;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -269,6 +268,20 @@ public class MainMenuScript : MonoBehaviour
             yield return new WaitForSecondsRealtime(.2f);
         }
         //SceneManager.LoadSceneAsync(1);
+    }
+
+    public void Credits()
+    {
+        if(isTransitioning) return;
+        StartCoroutine(GoToCredits());
+    }
+
+    IEnumerator GoToCredits()
+    {
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSecondsRealtime(2);
+
+        SceneManager.LoadSceneAsync(2);
     }
 
     public void OpenSettingsScreen()
