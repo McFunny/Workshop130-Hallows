@@ -65,6 +65,8 @@ public class WildernessManager : MonoBehaviour
         
         currentMap = allMaps[Random.Range(0, allMaps.Count)];
 
+        currentMap.mapObject.SetActive(true);
+
         int r = Random.Range(0,currentMap.spawnPositions.Length);
         PlayerInteraction.Instance.transform.position = currentMap.spawnPositions[r].position;
         wagon.transform.position = currentMap.wagonPositions[r].position;
@@ -83,6 +85,7 @@ public class WildernessManager : MonoBehaviour
         PlayerInteraction.Instance.transform.position = returnPosition.position;
         ClearCreatures();
         currentMap.ClearMap();
+        currentMap.mapObject.SetActive(false);
         currentMap = null;
         hoursSpentInWilderness = 0;
         visitedWilderness = true;
@@ -91,10 +94,11 @@ public class WildernessManager : MonoBehaviour
     public void GameOver()
     {
         if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InFarm);
-        else return;
+        if(currentMap == null) return;
         AmbientAudioManager.Instance.ChangeMusic();
         ClearCreatures();
         currentMap.ClearMap();
+        currentMap.mapObject.SetActive(false);
         currentMap = null;
         hoursSpentInWilderness = 0;
         visitedWilderness = false;

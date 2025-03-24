@@ -222,6 +222,7 @@ MonoBehaviour:
   ichorWorth: 5
   ichorDropRadius: 3.5
   creatureData: {fileID: 11400000, guid: 947e9493fabfc20459883c696723fe9d, type: 2}
+  inWilderness: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -236,7 +237,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
   dropChance:
   - 10
-  - 5
   - 2
   sightRange: 20
   attackRange: 6
@@ -821,6 +821,8 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 845dc2e0850ab0549b8e7c0322122d26, type: 3}
   miscSound: {fileID: 8300000, guid: fbee248d88697ea43a1c0b9fea2da840, type: 3}
   miscSound2: {fileID: 8300000, guid: 81e4efb8d152a354788c7c4eafb391a2, type: 3}
+  miscSound3: {fileID: 0}
+  particle1: {fileID: 0}
 --- !u!82 &6391355105544839141
 AudioSource:
   m_ObjectHideFlags: 0
@@ -830,7 +832,8 @@ AudioSource:
   m_GameObject: {fileID: 8335584436062208602}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.622

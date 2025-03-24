@@ -55,6 +55,8 @@ public class TownGate : MonoBehaviour
     {
         //Section to change music
 
+        if(location == newLocation) return;
+
         switch(newLocation)
         {
             case PlayerLocation.InFarm:
@@ -82,12 +84,12 @@ public class TownGate : MonoBehaviour
         location = newLocation;
     }
 
-    public void GameOver()
+    /*public void GameOver()
     {
         location = PlayerLocation.InFarm;
         townMist.gameObject.SetActive(false);
         farmMist.gameObject.SetActive(true);
-    }
+    }*/
 
 }
 

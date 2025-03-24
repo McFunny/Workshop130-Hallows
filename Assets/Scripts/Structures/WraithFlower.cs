@@ -51,6 +51,19 @@ public class WraithFlower : StructureBehaviorScript
         }
     }
 
+    public override void HourPassed()
+    {
+        if(TimeManager.Instance.isDay == true)
+        {
+            if(assignedWraith)
+            {
+                assignedWraith.canCorpseBreak = true;
+                assignedWraith.TakeDamage(999);
+            }
+            Destroy(this.gameObject);
+        }
+    }
+
     IEnumerator BurningRose()
     {
         assignedWraith.anim.SetTrigger("Burning");

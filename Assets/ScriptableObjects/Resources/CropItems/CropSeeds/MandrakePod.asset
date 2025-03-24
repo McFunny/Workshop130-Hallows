@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: -1
   displayName: Mandrake Pod
-  description: Those who are able to cultivate these are in for a loud surprise.
-    Consumes Ichor and Terrazyme, and produces GloamPhage.
+  description: Growing these is the easy part. Harvesting has been reported to be
+    troublesome at best.
   icon: {fileID: -1358232093, guid: 737d75bd0db95ec438000c855501225a, type: 3}
   maxStackSize: 20
   value: 21
@@ -24,6 +24,7 @@ MonoBehaviour:
   hasModel: 0
   staminaValue: 0
   bonusCompostValue: 0
+  pickledForm: {fileID: 0}
   itemInputsKBM:
   - RMB - Plant
   itemInputsController:

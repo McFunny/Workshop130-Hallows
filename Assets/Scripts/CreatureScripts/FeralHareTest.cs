@@ -314,7 +314,7 @@ public class FeralHareTest : CreatureBehaviorScript
         effectsHandler.MiscSound();
         diggingTimeLeft = 3;
         yield return new WaitUntil(() => diggingTimeLeft <= 0 || playerInSightRange);
-        if (!playerInSightRange)
+        if (!playerInSightRange && StructureManager.Instance.CheckTile(newBurrowPos) != new Vector3(0,0,0))
         {
             StructureManager.Instance.SpawnStructure(burrow, newBurrowPos);
         }
@@ -366,8 +366,19 @@ public class FeralHareTest : CreatureBehaviorScript
                     }
                     if (availableLands.Count > 0)
                     {
-                        int r = Random.Range(0, availableLands.Count);
-                        foundFarmTile = availableLands[r];
+                        float minDistance = 1000;
+                        float dist;
+                        FarmLand closestTile = availableLands[0];
+                        for(int i = 0; i < availableLands.Count; i++)
+                        {
+                            dist = Vector3.Distance(transform.position, availableLands[i].transform.position);
+                            if(dist < minDistance)
+                            {
+                                minDistance = dist;
+                                closestTile = availableLands[i];
+                            }
+                        }
+                        foundFarmTile = closestTile;
                     }
                 }
             }
@@ -483,7 +494,12 @@ public class FeralHareTest : CreatureBehaviorScript
         yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile == null || foundFarmTile.crop == null || currentState != CreatureState.Eat);
         if (inEatingRange && foundFarmTile && foundFarmTile.crop && currentState == CreatureState.Eat)
         {
-            if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20)
+            if(foundFarmTile.crop.behavior && foundFarmTile.harvestable) 
+            {
+                foundFarmTile.crop.behavior.OnConsumed(this);
+                foundFarmTile.CropDestroyed();
+            }
+            else if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20)
             {
                 Vector3 pos = foundFarmTile.transform.position;
                 Destroy(foundFarmTile.gameObject);

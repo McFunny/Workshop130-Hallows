@@ -12,7 +12,7 @@ public class PopupEvents : MonoBehaviour
         current = this;
     }
 
-    public event System.Action OnTillGround, OnShovelSwing; 
+    public event System.Action OnTillGround, OnShovelSwing, OnPlant, OnKill, OnWeedDug, OnWateredCrop; 
 
     public void TillGround()
     {
@@ -22,5 +22,25 @@ public class PopupEvents : MonoBehaviour
     public void ShovelSwing()
     {
         if (OnShovelSwing != null) OnShovelSwing(); 
+    }
+
+    public void PlantSeed()
+    {
+        if (OnPlant != null) OnPlant();
+    }
+
+    public void KillStructure()
+    {
+        if (OnKill != null) OnKill(); 
+    }
+
+    public void WeedDug()
+    {
+        if (OnWeedDug != null) OnWeedDug(); 
+    }
+
+    public void WateredCrop()
+    {
+        if (OnWateredCrop != null) OnWateredCrop(); 
     }
 }

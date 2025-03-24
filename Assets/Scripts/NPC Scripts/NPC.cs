@@ -12,7 +12,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public DialogueText dialogueText;
     [HideInInspector] public DialogueController dialogueController;
     public Animator anim;
-    public AudioClip happy, sad, neutral, angry, confused, shocked;
+    public AudioClip[] happy, sad, neutral, angry, confused, shocked;
 
     public Transform eyeLine;
 

@@ -12,6 +12,8 @@ public class Brazier : StructureBehaviorScript
     public float flameLeft; //if 0, fire is gone
     float maxFlame = 20;
 
+    //Rework to incorporate a fuel based system rather than static time.
+
     void Awake()
     {
         base.Awake();
@@ -86,7 +88,7 @@ public class Brazier : StructureBehaviorScript
         int r;
         while(gameObject.activeSelf)
         {
-            r = Random.Range(10, 16);
+            r = Random.Range(10, 20);
             yield return new WaitForSeconds(r);
             flameLeft -= 1;
             if(flameLeft < 0) flameLeft = 0;

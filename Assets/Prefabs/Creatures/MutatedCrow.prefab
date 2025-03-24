@@ -387,8 +387,10 @@ MonoBehaviour:
   anim: {fileID: 1379588060873593538}
   droppedItems:
   - {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
+  - {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
   dropChance:
   - 0.1
+  - 2
   sightRange: 20
   attackRange: 6
   playerInSightRange: 0
@@ -412,14 +414,24 @@ MonoBehaviour:
   rotationSpeed: 25
   chooseRandomStats: 1
   desiredCrops:
-  - {fileID: 11400000, guid: 72c60368592508e4bb2600b17d058377, type: 2}
-  - {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
-  - {fileID: 11400000, guid: c340655b4291c0442892bcb81daa89f7, type: 2}
-  - {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
-  - {fileID: 11400000, guid: 8172637bdf1f08549abde986d4a5a463, type: 2}
-  - {fileID: 11400000, guid: c2d33e782985c304b9119a73557d93ae, type: 2}
   - {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
   - {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
+  - {fileID: 11400000, guid: 8172637bdf1f08549abde986d4a5a463, type: 2}
+  - {fileID: 11400000, guid: 72c60368592508e4bb2600b17d058377, type: 2}
+  - {fileID: 11400000, guid: c340655b4291c0442892bcb81daa89f7, type: 2}
+  - {fileID: 11400000, guid: c2d33e782985c304b9119a73557d93ae, type: 2}
+  - {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
+  - {fileID: 11400000, guid: 2b4e9f8ae29dc7e429a371586e24a180, type: 2}
+  - {fileID: 11400000, guid: cf8af9956b089464085a930ba02b3711, type: 2}
+  - {fileID: 11400000, guid: 128b6ca8bd9f85e4d935114766315a9c, type: 2}
+  - {fileID: 11400000, guid: d21a6e65259c92d499af2658e49ce8ed, type: 2}
+  - {fileID: 11400000, guid: e7f84fbc95567f84e8d00919f4781bf9, type: 2}
+  - {fileID: 11400000, guid: d76b160dc47240047a3199c2e726eae6, type: 2}
+  - {fileID: 11400000, guid: d9748bf765b774747a0a98a688e17291, type: 2}
+  - {fileID: 11400000, guid: b9c8c2c3b5691904e95fcedd53154dac, type: 2}
+  - {fileID: 11400000, guid: 5a60016cc237cd846b888ac0d414fcb4, type: 2}
+  - {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
+  - {fileID: 11400000, guid: 8476fef76bde32344a729472b26e55a8, type: 2}
   availableStructure: []
   attackParticle: {fileID: 0}
   cropParticle: {fileID: 0}
@@ -458,6 +470,8 @@ MonoBehaviour:
   deathSound: {fileID: 0}
   miscSound: {fileID: 0}
   miscSound2: {fileID: 0}
+  miscSound3: {fileID: 0}
+  particle1: {fileID: 0}
 --- !u!54 &218861372867643202
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -494,7 +508,8 @@ AudioSource:
   m_GameObject: {fileID: 7300006903160261636}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

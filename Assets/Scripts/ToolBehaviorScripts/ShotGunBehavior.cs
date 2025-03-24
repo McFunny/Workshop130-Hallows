@@ -5,14 +5,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Tool Behavior", menuName = "Tool Behavior/ShotGun")]
 public class ShotGunBehavior : ToolBehavior
 {
-    public InventoryItemData bulletItem;
+    public InventoryItemData bulletItem, pinexBulletItem;
+    public List<InventoryItemData> acceptableAmmo;
+
+    InventoryItemData bulletFired;
+
     public AudioClip shoot, reload;
     int bulletCount = 6;
+    int pinexBulletCount = 10;
 
     Transform bulletStart;
 
     float speed = 240;
-    float bulletSpread = 0.08f;
+    float bulletSpread = 0.07f;
+    float pinexBulletSpread = 0.075f;
 
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
@@ -21,17 +27,35 @@ public class ShotGunBehavior : ToolBehavior
         if (!player) player = _player;
 
         var inventory = PlayerInventoryHolder.Instance.PrimaryInventorySystem;
-        if (inventory.ContainsItem(bulletItem, out List<InventorySlot> invSlot))
+        if (inventory.ContainsItems(acceptableAmmo, out List<InventorySlot> invSlot))
         {
-            inventory.RemoveItemsFromInventory(bulletItem, 1);
+            if(invSlot[0].ItemData == bulletItem)
+            {
+                bulletFired = bulletItem;
+                inventory.RemoveItemsFromInventory(bulletItem, 1);
+            }
+            else if(invSlot[0].ItemData == pinexBulletItem)
+            {
+                bulletFired = pinexBulletItem;
+                inventory.RemoveItemsFromInventory(pinexBulletItem, 1);
+            }
         }
         else 
         {
             Debug.Log("No Bullet In Primary");
             inventory = PlayerInventoryHolder.Instance.secondaryInventorySystem;
-            if (inventory.ContainsItem(bulletItem, out List<InventorySlot> invSlot2))
+            if (inventory.ContainsItems(acceptableAmmo, out List<InventorySlot> invSlot2))
             {
-                inventory.RemoveItemsFromInventory(bulletItem, 1);
+                if(invSlot2[0].ItemData == bulletItem)
+                {
+                    bulletFired = bulletItem;
+                    inventory.RemoveItemsFromInventory(bulletItem, 1);
+                }
+                else if(invSlot2[0].ItemData == pinexBulletItem)
+                {
+                    bulletFired = pinexBulletItem;
+                    inventory.RemoveItemsFromInventory(pinexBulletItem, 1);
+                }
             }
             else
             {
@@ -43,16 +67,18 @@ public class ShotGunBehavior : ToolBehavior
         tool = _tool;
         usingPrimary = true;
         //Shoot
-        HandItemManager.Instance.DoesShotgunReload(ShotgunAmmoCheck());
+
+        bool isReloading = ShotgunAmmoCheck(bulletFired);
+        HandItemManager.Instance.DoesShotgunReload(isReloading);
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(shoot);
-        float cooldown = ShotgunAmmoCheck() ? 2.8f : 0.3f;
+        float cooldown = isReloading ? 2.5f : 0.3f;
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, cooldown));
     }
 
-    private bool ShotgunAmmoCheck()
+    private bool ShotgunAmmoCheck(InventoryItemData bullet)
     {
-        return PlayerInventoryHolder.Instance.FindItemInBothInventories(bulletItem);
+        return PlayerInventoryHolder.Instance.FindItemInBothInventories(bullet);
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -80,6 +106,14 @@ public class ShotGunBehavior : ToolBehavior
         {
             bulletStart = HandItemManager.Instance.bulletStart;
         }
+        if(bulletFired == bulletItem) ShootBullets();
+        else if(bulletFired == pinexBulletItem) ShootSeedBullets();
+        yield return new WaitForSeconds(1.2f);
+        usingPrimary = false;
+    }
+
+    void ShootBullets()
+    {
         for (int i = 0; i < bulletCount; i++)
         {
             GameObject newBullet = ProjectilePoolManager.Instance.GrabBullet();
@@ -89,7 +123,18 @@ public class ShotGunBehavior : ToolBehavior
             newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
  
         }
-        yield return new WaitForSeconds(1.2f);
-        usingPrimary = false;
+    }
+
+    void ShootSeedBullets()
+    {
+        for (int i = 0; i < pinexBulletCount; i++)
+        {
+            GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
+            newBullet.transform.position = bulletStart.position;
+            newBullet.transform.rotation = Quaternion.identity;
+            Vector3 dir = bulletStart.forward + new Vector3(Random.Range(-pinexBulletSpread,pinexBulletSpread), Random.Range(-pinexBulletSpread,pinexBulletSpread), Random.Range(-pinexBulletSpread,pinexBulletSpread));
+            newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
+ 
+        }
     }
 }

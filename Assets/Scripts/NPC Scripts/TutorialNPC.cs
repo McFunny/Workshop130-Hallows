@@ -6,10 +6,13 @@ public class TutorialNPC : NPC, ITalkable
 {
     bool goneAtStart = true;
     bool finishedTalking = false;
+    bool shotAt;
 
     public InventoryItemData seeds;
 
     public Quest mainQuest;
+
+    public GameObject tutorial;
     void Start()
     {
         if(MainMenuScript.loadingData) StartCoroutine(Despawn());
@@ -17,6 +20,9 @@ public class TutorialNPC : NPC, ITalkable
         {
             goneAtStart = false;
             TimeManager.Instance.stopTime = true;
+            CabinFog f = FindObjectOfType<CabinFog>();
+            if(f) Destroy(f.gameObject);
+            AmbientAudioManager.Instance.playMusicAtStart = false;
         }
     }
 
@@ -35,6 +41,8 @@ public class TutorialNPC : NPC, ITalkable
         Talk();
         interactSuccessful = true;
         finishedTalking = true;
+        QuestManager.Instance.AddQuest(mainQuest);
+
     }
 
     public void Talk()
@@ -61,21 +69,28 @@ public class TutorialNPC : NPC, ITalkable
         currentType = PathType.Misc;
         Talk();
         finishedTalking = true;
+        shotAt = true;
+        QuestManager.Instance.AddQuest(mainQuest);
     }
 
     IEnumerator Despawn()
     {
-        if(goneAtStart) Destroy(this.gameObject);
+        if(goneAtStart)
+        {
+            Destroy(this.gameObject);
+        }
         else
         {
+            //QuestManager.Instance.AddQuest(mainQuest);
             FadeScreen.coverScreen = true;
             PlayerMovement.restrictMovementTokens++;
+            TimeManager.Instance.stopTime = false;
+            AmbientAudioManager.Instance.BeginPlayingMusic();
             yield return new WaitForSeconds(1.5f);
             PlayerMovement.restrictMovementTokens--;
             FadeScreen.coverScreen = false;
-            TimeManager.Instance.stopTime = false;
 
-            QuestManager.Instance.AddQuest(mainQuest);
+            if(!shotAt) tutorial.SetActive(true);
 
             Destroy(this.gameObject);
         }

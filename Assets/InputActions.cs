@@ -465,7 +465,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""id"": ""ed30afa5-3d13-4db9-ad5c-2dee0d8ab513"",
                     ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone(min=0.2)"",
                     ""groups"": """",
                     ""action"": ""Look"",
                     ""isComposite"": true,
@@ -944,7 +944,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Cancel"",
@@ -995,6 +995,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""CloseCodex"",
                     ""type"": ""Button"",
                     ""id"": ""58579211-8fdd-4361-96ff-6801b9d0f18c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenWebsite"",
+                    ""type"": ""Button"",
+                    ""id"": ""b14e29bb-2e5f-433c-b87e-23c4e0d9c5dc"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1303,7 +1312,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""33704691-4de0-4f86-a738-d6b58f1dc0b0"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press(behavior=1)"",
+                    ""interactions"": ""Press(pressPoint=1)"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Select"",
@@ -1329,6 +1338,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""CloseCodex"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""db36a083-176f-4dcc-8a1e-90b0643ced72"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""OpenWebsite"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1925,6 +1945,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
         m_UI_PageTurn = m_UI.FindAction("PageTurn", throwIfNotFound: true);
         m_UI_CloseCodex = m_UI.FindAction("CloseCodex", throwIfNotFound: true);
+        m_UI_OpenWebsite = m_UI.FindAction("OpenWebsite", throwIfNotFound: true);
         // DefaultUI
         m_DefaultUI = asset.FindActionMap("DefaultUI", throwIfNotFound: true);
         m_DefaultUI_Navigate = m_DefaultUI.FindAction("Navigate", throwIfNotFound: true);
@@ -2212,6 +2233,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Pause;
     private readonly InputAction m_UI_PageTurn;
     private readonly InputAction m_UI_CloseCodex;
+    private readonly InputAction m_UI_OpenWebsite;
     public struct UIActions
     {
         private @InputActions m_Wrapper;
@@ -2224,6 +2246,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_UI_Pause;
         public InputAction @PageTurn => m_Wrapper.m_UI_PageTurn;
         public InputAction @CloseCodex => m_Wrapper.m_UI_CloseCodex;
+        public InputAction @OpenWebsite => m_Wrapper.m_UI_OpenWebsite;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2257,6 +2280,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @CloseCodex.started += instance.OnCloseCodex;
             @CloseCodex.performed += instance.OnCloseCodex;
             @CloseCodex.canceled += instance.OnCloseCodex;
+            @OpenWebsite.started += instance.OnOpenWebsite;
+            @OpenWebsite.performed += instance.OnOpenWebsite;
+            @OpenWebsite.canceled += instance.OnOpenWebsite;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -2285,6 +2311,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @CloseCodex.started -= instance.OnCloseCodex;
             @CloseCodex.performed -= instance.OnCloseCodex;
             @CloseCodex.canceled -= instance.OnCloseCodex;
+            @OpenWebsite.started -= instance.OnOpenWebsite;
+            @OpenWebsite.performed -= instance.OnOpenWebsite;
+            @OpenWebsite.canceled -= instance.OnOpenWebsite;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -2472,6 +2501,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnPageTurn(InputAction.CallbackContext context);
         void OnCloseCodex(InputAction.CallbackContext context);
+        void OnOpenWebsite(InputAction.CallbackContext context);
     }
     public interface IDefaultUIActions
     {

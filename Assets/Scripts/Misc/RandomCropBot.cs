@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class RandomCropBot : MonoBehaviour
 {
-    private List<CropItem> allCrops = new List<CropItem>();
+    [SerializeField] private List<CropData> allCrops = new List<CropData>();
     private CropData selectedCrop;
     private Sprite selectedSprite;
     private SpriteRenderer spriteRenderer;
-    [SerializeField] private Database _database;
 
     void Start()
     {
@@ -17,18 +16,18 @@ public class RandomCropBot : MonoBehaviour
         TimeManager.OnHourlyUpdate += RandomCrop;
     }
 
+    private void OnDisable()
+    {
+        TimeManager.OnHourlyUpdate -= RandomCrop;
+    }
+
 
     void RandomCrop()
     {
         if (TimeManager.Instance.currentHour == 8)
         {
-            allCrops = _database.GetAllCrops();
             int r = Random.Range(0, allCrops.Count);
-            selectedCrop = allCrops[r].cropData;
-            if (selectedCrop.ichorIntake > 0)
-            {
-                StartCoroutine(FindNewCrop());
-            }
+            selectedCrop = allCrops[r];
             if (selectedCrop)
             {
                 r = Random.Range(0, selectedCrop.cropSprites.Length);
@@ -41,13 +40,8 @@ public class RandomCropBot : MonoBehaviour
 
     void RandomCropOnStart()
     {
-        allCrops = _database.GetAllCrops();
         int r = Random.Range(0, allCrops.Count);
-        selectedCrop = allCrops[r].cropData;
-        if (selectedCrop.ichorIntake > 0)
-        {
-            StartCoroutine(FindNewCrop());
-        }
+        selectedCrop = allCrops[r];
         if (selectedCrop)
         {
             r = Random.Range(0, selectedCrop.cropSprites.Length);
@@ -55,21 +49,5 @@ public class RandomCropBot : MonoBehaviour
             spriteRenderer.sprite = selectedSprite;
         }
         else spriteRenderer.sprite = null;
-    }
-
-    IEnumerator FindNewCrop()
-    {
-        int attempts = 0;
-        do
-        {
-            allCrops = _database.GetAllCrops();
-            int r = Random.Range(0, allCrops.Count);
-            selectedCrop = allCrops[r].cropData;
-            attempts++;
-            
-        } while (selectedCrop.ichorIntake > 0 && attempts < 10);
-
-        if (attempts >= 10) { selectedCrop = null;  yield return null; }
-        yield return new WaitForSeconds(0.1f);
     }
 }

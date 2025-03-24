@@ -143,6 +143,7 @@ public class TinkererNPC : NPC, ITalkable
             else
             {
                 currentPath = 2; //item sold
+                if (item == watergun) GameSaveData.Instance.watergunObtained = true;
                 shopUI.shopImgObj.SetActive(false);
             }
             anim.SetTrigger("IsTalking");
@@ -187,7 +188,7 @@ public class TinkererNPC : NPC, ITalkable
         float r;
         InventoryItemData newItem;
 
-        if (assignedStall.storeItems.Count < 2) //used for selling the water gun
+        if (assignedStall.storeItems.Count < 2 && !GameSaveData.Instance.watergunObtained) //used for selling the water gun
         {
             newItem = watergun;
             int newCost = (int)(newItem.value * sellMultiplier);
@@ -236,7 +237,7 @@ public class TinkererNPC : NPC, ITalkable
 
     public override bool ActionCheck1()
     {
-        if (GameSaveData.Instance.bridgeCleared) return true;
+        if (GameSaveData.Instance.townTreeCleared1) return true;
         return false;
     }
 }

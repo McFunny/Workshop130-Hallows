@@ -398,7 +398,8 @@ AudioSource:
   m_GameObject: {fileID: 3849600724347350866}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 04f3a3510aab9a04a886040f8413a0e9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.572
@@ -526,6 +527,7 @@ MonoBehaviour:
   flammable: 1
   onFire: 0
   isObstacle: 1
+  absentFromGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 3739856855668620292}
   savedItems: []
@@ -558,6 +560,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   - {fileID: 11400000, guid: 947e9493fabfc20459883c696723fe9d, type: 2}
   - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
+  - {fileID: 11400000, guid: 4a3f2bb9ea16f5242b1fc5432a77b36c, type: 2}
+  - {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
 --- !u!1 &5387091060303859365
 GameObject:
   m_ObjectHideFlags: 0

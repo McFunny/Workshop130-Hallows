@@ -53,7 +53,7 @@ public class TavernNPC : NPC, ITalkable
             }
             else if (currentPath == -1) //Give 1 daily flavor text
             {
-                if(Random.Range(0, 10) >= 6 && CanGiveQuest())
+                if((Random.Range(0, 10) >= 6 && CurrentPlayerQuests() < 3) || CurrentPlayerQuests() == 0)
                 {
                     GiveQuest();
                     int i = Random.Range(0, dialogueText.questPaths.Length);
@@ -131,6 +131,7 @@ public class TavernNPC : NPC, ITalkable
     void GiveQuest()
     {
        // QuestManager.Instance.activeQuests.Add(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+       //Potential bug
         QuestManager.Instance.AddQuest(possibleQuests[Random.Range(0, possibleQuests.Count)]);
         int questNum = QuestManager.Instance.activeQuests.Count - 1;//To grab the newly added quest
 
@@ -147,7 +148,7 @@ public class TavernNPC : NPC, ITalkable
         if(g != null) QuestManager.Instance.activeQuests[questNum].assignee = possibleGrowAssignees[Random.Range(0, possibleGrowAssignees.Count)];
     }
 
-    bool CanGiveQuest()
+    /*bool CanGiveQuest()
     {
         int subQuestsActive = 0;
         foreach(Quest q in QuestManager.Instance.activeQuests)
@@ -156,6 +157,16 @@ public class TavernNPC : NPC, ITalkable
         }
         if(subQuestsActive < 3) return true;
         else return false;
+    }*/
+
+    int CurrentPlayerQuests()
+    {
+        int subQuestsActive = 0;
+        foreach(Quest q in QuestManager.Instance.activeQuests)
+        {
+            if(q.isMajorQuest == false && q.alreadyCompleted == false) subQuestsActive++;
+        }
+        return subQuestsActive;
     }
 
 

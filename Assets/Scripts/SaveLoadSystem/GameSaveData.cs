@@ -29,12 +29,14 @@ public class GameSaveData : MonoBehaviour
     public bool keyCollected; //Key was picked up
     public bool catacombUnlocked; //Key used to unlock door to catacombs
     public bool wildernessIntroduced; //Merchant has informed the player about the wilderness
+    public bool playerHasBox; //Player currently has the box in their inventory, chest, or farm
+    public bool watergunObtained;
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
 
     [Header("NPC Bools. All must be false when building")]
-    public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet;
+    public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet;
 
     //IF WE HAVE THE GAME ONLY SAVE AT THE MORNING LIKE STARDEW, WE DONT HAVE TO SAVE ALOT OF STUFF LIKE TOWNSPEOPLE POS AND SHOP ITEMS
 
@@ -95,6 +97,8 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.allGameSaveData.bridgeCleared;
             keyCollected = data.allGameSaveData.keyCollected;
             catacombUnlocked = data.allGameSaveData.catacombUnlocked;
+            playerHasBox = data.allGameSaveData.playerHasBox;
+
             rascalMet = data.allGameSaveData.rascalMet;
             botMet = data.allGameSaveData.botMet;
             lumberMet = data.allGameSaveData.lumberMet;
@@ -105,6 +109,7 @@ public class GameSaveData : MonoBehaviour
 
             townTreeCleared1 = data.allGameSaveData.townTreeCleared1;
             townTreeCleared2 = data.allGameSaveData.townTreeCleared2;
+            watergunObtained = data.allGameSaveData.watergunObtained;
     }
 }
     [System.Serializable]
@@ -126,6 +131,9 @@ public class GameSaveData : MonoBehaviour
         public bool bridgeCleared;
         public bool keyCollected;
         public bool catacombUnlocked;
+        public bool wildernessIntroduced;
+        public bool playerHasBox;
+
         public bool rascalMet;
         public bool botMet;
         public bool lumberMet;
@@ -135,6 +143,7 @@ public class GameSaveData : MonoBehaviour
         public bool culMet;
 
         public bool townTreeCleared1, townTreeCleared2;
+        public bool watergunObtained;
 
     public AllGameSaveData(GameSaveData data)
         {
@@ -155,6 +164,9 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.bridgeCleared;
             keyCollected = data.keyCollected;
             catacombUnlocked = data.catacombUnlocked;
+            wildernessIntroduced = data.wildernessIntroduced;
+            playerHasBox = data.playerHasBox;
+
             rascalMet = data.rascalMet;
             botMet = data.botMet;
             lumberMet = data.lumberMet;
@@ -165,7 +177,8 @@ public class GameSaveData : MonoBehaviour
 
             townTreeCleared1 = data.townTreeCleared1;
             townTreeCleared2 = data.townTreeCleared2;
+            watergunObtained = data.watergunObtained;
     //Debug.Log("Saving stamina. Result: " + pStamina);
-}
+        }
     }
 

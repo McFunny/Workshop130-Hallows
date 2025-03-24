@@ -84,6 +84,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0df10b19e29cb1c48940ea9ef2efcc81, type: 2}
   - {fileID: 11400000, guid: 32d9717879d059d49be29891222e32a1, type: 2}
   - {fileID: 11400000, guid: 045a35b3e3380ed41848d0d35a370181, type: 2}
+  - {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
+  - {fileID: 11400000, guid: 7a3993b97315b594b9ce3f005593c5bc, type: 2}
   agent: {fileID: 0}
   pyreFire: {fileID: 9061156446741105128}
   ignitedMat: {fileID: 2100000, guid: 8470e1ec53530ae439f837b725de6731, type: 2}
@@ -468,7 +470,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.17
+  m_Radius: 1.7
   m_Center: {x: -0.7, y: -0.27, z: 0}
 --- !u!54 &7749879778386280191
 Rigidbody:
@@ -523,6 +525,8 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 4108a2624800e934eb5cd54569f2ee87, type: 3}
   miscSound: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   miscSound2: {fileID: 0}
+  miscSound3: {fileID: 0}
+  particle1: {fileID: 0}
 --- !u!82 &2462495302870994233
 AudioSource:
   m_ObjectHideFlags: 0
@@ -532,7 +536,8 @@ AudioSource:
   m_GameObject: {fileID: 236670637137296940}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: a55e25a490059294d9aa4aaab61a5bcc, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.461

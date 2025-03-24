@@ -463,7 +463,7 @@ public class PyreFly : CreatureBehaviorScript
     IEnumerator Strafe()
     {
         int r;
-        int attackCooldown = 5;
+        int attackCooldown = 7;
         int x = 0; //keeps track of how long its been unlit
 
         while(strafing)
@@ -472,12 +472,12 @@ public class PyreFly : CreatureBehaviorScript
             if(r > 5) agent.SetDestination(strafePointL.position);
             else agent.SetDestination(strafePointR.position);
 
-            attackCooldown -= Random.Range(1, 4);
+            attackCooldown -= Random.Range(1, 3);
             if(attackCooldown <= 0)
             {
                 if(ignited) Attack();
                 else x++;
-                attackCooldown = 5;
+                attackCooldown = 7;
                 if(x >= 10)
                 {
                     IgnitionToggle(true);

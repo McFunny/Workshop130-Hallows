@@ -56,6 +56,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     [HideInInspector] bool highlightEnabled;
+    public bool canShowHighlight = true;
 
     [HideInInspector] public StructureAudioHandler audioHandler;
     //[HideInInspector] public AudioSource source;
@@ -144,8 +145,8 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         TimeManager.OnHourlyUpdate -= HourPassed;
         if(!gameObject.scene.isLoaded) return;
-        print("Destroyed");
-        if(clearTileOnDestroy && structData)
+        //print("Destroyed");
+        if(clearTileOnDestroy && structData && !absentFromGrid)
         {
             if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
             else StructureManager.Instance.ClearLargeTile(transform.position);
@@ -176,7 +177,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void ToggleHighlight(bool enable)
     {
-        if(highlight.Count == 0) return;
+        if(highlight.Count == 0 || !canShowHighlight) return;
         if(highlightMaterial.Count == 0)
         {
             foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
@@ -205,17 +206,17 @@ public class StructureBehaviorScript : MonoBehaviour
             do
             {
                 yield return new WaitForSeconds(0.1f);
-                power -= 0.05f;
+                power -= 0.1f;
                 foreach(Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
             }
-            while(power > 0.7f && highlightEnabled);
+            while(power > 1f && highlightEnabled);
             do
             {
                 yield return new WaitForSeconds(0.1f);
-                power += 0.05f;
+                power += 0.1f;
                 foreach(Material mat in highlightMaterial) mat.SetFloat("_Fresnel_Power", power);
             }
-            while(power < 1.9f && highlightEnabled);
+            while(power < 2.5f && highlightEnabled);
         }
         highlightCoroutine = null;
     }
@@ -252,11 +253,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
             else TakeDamage(2);
-            yield return new WaitForSeconds(2f);
-            if(onFire)
-            {
-                //catch adjacent structs on fire randomly
-            }
+            yield return new WaitForSeconds(4f);
         }
     }
 

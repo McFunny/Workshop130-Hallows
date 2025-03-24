@@ -70,6 +70,7 @@ public class CatacombDoor : MonoBehaviour, IInteractable
     {
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
+        AmbientAudioManager.Instance.ChangeMusic();
         yield return new WaitForSeconds(3);
         if(goingToCrypt)
         {

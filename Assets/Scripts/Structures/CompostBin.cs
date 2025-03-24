@@ -24,7 +24,7 @@ public class CompostBin : StructureBehaviorScript
     float bonusCompostValue = 0;
     float ichorFertilizerChance = 0;
 
-    bool ignoreNextHour = true;
+    bool ignoreNextHour = false;
     bool isSpinning = false;
 
     //Dont forget to implement how it works when loading saved data
@@ -154,6 +154,7 @@ public class CompostBin : StructureBehaviorScript
             if(savedItems.Count == maxContainedItems)
             {
                 isSpinning = true;
+                ignoreNextHour = true;
                 anim.SetBool("Spinning", true);
                 anim.SetBool("IsFull", true);
             }

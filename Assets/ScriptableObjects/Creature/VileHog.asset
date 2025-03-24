@@ -12,17 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e14c53294b14d418d174be0feefd90, type: 3}
   m_Name: VileHog
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 0}
+  objectPrefab: {fileID: 3008943703359663933, guid: 96ea2a34416294641bf51cf7ca5fe5e2,
+    type: 3}
+  creatureVariants:
+  - name: Momma Hog
+    prefab: {fileID: 3950954694662362984, guid: 5c35fc27737ad2d4abf354a4b3721304,
+      type: 3}
+    probabilityInFarm: 5
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 1500
   health: 0
   position:
   - 0
   - 0
   - 0
-  dangerCost: 1
+  dangerCost: 8
   dangerThreshold: 0
-  spawnWeight: 10
-  spawnCap: 5
-  spawnCapPerHour: 3
+  spawnWeight: 3
+  spawnCap: 4
+  spawnCapPerHour: 2
   wealthPrerequisite: 0
   contribuiteToCreatureCap: 1
   data:

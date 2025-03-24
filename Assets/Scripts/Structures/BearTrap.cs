@@ -138,7 +138,6 @@ public class BearTrap : StructureBehaviorScript
                 if(capturedCreature.health >= 75)
                 {
                     //stun and damage
-                    capturedCreature.TakeDamage(25);
                     StartCoroutine(HoldCreature());
                 }
                 else
@@ -146,8 +145,8 @@ public class BearTrap : StructureBehaviorScript
                     //kill
                     capturedCreature.TakeDamage(999);
                     TakeDamage(2);
+                    capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
                 }
-                capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
             }
         }
         caughtSomething = false;
@@ -182,26 +181,25 @@ public class BearTrap : StructureBehaviorScript
 
     IEnumerator HoldCreature() //Maybe have this lose durability for every second it holds a creature
     {
-        /*rearming = true;
-        yield return new WaitForSeconds(stunTime);
-        if (capturedCreature.health > 0)
-        {
-            TakeDamage(5);
-            rearming = false;
-        }
+        rearming = true;
+        if(!capturedCreature.OnStun(2)) capturedCreature = null;
         else
         {
-            StartCoroutine(Rearm());
-            TakeDamage(1);
-        } */
-
-        rearming = true;
-        while(health > 0 && capturedCreature.health > 0)
-        {
-            capturedCreature.OnStun(2);
             capturedCreature.transform.position = transform.position;
-            yield return new WaitForSeconds(2.01f);
-            if(capturedCreature.health > 0) TakeDamage(1);
+            capturedCreature.TakeDamage(25);
+            capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
+            yield return new WaitForSeconds(2f);
+        }
+
+        while(capturedCreature && health > 0 && capturedCreature.health > 0)
+        {
+            if(!capturedCreature.OnStun(2)) capturedCreature = null;
+            else
+            {
+                capturedCreature.transform.position = transform.position;
+                yield return new WaitForSeconds(2f);
+                if(capturedCreature.health > 0) TakeDamage(1);
+            }
         }
         rearming = false;
         //StartCoroutine(Rearm());

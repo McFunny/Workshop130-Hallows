@@ -53,6 +53,7 @@ public class WaterGunBehavior : ToolBehavior
         //HandItemManager.Instance.PlayPrimaryAnimation();
         toolAnim.SetBool("Charging", true);
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.0f, 0.5f));
+        HandItemManager.Instance.toolSource.PlayOneShot(charge);
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -197,6 +198,8 @@ public class WaterGunBehavior : ToolBehavior
 
     public IEnumerator ShootGun()
     {
+        bool freeMultishotting = false;
+
         yield return new WaitUntil(() => !InputManager.isCharging);
         //yield return new WaitForSeconds(0.01f);
         HandItemManager.Instance.StopCoroutine(chargingCoroutine);
@@ -206,8 +209,9 @@ public class WaterGunBehavior : ToolBehavior
         if(bulletCount == 3) toolAnim.SetTrigger("Fire3");
         if(bulletCount == 5) toolAnim.SetTrigger("Fire5");
         toolAnim.SetBool("Charging", false);
+        HandItemManager.Instance.toolSource.Stop();
 
-        if(bulletCount == 0)
+        if (bulletCount == 0)
         {
             usingPrimary = false;
             shootingGunCoroutine = null;
@@ -225,7 +229,11 @@ public class WaterGunBehavior : ToolBehavior
 
         if(bulletCount > 1) PlayerMovement.restrictMovementTokens++;
 
-        if(maxCharge && bulletCount == 1) bulletCount = 3; //testing this out for triple shot without lock on
+        if(maxCharge && bulletCount == 1) 
+        {
+            bulletCount = 3; //testing this out for triple shot without lock on
+            freeMultishotting = true;
+        }
 
         PlayerInteraction.Instance.waterHeld--;
         GameObject newBullet;
@@ -233,6 +241,8 @@ public class WaterGunBehavior : ToolBehavior
         float extraForce = 15;
 
         ParticleSystem[] particles = HandItemManager.Instance.waterGun.GetComponentsInChildren<ParticleSystem>();
+
+        PlayerInteraction.Instance.ToolUseToggle(true);
 
         for (int i = 0; i < bulletCount; i++)
         {
@@ -277,7 +287,9 @@ public class WaterGunBehavior : ToolBehavior
         yield return new WaitForSeconds(0.1f);
         usingPrimary = false;
         shootingGunCoroutine = null;
-        if(bulletCount > 1) PlayerMovement.restrictMovementTokens--;
+        if(bulletCount > 1 && !freeMultishotting) PlayerMovement.restrictMovementTokens--;
+
+        PlayerInteraction.Instance.ToolUseToggle(false);
     }
 
     public Direction GetDirection()
