@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class CodexRework : MonoBehaviour
 {
     CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted, PlantEntries; //, QuestEntries;
-    public CodexEntries currentEntry, mandrakeEntry;
+    public CodexEntries currentEntry, mandrakeEntry, graspEntry;
     [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject, questContentObject;
     [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, cropDescriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questCompleteText;
     [SerializeField] private TextMeshProUGUI growthStageText, hoursPerStage;
@@ -226,6 +226,11 @@ public class CodexRework : MonoBehaviour
                     cropDescriptionText.gameObject.SetActive(true);
                     cropInfoParent.SetActive(true);
                     descriptionText.text = "";
+
+                    if(entry == graspEntry) //Grasp Override
+                    {
+                        hoursPerStage.text = "Hours per Stage: ???";
+                    }
                 }
                 else
                 {
@@ -704,6 +709,11 @@ public class CodexRework : MonoBehaviour
 
                     cropDescriptionText.gameObject.SetActive(true);
                     cropInfoParent.SetActive(true);
+
+                    if(temp.assignedEntry == graspEntry) //Grasp Override
+                    {
+                        hoursPerStage.text = "Hours per Stage: ???";
+                    }
                 }
                 else
                 {
