@@ -143,7 +143,7 @@ public class WaterBarrel : StructureBehaviorScript
     public override void LoadVariables()
     {
         waterLevel = saveInt1;
-        //WaterLevelChange();
+        WaterLevelChange();
     }
 
     public override void SaveVariables()

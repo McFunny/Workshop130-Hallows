@@ -20,12 +20,7 @@ public class MerchantLantern : MonoBehaviour, IInteractable
 
     void Start()
     {
-        if(GameSaveData.Instance.wildernessIntroduced == true/* || forceEnable*/) EnableSelf();
-        else
-        {
-            myCollider.enabled = false;
-            enabledObject.SetActive(false);
-        }
+        StartCoroutine(DelayedStart());
     }
 
     public void EnableSelf()
@@ -49,6 +44,17 @@ public class MerchantLantern : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
        
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(4);
+        if(GameSaveData.Instance.wildernessIntroduced == true/* || forceEnable*/) EnableSelf();
+        else
+        {
+            myCollider.enabled = false;
+            enabledObject.SetActive(false);
+        }
     }
 
     public void ToggleHighlight(bool enable)
