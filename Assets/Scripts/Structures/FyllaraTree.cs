@@ -110,6 +110,11 @@ public class FyllaraTree : StructureBehaviorScript
     {
         OnDamage -= TreeHit;
         base.OnDestroy();
+        if (!gameObject.scene.isLoaded) return; 
+        for(int i = 0; i < currentTreeNuts.Length; i++)
+        {
+            if(currentTreeNuts[i]) Destroy(currentTreeNuts[i]);
+        }
     }
 
     void TreeHit()
