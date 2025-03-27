@@ -8,7 +8,6 @@ using System.IO;
 using SaveLoadSystem;
 using UnityEngine.UI;
 using TMPro;
-using System.Linq;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -41,6 +40,8 @@ public class MainMenuScript : MonoBehaviour
     public List<FileData> fileDatas = new List<FileData>();
     public static int currentSaveSlot = -1;//-1 means nothing is selected
     public bool isNewGame;
+    
+    public GameObject loadingScreen;
 
     // Start is called before the first frame update
     void Awake()
@@ -245,7 +246,42 @@ public class MainMenuScript : MonoBehaviour
     {
         FadeScreen.coverScreen = true;
         yield return new WaitForSecondsRealtime(2);
-        SceneManager.LoadSceneAsync(1);
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(1);
+        loadingScreen.SetActive(true);
+        var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
+
+        var load1 = "Loading";
+        var load2 = "Loading.";
+        var load3 = "Loading..";
+        var load4 = "Loading...";
+
+        while(!operation.isDone)
+        {
+            loadText.text = load1;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load2;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load3;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load4;
+            yield return new WaitForSecondsRealtime(.2f);
+        }
+        //SceneManager.LoadSceneAsync(1);
+    }
+
+    public void Credits()
+    {
+        if(isTransitioning) return;
+        StartCoroutine(GoToCredits());
+    }
+
+    IEnumerator GoToCredits()
+    {
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSecondsRealtime(2);
+
+        SceneManager.LoadSceneAsync(2);
     }
 
     public void OpenSettingsScreen()

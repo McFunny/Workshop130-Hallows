@@ -89,7 +89,7 @@ public class FyllaraTree : StructureBehaviorScript
             if(currentTreeNuts[i] == null)
             {
                 currentTreeNuts[i] = Instantiate(treeNut, nutSpawns[i].position, Quaternion.identity);
-                return;
+                if(Random.Range(0,2) == 1) return;
             }
         }
     }
@@ -109,7 +109,7 @@ public class FyllaraTree : StructureBehaviorScript
     void OnDestroy()
     {
         OnDamage -= TreeHit;
-        //base.OnDestroy();
+        base.OnDestroy();
     }
 
     void TreeHit()

@@ -13,7 +13,7 @@ public class MistsGraspBehavior : CropBehavior
 
     public override void CropBonusYield(FarmLand tile, out int cropBonus, out int secondaryCropBonus)
     {
-        cropBonus = (tile.growthStage - 1);
+        cropBonus = (tile.growthStage - 2);
         secondaryCropBonus = 0;
     }
 }

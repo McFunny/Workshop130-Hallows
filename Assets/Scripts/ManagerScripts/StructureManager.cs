@@ -578,9 +578,9 @@ public class StructureManager : MonoBehaviour
         {
             if(storage[i] != null)
             {
-                storage[i].gloamLevel += 0.5f;
+                storage[i].gloamLevel += 0.25f;
                 if(storage[i].gloamLevel > 10) storage[i].gloamLevel = 10;
-                storage[i].terraLevel += 0.5f;
+                storage[i].terraLevel += 0.25f;
                 if(storage[i].terraLevel > 10) storage[i].terraLevel = 10;
             }
         }

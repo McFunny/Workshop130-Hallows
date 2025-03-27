@@ -15,7 +15,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
     public int SlotIndex2;
     public int SlotIndex3;
 
-    private int moneySpent = 0;
+    private int moneySpent = 0, timesSpun; 
     public int cost = 50;
 
     public float speed, timePerSlot;
@@ -45,6 +45,10 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
     private AudioSource Slot1Source, Slot2Source, Slot3Source, audiosource;
 
+    public AudioSource winAudioSource;
+
+    public AudioClip mouthOpen, mouthClose, clickInPlace, win, brokenSound;
+
 
 
 
@@ -66,6 +70,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
         if (TimeManager.Instance.currentHour == 8)
         {
             broken = false;
+            timesSpun = 0;
         }
     }
 
@@ -89,13 +94,25 @@ public class SlotMachine : MonoBehaviour,IInteractable
     IEnumerator LetsGamble()
     {
         coroutineRunning = true;
-        if (!puzzleSolved && moneySpent >= 500)
+        if (!puzzleSolved && moneySpent >= 250)
         {
             SlotIndex1 = 1;
             SlotIndex2 = 1;
             SlotIndex3 = 1;
             yield return StartCoroutine(RotateSlots());
             yield return new WaitForSeconds(0.5f);
+            StartCoroutine(Reward());
+            coroutineRunning = false;
+        }
+        else if(CheckIfBreaks())
+        {
+            SlotIndex1 = 4;
+            SlotIndex2 = 4;
+            SlotIndex3 = 4;
+            yield return StartCoroutine(RotateSlots());
+
+            yield return new WaitForSeconds(0.5f);
+
             StartCoroutine(Reward());
             coroutineRunning = false;
         }
@@ -136,6 +153,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
         float animLength;
         if (SlotIndex1 == SlotIndex2 && SlotIndex2 == SlotIndex3)
         {
+            winAudioSource.Play();
             switch (SlotIndex1)
             {
                 case 1:
@@ -143,6 +161,8 @@ public class SlotMachine : MonoBehaviour,IInteractable
                     {
                         puzzleSolved = true;
                         //play sound effect
+                        audiosource.clip = mouthOpen;
+                        audiosource.Play();
                         animator.SetTrigger("OpenMouth");
                         animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                         yield return new WaitForSeconds(animLength);
@@ -151,6 +171,8 @@ public class SlotMachine : MonoBehaviour,IInteractable
                         droppedItem.transform.position = itemCollection.position;
                         stayWithItem = true;
                         animator.SetTrigger("CloseMouth");
+                        audiosource.clip = mouthClose;
+                        audiosource.Play();
                         animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                         while (stayWithItem)
                         {
@@ -163,14 +185,19 @@ public class SlotMachine : MonoBehaviour,IInteractable
                     }
                     else
                     {
+                       
                         animator.SetTrigger("OpenMouth");
+                        audiosource.clip = mouthOpen;
+                        audiosource.Play();
                         animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                         yield return new WaitForSeconds(animLength);
-                        mints.maxStackSize = (cost * 5);
+                        mints.maxStackSize = (cost * 2);
                         droppedItem = ItemPoolManager.Instance.GrabItem(mints);
                         droppedItem.transform.position = itemCollection.position;
                         stayWithItem = true;
                         animator.SetTrigger("CloseMouth");
+                        audiosource.clip = mouthClose;
+                        audiosource.Play();
                         animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                         while (stayWithItem)
                         {
@@ -182,15 +209,19 @@ public class SlotMachine : MonoBehaviour,IInteractable
                     }
                     break;
                 case 2:
-
+                   
                     animator.SetTrigger("OpenMouth");
+                    audiosource.clip = mouthOpen;
+                    audiosource.Play();
                     animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                     yield return new WaitForSeconds(animLength);
-                    mints.maxStackSize = (cost * 2);
+                    mints.maxStackSize = (cost);
                     droppedItem = ItemPoolManager.Instance.GrabItem(mints);
                     droppedItem.transform.position = itemCollection.position;
                     stayWithItem = true;
                     animator.SetTrigger("CloseMouth");
+                    audiosource.clip = mouthClose;
+                    audiosource.Play();
                     animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                     while (stayWithItem)
                     {
@@ -200,13 +231,18 @@ public class SlotMachine : MonoBehaviour,IInteractable
                     yield return new WaitForSeconds(animLength);
                     break;
                 case 3:
+                   
                     animator.SetTrigger("OpenMouth");
+                    audiosource.clip = mouthOpen;
+                    audiosource.Play();
                     animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                     yield return new WaitForSeconds(animLength);
                     droppedItem = ItemPoolManager.Instance.GrabItem(bullet);
                     droppedItem.transform.position = itemCollection.position;
                     stayWithItem = true;
                     animator.SetTrigger("CloseMouth");
+                    audiosource.clip = mouthClose;
+                    audiosource.Play();
                     animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                     while (stayWithItem)
                     {
@@ -219,17 +255,20 @@ public class SlotMachine : MonoBehaviour,IInteractable
                 case 4:
                     if (puzzleSolved)
                     {
+                       
                         yield return StartCoroutine(SummonPyreFly());
                         broken = true;
                     }
                     else 
                     {
+                        
                         yield return StartCoroutine(SummonPyreFly());
 
                         //play broken sound effect
                     }
                     break;
                 case 5:
+                   
                     List<InventoryItemData> randomPlant = Database.Instance.GetAllCrops().Cast<InventoryItemData>().ToList();
                     int r = Random.Range(1, randomPlant.Count);
                     for (int i = 0; i < bannedCrops.Count; i++)
@@ -240,12 +279,16 @@ public class SlotMachine : MonoBehaviour,IInteractable
                         }
                     }
                     animator.SetTrigger("OpenMouth");
+                    audiosource.clip = mouthOpen;
+                    audiosource.Play();
                     animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                     yield return new WaitForSeconds(animLength);
                     droppedItem = ItemPoolManager.Instance.GrabItem(randomPlant[r]);
                     droppedItem.transform.position = itemCollection.position;
                     stayWithItem = true;
                     animator.SetTrigger("CloseMouth");
+                    audiosource.clip = mouthClose;
+                    audiosource.Play();
                     animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                     while (stayWithItem)
                     {
@@ -262,20 +305,39 @@ public class SlotMachine : MonoBehaviour,IInteractable
         else
         {
             animator.SetTrigger("CloseEyes");
+            audiosource.clip = mouthClose;
+            audiosource.Play();
             animLength = animator.GetCurrentAnimatorStateInfo(0).length;
             yield return new WaitForSeconds(animLength);
         }
+    }
+
+    private bool CheckIfBreaks()
+    {
+        float baseChance = 0.05f;
+        float incrementalChance = 0.05f;
+        float breakchance = baseChance + (timesSpun * incrementalChance);
+
+        breakchance = Mathf.Clamp01(breakchance);
+
+        float roll = Random.Range(0f, 1f);
+
+        return roll < breakchance;
     }
 
         IEnumerator SummonPyreFly()
     {
         float animLength;
         animator.SetTrigger("OpenMouth");
+        audiosource.clip = mouthOpen;
+        audiosource.Play();
         animLength = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(animLength);
         pyreflyEnemy = Instantiate(pyreflyPrefab, new Vector3(itemCollection.position.x, itemCollection.position.y - 1f, itemCollection.position.z), itemCollection.rotation);
         stayWithItem = true;
         animator.SetTrigger("CloseMouth");
+        audiosource.clip = mouthClose;
+        audiosource.Play();
         animLength = animator.GetCurrentAnimatorStateInfo(0).length;
         while (stayWithItem)
         {
@@ -285,12 +347,16 @@ public class SlotMachine : MonoBehaviour,IInteractable
         yield return new WaitForSeconds(animLength);
         PyreFly pyreFlyScript = pyreflyEnemy.GetComponent<PyreFly>();
         pyreFlyScript.OnDestroy();
+        audiosource.clip = brokenSound;
+        audiosource.Play();
+
     }
 
         IEnumerator RotateSlots()
     {
-        audiosource.Play();
         animator.SetTrigger("OpenEyes");
+        audiosource.clip = mouthOpen;
+        audiosource.Play();
         float animLength = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(animLength);
         audiosource.Stop();
@@ -302,13 +368,17 @@ public class SlotMachine : MonoBehaviour,IInteractable
         StartCoroutine(SpinSlot(Slot3.transform, timePerSlot*3));
         yield return new WaitForSeconds(timePerSlot);
         Slot1.transform.localRotation = Quaternion.Euler(0, 0, SlotIndex1 * 60f);
+        audiosource.clip = clickInPlace;
         Slot1Source.Stop();
+        audiosource.Play();
         yield return new WaitForSeconds(timePerSlot);
         Slot2.transform.localRotation = Quaternion.Euler(0, 0, SlotIndex2 * 60f);
         Slot2Source.Stop();
+        audiosource.Play();
         yield return new WaitForSeconds(timePerSlot);
         Slot3.transform.localRotation = Quaternion.Euler(0, 0, SlotIndex3 * 60f);
         Slot3Source.Stop();
+        audiosource.Play();
     }
 
     IEnumerator SpinSlot(Transform slot, float duration)
@@ -327,9 +397,9 @@ public class SlotMachine : MonoBehaviour,IInteractable
         interactSuccessful = false;
         if (!broken)
         {
-            if (PlayerInteraction.Instance.currentMoney >= cost && !coroutineRunning)
+            if (!coroutineRunning)
             {
-                PlayerInteraction.Instance.currentMoney -= cost;
+                timesSpun++;
                 moneySpent += cost;
                 StartCoroutine(LetsGamble());
                 interactSuccessful = true;

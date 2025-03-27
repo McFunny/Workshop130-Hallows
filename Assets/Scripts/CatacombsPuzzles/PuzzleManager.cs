@@ -1,3 +1,4 @@
+using Cinemachine;
 using SaveLoadSystem;
 using System;
 using System.Collections;
@@ -21,7 +22,12 @@ public class PuzzleManager : MonoBehaviour
 
     public int totalPuzzlesSolved = 0;
 
-    public GameObject[] fireObjects;
+    public GameObject brazierPuzzleSteam;
+    public GameObject waterPuzzleSteam;
+    public GameObject pillarPuzzleSteam;
+    public GameObject slotPuzzleSteam;
+
+    private CinemachineImpulseSource impulseSource;
 
     private void Awake()
     {
@@ -47,20 +53,30 @@ public class PuzzleManager : MonoBehaviour
         if (slotMachinePuzzle.puzzleSolved && pillarPuzzle.rotatingPillarPuzzleSolved
             && brazierPuzzle.brazierPuzzleSolved && waterPuzzle.waterPuzzleSolved)
         {
-            allPuzzlesSolved = true;
-            audioSource.Play();
-            puzzleBeforeMove.SetActive(false);
-            puzzleAfterMove.SetActive(true);
+            StartCoroutine(MoveStatue());
         }
         RunForLoop();
     }
 
+    IEnumerator MoveStatue()
+    {
+        allPuzzlesSolved = true;
+        audioSource.Play();
+        puzzleBeforeMove.SetActive(false);
+        puzzleAfterMove.SetActive(true);
+        PlayerMovement.restrictMovementTokens++;
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        impulseSource.GenerateImpulseWithForce(0.25f);
+        yield return new WaitForSeconds(5);
+        PlayerMovement.restrictMovementTokens--;
+    }
+
     private void RunForLoop()
     {
-        for (int i = 0; i < totalPuzzlesSolved; i++)
-        {
-            fireObjects[i].gameObject.SetActive(true);
-        }
+        if(slotMachinePuzzle.puzzleSolved) slotPuzzleSteam.SetActive(true);
+        if(brazierPuzzle.brazierPuzzleSolved) brazierPuzzleSteam.SetActive(true);
+        if(pillarPuzzle.rotatingPillarPuzzleSolved) pillarPuzzleSteam.SetActive(true);
+        if(waterPuzzle.waterPuzzleSolved) waterPuzzleSteam.SetActive(true);
     }
 
         private void SaveData()
@@ -80,7 +96,9 @@ public class PuzzleManager : MonoBehaviour
             slotMachineSaveData = slotMachinePuzzle.ExportSaveData(),
             waterPuzzleData = waterPuzzle.GetPuzzleData(),
             rotatingPuzzleData = pillarPuzzle.ExportSaveData(),
-            brazierPuzzleData = brazierPuzzle.ExportSaveData()
+            brazierPuzzleData = brazierPuzzle.ExportSaveData(),
+            totalPuzzlesSolved = totalPuzzlesSolved,
+            allPuzzlesSolved = allPuzzlesSolved
         };
     }
 

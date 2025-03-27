@@ -208,7 +208,7 @@ public class FarmLand : StructureBehaviorScript
 
 
                     r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1);
-                    if(r == 0 && Random.Range(0,10) >= 6) r = 1;
+                    if(r == 0 && Random.Range(0,10) >= 6 && crop.seedYieldAmount > 0) r = 1;
                     for (int i = 0; i < r; i++) //Seed yield
                     {
                         if(crop.cropSeed && plantStress == 0)

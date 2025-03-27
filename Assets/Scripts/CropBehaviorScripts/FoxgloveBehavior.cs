@@ -9,4 +9,10 @@ public class FoxgloveBehavior : CropBehavior
     {
         creature.TakeDamage(100);
     }
+
+    public override void CropBonusYield(FarmLand tile, out int cropBonus, out int secondaryCropBonus)
+    {
+        cropBonus = 0;
+        secondaryCropBonus = 1;
+    }
 }

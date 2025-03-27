@@ -10,14 +10,17 @@ public class RotatingPillarManager : MonoBehaviour
     public List<CropKey> cropKeys = new List<CropKey>();
     public List<CropData> cropData = new List<CropData>();
 
-    private int puzzlesSolved = 0;
+    public int puzzlesSolved = 0;
 
     public bool rotatingPillarPuzzleSolved = false;
 
     [SerializeField] private Database _database;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         AssignCropsToPuzzles();
     }
 
@@ -109,6 +112,7 @@ public class RotatingPillarManager : MonoBehaviour
             pillar.LockPuzzle();
         }
         puzzlesSolved++;
+        audioSource.Play();
 
         if (puzzlesSolved == 3)
         {
