@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f541d48866b9aef43ae56d0418b5f79e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84a92b25f83d49b9bc132d206b370281, type: 3}
-  m_Name: ControllerInputs
+  m_Name: Icons
   m_EditorClassIdentifier: 
   hashCode: 1561683641
   material: {fileID: -4705467197027135359}
@@ -79,158 +79,38 @@ MonoBehaviour:
     m_StrikethroughOffset: 0
     m_StrikethroughThickness: 0
     m_TabWidth: 0
-  spriteSheet: {fileID: 2800000, guid: f541d48866b9aef43ae56d0418b5f79e, type: 3}
+  spriteSheet: {fileID: 2800000, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
   m_SpriteCharacterTable:
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 30
+    m_GlyphIndex: 49
     m_Scale: 1
-    m_Name: Schmeckle
-    m_HashCode: -1928341455
+    m_Name: N_Gloam
+    m_HashCode: 204040921
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 0
+    m_GlyphIndex: 50
     m_Scale: 1
-    m_Name: ButtonA
-    m_HashCode: -436118185
+    m_Name: N_Terra
+    m_HashCode: 185955073
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 1
+    m_GlyphIndex: 51
     m_Scale: 1
-    m_Name: ButtonB
-    m_HashCode: -436118188
+    m_Name: N_Ichor
+    m_HashCode: 211045550
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 2
+    m_GlyphIndex: 52
     m_Scale: 1
-    m_Name: ButtonX
-    m_HashCode: -436118194
+    m_Name: N_Water
+    m_HashCode: 184905124
   - m_ElementType: 2
     m_Unicode: 65534
-    m_GlyphIndex: 3
+    m_GlyphIndex: 53
     m_Scale: 1
-    m_Name: ButtonY
-    m_HashCode: -436118193
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 4
-    m_Scale: 1
-    m_Name: ButtonStart
-    m_HashCode: -1776622186
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 5
-    m_Scale: 1
-    m_Name: ButtonSelect
-    m_HashCode: 1483562494
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 6
-    m_Scale: 1
-    m_Name: DUp
-    m_HashCode: 72385
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 7
-    m_Scale: 1
-    m_Name: DRight
-    m_HashCode: -1689045916
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 8
-    m_Scale: 1
-    m_Name: DDown
-    m_HashCode: 78319062
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 9
-    m_Scale: 1
-    m_Name: DLeft
-    m_HashCode: 78599487
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 10
-    m_Scale: 1
-    m_Name: LUp
-    m_HashCode: 81097
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 11
-    m_Scale: 1
-    m_Name: LRight
-    m_HashCode: -1376537236
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 12
-    m_Scale: 1
-    m_Name: LLeft
-    m_HashCode: 87511863
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 13
-    m_Scale: 1
-    m_Name: LDown
-    m_HashCode: 87789022
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 14
-    m_Scale: 1
-    m_Name: LPress
-    m_HashCode: -1374621781
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 15
-    m_Scale: 1
-    m_Name: RUp
-    m_HashCode: 91095
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 16
-    m_Scale: 1
-    m_Name: RRight
-    m_HashCode: -1032172110
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 17
-    m_Scale: 1
-    m_Name: RLeft
-    m_HashCode: 100076969
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 18
-    m_Scale: 1
-    m_Name: RDown
-    m_HashCode: 99799872
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 19
-    m_Scale: 1
-    m_Name: RPress
-    m_HashCode: -1025086219
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 20
-    m_Scale: 1
-    m_Name: ButtonRB
-    m_HashCode: -1506998906
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 21
-    m_Scale: 1
-    m_Name: ButtonLB
-    m_HashCode: -1506998056
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 22
-    m_Scale: 1
-    m_Name: ButtonRT
-    m_HashCode: -1506998896
-  - m_ElementType: 2
-    m_Unicode: 65534
-    m_GlyphIndex: 23
-    m_Scale: 1
-    m_Name: ButtonLT
-    m_HashCode: -1506998066
+    m_Name: N_Dead
+    m_HashCode: -1165145451
   m_SpriteGlyphTable:
   - m_Index: 0
     m_Metrics:
@@ -1016,6 +896,85 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: 630335949, guid: f541d48866b9aef43ae56d0418b5f79e, type: 3}
+  - m_Index: 49
+    m_Metrics:
+      m_Width: 32
+      m_Height: 32
+      m_HorizontalBearingX: -6.32
+      m_HorizontalBearingY: 24
+      m_HorizontalAdvance: 32
+    m_GlyphRect:
+      m_X: 0
+      m_Y: 64
+      m_Width: 32
+      m_Height: 32
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -1878664672, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
+  - m_Index: 50
+    m_Metrics:
+      m_Width: 32
+      m_Height: 32
+      m_HorizontalBearingX: -6.32
+      m_HorizontalBearingY: 24
+      m_HorizontalAdvance: 32
+    m_GlyphRect:
+      m_X: 32
+      m_Y: 64
+      m_Width: 32
+      m_Height: 32
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -1107782907, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
+  - m_Index: 51
+    m_Metrics:
+      m_Width: 32
+      m_Height: 32
+      m_HorizontalBearingX: -6.32
+      m_HorizontalBearingY: 24
+      m_HorizontalAdvance: 32
+    m_GlyphRect:
+      m_X: 0
+      m_Y: 32
+      m_Width: 32
+      m_Height: 32
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -1304675498, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
+  - m_Index: 52
+    m_Metrics:
+      m_Width: 32
+      m_Height: 32
+      m_HorizontalBearingX: -6.32
+      m_HorizontalBearingY: 24
+      m_HorizontalAdvance: 32
+    m_GlyphRect:
+      m_X: 32
+      m_Y: 32
+      m_Width: 32
+      m_Height: 32
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -80471097, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
+  - m_Index: 53
+    m_Metrics:
+      m_Width: 32
+      m_Height: 32
+      m_HorizontalBearingX: -6.32
+      m_HorizontalBearingY: 24
+      m_HorizontalAdvance: 32
+    m_GlyphRect:
+      m_X: 0
+      m_Y: 0
+      m_Width: 32
+      m_Height: 32
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 848193166, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
   spriteInfoList: []
-  fallbackSpriteAssets:
-  - {fileID: 11400000, guid: 2e5c2e5406f1aba4a9e42fb8434e6304, type: 2}
+  fallbackSpriteAssets: []

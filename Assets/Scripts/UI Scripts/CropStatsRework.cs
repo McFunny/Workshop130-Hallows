@@ -21,6 +21,8 @@ public class CropStatsRework : MonoBehaviour
     float timeSpendAnimating = 0;
     float moveProgress = 0;
     float maxMoveProgress = 0.5f;
+    
+    [SerializeField] private string lackingGloam, lackingTerra, lackingIchor;
 
     void Awake()
     {
@@ -131,6 +133,7 @@ public class CropStatsRework : MonoBehaviour
 
         if(tile.crop != null)
         {
+
             if(tile.crop.gloamIntake > 0)
             {
                 gloamIntake.text = (-1 * tile.crop.gloamIntake).ToString();
@@ -219,6 +222,51 @@ public class CropStatsRework : MonoBehaviour
             ichorArrow.gameObject.SetActive(false);
             waterIntake.text = "";
             waterArrow.gameObject.SetActive(false);
+            tile.supportText.gameObject.SetActive(false);
+            tile.supportText.text = "";
+
+            if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null)
+            {
+                var itemType = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.GetType();
+            
+                print(itemType);
+
+                if(itemType.Equals(typeof(CropItem)))
+                {
+                    tile.supportText.gameObject.SetActive(true);
+                    print("Alex your stupid script is working");
+                    var seedData = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as CropItem;
+                    string t = "Insufficient ";
+
+                    if(tileNutrients.gloamLevel < seedData.cropData.gloamIntake * seedData.cropData.growthStages)
+                    {
+                        t = t + "<sprite name=N_Gloam> ";
+                    }
+                    if(tileNutrients.terraLevel < seedData.cropData.terraIntake * seedData.cropData.growthStages)
+                    {
+                        t = t + "<sprite name=N_Terra> ";
+                    } 
+                    if(tileNutrients.ichorLevel < seedData.cropData.ichorIntake * seedData.cropData.growthStages)
+                    {
+                        t = t + "<sprite name=N_Ichor> ";
+                    } 
+                    
+                    if (t != "Insufficient ")
+                    {
+                        t = t + "to grow " + seedData.displayName;
+                        tile.supportText.text = t;
+                    } 
+                    else tile.supportText.text = "";
+                }
+                else
+                {
+                    tile.supportText.text = "";
+                }
+            }
+            else
+            {
+                tile.supportText.text = "";
+            }
         }
 
         //print(ichorFill.fillAmount);
