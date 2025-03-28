@@ -98,7 +98,11 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         if (absentFromGrid) return;
         StructureManager.Instance.allStructs.Add(this);
-        if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
+        if(structData && structData.isLarge)
+        {
+            StructureManager.Instance.SetLargeTile(transform.position);
+            //print("Set Large Tiles");
+        }
         else StructureManager.Instance.SetTile(transform.position);
     }
 

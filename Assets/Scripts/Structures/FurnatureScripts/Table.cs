@@ -8,6 +8,11 @@ public class Table : FurnitureBehaviorScript
 
     public List<TableSocket> sockets = new List<TableSocket>();
 
+    public void Awake()
+    {
+        base.Awake();
+    }
+
     public void Start()
     {
         base.Start();
