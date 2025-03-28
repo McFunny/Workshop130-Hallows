@@ -17,7 +17,7 @@ public class InventoryItemData : ScriptableObject
     [TextArea(4,4)]
     public string description;
     public Sprite icon;
-    public int maxStackSize = 1;
+    public int maxStackSize = 1; //used also for the mint item pickup for determining value (sorry cameron)
     public float value = 0;
     public float sellValueMultiplier = 1; //if value or sellValueMultipier == 0, cannot be sold
     public bool isKeyItem = false; //if true, should not be sold or be able to be thrown away.
@@ -25,6 +25,7 @@ public class InventoryItemData : ScriptableObject
 
     public float staminaValue = 0; //if higher than 0, restores stamina when eaten, and is therefore consumable
     public float bonusCompostValue = 0;
+    public InventoryItemData pickledForm;
 
     [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
     public List<string> itemInputsKBM;

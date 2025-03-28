@@ -10,13 +10,30 @@ public class ToolTipScript : MonoBehaviour
     public GameObject toolTip, panel;
     public TextMeshProUGUI itemName, itemDesc, itemStamina, itemType;
     public Color c_default, c_tool, c_placeable, c_crop, c_consumable;
-    public GameObject gloam, terra, ichor, water, intakeParent;
+    public GameObject intakeParent, outputParent;
+    public GameObject[] input, output;
     //protected Vector3[] corners;
 
     public void Awake()
     {
         //corners = new Vector3[4];
         //eventSystem = EventSystem.current;
+    }
+
+    void Start()
+    {
+        input = new GameObject[4];
+        output = new GameObject[4];
+
+        for(int i = 0; i < 4; i++)
+        {
+            input[i] = intakeParent.transform.GetChild(1).GetChild(i).gameObject;
+        }
+
+        for(int i = 0; i < 4; i++)
+        {
+            output[i] = outputParent.transform.GetChild(1).GetChild(i).gameObject;
+        }
     }
 
     protected void LateUpdate()
@@ -59,12 +76,14 @@ public class ToolTipScript : MonoBehaviour
             itemStamina.gameObject.SetActive(true);
             itemType.text = "Consumable";
             intakeParent.SetActive(false);
+            outputParent.SetActive(false);
             itemType.color = c_consumable;
         }
         else if(type.Equals(typeof(ToolItem)))
         {
             itemType.text = "Tool";
             intakeParent.SetActive(false);
+            outputParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
             itemType.color = c_tool;
         }
@@ -72,6 +91,7 @@ public class ToolTipScript : MonoBehaviour
         {
             itemType.text = "Structure";
             intakeParent.SetActive(false);
+            outputParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
             itemType.color = c_placeable;
         }
@@ -80,26 +100,44 @@ public class ToolTipScript : MonoBehaviour
             itemType.text = "Seed";
             var seedData = itemData as CropItem; //why did I name it like this
 
-            if(seedData.cropData.gloamIntake > 0){gloam.SetActive(true);}
-            else{gloam.SetActive(false);}
+            //Consumes
 
-            if(seedData.cropData.terraIntake > 0){terra.SetActive(true);}
-            else{terra.SetActive(false);}
+            if(seedData.cropData.gloamIntake > 0){input[0].SetActive(true);}
+            else{input[0].SetActive(false);}
 
-            if(seedData.cropData.ichorIntake > 0){ichor.SetActive(true);}
-            else{ichor.SetActive(false);}
+            if(seedData.cropData.terraIntake > 0){input[1].SetActive(true);}
+            else{input[1].SetActive(false);}
 
-            if(seedData.cropData.waterIntake > 0){water.SetActive(true);}
-            else{water.SetActive(false);}
+            if(seedData.cropData.ichorIntake > 0){input[2].SetActive(true);}
+            else{input[2].SetActive(false);}
+
+            if(seedData.cropData.waterIntake > 0){input[3].SetActive(true);}
+            else{input[3].SetActive(false);}
+
+            //Produces
+
+            if(seedData.cropData.gloamIntake < 0){output[0].SetActive(true);}
+            else{output[0].SetActive(false);}
+
+            if(seedData.cropData.terraIntake < 0){output[1].SetActive(true);}
+            else{output[1].SetActive(false);}
+
+            if(seedData.cropData.ichorIntake < 0){output[2].SetActive(true);}
+            else{output[2].SetActive(false);}
+
+            if(seedData.cropData.waterIntake < 0){output[3].SetActive(true);}
+            else{output[3].SetActive(false);}
             
             intakeParent.SetActive(true);
+            outputParent.SetActive(true);
             itemStamina.gameObject.SetActive(false);
             itemType.color = c_crop;
         }
         else
         {
-            itemType.text = "Miscellaneous";
+            itemType.text = "Misc";
             intakeParent.SetActive(false);
+            outputParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
             itemType.color = c_default;
         }

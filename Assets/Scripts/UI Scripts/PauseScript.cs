@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,19 +11,23 @@ public class PauseScript : MonoBehaviour
 {
     public static bool isPaused;
     bool isTransitioning = false;
-    public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault, controlsDefault;
+    public GameObject settingsCanvas, controlsObject, pauseObject, defaultObject, settingsDefault, controlsDefault, codexObject, codexDefault, resolutionBox;
     private SettingsValueManager settingsValueManager;
     public Button[] buttons;
     ControlManager controlManager;
     PlayerEffectsHandler pEffectsHandler;
     public OpenWebsite openWebsite;
     public ConfirmationBox confirmationBox;
+    public GameObject loadingScreen;
+    
+    private CodexRework codex;
     // Start is called before the first frame update
     void Awake()
     {
         isPaused = false;
         controlManager = FindFirstObjectByType<ControlManager>();
         settingsValueManager = settingsCanvas.GetComponent<SettingsValueManager>();
+        codex = FindFirstObjectByType<CodexRework>();
     }
 
     private void OnEnable()
@@ -57,17 +62,45 @@ public class PauseScript : MonoBehaviour
                 openWebsite.canOpen = false;
             }
             else openWebsite.canOpen = true;
+
+            Time.timeScale = 0;
         }
+
+        if (ControlManager.isController && isPaused && Gamepad.current.buttonEast.wasPressedThisFrame)
+        {
+            ResumeGame();
+            //StartCoroutine(CodexCheck());
+        }
+        
         
 
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused)
         {
             if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             else if(controlsObject.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
+            else if(resolutionBox.activeSelf)EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
             else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
+            else if(codexObject.activeSelf)EventSystem.current.SetSelectedGameObject(codexDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
             print("Default Menu Object Selected");
         } 
+    }
+
+    IEnumerator CodexCheck()
+    {
+        print("HELP!!!");
+        if(!codexObject.activeSelf)
+        {
+            ResumeGame();
+            yield return new WaitForSeconds(.5f);
+            StopCoroutine(CodexCheck());
+        }
+        /*else
+        {
+            PlayerMovement.isCodexOpen = false;
+            codex.OpenCloseCodex();
+            EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
+        }*/
     }
 
     private void PausePressed(InputAction.CallbackContext obj)
@@ -136,7 +169,7 @@ public class PauseScript : MonoBehaviour
         confirmationBox.gameObject.SetActive(false);
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
         confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
-        EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
     }
 
     private void NoPressed()
@@ -144,12 +177,14 @@ public class PauseScript : MonoBehaviour
         confirmationBox.gameObject.SetActive(false);
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
         confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
-        EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
     }
 
     public void ResumeGame()
     {
         print("Resume Game Pressed");
+        //if(codexObject.activeSelf) return;
+
         if(confirmationBox.gameObject.activeSelf)
         {
             NoPressed();
@@ -162,7 +197,15 @@ public class PauseScript : MonoBehaviour
         }
         if(controlsObject.activeSelf)
         {
-            EventSystem.current.SetSelectedGameObject(buttons[2].gameObject);
+            if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[2].gameObject);
+            return;
+        }
+        if(codexObject.activeSelf)
+        {
+            //print("COdex");
+            codex.OpenCloseCodex();
+            if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
+            //PlayerMovement.isCodexOpen = false;
             return;
         }
 
@@ -179,22 +222,56 @@ public class PauseScript : MonoBehaviour
     {
         pauseObject.SetActive(false);
         FadeScreen.coverScreen = true;
-        yield return new WaitForSecondsRealtime(1);
-        SceneManager.LoadSceneAsync(0);
+        yield return new WaitForSecondsRealtime(2);
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(0);
+
+        loadingScreen.SetActive(true);
+        var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
+
+        var load1 = "Loading";
+        var load2 = "Loading.";
+        var load3 = "Loading..";
+        var load4 = "Loading...";
+
+        while(!operation.isDone)
+        {
+            loadText.text = load1;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load2;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load3;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load4;
+            yield return new WaitForSecondsRealtime(.2f);
+        }
     }
 
     public void OpenSettingsScreen()
     {
         print("Settings Pressed");
         settingsCanvas.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(settingsDefault);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsDefault);
     }
 
     public void OpenControlsScreen()
     {
         print("Controls Pressed");
         controlsObject.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(controlsDefault);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(controlsDefault);
+    }
+
+    public void OpenResolutionScreen()
+    {
+        resolutionBox.SetActive(true);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
+    }
+
+    public void OpenPauseCodex()
+    {
+        codex.OpenCloseCodex();
+        //PlayerMovement.isCodexOpen = true;
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(codexDefault);
     }
     
 }

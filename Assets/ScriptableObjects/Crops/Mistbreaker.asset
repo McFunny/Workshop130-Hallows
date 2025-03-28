@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Mist Breaker
   growthStages: 6
   hoursPerStage: 2
-  harvestableGrowthStages: 07000000
+  harvestableGrowthStages: 06000000
   cropSprites:
   - {fileID: -1663355631, guid: 0f30a3ca87842ac478804baef0e0d7ef, type: 3}
   - {fileID: 412523518, guid: 0f30a3ca87842ac478804baef0e0d7ef, type: 3}
@@ -25,15 +25,16 @@ MonoBehaviour:
   - {fileID: -520306795, guid: 0f30a3ca87842ac478804baef0e0d7ef, type: 3}
   rottedImage: {fileID: -1624847985, guid: 0f30a3ca87842ac478804baef0e0d7ef, type: 3}
   cropYield: {fileID: 11400000, guid: e505b9c244165464a9e94558ed7e8d3c, type: 2}
+  cropSecondaryYield: {fileID: 0}
   cropSeed: {fileID: 0}
   cropYieldAmount: 1
   cropYieldVariance: 0
   seedYieldAmount: 1
   seedYieldVariance: 1
   waterIntake: 10
-  ichorIntake: 2
-  terraIntake: 1
-  gloamIntake: 1
+  ichorIntake: 0
+  terraIntake: 0
+  gloamIntake: 0
   stressLimit: 3
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 11400000, guid: f2441a6fab9c0a84883d1c1c4af7c0e5, type: 2}

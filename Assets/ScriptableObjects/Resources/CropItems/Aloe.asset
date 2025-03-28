@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
   m_Name: Aloe
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 9
   displayName: Aloe
-  description: Very refreshing wild plant. Restores 42 Stamina.
+  description: Very refreshing wild plant.
   icon: {fileID: 481132665, guid: dde1cdb333d3ca5438a95b2bdfc2c39f, type: 3}
   maxStackSize: 10
   value: 37
@@ -23,6 +23,7 @@ MonoBehaviour:
   hasModel: 0
   staminaValue: 42
   bonusCompostValue: 40
+  pickledForm: {fileID: 0}
   itemInputsKBM:
   - LMB - Consume
   - RMB - Show Item

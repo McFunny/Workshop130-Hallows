@@ -12,7 +12,7 @@ public class ParticlePoolManager : MonoBehaviour
     public VisualEffect hitEffect;
 
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
-    frostParticle, thawParticle, frostBurstParticle, splashParticle;
+    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP;
 
@@ -30,6 +30,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> thawPool = new List<GameObject>();
     List<GameObject> frostBurstPool = new List<GameObject>();
     List<GameObject> splashPool = new List<GameObject>();
+    List<GameObject> impactPool = new List<GameObject>();
 
     //Destruction
     List<GameObject> woodPool = new List<GameObject>();
@@ -168,6 +169,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(gloomDestructionP);
             gloomPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(impactParticle);
+            impactPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -464,6 +472,23 @@ public class ParticlePoolManager : MonoBehaviour
             return newParticle;
         }
         else return null;
+    }
+
+    public GameObject GrabImpactParticle()
+    {
+        foreach (GameObject particle in impactPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(impactParticle);
+        impactPool.Add(newParticle);
+        return newParticle;
     }
 
     public void MoveAndPlayParticle(Vector3 pos, ParticleSystem p)

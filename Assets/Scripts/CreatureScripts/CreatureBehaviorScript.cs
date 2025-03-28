@@ -155,6 +155,11 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             collider.isTrigger = true;
         }
+        if(creatureData)
+        {
+            creatureData.amountKilled++;
+            creatureData.hasSpawned = true;
+        }
     } //Triggers creature specific effects
 
     public void OnDestroy()
@@ -164,7 +169,10 @@ public class CreatureBehaviorScript : MonoBehaviour
     }
 
     public virtual void OnSpawn(){}
-    public virtual void OnStun(float duration){}
+    public virtual bool OnStun(float duration)
+    {
+        return false;
+    }
 
     public virtual void EnteredFireRadius(FireFearTrigger fireSource, out bool fearSuccessful)
     {

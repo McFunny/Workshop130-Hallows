@@ -56,6 +56,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     [HideInInspector] bool highlightEnabled;
+    public bool canShowHighlight = true;
 
     [HideInInspector] public StructureAudioHandler audioHandler;
     //[HideInInspector] public AudioSource source;
@@ -144,8 +145,8 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         TimeManager.OnHourlyUpdate -= HourPassed;
         if(!gameObject.scene.isLoaded) return;
-        print("Destroyed");
-        if(clearTileOnDestroy && structData)
+        //print("Destroyed");
+        if(clearTileOnDestroy && structData && !absentFromGrid)
         {
             if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
             else StructureManager.Instance.ClearLargeTile(transform.position);
@@ -176,10 +177,10 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void ToggleHighlight(bool enable)
     {
-        if(highlight.Count == 0) return;
+        if(highlight.Count == 0 || !canShowHighlight) return;
         if(highlightMaterial.Count == 0)
         {
-            foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
+            foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<Renderer>().material);
         }
         if(enable && !highlightEnabled)
         {
@@ -252,11 +253,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
             else TakeDamage(2);
-            yield return new WaitForSeconds(2f);
-            if(onFire)
-            {
-                //catch adjacent structs on fire randomly
-            }
+            yield return new WaitForSeconds(4f);
         }
     }
 

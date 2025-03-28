@@ -10,11 +10,12 @@ public class UIMenuButton : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI text;
     Color c_deselected, c_selected, c_disabled, c_interactable, c_noninteractable, c_invisible;
-    bool isSelected;
+    private bool isSelected;
     ControlManager controlManager;
     [SerializeField] Button button;
     [SerializeField] private Image arrowImage;
     [SerializeField] private KeepSelectionOnScreen keepSelectionOnScreen;
+    [SerializeField] private ResolutionButtonID r;
     RectTransform rectTransform;
     public bool isPauseButton = true;
     public bool isDisabled = false;
@@ -41,6 +42,10 @@ public class UIMenuButton : MonoBehaviour
         c_invisible = new Color(0f,0f,0f,0f);
 
         rectTransform = this.gameObject.GetComponent<RectTransform>();
+        if(isWithinScrollRect && keepSelectionOnScreen == null)
+        {
+            keepSelectionOnScreen = GetComponentInParent<KeepSelectionOnScreen>();
+        }
     }
 
     void OnEnable()
@@ -54,6 +59,13 @@ public class UIMenuButton : MonoBehaviour
     
     void Update()
     {
+        if(r != null)
+        {
+            if(EventSystem.current.currentSelectedGameObject == this.gameObject) isSelected = true;
+            else isSelected = false;
+            return;
+        } 
+
         //print(controlManager.select.action.ReadValue<float>());
         if(button.interactable == false) isDisabled = true;
         else isDisabled = false;
@@ -78,7 +90,7 @@ public class UIMenuButton : MonoBehaviour
             {
                 isSelected = true;
                 arrowImage.color = c_interactable;
-                arrowImage.enabled = true;
+                //arrowImage.enabled = true;
                 if(ignoreColor) return;
 
                 text.color = c_selected;
@@ -87,7 +99,7 @@ public class UIMenuButton : MonoBehaviour
             {
                 isSelected = false;
                 arrowImage.color = c_invisible;
-                arrowImage.enabled = false;
+                //arrowImage.enabled = false;
                 if(ignoreColor) return;
                 
                 text.color = c_deselected;
@@ -98,27 +110,34 @@ public class UIMenuButton : MonoBehaviour
 
     public void PointerEnter()
     {
-        if(!isDisabled) EventSystem.current.SetSelectedGameObject(this.gameObject);
-        arrowImage.enabled = true;
+        EventSystem.current.SetSelectedGameObject(this.gameObject);
+        //arrowImage.enabled = true;
     }
 
     public void PointerExit()
     {
-        if(!isDisabled) EventSystem.current.SetSelectedGameObject(null);
-        arrowImage.enabled = false;
+        //print("ButtonExited");
+        EventSystem.current.SetSelectedGameObject(null);
+        //arrowImage.enabled = false;
     }
 
     void Select(InputAction.CallbackContext obj)
     {
         if(isSelected && controlManager.select.action.ReadValue<float>() == 0) 
         {
-            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
+            //print("Onlcick Attempted");
             button.onClick.Invoke();
+            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
         }
         else if(isSelected && ControlManager.isController)
         {
-            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
             button.onClick.Invoke();
+            if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
         }
+    }
+
+    public bool GetSelected()
+    {
+        return isSelected;
     }
 }

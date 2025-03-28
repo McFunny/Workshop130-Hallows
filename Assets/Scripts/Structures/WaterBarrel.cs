@@ -6,7 +6,8 @@ using TMPro;
 public class WaterBarrel : StructureBehaviorScript
 {
     public InventoryItemData recoveredItem;
-    public int waterLevel = 3; //max is 3
+    public int waterLevel = 0; //max is 15
+    int oldLevel;
 
     public Transform waterTexture;
     public SpriteRenderer renderer;
@@ -31,7 +32,13 @@ public class WaterBarrel : StructureBehaviorScript
     {
         base.Update();
 
-        waterText.text = waterLevel + "/" + 3;
+        waterText.text = waterLevel + "/" + 15;
+
+        if(oldLevel != waterLevel)
+        {
+            //print("Old level was " + oldLevel +". New level is " + waterLevel);
+            oldLevel = waterLevel;
+        }
 
     }
 
@@ -56,8 +63,16 @@ public class WaterBarrel : StructureBehaviorScript
         }
         if((type == ToolType.WateringCan || type == ToolType.WaterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
         {
-            PlayerInteraction.Instance.waterHeld += 5;
-            waterLevel--;
+            if(waterLevel < 5)
+            {
+                PlayerInteraction.Instance.waterHeld += waterLevel;
+                waterLevel = 0;
+            }
+            else
+            {
+                PlayerInteraction.Instance.waterHeld += 5;
+                waterLevel -= 5;
+            }
             WaterLevelChange();
             success = true;
         }
@@ -65,10 +80,17 @@ public class WaterBarrel : StructureBehaviorScript
 
     public void ManualFill(out bool success)
     {
-        if(PlayerInteraction.Instance.waterHeld >= 5 && waterLevel < 3)
+        if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 15)
         {
-            PlayerInteraction.Instance.waterHeld -= 5;
-            waterLevel++;
+            for(int i = 0; i < 5; i++)
+            {
+                if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 15)
+                {
+                    PlayerInteraction.Instance.waterHeld--;
+                    waterLevel++;
+                }
+            }
+
             WaterLevelChange();
             success = true;
         }
@@ -87,25 +109,11 @@ public class WaterBarrel : StructureBehaviorScript
     {
         if(waterLevel > 0) renderer.enabled = true;
         else renderer.enabled = false;
-        switch(waterLevel)
-        {
-            case 0:
-                waterTexture.position = new Vector3(waterTexture.position.x, 0.2f, waterTexture.position.z);
-                break;
-            case 1:
-                waterTexture.position = new Vector3(waterTexture.position.x, 0.45f, waterTexture.position.z);
-                break;
-            case 2:
-                waterTexture.position = new Vector3(waterTexture.position.x, 0.8f, waterTexture.position.z);
-                break;
-            case 3:
-                waterTexture.position = new Vector3(waterTexture.position.x, 1.3f, waterTexture.position.z);
-                break;
-            default:
-                waterLevel = 0;
-                waterTexture.position = new Vector3(waterTexture.position.x, 0, waterTexture.position.z);
-                break;
-        }
+
+        if(waterLevel > 10) waterTexture.position = new Vector3(waterTexture.position.x, 1.3f, waterTexture.position.z);
+        else if(waterLevel > 5) waterTexture.position = new Vector3(waterTexture.position.x, 0.8f, waterTexture.position.z);
+        else if(waterLevel > 0) waterTexture.position = new Vector3(waterTexture.position.x, 0.45f, waterTexture.position.z);
+        else waterTexture.position = new Vector3(waterTexture.position.x, 0.2f, waterTexture.position.z);
     }
 
     IEnumerator AnimateWater()
@@ -123,14 +131,7 @@ public class WaterBarrel : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        //simulate rain accumulation
-        return; //You can fill it manually so this is obsolete
-        if(Random.Range(0,10) < 8) return;
-        if(waterLevel < 3)
-        {
-            waterLevel++;
-            WaterLevelChange();
-        }
+        //
     }
 
     public override bool IsFlammable()
@@ -141,12 +142,12 @@ public class WaterBarrel : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        saveInt1 = waterLevel;
-        //WaterLevelChange();
+        waterLevel = saveInt1;
+        WaterLevelChange();
     }
 
     public override void SaveVariables()
     {
-        waterLevel = saveInt1;
+        saveInt1 = waterLevel;
     }
 }

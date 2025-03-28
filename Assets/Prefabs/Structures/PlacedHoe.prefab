@@ -477,7 +477,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 17920
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -498,7 +498,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -526,6 +526,9 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  absentFromGrid: 0
+  focalPoint: {fileID: 0}
+  particleCenter: {fileID: 0}
   savedItems: []
   saveInt1: 0
   saveInt2: 0
@@ -536,8 +539,9 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
-  damageParticles: {fileID: 0}
-  destructionParticles: {fileID: 0}
+  damageParticlesObject: {fileID: 0}
+  destructionType: 0
+  gibs: {fileID: 0}
   nearbyFires: []
   highlight:
   - {fileID: 498942283503825468}
@@ -574,7 +578,8 @@ AudioSource:
   m_GameObject: {fileID: 8846126861616349069}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.228

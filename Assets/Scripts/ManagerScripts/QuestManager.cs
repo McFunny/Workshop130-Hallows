@@ -21,18 +21,6 @@ public class QuestManager : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void AddQuest(Quest q)
     {
         if(!activeQuests.Contains(q))
@@ -67,6 +55,10 @@ public class QuestManager : MonoBehaviour
             if(hQuest.targetCreature == c && hQuest.progress != hQuest.maxProgress)
             {
                 hQuest.progress++;
+                if(hQuest.progress == hQuest.maxProgress)
+                {
+                    PopupHandler.Instance.AddToQueue(PopupHandler.Instance.questCompletePopup);
+                }
                 return;
             }
         }
@@ -82,9 +74,84 @@ public class QuestManager : MonoBehaviour
             if(gQuest.desiredCrop == c && gQuest.progress != gQuest.maxProgress)
             {
                 gQuest.progress++;
+                if(gQuest.progress >= gQuest.maxProgress)
+                {
+                    PopupHandler.Instance.AddToQueue(PopupHandler.Instance.questCompletePopup);
+                }
                 return;
             }
         }
+    }
+
+    public void SaveQuestData(out Quest[] s_activeQuests, out FetchQuest[] s_activeFetchQuests, out HuntQuest[] s_activeHuntQuests, out GrowQuest[] s_activeGrowQuests)
+    {
+        List<Quest> aQuestList = new List<Quest>();
+        List<FetchQuest> fQuestList = new List<FetchQuest>();
+        List<HuntQuest> hQuestList = new List<HuntQuest>();
+        List<GrowQuest> gQuestList = new List<GrowQuest>();
+
+        int i = 0;
+        foreach(Quest q in activeQuests)
+        {
+            //var type = q.GetType();
+            FetchQuest fQ = q as FetchQuest;
+            HuntQuest hQ = q as HuntQuest;
+            GrowQuest gQ = q as GrowQuest;
+
+            if(fQ != null && !fQ.alreadyCompleted)
+            {
+                fQ.orderIndex = i;
+                fQuestList.Add(fQ);
+            }
+            else if(hQ != null && !hQ.alreadyCompleted)
+            {
+                hQ.orderIndex = i;
+                hQuestList.Add(hQ);
+            }
+            else if(gQ != null && !gQ.alreadyCompleted)
+            {
+                gQ.orderIndex = i;
+                gQuestList.Add(gQ);
+            }
+            else if(!q.alreadyCompleted || q.isMajorQuest)
+            {
+                q.orderIndex = i;
+                aQuestList.Add(q);
+            }
+
+            i++;
+        }
+        //go thru completed quests too
+
+        s_activeQuests = aQuestList.ToArray();
+        s_activeFetchQuests = fQuestList.ToArray();
+        s_activeHuntQuests = hQuestList.ToArray();
+        s_activeGrowQuests = gQuestList.ToArray();
+    }
+
+    public void LoadData(AllGameSaveData data)
+    {
+        activeQuests.Clear();
+        completedQuests.Clear();
+
+        List<Quest> tempList = new List<Quest>();
+
+        tempList.AddRange(data.activeQuests);
+        tempList.AddRange(data.activeFetchQuests);
+        tempList.AddRange(data.activeHuntQuests);
+        tempList.AddRange(data.activeGrowQuests);
+
+        int i = 0;
+        while(i < tempList.Count)
+        {
+            foreach(Quest q in tempList)
+            {
+                if(q.orderIndex == i) activeQuests.Add(q);
+            }
+            i++;
+        }
+
+        //
     }
 }
 
@@ -110,7 +177,8 @@ public class Quest
 
     public bool displayProgress = false; //if set to false, should hide the progess bar in the codex// BY DEFAULT, IF MAX PROGRESS IS 0, THE BAR SHOULD BE HIDDEN
 
-    //Find a way to tie this quest into an empty new codex page. Should have like 20 empty pages just in case
+    [HideInInspector] public int orderIndex; //What order is this quest on the codex?
+
 }
 [System.Serializable]
 public class FetchQuest: Quest //Should hide progress, and max progress should be 0

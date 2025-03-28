@@ -215,6 +215,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropHeldItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e6f42c5-d90e-4bb9-b80e-37366dd4880a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -465,7 +474,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""id"": ""ed30afa5-3d13-4db9-ad5c-2dee0d8ab513"",
                     ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone(min=0.2)"",
                     ""groups"": """",
                     ""action"": ""Look"",
                     ""isComposite"": true,
@@ -921,6 +930,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""BeginCharge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""195b0fa3-4371-48e4-baa7-a0681a79856b"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DropHeldItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1151,17 +1171,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""aecf7aef-aa7d-4337-a9e7-04cfd39f6552"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Split"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1819,7 +1828,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard"",
                     ""action"": ""ScrollWheel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1935,6 +1944,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_PageDown = m_Gameplay.FindAction("PageDown", throwIfNotFound: true);
         m_Gameplay_HideUI = m_Gameplay.FindAction("HideUI", throwIfNotFound: true);
         m_Gameplay_BeginCharge = m_Gameplay.FindAction("BeginCharge", throwIfNotFound: true);
+        m_Gameplay_DropHeldItem = m_Gameplay.FindAction("DropHeldItem", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -2040,6 +2050,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_PageDown;
     private readonly InputAction m_Gameplay_HideUI;
     private readonly InputAction m_Gameplay_BeginCharge;
+    private readonly InputAction m_Gameplay_DropHeldItem;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -2065,6 +2076,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @PageDown => m_Wrapper.m_Gameplay_PageDown;
         public InputAction @HideUI => m_Wrapper.m_Gameplay_HideUI;
         public InputAction @BeginCharge => m_Wrapper.m_Gameplay_BeginCharge;
+        public InputAction @DropHeldItem => m_Wrapper.m_Gameplay_DropHeldItem;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2137,6 +2149,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BeginCharge.started += instance.OnBeginCharge;
             @BeginCharge.performed += instance.OnBeginCharge;
             @BeginCharge.canceled += instance.OnBeginCharge;
+            @DropHeldItem.started += instance.OnDropHeldItem;
+            @DropHeldItem.performed += instance.OnDropHeldItem;
+            @DropHeldItem.canceled += instance.OnDropHeldItem;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -2204,6 +2219,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BeginCharge.started -= instance.OnBeginCharge;
             @BeginCharge.performed -= instance.OnBeginCharge;
             @BeginCharge.canceled -= instance.OnBeginCharge;
+            @DropHeldItem.started -= instance.OnDropHeldItem;
+            @DropHeldItem.performed -= instance.OnDropHeldItem;
+            @DropHeldItem.canceled -= instance.OnDropHeldItem;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -2490,6 +2508,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnPageDown(InputAction.CallbackContext context);
         void OnHideUI(InputAction.CallbackContext context);
         void OnBeginCharge(InputAction.CallbackContext context);
+        void OnDropHeldItem(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

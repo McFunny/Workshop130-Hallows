@@ -7,7 +7,7 @@ public class PlantMimic : CreatureBehaviorScript
 {
     [HideInInspector] public NavMeshAgent agent;
     private bool coroutineRunning = false;
-    bool hasTarget, attackingPlayer, attackCooldown;
+    bool hasTarget, attackingPlayer, attackCooldown, speedCooldown;
 
     Vector3 newBurrowPos = new Vector3(0,0,0);
 
@@ -20,6 +20,7 @@ public class PlantMimic : CreatureBehaviorScript
 
     float originalSpeed;
     float fleeSpeed = 15;
+    float coolDownSpeed = 7;
 
     private StructureBehaviorScript targetStructure;
 
@@ -68,8 +69,15 @@ public class PlantMimic : CreatureBehaviorScript
         if(agent.velocity.sqrMagnitude > 0) anim.SetBool("IsMoving", true);
         else anim.SetBool("IsMoving", false);
 
-        if(pacesUntilCalm > 0 && agent.speed != fleeSpeed) agent.speed = fleeSpeed;
-        if(pacesUntilCalm <= 0 && agent.speed != originalSpeed) agent.speed = originalSpeed;
+        if(speedCooldown)
+        {
+            agent.speed = coolDownSpeed;
+        }
+        else
+        {
+            if(pacesUntilCalm > 0 && agent.speed != fleeSpeed) agent.speed = fleeSpeed;
+            if(pacesUntilCalm <= 0 && agent.speed != originalSpeed) agent.speed = originalSpeed;
+        }
 
     }
 
@@ -154,7 +162,7 @@ public class PlantMimic : CreatureBehaviorScript
 
     private void Wander()
     {
-        if(coroutineRunning) return;
+        if(coroutineRunning || currentState == CreatureState.Stunned) return;
 
         if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
         {
@@ -298,6 +306,7 @@ public class PlantMimic : CreatureBehaviorScript
         coroutineRunning = true;
         anim.SetTrigger("IsAttackingPlayer");
         StartCoroutine(AttackCooldown());
+        speedCooldown = true;
         yield return new WaitForSeconds(0.7f);
         effectsHandler.MiscSound();
         attackingPlayer = true;
@@ -305,6 +314,7 @@ public class PlantMimic : CreatureBehaviorScript
         yield return new WaitForSeconds(0.3f);
         attackHitbox.enabled = false;
         yield return new WaitForSeconds(1);
+        speedCooldown = false;
 
         attackingPlayer = false;
         coroutineRunning = false;
@@ -338,7 +348,7 @@ public class PlantMimic : CreatureBehaviorScript
         }
     }
 
-    public override void OnStun(float duration)
+    public override bool OnStun(float duration)
     {
         if (currentState != CreatureState.Stunned)
         {
@@ -346,7 +356,9 @@ public class PlantMimic : CreatureBehaviorScript
             agent.destination = transform.position;
             agent.ResetPath();
             newBurrowPos = new Vector3(0,0,0);
+            return true;
         }
+        else return false;
     }
 
     private IEnumerator Stun(float duration)

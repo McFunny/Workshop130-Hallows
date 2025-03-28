@@ -23,7 +23,7 @@ public class Brazier : StructureBehaviorScript
     {
         base.Start();
         fireTrigger.OnScare += EnemyScaredByFire;
-        StartCoroutine(FireDrain());
+        //StartCoroutine(FireDrain()); //Gonna see how this is without the passive fire drain
         flameLeft = 0;
         fire.SetActive(false);
     }
@@ -70,8 +70,21 @@ public class Brazier : StructureBehaviorScript
             StartCoroutine(DugUp());
             success = true;
         }
+        else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && flameLeft > 0)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            HitWithWater();
+            success = true;
+        }
         else success = false;
         
+    }
+
+    public override void HitWithWater()
+    {
+        if(flameLeft <= 0) return;
+        flameLeft = 0;
+        ExtinguishFlame();
     }
 
     IEnumerator DugUp()
@@ -88,7 +101,7 @@ public class Brazier : StructureBehaviorScript
         int r;
         while(gameObject.activeSelf)
         {
-            r = Random.Range(10, 16);
+            r = Random.Range(10, 20);
             yield return new WaitForSeconds(r);
             flameLeft -= 1;
             if(flameLeft < 0) flameLeft = 0;
@@ -106,15 +119,6 @@ public class Brazier : StructureBehaviorScript
         audioHandler.PlaySound(audioHandler.miscSounds1[0]);
     }
 
-    public override void HitWithWater()
-    {
-        if(flameLeft > 0)
-        {
-            flameLeft = 0;
-            ExtinguishFlame();
-        }
-    }
-
     void OnDestroy()
     {
         fireTrigger.OnScare -= EnemyScaredByFire;
@@ -125,7 +129,7 @@ public class Brazier : StructureBehaviorScript
     void EnemyScaredByFire(bool successful)
     {
         if(flameLeft <= 0 || !successful) return;
-        flameLeft -= 2;
+        flameLeft -= Random.Range(1,3);
         if(flameLeft <= 0) ExtinguishFlame();
     }
 }

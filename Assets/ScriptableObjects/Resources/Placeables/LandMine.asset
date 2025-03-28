@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
   m_Name: LandMine
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 79
   displayName: Pulse Mine
   description: A multi-use landmine that deals damage to creatures and structures
     in a 3x3 area. Fueled by consuming 10 units of a nutrient in a given tile. Activated
@@ -25,6 +25,7 @@ MonoBehaviour:
   hasModel: 0
   staminaValue: 0
   bonusCompostValue: 0
+  pickledForm: {fileID: 0}
   itemInputsKBM: []
   itemInputsController: []
   placedPrefab: {fileID: 8521267282670022351, guid: a29ca04ece839fe4883080be31bed290,
@@ -32,3 +33,5 @@ MonoBehaviour:
   hologramPrefab: {fileID: 4405491523468257461, guid: ed61bb55f7c11d9458331ffa84e78ce6,
     type: 3}
   removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 65f88b6da79e9d548906f86cb540e72f, type: 3}
+  gridType: 1

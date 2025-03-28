@@ -9,17 +9,19 @@ using UnityEngine.EventSystems;
 public class CodexRework : MonoBehaviour
 {
     CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted, PlantEntries; //, QuestEntries;
-    public CodexEntries currentEntry;
+    public CodexEntries currentEntry, mandrakeEntry, graspEntry;
     [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject, questContentObject;
-    [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questCompleteText;
+    [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, cropDescriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questCompleteText;
+    [SerializeField] private TextMeshProUGUI growthStageText, hoursPerStage;
+    [SerializeField] private TextMeshProUGUI timesDone;
     [SerializeField] private int currentPage = 0;
     [SerializeField] private Slider questSlider;
-    [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal, questObj;
+    [SerializeField] private GameObject entryButton, horizontalEntryButton, grid, horizontal, questObj, cropInfoParent;
 
     string defaultName = "???";
     string defaultDesc = "There is more to discover...";
     ControlManager controlManager;
-    [SerializeField] private Image largeImage, smallImage, questImage;
+    [SerializeField] private Image largeImage, smallImage, questImage, bgImage;
     [SerializeField] private GameObject defaultButton;
     [SerializeField] private Button[] categoryButtons;
     private Button currentCategoryButton;
@@ -28,11 +30,18 @@ public class CodexRework : MonoBehaviour
     private QuestManager questManager;
     public Sprite[] characterPortraits;
     public List<Quest> activeQuests = new List<Quest>();
+    private PauseScript pauseScript;
+    [SerializeField] private GameObject RBLB;
+    [SerializeField] private List<GameObject> input = new List<GameObject>();
+    [SerializeField] private List<GameObject> output = new List<GameObject>();
+    GameSaveData gameSaveData;
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         questManager = FindFirstObjectByType<QuestManager>();
+        pauseScript = FindFirstObjectByType<PauseScript>();
+        gameSaveData = FindFirstObjectByType<GameSaveData>();
     }
 
     void Start()
@@ -52,6 +61,15 @@ public class CodexRework : MonoBehaviour
         pageNumberText.text = "";
         horizontalEntryName.text = "";
         horizontalDescriptionText.text = "";
+
+        for(int i = 0; i < 4; i++)
+        {
+            input.Add(cropInfoParent.transform.GetChild(0).GetChild(1).GetChild(i).gameObject); //For the love of god don't reorganize the cropInfoParent!!!
+        }
+        for(int i = 0; i < 4; i++)
+        {
+            output.Add(cropInfoParent.transform.GetChild(1).GetChild(1).GetChild(i).gameObject); //For the love of god don't reorganize the cropInfoParent!!!
+        }
 
         codex.SetActive(false);
 
@@ -93,24 +111,29 @@ public class CodexRework : MonoBehaviour
         }
 
         PlayerMovement.isCodexOpen = codex.activeInHierarchy;
+
+        if(ControlManager.isController) RBLB.SetActive(true);
+        else RBLB.SetActive(false);
+
+        bgImage.gameObject.SetActive(largeImage.gameObject.activeSelf);
     }
 
     void OpenCodexPressed(InputAction.CallbackContext obj)
     {  
-        if(codex.activeInHierarchy)
+        if(codex.activeInHierarchy && !pauseScript.gameObject.transform.GetChild(0).gameObject.activeSelf) //ts pmo.....
         {
             print("Closing");
             if(codex.activeSelf){OpenCloseCodex();}
         }
     }
 
-    void CloseCodexPressed(InputAction.CallbackContext obj) // This doesn't do anything for some reason
+    /*void CloseCodexPressed(InputAction.CallbackContext obj) // This doesn't do anything for some reason
     {
         if(codex.activeInHierarchy)
         {
             OpenCloseCodex();
         } 
-    }
+    }*/
 
     public void OpenCloseCodex()
     {
@@ -120,6 +143,8 @@ public class CodexRework : MonoBehaviour
         {
             ClearCodex();
             //TimeManager.Instance.stopTime = false;
+            if(!PauseScript.isPaused) EventSystem.current.SetSelectedGameObject(null);
+            else EventSystem.current.SetSelectedGameObject(pauseScript.buttons[4].gameObject); //Codex button in pause menu
             Time.timeScale = 1;
         }
         else
@@ -139,26 +164,101 @@ public class CodexRework : MonoBehaviour
         if (!reset) currentPage = currentPage + page;
         else currentPage = page;
         currentPage = Mathf.Clamp(currentPage,0,entry.description.Length - 1);
+        currentEntry = entry;
 
-        if(currentPage == 0) ImageCheck();
-        else 
+        if (entry.unlocked == true || entry.cropData != null || entry.creatureData != null)
         {
-            largeImage.gameObject.SetActive(false);
-            descriptionText.gameObject.SetActive(false);
-            largeDescriptionText.gameObject.SetActive(true);
-        }      
+            if(entry.unlocked) goto EntryUnlockOverride; //I don't like using these but it works lol
+            if(entry.cropData != null && entry.cropData.amountHarvested == 0) return;
+            if(entry.creatureData != null && entry.creatureData.amountKilled == 0) return;
 
-        pageNumberText.text = "Page " + (currentPage + 1) + "/" + entry.description.Length;
-        if (entry.unlocked == true)
-        {
+            EntryUnlockOverride:
+
+            print("Entry is Unlocked");
+            pageNumberText.text = "Page " + (currentPage + 1) + "/" + entry.description.Length;
             nameText.text = entry.entryName;
             descriptionText.text = entry.description[currentPage];
+            cropDescriptionText.text = entry.description[currentPage];
             largeDescriptionText.text = entry.description[currentPage];
             horizontalEntryName.text = entry.entryName;
             horizontalDescriptionText.text = entry.description[currentPage];
+            ImageCheck();
+
+            if(entry.cropData != null) //Entry is a crop
+            {
+                if(entry != mandrakeEntry) timesDone.text = "Times harvested: " + entry.cropData.amountHarvested;
+                else timesDone.text = "Times Killed: " + entry.cropData.amountKilled;
+                //print("Crop Data Found");
+                if(currentPage == 0) 
+                {
+
+                    //Consumes
+
+                    if(entry.cropData.gloamIntake > 0){input[0].SetActive(true);}
+                    else{input[0].SetActive(false);}
+
+                    if(entry.cropData.terraIntake > 0){input[1].SetActive(true);}
+                    else{input[1].SetActive(false);}
+
+                    if(entry.cropData.ichorIntake > 0){input[2].SetActive(true);}
+                    else{input[2].SetActive(false);}
+
+                    if(entry.cropData.waterIntake > 0){input[3].SetActive(true);}
+                    else{input[3].SetActive(false);}
+
+                    //Produces
+
+                    if(entry.cropData.gloamIntake < 0){output[0].SetActive(true);}
+                    else{output[0].SetActive(false);}
+
+                    if(entry.cropData.terraIntake < 0){output[1].SetActive(true);}
+                    else{output[1].SetActive(false);}
+
+                    if(entry.cropData.ichorIntake < 0){output[2].SetActive(true);}
+                    else{output[2].SetActive(false);}
+
+                    if(entry.cropData.waterIntake < 0){output[3].SetActive(true);}
+                    else{output[3].SetActive(false);}
+
+                    growthStageText.text = "Growth Stages: " + entry.cropData.growthStages;
+                    hoursPerStage.text = "Hours per Stage: " + entry.cropData.hoursPerStage;
+
+                    cropDescriptionText.gameObject.SetActive(true);
+                    cropInfoParent.SetActive(true);
+                    descriptionText.text = "";
+
+                    if(entry == graspEntry) //Grasp Override
+                    {
+                        hoursPerStage.text = "Hours per Stage: ???";
+                    }
+                }
+                else
+                {
+                    cropDescriptionText.gameObject.SetActive(false);
+                    cropInfoParent.SetActive(false);
+                }
+                timesDone.gameObject.SetActive(true);
+            }
+            else if(entry.creatureData != null) //Entry is a creature
+            {
+                timesDone.text = "Times Killed: " + entry.creatureData.amountKilled;
+                //print("Creature Data Found");
+                timesDone.gameObject.SetActive(true);
+                cropDescriptionText.gameObject.SetActive(false);
+                cropInfoParent.SetActive(false);
+            }
+            else //Entry is neither
+            {
+                //print("No Data Found");
+                timesDone.gameObject.SetActive(false);
+                cropDescriptionText.gameObject.SetActive(false);
+                cropInfoParent.SetActive(false);
+            }
+            
         }
         else
         {
+            return;
             SetTextToDefault();
         }
 
@@ -185,44 +285,53 @@ public class CodexRework : MonoBehaviour
 
         if(type.Equals(typeof(FetchQuest)))
         {
+            //print("Fetch Quest");
             var q = quest as FetchQuest;
             var t = q.description;
 
-            if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
-            else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+            if (q.maxProgress != 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+            else t = t.Replace("{itemName}", q.desiredItem.displayName.ToString());
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
             questDescriptionText.text = t;
-            questProgressText.text = q.progress + "/" + q.maxProgress;
-            questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+            //questProgressText.text = q.progress + "/" + q.maxProgress;
+
+            if (q.maxProgress == 1) questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+            else questProgressText.text = q.desiredItem.displayName + "s handed in: " + q.progress + "/" + q.maxProgress;
         }
         if(type.Equals(typeof(HuntQuest)))
         {
+            //print("Hunt Quest");
             var q = quest as HuntQuest;
             var t = q.description;
 
-            if (q.amount > 1) t = t.Replace("{itemName}", q.targetCreature.name.ToString() + "s");
+            if (q.maxProgress != 1) t = t.Replace("{itemName}", q.targetCreature.name.ToString() + "s");
             else t = t.Replace("{itemName}", q.targetCreature.name.ToString());
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
             questDescriptionText.text = t;
-            questProgressText.text = q.targetCreature.name + " eliminited: " + q.progress + "/" + q.maxProgress;
+
+            if (q.maxProgress == 1) questProgressText.text = q.targetCreature.name + " eliminated: " + q.progress + "/" + q.maxProgress;
+            else questProgressText.text = q.targetCreature.name + "s eliminated: " + q.progress + "/" + q.maxProgress;
         }
         if(type.Equals(typeof(GrowQuest)))
         {
+            //print("Grow Quest");
             var q = quest as GrowQuest;
             var t = q.description;
 
-            if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
-            else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+            if (q.maxProgress != 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+            else t = t.Replace("{itemName}", q.desiredItem.displayName.ToString());
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
             questDescriptionText.text = t;
-            questProgressText.text = q.progress + "/" + q.maxProgress;
-            questProgressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+            //questProgressText.text = q.progress + "/" + q.maxProgress;
+
+            if (q.maxProgress == 1) questProgressText.text = q.desiredItem.displayName + " grown: " + q.progress + "/" + q.maxProgress;
+            else questProgressText.text = q.desiredItem.displayName + "s grown: " + q.progress + "/" + q.maxProgress;
         }
         if(quest.displayProgress == false)
         {
@@ -231,7 +340,7 @@ public class CodexRework : MonoBehaviour
         } 
         else
         {
-            questSlider.gameObject.SetActive(true); //Finish this idk
+            questSlider.gameObject.SetActive(true);
             questSlider.minValue = 0;
             questSlider.maxValue = quest.maxProgress;
             questSlider.value = quest.progress;
@@ -266,6 +375,10 @@ public class CodexRework : MonoBehaviour
         questDescriptionText.text = defaultDesc;
         questNameText.text = defaultName;
         questProgressText.text = "";
+        cropInfoParent.SetActive(false);
+        cropDescriptionText.text = "";
+        timesDone.text = "";
+        pageNumberText.text = "";
     }
 
     private void NoEntries()
@@ -304,6 +417,7 @@ public class CodexRework : MonoBehaviour
             isGridCategory = true;
             isQuestCategory = false;
             contentsText.text = "Tools";
+            CurrentCategory[0].unlocked = gameSaveData.watergunObtained;
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
@@ -313,6 +427,8 @@ public class CodexRework : MonoBehaviour
             isGridCategory = true;
             isQuestCategory = false;
             contentsText.text = "Plants";
+            if(mandrakeEntry.cropData.amountKilled > 0) mandrakeEntry.unlocked = true;
+            else mandrakeEntry.unlocked = false;
             UpdatePage(0, CurrentCategory[0], true);
             break;
 
@@ -390,12 +506,51 @@ public class CodexRework : MonoBehaviour
 
                 tempID.assignedEntry = CurrentCategory[i];
 
-                if(CurrentCategory[i].unlocked)
+                /*if(CurrentCategory[i].cropData != null) //Uncomment to update crop description 0
+                {
+                    CurrentCategory[i].entryName = CurrentCategory[i].cropData.name;
+                    if(CurrentCategory[i].cropData.cropYield != null) CurrentCategory[i].description[0] = CurrentCategory[i].cropData.cropYield.description; 
+
+                }/*/
+
+                if(CurrentCategory[i].unlocked) //Unlock Override
                 {
                     tempText.text = CurrentCategory[i].entryName;
                     tempImage.SetActive(true);
                     tempUnlock.SetActive(false);
                     tempSprite.sprite = CurrentCategory[i].buttonIcon;
+                }
+                else if (CurrentCategory[i].cropData != null)
+                {
+                    if(CurrentCategory[i].cropData.amountHarvested > 0) //Unlocks if amount of crop harvested > 0
+                    {
+                        tempText.text = CurrentCategory[i].entryName;
+                        tempImage.SetActive(true);
+                        tempUnlock.SetActive(false);
+                        tempSprite.sprite = CurrentCategory[i].buttonIcon;
+                    }
+                    else
+                    {
+                    tempText.text = defaultName;
+                    tempImage.SetActive(false);
+                    tempUnlock.SetActive(true);
+                    }
+                }
+                else if (CurrentCategory[i].creatureData != null) //Unlocks if amount of enemy killed > 0
+                {
+                    if(CurrentCategory[i].creatureData.amountKilled > 0)
+                    {
+                        tempText.text = CurrentCategory[i].entryName;
+                        tempImage.SetActive(true);
+                        tempUnlock.SetActive(false);
+                        tempSprite.sprite = CurrentCategory[i].buttonIcon;
+                    }
+                    else
+                    {
+                    tempText.text = defaultName;
+                    tempImage.SetActive(false);
+                    tempUnlock.SetActive(true);
+                    }
                 }
                 else
                 {
@@ -417,12 +572,11 @@ public class CodexRework : MonoBehaviour
                 if(!CurrentCategory[i].unlocked) {continue;}
                 
                 var tempButton = Instantiate(horizontalEntryButton, horizontalContentObject.transform, worldPositionStays:false);
-                var button = tempButton.gameObject.transform.GetChild(0).gameObject;
-                var tempName = tempButton.gameObject.transform.GetChild(1).gameObject;
+                var tempName = tempButton.gameObject.transform.GetChild(0).gameObject;
                 var tempID = tempButton.GetComponent<CodexButtonID>();
                 var tempText = tempName.GetComponent<TextMeshProUGUI>();
 
-                button.name = "HorizontalButton" + i;
+                tempButton.name = "HorizontalButton" + i;
 
 
                 tempText.text = CurrentCategory[i].entryName;
@@ -441,14 +595,15 @@ public class CodexRework : MonoBehaviour
             for (int i = 0; i < activeQuests.Count; i++)
             {
                 var tempButton = Instantiate(horizontalEntryButton, questContentObject.transform, worldPositionStays:false);
-                var button = tempButton.gameObject.transform.GetChild(0).gameObject;
-                var tempName = tempButton.gameObject.transform.GetChild(1).gameObject;
+                var tempName = tempButton.gameObject.transform.GetChild(0).gameObject;
                 var tempID = tempButton.GetComponent<CodexButtonID>();
                 var tempText = tempName.GetComponent<TextMeshProUGUI>();
 
                 var type = activeQuests[i].GetType();
+                print(type);
                 if(type.Equals(typeof(FetchQuest)))
                 {
+                    //print("Fetch Quest");
                     var q = activeQuests[i] as FetchQuest;
                     var t = q.name;
 
@@ -461,6 +616,7 @@ public class CodexRework : MonoBehaviour
                 }
                 else if(type.Equals(typeof(HuntQuest)))
                 {
+                    //print("Hunt Quest");
                     var q = activeQuests[i] as HuntQuest;
                     var t = q.name;
 
@@ -473,6 +629,7 @@ public class CodexRework : MonoBehaviour
                 }
                 else if(type.Equals(typeof(GrowQuest)))
                 {
+                    //print("Grow Quest");
                     var q = activeQuests[i] as GrowQuest;
                     var t = q.name;
 
@@ -491,7 +648,7 @@ public class CodexRework : MonoBehaviour
                 if(!activeQuests[i].alreadyCompleted) tempText.text = tempText.text;
                 else tempText.text = "<s>" + tempText.text + "</s>";
 
-                button.name = "QuestButton" + i;
+                tempButton.name = "QuestButton" + i;
                 
                 tempID.assignedQuest = activeQuests[i];
 
@@ -505,13 +662,104 @@ public class CodexRework : MonoBehaviour
         currentEntry = null;
         for(int i = 0; i < categoryList.Count; i++)
         {
-            var temp = categoryList[i].GetComponent<CodexButtonID>();
+            var temp = categoryList[i].GetComponentInChildren<CodexButtonID>();
             //print(temp.assignedEntry.entryName);
-            if(temp.assignedEntry.unlocked) 
+            if(temp.assignedEntry.unlocked || CreatureCheck(temp.assignedEntry) || CropCheck(temp.assignedEntry)) 
             {
                 HasUnlockedEntry(temp.assignedEntry);
+
+                if(temp.assignedEntry.cropData != null) //Entry is a crop
+                {
+                timesDone.text = "Times harvested: " + temp.assignedEntry.cropData.amountHarvested;
+                //print("Crop Data Found");
+                if(currentPage == 0) 
+                {
+                    if(temp.assignedEntry.cropData.gloamIntake > 0){input[0].SetActive(true);}
+                    else{input[0].SetActive(false);}
+
+                    if(temp.assignedEntry.cropData.terraIntake > 0){input[1].SetActive(true);}
+                    else{input[1].SetActive(false);}
+
+                    if(temp.assignedEntry.cropData.ichorIntake > 0){input[2].SetActive(true);}
+                    else{input[2].SetActive(false);}
+
+                    if(temp.assignedEntry.cropData.waterIntake > 0){input[3].SetActive(true);}
+                    else{input[3].SetActive(false);}
+
+                    //Produces
+
+                    if(temp.assignedEntry.cropData.gloamIntake < 0){output[0].SetActive(true);}
+                    else{output[0].SetActive(false);}
+
+                    if(temp.assignedEntry.cropData.terraIntake < 0){output[1].SetActive(true);}
+                    else{output[1].SetActive(false);}
+
+                    if(temp.assignedEntry.cropData.ichorIntake < 0){output[2].SetActive(true);}
+                    else{output[2].SetActive(false);}
+
+                    if(temp.assignedEntry.cropData.waterIntake < 0){output[3].SetActive(true);}
+                    else{output[3].SetActive(false);}
+
+                    growthStageText.text = "Growth Stages: " + temp.assignedEntry.cropData.growthStages;
+                    hoursPerStage.text = "Hours per Stage: " + temp.assignedEntry.cropData.hoursPerStage;
+
+                    cropDescriptionText.gameObject.SetActive(true);
+                    cropInfoParent.SetActive(true);
+                    descriptionText.text = "";
+
+                    cropDescriptionText.gameObject.SetActive(true);
+                    cropInfoParent.SetActive(true);
+
+                    if(temp.assignedEntry == graspEntry) //Grasp Override
+                    {
+                        hoursPerStage.text = "Hours per Stage: ???";
+                    }
+                }
+                else
+                {
+                    cropDescriptionText.gameObject.SetActive(false);
+                    cropInfoParent.SetActive(false);
+                }
+                timesDone.gameObject.SetActive(true);
+            }
+            else if(temp.assignedEntry.creatureData != null) //Entry is a creature
+            {
+                timesDone.text = "Times Killed: " + temp.assignedEntry.creatureData.amountKilled;
+                //print("Creature Data Found");
+                timesDone.gameObject.SetActive(true);
+                cropDescriptionText.gameObject.SetActive(false);
+                cropInfoParent.SetActive(false);
+            }
+            else //Entry is neither
+            {
+                //print("No Data Found");
+                timesDone.gameObject.SetActive(false);
+                cropDescriptionText.gameObject.SetActive(false);
+                cropInfoParent.SetActive(false);
+            }
+
                 print("Unlocked Entry Found");
                 break;
+            }
+            else
+            {
+                if(temp.assignedEntry.cropData != null)
+                {
+                    timesDone.text = "";
+                    //print("Crop Data Found");
+                    timesDone.gameObject.SetActive(true);
+                }
+                else if(temp.assignedEntry.creatureData != null)
+                {
+                    timesDone.text = "";
+                    //print("Creature Data Found");
+                    timesDone.gameObject.SetActive(true);
+                }
+                else
+                {
+                    //print("No Data Found");
+                    timesDone.text = "";
+                }
             }
         }
         if(currentEntry == null && !isQuestCategory) 
@@ -523,9 +771,11 @@ public class CodexRework : MonoBehaviour
             nameText.text = currentEntry.entryName;     //CurrentCategory[0].entryName;
             descriptionText.text = currentEntry.description[0];     //CurrentCategory[0].description[0];
             largeDescriptionText.text = currentEntry.description[0];
+            cropDescriptionText.text = currentEntry.description[0];
             horizontalEntryName.text = currentEntry.entryName;
             horizontalDescriptionText.text = currentEntry.description[0];
             pageNumberText.text = "Page 1" + "/" + currentEntry.description.Length;
+            if(currentEntry.cropData != null) descriptionText.text = "";
             
             ImageCheck();
             UpdateNavigation();
@@ -548,12 +798,13 @@ public class CodexRework : MonoBehaviour
             largeImage.gameObject.SetActive(false);
             descriptionText.gameObject.SetActive(false);
             largeDescriptionText.gameObject.SetActive(true);
+            //timesDone.gameObject.SetActive(false);
             largeImage.sprite = null;
             smallImage.sprite = null;
             return;
         }
 
-        if(currentEntry.mainImage != null && currentEntry.unlocked)
+        if(currentEntry.mainImage != null && (currentEntry.unlocked || currentEntry.cropData != null || currentEntry.creatureData != null))
         {
             if(isGridCategory)
             {
@@ -561,6 +812,7 @@ public class CodexRework : MonoBehaviour
                 largeImage.gameObject.SetActive(true);
                 descriptionText.gameObject.SetActive(true);
                 largeDescriptionText.gameObject.SetActive(false);
+                //timesDone.gameObject.SetActive(true);
             }
             else
             {
@@ -569,6 +821,7 @@ public class CodexRework : MonoBehaviour
                 largeDescriptionText.gameObject.SetActive(true);
                 smallImage.gameObject.SetActive(true);
                 smallImage.sprite = currentEntry.mainImage;
+                //timesDone.gameObject.SetActive(false);
             } 
         }
         else
@@ -577,6 +830,7 @@ public class CodexRework : MonoBehaviour
             largeDescriptionText.gameObject.SetActive(true);
             largeImage.gameObject.SetActive(false);
             smallImage.gameObject.SetActive(false);
+            //timesDone.gameObject.SetActive(false);
             largeImage.sprite = null;
             smallImage.sprite = null;
         }
@@ -638,5 +892,33 @@ public class CodexRework : MonoBehaviour
         categoryButtons[2].navigation = plantNav;
         categoryButtons[3].navigation = creatureNav;
         categoryButtons[4].navigation = questNav;
+    }
+
+    bool CreatureCheck(CodexEntries assignedEntry)
+    {
+        if(assignedEntry.creatureData != null)
+        {
+            if(assignedEntry.creatureData.amountKilled > 0)
+            {
+                print("Is a creature");
+                return true;
+            }
+            else return false;
+        }
+        else return false;
+    }
+
+    bool CropCheck(CodexEntries assignedEntry)
+    {
+        if(assignedEntry.cropData != null)
+        {
+            if(assignedEntry.cropData.amountHarvested > 0)
+            {
+                 print("Is a crop");
+                return true;
+            }
+            else return false;
+        }
+        else return false;
     }
 }

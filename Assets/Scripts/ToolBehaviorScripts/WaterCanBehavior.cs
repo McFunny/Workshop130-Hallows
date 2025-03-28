@@ -17,12 +17,12 @@ public class WaterCanBehavior : ToolBehavior
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 //play water anim
                 bool playAnim = false;
-                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0)
+                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0  && structure.GetComponent<FarmLand>() == null)
                 {
                     playAnim = true;
                     structure.Extinguish();
@@ -120,12 +120,12 @@ public class WaterCanBehavior : ToolBehavior
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 //play water anim
                 bool playAnim = false;
-                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0)
+                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0 && structure.GetComponent<FarmLand>() == null)
                 {
                     playAnim = true;
                     structure.Extinguish();

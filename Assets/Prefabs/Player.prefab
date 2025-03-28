@@ -221,11 +221,11 @@ MonoBehaviour:
   _database: {fileID: 11400000, guid: 778e7ccc03dfccb4294abbe8b57c710a, type: 2}
   useDebugItems: 0
   startingItems:
-  - name: Hoe
-    itemData: {fileID: 11400000, guid: 56a99e191735f144d96b00f92ada1698, type: 2}
-    amount: 1
   - name: Shovel
     itemData: {fileID: 11400000, guid: 24f43b4b21869a84c93ebb8ee93150aa, type: 2}
+    amount: 1
+  - name: Hoe
+    itemData: {fileID: 11400000, guid: 56a99e191735f144d96b00f92ada1698, type: 2}
     amount: 1
   - name: WaterCan
     itemData: {fileID: 11400000, guid: 1c675471aa3779f4da8dfdd5b4d89175, type: 2}
@@ -238,9 +238,6 @@ MonoBehaviour:
     amount: 6
   - name: Torch
     itemData: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
-    amount: 1
-  - name: WaterGun
-    itemData: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
     amount: 1
   debugItems: []
 --- !u!114 &6650565928944350188
@@ -262,11 +259,12 @@ MonoBehaviour:
   currentMoney: 0
   totalMoneyEarned: 0
   stamina: 200
+  invincible: 0
   waterHeld: 0
   torchLit: 0
   interactionLayers:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 64
   gameOver: 0
   lowStaminaWarning: {fileID: 11400000, guid: e159222587440be4088a83993405c954, type: 2}
 --- !u!114 &38908524066056234
@@ -292,6 +290,7 @@ MonoBehaviour:
   shakeIntensity: 1
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   focusColor: {r: 0, g: 0, b: 0, a: 0}
+  onItemSoundCooldown: 0
 --- !u!114 &1326828943737913890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,8 +388,8 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.36320752, g: 0.7580188, b: 1, a: 1}
-  m_Intensity: 2.82
+  m_Color: {r: 0.5613208, g: 0.8321106, b: 1, a: 1}
+  m_Intensity: 0.63
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -646,6 +645,8 @@ MonoBehaviour:
   split: {fileID: -1999698616602045232, guid: 060d319d61d58794a97cf0963535b7d5, type: 3}
   waterGunCharge: {fileID: 6660244490654419795, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
+  dropItem: {fileID: 2433354606798157684, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
   playerInput: {fileID: 3987123363838110697}
 --- !u!114 &3987123363838110697
 MonoBehaviour:
@@ -803,7 +804,8 @@ AudioSource:
   m_GameObject: {fileID: 2073419245538793214}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.077
@@ -979,7 +981,7 @@ GameObject:
   - component: {fileID: 9208214954908016475}
   - component: {fileID: 5518798902475761872}
   - component: {fileID: 482822957764350694}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WeaponAttackCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1014,7 +1016,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32768
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -1533,7 +1535,8 @@ AudioSource:
   m_GameObject: {fileID: 9079152816299130295}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 2bfc2099e4ceed24b951a7982085d5f6, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0

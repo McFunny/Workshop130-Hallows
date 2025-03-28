@@ -32,6 +32,7 @@ public class PlayerInteraction : MonoBehaviour
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
     bool sentLowStaminaMessage = false;
+    public bool invincible = false;
 
     public float waterHeld = 15; //for watering can
     [HideInInspector] public readonly float maxWaterHeld = 15;
@@ -110,14 +111,14 @@ public class PlayerInteraction : MonoBehaviour
             StartCoroutine(GameOver());
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        /*if (Input.GetKeyDown(KeyCode.K))
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
                 currentMoney += 200;
                 totalMoneyEarned += 200;
             }
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -223,7 +224,7 @@ public class PlayerInteraction : MonoBehaviour
                 return;
             }
 
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 structure.ItemInteraction(item);
@@ -241,7 +242,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
         {
-            var interactable = hit.collider.GetComponent<IInteractable>();
+            var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
                 StartInteraction(interactable);
@@ -252,7 +253,7 @@ public class PlayerInteraction : MonoBehaviour
                 return;
             }
 
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
                 structure.StructureInteraction();
@@ -306,7 +307,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
-        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance)
+        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible)
         {
             print("Damage negated! Stamina is : " + stamina);
             return;
@@ -330,6 +331,11 @@ public class PlayerInteraction : MonoBehaviour
         tool.ItemUsed();
         yield return new WaitForSeconds(coolDown - time);
         toolCooldown = false;
+    }
+
+    public void ToolUseToggle(bool x)
+    {
+        toolCooldown = x;
     }
 
     void DisplayHologramCheck()
@@ -409,7 +415,7 @@ public class PlayerInteraction : MonoBehaviour
         if(currentMoney > 0) currentMoney = currentMoney/2;
         TimeManager.Instance.GameOver(); //Has to be last, this is where it saves
         print("Time GameOver Complete");
-        //Potentially a spot where some structures get destroyed
+
         yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;

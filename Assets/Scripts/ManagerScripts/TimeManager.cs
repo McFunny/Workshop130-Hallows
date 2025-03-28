@@ -8,9 +8,9 @@ public class TimeManager : MonoBehaviour
     //Time
     public bool stopSaving = false;
 
-    public int currentMinute = 0; //30 in an hour
-    int minPerDayHour = 30;
-    int minPerNightHour = 30;
+    public int currentMinute = 0; 
+    int minPerDayHour = 45; //how long an hour lasts at day
+    int minPerNightHour = 30; //how long an hour lasts at night
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
                                         /// /Day lasts 14 hours. Morning starts at 6, town opens at 8
@@ -80,11 +80,11 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("t"))
-        {
-            if(Time.timeScale == 1) Time.timeScale = 8;
-            else Time.timeScale = 1;
-        }
+        //if(Input.GetKeyDown("t"))
+        //{
+        //    if(Time.timeScale == 1) Time.timeScale = 8;
+        //    else Time.timeScale = 1;
+        //}
 
         if(!DialogueController.Instance.IsTalking()) seconds += Time.deltaTime;
 
@@ -378,6 +378,8 @@ public class TimeManager : MonoBehaviour
         if(sunRenderer) StartCoroutine(AnimateSun());
         timeSkipping = false;
         stopTime = false;
+
+        currentMinute = 25;
 
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;

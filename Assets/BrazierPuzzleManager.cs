@@ -8,6 +8,11 @@ public class BrazierPuzzleManager : MonoBehaviour
 
     public bool brazierPuzzleSolved;
 
+    public Color gold;
+    public Color gray;
+
+    public SpriteRenderer totalPuzzleWin;
+
     private void Start()
     {
         brazierPuzzleSolved = false;
@@ -33,6 +38,7 @@ public class BrazierPuzzleManager : MonoBehaviour
                 if (puzzlesCorrect == brazierList.Count)
                 {
                     LockPuzzle();
+                    totalPuzzleWin.color = gold;
                 }
             }
         }
@@ -47,6 +53,7 @@ public class BrazierPuzzleManager : MonoBehaviour
         }
 
         brazierPuzzleSolved = true;
+        PuzzleManager.Instance.totalPuzzlesSolved++;
         PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
     }
 
@@ -68,6 +75,9 @@ public class BrazierPuzzleManager : MonoBehaviour
     public void ImportSaveData(BrazierPuzzleSaveData data)
     {
         brazierPuzzleSolved = data.brazierPuzzleSolved;
+
+        if (brazierPuzzleSolved) { totalPuzzleWin.color = gold; }
+        else if (!brazierPuzzleSolved) { totalPuzzleWin.color = gray; }
 
         for (int i = 0; i < brazierList.Count; i++)
         {

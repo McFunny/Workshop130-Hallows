@@ -15,6 +15,8 @@ public class NewDayCounter : MonoBehaviour
     private Image containerImage;
 
     bool hideCounter = true;
+    bool fortnite = false; //teehee!!!
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +43,8 @@ public class NewDayCounter : MonoBehaviour
             currentDayCount = timeManager.dayNum;
         }
 
+        if(Input.GetKeyDown(KeyCode.Semicolon) && fortnite == false) { StartCoroutine(ForceAnim()); }
+
         containerImage.color = new Color(1f,1f,1f,counterText.color.a);
     }
     IEnumerator NewDay()
@@ -50,9 +54,18 @@ public class NewDayCounter : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
     }
 
+    public IEnumerator ForceAnim()
+    {
+        if(!hideCounter) animator.SetTrigger("ForceAnim");
+        AnimatorReset(); // Makes sure the animation doesn't play twice, just in case
+        print("Daycounter Anim Forced");
+        yield return new WaitForSecondsRealtime(0.1f);
+        fortnite = true;
+    }
+
     IEnumerator DelayStart()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         currentDayCount = timeManager.dayNum;
         counterText.text = " " + currentDayCount.ToString();
         hideCounter = false;

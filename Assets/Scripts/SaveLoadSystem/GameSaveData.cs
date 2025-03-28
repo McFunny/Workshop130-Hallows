@@ -29,12 +29,14 @@ public class GameSaveData : MonoBehaviour
     public bool keyCollected; //Key was picked up
     public bool catacombUnlocked; //Key used to unlock door to catacombs
     public bool wildernessIntroduced; //Merchant has informed the player about the wilderness
+    public bool playerHasBox; //Player currently has the box in their inventory, chest, or farm
+    public bool watergunObtained;
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
 
     [Header("NPC Bools. All must be false when building")]
-    public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet;
+    public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet;
 
     //IF WE HAVE THE GAME ONLY SAVE AT THE MORNING LIKE STARDEW, WE DONT HAVE TO SAVE ALOT OF STUFF LIKE TOWNSPEOPLE POS AND SHOP ITEMS
 
@@ -85,7 +87,11 @@ public class GameSaveData : MonoBehaviour
             PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
             TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
 
-            for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
+            //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
+            QuestManager.Instance.LoadData(data.allGameSaveData);
+
+            CropDatabase.Instance.LoadStats(data.allGameSaveData);
+            CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
 
             tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
             rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -95,6 +101,9 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.allGameSaveData.bridgeCleared;
             keyCollected = data.allGameSaveData.keyCollected;
             catacombUnlocked = data.allGameSaveData.catacombUnlocked;
+            wildernessIntroduced = data.allGameSaveData.wildernessIntroduced;
+            playerHasBox = data.allGameSaveData.playerHasBox;
+
             rascalMet = data.allGameSaveData.rascalMet;
             botMet = data.allGameSaveData.botMet;
             lumberMet = data.allGameSaveData.lumberMet;
@@ -105,6 +114,7 @@ public class GameSaveData : MonoBehaviour
 
             townTreeCleared1 = data.allGameSaveData.townTreeCleared1;
             townTreeCleared2 = data.allGameSaveData.townTreeCleared2;
+            watergunObtained = data.allGameSaveData.watergunObtained;
     }
 }
     [System.Serializable]
@@ -117,6 +127,12 @@ public class GameSaveData : MonoBehaviour
         public int pDayNumber;
 
         public Quest[] activeQuests;
+        public FetchQuest[] activeFetchQuests;
+        public HuntQuest[] activeHuntQuests;
+        public GrowQuest[] activeGrowQuests;
+
+        public CropPlayerStats[] cropStats;
+        public CreaturePlayerStats[] creatureStats;
 
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
@@ -126,6 +142,9 @@ public class GameSaveData : MonoBehaviour
         public bool bridgeCleared;
         public bool keyCollected;
         public bool catacombUnlocked;
+        public bool wildernessIntroduced;
+        public bool playerHasBox;
+
         public bool rascalMet;
         public bool botMet;
         public bool lumberMet;
@@ -135,6 +154,7 @@ public class GameSaveData : MonoBehaviour
         public bool culMet;
 
         public bool townTreeCleared1, townTreeCleared2;
+        public bool watergunObtained;
 
     public AllGameSaveData(GameSaveData data)
         {
@@ -144,7 +164,12 @@ public class GameSaveData : MonoBehaviour
             pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
             pDayNumber = TimeManager.Instance.dayNum;
 
-            activeQuests = QuestManager.Instance.activeQuests.ToArray();
+            //activeQuests = QuestManager.Instance.activeQuests.ToArray();
+
+            QuestManager.Instance.SaveQuestData(out activeQuests, out activeFetchQuests, out activeHuntQuests, out activeGrowQuests);
+
+            CropDatabase.Instance.SaveStats(out cropStats);
+            CreatureDatabase.Instance.SaveStats(out creatureStats);
 
 
             tutorialMerchantSpoke = data.tutorialMerchantSpoke;
@@ -155,6 +180,9 @@ public class GameSaveData : MonoBehaviour
             bridgeCleared = data.bridgeCleared;
             keyCollected = data.keyCollected;
             catacombUnlocked = data.catacombUnlocked;
+            wildernessIntroduced = data.wildernessIntroduced;
+            playerHasBox = data.playerHasBox;
+
             rascalMet = data.rascalMet;
             botMet = data.botMet;
             lumberMet = data.lumberMet;
@@ -165,7 +193,8 @@ public class GameSaveData : MonoBehaviour
 
             townTreeCleared1 = data.townTreeCleared1;
             townTreeCleared2 = data.townTreeCleared2;
+            watergunObtained = data.watergunObtained;
     //Debug.Log("Saving stamina. Result: " + pStamina);
-}
+        }
     }
 

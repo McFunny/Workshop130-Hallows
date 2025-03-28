@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
   m_Name: FungalFinger
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 37
   displayName: Fungal Finger
-  description: 
+  description: The stipe of the Mist's Grasp fungus, while inedible, is nutrient
+    dense and  often used for compost or select extracts.
   icon: {fileID: 21300000, guid: 0d148093ebaaf644eac429678b117dd5, type: 3}
   maxStackSize: 20
   value: 22
@@ -23,6 +24,7 @@ MonoBehaviour:
   hasModel: 0
   staminaValue: 0
   bonusCompostValue: 40
+  pickledForm: {fileID: 0}
   itemInputsKBM:
   - RMB - Show Item
   itemInputsController:

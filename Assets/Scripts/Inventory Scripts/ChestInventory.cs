@@ -6,9 +6,11 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(UniqueID))]
-
+//look into changing this to a furnature and copy and paste the inventory code here
 public class ChestInventory : InventoryHolder , IInteractable
 {
+    public InventoryItemData recoveredItem, shovel;
+
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
@@ -26,9 +28,18 @@ public class ChestInventory : InventoryHolder , IInteractable
 
     private void Start()
     {
-        var chestSavedData = new ChestSaveData(primaryInventorySystem, transform.position, transform.rotation);
 
-        SaveLoad.CurrentSaveData.chestDictionary.Add(GetComponent<UniqueID>().ID, chestSavedData);
+        string chestID = GetComponent<UniqueID>().ID;
+
+        if (SaveLoad.CurrentSaveData.chestDictionary.ContainsKey(chestID))
+        {
+            var chestSavedData = new ChestSaveData(primaryInventorySystem, transform.position, transform.rotation);
+        }
+        else
+        {
+            var chestSavedData = new ChestSaveData(primaryInventorySystem, transform.position, transform.rotation);
+            SaveLoad.CurrentSaveData.chestDictionary.Add(chestID, chestSavedData);
+        }
     }
 
 

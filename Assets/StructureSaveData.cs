@@ -54,9 +54,9 @@ public class StructureSaveData : MonoBehaviour
                 structureList.Structures[x].position[1] = structure.gameObject.transform.position.y;
                 structureList.Structures[x].position[2] = structure.gameObject.transform.position.z;
 
-                structureList.Structures[x].rotation[0] = structure.gameObject.transform.rotation.x;
-                structureList.Structures[x].rotation[1] = structure.gameObject.transform.rotation.y;
-                structureList.Structures[x].rotation[2] = structure.gameObject.transform.rotation.z;
+                structureList.Structures[x].rotation[0] = structure.gameObject.transform.eulerAngles.x;
+                structureList.Structures[x].rotation[1] = structure.gameObject.transform.eulerAngles.y;
+                structureList.Structures[x].rotation[2] = structure.gameObject.transform.eulerAngles.z;
 
                 structureList.Structures[x].savedItemList1 = structure.savedItems;
                 structureList.Structures[x].savedInt1 = structure.saveInt1;

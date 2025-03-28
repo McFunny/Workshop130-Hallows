@@ -11778,6 +11778,8 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 8eacc58db604151419af6b86f7b18b39, type: 3}
   miscSound: {fileID: 8300000, guid: 9441cf2cc2c75a443969667adc5e38c7, type: 3}
   miscSound2: {fileID: 8300000, guid: b018cc12e2d5d9d4aa779034d41558ed, type: 3}
+  miscSound3: {fileID: 0}
+  particle1: {fileID: 0}
 --- !u!82 &2843933870961313911
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11787,7 +11789,8 @@ AudioSource:
   m_GameObject: {fileID: 4681051356189428690}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.292
@@ -15007,6 +15010,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 620c1993c0c5dc04a8cdcaa2f15ac224, type: 2}
   - {fileID: 11400000, guid: 32d9717879d059d49be29891222e32a1, type: 2}
   - {fileID: 11400000, guid: 4503391ebe85edc4cb7be33b35a49871, type: 2}
+  - {fileID: 11400000, guid: 7a3993b97315b594b9ce3f005593c5bc, type: 2}
+  - {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
   availableStructure: []
   agent: {fileID: 0}
   animEvents: {fileID: 3094718834792625156}

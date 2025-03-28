@@ -29,11 +29,11 @@ public class ApothNPC : NPC, ITalkable
     {
         if (dialogueController.IsTalking() == false)
         {
-            if (!GameSaveData.Instance.culMet)
+            if (!GameSaveData.Instance.apothMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
-                GameSaveData.Instance.culMet = true;
+                GameSaveData.Instance.apothMet = true;
             }
             else
             {
@@ -42,7 +42,7 @@ public class ApothNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
-                else if (NPCManager.Instance.culinarianSpoke)
+                else if (NPCManager.Instance.apothSpoke)
                 {
                     interactSuccessful = false;
                     return;
@@ -51,9 +51,10 @@ public class ApothNPC : NPC, ITalkable
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
-                    NPCManager.Instance.culinarianSpoke = true;
+                    NPCManager.Instance.apothSpoke = true;
+                    currentType = PathType.Filler;
                 }
-                currentType = PathType.Filler;
+               
             }
         }
         Talk();

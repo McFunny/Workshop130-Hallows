@@ -56,11 +56,6 @@ public class InputManager : MonoBehaviour
         }
         else{ structGrid.color = hiddenColor;}
 
-        if (ControlManager.isController && PauseScript.isPaused && Gamepad.current.buttonEast.wasPressedThisFrame)
-        {
-            pauseScript.ResumeGame();
-        }
-
         //if(Input.GetKeyDown("t"))
         //{
         //    if(Time.timeScale == 1f) Time.timeScale = 4f;

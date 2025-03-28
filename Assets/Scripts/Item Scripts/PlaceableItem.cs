@@ -12,6 +12,13 @@ public class PlaceableItem : InventoryItemData
     Vector3 currentTilePos;
     GameObject currentHologram;
 
+    public AudioClip placeSound;
+
+    public GridType gridType;
+    [Header("Furnature Variables")]
+    public bool canPlaceOnFloor = true;
+    public bool canPlaceOnTable = false;
+
     public void PlaceStructure(Transform player)
     {
         Vector3 fwd = player.TransformDirection(Vector3.forward);
@@ -20,7 +27,7 @@ public class PlaceableItem : InventoryItemData
         if(Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
         {
             Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
-            if(pos != new Vector3(0,0,0)) 
+            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridType)) 
             {
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
                 if(currentHologram)
@@ -34,6 +41,7 @@ public class PlaceableItem : InventoryItemData
                     HotbarDisplay.currentSlot.UpdateUISlot();
                     DisableHologram();
                 }
+                if(placeSound) HandItemManager.Instance.toolSource.PlayOneShot(placeSound);
             }
 
         }
@@ -56,7 +64,7 @@ public class PlaceableItem : InventoryItemData
         {
             //Debug.Log("Displaying");
             Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
-            if(pos == new Vector3(0,0,0)) 
+            if(pos == new Vector3(0,0,0) || !StructureManager.Instance.ValidateGridType(pos, gridType)) 
             {
                 //Debug.Log("CantDisplay");
                 if(currentHologram.activeSelf)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NightSpawningManager : MonoBehaviour
 {
@@ -163,7 +164,7 @@ public class NightSpawningManager : MonoBehaviour
             }
             
         }
-        while(spawnAttempts < 4);
+        while(spawnAttempts < 5);
 
         if(allCreatures.Count < maxCreatures && difficultyPoints < 10)
         {
@@ -196,8 +197,9 @@ public class NightSpawningManager : MonoBehaviour
         GameObject newCreature = Instantiate(prefab, RandomMistPosition(), Quaternion.identity);
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
-            enemy.OnSpawn(); //Why does the mist walker not do this?
+            enemy.OnSpawn(); 
             allCreatures.Add(enemy);
+            if(enemy.creatureData) enemy.creatureData.hasSpawned = true;
         }
     }
 
@@ -287,7 +289,7 @@ public class NightSpawningManager : MonoBehaviour
         {
             if(difficultyPoints < 100)
             {
-                difficultyPoints = 50;
+                difficultyPoints = 100;
                 highestDifficultyPoints = 300;
             }
             return;
@@ -375,6 +377,28 @@ public class NightSpawningManager : MonoBehaviour
         highestDifficultyPoints = 0;
         
         AmbientAudioManager.Instance.ChangeMusic();
+    }
+
+    public void FinaleComplete()
+    {
+        StartCoroutine(GameCompleted());
+        for(int i = 0; i < allCreatures.Count; i++)
+        {
+            allCreatures[i].TakeDamage(999);
+        }
+    }
+
+    IEnumerator GameCompleted()
+    {
+        TimeManager.Instance.stopTime = true;
+        PlayerInteraction.Instance.invincible = true;
+        yield return new WaitForSeconds(5);
+        FadeScreen.coverScreen = true;
+        PlayerMovement.restrictMovementTokens++;
+        //AmbientAudioManager.Instance.FadeMusic();
+        yield return new WaitForSeconds(3);
+        //Credits screen
+        SceneManager.LoadSceneAsync(2);
     }
 
 

@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
   m_Name: Barrel
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 69
   displayName: Barrel
   description: Stores water that can be taken or supplied by a watering can. Can
     hold 15 units of water.
   icon: {fileID: 21300000, guid: 95cedaa18d2a388479434a5279a56f35, type: 3}
   maxStackSize: 5
-  value: 70
+  value: 65
   sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
   bonusCompostValue: 0
+  pickledForm: {fileID: 0}
   itemInputsKBM:
   - LMB - Place Structure
   itemInputsController: []
@@ -32,3 +33,5 @@ MonoBehaviour:
   hologramPrefab: {fileID: 7802777430985526171, guid: 9710dc7990abe2a42844d3a2de79144e,
     type: 3}
   removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
+  gridType: 1

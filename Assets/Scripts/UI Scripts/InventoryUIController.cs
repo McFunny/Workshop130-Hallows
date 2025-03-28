@@ -22,6 +22,7 @@ public class InventoryUIController : MonoBehaviour
 
     AudioSource source;
     public AudioClip openInventory;
+    private TooltipControlsScript tooltipControlsScript;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class InventoryUIController : MonoBehaviour
         StartCoroutine(CloseBackpack());
         readyToPress = true;
         eventSystem = EventSystem.current;
+        tooltipControlsScript = FindFirstObjectByType<TooltipControlsScript>();
     }
 
     private void OnEnable()
@@ -92,6 +94,7 @@ public class InventoryUIController : MonoBehaviour
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
             source.PlayOneShot(openInventory);
+            tooltipControlsScript.ShowInventoryControls();
             return;
         }
         
@@ -119,7 +122,7 @@ public class InventoryUIController : MonoBehaviour
     {
         
         if(mouseData && mouseData.IsHoldingItem()) return;
-        print("Close Attempted");
+        //print("Close Attempted");
         if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
 
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PlayerMovement.isCodexOpen) return;
@@ -151,7 +154,16 @@ public class InventoryUIController : MonoBehaviour
     void DisplayInventory(InventorySystem invToDisplay)
     {
         //Chest Inventory
-        eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
+        if(ControlManager.isController) 
+        {
+            eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+        }
+        else
+        {
+            HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
+        }
+        
         PlayerMovement.accessingInventory = true;
         chestPanel.gameObject.SetActive(true);
         playerBackpackPanel.gameObject.SetActive(true);
@@ -181,7 +193,8 @@ public class InventoryUIController : MonoBehaviour
         chestPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
-        isBackpackOpen = false; 
+        isBackpackOpen = false;
+        tooltipControlsScript.ShowDefaultControls(); 
     }
 
     IEnumerator CloseBackpack()
@@ -192,5 +205,6 @@ public class InventoryUIController : MonoBehaviour
         playerBackpackPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
         isBackpackOpen = false; 
+        tooltipControlsScript.ShowDefaultControls(); 
     }
 }

@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
+  m_Name: Butcher
+  m_EditorClassIdentifier: 
+  speakerName: Butcher
+  defaultPath:
+    pathName: Introduction
+    paragraphs:
+    - You got a lot of creatures on that farm.
+    - If you need something to do with them...
+    - Come see me.
+    emotions: 000000000000000000000000
+  questCompletePath:
+    pathName: Thanks for completing quest
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 06000000
+  repeatedItemPath:
+    pathName: Again...?
+    paragraphs:
+    - Oh joy.... {itemName}.... Again....  {itemGiven}
+    emotions: 03000000
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - These could be of use to you.
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - Ahh that {storeItemName}. It will cost you {storeItemValue} <color=#E0D38F>Mints</color>
+      <sprite index=0>!
+    emotions: 00000000
+  - pathName: Sold!
+    paragraphs:
+    - It is all yours. {itemBought}
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - You got any more Mints</color> <sprite index=0>!
+    emotions: 04000000
+  - pathName: No Space
+    paragraphs:
+    - You can't carry this
+    emotions: 04000000
+  fillerPaths:
+  - pathName: Drying Rack
+    paragraphs:
+    - My drying rack serves a good purpose for any animal meat
+    emotions: 00000000
+  - pathName: Vile Hog
+    paragraphs:
+    - I heard that those Vile Hogs can cause some major damage
+    emotions: 03000000
+  - pathName: Feral Hare
+    paragraphs:
+    - Those hares can sometimes be a little fiesty, huh?
+    emotions: 05000000
+  questPaths: []
+  itemRecievedPaths: []
+  itemSpecificRemarks:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - What do you take me for, a charity?
+    - I have need to spend my precious <color=#E0D38F> Mints</color> <sprite index=0>
+      on your junk.
+    emotions: 0200000000000000
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []

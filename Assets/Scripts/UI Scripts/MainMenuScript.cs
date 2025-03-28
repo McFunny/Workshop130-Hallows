@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -6,11 +7,12 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using SaveLoadSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenuScript : MonoBehaviour
 {
     public InputActionReference hideUI, UICancel;
-    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault;
+    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault, loadCanvas, loadDefault, resolutionBox;
     private SettingsValueManager settingsValueManager;
     ControlManager controlManager;
     public AudioSource source;
@@ -31,8 +33,15 @@ public class MainMenuScript : MonoBehaviour
 
     public GameObject dayLight, nightLight;
     public Button[] buttons;
+    public Button[] loadButtons;
     public Button[] nonNavigableButtons;
     public ConfirmationBox confirmationBox;
+
+    public List<FileData> fileDatas = new List<FileData>();
+    public static int currentSaveSlot = -1;//-1 means nothing is selected
+    public bool isNewGame;
+    
+    public GameObject loadingScreen;
 
     // Start is called before the first frame update
     void Awake()
@@ -48,6 +57,12 @@ public class MainMenuScript : MonoBehaviour
 
         ChangeMenu(r);
     }
+
+    void Start()
+    {
+        LoadSaveFileInfo();
+    }
+    
 
     private void OnEnable()
     {
@@ -69,7 +84,9 @@ public class MainMenuScript : MonoBehaviour
         {
             if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             else if(controlsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
+            else if(resolutionBox.activeSelf)EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
             else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
+            else if(loadCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(loadDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
             print("Default Menu Object Selected");
         } 
@@ -79,13 +96,18 @@ public class MainMenuScript : MonoBehaviour
             if(!settingsCanvas.activeInHierarchy){HideUI();}
         }*/
 
-        if(settingsCanvas.activeInHierarchy && UICancel.action.WasPressedThisFrame())
+        if(settingsCanvas.activeSelf && UICancel.action.WasPressedThisFrame())
         {
             settingsValueManager.Back();
         }
-        else if(confirmationBox.gameObject.activeInHierarchy && UICancel.action.WasPressedThisFrame())
+        else if(confirmationBox.gameObject.activeSelf && UICancel.action.WasPressedThisFrame())
         {
             confirmationBox.noButton.onClick.Invoke();
+        }
+        else if(loadCanvas.activeSelf && UICancel.action.WasPressedThisFrame())
+        {
+            loadCanvas.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
         }
 
         if(ControlManager.isGamepad)
@@ -106,7 +128,7 @@ public class MainMenuScript : MonoBehaviour
             Cursor.visible = true;
         }
 
-        if(settingsCanvas.activeSelf || controlsCanvas.activeSelf || confirmationBox.gameObject.activeSelf) webObject.canOpen = false;
+        if(settingsCanvas.activeSelf || controlsCanvas.activeSelf || confirmationBox.gameObject.activeSelf || loadCanvas.activeSelf) webObject.canOpen = false;
         else webObject.canOpen = true;
     }
     void HideUI()
@@ -145,6 +167,40 @@ public class MainMenuScript : MonoBehaviour
             Application.Quit();
             print("Game Exited Successfully :)");
         }
+        
+        for(int i = 0; i < loadButtons.Length; i++)
+        {
+            if(confirmationBox.calledBy == loadButtons[i]) // Load Game
+            {
+                string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + i + SaveLoad.FileName;
+                //SaveData tempData = new SaveData();
+
+                if (!File.Exists(fullPath) && !isNewGame)
+                {
+                    Debug.Log("No save data");
+                    return;
+                }
+                if(isNewGame)
+                {
+                    if(isTransitioning) return;
+                    isTransitioning = true;
+                    currentSaveSlot = i;
+                    StartCoroutine(StartGame());
+                    loadingData = false;
+                    loadCanvas.SetActive(false);
+                    break;
+                }
+
+                if(isTransitioning) return;
+                isTransitioning = true;
+                loadingData = true;
+                currentSaveSlot = i;
+                StartCoroutine(StartGame());
+                loadCanvas.SetActive(false);
+                break;
+            }
+        }
+        
 
         confirmationBox.gameObject.SetActive(false);
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
@@ -167,35 +223,68 @@ public class MainMenuScript : MonoBehaviour
         if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
     }
 
-    public void NewGame()
+    public void NewGame() // USELESS!!!!! DIE!!!
     {
         OpenConfirmationBox("Are you sure you want to start a new game?", buttons[0]);
         if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
     }
 
-    public void LoadGame()
+    public void LoadGame(Button loadSlot)
     {
-        string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + SaveLoad.FileName;
-        //SaveData tempData = new SaveData();
-
-        if (!File.Exists(fullPath))
+        if(isNewGame)
         {
-            Debug.Log("No save data");
+            OpenConfirmationBox("Are you sure you want to start a new game in this slot?", loadSlot);
+            if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             return;
-        }
-
-
-        if(isTransitioning) return;
-        isTransitioning = true;
-        loadingData = true;
-        StartCoroutine(StartGame());
+        } 
+        if(loadSlot.interactable)
+        {
+            OpenConfirmationBox("Are you sure you want to load this save?", loadSlot);
+            if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+            return;
+        }   
     }
 
     IEnumerator StartGame()
     {
         FadeScreen.coverScreen = true;
         yield return new WaitForSecondsRealtime(2);
-        SceneManager.LoadSceneAsync(1);
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(1);
+        loadingScreen.SetActive(true);
+        var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
+
+        var load1 = "Loading";
+        var load2 = "Loading.";
+        var load3 = "Loading..";
+        var load4 = "Loading...";
+
+        while(!operation.isDone)
+        {
+            loadText.text = load1;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load2;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load3;
+            yield return new WaitForSecondsRealtime(.2f);
+            loadText.text = load4;
+            yield return new WaitForSecondsRealtime(.2f);
+        }
+        //SceneManager.LoadSceneAsync(1);
+    }
+
+    public void Credits()
+    {
+        if(isTransitioning) return;
+        StartCoroutine(GoToCredits());
+    }
+
+    IEnumerator GoToCredits()
+    {
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSecondsRealtime(2);
+
+        SceneManager.LoadSceneAsync(2);
     }
 
     public void OpenSettingsScreen()
@@ -211,6 +300,30 @@ public class MainMenuScript : MonoBehaviour
         controlsCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(controlsDefault);
         print("Controls Opened");
+    }
+
+    public void OpenLoadScreen(bool n)
+    {
+        if(n)
+        {
+            for(int i = 0; i < loadButtons.Length; i++)
+            {
+                loadButtons[i].interactable = true;
+            }
+        }
+        else
+        {
+            LoadSaveFileInfo();
+        }
+        if(isTransitioning) return;
+        isNewGame = n;
+        loadCanvas.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(loadDefault);
+    }
+    public void OpenResolutionScreen()
+    {
+        resolutionBox.SetActive(true);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
     }
 
     public void OnHover()
@@ -238,6 +351,58 @@ public class MainMenuScript : MonoBehaviour
         }
     }
 
+    void LoadSaveFileInfo()
+    {
+        var saveCount = 0;
+        //for each filedata in fileDatas, load the info. if there is a save file, populate text, else say no file
+        for(int i = 0; i < fileDatas.Count; i++)
+        {
+            string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + i + SaveLoad.FileName;
+            SaveData tempData = new SaveData();
+                //SaveData tempData = new SaveData();
+
+            if (!File.Exists(fullPath))
+            {
+                Debug.Log("No save data");
+                //Have the text say no data
+                fileDatas[i].saveDataPresent = false;
+                fileDatas[i].dayNumText.gameObject.SetActive(false);
+                fileDatas[i].mintsCurrentText.gameObject.SetActive(false);
+                fileDatas[i].mintsTotalText.gameObject.SetActive(false);
+                fileDatas[i].emptySlot.gameObject.SetActive(true);
+                loadButtons[i].interactable = false;
+                continue;
+            }
+            else
+            {
+                string json = File.ReadAllText(fullPath);
+                tempData = JsonUtility.FromJson<SaveData>(json);
+                fileDatas[i].saveDataPresent = true;
+                fileDatas[i].dayNum = tempData.allGameSaveData.pDayNumber;
+                fileDatas[i].mintsCurrent = tempData.allGameSaveData.pCurrentMoney;
+                fileDatas[i].mintsTotal = tempData.allGameSaveData.pTotalMoneyEarned;
+                //populate the text variables
+                fileDatas[i].dayNumText.text = "Day: " + fileDatas[i].dayNum;
+                fileDatas[i].mintsCurrentText.text ="Current Mints: " + fileDatas[i].mintsCurrent;
+                fileDatas[i].mintsTotalText.text = "Total Mints: " + fileDatas[i].mintsTotal;
+
+                fileDatas[i].dayNumText.gameObject.SetActive(true);
+                fileDatas[i].mintsCurrentText.gameObject.SetActive(true);
+                fileDatas[i].mintsTotalText.gameObject.SetActive(true);
+                fileDatas[i].emptySlot.gameObject.SetActive(false);
+                saveCount++;
+
+                //Enable/Disable uhh the thing idk I forgot
+                loadButtons[i].interactable = true;
+            }
+        }
+
+        if(saveCount == 0)
+        {
+            buttons[1].interactable = false;
+        }
+    }
+
     [ContextMenu("Set To Menu 1")]
     public void SetToMenu1()
     {
@@ -256,4 +421,15 @@ public class MainMenuScript : MonoBehaviour
         nightLight.SetActive(true);
     }
     
+}
+
+[System.Serializable]
+public class FileData
+{
+    public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText, emptySlot;
+    public bool saveDataPresent = false;
+
+    public int dayNum;
+    public int mintsCurrent;
+    public int mintsTotal;
 }

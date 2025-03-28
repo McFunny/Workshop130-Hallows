@@ -23,6 +23,7 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
     public GameObject canvas;
+    public GameObject canvasHolder;
     public Color gray;
     public Color gold;
 
@@ -45,7 +46,7 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         interactSuccessful = false;
-        if (currentFire == correctFire) { return; }
+        if (currentFire == correctFire) { isLocked = true; return; }
         if (isLocked) return;
     }
 
@@ -77,7 +78,12 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
 
     public void ToggleHighlight(bool enable)
     {
-        if (highlight.Count == 0) return;
+        if (isLocked)
+        {
+            foreach (GameObject thing in highlight) thing.SetActive(false);
+
+        }
+            if (highlight.Count == 0) return;
 
         if (highlightMaterial.Count == 0)
         {
@@ -263,6 +269,7 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
         {
             Debug.Log("Color");
             fireSpriteRenderer.color = gold;
+            canvasHolder.SetActive(false);
         }
         else if (currentFire != correctFire)
         {
@@ -292,10 +299,12 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
         if (currentFire == correctFire)
         {
             fireSpriteRenderer.color = gold;
+            canvasHolder.SetActive(false);
         }
         else if (currentFire != correctFire)
         {
             fireSpriteRenderer.color = gray;
+            canvasHolder.SetActive(true);
         }
 
         fire.DoTypeBasedOnNumber(currentFire);

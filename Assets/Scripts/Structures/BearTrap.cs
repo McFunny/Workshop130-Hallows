@@ -41,7 +41,8 @@ public class BearTrap : StructureBehaviorScript
 
     void Start()
     {
-        if(TownGate.Instance.location != PlayerLocation.InWilderness) base.Start();
+        if(TownGate.Instance.location == PlayerLocation.InWilderness) absentFromGrid = true;
+        base.Start();
     }
 
     // Update is called once per frame
@@ -105,16 +106,16 @@ public class BearTrap : StructureBehaviorScript
         bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
         audioHandler.PlaySound(triggeredSFX);
 
-        if(victim.gameObject.layer == 9) victim.transform.position = transform.position;
+        //if(victim.gameObject.layer == 9) victim.transform.position = transform.position;
         Vector3 victimPos = new Vector3(victim.transform.position.x, transform.position.y, victim.transform.position.z);
 
         float distance = Vector3.Distance(victimPos, transform.position);
-        print(distance);
-        if(distance < 1.5f)
+        //print(distance);
+        if(victim/*distance < 1.5f*/)
         {
 
             //does the damage
-            if(victim.GetComponent<PlayerInteraction>())
+            if(victim.GetComponent<PlayerInteraction>() && distance < 1.5f)
             {
                 PlayerInteraction player = victim.GetComponent<PlayerInteraction>();
                 player.StaminaChange(-25);
@@ -134,20 +135,25 @@ public class BearTrap : StructureBehaviorScript
             else
             {
                 capturedCreature = victim.GetComponentInParent<CreatureBehaviorScript>();
+                if(!capturedCreature)
+                {
+                    caughtSomething = false;
+                    yield break;
+                }
                 //creature.isTrapped = true;
                 if(capturedCreature.health >= 75)
                 {
                     //stun and damage
-                    capturedCreature.TakeDamage(25);
                     StartCoroutine(HoldCreature());
                 }
                 else
                 {
                     //kill
+                    capturedCreature.transform.position = transform.position;
                     capturedCreature.TakeDamage(999);
                     TakeDamage(2);
+                    capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
                 }
-                capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
             }
         }
         caughtSomething = false;
@@ -182,26 +188,25 @@ public class BearTrap : StructureBehaviorScript
 
     IEnumerator HoldCreature() //Maybe have this lose durability for every second it holds a creature
     {
-        /*rearming = true;
-        yield return new WaitForSeconds(stunTime);
-        if (capturedCreature.health > 0)
-        {
-            TakeDamage(5);
-            rearming = false;
-        }
+        rearming = true;
+        if(!capturedCreature.OnStun(2)) capturedCreature = null;
         else
         {
-            StartCoroutine(Rearm());
-            TakeDamage(1);
-        } */
-
-        rearming = true;
-        while(health > 0 && capturedCreature.health > 0)
-        {
-            capturedCreature.OnStun(2);
             capturedCreature.transform.position = transform.position;
-            yield return new WaitForSeconds(2.01f);
-            if(capturedCreature.health > 0) TakeDamage(1);
+            capturedCreature.TakeDamage(25);
+            capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
+            yield return new WaitForSeconds(2f);
+        }
+
+        while(capturedCreature && health > 0 && capturedCreature.health > 0)
+        {
+            if(!capturedCreature.OnStun(2)) capturedCreature = null;
+            else
+            {
+                capturedCreature.transform.position = transform.position;
+                yield return new WaitForSeconds(2f);
+                if(capturedCreature.health > 0) TakeDamage(1);
+            }
         }
         rearming = false;
         //StartCoroutine(Rearm());

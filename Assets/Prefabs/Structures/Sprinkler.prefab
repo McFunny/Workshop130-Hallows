@@ -723,10 +723,11 @@ AudioSource:
   m_GameObject: {fileID: 7779117695335960027}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -735,7 +736,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -822,7 +823,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24acd9ba387ddb41bb2f8f181c3e512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitSounds: []
+  hitSounds:
+  - {fileID: 8300000, guid: c0adbf6c7093efc4598cabd862a75484, type: 3}
   miscSounds1: []
   miscSounds2: []
   interactSound: {fileID: 0}
@@ -844,7 +846,7 @@ MonoBehaviour:
   structData: {fileID: 11400000, guid: 3f3793583ac66604eb4c2579537bd84f, type: 2}
   health: 25
   maxHealth: 25
-  wealthValue: 15
+  wealthValue: 5
   destructable: 1
   flammable: 0
   onFire: 0
@@ -869,6 +871,7 @@ MonoBehaviour:
   highlight:
   - {fileID: 5420653024611435711}
   - {fileID: 1935746049742081512}
+  canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 2986365621963244436}

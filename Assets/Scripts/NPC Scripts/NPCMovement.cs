@@ -71,8 +71,7 @@ public class NPCMovement : MonoBehaviour
 
                 currentSchedule = schedule;
 
-                // Release the current sublocation if occupied
-                if (currentSublocation != null && !currentSublocation.isAtHome)
+                if (currentSublocation != null)
                 {
                     ReleaseSublocation(currentSublocation);
                 }
@@ -80,28 +79,24 @@ public class NPCMovement : MonoBehaviour
                 // Determine if NPC is working
                 bool isWorker = (schedule.Action == Action.Working);
 
-                // Handle AtHome separately
                 if (schedule.Action == Action.AtHome)
                 {
                     currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false, true);
                 }
                 else if (isWorker)
                 {
-                    // Standard behavior for other actions
-
-                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, isWorker);
+                    currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, true, false);
                 }
                 else
                 {
                     currentSublocation = npcMovementManager.GetRandomSublocation(schedule.Destination, false, false);
-                   
                 }
+
 
                 // Claim the sublocation and move to it
                 if (currentSublocation != null)
                 {
-                  
-                    if (!currentSublocation.isAtHome) // Only claim if it's not a home sublocation
+                    if (!currentSublocation.isAtHome)
                     {
                         currentSublocation.isOccupied = true;
                         currentSublocation.occupant = this;
@@ -111,11 +106,11 @@ public class NPCMovement : MonoBehaviour
                 }
                 else
                 {
-                    // Fallback to main destination if no sublocations available
                     Transform mainDestination = npcMovementManager.GetDestination(schedule.Destination);
 
                     if (mainDestination != null)
                     {
+                        Debug.Log($"NPC {gameObject.name} moving to main destination {schedule.Destination}");
                         StartCoroutine(MoveToDestination(mainDestination));
                     }
                     else
@@ -123,6 +118,7 @@ public class NPCMovement : MonoBehaviour
                         Debug.LogWarning($"No available destination or sublocation for {schedule.Destination}");
                     }
                 }
+
                 return;
             }
         }
@@ -165,12 +161,14 @@ public class NPCMovement : MonoBehaviour
             }
             yield return null;
         }
-        
-        if (currentSublocation.lookAtPoint != null)
+        if (currentSublocation != null)
         {
-            transform.LookAt(currentSublocation.lookAtPoint);
+            if (currentSublocation.lookAtPoint != null)
+            {
+                transform.LookAt(currentSublocation.lookAtPoint);
+            }
         }
-        PerformAction(); 
+            PerformAction(); 
     }
 
     void PerformAction()

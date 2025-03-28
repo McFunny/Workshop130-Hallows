@@ -6487,6 +6487,8 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 8eacc58db604151419af6b86f7b18b39, type: 3}
   miscSound: {fileID: 8300000, guid: 9441cf2cc2c75a443969667adc5e38c7, type: 3}
   miscSound2: {fileID: 8300000, guid: b018cc12e2d5d9d4aa779034d41558ed, type: 3}
+  miscSound3: {fileID: 0}
+  particle1: {fileID: 0}
 --- !u!82 &4955585291372474256
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6496,7 +6498,8 @@ AudioSource:
   m_GameObject: {fileID: 2820918989307801082}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.201
@@ -8553,7 +8556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
-  corpseHealth: -30
+  corpseHealth: -25
   ichorWorth: 5
   ichorDropRadius: 4.5
   creatureData: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
@@ -8570,13 +8573,15 @@ MonoBehaviour:
   droppedItems:
   - {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
   - {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
-  - {fileID: 11400000, guid: d06fed8a2ed642746af8ec6d863c5b72, type: 2}
   - {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
+  - {fileID: 11400000, guid: d06fed8a2ed642746af8ec6d863c5b72, type: 2}
+  - {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
   dropChance:
   - 0.5
   - 0.5
   - 0.5
   - 0.5
+  - 1
   sightRange: 20
   attackRange: 5
   playerInSightRange: 0
@@ -8600,6 +8605,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 620c1993c0c5dc04a8cdcaa2f15ac224, type: 2}
   - {fileID: 11400000, guid: 32d9717879d059d49be29891222e32a1, type: 2}
   - {fileID: 11400000, guid: 4503391ebe85edc4cb7be33b35a49871, type: 2}
+  - {fileID: 11400000, guid: 7a3993b97315b594b9ce3f005593c5bc, type: 2}
+  - {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
   availableStructure: []
   agent: {fileID: 0}
   animEvents: {fileID: 1571331616092395312}

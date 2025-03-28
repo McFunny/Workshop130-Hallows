@@ -146,12 +146,12 @@ public class Sprinkler : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        saveInt1 = waterLevel;
+        waterLevel = saveInt1;
     }
 
     public override void SaveVariables()
     {
-        waterLevel = saveInt1;
+        saveInt1 = waterLevel;
     }
 
 }

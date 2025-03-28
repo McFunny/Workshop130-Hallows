@@ -7,6 +7,8 @@ public class CatacombsTorch : StructureBehaviorScript
     public GameObject fire;
     public bool startActive;
     public bool fireAlwaysActive;
+    public bool disableHighlight;
+    public AudioSource source;
     void Start()
     {
         if (!startActive) { fire.SetActive(false); }
@@ -22,7 +24,7 @@ public class CatacombsTorch : StructureBehaviorScript
             if (PlayerInteraction.Instance.torchLit && fire.activeInHierarchy == false)
             {
                 fire.SetActive(true);
-                audioHandler.PlaySound(audioHandler.activatedSound);
+                source.Play();
                 success = true;
             }
             else if ((fire.activeInHierarchy == true && !PlayerInteraction.Instance.torchLit) || (fireAlwaysActive && !PlayerInteraction.Instance.torchLit))
