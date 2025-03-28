@@ -182,8 +182,11 @@ public class MainMenuScript : MonoBehaviour
                 }
                 if(isNewGame)
                 {
+                    if(isTransitioning) return;
+                    isTransitioning = true;
                     currentSaveSlot = i;
                     StartCoroutine(StartGame());
+                    loadingData = false;
                     loadCanvas.SetActive(false);
                     break;
                 }

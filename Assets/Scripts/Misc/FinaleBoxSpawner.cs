@@ -10,12 +10,18 @@ public class FinaleBoxSpawner : MonoBehaviour
     void Start()
     {
         TimeManager.OnHourlyUpdate += HourPassed;
-        HourPassed();
+        StartCoroutine(DelayedStart());
     }
 
     void OnDestroy()
     {
         TimeManager.OnHourlyUpdate -= HourPassed;
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(5);
+        HourPassed();
     }
 
     void HourPassed()
