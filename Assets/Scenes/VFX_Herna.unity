@@ -901,11 +901,20 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 15.26
+        m_Name: Radius
+        m_Overridden: 1
+      - m_Value: 20
+        m_Name: Rate
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 0, y: 15, z: 0}
+        m_Name: Initial Position
+        m_Overridden: 1
     m_Vector4f:
       m_Array: []
     m_Uint:
@@ -931,7 +940,7 @@ Transform:
   m_GameObject: {fileID: 146718550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.262543, y: 12.99, z: -923.7353}
+  m_LocalPosition: {x: 23.262543, y: -0.84, z: -923.7353}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -328052,12 +328061,12 @@ SceneRoots:
   - {fileID: 7329738934932103002}
   - {fileID: 576390232}
   - {fileID: 1321099535}
+  - {fileID: 1382775112}
   - {fileID: 162450631}
   - {fileID: 226006063}
   - {fileID: 1428532095}
   - {fileID: 1134724575}
   - {fileID: 727907830}
   - {fileID: 1016616121}
-  - {fileID: 1837124792}
-  - {fileID: 1382775112}
   - {fileID: 146718553}
+  - {fileID: 1837124792}
