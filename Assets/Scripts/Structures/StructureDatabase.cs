@@ -19,7 +19,7 @@ public class StructureDatabase : ScriptableObject
     }
     //////////////////////////////////////////////
 
-    public List<StructurePrefabEntry> structurePrefabs = new List<StructurePrefabEntry>(); //Why not have a list with the structure data?
+    //public List<StructurePrefabEntry> structurePrefabs = new List<StructurePrefabEntry>(); //Why not have a list with the structure data?
     
 
     private Dictionary<string, GameObject> prefabLookup;
@@ -27,17 +27,17 @@ public class StructureDatabase : ScriptableObject
     private void OnEnable()
     {
         UpdateID();
-        prefabLookup = new Dictionary<string, GameObject>();
+        /*prefabLookup = new Dictionary<string, GameObject>();
         foreach (var entry in structurePrefabs)
         {
             prefabLookup[entry.structureName] = entry.prefab;
-        }
+        }*/
     }
 
-    public GameObject GetPrefab(string structureName)
+    /*public GameObject GetPrefab(string structureName)
     {
         return prefabLookup.ContainsKey(structureName) ? prefabLookup[structureName] : null;
-    }
+    }*/
 }
 
 [System.Serializable]

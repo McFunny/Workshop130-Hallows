@@ -243,6 +243,8 @@ public class DialogueController : MonoBehaviour
             source.PlayOneShot(end);
             dialogueBox.SetActive(false);
         }
+
+        interruptable = true;
     }
 
     public void PlayerSoldItem()

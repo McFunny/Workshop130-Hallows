@@ -44,7 +44,7 @@ public class HoeBehavior : ToolBehavior
 
 
             pos = StructureManager.Instance.CheckTile(hit.point);
-            if(pos != new Vector3(0,0,0)) 
+            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, GridType.Farm)) 
             {
                 usingPrimary = true;
                 HandItemManager.Instance.PlayPrimaryAnimation();
@@ -80,7 +80,7 @@ public class HoeBehavior : ToolBehavior
         {
             //place it on the ground
             Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
-            if(pos != new Vector3(0,0,0)) 
+            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, GridType.Farm)) 
             {
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
