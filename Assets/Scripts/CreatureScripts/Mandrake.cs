@@ -251,7 +251,10 @@ public class Mandrake : CreatureBehaviorScript
     IEnumerator Stun(float duration)
     {
         agent.ResetPath();
+        float oldSpeed = agent.speed;
+        agent.speed = 0;
         yield return new WaitForSeconds(duration);
+        agent.speed = oldSpeed;
         currentState = CreatureState.Wander;
     }
 
