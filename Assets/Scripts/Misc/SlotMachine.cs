@@ -118,9 +118,9 @@ public class SlotMachine : MonoBehaviour,IInteractable
         }
         else if (DebugMode)
         {
-            SlotIndex1 = 2;
-            SlotIndex2 = 2;
-            SlotIndex3 = 2;
+            SlotIndex1 = 3;
+            SlotIndex2 = 3;
+            SlotIndex3 = 3;
             yield return StartCoroutine(RotateSlots());
 
             yield return new WaitForSeconds(0.5f);
