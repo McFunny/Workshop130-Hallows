@@ -103,6 +103,7 @@ public class Table : FurnitureBehaviorScript
                 if(f && f != this)
                 {
                     sockets[i].socketedObject = f;
+                    f.onTable = true;
                     break;
                 }
             }
