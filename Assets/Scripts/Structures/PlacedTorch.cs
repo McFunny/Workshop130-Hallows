@@ -51,7 +51,7 @@ public class PlacedTorch : StructureBehaviorScript
     IEnumerator FireDrain()
     {
         currentlyLit = true;
-        float r = Random.Range(30, 35);
+        float r = Random.Range(50, 70);
         yield return new WaitForSeconds(r);
         ExtinguishFlame();
     }

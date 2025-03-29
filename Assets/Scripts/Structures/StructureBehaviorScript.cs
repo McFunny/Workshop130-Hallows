@@ -98,7 +98,11 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         if (absentFromGrid) return;
         StructureManager.Instance.allStructs.Add(this);
-        if(structData && structData.isLarge) StructureManager.Instance.SetLargeTile(transform.position);
+        if(structData && structData.isLarge)
+        {
+            StructureManager.Instance.SetLargeTile(transform.position);
+            //print("Set Large Tiles");
+        }
         else StructureManager.Instance.SetTile(transform.position);
     }
 
@@ -180,7 +184,7 @@ public class StructureBehaviorScript : MonoBehaviour
         if(highlight.Count == 0 || !canShowHighlight) return;
         if(highlightMaterial.Count == 0)
         {
-            foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<MeshRenderer>().material);
+            foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<Renderer>().material);
         }
         if(enable && !highlightEnabled)
         {

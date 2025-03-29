@@ -299,7 +299,7 @@ public class LandMine : StructureBehaviorScript
         if(saveString1 == "terra") nutrientType = NutrientType.Terrazyme;
         if(saveString1 == "ichor") nutrientType = NutrientType.Ichor;
 
-        cooldownProgress = cooldownLength;
+        cooldownProgress = cooldownLength - 2;
         //LightColorChange();
     }
 
