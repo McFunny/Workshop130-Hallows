@@ -128,8 +128,8 @@ public class FarmLand : StructureBehaviorScript
         }
         if(item == compost && (nutrients.gloamLevel < 10 || nutrients.terraLevel < 10))
         {
-            nutrients.gloamLevel += 5;
-            nutrients.terraLevel += 5;
+            nutrients.gloamLevel += 2;
+            nutrients.terraLevel += 2;
             if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
             if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);

@@ -208,6 +208,9 @@ public class BearTrap : StructureBehaviorScript
                 if(capturedCreature.health > 0) TakeDamage(1);
             }
         }
+
+        while(capturedCreature) yield return null;
+        
         rearming = false;
         //StartCoroutine(Rearm());
     }
