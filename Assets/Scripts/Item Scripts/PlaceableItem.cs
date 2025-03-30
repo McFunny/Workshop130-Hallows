@@ -15,6 +15,7 @@ public class PlaceableItem : InventoryItemData
     public AudioClip placeSound;
 
     public GridType gridType;
+    public GridSize gridSize;
     [Header("Furnature Variables")]
     public bool canPlaceOnFloor = true;
     public bool canPlaceOnTable = false;
@@ -24,12 +25,21 @@ public class PlaceableItem : InventoryItemData
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
-        if(Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
+        if(Physics.Raycast(player.position, fwd, out hit, 8, 1 << 7))
         {
-            Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
+            Vector3 pos = new Vector3(0,0,0);
+            if(gridSize == GridSize.OneByOne)
+            {
+                pos = StructureManager.Instance.CheckTile(hit.point);
+            }
+            if(gridSize == GridSize.TwoByTwo)
+            {
+                pos = StructureManager.Instance.CheckLargeTile(hit.point);
+            }
             if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridType)) 
             {
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
+                if(gridSize == GridSize.TwoByTwo) StructureManager.Instance.SetLargeTile(pos);
                 if(currentHologram)
                 {
                     Quaternion rotate = currentHologram.transform.rotation;
@@ -60,10 +70,19 @@ public class PlaceableItem : InventoryItemData
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
-        if(Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
+        if(Physics.Raycast(player.position, fwd, out hit, 8, 1 << 7))
         {
             //Debug.Log("Displaying");
-            Vector3 pos = StructureManager.Instance.CheckTile(hit.point);
+            Vector3 pos = new Vector3(0,0,0);
+            if(gridSize == GridSize.OneByOne)
+            {
+                pos = StructureManager.Instance.CheckTile(hit.point);
+            }
+            if(gridSize == GridSize.TwoByTwo)
+            {
+                pos = StructureManager.Instance.CheckLargeTile(hit.point);
+            }
+
             if(pos == new Vector3(0,0,0) || !StructureManager.Instance.ValidateGridType(pos, gridType)) 
             {
                 //Debug.Log("CantDisplay");
@@ -102,4 +121,11 @@ public class PlaceableItem : InventoryItemData
         currentHologram.SetActive(false);
     }
 
+}
+
+public enum GridSize
+{
+    OneByOne,
+    OneByTwo,
+    TwoByTwo
 }

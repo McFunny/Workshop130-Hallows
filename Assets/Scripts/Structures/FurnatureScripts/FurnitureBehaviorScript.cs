@@ -29,6 +29,8 @@ public class FurnitureBehaviorScript : StructureBehaviorScript
 
     void Start()
     {
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Any) == false) absentFromGrid = true;
+        if(absentFromGrid) canShowHighlight = false;
         base.Start();
     }
 
