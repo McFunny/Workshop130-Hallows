@@ -386,14 +386,15 @@ public class MainMenuScript : MonoBehaviour
     {
         if(n)
         {
+            LoadSaveFileInfo();
             for(int i = 0; i < loadButtons.Length; i++)
             {
                 loadButtons[i].interactable = true;
+                fileDatas[i].slotButton.interactable = true;
             }
         }
         else
-        {
-            
+        { 
             LoadSaveFileInfo();
         }
         if(isTransitioning) return;
@@ -452,6 +453,8 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsTotalText.gameObject.SetActive(false);
                 fileDatas[i].emptySlot.gameObject.SetActive(true);
                 loadButtons[i].interactable = false;
+                deleteButtons[i].interactable = false;
+                fileDatas[i].slotButton.interactable = false;
                 continue;
             }
             else
@@ -475,6 +478,8 @@ public class MainMenuScript : MonoBehaviour
 
                 //Enable/Disable uhh the thing idk I forgot
                 loadButtons[i].interactable = true;
+                deleteButtons[i].interactable = true;
+                fileDatas[i].slotButton.interactable = true;
             }
         }
 
@@ -507,6 +512,7 @@ public class MainMenuScript : MonoBehaviour
 [System.Serializable]
 public class FileData
 {
+    public Button slotButton;
     public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText, emptySlot;
     public bool saveDataPresent = false;
 
