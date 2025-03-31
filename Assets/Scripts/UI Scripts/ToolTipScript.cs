@@ -89,7 +89,13 @@ public class ToolTipScript : MonoBehaviour
         }
         else if(type.Equals(typeof(PlaceableItem)))
         {
-            itemType.text = "Structure";
+            var item = itemData as PlaceableItem;
+            //print(item);
+            if(item.gridType == GridType.Any) itemType.text = "Structure";
+            else if(item.gridType == GridType.Farm) itemType.text = "Farm Structure";
+            else if(item.gridType == GridType.Cabin) itemType.text = "Cabin Structure";
+            else if(item.gridType == GridType.Town) itemType.text = "Town Structure";
+            
             intakeParent.SetActive(false);
             outputParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
