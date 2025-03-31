@@ -58,7 +58,8 @@ public class StructureSaveData : MonoBehaviour
                 structureList.Structures[x].rotation[1] = structure.gameObject.transform.eulerAngles.y;
                 structureList.Structures[x].rotation[2] = structure.gameObject.transform.eulerAngles.z;
 
-                structureList.Structures[x].savedItemList1 = structure.savedItems;
+                structureList.Structures[x].savedItemList1 = structure.savedItems; //CHANGE TO SAVE A LIST OF ITEM ID'S
+
                 structureList.Structures[x].savedInt1 = structure.saveInt1;
                 structureList.Structures[x].savedInt2 = structure.saveInt2;
                 structureList.Structures[x].savedInt3 = structure.saveInt3;
@@ -134,7 +135,8 @@ public class StructureSaveData : MonoBehaviour
                     loadedRotation.y = data.allStructuresSaveData.Structures[i].rotation[1];
                     loadedRotation.z = data.allStructuresSaveData.Structures[i].rotation[2];
 
-                    StructureStats.savedItems = data.allStructuresSaveData.Structures[i].savedItemList1;
+                    StructureStats.savedItems = data.allStructuresSaveData.Structures[i].savedItemList1; //CHANGE TO POPULATE A LIST OF ITEMS FROM THE LOADED ITEM IDS
+
                     StructureStats.saveInt1 = data.allStructuresSaveData.Structures[i].savedInt1;
                     StructureStats.saveInt2 = data.allStructuresSaveData.Structures[i].savedInt2;
                     StructureStats.saveInt3 = data.allStructuresSaveData.Structures[i].savedInt3;
