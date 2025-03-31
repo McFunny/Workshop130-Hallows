@@ -371,6 +371,7 @@ public class FeralHareTest : CreatureBehaviorScript
                         FarmLand closestTile = availableLands[0];
                         for(int i = 0; i < availableLands.Count; i++)
                         {
+                            if(Random.Range(0,10) > 7) continue;
                             dist = Vector3.Distance(transform.position, availableLands[i].transform.position);
                             if(dist < minDistance)
                             {

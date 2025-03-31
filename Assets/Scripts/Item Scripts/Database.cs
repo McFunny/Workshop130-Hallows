@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using System.Linq;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ public class Database : ScriptableObject
     [SerializeField] private List<InventoryItemData> _itemDatabase;
 
     [ContextMenu("Set IDs")]
-    public void SetItemIDs()
+    public void SetItemIDs() //FIX ISSUE WHERE MULTIPLE ITEMS WITH THE SAME ID DONT GET FIXED, AND THEREFORE WILL CAUSE ISSUES SAVING/BEING ADDED TO THE DATABASE
     {
         _itemDatabase = new List<InventoryItemData>();
 
@@ -61,15 +62,30 @@ public class Database : ScriptableObject
                 index++;
                 _itemDatabase.Add(itemToAdd);
             }
+            #if UNITY_EDITOR
+
+            if (itemToAdd) EditorUtility.SetDirty(itemToAdd);
+
+            #endif
         }
 
         foreach (var item in hasIDNotInRange)
         {
             _itemDatabase.Add(item);
+
+            #if UNITY_EDITOR
+
+            if (item) EditorUtility.SetDirty(item);
+
+            #endif
         }
+
+         #if UNITY_EDITOR       
+            AssetDatabase.SaveAssets();
+        #endif
     }
 
-    public InventoryItemData GetItem(int id)
+    public InventoryItemData GetItem(int id) //USE THIS FOR GRABBING ITEMS WHEN SAVING AND LOADING
     {
         return _itemDatabase.Find(i => i.ID == id);
     }

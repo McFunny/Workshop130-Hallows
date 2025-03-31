@@ -124,7 +124,7 @@ public class StructureManager : MonoBehaviour
             gridPos = farmTileMap.WorldToCell(pos);
             if(farmTileMap.GetTile(gridPos) != null)
             {
-                print("Tile is on farm grid");
+                //print("Tile is on farm grid");
                 return farmTileMap;
             }
         }
@@ -134,7 +134,7 @@ public class StructureManager : MonoBehaviour
             gridPos = cabinTileMap.WorldToCell(pos);
             if(cabinTileMap.GetTile(gridPos) != null)
             {
-                print("Tile is on cabin grid");
+                //print("Tile is on cabin grid");
                 return cabinTileMap;
             }
         }
@@ -144,11 +144,11 @@ public class StructureManager : MonoBehaviour
             gridPos = townTileMap.WorldToCell(pos);
             if(townTileMap.GetTile(gridPos) != null)
             {
-                print("Tile is on town grid");
+                //print("Tile is on town grid");
                 return townTileMap;
             }
         }
-        print("No tile grid was found");
+        //print("No tile grid was found");
         return farmTileMap;
     }
 
@@ -192,6 +192,32 @@ public class StructureManager : MonoBehaviour
             return spawnPos;
         } 
         else return new Vector3 (0,0,0); //Will not spawn
+    }
+
+    public Vector3 CheckLargeTile(Vector3 pos)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return new Vector3 (0,0,0);
+
+        List<Vector3Int> selectedTiles = new List<Vector3Int>();
+        Vector3Int gridPos = currentMap.WorldToCell(pos);
+        selectedTiles.Add(gridPos); //Top Left Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y)); //Top Right Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y - 1)); //Bottom Left Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y - 1)); //Bottom Right Tile
+
+        foreach(Vector3Int _pos in selectedTiles)
+        {
+            TileBase currentTile = currentMap.GetTile(_pos); //Is the tile free?
+            if(currentTile == null || currentTile != freeTile) return new Vector3 (0,0,0);
+        }
+
+        Vector3 start = currentMap.GetCellCenterWorld(gridPos);
+        Vector3 otherEnd = currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x + 1, gridPos.y - 1));
+        Vector3 center = new Vector3((start.x + otherEnd.x)/2, (start.y + otherEnd.y)/2, (start.z + otherEnd.z)/2); 
+        //The center of the 2x2 Square
+        
+        return center;
     }
 
     public Vector3 GetTileCenter(Vector3 pos)

@@ -16,15 +16,15 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - Hey you are new around here!
-    - Hopefully I'll be using your crops to make some great food!
-    - Come by my shop and try the cuisine of Veilwood!
-    emotions: 000000000000000001000000
+    - New face... you live over in that run down cabin?
+    - It's a sore on the eyes. Maybe we can fix that.
+    - My wide assortment of vanity is sure to spruce up that dingy adobe.
+    emotions: 000000000300000001000000
   questCompletePath:
     pathName: Thanks for completing quest
     paragraphs:
     - Thank you for completing my quest!
-    emotions: 06000000
+    emotions: 01000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -33,30 +33,43 @@ MonoBehaviour:
   paths:
   - pathName: Buy something!
     paragraphs:
-    - Anything looking appetizing?
-    emotions: 00000000
+    - I assure you, what you find here is of highest quality.
+    emotions: 01000000
   - pathName: Want to buy this?
     paragraphs:
-    - Your taste buds have landed on the {storeItemName}. Its yours for {storeItemValue}
-      <color=#E0D38F>Mints</color> <sprite index=0>!
-    emotions: 00000000
+    - The {storeItemName}? That will run you {storeItemValue} <color=#E0D38F>Mints</color>
+      <sprite index=0>.
+    emotions: 04000000
   - pathName: Sold!
     paragraphs:
-    - Need anything else? {itemBought}
+    - You sure you don't want the warranty? {itemBought}
     emotions: 01000000
   - pathName: No Money
     paragraphs:
-    - You are gonna need some more money before you can have a bite of that
-    emotions: 02000000
+    - Did you leave all of your money in your little piggy bank?
+    emotions: 04000000
   - pathName: No Space
     paragraphs:
-    - Your stomach, or perhaps inventory, seems to full to buy this
-    emotions: 05000000
+    - You seem to have an inventory problem. A chest would fix that for you!
+    emotions: 02000000
   fillerPaths:
-  - pathName: Hi
+  - pathName: Back to glory
     paragraphs:
-    - Hi
-    emotions: 03000000
+    - I hope that one day, we can get this town back to it's former glory.
+    - 'To bear witness to all the outside dilapidation: it aches my soul.'
+    emotions: 0000000002000000
+  - pathName: Gloomstalk
+    paragraphs:
+    - The mist has brought alot of turmoil to these lands, but it has also blessed
+      us with new innovations.
+    - Take the gloomstalk for example. Great for binding, weaving, and for feeding
+      livestock! I have never worked with such a versatile material before!
+    emotions: 0000000001000000
+  - pathName: Lumberjack Beef
+    paragraphs:
+    - I have little patience for that LumberJack.
+    - So unmotivated, so lazy. It pains me to have my line of work overlap with his.
+    emotions: 0300000002000000
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks:

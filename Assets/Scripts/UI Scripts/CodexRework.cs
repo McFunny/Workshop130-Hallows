@@ -11,7 +11,7 @@ public class CodexRework : MonoBehaviour
     CodexEntries[] CurrentCategory, CreatureEntries, ToolEntries, GettingStarted, PlantEntries; //, QuestEntries;
     public CodexEntries currentEntry, mandrakeEntry, graspEntry;
     [SerializeField] private GameObject codex, gridContentObject, horizontalContentObject, questContentObject;
-    [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, cropDescriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questCompleteText;
+    [SerializeField] private TextMeshProUGUI nameText, horizontalEntryName, horizontalDescriptionText, descriptionText, cropDescriptionText, largeDescriptionText, pageNumberText, contentsText, questNameText, questDescriptionText, questProgressText, questRewardText, questCompleteText;
     [SerializeField] private TextMeshProUGUI growthStageText, hoursPerStage;
     [SerializeField] private TextMeshProUGUI timesDone;
     [SerializeField] private int currentPage = 0;
@@ -361,6 +361,13 @@ public class CodexRework : MonoBehaviour
             questImage.preserveAspect = true;
         }
 
+        if(quest.mintReward <= 0) questRewardText.text = "";
+        else
+        {
+            if(quest.mintReward == 1) questRewardText.text = "Reward: " + quest.mintReward + " Mint";
+            else questRewardText.text = "Reward: " + quest.mintReward + " Mints";
+        }
+
         //print(type);
     }
 
@@ -379,6 +386,7 @@ public class CodexRework : MonoBehaviour
         cropDescriptionText.text = "";
         timesDone.text = "";
         pageNumberText.text = "";
+        questRewardText.text = "";
     }
 
     private void NoEntries()
