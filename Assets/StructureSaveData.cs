@@ -59,6 +59,10 @@ public class StructureSaveData : MonoBehaviour
                 structureList.Structures[x].rotation[2] = structure.gameObject.transform.eulerAngles.z;
 
                 structureList.Structures[x].savedItemList1 = structure.savedItems; //CHANGE TO SAVE A LIST OF ITEM ID'S
+                /*for(int i = 0; i < data.allStructuresSaveData.Structures[i].savedItemIDList1.Count; i++)
+                {
+                    structureList.Structures[x].savedItemIDList1.Add(Database.Instance.GetItem(structure.savedItems[i].ID));
+                }*/ //to be implemented. Got a headstart
 
                 structureList.Structures[x].savedInt1 = structure.saveInt1;
                 structureList.Structures[x].savedInt2 = structure.saveInt2;
@@ -84,25 +88,6 @@ public class StructureSaveData : MonoBehaviour
 
         Debug.Log("Structures saved successfully. Total: " + x);
 
-
-        /*List<FarmLandSaveData> farmlandDataList = new List<FarmLandSaveData>();
-        List<FarmTreeSaveData> farmTreeDataList = new List<FarmTreeSaveData>();
-
-        foreach (var structure in StructureManager.Instance.allStructs)
-        {
-            if (structure is FarmLand farmLand)
-                farmlandDataList.Add(new FarmLandSaveData(farmLand));
-
-            if (structure is FarmTree farmTree)
-                farmTreeDataList.Add(new FarmTreeSaveData(farmTree));
-
-          
-        }
-
-        var structureData = new AllStructuresSaveData(farmlandDataList, farmTreeDataList);
-        SaveLoad.CurrentSaveData.allStructuresSaveData = structureData;
-
-        Debug.Log("Structures saved successfully."); */
     }
 
     public void LoadStructures(SaveData data)
@@ -136,6 +121,10 @@ public class StructureSaveData : MonoBehaviour
                     loadedRotation.z = data.allStructuresSaveData.Structures[i].rotation[2];
 
                     StructureStats.savedItems = data.allStructuresSaveData.Structures[i].savedItemList1; //CHANGE TO POPULATE A LIST OF ITEMS FROM THE LOADED ITEM IDS
+                    /*for(int i = 0; i < data.allStructuresSaveData.Structures[i].savedItemIDList1.Count; i++)
+                    {
+
+                    }*/
 
                     StructureStats.saveInt1 = data.allStructuresSaveData.Structures[i].savedInt1;
                     StructureStats.saveInt2 = data.allStructuresSaveData.Structures[i].savedInt2;
@@ -155,81 +144,9 @@ public class StructureSaveData : MonoBehaviour
             }
 
             Debug.Log("Structures loaded successfully.");
-
-        /*
-        if (data.allStructuresSaveData.farmlandSaveData != null)
-        {
-            foreach (var farmlandData in data.allStructuresSaveData.farmlandSaveData)
-            {
-                GameObject newFarmLand = Instantiate(StructureManager.Instance.farmTile, farmlandData.position, Quaternion.identity);
-                FarmLand farmLand = newFarmLand.GetComponent<FarmLand>();
-
-                farmLand.health = farmlandData.health;
-                farmLand.onFire = farmlandData.onFire;
-                farmLand.isObstacle = farmlandData.isObstacle;
-                farmLand.crop = CropDatabase.GetCropByName(farmlandData.cropID);
-                farmLand.growthStage = farmlandData.growthStage;
-                farmLand.hoursSpent = farmlandData.hoursSpent;
-                farmLand.plantStress = farmlandData.plantStress;
-                farmLand.harvestable = farmlandData.harvestable;
-                farmLand.rotted = farmlandData.rotted;
-                farmLand.isWeed = farmlandData.isWeed;
-                farmLand.isFrosted = farmlandData.isFrosted;
-
-                // Restore Nutrients
-                NutrientStorage nutrients = new NutrientStorage
-                {
-                    ichorLevel = farmlandData.ichorLevel,
-                    terraLevel = farmlandData.terraLevel,
-                    gloamLevel = farmlandData.gloamLevel,
-                    waterLevel = farmlandData.waterLevel
-                };
-                StructureManager.Instance.UpdateStorage(farmlandData.position, nutrients);
-                StructureManager.Instance.SetTile(farmlandData.position);
-            }
-        }
-
-        if (data.allStructuresSaveData.farmTreeSaveData != null)
-        {
-            foreach (var farmTreeData in data.allStructuresSaveData.farmTreeSaveData)
-            {
-                GameObject newFarmTree = Instantiate(StructureManager.Instance.farmTree, farmTreeData.position, Quaternion.identity);
-                FarmTree farmTree = newFarmTree.GetComponent<FarmTree>();
-
-                farmTree.health = farmTreeData.health;
-                farmTree.onFire = farmTreeData.onFire;
-                farmTree.isObstacle = farmTreeData.isObstacle;
-                farmTree.structData.isLarge = farmTreeData.isLargeObject;
-
-                if (farmTree.structData.isLarge)
-                {
-                    StructureManager.Instance.SetLargeTile(farmTreeData.position);
-                }
-                else
-                {
-                    StructureManager.Instance.SetTile(farmTreeData.position);
-                }
-            }
-        }
-
-        Debug.Log("Structures loaded successfully.");
-        */
     }
 
 }
-
-/*[System.Serializable]
-public struct AllStructuresSaveData
-{
-    public List<FarmLandSaveData> farmlandSaveData;
-    public List<FarmTreeSaveData> farmTreeSaveData;
-   
-    public AllStructuresSaveData(List<FarmLandSaveData> farmlands, List<FarmTreeSaveData> farmTrees)
-    {
-        farmlandSaveData = farmlands;
-        farmTreeSaveData = farmTrees;
-    }
-} */
 
 [System.Serializable]
 public class StructureInventory
