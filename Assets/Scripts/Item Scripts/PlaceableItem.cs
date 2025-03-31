@@ -25,7 +25,7 @@ public class PlaceableItem : InventoryItemData
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
-        if(Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
+        if(Physics.Raycast(player.position, fwd, out hit, 8, 1 << 7))
         {
             Vector3 pos = new Vector3(0,0,0);
             if(gridSize == GridSize.OneByOne)
@@ -70,7 +70,7 @@ public class PlaceableItem : InventoryItemData
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
-        if(Physics.Raycast(player.position, fwd, out hit, 6, 1 << 7))
+        if(Physics.Raycast(player.position, fwd, out hit, 8, 1 << 7))
         {
             //Debug.Log("Displaying");
             Vector3 pos = new Vector3(0,0,0);

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
   m_Name: Barricade
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 70
   displayName: Barricade
   description: A cheap distraction to delay a creature's approach.
   icon: {fileID: 21300000, guid: 24e539a8f262b62478b035a78256e9ae, type: 3}
@@ -34,3 +34,6 @@ MonoBehaviour:
   removeAfterUse: 1
   placeSound: {fileID: 8300000, guid: 86b20be506b70c24fb98942f150e692b, type: 3}
   gridType: 1
+  gridSize: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

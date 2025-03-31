@@ -476,8 +476,8 @@ public class VileHog : CreatureBehaviorScript
         agent.ResetPath();
         faceTarget = true;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
-        yield return new WaitForSeconds(beginChargeTime); //Beginning to charge
         bearTrapVulnerable = false;
+        yield return new WaitForSeconds(beginChargeTime); //Beginning to charge
 
         //Actively Charging
         effectsHandler.MiscSound2();
