@@ -199,22 +199,30 @@ public class BotanistNPC : NPC, ITalkable
         rareSeedForSale = rareSeeds[i];
 
         List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
-        while(commonSeedsForSale.Count < 2)
-        {
+        while(commonSeedsForSale.Count < 3)
+        { 
             i = Random.Range(0, commonSeeds.Length);
             if(!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
+            
         }
-
+        int ILOVESOUNDS = Random.Range(0, 2);
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
 
-            if(currentItem < 6)
+            if (currentItem < 6)
             {
-                i = Random.Range(0, commonSeedsForSale.Count);
+                i = Random.Range(0, commonSeedsForSale.Count - 1);
                 newItem = commonSeedsForSale[i];
             }
-            else if(currentItem < 9) newItem = rareSeedForSale;
+            
+            else if (currentItem <= 9)
+            {
+                
+                if (ILOVESOUNDS == 0) newItem = rareSeedForSale;
+                else newItem = commonSeedsForSale[commonSeedsForSale.Count - 1];
+
+            }
             else
             {
                 i = Random.Range(0, fertalizers.Length);

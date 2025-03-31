@@ -26,7 +26,7 @@ public class TimeManager : MonoBehaviour
     float newRotation; //lerps to this
     Quaternion toQuaternion, fromQuaternion;
     bool canRotate;
-    float seconds;
+    float seconds; //Used for sun and moon rotation, NOT time keeping
     public SpriteRenderer sunRenderer;
     public GameObject stupidSunGlow;
     public Sprite[] sunSprites;
@@ -104,11 +104,13 @@ public class TimeManager : MonoBehaviour
             {
                 currentMinute++;
                 LerpSunAndMoon();
-                if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour))
+                if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour) || (currentHour < 8 && currentMinute >= minPerNightHour)) //to make morning hours before saving shorter
                 {
                     currentMinute = 0;
                     HourPassed();
                 }
+
+                if(currentHour == 7 && currentMinute == 25) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
             }
 
         }

@@ -189,7 +189,7 @@ public class BearTrap : StructureBehaviorScript
     IEnumerator HoldCreature() //Maybe have this lose durability for every second it holds a creature
     {
         rearming = true;
-        if(!capturedCreature.OnStun(2)) capturedCreature = null;
+        if(!capturedCreature.OnStun(2) || !capturedCreature.bearTrapVulnerable) capturedCreature = null;
         else
         {
             capturedCreature.transform.position = transform.position;
@@ -208,6 +208,9 @@ public class BearTrap : StructureBehaviorScript
                 if(capturedCreature.health > 0) TakeDamage(1);
             }
         }
+
+        while(capturedCreature) yield return null;
+        
         rearming = false;
         //StartCoroutine(Rearm());
     }

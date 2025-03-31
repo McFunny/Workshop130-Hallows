@@ -128,8 +128,8 @@ public class FarmLand : StructureBehaviorScript
         }
         if(item == compost && (nutrients.gloamLevel < 10 || nutrients.terraLevel < 10))
         {
-            nutrients.gloamLevel += 5;
-            nutrients.terraLevel += 5;
+            nutrients.gloamLevel += 2;
+            nutrients.terraLevel += 2;
             if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
             if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
@@ -664,13 +664,13 @@ public class FarmLand : StructureBehaviorScript
         nutrients.waterLevel -= 5;
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
 
-        nutrients.ichorLevel -= 1;
+        nutrients.ichorLevel -= .5f;
         if(nutrients.ichorLevel < 0) nutrients.ichorLevel = 0;
 
-        nutrients.terraLevel -= 1;
+        nutrients.terraLevel -= .5f;
         if(nutrients.terraLevel < 0) nutrients.terraLevel = 0;
 
-        nutrients.gloamLevel -= 1;
+        nutrients.gloamLevel -= .5f;
         if(nutrients.gloamLevel < 0) nutrients.gloamLevel = 0;
 
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);

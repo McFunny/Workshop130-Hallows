@@ -39,7 +39,7 @@ public class DryingRack : StructureBehaviorScript
     {
         if(progress < maxProgress && savedItems.Count > 0) return; //smth is hangin
 
-        if(progress == maxProgress)
+        if(progress >= maxProgress)
         {
             progress = 0;
 
