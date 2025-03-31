@@ -34,8 +34,12 @@ public class MainMenuScript : MonoBehaviour
     public GameObject dayLight, nightLight;
     public Button[] buttons;
     public Button[] loadButtons;
+    public Button[] deleteButtons;
     public Button[] nonNavigableButtons;
+    public TextMeshProUGUI[] loadText;
     public ConfirmationBox confirmationBox;
+
+    public GameObject[] loadOptionsObjects;
 
     public List<FileData> fileDatas = new List<FileData>();
     public static int currentSaveSlot = -1;//-1 means nothing is selected
@@ -80,6 +84,15 @@ public class MainMenuScript : MonoBehaviour
         //print(isPaused);
         //print(EventSystem.current.currentSelectedGameObject);
         //print(controlManager.playerInput.currentActionMap);
+        if(EventSystem.current.currentSelectedGameObject != null)
+        {
+            if(!EventSystem.current.currentSelectedGameObject.gameObject.activeInHierarchy && ControlManager.isGamepad)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            } 
+        }
+        
+
         if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad)
         {
             if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
@@ -89,7 +102,25 @@ public class MainMenuScript : MonoBehaviour
             else if(loadCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(loadDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
             print("Default Menu Object Selected");
-        } 
+
+            for(int i = 0; i < loadOptionsObjects.Length; i++)
+            {
+                if(i < loadOptionsObjects.Length/2)
+                {
+                    loadOptionsObjects[i].SetActive(true);
+                }
+                else
+                {
+                    loadOptionsObjects[i].SetActive(false);
+                }
+            }
+        }
+
+        for(int i = 0; i < loadText.Length; i++)
+        {
+            if(isNewGame) loadText[i].text = "New Game";
+            else loadText[i].text = "Load Game";
+        }
 
         /*if(hideUI.action.WasPressedThisFrame())
         {
@@ -106,8 +137,29 @@ public class MainMenuScript : MonoBehaviour
         }
         else if(loadCanvas.activeSelf && UICancel.action.WasPressedThisFrame())
         {
-            loadCanvas.SetActive(false);
-            EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
+            bool optionsOpen = false;
+            for(int i = 0; i < loadOptionsObjects.Length; i++)
+            {
+                if(i < loadOptionsObjects.Length/2)
+                {
+                    if(!loadOptionsObjects[i].activeSelf) optionsOpen = true;
+                    loadOptionsObjects[i].SetActive(true);
+                }
+                else
+                {
+                    loadOptionsObjects[i].SetActive(false);
+                }
+            }
+            if(optionsOpen)
+            {
+                EventSystem.current.SetSelectedGameObject(loadDefault);
+            }
+            else
+            {
+                loadCanvas.SetActive(false);
+                EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
+            }
+            
         }
 
         if(ControlManager.isGamepad)
@@ -158,7 +210,7 @@ public class MainMenuScript : MonoBehaviour
             if(isTransitioning) return;
             isTransitioning = true;
             loadingData = false;
-            //DeleteSaveData();
+            
             StartCoroutine(StartGame());
         }
         else if(confirmationBox.calledBy == buttons[4]) // Quit Game
@@ -200,7 +252,28 @@ public class MainMenuScript : MonoBehaviour
                 break;
             }
         }
-        
+
+        for(int i = 0; i < deleteButtons.Length; i++)
+        {
+            if(confirmationBox.calledBy == deleteButtons[i])
+            {
+                currentSaveSlot = i;
+                SaveLoad.DeleteSaveData();
+                LoadSaveFileInfo();
+
+                for(int o = 0; o < loadOptionsObjects.Length; o++)
+                {
+                    if(o < loadOptionsObjects.Length/2)
+                    {
+                        loadOptionsObjects[o].SetActive(true);
+                    }
+                    else
+                    {
+                        loadOptionsObjects[o].SetActive(false);
+                    }
+                }
+            }
+        }
 
         confirmationBox.gameObject.SetActive(false);
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
@@ -243,6 +316,13 @@ public class MainMenuScript : MonoBehaviour
             if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             return;
         }   
+    }
+
+    public void DeleteSave(Button slot)
+    {
+        OpenConfirmationBox("Are you sure you want to delete this save? It cannot be recovered.", slot);
+        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+        return;
     }
 
     IEnumerator StartGame()
@@ -313,6 +393,7 @@ public class MainMenuScript : MonoBehaviour
         }
         else
         {
+            
             LoadSaveFileInfo();
         }
         if(isTransitioning) return;
