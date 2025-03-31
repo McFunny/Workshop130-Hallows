@@ -10,8 +10,9 @@ public class InputManager : MonoBehaviour
     public UnityAction<int> OnScrollInput;  // New UnityAction for scroll input
 
     // FOR TOGGLING THE GRID
-    public Tilemap structGrid;
+    Tilemap structGrid, cabinGrid;
     public Color activeColor, activeNightColor, hiddenColor;
+    Color cabinColor;
     public bool gridIsActive;
     ControlManager controlManager;
     PauseScript pauseScript;
@@ -25,6 +26,13 @@ public class InputManager : MonoBehaviour
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         pauseScript = FindFirstObjectByType<PauseScript>();
+    }
+
+    void Start()
+    {
+        structGrid = StructureManager.Instance.farmTileMap;
+        cabinGrid = StructureManager.Instance.cabinTileMap;
+        if(cabinGrid) cabinColor = cabinGrid.color;
     }
 
     private void OnEnable()
@@ -78,7 +86,15 @@ public class InputManager : MonoBehaviour
     {
         if(PauseScript.isPaused) return;
         if(PlayerMovement.isCodexOpen) return;
-        if(!PlayerMovement.accessingInventory){gridIsActive = !gridIsActive;}
+        if(!PlayerMovement.accessingInventory)
+        {
+            gridIsActive = !gridIsActive;
+            if(cabinGrid)
+            {
+                if(gridIsActive) cabinGrid.color = cabinColor;
+                else cabinGrid.color = hiddenColor;
+            }
+        }
     }
 
     private void PauseGame(InputAction.CallbackContext obj)

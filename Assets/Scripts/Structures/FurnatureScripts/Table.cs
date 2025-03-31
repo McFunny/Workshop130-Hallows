@@ -8,6 +8,11 @@ public class Table : FurnitureBehaviorScript
 
     public List<TableSocket> sockets = new List<TableSocket>();
 
+    public void Awake()
+    {
+        base.Awake();
+    }
+
     public void Start()
     {
         base.Start();
@@ -70,7 +75,7 @@ public class Table : FurnitureBehaviorScript
         for(int i = 0; i < sockets.Count; i++)
         {
             dist = Vector3.Distance(sockets[i].socketTransform.position, hitPos);
-            if(dist < minDist)
+            if(dist < minDist && sockets[i].socketedObject == null)
             {
                 minDist = dist;
                 closestSocket = i;
@@ -84,6 +89,7 @@ public class Table : FurnitureBehaviorScript
 
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
+            item.DisableHologram();
         }
     }
 
@@ -98,6 +104,7 @@ public class Table : FurnitureBehaviorScript
                 if(f && f != this)
                 {
                     sockets[i].socketedObject = f;
+                    f.onTable = true;
                     break;
                 }
             }

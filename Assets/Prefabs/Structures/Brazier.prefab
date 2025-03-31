@@ -30,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.27, y: 1.27, z: 1.27}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 778596002612249883}
   - {fileID: 2853730293444211778}
@@ -53,8 +53,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 055a76f3c0d6c354c983dc5bbcd32124, type: 2}
-  health: 30
-  maxHealth: 30
+  health: 45
+  maxHealth: 45
   wealthValue: 5
   destructable: 1
   flammable: 0
@@ -474,12 +474,12 @@ PrefabInstance:
     - target: {fileID: 2760334366413817041, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Size.x
-      value: 15
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2760334366413817041, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Size.z
-      value: 15
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3098245029451628288, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}

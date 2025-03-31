@@ -94,6 +94,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
         {
             if(QuestManager.Instance.activeQuests[i].alreadyCompleted || QuestManager.Instance.activeQuests[i].isMajorQuest) continue;
 
+            var type = QuestManager.Instance.activeQuests[i].GetType();
+
+            if(type.Equals(typeof(FetchQuest)) || type.Equals(typeof(GrowQuest))) continue;
+
             if(QuestManager.Instance.activeQuests[i].assignee == character && QuestManager.Instance.activeQuests[i].progress == QuestManager.Instance.activeQuests[i].maxProgress)
             {
                 QuestManager.Instance.activeQuests[i].alreadyCompleted = true;

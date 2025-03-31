@@ -150,6 +150,10 @@ public class BotanistNPC : NPC, ITalkable
             {
                 currentPath = 2; //item sold
                 shopUI.shopImgObj.SetActive(false);
+                if (assignedStall.displaySign)
+                {
+                    assignedStall.displaySign.ResetDisplay();
+                }
             }
             anim.SetTrigger("IsTalking");
         }
@@ -162,6 +166,10 @@ public class BotanistNPC : NPC, ITalkable
             lastInteractedStoreItem = item;
             shopUI.shopTarget = item.arrowObject.transform;
             shopUI.shopImgObj.SetActive(true);
+            if(assignedStall.displaySign)
+            {
+                assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
+            }
             
         }
         currentType = PathType.Misc;
@@ -175,6 +183,10 @@ public class BotanistNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+        if (assignedStall.displaySign)
+        {
+            assignedStall.displaySign.ResetDisplay();
+        }
         base.PlayerLeftRadius();
     }
 
@@ -199,22 +211,30 @@ public class BotanistNPC : NPC, ITalkable
         rareSeedForSale = rareSeeds[i];
 
         List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
-        while(commonSeedsForSale.Count < 2)
-        {
+        while(commonSeedsForSale.Count < 3)
+        { 
             i = Random.Range(0, commonSeeds.Length);
             if(!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
+            
         }
-
+        int ILOVESOUNDS = Random.Range(0, 2);
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
 
-            if(currentItem < 6)
+            if (currentItem < 6)
             {
-                i = Random.Range(0, commonSeedsForSale.Count);
+                i = Random.Range(0, commonSeedsForSale.Count - 1);
                 newItem = commonSeedsForSale[i];
             }
-            else if(currentItem < 9) newItem = rareSeedForSale;
+            
+            else if (currentItem < 9)
+            {
+                
+                if (ILOVESOUNDS == 0) newItem = rareSeedForSale;
+                else newItem = commonSeedsForSale[commonSeedsForSale.Count - 1];
+
+            }
             else
             {
                 i = Random.Range(0, fertalizers.Length);
@@ -239,6 +259,10 @@ public class BotanistNPC : NPC, ITalkable
     {
         if(!assignedStall) return;
         storeItems = assignedStall.storeItems;
+        if (assignedStall.displaySign)
+        {
+            assignedStall.displaySign.UpdateNPCName(this);
+        }
         RefreshStore();
     }
 
@@ -254,6 +278,10 @@ public class BotanistNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+        if (assignedStall.displaySign)
+        {
+            assignedStall.displaySign.LeaveShop();
+        }
     }
 
     public int IsItemASeed(InventoryItemData item)
