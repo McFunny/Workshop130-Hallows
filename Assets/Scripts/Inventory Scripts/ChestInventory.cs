@@ -9,7 +9,7 @@ using UnityEngine.Events;
 //look into changing this to a furnature and copy and paste the inventory code here
 public class ChestInventory : InventoryHolder , IInteractable
 {
-    public InventoryItemData recoveredItem, shovel;
+    //public InventoryItemData recoveredItem, shovel;
 
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
