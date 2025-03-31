@@ -86,8 +86,8 @@ public class NutMachine : MonoBehaviour, IInteractable
         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(RandomNutItem());
         Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
         itemRB = droppedItem.GetComponent<Rigidbody>();
-        itemRB.AddForce(Vector3.forward * 20);
-        itemRB.AddForce(Vector3.up * 10);
+        itemRB.AddForce(Vector3.forward * 40);
+        itemRB.AddForce(Vector3.up * 20);
 
         lRB.isKinematic = false;
         rRB.isKinematic = false;

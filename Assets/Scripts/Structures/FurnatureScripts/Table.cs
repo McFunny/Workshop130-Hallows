@@ -75,7 +75,7 @@ public class Table : FurnitureBehaviorScript
         for(int i = 0; i < sockets.Count; i++)
         {
             dist = Vector3.Distance(sockets[i].socketTransform.position, hitPos);
-            if(dist < minDist)
+            if(dist < minDist && sockets[i].socketedObject == null)
             {
                 minDist = dist;
                 closestSocket = i;
@@ -89,6 +89,7 @@ public class Table : FurnitureBehaviorScript
 
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
+            item.DisableHologram();
         }
     }
 
