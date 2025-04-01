@@ -13,6 +13,8 @@ public class Chest : FurnitureBehaviorScript
 
     public InventorySystem PrimaryInventorySystem => primaryInventorySystem;
 
+    string chestID;
+
     void Awake()
     {
         base.Awake();
@@ -28,7 +30,7 @@ public class Chest : FurnitureBehaviorScript
     private void Start()
     {
 
-        string chestID = GetComponent<UniqueID>().ID;
+        if(chestID == null) chestID = GetComponent<UniqueID>().ID;
 
         if (SaveLoad.CurrentSaveData.chestDictionary.ContainsKey(chestID))
         {
@@ -63,7 +65,8 @@ public class Chest : FurnitureBehaviorScript
 
     private void LoadInventory(SaveData data)
     {
-        if (data.chestDictionary.TryGetValue(GetComponent<UniqueID>().ID, out ChestSaveData chestData))
+        chestID = saveString1;
+        if (data.chestDictionary.TryGetValue(chestID, out ChestSaveData chestData))
         {
             this.primaryInventorySystem = chestData.invSystem;
             this.transform.position = chestData.position;
@@ -76,14 +79,16 @@ public class Chest : FurnitureBehaviorScript
         InventoryHolder.OnDynamicInventoryDisplayRequested?.Invoke(primaryInventorySystem);
     }
 
-    public virtual void SaveVariables()
+    public override void SaveVariables()
     {
         //Save ID. Also should generate a new ID if it does not have one (When placed)
+        saveString1 = chestID;
     }
 
-    public virtual void LoadVariables()
+    public override void LoadVariables()
     {
         //Load ID
+        chestID = saveString1;
     }
 
  

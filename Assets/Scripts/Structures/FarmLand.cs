@@ -36,6 +36,7 @@ public class FarmLand : StructureBehaviorScript
     public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
     public GameObject frostParticles;
     public GameObject light;
+    public TextMeshProUGUI supportText;
 
     public TextMeshProUGUI harvestText;
     [SerializeField] private CropNeedsUI cropNeedsUI;
@@ -60,6 +61,7 @@ public class FarmLand : StructureBehaviorScript
     void Start()
     {
         base.Start();
+        if(supportText != null) supportText.gameObject.SetActive(false);
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         if (!crop) ignoreNextGrowthMoment = true;
         else if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
@@ -101,6 +103,15 @@ public class FarmLand : StructureBehaviorScript
         if((!crop || growthStage < crop.growthStages) && !isWeed && !onFire && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
 
         if(!crop && growthComplete) growthComplete.Stop();
+
+        if(supportText != null)
+        {
+            if(structureUI) supportText.gameObject.SetActive(structureUI.activeSelf);
+            if(crop != null) supportText.text = "";
+        }
+        
+        
+        
     }
 
     public override void ItemInteraction(InventoryItemData item)
