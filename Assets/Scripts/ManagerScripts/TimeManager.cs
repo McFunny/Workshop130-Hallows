@@ -42,6 +42,7 @@ public class TimeManager : MonoBehaviour
     float desiredBlend;
     public Color nightColor, dayColor;
     bool changingLights = false;
+    public bool clockDarkenEffect;
 
     public Transform playerRespawn, respawnFocus;
 
@@ -102,6 +103,7 @@ public class TimeManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             if(!timeSkipping && !stopTime && (!DialogueController.Instance.IsTalking()) && !PlayerInteraction.Instance.gameOver)
             {
+                clockDarkenEffect = false;
                 currentMinute++;
                 LerpSunAndMoon();
                 if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour) || (currentHour < 8 && currentMinute >= minPerNightHour)) //to make morning hours before saving shorter
@@ -111,6 +113,10 @@ public class TimeManager : MonoBehaviour
                 }
 
                 if(currentHour == 7 && currentMinute == 25) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
+            }
+            else
+            {
+                clockDarkenEffect = true;
             }
 
         }

@@ -11,6 +11,7 @@ public class CropStatsRework : MonoBehaviour
     private FarmLand hitCrop;
     public Image cropSprite, cropSpriteD, gloamArrow, terraArrow, ichorArrow, waterArrow;
     private bool isActive;
+    public bool isDetailed;
     public float reach = 8;
     public TextMeshProUGUI cropNameText, cropNameTextD, growthStageNumber, growthStageNumberD, gloamIntake, terraIntake, ichorIntake, waterIntake, gloamValue, terraValue, ichorValue, waterValue;
     public Slider gloamFill, terraFill, ichorFill, waterFill, gloamFillD, terraFillD, ichorFillD, waterFillD;
@@ -44,11 +45,13 @@ public class CropStatsRework : MonoBehaviour
         {
             cropStats.SetActive(false);
             cropStatsDetailed.SetActive(true);
+            isDetailed = true;
         }
         else
         {
             cropStats.SetActive(true);
             cropStatsDetailed.SetActive(false);
+            isDetailed = false;
         }
 
         if(isActive && moveProgress < maxMoveProgress)
