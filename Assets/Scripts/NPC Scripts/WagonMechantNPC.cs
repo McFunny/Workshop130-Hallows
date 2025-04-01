@@ -16,6 +16,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     public StoreItem[] storeItems;
     WaypointScript shopUI;
+    public ItemDisplaySign displaySign;
 
     //Find a way to get feedback on when a dialogue tree is finished by calling an event/delegate.
 
@@ -34,6 +35,8 @@ public class WagonMerchantNPC : NPC, ITalkable
             lantern.merchant = this;
             if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) lantern.EnableSelf();
         }
+
+        if (displaySign) displaySign.UpdateNPCName(this);
 
     }
 
@@ -150,6 +153,10 @@ public class WagonMerchantNPC : NPC, ITalkable
                 currentPath = 5; //item sold
                 //item.arrowObject.SetActive(false);
                 shopUI.shopImgObj.SetActive(false);
+                if(displaySign)
+                {
+                    displaySign.ResetDisplay();
+                }
             }
             anim.SetTrigger("Transaction");
             //lastInteractedStoreItem = null;
@@ -165,6 +172,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             //item.arrowObject.SetActive(true);
             shopUI.shopTarget = item.arrowObject.transform;
             shopUI.shopImgObj.SetActive(true);
+            if (displaySign) displaySign.DisplayItem(lastInteractedStoreItem.itemData);
             
         }
         currentType = PathType.Misc;
@@ -211,6 +219,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         }
         if(lastSeenItem) lastSeenItem = null; 
         shopUI.shopImgObj.SetActive(false);
+        if (displaySign) displaySign.ResetDisplay();
 
         interactedWithLantern = false;
     }
