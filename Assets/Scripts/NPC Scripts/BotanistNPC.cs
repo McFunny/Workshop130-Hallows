@@ -183,7 +183,7 @@ public class BotanistNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
-        if (assignedStall.displaySign)
+        if (assignedStall.displaySign && movementHandler.isWorking)
         {
             assignedStall.displaySign.ResetDisplay();
         }
