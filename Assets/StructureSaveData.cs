@@ -58,11 +58,11 @@ public class StructureSaveData : MonoBehaviour
                 structureList.Structures[x].rotation[1] = structure.gameObject.transform.eulerAngles.y;
                 structureList.Structures[x].rotation[2] = structure.gameObject.transform.eulerAngles.z;
 
-                structureList.Structures[x].savedItemList1 = structure.savedItems; //CHANGE TO SAVE A LIST OF ITEM ID'S
-                /*for(int i = 0; i < data.allStructuresSaveData.Structures[i].savedItemIDList1.Count; i++)
+                //structureList.Structures[x].savedItemList1 = structure.savedItems; //CHANGE TO SAVE A LIST OF ITEM ID'S
+                for(int i = 0; i < structure.savedItems.Count; i++)
                 {
-                    structureList.Structures[x].savedItemIDList1.Add(Database.Instance.GetItem(structure.savedItems[i].ID));
-                }*/ //to be implemented. Got a headstart
+                    structureList.Structures[x].savedItemIDList1.Add(structure.savedItems[i].ID);
+                }
 
                 structureList.Structures[x].savedInt1 = structure.saveInt1;
                 structureList.Structures[x].savedInt2 = structure.saveInt2;
@@ -77,10 +77,10 @@ public class StructureSaveData : MonoBehaviour
             x++;
         }
 
-        for(int i = 0; i < StructureManager.Instance.Storage.Count; i++)
+        for(int n = 0; n < StructureManager.Instance.Storage.Count; n++)
         {
-            structureList.Nutrients[i] = StructureManager.Instance.Storage[i];
-            if(structureList.Nutrients[i].waterLevel > 3) print("Water!!!");
+            structureList.Nutrients[n] = StructureManager.Instance.Storage[n];
+            if(structureList.Nutrients[n].waterLevel > 3) print("Water!!!");
         }
 
         var structureData = new StructureInventory(structureList.Structures, structureList.Nutrients);
@@ -121,10 +121,10 @@ public class StructureSaveData : MonoBehaviour
                     loadedRotation.z = data.allStructuresSaveData.Structures[i].rotation[2];
 
                     StructureStats.savedItems = data.allStructuresSaveData.Structures[i].savedItemList1; //CHANGE TO POPULATE A LIST OF ITEMS FROM THE LOADED ITEM IDS
-                    /*for(int i = 0; i < data.allStructuresSaveData.Structures[i].savedItemIDList1.Count; i++)
+                    for(int c = 0; c < data.allStructuresSaveData.Structures[i].savedItemIDList1.Count; c++)
                     {
-
-                    }*/
+                        StructureStats.savedItems.Add(Database.Instance.GetItem(data.allStructuresSaveData.Structures[i].savedItemIDList1[c]));
+                    }
 
                     StructureStats.saveInt1 = data.allStructuresSaveData.Structures[i].savedInt1;
                     StructureStats.saveInt2 = data.allStructuresSaveData.Structures[i].savedInt2;
