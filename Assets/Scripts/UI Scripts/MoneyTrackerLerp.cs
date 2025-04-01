@@ -9,10 +9,12 @@ public class MoneyTrackerLerp : MonoBehaviour
     float moveProgress = 0;
     float maxMoveProgress = 0.5f;
     public bool forceActive = false;
+    private CropStatsRework cropStatsRework;
     
     // Start is called before the first frame update
     void Start()
     {
+        cropStatsRework = FindFirstObjectByType<CropStatsRework>();
         moneyTrackerTransform.position = lerpEnd.position;
     }
 
@@ -22,12 +24,12 @@ public class MoneyTrackerLerp : MonoBehaviour
         if(PlayerMovement.accessingInventory || TownGate.Instance.location == PlayerLocation.InTown){ forceActive = true; }
         else { forceActive = false; }
 
-        if((UICropStats.isDetailed && moveProgress > 0) || (forceActive && moveProgress >= 0))
+        if((cropStatsRework.isDetailed && moveProgress > 0) || (forceActive && moveProgress >= 0))
         {
             moveProgress -= Time.deltaTime;
             moneyTrackerTransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
         }
-        else if(!UICropStats.isDetailed && moveProgress < maxMoveProgress)
+        else if(!cropStatsRework.isDetailed && moveProgress < maxMoveProgress)
         {
             if(forceActive) return;
             moveProgress += Time.deltaTime;
