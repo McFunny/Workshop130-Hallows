@@ -556,6 +556,7 @@ public class MistWalker : CreatureBehaviorScript
         }
         else
         {
+            yield return new WaitForSeconds(0.3f);
             if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsPlayer;
             coroutineRunning = false;
             recoilCooldown = false;

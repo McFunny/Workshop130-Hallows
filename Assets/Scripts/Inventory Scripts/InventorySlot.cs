@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class InventorySlot
 {
+    //DONT SAVE INVENTORYITEMDATA. SAVE THE ID. MAKE SAVE AND LOAD FUNCTIONS FOR THE INVENTORY TO POPULATE THE DATA FROM THE DATABASE, NOT BY SAVING THE TEMP REFERENCE TO THE INSTANCEID/OBJECT
     [SerializeField] private InventoryItemData itemData; // Reference to the data
     [SerializeField] private int stackSize; // Current stack size - how many of the data do we have?
 
