@@ -120,4 +120,50 @@ public class InventorySystem
             }
         }
     }
+
+    public InventorySystemSaveData GetSaveData()
+    {
+        List<InventorySlotSaveData> slotSaves = new List<InventorySlotSaveData>();
+        foreach (var slot in InventorySlots)
+        {
+            if (slot.ItemData != null)
+            {
+                slotSaves.Add(new InventorySlotSaveData(slot.ItemData.ID, slot.StackSize));
+            }
+            else
+            {
+                slotSaves.Add(new InventorySlotSaveData(-1, -1)); //This Creates an empty slot
+            }
+        }
+        return new InventorySystemSaveData(slotSaves);
+    }
+
+    public void LoadFromSaveData(InventorySystemSaveData saveData, Database database)
+    {
+        inventorySlots.Clear();
+        foreach (var slotData in saveData.savedSlots)
+        {
+            if (slotData.itemID != -1)
+            {
+                InventoryItemData data = database.GetItem(slotData.itemID);
+                inventorySlots.Add(new InventorySlot(data, slotData.stackSize));
+            }
+            else
+            {
+                inventorySlots.Add(new InventorySlot()); // This also creates an empty slot
+            }
+        }
+    }
+
+}
+
+[System.Serializable]
+public struct InventorySystemSaveData
+{
+    public List<InventorySlotSaveData> savedSlots;
+
+    public InventorySystemSaveData(List<InventorySlotSaveData> slots)
+    {
+        savedSlots = slots;
+    }
 }

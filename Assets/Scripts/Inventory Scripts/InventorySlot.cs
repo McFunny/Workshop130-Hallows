@@ -95,3 +95,16 @@ public class InventorySlot
         return true;
     }
 }
+
+[System.Serializable]
+public struct InventorySlotSaveData
+{
+    public int itemID;
+    public int stackSize;
+
+    public InventorySlotSaveData(int id, int stack)
+    {
+        itemID = id;
+        stackSize = stack;
+    }
+}
