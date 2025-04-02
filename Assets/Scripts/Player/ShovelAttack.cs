@@ -47,6 +47,18 @@ public class ShovelAttack : MonoBehaviour
             c_Collision = other.ClosestPoint(transform.position);
         }
 
+        if (other.gameObject.layer == 17)
+        {
+            Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
+            Vector3 contactPoint = other.ClosestPoint(transform.position);
+            Vector3 rawDirection = other.transform.position - PlayerInteraction.Instance.transform.position;
+            rawDirection.y = 0;
+            Vector3 forceDir = rawDirection.normalized;
+
+            float forceStrength = 25f;
+            rb.AddForceAtPosition(forceDir * forceStrength, contactPoint, ForceMode.Impulse);
+        }
+
         //Something to hit corpses
 
         

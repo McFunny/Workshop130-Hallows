@@ -23,7 +23,20 @@ public class WaterProjectileScript : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if(!canCollide) return;
-        if(other.gameObject.layer == 6)
+
+        if (other.gameObject.layer == 17)
+        {
+            Rigidbody signRB = other.GetComponent<Rigidbody>();
+            if (signRB != null)
+            {
+                Vector3 impactDirection = rb.velocity.normalized;
+                float bulletSpeed = rb.velocity.magnitude;
+                float forceMultiplier = 0.1f;
+                signRB.AddForce(impactDirection * bulletSpeed * forceMultiplier, ForceMode.Impulse);
+            }
+        }
+
+        if (other.gameObject.layer == 6)
         {
             //break
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
