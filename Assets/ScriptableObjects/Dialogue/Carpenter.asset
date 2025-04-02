@@ -70,8 +70,33 @@ MonoBehaviour:
     - I have little patience for that LumberJack.
     - So unmotivated, so lazy. It pains me to have my line of work overlap with his.
     emotions: 0300000002000000
+  - pathName: My Vanity
+    paragraphs:
+    - I am aware that my furnishing trade is of little importance to the survival
+      of Veilwood.
+    - However, the vanity alleviates the mind from our current situation. For a time,
+      that is.
+    emotions: 0200000000000000
+  - pathName: I Try to Help
+    paragraphs:
+    - Our town being under a constant threat has forced us to adapt our trades to
+      ensure our survival.
+    - I pray the crude bulwarks of defense I prepare serve their purpose well.
+    emotions: 0200000000000000
+  - pathName: Want to fix ruined houses
+    paragraphs:
+    - So badly do I wish to go beyond the town walls, and repair what was taken from
+      us.
+    - So much Infrustructure. So much property. Reduced to listless rubble.
+    emotions: 0000000002000000
   questPaths: []
-  itemRecievedPaths: []
+  itemRecievedPaths:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:

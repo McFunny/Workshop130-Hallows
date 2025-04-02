@@ -100,11 +100,11 @@ public class BotanistNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
-        else if(item.staminaValue > 0)
+        /*else if(item.staminaValue > 0)
         {
             currentPath = 0;
             currentType = PathType.ItemRecieved;
-            /*if(!NPCManager.Instance.botanistFed)
+            if(!NPCManager.Instance.botanistFed)
             {
                 currentPath = 0;
                 currentType = PathType.ItemRecieved;
@@ -115,9 +115,9 @@ public class BotanistNPC : NPC, ITalkable
             {
                 currentPath = 1;
                 currentType = PathType.ItemRecieved;
-            }*/
+            }
             //Its consumable and giftable
-        }
+        }*/
         else
         {
             currentPath = 0;
