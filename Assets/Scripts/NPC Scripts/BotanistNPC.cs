@@ -150,7 +150,7 @@ public class BotanistNPC : NPC, ITalkable
             {
                 currentPath = 2; //item sold
                 shopUI.shopImgObj.SetActive(false);
-                if (assignedStall.displaySign)
+                if (assignedStall && assignedStall.displaySign)
                 {
                     assignedStall.displaySign.ResetDisplay();
                 }
@@ -166,7 +166,7 @@ public class BotanistNPC : NPC, ITalkable
             lastInteractedStoreItem = item;
             shopUI.shopTarget = item.arrowObject.transform;
             shopUI.shopImgObj.SetActive(true);
-            if(assignedStall.displaySign)
+            if(assignedStall && assignedStall.displaySign)
             {
                 assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
             }
@@ -183,7 +183,7 @@ public class BotanistNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
-        if (assignedStall.displaySign && movementHandler.isWorking)
+        if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
         {
             assignedStall.displaySign.ResetDisplay();
         }

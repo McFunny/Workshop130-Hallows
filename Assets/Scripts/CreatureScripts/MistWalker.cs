@@ -519,7 +519,7 @@ public class MistWalker : CreatureBehaviorScript
             if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsClosestStructure;
         }
 
-        yield return new WaitForSeconds(1.5f); // Cooldown between attacks
+        yield return new WaitForSeconds(2f); // Cooldown between attacks
         coroutineRunning = false;
     }
 

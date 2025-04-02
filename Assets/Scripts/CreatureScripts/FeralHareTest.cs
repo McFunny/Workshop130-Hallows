@@ -8,6 +8,8 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public List<CropData> desiredCrops; // what crops does this creature want to eat
 
+    public CropData carrotCrop;
+
     FarmLand foundFarmTile;
 
     Vector3 jumpPos, startingDestination;
@@ -373,9 +375,13 @@ public class FeralHareTest : CreatureBehaviorScript
                         {
                             if(Random.Range(0,10) > 7) continue;
                             dist = Vector3.Distance(transform.position, availableLands[i].transform.position);
-                            if(dist < minDistance)
+                            if(dist < minDistance && (closestTile.crop != carrotCrop || availableLands[i].crop == carrotCrop))
                             {
                                 minDistance = dist;
+                                closestTile = availableLands[i];
+                            }
+                            if(availableLands[i].crop == carrotCrop)
+                            {
                                 closestTile = availableLands[i];
                             }
                         }

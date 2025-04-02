@@ -9,6 +9,7 @@ public class NPCInteractRadius : MonoBehaviour
     void Start()
     {
         dialogueController = DialogueController.Instance;
+        if(!npcScript) npcScript = GetComponentInParent<NPC>();
     }
     void OnTriggerExit(Collider other)
     {
