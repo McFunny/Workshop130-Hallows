@@ -98,12 +98,29 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         if (absentFromGrid) return;
         StructureManager.Instance.allStructs.Add(this);
-        if(structData && structData.isLarge)
+
+        if(structData)
+        {
+            if(structData.gridSize == GridSize.OneByOne)
+            {
+                StructureManager.Instance.SetTile(transform.position);
+            }
+            if(structData.gridSize == GridSize.TwoByTwo)
+            {
+                StructureManager.Instance.SetLargeTile(transform.position);
+            }
+            if(structData.gridSize == GridSize.OneByTwo)
+            {
+                StructureManager.Instance.SetOneByTwoTile(transform.position);
+            }
+        }
+
+        /*if(structData && structData.isLarge)
         {
             StructureManager.Instance.SetLargeTile(transform.position);
             //print("Set Large Tiles");
         }
-        else StructureManager.Instance.SetTile(transform.position);
+        else StructureManager.Instance.SetTile(transform.position);*/
     }
 
     public void Update()
@@ -152,8 +169,21 @@ public class StructureBehaviorScript : MonoBehaviour
         //print("Destroyed");
         if(clearTileOnDestroy && structData && !absentFromGrid)
         {
-            if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
-            else StructureManager.Instance.ClearLargeTile(transform.position);
+            if(structData.gridSize == GridSize.OneByOne)
+            {
+                StructureManager.Instance.ClearTile(transform.position);
+            }
+            if(structData.gridSize == GridSize.TwoByTwo)
+            {
+                StructureManager.Instance.ClearLargeTile(transform.position);
+            }
+            if(structData.gridSize == GridSize.OneByTwo)
+            {
+                StructureManager.Instance.ClearOneByTwoTile(transform.position);
+            }
+
+            //if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
+            //else StructureManager.Instance.ClearLargeTile(transform.position);
         } 
         StructureManager.Instance.allStructs.Remove(this);
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
