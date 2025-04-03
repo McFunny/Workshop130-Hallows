@@ -23,8 +23,9 @@ public class StructureManager : MonoBehaviour
 
     public List<NutrientStorage> Storage => storage;
 
-    [Header("CropDebugs")]
+    [Header("Debugs")]
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
+    public bool enableCheats = false;
 
 
     void Awake()
@@ -387,7 +388,7 @@ public class StructureManager : MonoBehaviour
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
         {
             Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
-            if(Vector3.Distance(tilePosition, pos) <= 1.5f)
+            if(Vector3.Distance(tilePosition, pos) <= 2f)
             {
                 if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, occupiedTile);
                 //print("FoundTile");
@@ -430,7 +431,7 @@ public class StructureManager : MonoBehaviour
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
         {
             Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
-            if(Vector3.Distance(tilePosition, pos) <= 1.5f)
+            if(Vector3.Distance(tilePosition, pos) <= 2f)
             {
                 if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, freeTile);
                 //print("FoundTile");

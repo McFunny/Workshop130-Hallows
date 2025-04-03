@@ -361,7 +361,7 @@ public class FeralHareTest : CreatureBehaviorScript
                     foreach (StructureBehaviorScript structure in structManager.allStructs)
                     {
                         FarmLand potentialFarmTile = structure as FarmLand;
-                        if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop))
+                        if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop) && !potentialFarmTile.rotted)
                         {
                             availableLands.Add(potentialFarmTile);
                         }

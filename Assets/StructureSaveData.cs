@@ -61,7 +61,7 @@ public class StructureSaveData : MonoBehaviour
                 //structureList.Structures[x].savedItemList1 = structure.savedItems; //CHANGE TO SAVE A LIST OF ITEM ID'S
                 for(int i = 0; i < structure.savedItems.Count; i++)
                 {
-                    structureList.Structures[x].savedItemIDList1.Add(structure.savedItems[i].ID);
+                    if(structure.savedItems[i] != null) structureList.Structures[x].savedItemIDList1.Add(structure.savedItems[i].ID);
                 }
 
                 structureList.Structures[x].savedInt1 = structure.saveInt1;

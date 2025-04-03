@@ -211,7 +211,18 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void ToggleHighlight(bool enable)
     {
-        if(highlight.Count == 0 || !canShowHighlight) return;
+        if(highlight.Count == 0) return;
+        if(!canShowHighlight)
+        {
+            if(highlightEnabled)
+            {
+                highlightEnabled = false;
+                foreach(GameObject thing in highlight) thing.SetActive(false);
+                if(structureUI) structureUI.SetActive(false);
+            }
+            return;
+        }
+        
         if(highlightMaterial.Count == 0)
         {
             foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<Renderer>().material);

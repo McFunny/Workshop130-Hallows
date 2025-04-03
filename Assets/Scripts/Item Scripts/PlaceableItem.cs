@@ -103,7 +103,7 @@ public class PlaceableItem : InventoryItemData
                 }
                 return;
             }
-            if(pos != currentTilePos)
+            if(pos != new Vector3(0,0,0) && (pos != currentTilePos || !currentHologram.activeSelf))
             {
                 //Debug.Log("PlacedHologram");
                 currentTilePos = pos;

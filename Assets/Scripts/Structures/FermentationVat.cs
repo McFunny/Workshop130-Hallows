@@ -100,7 +100,7 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(progress < maxProgress && savedItems.Count == maxContainedItems)
+        if(progress < maxProgress && (savedItems.Count == maxContainedItems || savedItems[0] != null))
         {
             if(ignoreNextHour)
             {

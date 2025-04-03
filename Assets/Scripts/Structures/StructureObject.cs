@@ -40,7 +40,7 @@ public class Structure
     public float[] position = new float[3];
     public float[] rotation = new float[3];
     public List<InventoryItemData> savedItemList1;
-    public List<int> savedItemIDList1;
+    public List<int> savedItemIDList1 = new List<int>();
     public int savedInt1, savedInt2, savedInt3;
     public float savedFloat1, savedFloat2, savedFloat3;
     public string savedString1, savedString2, savedString3;

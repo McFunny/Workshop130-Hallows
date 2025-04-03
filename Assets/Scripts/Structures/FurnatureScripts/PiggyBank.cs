@@ -19,6 +19,7 @@ public class PiggyBank : FurnitureBehaviorScript
         moneyText.text = heldMints + "/" + maxMints + "<sprite index=0>";
         OnDamage += Break;
         base.Start();
+        FurnitureStart();
     }
 
     public override void StructureInteraction()

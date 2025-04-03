@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class DebugUI : MonoBehaviour
 {
-    public bool isDebug;
+    //public bool isDebug;
     public static bool isDebugMenuOpen;
     public Database database;
     public GameObject debugButton, content, panel;
@@ -15,7 +15,7 @@ public class DebugUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(!isDebug) return;
+        if(!StructureManager.Instance.enableCheats) return;
         panel.SetActive(true);
         isDebugMenuOpen = false;
         items = database.GetItemDatabase();
@@ -41,8 +41,7 @@ public class DebugUI : MonoBehaviour
 
     void Update()
     {
-        return;
-        if(!isDebug) return;
+        if(!StructureManager.Instance.enableCheats) return;
 
         isDebugMenuOpen = panel.activeSelf;
 
