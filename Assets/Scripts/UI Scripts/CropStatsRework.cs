@@ -225,50 +225,58 @@ public class CropStatsRework : MonoBehaviour
             ichorArrow.gameObject.SetActive(false);
             waterIntake.text = "";
             waterArrow.gameObject.SetActive(false);
-            tile.supportText.gameObject.SetActive(false);
-            tile.supportText.text = "";
-
-            if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null)
-            {
-                var itemType = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.GetType();
             
-                print(itemType);
-
-                if(itemType.Equals(typeof(CropItem)))
+            if(!tile.isWeed)
+            {
+                tile.supportText.gameObject.SetActive(false);
+                tile.supportText.text = "";
+            }
+            
+            
+            if(!tile.isWeed && tile.crop == null)
+            {
+                if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null)
                 {
-                    tile.supportText.gameObject.SetActive(true);
-                    print("Alex your stupid script is working");
-                    var seedData = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as CropItem;
-                    string t = "Insufficient ";
+                    var itemType = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.GetType();
+                
+                    print(itemType);
 
-                    if(tileNutrients.gloamLevel < seedData.cropData.gloamIntake * seedData.cropData.growthStages)
+                    if(itemType.Equals(typeof(CropItem)))
                     {
-                        t = t + "<sprite name=N_Gloam> ";
+                        tile.supportText.gameObject.SetActive(true);
+                        print("Alex your stupid script is working");
+                        var seedData = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as CropItem;
+                        string t = "Insufficient ";
+
+                        if(tileNutrients.gloamLevel < seedData.cropData.gloamIntake * seedData.cropData.growthStages)
+                        {
+                            t = t + "<sprite name=N_Gloam> ";
+                        }
+                        if(tileNutrients.terraLevel < seedData.cropData.terraIntake * seedData.cropData.growthStages)
+                        {
+                            t = t + "<sprite name=N_Terra> ";
+                        } 
+                        if(tileNutrients.ichorLevel < seedData.cropData.ichorIntake * seedData.cropData.growthStages)
+                        {
+                            t = t + "<sprite name=N_Ichor> ";
+                        } 
+                        
+                        if (t != "Insufficient ")
+                        {
+                            t = t + "to grow " + seedData.displayName;
+                            tile.supportText.text = t;
+                        } 
+                        else tile.supportText.text = "";
                     }
-                    if(tileNutrients.terraLevel < seedData.cropData.terraIntake * seedData.cropData.growthStages)
+                    else
                     {
-                        t = t + "<sprite name=N_Terra> ";
-                    } 
-                    if(tileNutrients.ichorLevel < seedData.cropData.ichorIntake * seedData.cropData.growthStages)
-                    {
-                        t = t + "<sprite name=N_Ichor> ";
-                    } 
-                    
-                    if (t != "Insufficient ")
-                    {
-                        t = t + "to grow " + seedData.displayName;
-                        tile.supportText.text = t;
-                    } 
-                    else tile.supportText.text = "";
+                        tile.supportText.text = "";
+                    }
                 }
                 else
                 {
                     tile.supportText.text = "";
                 }
-            }
-            else
-            {
-                tile.supportText.text = "";
             }
         }
 
