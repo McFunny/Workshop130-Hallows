@@ -81,11 +81,11 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("t"))
+        /*if(Input.GetKeyDown("t"))
         {
             if(Time.timeScale == 1) Time.timeScale = 8;
             else Time.timeScale = 1;
-        }
+        }*/
 
         if(!DialogueController.Instance.IsTalking()) seconds += Time.deltaTime;
 
