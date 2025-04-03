@@ -220,6 +220,41 @@ public class StructureManager : MonoBehaviour
         return center;
     }
 
+    public Vector3 CheckOneByTwoTile(Vector3 pos, Quaternion rot)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return new Vector3 (0,0,0);
+
+        List<Vector3Int> selectedTiles = new List<Vector3Int>();
+        Vector3Int gridPos = currentMap.WorldToCell(pos);
+
+        selectedTiles.Add(gridPos);
+        if(rot.y == 0|| rot.y == -1 || rot.y == 1) //item is sideways //problem is here
+        {
+            selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y)); //Top Right Tile
+            print("Sideways");
+        }
+        else
+        {
+            selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y - 1)); //Bottom Left Tile
+            print("Straight");
+        }
+        print(rot.y);
+
+        foreach(Vector3Int _pos in selectedTiles)
+        {
+            TileBase currentTile = currentMap.GetTile(_pos); //Is the tile free?
+            if(currentTile == null || currentTile != freeTile) return new Vector3 (0,0,0);
+        }
+
+        Vector3 start = currentMap.GetCellCenterWorld(gridPos);
+        Vector3 otherEnd = currentMap.GetCellCenterWorld(selectedTiles[1]);
+        Vector3 center = new Vector3((start.x + otherEnd.x)/2, (start.y + otherEnd.y)/2, (start.z + otherEnd.z)/2); 
+        //The center of the 1x2 Square
+        
+        return center;
+    }
+
     public Vector3 GetTileCenter(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
@@ -345,6 +380,21 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void SetOneByTwoTile(Vector3 pos)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+
+        foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 1.5f)
+            {
+                if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, occupiedTile);
+                //print("FoundTile");
+            }
+        }
+    }
+
     public void ClearTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
@@ -364,6 +414,23 @@ public class StructureManager : MonoBehaviour
         {
             Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
             if(Vector3.Distance(tilePosition, pos) <= 3f)
+            {
+                if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, freeTile);
+                //print("FoundTile");
+            }
+            
+        }
+    }
+
+    public void ClearOneByTwoTile(Vector3 pos)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        //fetch tiles within a small radius, should return the 4 its occupying
+        //print("Clearing");
+        foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 1.5f)
             {
                 if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, freeTile);
                 //print("FoundTile");

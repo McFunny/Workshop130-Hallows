@@ -36,10 +36,16 @@ public class PlaceableItem : InventoryItemData
             {
                 pos = StructureManager.Instance.CheckLargeTile(hit.point);
             }
+            if(gridSize == GridSize.OneByTwo)
+            {
+                pos = StructureManager.Instance.CheckOneByTwoTile(hit.point, currentHologram.transform.rotation);
+            }
+
             if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridType)) 
             {
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
                 if(gridSize == GridSize.TwoByTwo) StructureManager.Instance.SetLargeTile(pos);
+                if(gridSize == GridSize.OneByTwo) StructureManager.Instance.SetOneByTwoTile(pos);
                 if(currentHologram)
                 {
                     Quaternion rotate = currentHologram.transform.rotation;
@@ -81,6 +87,10 @@ public class PlaceableItem : InventoryItemData
             if(gridSize == GridSize.TwoByTwo)
             {
                 pos = StructureManager.Instance.CheckLargeTile(hit.point);
+            }
+            if(gridSize == GridSize.OneByTwo)
+            {
+                pos = StructureManager.Instance.CheckOneByTwoTile(hit.point, currentHologram.transform.rotation);
             }
 
             if(pos == new Vector3(0,0,0) || !StructureManager.Instance.ValidateGridType(pos, gridType)) 
