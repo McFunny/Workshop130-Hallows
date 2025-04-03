@@ -111,14 +111,14 @@ public class PlayerInteraction : MonoBehaviour
             StartCoroutine(GameOver());
         }
 
-        /*if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
                 currentMoney += 200;
                 totalMoneyEarned += 200;
             }
-        }*/
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
