@@ -70,8 +70,8 @@ public class Chest : FurnitureBehaviorScript
         if (data.chestDictionary.TryGetValue(chestID, out ChestSaveData chestData))
         {
             this.primaryInventorySystem = chestData.invSystem;
-            this.transform.position = chestData.position;
-            this.transform.rotation = chestData.rotation;
+            //this.transform.position = chestData.position;
+            //this.transform.rotation = chestData.rotation;
         }
     }
 
