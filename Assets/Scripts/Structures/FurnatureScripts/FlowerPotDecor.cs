@@ -28,8 +28,9 @@ public class FlowerPotDecor : FurnitureBehaviorScript
     public void Start()
     {
         base.Start();
-        if(savedItems[0] != null) r.sprite = savedItems[0].icon;
-        else r.sprite = null;
+        FurnitureStart();
+        r.sprite = null;
+        LoadVariables();
     }
 
     public override void StructureInteraction()
@@ -116,8 +117,6 @@ public class FlowerPotDecor : FurnitureBehaviorScript
             if(potItems[i].item == savedItems[0])
             {
                 r.sprite = potItems[i].sprite;
-                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-                PlayerInventoryHolder.Instance.UpdateInventory();
 
                 if(savedItems[0] == fogChime)
                 {

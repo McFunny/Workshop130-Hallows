@@ -7,7 +7,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: OnFire
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6934945575976316050}
   m_Solo: 0
@@ -195,7 +198,7 @@ AnimatorStateMachine:
     m_Position: {x: 600, y: 150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5714223681417223291}
-    m_Position: {x: 260, y: 270, z: 0}
+    m_Position: {x: 240, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -385895649441261366}
     m_Position: {x: 530, y: 300, z: 0}
@@ -302,7 +305,7 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: OnFire
-    m_Type: 9
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0

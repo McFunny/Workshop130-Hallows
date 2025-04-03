@@ -63,12 +63,6 @@ public class InputManager : MonoBehaviour
             else structGrid.color = activeNightColor;
         }
         else{ structGrid.color = hiddenColor;}
-
-        //if(Input.GetKeyDown("t"))
-        //{
-        //    if(Time.timeScale == 1f) Time.timeScale = 4f;
-        //    else Time.timeScale = 1f;
-        //}
     }
     private void HotbarUp(InputAction.CallbackContext obj)
     {

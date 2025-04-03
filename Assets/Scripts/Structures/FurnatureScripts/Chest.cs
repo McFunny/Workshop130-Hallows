@@ -42,6 +42,7 @@ public class Chest : FurnitureBehaviorScript
             SaveLoad.CurrentSaveData.chestDictionary.Add(chestID, chestSavedData);
         }
         base.Start();
+        FurnitureStart();
     }
 
     public override void ToolInteraction(ToolType type, out bool success)

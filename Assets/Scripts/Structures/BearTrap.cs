@@ -153,6 +153,7 @@ public class BearTrap : StructureBehaviorScript
                     capturedCreature.TakeDamage(999);
                     TakeDamage(2);
                     capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
+                    StartCoroutine(HoldCorpse());
                 }
             }
         }
@@ -209,10 +210,15 @@ public class BearTrap : StructureBehaviorScript
             }
         }
 
-        while(capturedCreature) yield return null;
-        
-        rearming = false;
+        StartCoroutine(HoldCorpse());
         //StartCoroutine(Rearm());
+    }
+
+    IEnumerator HoldCorpse()
+    {
+        rearming = true;
+        while(capturedCreature) yield return null;
+        rearming = false;
     }
 
     void OnTriggerEnter(Collider other)
