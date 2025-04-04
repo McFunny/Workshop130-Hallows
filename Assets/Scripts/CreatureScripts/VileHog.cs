@@ -245,7 +245,7 @@ public class VileHog : CreatureBehaviorScript
         isMoving = true;
         coroutineRunning = true;
 
-        if (TimeManager.Instance.isDay && !inWilderness) destination = despawnPos;
+        if (TimeManager.Instance.isDay && !inWilderness && Tutorial.Instance == null) destination = despawnPos;
 
         agent.destination = destination;
 

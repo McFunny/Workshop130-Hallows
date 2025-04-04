@@ -76,8 +76,19 @@ public class PlaceableItem : InventoryItemData
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
+        if(Physics.Raycast(player.position, fwd, out hit, 8, 1 << 6)) //to catch any structures
+        {
+            if(currentHologram.activeSelf)
+            {
+                currentHologram.SetActive(false);
+                currentTilePos = new Vector3(0,0,0);
+            }
+            return;
+        }
+
         if(Physics.Raycast(player.position, fwd, out hit, 8, 1 << 7))
         {
+            //Do a check here so that if the hit is on the structure layer, disable the hologram and return
             //Debug.Log("Displaying");
             Vector3 pos = new Vector3(0,0,0);
             if(gridSize == GridSize.OneByOne)

@@ -71,8 +71,13 @@ public class FurnitureBehaviorScript : StructureBehaviorScript
 
     void OnDestroy()
     {
-        if(onTable) clearTileOnDestroy = false;
+        OnFurnitureDestroy();
         base.OnDestroy();
+    }
+
+    public void OnFurnitureDestroy()
+    {
+        if(onTable) clearTileOnDestroy = false;
     }
 
 }
