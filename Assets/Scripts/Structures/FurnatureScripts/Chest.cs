@@ -19,12 +19,14 @@ public class Chest : FurnitureBehaviorScript
     {
         base.Awake();
         primaryInventorySystem = new InventorySystem(inventorySize);
-        SaveLoad.OnLoadGame += LoadInventory;
+        SaveLoad.OnSaveGame += SaveInventory;
+        SaveLoad.OnLateLoad += LoadInventory;
     }
 
     private void OnDisable()
     {
-        SaveLoad.OnLoadGame -= LoadInventory;
+        SaveLoad.OnSaveGame -= SaveInventory;
+        SaveLoad.OnLateLoad -= LoadInventory;
     }
 
     private void Start()
@@ -45,10 +47,15 @@ public class Chest : FurnitureBehaviorScript
         FurnitureStart();
     }
 
+    private void SaveInventory()
+    {
+        SaveLoad.CurrentSaveData.chestDictionary[chestID] = new ChestSaveData(primaryInventorySystem, transform.position, transform.rotation);
+    }
+
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false) //ADD A CHECK TO SEE IF CHEST INVENTORY HAS ITEMS
+        if(type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false && !primaryInventorySystem.ContainsAnyItems()) //ADD A CHECK TO SEE IF CHEST INVENTORY HAS ITEMS
         {
             StartCoroutine(DugUp());
             success = true;
@@ -66,10 +73,12 @@ public class Chest : FurnitureBehaviorScript
 
     private void LoadInventory(SaveData data)
     {
-        chestID = saveString1;
+        Debug.Log("LoadingChest");
+        //chestID = saveString1;
         if (data.chestDictionary.TryGetValue(chestID, out ChestSaveData chestData))
         {
-            this.primaryInventorySystem = chestData.invSystem;
+            this.primaryInventorySystem = new InventorySystem(data.chestDictionary[chestID].invSystem.savedSlots.Count);
+            this.primaryInventorySystem.LoadFromSaveData(data.chestDictionary[chestID].invSystem, Database.Instance);
             //this.transform.position = chestData.position;
             //this.transform.rotation = chestData.rotation;
         }
@@ -90,7 +99,25 @@ public class Chest : FurnitureBehaviorScript
     {
         //Load ID
         chestID = saveString1;
+      
     }
 
  
 }
+
+[System.Serializable]
+
+public struct ChestSaveData
+{
+    public InventorySystemSaveData invSystem;
+    public Vector3 position;
+    public Quaternion rotation;
+
+    public ChestSaveData(InventorySystem _invSystem, Vector3 _position, Quaternion _rotation)
+    {
+        invSystem = _invSystem.GetSaveData();
+        position = _position;
+        rotation = _rotation;
+    }
+}
+
