@@ -18,6 +18,7 @@ public static class SaveLoad
 
     public static UnityAction OnSaveGame;
     public static UnityAction<SaveData> OnLoadGame;
+    public static UnityAction<SaveData> OnLateLoad;
 
     public static bool SaveGame(SaveData data)
     {
@@ -63,8 +64,10 @@ public static class SaveLoad
 
         CurrentSaveData = tempData;
 
+        SaveLoad.OnLateLoad?.Invoke(SaveLoad.CurrentSaveData);
 
-    }
+
+        }
 
         public static void DeleteSaveData()
         {

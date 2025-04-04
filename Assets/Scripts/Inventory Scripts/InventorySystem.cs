@@ -155,6 +155,15 @@ public class InventorySystem
         }
     }
 
+    public bool ContainsAnyItems()
+    {
+        foreach (var slot in inventorySlots)
+        {
+            if (slot.StackSize != -1) return true;
+        }
+        return false;
+    }
+
 }
 
 [System.Serializable]

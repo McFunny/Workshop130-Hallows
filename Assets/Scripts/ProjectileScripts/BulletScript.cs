@@ -11,6 +11,13 @@ public class BulletScript : MonoBehaviour
     public bool fireBullet;
     public float bulletLifetime = 3;
 
+    private Rigidbody bulletRigidbody;
+
+    private void Start()
+    {
+        bulletRigidbody = GetComponent<Rigidbody>();
+    }
+
 
     void OnTriggerEnter(Collider other)
     {
@@ -53,7 +60,19 @@ public class BulletScript : MonoBehaviour
             
         }
 
-        if(other.gameObject.layer == 9)
+        if (other.gameObject.layer == 17)
+        {
+            Rigidbody rb = other.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 impactDirection = bulletRigidbody.velocity.normalized;
+                float bulletSpeed = bulletRigidbody.velocity.magnitude;
+                float forceMultiplier = 0.1f;
+                rb.AddForce(impactDirection * bulletSpeed * forceMultiplier, ForceMode.Impulse);
+            }
+        }
+
+        if (other.gameObject.layer == 9)
         {
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
