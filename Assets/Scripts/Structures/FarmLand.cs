@@ -303,7 +303,7 @@ public class FarmLand : StructureBehaviorScript
             return;
         }
         hoursSpent++;
-        if(crop.behavior) crop.behavior.OnHour(this);
+        if(crop && crop.behavior) crop.behavior.OnHour(this);
 
         if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
