@@ -35,6 +35,8 @@ public class MistWalker : CreatureBehaviorScript
     private FireFearTrigger fireSource;
     public GameObject fearParticle;
 
+    public EquipEnemyArmor[] equippableArmor;
+
     public enum CreatureState
     {
         SpawnIn,
@@ -82,6 +84,12 @@ public class MistWalker : CreatureBehaviorScript
         StartCoroutine(IdleSoundTimer());
 
         if(variant == Variant.Strong) canDoubleLunge = true;
+
+        foreach(EquipEnemyArmor a in equippableArmor)
+        {
+            r = Random.Range(0,100);
+            if(a.chanceToEquip >= r) a.armorObject.SetActive(true);
+        }
     }
 
     void OnDisable()
@@ -519,7 +527,7 @@ public class MistWalker : CreatureBehaviorScript
             if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsClosestStructure;
         }
 
-        yield return new WaitForSeconds(1.5f); // Cooldown between attacks
+        yield return new WaitForSeconds(2f); // Cooldown between attacks
         coroutineRunning = false;
     }
 

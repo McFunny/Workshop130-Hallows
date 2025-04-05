@@ -139,6 +139,10 @@ public class CarpenterNPC : NPC, ITalkable
             {
                 currentPath = 2; //item sold
                 shopUI.shopImgObj.SetActive(false);
+                if (assignedStall.displaySign)
+                {
+                    assignedStall.displaySign.ResetDisplay();
+                }
             }
             anim.SetTrigger("IsTalking");
         }
@@ -151,6 +155,10 @@ public class CarpenterNPC : NPC, ITalkable
             lastInteractedStoreItem = item;
             shopUI.shopTarget = item.arrowObject.transform;
             shopUI.shopImgObj.SetActive(true);
+            if (assignedStall.displaySign)
+            {
+                assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
+            }
 
         }
         currentType = PathType.Misc;
@@ -163,7 +171,11 @@ public class CarpenterNPC : NPC, ITalkable
         {
             lastInteractedStoreItem = null;
         }
-        shopUI.shopImgObj.SetActive(false);
+        if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
+        if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
+        {
+            assignedStall.displaySign.ResetDisplay();
+        }
         base.PlayerLeftRadius();
     }
 
@@ -201,6 +213,10 @@ public class CarpenterNPC : NPC, ITalkable
     {
         if (!assignedStall) return;
         storeItems = assignedStall.storeItems;
+        if (assignedStall.displaySign)
+        {
+            assignedStall.displaySign.UpdateNPCName(this);
+        }
         RefreshStore();
     }
 
@@ -216,5 +232,9 @@ public class CarpenterNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+        if (assignedStall.displaySign)
+        {
+            assignedStall.displaySign.LeaveShop();
+        }
     }
 }

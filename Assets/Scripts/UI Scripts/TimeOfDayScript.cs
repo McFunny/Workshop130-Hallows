@@ -2,11 +2,18 @@ using UnityEngine;
 
 public class TimeOfDayScript : MonoBehaviour
 {
-    public GameObject watchHand;
+    public GameObject watchHand, darkenObject;
+    private TimeManager timeManager;
+
+    void Start()
+    {
+        timeManager = FindFirstObjectByType<TimeManager>();
+    }
 
     void Update()
     {
         UpdateWatch();
+        darkenObject.SetActive(timeManager.clockDarkenEffect);
         
     }
 

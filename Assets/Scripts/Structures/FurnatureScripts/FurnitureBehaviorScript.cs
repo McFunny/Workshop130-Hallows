@@ -29,9 +29,17 @@ public class FurnitureBehaviorScript : StructureBehaviorScript
 
     void Start()
     {
-        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Any) == false) absentFromGrid = true;
-        if(absentFromGrid) canShowHighlight = false;
+
+        FurnitureStart();
         base.Start();
+    }
+
+    public void FurnitureStart()
+    {
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Any) == false) absentFromGrid = true;
+        if(!absentFromGrid) canShowHighlight = false;
+        //print("Furniture Start");
+       
     }
 
     public override void StructureInteraction()
@@ -63,8 +71,13 @@ public class FurnitureBehaviorScript : StructureBehaviorScript
 
     void OnDestroy()
     {
-        if(onTable) clearTileOnDestroy = false;
+        OnFurnitureDestroy();
         base.OnDestroy();
+    }
+
+    public void OnFurnitureDestroy()
+    {
+        if(onTable) clearTileOnDestroy = false;
     }
 
 }

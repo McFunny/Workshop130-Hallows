@@ -487,6 +487,15 @@ public class DeerStalker : CreatureBehaviorScript
         {
             StopCoroutine(walkRoutine);
             walkRoutine = null;
+
+            if(hasTransformed)
+            {
+                anim.Play("TrapStart");
+            }
+            else
+            {
+                animTransformed.Play("TrapStart");
+            }
         }
         yield return new WaitForSeconds(duration);
         //StartCoroutine(IdleSoundTimer());

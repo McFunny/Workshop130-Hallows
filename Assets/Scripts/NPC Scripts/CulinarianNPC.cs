@@ -165,7 +165,7 @@ public class CulinarianNPC : NPC, ITalkable
         {
             lastInteractedStoreItem = null;
         }
-        shopUI.shopImgObj.SetActive(false);
+        if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
     }
 
