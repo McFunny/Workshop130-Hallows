@@ -18992,11 +18992,13 @@ MonoBehaviour:
   - LMB - Use Item
   - RMB - Apply Item to Interactable
   - Space - Interact
+  - R - Rotate Structure
   DefaultControlsController:
   - <sprite name=ButtonY> - Open Bag
   - <sprite name=ButtonRT> - Use Item
   - <sprite name=ButtonLT> - Apply Item to Interactable
   - <sprite name=ButtonX> - Interact
+  - <sprite name=ButtonB> - Rotate Structure
   InventoryControlsKBM:
   - E/Esc - Close Bag
   - LMB - Pick Up Item
@@ -24194,7 +24196,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1e3c395c3403e4f909bc3efee6c462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebug: 1
   database: {fileID: 11400000, guid: 778e7ccc03dfccb4294abbe8b57c710a, type: 2}
   debugButton: {fileID: 1118031224871566798, guid: 15de8e64a4c7029418786fbd2b0bdccd,
     type: 3}
