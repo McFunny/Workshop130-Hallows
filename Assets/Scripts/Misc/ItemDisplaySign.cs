@@ -30,12 +30,12 @@ public class ItemDisplaySign : MonoBehaviour
 
     public void UpdateNPCName(NPC npc)
     {
-        if ("MistMerchant" == npc.character.ToString()) { shopNPC.text = "Mist Merchant"; lastSavedNPC = shopNPC.text; }
-        else
+        if (npc.dialogueText.speakerName != null)
         {
-            shopNPC.text = npc.character.ToString();
-            lastSavedNPC = npc.character.ToString();
+            shopNPC.text = npc.dialogueText.speakerName.ToString();
+            lastSavedNPC = npc.dialogueText.speakerName.ToString();
         }
+        
     }
 
     public void ResetDisplay()
