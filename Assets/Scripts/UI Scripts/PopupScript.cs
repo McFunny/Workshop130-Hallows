@@ -13,7 +13,9 @@ public class PopupScript : ScriptableObject
         PlantSeed,
         KillStructure,
         WeedDug,
-        WateredCrop
+        WateredCrop,
+        ClearCorpse,
+        KillCreature
     }
 
     [TextArea(2,2)]

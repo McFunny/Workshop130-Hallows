@@ -322,6 +322,7 @@ public class TimeManager : MonoBehaviour
         ToggleSkyLights();
         isDay = true;
         InitializeSkyBox();
+        DynamicGI.UpdateEnvironment();
         StartCoroutine(TimePassage());
         if(sunRenderer) StartCoroutine(AnimateSun());
         timeSkipping = false;
@@ -383,6 +384,7 @@ public class TimeManager : MonoBehaviour
         ToggleSkyLights();
         isDay = true;
         InitializeSkyBox();
+        DynamicGI.UpdateEnvironment();
         StartCoroutine(TimePassage());
         if(sunRenderer) StartCoroutine(AnimateSun());
         timeSkipping = false;
