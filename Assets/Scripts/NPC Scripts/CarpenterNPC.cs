@@ -171,8 +171,8 @@ public class CarpenterNPC : NPC, ITalkable
         {
             lastInteractedStoreItem = null;
         }
-        shopUI.shopImgObj.SetActive(false);
-        if (assignedStall.displaySign && movementHandler.isWorking)
+        if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
+        if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
         {
             assignedStall.displaySign.ResetDisplay();
         }
