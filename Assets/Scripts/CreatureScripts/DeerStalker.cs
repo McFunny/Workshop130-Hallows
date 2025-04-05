@@ -390,7 +390,7 @@ public class DeerStalker : CreatureBehaviorScript
         animTransformed.Play("Attack");
 
         yield return new WaitForSeconds(0.1f);
-        if(currentState != CreatureState.Stun)
+        if(currentState != CreatureState.Stun && Vector3.Distance(player.position, transform.position) > 6)
         {
             Vector3 lungeDirection = transform.forward;
             agent.velocity = lungeDirection * 35; 
@@ -469,7 +469,7 @@ public class DeerStalker : CreatureBehaviorScript
             {
                 StartCoroutine(Emote());
             }
-            else if (r < 6)
+            else if (r < 8)
             {
                 StartCoroutine(WaitAround());
             }
@@ -510,7 +510,14 @@ public class DeerStalker : CreatureBehaviorScript
     {
         emoting = true;
         anim.Play("Eat");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.8f);
+        emoting = false;
+    }
+    IEnumerator LosePlayer()
+    {
+        emoting = true;
+        animTransformed.Play("LosePlayer");
+        yield return new WaitForSeconds(1.4f);
         emoting = false;
     }
 
