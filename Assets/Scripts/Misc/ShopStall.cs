@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShopStall : MonoBehaviour
 {
     public List<StoreItem> storeItems;
+    public ItemDisplaySign displaySign;
     
     void OnTriggerEnter(Collider npc)
     {
@@ -15,4 +16,6 @@ public class ShopStall : MonoBehaviour
         }
         
     }
+
+
 }
