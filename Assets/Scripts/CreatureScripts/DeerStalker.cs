@@ -21,9 +21,10 @@ public class DeerStalker : CreatureBehaviorScript
     private bool isMoving = false;
     private bool coroutineRunning = false;
     private Transform target;
-    float walkSpeed = 4;
-    float runSpeed = 13;
+    public float walkSpeed = 4;
+    public float runSpeed = 13;
     float transformedSightRange = 30;
+    float fleeTimeLeft = 0;
 
     [HideInInspector] public NavMeshAgent agent;
     public Collider attackHitbox;
@@ -55,7 +56,8 @@ public class DeerStalker : CreatureBehaviorScript
         ChaseTarget,
         AttackInFront,
         Stun,
-        Die
+        Die,
+        Flee
     }
 
     public enum Variant
@@ -121,7 +123,9 @@ public class DeerStalker : CreatureBehaviorScript
             playerInSightRange = distance <= sightRange;
             playerInAttackRange = distance <= attackRange;
 
-            if(currentState == CreatureState.ChaseTarget)
+            if(currentState != CreatureState.Flee && !coroutineRunning && fleeTimeLeft > 0) currentState = CreatureState.Flee;
+
+            if(currentState == CreatureState.ChaseTarget || currentState == CreatureState.Flee)
             {
                 agent.speed = runSpeed;
             }
@@ -193,6 +197,10 @@ public class DeerStalker : CreatureBehaviorScript
                 // OnDeath();
                 break;
 
+            case CreatureState.Flee:
+                Flee();
+                break;
+
             default:
                 Debug.LogError("Unknown state: " + currentState);
                 break;
@@ -204,7 +212,11 @@ public class DeerStalker : CreatureBehaviorScript
     {
         if ((playerInSightRange && hasTransformed) || inWilderness)
         {
-            currentState = CreatureState.ChaseTarget;
+            if(variant == Variant.Pure)
+            {
+                fleeTimeLeft = Random.Range(1,4);
+            }
+            else currentState = CreatureState.ChaseTarget;
             return;
         }
 
@@ -256,6 +268,12 @@ public class DeerStalker : CreatureBehaviorScript
                     isMoving = false;
                     coroutineRunning = false;
                     walkRoutine = null;
+                }
+                else if(variant == Variant.Pure)
+                {
+                    fleeTimeLeft = Random.Range(2,4);
+                    currentState = CreatureState.Flee;
+                    coroutineRunning = false;
                 }
                 else
                 {
@@ -343,7 +361,7 @@ public class DeerStalker : CreatureBehaviorScript
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (playerInSightRange)
+        if (playerInSightRange && variant != Variant.Pure)
         {
             StopTrackingPlayer();
             currentState = CreatureState.Transformation;
@@ -374,6 +392,18 @@ public class DeerStalker : CreatureBehaviorScript
             trackPlayerRoutine = null;
         }
         agent.ResetPath();
+    }
+
+    private void Flee()
+    {
+        if(coroutineRunning) return;
+        Vector3 runTo = transform.position + ((transform.position - player.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
+        agent.destination = runTo;
+        fleeTimeLeft -= Time.deltaTime;
+        if(fleeTimeLeft <= 0)
+        {
+            currentState = CreatureState.Wander;
+        }
     }
     #endregion
     private void Attack()
@@ -466,6 +496,7 @@ public class DeerStalker : CreatureBehaviorScript
         deer.SetActive(false);
         taintedDeer.SetActive(true);
         animTransformed.Play("Transform");
+        effectsHandler.MiscSound();
         yield return new WaitForSeconds(1f);
         hasTransformed = true;
         currentState = CreatureState.Wander;
@@ -475,7 +506,7 @@ public class DeerStalker : CreatureBehaviorScript
 
     private void Idle()
     {
-        if (playerInSightRange && !emoting)
+        if (playerInSightRange && !emoting && variant != Variant.Pure)
         {
             if(hasTransformed) currentState = CreatureState.ChaseTarget;
             else currentState = CreatureState.Transformation;
@@ -669,6 +700,11 @@ public class DeerStalker : CreatureBehaviorScript
 
     public override void OnDamage()
     {
+        if(variant == Variant.Pure)
+        {
+            fleeTimeLeft = Random.Range(3,7);
+            return;
+        }
         if(!recoilCooldown && hasTransformed && !isDead)
         {
             //Giving me too much trouble right now
@@ -676,6 +712,7 @@ public class DeerStalker : CreatureBehaviorScript
             effectsHandler.OnHit();
             animTransformed.SetTrigger("recoiling");
             StartCoroutine(RecoilCooldown());*/
+            target = player;
         }
         else if(!hasTransformed)
         {

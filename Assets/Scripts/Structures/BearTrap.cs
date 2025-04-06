@@ -99,9 +99,9 @@ public class BearTrap : StructureBehaviorScript
 
     IEnumerator SpringTrap(Collider victim)
     {
-        animationTimeLeft = 0.5f;
+        animationTimeLeft = 0.2f;
         caughtSomething = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(animationTimeLeft);
         topClamp.rotation = Quaternion.Euler(-161, 90, -90);
         bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
         audioHandler.PlaySound(triggeredSFX);
@@ -121,7 +121,9 @@ public class BearTrap : StructureBehaviorScript
                 player.StaminaChange(-25);
 
                 //restrictplayermovement
+                player.transform.position = new Vector3(transform.position.x, victim.transform.position.y, transform.position.z);
                 PlayerMovement.restrictMovementTokens += 1;
+                //yield return new WaitForSeconds(0.2f);
                 
                 yield return new WaitForSeconds(1);
                 StartCoroutine(Rearm());
