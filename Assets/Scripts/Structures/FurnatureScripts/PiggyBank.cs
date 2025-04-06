@@ -14,6 +14,8 @@ public class PiggyBank : FurnitureBehaviorScript
 
     public InventoryItemData mints;
 
+    public GameObject destructionParticles;
+
     void Start()
     {
         moneyText.text = heldMints + "/" + maxMints + "<sprite index=0>";
@@ -76,6 +78,7 @@ public class PiggyBank : FurnitureBehaviorScript
     void OnDestroy()
     {
         OnDamage -= Break;
+        Instantiate(destructionParticles, particleCenter.position, Quaternion.identity);
         base.OnDestroy();
     }
 
