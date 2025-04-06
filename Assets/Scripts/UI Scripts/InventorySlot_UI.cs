@@ -260,6 +260,6 @@ public class InventorySlot_UI : MonoBehaviour
         itemCount.text = "";
         itemName.text = "";
         itemDesc = "";
-        itemName.gameObject.SetActive(false);
+        //itemName.gameObject.SetActive(false);
     }
 }
