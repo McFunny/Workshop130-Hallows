@@ -175,6 +175,10 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         return false;
     }
+    public virtual bool OnBearTrapStun(StructureBehaviorScript b)
+    {
+        return false;
+    }
 
     public virtual void EnteredFireRadius(FireFearTrigger fireSource, out bool fearSuccessful)
     {

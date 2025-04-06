@@ -187,11 +187,11 @@ public class RascalNPC : NPC, ITalkable
 
     public override void PlayerLeftRadius()
     {
-        if(lastInteractedStoreItem)
+        if (lastInteractedStoreItem)
         {
             lastInteractedStoreItem = null;
         }
-        shopUI.shopImgObj.SetActive(false);
+        if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
     }
 

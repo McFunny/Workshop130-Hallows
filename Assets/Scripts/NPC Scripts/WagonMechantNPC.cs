@@ -151,7 +151,6 @@ public class WagonMerchantNPC : NPC, ITalkable
             else
             {
                 currentPath = 5; //item sold
-                //item.arrowObject.SetActive(false);
                 shopUI.shopImgObj.SetActive(false);
                 if(displaySign)
                 {
@@ -159,17 +158,14 @@ public class WagonMerchantNPC : NPC, ITalkable
                 }
             }
             anim.SetTrigger("Transaction");
-            //lastInteractedStoreItem = null;
         }
         else
         {
             dialogueController.restartDialogue = true;
             currentPath = 4; //item selected
             anim.SetTrigger("IsTalking");
-            //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
             if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
             lastInteractedStoreItem = item;
-            //item.arrowObject.SetActive(true);
             shopUI.shopTarget = item.arrowObject.transform;
             shopUI.shopImgObj.SetActive(true);
             if (displaySign) displaySign.DisplayItem(lastInteractedStoreItem.itemData);
@@ -181,7 +177,6 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void RefreshStore()
     {
-        //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
         if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
         lastInteractedStoreItem = null;
         int i;
@@ -213,8 +208,6 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         if(lastInteractedStoreItem)
         {
-            //lastInteractedStoreItem.arrowObject.SetActive(false);
-            //shopUI.shopImgObj.SetActive(false);
             lastInteractedStoreItem = null;
         }
         if(lastSeenItem) lastSeenItem = null; 
@@ -227,7 +220,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     public void HourlyUpdate()
     {
         //update store at night. Change to perform when not in view of the player 
-        if(TimeManager.Instance.currentHour == 8)
+        if(TimeManager.Instance.currentHour == 6) //changed from 8 to 6. Lets see if this still works
         {
             RefreshStore();
         }
