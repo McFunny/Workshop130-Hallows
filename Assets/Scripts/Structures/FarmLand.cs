@@ -104,7 +104,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(!crop && growthComplete) growthComplete.Stop();
 
-        if(supportText != null)
+        if(supportText != null && !highlight[0].activeSelf)
         {
             if(structureUI) supportText.gameObject.SetActive(structureUI.activeSelf);
             if(crop != null) supportText.text = "";

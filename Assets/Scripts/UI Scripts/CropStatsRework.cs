@@ -244,7 +244,7 @@ public class CropStatsRework : MonoBehaviour
                     if(itemType.Equals(typeof(CropItem)))
                     {
                         tile.supportText.gameObject.SetActive(true);
-                        print("Alex your stupid script is working");
+                        //print("Alex your stupid script is working");
                         var seedData = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as CropItem;
                         string t = "Insufficient ";
 
