@@ -16,12 +16,19 @@ public class PiggyBank : FurnitureBehaviorScript
 
     public GameObject destructionParticles;
 
+    public int highestRandomMintValue = 250;
+
     void Start()
     {
         moneyText.text = heldMints + "/" + maxMints + "<sprite index=0>";
         OnDamage += Break;
         base.Start();
         FurnitureStart();
+
+        if(absentFromGrid)
+        {
+            heldMints = Random.Range(0, highestRandomMintValue);
+        }
     }
 
     public override void StructureInteraction()
