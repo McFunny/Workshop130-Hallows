@@ -238,6 +238,7 @@ public class CropStatsRework : MonoBehaviour
                 if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null)
                 {
                     var itemType = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.GetType();
+                    bool notIchor = false;
                 
                     print(itemType);
 
@@ -251,17 +252,19 @@ public class CropStatsRework : MonoBehaviour
                         if(tileNutrients.gloamLevel < seedData.cropData.gloamIntake * seedData.cropData.growthStages)
                         {
                             t = t + "<sprite name=N_Gloam> ";
+                            notIchor = true;
                         }
                         if(tileNutrients.terraLevel < seedData.cropData.terraIntake * seedData.cropData.growthStages)
                         {
                             t = t + "<sprite name=N_Terra> ";
+                            notIchor = true;
                         } 
                         if(tileNutrients.ichorLevel < seedData.cropData.ichorIntake * seedData.cropData.growthStages)
                         {
                             t = t + "<sprite name=N_Ichor> ";
                         } 
                         
-                        if (t != "Insufficient ")
+                        if (t != "Insufficient " || notIchor)
                         {
                             t = t + "to grow " + seedData.displayName;
                             tile.supportText.text = t;
