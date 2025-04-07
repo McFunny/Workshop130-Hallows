@@ -151,6 +151,7 @@ Transform:
   - {fileID: 7430299324890991094}
   - {fileID: 4680353459651661799}
   - {fileID: 1295100957428333452}
+  - {fileID: 5343311937897745919}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &675426036764506567
@@ -196,7 +197,7 @@ MonoBehaviour:
   isObstacle: 0
   absentFromGrid: 0
   focalPoint: {fileID: 0}
-  particleCenter: {fileID: 0}
+  particleCenter: {fileID: 5343311937897745919}
   savedItems: []
   saveInt1: 0
   saveInt2: 0
@@ -223,6 +224,8 @@ MonoBehaviour:
   moneyText: {fileID: 1877798018729184595}
   insertParticles: {fileID: 2570068333047994592}
   mints: {fileID: 11400000, guid: 708696db43bc2ac41a0ea08fbfa5213d, type: 2}
+  destructionParticles: {fileID: 5690029433705579275, guid: 238c9f6daa8c95a48b72e57d4c7ada42,
+    type: 3}
 --- !u!1 &2033724803370066614
 GameObject:
   m_ObjectHideFlags: 0
@@ -5196,6 +5199,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &4798814367773944060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5343311937897745919}
+  m_Layer: 6
+  m_Name: ParticleTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5343311937897745919
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4798814367773944060}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.946, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1346126111357424109}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6097387455440615766
 GameObject:
   m_ObjectHideFlags: 0

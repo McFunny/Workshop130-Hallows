@@ -35,6 +35,8 @@ public class MistWalker : CreatureBehaviorScript
     private FireFearTrigger fireSource;
     public GameObject fearParticle;
 
+    public EquipEnemyArmor[] equippableArmor;
+
     public enum CreatureState
     {
         SpawnIn,
@@ -82,6 +84,12 @@ public class MistWalker : CreatureBehaviorScript
         StartCoroutine(IdleSoundTimer());
 
         if(variant == Variant.Strong) canDoubleLunge = true;
+
+        foreach(EquipEnemyArmor a in equippableArmor)
+        {
+            r = Random.Range(0,100);
+            if(a.chanceToEquip >= r) a.armorObject.SetActive(true);
+        }
     }
 
     void OnDisable()
@@ -519,7 +527,7 @@ public class MistWalker : CreatureBehaviorScript
             if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsClosestStructure;
         }
 
-        yield return new WaitForSeconds(1.5f); // Cooldown between attacks
+        yield return new WaitForSeconds(2f); // Cooldown between attacks
         coroutineRunning = false;
     }
 
@@ -648,7 +656,42 @@ public class MistWalker : CreatureBehaviorScript
         }
     }
 
-    public override bool OnStun(float duration)
+    public override bool OnBearTrapStun(StructureBehaviorScript b)
+    {
+        if (currentState != CreatureState.Stun)
+        {
+            StartCoroutine(BearTrapHold(b));
+            agent.destination = transform.position;
+            agent.ResetPath();
+            anim.SetBool("IsWalking", false);
+            anim.SetTrigger("IsRecoiling");
+            return true;
+        }
+        return false;
+    }
+
+    private IEnumerator BearTrapHold(StructureBehaviorScript b)
+    {
+        currentState = CreatureState.Stun;
+        coroutineRunning = false;
+        //StopAllCoroutines();
+        StopCoroutine(LungeAtPlayer());
+        StopCoroutine(SwipePlayer());
+        StopTrackingPlayer();
+        if(walkRoutine != null)
+        {
+            StopCoroutine(walkRoutine);
+            walkRoutine = null;
+        }
+        while (b && b.health > 0)
+        {
+            yield return new WaitForSeconds(1);
+            anim.SetTrigger("IsRecoiling");
+        }
+        currentState = CreatureState.Wander;
+    }
+
+    /*public override bool OnStun(float duration)
     {
         if (currentState != CreatureState.Stun)
         {
@@ -679,7 +722,7 @@ public class MistWalker : CreatureBehaviorScript
         yield return new WaitForSeconds(duration);
         //StartCoroutine(IdleSoundTimer());
         currentState = CreatureState.Wander;
-    }
+    } */
 
     public override void OnDeath()
     {

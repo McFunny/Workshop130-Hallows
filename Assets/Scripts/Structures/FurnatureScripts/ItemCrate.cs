@@ -20,6 +20,7 @@ public class ItemCrate : FurnitureBehaviorScript
     public void Start()
     {
         base.Start();
+        FurnitureStart();
         RefreshSockets();
     }
 
@@ -138,6 +139,7 @@ public class ItemCrate : FurnitureBehaviorScript
     {
         for(int i = 0; i < itemSockets.Count; i++)
         {
+            if(i >= savedItems.Count) return; //to catch empty slots
             if(savedItems[i] != null) itemSockets[i].sprite = savedItems[i].icon;
             else itemSockets[i].sprite = null;
         }

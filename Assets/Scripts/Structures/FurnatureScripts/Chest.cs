@@ -13,22 +13,26 @@ public class Chest : FurnitureBehaviorScript
 
     public InventorySystem PrimaryInventorySystem => primaryInventorySystem;
 
+    string chestID;
+
     void Awake()
     {
         base.Awake();
         primaryInventorySystem = new InventorySystem(inventorySize);
-        SaveLoad.OnLoadGame += LoadInventory;
+        SaveLoad.OnSaveGame += SaveInventory;
+        SaveLoad.OnLateLoad += LoadInventory;
     }
 
     private void OnDisable()
     {
-        SaveLoad.OnLoadGame -= LoadInventory;
+        SaveLoad.OnSaveGame -= SaveInventory;
+        SaveLoad.OnLateLoad -= LoadInventory;
     }
 
     private void Start()
     {
 
-        string chestID = GetComponent<UniqueID>().ID;
+        if(chestID == null) chestID = GetComponent<UniqueID>().ID;
 
         if (SaveLoad.CurrentSaveData.chestDictionary.ContainsKey(chestID))
         {
@@ -40,12 +44,18 @@ public class Chest : FurnitureBehaviorScript
             SaveLoad.CurrentSaveData.chestDictionary.Add(chestID, chestSavedData);
         }
         base.Start();
+        FurnitureStart();
+    }
+
+    private void SaveInventory()
+    {
+        SaveLoad.CurrentSaveData.chestDictionary[chestID] = new ChestSaveData(primaryInventorySystem, transform.position, transform.rotation);
     }
 
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false) //ADD A CHECK TO SEE IF CHEST INVENTORY HAS ITEMS
+        if(type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false && !primaryInventorySystem.ContainsAnyItems()) //ADD A CHECK TO SEE IF CHEST INVENTORY HAS ITEMS
         {
             StartCoroutine(DugUp());
             success = true;
@@ -63,11 +73,14 @@ public class Chest : FurnitureBehaviorScript
 
     private void LoadInventory(SaveData data)
     {
-        if (data.chestDictionary.TryGetValue(GetComponent<UniqueID>().ID, out ChestSaveData chestData))
+        Debug.Log("LoadingChest");
+        //chestID = saveString1;
+        if (data.chestDictionary.TryGetValue(chestID, out ChestSaveData chestData))
         {
-            this.primaryInventorySystem = chestData.invSystem;
-            this.transform.position = chestData.position;
-            this.transform.rotation = chestData.rotation;
+            this.primaryInventorySystem = new InventorySystem(data.chestDictionary[chestID].invSystem.savedSlots.Count);
+            this.primaryInventorySystem.LoadFromSaveData(data.chestDictionary[chestID].invSystem, Database.Instance);
+            //this.transform.position = chestData.position;
+            //this.transform.rotation = chestData.rotation;
         }
     }
 
@@ -76,15 +89,35 @@ public class Chest : FurnitureBehaviorScript
         InventoryHolder.OnDynamicInventoryDisplayRequested?.Invoke(primaryInventorySystem);
     }
 
-    public virtual void SaveVariables()
+    public override void SaveVariables()
     {
         //Save ID. Also should generate a new ID if it does not have one (When placed)
+        saveString1 = chestID;
     }
 
-    public virtual void LoadVariables()
+    public override void LoadVariables()
     {
         //Load ID
+        chestID = saveString1;
+      
     }
 
  
 }
+
+[System.Serializable]
+
+public struct ChestSaveData
+{
+    public InventorySystemSaveData invSystem;
+    public Vector3 position;
+    public Quaternion rotation;
+
+    public ChestSaveData(InventorySystem _invSystem, Vector3 _position, Quaternion _rotation)
+    {
+        invSystem = _invSystem.GetSaveData();
+        position = _position;
+        rotation = _rotation;
+    }
+}
+

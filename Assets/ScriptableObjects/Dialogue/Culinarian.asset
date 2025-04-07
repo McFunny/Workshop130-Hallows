@@ -24,7 +24,7 @@ MonoBehaviour:
     pathName: Thanks for completing quest
     paragraphs:
     - Thank you for completing my quest!
-    emotions: 06000000
+    emotions: 01000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -74,21 +74,12 @@ MonoBehaviour:
     emotions: 0000000001000000
   questPaths: []
   itemRecievedPaths:
-  - pathName: Go Sell that
+  - pathName: Go Sell it instead
     paragraphs:
-    - Excellent harvest farmer! Glad to know the plants are in good hands.
-    emotions: 01000000
-  - pathName: Looks Great
-    paragraphs:
-    - 'Perfect, I have been starving all day! Thanks a bunch.
-
-      {itemGiven}'
-    emotions: 01000000
-  - pathName: Too Full
-    paragraphs:
-    - Oh, I positively couldn't have another.
-    - If you have extras, go share them with everyone!
-    emotions: 0500000001000000
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:

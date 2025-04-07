@@ -35,7 +35,7 @@ public class Database : ScriptableObject
     [SerializeField] private List<InventoryItemData> _itemDatabase;
 
     [ContextMenu("Set IDs")]
-    public void SetItemIDs()
+    public void SetItemIDs() //FIX ISSUE WHERE MULTIPLE ITEMS WITH THE SAME ID DONT GET FIXED, AND THEREFORE WILL CAUSE ISSUES SAVING/BEING ADDED TO THE DATABASE
     {
         _itemDatabase = new List<InventoryItemData>();
 
@@ -85,7 +85,7 @@ public class Database : ScriptableObject
         #endif
     }
 
-    public InventoryItemData GetItem(int id)
+    public InventoryItemData GetItem(int id) //USE THIS FOR GRABBING ITEMS WHEN SAVING AND LOADING
     {
         return _itemDatabase.Find(i => i.ID == id);
     }

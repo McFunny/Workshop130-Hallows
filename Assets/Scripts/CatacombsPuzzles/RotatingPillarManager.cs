@@ -12,6 +12,11 @@ public class RotatingPillarManager : MonoBehaviour
 
     public int puzzlesSolved = 0;
 
+    private bool puzzleSet1Solved = false;
+    private bool puzzleSet2Solved = false;
+    private bool puzzleSet3Solved = false;
+
+
     public bool rotatingPillarPuzzleSolved = false;
 
     [SerializeField] private Database _database;
@@ -95,6 +100,8 @@ public class RotatingPillarManager : MonoBehaviour
 
     private void CheckPuzzleCompletion(List<RotatingPillar> puzzleSet)
     {
+        if (IsPuzzleSetSolved(puzzleSet)) return; 
+
         foreach (var pillar in puzzleSet)
         {
             if (!pillar.correctlyOrientated)
@@ -102,8 +109,28 @@ public class RotatingPillarManager : MonoBehaviour
                 return;
             }
         }
+
+       
+        SetPuzzleSetSolved(puzzleSet);
+
         OnPuzzleSolved(puzzleSet);
     }
+
+    private bool IsPuzzleSetSolved(List<RotatingPillar> puzzleSet)
+    {
+        if (puzzleSet == puzzleSet1) return puzzleSet1Solved;
+        if (puzzleSet == puzzleSet2) return puzzleSet2Solved;
+        if (puzzleSet == puzzleSet3) return puzzleSet3Solved;
+        return false;
+    }
+
+    private void SetPuzzleSetSolved(List<RotatingPillar> puzzleSet)
+    {
+        if (puzzleSet == puzzleSet1) puzzleSet1Solved = true;
+        if (puzzleSet == puzzleSet2) puzzleSet2Solved = true;
+        if (puzzleSet == puzzleSet3) puzzleSet3Solved = true;
+    }
+
 
     private void OnPuzzleSolved(List<RotatingPillar> puzzleSet)
     {
@@ -131,7 +158,10 @@ public class RotatingPillarManager : MonoBehaviour
             PuzzleSet2 = ExportPuzzleSet(puzzleSet2),
             PuzzleSet3 = ExportPuzzleSet(puzzleSet3),
             CropKeys = ExportCropKeys(),
-            PuzzlesSolved = puzzlesSolved
+            PuzzlesSolved = puzzlesSolved,
+            PuzzleSet1Solved = puzzleSet1Solved,
+            PuzzleSet2Solved = puzzleSet2Solved,
+            PuzzleSet3Solved = puzzleSet3Solved
         };
     }
 
@@ -139,6 +169,11 @@ public class RotatingPillarManager : MonoBehaviour
     {
         puzzlesSolved = data.PuzzlesSolved;
         rotatingPillarPuzzleSolved = (puzzlesSolved == 3);
+
+        puzzleSet1Solved = data.PuzzleSet1Solved;
+        puzzleSet2Solved = data.PuzzleSet2Solved;
+        puzzleSet3Solved = data.PuzzleSet3Solved;
+
         ImportCropKeys(data.CropKeys);
         ImportPuzzleSet(puzzleSet1, data.PuzzleSet1);
         ImportPuzzleSet(puzzleSet2, data.PuzzleSet2);
@@ -206,6 +241,9 @@ public struct RotatingPuzzleSaveData
     public List<RotatingPillarSaveData> PuzzleSet3;
     public List<CropKeySaveData> CropKeys;
     public int PuzzlesSolved;
+    public bool PuzzleSet1Solved;
+    public bool PuzzleSet2Solved;
+    public bool PuzzleSet3Solved;
 }
 
 

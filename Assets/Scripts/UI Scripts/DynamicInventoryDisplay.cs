@@ -41,6 +41,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
 
     public void RefreshDynamicInventory(InventorySystem invToDisplay)
     {
+        //print(invToDisplay);
         ClearSlots();
 
         // Unsubscribe from the previous inventory system to prevent double updates
@@ -63,6 +64,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
 
     public override void AssignSlot(InventorySystem invToDisplay)
     {
+        print(invToDisplay);
         slotDictionary = new Dictionary<InventorySlot_UI, InventorySlot>();
 
         if (invToDisplay == null) return;

@@ -27,7 +27,7 @@ MonoBehaviour:
     pathName: Thanks for completing quest
     paragraphs:
     - Thank you for completing my quest!
-    emotions: 06000000
+    emotions: 01000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -88,7 +88,13 @@ MonoBehaviour:
     - ... of a mist powered technological renaissance!
     emotions: 0000000001000000
   questPaths: []
-  itemRecievedPaths: []
+  itemRecievedPaths:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:

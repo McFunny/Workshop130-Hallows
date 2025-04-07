@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Linq;
 
 public abstract class InventoryDisplay : MonoBehaviour
 {
@@ -25,10 +26,19 @@ public abstract class InventoryDisplay : MonoBehaviour
     {
         foreach (var slot in slotDictionary)
         {
+            //print(slot);
             if (slot.Value == updatedSlot) // Slot value - the "under the hood" inventory slot.
             {
                 slot.Key.UpdateUISlot(updatedSlot); // slot key - the ui representation of the value/
             }
+        }
+    }
+
+    protected virtual void UpdateSlots()
+    {
+        foreach (var slot in slotDictionary)
+        {
+            slot.Key.UpdateUISlot(slot.Key.AssignedInventorySlot);
         }
     }
 
@@ -199,16 +209,17 @@ public abstract class InventoryDisplay : MonoBehaviour
                 /*mouseInventoryItem.UpdateMouseSlot(halfStackSlot);*/
                 //clickedUISlot.UpdateUISlot();
                 clickedUISlot.ClearSlot();
-                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
-                PlayerInventoryHolder.Instance.UpdateInventory(); //WHY WONT IT UPDATE THE BACKPACK
-                if(slot != null) UpdateSlot(slot); //STILL NOTHING???
-                return;
-            }
-            else
-            {
-                mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
-                clickedUISlot.ClearSlot();
-                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                //PlayerInventoryHolder.Instance.UpdateOpenInventory(); //WHY WONT IT UPDATE THE BACKPACK
+                var allDisplays = FindObjectsByType<InventoryDisplay>(FindObjectsSortMode.None); 
+
+                for(int i = 0; i < allDisplays.Length; i++)
+                {
+                    allDisplays[i].UpdateSlots();
+                }
+                UpdateSlots(); //STILL NOTHING???
+                
+                clickedUISlot.ParentDisplay.UpdateSlots();
                 return;
             }
         } 

@@ -44,6 +44,8 @@ public class PopupHandler : MonoBehaviour
         PopupEvents.current.OnKill += OnKill;
         PopupEvents.current.OnWeedDug += OnWeedDug;
         PopupEvents.current.OnWateredCrop += OnWateredCrop;
+        PopupEvents.current.OnKillCreature += OnKillCreature;
+        PopupEvents.current.OnClearCorpse += OnClearCorpse;
         //popupContainer.SetActive(false);
         conditionMet = false;
         popupTransform.position = lerpStart.position;
@@ -58,6 +60,8 @@ public class PopupHandler : MonoBehaviour
         PopupEvents.current.OnKill -= OnKill;
         PopupEvents.current.OnWeedDug -= OnWeedDug;
         PopupEvents.current.OnWateredCrop -= OnWateredCrop;
+        PopupEvents.current.OnKillCreature -= OnKillCreature;
+        PopupEvents.current.OnClearCorpse -= OnClearCorpse;
         TimeManager.OnHourlyUpdate -= NightWarning;
     }
 
@@ -199,6 +203,18 @@ public class PopupHandler : MonoBehaviour
             print("Water!!!");
             conditionMet = false; // Reset
         }
+        else if (popup.endCondition == PopupScript.EndCondition.KillCreature)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Kill!!!");
+            conditionMet = false; // Reset
+        }
+        else if (popup.endCondition == PopupScript.EndCondition.ClearCorpse)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Corpse!!!");
+            conditionMet = false; // Reset
+        }
         //print("HI!!!");
         isActive = false;
         yield return new WaitUntil(() => offScreen);
@@ -250,6 +266,22 @@ public class PopupHandler : MonoBehaviour
     private void OnWateredCrop()
     {
         if (isActive && currentPopup.endCondition == PopupScript.EndCondition.WateredCrop)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnKillCreature()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.KillCreature)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnClearCorpse()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.ClearCorpse)
         {
             conditionMet = true;
         }

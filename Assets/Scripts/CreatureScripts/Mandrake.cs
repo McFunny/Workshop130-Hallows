@@ -238,7 +238,30 @@ public class Mandrake : CreatureBehaviorScript
         isMoving = false;
     }
 
-    public override bool OnStun(float duration)
+    public override bool OnBearTrapStun(StructureBehaviorScript b)
+    {
+        if(currentState == CreatureState.Trapped) return false;
+        currentState = CreatureState.Trapped;
+        StartCoroutine(BearTrapHold(b));
+        agent.destination = transform.position;
+        anim.SetBool("IsRunning", false);
+        return false;
+    }
+
+    private IEnumerator BearTrapHold(StructureBehaviorScript b)
+    {
+        agent.ResetPath();
+        float oldSpeed = agent.speed;
+        agent.speed = 0;
+        while (b && b.health > 0)
+        {
+            yield return null;
+        }
+        agent.speed = oldSpeed;
+        currentState = CreatureState.Wander;
+    }
+
+    /*public override bool OnStun(float duration)
     {
         if(currentState == CreatureState.Trapped) return false;
         currentState = CreatureState.Trapped;
@@ -256,7 +279,7 @@ public class Mandrake : CreatureBehaviorScript
         yield return new WaitForSeconds(duration);
         agent.speed = oldSpeed;
         currentState = CreatureState.Wander;
-    }
+    } */
 
     private void LeaveFarm()
     {

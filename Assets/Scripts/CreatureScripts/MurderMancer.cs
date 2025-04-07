@@ -71,9 +71,10 @@ public class MurderMancer : CreatureBehaviorScript
 
     IEnumerator ExtinguishSelf(bool litByPlayer)
     {
+        float extinguishTime = 10;
         coroutineRunning = true;
         burningParticles.SetActive(true);
-        anim.SetTrigger("OnFire");
+        anim.SetBool("OnFire", true);
         yield return new WaitForSeconds(1.8f);
         if(litByPlayer)
         {
@@ -81,8 +82,9 @@ public class MurderMancer : CreatureBehaviorScript
             //HandItemManager.Instance.TorchFlameToggle(false);
         }
         LowerStage();
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(extinguishTime);
         burningParticles.SetActive(false);
+        anim.SetBool("OnFire", false);
         yield return new WaitForSeconds(0.6f);
         coroutineRunning = false;
     }

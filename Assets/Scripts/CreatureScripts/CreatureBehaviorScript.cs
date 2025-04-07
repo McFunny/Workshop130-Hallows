@@ -125,7 +125,7 @@ public class CreatureBehaviorScript : MonoBehaviour
                     if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
                     else corpseParticle.transform.position = transform.position;
                 }
-                
+                if(Tutorial.Instance) Tutorial.Instance.ClearedCorpse();
                 Destroy(this.gameObject);
             }
         }
@@ -160,6 +160,8 @@ public class CreatureBehaviorScript : MonoBehaviour
             creatureData.amountKilled++;
             creatureData.hasSpawned = true;
         }
+
+        if(Tutorial.Instance) Tutorial.Instance.KillCreature();
     } //Triggers creature specific effects
 
     public void OnDestroy()
@@ -170,6 +172,10 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public virtual void OnSpawn(){}
     public virtual bool OnStun(float duration)
+    {
+        return false;
+    }
+    public virtual bool OnBearTrapStun(StructureBehaviorScript b)
     {
         return false;
     }

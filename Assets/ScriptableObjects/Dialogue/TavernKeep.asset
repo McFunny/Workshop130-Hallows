@@ -24,7 +24,7 @@ MonoBehaviour:
     pathName: Thanks for completing quest
     paragraphs:
     - Thank you for completing my quest!
-    emotions: 06000000
+    emotions: 01000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -67,7 +67,13 @@ MonoBehaviour:
     - I have been tipped off to an individual needing some assistance. I'll give
       you the details on this note.
     emotions: 0400000000000000
-  itemRecievedPaths: []
+  itemRecievedPaths:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:

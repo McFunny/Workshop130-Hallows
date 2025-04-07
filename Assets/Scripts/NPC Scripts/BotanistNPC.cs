@@ -14,6 +14,8 @@ public class BotanistNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
+    public List<InventoryItemData> questCrops = new List<InventoryItemData>();
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -100,11 +102,11 @@ public class BotanistNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
-        else if(item.staminaValue > 0)
+        /*else if(item.staminaValue > 0)
         {
             currentPath = 0;
             currentType = PathType.ItemRecieved;
-            /*if(!NPCManager.Instance.botanistFed)
+            if(!NPCManager.Instance.botanistFed)
             {
                 currentPath = 0;
                 currentType = PathType.ItemRecieved;
@@ -115,9 +117,9 @@ public class BotanistNPC : NPC, ITalkable
             {
                 currentPath = 1;
                 currentType = PathType.ItemRecieved;
-            }*/
+            }
             //Its consumable and giftable
-        }
+        }*/
         else
         {
             currentPath = 0;
@@ -150,7 +152,7 @@ public class BotanistNPC : NPC, ITalkable
             {
                 currentPath = 2; //item sold
                 shopUI.shopImgObj.SetActive(false);
-                if (assignedStall.displaySign)
+                if (assignedStall && assignedStall.displaySign)
                 {
                     assignedStall.displaySign.ResetDisplay();
                 }
@@ -166,7 +168,7 @@ public class BotanistNPC : NPC, ITalkable
             lastInteractedStoreItem = item;
             shopUI.shopTarget = item.arrowObject.transform;
             shopUI.shopImgObj.SetActive(true);
-            if(assignedStall.displaySign)
+            if(assignedStall && assignedStall.displaySign)
             {
                 assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
             }
@@ -178,12 +180,12 @@ public class BotanistNPC : NPC, ITalkable
 
     public override void PlayerLeftRadius()
     {
-        if(lastInteractedStoreItem)
+        if (lastInteractedStoreItem)
         {
             lastInteractedStoreItem = null;
         }
-        shopUI.shopImgObj.SetActive(false);
-        if (assignedStall.displaySign)
+        if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
+        if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
         {
             assignedStall.displaySign.ResetDisplay();
         }
@@ -210,14 +212,55 @@ public class BotanistNPC : NPC, ITalkable
         i = Random.Range(0, rareSeeds.Length);
         rareSeedForSale = rareSeeds[i];
 
-        List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
-        while(commonSeedsForSale.Count < 3)
-        { 
-            i = Random.Range(0, commonSeeds.Length);
-            if(!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
+        questCrops.Clear();
+
+        if (QuestManager.Instance.activeQuests.Count > 0)
+        {
+            for (int j = 0; j < QuestManager.Instance.activeQuests.Count; j++)
+            {
+                if (QuestManager.Instance.activeQuests[j] is GrowQuest gQuest)
+                {
+                    for (int k = 0; k < possibleSoldItems.Length; k++) 
+                    {
+                        if( possibleSoldItems[k] == gQuest.desiredCrop.cropSeed)
+                        {
+                            questCrops.Add(gQuest.desiredCrop.cropSeed);
+                        }
+                    }
+                }
+
+            }
+        }
+
+            List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
+        while (commonSeedsForSale.Count < 3)
+        {
+            if (questCrops.Count > 0)
+            {
+                i = Random.Range(0, 4);
+                if (i > 0)
+                {
+                    i = Random.Range(0, questCrops.Count);
+                    if (!commonSeedsForSale.Contains(questCrops[i]))
+                    {
+                        commonSeedsForSale.Add(questCrops[i]);
+                        questCrops.Remove(questCrops[i]);
+                    }
+                }
+                else
+                {
+                    i = Random.Range(0, commonSeeds.Length);
+                    if (!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
+                }
+            }
+            else
+            { 
+                i = Random.Range(0, commonSeeds.Length);
+                if (!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
+            }
             
         }
-        int ILOVESOUNDS = Random.Range(0, 2);
+        int sellRareSeed = Random.Range(0, 2);
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
@@ -231,7 +274,7 @@ public class BotanistNPC : NPC, ITalkable
             else if (currentItem < 9)
             {
                 
-                if (ILOVESOUNDS == 0) newItem = rareSeedForSale;
+                if (sellRareSeed == 0) newItem = rareSeedForSale;
                 else newItem = commonSeedsForSale[commonSeedsForSale.Count - 1];
 
             }
