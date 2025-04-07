@@ -205,7 +205,18 @@ public class BearTrap : StructureBehaviorScript
         {
             capturedCreature.transform.position = transform.position;
             yield return new WaitForSeconds(1f);
-            if(capturedCreature.health > 0) TakeDamage(1);
+            if(capturedCreature.health > 0)
+            {
+                int damage = 0;
+                int calculatedHealth = 0;
+                while(calculatedHealth < capturedCreature.health)
+                {
+                    calculatedHealth += 25;
+                    damage++;
+                }
+
+                TakeDamage(damage);
+            }
         }
 
         StartCoroutine(HoldCorpse());
