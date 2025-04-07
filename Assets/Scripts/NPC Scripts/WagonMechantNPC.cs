@@ -16,6 +16,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     public StoreItem[] storeItems;
     WaypointScript shopUI;
+    public ItemDisplaySign displaySign;
 
     //Find a way to get feedback on when a dialogue tree is finished by calling an event/delegate.
 
@@ -34,6 +35,8 @@ public class WagonMerchantNPC : NPC, ITalkable
             lantern.merchant = this;
             if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) lantern.EnableSelf();
         }
+
+        if (displaySign) displaySign.UpdateNPCName(this);
 
     }
 
@@ -148,23 +151,24 @@ public class WagonMerchantNPC : NPC, ITalkable
             else
             {
                 currentPath = 5; //item sold
-                //item.arrowObject.SetActive(false);
                 shopUI.shopImgObj.SetActive(false);
+                if(displaySign)
+                {
+                    displaySign.ResetDisplay();
+                }
             }
             anim.SetTrigger("Transaction");
-            //lastInteractedStoreItem = null;
         }
         else
         {
             dialogueController.restartDialogue = true;
             currentPath = 4; //item selected
             anim.SetTrigger("IsTalking");
-            //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
             if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
             lastInteractedStoreItem = item;
-            //item.arrowObject.SetActive(true);
             shopUI.shopTarget = item.arrowObject.transform;
             shopUI.shopImgObj.SetActive(true);
+            if (displaySign) displaySign.DisplayItem(lastInteractedStoreItem.itemData);
             
         }
         currentType = PathType.Misc;
@@ -173,7 +177,6 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void RefreshStore()
     {
-        //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
         if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
         lastInteractedStoreItem = null;
         int i;
@@ -205,12 +208,11 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         if(lastInteractedStoreItem)
         {
-            //lastInteractedStoreItem.arrowObject.SetActive(false);
-            //shopUI.shopImgObj.SetActive(false);
             lastInteractedStoreItem = null;
         }
         if(lastSeenItem) lastSeenItem = null; 
         shopUI.shopImgObj.SetActive(false);
+        if (displaySign) displaySign.ResetDisplay();
 
         interactedWithLantern = false;
     }
@@ -218,7 +220,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     public void HourlyUpdate()
     {
         //update store at night. Change to perform when not in view of the player 
-        if(TimeManager.Instance.currentHour == 8)
+        if(TimeManager.Instance.currentHour == 6) //changed from 8 to 6. Lets see if this still works
         {
             RefreshStore();
         }

@@ -111,14 +111,14 @@ public class PlayerInteraction : MonoBehaviour
             StartCoroutine(GameOver());
         }
 
-        /*if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) && StructureManager.Instance.enableCheats)
             {
                 currentMoney += 200;
                 totalMoneyEarned += 200;
             }
-        }*/
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -129,7 +129,7 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        //if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
 
     }
@@ -310,6 +310,11 @@ public class PlayerInteraction : MonoBehaviour
         if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible)
         {
             print("Damage negated! Stamina is : " + stamina);
+            return;
+        }
+        if(stamina + amount <= 50 && stamina > 50 && amount >= -4 && amount < 0)
+        {
+            print("Damage negated to not go under threshold");
             return;
         }
         stamina += amount;

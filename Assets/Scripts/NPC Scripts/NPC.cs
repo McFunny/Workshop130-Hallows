@@ -118,7 +118,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
         {
             if(QuestManager.Instance.activeQuests[i].alreadyCompleted || QuestManager.Instance.activeQuests[i].isMajorQuest) continue;
 
-            if(QuestManager.Instance.activeQuests[i].assignee == character && QuestManager.Instance.activeQuests[i].progress == QuestManager.Instance.activeQuests[i].maxProgress)
+            if(QuestManager.Instance.activeQuests[i].assignee == character)
             {
                 FetchQuest fq = QuestManager.Instance.activeQuests[i] as FetchQuest;
                 if(fq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == fq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= fq.amount)
@@ -133,7 +133,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 }
 
                 GrowQuest gq = QuestManager.Instance.activeQuests[i] as GrowQuest;
-                if(gq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == gq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= gq.amount)
+                if(gq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == gq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= gq.amount && gq.progress == gq.maxProgress)
                 {
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                     PlayerInteraction.Instance.currentMoney += QuestManager.Instance.activeQuests[i].mintReward;

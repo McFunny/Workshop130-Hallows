@@ -51,6 +51,7 @@ public class PlayerInventoryHolder : InventoryHolder
 
     private void OnDisable()
     {
+        SaveLoad.OnSaveGame -= SaveInventory;
         SaveLoad.OnLoadGame -= LoadInventory;
     }
 
@@ -58,6 +59,7 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         base.Awake();
         secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
+        SaveLoad.OnSaveGame += SaveInventory;
         SaveLoad.OnLoadGame += LoadInventory;
 
         if (Instance != null && Instance != this)
@@ -73,17 +75,22 @@ public class PlayerInventoryHolder : InventoryHolder
 
     private void LoadInventory(SaveData data)
     {
-        if (data.playerInventoryData.primaryInvSystem != null && data.playerInventoryData.secondaryInvSystem != null)
+        if (data.playerInventoryData.primaryInvSystemSave.savedSlots != null && data.playerInventoryData.secondaryInvSystemSave.savedSlots != null)
         {
-            this.primaryInventorySystem = data.playerInventoryData.primaryInvSystem;
-            this.secondaryInventorySize = data.playerInventoryData.secondaryInventorySizeSave;
+            this.primaryInventorySystem = new InventorySystem(data.playerInventoryData.primaryInvSystemSave.savedSlots.Count);
+            this.primaryInventorySystem.LoadFromSaveData(data.playerInventoryData.primaryInvSystemSave, _database);
 
-            // Ensure the secondary inventory system is properly sized
-            this.secondaryInventorySystem = new InventorySystem(this.secondaryInventorySize);
-            this.secondaryInventorySystem = data.playerInventoryData.secondaryInvSystem;
+            this.secondaryInventorySize = data.playerInventoryData.secondaryInventorySizeSave;
+            this.secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
+            this.secondaryInventorySystem.LoadFromSaveData(data.playerInventoryData.secondaryInvSystemSave, _database);
+
             UpdateInventory();
         }
-        else Debug.Log("Missing inventories");
+        else
+        {
+            Debug.Log("Missing saved inventory slot data.");
+        }
+
     }
 
 
@@ -98,9 +105,11 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         yield return new WaitForSeconds(0.5f);
         if(!MainMenuScript.loadingData) EquipStartingItems();
-        //else
-        var inventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
-        SaveLoad.CurrentSaveData.playerInventoryData = inventoryData;
+    }
+
+    private void SaveInventory()
+    {
+        SaveLoad.CurrentSaveData.playerInventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
     }
 
     private void EquipStartingItems()
@@ -330,14 +339,15 @@ public class PlayerInventoryHolder : InventoryHolder
 [System.Serializable]
 public struct PlayerInventorySaveData
 {
-    public InventorySystem primaryInvSystem;
-    public InventorySystem secondaryInvSystem;
+    public InventorySystemSaveData primaryInvSystemSave;
+    public InventorySystemSaveData secondaryInvSystemSave;
     public int secondaryInventorySizeSave;
 
-    public PlayerInventorySaveData(InventorySystem _primaryInvSystem, InventorySystem _secondaryInvSystem, int _secondaryInventorySize)
+    public PlayerInventorySaveData(InventorySystem primary, InventorySystem secondary, int secondarySize)
     {
-        primaryInvSystem = _primaryInvSystem;
-        secondaryInvSystem = _secondaryInvSystem;
-        secondaryInventorySizeSave = _secondaryInventorySize;
+        primaryInvSystemSave = primary.GetSaveData();
+        secondaryInvSystemSave = secondary.GetSaveData();
+        secondaryInventorySizeSave = secondarySize;
     }
+
 }

@@ -463,7 +463,7 @@ public class PyreFly : CreatureBehaviorScript
     IEnumerator Strafe()
     {
         int r;
-        int attackCooldown = 7;
+        int attackCooldown = 5;
         int x = 0; //keeps track of how long its been unlit
 
         while(strafing)
@@ -477,7 +477,7 @@ public class PyreFly : CreatureBehaviorScript
             {
                 if(ignited) Attack();
                 else x++;
-                attackCooldown = 7;
+                attackCooldown = 5;
                 if(x >= 10)
                 {
                     IgnitionToggle(true);

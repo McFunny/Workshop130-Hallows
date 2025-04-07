@@ -16,7 +16,8 @@ public class Table : FurnitureBehaviorScript
     public void Start()
     {
         base.Start();
-        RefreshSockets();
+        FurnitureStart();
+        StartCoroutine(DelayedStart());
     }
 
     public override void StructureInteraction()
@@ -109,6 +110,12 @@ public class Table : FurnitureBehaviorScript
                 }
             }
         }
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(1);
+        RefreshSockets();
     }
 
     bool CanBeRemoved()

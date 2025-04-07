@@ -104,7 +104,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(!crop && growthComplete) growthComplete.Stop();
 
-        if(supportText != null)
+        if(supportText != null && !highlight[0].activeSelf)
         {
             if(structureUI) supportText.gameObject.SetActive(structureUI.activeSelf);
             if(crop != null) supportText.text = "";
@@ -219,7 +219,7 @@ public class FarmLand : StructureBehaviorScript
 
 
                     r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1);
-                    if(r == 0 && Random.Range(0,10) >= 6 && crop.seedYieldAmount > 0) r = 1;
+                    if(r == 0 && Random.Range(0,10) >= 8 && crop.seedYieldAmount > 0) r = 1;
                     for (int i = 0; i < r; i++) //Seed yield
                     {
                         if(crop.cropSeed && plantStress == 0)
@@ -303,7 +303,7 @@ public class FarmLand : StructureBehaviorScript
             return;
         }
         hoursSpent++;
-        if(crop.behavior) crop.behavior.OnHour(this);
+        if(crop && crop.behavior) crop.behavior.OnHour(this);
 
         if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {

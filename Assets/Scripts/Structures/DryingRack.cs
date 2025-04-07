@@ -69,7 +69,7 @@ public class DryingRack : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(item == meat && savedItems.Count < maxContainedItems)
+        if(item == meat && (savedItems.Count < maxContainedItems || !savedItems.Contains(meat)))
         {
             //
             savedItems.Add(item);
@@ -101,7 +101,7 @@ public class DryingRack : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(progress < maxProgress && savedItems.Count == maxContainedItems)
+        if(progress < maxProgress && savedItems.Count >= maxContainedItems)
         {
             if(ignoreNextHour)
             {

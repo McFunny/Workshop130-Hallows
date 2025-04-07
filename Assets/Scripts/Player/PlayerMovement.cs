@@ -24,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
     float horizontalInput;
     float verticalInput;
 
+    private PhysicMaterial noFriction;
+    private CapsuleCollider capsuleCollider;
+
     Vector3 moveDirection;
 
     Rigidbody rb;
@@ -53,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
         accessingInventory = false;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        noFriction = capsuleCollider.material;
     }
 
     private void OnEnable()
@@ -72,14 +77,20 @@ public class PlayerMovement : MonoBehaviour
         if (playerCanMove && restrictMovementTokens > 0)
         {
             playerCanMove = false;
+          
+           
             CancelSprintManually(); // Cancel sprinting and reset FOV when movement is restricted
             print("Player cannot move");
         }
         if (!playerCanMove && restrictMovementTokens == 0)
         {
             playerCanMove = true;
+            
+           
             print("Player is able to move");
         }
+
+        capsuleCollider.material = DialogueController.Instance.IsTalking() ? null : noFriction;
 
         MyInput();
         if (isStalled || isCodexOpen)

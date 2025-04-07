@@ -223,6 +223,7 @@ public class DialogueController : MonoBehaviour
     public void EndConversation()
     {
         // Clear queue
+        print("ConvoEnded");
         paragraphs.Clear();
         emotions.Clear();
 
@@ -237,6 +238,7 @@ public class DialogueController : MonoBehaviour
         }
 
         currentTalker.OnConvoEnd();
+        currentTalker = null;
 
         if(dialogueBox.activeSelf)
         {
@@ -358,6 +360,7 @@ public class DialogueController : MonoBehaviour
 
     public bool IsTalking()
     {
+        if(currentTalker) return true;
         return isTalking;
     }
 

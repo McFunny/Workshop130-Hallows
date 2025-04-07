@@ -126,11 +126,13 @@ public class UIMenuButton : MonoBehaviour
         if(isSelected && controlManager.select.action.ReadValue<float>() == 0) 
         {
             //print("Onlcick Attempted");
+            if(button.interactable == false) return;
             button.onClick.Invoke();
             if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
         }
         else if(isSelected && ControlManager.isController)
         {
+            if(button.interactable == false) return;
             button.onClick.Invoke();
             if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
         }

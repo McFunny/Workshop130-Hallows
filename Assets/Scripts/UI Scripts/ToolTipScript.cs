@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
-using Unity.VisualScripting;
 
 public class ToolTipScript : MonoBehaviour
 {
@@ -66,9 +65,9 @@ public class ToolTipScript : MonoBehaviour
     }
     public void UpdateToolTip(InventoryItemData itemData)
     {
-        var type = itemData.GetType();
-
         if(itemData == null || !panel.activeSelf) return;
+        
+        var type = itemData.GetType();
 
         if(itemData.staminaValue != 0)
         {

@@ -25,7 +25,7 @@ MonoBehaviour:
     pathName: Thanks for completing quest
     paragraphs:
     - Thank you for completing my quest!
-    emotions: 06000000
+    emotions: 01000000
   repeatedItemPath:
     pathName: Sigh
     paragraphs:
@@ -107,10 +107,12 @@ MonoBehaviour:
       gone before ye know it.
     emotions: 01000000
   itemRecievedPaths:
-  - pathName: Go Sell that
+  - pathName: Go Sell it instead
     paragraphs:
-    - Ho ho, I know we will be eating good tonight with you around!
-    emotions: 01000000
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   - pathName: Thank you
     paragraphs:
     - Ho ho, this looks nice! Thank you! {itemGiven}
@@ -119,6 +121,10 @@ MonoBehaviour:
     paragraphs:
     - I couldn't possibly have another!
     emotions: 05000000
+  - pathName: Go Sell that
+    paragraphs:
+    - Ho ho, I know we will be eating good tonight with you around!
+    emotions: 01000000
   itemSpecificRemarks:
   - pathName: No Comment
     paragraphs:

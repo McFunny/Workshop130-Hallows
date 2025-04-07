@@ -42,7 +42,7 @@ public class SaveGameManager : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.V))
+       /* if (Input.GetKeyDown(KeyCode.V)) //IF YOU ARE GONNA UNCOMMENT THIS OUT, MAKE SURE THERE ISNT ANOTHER FUNCTION ALREADY DOING THIS. IF THERE IS NOT, ADD THE DEBUGBOOL CHECK OR ASK ME //CAM
         {
             SaveData();
         }
@@ -50,8 +50,7 @@ public class SaveGameManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.B))
         {
             TryLoadData();
-            
-        } */
+        }*/
     }
 
     public static void SaveData()
