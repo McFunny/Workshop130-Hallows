@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
 {
 
     int currentCoins = 0;
+    float lerp = 0;
+    float duration = 2f;
     public TextMeshProUGUI coinText;
     private Animator coinAnimator;
     // Start is called before the first frame update
@@ -24,14 +26,19 @@ public class UIManager : MonoBehaviour
         {
             coinAnimator.SetBool("MoneyChanging", true);
             coinAnimator.SetTrigger("MoneyUpdate");
-            if(currentCoins < PlayerInteraction.Instance.currentMoney) { currentCoins++; }
-            if(currentCoins > PlayerInteraction.Instance.currentMoney) { currentCoins--; }
-             //= PlayerInteraction.Instance.currentMoney;
+            //if(currentCoins < PlayerInteraction.Instance.currentMoney) { currentCoins++; }
+            //if(currentCoins > PlayerInteraction.Instance.currentMoney) { currentCoins--; }
+            //= PlayerInteraction.Instance.currentMoney;
+            
+            lerp += Time.deltaTime / duration;
+            if(lerp >= duration - 0.5f) lerp = duration;
+            currentCoins = (int)Mathf.Lerp(currentCoins, PlayerInteraction.Instance.currentMoney, lerp);
             coinText.text = currentCoins.ToString();
         }
         else
         {
             coinAnimator.SetBool("MoneyChanging", false);
+            lerp = 0;
         }
     }
 }
