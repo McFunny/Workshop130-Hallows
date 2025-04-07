@@ -99,9 +99,9 @@ public class BearTrap : StructureBehaviorScript
 
     IEnumerator SpringTrap(Collider victim)
     {
-        animationTimeLeft = 0.5f;
+        animationTimeLeft = 0.2f;
         caughtSomething = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(animationTimeLeft);
         topClamp.rotation = Quaternion.Euler(-161, 90, -90);
         bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
         audioHandler.PlaySound(triggeredSFX);
@@ -121,7 +121,9 @@ public class BearTrap : StructureBehaviorScript
                 player.StaminaChange(-25);
 
                 //restrictplayermovement
+                player.transform.position = new Vector3(transform.position.x, victim.transform.position.y, transform.position.z);
                 PlayerMovement.restrictMovementTokens += 1;
+                //yield return new WaitForSeconds(0.2f);
                 
                 yield return new WaitForSeconds(1);
                 StartCoroutine(Rearm());
@@ -153,6 +155,7 @@ public class BearTrap : StructureBehaviorScript
                     capturedCreature.TakeDamage(999);
                     TakeDamage(2);
                     capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
+                    StartCoroutine(HoldCorpse());
                 }
             }
         }
@@ -186,9 +189,42 @@ public class BearTrap : StructureBehaviorScript
         rearming = false;
     }
 
-    IEnumerator HoldCreature() //Maybe have this lose durability for every second it holds a creature
+    IEnumerator HoldCreature() 
     {
         rearming = true;
+        if(!capturedCreature.OnBearTrapStun(this) || !capturedCreature.bearTrapVulnerable)  capturedCreature = null;
+        else
+        {
+            capturedCreature.transform.position = transform.position;
+            capturedCreature.TakeDamage(25);
+            capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
+            yield return new WaitForSeconds(1f);
+        }
+
+        while(capturedCreature && health > 0 && capturedCreature.health > 0)
+        {
+            capturedCreature.transform.position = transform.position;
+            yield return new WaitForSeconds(1f);
+            if(capturedCreature.health > 0)
+            {
+                int damage = 0;
+                int calculatedHealth = 0;
+                while(calculatedHealth < capturedCreature.health)
+                {
+                    calculatedHealth += 25;
+                    damage++;
+                }
+
+                TakeDamage(damage);
+            }
+        }
+
+        StartCoroutine(HoldCorpse());
+        //StartCoroutine(Rearm());
+
+        ///////////////
+        /*
+
         if(!capturedCreature.OnStun(2) || !capturedCreature.bearTrapVulnerable) capturedCreature = null;
         else
         {
@@ -209,10 +245,16 @@ public class BearTrap : StructureBehaviorScript
             }
         }
 
-        while(capturedCreature) yield return null;
-        
-        rearming = false;
+        StartCoroutine(HoldCorpse());
         //StartCoroutine(Rearm());
+        */
+    }
+
+    IEnumerator HoldCorpse()
+    {
+        rearming = true;
+        while(capturedCreature) yield return null;
+        rearming = false;
     }
 
     void OnTriggerEnter(Collider other)

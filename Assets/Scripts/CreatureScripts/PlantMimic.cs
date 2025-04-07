@@ -348,7 +348,34 @@ public class PlantMimic : CreatureBehaviorScript
         }
     }
 
-    public override bool OnStun(float duration)
+    public override bool OnBearTrapStun(StructureBehaviorScript b)
+    {
+        if (currentState != CreatureState.Stunned)
+        {
+            StartCoroutine(BearTrapHold(b));
+            agent.destination = transform.position;
+            agent.ResetPath();
+            newBurrowPos = new Vector3(0,0,0);
+            return true;
+        }
+        else return false;
+    }
+
+    private IEnumerator BearTrapHold(StructureBehaviorScript b)
+    {
+        currentState = CreatureState.Stunned;
+        coroutineRunning = false;
+
+        while (b && b.health > 0)
+        {
+            yield return null;
+        }
+        //StartCoroutine(IdleSoundTimer());
+        currentState = CreatureState.Wander;
+        
+    }
+
+    /*public override bool OnStun(float duration)
     {
         if (currentState != CreatureState.Stunned)
         {
@@ -371,7 +398,7 @@ public class PlantMimic : CreatureBehaviorScript
         //StartCoroutine(IdleSoundTimer());
         currentState = CreatureState.Wander;
         
-    }
+    } */
 
     public override void OnDeath()
     {

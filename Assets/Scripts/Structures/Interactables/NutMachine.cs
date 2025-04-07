@@ -28,7 +28,8 @@ public class NutMachine : MonoBehaviour, IInteractable
     public Rigidbody lRB, rRB;
 
     public GameObject lNutPrefab, rNutPrefab;
-    public ParticleSystem abnerParticles;
+    public ParticleSystem abnerParticles; //im going to beat you with many hammers
+
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
@@ -85,16 +86,16 @@ public class NutMachine : MonoBehaviour, IInteractable
         yield return new WaitForSeconds(1.1f);
         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(RandomNutItem());
         Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+        source.PlayOneShot(nutCut);
         itemRB = droppedItem.GetComponent<Rigidbody>();
-        itemRB.AddForce(Vector3.forward * 20);
-        itemRB.AddForce(Vector3.up * 10);
-
+        itemRB.AddForce(Vector3.forward * 40);
+        itemRB.AddForce(Vector3.up * 20);
         lRB.isKinematic = false;
         rRB.isKinematic = false;
-        source.PlayOneShot(nutCut);
+       
         droppedItem.transform.position = new Vector3(nutSpawn.position.x, nutSpawn.position.y, nutSpawn.position.z);
         abnerParticles.Play();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.7f);
         lNut = null;
         rNut = null;
         //lNut.SetActive(false);

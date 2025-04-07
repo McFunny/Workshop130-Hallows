@@ -11,6 +11,7 @@ public class CropStatsRework : MonoBehaviour
     private FarmLand hitCrop;
     public Image cropSprite, cropSpriteD, gloamArrow, terraArrow, ichorArrow, waterArrow;
     private bool isActive;
+    public bool isDetailed;
     public float reach = 8;
     public TextMeshProUGUI cropNameText, cropNameTextD, growthStageNumber, growthStageNumberD, gloamIntake, terraIntake, ichorIntake, waterIntake, gloamValue, terraValue, ichorValue, waterValue;
     public Slider gloamFill, terraFill, ichorFill, waterFill, gloamFillD, terraFillD, ichorFillD, waterFillD;
@@ -21,6 +22,8 @@ public class CropStatsRework : MonoBehaviour
     float timeSpendAnimating = 0;
     float moveProgress = 0;
     float maxMoveProgress = 0.5f;
+    
+    [SerializeField] private string lackingGloam, lackingTerra, lackingIchor;
 
     void Awake()
     {
@@ -42,11 +45,13 @@ public class CropStatsRework : MonoBehaviour
         {
             cropStats.SetActive(false);
             cropStatsDetailed.SetActive(true);
+            isDetailed = true;
         }
         else
         {
             cropStats.SetActive(true);
             cropStatsDetailed.SetActive(false);
+            isDetailed = false;
         }
 
         if(isActive && moveProgress < maxMoveProgress)
@@ -131,6 +136,7 @@ public class CropStatsRework : MonoBehaviour
 
         if(tile.crop != null)
         {
+
             if(tile.crop.gloamIntake > 0)
             {
                 gloamIntake.text = (-1 * tile.crop.gloamIntake).ToString();
@@ -219,6 +225,62 @@ public class CropStatsRework : MonoBehaviour
             ichorArrow.gameObject.SetActive(false);
             waterIntake.text = "";
             waterArrow.gameObject.SetActive(false);
+            
+            if(!tile.isWeed)
+            {
+                tile.supportText.gameObject.SetActive(false);
+                tile.supportText.text = "";
+            }
+            
+            
+            if(!tile.isWeed && tile.crop == null)
+            {
+                if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != null)
+                {
+                    var itemType = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.GetType();
+                    bool notIchor = false;
+                
+                    print(itemType);
+
+                    if(itemType.Equals(typeof(CropItem)))
+                    {
+                        tile.supportText.gameObject.SetActive(true);
+                        //print("Alex your stupid script is working");
+                        var seedData = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as CropItem;
+                        string t = "Insufficient ";
+
+                        if(tileNutrients.gloamLevel < seedData.cropData.gloamIntake * seedData.cropData.growthStages)
+                        {
+                            t = t + "<sprite name=N_Gloam> ";
+                            notIchor = true;
+                        }
+                        if(tileNutrients.terraLevel < seedData.cropData.terraIntake * seedData.cropData.growthStages)
+                        {
+                            t = t + "<sprite name=N_Terra> ";
+                            notIchor = true;
+                        } 
+                        if(tileNutrients.ichorLevel < seedData.cropData.ichorIntake * seedData.cropData.growthStages)
+                        {
+                            t = t + "<sprite name=N_Ichor> ";
+                        } 
+                        
+                        if (t != "Insufficient " || notIchor)
+                        {
+                            t = t + "to grow " + seedData.displayName;
+                            tile.supportText.text = t;
+                        } 
+                        else tile.supportText.text = "";
+                    }
+                    else
+                    {
+                        tile.supportText.text = "";
+                    }
+                }
+                else
+                {
+                    tile.supportText.text = "";
+                }
+            }
         }
 
         //print(ichorFill.fillAmount);

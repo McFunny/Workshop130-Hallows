@@ -18,6 +18,7 @@ public class ItemDisplaySign : MonoBehaviour
         itemDescription.text = "";
         itemType.text = "";
         shopNPC.text = "";
+        lastSavedNPC = string.Empty;
         ToolTipScript toolTipScript = FindAnyObjectByType<ToolTipScript>();
         c_default = toolTipScript.c_default;
         c_tool = toolTipScript.c_tool;
@@ -29,8 +30,12 @@ public class ItemDisplaySign : MonoBehaviour
 
     public void UpdateNPCName(NPC npc)
     {
-        shopNPC.text = npc.character.ToString();
-        lastSavedNPC = npc.character.ToString();
+        if (npc.dialogueText.speakerName != null)
+        {
+            shopNPC.text = npc.dialogueText.speakerName.ToString();
+            lastSavedNPC = npc.dialogueText.speakerName.ToString();
+        }
+        
     }
 
     public void ResetDisplay()

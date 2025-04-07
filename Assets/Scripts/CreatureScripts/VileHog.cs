@@ -617,7 +617,43 @@ public class VileHog : CreatureBehaviorScript
         }
     }
 
-    public override bool OnStun(float duration)
+    public override bool OnBearTrapStun(StructureBehaviorScript b)
+    {
+        if (currentState != CreatureState.Stun)
+        {
+            StartCoroutine(BearTrapHold(b));
+            faceTarget = false;
+            agent.destination = transform.position;
+            agent.ResetPath();
+            return true;
+        }
+        return false;
+    }
+
+    private IEnumerator BearTrapHold(StructureBehaviorScript b)
+    {
+        currentState = CreatureState.Stun;
+        coroutineRunning = false;
+        StopTrackingPlayer();
+        if(walkRoutine != null)
+        {
+            StopCoroutine(walkRoutine);
+            walkRoutine = null;
+        }
+        agent.ResetPath();
+        anim.SetBool("IsWalking", false);
+        anim.SetBool("IsRunning", false);
+        while (b && b.health > 0)
+        {
+            yield return null;
+        }
+        //StartCoroutine(IdleSoundTimer());
+        currentState = CreatureState.Wander;
+        bearTrapVulnerable = true;
+        
+    }
+
+    /*public override bool OnStun(float duration)
     {
         if (currentState != CreatureState.Stun)
         {
@@ -648,7 +684,7 @@ public class VileHog : CreatureBehaviorScript
         //StartCoroutine(IdleSoundTimer());
         currentState = CreatureState.Wander;
         bearTrapVulnerable = true;
-    }
+    }*/
 
     public override void OnDamage()
     {

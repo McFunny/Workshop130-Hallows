@@ -14,6 +14,20 @@ public class BulletScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.layer == 18)
+        {
+            var armor = other.GetComponent<CreatureArmor>();
+            if(armor)
+            {
+                armor.TakeDamage(2);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                print("Hit Armor");
+                ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
+                gameObject.SetActive(false);
+                return;
+            }
+        }
+
         if(other.gameObject.layer == 6)
         {
             //break
