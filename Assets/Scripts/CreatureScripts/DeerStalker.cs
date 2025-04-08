@@ -15,6 +15,7 @@ public class DeerStalker : CreatureBehaviorScript
     public GameObject deer,taintedDeer;
 
     private StructureBehaviorScript targetStructure;
+    List<StructureBehaviorScript> hitStructures = new List<StructureBehaviorScript>();
 
     //public ParticleSystem transformParticles;
 
@@ -337,7 +338,7 @@ public class DeerStalker : CreatureBehaviorScript
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 toTarget = Vector3.Normalize(target.position - transform.position);
 
-        if (target && dist < 5 && Vector3.Dot(forward, toTarget) > .7f)
+        if (target && dist < 6 && Vector3.Dot(forward, toTarget) > .7f)
         {
             StopTrackingPlayer();
             currentState = CreatureState.AttackInFront;
@@ -426,12 +427,24 @@ public class DeerStalker : CreatureBehaviorScript
         animTransformed.Play("Attack");
 
         yield return new WaitForSeconds(0.1f);
-        if(currentState != CreatureState.Stun && Vector3.Distance(player.position, transform.position) > 4)
+        if(!target) target = player;
+        float dist = Vector3.Distance(target.position, transform.position);
+        float lungeForce = 25;
+        if(currentState != CreatureState.Stun && dist > 3.5f)
         {
-            canTurn = false;
-            Vector3 lungeDirection = transform.forward;
-            agent.velocity = lungeDirection * 35; 
+            //canTurn = false;
+            //Vector3 lungeDirection = transform.forward;
+            Vector3 lungeDirection = GetPointOnUnitSphereCap(transform.forward, 30);
+            if(dist > 5.5f)
+            {
+                lungeForce = 35;
+                canTurn = false;
+                print("LargeLunge");
+            }
+            else print("MiniLunge");
+            agent.velocity = lungeDirection * lungeForce; 
         }
+        else print("No Lunge");
 
         
         yield return new WaitForSeconds(0.5f);
@@ -448,24 +461,43 @@ public class DeerStalker : CreatureBehaviorScript
             yield return new WaitForSeconds(1.5f);
             animTransformed.SetBool("AttackSuccessful", false);
         }
-        else if(hitStruct)
+        else if(hitStructures.Count > 0)
         {
-            targetStructure.TakeDamage(damageToStructure);
+            for(int i = 0; i < hitStructures.Count; i++)
+            {
+                if(hitStructures[i]) hitStructures[i].TakeDamage(damageToStructure);
+            }
+            //targetStructure.TakeDamage(damageToStructure);
             targetStructure = null;
-            hitStruct = false;
+            //hitStruct = false;
         }
-        else
+        /*else
         {
             if(Random.Range(0,10) > 8)
             {
                 StartCoroutine(Laugh());
                 yield return new WaitForSeconds(1.2f);
             }
-        }
-        yield return new WaitForSeconds(0.5f);
+        }*/
+        hitStructures.Clear();
+        yield return new WaitForSeconds(0.4f);
         coroutineRunning = false;
         if(currentState != CreatureState.Stun) currentState = CreatureState.ChaseTarget;
     }
+
+    //////Code to help add randomness to the lunge
+    public Vector3 GetPointOnUnitSphereCap(Quaternion targetDirection, float angle)
+    {
+        var angleInRad = Random.Range(0.0f,angle) * Mathf.Deg2Rad;
+        var PointOnCircle = (Random.insideUnitCircle.normalized)*Mathf.Sin(angleInRad);
+        var V = new Vector3(PointOnCircle.x,PointOnCircle.y,Mathf.Cos(angleInRad));
+        return targetDirection*V;
+    }
+    public Vector3 GetPointOnUnitSphereCap(Vector3 targetDirection, float angle)
+    {
+        return GetPointOnUnitSphereCap(Quaternion.LookRotation(targetDirection), angle);
+    }
+    ///////////
 
     /*bool CanSeePlayer()
     {
@@ -591,11 +623,16 @@ public class DeerStalker : CreatureBehaviorScript
         if(other.gameObject.layer == 6)
         {
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null && targetStructure && structure == targetStructure)
+            /*if (structure != null && targetStructure && structure == targetStructure)
             {
                 hitStruct = true;
                 return;
-            }           
+            }   */ 
+
+            if(structure && structure.isObstacle && structure.destructable && !hitStructures.Contains(structure))
+            {
+                hitStructures.Add(structure);
+            }       
         }
     }
 
@@ -702,7 +739,15 @@ public class DeerStalker : CreatureBehaviorScript
     {
         if(variant == Variant.Pure)
         {
+            effectsHandler.OnHit();
             fleeTimeLeft = Random.Range(3,7);
+            StopTrackingPlayer();
+            if(walkRoutine != null)
+            {
+                StopCoroutine(walkRoutine);
+                walkRoutine = null;
+                coroutineRunning = false;
+            }
             return;
         }
         if(!recoilCooldown && hasTransformed && !isDead)
@@ -714,8 +759,15 @@ public class DeerStalker : CreatureBehaviorScript
             StartCoroutine(RecoilCooldown());*/
             target = player;
         }
-        else if(!hasTransformed)
+        else if(!hasTransformed && currentState != CreatureState.Stun)
         {
+            StopTrackingPlayer();
+            if(walkRoutine != null)
+            {
+                StopCoroutine(walkRoutine);
+                walkRoutine = null;
+                coroutineRunning = false;
+            }
             currentState = CreatureState.Transformation;
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public class ToolTipScript : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ToolTipScript : MonoBehaviour
     public Color c_default, c_tool, c_placeable, c_crop, c_consumable;
     public GameObject intakeParent, outputParent;
     public GameObject[] input, output;
+    private VerticalLayoutGroup verticalLayoutGroup;
     //protected Vector3[] corners;
 
     public void Awake()
@@ -33,6 +35,8 @@ public class ToolTipScript : MonoBehaviour
         {
             output[i] = outputParent.transform.GetChild(1).GetChild(i).gameObject;
         }
+
+        verticalLayoutGroup = panel.GetComponent<VerticalLayoutGroup>();
     }
 
     protected void LateUpdate()
@@ -68,6 +72,14 @@ public class ToolTipScript : MonoBehaviour
         if(itemData == null || !panel.activeSelf) return;
         
         var type = itemData.GetType();
+
+        /*//Resetting the descriptionbox contents
+        itemName.gameObject.SetActive(false);
+        itemType.gameObject.SetActive(false);
+        itemDesc.gameObject.SetActive(false);
+        itemStamina.gameObject.SetActive(false);
+        intakeParent.SetActive(false);
+        outputParent.SetActive(false);*/
 
         if(itemData.staminaValue != 0)
         {
@@ -151,6 +163,14 @@ public class ToolTipScript : MonoBehaviour
 
         itemName.text = itemData.displayName;
         itemDesc.text = itemData.description;
+
+        /*itemName.gameObject.SetActive(true);
+        itemType.gameObject.SetActive(true);
+        itemDesc.gameObject.SetActive(true);*/
+
+        Canvas.ForceUpdateCanvases(); //This is stupid why should I have to do this?
+        verticalLayoutGroup.enabled = false;
+        verticalLayoutGroup.enabled = true; //Yeah of course the solution is to turn it off and then turn it back on
         
     }
 }

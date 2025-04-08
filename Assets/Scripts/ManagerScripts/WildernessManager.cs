@@ -16,7 +16,6 @@ public class WildernessManager : MonoBehaviour
     //public GameObject[] interactablePrefabs;
     public WildernessInteractable[] wildernessInteractables;
     //public float[] interactableSpawnChances;
-    public GameObject[] setPiecePrefabs;
 
     [HideInInspector] public List<WildernessMap> allMaps = new List<WildernessMap>();
     WildernessMap currentMap;
@@ -129,7 +128,7 @@ public class WildernessManager : MonoBehaviour
         while(currentMap)
         {
             print("Ran");
-            float t = Random.Range(10, 25);
+            float t = Random.Range(5, 20);
             yield return new WaitForSeconds(t);
             if(allCreatures.Count < maxCreatures && currentMap && !DialogueController.Instance.IsTalking())
             {
@@ -137,6 +136,7 @@ public class WildernessManager : MonoBehaviour
                 int r = Random.Range(0, creatures.Length);
                 CreatureObject newCreature = creatures[r];
                 SpawnCreature(newCreature);
+                if(allCreatures.Count < maxCreatures/2 && Random.Range(0,100) > 30) SpawnCreature(newCreature);
             }
         }
     }
@@ -185,7 +185,7 @@ public class WildernessManager : MonoBehaviour
         Vector3 closestPos = new Vector3 (0,0,0);
         float minDistance = 1000;
         float dist;
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 2; i++)
         {
             r = Random.Range(0, currentMap.enemySpawnPositions.Length);
             dist = Vector3.Distance(PlayerInteraction.Instance.transform.position, currentMap.enemySpawnPositions[r].position);
@@ -200,10 +200,10 @@ public class WildernessManager : MonoBehaviour
 
     void CalculateDifficulty()
     {
-        if(hoursSpentInWilderness > 6) maxCreatures = 12;
-        else if(hoursSpentInWilderness > 4) maxCreatures = 8;
-        else if(hoursSpentInWilderness > 2) maxCreatures = 6;
-        else maxCreatures = 4;
+        if(hoursSpentInWilderness > 6) maxCreatures = 25;
+        else if(hoursSpentInWilderness > 4) maxCreatures = 20;
+        else if(hoursSpentInWilderness > 2) maxCreatures = 15;
+        else maxCreatures = 10;
     }
 }
 [System.Serializable]
