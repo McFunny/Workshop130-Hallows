@@ -44,22 +44,27 @@ Material:
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Bits: 34
-    - _Blend: 2
+    - _Blend: 0
     - _CastShadows: 1
     - _Cull: 2
-    - _DstBlend: 1
-    - _Fresenel_Power: 1.4
+    - _DstBlend: 10
+    - _Fresenel_Power: 0.53
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5
     - _Surface: 1
     - _VoronoiSpeed: 3
     - _VoronoiTiling: 4
+    - _WobbleAmount: 0.418
+    - _WobbleDistance: 0.05
+    - _WobbleFrequency: 10
+    - _WobbleSpeed: 15
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 0.38228142, g: 1.9766749, b: 1.8214214, a: 0}
+    - _Color: {r: 0.43912598, g: 2.270603, b: 2.0922635, a: 0}
+    - _Vector3: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1873164205977937985
 MonoBehaviour:
