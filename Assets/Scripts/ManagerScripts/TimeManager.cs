@@ -332,7 +332,8 @@ public class TimeManager : MonoBehaviour
     IEnumerator NewDayTransition()
     {
         yield return new WaitUntil(() => PlayerInteraction.Instance.gameOver == false);
-
+        PlayerInteraction.Instance.daysSinceDeath++;
+        PlayerInteraction.Instance.InvokePlayerDeathEvent();
         PlayerInteraction.Instance.rb.velocity = new Vector3(0,0,0);
         PlayerMovement.restrictMovementTokens++;
         Time.timeScale = 0;
