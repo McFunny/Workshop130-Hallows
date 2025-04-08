@@ -739,7 +739,15 @@ public class DeerStalker : CreatureBehaviorScript
     {
         if(variant == Variant.Pure)
         {
+            effectsHandler.OnHit();
             fleeTimeLeft = Random.Range(3,7);
+            StopTrackingPlayer();
+            if(walkRoutine != null)
+            {
+                StopCoroutine(walkRoutine);
+                walkRoutine = null;
+                coroutineRunning = false;
+            }
             return;
         }
         if(!recoilCooldown && hasTransformed && !isDead)
