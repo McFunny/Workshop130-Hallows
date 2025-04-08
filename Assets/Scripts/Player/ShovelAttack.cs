@@ -13,7 +13,7 @@ public class ShovelAttack : MonoBehaviour
     StructureBehaviorScript hitStructure;
     CreatureArmor hitArmor;
 
-    Vector3 c_Collision, s_Collision;
+    Vector3 c_Collision, s_Collision, d_Collision;
 
     void Start()
     {
@@ -25,6 +25,7 @@ public class ShovelAttack : MonoBehaviour
         hitCreature = null;
         hitStructure = null;
         collider.enabled = true;
+        d_Collision = new Vector3(0,0,0);
         yield return new WaitForSeconds(0.04f);
         collider.enabled = false;
         HitObject();
@@ -52,7 +53,6 @@ public class ShovelAttack : MonoBehaviour
         if (creatureArmor != null && hitArmor == null)
         {
             hitArmor = creatureArmor;
-            c_Collision = other.ClosestPoint(transform.position);
         }
 
         if (other.gameObject.layer == 17)
@@ -66,6 +66,9 @@ public class ShovelAttack : MonoBehaviour
             float forceStrength = 25f;
             rb.AddForceAtPosition(forceDir * forceStrength, contactPoint, ForceMode.Impulse);
         }
+
+        //it hit default collider
+        if(d_Collision == new Vector3(0,0,0)) d_Collision = other.ClosestPoint(transform.position);
 
         //Something to hit corpses
 
@@ -107,6 +110,13 @@ public class ShovelAttack : MonoBehaviour
             if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             PlayHitParticle(s_Collision);
+        }
+
+        if(d_Collision != new Vector3(0,0,0))
+        {
+            PlayHitParticle(d_Collision);
+            HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            print("Hit default");
         }
     }
 

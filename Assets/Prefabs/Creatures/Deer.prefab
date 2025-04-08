@@ -24532,7 +24532,8 @@ MonoBehaviour:
   dropChance:
   - 10
   - 5
-  sightRange: 15
+  - 5
+  sightRange: 10
   attackRange: 12
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -29537,15 +29538,19 @@ MonoBehaviour:
   source: {fileID: 0}
   loopingSource: {fileID: 0}
   moveSound: {fileID: 0}
-  idleSound1: {fileID: 8300000, guid: 3b5b01a8c894ac34887a136e8c07c96d, type: 3}
-  idleSound2: {fileID: 8300000, guid: 13151c299a7f7984ab315235ccec2298, type: 3}
-  idleSounds: []
+  idleSound1: {fileID: 0}
+  idleSound2: {fileID: 0}
+  idleSounds:
+  - {fileID: 8300000, guid: 38004618005978f47bc5c440c9f91e39, type: 3}
+  - {fileID: 8300000, guid: e4ca7c1c1174f0c40b9ba69bcd1fd8c9, type: 3}
+  - {fileID: 8300000, guid: ddfb827e5523b594b85cea3ffabedacd, type: 3}
+  - {fileID: 8300000, guid: 0e49062a7dd1b414db2f9749ebc9b4ac, type: 3}
   hitSounds:
-  - {fileID: 8300000, guid: 5b79d22c2d3ea274fbf7785656622958, type: 3}
+  - {fileID: 8300000, guid: dd0cd0ffd186a0b40a52decfbd808731, type: 3}
   footSteps: []
-  deathSound: {fileID: 8300000, guid: b0dcf57c91effc04ca94da9a85816da4, type: 3}
-  miscSound: {fileID: 8300000, guid: 465679e429d042843aa25dfab93d355d, type: 3}
-  miscSound2: {fileID: 8300000, guid: 38cf39667f6d38043ae1b9302518241e, type: 3}
+  deathSound: {fileID: 8300000, guid: e1dcc84b7b562644687dcdeda34f16d7, type: 3}
+  miscSound: {fileID: 0}
+  miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
   particle1: {fileID: 0}
 --- !u!114 &4316506325950874850
