@@ -28,7 +28,7 @@ public class Database : ScriptableObject
 
     private void Awake()
     {
-        SetItemIDs();
+        //SetItemIDs();
     }
 
 
