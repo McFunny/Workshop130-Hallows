@@ -22,6 +22,20 @@ public class CreatureDatabase : ScriptableObject
 
     [SerializeField] private List<CreatureObject> _creatureDatabase; //DONT ALTER ORDER
 
+    [ContextMenu("Update ID's")]
+    public void UpdateID()
+    {
+        for(int i = 0; i < _creatureDatabase.Count; i++)
+        {
+            _creatureDatabase[i].id = i;
+        }
+    }
+
+    public CreatureObject GetCreature(int id) //USE THIS FOR GRABBING CREATURES WHEN SAVING AND LOADING
+    {
+        return _creatureDatabase.Find(i => i.id == id);
+    }
+
     public void ResetStats()
     {
         for(int i = 0; i < _creatureDatabase.Count; i++)
