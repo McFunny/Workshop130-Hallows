@@ -216,7 +216,7 @@ public class DeerStalker : CreatureBehaviorScript
         {
             if(variant == Variant.Pure)
             {
-                fleeTimeLeft = Random.Range(1,4);
+                //fleeTimeLeft = Random.Range(1,4);
             }
             else currentState = CreatureState.ChaseTarget;
             return;
@@ -273,9 +273,9 @@ public class DeerStalker : CreatureBehaviorScript
                 }
                 else if(variant == Variant.Pure)
                 {
-                    fleeTimeLeft = Random.Range(2,4);
+                    /*fleeTimeLeft = Random.Range(2,4);
                     currentState = CreatureState.Flee;
-                    coroutineRunning = false;
+                    coroutineRunning = false;*/
                 }
                 else
                 {

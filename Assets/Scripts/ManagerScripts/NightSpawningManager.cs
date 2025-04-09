@@ -118,7 +118,7 @@ public class NightSpawningManager : MonoBehaviour
         foreach(CreatureObject c in creatures)
         {
             //If there is more max difficulty points than it's threshold, it has a chance to spawn
-            if(c.dangerThreshold <= highestDifficultyPoints && c.wealthPrerequisite < PlayerInteraction.Instance.totalMoneyEarned);
+            if(c.dangerThreshold <= highestDifficultyPoints && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned);
             {
                 for(int s = 0; s < c.spawnWeight; s++) weightArray.Add(w);
             }
