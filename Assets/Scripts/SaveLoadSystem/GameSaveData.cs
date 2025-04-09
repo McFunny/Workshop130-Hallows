@@ -11,9 +11,10 @@ public class GameSaveData : MonoBehaviour
     public float pWater;
     public int pCurrentMoney;
     public int pTotalMoneyEarned;
+    public int pDaysSinceDeath;
     public int pDayNumber;
 
-    public float currentMoney, totalEarnedMoney;
+    public float currentMoney, totalEarnedMoney; //is this used because I dont think so?
 
     public int dayNum;
 
@@ -85,6 +86,7 @@ public class GameSaveData : MonoBehaviour
             PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
             PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
             PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
+            PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
             TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
 
             //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
@@ -124,6 +126,7 @@ public class GameSaveData : MonoBehaviour
         public float pWater;
         public int pCurrentMoney;
         public int pTotalMoneyEarned;
+        public int pDaysSinceDeath;
         public int pDayNumber;
 
         public Quest[] activeQuests;
@@ -163,6 +166,7 @@ public class GameSaveData : MonoBehaviour
             pCurrentMoney = PlayerInteraction.Instance.currentMoney;
             pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
             pDayNumber = TimeManager.Instance.dayNum;
+            pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
 
             //activeQuests = QuestManager.Instance.activeQuests.ToArray();
 

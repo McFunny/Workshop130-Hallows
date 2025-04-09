@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: RabbitRug
+  m_EditorClassIdentifier: 
+  ID: 104
+  displayName: Rabbit Rug
+  description: You can place more decor on it!
+  icon: {fileID: 21300000, guid: 4f25a9fe5496389489cfc4f13392c4c3, type: 3}
+  maxStackSize: 5
+  value: 120
+  sellValueMultiplier: 0.5
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  bonusCompostValue: 0
+  pickledForm: {fileID: 0}
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
+  placedPrefab: {fileID: 2018856940455801043, guid: 7b289c0a28be0b34e9e71406cc5c13c1,
+    type: 3}
+  hologramPrefab: {fileID: 5030016440647798922, guid: b399fb15523cae34997d30d405b595e1,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 86b20be506b70c24fb98942f150e692b, type: 3}
+  gridType: 2
+  gridSize: 2
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

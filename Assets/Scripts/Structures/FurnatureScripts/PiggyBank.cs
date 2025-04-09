@@ -44,7 +44,7 @@ public class PiggyBank : FurnitureBehaviorScript
             }
         }
 
-        if(!success) return;
+        if(!success) return; 
 
         insertParticles.Play();
 
