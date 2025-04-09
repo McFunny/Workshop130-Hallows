@@ -123,7 +123,7 @@ public class NightSpawningManager : MonoBehaviour
         foreach(CreatureObject c in selectedCreatures)
         {
             //If there is more max difficulty points than it's threshold, it has a chance to spawn
-            if(c.dangerThreshold <= highestDifficultyPoints && c.wealthPrerequisite < PlayerInteraction.Instance.totalMoneyEarned);
+            if(c.dangerThreshold <= highestDifficultyPoints && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned);
             {
                 for(int s = 0; s < c.spawnWeight; s++) weightArray.Add(w);
             }
@@ -344,39 +344,42 @@ public class NightSpawningManager : MonoBehaviour
         a = Random.Range(2, 5);
         foreach(CreatureObject c in creatures)
         {
-            if(c.spawnType == SpawnType.Common && c.wealthPrerequisite < PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
+            if(c.spawnType == SpawnType.Common && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
         }
         for(int i = 0; i < a; i++)
         {
             if(temp.Count == 0) continue;
             r = Random.Range(0, temp.Count);
             selectedCreatures.Add(temp[r]);
+            temp.Remove(temp[r]);
         }
 
         //Rare creatures to spawn
         a = Random.Range(1, 4);
         foreach(CreatureObject c in creatures)
         {
-            if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite < PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
+            if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
         }
         for(int i = 0; i < a; i++)
         {
             if(temp.Count == 0) continue;
             r = Random.Range(0, temp.Count);
             selectedCreatures.Add(temp[r]);
+            temp.Remove(temp[r]);
         }
 
         //Support creatures to spawn
-        a = Random.Range(0, 3);
+        a = Random.Range(0, 4);
         foreach(CreatureObject c in creatures)
         {
-            if(c.spawnType == SpawnType.Support && c.wealthPrerequisite < PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
+            if(c.spawnType == SpawnType.Support && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
         }
         for(int i = 0; i < a; i++)
         {
             if(temp.Count == 0) continue;
             r = Random.Range(0, temp.Count);
             selectedCreatures.Add(temp[r]);
+            temp.Remove(temp[r]);
         }
     }
 
