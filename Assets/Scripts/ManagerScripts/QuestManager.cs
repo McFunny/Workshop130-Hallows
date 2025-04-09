@@ -156,15 +156,15 @@ public class QuestManager : MonoBehaviour
                     HuntQuest hQ = q as HuntQuest;
                     GrowQuest gQ = q as GrowQuest;
 
-                    if(fQ != null)
+                    if(fQ != null && fQ.objectID != -1)
                     {
                         fQ.desiredItem = Database.Instance.GetItem(fQ.objectID);
                     }
-                    else if(hQ != null)
+                    else if(hQ != null && hQ.objectID != -1)
                     {
                         hQ.targetCreature = CreatureDatabase.Instance.GetCreature(hQ.objectID);
                     }
-                    else if(gQ != null)
+                    else if(gQ != null && hQ.objectID != -1)
                     {
                         gQ.desiredCrop = CropDatabase.Instance.GetCrop(gQ.objectID);
                         gQ.desiredItem = Database.Instance.GetItem(gQ.objectID2);
