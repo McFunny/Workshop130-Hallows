@@ -36,7 +36,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
     public override void StructureInteraction()
     {
         bool addedSuccessfully;
-        if(!CanBeRemoved())
+        if(!CanBeRemoved()/* || (absentFromGrid && !onTable)*/)
         {
             addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(savedItems[0], 1);
             if (!addedSuccessfully) return;
