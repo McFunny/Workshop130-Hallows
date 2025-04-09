@@ -346,7 +346,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
         }
         yield return new WaitForSeconds(animLength);
         PyreFly pyreFlyScript = pyreflyEnemy.GetComponent<PyreFly>();
-        pyreFlyScript.OnDestroy();
+        pyreFlyScript.TakeDamage(999);
         audiosource.clip = brokenSound;
         audiosource.Play();
 
