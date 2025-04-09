@@ -25,6 +25,8 @@ public class CreatureObject : ScriptableObject
 
     public bool hasSpawned = false;
 
+    public SpawnType spawnType;
+
     public Creature data = new Creature();
 
     public Creature CreateCreature()
@@ -65,4 +67,10 @@ public class CreatureVariant
     public float probabilityInWilderness = 100;
     public bool canSpawnInWilderness;
     public int wealthPrerequisite = 0;
+}
+public enum SpawnType
+{
+    Common, //Grunt enemies
+    Rare, //More dynamic and gameplay changing
+    Support //Less impactful or optional creature
 }
