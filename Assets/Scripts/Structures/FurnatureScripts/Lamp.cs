@@ -27,12 +27,11 @@ public class Lamp : FurnitureBehaviorScript
         }
         else if (!isOn)
         {
-            LightsOnOff(isOn);
+            LightsOnOff(!isOn);
             success = true;
         }
 
-
-
+        print("Interaction Had");
 
     }
 
