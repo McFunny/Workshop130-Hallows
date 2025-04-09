@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class DeerStalker : CreatureBehaviorScript
 {
+    public LayerMask biteCheckMask;
     
     public Variant variant; // what variant of creature is this?
 
@@ -454,8 +455,9 @@ public class DeerStalker : CreatureBehaviorScript
         yield return new WaitForSeconds(0.1f);
         agent.velocity = Vector3.zero;
         attackHitbox.enabled = false;
-        if(hitPlayer)
+        if(hitPlayer && (hitStructures.Count == 0 || CanSeePlayer()))
         {
+            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
             hitPlayer = false;
             animTransformed.SetBool("AttackSuccessful", true);
             yield return new WaitForSeconds(1.5f);
@@ -499,15 +501,16 @@ public class DeerStalker : CreatureBehaviorScript
     }
     ///////////
 
-    /*bool CanSeePlayer()
+    bool CanSeePlayer()
     {
         RaycastHit hit;
-        if (Physics.Raycast(corpseParticleTransform.position, corpseParticleTransform.forward, out hit, 15, 1 << 10))
+        if (Physics.Raycast(corpseParticleTransform.position, corpseParticleTransform.forward, out hit, 15, biteCheckMask))
         {
-            return true;
+            if(hit.transform.gameObject.layer == 10) return true;
+            else return false;
         }
         return false;
-    }*/
+    }
 
     void Transformation()
     {
@@ -614,9 +617,9 @@ public class DeerStalker : CreatureBehaviorScript
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
-                playerInteraction.StaminaChange(damageToPlayer);
+                //playerInteraction.StaminaChange(damageToPlayer);
                 hitPlayer = true;
-                attackHitbox.enabled = false;
+                //attackHitbox.enabled = false;
             }
         }
 

@@ -72,6 +72,19 @@ MonoBehaviour:
   - _object: {fileID: 4227526203200057079, guid: fe3a357dee8f270419aba535ed8036ba,
       type: 3}
     _probability: 80
+  chanceToSpawnCreature: 50
+  maxSpawnAttempts: 4
+  creaturePrefabs:
+  - _object: {fileID: 6507201721181545267, guid: 9bada7e4223709b40a5f5694c13b7505,
+      type: 3}
+    _probability: 50
+  - _object: {fileID: 9182699557056190295, guid: ca18cbf2d6513bd48b28d588bd39fa95,
+      type: 3}
+    _probability: 80
+  - _object: {fileID: 8047774157542622550, guid: bd649138bb8c55246bdbe979d3e55830,
+      type: 3}
+    _probability: 30
+  preSpawnedCreatures: []
 --- !u!1 &1860096070411871248
 GameObject:
   m_ObjectHideFlags: 0

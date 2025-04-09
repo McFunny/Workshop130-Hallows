@@ -248,7 +248,7 @@ public class MistWalker : CreatureBehaviorScript
     #region WanderingFunctions
     public void Wander()
     {
-        if (playerInSightRange || inWilderness)
+        if (playerInSightRange || (inWilderness && !patrolPoint))
         {
             currentState = CreatureState.WalkTowardsPlayer;
             return;
@@ -256,7 +256,9 @@ public class MistWalker : CreatureBehaviorScript
 
         if (!isMoving && currentState == CreatureState.Wander)
         {
-            Vector3 randomPoint = GetRandomPointAround(transform.position, 5f);
+            Vector3 randomPoint;
+            if(!patrolPoint) randomPoint = GetRandomPointAround(transform.position, 5f);
+            else randomPoint = PointAroundPatrolPoint(7);
             walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
@@ -429,7 +431,7 @@ public class MistWalker : CreatureBehaviorScript
             targetStructure = CheckForObstacle(transform);
             currentState = CreatureState.AttackStructure;
         }
-        else if (!playerInSightRange && !inWilderness)
+        else if (!playerInSightRange && (!inWilderness || patrolPoint))
         {
             if(targetStructure)
             {

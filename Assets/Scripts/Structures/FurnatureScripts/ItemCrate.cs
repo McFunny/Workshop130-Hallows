@@ -26,7 +26,7 @@ public class ItemCrate : FurnitureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(!CanBeRemoved())
+        if(!CanBeRemoved()/* || (absentFromGrid && !onTable)*/)
         {
             RemoveClosestSocket();
             return;
