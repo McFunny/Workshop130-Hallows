@@ -24,6 +24,7 @@ public class ShovelAttack : MonoBehaviour
     {
         hitCreature = null;
         hitStructure = null;
+        hitArmor = null;
         collider.enabled = true;
         d_Collision = new Vector3(0,0,0);
         yield return new WaitForSeconds(0.04f);

@@ -44,6 +44,7 @@ public class FurnitureBehaviorScript : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
+        if(absentFromGrid && !onTable) return; //makes the player actually have to take time to steal the furniture
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
         if (addedSuccessfully)
         {
