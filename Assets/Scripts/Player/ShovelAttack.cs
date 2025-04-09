@@ -69,6 +69,7 @@ public class ShovelAttack : MonoBehaviour
         }
 
         //it hit default collider
+        if(other.GetComponentInParent<NPC>()) return;
         if(d_Collision == new Vector3(0,0,0)) d_Collision = other.ClosestPoint(transform.position);
 
         //Something to hit corpses
