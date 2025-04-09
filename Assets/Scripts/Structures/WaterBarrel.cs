@@ -79,8 +79,8 @@ public class WaterBarrel : StructureBehaviorScript
             {
                 if(PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
                 {
-                    PlayerInteraction.Instance.waterHeld--;
-                    waterLevel++;
+                    PlayerInteraction.Instance.waterHeld++;
+                    waterLevel--;
                 }
             }
 
