@@ -31,7 +31,7 @@ public class CodexRework : MonoBehaviour
     public Sprite[] characterPortraits;
     public List<Quest> activeQuests = new List<Quest>();
     private PauseScript pauseScript;
-    [SerializeField] private GameObject RBLB;
+    [SerializeField] private GameObject RBLB, WS;
     [SerializeField] private List<GameObject> input = new List<GameObject>();
     [SerializeField] private List<GameObject> output = new List<GameObject>();
     GameSaveData gameSaveData;
@@ -112,8 +112,16 @@ public class CodexRework : MonoBehaviour
 
         PlayerMovement.isCodexOpen = codex.activeInHierarchy;
 
-        if(ControlManager.isController) RBLB.SetActive(true);
-        else RBLB.SetActive(false);
+        if(ControlManager.isController)
+        {
+            RBLB.SetActive(true);
+            WS.SetActive(false);
+        } 
+        else
+        {
+            RBLB.SetActive(false);
+            WS.SetActive(true);
+        } 
 
         bgImage.gameObject.SetActive(largeImage.gameObject.activeSelf);
     }
@@ -168,9 +176,10 @@ public class CodexRework : MonoBehaviour
 
         if (entry.unlocked == true || entry.cropData != null || entry.creatureData != null)
         {
-            if(entry.unlocked) goto EntryUnlockOverride; //I don't like using these but it works lol
+            if(entry.unlocked) goto EntryUnlockOverride; //I don't like using these but it works as an override lol
+ 
             if(entry.cropData != null && entry.cropData.amountHarvested == 0) return;
-            if(entry.creatureData != null && entry.creatureData.amountKilled == 0) return;
+            if(entry.creatureData != null && entry.creatureData.amountKilled == 0 && entry.creatureData.hasSpawned == false) return;
 
             EntryUnlockOverride:
 
@@ -546,7 +555,7 @@ public class CodexRework : MonoBehaviour
                 }
                 else if (CurrentCategory[i].creatureData != null) //Unlocks if amount of enemy killed > 0
                 {
-                    if(CurrentCategory[i].creatureData.amountKilled > 0)
+                    if(CurrentCategory[i].creatureData.amountKilled > 0 || CurrentCategory[i].creatureData.hasSpawned)
                     {
                         tempText.text = CurrentCategory[i].entryName;
                         tempImage.SetActive(true);
@@ -816,6 +825,7 @@ public class CodexRework : MonoBehaviour
         {
             if(isGridCategory)
             {
+                //if((currentEntry.cropData && currentEntry.cropData.amountHarvested > 0) || (currentEntry.creatureData && (currentEntry.creatureData.amountKilled > 0 || currentEntry.creatureData.hasSpawned))) //Woahg........
                 largeImage.sprite = currentEntry.mainImage;
                 largeImage.gameObject.SetActive(true);
                 descriptionText.gameObject.SetActive(true);
@@ -906,7 +916,7 @@ public class CodexRework : MonoBehaviour
     {
         if(assignedEntry.creatureData != null)
         {
-            if(assignedEntry.creatureData.amountKilled > 0)
+            if(assignedEntry.creatureData.amountKilled > 0 || assignedEntry.creatureData.hasSpawned)
             {
                 print("Is a creature");
                 return true;
