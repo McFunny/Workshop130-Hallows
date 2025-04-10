@@ -2386,7 +2386,7 @@ MonoBehaviour:
   catacombMusicAmbience:
   - {fileID: 8300000, guid: 04efaf1b22fd52c498957bcf3cb47662, type: 3}
   - {fileID: 8300000, guid: 9669ac320599a30469fd58e4d0c265a3, type: 3}
-  finaleTheme: {fileID: 8300000, guid: ffecbf25e1b023142baf2f89709fcc0a, type: 3}
+  finaleTheme: {fileID: 8300000, guid: d542998fe350b7748b8797ae4ef729fa, type: 3}
   bellTower: {fileID: 8300000, guid: 0b7f67cc2ca54644eade598edf5e0563, type: 3}
   playMusicAtStart: 1
 --- !u!82 &4487365083115385320
@@ -9470,6 +9470,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   - {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
   - {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
+  selectedCreatures: []
   allCreatures: []
   testSpawns:
   - {fileID: 7187795816526134101}
@@ -9530,6 +9531,7 @@ MonoBehaviour:
   pWater: 0
   pCurrentMoney: 0
   pTotalMoneyEarned: 0
+  pDaysSinceDeath: 0
   pDayNumber: 0
   currentMoney: 0
   totalEarnedMoney: 0

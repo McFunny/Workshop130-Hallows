@@ -10,6 +10,7 @@ public class PlayerEffectsHandler : MonoBehaviour
 {
     //HANDLES THE AUDIO AND EFFECTS THAT COME FROM THE PLAYER
     public float volume = 1f;
+    float originalPitch;
     public AudioSource source, footStepSource;
     public AudioClip itemPickup, itemEat, playerDie, playerDamage, footstep;
 
@@ -35,6 +36,8 @@ public class PlayerEffectsHandler : MonoBehaviour
         PlayerInteraction p = PlayerInteraction.Instance;
 
         ResetVignette();
+
+        originalPitch = source.pitch;
     }
 
     // Update is called once per frame
@@ -60,6 +63,7 @@ public class PlayerEffectsHandler : MonoBehaviour
         if(onItemSoundCooldown) return;
         onItemSoundCooldown = true;
         StartCoroutine(ItemCollectCooldown());
+        source.pitch = Random.Range(0.95f, 1.05f);
         source.PlayOneShot(itemPickup);
     }
 
@@ -74,7 +78,11 @@ public class PlayerEffectsHandler : MonoBehaviour
         StopCoroutine(DamageFlash());
         StartCoroutine(DamageFlash());
         impulseSource.GenerateImpulseWithForce(shakeIntensity);
-        if(playerDamage) source.PlayOneShot(playerDamage);
+        if(playerDamage)
+        {
+            source.pitch = Random.Range(0.8f, 1.2f);
+            source.PlayOneShot(playerDamage);
+        }
 
     }
 
@@ -150,6 +158,7 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     public void PlayClip(AudioClip clip, float volume)
     {
+        source.pitch = originalPitch;
         source.PlayOneShot(clip, volume);
     }
 
