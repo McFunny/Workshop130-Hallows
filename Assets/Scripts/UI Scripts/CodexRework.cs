@@ -31,7 +31,7 @@ public class CodexRework : MonoBehaviour
     public Sprite[] characterPortraits;
     public List<Quest> activeQuests = new List<Quest>();
     private PauseScript pauseScript;
-    [SerializeField] private GameObject RBLB;
+    [SerializeField] private GameObject RBLB, WS;
     [SerializeField] private List<GameObject> input = new List<GameObject>();
     [SerializeField] private List<GameObject> output = new List<GameObject>();
     GameSaveData gameSaveData;
@@ -112,8 +112,16 @@ public class CodexRework : MonoBehaviour
 
         PlayerMovement.isCodexOpen = codex.activeInHierarchy;
 
-        if(ControlManager.isController) RBLB.SetActive(true);
-        else RBLB.SetActive(false);
+        if(ControlManager.isController)
+        {
+            RBLB.SetActive(true);
+            WS.SetActive(false);
+        } 
+        else
+        {
+            RBLB.SetActive(false);
+            WS.SetActive(true);
+        } 
 
         bgImage.gameObject.SetActive(largeImage.gameObject.activeSelf);
     }
