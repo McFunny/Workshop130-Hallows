@@ -65,7 +65,7 @@ public class WaterBarrel : StructureBehaviorScript
         }
         if((type == ToolType.WateringCan || type == ToolType.WaterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
         {
-            if(waterLevel < 5)
+            /*if(waterLevel < 5)
             {
                 PlayerInteraction.Instance.waterHeld += waterLevel;
                 waterLevel = 0;
@@ -74,7 +74,16 @@ public class WaterBarrel : StructureBehaviorScript
             {
                 PlayerInteraction.Instance.waterHeld += 5;
                 waterLevel -= 5;
+            }*/
+            for(int i = 0; i < PlayerInteraction.Instance.maxWaterHeld; i++)
+            {
+                if(PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
+                {
+                    PlayerInteraction.Instance.waterHeld++;
+                    waterLevel--;
+                }
             }
+
             WaterLevelChange();
             success = true;
         }
@@ -84,7 +93,7 @@ public class WaterBarrel : StructureBehaviorScript
     {
         if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 15)
         {
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < PlayerInteraction.Instance.maxWaterHeld; i++)
             {
                 if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 15)
                 {

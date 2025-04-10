@@ -160,7 +160,6 @@ public class LumberjackNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
-        //code for the item being edible
         Talk();
 
         interactSuccessful = true;

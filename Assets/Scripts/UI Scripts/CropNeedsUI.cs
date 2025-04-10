@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class CropNeedsUI : MonoBehaviour
@@ -7,6 +8,7 @@ public class CropNeedsUI : MonoBehaviour
     private CropData cropData;
     private NutrientStorage nutrients;
     public GameObject gloam, terra, ichor, water, rot, background, canvas;
+    public Image gloamRed, terraRed, ichorRed, waterRed;
     ControlManager controlManager;
     private bool isDetailed;
 
@@ -40,11 +42,27 @@ public class CropNeedsUI : MonoBehaviour
             return;
         }
 
-        if(!gloam.activeSelf && !terra.activeSelf && !ichor.activeSelf && !water.activeSelf && !rot.activeSelf) {background.SetActive(false);}
-        else background.SetActive(true);
+        if(farmLand.harvestable)
+        {
+            DisableStats();
+            return;
+        }
+
+        if(farmLand.rotted)
+        {
+            rot.SetActive(true);
+            Rotten();
+            return;
+        }
+        else {rot.SetActive(false);}
 
         nutrients = farmLand.GetCropStats();
         cropData = farmLand.crop;
+
+        if(!gloam.activeSelf && !terra.activeSelf && !ichor.activeSelf && !water.activeSelf && !rot.activeSelf) {background.SetActive(false);}
+        else background.SetActive(true);
+
+        //print("Are we even getting here???");
 
         if(nutrients.gloamLevel < cropData.gloamIntake) gloam.SetActive(true);
         else gloam.SetActive(false);
@@ -58,12 +76,20 @@ public class CropNeedsUI : MonoBehaviour
         if(nutrients.waterLevel < cropData.waterIntake) water.SetActive(true);
         else water.SetActive(false);
 
-        if(farmLand.rotted)
+        if(farmLand.hoursSpent == farmLand.crop.hoursPerStage - 1)
         {
-            rot.SetActive(true);
-            Rotten();
+            gloamRed.enabled = true;
+            terraRed.enabled = true;
+            ichorRed.enabled = true;
+            waterRed.enabled = true;
         }
-        else {rot.SetActive(false);}
+        else
+        {
+            gloamRed.enabled = false;
+            terraRed.enabled = false;
+            ichorRed.enabled = false;
+            waterRed.enabled = false;
+        }
 
         //canvas.SetActive(UICropStats.isDetailed);
 

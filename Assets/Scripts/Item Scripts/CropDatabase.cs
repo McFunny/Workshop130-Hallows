@@ -51,6 +51,20 @@ public class CropDatabase : ScriptableObject
         RegisterCrops(_cropDatabase);
     }
 
+    [ContextMenu("Update ID's")]
+    public void UpdateID()
+    {
+        for(int i = 0; i < _cropDatabase.Count; i++)
+        {
+            _cropDatabase[i].id = i;
+        }
+    }
+
+    public CropData GetCrop(int id) //USE THIS FOR GRABBING CROPS WHEN SAVING AND LOADING
+    {
+        return _cropDatabase.Find(i => i.id == id);
+    }
+
     /*for(int i = 0; i < cropDatabase.Count; i++)
         {
             if(cropDatabase[i].name == name) return cropDatabase[i];
