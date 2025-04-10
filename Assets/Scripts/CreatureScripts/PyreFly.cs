@@ -554,7 +554,7 @@ public class PyreFly : CreatureBehaviorScript
         if(!gameObject.scene.isLoaded) return;
         if(homeHive) homeHive.FlyLost();
 
-        if(ignited)
+        if(ignited && health <= 0)
         {
             ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
             if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);

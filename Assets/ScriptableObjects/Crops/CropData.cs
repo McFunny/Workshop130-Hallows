@@ -7,6 +7,7 @@ using UnityEngine;
 public class CropData : ScriptableObject
 {
     public string name;
+    public int id = -1;
 
     public int growthStages = 5; //How many different stages of life does it have
     public int hoursPerStage = 6; //How many in game hours must take place before each growth change

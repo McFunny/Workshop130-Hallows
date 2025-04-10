@@ -68,7 +68,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(item && savedItems[0] == null)
+        if(item && (savedItems.Count == 0 || savedItems[0] == null))
         {
             InsertItem(item);
         }
@@ -104,7 +104,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
 
     bool CanBeRemoved()
     {
-        if(savedItems[0] != null) return false;
+        if(savedItems.Count == 0 || savedItems[0] != null) return false;
         return true;
     }
 

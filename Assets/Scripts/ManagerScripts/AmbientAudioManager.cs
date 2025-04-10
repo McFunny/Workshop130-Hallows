@@ -71,7 +71,7 @@ public class AmbientAudioManager : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            float trackCooldown = Random.Range(2f, 15f);
+            float trackCooldown = Random.Range(5f, 15f);
             yield return new WaitForSeconds(trackCooldown);
             float r = Random.Range(0, 1f);
             if(r > .65f) //blow wind
@@ -84,6 +84,10 @@ public class AmbientAudioManager : MonoBehaviour
             else if (TimeManager.Instance.currentHour < 6 || TimeManager.Instance.currentHour > 20)
             {
                 ambienceSource.clip = nightAmbience[Random.Range(0, nightAmbience.Length)];
+            }
+            else if(TownGate.Instance.location == PlayerLocation.InWilderness)
+            {
+                ambienceSource.clip = wildernessAmbience[Random.Range(0, wildernessAmbience.Length)];
             }
             else
             {
