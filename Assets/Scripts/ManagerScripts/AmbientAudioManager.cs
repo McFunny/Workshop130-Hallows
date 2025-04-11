@@ -53,6 +53,10 @@ public class AmbientAudioManager : MonoBehaviour
 
     public void BeginPlayingMusic()
     {
+        if (ambientMusicCoroutine != null)
+        {
+            StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+        }
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //Making it trackable
     }
 
@@ -170,6 +174,10 @@ public class AmbientAudioManager : MonoBehaviour
         musicSource.Stop();
         musicSource.volume = oldVolume;
 
+        if (ambientMusicCoroutine != null)
+        {
+            StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+        }
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //restarts coroutine
     }
 
