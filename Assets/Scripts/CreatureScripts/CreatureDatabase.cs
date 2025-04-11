@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [CreateAssetMenu(menuName = "Creature Database")]
 public class CreatureDatabase : ScriptableObject
@@ -28,7 +29,15 @@ public class CreatureDatabase : ScriptableObject
         for(int i = 0; i < _creatureDatabase.Count; i++)
         {
             _creatureDatabase[i].id = i;
+            #if UNITY_EDITOR
+
+            if (_creatureDatabase[i]) EditorUtility.SetDirty(_creatureDatabase[i]);
+
+            #endif
         }
+        #if UNITY_EDITOR       
+            AssetDatabase.SaveAssets();
+        #endif
     }
 
     public CreatureObject GetCreature(int id) //USE THIS FOR GRABBING CREATURES WHEN SAVING AND LOADING
