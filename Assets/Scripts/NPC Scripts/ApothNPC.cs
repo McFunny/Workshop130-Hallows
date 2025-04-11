@@ -44,8 +44,9 @@ public class ApothNPC : NPC, ITalkable
                 }
                 else if (NPCManager.Instance.apothSpoke)
                 {
-                    interactSuccessful = false;
-                    return;
+                    int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                    currentPath = i;
+                    currentType = PathType.AlreadySpoken;
                 }
                 if (currentPath == -1)
                 {
