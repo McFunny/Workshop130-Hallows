@@ -12,7 +12,7 @@ public class StructureFire : MonoBehaviour
     public AudioClip extinguishedSFX;
 
     float playerDamage = 6;
-    float creatureDamage = 15;
+    float creatureDamage = 5;
 
     // Update is called once per frame
     void Update()
@@ -86,7 +86,7 @@ public class StructureFire : MonoBehaviour
                     if(structure && structure.IsFlammable() && !structure.onFire)
                     {
                         int r = Random.Range(0,10);
-                        if(r > 4) structure.LitOnFire();
+                        if(r > 3) structure.LitOnFire();
                         break;
                     }
                 }

@@ -310,6 +310,10 @@ MonoBehaviour:
   rot: {fileID: 5885381647459943154}
   background: {fileID: 7398435184218315080}
   canvas: {fileID: 5674097151787438865}
+  gloamRed: {fileID: 0}
+  terraRed: {fileID: 0}
+  ichorRed: {fileID: 0}
+  waterRed: {fileID: 0}
 --- !u!114 &3034905712827913353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,7 +504,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -1320,7 +1324,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.7
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2

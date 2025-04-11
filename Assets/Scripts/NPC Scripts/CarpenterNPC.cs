@@ -12,6 +12,8 @@ public class CarpenterNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
+    public InventoryItemData chest;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -34,6 +36,13 @@ public class CarpenterNPC : NPC, ITalkable
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.carpMet = true;
+            }
+            else if(!GameSaveData.Instance.cm_giveChest && !PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                GameSaveData.Instance.cm_giveChest = true;
+                currentPath = 5;
+                currentType = PathType.Misc;
+                itemsToGive.Add(new ItemWithAmount(chest, 1));
             }
             else
             {
