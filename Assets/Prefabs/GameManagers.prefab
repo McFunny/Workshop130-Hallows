@@ -8570,6 +8570,7 @@ GameObject:
   - component: {fileID: 7134883994844149291}
   - component: {fileID: 5574233904732930456}
   - component: {fileID: 1087822415833838726}
+  - component: {fileID: 3223520130733931973}
   m_Layer: 0
   m_Name: POOLS
   m_TagString: Untagged
@@ -8670,6 +8671,21 @@ MonoBehaviour:
   - {fileID: 3298337801092368734}
   - {fileID: 5547556843952242998}
   - {fileID: 4013105136114358314}
+--- !u!114 &3223520130733931973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838959691592782369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d3b059d19c8b74d863648e549160f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioPool: []
+  audioPrefab: {fileID: 123492760016384310, guid: cfae06d2297d853438c83908cb1192c9,
+    type: 3}
 --- !u!1 &4906814702745265644
 GameObject:
   m_ObjectHideFlags: 0
@@ -9547,6 +9563,7 @@ MonoBehaviour:
   wildernessIntroduced: 0
   playerHasBox: 0
   watergunObtained: 0
+  mm_giveBarricade: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   rascalMet: 0
