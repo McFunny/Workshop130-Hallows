@@ -37,15 +37,18 @@ public class TravelerNPC : NPC, ITalkable
             {
                 if (CompletedQuest())
                 {
+                    Debug.Log("The QUEST line is running?>?????");
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
                 else if (NPCManager.Instance.travSpoke)
                 {
-                    interactSuccessful = false;
-                    return;
+                    Debug.Log("This stupid thing is runnign");
+                    int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                    currentPath = i;
+                    currentType = PathType.AlreadySpoken;
                 }
-                if (currentPath == -1)
+                else if (currentPath == -1)
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
