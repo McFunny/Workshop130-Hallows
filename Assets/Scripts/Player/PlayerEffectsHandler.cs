@@ -12,7 +12,10 @@ public class PlayerEffectsHandler : MonoBehaviour
     public float volume = 1f;
     float originalPitch;
     public AudioSource source, footStepSource;
-    public AudioClip itemPickup, itemEat, playerDie, playerDamage, footstep;
+    public AudioClip itemPickup, itemEat, playerDie, playerDamage;
+    public AudioClip grassFootsteps, stoneFootsteps, woodFootsteps;
+
+    public LayerMask groundLayers;
 
     public float shakeIntensity;
     //public AudioClip footSteps;
@@ -164,6 +167,23 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     public void PlayFootstepSound()
     {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 3, groundLayers))
+        {
+            if(hit.collider.gameObject.tag == "Stone_FootStepSurface")
+            {
+                footStepSource.clip = stoneFootsteps;
+            }
+            else if(hit.collider.gameObject.tag == "Wood_FootStepSurface")
+            {
+                footStepSource.clip = woodFootsteps;
+            }
+            else
+            {
+                footStepSource.clip = grassFootsteps;
+            }
+        }
+        else footStepSource.clip = grassFootsteps;
         footStepSource.pitch = Random.Range(0.7f, 1.3f);
         footStepSource.Play();
     }

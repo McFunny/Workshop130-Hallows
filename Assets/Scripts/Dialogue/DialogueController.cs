@@ -338,6 +338,16 @@ public class DialogueController : MonoBehaviour
                 }
             }
         }
+
+        if(p.Contains("{givePlayerItems}"))
+        {
+            p = p.Replace("{givePlayerItems}", $"{""}");
+            foreach(ItemWithAmount x in currentTalker.itemsToGive)
+            {
+                PlayerInventoryHolder.Instance.AddToInventory(x.item, x.amount);
+            }
+            currentTalker.itemsToGive.Clear();
+        }
         
     }
 
