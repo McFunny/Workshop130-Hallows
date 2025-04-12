@@ -10,9 +10,11 @@ public class CreditsScript : MonoBehaviour
     public Animator animator;
     public GameObject skipContainer, skipKBM, skipController, loadingScreen;
     bool canPress = false;
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         StartCoroutine(Credits());
     }
 
@@ -73,6 +75,7 @@ public class CreditsScript : MonoBehaviour
     {
         //Start Music Here
         print("Music Starts Here");
+        audioSource.PlayOneShot(audioSource.clip);
     }
 
     public void ShowSkipInput()
