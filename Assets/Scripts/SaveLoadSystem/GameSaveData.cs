@@ -123,6 +123,12 @@ public class GameSaveData : MonoBehaviour
 
         mm_giveBarricade = data.allGameSaveData.mm_giveBarricade;
         cm_giveChest = data.allGameSaveData.cm_giveChest;
+
+        travMet = data.allGameSaveData.travMet;
+        graveMet = data.allGameSaveData.graveMet;
+        fanMet = data.allGameSaveData.fanMet;
+        butchMet = data.allGameSaveData.butchMet;
+        carpMet = data.allGameSaveData.carpMet;
     }
 }
     [System.Serializable]
@@ -161,6 +167,7 @@ public class GameSaveData : MonoBehaviour
         public bool tinkMet;
         public bool apothMet;
         public bool culMet;
+        public bool travMet, graveMet, fanMet, butchMet, carpMet;
 
         public bool townTreeCleared1, townTreeCleared2;
         public bool watergunObtained;
@@ -210,6 +217,13 @@ public class GameSaveData : MonoBehaviour
 
         mm_giveBarricade = data.mm_giveBarricade;
         cm_giveChest = data.cm_giveChest;
+
+        travMet = data.travMet;
+        graveMet = data.graveMet;
+        fanMet = data.fanMet;
+        butchMet = data.butchMet;
+        carpMet = data.carpMet;
+
 //Debug.Log("Saving stamina. Result: " + pStamina);
     }
     }
