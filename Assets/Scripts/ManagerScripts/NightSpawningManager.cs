@@ -354,6 +354,8 @@ public class NightSpawningManager : MonoBehaviour
             temp.Remove(temp[r]);
         }
 
+        temp.Clear();
+
         //Rare creatures to spawn
         a = Random.Range(1, 4);
         foreach(CreatureObject c in creatures)
@@ -368,6 +370,8 @@ public class NightSpawningManager : MonoBehaviour
             temp.Remove(temp[r]);
         }
 
+        temp.Clear();
+
         //Support creatures to spawn
         a = Random.Range(0, 4);
         foreach(CreatureObject c in creatures)
@@ -381,6 +385,8 @@ public class NightSpawningManager : MonoBehaviour
             selectedCreatures.Add(temp[r]);
             temp.Remove(temp[r]);
         }
+
+        temp.Clear();
     }
 
     public int ReportTotalOfCreature(CreatureObject creatureType)
@@ -430,7 +436,8 @@ public class NightSpawningManager : MonoBehaviour
         finaleActivated = true;
         boxPlaced = false;
         
-        AmbientAudioManager.Instance.ChangeMusic();
+        //AmbientAudioManager.Instance.ChangeMusic();
+        AmbientAudioManager.Instance.StartFinaleTheme();
     }
 
     public void DeactivateFinale()
@@ -439,7 +446,8 @@ public class NightSpawningManager : MonoBehaviour
         difficultyPoints = 0;
         highestDifficultyPoints = 0;
         
-        AmbientAudioManager.Instance.ChangeMusic();
+        //AmbientAudioManager.Instance.ChangeMusic();
+        AmbientAudioManager.Instance.EndFinaleTheme();
     }
 
     public void FinaleComplete()

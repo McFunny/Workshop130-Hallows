@@ -34,6 +34,7 @@ public class GameSaveData : MonoBehaviour
     public bool watergunObtained;
 
     public bool mm_giveBarricade; //Merchant handed the player a barricade at the start
+    public bool cm_giveChest; //Craftsman handed the player a chest at the start
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
@@ -121,6 +122,13 @@ public class GameSaveData : MonoBehaviour
         watergunObtained = data.allGameSaveData.watergunObtained;
 
         mm_giveBarricade = data.allGameSaveData.mm_giveBarricade;
+        cm_giveChest = data.allGameSaveData.cm_giveChest;
+
+        travMet = data.allGameSaveData.travMet;
+        graveMet = data.allGameSaveData.graveMet;
+        fanMet = data.allGameSaveData.fanMet;
+        butchMet = data.allGameSaveData.butchMet;
+        carpMet = data.allGameSaveData.carpMet;
     }
 }
     [System.Serializable]
@@ -159,11 +167,13 @@ public class GameSaveData : MonoBehaviour
         public bool tinkMet;
         public bool apothMet;
         public bool culMet;
+        public bool travMet, graveMet, fanMet, butchMet, carpMet;
 
         public bool townTreeCleared1, townTreeCleared2;
         public bool watergunObtained;
 
         public bool mm_giveBarricade;
+        public bool cm_giveChest;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -206,6 +216,14 @@ public class GameSaveData : MonoBehaviour
         watergunObtained = data.watergunObtained;
 
         mm_giveBarricade = data.mm_giveBarricade;
+        cm_giveChest = data.cm_giveChest;
+
+        travMet = data.travMet;
+        graveMet = data.graveMet;
+        fanMet = data.fanMet;
+        butchMet = data.butchMet;
+        carpMet = data.carpMet;
+
 //Debug.Log("Saving stamina. Result: " + pStamina);
     }
     }

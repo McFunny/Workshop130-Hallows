@@ -27,7 +27,7 @@ public class FarmLand : StructureBehaviorScript
     public bool isFrosted = false;
     bool forceDig = false;
 
-    private bool ignoreNextGrowthMoment = false; //tick this if crop was just planted
+    public bool ignoreNextGrowthMoment = false; //tick this if crop was just planted
 
     PlayerInventoryHolder playerInventoryHolder;
 

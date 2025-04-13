@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5891550292758706820}
   - component: {fileID: 3593416385093858182}
   - component: {fileID: 4652618913219488916}
+  - component: {fileID: 4189514564229153111}
   m_Layer: 12
   m_Name: StructureFire
   m_TagString: Untagged
@@ -100,6 +101,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &4189514564229153111
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5818037036083189207}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.15, y: 1.03, z: 1.15}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &5345143517447392554
 PrefabInstance:
   m_ObjectHideFlags: 0
