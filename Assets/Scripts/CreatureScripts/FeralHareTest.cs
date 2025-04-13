@@ -185,7 +185,12 @@ public class FeralHareTest : CreatureBehaviorScript
             StartCoroutine(JumpCooldownTimer());
             if(variant == Variant.Albino) //Seek the player
             {
-                if(patrolPoint && !playerInSightRange) Hop(PointAroundPatrolPoint(7));
+                if(patrolPoint && !playerInSightRange)
+                {
+                    Vector3 hopPoint = PointAroundPatrolPoint(7);
+                    hopPoint.y = 0;
+                    Hop(hopPoint);
+                }
                 Hop(player.position);
                 if(playerInSightRange) burstJumps--;
             }

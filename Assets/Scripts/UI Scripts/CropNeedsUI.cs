@@ -42,7 +42,7 @@ public class CropNeedsUI : MonoBehaviour
             return;
         }
 
-        if(farmLand.harvestable)
+        if(farmLand.growthStage == farmLand.crop.growthStages)
         {
             DisableStats();
             return;

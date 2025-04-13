@@ -5,7 +5,9 @@ using UnityEngine;
 public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
+    public InventoryItemData barricade;
     [HideInInspector] public bool interactedWithLantern;
+    bool remembersGift; //if true and the player tries to sell barricades, he gets mad
 
     public MerchantLantern lantern;
 
@@ -61,6 +63,14 @@ public class WagonMerchantNPC : NPC, ITalkable
                 currentPath = 0;
                 currentType = PathType.QuestComplete;
             }
+            else if(!GameSaveData.Instance.mm_giveBarricade && !PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                GameSaveData.Instance.mm_giveBarricade = true;
+                currentPath = 11;
+                currentType = PathType.Misc;
+                itemsToGive.Add(new ItemWithAmount(barricade, 2));
+                remembersGift = true;
+            }
             else
             {
                 currentPath = -1;
@@ -100,6 +110,13 @@ public class WagonMerchantNPC : NPC, ITalkable
             Talk();
 
             anim.SetTrigger("IsTalking");
+        }
+        else if(remembersGift && item == barricade)
+        {
+            remembersGift = false;
+            currentPath = 12;
+            currentType = PathType.Misc;
+            Talk();
         }
         else
         {
@@ -219,10 +236,10 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public void HourlyUpdate()
     {
-        //update store at night. Change to perform when not in view of the player 
-        if(TimeManager.Instance.currentHour == 6) //changed from 8 to 6. Lets see if this still works
+        if(TimeManager.Instance.currentHour == 8)
         {
             RefreshStore();
+            remembersGift = false;
         }
     }
 

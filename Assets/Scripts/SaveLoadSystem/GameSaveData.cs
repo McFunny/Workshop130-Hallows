@@ -33,6 +33,9 @@ public class GameSaveData : MonoBehaviour
     public bool playerHasBox; //Player currently has the box in their inventory, chest, or farm
     public bool watergunObtained;
 
+    public bool mm_giveBarricade; //Merchant handed the player a barricade at the start
+    public bool cm_giveChest; //Craftsman handed the player a chest at the start
+
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
 
@@ -82,41 +85,50 @@ public class GameSaveData : MonoBehaviour
 
     private void LoadData(SaveData data)
     {
-            PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
-            PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
-            PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
-            PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
-            PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
-            TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
+        PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
+        PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
+        PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
+        PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
+        PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
+        TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
 
-            //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
-            QuestManager.Instance.LoadData(data.allGameSaveData);
+        //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
+        QuestManager.Instance.LoadData(data.allGameSaveData);
 
-            CropDatabase.Instance.LoadStats(data.allGameSaveData);
-            CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
+        CropDatabase.Instance.LoadStats(data.allGameSaveData);
+        CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
 
-            tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
-            rascalWantsFood = data.allGameSaveData.rascalWantsFood;
-            rascalMentionedKey = data.allGameSaveData.rascalMentionedKey;
-            lumber_offersDeal = data.allGameSaveData.lumber_offersDeal;
-            lumber_choppedTree = data.allGameSaveData.lumber_choppedTree;
-            bridgeCleared = data.allGameSaveData.bridgeCleared;
-            keyCollected = data.allGameSaveData.keyCollected;
-            catacombUnlocked = data.allGameSaveData.catacombUnlocked;
-            wildernessIntroduced = data.allGameSaveData.wildernessIntroduced;
-            playerHasBox = data.allGameSaveData.playerHasBox;
+        tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
+        rascalWantsFood = data.allGameSaveData.rascalWantsFood;
+        rascalMentionedKey = data.allGameSaveData.rascalMentionedKey;
+        lumber_offersDeal = data.allGameSaveData.lumber_offersDeal;
+        lumber_choppedTree = data.allGameSaveData.lumber_choppedTree;
+        bridgeCleared = data.allGameSaveData.bridgeCleared;
+        keyCollected = data.allGameSaveData.keyCollected;
+        catacombUnlocked = data.allGameSaveData.catacombUnlocked;
+        wildernessIntroduced = data.allGameSaveData.wildernessIntroduced;
+        playerHasBox = data.allGameSaveData.playerHasBox;
 
-            rascalMet = data.allGameSaveData.rascalMet;
-            botMet = data.allGameSaveData.botMet;
-            lumberMet = data.allGameSaveData.lumberMet;
-            barMet = data.allGameSaveData.barMet;
-            tinkMet = data.allGameSaveData.tinkMet;
-            apothMet = data.allGameSaveData.apothMet;
-            culMet = data.allGameSaveData.culMet;
+        rascalMet = data.allGameSaveData.rascalMet;
+        botMet = data.allGameSaveData.botMet;
+        lumberMet = data.allGameSaveData.lumberMet;
+        barMet = data.allGameSaveData.barMet;
+        tinkMet = data.allGameSaveData.tinkMet;
+        apothMet = data.allGameSaveData.apothMet;
+        culMet = data.allGameSaveData.culMet;
 
-            townTreeCleared1 = data.allGameSaveData.townTreeCleared1;
-            townTreeCleared2 = data.allGameSaveData.townTreeCleared2;
-            watergunObtained = data.allGameSaveData.watergunObtained;
+        townTreeCleared1 = data.allGameSaveData.townTreeCleared1;
+        townTreeCleared2 = data.allGameSaveData.townTreeCleared2;
+        watergunObtained = data.allGameSaveData.watergunObtained;
+
+        mm_giveBarricade = data.allGameSaveData.mm_giveBarricade;
+        cm_giveChest = data.allGameSaveData.cm_giveChest;
+
+        travMet = data.allGameSaveData.travMet;
+        graveMet = data.allGameSaveData.graveMet;
+        fanMet = data.allGameSaveData.fanMet;
+        butchMet = data.allGameSaveData.butchMet;
+        carpMet = data.allGameSaveData.carpMet;
     }
 }
     [System.Serializable]
@@ -155,50 +167,64 @@ public class GameSaveData : MonoBehaviour
         public bool tinkMet;
         public bool apothMet;
         public bool culMet;
+        public bool travMet, graveMet, fanMet, butchMet, carpMet;
 
         public bool townTreeCleared1, townTreeCleared2;
         public bool watergunObtained;
 
+        public bool mm_giveBarricade;
+        public bool cm_giveChest;
+
     public AllGameSaveData(GameSaveData data)
-        {
-            pStamina = PlayerInteraction.Instance.stamina;
-            pWater = PlayerInteraction.Instance.waterHeld;
-            pCurrentMoney = PlayerInteraction.Instance.currentMoney;
-            pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
-            pDayNumber = TimeManager.Instance.dayNum;
-            pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
+    {
+        pStamina = PlayerInteraction.Instance.stamina;
+        pWater = PlayerInteraction.Instance.waterHeld;
+        pCurrentMoney = PlayerInteraction.Instance.currentMoney;
+        pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
+        pDayNumber = TimeManager.Instance.dayNum;
+        pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
 
-            //activeQuests = QuestManager.Instance.activeQuests.ToArray();
+        //activeQuests = QuestManager.Instance.activeQuests.ToArray();
 
-            QuestManager.Instance.SaveQuestData(out activeQuests, out activeFetchQuests, out activeHuntQuests, out activeGrowQuests);
+        QuestManager.Instance.SaveQuestData(out activeQuests, out activeFetchQuests, out activeHuntQuests, out activeGrowQuests);
 
-            CropDatabase.Instance.SaveStats(out cropStats);
-            CreatureDatabase.Instance.SaveStats(out creatureStats);
+        CropDatabase.Instance.SaveStats(out cropStats);
+        CreatureDatabase.Instance.SaveStats(out creatureStats);
 
 
-            tutorialMerchantSpoke = data.tutorialMerchantSpoke;
-            rascalWantsFood = data.rascalWantsFood;
-            rascalMentionedKey = data.rascalMentionedKey;
-            lumber_offersDeal = data.lumber_offersDeal;
-            lumber_choppedTree = data.lumber_choppedTree;
-            bridgeCleared = data.bridgeCleared;
-            keyCollected = data.keyCollected;
-            catacombUnlocked = data.catacombUnlocked;
-            wildernessIntroduced = data.wildernessIntroduced;
-            playerHasBox = data.playerHasBox;
+        tutorialMerchantSpoke = data.tutorialMerchantSpoke;
+        rascalWantsFood = data.rascalWantsFood;
+        rascalMentionedKey = data.rascalMentionedKey;
+        lumber_offersDeal = data.lumber_offersDeal;
+        lumber_choppedTree = data.lumber_choppedTree;
+        bridgeCleared = data.bridgeCleared;
+        keyCollected = data.keyCollected;
+        catacombUnlocked = data.catacombUnlocked;
+        wildernessIntroduced = data.wildernessIntroduced;
+        playerHasBox = data.playerHasBox;
 
-            rascalMet = data.rascalMet;
-            botMet = data.botMet;
-            lumberMet = data.lumberMet;
-            barMet = data.barMet;
-            tinkMet = data.tinkMet;
-            apothMet = data.apothMet;
-            culMet = data.culMet;
+        rascalMet = data.rascalMet;
+        botMet = data.botMet;
+        lumberMet = data.lumberMet;
+        barMet = data.barMet;
+        tinkMet = data.tinkMet;
+        apothMet = data.apothMet;
+        culMet = data.culMet;
 
-            townTreeCleared1 = data.townTreeCleared1;
-            townTreeCleared2 = data.townTreeCleared2;
-            watergunObtained = data.watergunObtained;
-    //Debug.Log("Saving stamina. Result: " + pStamina);
-        }
+        townTreeCleared1 = data.townTreeCleared1;
+        townTreeCleared2 = data.townTreeCleared2;
+        watergunObtained = data.watergunObtained;
+
+        mm_giveBarricade = data.mm_giveBarricade;
+        cm_giveChest = data.cm_giveChest;
+
+        travMet = data.travMet;
+        graveMet = data.graveMet;
+        fanMet = data.fanMet;
+        butchMet = data.butchMet;
+        carpMet = data.carpMet;
+
+//Debug.Log("Saving stamina. Result: " + pStamina);
+    }
     }
 

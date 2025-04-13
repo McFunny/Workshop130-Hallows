@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -17,6 +17,7 @@ public class TinkererNPC : NPC, ITalkable
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
+    private int timesSetUpShop = 0;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -50,8 +51,9 @@ public class TinkererNPC : NPC, ITalkable
                 }
                 else if (NPCManager.Instance.tinkererSpoke)
                 {
-                    interactSuccessful = false;
-                    return;
+                    int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                    currentPath = i;
+                    currentType = PathType.AlreadySpoken;
                 }
                 if (currentPath == -1)
                 {
@@ -158,6 +160,10 @@ public class TinkererNPC : NPC, ITalkable
             lastInteractedStoreItem = item;
             shopUI.shopTarget = item.arrowObject.transform;
             shopUI.shopImgObj.SetActive(true);
+            if (assignedStall.displaySign)
+            {
+                assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
+            }
 
         }
         currentType = PathType.Misc;
@@ -171,6 +177,10 @@ public class TinkererNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
+        if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
+        {
+            assignedStall.displaySign.ResetDisplay();
+        }
         base.PlayerLeftRadius();
     }
 
@@ -185,40 +195,52 @@ public class TinkererNPC : NPC, ITalkable
         //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
         if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
         lastInteractedStoreItem = null;
-        int i;
+        int t;
         float r;
         InventoryItemData newItem;
 
-        if (assignedStall.storeItems.Count < 2 && !GameSaveData.Instance.watergunObtained) //used for selling the water gun
-        {
-            newItem = watergun;
-            int newCost = (int)(newItem.value * sellMultiplier);
-            storeItems[0].RefreshItem(newItem, newCost);
-            storeItems[0].seller = this;
-        }
-        else //used for other general shop items
-        {
-            foreach (StoreItem item in storeItems)
+
+       
+            for (int i = 0; i < storeItems.Count; i++)
             {
-                newItem = null;
-                do
+                if (i == 0 && !GameSaveData.Instance.watergunObtained && timesSetUpShop > 0)
                 {
-                    i = Random.Range(0, possibleSoldItems.Length);
-                    r = Random.Range(0f, 1f);
-                    if (r < itemWeight[i]) newItem = possibleSoldItems[i];
+                    newItem = watergun;
+                    int newCost = (int)(newItem.value * sellMultiplier);
+                    storeItems[0].RefreshItem(newItem, newCost);
+                    storeItems[0].seller = this;
                 }
-                while (!newItem);
-                int newCost = (int)(newItem.value * sellMultiplier);
-                item.RefreshItem(newItem, newCost);
-                item.seller = this;
+                else
+                {
+                    newItem = null;
+                    do
+                    {
+                        t = Random.Range(0, possibleSoldItems.Length);
+                        r = Random.Range(0f, 1f);
+                        if (r < itemWeight[t]) newItem = possibleSoldItems[t];
+                    }
+                    while (!newItem);
+                    int newCost = (int)(newItem.value * sellMultiplier);
+                    storeItems[i].RefreshItem(newItem, newCost);
+                    storeItems[i].seller = this;
+                }
             }
-        }
+
+        if (timesSetUpShop == 0) { timesSetUpShop++; }
+        else if (timesSetUpShop > 0) { timesSetUpShop = 0; }
     }
+
+      
+    
 
     public override void BeginWorking()
     {
         if (!assignedStall) return;
         storeItems = assignedStall.storeItems;
+        if (assignedStall.displaySign)
+        {
+            assignedStall.displaySign.UpdateNPCName(this);
+        }
         RefreshStore();
     }
 
@@ -234,6 +256,10 @@ public class TinkererNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+        if (assignedStall.displaySign)
+        {
+            assignedStall.displaySign.LeaveShop();
+        }
     }
 
     public override bool ActionCheck1()

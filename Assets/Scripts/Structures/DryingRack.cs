@@ -124,7 +124,7 @@ public class DryingRack : StructureBehaviorScript
 
     void SpriteChange()
     {
-        if(progress == maxProgress)
+        if(progress >= maxProgress && savedItems.Count > 0)
         {
             itemSprite.sprite = jerky.icon;
         }

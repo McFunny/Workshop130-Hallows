@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [CreateAssetMenu(menuName = "Inventory System/Crop Database")]
 
@@ -57,7 +58,15 @@ public class CropDatabase : ScriptableObject
         for(int i = 0; i < _cropDatabase.Count; i++)
         {
             _cropDatabase[i].id = i;
+            #if UNITY_EDITOR
+
+            if (_cropDatabase[i]) EditorUtility.SetDirty(_cropDatabase[i]);
+
+            #endif
         }
+        #if UNITY_EDITOR       
+            AssetDatabase.SaveAssets();
+        #endif
     }
 
     public CropData GetCrop(int id) //USE THIS FOR GRABBING CROPS WHEN SAVING AND LOADING
