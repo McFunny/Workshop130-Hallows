@@ -164,7 +164,7 @@ public class QuestManager : MonoBehaviour
                     {
                         hQ.targetCreature = CreatureDatabase.Instance.GetCreature(hQ.objectID);
                     }
-                    else if(gQ != null && hQ.objectID != -1)
+                    else if(gQ != null && gQ.objectID != -1)
                     {
                         gQ.desiredCrop = CropDatabase.Instance.GetCrop(gQ.objectID);
                         gQ.desiredItem = Database.Instance.GetItem(gQ.objectID2);
