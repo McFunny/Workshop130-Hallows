@@ -95,6 +95,7 @@ public class WildernessManager : MonoBehaviour
     {
         if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InFarm);
         if(currentMap == null) return;
+        PlayerInteraction.Instance.transform.position = returnPosition.position; //Maybe this can make the fix
         AmbientAudioManager.Instance.ChangeMusic();
         ClearCreatures();
         currentMap.ClearMap();

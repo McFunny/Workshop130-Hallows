@@ -49,7 +49,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(dialogueController.IsTalking() == false)
+        if(dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
             if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) //Open Wilderness
             {
@@ -88,6 +88,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public void Talk()
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
     }
@@ -98,7 +99,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(dialogueController.IsInterruptable() == false || tItem)
         {
             interactSuccessful = false;
-            Talk();
+            if(dialogueController.FreeToSpeak(this))Talk();
             return;
         } 
         if(item.sellValueMultiplier == 0 || item.value == 0)

@@ -492,3 +492,13 @@ public class NightSpawningManager : MonoBehaviour
     } */
 }
 
+//Not incorporated yet. Can be used to track things like spawns per hour and the creature density. Will need a function comparing the thresholds of levels to determine which one is active
+[System.Serializable]
+public class DifficultyLevels
+{
+    public float difficultyPointThreshold; //how much difficulty points are required to reach this level
+    public float c_varietyMin, c_varietyMax; //min and max of common spawns
+    public float r_varietyMin, r_varietyMax; //min and max of rare spawns
+    public float s_varietyMin, s_varietyMax; //min and max of support spawns
+}
+
