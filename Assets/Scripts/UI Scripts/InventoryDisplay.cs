@@ -73,9 +73,9 @@ public abstract class InventoryDisplay : MonoBehaviour
                     {
                         ///////////Moving item into the chest//////////////
                         clickedUISlot.ClearSlot();
-                        PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                        //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                         PlayerInventoryHolder.Instance.UpdateOpenInventory();
-                        if(t_slot != null) UpdateSlot(t_slot); 
+                        //if(t_slot != null) UpdateSlot(t_slot); 
                         return;
                     }
                     else
@@ -90,9 +90,9 @@ public abstract class InventoryDisplay : MonoBehaviour
                     {
                         ///////////Moving item into the chest//////////////
                         clickedUISlot.ClearSlot();
-                        PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                        //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                         PlayerInventoryHolder.Instance.UpdateOpenInventory();
-                        if(o_slot != null) UpdateSlot(o_slot); 
+                        //if(o_slot != null) UpdateSlot(o_slot); 
                         return;
                     }
                 }
@@ -103,14 +103,11 @@ public abstract class InventoryDisplay : MonoBehaviour
             ///////////Checking to see if we can quick switch the item into one of the player inventories//////////////
             else if (isShiftPress && PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
             {
-                /*mouseInventoryItem.UpdateMouseSlot(halfStackSlot);*/
-                //clickedUISlot.UpdateUISlot();
-
                 //for quick swapping into one of the player's inventories
                 clickedUISlot.ClearSlot();
-                PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 PlayerInventoryHolder.Instance.UpdateOpenInventory();
-                if(slot != null) UpdateSlot(slot); 
+                //if(slot != null) UpdateSlot(slot); 
                 return;
             }
             else
@@ -258,9 +255,8 @@ public abstract class InventoryDisplay : MonoBehaviour
         {
             bool intoPrimary = false;
             if(inventorySystem == PlayerInventoryHolder.Instance.secondaryInventorySystem) intoPrimary = true;
-            if (PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
+            /*if (PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
             {
-                /*mouseInventoryItem.UpdateMouseSlot(halfStackSlot);*/
                 //clickedUISlot.UpdateUISlot();
                 clickedUISlot.ClearSlot();
                 //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
@@ -274,6 +270,61 @@ public abstract class InventoryDisplay : MonoBehaviour
                 UpdateSlots(); 
                 
                 clickedUISlot.ParentDisplay.UpdateSlots();
+                return;
+            }*/
+
+
+            ///////////Checking to see if a chest is opened//////////////
+            if(InventoryUIController.Instance.chestPanel.gameObject.activeSelf)
+            {
+                if(inventorySystem != InventoryUIController.Instance.chestPanel.InventorySystem)
+                {
+                    ///////////Checking to see if we can quick switch the item into a chest//////////////
+                    if(PlayerInventoryHolder.Instance.CanQuickSwitchIntoChest(InventoryUIController.Instance.chestPanel.InventorySystem, clickedUISlot.AssignedInventorySlot.ItemData, 
+                    clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot t_slot))
+                    {
+                        ///////////Moving item into the chest//////////////
+                        clickedUISlot.ClearSlot();
+                        //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                        PlayerInventoryHolder.Instance.UpdateOpenInventory();
+                        //if(t_slot != null) UpdateSlot(t_slot); 
+                        return;
+                    }
+                    else
+                    {
+                        //unable to put object into chest due to being full
+                    }
+                }
+                else
+                {
+                    ///////////Checking to see if we can quick switch the item out of a chest//////////////
+                    if(PlayerInventoryHolder.Instance.CanQuickSwitchOutOfChest(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot o_slot))
+                    {
+                        ///////////Moving item into the chest//////////////
+                        clickedUISlot.ClearSlot();
+                        //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+                        PlayerInventoryHolder.Instance.UpdateOpenInventory();
+                        //if(o_slot != null) UpdateSlot(o_slot); 
+                        return;
+                    }
+                }
+
+                
+            }
+
+            ///////////Checking to see if we can quick switch the item into one of the player inventories//////////////
+            else if (PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
+            {
+                clickedUISlot.ClearSlot();
+                var allDisplays = FindObjectsByType<InventoryDisplay>(FindObjectsSortMode.None); 
+
+                for(int i = 0; i < allDisplays.Length; i++)
+                {
+                    allDisplays[i].UpdateSlots();
+                }
+                //UpdateSlots(); 
+                
+                //clickedUISlot.ParentDisplay.UpdateSlots();
                 return;
             }
         } 
