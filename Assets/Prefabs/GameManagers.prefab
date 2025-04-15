@@ -2386,7 +2386,10 @@ MonoBehaviour:
   catacombMusicAmbience:
   - {fileID: 8300000, guid: 04efaf1b22fd52c498957bcf3cb47662, type: 3}
   - {fileID: 8300000, guid: 9669ac320599a30469fd58e4d0c265a3, type: 3}
-  finaleTheme: {fileID: 8300000, guid: ffecbf25e1b023142baf2f89709fcc0a, type: 3}
+  finaleTheme: {fileID: 8300000, guid: 1405197918fbcae468e707b99d917085, type: 3}
+  finaleIntro: {fileID: 8300000, guid: 1bbac2b1ef7acec498c664c44e43e206, type: 3}
+  finaleLose: {fileID: 8300000, guid: 58067976820abad4bb39a8211ce42775, type: 3}
+  finaleWin: {fileID: 8300000, guid: 31964cbb46bfce34eac4b6c8b23ab44f, type: 3}
   bellTower: {fileID: 8300000, guid: 0b7f67cc2ca54644eade598edf5e0563, type: 3}
   playMusicAtStart: 1
 --- !u!82 &4487365083115385320
@@ -2499,7 +2502,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.113
+  m_Volume: 0.197
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -8570,6 +8573,7 @@ GameObject:
   - component: {fileID: 7134883994844149291}
   - component: {fileID: 5574233904732930456}
   - component: {fileID: 1087822415833838726}
+  - component: {fileID: 3223520130733931973}
   m_Layer: 0
   m_Name: POOLS
   m_TagString: Untagged
@@ -8670,6 +8674,21 @@ MonoBehaviour:
   - {fileID: 3298337801092368734}
   - {fileID: 5547556843952242998}
   - {fileID: 4013105136114358314}
+--- !u!114 &3223520130733931973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838959691592782369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d3b059d19c8b74d863648e549160f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioPool: []
+  audioPrefab: {fileID: 123492760016384310, guid: cfae06d2297d853438c83908cb1192c9,
+    type: 3}
 --- !u!1 &4906814702745265644
 GameObject:
   m_ObjectHideFlags: 0
@@ -9470,6 +9489,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   - {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
   - {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
+  selectedCreatures: []
   allCreatures: []
   testSpawns:
   - {fileID: 7187795816526134101}
@@ -9530,6 +9550,7 @@ MonoBehaviour:
   pWater: 0
   pCurrentMoney: 0
   pTotalMoneyEarned: 0
+  pDaysSinceDeath: 0
   pDayNumber: 0
   currentMoney: 0
   totalEarnedMoney: 0
@@ -9545,6 +9566,8 @@ MonoBehaviour:
   wildernessIntroduced: 0
   playerHasBox: 0
   watergunObtained: 0
+  mm_giveBarricade: 0
+  cm_giveChest: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   rascalMet: 0
@@ -24623,6 +24646,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
   - {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
+  - {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
   wildernessInteractables:
   - name: Foragable
     prefab: {fileID: 3672103349891704917, guid: f9c56390acf3b2248a1b1b77c4e30d4f,

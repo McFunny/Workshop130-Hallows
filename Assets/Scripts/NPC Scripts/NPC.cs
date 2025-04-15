@@ -33,6 +33,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public ShopStall assignedStall;
 
+    [HideInInspector] public List<ItemWithAmount> itemsToGive = new List<ItemWithAmount>();
+
     protected virtual void Awake()
     {
         if(dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();

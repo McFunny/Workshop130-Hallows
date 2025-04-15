@@ -7,13 +7,14 @@ public class ShovelAttack : MonoBehaviour
     public LayerMask hitDetection;
     public Collider collider;
 
-    public AudioClip hitStruct, hitFlesh;
+    public AudioClip hitStruct, hitFlesh, hitDirt;
 
     CreatureBehaviorScript hitCreature;
     StructureBehaviorScript hitStructure;
     CreatureArmor hitArmor;
 
     Vector3 c_Collision, s_Collision, d_Collision;
+    GroundType type;
 
     void Start()
     {
@@ -24,6 +25,7 @@ public class ShovelAttack : MonoBehaviour
     {
         hitCreature = null;
         hitStructure = null;
+        hitArmor = null;
         collider.enabled = true;
         d_Collision = new Vector3(0,0,0);
         yield return new WaitForSeconds(0.04f);
@@ -68,7 +70,13 @@ public class ShovelAttack : MonoBehaviour
         }
 
         //it hit default collider
-        if(d_Collision == new Vector3(0,0,0)) d_Collision = other.ClosestPoint(transform.position);
+        if(other.GetComponentInParent<NPC>()) return;
+        if(d_Collision == new Vector3(0,0,0))
+        {
+            d_Collision = other.ClosestPoint(transform.position);
+            if(other.gameObject.tag == "Grass_FootStepSurface") type = GroundType.Dirt;
+            else type = GroundType.Other;
+        }
 
         //Something to hit corpses
 
@@ -114,9 +122,22 @@ public class ShovelAttack : MonoBehaviour
 
         if(d_Collision != new Vector3(0,0,0))
         {
+            print("Hit default");
+
             PlayHitParticle(d_Collision);
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-            print("Hit default");
+            return;
+
+            if(type == GroundType.Dirt)
+            {
+                ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            }
+            else
+            {
+                PlayHitParticle(d_Collision);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            }
         }
     }
 
@@ -136,4 +157,10 @@ public class ShovelAttack : MonoBehaviour
         }
         */
     }
+}
+
+public enum GroundType
+{
+    Other,
+    Dirt
 }

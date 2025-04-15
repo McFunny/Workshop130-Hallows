@@ -31,7 +31,7 @@ public class BotanistNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(dialogueController.IsTalking() == false) //Makes sure to not interrupt an existing dialogue branch
+        if(dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this)) //Makes sure to not interrupt an existing dialogue branch
         {
             if(!GameSaveData.Instance.botMet) //Introduction Check
             {
@@ -51,8 +51,9 @@ public class BotanistNPC : NPC, ITalkable
             }
             else if(NPCManager.Instance.botanistSpoke) //Say nothing if already given flavor text
             {
-                interactSuccessful = false;
-                return;
+                int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                currentPath = i;
+                currentType = PathType.AlreadySpoken;
             }
             else if(currentPath == -1) //Give 1 daily flavor text
             {
@@ -68,6 +69,7 @@ public class BotanistNPC : NPC, ITalkable
 
     public void Talk() //progress what they are saying or start new conversation
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
@@ -77,7 +79,7 @@ public class BotanistNPC : NPC, ITalkable
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         ToolItem tItem = item as ToolItem;
-        if(dialogueController.IsInterruptable() == false || tItem)
+        if(dialogueController.IsInterruptable() == false || tItem || !dialogueController.FreeToSpeak(this))
         {
             interactSuccessful = false;
             Talk();

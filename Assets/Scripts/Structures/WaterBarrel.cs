@@ -6,7 +6,8 @@ using TMPro;
 public class WaterBarrel : StructureBehaviorScript
 {
     public InventoryItemData recoveredItem;
-    public int waterLevel = 0; //max is 15
+    public int waterLevel = 0; //max is maxWaterLevel
+    int maxWaterLevel = 10;
     int oldLevel;
 
     public Transform waterTexture;
@@ -34,7 +35,7 @@ public class WaterBarrel : StructureBehaviorScript
     {
         base.Update();
 
-        waterText.text = waterLevel + "/" + 15;
+        waterText.text = waterLevel + "/" + maxWaterLevel;
 
         if(oldLevel != waterLevel)
         {
@@ -65,7 +66,7 @@ public class WaterBarrel : StructureBehaviorScript
         }
         if((type == ToolType.WateringCan || type == ToolType.WaterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
         {
-            if(waterLevel < 5)
+            /*if(waterLevel < 5)
             {
                 PlayerInteraction.Instance.waterHeld += waterLevel;
                 waterLevel = 0;
@@ -74,7 +75,16 @@ public class WaterBarrel : StructureBehaviorScript
             {
                 PlayerInteraction.Instance.waterHeld += 5;
                 waterLevel -= 5;
+            }*/
+            for(int i = 0; i < PlayerInteraction.Instance.maxWaterHeld; i++)
+            {
+                if(PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
+                {
+                    PlayerInteraction.Instance.waterHeld++;
+                    waterLevel--;
+                }
             }
+
             WaterLevelChange();
             success = true;
         }
@@ -82,11 +92,11 @@ public class WaterBarrel : StructureBehaviorScript
 
     public void ManualFill(out bool success)
     {
-        if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 15)
+        if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < maxWaterLevel)
         {
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < PlayerInteraction.Instance.maxWaterHeld; i++)
             {
-                if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 15)
+                if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < maxWaterLevel)
                 {
                     PlayerInteraction.Instance.waterHeld--;
                     waterLevel++;

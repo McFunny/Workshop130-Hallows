@@ -103,7 +103,7 @@ public class StructureManager : MonoBehaviour
                 if(potentialWeed && potentialWeed.isWeed) continue;
 
                 r = Random.Range(0, 10);
-                if(r >= 7) //Destroy structure. Could even replace some with rubble struct when we add it
+                if(r >= 7 || allStructs[i].onFire) //Destroy structure. Could even replace some with rubble struct when we add it
                 {
                     print("Deleting: " + allStructs[i]);
                     Destroy(allStructs[i].gameObject);
@@ -151,6 +151,30 @@ public class StructureManager : MonoBehaviour
         }
         //print("No tile grid was found");
         return farmTileMap;
+    }
+
+    public bool ValidateGridType(Vector3 pos, List<GridType> types)
+    {
+        foreach(GridType g in types)
+        {
+            switch(g)
+            {
+                case GridType.Any:
+                    return true;
+                    break;
+                case GridType.Farm:
+                    if(CurrentTileMap(pos) == farmTileMap) return true;
+                    break;
+                case GridType.Cabin:
+                    if(CurrentTileMap(pos) == cabinTileMap) return true;
+                    break;
+                case GridType.Town:
+                    if(CurrentTileMap(pos) == townTileMap) return true;
+                    break;
+            }
+        }
+        
+        return false;
     }
 
     public bool ValidateGridType(Vector3 pos, GridType type)
@@ -903,10 +927,12 @@ public enum Direction
     West,
     Null
 }
+[System.Serializable]
 public enum GridType
 {
     Any,
     Farm,
     Cabin,
-    Town
+    Town,
+    Barn
 }

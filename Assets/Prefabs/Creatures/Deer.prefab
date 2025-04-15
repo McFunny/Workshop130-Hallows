@@ -24506,13 +24506,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ecf5a6f3b7be84499efc7b4c99b621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 150
-  maxHealth: 150
+  health: 100
+  maxHealth: 100
   corpseHealth: -50
   ichorWorth: 5
   ichorDropRadius: 3.5
   creatureData: {fileID: 11400000, guid: 0ca9e65aed1b98340a1d0601fc4e8c07, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -24545,6 +24546,9 @@ MonoBehaviour:
   damageToPlayer: -35
   canCorpseBreak: 0
   hitColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0.1764706}
+  biteCheckMask:
+    serializedVersion: 2
+    m_Bits: 0
   variant: 1
   animTransformed: {fileID: 1320721866265420266}
   deer: {fileID: 861293224797824934}

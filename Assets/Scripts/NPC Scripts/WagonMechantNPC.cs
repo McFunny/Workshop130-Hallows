@@ -5,7 +5,9 @@ using UnityEngine;
 public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
+    public InventoryItemData barricade;
     [HideInInspector] public bool interactedWithLantern;
+    bool remembersGift; //if true and the player tries to sell barricades, he gets mad
 
     public MerchantLantern lantern;
 
@@ -47,7 +49,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(dialogueController.IsTalking() == false)
+        if(dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
             if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) //Open Wilderness
             {
@@ -60,6 +62,14 @@ public class WagonMerchantNPC : NPC, ITalkable
             {
                 currentPath = 0;
                 currentType = PathType.QuestComplete;
+            }
+            else if(!GameSaveData.Instance.mm_giveBarricade && !PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                GameSaveData.Instance.mm_giveBarricade = true;
+                currentPath = 11;
+                currentType = PathType.Misc;
+                itemsToGive.Add(new ItemWithAmount(barricade, 2));
+                remembersGift = true;
             }
             else
             {
@@ -78,6 +88,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public void Talk()
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
     }
@@ -88,7 +99,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(dialogueController.IsInterruptable() == false || tItem)
         {
             interactSuccessful = false;
-            Talk();
+            if(dialogueController.FreeToSpeak(this))Talk();
             return;
         } 
         if(item.sellValueMultiplier == 0 || item.value == 0)
@@ -100,6 +111,13 @@ public class WagonMerchantNPC : NPC, ITalkable
             Talk();
 
             anim.SetTrigger("IsTalking");
+        }
+        else if(remembersGift && item == barricade)
+        {
+            remembersGift = false;
+            currentPath = 12;
+            currentType = PathType.Misc;
+            Talk();
         }
         else
         {
@@ -219,10 +237,10 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public void HourlyUpdate()
     {
-        //update store at night. Change to perform when not in view of the player 
-        if(TimeManager.Instance.currentHour == 6) //changed from 8 to 6. Lets see if this still works
+        if(TimeManager.Instance.currentHour == 8)
         {
             RefreshStore();
+            remembersGift = false;
         }
     }
 

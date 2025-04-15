@@ -36,6 +36,12 @@ public class CatacombDoor : MonoBehaviour, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
+        ToolItem t_item = item as ToolItem;
+        if (t_item)
+        {
+            interactSuccessful = false;
+            return;
+        }
         if(GameSaveData.Instance.catacombUnlocked || debugMode)
         {
             if(TownGate.Instance.location == PlayerLocation.InTown)

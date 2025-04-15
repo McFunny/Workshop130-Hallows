@@ -8,6 +8,7 @@ public class MistsGraspBehavior : CropBehavior
     public override void OnIchorRefill(FarmLand tile)
     {
         tile.hoursSpent = tile.crop.hoursPerStage + 1;
+        tile.ignoreNextGrowthMoment = false;
         tile.HourPassed();
     }
 

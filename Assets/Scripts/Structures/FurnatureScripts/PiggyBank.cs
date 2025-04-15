@@ -44,7 +44,7 @@ public class PiggyBank : FurnitureBehaviorScript
             }
         }
 
-        if(!success) return;
+        if(!success) return; 
 
         insertParticles.Play();
 
@@ -85,8 +85,9 @@ public class PiggyBank : FurnitureBehaviorScript
     void OnDestroy()
     {
         OnDamage -= Break;
-        Instantiate(destructionParticles, particleCenter.position, Quaternion.identity);
         base.OnDestroy();
+        if (!gameObject.scene.isLoaded) return; 
+        Instantiate(destructionParticles, particleCenter.position, Quaternion.identity);
     }
 
     public override void SaveVariables()
