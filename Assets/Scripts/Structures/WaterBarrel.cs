@@ -122,8 +122,8 @@ public class WaterBarrel : StructureBehaviorScript
         if(waterLevel > 0) renderer.enabled = true;
         else renderer.enabled = false;
 
-        if(waterLevel > 10) waterTexture.position = new Vector3(waterTexture.position.x, 1.6f, waterTexture.position.z);
-        else if(waterLevel > 5) waterTexture.position = new Vector3(waterTexture.position.x, 1f, waterTexture.position.z);
+        if(waterLevel >= 8) waterTexture.position = new Vector3(waterTexture.position.x, 1.6f, waterTexture.position.z);
+        else if(waterLevel >= 5) waterTexture.position = new Vector3(waterTexture.position.x, 1f, waterTexture.position.z);
         else if(waterLevel > 0) waterTexture.position = new Vector3(waterTexture.position.x, 0.5f, waterTexture.position.z);
         else waterTexture.position = new Vector3(waterTexture.position.x, 0.2f, waterTexture.position.z);
 
