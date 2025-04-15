@@ -232,7 +232,7 @@ public class PlayerInventoryHolder : InventoryHolder
         return true;
     }
 
-    public bool CanQuickSwitch(bool intoPrimary, InventoryItemData itemToAdd, int amountToAdd, out InventorySlot _slot)
+    public bool CanQuickSwitch(bool intoPrimary, InventoryItemData itemToAdd, int amountToAdd, out InventorySlot _slot) //Between primary and secondary inventories
     {
         _slot = null; //returns the slot that is being swap to
         //if intoPrimary, you are trying to move a slot into primary, else vice versa
@@ -306,6 +306,109 @@ public class PlayerInventoryHolder : InventoryHolder
         }
     }
 
+    public bool CanQuickSwitchIntoChest(InventorySystem tertiarySystem, InventoryItemData itemToAdd, int amountToAdd, out InventorySlot _slot)//Between Tertiary and either primary or secondary inventories
+    {
+        _slot = null; //returns the slot that is being swap to
+        if (tertiarySystem.HasFreeSlot(out InventorySlot freeSecondarySlot) || tertiarySystem.CanAddToInventory(itemToAdd, amountToAdd))
+        {
+            if (tertiarySystem.ContainsItem(itemToAdd, out List<InventorySlot> primarySlots))
+            {
+                foreach (var slot in primarySlots)
+                {
+                    if (slot.EnoughRoomLeftInStack(amountToAdd))
+                    {
+                        slot.AddToStack(amountToAdd);
+                        OnPlayerHotbarDisplayRequested?.Invoke(tertiarySystem);
+                        OnPlayerInventoryChanged?.Invoke(tertiarySystem);
+                        _slot = slot;
+                        return true;
+                    }
+                }
+            }
+
+            if (freeSecondarySlot != null)
+            {
+                if (freeSecondarySlot.EnoughRoomLeftInStack(amountToAdd))
+                {
+                    freeSecondarySlot.UpdateInventorySlot(itemToAdd, amountToAdd);
+                    OnPlayerHotbarDisplayRequested?.Invoke(tertiarySystem);
+                    OnPlayerInventoryChanged?.Invoke(tertiarySystem);
+                    _slot = freeSecondarySlot;
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public bool CanQuickSwitchOutOfChest(InventoryItemData itemToAdd, int amountToAdd, out InventorySlot _slot)//Between Tertiary and either primary or secondary inventories
+    {
+        _slot = null; //returns the slot that is being swap to
+        if (primaryInventorySystem.HasFreeSlot(out InventorySlot freePrimarySlot) || primaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+        {
+            if (primaryInventorySystem.ContainsItem(itemToAdd, out List<InventorySlot> primarySlots))
+            {
+                foreach (var slot in primarySlots)
+                {
+                    if (slot.EnoughRoomLeftInStack(amountToAdd))
+                    {
+                        slot.AddToStack(amountToAdd);
+                        OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
+                        OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+                        _slot = slot;
+                        return true;
+                    }
+                }
+            }
+
+            if (freePrimarySlot != null)
+            {
+                if (freePrimarySlot.EnoughRoomLeftInStack(amountToAdd))
+                {
+                    freePrimarySlot.UpdateInventorySlot(itemToAdd, amountToAdd);
+                    OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
+                    OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+                    _slot = freePrimarySlot;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot) || secondaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+        {
+            if (secondaryInventorySystem.ContainsItem(itemToAdd, out List<InventorySlot> secondarySlots))
+            {
+                foreach (var slot in secondarySlots)
+                {
+                    if (slot.EnoughRoomLeftInStack(amountToAdd))
+                    {
+                        slot.AddToStack(amountToAdd);
+                        OnPlayerHotbarDisplayRequested?.Invoke(secondaryInventorySystem);
+                        OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+                        _slot = slot;
+                        return true;
+                    }
+                }
+            }
+
+            if (freeSecondarySlot != null)
+            {
+                if (freeSecondarySlot.EnoughRoomLeftInStack(amountToAdd))
+                {
+                    freeSecondarySlot.UpdateInventorySlot(itemToAdd, amountToAdd);
+                    OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
+                    OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+                    _slot = freeSecondarySlot;
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
     public bool FindItemInBothInventories(InventoryItemData item)
     {
         if (!PrimaryInventorySystem.ContainsItem(item, out List<InventorySlot> invSlot))
@@ -331,6 +434,7 @@ public class PlayerInventoryHolder : InventoryHolder
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
         OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
+        if(InventoryUIController.Instance.chestPanel.gameObject.activeSelf) InventoryUIController.Instance.chestPanel.UpdateSlots();
     }
    
 
