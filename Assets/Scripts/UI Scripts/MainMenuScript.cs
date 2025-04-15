@@ -33,6 +33,7 @@ public class MainMenuScript : MonoBehaviour
 
     public GameObject dayLight, nightLight;
     public Button[] buttons;
+    public Button[] newGameButtons;
     public Button[] loadButtons;
     public Button[] deleteButtons;
     public Button[] nonNavigableButtons;
@@ -40,6 +41,7 @@ public class MainMenuScript : MonoBehaviour
     public ConfirmationBox confirmationBox;
 
     public GameObject[] loadOptionsObjects;
+    GameObject selectedLoadSlot;
 
     public List<FileData> fileDatas = new List<FileData>();
     public static int currentSaveSlot = -1;//-1 means nothing is selected
@@ -116,11 +118,11 @@ public class MainMenuScript : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < loadText.Length; i++)
+        /*for(int i = 0; i < loadText.Length; i++)
         {
             if(isNewGame) loadText[i].text = "New Game";
             else loadText[i].text = "Load Game";
-        }
+        }*/
 
         /*if(hideUI.action.WasPressedThisFrame())
         {
@@ -137,29 +139,7 @@ public class MainMenuScript : MonoBehaviour
         }
         else if(loadCanvas.activeSelf && UICancel.action.WasPressedThisFrame())
         {
-            bool optionsOpen = false;
-            for(int i = 0; i < loadOptionsObjects.Length; i++)
-            {
-                if(i < loadOptionsObjects.Length/2)
-                {
-                    if(!loadOptionsObjects[i].activeSelf) optionsOpen = true;
-                    loadOptionsObjects[i].SetActive(true);
-                }
-                else
-                {
-                    loadOptionsObjects[i].SetActive(false);
-                }
-            }
-            if(optionsOpen)
-            {
-                EventSystem.current.SetSelectedGameObject(loadDefault);
-            }
-            else
-            {
-                loadCanvas.SetActive(false);
-                EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
-            }
-            
+            LoadBack();
         }
 
         if(ControlManager.isGamepad)
@@ -186,6 +166,36 @@ public class MainMenuScript : MonoBehaviour
     void HideUI()
     {
         menuObject.SetActive(!menuObject.activeInHierarchy);
+    }
+
+    public void LoadBack()
+    {
+        bool optionsOpen = false;
+        for(int i = 0; i < loadOptionsObjects.Length; i++)
+        {
+            if(i < loadOptionsObjects.Length/2)
+            {
+                if(!loadOptionsObjects[i].activeSelf) optionsOpen = true;
+                loadOptionsObjects[i].SetActive(true);
+            }
+            else
+            {
+                loadOptionsObjects[i].SetActive(false);
+            }
+        }
+        if(ControlManager.isController)
+        {
+            if(optionsOpen)
+            {
+                EventSystem.current.SetSelectedGameObject(selectedLoadSlot);
+            }
+            else
+            {
+                loadCanvas.SetActive(false);
+                EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
+            } 
+        }
+        
     }
 
     public void TestPress()
@@ -382,23 +392,26 @@ public class MainMenuScript : MonoBehaviour
         print("Controls Opened");
     }
 
-    public void OpenLoadScreen(bool n)
+    public void NewGameBool(bool n)
     {
-        if(n)
-        {
-            LoadSaveFileInfo();
-            for(int i = 0; i < loadButtons.Length; i++)
-            {
-                loadButtons[i].interactable = true;
-                fileDatas[i].slotButton.interactable = true;
-            }
-        }
-        else
-        { 
-            LoadSaveFileInfo();
-        }
-        if(isTransitioning) return;
         isNewGame = n;
+    }
+    public void SetSelectedLoadSlot(GameObject s)
+    {
+        selectedLoadSlot = s;
+    }
+
+    public void OpenLoadScreen()
+    {
+        LoadSaveFileInfo();
+        for(int i = 0; i < loadButtons.Length / 2; i++)
+        {
+            if(fileDatas[i].saveDataPresent) loadButtons[i].interactable = true;
+            else loadButtons[i].interactable = false;
+            //fileDatas[i].slotButton.interactable = true;
+        }
+
+        if(isTransitioning) return;
         loadCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(loadDefault);
     }
@@ -454,7 +467,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].emptySlot.gameObject.SetActive(true);
                 loadButtons[i].interactable = false;
                 deleteButtons[i].interactable = false;
-                fileDatas[i].slotButton.interactable = false;
+                //fileDatas[i].slotButton.interactable = false;
                 continue;
             }
             else
@@ -479,7 +492,7 @@ public class MainMenuScript : MonoBehaviour
                 //Enable/Disable uhh the thing idk I forgot
                 loadButtons[i].interactable = true;
                 deleteButtons[i].interactable = true;
-                fileDatas[i].slotButton.interactable = true;
+                //fileDatas[i].slotButton.interactable = true;
             }
         }
 
