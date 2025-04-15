@@ -96,7 +96,7 @@ public class CreatureEffectsHandler : MonoBehaviour
 
     public void ThrowSound(AudioClip clip)
     {
-        AudioSource.PlayClipAtPoint(clip, transform.position);
+        AudioPoolManager.Instance.PlayClipAtPosition(clip, transform.position);
     }
 
     public void MiscSound()
