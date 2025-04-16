@@ -23,6 +23,7 @@ public class HogClock : FurnitureBehaviorScript
     [ContextMenu("Hour Passed")]
     public override void HourPassed()
     {
+        if(TimeManager.Instance.timeSkipping && (TimeManager.Instance.currentHour != 6 && TimeManager.Instance.currentHour != 18)) return;
         //if(TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 18)
         //{
             //

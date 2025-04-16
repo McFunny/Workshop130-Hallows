@@ -385,4 +385,18 @@ public class DialogueController : MonoBehaviour
     {
         return interruptable;
     }
+
+    public bool FreeToSpeak(NPC talker)
+    {
+        if(currentTalker == null || currentTalker == talker)
+        {
+            print("It's my turn to talk");
+            return true;
+        }
+        else
+        {
+            print("It's not my turn to talk");
+            return false;
+        }
+    }
 }

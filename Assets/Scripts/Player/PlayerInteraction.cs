@@ -127,7 +127,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKeyDown(KeyCode.O) && StructureManager.Instance.enableCheats)
             {
                 print(InputManager.isCharging);
                 InputManager.isCharging = false;

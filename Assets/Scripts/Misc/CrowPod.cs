@@ -15,12 +15,14 @@ public class CrowPod : MonoBehaviour
         {
             crow.transform.rotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0));
             if(inWilderness) WildernessManager.Instance.allCreatures.Add(crow.GetComponentInChildren<CreatureBehaviorScript>());
+            crow.transform.parent = null;
         }
+        Destroy(this.gameObject);
     }
     // Update is called once per frame
     void Update()
     {
-        crows.RemoveAll(item => item == null);
-        if(crows.Count == 0) Destroy(this.gameObject);
+        //crows.RemoveAll(item => item == null);
+        //if(crows.Count == 0) Destroy(this.gameObject);
     }
 }

@@ -332,6 +332,11 @@ public class MistWalker : CreatureBehaviorScript
 
     private void WalkTowardsClosestStructure()
     {
+        if(TimeManager.Instance.isDay)
+        {
+            currentState = CreatureState.Wander;
+            return;
+        }
         if (targetStructure == null || !targetStructure.gameObject.activeSelf)
         {
             targetStructure = FindClosestStructure();

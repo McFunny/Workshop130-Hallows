@@ -87,6 +87,7 @@ public class Chest : FurnitureBehaviorScript
     public override void StructureInteraction()
     {
         InventoryHolder.OnDynamicInventoryDisplayRequested?.Invoke(primaryInventorySystem);
+        PlayerInventoryHolder.Instance.UpdateOpenInventory();
     }
 
     public override void SaveVariables()

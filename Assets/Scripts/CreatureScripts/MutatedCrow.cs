@@ -486,6 +486,15 @@ public class MutatedCrow : CreatureBehaviorScript
     private IEnumerator Decide()
     {
         coroutineRunning = true;
+
+        if(TimeManager.Instance.isDay && !inWilderness)
+        {
+            Debug.Log("Crow no attack in daytime");
+            point = GetRandomPoint(150);
+            currentState = CreatureState.GoAway;
+            coroutineRunning = false;
+            yield break;
+        }
         //------------------------------------------------
         // If the crow is in attack mode
         //------------------------------------------------

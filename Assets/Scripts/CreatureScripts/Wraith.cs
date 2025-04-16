@@ -107,8 +107,9 @@ public class Wraith : CreatureBehaviorScript
 
     void Teleport()
     {
-        ParticlePoolManager.Instance.GrabCloudParticle().transform.position = corpseParticleTransform.position;
+        ParticlePoolManager.Instance.GrabThawParticle().transform.position = corpseParticleTransform.position;
         transform.position = NightSpawningManager.Instance.RandomMistPosition();
+        nearbyFires.Clear();
     }
 
     public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)

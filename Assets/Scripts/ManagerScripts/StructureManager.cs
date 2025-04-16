@@ -153,6 +153,30 @@ public class StructureManager : MonoBehaviour
         return farmTileMap;
     }
 
+    public bool ValidateGridType(Vector3 pos, List<GridType> types)
+    {
+        foreach(GridType g in types)
+        {
+            switch(g)
+            {
+                case GridType.Any:
+                    return true;
+                    break;
+                case GridType.Farm:
+                    if(CurrentTileMap(pos) == farmTileMap) return true;
+                    break;
+                case GridType.Cabin:
+                    if(CurrentTileMap(pos) == cabinTileMap) return true;
+                    break;
+                case GridType.Town:
+                    if(CurrentTileMap(pos) == townTileMap) return true;
+                    break;
+            }
+        }
+        
+        return false;
+    }
+
     public bool ValidateGridType(Vector3 pos, GridType type)
     {
         switch(type)
@@ -903,10 +927,12 @@ public enum Direction
     West,
     Null
 }
+[System.Serializable]
 public enum GridType
 {
     Any,
     Farm,
     Cabin,
-    Town
+    Town,
+    Barn
 }

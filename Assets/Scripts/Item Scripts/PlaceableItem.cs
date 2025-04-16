@@ -13,8 +13,8 @@ public class PlaceableItem : InventoryItemData
     GameObject currentHologram;
 
     public AudioClip placeSound;
-
-    public GridType gridType;
+    
+    [SerializeField] public List<GridType> gridTypes;
     public GridSize gridSize;
     [Header("Furnature Variables")]
     public bool canPlaceOnFloor = true;
@@ -41,7 +41,7 @@ public class PlaceableItem : InventoryItemData
                 pos = StructureManager.Instance.CheckOneByTwoTile(hit.point, currentHologram.transform.rotation);
             }
 
-            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridType)) 
+            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridTypes)) 
             {
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
                 if(gridSize == GridSize.TwoByTwo) StructureManager.Instance.SetLargeTile(pos);
@@ -104,7 +104,7 @@ public class PlaceableItem : InventoryItemData
                 pos = StructureManager.Instance.CheckOneByTwoTile(hit.point, currentHologram.transform.rotation);
             }
 
-            if(pos == new Vector3(0,0,0) || !StructureManager.Instance.ValidateGridType(pos, gridType)) 
+            if(pos == new Vector3(0,0,0) || !StructureManager.Instance.ValidateGridType(pos, gridTypes)) 
             {
                 //Debug.Log("CantDisplay");
                 if(currentHologram.activeSelf)

@@ -43,7 +43,7 @@ public class CropDatabase : ScriptableObject
     public CropData GetCropByName(string name)
     {
         DumbAbnerFunction();
-        Debug.Log(cropLookup.Count);
+        //Debug.Log(cropLookup.Count);
         return cropLookup.ContainsKey(name) ? cropLookup[name] : null;
     }
 
