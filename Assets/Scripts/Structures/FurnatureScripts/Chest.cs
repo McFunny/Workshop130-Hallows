@@ -15,6 +15,8 @@ public class Chest : FurnitureBehaviorScript
 
     string chestID;
 
+    public List<SpriteRenderer> itemSockets = new List<SpriteRenderer>();
+
     void Awake()
     {
         base.Awake();
@@ -88,6 +90,26 @@ public class Chest : FurnitureBehaviorScript
     {
         InventoryHolder.OnDynamicInventoryDisplayRequested?.Invoke(primaryInventorySystem);
         PlayerInventoryHolder.Instance.UpdateOpenInventory();
+
+        RefreshSockets();
+        StartCoroutine(WaitForClose());
+    }
+
+    void RefreshSockets()
+    {
+        for(int i = 0; i < itemSockets.Count; i++)
+        {
+            if(primaryInventorySystem.InventorySlots[i].ItemData == null) itemSockets[i].sprite = null;
+            else itemSockets[i].sprite = primaryInventorySystem.InventorySlots[i].ItemData.icon;
+        }
+    }
+
+    IEnumerator WaitForClose()
+    {
+        yield return new WaitForSeconds(0.1f);
+        yield return new WaitUntil(() => !PlayerMovement.accessingInventory);
+        //closeanim
+        RefreshSockets();
     }
 
     public override void SaveVariables()
