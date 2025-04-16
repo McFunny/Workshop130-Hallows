@@ -138,7 +138,11 @@ public class WaterBarrel : StructureBehaviorScript
         else if(waterLevel > 0) waterTexture.position = new Vector3(waterTexture.position.x, 0.5f, waterTexture.position.z);
         else waterTexture.position = new Vector3(waterTexture.position.x, 0.2f, waterTexture.position.z);
 
-        if(showSplash) splash.Play();
+        if(showSplash)
+        {
+            splash.Play();
+            audioHandler.PlaySound(audioHandler.interactSound);
+        }
         else showSplash = true;
     }
 
