@@ -38,7 +38,7 @@ public class ShovelAttack : MonoBehaviour
         //Vector3 collisionPoint;
 
         var structure = other.GetComponentInParent<StructureBehaviorScript>();
-        if (structure != null && hitStructure == null)
+        if (structure != null && hitStructure == null && (s_Collision == Vector3.zero || Vector3.Distance(transform.position, s_Collision) > Vector3.Distance(transform.position, other.ClosestPoint(transform.position))))
         {
             hitStructure = structure;
             s_Collision = other.ClosestPoint(transform.position);
