@@ -36,7 +36,7 @@ public class AudioPoolManager : MonoBehaviour
         }
     }
 
-    public void PlayClipAtPosition(AudioClip clip, Vector3 pos)
+    public void PlayClipAtPosition(AudioClip clip, Vector3 pos) //make one for volume too
     {
         foreach (GameObject audio in audioPool)
         {

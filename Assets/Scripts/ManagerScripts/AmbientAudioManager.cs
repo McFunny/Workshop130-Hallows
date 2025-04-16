@@ -51,6 +51,19 @@ public class AmbientAudioManager : MonoBehaviour
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
+    void Update()
+    {
+        if(Time.timeScale == 0 && musicSource.isPlaying)
+        {
+            musicSource.Pause();
+        }
+
+        if(Time.timeScale != 0 && !musicSource.isPlaying)
+        {
+            musicSource.UnPause();
+        }
+    }
+
     public void BeginPlayingMusic()
     {
         if (ambientMusicCoroutine != null)
@@ -116,7 +129,7 @@ public class AmbientAudioManager : MonoBehaviour
             }
             else musicCooldown = Random.Range(5, 10);
 
-            yield return new WaitForSecondsRealtime(musicCooldown);
+            yield return new WaitForSeconds(musicCooldown);
             Debug.Log("CoolDown Done picking song");
             if(NightSpawningManager.Instance.finaleActivated)
             {
@@ -134,7 +147,7 @@ public class AmbientAudioManager : MonoBehaviour
             float musicRuntime = musicSource.clip.length;
             musicSource.Play();
             Debug.Log("Playing MUSIC");
-            yield return new WaitForSecondsRealtime(musicRuntime);
+            yield return new WaitForSeconds(musicRuntime);
             Debug.Log("Song ended"); 
         }
     }
