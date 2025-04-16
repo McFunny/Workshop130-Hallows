@@ -183,18 +183,15 @@ public class MainMenuScript : MonoBehaviour
                 loadOptionsObjects[i].SetActive(false);
             }
         }
-        if(ControlManager.isController)
+        if(optionsOpen)
         {
-            if(optionsOpen)
-            {
-                EventSystem.current.SetSelectedGameObject(selectedLoadSlot);
-            }
-            else
-            {
-                loadCanvas.SetActive(false);
-                EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
-            } 
+            if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(selectedLoadSlot);
         }
+        else
+        {
+            loadCanvas.SetActive(false);
+            if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
+        } 
         
     }
 
@@ -232,9 +229,22 @@ public class MainMenuScript : MonoBehaviour
         
         for(int i = 0; i < loadButtons.Length; i++)
         {
+            
             if(confirmationBox.calledBy == loadButtons[i]) // Load Game
             {
-                string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + i + SaveLoad.FileName;
+                int pathNum;
+                if(i < loadButtons.Length / 2)
+                {
+                    pathNum = i;
+                }
+                else
+                {
+                    pathNum = i - (loadButtons.Length/2);
+                }
+                
+                print("pathNum = " + pathNum);
+                
+                string fullPath = Application.persistentDataPath + SaveLoad.SaveDirectory + pathNum + SaveLoad.FileName;
                 //SaveData tempData = new SaveData();
 
                 if (!File.Exists(fullPath) && !isNewGame)
@@ -246,7 +256,7 @@ public class MainMenuScript : MonoBehaviour
                 {
                     if(isTransitioning) return;
                     isTransitioning = true;
-                    currentSaveSlot = i;
+                    currentSaveSlot = pathNum;
                     StartCoroutine(StartGame());
                     loadingData = false;
                     loadCanvas.SetActive(false);
@@ -256,7 +266,7 @@ public class MainMenuScript : MonoBehaviour
                 if(isTransitioning) return;
                 isTransitioning = true;
                 loadingData = true;
-                currentSaveSlot = i;
+                currentSaveSlot = pathNum;
                 StartCoroutine(StartGame());
                 loadCanvas.SetActive(false);
                 break;
@@ -406,14 +416,22 @@ public class MainMenuScript : MonoBehaviour
         LoadSaveFileInfo();
         for(int i = 0; i < loadButtons.Length / 2; i++)
         {
-            if(fileDatas[i].saveDataPresent) loadButtons[i].interactable = true;
-            else loadButtons[i].interactable = false;
+            if(fileDatas[i].saveDataPresent)
+            {
+               loadButtons[i].interactable = true;
+               //print("SaveData Found");
+            } 
+            else
+            {
+                loadButtons[i].interactable = false;
+                //print("No SaveData Found");
+            } 
             //fileDatas[i].slotButton.interactable = true;
         }
 
         if(isTransitioning) return;
         loadCanvas.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(loadDefault);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(loadDefault);
     }
     public void OpenResolutionScreen()
     {
@@ -472,6 +490,7 @@ public class MainMenuScript : MonoBehaviour
             }
             else
             {
+                Debug.Log("Save Data Found");
                 string json = File.ReadAllText(fullPath);
                 tempData = JsonUtility.FromJson<SaveData>(json);
                 fileDatas[i].saveDataPresent = true;
@@ -494,11 +513,6 @@ public class MainMenuScript : MonoBehaviour
                 deleteButtons[i].interactable = true;
                 //fileDatas[i].slotButton.interactable = true;
             }
-        }
-
-        if(saveCount == 0)
-        {
-            buttons[1].interactable = false;
         }
     }
 
