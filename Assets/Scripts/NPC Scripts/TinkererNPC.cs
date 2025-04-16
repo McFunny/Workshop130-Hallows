@@ -147,7 +147,7 @@ public class TinkererNPC : NPC, ITalkable
             else
             {
                 currentPath = 2; //item sold
-                if (item == watergun) GameSaveData.Instance.watergunObtained = true;
+                if (item.itemData == watergun) GameSaveData.Instance.watergunObtained = true;
                 shopUI.shopImgObj.SetActive(false);
             }
             anim.SetTrigger("IsTalking");
