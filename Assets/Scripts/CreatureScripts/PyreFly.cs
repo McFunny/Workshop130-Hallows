@@ -69,7 +69,7 @@ public class PyreFly : CreatureBehaviorScript
     void Start()
     {
         base.Start();
-        if(variant == Variant.Napalm || inWilderness) currentState = CreatureState.Wander;
+        if(variant == Variant.Napalm || inWilderness || patrolPoint) currentState = CreatureState.Wander;
         else if(ignited) currentState = CreatureState.WalkTowardsClosestStructure;
         else currentState = CreatureState.WalkTowardsClosestFlame;
 
@@ -174,7 +174,8 @@ public class PyreFly : CreatureBehaviorScript
             }
             else
             {
-                if(variant == Variant.Napalm) StartCoroutine(MoveToPoint(player.position)); //move to player
+                if(patrolPoint) StartCoroutine(MoveToPoint(PointAroundPatrolPoint(7)));
+                else if(variant == Variant.Napalm) StartCoroutine(MoveToPoint(player.position)); //move to player
                 else
                 {
                     //randomly wander
@@ -553,7 +554,7 @@ public class PyreFly : CreatureBehaviorScript
         if(!gameObject.scene.isLoaded) return;
         if(homeHive) homeHive.FlyLost();
 
-        if(ignited)
+        if(ignited && health <= 0)
         {
             ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
             if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);

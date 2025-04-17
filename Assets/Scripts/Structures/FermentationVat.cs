@@ -68,7 +68,7 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(item.pickledForm && savedItems.Count < maxContainedItems)
+        if(item.pickledForm && savedItems.Count == 0)
         {
             //
             savedItems.Add(item);
@@ -100,7 +100,7 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(progress < maxProgress && (savedItems.Count == maxContainedItems || savedItems[0] != null))
+        if(progress < maxProgress && (savedItems.Count > 0 && savedItems[0] != null))
         {
             if(ignoreNextHour)
             {
@@ -161,12 +161,12 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        saveInt1 = progress;
+        progress = saveInt1;
         ParticleToggle();
     }
 
     public override void SaveVariables()
     {
-        progress = saveInt1;
+        saveInt1 = progress;
     }
 }

@@ -102,10 +102,11 @@ public class ToolTipScript : MonoBehaviour
         {
             var item = itemData as PlaceableItem;
             //print(item);
-            if(item.gridType == GridType.Any) itemType.text = "Structure";
-            else if(item.gridType == GridType.Farm) itemType.text = "Farm Structure";
-            else if(item.gridType == GridType.Cabin) itemType.text = "Cabin Structure";
-            else if(item.gridType == GridType.Town) itemType.text = "Town Structure";
+            if(item.gridTypes.Count == 0) Debug.LogError("Forgot to assign this structure a grid type!");
+            else if(item.gridTypes[0] == GridType.Any) itemType.text = "Structure";
+            else if(item.gridTypes[0] == GridType.Farm) itemType.text = "Farm Structure";
+            else if(item.gridTypes[0] == GridType.Cabin) itemType.text = "Cabin Structure";
+            else if(item.gridTypes[0] == GridType.Town) itemType.text = "Town Structure";
             
             intakeParent.SetActive(false);
             outputParent.SetActive(false);

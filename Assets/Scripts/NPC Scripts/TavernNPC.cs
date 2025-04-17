@@ -28,7 +28,7 @@ public class TavernNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if (dialogueController.IsTalking() == false) //Makes sure to not interrupt an existing dialogue branch
+        if (dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this)) //Makes sure to not interrupt an existing dialogue branch
         {
             if (!GameSaveData.Instance.barMet) //Introduction Check
             {
@@ -48,8 +48,9 @@ public class TavernNPC : NPC, ITalkable
             }*/
             else if (NPCManager.Instance.barkeepSpoke) //Say nothing if already given flavor text
             {
-                interactSuccessful = false;
-                return;
+                int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                currentPath = i;
+                currentType = PathType.AlreadySpoken;
             }
             else if (currentPath == -1) //Give 1 daily flavor text
             {
@@ -76,6 +77,7 @@ public class TavernNPC : NPC, ITalkable
 
     public void Talk() //progress what they are saying or start new conversation
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
@@ -85,7 +87,7 @@ public class TavernNPC : NPC, ITalkable
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         ToolItem tItem = item as ToolItem;
-        if (dialogueController.IsInterruptable() == false || tItem)
+        if (dialogueController.IsInterruptable() == false || tItem || !dialogueController.FreeToSpeak(this))
         {
             interactSuccessful = false;
             Talk();
@@ -130,7 +132,15 @@ public class TavernNPC : NPC, ITalkable
 
     void GiveQuest()
     {
-       // GENERATE RANDOM ONES SOON
+        // GENERATE RANDOM ONES SOON
+        Quest newQuest = null;
+        while(newQuest == null)
+        {
+            int x = Random.Range(0, possibleQuests.Count);
+            if(!QuestManager.Instance.activeQuests.Contains(possibleQuests[x])) newQuest = possibleQuests[x];
+        }
+        
+
         QuestManager.Instance.AddQuest(possibleQuests[Random.Range(0, possibleQuests.Count)]);
         int questNum = QuestManager.Instance.activeQuests.Count - 1;//To grab the newly added quest
 

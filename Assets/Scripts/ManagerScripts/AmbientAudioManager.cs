@@ -16,7 +16,7 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip[] wildernessMusicAmbience;
     public AudioClip[] catacombMusicAmbience;
 
-    public AudioClip finaleTheme;
+    public AudioClip finaleTheme, finaleIntro, finaleLose, finaleWin;
 
     public AudioClip bellTower;
 
@@ -51,8 +51,25 @@ public class AmbientAudioManager : MonoBehaviour
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
+    void Update()
+    {
+        if(Time.timeScale == 0 && musicSource.isPlaying)
+        {
+            musicSource.Pause();
+        }
+
+        if(Time.timeScale != 0 && !musicSource.isPlaying)
+        {
+            musicSource.UnPause();
+        }
+    }
+
     public void BeginPlayingMusic()
     {
+        if (ambientMusicCoroutine != null)
+        {
+            StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+        }
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //Making it trackable
     }
 
@@ -71,7 +88,7 @@ public class AmbientAudioManager : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            float trackCooldown = Random.Range(2f, 15f);
+            float trackCooldown = Random.Range(5f, 15f);
             yield return new WaitForSeconds(trackCooldown);
             float r = Random.Range(0, 1f);
             if(r > .65f) //blow wind
@@ -84,6 +101,10 @@ public class AmbientAudioManager : MonoBehaviour
             else if (TimeManager.Instance.currentHour < 6 || TimeManager.Instance.currentHour > 20)
             {
                 ambienceSource.clip = nightAmbience[Random.Range(0, nightAmbience.Length)];
+            }
+            else if(TownGate.Instance.location == PlayerLocation.InWilderness)
+            {
+                ambienceSource.clip = wildernessAmbience[Random.Range(0, wildernessAmbience.Length)];
             }
             else
             {
@@ -107,7 +128,8 @@ public class AmbientAudioManager : MonoBehaviour
                 musicCooldown = 5;
             }
             else musicCooldown = Random.Range(5, 10);
-            yield return new WaitForSecondsRealtime(musicCooldown);
+
+            yield return new WaitForSeconds(musicCooldown);
             Debug.Log("CoolDown Done picking song");
             if(NightSpawningManager.Instance.finaleActivated)
             {
@@ -121,17 +143,18 @@ public class AmbientAudioManager : MonoBehaviour
             }
             else
                 musicSource.clip = musicNightAmbience[Random.Range(0, musicNightAmbience.Length)];
+
             float musicRuntime = musicSource.clip.length;
             musicSource.Play();
             Debug.Log("Playing MUSIC");
-            yield return new WaitForSecondsRealtime(musicRuntime);
+            yield return new WaitForSeconds(musicRuntime);
             Debug.Log("Song ended"); 
         }
     }
 
     void HourUpdate()
     {
-        if (TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 20)
+        if (TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.finaleActivated)
         {
             StartCoroutine(FadeBell());
             //StopCoroutine(PlayAmbientMusic());
@@ -166,6 +189,11 @@ public class AmbientAudioManager : MonoBehaviour
         musicSource.Stop();
         musicSource.volume = oldVolume;
 
+        if (ambientMusicCoroutine != null)
+        {
+            StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+        }
+        StopCoroutine(FinaleTheme());
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //restarts coroutine
     }
 
@@ -182,7 +210,52 @@ public class AmbientAudioManager : MonoBehaviour
             StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
             //musicSource.Stop(); // Stop current music
         }
+        StopCoroutine(FinaleTheme());
         StartCoroutine(FadeAudio()); 
+    }
+
+    public void StartFinaleTheme()
+    {
+        StartCoroutine(FinaleTheme());
+    }
+
+    public void EndFinaleTheme()
+    {
+        StartCoroutine(LoseFinale());
+    }
+
+    public void WinFinaleTheme()
+    {
+        //
+    }
+
+    IEnumerator FinaleTheme()
+    {
+        if (ambientMusicCoroutine != null)
+        {
+            StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+        }
+        //
+        musicSource.clip = finaleIntro;
+        float musicRuntime = musicSource.clip.length;
+        musicSource.Play();
+
+        yield return new WaitForSecondsRealtime(musicRuntime);
+        ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic());
+    }
+
+    IEnumerator LoseFinale()
+    {
+        if (ambientMusicCoroutine != null)
+        {
+            StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+        }
+        musicSource.clip = finaleLose;
+        float musicRuntime = musicSource.clip.length;
+        musicSource.Play();
+
+        yield return new WaitForSecondsRealtime(musicRuntime);
+        ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic());
     }
     
 }

@@ -29,7 +29,7 @@ public class CulinarianNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if (dialogueController.IsTalking() == false)
+        if (dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
             if (!GameSaveData.Instance.culMet)
             {
@@ -46,8 +46,9 @@ public class CulinarianNPC : NPC, ITalkable
                 }
                 else if (NPCManager.Instance.culinarianSpoke)
                 {
-                    interactSuccessful = false;
-                    return;
+                    int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                    currentPath = i;
+                    currentType = PathType.AlreadySpoken;
                 }
                 if (currentPath == -1)
                 {
@@ -65,6 +66,7 @@ public class CulinarianNPC : NPC, ITalkable
 
     public void Talk()
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
@@ -75,7 +77,7 @@ public class CulinarianNPC : NPC, ITalkable
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         ToolItem tItem = item as ToolItem;
-        if (dialogueController.IsInterruptable() == false || tItem)
+        if (dialogueController.IsInterruptable() == false || tItem || !dialogueController.FreeToSpeak(this))
         {
             interactSuccessful = false;
             return;

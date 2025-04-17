@@ -10,6 +10,8 @@ public class InventoryUIController : MonoBehaviour
     public DynamicInventoryDisplay chestPanel;
     public DynamicInventoryDisplay playerBackpackPanel;
 
+    public static InventoryUIController Instance;
+
     PlayerInventoryHolder inventoryHolder;
 
     private bool isBackpackOpen = false;  
@@ -26,6 +28,13 @@ public class InventoryUIController : MonoBehaviour
 
     private void Awake()
     {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else Instance = this;
+
         readyToPress = true;
         chestPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);

@@ -100,16 +100,20 @@ public class QuestManager : MonoBehaviour
 
             if(fQ != null && !fQ.alreadyCompleted)
             {
+                fQ.objectID = fQ.desiredItem.ID;
                 fQ.orderIndex = i;
                 fQuestList.Add(fQ);
             }
             else if(hQ != null && !hQ.alreadyCompleted)
             {
+                hQ.objectID = hQ.targetCreature.id;
                 hQ.orderIndex = i;
                 hQuestList.Add(hQ);
             }
             else if(gQ != null && !gQ.alreadyCompleted)
             {
+                gQ.objectID = gQ.desiredCrop.id;
+                gQ.objectID2 = gQ.desiredItem.ID;
                 gQ.orderIndex = i;
                 gQuestList.Add(gQ);
             }
@@ -146,7 +150,29 @@ public class QuestManager : MonoBehaviour
         {
             foreach(Quest q in tempList)
             {
-                if(q.orderIndex == i) activeQuests.Add(q);
+                if(q.orderIndex == i)
+                {
+                    FetchQuest fQ = q as FetchQuest;
+                    HuntQuest hQ = q as HuntQuest;
+                    GrowQuest gQ = q as GrowQuest;
+
+                    if(fQ != null && fQ.objectID != -1)
+                    {
+                        fQ.desiredItem = Database.Instance.GetItem(fQ.objectID);
+                    }
+                    else if(hQ != null && hQ.objectID != -1)
+                    {
+                        hQ.targetCreature = CreatureDatabase.Instance.GetCreature(hQ.objectID);
+                    }
+                    else if(gQ != null && gQ.objectID != -1)
+                    {
+                        gQ.desiredCrop = CropDatabase.Instance.GetCrop(gQ.objectID);
+                        gQ.desiredItem = Database.Instance.GetItem(gQ.objectID2);
+                    }
+
+
+                    activeQuests.Add(q);
+                }
             }
             i++;
         }
@@ -179,11 +205,14 @@ public class Quest
 
     [HideInInspector] public int orderIndex; //What order is this quest on the codex?
 
+    [HideInInspector] public int objectID = -1; //The ID of the saved creature, item, crop, ect
+    [HideInInspector] public int objectID2 = -1; //The ID of another saved creature, item, crop, ect
+
 }
 [System.Serializable]
 public class FetchQuest: Quest //Should hide progress, and max progress should be 0
 {
-    public InventoryItemData desiredItem;
+    public InventoryItemData desiredItem; //MUST SAVE ID
     public int amount;
 
     public FetchQuest(InventoryItemData _desiredItem, int _amount)
@@ -201,7 +230,7 @@ public class FetchQuest: Quest //Should hide progress, and max progress should b
 [System.Serializable]
 public class HuntQuest: Quest //max progress should be amount
 {
-    public CreatureObject targetCreature;
+    public CreatureObject targetCreature; //MUST SAVE ID
     public int amount;
 
     public HuntQuest(CreatureObject _targetCreature, int _amount)
@@ -214,7 +243,7 @@ public class HuntQuest: Quest //max progress should be amount
 [System.Serializable]
 public class GrowQuest: Quest //max progress should be amount
 {
-    public CropData desiredCrop;
+    public CropData desiredCrop; //MUST SAVE ID
     public InventoryItemData desiredItem;
     public int amount;
 

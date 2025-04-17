@@ -98,7 +98,7 @@ public class BulletScript : MonoBehaviour
                 print("Hit Creature");
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
-                gameObject.SetActive(false);
+                if(creature.health + creatureDamage > 0) gameObject.SetActive(false);
                 return;
             }
         }

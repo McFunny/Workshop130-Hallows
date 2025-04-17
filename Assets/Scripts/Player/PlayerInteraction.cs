@@ -28,6 +28,9 @@ public class PlayerInteraction : MonoBehaviour
 
     public int currentMoney;
     public int totalMoneyEarned;
+    public int daysSinceDeath = 0;
+    public delegate void PlayerDeathEvent();
+    public static event PlayerDeathEvent OnPlayerDeath;
 
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
@@ -40,6 +43,8 @@ public class PlayerInteraction : MonoBehaviour
     public bool torchLit = false;
 
     private float reach = 8;
+
+   
 
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
@@ -122,7 +127,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKeyDown(KeyCode.O) && StructureManager.Instance.enableCheats)
             {
                 print(InputManager.isCharging);
                 InputManager.isCharging = false;
@@ -403,6 +408,8 @@ public class PlayerInteraction : MonoBehaviour
         //maybe pause time? also make sure no issues arise when dying while talking to someone
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
+        daysSinceDeath = -1;
+        InvokePlayerDeathEvent();
         AmbientAudioManager.Instance.ChangeMusic();
         yield return new WaitForSeconds(0.5f);
         playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
@@ -463,5 +470,11 @@ public class PlayerInteraction : MonoBehaviour
             i++;
         }
     }
-    
+
+    public void InvokePlayerDeathEvent()
+    {
+        OnPlayerDeath?.Invoke();
+    }
+
+
 }
