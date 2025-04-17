@@ -211,14 +211,19 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void ToggleHighlight(bool enable)
     {
-        if(highlight.Count == 0) return;
+        if(highlight.Count == 0)
+        {
+            return;
+        }
         if(!canShowHighlight)
         {
+            if(structureUI && enable) structureUI.SetActive(true);
+            if(structureUI && !enable) structureUI.SetActive(false);
             if(highlightEnabled)
             {
                 highlightEnabled = false;
                 foreach(GameObject thing in highlight) thing.SetActive(false);
-                if(structureUI) structureUI.SetActive(false);
+                //if(structureUI) structureUI.SetActive(false);
             }
             return;
         }
@@ -287,7 +292,7 @@ public class StructureBehaviorScript : MonoBehaviour
         if(flammable)
         {
             flammable = false;
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(5);
             flammable = true;
         }
     }
@@ -298,7 +303,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
             else TakeDamage(2);
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(2f);
         }
     }
 

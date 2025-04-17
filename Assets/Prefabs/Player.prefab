@@ -258,6 +258,7 @@ MonoBehaviour:
   toolCooldown: 0
   currentMoney: 0
   totalMoneyEarned: 0
+  daysSinceDeath: 0
   stamina: 200
   invincible: 0
   waterHeld: 0
@@ -285,8 +286,13 @@ MonoBehaviour:
   itemPickup: {fileID: 8300000, guid: 20b28e31502cac542adf9801c08a1e54, type: 3}
   itemEat: {fileID: 8300000, guid: de2b35f00939d9e42b297b84161ed163, type: 3}
   playerDie: {fileID: 8300000, guid: 7873b510c112e9042a0842b9a6e18c7a, type: 3}
-  playerDamage: {fileID: 0}
-  footstep: {fileID: 0}
+  playerDamage: {fileID: 8300000, guid: 94bb20f5b11b99047ae0c5c724d377f4, type: 3}
+  grassFootsteps: {fileID: 8300000, guid: 2bfc2099e4ceed24b951a7982085d5f6, type: 3}
+  stoneFootsteps: {fileID: 8300000, guid: 4b25d192cc97c434b8b563b8778f223d, type: 3}
+  woodFootsteps: {fileID: 8300000, guid: 3e18de8b56f944948a6aeba020009413, type: 3}
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 129
   shakeIntensity: 1
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   focusColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1071,6 +1077,7 @@ MonoBehaviour:
   collider: {fileID: 9208214954908016475}
   hitStruct: {fileID: 8300000, guid: 32902731c1131564a95c8392f4d81620, type: 3}
   hitFlesh: {fileID: 8300000, guid: 4d7da1a9abc17b84b89870c0cbf80d7b, type: 3}
+  hitDirt: {fileID: 8300000, guid: 1a51bf8f5a7c1c144a9b44c993eefb63, type: 3}
 --- !u!1 &4710172168767217788
 GameObject:
   m_ObjectHideFlags: 0

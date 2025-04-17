@@ -538,6 +538,7 @@ MonoBehaviour:
   ichorDropRadius: 3.5
   creatureData: {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -552,7 +553,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 77cbb6db30ada5a4988f545585cd29c2, type: 2}
   dropChance:
   - 5
-  - 1
+  - 1.5
   sightRange: 20
   attackRange: 6
   playerInSightRange: 0
@@ -562,7 +563,7 @@ MonoBehaviour:
   bearTrapVulnerable: 1
   isDead: 0
   damageToStructure: 0
-  damageToPlayer: -6
+  damageToPlayer: -8
   canCorpseBreak: 0
   hitColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0.8}
   variant: 1

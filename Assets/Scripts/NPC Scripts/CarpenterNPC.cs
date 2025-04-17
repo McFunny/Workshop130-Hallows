@@ -12,6 +12,8 @@ public class CarpenterNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
+    public InventoryItemData chest;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -27,13 +29,20 @@ public class CarpenterNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if (dialogueController.IsTalking() == false)
+        if (dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
             if (!GameSaveData.Instance.carpMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.carpMet = true;
+            }
+            else if(!GameSaveData.Instance.cm_giveChest && !PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                GameSaveData.Instance.cm_giveChest = true;
+                currentPath = 5;
+                currentType = PathType.Misc;
+                itemsToGive.Add(new ItemWithAmount(chest, 1));
             }
             else
             {
@@ -44,8 +53,9 @@ public class CarpenterNPC : NPC, ITalkable
                 }
                 else if (NPCManager.Instance.carpSpoke)
                 {
-                    interactSuccessful = false;
-                    return;
+                    int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                    currentPath = i;
+                    currentType = PathType.AlreadySpoken;
                 }
                 if (currentPath == -1)
                 {
@@ -63,6 +73,7 @@ public class CarpenterNPC : NPC, ITalkable
 
     public void Talk()
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
@@ -73,7 +84,7 @@ public class CarpenterNPC : NPC, ITalkable
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         ToolItem tItem = item as ToolItem;
-        if (dialogueController.IsInterruptable() == false || tItem)
+        if (dialogueController.IsInterruptable() == false || tItem || !dialogueController.FreeToSpeak(this))
         {
             interactSuccessful = false;
             return;

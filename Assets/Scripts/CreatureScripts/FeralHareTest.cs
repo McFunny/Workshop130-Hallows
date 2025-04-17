@@ -185,6 +185,12 @@ public class FeralHareTest : CreatureBehaviorScript
             StartCoroutine(JumpCooldownTimer());
             if(variant == Variant.Albino) //Seek the player
             {
+                if(patrolPoint && !playerInSightRange)
+                {
+                    Vector3 hopPoint = PointAroundPatrolPoint(7);
+                    hopPoint.y = 0;
+                    Hop(hopPoint);
+                }
                 Hop(player.position);
                 if(playerInSightRange) burstJumps--;
             }
@@ -510,6 +516,7 @@ public class FeralHareTest : CreatureBehaviorScript
             {
                 Vector3 pos = foundFarmTile.transform.position;
                 Destroy(foundFarmTile.gameObject);
+                yield return new WaitForSeconds(0.2f);
                 StructureManager.Instance.SpawnStructure(burrow, StructureManager.Instance.GetTileCenter(pos));
             }
             else

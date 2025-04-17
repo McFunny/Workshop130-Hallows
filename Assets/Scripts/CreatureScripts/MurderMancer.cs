@@ -82,6 +82,7 @@ public class MurderMancer : CreatureBehaviorScript
             //HandItemManager.Instance.TorchFlameToggle(false);
         }
         LowerStage();
+        CheckStage();
         yield return new WaitForSeconds(extinguishTime);
         burningParticles.SetActive(false);
         anim.SetBool("OnFire", false);

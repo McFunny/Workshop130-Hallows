@@ -22,7 +22,7 @@ public class Table : FurnitureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(!CanBeRemoved()) return;
+        if(!CanBeRemoved() || (absentFromGrid && !onTable)) return;
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
         if (addedSuccessfully)
         {

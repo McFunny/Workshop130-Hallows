@@ -446,7 +446,12 @@ public class VileHog : CreatureBehaviorScript
         agent.SetDestination(transform.position);
         coroutineRunning = true;
         yield return new WaitForSeconds(2.3f);
-        if(heldItem == foxGlove) TakeDamage(999);
+        if(heldItem == foxGlove)
+        {
+            TakeDamage(999);
+            r.sprite = null;
+            heldItem = null;
+        }
         else
         {
             currentState = CreatureState.Wander;
@@ -608,6 +613,7 @@ public class VileHog : CreatureBehaviorScript
 
         if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
         {
+            return; //causes wilderness issues
 
             attackHitbox.enabled = false;
             if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");

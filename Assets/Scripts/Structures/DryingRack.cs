@@ -106,6 +106,7 @@ public class DryingRack : StructureBehaviorScript
             if(ignoreNextHour)
             {
                 ignoreNextHour = false;
+                SpriteChange();
                 return;
             }
             progress++;
@@ -124,7 +125,7 @@ public class DryingRack : StructureBehaviorScript
 
     void SpriteChange()
     {
-        if(progress == maxProgress)
+        if(progress >= maxProgress && savedItems.Count >= maxContainedItems)
         {
             itemSprite.sprite = jerky.icon;
         }
@@ -148,12 +149,12 @@ public class DryingRack : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        saveInt1 = progress;
+        progress = saveInt1;
         SpriteChange();
     }
 
     public override void SaveVariables()
     {
-        progress = saveInt1;
+        saveInt1 = progress;
     }
 }

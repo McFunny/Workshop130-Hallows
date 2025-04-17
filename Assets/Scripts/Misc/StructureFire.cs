@@ -32,7 +32,7 @@ public class StructureFire : MonoBehaviour
     {
         if(!gameObject.scene.isLoaded) return;
         ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = flameBase.position;
-        AudioSource.PlayClipAtPoint(extinguishedSFX, transform.position);
+        AudioPoolManager.Instance.PlayClipAtPosition(extinguishedSFX, transform.position);
         StopAllCoroutines();
         burningStruct = null;
     }
@@ -86,7 +86,7 @@ public class StructureFire : MonoBehaviour
                     if(structure && structure.IsFlammable() && !structure.onFire)
                     {
                         int r = Random.Range(0,10);
-                        if(r > 4) structure.LitOnFire();
+                        if(r > 3) structure.LitOnFire();
                         break;
                     }
                 }
