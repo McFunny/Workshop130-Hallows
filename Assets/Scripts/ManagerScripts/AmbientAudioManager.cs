@@ -28,6 +28,9 @@ public class AmbientAudioManager : MonoBehaviour
     bool firstTrackPlayed = false;
     [HideInInspector] public bool playMusicAtStart = true;
 
+    [HideInInspector] public Gramophone playingGramophone;
+    AudioClip gramoPhoneTrack;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -61,6 +64,14 @@ public class AmbientAudioManager : MonoBehaviour
         if(Time.timeScale != 0 && !musicSource.isPlaying)
         {
             musicSource.UnPause();
+        }
+
+        if(playingGramophone)
+        {
+            if(Vector3.Distance(PlayerInteraction.Instance.transform.position, playingGramophone.transform.position) > 100)
+            {
+                EndGramophone();
+            }
         }
     }
 
@@ -135,6 +146,7 @@ public class AmbientAudioManager : MonoBehaviour
             {
                 musicSource.clip = finaleTheme;
             }
+            else if(gramoPhoneTrack) musicSource.clip = gramoPhoneTrack;
             else if (TimeManager.Instance.isDay)
             {
                 if(TownGate.Instance.location == PlayerLocation.InWilderness) musicSource.clip = wildernessMusicAmbience[Random.Range(0, wildernessMusicAmbience.Length)];
@@ -145,7 +157,7 @@ public class AmbientAudioManager : MonoBehaviour
                 musicSource.clip = musicNightAmbience[Random.Range(0, musicNightAmbience.Length)];
 
             float musicRuntime = musicSource.clip.length;
-            musicSource.Play();
+            if(playingGramophone) musicSource.Play();
             Debug.Log("Playing MUSIC");
             yield return new WaitForSeconds(musicRuntime);
             Debug.Log("Song ended"); 
@@ -194,6 +206,9 @@ public class AmbientAudioManager : MonoBehaviour
             StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
         }
         StopCoroutine(FinaleTheme());
+
+        playingGramophone = null;
+        gramoPhoneTrack = null;
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //restarts coroutine
     }
 
@@ -256,6 +271,23 @@ public class AmbientAudioManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(musicRuntime);
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic());
+    }
+
+    public void StartGramophone(Gramophone g, AudioClip c)
+    {
+        if(playingGramophone) playingGramophone.source.Stop();
+        playingGramophone = g;
+        gramoPhoneTrack = c;
+        ChangeMusic();
+    }
+
+    public void EndGramophone()
+    {
+        if(playingGramophone) playingGramophone.source.Stop();
+        playingGramophone = null;
+        gramoPhoneTrack = null;
+
+        ChangeMusic();
     }
     
 }

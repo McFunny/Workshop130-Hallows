@@ -90,6 +90,7 @@ public class Chest : FurnitureBehaviorScript
 
     public override void StructureInteraction()
     {
+        anim.SetBool("isOpen", true);
         StartCoroutine(WaitForClose());
         InventoryHolder.OnDynamicInventoryDisplayRequested?.Invoke(primaryInventorySystem);
         PlayerInventoryHolder.Instance.UpdateOpenInventory();

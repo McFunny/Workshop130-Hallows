@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1806407926104960318}
   - component: {fileID: 8854503742914692237}
   - component: {fileID: 2808582069400361278}
+  - component: {fileID: 7246844425357136690}
   m_Layer: 6
   m_Name: Gramophone
   m_TagString: Untagged
@@ -101,6 +102,140 @@ MonoBehaviour:
   structureUI: {fileID: 0}
   recoveredItem: {fileID: 11400000, guid: 655c104e3efa8bb4aab8dc4958ea4c83, type: 2}
   onTable: 0
+  discPairs:
+  - disc: {fileID: 11400000, guid: 074a39aeaa8ee0b4f938ba38c08940c7, type: 2}
+    song: {fileID: 8300000, guid: e2aec5d071cfe2e409a4b8aedc4a681d, type: 3}
+  - disc: {fileID: 11400000, guid: a403b4342187fd24084a4abaa0e9042e, type: 2}
+    song: {fileID: 8300000, guid: ec6150f0dfb49b6419c509e4ff61d489, type: 3}
+  - disc: {fileID: 11400000, guid: ad14723495759884bb433a5007ebbfe3, type: 2}
+    song: {fileID: 8300000, guid: ec6150f0dfb49b6419c509e4ff61d489, type: 3}
+  - disc: {fileID: 11400000, guid: ecfc29ba5e06010499daa22c7ef870d1, type: 2}
+    song: {fileID: 8300000, guid: d46dae7072e5a534f8c844cf959d9feb, type: 3}
+  source: {fileID: 7246844425357136690}
+--- !u!82 &7246844425357136690
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453688896899074582}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -8573670765242314924, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.643
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 0.29
+  MinDistance: 3
+  MaxDistance: 100
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.27040404
+      value: 1.0042305
+      inSlope: -13.338685
+      outSlope: -13.338685
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.37413636
+      value: 0.6903763
+      inSlope: -2.548925
+      outSlope: -2.548925
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.78117317
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.45805055
+      value: 0.5419159
+      inSlope: -0.548408
+      outSlope: -0.548408
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.8376558
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.6804596
+      value: 0.22653198
+      inSlope: -0.20841695
+      outSlope: -0.20841695
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.075029954
+      outSlope: -0.075029954
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1436852816377101872
 GameObject:
   m_ObjectHideFlags: 0
