@@ -10,6 +10,8 @@ public class Gramophone : FurnitureBehaviorScript
 
     //Still neds particles and anims
 
+    public ParticleSystem musicParticles;
+
     void Awake()
     {
         savedItems.Add(null);
@@ -78,6 +80,7 @@ public class Gramophone : FurnitureBehaviorScript
 
                 source.clip = discPairs[i].song;
                 AmbientAudioManager.Instance.StartGramophone(this, discPairs[i].song);
+                musicParticles.Play();
                 source.Play();
                 return;
             }
@@ -113,6 +116,7 @@ public class Gramophone : FurnitureBehaviorScript
     void TurnOff()
     {
         source.Stop();
+        musicParticles.Stop();
         if(AmbientAudioManager.Instance.playingGramophone != this.transform) return;
         AmbientAudioManager.Instance.EndGramophone();
     }
