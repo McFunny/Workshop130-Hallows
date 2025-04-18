@@ -76,10 +76,10 @@ public class HotbarDisplay : MonoBehaviour
         return -1;
     }
 
-    public void SelectHotbarSlot(int slotIndex) //if possible, call this again when picking up an item to refresh hand item, or find a workaround (preferred)
+    public void SelectHotbarSlot(int slotIndex)
     {
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || InputManager.isCharging) return;
-        if (PlayerMovement.isCodexOpen) return;
+        if (PlayerMovement.isCodexOpen || PlayerMovement.accessingInventory) return;
 
         // Turn off highlight on the current slot
         if (currentSlot != null)

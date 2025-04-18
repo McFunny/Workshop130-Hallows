@@ -17,6 +17,8 @@ public class WaterBarrel : StructureBehaviorScript
     public TextMeshProUGUI waterText;
 
     public ParticleSystem splash;
+
+    bool showSplash = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -109,6 +111,15 @@ public class WaterBarrel : StructureBehaviorScript
         else success = false;
     }
 
+    public override void HitWithWater()
+    {
+        if(waterLevel < maxWaterLevel) 
+        {
+            waterLevel++;
+            WaterLevelChange();
+        }
+    }
+
     IEnumerator DugUp()
     {
         yield return  new WaitForSeconds(1);
@@ -122,12 +133,17 @@ public class WaterBarrel : StructureBehaviorScript
         if(waterLevel > 0) renderer.enabled = true;
         else renderer.enabled = false;
 
-        if(waterLevel > 10) waterTexture.position = new Vector3(waterTexture.position.x, 1.6f, waterTexture.position.z);
-        else if(waterLevel > 5) waterTexture.position = new Vector3(waterTexture.position.x, 1f, waterTexture.position.z);
+        if(waterLevel >= 8) waterTexture.position = new Vector3(waterTexture.position.x, 1.6f, waterTexture.position.z);
+        else if(waterLevel >= 5) waterTexture.position = new Vector3(waterTexture.position.x, 1f, waterTexture.position.z);
         else if(waterLevel > 0) waterTexture.position = new Vector3(waterTexture.position.x, 0.5f, waterTexture.position.z);
         else waterTexture.position = new Vector3(waterTexture.position.x, 0.2f, waterTexture.position.z);
 
-        splash.Play();
+        if(showSplash)
+        {
+            splash.Play();
+            audioHandler.PlaySound(audioHandler.interactSound);
+        }
+        else showSplash = true;
     }
 
     IEnumerator AnimateWater()

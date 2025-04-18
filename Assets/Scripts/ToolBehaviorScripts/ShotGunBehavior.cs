@@ -119,7 +119,9 @@ public class ShotGunBehavior : ToolBehavior
             GameObject newBullet = ProjectilePoolManager.Instance.GrabBullet();
             newBullet.transform.position = bulletStart.position;
             newBullet.transform.rotation = Quaternion.identity;
-            Vector3 dir = bulletStart.forward + new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
+            Vector3 dir;
+            if(i == 0) dir = bulletStart.forward + new Vector3(Random.Range(-0.02f,+0.02f), Random.Range(-0.02f,0.02f), Random.Range(-0.02f,0.02f));
+            else dir = bulletStart.forward + new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
             newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
  
         }

@@ -8,7 +8,7 @@ public class BotanistNPC : NPC, ITalkable
     public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk, s_bean, s_ginger, s_spores; //seeds
 
     public float sellMultiplier = 1;
-    public InventoryItemData[] possibleSoldItems;
+    //public InventoryItemData[] possibleSoldItems;
     public InventoryItemData[] commonSeeds, rareSeeds, fertalizers;
     //public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
@@ -216,15 +216,19 @@ public class BotanistNPC : NPC, ITalkable
 
         questCrops.Clear();
 
+        List <InventoryItemData> allSeeds = new List<InventoryItemData>();
+        allSeeds.AddRange(commonSeeds);
+        allSeeds.AddRange(rareSeeds);
+
         if (QuestManager.Instance.activeQuests.Count > 0)
         {
             for (int j = 0; j < QuestManager.Instance.activeQuests.Count; j++)
             {
                 if (QuestManager.Instance.activeQuests[j] is GrowQuest gQuest)
                 {
-                    for (int k = 0; k < possibleSoldItems.Length; k++) 
+                    for (int k = 0; k < allSeeds.Count; k++) 
                     {
-                        if( possibleSoldItems[k] == gQuest.desiredCrop.cropSeed)
+                        if( allSeeds[k] == gQuest.desiredCrop.cropSeed)
                         {
                             questCrops.Add(gQuest.desiredCrop.cropSeed);
                         }

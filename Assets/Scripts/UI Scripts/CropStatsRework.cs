@@ -249,7 +249,7 @@ public class CropStatsRework : MonoBehaviour
                         tile.supportText.gameObject.SetActive(true);
                         //print("Alex your stupid script is working");
                         var seedData = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as CropItem;
-                        string t = "Insufficient ";
+                        string t = "Insufficient  ";
 
                         if(tileNutrients.gloamLevel < seedData.cropData.gloamIntake * seedData.cropData.growthStages)
                         {
