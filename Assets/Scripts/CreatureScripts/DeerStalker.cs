@@ -262,7 +262,7 @@ public class DeerStalker : CreatureBehaviorScript
         while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 20)
         {
             timeSpent += Time.deltaTime;
-            if (playerInSightRange)
+            if (playerInSightRange && variant != Variant.Pure)
             {
                 if(hasTransformed)
                 {
@@ -270,12 +270,6 @@ public class DeerStalker : CreatureBehaviorScript
                     isMoving = false;
                     coroutineRunning = false;
                     walkRoutine = null;
-                }
-                else if(variant == Variant.Pure)
-                {
-                    /*fleeTimeLeft = Random.Range(2,4);
-                    currentState = CreatureState.Flee;
-                    coroutineRunning = false;*/
                 }
                 else
                 {
@@ -753,13 +747,12 @@ public class DeerStalker : CreatureBehaviorScript
             }
             return;
         }
-        if(!recoilCooldown && hasTransformed && !isDead)
+        if(!recoilCooldown && hasTransformed && !isDead && (currentState == CreatureState.ChaseTarget))
         {
-            //Giving me too much trouble right now
-            /*recoilCooldown = true;
+            recoilCooldown = true;
             effectsHandler.OnHit();
-            animTransformed.SetTrigger("recoiling");
-            StartCoroutine(RecoilCooldown());*/
+            animTransformed.Play("Hit", -1, 0.18f);
+            StartCoroutine(RecoilCooldown());
             target = player;
         }
         else if(!hasTransformed && currentState != CreatureState.Stun)
@@ -787,10 +780,12 @@ public class DeerStalker : CreatureBehaviorScript
     {
         recoiling = true;
         coroutineRunning = true;
+        currentState = CreatureState.Stun;
         StopTrackingPlayer();
         StopCoroutine(AttackRoutine());
         attackHitbox.enabled = false;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.6f);
+        currentState = CreatureState.ChaseTarget;
         coroutineRunning = false;
         recoiling = false;
         yield return new WaitForSeconds(5);
