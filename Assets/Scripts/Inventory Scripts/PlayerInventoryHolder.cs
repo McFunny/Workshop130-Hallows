@@ -232,6 +232,11 @@ public class PlayerInventoryHolder : InventoryHolder
         return true;
     }
 
+    /*public int ReturnFreeSlots()
+    {
+        //
+    }*/
+
     public bool CanQuickSwitch(bool intoPrimary, InventoryItemData itemToAdd, int amountToAdd, out InventorySlot _slot) //Between primary and secondary inventories
     {
         _slot = null; //returns the slot that is being swap to

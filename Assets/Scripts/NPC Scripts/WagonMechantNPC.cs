@@ -5,9 +5,15 @@ using UnityEngine;
 public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
-    public InventoryItemData barricade;
+    public InventoryItemData barricade, shotGun, ammo, carrot;
     [HideInInspector] public bool interactedWithLantern;
     bool remembersGift; //if true and the player tries to sell barricades, he gets mad
+    bool metPlayerAtEntrace = false; //resets at new day
+    bool talkingOutsideWagon = false; //if the merchant is talking outside of his wagon
+    public AudioClip scareSound;
+    public Transform townEntrancePos;
+    public Transform merchantWagonPos;
+    public Transform merchant;
 
     public MerchantLantern lantern;
 
@@ -241,6 +247,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         {
             RefreshStore();
             remembersGift = false;
+            metPlayerAtEntrace = false;
         }
     }
 
@@ -291,6 +298,51 @@ public class WagonMerchantNPC : NPC, ITalkable
         WildernessManager.Instance.EnterWilderness();
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
+    }
+
+    public void PlayerEnteredTown()
+    {
+        if(metPlayerAtEntrace) return;
+
+        if(TimeManager.Instance.dayNum == 1)
+        {
+            currentPath = 13;
+            currentType = PathType.Misc;
+        }
+        else if(!GameSaveData.Instance.mm_giveGun && !PlayerInventoryHolder.Instance.IsInventoryFull())
+        {
+            currentPath = 14;
+            currentType = PathType.Misc;
+            GameSaveData.Instance.mm_giveGun = true;
+            itemsToGive.Add(new ItemWithAmount(shotGun, 1));
+            itemsToGive.Add(new ItemWithAmount(ammo, 6));
+        }
+        metPlayerAtEntrace = true;
+        talkingOutsideWagon = true;
+        AudioPoolManager.Instance.PlayClipAtPosition(scareSound, townEntrancePos.position);
+        merchant.position = townEntrancePos.position;
+        PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
+        dialogueController.SetInterruptable(false);
+        Talk();
+        //StartCoroutine(WaitUntilDoneTalking());
+    }
+
+    public override void OnConvoEnd()
+    {
+        if(!talkingOutsideWagon) return;
+        talkingOutsideWagon = false;
+        StartCoroutine(ReturnToWagon());
+    }
+
+    IEnumerator ReturnToWagon()
+    {
+        FadeScreen.coverScreen = true;
+        PlayerMovement.restrictMovementTokens++;
+        TimeManager.Instance.stopTime = false;
+        yield return new WaitForSeconds(1.5f);
+        merchant.position = merchantWagonPos.position;
+        PlayerMovement.restrictMovementTokens--;
+        FadeScreen.coverScreen = false;
     }
     
 }
