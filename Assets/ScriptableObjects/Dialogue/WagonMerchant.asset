@@ -106,6 +106,17 @@ MonoBehaviour:
       fortification?
     - Go on. Do what you will with these mints.
     emotions: 06000000040000000300000000000000
+  - pathName: Go to my wagon
+    paragraphs:
+    - There you are. {freezePlayer}
+    - I feared you got lost.
+    - Go to my wagon. Its down the path.
+    emotions: 030000000200000000000000
+  - pathName: Text for shotgun
+    paragraphs:
+    - BlahBlahBlahShotgun {freezePlayer}
+    - Boop. {givePlayerItems}
+    emotions: 0300000002000000
   fillerPaths:
   - pathName: Middleman
     paragraphs:
