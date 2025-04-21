@@ -232,10 +232,22 @@ public class PlayerInventoryHolder : InventoryHolder
         return true;
     }
 
-    /*public int ReturnFreeSlots()
+    public int ReturnFreeSlots()
     {
-        //
-    }*/
+        int freeSlots = 0;
+        for(int i = 0; i < primaryInventorySystem.InventorySlots.Count; i++)
+        {
+            if(primaryInventorySystem.InventorySlots[i].ItemData == null) freeSlots++;
+        }
+
+        for(int i = 0; i < secondaryInventorySystem.InventorySlots.Count; i++)
+        {
+            if(secondaryInventorySystem.InventorySlots[i].ItemData == null) freeSlots++;
+        }
+
+
+        return freeSlots;
+    }
 
     public bool CanQuickSwitch(bool intoPrimary, InventoryItemData itemToAdd, int amountToAdd, out InventorySlot _slot) //Between primary and secondary inventories
     {

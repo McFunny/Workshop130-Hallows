@@ -34,6 +34,7 @@ public class ButcherNPC : NPC, ITalkable
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.butchMet = true;
+                NPCManager.Instance.butchSpoke = true;
             }
             else
             {

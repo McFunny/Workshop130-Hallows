@@ -309,7 +309,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             currentPath = 13;
             currentType = PathType.Misc;
         }
-        else if(!GameSaveData.Instance.mm_giveGun && !PlayerInventoryHolder.Instance.IsInventoryFull())
+        else if(!GameSaveData.Instance.mm_giveGun && PlayerInventoryHolder.Instance.ReturnFreeSlots() >= 2)
         {
             currentPath = 14;
             currentType = PathType.Misc;
@@ -317,6 +317,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             itemsToGive.Add(new ItemWithAmount(shotGun, 1));
             itemsToGive.Add(new ItemWithAmount(ammo, 6));
         }
+        else return;
         metPlayerAtEntrace = true;
         talkingOutsideWagon = true;
         AudioPoolManager.Instance.PlayClipAtPosition(scareSound, townEntrancePos.position);
