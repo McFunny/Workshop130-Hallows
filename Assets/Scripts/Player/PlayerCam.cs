@@ -77,6 +77,7 @@ public class PlayerCam : MonoBehaviour
         }
         else
         {
+            if (controlManager == null) return;
             Vector2 look = controlManager.look.action.ReadValue<Vector2>() * PlayerPrefs.GetFloat("Sensitivity", 1.0f);
             float lookX = look.x * sensX;
             float lookY = look.y * sensY;
