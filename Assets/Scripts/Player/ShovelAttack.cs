@@ -90,7 +90,7 @@ public class ShovelAttack : MonoBehaviour
             hitArmor.TakeDamage(2);
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             print("Hit Armor");
-            if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
+            //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             //PlayHitParticle(s_Collision);
             return;
@@ -102,7 +102,7 @@ public class ShovelAttack : MonoBehaviour
             //playsound
             HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
             print("Hit Creature");
-            if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
+            //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             //PlayHitParticle(c_Collision);
             ParticlePoolManager.Instance.MoveAndPlayVFX(c_Collision, ParticlePoolManager.Instance.hitEffect);

@@ -20,8 +20,8 @@ public class NightSpawningManager : MonoBehaviour
     public CreatureObject[] creatures; //list of possible creatures to spawn
     public CreatureObject[] fillerCreatures; //list of creatures that can spawn when out of danger points
 
-    public List<CreatureObject> selectedCreatures = new List<CreatureObject>();//List of creatures selected to spawn this specific night
-    //public List<CreatureObject> selectedFillerCreatures = new List<CreatureObject>();//List of filler creatures selected to spawn this specific night
+    List<CreatureObject> selectedCreatures = new List<CreatureObject>();//List of creatures selected to spawn this specific night
+    List<CreatureObject> selectedFillerCreatures = new List<CreatureObject>();//List of filler creatures selected to spawn this specific night
     
     List<int> spawnedCreaturesThisHour = new List<int>(); //tracks how many of a specific type of creature was spawned this hour //CREATURES NEED TO BE REMOVED WHEN KILLED
     Queue<CreatureObject> creatureQueue = new Queue<CreatureObject>(); //Holds the enemies that are set to spawn but have not spawned yet
@@ -177,8 +177,8 @@ public class NightSpawningManager : MonoBehaviour
             r = Random.Range(1,3);
             for(int i = 0; i < r; i++)
             {
-                r = Random.Range(0, fillerCreatures.Length);
-                CreatureObject newCreature = fillerCreatures[r];
+                r = Random.Range(0, selectedFillerCreatures.Count);
+                CreatureObject newCreature = selectedFillerCreatures[r];
                 if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && totalCreatures < maxCreatures) 
                 {
                     totalCreatures++;
@@ -305,6 +305,7 @@ public class NightSpawningManager : MonoBehaviour
 
         if(PlayerInteraction.Instance.totalMoneyEarned > 5000) difficultyMultiplier = 1.5f;
         else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.25f;
+        else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = 0.75f;
         else difficultyMultiplier = 1;
 
         foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
@@ -332,9 +333,12 @@ public class NightSpawningManager : MonoBehaviour
     void SelectCreaturesForNight()
     {
         selectedCreatures.Clear();
+        selectedFillerCreatures.Clear();
+
         if(finaleActivated)
         {
             selectedCreatures = creatures.ToList();
+            selectedFillerCreatures = creatures.ToList();
             return;
         }
 
@@ -352,6 +356,7 @@ public class NightSpawningManager : MonoBehaviour
             if(temp.Count == 0) continue;
             r = Random.Range(0, temp.Count);
             selectedCreatures.Add(temp[r]);
+            selectedFillerCreatures.Add(temp[r]);
             temp.Remove(temp[r]);
         }
 
@@ -384,6 +389,7 @@ public class NightSpawningManager : MonoBehaviour
             if(temp.Count == 0) continue;
             r = Random.Range(0, temp.Count);
             selectedCreatures.Add(temp[r]);
+            selectedFillerCreatures.Add(temp[r]);
             temp.Remove(temp[r]);
         }
 
