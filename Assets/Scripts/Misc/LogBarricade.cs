@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class LogBarricade : MonoBehaviour, IInteractable
 {
-    public LumberjackNPC person;
+    //public LumberjackNPC person;
 
     public TreeID id;
     bool checkStart = true;
@@ -119,7 +119,8 @@ public class LogBarricade : MonoBehaviour, IInteractable
             if(GameSaveData.Instance.townTreeCleared1 || isPapered)
             { //Complete Quest
                 if(!GameSaveData.Instance.townTreeCleared1) GameSaveData.Instance.townTreeCleared1 = true;
-                if(person) QuestManager.Instance.ForceCompleteQuest(person.treeQuest);
+                QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(4));
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(5));
                 Destroy(this.gameObject);
             }
             break;

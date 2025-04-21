@@ -34,8 +34,17 @@ public class QuestDatabase : ScriptableObject
         }
     }
 
+    /*public void RefreshQuests() //Bad temp solution. Ideally, quests given from here should be a new instance of a quest
+    {
+        for(int i = 0; i < MainQuests.Length; i++)
+        {
+            MainQuests[i].progress = 0;
+            MainQuests[i].alreadyCompleted = false;
+        }
+    }*/
+
     public Quest GetMainQuest(int id)
     {
-        return MainQuests[id];
+        return new Quest(MainQuests[id]);
     }
 }

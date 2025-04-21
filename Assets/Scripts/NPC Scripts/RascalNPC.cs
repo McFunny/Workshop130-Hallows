@@ -12,7 +12,7 @@ public class RascalNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
     WaypointScript shopUI;
 
-    public FetchQuest carrotQuest;
+    //public FetchQuest carrotQuest;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -43,7 +43,8 @@ public class RascalNPC : NPC, ITalkable
                 currentPath = 1;
                 currentType = PathType.Quest;
                 GameSaveData.Instance.rascalWantsFood = true; 
-                QuestManager.Instance.AddQuest(carrotQuest);
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(2));
+                QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(1));
             }
             else
             {
@@ -103,7 +104,9 @@ public class RascalNPC : NPC, ITalkable
             currentType = PathType.Quest;
             GameSaveData.Instance.rascalMentionedKey = true;
 
-            QuestManager.Instance.ForceCompleteQuest(carrotQuest);
+            //QuestManager.Instance.ForceCompleteQuest(carrotQuest);
+            QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(2));
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(3));
 
             /*for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
             {

@@ -87,6 +87,19 @@ public class InventorySystem
         return invSlot == null || invSlot.Count == 0 ? false : true; // If they do return true, if not return false
     }
 
+    public int ReturnItemCount(InventoryItemData itemToFind)
+    {
+        int i = 0;
+        List<InventorySlot> invSlot = InventorySlots.Where(i => i.ItemData == itemToFind).ToList(); // If they do get a list of all of them
+
+        foreach(InventorySlot s in invSlot)
+        {
+            i += s.StackSize;
+        }
+
+        return i;
+    }
+
     public bool HasFreeSlot(out InventorySlot freeSlot)
     {
       freeSlot = InventorySlots.FirstOrDefault(i => i.ItemData == null); //Get the first free slot

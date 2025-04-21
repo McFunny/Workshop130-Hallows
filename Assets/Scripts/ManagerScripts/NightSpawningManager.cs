@@ -32,6 +32,8 @@ public class NightSpawningManager : MonoBehaviour
     public List<Transform> testSpawns;
     public Transform[] despawnPositions;
 
+    Dictionary<CreatureObject, int> creatureTallyDict = new Dictionary<CreatureObject, int>();
+
     List<StructureBehaviorScript> accountedStructures = new List<StructureBehaviorScript>(); //keeps track of the structures counted for wealth points. Clears at day
 
     public bool boxPlaced, finaleActivated;
@@ -50,7 +52,11 @@ public class NightSpawningManager : MonoBehaviour
     void Start()
     {
         TimeManager.OnHourlyUpdate += HourUpdate;
-        //load old danger values
+
+        foreach(CreatureObject c in creatures)
+        {
+            creatureTallyDict.Add(c, 0);
+        }
     }
 
     void Update()
@@ -109,14 +115,14 @@ public class NightSpawningManager : MonoBehaviour
 
         int maxCreatures = CalculateMaxCreatures();
 
-        List<int> creatureTally = new List<int>(); //this list keeps track of the amount of each specific creature
+        //List<int> creatureTally = new List<int>(); //this list keeps track of the amount of each specific creature
         //Each monster has their weight added to a list
         List<int> weightArray = new List<int>();
         spawnedCreaturesThisHour.Clear();
         for(int i = 0; i < selectedCreatures.Count; i++)
         {
             spawnedCreaturesThisHour.Add(0);
-            creatureTally.Add(0);
+            //creatureTally.Add(0);
         }
 
 
@@ -131,7 +137,7 @@ public class NightSpawningManager : MonoBehaviour
             
             foreach(CreatureBehaviorScript cs in allCreatures)
             {
-                if(cs.creatureData == c) creatureTally[w]++;
+                if(cs.creatureData == c) creatureTallyDict[c]++;//creatureTally[w]++;
             }
 
             w++;
@@ -150,7 +156,7 @@ public class NightSpawningManager : MonoBehaviour
             CreatureObject attemptedCreature = selectedCreatures[weightArray[r]];
             //If there is enough points to afford the creature and it hasnt reached it's spawn cap, spawn it
             if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreaturesThisHour[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold
-                && attemptedCreature.spawnCap > creatureTally[weightArray[r]] && PlayerInteraction.Instance.totalMoneyEarned >= attemptedCreature.wealthPrerequisite
+                && attemptedCreature.spawnCap > creatureTallyDict[attemptedCreature] && PlayerInteraction.Instance.totalMoneyEarned >= attemptedCreature.wealthPrerequisite
                 && totalCreatures < maxCreatures)
             {
                 spawnedCreaturesThisHour[weightArray[r]]++;
@@ -172,14 +178,15 @@ public class NightSpawningManager : MonoBehaviour
         }
         while(spawnAttempts < 5);
 
-        if(allCreatures.Count < maxCreatures && difficultyPoints < 10)
+        if(allCreatures.Count < maxCreatures && difficultyPoints < 6)
         {
             r = Random.Range(1,3);
             for(int i = 0; i < r; i++)
             {
                 r = Random.Range(0, selectedFillerCreatures.Count);
                 CreatureObject newCreature = selectedFillerCreatures[r];
-                if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && totalCreatures < maxCreatures) 
+
+                if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && totalCreatures < maxCreatures && newCreature.spawnCap > creatureTallyDict[newCreature]) 
                 {
                     totalCreatures++;
                     SpawnCreature(newCreature);
@@ -267,9 +274,9 @@ public class NightSpawningManager : MonoBehaviour
 
     public void ClearAllCreatures()
     {
-        CreatureBehaviorScript[] creatures = FindObjectsOfType<CreatureBehaviorScript>();
+        CreatureBehaviorScript[] creaturesOnFarm = FindObjectsOfType<CreatureBehaviorScript>();
 
-        foreach (CreatureBehaviorScript creature in creatures)
+        foreach (CreatureBehaviorScript creature in creaturesOnFarm)
         {
             if (creature != null && creature.gameObject != null)
             {
