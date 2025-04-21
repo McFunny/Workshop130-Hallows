@@ -134,6 +134,7 @@ public class PauseScript : MonoBehaviour
             //controlManager.playerInput.SwitchCurrentActionMap("UI");
             pauseObject.SetActive(true);
             settingsCanvas.SetActive(false);
+            controlsObject.SetActive(false);
             //controlManager.playerInput.SwitchCurrentActionMap("UI");
         }
         else
@@ -141,6 +142,7 @@ public class PauseScript : MonoBehaviour
             //controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
             pauseObject.SetActive(false);
             settingsCanvas.SetActive(false);
+            controlsObject.SetActive(false);
             //controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
             EventSystem.current.SetSelectedGameObject(null);
         }
@@ -198,6 +200,7 @@ public class PauseScript : MonoBehaviour
         if(controlsObject.activeSelf)
         {
             if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[2].gameObject);
+            controlsObject.SetActive(false);
             return;
         }
         if(codexObject.activeSelf)

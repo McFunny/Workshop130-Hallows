@@ -158,14 +158,14 @@ public enum Character
     MistMerchant,
     Botanist,
     Rascal,
-    LumberJack,
+    Lumberjack,
     Apothocary,
     Tinkerer,
     Culinarian,
-    Tavern,
+    Tavernkeep,
     Traveler,
     Fanatic,
-    GraveDigger,
+    Gravedigger,
     Butcher,
-    Carpenter
+    Craftsman
 }

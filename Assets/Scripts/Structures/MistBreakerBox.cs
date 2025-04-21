@@ -35,6 +35,7 @@ public class MistBreakerBox : StructureBehaviorScript
         if (addedSuccessfully)
         {
             GameSaveData.Instance.playerHasBox = true;
+            NightSpawningManager.Instance.boxPlaced = false;
             Destroy(this.gameObject);
         }
     }
@@ -45,6 +46,7 @@ public class MistBreakerBox : StructureBehaviorScript
         {
             clearTileOnDestroy = false;
             FarmLand script = Instantiate(cropTile, transform.position, Quaternion.identity).GetComponent<FarmLand>();
+            GameSaveData.Instance.playerHasBox = false;
             script.InsertCrop(mistBreaker);
             Destroy(gameObject);
         }
@@ -54,10 +56,5 @@ public class MistBreakerBox : StructureBehaviorScript
     {
         base.OnDestroy();
         if(!gameObject.scene.isLoaded) return;
-        if(TimeManager.Instance.currentHour != 20 && !absentFromGrid)
-        {
-            NightSpawningManager.Instance.boxPlaced = false;
-            GameSaveData.Instance.playerHasBox = false;
-        }
     }
 }

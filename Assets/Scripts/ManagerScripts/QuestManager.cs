@@ -207,6 +207,7 @@ public class Quest
 
     [HideInInspector] public int objectID = -1; //The ID of the saved creature, item, crop, ect
     [HideInInspector] public int objectID2 = -1; //The ID of another saved creature, item, crop, ect
+    [HideInInspector] public int questID = -1; //The ID of this quest in the database
 
 }
 [System.Serializable]
