@@ -214,6 +214,13 @@ public class DialogueController : MonoBehaviour
                     emotions.Enqueue(dialogueText.alreadySpoken[currentTalker.currentPath].emotions[i]);
                 }
                 break;
+            case PathType.BranchingPaths:
+                for (int i = 0; i < dialogueText.branchingPaths[currentTalker.currentPath].paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.branchingPaths[currentTalker.currentPath].paragraphs[i]);
+                    emotions.Enqueue(dialogueText.branchingPaths[currentTalker.currentPath].emotions[i]);
+                }
+                break;
             default:
                 for(int i = 0; i < dialogueText.defaultPath.paragraphs.Length; i++)
                 {
@@ -285,6 +292,10 @@ public class DialogueController : MonoBehaviour
 
     void UpdateStringVariables()
     {
+        p = p.Replace("{replacementString1}", currentTalker.ReplacementString1());
+        p = p.Replace("{replacementString2}", currentTalker.ReplacementString2());
+        p = p.Replace("{replacementString3}", currentTalker.ReplacementString3());
+
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData)
         {
             float value = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.value * HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.sellValueMultiplier;

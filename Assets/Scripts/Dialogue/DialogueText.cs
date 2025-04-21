@@ -16,6 +16,7 @@ public class DialogueText : ScriptableObject
     public DialoguePath[] itemSpecificRemarks;
     public DialoguePath[] friendshipPath1, friendshipPath2, friendshipPath3; //Random Text they can say depending on friendship levels
     public DialoguePath[] alreadySpoken;
+    public DialoguePath[] branchingPaths;
 
 }
 
@@ -41,7 +42,8 @@ public enum PathType
     Quest,
     ItemRecieved,
     ItemSpecific,
-    AlreadySpoken
+    AlreadySpoken,
+    BranchingPaths
 }
 
 [System.Serializable]

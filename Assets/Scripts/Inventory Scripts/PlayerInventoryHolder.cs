@@ -232,6 +232,11 @@ public class PlayerInventoryHolder : InventoryHolder
         return true;
     }
 
+    public int ReturnItemCountInPlayerInventory(InventoryItemData itemToFind)
+    {
+        return primaryInventorySystem.ReturnItemCount(itemToFind) + secondaryInventorySystem.ReturnItemCount(itemToFind);
+    }
+
     public int ReturnFreeSlots()
     {
         int freeSlots = 0;

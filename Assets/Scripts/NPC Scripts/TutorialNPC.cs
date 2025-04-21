@@ -42,7 +42,7 @@ public class TutorialNPC : NPC, ITalkable
         Talk();
         interactSuccessful = true;
         finishedTalking = true;
-        QuestManager.Instance.AddQuest(mainQuest);
+        //QuestManager.Instance.AddQuest(mainQuest);
 
     }
 

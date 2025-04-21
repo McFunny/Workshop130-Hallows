@@ -88,6 +88,21 @@ public abstract class NPC : MonoBehaviour, IInteractable
         return true;
     }
 
+    public virtual string ReplacementString1()
+    {
+        return "";
+    }
+
+    public virtual string ReplacementString2()
+    {
+        return "";
+    }
+
+    public virtual string ReplacementString3()
+    {
+        return "";
+    }
+
     public bool CompletedQuest()
     {
         //Check if player completed any quest non item related

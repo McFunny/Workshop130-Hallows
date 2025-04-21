@@ -61,6 +61,8 @@ public class CatacombDoor : MonoBehaviour, IInteractable
             interactSuccessful = true;
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
+            QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(5));
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(6));
             return;
         }
         interactSuccessful = false;
