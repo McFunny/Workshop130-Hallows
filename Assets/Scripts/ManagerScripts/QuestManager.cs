@@ -34,10 +34,23 @@ public class QuestManager : MonoBehaviour
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
-            if(activeQuests[i].name == q.name)
+            if(activeQuests[i].name == q.name || activeQuests[i].questID == q.questID)
             {
                 activeQuests[i].progress = activeQuests[i].maxProgress;
                 activeQuests[i].alreadyCompleted = true;
+                print("Quest was successfully completed");
+                return;
+            }
+        }
+    }
+
+    public void ForceRemoveQuest(Quest q)
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            if(activeQuests[i].name == q.name || activeQuests[i].questID == q.questID)
+            {
+                activeQuests.Remove(q);
                 print("Quest was successfully completed");
                 return;
             }
@@ -194,7 +207,7 @@ public class Quest
     public bool isMajorQuest = false;
     public bool alreadyCompleted = false; //if you want to store completed quests, or just store completed main quests.
     public int mintReward;
-    public int progress;
+    public int progress = 0;
     public int maxProgress; //Just because its at max progress does NOT mean a quest is completed. You still need to check in with the assignee if there is one
     //public InventoryItemData[] itemRewards;
     public int daysLeft = -1; //if -1, there is no time limit. Will need to setup this with the new day function to tick these down by 1 and then remove them later. Unimplemented
@@ -207,6 +220,22 @@ public class Quest
 
     [HideInInspector] public int objectID = -1; //The ID of the saved creature, item, crop, ect
     [HideInInspector] public int objectID2 = -1; //The ID of another saved creature, item, crop, ect
+    [HideInInspector] public int questID = -1; //The ID of this quest in the database
+
+    public Quest(){}
+
+    public Quest(Quest q) //Initialize a new quest based on a reference
+    {
+        name = q.name;
+        description = q.description;
+        type = q.type;
+        isMajorQuest = q.isMajorQuest;
+        mintReward = q.mintReward;
+        maxProgress = q.maxProgress;
+        daysLeft = q.daysLeft;
+        assignee = q.assignee;
+        displayProgress = q.displayProgress;
+    }
 
 }
 [System.Serializable]

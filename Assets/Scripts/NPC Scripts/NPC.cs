@@ -88,6 +88,21 @@ public abstract class NPC : MonoBehaviour, IInteractable
         return true;
     }
 
+    public virtual string ReplacementString1()
+    {
+        return "";
+    }
+
+    public virtual string ReplacementString2()
+    {
+        return "";
+    }
+
+    public virtual string ReplacementString3()
+    {
+        return "";
+    }
+
     public bool CompletedQuest()
     {
         //Check if player completed any quest non item related
@@ -158,14 +173,14 @@ public enum Character
     MistMerchant,
     Botanist,
     Rascal,
-    LumberJack,
+    Lumberjack,
     Apothocary,
     Tinkerer,
     Culinarian,
-    Tavern,
+    Tavernkeep,
     Traveler,
     Fanatic,
-    GraveDigger,
+    Gravedigger,
     Butcher,
-    Carpenter
+    Craftsman
 }

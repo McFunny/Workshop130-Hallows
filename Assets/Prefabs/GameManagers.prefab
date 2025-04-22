@@ -2379,7 +2379,7 @@ MonoBehaviour:
   musicNightAmbience:
   - {fileID: 8300000, guid: f7c3a44a2fbb5ef438c6b2ffdfe24176, type: 3}
   - {fileID: 8300000, guid: 64aeac4a7083231439a32d713993f958, type: 3}
-  - {fileID: 8300000, guid: 73d96c0169715924cbc868f73aae37e2, type: 3}
+  - {fileID: 8300000, guid: 62a64a3a0bd55354ea2879b8ec6cf2b4, type: 3}
   wildernessMusicAmbience:
   - {fileID: 8300000, guid: dbc3ebbc41c88ff4d98946b385b3d81c, type: 3}
   - {fileID: 8300000, guid: eeb8fc2d4c0fdb54f8f9a6b0d2150ce7, type: 3}
@@ -2393,6 +2393,7 @@ MonoBehaviour:
   finaleWin: {fileID: 8300000, guid: 31964cbb46bfce34eac4b6c8b23ab44f, type: 3}
   bellTower: {fileID: 8300000, guid: 0b7f67cc2ca54644eade598edf5e0563, type: 3}
   playMusicAtStart: 1
+  playingGramophone: {fileID: 0}
 --- !u!82 &4487365083115385320
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9490,7 +9491,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   - {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
   - {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
-  selectedCreatures: []
   allCreatures: []
   testSpawns:
   - {fileID: 7187795816526134101}
@@ -9569,6 +9569,7 @@ MonoBehaviour:
   watergunObtained: 0
   mm_giveBarricade: 0
   cm_giveChest: 0
+  mm_giveGun: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   rascalMet: 0

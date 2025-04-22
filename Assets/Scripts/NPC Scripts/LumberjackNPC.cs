@@ -42,7 +42,8 @@ public class LumberjackNPC : NPC, ITalkable
                 GameSaveData.Instance.lumber_offersDeal = true; //He will now start selling his papers at his shop
                 currentPath = 0;
                 currentType = PathType.Quest;
-                QuestManager.Instance.AddQuest(treeQuest);
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(4));
+                QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(3));
 
                 /*else if(!GameSaveData.Instance.lumber_choppedTree)
                 {

@@ -106,6 +106,17 @@ MonoBehaviour:
       fortification?
     - Go on. Do what you will with these mints.
     emotions: 06000000040000000300000000000000
+  - pathName: Go to my wagon
+    paragraphs:
+    - There you are. {freezePlayer}
+    - I feared you got lost.
+    - Go to my wagon. Besides the market square. We can discuss further down there.
+    emotions: 030000000200000000000000
+  - pathName: Text for shotgun
+    paragraphs:
+    - BlahBlahBlahShotgun {freezePlayer}
+    - Boop. {givePlayerItems}
+    emotions: 0300000002000000
   fillerPaths:
   - pathName: Middleman
     paragraphs:
@@ -131,3 +142,42 @@ MonoBehaviour:
 
 '
     emotions: 00000000
+  branchingPaths:
+  - pathName: No Carrots??
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - Really...? You couldn't grow a single one?
+    - Here... Try again once more. This time consider planting fewer of them. The
+      more you have growing, the more creatures will come. {givePlayerItems}
+    - Do not botch this harvest. That young one over there looks like he is in dire
+      need of it.
+    - Perhaps this implement will also come in handy. Use those bullets sparingly.
+    emotions: 00000000050000000300000001000000
+  - pathName: So Little Carrots
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - Hmm... I expected more. But this will do.
+    - Normally I would advise anything you grow you bring to me. But that young boy
+      over there looks peckish.
+    - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
+    - Be careful with the bullets. They are in short supply.
+    emotions: 0000000002000000000000000000000003000000
+  - pathName: Decent Carrots
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - You seem to have grown a majority of what you have sowed. These are good tidings
+      indeed.
+    - Normally I would advise anything you grow you bring to me. But that young boy
+      over there looks peckish.
+    - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
+    - Be careful with the bullets. They are in short supply.
+    emotions: 0000000001000000000000000000000003000000
+  - pathName: Many Carrots
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - A perfect yield. Excellent work.
+    - Normally I would advise anything you grow you bring to me. But that young boy
+      over there looks peckish.
+    - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
+    - Be careful with the bullets. They are in short supply.
+    emotions: 0000000001000000000000000000000003000000

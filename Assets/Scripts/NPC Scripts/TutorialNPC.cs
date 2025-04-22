@@ -10,11 +10,12 @@ public class TutorialNPC : NPC, ITalkable
 
     public InventoryItemData seeds;
 
-    public Quest mainQuest;
+    Quest mainQuest;
 
     public GameObject tutorial;
     void Start()
     {
+        mainQuest = QuestDatabase.Instance.GetMainQuest(0);
         if(MainMenuScript.loadingData) StartCoroutine(Despawn());
         else 
         {
@@ -41,7 +42,7 @@ public class TutorialNPC : NPC, ITalkable
         Talk();
         interactSuccessful = true;
         finishedTalking = true;
-        QuestManager.Instance.AddQuest(mainQuest);
+        //QuestManager.Instance.AddQuest(mainQuest);
 
     }
 

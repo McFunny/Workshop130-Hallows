@@ -43,6 +43,8 @@ public class AmbientAudioManager : MonoBehaviour
         {
             Instance = this;
         }
+        playingGramophone = null;
+        gramoPhoneTrack = null;
     }
 
     void Start()
@@ -56,7 +58,7 @@ public class AmbientAudioManager : MonoBehaviour
 
     void Update()
     {
-        if(Time.timeScale == 0 && musicSource.isPlaying)
+        /*if(Time.timeScale == 0 && musicSource.isPlaying)
         {
             musicSource.Pause();
         }
@@ -64,7 +66,9 @@ public class AmbientAudioManager : MonoBehaviour
         if(Time.timeScale != 0 && !musicSource.isPlaying)
         {
             musicSource.UnPause();
-        }
+        }*/
+
+        //print(musicSource.isPlaying);
 
         if(playingGramophone)
         {
@@ -140,26 +144,26 @@ public class AmbientAudioManager : MonoBehaviour
             }
             else musicCooldown = Random.Range(5, 10);
 
-            yield return new WaitForSeconds(musicCooldown);
+            Debug.Log("CoolDown for song begun");
+            yield return new WaitForSecondsRealtime(musicCooldown);
             Debug.Log("CoolDown Done picking song");
             if(NightSpawningManager.Instance.finaleActivated)
             {
                 musicSource.clip = finaleTheme;
             }
-            else if(gramoPhoneTrack) musicSource.clip = gramoPhoneTrack;
+            else if(gramoPhoneTrack != null) musicSource.clip = gramoPhoneTrack;
             else if (TimeManager.Instance.isDay)
             {
                 if(TownGate.Instance.location == PlayerLocation.InWilderness) musicSource.clip = wildernessMusicAmbience[Random.Range(0, wildernessMusicAmbience.Length)];
                 else if(TownGate.Instance.location == PlayerLocation.InCrypt) musicSource.clip = catacombMusicAmbience[Random.Range(0, catacombMusicAmbience.Length)];
                 else musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
             }
-            else
-                musicSource.clip = musicNightAmbience[Random.Range(0, musicNightAmbience.Length)];
+            else musicSource.clip = musicNightAmbience[Random.Range(0, musicNightAmbience.Length)];
 
             float musicRuntime = musicSource.clip.length;
-            if(playingGramophone) musicSource.Play();
+            if(!playingGramophone) musicSource.Play();
             Debug.Log("Playing MUSIC");
-            yield return new WaitForSeconds(musicRuntime);
+            yield return new WaitForSecondsRealtime(musicRuntime);
             Debug.Log("Song ended"); 
         }
     }
