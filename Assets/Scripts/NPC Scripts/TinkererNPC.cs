@@ -41,6 +41,7 @@ public class TinkererNPC : NPC, ITalkable
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.tinkMet = true;
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(7));
             }
             else
             {
@@ -147,7 +148,11 @@ public class TinkererNPC : NPC, ITalkable
             else
             {
                 currentPath = 2; //item sold
-                if (item.itemData == watergun) GameSaveData.Instance.watergunObtained = true;
+                if (item.itemData == watergun) 
+                {
+                    GameSaveData.Instance.watergunObtained = true;
+                    QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(7));
+                }
                 shopUI.shopImgObj.SetActive(false);
             }
             anim.SetTrigger("IsTalking");

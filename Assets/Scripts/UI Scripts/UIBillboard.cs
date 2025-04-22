@@ -10,7 +10,7 @@ public class UIBillboard : MonoBehaviour
 
     void Start()
     {
-        transformCamera = GameObject.Find("Main Camera").transform;
+        transformCamera = FindObjectOfType<PlayerCam>().transform;
         originalRotation = transform.rotation;
     }
 

@@ -68,7 +68,7 @@ public class AmbientAudioManager : MonoBehaviour
             musicSource.UnPause();
         }*/
 
-        print(musicSource.isPlaying);
+        //print(musicSource.isPlaying);
 
         if(playingGramophone)
         {
