@@ -350,7 +350,9 @@ public class MainMenuScript : MonoBehaviour
         FadeScreen.coverScreen = true;
         yield return new WaitForSecondsRealtime(2);
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync(1);
+        AsyncOperation operation;
+        if(!loadingData) operation = SceneManager.LoadSceneAsync(3); //cutscene
+        else operation = SceneManager.LoadSceneAsync(1); //game
         loadingScreen.SetActive(true);
         var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
 
