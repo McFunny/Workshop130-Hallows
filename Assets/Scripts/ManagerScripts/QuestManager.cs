@@ -23,7 +23,7 @@ public class QuestManager : MonoBehaviour
 
     public void AddQuest(Quest q)
     {
-        if(!activeQuests.Contains(q))
+        if(!CheckForQuest(q))
         {
             activeQuests.Add(q);
             PopupHandler.Instance.AddToQueue(PopupHandler.Instance.newQuestPopup);
@@ -34,7 +34,7 @@ public class QuestManager : MonoBehaviour
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
-            if(activeQuests[i].name == q.name || activeQuests[i].questID == q.questID)
+            if(activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))
             {
                 activeQuests[i].progress = activeQuests[i].maxProgress;
                 activeQuests[i].alreadyCompleted = true;
@@ -48,13 +48,25 @@ public class QuestManager : MonoBehaviour
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
-            if(activeQuests[i].name == q.name || activeQuests[i].questID == q.questID)
+            if(activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))
             {
                 activeQuests.Remove(q);
                 print("Quest was successfully completed");
                 return;
             }
         }
+    }
+
+    public bool CheckForQuest(Quest q)
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            if(activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     //This is probably bad practice, and should be changed into using Unity Events instead
@@ -220,7 +232,7 @@ public class Quest
 
     [HideInInspector] public int objectID = -1; //The ID of the saved creature, item, crop, ect
     [HideInInspector] public int objectID2 = -1; //The ID of another saved creature, item, crop, ect
-    [HideInInspector] public int questID = -1; //The ID of this quest in the database
+    public int questID = -1; //The ID of this quest in the database
 
     public Quest(){}
 
@@ -235,6 +247,7 @@ public class Quest
         daysLeft = q.daysLeft;
         assignee = q.assignee;
         displayProgress = q.displayProgress;
+        questID = q.questID;
     }
 
 }
