@@ -100,6 +100,7 @@ public class Tutorial : MonoBehaviour
     {
         if(phase == TutorialPhase.Water)
         {
+            PopupHandler.Instance.ClearQueue();
             PopupHandler.Instance.AddToQueue(creatureP);
             phase = TutorialPhase.Kill;
 

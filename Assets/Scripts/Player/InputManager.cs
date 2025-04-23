@@ -38,7 +38,7 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
         controlManager.hotbarUp.action.started += HotbarUp;
-        controlManager.hotbarDown.action.canceled += HotbarDown;  
+        controlManager.hotbarDown.action.started += HotbarDown;  
         controlManager.showGrid.action.canceled += ShowGrid;
         controlManager.pauseGame.action.started += PauseGame;
         //controlManager.waterGunCharge.action.performed += BeginCharge;
@@ -48,7 +48,7 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         controlManager.hotbarUp.action.started -= HotbarUp; 
-        controlManager.hotbarDown.action.canceled -= HotbarDown;  
+        controlManager.hotbarDown.action.started -= HotbarDown;  
         controlManager.showGrid.action.canceled -= ShowGrid;
         controlManager.pauseGame.action.started -= PauseGame;
         //controlManager.waterGunCharge.action.performed -= BeginCharge;

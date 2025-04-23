@@ -131,6 +131,12 @@ public class PopupHandler : MonoBehaviour
         if (queueChecker == null) queueChecker = StartCoroutine(CheckQueue());
     }
 
+    public void ClearQueue()
+    {
+        typesInQueue.Clear();
+        conditionMet = true;
+    }
+
     private void ShowPopup(PopupScript popup)
     {
         isActive = true;
