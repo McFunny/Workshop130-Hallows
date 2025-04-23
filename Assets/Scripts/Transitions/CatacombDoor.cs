@@ -82,8 +82,9 @@ public class CatacombDoor : MonoBehaviour, IInteractable
         yield return new WaitForSeconds(3);
         if(goingToCrypt)
         {
-            PlayerInteraction.Instance.transform.position = interior.position;
             TownGate.Instance.Transition(PlayerLocation.InCrypt);
+            yield return new WaitForSeconds(0.1f);
+            PlayerInteraction.Instance.transform.position = interior.position;
         }
         else
         {

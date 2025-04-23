@@ -351,7 +351,8 @@ public class FeralHareTest : CreatureBehaviorScript
         do
         {
             yield return new WaitForSeconds(10);
-            if(StructureManager.Instance.CheckTile(transform.position) != new Vector3(0,0,0) && Random.Range(0,10) > 5 && StructureManager.Instance.BurrowCount() < 5 && currentState == CreatureState.Wander)
+            if(structManager.CheckTile(transform.position) != new Vector3(0,0,0) && Random.Range(0,10) > 5 && structManager.BurrowCount() < 5 && currentState == CreatureState.Wander
+            && structManager.ValidateGridType(transform.position, GridType.Farm))
             {
                 currentState = CreatureState.MakingBurrow;
             }
