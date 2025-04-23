@@ -108,7 +108,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(dialogueController.IsInterruptable() == false || tItem)
         {
             interactSuccessful = false;
-            if(dialogueController.FreeToSpeak(this))Talk();
+            //if(dialogueController.FreeToSpeak(this))Talk();
             return;
         } 
         if(item.sellValueMultiplier == 0 || item.value == 0)
@@ -357,7 +357,8 @@ public class WagonMerchantNPC : NPC, ITalkable
         AudioPoolManager.Instance.PlayClipAtPosition(scareSound, townEntrancePos.position);
         merchant.position = townEntrancePos.position;
         PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
-        dialogueController.SetInterruptable(false);
+        //dialogueController.SetInterruptable(false);
+        dialogueController.restartDialogue = true;
         Talk();
         //StartCoroutine(WaitUntilDoneTalking());
     }
@@ -367,7 +368,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(currentPath == 11) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.bedTutorialPopup);
         if(!talkingOutsideWagon) return;
         QuestManager qm = QuestManager.Instance;
-        if(currentType == PathType.BranchingPaths && !qm.activeQuests.Contains(QuestDatabase.Instance.GetMainQuest(2))) qm.AddQuest(QuestDatabase.Instance.GetMainQuest(1));
+        if(currentType == PathType.BranchingPaths && !qm.CheckForQuest(QuestDatabase.Instance.GetMainQuest(2))) qm.AddQuest(QuestDatabase.Instance.GetMainQuest(1));
         talkingOutsideWagon = false;
         StartCoroutine(ReturnToWagon());
     }

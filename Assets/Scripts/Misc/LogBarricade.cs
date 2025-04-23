@@ -118,9 +118,12 @@ public class LogBarricade : MonoBehaviour, IInteractable
             case TreeID.TownTree:
             if(GameSaveData.Instance.townTreeCleared1 || isPapered)
             { //Complete Quest
-                if(!GameSaveData.Instance.townTreeCleared1) GameSaveData.Instance.townTreeCleared1 = true;
+                if(!GameSaveData.Instance.townTreeCleared1)
+                {
+                    GameSaveData.Instance.townTreeCleared1 = true;
+                    QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(5));
+                } 
                 QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(4));
-                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(5));
                 Destroy(this.gameObject);
             }
             break;

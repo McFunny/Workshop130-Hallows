@@ -137,7 +137,7 @@ public class TavernNPC : NPC, ITalkable
         while(newQuest == null)
         {
             int x = Random.Range(0, possibleQuests.Count);
-            if(!QuestManager.Instance.activeQuests.Contains(possibleQuests[x])) newQuest = possibleQuests[x];
+            if(!QuestManager.Instance.CheckForQuest(possibleQuests[x])) newQuest = possibleQuests[x];
         }
         
 

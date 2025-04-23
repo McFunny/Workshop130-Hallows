@@ -355,7 +355,7 @@ public class CodexRework : MonoBehaviour
             questSlider.value = quest.progress;
         }
 
-        if(quest.progress >= quest.maxProgress && quest.alreadyCompleted != true && quest.assignee != 0) questCompleteText.text = "Return to " + quest.assignee;
+        if(quest.progress >= quest.maxProgress && quest.alreadyCompleted != true && quest.assignee != 0 && quest.maxProgress != 0) questCompleteText.text = "Return to " + quest.assignee;
         else if (quest.alreadyCompleted == true) questCompleteText.text = "Completed";
         else questCompleteText.text = "";
 
@@ -624,8 +624,8 @@ public class CodexRework : MonoBehaviour
                     var q = activeQuests[i] as FetchQuest;
                     var t = q.name;
 
-                    if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
-                    else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+                    if (q.amount > 1 && !q.desiredItem.displayName.EndsWith("s")) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+                    else t = t.Replace("{itemName}", q.desiredItem.displayName.ToString());
 
                     t = t.Replace("{itemAmount}", q.amount.ToString());
 
@@ -637,7 +637,7 @@ public class CodexRework : MonoBehaviour
                     var q = activeQuests[i] as HuntQuest;
                     var t = q.name;
 
-                    if (q.amount > 1) t = t.Replace("{creatureName}", q.targetCreature.name.ToString() + "s");
+                    if (q.amount > 1 && !q.targetCreature.name.EndsWith("s")) t = t.Replace("{creatureName}", q.targetCreature.name.ToString() + "s");
                     else t = t.Replace("{creatureName}", q.targetCreature.name.ToString());
 
                     t = t.Replace("{creatureAmount}", q.amount.ToString());
@@ -650,8 +650,8 @@ public class CodexRework : MonoBehaviour
                     var q = activeQuests[i] as GrowQuest;
                     var t = q.name;
 
-                    if (q.amount > 1) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
-                    else t = t.Replace("{itemName}", q.desiredItem.name.ToString());
+                    if (q.amount > 1 && !q.desiredItem.displayName.EndsWith("s")) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+                    else t = t.Replace("{itemName}", q.desiredItem.displayName.ToString());
 
                     t = t.Replace("{itemAmount}", q.amount.ToString());
 
