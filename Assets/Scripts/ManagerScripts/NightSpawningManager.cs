@@ -53,10 +53,6 @@ public class NightSpawningManager : MonoBehaviour
     {
         TimeManager.OnHourlyUpdate += HourUpdate;
 
-        foreach(CreatureObject c in creatures)
-        {
-            creatureTallyDict.Add(c, 0);
-        }
     }
 
     void Update()
@@ -114,6 +110,13 @@ public class NightSpawningManager : MonoBehaviour
         }
 
         int maxCreatures = CalculateMaxCreatures();
+
+        creatureTallyDict.Clear();
+        //Refresh the dictionary for creature spawns
+        foreach(CreatureObject c in creatures)
+        {
+            creatureTallyDict.Add(c, 0);
+        }
 
         //List<int> creatureTally = new List<int>(); //this list keeps track of the amount of each specific creature
         //Each monster has their weight added to a list
@@ -198,6 +201,8 @@ public class NightSpawningManager : MonoBehaviour
     void SpawnCreature(CreatureObject c)
     {
         //Add chance of spawning variants here
+        creatureTallyDict[c]++;
+
         GameObject prefab = null;
         if(c.creatureVariants.Count > 0)
         {

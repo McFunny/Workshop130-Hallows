@@ -209,7 +209,7 @@ public class TinkererNPC : NPC, ITalkable
        
             for (int i = 0; i < storeItems.Count; i++)
             {
-                if (i == 0 && !GameSaveData.Instance.watergunObtained && timesSetUpShop > 0)
+                if (i == 0 && !GameSaveData.Instance.watergunObtained && timesSetUpShop > 0 && GameSaveData.Instance.tinkMet)
                 {
                     newItem = watergun;
                     int newCost = (int)(newItem.value * sellMultiplier);
