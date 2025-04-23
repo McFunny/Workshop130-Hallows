@@ -201,6 +201,8 @@ public class NightSpawningManager : MonoBehaviour
     void SpawnCreature(CreatureObject c)
     {
         //Add chance of spawning variants here
+        creatureTallyDict[c]++;
+
         GameObject prefab = null;
         if(c.creatureVariants.Count > 0)
         {

@@ -53,7 +53,7 @@ public class FyllaraNut : StructureBehaviorScript
         if(hasDealtDamage) return;
         if(other.gameObject.CompareTag("Player"))
         {
-            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
             hasDealtDamage = true;
             return;
         }

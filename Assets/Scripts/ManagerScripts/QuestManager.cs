@@ -50,18 +50,35 @@ public class QuestManager : MonoBehaviour
         {
             if(activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))
             {
-                activeQuests.Remove(q);
-                print("Quest was successfully completed");
+                activeQuests.Remove(activeQuests[i]);
+                print("Quest was successfully removed");
                 return;
             }
         }
     }
 
-    public bool CheckForQuest(Quest q)
+    public bool CheckForQuest(Quest q) //Finds if the current quest is already in the active quests list
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
-            if(activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))
+            FetchQuest fQ = activeQuests[i] as FetchQuest;
+            HuntQuest hQ = activeQuests[i] as HuntQuest;
+            GrowQuest gQ = activeQuests[i] as GrowQuest;
+
+            if(fQ != null && (q as FetchQuest) != null && fQ.desiredItem != (q as FetchQuest).desiredItem)
+            {
+                return true;
+            }
+            else if(hQ != null && (q as HuntQuest) != null && hQ.targetCreature != (q as HuntQuest).targetCreature)
+            {
+                return true;
+            }
+            else if(gQ != null && (q as GrowQuest) != null && gQ.desiredCrop != (q as GrowQuest).desiredCrop)
+            {
+                return true;
+            }
+
+            if(q.isMajorQuest && activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))
             {
                 return true;
             }

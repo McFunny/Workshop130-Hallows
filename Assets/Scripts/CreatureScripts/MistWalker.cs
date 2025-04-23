@@ -521,6 +521,12 @@ public class MistWalker : CreatureBehaviorScript
         transform.LookAt(targetStructure.transform.position);
 
         yield return new WaitForSeconds(1f); 
+        if(!targetStructure)
+        {
+            currentState = CreatureState.Idle;
+            coroutineRunning = false;
+            yield break;
+        }
 
         if (Vector3.Distance(transform.position, targetStructure.transform.position) < 5f)
         {
@@ -641,7 +647,7 @@ public class MistWalker : CreatureBehaviorScript
 
         if (!coroutineRunning)
         {
-            int r = Random.Range(0, 13);
+            int r = Random.Range(0, 15);
             if (r < 2)
             {
                 if (availableStructure.Count > 0)
@@ -649,11 +655,11 @@ public class MistWalker : CreatureBehaviorScript
                     currentState = CreatureState.WalkTowardsClosestStructure;
                 }
             }
-            else if (r < 6)
+            else if (r < 8)
             {
                 StartCoroutine(WaitAround());
             }
-            else if (r >= 7)
+            else
             {
                 currentState = CreatureState.Wander;
             }

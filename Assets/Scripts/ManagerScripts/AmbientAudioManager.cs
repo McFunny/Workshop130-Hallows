@@ -15,6 +15,7 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip[] musicNightAmbience;
     public AudioClip[] wildernessMusicAmbience;
     public AudioClip[] catacombMusicAmbience;
+    public AudioClip[] lightningAmbience;
 
     public AudioClip finaleTheme, finaleIntro, finaleLose, finaleWin;
 
@@ -30,6 +31,8 @@ public class AmbientAudioManager : MonoBehaviour
 
     [HideInInspector] public Gramophone playingGramophone;
     AudioClip gramoPhoneTrack;
+
+    public LightningEffect lightingScript;
 
     void Awake()
     {
@@ -106,12 +109,19 @@ public class AmbientAudioManager : MonoBehaviour
             float trackCooldown = Random.Range(5f, 15f);
             yield return new WaitForSeconds(trackCooldown);
             float r = Random.Range(0, 1f);
-            if(r > .65f) //blow wind
+            if(r > .65f) //effects
             {
-                ambienceSource.clip = windAmbience[Random.Range(0, windAmbience.Length)];
-                Vector3 windDirection = new Vector3(Random.Range(-1, 1f), 0, 0);
-                OnWindBlow?.Invoke(windDirection);
-                print("Wind");
+                if(NightSpawningManager.Instance.finaleActivated && lightingScript)
+                {
+                    StartCoroutine(lightingScript.PlayLightning());
+                    ambienceSource.clip = lightningAmbience[Random.Range(0, lightningAmbience.Length)];
+                }
+                else //blow wind
+                {
+                    ambienceSource.clip = windAmbience[Random.Range(0, windAmbience.Length)];
+                    Vector3 windDirection = new Vector3(Random.Range(-1, 1f), 0, 0);
+                    OnWindBlow?.Invoke(windDirection);
+                }
             }
             else if (TimeManager.Instance.currentHour < 6 || TimeManager.Instance.currentHour > 20)
             {
@@ -170,8 +180,9 @@ public class AmbientAudioManager : MonoBehaviour
 
     void HourUpdate()
     {
-        if (TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.finaleActivated)
+        if ((TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 20) && !NightSpawningManager.Instance.finaleActivated)
         {
+            print(NightSpawningManager.Instance.finaleActivated);
             StartCoroutine(FadeBell());
             //StopCoroutine(PlayAmbientMusic());
             //StartCoroutine(FadeAudio());
@@ -194,6 +205,9 @@ public class AmbientAudioManager : MonoBehaviour
     {
         float oldVolume = musicSource.volume;
         float currentVolume = oldVolume;
+
+        yield return new WaitForSeconds(0.1f);
+        if(NightSpawningManager.Instance.finaleActivated) yield break;
 
         while (currentVolume > 0)
         {
