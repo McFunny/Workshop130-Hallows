@@ -7,9 +7,21 @@ public class VFXPauser : MonoBehaviour
 {
     public VisualEffect[] effects;
 
+    public Mesh hiPoly, lowPoly;
+
+    bool paused = false;
+    public bool useLowPoly = true;
+
     void Awake()
     {
         effects = GetComponentsInChildren<VisualEffect>();
+
+        foreach(VisualEffect v in effects)
+        {
+            if(useLowPoly) v.SetMesh("SmokeMesh", lowPoly);
+            else v.SetMesh("SmokeMesh", hiPoly);
+        }
+
     }
 
     void OnEnable()
@@ -30,22 +42,33 @@ public class VFXPauser : MonoBehaviour
         {
             v.pause = false;
         }
+        paused = false;
         while(effects.Length > 0)
         {
             yield return new WaitForSeconds(4);
             if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) > 150)
             {
-                foreach(VisualEffect v in effects)
+                if(!paused)
                 {
-                    v.pause = true;
+                    foreach(VisualEffect v in effects)
+                    {
+                        v.pause = true;
+                    }
+                    paused = true;
                 }
+                
             }
             else
             {
-                foreach(VisualEffect v in effects)
+                if(paused)
                 {
-                    v.pause = false;
+                    foreach(VisualEffect v in effects)
+                    {
+                        v.pause = false;
+                    }
+                    paused = false;
                 }
+
             }
         }
     }

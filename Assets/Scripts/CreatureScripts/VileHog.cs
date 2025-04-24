@@ -383,8 +383,15 @@ public class VileHog : CreatureBehaviorScript
         if (Vector3.Distance(transform.position, target.position) < 2f)
         {
             agent.ResetPath();
-            coroutineRunning = true;
-            StartCoroutine(DigUpCrop());
+            if(foundFarmTile && foundFarmTile.crop && foundFarmTile.harvestable)
+            {
+                currentState = CreatureState.Wander;
+            }
+            else
+            {
+                coroutineRunning = true;
+                StartCoroutine(DigUpCrop());
+            }
         }
         /*else if(agent.destination != target.position)
         {
