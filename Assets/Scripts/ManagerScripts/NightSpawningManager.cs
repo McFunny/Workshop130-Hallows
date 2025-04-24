@@ -377,7 +377,7 @@ public class NightSpawningManager : MonoBehaviour
         temp.Clear();
 
         //Rare creatures to spawn
-        a = Random.Range(1, 4);
+        a = Random.Range(1, 5);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);

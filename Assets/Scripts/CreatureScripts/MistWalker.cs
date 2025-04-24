@@ -120,7 +120,13 @@ public class MistWalker : CreatureBehaviorScript
         foreach (var structure in structManager.allStructs)
         {
             if (structure && targettableStructures.Contains(structure.structData))
+            {
+                FarmLand f = structure as FarmLand;
+                if(f && !f.crop) continue;
+                
                 availableStructure.Add(structure);
+            }
+                
         }
 
         if (availableStructure.Count > 0)
@@ -648,7 +654,7 @@ public class MistWalker : CreatureBehaviorScript
         if (!coroutineRunning)
         {
             int r = Random.Range(0, 15);
-            if (r < 2)
+            if (r < 4)
             {
                 if (availableStructure.Count > 0)
                 {
