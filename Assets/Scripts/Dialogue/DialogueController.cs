@@ -162,6 +162,7 @@ public class DialogueController : MonoBehaviour
                 for (int i = 0; i < dialogueText.questCompletePath.paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.questCompletePath.paragraphs[i]);
+                    if(dialogueText.questCompletePath.emotions.Count <= i) dialogueText.questCompletePath.emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.questCompletePath.emotions[i]);
                 }
                 break;
@@ -169,6 +170,7 @@ public class DialogueController : MonoBehaviour
                 for (int i = 0; i < dialogueText.repeatedItemPath.paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.repeatedItemPath.paragraphs[i]);
+                    if(dialogueText.repeatedItemPath.emotions.Count <= i) dialogueText.repeatedItemPath.emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.repeatedItemPath.emotions[i]);
                 }
                 break;
@@ -176,6 +178,7 @@ public class DialogueController : MonoBehaviour
                 for (int i = 0; i < dialogueText.paths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.paths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.paths[currentTalker.currentPath].emotions.Count <= i) dialogueText.paths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.paths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
@@ -183,6 +186,7 @@ public class DialogueController : MonoBehaviour
                 for (int i = 0; i < dialogueText.fillerPaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.fillerPaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.fillerPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.fillerPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.fillerPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
@@ -190,6 +194,7 @@ public class DialogueController : MonoBehaviour
                 for (int i = 0; i < dialogueText.questPaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.questPaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.questPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.questPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.questPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
@@ -197,6 +202,7 @@ public class DialogueController : MonoBehaviour
                 for (int i = 0; i < dialogueText.itemRecievedPaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.itemRecievedPaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.itemRecievedPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.itemRecievedPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.itemRecievedPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
@@ -204,6 +210,7 @@ public class DialogueController : MonoBehaviour
                 for (int i = 0; i < dialogueText.itemSpecificRemarks[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.itemSpecificRemarks[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.itemSpecificRemarks[currentTalker.currentPath].emotions.Count <= i) dialogueText.itemSpecificRemarks[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.itemSpecificRemarks[currentTalker.currentPath].emotions[i]);
                 }
                 break;
@@ -211,6 +218,7 @@ public class DialogueController : MonoBehaviour
                 for (int i = 0; i < dialogueText.alreadySpoken[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.alreadySpoken[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.alreadySpoken[currentTalker.currentPath].emotions.Count <= i) dialogueText.alreadySpoken[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.alreadySpoken[currentTalker.currentPath].emotions[i]);
                 }
                 break;
@@ -218,6 +226,7 @@ public class DialogueController : MonoBehaviour
                 for (int i = 0; i < dialogueText.branchingPaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.branchingPaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.branchingPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.branchingPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.branchingPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
@@ -225,6 +234,7 @@ public class DialogueController : MonoBehaviour
                 for(int i = 0; i < dialogueText.defaultPath.paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.defaultPath.paragraphs[i]);
+                    //if(dialogueText.defaultPath[currentTalker.currentPath].emotions.Count <= i) dialogueText.defaultPath[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.defaultPath.emotions[i]);
                 }
                 break;

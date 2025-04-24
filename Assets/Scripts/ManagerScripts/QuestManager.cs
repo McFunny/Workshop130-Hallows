@@ -65,15 +65,15 @@ public class QuestManager : MonoBehaviour
             HuntQuest hQ = activeQuests[i] as HuntQuest;
             GrowQuest gQ = activeQuests[i] as GrowQuest;
 
-            if(fQ != null && (q as FetchQuest) != null && fQ.desiredItem != (q as FetchQuest).desiredItem)
+            if(fQ != null && (q as FetchQuest) != null && fQ.desiredItem == (q as FetchQuest).desiredItem)
             {
                 return true;
             }
-            else if(hQ != null && (q as HuntQuest) != null && hQ.targetCreature != (q as HuntQuest).targetCreature)
+            else if(hQ != null && (q as HuntQuest) != null && hQ.targetCreature == (q as HuntQuest).targetCreature)
             {
                 return true;
             }
-            else if(gQ != null && (q as GrowQuest) != null && gQ.desiredCrop != (q as GrowQuest).desiredCrop)
+            else if(gQ != null && (q as GrowQuest) != null && gQ.desiredCrop == (q as GrowQuest).desiredCrop)
             {
                 return true;
             }
