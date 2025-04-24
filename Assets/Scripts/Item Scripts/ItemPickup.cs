@@ -112,6 +112,7 @@ public class ItemPickup : MonoBehaviour
             beingCollected = true;
             myCollider.enabled = false;
             StartCoroutine(PickupDelay());
+            return;
         }
 
         var inventory = other.transform.GetComponent<PlayerInventoryHolder>();
