@@ -142,9 +142,10 @@ public class TavernNPC : NPC, ITalkable
 
             attempts++;
         }
+        if(attempts == 20) return;
         
 
-        QuestManager.Instance.AddQuest(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+        QuestManager.Instance.AddQuest(newQuest);
         int questNum = QuestManager.Instance.activeQuests.Count - 1;//To grab the newly added quest
 
         FetchQuest f = QuestManager.Instance.activeQuests[questNum] as FetchQuest;
