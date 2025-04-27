@@ -104,13 +104,17 @@ public class FlowerPotDecor : FurnitureBehaviorScript
 
     bool CanBeRemoved()
     {
-        if(savedItems.Count == 0 || savedItems[0] != null) return false;
+        if(savedItems.Count > 0 && savedItems[0] != null) return false;
         return true;
     }
 
     public override void LoadVariables()
     {
-        if(savedItems.Count == 0 || savedItems[0] == null) return;
+        if(savedItems.Count == 0 || savedItems[0] == null)
+        {
+            r.sprite = null;
+            return;
+        }
 
         for(int i = 0; i < potItems.Count; i++)
         {

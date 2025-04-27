@@ -83,8 +83,8 @@ public class TownGate : MonoBehaviour
             break;
         }
 
-        if(newLocation == PlayerLocation.InCrypt) catacombGameObject.SetActive(true);
-        else catacombGameObject.SetActive(false);
+        //if(newLocation == PlayerLocation.InCrypt) catacombGameObject.SetActive(true);
+        //else catacombGameObject.SetActive(false);
 
         location = newLocation;
     }

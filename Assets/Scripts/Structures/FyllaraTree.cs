@@ -54,6 +54,7 @@ public class FyllaraTree : StructureBehaviorScript
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && !isFilled)
         {
             FillWithWater();
+            PlayerInteraction.Instance.waterHeld--;
             success = true;
         }
     }

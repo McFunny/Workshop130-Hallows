@@ -139,7 +139,11 @@ public class ItemCrate : FurnitureBehaviorScript
     {
         for(int i = 0; i < itemSockets.Count; i++)
         {
-            if(i >= savedItems.Count) return; //to catch empty slots
+            if(i >= savedItems.Count)
+            {
+                itemSockets[i].sprite = null;
+                continue;
+            }
             if(savedItems[i] != null) itemSockets[i].sprite = savedItems[i].icon;
             else itemSockets[i].sprite = null;
         }
@@ -147,10 +151,16 @@ public class ItemCrate : FurnitureBehaviorScript
 
     bool CanBeRemoved()
     {
+        if(savedItems.Count == 0 || savedItems[0] == null) return true;
         for(int i = 0; i < itemSockets.Count; i++)
         {
             if(savedItems[i] != null) return false;
         }
         return true;
+    }
+
+    public override void LoadVariables()
+    {
+        RefreshSockets();
     }
 }
