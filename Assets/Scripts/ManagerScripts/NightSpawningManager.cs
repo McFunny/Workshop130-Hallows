@@ -38,6 +38,8 @@ public class NightSpawningManager : MonoBehaviour
 
     public bool boxPlaced, finaleActivated;
 
+    public ParticleSystem finaleMist;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -375,7 +377,7 @@ public class NightSpawningManager : MonoBehaviour
         temp.Clear();
 
         //Rare creatures to spawn
-        a = Random.Range(1, 4);
+        a = Random.Range(1, 5);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
@@ -457,6 +459,7 @@ public class NightSpawningManager : MonoBehaviour
         
         //AmbientAudioManager.Instance.ChangeMusic();
         AmbientAudioManager.Instance.StartFinaleTheme();
+        if(finaleMist) finaleMist.Play();
     }
 
     public void DeactivateFinale()
@@ -467,14 +470,26 @@ public class NightSpawningManager : MonoBehaviour
         
         //AmbientAudioManager.Instance.ChangeMusic();
         AmbientAudioManager.Instance.EndFinaleTheme();
+        if(finaleMist) finaleMist.Stop();
     }
 
     public void FinaleComplete()
     {
+        AmbientAudioManager.Instance.WinFinaleTheme();
         StartCoroutine(GameCompleted());
-        for(int i = 0; i < allCreatures.Count; i++)
+        /*for(int i = 0; i < allCreatures.Count; i++)
         {
             allCreatures[i].TakeDamage(999);
+        }*/
+
+        CreatureBehaviorScript[] creaturesOnFarm = FindObjectsOfType<CreatureBehaviorScript>();
+
+        foreach (CreatureBehaviorScript creature in creaturesOnFarm)
+        {
+            if (creature != null && creature.gameObject != null)
+            {
+                creature.TakeDamage(999);
+            }
         }
     }
 
@@ -486,7 +501,7 @@ public class NightSpawningManager : MonoBehaviour
         FadeScreen.coverScreen = true;
         PlayerMovement.restrictMovementTokens++;
         //AmbientAudioManager.Instance.FadeMusic();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(10);
         //Credits screen
         SceneManager.LoadSceneAsync(2);
     }

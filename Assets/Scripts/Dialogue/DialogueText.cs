@@ -53,5 +53,5 @@ public class DialoguePath
     //public string functionName; //for calling a specific function
     [TextArea(5,10)]
     public string[] paragraphs;
-    public Emotion[] emotions;
+    public List<Emotion> emotions;
 }

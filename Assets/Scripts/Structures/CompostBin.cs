@@ -214,7 +214,7 @@ public class CompostBin : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        saveInt1 = progress;
+        progress = saveInt1;
         if(savedItems.Count == maxContainedItems)
         {
             isSpinning = true;
@@ -231,6 +231,6 @@ public class CompostBin : StructureBehaviorScript
 
     public override void SaveVariables()
     {
-        progress = saveInt1;
+        saveInt1 = progress;
     }
 }

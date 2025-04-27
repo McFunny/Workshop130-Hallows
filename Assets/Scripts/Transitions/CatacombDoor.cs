@@ -12,6 +12,8 @@ public class CatacombDoor : MonoBehaviour, IInteractable
 
     public bool debugMode = false;
 
+    public bool isExit = false; //if true, this is the dorr inside the crypt
+
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
@@ -20,7 +22,7 @@ public class CatacombDoor : MonoBehaviour, IInteractable
     {
         if(GameSaveData.Instance.catacombUnlocked || debugMode)
         {
-            if(TownGate.Instance.location == PlayerLocation.InTown)
+            if(!isExit)
             {
                 StartCoroutine(Transition(true));
             }
@@ -44,7 +46,7 @@ public class CatacombDoor : MonoBehaviour, IInteractable
         }
         if(GameSaveData.Instance.catacombUnlocked || debugMode)
         {
-            if(TownGate.Instance.location == PlayerLocation.InTown)
+            if(!isExit)
             {
                 StartCoroutine(Transition(true));
             }
@@ -82,8 +84,9 @@ public class CatacombDoor : MonoBehaviour, IInteractable
         yield return new WaitForSeconds(3);
         if(goingToCrypt)
         {
-            PlayerInteraction.Instance.transform.position = interior.position;
             TownGate.Instance.Transition(PlayerLocation.InCrypt);
+            yield return new WaitForSeconds(0.1f);
+            PlayerInteraction.Instance.transform.position = interior.position;
         }
         else
         {

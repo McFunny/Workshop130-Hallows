@@ -32,7 +32,16 @@ public class QuestManager : MonoBehaviour
 
     public void ForceCompleteQuest(Quest q)
     {
-        for(int i = 0; i < activeQuests.Count; i++)
+        int questFoundID = FindSameQuest(q);
+        if(questFoundID > -1)
+        {
+            activeQuests[questFoundID].progress = activeQuests[questFoundID].maxProgress;
+            activeQuests[questFoundID].alreadyCompleted = true;
+            print("Quest was successfully completed");
+        }
+        else print("Quest Not Found");
+
+        /*for(int i = 0; i < activeQuests.Count; i++)
         {
             if(activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))
             {
@@ -41,12 +50,19 @@ public class QuestManager : MonoBehaviour
                 print("Quest was successfully completed");
                 return;
             }
-        }
+        }*/
     }
 
     public void ForceRemoveQuest(Quest q)
     {
-        for(int i = 0; i < activeQuests.Count; i++)
+        int questFoundID = FindSameQuest(q);
+        if(questFoundID > -1)
+        {
+            activeQuests.Remove(activeQuests[questFoundID]);
+            print("Quest was successfully removed");
+        }
+        else print("Quest Not Found");
+        /*for(int i = 0; i < activeQuests.Count; i++)
         {
             if(activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))
             {
@@ -54,7 +70,7 @@ public class QuestManager : MonoBehaviour
                 print("Quest was successfully removed");
                 return;
             }
-        }
+        }*/
     }
 
     public bool CheckForQuest(Quest q) //Finds if the current quest is already in the active quests list
@@ -65,25 +81,54 @@ public class QuestManager : MonoBehaviour
             HuntQuest hQ = activeQuests[i] as HuntQuest;
             GrowQuest gQ = activeQuests[i] as GrowQuest;
 
-            if(fQ != null && (q as FetchQuest) != null && fQ.desiredItem != (q as FetchQuest).desiredItem)
+            if(fQ != null && (q as FetchQuest) != null && fQ.desiredItem == (q as FetchQuest).desiredItem)
             {
                 return true;
             }
-            else if(hQ != null && (q as HuntQuest) != null && hQ.targetCreature != (q as HuntQuest).targetCreature)
+            else if(hQ != null && (q as HuntQuest) != null && hQ.targetCreature == (q as HuntQuest).targetCreature)
             {
                 return true;
             }
-            else if(gQ != null && (q as GrowQuest) != null && gQ.desiredCrop != (q as GrowQuest).desiredCrop)
+            else if(gQ != null && (q as GrowQuest) != null && gQ.desiredCrop == (q as GrowQuest).desiredCrop)
             {
                 return true;
             }
 
-            if(q.isMajorQuest && activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))
+            if(q.isMajorQuest && (activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))) //If not major quest, then dont check ID's
             {
                 return true;
             }
         }
         return false;
+    }
+
+    public int FindSameQuest(Quest q) //Finds if the current quest is already in the active quests list and returns the index
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            FetchQuest fQ = activeQuests[i] as FetchQuest;
+            HuntQuest hQ = activeQuests[i] as HuntQuest;
+            GrowQuest gQ = activeQuests[i] as GrowQuest;
+
+            if(fQ != null && (q as FetchQuest) != null && fQ.desiredItem == (q as FetchQuest).desiredItem)
+            {
+                return i;
+            }
+            else if(hQ != null && (q as HuntQuest) != null && hQ.targetCreature == (q as HuntQuest).targetCreature)
+            {
+                return i;
+            }
+            else if(gQ != null && (q as GrowQuest) != null && gQ.desiredCrop == (q as GrowQuest).desiredCrop)
+            {
+                return i;
+            }
+
+            if(q.isMajorQuest && (activeQuests[i].name == q.name || (activeQuests[i].questID == q.questID && activeQuests[i].questID != -1))) //If not major quest, then dont check ID's
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     //This is probably bad practice, and should be changed into using Unity Events instead

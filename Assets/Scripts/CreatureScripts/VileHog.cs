@@ -383,8 +383,15 @@ public class VileHog : CreatureBehaviorScript
         if (Vector3.Distance(transform.position, target.position) < 2f)
         {
             agent.ResetPath();
-            coroutineRunning = true;
-            StartCoroutine(DigUpCrop());
+            if(foundFarmTile && foundFarmTile.crop && foundFarmTile.harvestable)
+            {
+                currentState = CreatureState.Wander;
+            }
+            else
+            {
+                coroutineRunning = true;
+                StartCoroutine(DigUpCrop());
+            }
         }
         /*else if(agent.destination != target.position)
         {
@@ -604,9 +611,9 @@ public class VileHog : CreatureBehaviorScript
         if(other.gameObject.layer == 9)
         {
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if (creature != null && creature.shovelVulnerable && creature.creatureData != creatureData && variant != Variant.Tiny)
+            if (creature != null && creature.shovelVulnerable && (creature.creatureData != creatureData || creature.health <= 0) && variant != Variant.Tiny)
             {
-                creature.TakeDamage(10);
+                creature.TakeDamage(30);
                 creature.PlayHitParticle(new Vector3(0,0,0));
             }
         }

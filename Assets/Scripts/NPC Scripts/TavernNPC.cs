@@ -134,14 +134,18 @@ public class TavernNPC : NPC, ITalkable
     {
         // GENERATE RANDOM ONES SOON
         Quest newQuest = null;
-        while(newQuest == null)
+        int attempts = 0;
+        while(newQuest == null && attempts < 20)
         {
             int x = Random.Range(0, possibleQuests.Count);
             if(!QuestManager.Instance.CheckForQuest(possibleQuests[x])) newQuest = possibleQuests[x];
+
+            attempts++;
         }
+        if(attempts == 20) return;
         
 
-        QuestManager.Instance.AddQuest(possibleQuests[Random.Range(0, possibleQuests.Count)]);
+        QuestManager.Instance.AddQuest(newQuest);
         int questNum = QuestManager.Instance.activeQuests.Count - 1;//To grab the newly added quest
 
         FetchQuest f = QuestManager.Instance.activeQuests[questNum] as FetchQuest;
