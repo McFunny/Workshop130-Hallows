@@ -82,15 +82,21 @@ public class CatacombDoor : MonoBehaviour, IInteractable
         FadeScreen.coverScreen = true;
         AmbientAudioManager.Instance.ChangeMusic();
         yield return new WaitForSeconds(3);
+        Rigidbody rb = PlayerInteraction.Instance.GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
         if(goingToCrypt)
         {
             TownGate.Instance.Transition(PlayerLocation.InCrypt);
             yield return new WaitForSeconds(0.1f);
+            print("Went to crypt");
             PlayerInteraction.Instance.transform.position = interior.position;
+            Physics.SyncTransforms();
         }
         else
         {
             PlayerInteraction.Instance.transform.position = exterior.position;
+            Physics.SyncTransforms();
+            print("Went to town");
             TownGate.Instance.Transition(PlayerLocation.InTown);
         }
         TimeManager.Instance.ToggleSkyLights();
