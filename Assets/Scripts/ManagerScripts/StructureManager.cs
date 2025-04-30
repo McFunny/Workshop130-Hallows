@@ -494,6 +494,41 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void NutrientRefill(Vector3 pos, float radius, float i, float t, float g)
+    {
+        foreach (var gridPosition in farmTileMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = farmTileMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= radius && farmTileMap.GetTile(gridPosition) != null)
+            {
+                for(int x = 0; x < allFarmTiles.Count; x++)
+                {
+                    if(allFarmTiles[x] == gridPosition)
+                    {
+                        if(storage[x] == null) storage[x] = new NutrientStorage();
+
+                        storage[x].ichorLevel += i;
+                        if(storage[x].ichorLevel > 10) storage[x].ichorLevel = 10;
+
+                        storage[x].terraLevel += t;
+                        if(storage[x].terraLevel > 10) storage[x].terraLevel = 10;
+
+                        storage[x].gloamLevel += g;
+                        if(storage[x].gloamLevel > 10) storage[x].gloamLevel = 10;
+
+                        StructureBehaviorScript structure = GrabStructureOnTile(tilePosition);
+                        if(structure)
+                        {
+                            FarmLand farmPlot = structure as FarmLand;
+                            if(farmPlot) farmPlot.RefreshNutrients();
+                        }
+                    } 
+                }
+            }
+            
+        }
+    }
+
     public List<Vector3> WaterGunTargets(Vector3 pos, Direction dir, int range)
     {
         Tilemap currentMap = CurrentTileMap(pos);

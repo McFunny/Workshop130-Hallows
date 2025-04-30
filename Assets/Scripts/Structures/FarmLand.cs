@@ -118,21 +118,24 @@ public class FarmLand : StructureBehaviorScript
     {
         if(item == terraFert && nutrients.terraLevel < 10)
         {
-            nutrients.terraLevel = 10;
+            //nutrients.terraLevel = 10;
+            StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 10, 0);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
             return;
         }
         if(item == gloamFert && nutrients.gloamLevel < 10)
         {
-            nutrients.gloamLevel = 10;
+            //nutrients.gloamLevel = 10;
+            StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 0, 10);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
             return;
         }
         if(item == ichorFert && nutrients.ichorLevel < 10)
         {
-            nutrients.ichorLevel = 10;
+            //nutrients.ichorLevel = 10;
+            StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 10, 0, 0);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
             return;
@@ -693,6 +696,7 @@ public class FarmLand : StructureBehaviorScript
     public void RefreshNutrients()
     {
         nutrients = StructureManager.Instance.FetchNutrient(transform.position);
+        SpriteChange();
     }
 
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it
