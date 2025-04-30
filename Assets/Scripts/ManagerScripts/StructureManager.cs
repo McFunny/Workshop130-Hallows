@@ -8,7 +8,7 @@ public class StructureManager : MonoBehaviour
 {
     public static StructureManager Instance;
     [Header("Tiles")]
-    public Tilemap farmTileMap, cabinTileMap, townTileMap;
+    public Tilemap farmTileMap, cabinTileMap, cabinDecorTileMap, townTileMap, barnTileMap, barnDecorTileMap;
     public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them 
     //Would also then need an occupied border tile
 
@@ -933,6 +933,7 @@ public enum GridType
     Any,
     Farm,
     Cabin,
-    Town,
-    Barn
+    Town, //Will most likely go unused and count as farm
+    Barn,
+    Decor
 }

@@ -422,6 +422,8 @@ public class NightSpawningManager : MonoBehaviour
 
     int CalculateMaxCreatures()
     {
+        if(finaleActivated) return 8;
+
         if(highestDifficultyPoints > 350) return 16;
         else if(highestDifficultyPoints > 250) return 12;
         else if(highestDifficultyPoints > 150) return 8;
