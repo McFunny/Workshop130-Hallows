@@ -126,18 +126,27 @@ public class WildernessManager : MonoBehaviour
     IEnumerator CreatureSpawn()
     {
         //If the cap is reached (or randomly), pick a random monster that is far from the player and teleport them elsewhere
+        bool skipTimer = false;
+        float t = 0;
         while(currentMap)
         {
-            print("Ran");
-            float t = Random.Range(5, 20);
+            //print("Ran");
+            if(skipTimer) t = 1f;
+            else t = Random.Range(5, 20);
             yield return new WaitForSeconds(t);
             if(allCreatures.Count < maxCreatures && currentMap && !DialogueController.Instance.IsTalking())
             {
-                print("Spawned");
+                //print("Spawned");
                 int r = Random.Range(0, creatures.Length);
                 CreatureObject newCreature = creatures[r];
-                SpawnCreature(newCreature);
-                if(allCreatures.Count < maxCreatures/2 && Random.Range(0,100) > 30) SpawnCreature(newCreature);
+                if(newCreature.spawnChance_w > Random.Range(0,100))
+                {
+                    SpawnCreature(newCreature);
+                    if(allCreatures.Count < maxCreatures/2 && Random.Range(0,100) > 30) SpawnCreature(newCreature);
+
+                    skipTimer = false;
+                }
+                else skipTimer = true;
             }
         }
     }

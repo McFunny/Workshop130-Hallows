@@ -29,6 +29,10 @@ public class CreatureObject : ScriptableObject
 
     public SpawnType spawnType;
 
+    //////For Wilderness Spawning/////
+    /// 
+    public float spawnChance_w = 100;
+
     public Creature data = new Creature();
 
     public Creature CreateCreature()

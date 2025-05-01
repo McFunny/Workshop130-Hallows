@@ -20,7 +20,6 @@ public class PiggyBank : FurnitureBehaviorScript
 
     void Start()
     {
-        moneyText.text = heldMints + "/" + maxMints + "<sprite index=0>";
         OnDamage += Break;
         base.Start();
         FurnitureStart();
@@ -29,6 +28,7 @@ public class PiggyBank : FurnitureBehaviorScript
         {
             heldMints = Random.Range(0, highestRandomMintValue);
         }
+        moneyText.text = heldMints + "/" + maxMints + "<sprite index=0>";
     }
 
     public override void StructureInteraction()
