@@ -151,8 +151,8 @@ public class StructureSaveData : MonoBehaviour
 [System.Serializable]
 public class StructureInventory
 {
-    public Structure[] Structures = new Structure[800];
-    public NutrientStorage[] Nutrients = new NutrientStorage[800];
+    public Structure[] Structures = new Structure[1900];
+    public NutrientStorage[] Nutrients = new NutrientStorage[1200];
     public void Clear()
     {
         for(int i = 0; i < Structures.Length; i++)

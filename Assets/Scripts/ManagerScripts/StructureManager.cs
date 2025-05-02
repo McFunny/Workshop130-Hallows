@@ -44,8 +44,8 @@ public class StructureManager : MonoBehaviour
         //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
         if(!MainMenuScript.loadingData)
         {
-            PopulateTrees(15, 20);
-            PopulateWeeds(10, 20); //Only do this when a new game has started.
+            PopulateTrees(18, 27);
+            PopulateWeeds(15, 25); //Only do this when a new game has started.
         }
         TimeManager.OnHourlyUpdate += HourUpdate;
     }

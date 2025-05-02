@@ -82,8 +82,8 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
                 }
             }
 
-            if(cycles < 8) cycles++;
-            if(cycles == 7)
+            if(cycles < 5) cycles++;
+            if(cycles == 4)
             {
                 producedNectar = true;
                 if(ignited) meshRenderer.material = ignitedHoneyMat;
@@ -157,10 +157,10 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
         {
             FlyDeathSpawn();
         } 
-        if(!producedNectar) return;
+        if(!producedNectar || health > 0) return;
         GameObject droppedItem;
         Rigidbody itemRB;
-        r = Random.Range(1,5);
+        r = Random.Range(4,7);
         for(int i = 0; i < r; i++)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(nectar);
