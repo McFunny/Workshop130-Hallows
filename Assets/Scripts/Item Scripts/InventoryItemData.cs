@@ -37,4 +37,14 @@ public class InventoryItemData : ScriptableObject
     }
 
     //public virtual void PrimaryUse(){}
+
+    [ContextMenu("CalculatePickledValues")]
+    public void CalculatePickledValues()
+    {
+        if(pickledForm)
+        {
+            pickledForm.value = value * 2f;
+            pickledForm.staminaValue = staminaValue * 1.25f;
+        }
+    }
 }
