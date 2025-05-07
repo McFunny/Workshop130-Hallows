@@ -23,6 +23,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public float wealthValue = 0; //dictates how hard a night could be 
 
+    public float salvageChance = 0; //number out of 100 that dictates if it collapses into a pile or not
+
     [Tooltip("Can this structure be destroyed by lowering its health?")]
     public bool destructable = true;
     
@@ -47,7 +49,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public GameObject damageParticlesObject;
     List<ParticleSystem> damageParticles = new List<ParticleSystem>();
-    public DestructionType destructionType;
+    //public DestructionType destructionType;
     public GameObject gibs;
 
     public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
@@ -191,7 +193,7 @@ public class StructureBehaviorScript : MonoBehaviour
         
         if(health <= 0)
         {
-            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(destructionType);
+            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
             if(p)
             {
                 if(particleCenter) p.transform.position = particleCenter.position;
@@ -202,6 +204,15 @@ public class StructureBehaviorScript : MonoBehaviour
             {
                 if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
                 else Instantiate(gibs, transform.position, Quaternion.identity);
+            }
+
+            //logic for spawning the salvagable pile//
+            if(structData && !absentFromGrid && salvageChance >= Random.Range(0,100))
+            {
+                //Spawn the pile
+                DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();
+                newPile.repairedStruct = structData;
+                newPile.transform.rotation = transform.rotation;
             }
         }
 

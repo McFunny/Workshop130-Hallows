@@ -338,13 +338,13 @@ public class StructureManager : MonoBehaviour
     public void SpawnStructure(GameObject obj, Vector3 pos)
     {
         Instantiate(obj, pos, Quaternion.identity);
-        SetTile(pos);
+        //SetTile(pos);
     }
 
     public GameObject SpawnStructureWithInstance(GameObject obj, Vector3 pos)
     {
         GameObject instance = Instantiate(obj, pos, Quaternion.identity);
-        SetTile(pos);
+        //SetTile(pos);
         return instance;
     }
 
@@ -365,10 +365,10 @@ public class StructureManager : MonoBehaviour
             if(currentTile == null || currentTile != freeTile) return false;
         }
 
-        foreach(Vector3Int _pos in selectedTiles)
+        /*foreach(Vector3Int _pos in selectedTiles)
         {
             currentMap.SetTile(_pos, occupiedTile);
-        }
+        }*/
 
         Vector3 start = currentMap.GetCellCenterWorld(gridPos);
         Vector3 otherEnd = currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x + 1, gridPos.y - 1));

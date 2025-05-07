@@ -420,10 +420,10 @@ public class ParticlePoolManager : MonoBehaviour
         return newParticle;
     }
 
-    public GameObject GrabDestructionParticle(DestructionType type)
+    public GameObject GrabDestructionParticle(StructureType type)
     {
-        if(type == DestructionType.Null) return null;
-        if(type == DestructionType.Wood)
+        if(type == StructureType.Null) return null;
+        if(type == StructureType.Wood)
         {
             foreach (GameObject particle in woodPool)
             {
@@ -439,7 +439,7 @@ public class ParticlePoolManager : MonoBehaviour
             woodPool.Add(newParticle);
             return newParticle;
         }
-        else if(type == DestructionType.Metal)
+        else if(type == StructureType.Metal)
         {
             foreach (GameObject particle in metalPool)
             {
@@ -455,7 +455,7 @@ public class ParticlePoolManager : MonoBehaviour
             metalPool.Add(newParticle);
             return newParticle;
         }
-        else if(type == DestructionType.Gloom)
+        else if(type == StructureType.Hay)
         {
             foreach (GameObject particle in gloomPool)
             {
@@ -511,10 +511,10 @@ public enum CorpseParticleType
     Null
 }
 
-public enum DestructionType
+public enum StructureType
 {
     Null,
     Wood,
     Metal,
-    Gloom
+    Hay
 }

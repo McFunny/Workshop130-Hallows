@@ -17,9 +17,13 @@ public class StructureObject : ScriptableObject
 
     [HideInInspector] public Structure data = new Structure();
 
-    //public bool isLarge = false; //Occupy one or 4 tiles?
-
     public GridSize gridSize;
+
+    public StructureType structureType;
+
+    //Repair Values//
+    public int mintRepairCost;
+    public List<ItemWithAmount> repairItems = new List<ItemWithAmount>(); //Will hold things like wood cost to repair and the like
 
 
     public Structure CreateStructure()
