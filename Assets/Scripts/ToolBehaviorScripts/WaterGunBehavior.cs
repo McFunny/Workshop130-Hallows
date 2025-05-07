@@ -102,7 +102,8 @@ public class WaterGunBehavior : ToolBehavior
                     PlayerInteraction.Instance.StaminaChange(-2);
                     usingSecondary = true;
                     toolAnim.Play("Reload");
-                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    interactable.ReturnFocalPoint(out Transform focalPoint);
+                    PlayerCam.Instance.NewObjectOfInterest(focalPoint.position);
                     return;
                 }
 

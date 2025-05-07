@@ -24,6 +24,8 @@ public class TutorialNPC : NPC, ITalkable
             CabinFog f = FindObjectOfType<CabinFog>();
             if(f) Destroy(f.gameObject);
             AmbientAudioManager.Instance.playMusicAtStart = false;
+
+            PlayerInteraction.Instance.waterHeld = 0;
         }
     }
 

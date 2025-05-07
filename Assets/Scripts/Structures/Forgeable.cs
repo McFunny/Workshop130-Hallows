@@ -15,6 +15,8 @@ public class Forgeable : StructureBehaviorScript
     bool isDigging = false;
     bool usingShovel = false;
 
+    public AudioClip dugUpSound;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -45,6 +47,7 @@ public class Forgeable : StructureBehaviorScript
             droppedItem.transform.position = transform.position;
 
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+            AudioPoolManager.Instance.PlayClipAtPosition(dugUpSound, transform.position);
 
             gameObject.SetActive(false);
         }

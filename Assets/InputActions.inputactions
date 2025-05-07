@@ -202,6 +202,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "BeginHoldInteraction",
+                    "type": "Button",
+                    "id": "c70e5484-daec-4dc1-9edd-04d7fe8951af",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -917,6 +926,39 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "DropHeldItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "730ab34e-a3b8-4c58-923c-bd1fd469d454",
+                    "path": "<Keyboard>/#(F)",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "BeginHoldInteraction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "517b8255-d7c4-4508-8874-d529b37d9955",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "BeginHoldInteraction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03d23c3c-f608-41f3-bd11-31147ad5fb77",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "BeginHoldInteraction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

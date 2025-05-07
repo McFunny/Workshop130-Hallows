@@ -74,6 +74,11 @@ public class SlotMachine : MonoBehaviour,IInteractable
         }
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
     // Update is called once per frame
     void Update()
     {

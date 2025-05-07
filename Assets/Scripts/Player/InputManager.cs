@@ -20,6 +20,9 @@ public class InputManager : MonoBehaviour
     public static bool isCharging = false;
     bool chargeButtonHeld = false;
 
+    public static bool isHoldingInteract = false;
+    bool interactButtonHeld = false;
+
     public InventoryItemData waterGun;
 
     void Awake()
@@ -43,7 +46,9 @@ public class InputManager : MonoBehaviour
         controlManager.pauseGame.action.started += PauseGame;
         //controlManager.waterGunCharge.action.performed += BeginCharge;
         controlManager.waterGunCharge.action.started += BeginCharge;
-        controlManager.waterGunCharge.action.canceled += BeginCharge;
+        controlManager.waterGunCharge.action.canceled += BeginCharge; 
+        controlManager.holdInteraction.action.started += BeginHoldInteraction;
+        controlManager.holdInteraction.action.canceled += BeginHoldInteraction;
     }
     private void OnDisable()
     {
@@ -54,6 +59,8 @@ public class InputManager : MonoBehaviour
         //controlManager.waterGunCharge.action.performed -= BeginCharge;
         controlManager.waterGunCharge.action.started -= BeginCharge;
         controlManager.waterGunCharge.action.canceled -= BeginCharge;
+        controlManager.holdInteraction.action.started -= BeginHoldInteraction;
+        controlManager.holdInteraction.action.canceled -= BeginHoldInteraction;
     }
 
     void Update()
@@ -108,6 +115,9 @@ public class InputManager : MonoBehaviour
                 isCharging = false;
                 chargeButtonHeld = false;
                 pauseScript.PauseGame();
+
+                isHoldingInteract = false;
+                interactButtonHeld = false;
             }          
         } 
     }
@@ -156,6 +166,22 @@ public class InputManager : MonoBehaviour
             //return;
         }
         else isCharging = !isCharging;
+        //print("Is the gun charging? " + isCharging);
+    }
+
+    private void BeginHoldInteraction(InputAction.CallbackContext obj)
+    {
+        if(PauseScript.isPaused) return;
+
+        interactButtonHeld = !interactButtonHeld;
+        //print("Is button held? " + interactButtonHeld);
+
+        if(interactButtonHeld == false || PlayerMovement.restrictMovementTokens > 0)
+        {
+            isHoldingInteract = false;
+            //return;
+        }
+        else isHoldingInteract = !isHoldingInteract;
         //print("Is the gun charging? " + isCharging);
     }
 }

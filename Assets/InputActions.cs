@@ -224,6 +224,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BeginHoldInteraction"",
+                    ""type"": ""Button"",
+                    ""id"": ""c70e5484-daec-4dc1-9edd-04d7fe8951af"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -939,6 +948,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""DropHeldItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""730ab34e-a3b8-4c58-923c-bd1fd469d454"",
+                    ""path"": ""<Keyboard>/#(F)"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""BeginHoldInteraction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""517b8255-d7c4-4508-8874-d529b37d9955"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""BeginHoldInteraction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""03d23c3c-f608-41f3-bd11-31147ad5fb77"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""BeginHoldInteraction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1945,6 +1987,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_HideUI = m_Gameplay.FindAction("HideUI", throwIfNotFound: true);
         m_Gameplay_BeginCharge = m_Gameplay.FindAction("BeginCharge", throwIfNotFound: true);
         m_Gameplay_DropHeldItem = m_Gameplay.FindAction("DropHeldItem", throwIfNotFound: true);
+        m_Gameplay_BeginHoldInteraction = m_Gameplay.FindAction("BeginHoldInteraction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -2051,6 +2094,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_HideUI;
     private readonly InputAction m_Gameplay_BeginCharge;
     private readonly InputAction m_Gameplay_DropHeldItem;
+    private readonly InputAction m_Gameplay_BeginHoldInteraction;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -2077,6 +2121,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @HideUI => m_Wrapper.m_Gameplay_HideUI;
         public InputAction @BeginCharge => m_Wrapper.m_Gameplay_BeginCharge;
         public InputAction @DropHeldItem => m_Wrapper.m_Gameplay_DropHeldItem;
+        public InputAction @BeginHoldInteraction => m_Wrapper.m_Gameplay_BeginHoldInteraction;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2152,6 +2197,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DropHeldItem.started += instance.OnDropHeldItem;
             @DropHeldItem.performed += instance.OnDropHeldItem;
             @DropHeldItem.canceled += instance.OnDropHeldItem;
+            @BeginHoldInteraction.started += instance.OnBeginHoldInteraction;
+            @BeginHoldInteraction.performed += instance.OnBeginHoldInteraction;
+            @BeginHoldInteraction.canceled += instance.OnBeginHoldInteraction;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -2222,6 +2270,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DropHeldItem.started -= instance.OnDropHeldItem;
             @DropHeldItem.performed -= instance.OnDropHeldItem;
             @DropHeldItem.canceled -= instance.OnDropHeldItem;
+            @BeginHoldInteraction.started -= instance.OnBeginHoldInteraction;
+            @BeginHoldInteraction.performed -= instance.OnBeginHoldInteraction;
+            @BeginHoldInteraction.canceled -= instance.OnBeginHoldInteraction;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -2509,6 +2560,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnHideUI(InputAction.CallbackContext context);
         void OnBeginCharge(InputAction.CallbackContext context);
         void OnDropHeldItem(InputAction.CallbackContext context);
+        void OnBeginHoldInteraction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

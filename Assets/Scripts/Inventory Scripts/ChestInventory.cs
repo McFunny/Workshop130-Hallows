@@ -42,6 +42,11 @@ public class ChestInventory : InventoryHolder , IInteractable
         }
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
 
     private void LoadInventory(SaveData data)
     {

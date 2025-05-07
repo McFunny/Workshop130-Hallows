@@ -165,6 +165,11 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
         return false;
     }
+
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = eyeLine;
+    }
 }
 
 public enum Character

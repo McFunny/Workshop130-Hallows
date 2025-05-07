@@ -64,6 +64,11 @@ public class LogBarricade : MonoBehaviour, IInteractable
        
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
     public void ToggleHighlight(bool enable)
     {
         if(highlight.Count == 0) return;

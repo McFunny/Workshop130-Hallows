@@ -46,6 +46,11 @@ public class CropTester : MonoBehaviour, IInteractable
     {
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         interactSuccessful = false;

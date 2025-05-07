@@ -46,6 +46,11 @@ public class CabinBed : MonoBehaviour, IInteractable
        
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
     bool SleepCheck()
     {
         if(TimeManager.Instance.stopTime || TimeManager.Instance.currentHour < 8 || TimeManager.Instance.currentHour >= 19) return false;

@@ -54,6 +54,11 @@ public class NutMachine : MonoBehaviour, IInteractable
        
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
     public void Start()
     {
         lNutRot = lNut.transform.rotation;

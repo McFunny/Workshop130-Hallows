@@ -16,4 +16,9 @@ public interface IInteractable
     public void EndInteraction();
 
     public void ToggleHighlight(bool enabled);
+
+    public void ReturnFocalPoint(out Transform point);
+
+    //Transform MyTransform { get; }
+
 }

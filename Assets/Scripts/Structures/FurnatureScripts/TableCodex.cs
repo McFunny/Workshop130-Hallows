@@ -44,6 +44,11 @@ public class TableCodex : MonoBehaviour, IInteractable
        
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
 
     //Ignore everything beneath this Alex
     public void ToggleHighlight(bool enable)

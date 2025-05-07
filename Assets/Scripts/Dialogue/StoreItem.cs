@@ -55,6 +55,11 @@ public class StoreItem : MonoBehaviour, IInteractable
         throw new System.NotImplementedException();
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
     public void RefreshItem(InventoryItemData newItem, int _cost)
     {
         r.sprite = newItem.icon;

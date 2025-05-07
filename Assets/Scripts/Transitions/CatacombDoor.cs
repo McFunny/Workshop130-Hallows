@@ -76,6 +76,11 @@ public class CatacombDoor : MonoBehaviour, IInteractable
        
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
     IEnumerator Transition(bool goingToCrypt)
     {
         PlayerMovement.restrictMovementTokens++;

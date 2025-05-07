@@ -18,7 +18,7 @@ public class GrindStone : MonoBehaviour, IInteractable
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         interactSuccessful = true;
-        if (!isCoroutineRunning) { StartCoroutine(spinGrindstone()); }
+        if (!isCoroutineRunning) { StartCoroutine(SpinGrindstone()); }
     }
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
@@ -37,12 +37,17 @@ public class GrindStone : MonoBehaviour, IInteractable
         animator = GetComponent<Animator>();
     }
 
-  IEnumerator spinGrindstone()
+    IEnumerator SpinGrindstone()
     {
         isCoroutineRunning = true;
         animator.SetTrigger("Spin");
         yield return new WaitForSeconds(1);
         isCoroutineRunning = false;
 
+    }
+
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
     }
 }

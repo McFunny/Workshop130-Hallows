@@ -74,7 +74,8 @@ public class WaterCanBehavior : ToolBehavior
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.0f * 1.25f));
                     }
-                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    interactable.ReturnFocalPoint(out Transform focalPoint);
+                    PlayerCam.Instance.NewObjectOfInterest(focalPoint.position);
                     return;
                 }
 
@@ -180,7 +181,8 @@ public class WaterCanBehavior : ToolBehavior
                         toolAnim.SetFloat("AnimSpeed", 0.75f);
                         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * 1.25f, 1.0f * 1.25f));
                     }
-                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    interactable.ReturnFocalPoint(out Transform focalPoint);
+                    PlayerCam.Instance.NewObjectOfInterest(focalPoint.position);
                     return;
                 }
 
