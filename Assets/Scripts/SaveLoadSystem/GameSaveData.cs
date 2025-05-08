@@ -94,6 +94,7 @@ public class GameSaveData : MonoBehaviour
         TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
         TimeManager.Instance.currentHour = data.allGameSaveData.hourSaved;
         if(data.allGameSaveData.hourSaved == 0) TimeManager.Instance.currentHour = 8;
+        TimeManager.Instance.RefreshSkybox();
 
         //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
         QuestManager.Instance.LoadData(data.allGameSaveData);

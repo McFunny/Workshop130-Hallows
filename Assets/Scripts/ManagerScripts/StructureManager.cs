@@ -44,8 +44,7 @@ public class StructureManager : MonoBehaviour
         //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
         if(!MainMenuScript.loadingData)
         {
-            PopulateTrees(18, 27);
-            PopulateWeeds(15, 25); //Only do this when a new game has started.
+            StartCoroutine(SpawnStartingStructures()); //Only do this when a new game has started.
         }
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
@@ -639,6 +638,13 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    IEnumerator SpawnStartingStructures()
+    {
+        StartCoroutine(PopulateTrees(18, 27));
+        yield return new WaitForSeconds(0.5f);
+        PopulateWeeds(15, 25);
+    }
+
     void PopulateWeeds(int min, int max)
     {
         List<Vector3Int> spawnablePositions = new List<Vector3Int>();
@@ -666,7 +672,7 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    void PopulateTrees(int min, int max)
+    IEnumerator PopulateTrees(int min, int max)
     {
         List<Vector3Int> spawnablePositions = new List<Vector3Int>();
 
@@ -677,7 +683,7 @@ public class StructureManager : MonoBehaviour
         }
 
         int r = Random.Range(min,max + 1);
-        if (r <= 0) return;
+        if (r <= 0) yield break;
         float i = 0;
         while(i < r)
         {
@@ -690,6 +696,7 @@ public class StructureManager : MonoBehaviour
                 {
                     bool success = SpawnLargeStructure(farmTree, spawnPos, true);
                     i++;
+                    yield return new WaitForSeconds(0.01f);
                     //print(success);
                 }
                 else i += 0.25f;

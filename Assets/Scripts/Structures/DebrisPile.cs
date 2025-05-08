@@ -28,7 +28,8 @@ public class DebrisPile : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        RepairStructure();
+        //RepairStructure();
+        Destroy(gameObject);
     }
 
     public override void ToolInteraction(ToolType type, out bool success)

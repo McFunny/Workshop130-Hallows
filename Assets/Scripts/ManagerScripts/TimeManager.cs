@@ -216,6 +216,11 @@ public class TimeManager : MonoBehaviour
         changingLights = false;
     }
 
+    public void RefreshSkybox()
+    {
+        InitializeSkyBox();
+    }
+
     void InitializeSkyBox()
     { 
         ToggleDayNightLights(false);
@@ -294,7 +299,8 @@ public class TimeManager : MonoBehaviour
         {
             int targetHour = currentHour + 5;
             if(currentHour < 8) targetHour = 7;
-            if(targetHour > 19) targetHour = 19;
+            if(targetHour > 19) targetHour = 18;
+            else targetHour = 19;
             while(currentHour != targetHour)
             {
                 currentHour++;

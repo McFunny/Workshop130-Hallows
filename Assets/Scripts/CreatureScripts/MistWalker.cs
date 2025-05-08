@@ -654,14 +654,14 @@ public class MistWalker : CreatureBehaviorScript
         if (!coroutineRunning)
         {
             int r = Random.Range(0, 15);
-            if (r < 4)
+            if (r < 6)
             {
                 if (availableStructure.Count > 0)
                 {
                     currentState = CreatureState.WalkTowardsClosestStructure;
                 }
             }
-            else if (r < 8)
+            else if (r < 10)
             {
                 StartCoroutine(WaitAround());
             }

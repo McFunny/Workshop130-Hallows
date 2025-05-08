@@ -80,7 +80,7 @@ public class StructureSaveData : MonoBehaviour
         for(int n = 0; n < StructureManager.Instance.Storage.Count; n++)
         {
             structureList.Nutrients[n] = StructureManager.Instance.Storage[n];
-            if(structureList.Nutrients[n].waterLevel > 3) print("Water!!!");
+            //if(structureList.Nutrients[n].waterLevel > 3) print("Water!!!");
         }
 
         var structureData = new StructureInventory(structureList.Structures, structureList.Nutrients);
@@ -152,7 +152,7 @@ public class StructureSaveData : MonoBehaviour
 public class StructureInventory
 {
     public Structure[] Structures = new Structure[1900];
-    public NutrientStorage[] Nutrients = new NutrientStorage[1200];
+    public NutrientStorage[] Nutrients = new NutrientStorage[1900];
     public void Clear()
     {
         for(int i = 0; i < Structures.Length; i++)
@@ -177,8 +177,8 @@ public class StructureInventory
 
     public StructureInventory() //Just as a precaution, unsure if redundant
     {
-        Structures = new Structure[800];
-        Nutrients = new NutrientStorage[800];
+        Structures = new Structure[1900];
+        Nutrients = new NutrientStorage[1900];
     }
 }
 
