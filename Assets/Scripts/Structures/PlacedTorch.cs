@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlacedTorch : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     //public FireFearTrigger fireTrigger;
     public GameObject fire;
@@ -34,11 +33,11 @@ public class PlacedTorch : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
             HotbarDisplay display = FindObjectOfType<HotbarDisplay>();
-            int i = display.FindItemInHotbar(recoveredItem);
+            int i = display.FindItemInHotbar(itemForm);
             if(i != -1)
             {
                 display.SelectHotbarSlot(i);

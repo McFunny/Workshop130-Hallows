@@ -254,3 +254,9 @@ public class PlayerMovement : MonoBehaviour
         return rb.velocity;
     }
 }
+
+public class MovementSpeedModifiers
+{
+    public string source;
+    public float modifier = 1f;
+}

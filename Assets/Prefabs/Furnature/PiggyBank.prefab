@@ -188,9 +188,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 5db78b57086ebcd47bf6eb867cafdd9b, type: 2}
+  itemForm: {fileID: 11400000, guid: 34a49bec8bafae1498ea60b0c7779c96, type: 2}
   health: 5
   maxHealth: 5
   wealthValue: 0
+  salvageChance: 0
   destructable: 0
   flammable: 0
   onFire: 0
@@ -209,7 +211,6 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   damageParticlesObject: {fileID: 0}
-  destructionType: 0
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:
@@ -226,6 +227,7 @@ MonoBehaviour:
   mints: {fileID: 11400000, guid: 708696db43bc2ac41a0ea08fbfa5213d, type: 2}
   destructionParticles: {fileID: 5690029433705579275, guid: 238c9f6daa8c95a48b72e57d4c7ada42,
     type: 3}
+  highestRandomMintValue: 250
 --- !u!1 &2033724803370066614
 GameObject:
   m_ObjectHideFlags: 0

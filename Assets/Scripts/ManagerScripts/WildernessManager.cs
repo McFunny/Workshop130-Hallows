@@ -112,7 +112,7 @@ public class WildernessManager : MonoBehaviour
             return;
         }
 
-        if(!TimeManager.Instance.isDay && currentMap)
+        if(TimeManager.Instance.currentHour == 18 && currentMap)
         {
             //Play the force cutscene back to the town
             wagon.StartCoroutine(wagon.PlayerTooLate());

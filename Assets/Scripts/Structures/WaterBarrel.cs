@@ -5,7 +5,6 @@ using TMPro;
 
 public class WaterBarrel : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
     public int waterLevel = 0; //max is maxWaterLevel
     int maxWaterLevel = 10;
     int oldLevel;
@@ -63,7 +62,7 @@ public class WaterBarrel : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            StartCoroutine(DugUpForItem());
             success = true;
         }
         if((type == ToolType.WateringCan || type == ToolType.WaterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
@@ -118,14 +117,6 @@ public class WaterBarrel : StructureBehaviorScript
             waterLevel++;
             WaterLevelChange();
         }
-    }
-
-    IEnumerator DugUp()
-    {
-        yield return  new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-        Destroy(this.gameObject);
     }
 
     public void WaterLevelChange()

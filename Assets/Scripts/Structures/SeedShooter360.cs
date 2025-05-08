@@ -7,8 +7,6 @@ public class SeedShooter360 : StructureBehaviorScript
 {
     public bool townOwned = false;
 
-    public InventoryItemData recoveredItem;
-
     public Transform turretHead, bulletOrigin, seedSocket;
 
     public TextMeshProUGUI ammoText;
@@ -235,18 +233,9 @@ public class SeedShooter360 : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            StartCoroutine(DugUpForItem());
             success = true;
         }
-    }
-
-    IEnumerator DugUp()
-    {
-        yield return new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-
-        Destroy(this.gameObject);
     }
 
     void OnDestroy()

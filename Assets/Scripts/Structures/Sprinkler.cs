@@ -5,7 +5,6 @@ using TMPro;
 
 public class Sprinkler : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
     public int waterLevel = 0; //max is 3
     public GameObject water;
     public Transform head;
@@ -62,7 +61,7 @@ public class Sprinkler : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            StartCoroutine(DugUpForItem());
             success = true;
         }
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 3 && waterLevel < 3)
@@ -125,14 +124,6 @@ public class Sprinkler : StructureBehaviorScript
         }
 
     }*/
-
-    IEnumerator DugUp()
-    {
-        yield return  new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-        Destroy(this.gameObject);
-    }
 
     IEnumerator SprinkleAnimation()
     {

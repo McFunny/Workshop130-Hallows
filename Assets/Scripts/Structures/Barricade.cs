@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Barricade : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem, gloomStalk;
+    public InventoryItemData gloomStalk;
 
     public MeshRenderer brokenBox;
 
@@ -46,20 +46,9 @@ public class Barricade : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !absentFromGrid)
         {
-            StartCoroutine(DugUp());
+            StartCoroutine(DugUpForItem());
             success = true;
         }
-    }
-
-    IEnumerator DugUp()
-    {
-        yield return  new WaitForSeconds(1);
-        if(health > (maxHealth/3) * 2)
-        {
-            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-            droppedItem.transform.position = transform.position;
-        }
-        Destroy(this.gameObject);
     }
 
     void UpdateModel()

@@ -3175,9 +3175,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: f0c55fbadaa76c149aaf7da112b0e082, type: 2}
+  itemForm: {fileID: 11400000, guid: dc8109989d2a4824b8b8204c711699b2, type: 2}
   health: 5
   maxHealth: 5
   wealthValue: 0
+  salvageChance: 0
   destructable: 0
   flammable: 0
   onFire: 0
@@ -3196,7 +3198,6 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   damageParticlesObject: {fileID: 0}
-  destructionType: 0
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:

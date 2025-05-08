@@ -104,7 +104,7 @@ public class PopupHandler : MonoBehaviour
     {
         if((TownGate.Instance.location == PlayerLocation.InTown || TownGate.Instance.location == PlayerLocation.InCrypt) && TimeManager.Instance.currentHour == 19) AddToQueue(nightWarningPopup);
 
-        if(TownGate.Instance.location == PlayerLocation.InWilderness && (TimeManager.Instance.currentHour == 18 || TimeManager.Instance.currentHour == 19)) AddToQueue(nightWildernessWarningPopup);
+        if(TownGate.Instance.location == PlayerLocation.InWilderness && (TimeManager.Instance.currentHour == 16 || TimeManager.Instance.currentHour == 17)) AddToQueue(nightWildernessWarningPopup);
     }
 
     public void NewsForNewDay()

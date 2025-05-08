@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FermentationVat : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     public Transform itemDropTransform;
 
@@ -93,7 +92,7 @@ public class FermentationVat : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            StartCoroutine(DugUpForItem());
             success = true;
         }
     }
@@ -110,15 +109,6 @@ public class FermentationVat : StructureBehaviorScript
             progress++;
         }
         ParticleToggle();
-    }
-
-    IEnumerator DugUp()
-    {
-        yield return new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-
-        Destroy(this.gameObject);
     }
 
     void ParticleToggle()

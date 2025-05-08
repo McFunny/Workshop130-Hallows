@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LandMine : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     public MeshRenderer light;
     //public Material yellow, red, purple, green, black;
@@ -142,7 +141,7 @@ public class LandMine : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !isPrimed && !isExploding)
         {
-            StartCoroutine(DugUp());
+            StartCoroutine(DugUpForItem());
             success = true;
         }
     }
@@ -224,15 +223,6 @@ public class LandMine : StructureBehaviorScript
             //code to check
 
         }
-    }
-
-    IEnumerator DugUp()
-    {
-        yield return new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-
-        Destroy(this.gameObject);
     }
 
     void LightColorChange()

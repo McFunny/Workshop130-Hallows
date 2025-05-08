@@ -16,7 +16,7 @@ public class GameSaveData : MonoBehaviour
 
     public float currentMoney, totalEarnedMoney; //is this used because I dont think so?
 
-    public int dayNum;
+    public int hourSaved = 8;
 
     //
 
@@ -92,6 +92,8 @@ public class GameSaveData : MonoBehaviour
         PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
         PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
         TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
+        TimeManager.Instance.currentHour = data.allGameSaveData.hourSaved;
+        if(data.allGameSaveData.hourSaved == 0) TimeManager.Instance.currentHour = 8;
 
         //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
         QuestManager.Instance.LoadData(data.allGameSaveData);
@@ -142,6 +144,7 @@ public class GameSaveData : MonoBehaviour
         public int pTotalMoneyEarned;
         public int pDaysSinceDeath;
         public int pDayNumber;
+        public int hourSaved;
 
         public Quest[] activeQuests;
         public FetchQuest[] activeFetchQuests;
@@ -185,6 +188,7 @@ public class GameSaveData : MonoBehaviour
         pCurrentMoney = PlayerInteraction.Instance.currentMoney;
         pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
         pDayNumber = TimeManager.Instance.dayNum;
+        hourSaved = TimeManager.Instance.currentHour;
         pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
 
         //activeQuests = QuestManager.Instance.activeQuests.ToArray();

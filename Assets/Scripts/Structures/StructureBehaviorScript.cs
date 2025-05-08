@@ -17,6 +17,7 @@ public class StructureBehaviorScript : MonoBehaviour
     [Header("Structure Stats")]
 
     public StructureObject structData;
+    public InventoryItemData itemForm;
 
     public float health = 5;
     public float maxHealth = 5;
@@ -316,6 +317,23 @@ public class StructureBehaviorScript : MonoBehaviour
             else TakeDamage(2);
             yield return new WaitForSeconds(2f);
         }
+    }
+
+    public IEnumerator DugUpForItem()
+    {
+        yield return  new WaitForSeconds(1);
+        if(itemForm)
+        {
+            if(Random.Range(0, maxHealth) <= health)
+            {
+                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemForm);
+                droppedItem.transform.position = transform.position;
+            }
+            else health = -5;
+
+            AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
+        }
+        Destroy(this.gameObject);
     }
 
     public virtual void SaveVariables()

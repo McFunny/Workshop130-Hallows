@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BearTrap : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
+    //public InventoryItemData recoveredItem;
     public Transform topClamp, bottomClamp;
     float animationTimeLeft;
     bool isTriggered, rearming, caughtSomething;
@@ -90,8 +90,11 @@ public class BearTrap : StructureBehaviorScript
         yield return  new WaitForSeconds(1);
         if(!caughtSomething)
         {
-            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-            droppedItem.transform.position = transform.position;
+            if(Random.Range(0, maxHealth) <= health) 
+            {
+                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemForm);
+                droppedItem.transform.position = transform.position;
+            }
             Destroy(this.gameObject);
         }
         

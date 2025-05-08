@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MistBreakerBox : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     public GameObject cropTile;
 
@@ -31,7 +30,7 @@ public class MistBreakerBox : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
             GameSaveData.Instance.playerHasBox = true;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CompostBin : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     //public InventoryItemData fertilizerT, fertilizerG, fertilizerI;
     //public InventoryItemData[] fertilizers;
@@ -166,7 +165,7 @@ public class CompostBin : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            StartCoroutine(DugUpForItem());
             success = true;
         }
     }
@@ -188,15 +187,6 @@ public class CompostBin : StructureBehaviorScript
                 anim.SetBool("Spinning", false);
             }
         }
-    }
-
-    IEnumerator DugUp()
-    {
-        yield return new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-
-        Destroy(this.gameObject);
     }
 
     void OnDestroy()

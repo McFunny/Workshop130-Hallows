@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DryingRack : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     public InventoryItemData meat, jerky;
 
@@ -94,7 +93,7 @@ public class DryingRack : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            StartCoroutine(DugUpForItem());
             success = true;
         }
     }
@@ -112,15 +111,6 @@ public class DryingRack : StructureBehaviorScript
             progress++;
         }
         SpriteChange();
-    }
-
-    IEnumerator DugUp()
-    {
-        yield return new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-
-        Destroy(this.gameObject);
     }
 
     void SpriteChange()

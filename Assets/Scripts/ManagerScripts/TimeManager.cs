@@ -37,6 +37,7 @@ public class TimeManager : MonoBehaviour
     public static event HourlyUpdate OnHourlyUpdate;
     public bool timeSkipping = false; //Use for game over and sleeping
     public bool stopTime = false;
+    bool ignoreQuickSave = true;
     //Maybe make an event for onSecond, or at least a stoptime bool
 
     public Material skyMat;
@@ -113,7 +114,7 @@ public class TimeManager : MonoBehaviour
                     HourPassed();
                 }
 
-                if(currentHour == 7 && currentMinute == 25) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
+                if((currentHour == 7 && currentMinute == 25) || (currentHour == 18 && currentMinute == 40)) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
             }
             else
             {
@@ -168,6 +169,7 @@ public class TimeManager : MonoBehaviour
                 break;
             case 19:
                 SetSkyBox(0.4f);
+                StartCoroutine(QuickSaveGame());
                 break;
             case 20:
                 SetSkyBox(0f);
@@ -181,6 +183,8 @@ public class TimeManager : MonoBehaviour
         {
             timeText.text = currentHour + ":00";
         }
+
+        ignoreQuickSave = false;
     }
 
     void SetSkyBox(float b)
@@ -357,8 +361,31 @@ public class TimeManager : MonoBehaviour
         WildernessManager.Instance.visitedWilderness = false;
     }
 
+    public void QuickSave()
+    {
+        StartCoroutine(QuickSaveGame());
+    }
+
+    IEnumerator QuickSaveGame() //Used on the 19th hour and sleeping. Unimplimented, still needs logic for loading the game at the right hour
+    {
+        if(ignoreQuickSave) yield break;
+
+        PlayerInteraction.Instance.rb.velocity = new Vector3(0,0,0);
+        PlayerMovement.restrictMovementTokens++;
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(0.1f);
+        if(!stopSaving) SaveGameManager.SaveData();
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
+        Time.timeScale = 1;
+
+        if(!stopSaving) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.gameSavePopup);
+    }
+
     public IEnumerator Sleep()
     {
+        ignoreQuickSave = false;
+
         StopAllCoroutines();
         timeSkipping = true;
         stopTime = true;
@@ -381,6 +408,7 @@ public class TimeManager : MonoBehaviour
                 OnHourlyUpdate?.Invoke();
             }
         }
+        StartCoroutine(QuickSaveGame());
 
         ToggleSkyLights();
         isDay = true;

@@ -9,6 +9,8 @@ public class AudioPoolManager : MonoBehaviour
     public List<GameObject> audioPool = new List<GameObject>();
     public GameObject audioPrefab;
 
+    public AudioClip digUpSound;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
