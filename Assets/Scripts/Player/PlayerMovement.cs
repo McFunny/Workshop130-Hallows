@@ -175,6 +175,13 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
 
+    public void ApplyForwardForceToPlayer(float force)
+    {
+        moveDirection = orientation.forward + orientation.right;
+
+        rb.AddForce(moveDirection.normalized * force, ForceMode.Force);
+    }
+
     private void HandleSprintCheck()
     {
         if (isSprinting && !isStalled)
