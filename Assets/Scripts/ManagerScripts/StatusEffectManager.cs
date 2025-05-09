@@ -6,7 +6,8 @@ public class StatusEffectManager : MonoBehaviour
 {
     public static StatusEffectManager Instance;
 
-    public List<AfflictedObjects> effectedThings = new List<AfflictedObjects>();
+    public List<CreatureBehaviorScript> effectedCreatures = new List<CreatureBehaviorScript>();
+    public bool isPlayerAfflicted = false;
 
     //Should probably handle this stuff using scriptable objects tbh
     //Also handle the pooling of effects objects (Fire particles, dare particles, ect)
@@ -23,77 +24,66 @@ public class StatusEffectManager : MonoBehaviour
             Instance = this;
         }
 
-        //StartCoroutine(OneSecondTimer());
     }
 
-    /*public void ApplyStatusToCreature(CreatureBehaviorScript c)
+    void Start()
     {
-        //
-    }
-
-    public void ApplyStatusToPlayer()
-    {
-        //
-    }
-
-    public void RemoveStatusFromCreature(CreatureBehaviorScript c)
-    {
-        //
-    }
-
-    public void RemoveStatusFromPlayer()
-    {
-        //
-    }
-
-    public bool CheckStatus(CreatureBehaviorScript c, StatusEffectName e)
-    {
-        //
-    }
-
-    public bool CheckStatus(StatusEffectName e)
-    {
-        //
+        StartCoroutine(OneSecondTimer());
     }
 
     IEnumerator OneSecondTimer()
     {
+        PlayerInteraction p = PlayerInteraction.Instance;
         while(true)
         {
             yield return new WaitForSeconds(1);
             //cycle through afflicted
-            for(int i = 0; i < effectedThings.Count; i++)
+
+            if(isPlayerAfflicted)
             {
-                if(effectedThings[i] == null || effectedThings[i].currentEffects.Count == 0)
+                for(int x = 0; x < p.currentEffects.Count; x++)
                 {
-                    effectedThings.RemoveAt(i);
+                    //do the effects referencing the scriptable object here
+                    if(p.currentEffects[x].remainingDuration > 0) p.currentEffects[x].remainingDuration -= 1;
+                    if(p.currentEffects[x].remainingDuration == 0)
+                    {
+                        p.currentEffects.RemoveAt(x);
+                        x--;
+                    }
+                }
+
+                if(p.currentEffects.Count == 0)
+                {
+                    isPlayerAfflicted = false;
+                }
+            }
+
+            /*for(int i = 0; i < effectedCreatures.Count; i++)
+            {
+                if(effectedCreatures[i] == null || effectedCreatures[i].currentEffects.Count == 0)
+                {
+                    effectedCreatures.RemoveAt(i);
                     i--;
                     continue;
                 }
 
-                //effectedThings
+                //effectedCreatures
                 //for loop for every status effect in the effect things object. Call the functions in the scriptable objects to do the effect, and remove it if duration is under 0
-            }
+            }*/
         }
-    }*/
+    }
 }
 
-public enum StatusEffectName
+/*public enum StatusEffectName
 {
     Fire, //DOT
     Frosted, //Slow movespeed, cannot use water
     Dare //1.25 speed increase, 1.5 oncoming damage
-}
+}*/
 
 public class StatusEffect
 {
-    public StatusEffectName effect;
-    public float remainingDuration;
-}
-
-public class AfflictedObjects
-{
-    public bool playerAfflicted; //Marked yes if afflicted thing is the player
-    public CreatureBehaviorScript creature; //Holds reference of afflicted creature
-    public List<StatusEffect> currentEffects = new List<StatusEffect>();
+    //public StatusEffectName effect;
+    public StatusEffectObject effect;
+    public int remainingDuration;
 }

@@ -24,15 +24,15 @@ public class ShovelBehavior : ToolBehavior
         if(PlayerInteraction.Instance.stamina > 50)
         {
             toolAnim.SetFloat("AnimSpeed", 1f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUseWithoutMovementReset(this, 0.45f, 0.95f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f, 0.9f));
         }
         else
         {
             toolAnim.SetFloat("AnimSpeed", 0.75f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUseWithoutMovementReset(this, 0.45f * 1.25f, 0.95f * 1.25f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * 1.25f, 0.95f * 1.2f));
         }
-        PlayerMovement.limitMaxVelocity = false;
-        PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(800, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
+        //PlayerMovement.limitMaxVelocity = false;
+        //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(40, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -100,7 +100,8 @@ public class ShovelBehavior : ToolBehavior
     {
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == null || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != thisItem) return;
         shovelAttack.StartCoroutine(shovelAttack.Swing());
-        PlayerMovement.limitMaxVelocity = true;
+        //PlayerMovement.limitMaxVelocity = true;
+        PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(200, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
     }
 
 

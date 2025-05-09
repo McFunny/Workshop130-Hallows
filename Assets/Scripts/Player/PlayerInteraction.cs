@@ -44,6 +44,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private float reach = 8;
 
+    public List<StatusEffect> currentEffects = new List<StatusEffect>();
+
    
 
     public LayerMask interactionLayers;
@@ -330,6 +332,11 @@ public class PlayerInteraction : MonoBehaviour
             PopupHandler.Instance.AddToQueue(lowStaminaWarning);
         }
         else if(stamina > 50) sentLowStaminaMessage = false;
+    }
+
+    public void ApplyStatusEffect(StatusEffectObject status, float duration)
+    {
+        //
     }
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
