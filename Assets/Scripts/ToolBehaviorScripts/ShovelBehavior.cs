@@ -24,12 +24,12 @@ public class ShovelBehavior : ToolBehavior
         if(PlayerInteraction.Instance.stamina > 50)
         {
             toolAnim.SetFloat("AnimSpeed", 1f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.45f, 0.95f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUseWithoutMovementReset(this, 0.45f, 0.95f));
         }
         else
         {
             toolAnim.SetFloat("AnimSpeed", 0.75f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.45f * 1.25f, 0.95f * 1.25f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUseWithoutMovementReset(this, 0.45f * 1.25f, 0.95f * 1.25f));
         }
     }
 

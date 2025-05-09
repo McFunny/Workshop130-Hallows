@@ -180,6 +180,7 @@ public class PlayerMovement : MonoBehaviour
     public void ApplyForceToPlayer(float force, Vector3 dir)
     {
         rb.velocity = Vector3.zero;
+        dir = new Vector3(dir.x, 0, dir.z);
         rb.AddForce(dir.normalized * force, ForceMode.Force);
     }
 
