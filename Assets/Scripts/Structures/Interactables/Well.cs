@@ -123,7 +123,7 @@ public class Well : MonoBehaviour, IInteractable
         bucket.position = Vector3.Lerp(bucketTop.position, bucketBottom.position, altitude/2);
         line.SetPosition(1, ropePos.position);
 
-        if(altitude <= 0 && phase == WellPhase.BucketAtBottom)
+        if (altitude <= 0 && phase == WellPhase.BucketAtBottom)
         {
             phase = WellPhase.BucketRisen;
             bucketFilled = true;
