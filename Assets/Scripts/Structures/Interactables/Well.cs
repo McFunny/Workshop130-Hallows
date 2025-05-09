@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Well : MonoBehaviour, IInteractable
 {
     public InventoryItemData waterCan, waterGun;
-    public Transform bucket, bucketTop, bucketBottom, ropePos, _focalPoint;
+    public Transform bucket, bucketTop, ropePos, _focalPoint;
     public GameObject waterSprite;
 
     bool bucketFilled = false;
@@ -25,6 +25,10 @@ public class Well : MonoBehaviour, IInteractable
     public LineRenderer line;
 
     public GameObject structureUI;
+
+    private Vector3 lineVertex1Start;
+    private Vector3 lineVertex1End;
+    private Vector3 bucketBottom;
 
     public enum WellPhase
     {
@@ -45,6 +49,9 @@ public class Well : MonoBehaviour, IInteractable
         bucketFilled = false;
         altitude = 0;
         structureUI.SetActive(false);
+        lineVertex1Start = line.GetPosition(1);
+        lineVertex1End = new Vector3(lineVertex1Start.x, lineVertex1Start.y - (distance * 2), lineVertex1Start.z);
+        bucketBottom = new Vector3(bucketTop.position.x, bucketTop.position.y - (distance * 2), bucketTop.position.z);
     }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -120,7 +127,8 @@ public class Well : MonoBehaviour, IInteractable
             currentRate = 0;
         }
 
-        bucket.position = Vector3.Lerp(bucketTop.position, bucketBottom.position, altitude/2);
+        bucket.position = Vector3.Lerp(bucketTop.position, bucketBottom, altitude/distance);
+        ropePos.position = Vector3.Lerp(lineVertex1Start, lineVertex1End, altitude/distance);
         line.SetPosition(1, ropePos.position);
 
         if (altitude <= 0 && phase == WellPhase.BucketAtBottom)
