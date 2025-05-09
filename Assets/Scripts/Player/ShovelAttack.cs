@@ -32,9 +32,9 @@ public class ShovelAttack : MonoBehaviour
         collider.enabled = false;
         HitObject();
 
-        yield return new WaitForSeconds(0.1f);
-        PlayerMovement.limitMaxVelocity = true;
-        PlayerMovement.ignoreMovementInputs = false;
+        //yield return new WaitForSeconds(0.1f);
+        //PlayerMovement.limitMaxVelocity = true;
+        //PlayerMovement.ignoreMovementInputs = false;
     }
 
     void OnTriggerEnter(Collider other)

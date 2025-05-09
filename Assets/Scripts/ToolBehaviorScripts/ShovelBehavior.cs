@@ -31,6 +31,9 @@ public class ShovelBehavior : ToolBehavior
             toolAnim.SetFloat("AnimSpeed", 0.75f);
             PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUseWithoutMovementReset(this, 0.45f * 1.25f, 0.95f * 1.25f));
         }
+        PlayerMovement.ignoreMovementInputs = true;
+        PlayerMovement.limitMaxVelocity = false;
+        PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(800, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -98,8 +101,8 @@ public class ShovelBehavior : ToolBehavior
     {
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == null || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != thisItem) return;
         shovelAttack.StartCoroutine(shovelAttack.Swing());
-        PlayerMovement.ignoreMovementInputs = true;
-        PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(800, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
+        PlayerMovement.limitMaxVelocity = true;
+        PlayerMovement.ignoreMovementInputs = false;
     }
 
 

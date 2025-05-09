@@ -15,7 +15,8 @@ public class NightSpawningManager : MonoBehaviour
     float removedDifficultyPoints = 0; //accumulates when a structure is destroyed by any means
 
     float difficultyMultiplier = 1; //Increases to 1.25 after 2000 mints are collected. Multiplies difficulty points of structures
-    //float originalDifficultyPoints = 0;
+    public DifficultyLevel[] dLevels;
+    DifficultyLevel currentDLevel;
 
     public CreatureObject[] creatures; //list of possible creatures to spawn
     public CreatureObject[] fillerCreatures; //list of creatures that can spawn when out of danger points
@@ -181,7 +182,7 @@ public class NightSpawningManager : MonoBehaviour
             }
             
         }
-        while(spawnAttempts < 5);
+        while(spawnAttempts < currentDLevel.hourlySpawnAttempts);
 
         if(allCreatures.Count < maxCreatures && difficultyPoints < 6)
         {
@@ -305,7 +306,6 @@ public class NightSpawningManager : MonoBehaviour
 
     void CalculateDifficulty()
     {
-        if(selectedCreatures.Count == 0) SelectCreaturesForNight();
 
         if(finaleActivated)
         {
@@ -341,6 +341,17 @@ public class NightSpawningManager : MonoBehaviour
             }
             accountedStructures.Add(structure);
         }
+
+        currentDLevel = null;
+        foreach(DifficultyLevel l in dLevels)
+        {
+            if(currentDLevel == null || (currentDLevel.difficultyPointThreshold < l.difficultyPointThreshold && highestDifficultyPoints >= l.difficultyPointThreshold))
+            {
+                currentDLevel = l;
+            }
+        }
+
+        if(selectedCreatures.Count == 0) SelectCreaturesForNight();
     }
 
     [ContextMenu("RefreshNightCreatures")]
@@ -360,7 +371,8 @@ public class NightSpawningManager : MonoBehaviour
         int r = 0; //random
         List<CreatureObject> temp = new List<CreatureObject>();
         //Common creatures to spawn
-        a = Random.Range(2, 5);
+        //2,5
+        a = Random.Range(currentDLevel.c_varietyMin, currentDLevel.c_varietyMin);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Common && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
@@ -377,7 +389,8 @@ public class NightSpawningManager : MonoBehaviour
         temp.Clear();
 
         //Rare creatures to spawn
-        a = Random.Range(1, 5);
+        //1,5
+        a = Random.Range(currentDLevel.r_varietyMin, currentDLevel.r_varietyMin);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
@@ -393,7 +406,8 @@ public class NightSpawningManager : MonoBehaviour
         temp.Clear();
 
         //Support creatures to spawn
-        a = Random.Range(0, 4);
+        //0,4
+        a = Random.Range(currentDLevel.s_varietyMin, currentDLevel.s_varietyMin);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Support && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
@@ -530,11 +544,13 @@ public class NightSpawningManager : MonoBehaviour
 
 //Not incorporated yet. Can be used to track things like spawns per hour and the creature density. Will need a function comparing the thresholds of levels to determine which one is active
 [System.Serializable]
-public class DifficultyLevels
+public class DifficultyLevel
 {
     public float difficultyPointThreshold; //how much difficulty points are required to reach this level
-    public float c_varietyMin, c_varietyMax; //min and max of common spawns
-    public float r_varietyMin, r_varietyMax; //min and max of rare spawns
-    public float s_varietyMin, s_varietyMax; //min and max of support spawns
+    public int c_varietyMin, c_varietyMax; //min and max of common spawns
+    public int r_varietyMin, r_varietyMax; //min and max of rare spawns
+    public int s_varietyMin, s_varietyMax; //min and max of support spawns
+
+    public int hourlySpawnAttempts = 5;
 }
 
