@@ -9521,6 +9521,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55174e1f2b93ed540872250bdd5b0e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dLevels:
+  - difficultyPointThreshold: -1
+    c_varietyMin: 2
+    c_varietyMax: 5
+    r_varietyMin: 1
+    r_varietyMax: 5
+    s_varietyMin: 0
+    s_varietyMax: 4
+    hourlySpawnAttempts: 5
+  - difficultyPointThreshold: 150
+    c_varietyMin: 2
+    c_varietyMax: 5
+    r_varietyMin: 2
+    r_varietyMax: 5
+    s_varietyMin: 1
+    s_varietyMax: 4
+    hourlySpawnAttempts: 7
   creatures:
   - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
