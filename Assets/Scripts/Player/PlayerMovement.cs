@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     public static bool isStalled, isCodexOpen;
     public static bool accessingInventory;
     public static int restrictMovementTokens = 0; //if 0, player can move, else, they cant. This keeps track if multiple sources are stopping player movement
+    public static bool limitMaxVelocity = true;
+    public static bool ignoreMovementInputs = false; //if true, player can still look around but not move, which is different from the restrict movement tokens
 
     float horizontalInput;
     float verticalInput;
@@ -104,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isStalled || isCodexOpen)
+        if (isStalled || isCodexOpen || ignoreMovementInputs)
             return;
         MovePlayer();
     }
@@ -175,11 +177,10 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
 
-    public void ApplyForwardForceToPlayer(float force)
+    public void ApplyForceToPlayer(float force, Vector3 dir)
     {
-        moveDirection = orientation.forward + orientation.right;
-
-        rb.AddForce(moveDirection.normalized * force, ForceMode.Force);
+        rb.velocity = Vector3.zero;
+        rb.AddForce(dir.normalized * force, ForceMode.Force);
     }
 
     private void HandleSprintCheck()
@@ -217,7 +218,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         // Limit velocity if needed
-        if (flatVel.magnitude > moveSpeed)
+        if (flatVel.magnitude > moveSpeed && limitMaxVelocity)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);

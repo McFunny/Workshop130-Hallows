@@ -24,12 +24,12 @@ public class ShovelBehavior : ToolBehavior
         if(PlayerInteraction.Instance.stamina > 50)
         {
             toolAnim.SetFloat("AnimSpeed", 1f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.53f, 0.9f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.45f, 0.95f));
         }
         else
         {
             toolAnim.SetFloat("AnimSpeed", 0.75f);
-            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.53f * 1.25f, 0.9f * 1.25f));
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.45f * 1.25f, 0.95f * 1.25f));
         }
     }
 
@@ -98,6 +98,8 @@ public class ShovelBehavior : ToolBehavior
     {
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == null || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != thisItem) return;
         shovelAttack.StartCoroutine(shovelAttack.Swing());
+        PlayerMovement.ignoreMovementInputs = true;
+        PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(800, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
     }
 
 
