@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522043052666937244}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.0000004768371, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 4.065, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6671246714241961868}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &350470280828215653
 LineRenderer:
   serializedVersion: 2
@@ -53,7 +53,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 757a495a3792c7f4f9e1b69325ed3544, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -76,7 +76,7 @@ LineRenderer:
   m_SortingOrder: 10
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0.5}
+  - {x: 0, y: -0.5, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -10122,7 +10122,6 @@ MonoBehaviour:
   waterGun: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
   bucket: {fileID: 6153805632134983952}
   bucketTop: {fileID: 3314334299972584250}
-  bucketBottom: {fileID: 4594784662661020447}
   ropePos: {fileID: 4455966399165580716}
   _focalPoint: {fileID: 4368472252361991273}
   waterSprite: {fileID: 6222470033451322179}
