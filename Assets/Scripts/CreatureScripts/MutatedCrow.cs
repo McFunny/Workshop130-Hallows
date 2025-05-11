@@ -706,9 +706,10 @@ public class MutatedCrow : CreatureBehaviorScript
            
             float distance = Vector3.Distance(transform.position, player.position);
 
-           //if player is near run
+           //if player is near, run
             if (distance <= sightRange || TimeManager.Instance.isDay)
             {
+                anim.SetBool("IsPecking", false);
                 rb.useGravity = false;
                 GetRandomPoint(15);
                 point.y = height;
@@ -720,6 +721,7 @@ public class MutatedCrow : CreatureBehaviorScript
             // Handle crop damage logic
             if (targetStructure != null)
             {
+                anim.SetBool("IsPecking", true);
                 targetStructure.TakeDamage(0.5f);
 
                 if (targetStructure.health <= 0)
