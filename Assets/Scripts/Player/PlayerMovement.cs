@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;
+    public float moveSpeed; //Current Move Speed
     private float savedMoveSpeed;
     public float sprintSpeed;
 
@@ -207,13 +207,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
+        float walkMod = 0;
+        float sprintMod = 0;
+
+        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
+        {
+            walkMod += 2.5f;
+            sprintMod += 3.5f;
+        }
         if (isSprinting)
         {
-            moveSpeed = sprintSpeed;
+            moveSpeed = sprintSpeed + sprintMod;
         }
         else
         {
-            moveSpeed = savedMoveSpeed;
+            moveSpeed = savedMoveSpeed + walkMod;
         }
 
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);

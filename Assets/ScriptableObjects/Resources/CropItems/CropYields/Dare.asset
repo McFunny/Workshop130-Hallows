@@ -18,7 +18,7 @@ MonoBehaviour:
     increases oncoming damage.
   icon: {fileID: 21300000, guid: e437c561c2872624db195398d2140b1f, type: 3}
   maxStackSize: 20
-  value: 68
+  value: 62
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
@@ -27,3 +27,6 @@ MonoBehaviour:
   pickledForm: {fileID: 0}
   itemInputsKBM: []
   itemInputsController: []
+  gainedEffects:
+  - effect: {fileID: 11400000, guid: 440f551ee4693a14f92de4b68ee7c734, type: 2}
+    remainingDuration: 15

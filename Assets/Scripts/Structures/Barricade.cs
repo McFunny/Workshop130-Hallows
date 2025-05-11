@@ -46,7 +46,7 @@ public class Barricade : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !absentFromGrid)
         {
-            StartCoroutine(DugUpForItem());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
     }

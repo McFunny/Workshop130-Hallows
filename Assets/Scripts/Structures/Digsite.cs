@@ -29,26 +29,6 @@ public class Digsite : StructureBehaviorScript
         base.Update();
     }
 
-    public override void StructureInteraction()
-    {
-        if(!isDigging && usingShovel)
-        {
-            audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
-            isDigging = true;
-            GameObject droppedItem;
-            InventoryItemData newItem = DroppedItem();
-            if(newItem != null)
-            {
-                droppedItem = ItemPoolManager.Instance.GrabItem(newItem);
-                droppedItem.transform.position = transform.position;
-            }
-
-            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
-
-            Destroy(gameObject);
-        }
-    }
-
     public InventoryItemData DroppedItem()
     {
         InventoryItemData item = null;
@@ -73,18 +53,25 @@ public class Digsite : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !isDigging)
         {
-            StartCoroutine(DigPlant());
+            //StartCoroutine(DigPlant());
             success = true;
         }
     }
 
-
-
-    IEnumerator DigPlant()
+    public override void DigAction()
     {
-        yield return new WaitForSeconds(1f);
-        usingShovel = true;
-        StructureInteraction();
+        audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
+        GameObject droppedItem;
+        InventoryItemData newItem = DroppedItem();
+        if(newItem != null)
+        {
+            droppedItem = ItemPoolManager.Instance.GrabItem(newItem);
+            droppedItem.transform.position = transform.position;
+        }
+
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+
+        Destroy(gameObject);
     }
 
 }

@@ -80,14 +80,13 @@ public class BearTrap : StructureBehaviorScript
         if(caughtSomething) return;
         if(type == ToolType.Shovel && !rearming)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUp());
             success = true;
         }
     }
 
-    IEnumerator DugUp()
+    public override void DigAction()
     {
-        yield return  new WaitForSeconds(1);
         if(!caughtSomething)
         {
             if(Random.Range(0, maxHealth) <= health) 

@@ -67,7 +67,7 @@ public class Brazier : StructureBehaviorScript
         }
         else if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUpForItem());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
         else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && flameLeft > 0)

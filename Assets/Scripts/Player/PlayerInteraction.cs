@@ -310,6 +310,11 @@ public class PlayerInteraction : MonoBehaviour
             playerEffects.PlayClip(playerEffects.itemEat);
             return;
         }
+
+        foreach(StatusEffect s in item.gainedEffects)
+        {
+            ApplyStatusEffect(s.effect, s.remainingDuration);
+        }
     }
 
     public void StaminaChange(float amount)
@@ -324,6 +329,9 @@ public class PlayerInteraction : MonoBehaviour
             print("Damage negated to not go under threshold");
             return;
         }
+
+        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
+        
         stamina += amount;
         if(amount < -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
@@ -334,9 +342,21 @@ public class PlayerInteraction : MonoBehaviour
         else if(stamina > 50) sentLowStaminaMessage = false;
     }
 
-    public void ApplyStatusEffect(StatusEffectObject status, float duration)
+    public void ApplyStatusEffect(StatusEffectObject status, int duration)
     {
-        //
+        if(currentEffects.Count == 0)
+        {
+            currentEffects.Add(new StatusEffect(status, duration));
+        }
+        for(int x = 0; x < currentEffects.Count; x++)
+        {
+            //do the effects referencing the scriptable object here
+            if(currentEffects[x].effect.name == status.name)
+            {
+                if(currentEffects[x].remainingDuration < duration) currentEffects[x].remainingDuration = duration;
+                return;
+            }
+        }
     }
 
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)

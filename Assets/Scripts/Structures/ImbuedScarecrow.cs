@@ -23,7 +23,7 @@ public class ImbuedScarecrow : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !TimeManager.Instance.stopTime)
         {
-            StartCoroutine(DugUpForItem());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
     }

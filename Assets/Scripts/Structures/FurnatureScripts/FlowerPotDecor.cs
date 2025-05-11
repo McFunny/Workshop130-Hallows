@@ -61,7 +61,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
         if(!CanBeRemoved()) return;
         if(type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUp());
             success = true;
         }
     }
@@ -74,9 +74,8 @@ public class FlowerPotDecor : FurnitureBehaviorScript
         }
     }
 
-    IEnumerator DugUp()
+    public override void DigAction()
     {
-        yield return new WaitForSeconds(1);
         PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
 
         Destroy(this.gameObject);

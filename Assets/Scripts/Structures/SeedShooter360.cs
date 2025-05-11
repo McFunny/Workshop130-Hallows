@@ -233,7 +233,7 @@ public class SeedShooter360 : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUpForItem());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
     }

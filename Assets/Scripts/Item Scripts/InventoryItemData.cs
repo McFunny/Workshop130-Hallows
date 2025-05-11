@@ -30,6 +30,9 @@ public class InventoryItemData : ScriptableObject
     [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
     public List<string> itemInputsKBM;
     public List<string> itemInputsController;
+
+    [Tooltip("What Status Effects Will Be Gained Upon Consumption")]
+    public List<StatusEffect> gainedEffects = new List<StatusEffect>();
    
     public void UseItem()
     {

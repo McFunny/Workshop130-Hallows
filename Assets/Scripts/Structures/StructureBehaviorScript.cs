@@ -319,7 +319,23 @@ public class StructureBehaviorScript : MonoBehaviour
         }
     }
 
-    public IEnumerator DugUpForItem()
+    public virtual void DigAction()
+    {
+        if(itemForm)
+        {
+            if(Random.Range(0, maxHealth) <= health)
+            {
+                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemForm);
+                droppedItem.transform.position = transform.position;
+            }
+            else health = -5;
+
+            AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
+        }
+        Destroy(this.gameObject);
+    }
+
+    /*public virtual IEnumerator DugUpForItem()
     {
         yield return  new WaitForSeconds(1);
         if(itemForm)
@@ -334,7 +350,7 @@ public class StructureBehaviorScript : MonoBehaviour
             AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
         }
         Destroy(this.gameObject);
-    }
+    }*/
 
     public virtual void SaveVariables()
     {

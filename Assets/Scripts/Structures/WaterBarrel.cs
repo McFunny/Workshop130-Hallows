@@ -62,7 +62,7 @@ public class WaterBarrel : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUpForItem());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
         if((type == ToolType.WateringCan || type == ToolType.WaterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)

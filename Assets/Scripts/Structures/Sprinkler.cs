@@ -61,7 +61,7 @@ public class Sprinkler : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUpForItem());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 3 && waterLevel < 3)

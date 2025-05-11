@@ -141,7 +141,7 @@ public class LandMine : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !isPrimed && !isExploding)
         {
-            StartCoroutine(DugUpForItem());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
     }

@@ -277,7 +277,7 @@ public class FarmLand : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !forceDig)
         {
-            StartCoroutine(DigPlant());
+            //StartCoroutine(DigPlant());
             success = true;
         }
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && (nutrients.waterLevel < 10 || onFire))
@@ -527,10 +527,9 @@ public class FarmLand : StructureBehaviorScript
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);
     }
 
-    IEnumerator DigPlant()
+    public override void DigAction()
     {
         forceDig = true;
-        yield return new WaitForSeconds(1f);
         if(Tutorial.Instance && isWeed) Tutorial.Instance.WeedDug();
         else if(Tutorial.Instance && crop) Tutorial.Instance.LostSeed();
 
