@@ -43,14 +43,14 @@ public class StructureFire : MonoBehaviour
         if (player != null)
         {
             player.StaminaChange(-playerDamage);
-            player.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
+            if(Random.Range(0,4) > 0) player.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
         if (creature != null && creature.shovelVulnerable && creature.fireVulnerable)
         {
             creature.TakeDamage(creatureDamage);
-            player.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
+            if(Random.Range(0,4) > 0) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 5);
 
             creature.PlayHitParticle(new Vector3(0, 0, 0));
         }

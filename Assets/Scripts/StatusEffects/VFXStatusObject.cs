@@ -11,11 +11,17 @@ public class VFXStatusObject : MonoBehaviour
 
     bool onPlayer = false;
 
+    FireObject fireObject;
+
+    public Transform followTransform;
+
 
     void OnEnable()
     {
         StartCoroutine(CheckForStatus());
-        if(transform.parent != null) transform.parent = null;
+        //if(transform.parent != null) transform.parent = null;
+        followTransform = null;
+        if(name == StatusEffectName.Fire && !fireObject) fireObject = GetComponent<FireObject>();
 
         foreach(ParticleSystem p in allParticles)
         {
@@ -28,6 +34,12 @@ public class VFXStatusObject : MonoBehaviour
         if(!gameObject.scene.isLoaded) return;
         StopCoroutine(CheckForStatus());
         onPlayer = false;
+        followTransform = null;
+    }
+
+    void Update()
+    {
+        if(followTransform) transform.position = followTransform.position;
     }
 
     IEnumerator CheckForStatus()
@@ -77,6 +89,8 @@ public class VFXStatusObject : MonoBehaviour
         {
            p.Stop();
         }
+
+        if(fireObject) fireObject.Extinguished();
 
         yield return new WaitForSeconds(2);
 

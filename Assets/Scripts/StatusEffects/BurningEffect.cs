@@ -16,5 +16,6 @@ public class BurningEffect : StatusEffectObject
     {
         //What happens every second for creature
         c.TakeDamage(creatureDamage);
+        c.PlayHitParticle(Vector3.zero);
     }
 }

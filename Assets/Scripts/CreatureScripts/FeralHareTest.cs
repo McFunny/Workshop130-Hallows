@@ -508,9 +508,13 @@ public class FeralHareTest : CreatureBehaviorScript
         yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile == null || foundFarmTile.crop == null || currentState != CreatureState.Eat);
         if (inEatingRange && foundFarmTile && foundFarmTile.crop && currentState == CreatureState.Eat)
         {
-            if(foundFarmTile.crop.behavior && foundFarmTile.harvestable) 
+            if(foundFarmTile.crop.behavior) 
             {
-                foundFarmTile.crop.behavior.OnConsumed(this);
+                if(foundFarmTile.harvestable)
+                {
+                    foundFarmTile.crop.behavior.OnConsumed(this);
+                }
+                else foundFarmTile.crop.behavior.OnConsumedBeforeMaturity(this);
                 foundFarmTile.CropDestroyed();
             }
             else if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20)

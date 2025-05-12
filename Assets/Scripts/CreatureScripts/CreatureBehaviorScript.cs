@@ -81,6 +81,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         print("Ouch");
+        if(StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Dare, this) && damage > 0) damage *= 1.5f;
         health -= damage;
         if(!flashing && hitColor != Color.black) StartCoroutine(DamageFlash());
         if(!isDead)
@@ -272,18 +273,23 @@ public class CreatureBehaviorScript : MonoBehaviour
         if(currentEffects.Count == 0)
         {
             currentEffects.Add(new StatusEffect(status, duration));
+            currentEffects[currentEffects.Count - 1].effect.OnEffectApplied(this);
             GameObject vfx = StatusEffectManager.Instance.GrabStatusVFX(status.name);
             if(vfx == null) return;
-            vfx.GetComponent<VFXStatusObject>().afflictedCreature = this;
+            VFXStatusObject vfxObj = vfx.GetComponent<VFXStatusObject>();
+            if(vfxObj == null) return;
+            vfxObj.afflictedCreature = this;
             if(corpseParticleTransform)
             {
-                vfx.transform.position = corpseParticleTransform.position;
-                vfx.transform.parent = corpseParticleTransform;
+                vfxObj.followTransform = corpseParticleTransform;
+                //vfx.transform.position = corpseParticleTransform.position;
+                //vfx.transform.parent = corpseParticleTransform;
             } 
             else
             {
-                vfx.transform.position = transform.position;
-                vfx.transform.parent = transform;
+                vfxObj.followTransform = transform;
+                //vfx.transform.position = transform.position;
+                //vfx.transform.parent = transform;
             }
             return;
         }

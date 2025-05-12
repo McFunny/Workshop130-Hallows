@@ -83,6 +83,20 @@ public class TorchBehavior : ToolBehavior
                     PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
+
+                if(enemy.canCorpseBreak && enemy.fireVulnerable)
+                {
+                    enemy.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 20);
+
+                    HandItemManager.Instance.PlayPrimaryAnimation();
+                    HandItemManager.Instance.toolSource.PlayOneShot(ignite);
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
+                    PlayerMovement.restrictMovementTokens++;
+                    //PlayerInteraction.Instance.StaminaChange(-2);
+                    usingPrimary = true;
+                    PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
+                    return;
+                }
             }
         }
 

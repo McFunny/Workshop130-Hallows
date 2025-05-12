@@ -84,6 +84,7 @@ public class StatusEffectManager : MonoBehaviour
                     if(p.currentEffects[x].remainingDuration > 0) p.currentEffects[x].remainingDuration -= 1;
                     if(p.currentEffects[x].remainingDuration == 0)
                     {
+                        p.currentEffects[x].effect.OnEffectRemoved();
                         p.currentEffects.RemoveAt(x);
                         x--;
                         continue;
@@ -116,12 +117,13 @@ public class StatusEffectManager : MonoBehaviour
                     //do the effects referencing the scriptable object here
                     if(currentEffect.effect)
                     {
-                        currentEffect.effect.TimedEffect();
+                        currentEffect.effect.TimedEffect(NightSpawningManager.Instance.allCreatures[i]);
                     }
 
                     if(currentEffect.remainingDuration > 0) currentEffect.remainingDuration -= 1;
                     if(currentEffect.remainingDuration == 0)
                     {
+                        currentEffect.effect.OnEffectRemoved(NightSpawningManager.Instance.allCreatures[i]);
                         NightSpawningManager.Instance.allCreatures[i].currentEffects.RemoveAt(x);
                         x--;
                     }

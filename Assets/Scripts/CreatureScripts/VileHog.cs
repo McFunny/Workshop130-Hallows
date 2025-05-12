@@ -15,7 +15,7 @@ public class VileHog : CreatureBehaviorScript
     FarmLand foundFarmTile;
     InventoryItemData heldItem;
 
-    public InventoryItemData foxGlove;
+    public InventoryItemData foxGlove, dare;
 
     private StructureBehaviorScript targetStructure;
 
@@ -456,16 +456,18 @@ public class VileHog : CreatureBehaviorScript
         if(heldItem == foxGlove)
         {
             TakeDamage(999);
-            r.sprite = null;
-            heldItem = null;
+        }
+        else if(heldItem == dare)
+        {
+            ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Dare), 30);
         }
         else
         {
             currentState = CreatureState.Wander;
             health = maxHealth;
-            r.sprite = null;
-            heldItem = null;
         }
+        r.sprite = null;
+        heldItem = null;
         coroutineRunning = false;
     }
     #endregion

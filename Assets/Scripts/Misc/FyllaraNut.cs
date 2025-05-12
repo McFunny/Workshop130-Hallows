@@ -31,6 +31,7 @@ public class FyllaraNut : StructureBehaviorScript
     void TreeNutDrop()
     {
         if(rb.useGravity == true) return;
+        transform.parent = null;
         rb.useGravity = true;
         Vector3 dir3 = Random.onUnitSphere;
         dir3 = new Vector3(dir3.x, transform.position.y, dir3.z);

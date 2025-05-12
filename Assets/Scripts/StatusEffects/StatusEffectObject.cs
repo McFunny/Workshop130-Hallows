@@ -17,4 +17,24 @@ public class StatusEffectObject : ScriptableObject
     {
         //What happens every second for creature
     }
+
+    public virtual void OnEffectApplied()
+    {
+        //What happens when the effect is applied
+    }
+
+    public virtual void OnEffectApplied(CreatureBehaviorScript c)
+    {
+        //What happens when the effect is applied
+    }
+
+    public virtual void OnEffectRemoved()
+    {
+        //What happens when the effect is removed
+    }
+
+    public virtual void OnEffectRemoved(CreatureBehaviorScript c)
+    {
+        //What happens when the effect is removed
+    }
 }

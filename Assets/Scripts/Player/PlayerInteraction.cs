@@ -361,10 +361,12 @@ public class PlayerInteraction : MonoBehaviour
         if(currentEffects.Count == 0)
         {
             currentEffects.Add(new StatusEffect(status, duration));
+            currentEffects[currentEffects.Count - 1].effect.OnEffectApplied();
             GameObject vfx = StatusEffectManager.Instance.GrabStatusVFX(status.name);
             if(vfx == null) return;
-            vfx.transform.position = new Vector3(playerFeet.position.x, playerFeet.position.y + 0.5f, playerFeet.position.z);
-            vfx.transform.parent = playerFeet;
+            vfx.GetComponent<VFXStatusObject>().followTransform = playerFeet;
+            //vfx.transform.position = new Vector3(playerFeet.position.x, playerFeet.position.y + 0.5f, playerFeet.position.z);
+            //vfx.transform.parent = playerFeet;
             return;
         }
         for(int x = 0; x < currentEffects.Count; x++)

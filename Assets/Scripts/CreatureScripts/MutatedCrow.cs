@@ -20,7 +20,8 @@ public class MutatedCrow : CreatureBehaviorScript
         GoAway,
         Dead,
         GoEatCrop,
-        AttackScarecrow
+        AttackScarecrow,
+        CarryObject
     }
 
     // ============================
@@ -44,6 +45,8 @@ public class MutatedCrow : CreatureBehaviorScript
     public StructureObject scareCrow;
 
     public bool isDecorCrow = false;
+
+    public FyllaraNut carriedNut;
 
 
     FarmLand foundFarmTile;
@@ -85,7 +88,7 @@ public class MutatedCrow : CreatureBehaviorScript
         StructureBehaviorScript.OnStructuresUpdated += UpdateStructureList;
         UpdateStructureList();
         targetStructure = null;
-        currentState = CreatureState.Idle;
+        if(currentState != CreatureState.CarryObject) currentState = CreatureState.Idle;
         point = GetRandomPoint(150);
         point.y = height * 10;
         if(isDecorCrow && Random.Range(0,9) > 3) currentState = CreatureState.GoAway;
@@ -145,6 +148,10 @@ public class MutatedCrow : CreatureBehaviorScript
                 break;
             case CreatureState.AttackScarecrow:
                 AttackScarecrow();
+                break;
+            case CreatureState.CarryObject:
+                CircleAroundPoint();
+                anim.SetBool("IsFlying", true);
                 break;
             default:
                 Debug.LogError("Unknown state: " + currentState);
@@ -413,12 +420,12 @@ public class MutatedCrow : CreatureBehaviorScript
             switch (r)
             {
                 case 0: // Wait
-                    yield return new WaitForSeconds(5);
+                    yield return new WaitForSeconds(2);
                     coroutineRunning = false;
                     break;
 
                 case 1: // Wait longer
-                    yield return new WaitForSeconds(10);
+                    yield return new WaitForSeconds(5);
                     coroutineRunning = false;
                     break;
 
@@ -486,6 +493,23 @@ public class MutatedCrow : CreatureBehaviorScript
     private IEnumerator Decide()
     {
         coroutineRunning = true;
+
+        if(currentState == CreatureState.CarryObject)
+        {
+            yield return new WaitForSeconds(5);
+            if(Random.Range(0,10) >= 9 || !carriedNut)
+            {
+                point = GetRandomPoint(150);
+                currentState = CreatureState.GoAway;
+                coroutineRunning = false;
+            }
+            else
+            {
+                point = GetRandomPoint(15);
+            }
+            
+            yield break;
+        }
 
         if(TimeManager.Instance.isDay && !inWilderness)
         {
@@ -949,6 +973,11 @@ public class MutatedCrow : CreatureBehaviorScript
     {
         if(!IsGrounded() && health > 0) TakeDamage(100);
         if(IsGrounded() && health <= 0) canCorpseBreak = true;
+
+        if(carriedNut)
+        {
+            carriedNut.GetComponent<StructureBehaviorScript>().HitWithWater();
+        }
     }
 
     public override void HitWithWater()

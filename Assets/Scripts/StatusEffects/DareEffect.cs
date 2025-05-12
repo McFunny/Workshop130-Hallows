@@ -14,4 +14,28 @@ public class DareEffect : StatusEffectObject
     {
         //What happens every second for creature
     }
+
+    public override void OnEffectApplied()
+    {
+        //What happens when the effect is applied
+    }
+
+    public override void OnEffectApplied(CreatureBehaviorScript c)
+    {
+        //What happens when the effect is applied
+        c.damageToStructure = (int)(c.damageToStructure * 1.5f);
+        c.damageToPlayer = (int)(c.damageToPlayer * 1.5f);
+    }
+
+    public override void OnEffectRemoved()
+    {
+        //What happens when the effect is removed
+    }
+
+    public override void OnEffectRemoved(CreatureBehaviorScript c)
+    {
+        //What happens when the effect is removed
+        c.damageToStructure = (int)(c.damageToStructure * 0.5f);
+        c.damageToPlayer = (int)(c.damageToPlayer * 0.5f);
+    }
 }
