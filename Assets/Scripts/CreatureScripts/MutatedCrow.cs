@@ -89,8 +89,8 @@ public class MutatedCrow : CreatureBehaviorScript
         UpdateStructureList();
         targetStructure = null;
         if(currentState != CreatureState.CarryObject) currentState = CreatureState.Idle;
-        point = GetRandomPoint(150);
-        point.y = height * 10;
+        point = GetRandomPoint(15);
+        point.y = height * 7;
         if(isDecorCrow && Random.Range(0,9) > 3) currentState = CreatureState.GoAway;
     }
 

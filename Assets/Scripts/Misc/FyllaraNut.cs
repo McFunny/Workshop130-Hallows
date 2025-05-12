@@ -40,6 +40,7 @@ public class FyllaraNut : StructureBehaviorScript
 
     void OnTriggerEnter(Collider other)
     {
+        if(!rb.useGravity) return;
         if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
         {
             GameObject droppedItem = ItemPoolManager.Instance.GrabItem(nut);

@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -87,6 +87,11 @@ public class StructureManager : MonoBehaviour
             PopulateForageables(-2, 3);
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
+
+        if(Random.Range(0,100) > 5)
+        {
+            Instantiate(crowWithNut, GetRandomClearTile(), Quaternion.identity);
+        }
     }
 
     public void GameOver()

@@ -6,6 +6,7 @@ public class VFXStatusObject : MonoBehaviour
 {
     public CreatureBehaviorScript afflictedCreature;
     public StatusEffectName name;
+    public StatusEffectObject statusObject;
 
     public List<ParticleSystem> allParticles = new List<ParticleSystem>();
 
@@ -77,7 +78,16 @@ public class VFXStatusObject : MonoBehaviour
                         //do the effects referencing the scriptable object here
                         if(afflictedCreature.currentEffects[x].effect.name == name)
                         {
-                            if(afflictedCreature.currentEffects[x].remainingDuration == 0) clearThis = true;
+                            afflictedCreature.currentEffects[x].effect.TimedEffect(afflictedCreature);
+
+                            if(afflictedCreature.currentEffects[x].remainingDuration > 0) afflictedCreature.currentEffects[x].remainingDuration -= 1;
+                            if(afflictedCreature.currentEffects[x].remainingDuration == 0)
+                            {
+                                afflictedCreature.currentEffects[x].effect.OnEffectRemoved(afflictedCreature);
+                                afflictedCreature.currentEffects.RemoveAt(x);
+                                clearThis = true;
+                                break;
+                            }
                             break;
                         }
                     }

@@ -385,12 +385,12 @@ public class VileHog : CreatureBehaviorScript
             agent.ResetPath();
             if(foundFarmTile && foundFarmTile.crop && foundFarmTile.harvestable)
             {
-                currentState = CreatureState.Wander;
+                coroutineRunning = true;
+                StartCoroutine(DigUpCrop());
             }
             else
             {
-                coroutineRunning = true;
-                StartCoroutine(DigUpCrop());
+                currentState = CreatureState.Wander;
             }
         }
         /*else if(agent.destination != target.position)

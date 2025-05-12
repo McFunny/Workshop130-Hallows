@@ -104,7 +104,7 @@ public class StatusEffectManager : MonoBehaviour
                 }
             }
 
-            for(int i = 0; i < NightSpawningManager.Instance.allCreatures.Count; i++)
+            /*for(int i = 0; i < NightSpawningManager.Instance.allCreatures.Count; i++)
             {
                 if(NightSpawningManager.Instance.allCreatures[i] == null || NightSpawningManager.Instance.allCreatures[i].currentEffects.Count == 0)
                 {
@@ -128,7 +128,7 @@ public class StatusEffectManager : MonoBehaviour
                         x--;
                     }
                 }
-            }
+            }*/
             
         }
     }
