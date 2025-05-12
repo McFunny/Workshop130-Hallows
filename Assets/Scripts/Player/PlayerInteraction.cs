@@ -299,22 +299,36 @@ public class PlayerInteraction : MonoBehaviour
             return;
         }
 
+        if(itemUseCooldown) return;
+
+        bool itemUsed = false;
+
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
-            if(itemUseCooldown) return;
             StartCoroutine(ItemUseCooldown());
             //eat it
             StaminaChange(item.staminaValue);
+            itemUsed = true;
+        }
+
+        if(item.gainedEffects.Count > 0)
+        {
+            foreach(StatusEffect s in item.gainedEffects)
+            {
+                ApplyStatusEffect(s.effect, s.remainingDuration);
+            }
+
+            StartCoroutine(ItemUseCooldown());
+            itemUsed = true;
+        }
+
+        if(itemUsed)
+        {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
             playerEffects.PlayClip(playerEffects.itemEat);
-            return;
         }
 
-        foreach(StatusEffect s in item.gainedEffects)
-        {
-            ApplyStatusEffect(s.effect, s.remainingDuration);
-        }
     }
 
     public void StaminaChange(float amount)
@@ -333,7 +347,7 @@ public class PlayerInteraction : MonoBehaviour
         if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
         
         stamina += amount;
-        if(amount < -5) playerEffects.PlayerDamage();
+        if(amount <= -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
         {
             sentLowStaminaMessage = true;
@@ -347,6 +361,11 @@ public class PlayerInteraction : MonoBehaviour
         if(currentEffects.Count == 0)
         {
             currentEffects.Add(new StatusEffect(status, duration));
+            GameObject vfx = StatusEffectManager.Instance.GrabStatusVFX(status.name);
+            if(vfx == null) return;
+            vfx.transform.position = new Vector3(playerFeet.position.x, playerFeet.position.y + 0.5f, playerFeet.position.z);
+            vfx.transform.parent = playerFeet;
+            return;
         }
         for(int x = 0; x < currentEffects.Count; x++)
         {
@@ -444,6 +463,13 @@ public class PlayerInteraction : MonoBehaviour
     IEnumerator GameOver()
     {
         //maybe pause time? also make sure no issues arise when dying while talking to someone
+
+        //Remove Status Effects
+        foreach(StatusEffect e in currentEffects)
+        {
+            e.remainingDuration = 0;
+        }
+
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         daysSinceDeath = -1;

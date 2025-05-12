@@ -212,8 +212,8 @@ public class PlayerMovement : MonoBehaviour
 
         if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
         {
-            walkMod += 2.5f;
-            sprintMod += 3.5f;
+            walkMod += 3f;
+            sprintMod += 4.5f;
         }
         if (isSprinting)
         {

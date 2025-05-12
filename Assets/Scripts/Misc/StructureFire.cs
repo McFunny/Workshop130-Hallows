@@ -12,7 +12,7 @@ public class StructureFire : MonoBehaviour
     public AudioClip extinguishedSFX;
 
     float playerDamage = 6;
-    float creatureDamage = 15;
+    float creatureDamage = 5;
 
     // Update is called once per frame
     void Update()
@@ -43,12 +43,14 @@ public class StructureFire : MonoBehaviour
         if (player != null)
         {
             player.StaminaChange(-playerDamage);
+            player.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
         if (creature != null && creature.shovelVulnerable && creature.fireVulnerable)
         {
             creature.TakeDamage(creatureDamage);
+            player.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
 
             creature.PlayHitParticle(new Vector3(0, 0, 0));
         }

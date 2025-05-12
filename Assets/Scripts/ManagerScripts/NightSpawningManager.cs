@@ -27,7 +27,7 @@ public class NightSpawningManager : MonoBehaviour
     List<int> spawnedCreaturesThisHour = new List<int>(); //tracks how many of a specific type of creature was spawned this hour //CREATURES NEED TO BE REMOVED WHEN KILLED
     Queue<CreatureObject> creatureQueue = new Queue<CreatureObject>(); //Holds the enemies that are set to spawn but have not spawned yet
 
-    public List<CreatureBehaviorScript> allCreatures; //all creatures in the scene, have a limit to how many there can be in a scene
+    public List<CreatureBehaviorScript> allCreatures; //all creatures in the scene
     //this list saves all current creatures, and all spawned creatures through this/saved by this manager should be assigned to this list
 
     public List<Transform> testSpawns;

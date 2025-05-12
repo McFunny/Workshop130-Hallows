@@ -49,6 +49,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     bool flashing = false;
     public Color hitColor;
 
+    public List<StatusEffect> currentEffects = new List<StatusEffect>();
+
     public void Start()
     {
         structManager = StructureManager.Instance;
@@ -263,6 +265,37 @@ public class CreatureBehaviorScript : MonoBehaviour
         Vector2 randomDirection = Random.insideUnitCircle * radius;
         Vector3 randomPoint = new Vector3(randomDirection.x, patrolPoint.position.y, randomDirection.y) + patrolPoint.position;
         return randomPoint;
+    }
+
+    public void ApplyStatusEffect(StatusEffectObject status, int duration)
+    {
+        if(currentEffects.Count == 0)
+        {
+            currentEffects.Add(new StatusEffect(status, duration));
+            GameObject vfx = StatusEffectManager.Instance.GrabStatusVFX(status.name);
+            if(vfx == null) return;
+            vfx.GetComponent<VFXStatusObject>().afflictedCreature = this;
+            if(corpseParticleTransform)
+            {
+                vfx.transform.position = corpseParticleTransform.position;
+                vfx.transform.parent = corpseParticleTransform;
+            } 
+            else
+            {
+                vfx.transform.position = transform.position;
+                vfx.transform.parent = transform;
+            }
+            return;
+        }
+        for(int x = 0; x < currentEffects.Count; x++)
+        {
+            //do the effects referencing the scriptable object here
+            if(currentEffects[x].effect.name == status.name)
+            {
+                if(currentEffects[x].remainingDuration < duration) currentEffects[x].remainingDuration = duration;
+                return;
+            }
+        }
     }
 
 

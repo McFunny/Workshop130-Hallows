@@ -6,12 +6,11 @@ public class StatusEffectManager : MonoBehaviour
 {
     public static StatusEffectManager Instance;
 
-    public List<CreatureBehaviorScript> effectedCreatures = new List<CreatureBehaviorScript>();
-    //public bool isPlayerAfflicted = false;
+    public GameObject dareVFX, burnVFX, frostVFX;
 
-    //Should probably handle this stuff using scriptable objects tbh
-    //Also handle the pooling of effects objects (Fire particles, dare particles, ect)
-    //Have the effect object hold the reference to the creature in conjunction with the list here. Once the creature does not have the effect, it removes itself and the reference here
+    List<GameObject> darePool = new List<GameObject>();
+    List<GameObject> burnPool = new List<GameObject>();
+    List<GameObject> frostPool = new List<GameObject>();
 
     void Awake()
     {
@@ -24,6 +23,8 @@ public class StatusEffectManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        PopulateVFXPools();
 
     }
 
@@ -50,6 +51,24 @@ public class StatusEffectManager : MonoBehaviour
         return false;
     }
 
+    public bool FindStatusOnCreature(StatusEffectName s, CreatureBehaviorScript c)
+    {
+        if(c.currentEffects.Count == 0)
+        {
+            return false;
+        }
+        for(int x = 0; x < c.currentEffects.Count; x++)
+        {
+            //do the effects referencing the scriptable object here
+            if(c.currentEffects[x].effect.name == s)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     IEnumerator OneSecondTimer()
     {
         PlayerInteraction p = PlayerInteraction.Instance;
@@ -62,6 +81,14 @@ public class StatusEffectManager : MonoBehaviour
             {
                 for(int x = 0; x < p.currentEffects.Count; x++)
                 {
+                    if(p.currentEffects[x].remainingDuration > 0) p.currentEffects[x].remainingDuration -= 1;
+                    if(p.currentEffects[x].remainingDuration == 0)
+                    {
+                        p.currentEffects.RemoveAt(x);
+                        x--;
+                        continue;
+                    }
+
                     //do the effects referencing the scriptable object here
                     if(p.currentEffects[x].effect)
                     {
@@ -73,36 +100,124 @@ public class StatusEffectManager : MonoBehaviour
                         x--;
                         continue;
                     }
+                }
+            }
 
-                    if(p.currentEffects[x].remainingDuration > 0) p.currentEffects[x].remainingDuration -= 1;
-                    if(p.currentEffects[x].remainingDuration == 0)
+            for(int i = 0; i < NightSpawningManager.Instance.allCreatures.Count; i++)
+            {
+                if(NightSpawningManager.Instance.allCreatures[i] == null || NightSpawningManager.Instance.allCreatures[i].currentEffects.Count == 0)
+                {
+                    continue;
+                }
+
+                for(int x = 0; x < NightSpawningManager.Instance.allCreatures[i].currentEffects.Count; x++)
+                {
+                    StatusEffect currentEffect = NightSpawningManager.Instance.allCreatures[i].currentEffects[x];
+                    //do the effects referencing the scriptable object here
+                    if(currentEffect.effect)
                     {
-                        p.currentEffects.RemoveAt(x);
+                        currentEffect.effect.TimedEffect();
+                    }
+
+                    if(currentEffect.remainingDuration > 0) currentEffect.remainingDuration -= 1;
+                    if(currentEffect.remainingDuration == 0)
+                    {
+                        NightSpawningManager.Instance.allCreatures[i].currentEffects.RemoveAt(x);
                         x--;
                     }
                 }
             }
-
-            /*for(int i = 0; i < effectedCreatures.Count; i++)
-            {
-                if(effectedCreatures[i] == null || effectedCreatures[i].currentEffects.Count == 0)
-                {
-                    effectedCreatures.RemoveAt(i);
-                    i--;
-                    continue;
-                }
-
-                //effectedCreatures
-                //for loop for every status effect in the effect things object. Call the functions in the scriptable objects to do the effect, and remove it if duration is under 0
-            }*/
+            
         }
+    }
+
+    void PopulateVFXPools()
+    {
+        GameObject newParticle;
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(dareVFX);
+            darePool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(burnVFX);
+            burnPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(frostVFX);
+            frostPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+    }
+
+    public GameObject GrabStatusVFX(StatusEffectName name)
+    {
+        if(name == StatusEffectName.Dare)
+        {
+            foreach (GameObject particle in darePool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(dareVFX);
+            darePool.Add(newParticle);
+            return newParticle;
+        }
+
+        if(name == StatusEffectName.Fire)
+        {
+            foreach (GameObject particle in burnPool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(burnVFX);
+            burnPool.Add(newParticle);
+            return newParticle;
+        }
+
+        if(name == StatusEffectName.Frost)
+        {
+            foreach (GameObject particle in frostPool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(frostVFX);
+            frostPool.Add(newParticle);
+            return newParticle;
+        }
+
+        return null;
     }
 }
 
 public enum StatusEffectName
 {
     Fire, //DOT
-    Frosted, //Slow movespeed, cannot use water
+    Frost, //Slow movespeed, cannot use water
     Dare //1.25 speed increase, 1.5 oncoming damage
 }
 
