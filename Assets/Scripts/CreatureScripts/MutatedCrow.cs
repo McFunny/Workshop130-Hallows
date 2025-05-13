@@ -496,8 +496,8 @@ public class MutatedCrow : CreatureBehaviorScript
 
         if(currentState == CreatureState.CarryObject)
         {
-            yield return new WaitForSeconds(5);
-            if(Random.Range(0,10) >= 9 || !carriedNut)
+            yield return new WaitForSeconds(10);
+            if(Random.Range(0,10) >= 9 || !carriedNut || TimeManager.Instance.isDay == false)
             {
                 point = GetRandomPoint(150);
                 currentState = CreatureState.GoAway;

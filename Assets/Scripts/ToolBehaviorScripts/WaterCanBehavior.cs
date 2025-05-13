@@ -42,14 +42,14 @@ public class WaterCanBehavior : ToolBehavior
                     if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
                     {
                         coolDownMod -= .35f;
-                        animSpeedMod += .35f;
+                        animSpeedMod += .7f;
                     }
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .25f;
+                        animSpeedMod -= .5f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.0f * coolDownMod));
@@ -87,14 +87,14 @@ public class WaterCanBehavior : ToolBehavior
                     if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
                     {
                         coolDownMod -= .35f;
-                        animSpeedMod += .35f;
+                        animSpeedMod += .7f;
                     }
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .25f;
+                        animSpeedMod -= .5f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.0f * coolDownMod));
@@ -123,14 +123,14 @@ public class WaterCanBehavior : ToolBehavior
                     if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
                     {
                         coolDownMod -= .35f;
-                        animSpeedMod += .35f;
+                        animSpeedMod += .7f;
                     }
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .25f;
+                        animSpeedMod -= .5f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.0f * coolDownMod));
@@ -143,7 +143,7 @@ public class WaterCanBehavior : ToolBehavior
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5) return;
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5f) return;
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
@@ -181,14 +181,14 @@ public class WaterCanBehavior : ToolBehavior
                     if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
                     {
                         coolDownMod -= .35f;
-                        animSpeedMod += .35f;
+                        animSpeedMod += .7f;
                     }
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .25f;
+                        animSpeedMod -= .5f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.0f * coolDownMod));
@@ -213,14 +213,14 @@ public class WaterCanBehavior : ToolBehavior
                     if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
                     {
                         coolDownMod -= .35f;
-                        animSpeedMod += .35f;
+                        animSpeedMod += .7f;
                     }
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .25f;
+                        animSpeedMod -= .5f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.0f * coolDownMod));
@@ -248,14 +248,14 @@ public class WaterCanBehavior : ToolBehavior
                     if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
                     {
                         coolDownMod -= .35f;
-                        animSpeedMod += .35f;
+                        animSpeedMod += .7f;
                     }
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .25f;
+                        animSpeedMod -= .5f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.0f * coolDownMod));

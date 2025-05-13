@@ -29,12 +29,12 @@ public class ShovelBehavior : ToolBehavior
         if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
         {
             coolDownMod -= .35f;
-            animSpeedMod += .35f;
+            animSpeedMod += .7f;
         }
         else if(PlayerInteraction.Instance.stamina <= 50)
         {
             coolDownMod += .25f;
-            animSpeedMod -= .25f;
+            animSpeedMod -= .5f;
         }
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
@@ -87,17 +87,17 @@ public class ShovelBehavior : ToolBehavior
                     if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
                     {
                         coolDownMod -= .5f;
-                        animSpeedMod += .5f;
+                        animSpeedMod += 1f;
                     }
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .25f;
+                        animSpeedMod -= .5f;
                     }
                     if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f * coolDownMod, 1.95f * coolDownMod));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1f * coolDownMod, 2f * coolDownMod));
 
                     /*
                     if(PlayerInteraction.Instance.stamina > 50)

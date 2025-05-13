@@ -11,6 +11,9 @@ public class HoeBehavior : ToolBehavior
     public AudioClip swing;
     public GameObject placedPrefab;
 
+    float coolDownMod = 1; //Multiplied to the tool use cooldown
+    float animSpeedMod = 0; //Added to animation speed
+
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown)
@@ -27,7 +30,7 @@ public class HoeBehavior : ToolBehavior
 
         tile = null;
 
-        if(Physics.Raycast(player.position, fwd, out hit, 7, mask))
+        if(Physics.Raycast(player.position, fwd, out hit, 7f, mask))
         {
 
             //tile = hit.collider.GetComponent<UntilledTile>();
@@ -50,18 +53,18 @@ public class HoeBehavior : ToolBehavior
                 HandItemManager.Instance.PlayPrimaryAnimation();
                 HandItemManager.Instance.toolSource.PlayOneShot(swing);
 
-                float coolDownMod = 1; //Multiplied to the tool use cooldown
-                float animSpeedMod = 0; //Added to animation speed
+                coolDownMod = 1; //Multiplied to the tool use cooldown
+                animSpeedMod = 0; //Added to animation speed
 
                 if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
                 {
                     coolDownMod -= .35f;
-                    animSpeedMod += .35f;
+                    animSpeedMod += .5f;
                 }
                 else if(PlayerInteraction.Instance.stamina <= 50)
                 {
                     coolDownMod += .25f;
-                    animSpeedMod -= .25f;
+                    animSpeedMod -= .5f;
                 }
                 if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
 
@@ -120,7 +123,7 @@ public class HoeBehavior : ToolBehavior
 
     IEnumerator ExtraLag()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.0f * coolDownMod);
         usingPrimary = false;
         PlayerMovement.restrictMovementTokens--;
     }
