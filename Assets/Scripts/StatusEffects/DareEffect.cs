@@ -25,6 +25,7 @@ public class DareEffect : StatusEffectObject
         //What happens when the effect is applied
         c.damageToStructure = (int)(c.damageToStructure * 1.5f);
         c.damageToPlayer = (int)(c.damageToPlayer * 1.5f);
+        c.actionSpeedMod += 0.5f;
     }
 
     public override void OnEffectRemoved()
@@ -37,5 +38,6 @@ public class DareEffect : StatusEffectObject
         //What happens when the effect is removed
         c.damageToStructure = (int)(c.damageToStructure * 0.5f);
         c.damageToPlayer = (int)(c.damageToPlayer * 0.5f);
+        c.actionSpeedMod -= 0.5f;
     }
 }

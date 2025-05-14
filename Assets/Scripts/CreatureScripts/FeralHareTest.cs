@@ -248,7 +248,7 @@ public class FeralHareTest : CreatureBehaviorScript
             var rotation = Quaternion.LookRotation(lookPos);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 2);
 
-            eatingTimeLeft -= Time.deltaTime;
+            eatingTimeLeft -= Time.deltaTime * actionSpeedMod;
         }
     }
 
@@ -312,7 +312,7 @@ public class FeralHareTest : CreatureBehaviorScript
         var rotation = Quaternion.LookRotation(lookPos);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 2);
 
-        diggingTimeLeft -= Time.deltaTime;
+        diggingTimeLeft -= Time.deltaTime * actionSpeedMod;
 
     }
 
@@ -471,6 +471,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
         float time = Random.Range(0.9f, 1.3f);
         if(currentState == CreatureState.FleeFromPlayer) time = time / 2.7f;
+        else time = time/actionSpeedMod;
         if(variant == Variant.Albino && playerInSightRange) time =  0.4f;
         yield return new WaitForSeconds(time);
 
@@ -483,7 +484,7 @@ public class FeralHareTest : CreatureBehaviorScript
         if(burstJumps <= 0 && variant == Variant.Albino)
         {
             cooldownEffect.SetActive(true);
-            yield return new WaitForSeconds(Random.Range(3, 5));
+            yield return new WaitForSeconds(Random.Range(3, 5)/actionSpeedMod);
             cooldownEffect.SetActive(false);
             burstJumps = Random.Range(3,5);
         }

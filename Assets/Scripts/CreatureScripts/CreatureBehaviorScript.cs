@@ -43,6 +43,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public int damageToStructure; //number must be positive
     public int damageToPlayer; //number must be negative
     public bool canCorpseBreak;
+    public float actionSpeedMod = 1; //Dictates the speed of specific interactions per creature
 
     List <Material> allMats = new List<Material>();
     List <Color> allMatColors = new List<Color>();
