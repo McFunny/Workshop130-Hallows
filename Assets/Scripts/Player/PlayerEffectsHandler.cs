@@ -20,7 +20,8 @@ public class PlayerEffectsHandler : MonoBehaviour
     public float shakeIntensity;
     //public AudioClip footSteps;
 
-    private CinemachineImpulseSource impulseSource;
+    public CinemachineImpulseSource damageImpulse;
+    //public CinemachineImpulseSource shakeImpulse;
 
     Volume globalVolume;
     public Color damageColor, focusColor;
@@ -34,7 +35,6 @@ public class PlayerEffectsHandler : MonoBehaviour
         StartCoroutine("FootStepsPitchChanger");
 
         globalVolume = FindObjectOfType<Volume>();
-        impulseSource = GetComponent<CinemachineImpulseSource>();
 
         PlayerInteraction p = PlayerInteraction.Instance;
 
@@ -80,7 +80,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     {
         StopCoroutine(DamageFlash());
         StartCoroutine(DamageFlash());
-        impulseSource.GenerateImpulseWithForce(shakeIntensity);
+        damageImpulse.GenerateImpulseWithForce(shakeIntensity);
         if(playerDamage)
         {
             source.pitch = Random.Range(0.8f, 1.2f);

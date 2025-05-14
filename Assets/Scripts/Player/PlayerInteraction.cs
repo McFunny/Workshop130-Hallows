@@ -249,6 +249,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
         {
+            if(hit.collider.gameObject.layer == 1) return;
             var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
@@ -540,6 +541,11 @@ public class PlayerInteraction : MonoBehaviour
     public void InvokePlayerDeathEvent()
     {
         OnPlayerDeath?.Invoke();
+    }
+
+    public void ShakeScreen(float intensity)
+    {
+        playerEffects.damageImpulse.GenerateImpulseWithForce(intensity);
     }
 
 

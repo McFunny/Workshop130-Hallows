@@ -102,6 +102,7 @@ public class ShotGunBehavior : ToolBehavior
 
     public IEnumerator ShootGun()
     {
+        PlayerInteraction.Instance.ShakeScreen(0.5f);
         if(!bulletStart)
         {
             bulletStart = HandItemManager.Instance.bulletStart;
