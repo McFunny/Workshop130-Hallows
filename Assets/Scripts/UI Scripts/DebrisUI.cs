@@ -49,6 +49,8 @@ public class DebrisUI : MonoBehaviour
             }
             else
             {
+                if (debrisPile.repairedStruct.mintRepairCost <= 0) continue;
+                //Show mint cost
                 resourceIcons[i].gameObject.SetActive(true);
                 resourceIcons[i].sprite = mintSprite;
                 resourceText[i].text = debrisPile.repairedStruct.mintRepairCost.ToString();
