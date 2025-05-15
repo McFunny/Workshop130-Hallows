@@ -156,6 +156,8 @@ public class FakeFarmLand : StructureBehaviorScript
             mimic.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
             mimic.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             mimic.currentState = PlantMimic.CreatureState.Emerge;
+
+            if(onFire) mimic.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 10);
         }
         if(health <= 0) ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }

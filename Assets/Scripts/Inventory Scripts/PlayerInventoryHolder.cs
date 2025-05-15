@@ -444,6 +444,22 @@ public class PlayerInventoryHolder : InventoryHolder
         else return true;
     }
 
+    public void RemoveItemsFromBothInventories(List<ItemWithAmount> list)
+    {
+        for(int i = 0; i < list.Count; i++)
+        {
+            int amountToRemove = list[i].amount;
+
+            amountToRemove -= primaryInventorySystem.ReturnItemCount(list[i].item);
+            primaryInventorySystem.RemoveItemsFromInventory(list[i].item, list[i].amount);
+
+            if(amountToRemove > 0)
+            {
+                secondaryInventorySystem.RemoveItemsFromInventory(list[i].item, amountToRemove);
+            }
+        }
+    }
+
     public void UpdateInventory()
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);

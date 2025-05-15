@@ -214,6 +214,7 @@ public class StructureBehaviorScript : MonoBehaviour
                 DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();
                 newPile.repairedStruct = structData;
                 newPile.transform.rotation = transform.rotation;
+                print("I spawned a pile");
             }
         }
 

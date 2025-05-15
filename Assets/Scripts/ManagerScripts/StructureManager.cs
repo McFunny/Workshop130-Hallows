@@ -88,7 +88,7 @@ public class StructureManager : MonoBehaviour
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
 
-        if(Random.Range(0,100) > 5)
+        if(Random.Range(0,100) < 5f)
         {
             Instantiate(crowWithNut, GetRandomClearTile(), Quaternion.identity);
         }

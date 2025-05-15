@@ -125,7 +125,7 @@ public class InventorySystem
                 {
                     itemsRemoved += stackSize;
                     slot.RemoveFromStack(stackSize);
-                    amount -= stackSize; 
+                    //amount -= stackSize; 
                 }
 
                 OnInventorySlotChanged?.Invoke(slot);

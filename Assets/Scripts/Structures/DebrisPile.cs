@@ -26,10 +26,31 @@ public class DebrisPile : StructureBehaviorScript
         EnablePile();
     }
 
+    public override void StructureInteraction()
+    {
+        if(repairedStruct.mintRepairCost == 0 && repairedStruct.repairItems.Count == 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if(CanRepair())
+        {
+            PlayerInteraction.Instance.currentMoney -= repairedStruct.mintRepairCost;
+            /*for(int i = 0; i < repairedStruct.repairItems.Count; i++)
+            {
+                inventory.RemoveItemsFromInventory(repairedStruct.repairItems[i].item, repairedStruct.repairItems[i].amount);
+            }*/
+            PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(repairedStruct.repairItems);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            RepairStructure();
+        }
+    }
+
     public override void ItemInteraction(InventoryItemData item)
     {
-        //RepairStructure();
-        Destroy(gameObject);
+        StructureInteraction();
+
     }
 
     public override void ToolInteraction(ToolType type, out bool success)
@@ -85,6 +106,17 @@ public class DebrisPile : StructureBehaviorScript
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         Destroy(gameObject);
+    }
+
+    bool CanRepair()
+    {
+        if(PlayerInteraction.Instance.currentMoney < repairedStruct.mintRepairCost) return false;
+        for(int i = 0; i < repairedStruct.repairItems.Count; i++)
+        {
+            int amountToFind = repairedStruct.repairItems[i].amount;
+            if(PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(repairedStruct.repairItems[i].item) < amountToFind) return false;
+        }
+        return true;
     }
 
     void OnDestroy()
