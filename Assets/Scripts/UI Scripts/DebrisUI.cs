@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class DebrisUI : MonoBehaviour
 {
-    [SerializeField] private bool forceHideUI = false;
+    public bool forceHideUI = false;
+    [SerializeField] private Sprite mintSprite;
     [SerializeField] private GameObject uiContainer;
     [SerializeField] private Image[] resourceIcons;
     [SerializeField] private TextMeshProUGUI[] resourceText;
@@ -38,11 +39,21 @@ public class DebrisUI : MonoBehaviour
         uiContainer.SetActive(true);
         var repairItems = debrisPile.repairedStruct.repairItems;
 
-        for (int i = 0; i < repairItems.Count; i++)
+        for (int i = 0; i <= repairItems.Count; i++)
         {
-            resourceIcons[i].gameObject.SetActive(true);
-            resourceIcons[i].sprite = repairItems[i].item.icon;
-            resourceText[i].text = repairItems[i].amount.ToString();
+            if(i < repairItems.Count)
+            {
+                resourceIcons[i].gameObject.SetActive(true);
+                resourceIcons[i].sprite = repairItems[i].item.icon;
+                resourceText[i].text = repairItems[i].amount.ToString();
+            }
+            else
+            {
+                resourceIcons[i].gameObject.SetActive(true);
+                resourceIcons[i].sprite = mintSprite;
+                resourceText[i].text = debrisPile.repairedStruct.mintRepairCost.ToString();
+            }
+            
         }
     }
 
