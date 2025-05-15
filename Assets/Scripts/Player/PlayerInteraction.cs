@@ -224,6 +224,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach + 4, interactionLayers))
         {
+            if(hit.collider.gameObject.layer == 19) return;
             var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
@@ -249,7 +250,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
         {
-            if(hit.collider.gameObject.layer == 1) return;
+            if(hit.collider.gameObject.layer == 19) return;
             var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
@@ -429,6 +430,7 @@ public class PlayerInteraction : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
         {
+            if(hit.collider.gameObject.layer == 19) return;
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
