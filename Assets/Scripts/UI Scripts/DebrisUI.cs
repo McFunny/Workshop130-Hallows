@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DebrisUI : MonoBehaviour
 {
     [SerializeField] private bool forceHideUI = false;
     [SerializeField] private GameObject uiContainer;
+    [SerializeField] private Image[] resourceIcons;
+    [SerializeField] private TextMeshProUGUI[] resourceText;
 
     private DebrisPile debrisPile;
 
@@ -14,13 +18,17 @@ public class DebrisUI : MonoBehaviour
         debrisPile = GetComponent<DebrisPile>();
         uiContainer.SetActive(false);
 
+        for (int i = 0; i < resourceIcons.Length; i++)
+        {
+            resourceIcons[i].gameObject.SetActive(false);
+        }
+
         ShowDebrisUI();
     }
 
     private void Update()
     {
-        if (forceHideUI) HideDebrisUI();
-        else ShowDebrisUI();
+
     }
 
     private void ShowDebrisUI()
@@ -28,6 +36,14 @@ public class DebrisUI : MonoBehaviour
         if (!debrisPile.repairedStruct) return;
         if(forceHideUI) return;
         uiContainer.SetActive(true);
+        var repairItems = debrisPile.repairedStruct.repairItems;
+
+        for (int i = 0; i < repairItems.Count; i++)
+        {
+            resourceIcons[i].gameObject.SetActive(true);
+            resourceIcons[i].sprite = repairItems[i].item.icon;
+            resourceText[i].text = repairItems[i].amount.ToString();
+        }
     }
 
     private void HideDebrisUI()
