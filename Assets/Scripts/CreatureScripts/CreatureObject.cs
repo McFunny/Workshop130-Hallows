@@ -27,6 +27,8 @@ public class CreatureObject : ScriptableObject
 
     public bool hasSpawned = false;
 
+    //[HideInInspector] public bool forceSpawnVariant = false;
+
     public SpawnType spawnType;
 
     //////For Wilderness Spawning/////

@@ -43,6 +43,7 @@ public class MutatedCrow : CreatureBehaviorScript
     public ParticleSystem cropParticle;
 
     public StructureObject scareCrow;
+    bool circlingScareCrow = false;
 
     public bool isDecorCrow = false;
 
@@ -88,8 +89,12 @@ public class MutatedCrow : CreatureBehaviorScript
         StructureBehaviorScript.OnStructuresUpdated += UpdateStructureList;
         UpdateStructureList();
         targetStructure = null;
-        if(currentState != CreatureState.CarryObject) currentState = CreatureState.Idle;
-        point = GetRandomPoint(15);
+        if(currentState != CreatureState.CarryObject)
+        {
+            currentState = CreatureState.Idle;
+            point = StructureManager.Instance.GetRandomTile();
+        }
+        else point = GetRandomPoint(15);
         point.y = height * 7;
         if(isDecorCrow && Random.Range(0,9) > 3) currentState = CreatureState.GoAway;
     }
@@ -289,14 +294,32 @@ public class MutatedCrow : CreatureBehaviorScript
         }
     }
 
+    IEnumerator ScareCrowRoutine()
+    {
+        coroutineRunning = true;
+        if(targetStructure) point = targetStructure.transform.position;
+        yield return new WaitForSeconds(Random.Range(3, 8));
+        circlingScareCrow = true;
+        coroutineRunning = false;
+    }
+
     private void AttackScarecrow()
     {
+        if(!circlingScareCrow)
+        {
+            if(!coroutineRunning)
+            {
+                StartCoroutine(ScareCrowRoutine());
+            }
+            return;
+        }
+
         if (targetStructure == null)
         {
             currentState = CreatureState.Land;
             return;
         }
-        if (Vector3.Distance(transform.position, targetStructure.transform.position) < 3f) //Arrived at crop eat it
+        if (Vector3.Distance(transform.position, targetStructure.transform.position) < 1.5f) //Arrived
         {
             if (targetStructure == null) currentState = CreatureState.Idle;
             rb.useGravity = true;
@@ -310,6 +333,7 @@ public class MutatedCrow : CreatureBehaviorScript
             targetStructure = null;
             currentState = CreatureState.Idle;
             Debug.Log("I attacked the scarecrow");
+            circlingScareCrow = false;
         }
         else //Fly to SCARECROW
         {

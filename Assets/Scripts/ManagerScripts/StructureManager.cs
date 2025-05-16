@@ -90,7 +90,7 @@ public class StructureManager : MonoBehaviour
 
         if(Random.Range(0,100) < 5f)
         {
-            Instantiate(crowWithNut, GetRandomClearTile(), Quaternion.identity);
+            Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
     }
 

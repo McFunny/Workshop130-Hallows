@@ -211,6 +211,7 @@ public class NightSpawningManager : MonoBehaviour
         {
             int r = Random.Range(0, c.creatureVariants.Count);
             int p = Random.Range(0,100);
+            //if(c.forceSpawnVariant) p = 0;
             if(c.creatureVariants[r].probabilityInFarm > p && c.creatureVariants[r].wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) prefab = c.creatureVariants[r].prefab;
         }
         if(prefab == null) prefab = c.objectPrefab;
@@ -376,6 +377,7 @@ public class NightSpawningManager : MonoBehaviour
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Common && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
+            c.forceSpawnVariant = false;
         }
         for(int i = 0; i < a; i++)
         {
