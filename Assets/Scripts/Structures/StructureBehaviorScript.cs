@@ -156,9 +156,9 @@ public class StructureBehaviorScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         OnDamage?.Invoke();
+        OnDamageWithValue?.Invoke(damage);
         if(!destructable || health <= 0) return;
         health -= damage;
-        OnDamageWithValue?.Invoke(damage);
         //if(damageParticles) damageParticles.Play();
         for(int i = 0; i < damageParticles.Count; i++)
         {

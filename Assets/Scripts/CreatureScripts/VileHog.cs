@@ -585,6 +585,7 @@ public class VileHog : CreatureBehaviorScript
             {
                 if(!structure.destructable) //Hit a tree
                 {
+                    structure.TakeDamage(damageToStructure);
                     attackHitbox.enabled = false;
                     recoilTime = 3f;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
