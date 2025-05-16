@@ -32,6 +32,8 @@ public class CropData : ScriptableObject
 
     [Header("Specialized Crop Variables")]
 
+    public bool requireScythe = false;
+
     public GameObject creaturePrefab; //Specifically for the mandrake and the mimic. If this isnt null, spawn the creature instead of the cropYield
 
     public CropBehavior behavior;

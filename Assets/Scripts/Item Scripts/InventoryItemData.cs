@@ -33,6 +33,8 @@ public class InventoryItemData : ScriptableObject
 
     [Tooltip("What Status Effects Will Be Gained Upon Consumption")]
     public List<StatusEffect> gainedEffects = new List<StatusEffect>();
+
+    public ItemBehavior itemBehavior;
    
     public void UseItem()
     {

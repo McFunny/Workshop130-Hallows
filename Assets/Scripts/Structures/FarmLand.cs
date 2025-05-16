@@ -9,7 +9,7 @@ public class FarmLand : StructureBehaviorScript
     public CropDatabase cropDatabase;
 
     public CropData crop; //The current crop planted here //MUST BE SAVED
-    public InventoryItemData terraFert, gloamFert, ichorFert, compost;
+    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
     public Collider finishedGrowingCollider;
@@ -17,6 +17,7 @@ public class FarmLand : StructureBehaviorScript
     public MeshRenderer meshRenderer;
     public Material dry, wet, barren, barrenWet;
 
+    [Header("Crop Stats")]
     public int growthStage = -1; //-1 means there is no crop //MUST BE SAVED
     public int hoursSpent = 0; //how long has the plant been in this growth stage for?
     public int plantStress = 0; //how much stress the plant has, gained from lack of nutrients/water. If 0 stress, the plant can produce seeds
@@ -32,16 +33,26 @@ public class FarmLand : StructureBehaviorScript
     PlayerInventoryHolder playerInventoryHolder;
 
     private NutrientStorage nutrients;
-
-    public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
-    public GameObject frostParticles;
+    [Header("VFX and Extra References")]
     public GameObject light;
+    public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
     public TextMeshProUGUI supportText;
 
     public TextMeshProUGUI harvestText;
     [SerializeField] private CropNeedsUI cropNeedsUI;
 
     float oldMaxHealth;
+
+    FarmTileUpgrade currentUpgrade;
+    public GameObject[] upgradeObjects;
+
+    public enum FarmTileUpgrade
+    {
+        None,
+        Stone,
+        Mulch,
+        Trellis
+    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -116,41 +127,55 @@ public class FarmLand : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        bool consumeItem = false;
         if(item == terraFert && nutrients.terraLevel < 10)
         {
-            //nutrients.terraLevel = 10;
             StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 10, 0);
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-            playerInventoryHolder.UpdateInventory();
+            consumeItem = true;
             return;
         }
-        if(item == gloamFert && nutrients.gloamLevel < 10)
+        else if(item == gloamFert && nutrients.gloamLevel < 10)
         {
-            //nutrients.gloamLevel = 10;
             StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 0, 10);
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-            playerInventoryHolder.UpdateInventory();
+            consumeItem = true;
             return;
         }
-        if(item == ichorFert && nutrients.ichorLevel < 10)
+        else if(item == ichorFert && nutrients.ichorLevel < 10)
         {
-            //nutrients.ichorLevel = 10;
             StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 10, 0, 0);
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-            playerInventoryHolder.UpdateInventory();
+            consumeItem = true;
             return;
         }
-        if(item == compost && (nutrients.gloamLevel < 10 || nutrients.terraLevel < 10))
+        else if(item == compost && (nutrients.gloamLevel < 10 || nutrients.terraLevel < 10))
         {
             nutrients.gloamLevel += 2;
             nutrients.terraLevel += 2;
             if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
             if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
+            consumeItem = true;
+        }
+        //StructureManager.Instance.UpdateStorage(transform.position, nutrients);
+
+        else if(!isWeed && item == rocks && currentUpgrade == FarmTileUpgrade.None)
+        {
+            consumeItem = true;
+            ApplyNewUpgrade(FarmTileUpgrade.Stone);
+            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+            if(audioHandler != null) audioHandler.PlayRandomSound(audioHandler.miscSounds1);
+        }
+        /*else if(!isWeed && item == mulch && currentUpgrade == FarmTileUpgrade.None)
+        {
+            consumeItem = true;
+            ApplyNewUpgrade(FarmTileUpgrade.Mulch);
+        }*/
+        
+        if(consumeItem)
+        {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
+            SpriteChange();
             return;
         }
-        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 
         if(crop) return;
         CropItem newCrop = item as CropItem;
@@ -430,6 +455,24 @@ public class FarmLand : StructureBehaviorScript
             if(harvestable && !rotted) harvestText.text = "Interact To Harvest";
             else harvestText.text = "";
         }
+
+        //For Updating the upgrades
+        if(upgradeObjects.Length == 0) return;
+        for(int i = 0; i < upgradeObjects.Length; i++)
+        {
+            upgradeObjects[i].SetActive(false);
+        }
+        switch (currentUpgrade)
+        {
+            case FarmTileUpgrade.None:
+            break;
+            case FarmTileUpgrade.Stone:
+            upgradeObjects[0].SetActive(true);
+            break;
+            case FarmTileUpgrade.Mulch:
+            upgradeObjects[1].SetActive(true);
+            break;
+        }
     }
 
     void DrainNutrients(out bool gainedStress)
@@ -441,13 +484,16 @@ public class FarmLand : StructureBehaviorScript
             return;
         }
 
+        bool ignoreWaterConsumption = false;
+        if(currentUpgrade == FarmTileUpgrade.Mulch && Random.Range(0, 10) > 7) ignoreWaterConsumption = true;
+
         //Check if it can properly grow before draining
         if(nutrients.ichorLevel - crop.ichorIntake < 0) gainedStress = true;
         if(nutrients.terraLevel - crop.terraIntake < 0) gainedStress = true;
         if(nutrients.gloamLevel - crop.gloamIntake < 0) gainedStress = true;
-        if(nutrients.waterLevel - crop.waterIntake < 0 && !isWeed) gainedStress = true;
+        if(nutrients.waterLevel - crop.waterIntake < 0 && !isWeed && !ignoreWaterConsumption) gainedStress = true;
 
-        nutrients.waterLevel -= crop.waterIntake;
+        if(!ignoreWaterConsumption) nutrients.waterLevel -= crop.waterIntake;
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
 
         if(!gainedStress)
@@ -611,6 +657,7 @@ public class FarmLand : StructureBehaviorScript
     void Damaged()
     {
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        if(currentUpgrade == FarmTileUpgrade.Stone && health < 10) ApplyNewUpgrade(FarmTileUpgrade.None);
     }
 
     void FrostDamage() //When watering a frosted crop
@@ -698,6 +745,36 @@ public class FarmLand : StructureBehaviorScript
         SpriteChange();
     }
 
+    void ApplyNewUpgrade(FarmTileUpgrade newUpgrade)
+    {
+        if(currentUpgrade == newUpgrade || isWeed) return;
+
+        //Removing current effects
+        switch (currentUpgrade)
+        {
+            case FarmTileUpgrade.Stone:
+            maxHealth -= 10;
+            break;
+            default:
+            break;
+        }
+
+        currentUpgrade = newUpgrade;
+
+        //Applying New effects
+        switch (currentUpgrade)
+        {
+            case FarmTileUpgrade.Stone:
+            maxHealth += 10;
+            health += 10;
+            break;
+            default:
+            break;
+        }
+
+        SpriteChange();
+    }
+
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it
     {
         nutrients = StructureManager.Instance.FetchNutrient(transform.position);
@@ -719,6 +796,19 @@ public class FarmLand : StructureBehaviorScript
         if(crop) wealthValue = 5;
         else wealthValue = 0;
 
+        switch(saveFloat1)
+        {
+            case 0:
+            ApplyNewUpgrade(FarmTileUpgrade.None);
+            break;
+            case 1:
+            ApplyNewUpgrade(FarmTileUpgrade.Stone);
+            break;
+            case 2:
+            ApplyNewUpgrade(FarmTileUpgrade.Mulch);
+            break;
+        }
+
         GetCropStats();
     }
 
@@ -733,6 +823,19 @@ public class FarmLand : StructureBehaviorScript
             saveInt3 = plantStress;
             if(rotted) saveString2 = "true";
             else saveString2 = "false";
+
+            switch (currentUpgrade)
+            {
+                case FarmTileUpgrade.None:
+                saveFloat1 = 0;
+                break;
+                case FarmTileUpgrade.Stone:
+                saveFloat1 = 1;
+                break;
+                case FarmTileUpgrade.Mulch:
+                saveFloat1 = 2;
+                break;
+            }
         }
 
     }

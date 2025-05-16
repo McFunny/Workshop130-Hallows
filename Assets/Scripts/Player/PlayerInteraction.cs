@@ -324,6 +324,12 @@ public class PlayerInteraction : MonoBehaviour
             itemUsed = true;
         }
 
+        if(item.itemBehavior)
+        {
+            item.itemBehavior.UseItem(out bool consumedOnUse);
+            if(consumedOnUse) itemUsed = true;
+        }
+
         if(itemUsed)
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);

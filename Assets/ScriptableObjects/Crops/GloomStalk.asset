@@ -24,11 +24,11 @@ MonoBehaviour:
   - {fileID: 1099707477, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
   - {fileID: 475558105, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
   rottedImage: {fileID: 1291080773, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
-  cropYield: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+  cropYield: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
   cropSecondaryYield: {fileID: 0}
   cropSeed: {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
   cropYieldAmount: 1
-  cropYieldVariance: 1
+  cropYieldVariance: 2
   seedYieldAmount: 1
   seedYieldVariance: 0
   waterIntake: 5
@@ -36,6 +36,7 @@ MonoBehaviour:
   terraIntake: -0.5
   gloamIntake: 1
   stressLimit: 1
+  requireScythe: 1
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0

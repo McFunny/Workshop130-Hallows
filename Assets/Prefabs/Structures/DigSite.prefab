@@ -385,9 +385,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: c045dbc157547ed448ab306f228410d1, type: 2}
+  itemForm: {fileID: 0}
   health: 5
   maxHealth: 5
   wealthValue: 0
+  salvageChance: 0
   destructable: 1
   flammable: 0
   onFire: 0
@@ -406,7 +408,6 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   damageParticlesObject: {fileID: 0}
-  destructionType: 0
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:
@@ -426,6 +427,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ecfc29ba5e06010499daa22c7ef870d1, type: 2}
   - {fileID: 11400000, guid: f29bb69da0fd7b24ea926a45c638e197, type: 2}
   - {fileID: 11400000, guid: 5daec7923b3fc2a4b9cf52d052f5a9ad, type: 2}
+  - {fileID: 11400000, guid: e32ed33e3f66537479427ee3cb55dba3, type: 2}
   itemProbabilities:
   - 30
   - 50
@@ -434,6 +436,7 @@ MonoBehaviour:
   - 10
   - 10
   - 10
+  - 30
   - 30
   - 30
 --- !u!1 &9112103938443658095

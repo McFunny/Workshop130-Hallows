@@ -558,14 +558,19 @@ public class PyreFly : CreatureBehaviorScript
         {
             ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
             if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);
-            if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f) PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
+            if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f)
+            {
+                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
+                PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
+            }
             Collider[] hitStructures = Physics.OverlapSphere(transform.position, 1.5f, 1 << 6);
             foreach(Collider collider in hitStructures)
             {
                 StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
-                if(structure && structure.IsFlammable())
+                if(structure)
                 {
-                    structure.LitOnFire();
+                    if(structure.IsFlammable()) structure.LitOnFire();
+                    else structure.TakeDamage(damageToStructure);
                 }
             }
 
@@ -575,7 +580,8 @@ public class PyreFly : CreatureBehaviorScript
                 var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
                 if (creature != null && creature.shovelVulnerable)
                 {
-                    creature.TakeDamage(125);
+                    creature.TakeDamage(75);
+                    creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 15));
                     creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 }
             }
