@@ -581,7 +581,7 @@ public class VileHog : CreatureBehaviorScript
         if(other.gameObject.layer == 6)
         {
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null && structure.isObstacle)
+            if (structure != null && (structure.isObstacle || !structure.destructable))
             {
                 if(!structure.destructable) //Hit a tree
                 {

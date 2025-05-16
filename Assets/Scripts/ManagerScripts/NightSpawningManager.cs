@@ -377,7 +377,7 @@ public class NightSpawningManager : MonoBehaviour
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Common && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
-            c.forceSpawnVariant = false;
+            //c.forceSpawnVariant = false;
         }
         for(int i = 0; i < a; i++)
         {

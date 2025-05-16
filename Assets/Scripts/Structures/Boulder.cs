@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Boulder : StructureBehaviorScript
+{
+    public InventoryItemData rocks, gold;
+
+    float damageThreshold = 15;
+
+    bool dropItems = false;
+
+    void Awake()
+    {
+        base.Awake();
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        base.Start();
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+
+        OnDamageWithValue += Damaged;
+    }
+
+    void OnDestroy()
+    {
+        OnDamageWithValue -= Damaged;
+        base.OnDestroy();
+
+        if (!gameObject.scene.isLoaded || !dropItems) return; 
+
+        GameObject droppedItem;
+        int itemsToDrop = Random.Range(1, 5);
+        for(int i = 0; i < itemsToDrop; i++)
+        {
+            //if(Random.Range(0, 100) > 95) droppedItem = ItemPoolManager.Instance.GrabItem(gold);
+            /*else */droppedItem = ItemPoolManager.Instance.GrabItem(rocks);
+            droppedItem.transform.position = transform.position;
+
+            Vector3 dir3 = Random.onUnitSphere;
+            dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+            Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB.AddForce(dir3 * 20);
+            itemRB.AddForce(Vector3.up * 50);
+        }
+    }
+
+    void Damaged(float damage)
+    {
+        if(damage >= damageThreshold)
+        {
+            dropItems = true;
+            Destroy(gameObject);
+        }
+        else
+        {
+            health = maxHealth;
+        }
+    }
+}

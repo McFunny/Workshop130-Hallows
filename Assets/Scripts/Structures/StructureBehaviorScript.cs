@@ -14,6 +14,9 @@ public class StructureBehaviorScript : MonoBehaviour
     public delegate void Damaged();
     [HideInInspector] public event Damaged OnDamage;
 
+    public delegate void DamagedWithValue(float damage);
+    [HideInInspector] public event DamagedWithValue OnDamageWithValue;
+
     [Header("Structure Stats")]
 
     public StructureObject structData;
@@ -155,6 +158,7 @@ public class StructureBehaviorScript : MonoBehaviour
         OnDamage?.Invoke();
         if(!destructable || health <= 0) return;
         health -= damage;
+        OnDamageWithValue?.Invoke(damage);
         //if(damageParticles) damageParticles.Play();
         for(int i = 0; i < damageParticles.Count; i++)
         {
