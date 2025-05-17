@@ -21,6 +21,7 @@ public class PouchBehavior : ItemBehavior
                 Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
                 itemRB.AddForce(dir3 * 35);
                 itemRB.AddForce(Vector3.up * 50);
+                itemRB.AddForce(PlayerInteraction.Instance.transform.forward * 40);
             }
         }
 

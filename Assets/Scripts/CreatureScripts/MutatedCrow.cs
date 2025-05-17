@@ -37,7 +37,8 @@ public class MutatedCrow : CreatureBehaviorScript
     public float attackCooldown = 3f;
     public float rotationSpeed = 25f;
     public bool chooseRandomStats = false;
-    public List<CropData> desiredCrops;
+    //public List<CropData> desiredCrops;
+    public List<CropData> undesiredCrops;
     public List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
     public ParticleSystem attackParticle;
     public ParticleSystem cropParticle;
@@ -884,7 +885,7 @@ public class MutatedCrow : CreatureBehaviorScript
         foreach (StructureBehaviorScript structure in structManager.allStructs)
         {
             FarmLand potentialFarmTile = structure as FarmLand;
-            if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop))
+            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop))
             {
                 availableStructure.Add(potentialFarmTile);
             }

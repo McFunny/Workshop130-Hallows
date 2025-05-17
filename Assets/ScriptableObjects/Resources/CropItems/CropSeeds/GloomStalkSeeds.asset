@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 21
   displayName: GloomStalk Seeds
-  description: Fast growing grain that needs constant water. Hares don't care for
-    this plant and will ignore this crop.
-  icon: {fileID: 1685841986, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
+  description: Fast growing grain that needs constant water. Hares and Mist Walkers
+    don't care for this plant and will ignore this crop.
+  icon: {fileID: -1878935535, guid: a1c20eb61132f724a8585049d7822656, type: 3}
   maxStackSize: 20
   value: 3
   sellValueMultiplier: 0
@@ -31,6 +31,7 @@ MonoBehaviour:
   - LT - Plant
   gainedEffects: []
   itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
   plantable: 1
   cropData: {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
   ableToBeShot: 1

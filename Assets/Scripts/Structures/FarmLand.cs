@@ -295,6 +295,7 @@ public class FarmLand : StructureBehaviorScript
             hoursSpent = 0;
             SpriteChange();
             if(growthComplete) growthComplete.Stop();
+            ignoreNextGrowthMoment = true;
         }
     }
 

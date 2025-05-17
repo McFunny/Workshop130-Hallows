@@ -81,7 +81,7 @@ public class StructureManager : MonoBehaviour
         {
             PopulateStructure(-3, 5, weedTile, false);
             PopulateDecorCrows(0, 2);
-            PopulateStructure(-2, 3, boulder, true);
+            PopulateStructure(-3, 3, boulder, true);
         }
         if(TimeManager.Instance.currentHour == 6)
         {

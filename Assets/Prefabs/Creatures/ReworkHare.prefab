@@ -83,7 +83,9 @@ MonoBehaviour:
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 0
+  actionSpeedMod: 1
   hitColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 0.7176471}
+  currentEffects: []
   variant: 0
   desiredCrops:
   - {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
@@ -102,6 +104,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d9748bf765b774747a0a98a688e17291, type: 2}
   - {fileID: 11400000, guid: b9c8c2c3b5691904e95fcedd53154dac, type: 2}
   - {fileID: 11400000, guid: 5a60016cc237cd846b888ac0d414fcb4, type: 2}
+  undesiredCrops:
+  - {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
+  - {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
+  - {fileID: 11400000, guid: 327028795e7109e4085a7de271dd17a8, type: 2}
+  - {fileID: 11400000, guid: 5349594fbfaf93a4ea544f582119b7fb, type: 2}
+  - {fileID: 11400000, guid: 6d581edce78107e45ace1df7ddff4ae5, type: 2}
   carrotCrop: {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
   burrow: {fileID: 7255452786975544648, guid: a7f024629f7649543ab098046aced1a2, type: 3}
   cooldownEffect: {fileID: 0}

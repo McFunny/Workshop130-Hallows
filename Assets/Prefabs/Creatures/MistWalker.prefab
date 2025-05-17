@@ -8596,7 +8596,9 @@ MonoBehaviour:
   damageToStructure: 5
   damageToPlayer: -25
   canCorpseBreak: 0
+  actionSpeedMod: 1
   hitColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.7176471}
+  currentEffects: []
   variant: 0
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
@@ -8611,6 +8613,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7a3993b97315b594b9ce3f005593c5bc, type: 2}
   - {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
   availableStructure: []
+  undesiredCrops:
+  - {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
+  - {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
+  - {fileID: 11400000, guid: 327028795e7109e4085a7de271dd17a8, type: 2}
+  - {fileID: 11400000, guid: 5349594fbfaf93a4ea544f582119b7fb, type: 2}
+  - {fileID: 11400000, guid: 6d581edce78107e45ace1df7ddff4ae5, type: 2}
   agent: {fileID: 0}
   animEvents: {fileID: 1571331616092395312}
   lungeAttackHitbox: {fileID: 9090513854541498605}
