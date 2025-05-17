@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wood_Chips
+  m_Name: Stone_Flash2
   m_Shader: {fileID: -6465566751694194690, guid: c5401661b4358cd459018cc45632ed01,
     type: 3}
   m_Parent: {fileID: 0}
@@ -28,7 +28,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 3f25c5bddc3edbe41bfe6fee51ebfa86, type: 3}
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -47,7 +47,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Bits: 8
+    - _Bits: 24
     - _Blend: 0
     - _CastShadows: 1
     - _Cull: 2
@@ -60,7 +60,7 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 0.37450984, g: 0.37450984, b: 0.37450984, a: 1}
+    - _Color: {r: 1.1353017, g: 1.1353017, b: 1.1353017, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &2935787995013342919
 MonoBehaviour:
