@@ -59,7 +59,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.924, z: 0}
-  m_LocalScale: {x: 4.94, y: 4.94, z: 4.94}
+  m_LocalScale: {x: 6.0000005, y: 6.0000005, z: 6.0000005}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4555801538394538351}
@@ -233,9 +233,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: f8c723bdc5ce2b54e90db5f0c86dc4d8, type: 2}
+  itemForm: {fileID: 0}
   health: 10
   maxHealth: 10
   wealthValue: 0
+  salvageChance: 0
   destructable: 1
   flammable: 1
   onFire: 0
@@ -254,11 +256,11 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   damageParticlesObject: {fileID: 0}
-  destructionType: 0
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:
   - {fileID: 4189422400640491178}
+  canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 0}
@@ -268,6 +270,8 @@ MonoBehaviour:
   gloamFert: {fileID: 11400000, guid: f3699f9261ee2074da3c66f0f2880b97, type: 2}
   ichorFert: {fileID: 11400000, guid: a213798768e67f442a88e35faf4c873b, type: 2}
   compost: {fileID: 11400000, guid: ea07bb057af3e1e48b815126a425d0d0, type: 2}
+  rocks: {fileID: 0}
+  mulch: {fileID: 0}
   cropRenderer: {fileID: 6240152475005840231}
   itemDropTransform: {fileID: 5844641336483811334}
   finishedGrowingCollider: {fileID: 6458696476407528464}
@@ -283,15 +287,17 @@ MonoBehaviour:
   rotted: 0
   isWeed: 1
   isFrosted: 0
+  ignoreNextGrowthMoment: 0
+  light: {fileID: 0}
   growth: {fileID: 0}
   growthComplete: {fileID: 0}
   growthImpeded: {fileID: 0}
   waterSplash: {fileID: 2455231391205077409}
   ichorSplash: {fileID: 7002656638295804297}
-  frostParticles: {fileID: 0}
-  light: {fileID: 0}
+  supportText: {fileID: 0}
   harvestText: {fileID: 0}
   cropNeedsUI: {fileID: 0}
+  upgradeObjects: []
 --- !u!114 &1499389874103428145
 MonoBehaviour:
   m_ObjectHideFlags: 0

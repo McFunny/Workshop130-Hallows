@@ -403,7 +403,9 @@ MonoBehaviour:
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 0
+  actionSpeedMod: 1
   hitColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 0.7176471}
+  currentEffects: []
   isAttackCrow: 0
   currentState: 0
   isSummoned: 0
@@ -433,11 +435,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5a60016cc237cd846b888ac0d414fcb4, type: 2}
   - {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
   - {fileID: 11400000, guid: 8476fef76bde32344a729472b26e55a8, type: 2}
+  - {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
+  undesiredCrops:
+  - {fileID: 11400000, guid: 6d581edce78107e45ace1df7ddff4ae5, type: 2}
+  - {fileID: 11400000, guid: 327028795e7109e4085a7de271dd17a8, type: 2}
+  - {fileID: 11400000, guid: 5349594fbfaf93a4ea544f582119b7fb, type: 2}
   availableStructure: []
   attackParticle: {fileID: 0}
   cropParticle: {fileID: 0}
   scareCrow: {fileID: 11400000, guid: 0df10b19e29cb1c48940ea9ef2efcc81, type: 2}
   isDecorCrow: 0
+  carriedNut: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128

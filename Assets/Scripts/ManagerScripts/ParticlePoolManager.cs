@@ -517,4 +517,5 @@ public enum StructureType
     Wood,
     Metal,
     Hay
+    //Stone
 }
