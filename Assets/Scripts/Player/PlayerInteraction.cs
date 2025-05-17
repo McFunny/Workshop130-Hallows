@@ -332,9 +332,10 @@ public class PlayerInteraction : MonoBehaviour
 
         if(itemUsed)
         {
+            if(item.useSound) playerEffects.PlayClip(item.useSound);
+            else if(item.staminaValue > 0) playerEffects.PlayClip(playerEffects.itemEat);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
-            playerEffects.PlayClip(playerEffects.itemEat);
         }
 
     }

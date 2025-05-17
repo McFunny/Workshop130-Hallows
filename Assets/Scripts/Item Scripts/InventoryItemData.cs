@@ -35,6 +35,8 @@ public class InventoryItemData : ScriptableObject
     public List<StatusEffect> gainedEffects = new List<StatusEffect>();
 
     public ItemBehavior itemBehavior;
+
+    public AudioClip useSound;
    
     public void UseItem()
     {

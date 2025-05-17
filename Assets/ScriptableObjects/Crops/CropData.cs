@@ -29,6 +29,7 @@ public class CropData : ScriptableObject
     public float terraIntake;
     public float gloamIntake;
     public int stressLimit = 1; //if the plant exceeds this stress number, it dies
+    public int wealthValue = 5;
 
     [Header("Specialized Crop Variables")]
 

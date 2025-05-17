@@ -104,7 +104,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.924, z: 0}
-  m_LocalScale: {x: 4.94, y: 4.94, z: 4.94}
+  m_LocalScale: {x: 6.0000005, y: 6.0000005, z: 6.0000005}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3331779135957699454}
@@ -554,13 +554,12 @@ MonoBehaviour:
   isWeed: 0
   isFrosted: 0
   ignoreNextGrowthMoment: 0
+  light: {fileID: 5427759085007933845}
   growth: {fileID: 1079407743898602144}
   growthComplete: {fileID: 8470056102640098900}
   growthImpeded: {fileID: 8427807927303994546}
   waterSplash: {fileID: 228014111827290631}
   ichorSplash: {fileID: 2126331523769017101}
-  frostParticles: {fileID: 0}
-  light: {fileID: 5427759085007933845}
   supportText: {fileID: 5692700354323459234}
   harvestText: {fileID: 2790798402760200067}
   cropNeedsUI: {fileID: 837279530193775678}

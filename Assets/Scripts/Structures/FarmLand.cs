@@ -62,6 +62,7 @@ public class FarmLand : StructureBehaviorScript
         if(growthImpeded) growthImpeded.Stop();
 
         if(!crop) wealthValue = 0;
+        else wealthValue = crop.wealthValue;
 
         //tutorial
         if(Tutorial.Instance && !isWeed) Tutorial.Instance.TilledGround();
@@ -391,7 +392,7 @@ public class FarmLand : StructureBehaviorScript
         if(nutrients != null) SpriteChange();
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         if(audioHandler != null) audioHandler.PlayRandomSound(audioHandler.miscSounds1);
-        wealthValue = 5;
+        wealthValue = crop.wealthValue;
         ignoreNextGrowthMoment = true;
         maxHealth = oldMaxHealth;
 
@@ -793,7 +794,7 @@ public class FarmLand : StructureBehaviorScript
         else rotted = false;
 
         //SpriteChange();
-        if(crop) wealthValue = 5;
+        if(crop) wealthValue = crop.wealthValue;
         else wealthValue = 0;
 
         switch(saveFloat1)
