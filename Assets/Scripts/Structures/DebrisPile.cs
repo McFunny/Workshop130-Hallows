@@ -7,7 +7,12 @@ public class DebrisPile : StructureBehaviorScript
     bool isDigging = false;
     public StructureObject repairedStruct;
 
+    bool containsItems = false;
+
     public GameObject wood_debris, hay_debris, metal_debris, default_debris;
+
+    public int repairsLeft = 1;
+    public int missesLeft = 1;
 
 
     //Do we prevent these being repaired at night? Or make it so u have to hold an interaction on them
@@ -25,12 +30,25 @@ public class DebrisPile : StructureBehaviorScript
         if(!repairedStruct) LoadVariables();
         EnablePile();
     }
+    
+    public void InsertStructure(StructureObject newStructure)
+    {
+        repairedStruct = newStructure;
+        repairsLeft = repairedStruct.requiredRepairs;
+        missesLeft = repairedStruct.maxMisses;
+    }
 
     public override void StructureInteraction()
     {
         if(repairedStruct.mintRepairCost == 0 && repairedStruct.repairItems.Count == 0)
         {
             Destroy(gameObject);
+            return;
+        }
+
+        if(containsItems)
+        {
+            RepairStructure();
             return;
         }
 
@@ -43,7 +61,8 @@ public class DebrisPile : StructureBehaviorScript
             }*/
             PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(repairedStruct.repairItems);
             PlayerInventoryHolder.Instance.UpdateInventory();
-            RepairStructure();
+            containsItems = true;
+            //RepairStructure();
         }
     }
 
@@ -127,10 +146,16 @@ public class DebrisPile : StructureBehaviorScript
     public override void SaveVariables()
     {
         saveInt1 = repairedStruct.id;
+        saveInt2 = repairsLeft;
+        saveInt3 = missesLeft;
+        saveBool1 = containsItems; 
     }
 
     public override void LoadVariables()
     {
         repairedStruct = StructureDatabase.Instance.GetStructure(saveInt1);
+        containsItems = saveBool1;
+        repairsLeft = saveInt2;
+        missesLeft = saveInt3;
     }
 }
