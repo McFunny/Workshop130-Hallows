@@ -328,8 +328,7 @@ public class FarmLand : StructureBehaviorScript
         }
         if(!crop && !isWeed)
         {
-            float r = Random.Range(0, 10);
-            if(r > 6f) Destroy(this.gameObject);
+            if(Random.Range(0, 10) > 6f) Destroy(this.gameObject);
             return;
         }
         hoursSpent++;
