@@ -211,6 +211,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MinigamePress",
+                    "type": "Button",
+                    "id": "0945192f-fdb9-4fb4-ab07-f25d1c8ed7d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -959,6 +968,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "BeginHoldInteraction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d98a53e3-74c6-44e8-bd3c-5b2f680c976a",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MinigamePress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c59d547f-f2a4-4964-a72a-2ea2c5677d04",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MinigamePress",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

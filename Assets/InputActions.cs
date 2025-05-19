@@ -233,6 +233,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MinigamePress"",
+                    ""type"": ""Button"",
+                    ""id"": ""0945192f-fdb9-4fb4-ab07-f25d1c8ed7d9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -981,6 +990,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""BeginHoldInteraction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d98a53e3-74c6-44e8-bd3c-5b2f680c976a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MinigamePress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c59d547f-f2a4-4964-a72a-2ea2c5677d04"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MinigamePress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1988,6 +2019,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_BeginCharge = m_Gameplay.FindAction("BeginCharge", throwIfNotFound: true);
         m_Gameplay_DropHeldItem = m_Gameplay.FindAction("DropHeldItem", throwIfNotFound: true);
         m_Gameplay_BeginHoldInteraction = m_Gameplay.FindAction("BeginHoldInteraction", throwIfNotFound: true);
+        m_Gameplay_MinigamePress = m_Gameplay.FindAction("MinigamePress", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -2095,6 +2127,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_BeginCharge;
     private readonly InputAction m_Gameplay_DropHeldItem;
     private readonly InputAction m_Gameplay_BeginHoldInteraction;
+    private readonly InputAction m_Gameplay_MinigamePress;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -2122,6 +2155,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @BeginCharge => m_Wrapper.m_Gameplay_BeginCharge;
         public InputAction @DropHeldItem => m_Wrapper.m_Gameplay_DropHeldItem;
         public InputAction @BeginHoldInteraction => m_Wrapper.m_Gameplay_BeginHoldInteraction;
+        public InputAction @MinigamePress => m_Wrapper.m_Gameplay_MinigamePress;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2200,6 +2234,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BeginHoldInteraction.started += instance.OnBeginHoldInteraction;
             @BeginHoldInteraction.performed += instance.OnBeginHoldInteraction;
             @BeginHoldInteraction.canceled += instance.OnBeginHoldInteraction;
+            @MinigamePress.started += instance.OnMinigamePress;
+            @MinigamePress.performed += instance.OnMinigamePress;
+            @MinigamePress.canceled += instance.OnMinigamePress;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -2273,6 +2310,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BeginHoldInteraction.started -= instance.OnBeginHoldInteraction;
             @BeginHoldInteraction.performed -= instance.OnBeginHoldInteraction;
             @BeginHoldInteraction.canceled -= instance.OnBeginHoldInteraction;
+            @MinigamePress.started -= instance.OnMinigamePress;
+            @MinigamePress.performed -= instance.OnMinigamePress;
+            @MinigamePress.canceled -= instance.OnMinigamePress;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -2561,6 +2601,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnBeginCharge(InputAction.CallbackContext context);
         void OnDropHeldItem(InputAction.CallbackContext context);
         void OnBeginHoldInteraction(InputAction.CallbackContext context);
+        void OnMinigamePress(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
