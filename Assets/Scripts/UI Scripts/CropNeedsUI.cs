@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 
 public class CropNeedsUI : MonoBehaviour
@@ -7,7 +9,7 @@ public class CropNeedsUI : MonoBehaviour
     private FarmLand farmLand;
     private CropData cropData;
     private NutrientStorage nutrients;
-    public GameObject gloam, terra, ichor, water, rot, background, canvas;
+    public GameObject gloam, terra, ichor, water, rot, pollen, background, canvas;
     public Image gloamRed, terraRed, ichorRed, waterRed;
     ControlManager controlManager;
     private bool isDetailed;
@@ -20,12 +22,23 @@ public class CropNeedsUI : MonoBehaviour
         nutrients = farmLand.GetCropStats();
         DisableStats();
         controlManager = FindObjectOfType<ControlManager>();
+
+        StartCoroutine(OneSecondTimer());
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         UpdateNeedsUI();
+    }*/
+
+    IEnumerator OneSecondTimer()
+    {
+        while(true)
+        {
+            UpdateNeedsUI();
+            yield return new WaitForSeconds(0.4f);
+        }
     }
 
     public void UpdateNeedsUI()
@@ -59,7 +72,7 @@ public class CropNeedsUI : MonoBehaviour
         nutrients = farmLand.GetCropStats();
         cropData = farmLand.crop;
 
-        if(!gloam.activeSelf && !terra.activeSelf && !ichor.activeSelf && !water.activeSelf && !rot.activeSelf) {background.SetActive(false);}
+        if(!gloam.activeSelf && !terra.activeSelf && !ichor.activeSelf && !water.activeSelf && !rot.activeSelf && !pollen.activeSelf) {background.SetActive(false);}
         else background.SetActive(true);
 
         //print("Are we even getting here???");
@@ -75,6 +88,9 @@ public class CropNeedsUI : MonoBehaviour
 
         if(nutrients.waterLevel < cropData.waterIntake) water.SetActive(true);
         else water.SetActive(false);
+
+        if(farmLand.NeedsPollenation()) pollen.SetActive(true);
+        else {pollen.SetActive(false);}
 
         if(farmLand.hoursSpent == farmLand.crop.hoursPerStage - 1)
         {

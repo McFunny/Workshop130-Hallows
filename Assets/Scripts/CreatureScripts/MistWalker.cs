@@ -153,7 +153,7 @@ public class MistWalker : CreatureBehaviorScript
 
                 if(currentState != CreatureState.FleeFromFire && !coroutineRunning) currentState = CreatureState.FleeFromFire;
 
-                if(fireSource.gameObject.activeSelf == false || distFromFire > fireSource.fleeRange)
+                if(fireSource.gameObject.activeInHierarchy == false || distFromFire > fireSource.fleeRange)
                 {
                     fireSource = null;
                     currentState = CreatureState.Wander;

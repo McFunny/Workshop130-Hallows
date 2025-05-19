@@ -35,6 +35,8 @@ public class CropData : ScriptableObject
 
     public bool requireScythe = false;
 
+    public bool requirePollination = false; //if true, will require pollination on the second to last growth stage
+
     public GameObject creaturePrefab; //Specifically for the mandrake and the mimic. If this isnt null, spawn the creature instead of the cropYield
 
     public CropBehavior behavior;

@@ -96,6 +96,12 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    [ContextMenu("NutCrowTest")]
+    public void CrowTest()
+    {
+        Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+    }
+
     public void GameOver()
     {
         if(TimeManager.Instance.isDay) return;

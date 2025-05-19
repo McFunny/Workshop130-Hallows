@@ -78,7 +78,7 @@ public class PyreFly : CreatureBehaviorScript
 
         if(variant != Variant.Napalm) StartCoroutine(PlayerTurn());
 
-        if(!inWilderness && Random.Range(0,10) > 8)
+        if(!inWilderness && Random.Range(0,10) > 7)
         {
             Transform burrowPos = StructureManager.Instance.FindBurrow(false, transform.position);
             if(burrowPos != null)

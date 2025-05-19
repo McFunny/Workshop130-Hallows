@@ -26,6 +26,7 @@ public class FarmLand : StructureBehaviorScript
     public bool rotted = false; //MUST BE SAVED
     public bool isWeed = false; //MUST BE SAVED
     public bool isFrosted = false;
+    public bool isPollinated = false; //MUST BE SAVED
     bool forceDig = false;
 
     public bool ignoreNextGrowthMoment = false; //tick this if crop was just planted
@@ -336,7 +337,7 @@ public class FarmLand : StructureBehaviorScript
 
         if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
-            if(growthStage >= crop.growthStages && !isWeed)
+            if(growthStage >= crop.growthStages && !isWeed || NeedsPollenation())
             {
                 return;
                 //IT HAS REACHED MAX GROWTH STATE
@@ -746,6 +747,18 @@ public class FarmLand : StructureBehaviorScript
         SpriteChange();
     }
 
+    //[ContextMenu("PollenCheck")]
+    public bool NeedsPollenation()
+    {
+        if(crop && crop.requirePollination && !isPollinated && growthStage == crop.growthStages - 1)
+        {
+            //print("true");
+            return true;
+        }
+        return false;
+        
+    }
+
     void ApplyNewUpgrade(FarmTileUpgrade newUpgrade)
     {
         if(currentUpgrade == newUpgrade || isWeed) return;
@@ -790,6 +803,7 @@ public class FarmLand : StructureBehaviorScript
         growthStage = saveInt1;
         hoursSpent = saveInt2;
         plantStress = saveInt3;
+        isPollinated = saveBool1;
         if(saveString2 == "true") rotted = true;
         else rotted = false;
 
@@ -837,6 +851,8 @@ public class FarmLand : StructureBehaviorScript
                 saveFloat1 = 2;
                 break;
             }
+
+            saveBool1 = isPollinated;
         }
 
     }
