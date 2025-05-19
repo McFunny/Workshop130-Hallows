@@ -54,6 +54,15 @@ MonoBehaviour:
     - Woah now, you can barely fit this in your pockets! Come again when you have
       more room.
     emotions: 05000000
+  - pathName: Have some Seeds
+    paragraphs:
+    - Since you are just starting out, I will lend you some of these Timber Ear seeds!
+      {freezePlayer}
+    - They are really low maintenance, and most of the local fauna tend to ignore
+      them. {givePlayerItems}
+    - Timber Ear consumes a hefty chunk of nutrients, so make sure to not plant in
+      the same spot twice!
+    emotions: 010000000000000002000000
   fillerPaths:
   - pathName: Hard Work
     paragraphs:
@@ -171,3 +180,4 @@ MonoBehaviour:
 
 '
     emotions: 06000000
+  branchingPaths: []

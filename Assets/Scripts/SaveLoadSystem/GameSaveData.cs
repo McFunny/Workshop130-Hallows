@@ -36,6 +36,7 @@ public class GameSaveData : MonoBehaviour
     public bool mm_giveBarricade; //Merchant handed the player a barricade at the start
     public bool cm_giveChest; //Craftsman handed the player a chest at the start
     public bool mm_giveGun; //Merchant handed the gun after the first day, and gave the "Go to rascal" quest
+    public bool bot_giveSeeds; //Botanist gave the player 10 timber ear seeds at the start
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
@@ -128,6 +129,7 @@ public class GameSaveData : MonoBehaviour
         mm_giveBarricade = data.allGameSaveData.mm_giveBarricade;
         cm_giveChest = data.allGameSaveData.cm_giveChest;
         mm_giveGun = data.allGameSaveData.mm_giveGun;
+        bot_giveSeeds = data.allGameSaveData.bot_giveSeeds;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -181,6 +183,7 @@ public class GameSaveData : MonoBehaviour
         public bool mm_giveBarricade;
         public bool cm_giveChest;
         public bool mm_giveGun;
+        public bool bot_giveSeeds;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -226,6 +229,7 @@ public class GameSaveData : MonoBehaviour
         mm_giveBarricade = data.mm_giveBarricade;
         cm_giveChest = data.cm_giveChest;
         mm_giveGun = data.mm_giveGun;
+        bot_giveSeeds = data.bot_giveSeeds;
 
         travMet = data.travMet;
         graveMet = data.graveMet;
