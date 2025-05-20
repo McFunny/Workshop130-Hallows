@@ -93,9 +93,9 @@ public class MutatedCrow : CreatureBehaviorScript
         if(currentState != CreatureState.CarryObject)
         {
             currentState = CreatureState.Idle;
-            point = StructureManager.Instance.GetRandomTile();
+            point = GetRandomPoint(15);
         }
-        else point = GetRandomPoint(15);
+        else point = StructureManager.Instance.GetRandomTile();
         point.y = height * 7;
         if(isDecorCrow && Random.Range(0,9) > 3) currentState = CreatureState.GoAway;
     }

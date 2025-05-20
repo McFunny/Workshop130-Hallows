@@ -96,11 +96,11 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    [ContextMenu("NutCrowTest")]
+    /*[ContextMenu("NutCrowTest")]
     public void CrowTest()
     {
         Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
-    }
+    }*/
 
     public void GameOver()
     {
