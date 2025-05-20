@@ -117,7 +117,7 @@ public class Pollinator : CreatureBehaviorScript
         isMoving = true;
         coroutineRunning = true;
 
-        //if (TimeManager.Instance.isDay) destination = despawnPos;
+        if (TimeManager.Instance.isDay) destination = despawnPos;
 
         agent.destination = destination;
 

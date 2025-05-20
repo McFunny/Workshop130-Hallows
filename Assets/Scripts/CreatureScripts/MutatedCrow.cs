@@ -525,7 +525,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
         if(currentState == CreatureState.CarryObject)
         {
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(5);
             if(Random.Range(0,10) >= 9 || !carriedNut || TimeManager.Instance.isDay == false)
             {
                 point = GetRandomPoint(150);
@@ -1013,6 +1013,7 @@ public class MutatedCrow : CreatureBehaviorScript
         if(carriedNut)
         {
             carriedNut.GetComponent<StructureBehaviorScript>().HitWithWater();
+            carriedNut = null;
         }
     }
 

@@ -128,7 +128,7 @@ public class PlantMimic : CreatureBehaviorScript
         anim.SetBool("IsBuried", true);
         currentState = CreatureState.Buried;
 
-        Vector3 cropSpawn = StructureManager.Instance.FindMimicTile();
+        Vector3 cropSpawn = StructureManager.Instance.FindFreeTileNearCrop();
         if(cropSpawn == new Vector3(0,0,0)) Destroy(this.gameObject);
         else
         {
@@ -275,7 +275,7 @@ public class PlantMimic : CreatureBehaviorScript
         {
             currentState = CreatureState.Buried;
 
-            Vector3 cropSpawn = StructureManager.Instance.FindMimicTile();
+            Vector3 cropSpawn = StructureManager.Instance.FindFreeTileNearCrop();
             if(cropSpawn == new Vector3(0,0,0)) Destroy(this.gameObject);
             else
             {

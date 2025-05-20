@@ -41,6 +41,8 @@ public class NightSpawningManager : MonoBehaviour
 
     public ParticleSystem finaleMist;
 
+    public GameObject pollinatorTest;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -93,6 +95,12 @@ public class NightSpawningManager : MonoBehaviour
         }
 
         if(boxPlaced && TimeManager.Instance.currentHour == 20) ActivateFinale();
+
+        if(TimeManager.Instance.currentHour == 20)
+        {
+            int r = Random.Range(1,4);
+            for(int i = 0; i < r; i++) Instantiate(pollinatorTest, RandomMistPosition(), Quaternion.identity);
+        }
 
         CalculateDifficulty();
 

@@ -898,7 +898,7 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    public Vector3 FindMimicTile()
+    public Vector3 FindFreeTileNearCrop()
     {
         List<Vector3> cropTiles = new List<Vector3>();
 
