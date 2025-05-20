@@ -9970,14 +9970,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 27864248b8840704fbbb773c399907ad, type: 2}
+  itemForm: {fileID: 0}
   health: 999
   maxHealth: 999
   wealthValue: 0
+  salvageChance: 0
   destructable: 0
   flammable: 0
   onFire: 0
   isObstacle: 0
+  absentFromGrid: 0
   focalPoint: {fileID: 0}
+  particleCenter: {fileID: 0}
   savedItems: []
   saveInt1: 0
   saveInt2: 0
@@ -9988,16 +9992,19 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
-  damageParticles: {fileID: 0}
-  destructionParticles: {fileID: 0}
+  saveBool1: 0
+  damageParticlesObject: {fileID: 0}
+  gibs: {fileID: 0}
   nearbyFires: []
   highlight: []
+  canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 0}
   treePapers: {fileID: 11400000, guid: 34661632c5cbbde42ac408b3e69a69d7, type: 2}
   taggedForCutting: 0
   papers: {fileID: 4930776992247843337}
+  logPile: {fileID: 3700406424535000846, guid: 5766ac185f31035478e72c75786709ab, type: 3}
   itemDrop: {fileID: 2929852908528715660}
   leafBurst: {fileID: 2033707981157962936}
 --- !u!208 &5878661473273885326

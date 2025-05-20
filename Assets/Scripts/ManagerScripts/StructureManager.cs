@@ -79,9 +79,9 @@ public class StructureManager : MonoBehaviour
         //print("AllStructs: " + allStructs.Count);
         if(TimeManager.Instance.currentHour == 8)
         {
-            PopulateStructure(-3, 5, weedTile, false);
+            StartCoroutine(PopulateStructure(-3, 5, weedTile, false));
             PopulateDecorCrows(0, 2);
-            PopulateStructure(-3, 3, boulder, true);
+            StartCoroutine(PopulateStructure(-3, 3, boulder, true));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -655,9 +655,9 @@ public class StructureManager : MonoBehaviour
     {
         StartCoroutine(PopulateTrees(18, 27));
         yield return new WaitForSeconds(0.5f);
-        PopulateStructure(15, 25, weedTile, false);
+        StartCoroutine(PopulateStructure(15, 25, weedTile, false));
         yield return new WaitForSeconds(0.5f);
-        PopulateStructure(15, 25, boulder, true);
+        StartCoroutine(PopulateStructure(15, 25, boulder, true));
     }
 
     /*void PopulateWeeds(int min, int max)
@@ -687,7 +687,7 @@ public class StructureManager : MonoBehaviour
         }
     }*/
 
-    void PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation)
+    IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation)
     {
         List<Vector3Int> spawnablePositions = new List<Vector3Int>();
 
@@ -698,7 +698,7 @@ public class StructureManager : MonoBehaviour
         }
 
         int r = Random.Range(min,max + 1);
-        if (r <= 0) return;
+        if (r <= 0) yield break;
         for(int i = 0; i < r; i++)
         {
             if(spawnablePositions.Count != 0)
@@ -728,6 +728,8 @@ public class StructureManager : MonoBehaviour
                             break;
                         }
                     }
+
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
         }

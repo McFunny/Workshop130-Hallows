@@ -167,6 +167,10 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     structure.GetComponent<WaterBarrel>().ManualFill(out playAnim);
                 }
+                else if(structure.GetComponent<BirdBath>())
+                {
+                    structure.GetComponent<BirdBath>().ManualFill(out playAnim);
+                }
                 else structure.ToolInteraction(tool, out playAnim);
 
                 if(playAnim)

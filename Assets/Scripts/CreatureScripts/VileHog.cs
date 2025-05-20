@@ -588,7 +588,7 @@ public class VileHog : CreatureBehaviorScript
                 {
                     structure.TakeDamage(damageToStructure);
                     attackHitbox.enabled = false;
-                    recoilTime = 3f;
+                    recoilTime = 2.5f;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     isCharging = false;
                 }
@@ -605,7 +605,7 @@ public class VileHog : CreatureBehaviorScript
                     structure.TakeDamage(damageToStructure);
                     attackHitbox.enabled = false;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
-                    recoilTime = 3f;
+                    recoilTime = 2.5f;
                     isCharging = false;
                 }
                 return;

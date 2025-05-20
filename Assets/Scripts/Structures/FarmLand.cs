@@ -9,7 +9,7 @@ public class FarmLand : StructureBehaviorScript
     public CropDatabase cropDatabase;
 
     public CropData crop; //The current crop planted here //MUST BE SAVED
-    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch;
+    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
     public Collider finishedGrowingCollider;
