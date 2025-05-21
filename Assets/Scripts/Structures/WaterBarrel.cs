@@ -18,6 +18,7 @@ public class WaterBarrel : StructureBehaviorScript
     public ParticleSystem splash;
 
     bool showSplash = false;
+    bool waterCooldown = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -112,11 +113,19 @@ public class WaterBarrel : StructureBehaviorScript
 
     public override void HitWithWater()
     {
-        if(waterLevel < maxWaterLevel) 
+        if(waterLevel < maxWaterLevel && !waterCooldown) 
         {
             waterLevel++;
             WaterLevelChange();
+            StartCoroutine(WaterCooldown());
         }
+    }
+
+    IEnumerator WaterCooldown()
+    {
+        waterCooldown = true;
+        yield return new WaitForSeconds(0.5f);
+        waterCooldown = false;
     }
 
     public void WaterLevelChange()

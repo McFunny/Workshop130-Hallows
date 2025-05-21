@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BirdBath : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
     public int waterLevel = 1; //max is 1
 
     public bool inWilderness = false;
@@ -13,6 +12,9 @@ public class BirdBath : StructureBehaviorScript
     public Sprite[] waterSprites;
 
     public GameObject crow;
+
+    public ParticleSystem splash;
+    bool showSplash = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -46,7 +48,7 @@ public class BirdBath : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !inWilderness)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUp());
             success = true;
         }
         if((type == ToolType.WateringCan || type == ToolType.WaterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
@@ -58,9 +60,9 @@ public class BirdBath : StructureBehaviorScript
         }
     }
 
-    /*public void ManualFill(out bool success)
+    public void ManualFill(out bool success)
     {
-        if(PlayerInteraction.Instance.waterHeld >= 5 && waterLevel < 3)
+        if(PlayerInteraction.Instance.waterHeld >= 5 && waterLevel < 1)
         {
             PlayerInteraction.Instance.waterHeld -= 5;
             waterLevel++;
@@ -68,20 +70,19 @@ public class BirdBath : StructureBehaviorScript
             success = true;
         }
         else success = false;
-    }*/
-
-    IEnumerator DugUp()
-    {
-        yield return  new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-        Destroy(this.gameObject);
     }
 
     public void WaterLevelChange()
     {
         if(waterLevel > 0) renderer.enabled = true;
         else renderer.enabled = false;
+
+        if(showSplash) //Make changes to the wilderness one too
+        {
+            splash.Play();
+            audioHandler.PlaySound(audioHandler.interactSound);
+        }
+        else showSplash = true;
     }
 
     IEnumerator AnimateWater()
@@ -102,7 +103,7 @@ public class BirdBath : StructureBehaviorScript
         //simulate rain accumulation
         if(inWilderness) return;
         if(Random.Range(0,10) < 8) return;
-        if(waterLevel < 3)
+        if(waterLevel < 1)
         {
             waterLevel++;
             WaterLevelChange();
@@ -111,11 +112,11 @@ public class BirdBath : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        saveInt1 = waterLevel;
+        waterLevel = saveInt1;
     }
 
     public override void SaveVariables()
     {
-        waterLevel = saveInt1;
+        saveInt1 = waterLevel;
     }
 }

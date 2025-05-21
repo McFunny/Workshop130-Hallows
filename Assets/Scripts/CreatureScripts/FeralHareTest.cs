@@ -6,7 +6,8 @@ public class FeralHareTest : CreatureBehaviorScript
 {
     public Variant variant; // what variant of creature is this?
 
-    public List<CropData> desiredCrops; // what crops does this creature want to eat
+    //public List<CropData> desiredCrops; // what crops does this creature want to eat
+    public List<CropData> undesiredCrops; // what crops does this creature ignore
 
     public CropData carrotCrop;
 
@@ -58,7 +59,8 @@ public class FeralHareTest : CreatureBehaviorScript
     public enum Variant
     {
         Normal,
-        Albino
+        Albino,
+        Tunneler
     }
 
     public CreatureState currentState;
@@ -70,7 +72,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         base.Start();
         currentState = CreatureState.Wander;
-        if(variant == Variant.Normal && !inWilderness) StartCoroutine(CropCheck());
+        if(variant != Variant.Albino && !inWilderness) StartCoroutine(CropCheck());
         despawnPos = NightSpawningManager.Instance.despawnPositions[Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length)].position;
         yOrigin = transform.position.y;
         StartCoroutine(IdleSoundTimer());
@@ -83,25 +85,9 @@ public class FeralHareTest : CreatureBehaviorScript
             if(exitBurrow != null)
             {
                 EnterBurrow();
-                if(variant == Variant.Normal) //Immediately find crop
+                if(variant != Variant.Albino) //Immediately find crop
                 {
-
-                    List<FarmLand> availableLands = new List<FarmLand>();
-                    foreach (StructureBehaviorScript structure in structManager.allStructs)
-                    {
-                        FarmLand potentialFarmTile = structure as FarmLand;
-                        if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop) && Vector3.Distance(transform.position, potentialFarmTile.transform.position) < 25) //why did a hare eat a weed?
-                        {
-                            availableLands.Add(potentialFarmTile);
-                        }
-                    }
-                    if (availableLands.Count > 0)
-                    {
-                        int r = Random.Range(0, availableLands.Count);
-                        foundFarmTile = availableLands[r];
-                    }
-
-                    
+                    FindCrop();
                 }
             }
         }
@@ -121,7 +107,7 @@ public class FeralHareTest : CreatureBehaviorScript
         } 
 
         // If the player is in sight, switch to flee state
-        if (playerInSightRange && currentState != CreatureState.Eat && variant == Variant.Normal)
+        if (playerInSightRange && currentState != CreatureState.Eat && variant != Variant.Albino)
         {
             fleeTimeLeft = 1;
             currentState = CreatureState.FleeFromPlayer;
@@ -325,6 +311,13 @@ public class FeralHareTest : CreatureBehaviorScript
         if (!playerInSightRange && StructureManager.Instance.CheckTile(newBurrowPos) != new Vector3(0,0,0))
         {
             StructureManager.Instance.SpawnStructure(burrow, newBurrowPos);
+
+            if(variant == Variant.Tunneler)
+            {
+                Transform burrow2 = StructureManager.Instance.SpawnStructureWithInstance(burrow, StructureManager.Instance.FindFreeTileNearCrop()).transform;
+                transform.position = burrow2.position;
+                FindCrop();
+            }
         }
         anim.SetBool("IsDigging", false);
         if(currentState == CreatureState.MakingBurrow) currentState = CreatureState.Wander;
@@ -351,7 +344,9 @@ public class FeralHareTest : CreatureBehaviorScript
         do
         {
             yield return new WaitForSeconds(10);
-            if(structManager.CheckTile(transform.position) != new Vector3(0,0,0) && Random.Range(0,10) > 5 && structManager.BurrowCount() < 5 && currentState == CreatureState.Wander
+            int burrowChance = Random.Range(0,10);
+            if(variant == Variant.Tunneler) burrowChance += 3;
+            if(structManager.CheckTile(transform.position) != new Vector3(0,0,0) && burrowChance > 5 && structManager.BurrowCount() < 8 && currentState == CreatureState.Wander
             && structManager.ValidateGridType(transform.position, GridType.Farm))
             {
                 currentState = CreatureState.MakingBurrow;
@@ -368,7 +363,7 @@ public class FeralHareTest : CreatureBehaviorScript
                     foreach (StructureBehaviorScript structure in structManager.allStructs)
                     {
                         FarmLand potentialFarmTile = structure as FarmLand;
-                        if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop) && !potentialFarmTile.rotted)
+                        if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && !potentialFarmTile.rotted)
                         {
                             availableLands.Add(potentialFarmTile);
                         }
@@ -497,6 +492,24 @@ public class FeralHareTest : CreatureBehaviorScript
         yield return new WaitForSeconds(stunduration);
         isStunned = false;
         currentState = CreatureState.Wander;
+    }
+
+    void FindCrop()
+    {
+        List<FarmLand> availableLands = new List<FarmLand>();
+        foreach (StructureBehaviorScript structure in structManager.allStructs)
+        {
+            FarmLand potentialFarmTile = structure as FarmLand;
+            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && Vector3.Distance(transform.position, potentialFarmTile.transform.position) < 25)
+            {
+                availableLands.Add(potentialFarmTile);
+            }
+        }
+        if (availableLands.Count > 0)
+        {
+            int r = Random.Range(0, availableLands.Count);
+            foundFarmTile = availableLands[r];
+        }
     }
 
     IEnumerator EatCrop()

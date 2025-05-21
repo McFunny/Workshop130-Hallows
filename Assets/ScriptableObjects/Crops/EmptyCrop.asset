@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EmptyCrop
   m_EditorClassIdentifier: 
   name: 
+  id: -1
   growthStages: 5
   hoursPerStage: 6
   harvestableGrowthStages: 
@@ -30,6 +31,9 @@ MonoBehaviour:
   terraIntake: 0
   gloamIntake: 0
   stressLimit: 0
+  wealthValue: 0
+  requireScythe: 0
+  requirePollination: 0
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0

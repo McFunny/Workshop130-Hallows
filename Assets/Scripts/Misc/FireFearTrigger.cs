@@ -5,6 +5,7 @@ using UnityEngine;
 public class FireFearTrigger : MonoBehaviour
 {
     public float fleeRange = 15; //how far the distance between this and the target fleeing must be for the fleeing to stop
+    public int priority = 0; //Higher the priority, the less likely to be ignored by other fires with lower priority
     public delegate void ScaredCreature(bool successful);
     [HideInInspector] public event ScaredCreature OnScare;
 

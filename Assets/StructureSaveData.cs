@@ -73,6 +73,7 @@ public class StructureSaveData : MonoBehaviour
                 structureList.Structures[x].savedString1 = structure.saveString1;
                 structureList.Structures[x].savedString2 = structure.saveString2;
                 structureList.Structures[x].savedString3 = structure.saveString3;
+                structureList.Structures[x].savedBool1 = structure.saveBool1;
             }
             x++;
         }
@@ -135,6 +136,7 @@ public class StructureSaveData : MonoBehaviour
                     StructureStats.saveString1 = data.allStructuresSaveData.Structures[i].savedString1;
                     StructureStats.saveString2 = data.allStructuresSaveData.Structures[i].savedString2;
                     StructureStats.saveString3 = data.allStructuresSaveData.Structures[i].savedString3;
+                    StructureStats.saveBool1 = data.allStructuresSaveData.Structures[i].savedBool1;
 
                     newStructure.transform.position = loadedPosition;
                     newStructure.transform.rotation = Quaternion.Euler(loadedRotation.x, loadedRotation.y, loadedRotation.z);

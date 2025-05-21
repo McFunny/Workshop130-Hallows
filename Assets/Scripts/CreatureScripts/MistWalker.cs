@@ -13,6 +13,8 @@ public class MistWalker : CreatureBehaviorScript
     private StructureBehaviorScript targetStructure;
     public List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
 
+    public List<CropData> undesiredCrops;
+
     private bool isMoving = false;
     private bool coroutineRunning = false;
     private Transform target;
@@ -122,7 +124,7 @@ public class MistWalker : CreatureBehaviorScript
             if (structure && targettableStructures.Contains(structure.structData))
             {
                 FarmLand f = structure as FarmLand;
-                if(f && !f.crop) continue;
+                if(f && (!f.crop || undesiredCrops.Contains(f.crop))) continue;
                 
                 availableStructure.Add(structure);
             }
@@ -151,7 +153,7 @@ public class MistWalker : CreatureBehaviorScript
 
                 if(currentState != CreatureState.FleeFromFire && !coroutineRunning) currentState = CreatureState.FleeFromFire;
 
-                if(fireSource.gameObject.activeSelf == false || distFromFire > fireSource.fleeRange)
+                if(fireSource.gameObject.activeInHierarchy == false || distFromFire > fireSource.fleeRange)
                 {
                     fireSource = null;
                     currentState = CreatureState.Wander;
@@ -527,7 +529,7 @@ public class MistWalker : CreatureBehaviorScript
         transform.LookAt(targetStructure.transform.position);
 
         yield return new WaitForSeconds(1f); 
-        if(!targetStructure)
+        if(!targetStructure || isRecoiling || health <= 0)
         {
             currentState = CreatureState.Idle;
             coroutineRunning = false;

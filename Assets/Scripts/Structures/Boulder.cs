@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Boulder : StructureBehaviorScript
 {
+    public List<GameObject> rockVariations;
+
     public InventoryItemData rocks, gold;
 
     float damageThreshold = 15;
 
     bool dropItems = false;
+
+    int rockNum = -1;
 
     void Awake()
     {
@@ -21,6 +25,15 @@ public class Boulder : StructureBehaviorScript
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
 
         OnDamageWithValue += Damaged;
+
+        UpdateModel();
+    }
+
+    void UpdateModel()
+    {
+        if(rockNum == -1) rockNum = Random.Range(0, rockVariations.Count);
+        foreach(GameObject rock in rockVariations) rock.SetActive(false);
+        rockVariations[rockNum].SetActive(true);
     }
 
     void OnDestroy()
@@ -58,5 +71,16 @@ public class Boulder : StructureBehaviorScript
         {
             health = maxHealth;
         }
+    }
+
+    public override void LoadVariables()
+    {
+        rockNum = saveInt1;
+        UpdateModel();
+    }
+
+    public override void SaveVariables()
+    {
+        saveInt1 = rockNum;
     }
 }

@@ -79,9 +79,9 @@ public class StructureManager : MonoBehaviour
         //print("AllStructs: " + allStructs.Count);
         if(TimeManager.Instance.currentHour == 8)
         {
-            PopulateStructure(-3, 5, weedTile, false);
+            StartCoroutine(PopulateStructure(-3, 5, weedTile, false));
             PopulateDecorCrows(0, 2);
-            PopulateStructure(-2, 3, boulder, true);
+            StartCoroutine(PopulateStructure(-3, 3, boulder, true));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -89,11 +89,18 @@ public class StructureManager : MonoBehaviour
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
 
-        if(Random.Range(0,100) < 5f)
+        if(Random.Range(0,100) < 10f)
         {
             Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+            print("Spawned nut crow");
         }
     }
+
+    /*[ContextMenu("NutCrowTest")]
+    public void CrowTest()
+    {
+        Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+    }*/
 
     public void GameOver()
     {
@@ -648,9 +655,9 @@ public class StructureManager : MonoBehaviour
     {
         StartCoroutine(PopulateTrees(18, 27));
         yield return new WaitForSeconds(0.5f);
-        PopulateStructure(15, 25, weedTile, false);
+        StartCoroutine(PopulateStructure(15, 25, weedTile, false));
         yield return new WaitForSeconds(0.5f);
-        PopulateStructure(15, 25, boulder, true);
+        StartCoroutine(PopulateStructure(15, 25, boulder, true));
     }
 
     /*void PopulateWeeds(int min, int max)
@@ -680,7 +687,7 @@ public class StructureManager : MonoBehaviour
         }
     }*/
 
-    void PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation)
+    IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation)
     {
         List<Vector3Int> spawnablePositions = new List<Vector3Int>();
 
@@ -691,7 +698,7 @@ public class StructureManager : MonoBehaviour
         }
 
         int r = Random.Range(min,max + 1);
-        if (r <= 0) return;
+        if (r <= 0) yield break;
         for(int i = 0; i < r; i++)
         {
             if(spawnablePositions.Count != 0)
@@ -721,6 +728,8 @@ public class StructureManager : MonoBehaviour
                             break;
                         }
                     }
+
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
         }
@@ -889,7 +898,7 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    public Vector3 FindMimicTile()
+    public Vector3 FindFreeTileNearCrop()
     {
         List<Vector3> cropTiles = new List<Vector3>();
 

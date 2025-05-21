@@ -50,6 +50,7 @@ public class StructureBehaviorScript : MonoBehaviour
     [HideInInspector] public int saveInt1, saveInt2, saveInt3;
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
     [HideInInspector] public string saveString1, saveString2, saveString3;
+    [HideInInspector] public bool saveBool1;
 
     public GameObject damageParticlesObject;
     List<ParticleSystem> damageParticles = new List<ParticleSystem>();
@@ -216,7 +217,7 @@ public class StructureBehaviorScript : MonoBehaviour
             {
                 //Spawn the pile
                 DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();
-                newPile.repairedStruct = structData;
+                newPile.InsertStructure(structData);
                 newPile.transform.rotation = transform.rotation;
                 print("I spawned a pile");
             }

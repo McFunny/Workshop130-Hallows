@@ -14,7 +14,7 @@ public class ParticlePoolManager : MonoBehaviour
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
     frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle;
 
-    public GameObject woodDestructionP, metalDestructionP, gloomDestructionP;
+    public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
@@ -36,6 +36,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> woodPool = new List<GameObject>();
     List<GameObject> metalPool = new List<GameObject>();
     List<GameObject> gloomPool = new List<GameObject>();
+    List<GameObject> stonePool = new List<GameObject>();
 
     void Awake()
     {
@@ -169,6 +170,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(gloomDestructionP);
             gloomPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(stoneDestructionP);
+            stonePool.Add(newParticle);
             newParticle.SetActive(false);
         }
 
@@ -471,6 +479,22 @@ public class ParticlePoolManager : MonoBehaviour
             gloomPool.Add(newParticle);
             return newParticle;
         }
+        else if(type == StructureType.Stone)
+        {
+            foreach (GameObject particle in stonePool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(stoneDestructionP);
+            stonePool.Add(newParticle);
+            return newParticle;
+        }
         else return null;
     }
 
@@ -516,5 +540,6 @@ public enum StructureType
     Null,
     Wood,
     Metal,
-    Hay
+    Hay,
+    Stone
 }

@@ -24,6 +24,8 @@ public class StructureObject : ScriptableObject
     //Repair Values//
     public int mintRepairCost;
     public List<ItemWithAmount> repairItems = new List<ItemWithAmount>(); //Will hold things like wood cost to repair and the like
+    public int requiredRepairs = 1;
+    public int maxMisses = 1;
 
 
     public Structure CreateStructure()
@@ -48,6 +50,7 @@ public class Structure
     public int savedInt1, savedInt2, savedInt3;
     public float savedFloat1, savedFloat2, savedFloat3;
     public string savedString1, savedString2, savedString3;
+    public bool savedBool1;
 
     public Structure()
     {

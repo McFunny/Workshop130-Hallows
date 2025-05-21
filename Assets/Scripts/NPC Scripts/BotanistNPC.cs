@@ -5,7 +5,7 @@ using UnityEngine;
 public class BotanistNPC : NPC, ITalkable
 {
     public InventoryItemData fertalizerT, fertalizerG, fertalizerI;
-    public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk, s_bean, s_ginger, s_spores; //seeds
+    public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk, s_bean, s_ginger, s_spores, s_timber; //seeds
 
     public float sellMultiplier = 1;
     //public InventoryItemData[] possibleSoldItems;
@@ -38,6 +38,13 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.botMet = true;
+            }
+            else if(!GameSaveData.Instance.bot_giveSeeds && !PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                GameSaveData.Instance.bot_giveSeeds = true;
+                currentPath = 5;
+                currentType = PathType.Misc;
+                itemsToGive.Add(new ItemWithAmount(s_timber, 10));
             }
             else if(CompletedQuest())
             {

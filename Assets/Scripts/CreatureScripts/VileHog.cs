@@ -10,7 +10,8 @@ public class VileHog : CreatureBehaviorScript
     public VileHog parent;
     public VileHog[] babies;
 
-    public List<CropData> desiredCrops; // what crops does this creature want to eat
+    //public List<CropData> desiredCrops; // what crops does this creature want to eat
+    public List<CropData> undesiredCrops; // what crops does this creature ignore
 
     FarmLand foundFarmTile;
     InventoryItemData heldItem;
@@ -405,7 +406,7 @@ public class VileHog : CreatureBehaviorScript
         foreach (StructureBehaviorScript structure in structManager.allStructs)
         {
             FarmLand potentialFarmTile = structure as FarmLand;
-            if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop) && potentialFarmTile.harvestable)
+            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && potentialFarmTile.harvestable)
             {
                 availableLands.Add(potentialFarmTile);
             }
@@ -587,7 +588,7 @@ public class VileHog : CreatureBehaviorScript
                 {
                     structure.TakeDamage(damageToStructure);
                     attackHitbox.enabled = false;
-                    recoilTime = 3f;
+                    recoilTime = 2.5f;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     isCharging = false;
                 }
@@ -604,7 +605,7 @@ public class VileHog : CreatureBehaviorScript
                     structure.TakeDamage(damageToStructure);
                     attackHitbox.enabled = false;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
-                    recoilTime = 3f;
+                    recoilTime = 2.5f;
                     isCharging = false;
                 }
                 return;
