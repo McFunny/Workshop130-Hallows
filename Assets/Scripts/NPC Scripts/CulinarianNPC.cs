@@ -135,6 +135,7 @@ public class CulinarianNPC : NPC, ITalkable
             {
                 if(item.CanAffordTrade())
                 {
+                    item.CompleteTrade();
                     currentPath = 2; //item sold
                     shopUI.shopImgObj.SetActive(false);
                 }

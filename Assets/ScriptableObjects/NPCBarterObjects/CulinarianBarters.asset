@@ -22,9 +22,9 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
-      amount: 2
-    - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
       amount: 1
+    - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
+      amount: 2
   - itemForSale: {fileID: 11400000, guid: d2dff224289caeb4abb6564c747527d6, type: 2}
     barterChance: 0
     itemsRequired: []
@@ -32,14 +32,12 @@ MonoBehaviour:
     barterChance: 20
     itemsRequired:
     - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
-      amount: 3
+      amount: 2
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
       amount: 2
   - itemForSale: {fileID: 11400000, guid: ce03bf77f7cfae644b8b257d4877bf50, type: 2}
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-      amount: 3
+    itemsRequired: []
   - itemForSale: {fileID: 11400000, guid: 2b6d1ee1e98a13746a95c2991d3b951a, type: 2}
     barterChance: 100
     itemsRequired:
@@ -47,5 +45,5 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 344ae7d106f0b2646bc557fde3166d30, type: 2}
       amount: 1
-    - item: {fileID: 11400000, guid: d4234c82e0595514faaf0dd7de5cb87a, type: 2}
+    - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
       amount: 1

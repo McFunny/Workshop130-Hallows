@@ -76,7 +76,11 @@ public class StoreItem : MonoBehaviour, IInteractable
     {
         r.sprite = newItem.icon;
         itemData = newItem;
-        barterCost = newCost;
+        //barterCost = newCost;
+        for(int i = 0; i < newCost.Count; i++)
+        {
+            barterCost.Add(new ItemWithAmount(newCost[i].item, newCost[i].amount));
+        }
         //costText.text = cost.ToString();
         //if(cost > 0) costObject.SetActive(true);
         myCollider.enabled = true;
