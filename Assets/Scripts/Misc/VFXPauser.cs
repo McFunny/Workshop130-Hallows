@@ -18,6 +18,7 @@ public class VFXPauser : MonoBehaviour
 
         foreach(VisualEffect v in effects)
         {
+            //v.SetFloat("playRate", 0.75f);
             if(!hiPoly || !lowPoly) return;
             if(useLowPoly) v.SetMesh("SmokeMesh", lowPoly);
             else v.SetMesh("SmokeMesh", hiPoly);

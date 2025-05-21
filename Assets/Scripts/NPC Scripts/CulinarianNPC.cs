@@ -122,7 +122,7 @@ public class CulinarianNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    public override void PurchaseAttempt(StoreItem item) //consider making this function in parent script to save on retyping
     {
         if (dialogueController.IsInterruptable() == false)
         {
@@ -130,8 +130,19 @@ public class CulinarianNPC : NPC, ITalkable
         }
         if (lastInteractedStoreItem == item)
         {
+            //Barter Price Check
+            if(item.cost == 0)
+            {
+                if(item.CanAffordTrade())
+                {
+                    currentPath = 2; //item sold
+                    shopUI.shopImgObj.SetActive(false);
+                }
+                else currentPath = 6; //Not enough items to cover barter
+            }
+
             //check price, then give item
-            if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
+            else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
             {
                 currentPath = 3; //no money!?!?!?
             }
@@ -149,7 +160,8 @@ public class CulinarianNPC : NPC, ITalkable
         else
         {
             dialogueController.restartDialogue = true;
-            currentPath = 1; //item selected
+            if(item.cost > 0) currentPath = 1; //item selected
+            else currentPath = 5; //barter item selected
             anim.SetTrigger("IsTalking");
             if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
             lastInteractedStoreItem = item;
@@ -188,7 +200,20 @@ public class CulinarianNPC : NPC, ITalkable
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+            
             do
+            {
+                i = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[i].barterChance) newItem = barterDatabase.transactions[i].itemForSale;
+            }
+            while (!newItem);
+            //int newCost = (int)(newItem.value * sellMultiplier);
+            item.RefreshItem(newItem, barterDatabase.transactions[i].itemsRequired);
+            item.seller = this;
+            
+            //This is the old way to populate items to sell for money
+            /*do
             {
                 i = Random.Range(0, possibleSoldItems.Length);
                 r = Random.Range(0f, 1f);
@@ -197,7 +222,7 @@ public class CulinarianNPC : NPC, ITalkable
             while (!newItem);
             int newCost = (int)(newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
-            item.seller = this;
+            item.seller = this;*/
         }
     }
 

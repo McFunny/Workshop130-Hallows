@@ -23,6 +23,8 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public int cost;
 
+    public List<ItemWithAmount> barterCost = new List<ItemWithAmount>();
+
     bool awakeOver = false;
 
     private void Awake()
@@ -38,7 +40,7 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(cost > 0)
+        if(cost > 0 || barterCost.Count > 0)
         {
             seller.PurchaseAttempt(this);
         }
@@ -66,7 +68,17 @@ public class StoreItem : MonoBehaviour, IInteractable
         itemData = newItem;
         cost = _cost;
         costText.text = cost.ToString();
-        costObject.SetActive(true);
+        if(cost > 0) costObject.SetActive(true);
+        myCollider.enabled = true;
+    }
+
+    public void RefreshItem(InventoryItemData newItem, List<ItemWithAmount> newCost)
+    {
+        r.sprite = newItem.icon;
+        itemData = newItem;
+        barterCost = newCost;
+        //costText.text = cost.ToString();
+        //if(cost > 0) costObject.SetActive(true);
         myCollider.enabled = true;
     }
 
@@ -79,6 +91,23 @@ public class StoreItem : MonoBehaviour, IInteractable
         costObject.SetActive(false);
         myCollider.enabled = false;
         if(awakeOver) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        barterCost.Clear();
+    }
+
+    public bool CanAffordTrade()
+    {
+        for(int i = 0; i < barterCost.Count; i++)
+        {
+            int amountToFind = barterCost[i].amount;
+            if(PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(barterCost[i].item) < amountToFind) return false;
+        }
+        return true;
+    }
+
+    public void CompleteTrade()
+    {
+        PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(barterCost);
+        PlayerInventoryHolder.Instance.UpdateInventory();
     }
 
     public void ToggleHighlight(bool enable)

@@ -18,6 +18,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public Character character;
 
+    public NPCBarterDatabase barterDatabase;
+
     [HideInInspector] public int currentPath = -1; //-1 means default path
     [HideInInspector] public PathType currentType;
 
