@@ -240,8 +240,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""id"": ""0945192f-fdb9-4fb4-ab07-f25d1c8ed7d9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [

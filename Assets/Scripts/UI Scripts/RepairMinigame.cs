@@ -19,16 +19,15 @@ public class RepairMinigame : MonoBehaviour
     [SerializeField] private float minigameSpeed;
     [SerializeField] private float slowMultiplier;
     [SerializeField] private int maxBounces;
-    public int neededHits;
-    public int allowedMisses;
-    private int currentHits;
-    private int currentMisses;
+    //public int neededHits;
+    //public int allowedMisses;
+    //private int currentHits;
+    //private int currentMisses;
 
 
     [Header("References")]
     [SerializeField] private GameObject minigameUI;
     [SerializeField] private Slider minigameSlider;
-    [SerializeField] private TextMeshProUGUI hitsNeededText;
     [SerializeField] private TextMeshProUGUI missesAllowedText;
     [SerializeField] private TextMeshProUGUI hitsLeftText;
 
@@ -40,6 +39,7 @@ public class RepairMinigame : MonoBehaviour
     public int currentBounces = 0;
     private ControlManager controlManager;
     private MinigameFunctionality hitSegment;
+    private DebrisPile debrisPile;
 
     /*
         Notes: 
@@ -72,7 +72,7 @@ public class RepairMinigame : MonoBehaviour
             if (Keyboard.current.zKey.wasPressedThisFrame)
             {
                 Debug.Log("Forced: Starting Minigame");
-                StartMinigame();
+                //StartMinigame();
             }
             if (Keyboard.current.xKey.wasPressedThisFrame)
             {
@@ -105,6 +105,8 @@ public class RepairMinigame : MonoBehaviour
     private void MinigamePress(InputAction.CallbackContext context)
     {
         if (!canHit) return;
+        if (!minigameActive) return;
+        if (context.canceled) return;
         StartCoroutine(AttemptHit());
     }
 
@@ -117,42 +119,44 @@ public class RepairMinigame : MonoBehaviour
 
         if (HitLoop() == true && hitSegment != null)
         {
-            currentHits = currentHits - hitSegment.hitCount;
-            if(currentHits < 0)
+            debrisPile.repairsLeft = debrisPile.repairsLeft - hitSegment.hitCount;
+            if(debrisPile.repairsLeft < 0)
             {
-                currentHits = 0;
+                debrisPile.repairsLeft = 0;
             }
-            hitsLeftText.text = currentHits.ToString();
+            hitsLeftText.text = debrisPile.repairsLeft.ToString();
         }
         else
         {
-            currentMisses--;
-            if(currentMisses < 0)
+            debrisPile.missesLeft--;
+            if(debrisPile.missesLeft < 0)
             {
-                currentMisses = 0;
+                debrisPile.missesLeft = 0;
             }
-            missesAllowedText.text = currentMisses.ToString();
+            missesAllowedText.text = debrisPile.repairsLeft.ToString();
         }
 
         Debug.Log("Minigame Value: " + minigameSlider.value);
 
         yield return new WaitForSeconds(0.5f);
-        currentBounces = 1;
-        canHit = true;
-        sliderCanMove = true;
 
-        if (currentHits <= 0)
+        if (debrisPile.repairsLeft <= 0)
         {
             // End the minigame
             MinigameSuccess();
             yield break;
         }
-        else if (currentMisses <= 0)
+        else if (debrisPile.missesLeft <= 0)
         {
             // End the minigame
             MinigameFail();
             yield break;
         }
+
+        currentBounces = 1;
+        canHit = true;
+        sliderCanMove = true;
+
         StopCoroutine(AttemptHit());
 
     }
@@ -177,22 +181,30 @@ public class RepairMinigame : MonoBehaviour
         return false;
     }
 
-    public void StartMinigame()
+    public void StartMinigame(DebrisPile pile)
     {
         // Start the minigame
         currentBounces = 1;
         sliderDirection = 1;
         minigameSlider.value = 0.001f;
-        currentHits = neededHits;
-        currentMisses = allowedMisses;
-        hitsNeededText.text = neededHits.ToString();
-        hitsLeftText.text = currentHits.ToString();
-        missesAllowedText.text = allowedMisses.ToString();
+        debrisPile = pile;
+        hitsLeftText.text = debrisPile.repairsLeft.ToString();
+        missesAllowedText.text = debrisPile.missesLeft.ToString();
         PlayerMovement.restrictMovementTokens++;
         minigameActive = true;
-        canHit = true;
         sliderCanMove = true;
         minigameUI.SetActive(true);
+        StartCoroutine(CanHitDelay());
+
+        Debug.Log("Repairs Needed: " + debrisPile.repairsLeft);
+        Debug.Log("Misses Allowed: " + debrisPile.missesLeft);
+    }
+
+    private IEnumerator CanHitDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canHit = true;
+        StopCoroutine(CanHitDelay());
     }
 
 
@@ -201,6 +213,7 @@ public class RepairMinigame : MonoBehaviour
         // Do the good thing
         EndMinigame();
         Debug.Log("Minigame: Success!");
+        debrisPile.RepairStructure();
     }
 
     private void MinigameFail()
@@ -208,6 +221,7 @@ public class RepairMinigame : MonoBehaviour
         // Do the bad thing
         EndMinigame();
         Debug.Log("Minigame: Fail!");
+        debrisPile.DestroyStructure();
     }
     private void EndMinigame()
     {
