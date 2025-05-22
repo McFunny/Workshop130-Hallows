@@ -13,6 +13,8 @@ public class CarpenterNPC : NPC, ITalkable
 
     public InventoryItemData chest;
 
+    public Barter woodBarter, gloomStalkBarter;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -202,10 +204,33 @@ public class CarpenterNPC : NPC, ITalkable
         lastInteractedStoreItem = null;
         int i;
         float r;
+        int newCost = 0;
         InventoryItemData newItem;
+        int x = 0; //iterations
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+
+            if(x < 2)
+            {
+                if(x == 0)
+                {
+                    newItem = woodBarter.itemForSale;
+                    newCost = (int)(newItem.value * sellMultiplier);
+                    item.RefreshItem(newItem, newCost, woodBarter.itemsRequired);
+                } 
+                if(x == 1)
+                {
+                    newItem = gloomStalkBarter.itemForSale;
+                    newCost = (int)(newItem.value * sellMultiplier);
+                    item.RefreshItem(newItem, newCost, gloomStalkBarter.itemsRequired);
+                }
+                item.seller = this;
+                item.clearUponPurchase = false;
+
+                x++;
+                continue;
+            }
 
             do
             {
@@ -214,9 +239,11 @@ public class CarpenterNPC : NPC, ITalkable
                 if (r < barterDatabase.transactions[i].barterChance) newItem = barterDatabase.transactions[i].itemForSale;
             }
             while (!newItem);
-            int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired);
             item.seller = this;
+
+            x++;
 
             /*
             do
