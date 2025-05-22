@@ -382,7 +382,7 @@ public class FeralHareTest : CreatureBehaviorScript
                                 minDistance = dist;
                                 closestTile = availableLands[i];
                             }
-                            if(availableLands[i].crop == carrotCrop)
+                            if(availableLands[i].crop == carrotCrop && variant != Variant.Tunneler)
                             {
                                 closestTile = availableLands[i];
                             }

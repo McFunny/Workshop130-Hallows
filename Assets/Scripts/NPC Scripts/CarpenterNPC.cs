@@ -10,7 +10,6 @@ public class CarpenterNPC : NPC, ITalkable
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
 
     public InventoryItemData chest;
 
@@ -40,7 +39,7 @@ public class CarpenterNPC : NPC, ITalkable
             else if(!GameSaveData.Instance.cm_giveChest && !PlayerInventoryHolder.Instance.IsInventoryFull())
             {
                 GameSaveData.Instance.cm_giveChest = true;
-                currentPath = 5;
+                currentPath = 7;
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(chest, 1));
             }
@@ -71,7 +70,7 @@ public class CarpenterNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    /*public void Talk()
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
@@ -79,7 +78,7 @@ public class CarpenterNPC : NPC, ITalkable
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
@@ -129,7 +128,7 @@ public class CarpenterNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    /*public override void PurchaseAttempt(StoreItem item)
     {
         if (dialogueController.IsInterruptable() == false)
         {
@@ -174,7 +173,7 @@ public class CarpenterNPC : NPC, ITalkable
         }
         currentType = PathType.Misc;
         Talk();
-    }
+    }*/
 
     public override void PlayerLeftRadius()
     {
@@ -207,6 +206,19 @@ public class CarpenterNPC : NPC, ITalkable
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+
+            do
+            {
+                i = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[i].barterChance) newItem = barterDatabase.transactions[i].itemForSale;
+            }
+            while (!newItem);
+            int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired);
+            item.seller = this;
+
+            /*
             do
             {
                 i = Random.Range(0, possibleSoldItems.Length);
@@ -217,6 +229,7 @@ public class CarpenterNPC : NPC, ITalkable
             int newCost = (int)(newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
             item.seller = this;
+            */
         }
     }
 

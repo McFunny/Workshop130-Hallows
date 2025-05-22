@@ -72,17 +72,18 @@ public class StoreItem : MonoBehaviour, IInteractable
         myCollider.enabled = true;
     }
 
-    public void RefreshItem(InventoryItemData newItem, List<ItemWithAmount> newCost)
+    public void RefreshItem(InventoryItemData newItem, int _cost, List<ItemWithAmount> newCost)
     {
         r.sprite = newItem.icon;
         itemData = newItem;
-        //barterCost = newCost;
+        cost = _cost;
+        barterCost.Clear();
         for(int i = 0; i < newCost.Count; i++)
         {
             barterCost.Add(new ItemWithAmount(newCost[i].item, newCost[i].amount));
         }
-        //costText.text = cost.ToString();
-        //if(cost > 0) costObject.SetActive(true);
+        costText.text = cost.ToString();
+        if(cost > 0) costObject.SetActive(true);
         myCollider.enabled = true;
     }
 
@@ -100,6 +101,7 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public bool CanAffordTrade()
     {
+        if(PlayerInteraction.Instance.currentMoney < cost) return false;
         for(int i = 0; i < barterCost.Count; i++)
         {
             int amountToFind = barterCost[i].amount;

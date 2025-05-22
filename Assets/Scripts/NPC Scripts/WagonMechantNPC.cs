@@ -23,7 +23,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     public StoreItem[] storeItems;
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
     public ItemDisplaySign displaySign;
 
     [TextArea(5,10)]
@@ -95,7 +95,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    public override void Talk()
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         dialogueController.currentTalker = this;

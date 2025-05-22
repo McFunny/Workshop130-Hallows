@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Gloom Stalk
   id: 3
   growthStages: 5
-  hoursPerStage: 1
+  hoursPerStage: 2
   harvestableGrowthStages: 05000000
   cropSprites:
   - {fileID: 670018999, guid: be0e9d5ba5b8dec498972fe596512be6, type: 3}
@@ -27,8 +27,8 @@ MonoBehaviour:
   cropYield: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
   cropSecondaryYield: {fileID: 0}
   cropSeed: {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
-  cropYieldAmount: 1
-  cropYieldVariance: 2
+  cropYieldAmount: 2
+  cropYieldVariance: 1
   seedYieldAmount: 1
   seedYieldVariance: 0
   waterIntake: 5
@@ -38,6 +38,7 @@ MonoBehaviour:
   stressLimit: 1
   wealthValue: 2
   requireScythe: 1
+  requirePollination: 0
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0

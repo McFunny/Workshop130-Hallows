@@ -6,13 +6,11 @@ using UnityEngine.Rendering;
 
 public class CulinarianNPC : NPC, ITalkable
 {
-    // InventoryItemData papers;
-
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -64,7 +62,7 @@ public class CulinarianNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    /*public void Talk()
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
@@ -72,7 +70,7 @@ public class CulinarianNPC : NPC, ITalkable
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
@@ -122,7 +120,7 @@ public class CulinarianNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item) //consider making this function in parent script to save on retyping
+    /*public override void PurchaseAttempt(StoreItem item) //consider making this function in parent script to save on retyping
     {
         if (dialogueController.IsInterruptable() == false)
         {
@@ -131,7 +129,7 @@ public class CulinarianNPC : NPC, ITalkable
         if (lastInteractedStoreItem == item)
         {
             //Barter Price Check
-            if(item.cost == 0)
+            if(item.barterCost.Count > 0)
             {
                 if(item.CanAffordTrade())
                 {
@@ -172,7 +170,7 @@ public class CulinarianNPC : NPC, ITalkable
         }
         currentType = PathType.Misc;
         Talk();
-    }
+    } */
 
     public override void PlayerLeftRadius()
     {
@@ -209,8 +207,8 @@ public class CulinarianNPC : NPC, ITalkable
                 if (r < barterDatabase.transactions[i].barterChance) newItem = barterDatabase.transactions[i].itemForSale;
             }
             while (!newItem);
-            //int newCost = (int)(newItem.value * sellMultiplier);
-            item.RefreshItem(newItem, barterDatabase.transactions[i].itemsRequired);
+            int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired);
             item.seller = this;
             
             //This is the old way to populate items to sell for money
