@@ -25,6 +25,8 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public List<ItemWithAmount> barterCost = new List<ItemWithAmount>();
 
+    public bool clearUponPurchase = true;
+
     bool awakeOver = false;
 
     private void Awake()
@@ -97,6 +99,7 @@ public class StoreItem : MonoBehaviour, IInteractable
         myCollider.enabled = false;
         if(awakeOver) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
         barterCost.Clear();
+        clearUponPurchase = true;
     }
 
     public bool CanAffordTrade()

@@ -44,8 +44,7 @@ MonoBehaviour:
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
-    - Oh ho ho! Pleasure doin' this trade. Go post those up on the tree you want
-      gone, and I will get to it in the morning. {itemBought}
+    - Plenty more where that came from. {itemBought}
     emotions: 01000000
   - pathName: No Money
     paragraphs:
@@ -56,6 +55,11 @@ MonoBehaviour:
     paragraphs:
     - Why bother trying to buy when you can't even carry it?
     emotions: 03000000
+  - pathName: Sold Papers!
+    paragraphs:
+    - Oh ho ho! Pleasure doin' this trade. Go post those up on the tree you want
+      gone, and I will get to it in the morning. {itemBought}
+    emotions: 01000000
   fillerPaths:
   - pathName: Tree Variety
     paragraphs:

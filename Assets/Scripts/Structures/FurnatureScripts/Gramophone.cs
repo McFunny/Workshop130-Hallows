@@ -40,7 +40,7 @@ public class Gramophone : FurnitureBehaviorScript
             return;
         }
 
-        addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
             Destroy(this.gameObject);
@@ -99,7 +99,7 @@ public class Gramophone : FurnitureBehaviorScript
 
     public override void DigAction()
     {
-        PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
 
         Destroy(this.gameObject);
     }

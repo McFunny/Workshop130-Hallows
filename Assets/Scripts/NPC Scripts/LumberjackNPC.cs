@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LumberjackNPC : NPC, ITalkable
 {
-    public InventoryItemData papers, treeNut;
+    public InventoryItemData papers, treeNut, wood;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
@@ -187,7 +187,8 @@ public class LumberjackNPC : NPC, ITalkable
             }
             else
             {
-                currentPath = 2; //item sold
+                if(item.itemData == papers) currentPath = 5; //papers sold
+                else currentPath = 2; //item sold
                 shopUI.shopImgObj.SetActive(false);
             }
             anim.SetTrigger("IsTalking");
@@ -217,8 +218,9 @@ public class LumberjackNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    public override void EmptyShopItem()
+    public override void EmptyShopItem() //For when a player bought smth
     {
+        if(!lastInteractedStoreItem.clearUponPurchase) return;
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
     }
@@ -231,19 +233,21 @@ public class LumberjackNPC : NPC, ITalkable
         int i;
         float r;
         InventoryItemData newItem;
+        int x = 0; //iterations
         foreach (StoreItem item in storeItems)
         {
-            newItem = null;
-            do
+            if(x == 0) newItem = papers;
+            else
             {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f,1f);
-                if(r < itemWeight[i]) newItem = possibleSoldItems[i];
+                newItem = wood;
+                item.clearUponPurchase = false;
             }
-            while(!newItem);
+            
             int newCost = (int) (newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
             item.seller = this;
+
+            x++;
         }
     }
 

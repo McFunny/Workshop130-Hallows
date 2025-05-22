@@ -170,6 +170,12 @@ public class FarmLand : StructureBehaviorScript
             consumeItem = true;
             ApplyNewUpgrade(FarmTileUpgrade.Mulch);
         }*/
+
+        else if(item == nectar && NeedsPollination())
+        {
+            consumeItem = true;
+            isPollinated = true;
+        }
         
         if(consumeItem)
         {
@@ -337,7 +343,7 @@ public class FarmLand : StructureBehaviorScript
 
         if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
-            if(growthStage >= crop.growthStages && !isWeed || NeedsPollenation())
+            if(growthStage >= crop.growthStages && !isWeed || NeedsPollination())
             {
                 return;
                 //IT HAS REACHED MAX GROWTH STATE
@@ -748,7 +754,7 @@ public class FarmLand : StructureBehaviorScript
     }
 
     //[ContextMenu("PollenCheck")]
-    public bool NeedsPollenation()
+    public bool NeedsPollination()
     {
         if(crop && crop.requirePollination && !isPollinated && growthStage == crop.growthStages - 1)
         {
