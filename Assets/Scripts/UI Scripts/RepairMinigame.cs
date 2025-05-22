@@ -58,10 +58,12 @@ public class RepairMinigame : MonoBehaviour
     private void OnEnable()
     {
         controlManager.minigamePress.action.performed += MinigamePress;
+        controlManager.minigameExit.action.performed += MinigameExit;
     }
     private void OnDisable()
     {
         controlManager.minigamePress.action.performed -= MinigamePress;
+        controlManager.minigameExit.action.performed -= MinigameExit;
     }
 
     // Update is called once per frame
@@ -110,6 +112,13 @@ public class RepairMinigame : MonoBehaviour
         StartCoroutine(AttemptHit());
     }
 
+    private void MinigameExit(InputAction.CallbackContext context)
+    {
+        if (!minigameActive) return;
+        if (context.canceled) return;
+        EndMinigame();
+    }
+
     private IEnumerator AttemptHit()
     {
         //Play Anim
@@ -120,7 +129,7 @@ public class RepairMinigame : MonoBehaviour
         if (HitLoop() == true && hitSegment != null)
         {
             debrisPile.repairsLeft = debrisPile.repairsLeft - hitSegment.hitCount;
-            if(debrisPile.repairsLeft < 0)
+            if (debrisPile.repairsLeft < 0)
             {
                 debrisPile.repairsLeft = 0;
             }
@@ -129,11 +138,11 @@ public class RepairMinigame : MonoBehaviour
         else
         {
             debrisPile.missesLeft--;
-            if(debrisPile.missesLeft < 0)
+            if (debrisPile.missesLeft < 0)
             {
                 debrisPile.missesLeft = 0;
             }
-            missesAllowedText.text = debrisPile.repairsLeft.ToString();
+            missesAllowedText.text = debrisPile.missesLeft.ToString();
         }
 
         Debug.Log("Minigame Value: " + minigameSlider.value);
@@ -202,7 +211,7 @@ public class RepairMinigame : MonoBehaviour
 
     private IEnumerator CanHitDelay()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         canHit = true;
         StopCoroutine(CanHitDelay());
     }
@@ -223,7 +232,7 @@ public class RepairMinigame : MonoBehaviour
         Debug.Log("Minigame: Fail!");
         debrisPile.DestroyStructure();
     }
-    private void EndMinigame()
+    public void EndMinigame()
     {
         // End the minigame
         StopCoroutine(AttemptHit());
@@ -233,5 +242,11 @@ public class RepairMinigame : MonoBehaviour
         minigameActive = false;
         PlayerMovement.restrictMovementTokens--;
         minigameSlider.value = 0f;
+    }
+    
+    public bool IsMinigameActive()
+    {
+        //print("Minigame Active: " + minigameActive);
+        return minigameActive;
     }
 }

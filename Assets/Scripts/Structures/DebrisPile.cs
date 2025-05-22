@@ -81,7 +81,7 @@ public class DebrisPile : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel)
+        if(type == ToolType.Shovel && !containsItems)
         {
             //StartCoroutine(Dig());
             success = true;

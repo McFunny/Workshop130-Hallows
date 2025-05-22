@@ -57,11 +57,13 @@ public class PlayerInteraction : MonoBehaviour
 
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
+    private RepairMinigame repairMinigame;
 
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        repairMinigame = FindFirstObjectByType<RepairMinigame>();
         stamina = maxStamina;
         waterHeld = maxWaterHeld;
         if(Instance != null && Instance != this)
@@ -352,8 +354,13 @@ public class PlayerInteraction : MonoBehaviour
             print("Damage negated to not go under threshold");
             return;
         }
+        
+        if(repairMinigame.IsMinigameActive())
+        {
+            repairMinigame.EndMinigame();
+        }
 
-        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
+        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
         
         stamina += amount;
         if(amount <= -5) playerEffects.PlayerDamage();

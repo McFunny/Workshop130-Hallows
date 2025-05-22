@@ -220,6 +220,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MinigameExit",
+                    "type": "Button",
+                    "id": "6a7aa22d-6085-4740-a85d-e019b368fe38",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -990,6 +999,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "MinigamePress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6c5a3eb-5a6c-4a9e-89c7-c8883b1150c1",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MinigameExit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ffc99b58-80b2-4117-a0b2-32cb469d02ee",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MinigameExit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
