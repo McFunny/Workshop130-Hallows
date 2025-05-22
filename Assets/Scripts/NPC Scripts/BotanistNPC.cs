@@ -245,7 +245,7 @@ public class BotanistNPC : NPC, ITalkable
             }
         }
 
-            List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
+        List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
         while (commonSeedsForSale.Count < 3)
         {
             if (questCrops.Count > 0)
@@ -278,7 +278,13 @@ public class BotanistNPC : NPC, ITalkable
         {
             newItem = null;
 
-            if (currentItem < 6)
+            if(currentItem == 0) //This makes sure she is selling at least 1 resource crop
+            {
+                i = Random.Range(7, 9);
+                newItem = commonSeeds[i];
+            }
+
+            else if (currentItem < 6)
             {
                 i = Random.Range(0, commonSeedsForSale.Count - 1);
                 newItem = commonSeedsForSale[i];
