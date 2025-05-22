@@ -240,6 +240,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""id"": ""0945192f-fdb9-4fb4-ab07-f25d1c8ed7d9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MinigameExit"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a7aa22d-6085-4740-a85d-e019b368fe38"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 }
@@ -1012,6 +1021,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""MinigamePress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c6c5a3eb-5a6c-4a9e-89c7-c8883b1150c1"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MinigameExit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffc99b58-80b2-4117-a0b2-32cb469d02ee"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MinigameExit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2020,6 +2051,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_DropHeldItem = m_Gameplay.FindAction("DropHeldItem", throwIfNotFound: true);
         m_Gameplay_BeginHoldInteraction = m_Gameplay.FindAction("BeginHoldInteraction", throwIfNotFound: true);
         m_Gameplay_MinigamePress = m_Gameplay.FindAction("MinigamePress", throwIfNotFound: true);
+        m_Gameplay_MinigameExit = m_Gameplay.FindAction("MinigameExit", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -2128,6 +2160,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_DropHeldItem;
     private readonly InputAction m_Gameplay_BeginHoldInteraction;
     private readonly InputAction m_Gameplay_MinigamePress;
+    private readonly InputAction m_Gameplay_MinigameExit;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -2156,6 +2189,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @DropHeldItem => m_Wrapper.m_Gameplay_DropHeldItem;
         public InputAction @BeginHoldInteraction => m_Wrapper.m_Gameplay_BeginHoldInteraction;
         public InputAction @MinigamePress => m_Wrapper.m_Gameplay_MinigamePress;
+        public InputAction @MinigameExit => m_Wrapper.m_Gameplay_MinigameExit;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2237,6 +2271,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MinigamePress.started += instance.OnMinigamePress;
             @MinigamePress.performed += instance.OnMinigamePress;
             @MinigamePress.canceled += instance.OnMinigamePress;
+            @MinigameExit.started += instance.OnMinigameExit;
+            @MinigameExit.performed += instance.OnMinigameExit;
+            @MinigameExit.canceled += instance.OnMinigameExit;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -2313,6 +2350,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MinigamePress.started -= instance.OnMinigamePress;
             @MinigamePress.performed -= instance.OnMinigamePress;
             @MinigamePress.canceled -= instance.OnMinigamePress;
+            @MinigameExit.started -= instance.OnMinigameExit;
+            @MinigameExit.performed -= instance.OnMinigameExit;
+            @MinigameExit.canceled -= instance.OnMinigameExit;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -2602,6 +2642,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnDropHeldItem(InputAction.CallbackContext context);
         void OnBeginHoldInteraction(InputAction.CallbackContext context);
         void OnMinigamePress(InputAction.CallbackContext context);
+        void OnMinigameExit(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

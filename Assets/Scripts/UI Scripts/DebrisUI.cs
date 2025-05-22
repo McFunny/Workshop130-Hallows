@@ -11,6 +11,7 @@ public class DebrisUI : MonoBehaviour
     [SerializeField] private GameObject uiContainer;
     [SerializeField] private Image[] resourceIcons;
     [SerializeField] private TextMeshProUGUI[] resourceText;
+    [SerializeField] private GameObject imageContainer, repairText;
 
     private DebrisPile debrisPile;
 
@@ -35,13 +36,13 @@ public class DebrisUI : MonoBehaviour
     private void ShowDebrisUI()
     {
         if (!debrisPile.repairedStruct) return;
-        if(forceHideUI) return;
+        if (forceHideUI) return;
         uiContainer.SetActive(true);
         var repairItems = debrisPile.repairedStruct.repairItems;
 
         for (int i = 0; i <= repairItems.Count; i++)
         {
-            if(i < repairItems.Count)
+            if (i < repairItems.Count)
             {
                 resourceIcons[i].gameObject.SetActive(true);
                 resourceIcons[i].sprite = repairItems[i].item.icon;
@@ -55,13 +56,20 @@ public class DebrisUI : MonoBehaviour
                 resourceIcons[i].sprite = mintSprite;
                 resourceText[i].text = debrisPile.repairedStruct.mintRepairCost.ToString();
             }
-            
+
         }
     }
 
     private void HideDebrisUI()
     {
         uiContainer.SetActive(false);
+    }
+
+    public void ShowRepairUI()
+    {
+        if (forceHideUI) return;
+        imageContainer.SetActive(false);
+        repairText.SetActive(true);
     }
 
 
