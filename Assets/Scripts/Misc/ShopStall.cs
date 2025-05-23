@@ -6,6 +6,7 @@ public class ShopStall : MonoBehaviour
 {
     public List<StoreItem> storeItems;
     public ItemDisplaySign displaySign;
+    public ItemDisplaySign barterSign;
     
     void OnTriggerEnter(Collider npc)
     {
