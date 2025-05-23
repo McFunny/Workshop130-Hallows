@@ -61,7 +61,7 @@ public class ItemDisplaySign : MonoBehaviour
         itemType.text = "";
         shopNPC.text = "";
         if (structureDisplay != null) { structureDisplay.LeaveShop(); }
-        if(changeParticle) changeParticle.Play();
+        //if(changeParticle) changeParticle.Play();
     }
 
     public void DisplayItem(InventoryItemData itemData)
@@ -99,7 +99,7 @@ public class ItemDisplaySign : MonoBehaviour
 
         if (structureDisplay != null) { structureDisplay.DisplayStructure(itemData); }
         if(changeParticle) changeParticle.Play();
-        if(signRB) signRB.AddForce(signRB.transform.forward * -60, ForceMode.Impulse);
+        if(signRB && signRB.velocity.magnitude < 2) signRB.AddForce(signRB.transform.forward * -60, ForceMode.Impulse);
     }
 
 }

@@ -530,12 +530,12 @@ public class MutatedCrow : CreatureBehaviorScript
             {
                 point = GetRandomPoint(150);
                 currentState = CreatureState.GoAway;
-                coroutineRunning = false;
             }
             else
             {
                 point = GetRandomPoint(15);
             }
+            coroutineRunning = false;
             
             yield break;
         }
