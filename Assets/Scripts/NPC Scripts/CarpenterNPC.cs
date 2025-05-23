@@ -216,14 +216,12 @@ public class CarpenterNPC : NPC, ITalkable
                 if(x == 0)
                 {
                     newItem = woodBarter.itemForSale;
-                    newCost = (int)(newItem.value * sellMultiplier);
-                    item.RefreshItem(newItem, newCost, woodBarter.itemsRequired);
+                    item.RefreshItem(newItem, 0, woodBarter.itemsRequired);
                 } 
                 if(x == 1)
                 {
                     newItem = gloomStalkBarter.itemForSale;
-                    newCost = (int)(newItem.value * sellMultiplier);
-                    item.RefreshItem(newItem, newCost, gloomStalkBarter.itemsRequired);
+                    item.RefreshItem(newItem, 0, gloomStalkBarter.itemsRequired);
                 }
                 item.seller = this;
                 item.clearUponPurchase = false;
