@@ -102,10 +102,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
             {
                 currentPath = 2; //item sold
                 shopUI.shopImgObj.SetActive(false);
-                if (assignedStall.displaySign)
-                {
-                    assignedStall.displaySign.ResetDisplay();
-                }
+                if (assignedStall.displaySign) assignedStall.displaySign.ResetDisplay();
+                if (assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
             }
             anim.SetTrigger("IsTalking");
         }
@@ -123,6 +121,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             {
                 assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
             }
+            if (assignedStall.barterSign) assignedStall.barterSign.DisplayTrade(lastInteractedStoreItem);
 
         }
         currentType = PathType.Misc;

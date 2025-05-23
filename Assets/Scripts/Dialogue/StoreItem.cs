@@ -16,7 +16,7 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public SpriteRenderer r;
     public Color original, highlighted;
-    public GameObject costObject, arrowObject;
+    public GameObject costObject, arrowObject, barterObject;
     public TextMeshProUGUI costText;
 
     public NPC seller;
@@ -72,6 +72,7 @@ public class StoreItem : MonoBehaviour, IInteractable
         costText.text = cost.ToString();
         if(cost > 0) costObject.SetActive(true);
         myCollider.enabled = true;
+        barterObject.SetActive(false);
     }
 
     public void RefreshItem(InventoryItemData newItem, int _cost, List<ItemWithAmount> newCost)
@@ -86,6 +87,7 @@ public class StoreItem : MonoBehaviour, IInteractable
         }
         costText.text = cost.ToString();
         if(cost > 0) costObject.SetActive(true);
+        if(newCost.Count > 0) barterObject.SetActive(true);
         myCollider.enabled = true;
     }
 
@@ -98,6 +100,7 @@ public class StoreItem : MonoBehaviour, IInteractable
         costObject.SetActive(false);
         myCollider.enabled = false;
         if(awakeOver) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        barterObject.SetActive(false);
         barterCost.Clear();
         clearUponPurchase = true;
     }
