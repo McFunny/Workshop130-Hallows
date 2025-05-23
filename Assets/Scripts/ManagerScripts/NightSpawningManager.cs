@@ -360,7 +360,7 @@ public class NightSpawningManager : MonoBehaviour
             }
         }
 
-        if(selectedCreatures.Count == 0) SelectCreaturesForNight();
+        if(selectedCreatures.Count == 0) SelectCreaturesForNight(); //potentially call this if the current d level increases
     }
 
     [ContextMenu("RefreshNightCreatures")]
