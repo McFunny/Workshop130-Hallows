@@ -119,6 +119,11 @@ public class Gramophone : FurnitureBehaviorScript
         if(AmbientAudioManager.Instance.playingGramophone != this.transform) return;
         AmbientAudioManager.Instance.EndGramophone();
     }
+
+    public override void LoadVariables()
+    {
+        if(savedItems.Count == 0) savedItems.Add(null);
+    }
 }
 [System.Serializable]
 public class DiscAndSong

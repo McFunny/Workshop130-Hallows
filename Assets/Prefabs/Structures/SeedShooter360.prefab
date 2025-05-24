@@ -526,7 +526,7 @@ MonoBehaviour:
   health: 20
   maxHealth: 20
   wealthValue: 5
-  salvageChance: 80
+  salvageChance: 90
   destructable: 1
   flammable: 1
   onFire: 0
@@ -544,6 +544,7 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 7514039520360302508}
   gibs: {fileID: 2613770912655317858, guid: 70dd66d5029373d4dae2c9d30a8b98f9, type: 3}
   nearbyFires: []
@@ -555,7 +556,6 @@ MonoBehaviour:
   clearTileOnDestroy: 1
   structureUI: {fileID: 1696547498468872269}
   townOwned: 0
-  recoveredItem: {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
   turretHead: {fileID: 5197192804061470831}
   bulletOrigin: {fileID: 7144713208050597919}
   seedSocket: {fileID: 1915353222248149414}

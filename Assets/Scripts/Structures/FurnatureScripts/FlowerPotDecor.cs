@@ -88,7 +88,8 @@ public class FlowerPotDecor : FurnitureBehaviorScript
             if(potItems[i].item == _item)
             {
                 r.sprite = potItems[i].sprite;
-                savedItems[0] = _item;
+                if(savedItems.Count > 0) savedItems[0] = _item;
+                else savedItems.Add(_item);
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
                 PlayerInventoryHolder.Instance.UpdateInventory();
 
@@ -112,6 +113,8 @@ public class FlowerPotDecor : FurnitureBehaviorScript
         if(savedItems.Count == 0 || savedItems[0] == null)
         {
             r.sprite = null;
+            savedItems.Clear();
+            savedItems.Add(null);
             return;
         }
 

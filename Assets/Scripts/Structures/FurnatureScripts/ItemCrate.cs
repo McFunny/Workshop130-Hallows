@@ -160,6 +160,13 @@ public class ItemCrate : FurnitureBehaviorScript
 
     public override void LoadVariables()
     {
+        if(savedItems.Count == 0)
+        {
+            for(int i = 0; i < itemSockets.Count; i++)
+            {
+                savedItems.Add(null);
+            }
+        }
         RefreshSockets();
     }
 }

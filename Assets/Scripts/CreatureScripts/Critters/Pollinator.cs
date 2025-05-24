@@ -15,7 +15,7 @@ public class Pollinator : CreatureBehaviorScript
     float pollenDistance = 2;
 
     float defaultSpeed = 3;
-    float fireSpeed = 4.5f;
+    float fireSpeed = 6f;
 
     private StructureBehaviorScript targetStructure; //The thing they will seek out to pollinate like crops. NOT a brazier
 
@@ -129,14 +129,14 @@ public class Pollinator : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
         float maxTime = Random.Range(5, 8);
-        if(currentState == CreatureState.SpawnIn) maxTime = 15;
+        if(currentState == CreatureState.SpawnIn) maxTime = 20;
         //else if(currentState == CreatureState.WanderByFire) maxTime = 3;
 
         while (timeSpent < maxTime)
         {
             if(target && currentState == CreatureState.Wander) timeSpent += 25; //if nearbyfire
 
-            if(currentState == CreatureState.WanderByFire && (target && Vector3.Distance(target.position, transform.position) > 7 || !target))
+            if(currentState == CreatureState.WanderByFire && (target && Vector3.Distance(target.position, transform.position) > 5 || !target))
             {
                 timeSpent += 25;
             }

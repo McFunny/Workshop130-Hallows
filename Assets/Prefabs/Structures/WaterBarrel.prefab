@@ -281,7 +281,7 @@ MonoBehaviour:
   health: 10
   maxHealth: 10
   wealthValue: 2
-  salvageChance: 80
+  salvageChance: 85
   destructable: 1
   flammable: 1
   onFire: 0
@@ -299,6 +299,7 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 5984358120848086488}
   gibs: {fileID: 2697239246615553408, guid: d1aac4759640ab94fa1f30fa6e74d8aa, type: 3}
   nearbyFires: []
@@ -309,7 +310,6 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 3113125230182006488}
-  recoveredItem: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
   waterLevel: 0
   waterTexture: {fileID: 1932092458134671730}
   renderer: {fileID: 4244604658824195120}

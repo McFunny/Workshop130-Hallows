@@ -218,7 +218,7 @@ public class PauseScript : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        OpenConfirmationBox("Are you sure? All progress since last daybreak will be lost.", buttons[3]);
+        OpenConfirmationBox("Are you sure? All progress since last save will be lost.", buttons[3]);
     }
 
     IEnumerator MainMenuTransition()

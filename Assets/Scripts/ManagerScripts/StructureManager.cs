@@ -81,7 +81,7 @@ public class StructureManager : MonoBehaviour
         {
             StartCoroutine(PopulateStructure(-3, 5, weedTile, false));
             PopulateDecorCrows(0, 2);
-            StartCoroutine(PopulateStructure(-3, 3, boulder, true));
+            StartCoroutine(PopulateStructure(-1, 3, boulder, true));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -89,7 +89,7 @@ public class StructureManager : MonoBehaviour
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
 
-        if(Random.Range(0,100) < 5)
+        if(Random.Range(0,100) < 7)
         {
             Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
