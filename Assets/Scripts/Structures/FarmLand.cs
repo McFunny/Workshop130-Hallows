@@ -9,7 +9,7 @@ public class FarmLand : StructureBehaviorScript
     public CropDatabase cropDatabase;
 
     public CropData crop; //The current crop planted here //MUST BE SAVED
-    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar;
+    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar, trellis;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
     public Collider finishedGrowingCollider;
@@ -44,7 +44,7 @@ public class FarmLand : StructureBehaviorScript
 
     float oldMaxHealth;
 
-    FarmTileUpgrade currentUpgrade;
+    [HideInInspector] public FarmTileUpgrade currentUpgrade;
     public GameObject[] upgradeObjects;
 
     public enum FarmTileUpgrade
@@ -170,6 +170,11 @@ public class FarmLand : StructureBehaviorScript
             consumeItem = true;
             ApplyNewUpgrade(FarmTileUpgrade.Mulch);
         }*/
+        else if(!isWeed && item == trellis && currentUpgrade == FarmTileUpgrade.None && !crop)
+        {
+            consumeItem = true;
+            ApplyNewUpgrade(FarmTileUpgrade.Trellis);
+        }
 
         else if(item == nectar && NeedsPollination())
         {
@@ -189,6 +194,16 @@ public class FarmLand : StructureBehaviorScript
         CropItem newCrop = item as CropItem;
         if(newCrop && newCrop.plantable)
         {
+            if(newCrop.requireTrellis && currentUpgrade != FarmTileUpgrade.Trellis)
+            {
+                //give popup
+                return;
+            }
+            if(!newCrop.requireTrellis && currentUpgrade == FarmTileUpgrade.Trellis)
+            {
+                //give popup
+                return;
+            }
             InsertCrop(newCrop.cropData);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
@@ -603,7 +618,15 @@ public class FarmLand : StructureBehaviorScript
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
 
-        if(health <= 0) ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        if(health <= 0)
+        {
+            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+            if(currentUpgrade == FarmTileUpgrade.Trellis) ParticlePoolManager.Instance.GrabDestructionParticle(StructureType.Wood).transform.position = transform.position;
+        }
+        else if(currentUpgrade == FarmTileUpgrade.Trellis) //Return Trellis upon removal
+        {
+            ItemPoolManager.Instance.GrabItem(crop.cropSecondaryYield).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        }
         if(crop && !rotted) crop.amountKilled++;
 
         if(crop && crop.behavior)
@@ -775,6 +798,9 @@ public class FarmLand : StructureBehaviorScript
             case FarmTileUpgrade.Stone:
             maxHealth -= 10;
             break;
+            case FarmTileUpgrade.Trellis:
+            isObstacle = false;
+            break;
             default:
             break;
         }
@@ -787,6 +813,9 @@ public class FarmLand : StructureBehaviorScript
             case FarmTileUpgrade.Stone:
             maxHealth += 10;
             health += 10;
+            break;
+            case FarmTileUpgrade.Trellis:
+            isObstacle = true;
             break;
             default:
             break;

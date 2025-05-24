@@ -103,6 +103,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void Start() //make sure absent from grid is checked if not on farm
     {
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Any) == false) absentFromGrid = true;
         if (absentFromGrid) return;
         StructureManager.Instance.allStructs.Add(this);
 

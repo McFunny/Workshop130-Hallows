@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3b4c4f202173f4c8b374726138955a, type: 3}
+  m_Name: Structure Repairs
+  m_EditorClassIdentifier: 
+  buttonIcon: {fileID: 0}
+  unlocked: 1
+  mainImage: {fileID: 1741346975, guid: 69a98f2d2f7861446a423cc38d52e967, type: 3}
+  entryName: Structure Repairs
+  cropData: {fileID: 0}
+  creatureData: {fileID: 0}
+  description:
+  - When a structure is destroyed, it will occassionally leave behind a pile of rubble.
+    Spending resources and completing a quick microgame will repair the structure.
+    Otherwise, they can be removed via shoveling.
+  - Structures destroyed by fire do not leave behind any piles.

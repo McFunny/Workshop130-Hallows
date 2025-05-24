@@ -161,7 +161,7 @@ public class StructureManager : MonoBehaviour
             }
         }
         //print("No tile grid was found");
-        return farmTileMap;
+        return null;
     }
 
     public bool ValidateGridType(Vector3 pos, List<GridType> types)
@@ -171,7 +171,7 @@ public class StructureManager : MonoBehaviour
             switch(g)
             {
                 case GridType.Any:
-                    return true;
+                    if(CurrentTileMap(pos) != null) return true;
                     break;
                 case GridType.Farm:
                     if(CurrentTileMap(pos) == farmTileMap) return true;
@@ -193,7 +193,7 @@ public class StructureManager : MonoBehaviour
         switch(type)
         {
             case GridType.Any:
-                return true;
+                if(CurrentTileMap(pos) != null) return true;
                 break;
             case GridType.Farm:
                 if(CurrentTileMap(pos) == farmTileMap) return true;
@@ -336,6 +336,7 @@ public class StructureManager : MonoBehaviour
         List<Vector3> adjacentTiles = new List<Vector3>();
 
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return adjacentTiles;
 
         Vector3Int gridPos = currentMap.WorldToCell(pos);
 
@@ -362,6 +363,7 @@ public class StructureManager : MonoBehaviour
     public bool SpawnLargeStructure(GameObject obj, Vector3 pos, bool randomizeRotation)
     { 
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return false;
 
         List<Vector3Int> selectedTiles = new List<Vector3Int>();
         Vector3Int gridPos = currentMap.WorldToCell(pos);
@@ -404,6 +406,7 @@ public class StructureManager : MonoBehaviour
     public void SetLargeTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
 
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
         {
@@ -419,6 +422,7 @@ public class StructureManager : MonoBehaviour
     public void SetOneByTwoTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
 
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
         {
@@ -444,6 +448,7 @@ public class StructureManager : MonoBehaviour
     public void ClearLargeTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
         //fetch tiles within a small radius, should return the 4 its occupying
         //print("Clearing");
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
@@ -461,6 +466,7 @@ public class StructureManager : MonoBehaviour
     public void ClearOneByTwoTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
         //fetch tiles within a small radius, should return the 4 its occupying
         //print("Clearing");
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
@@ -543,6 +549,7 @@ public class StructureManager : MonoBehaviour
     public List<Vector3> WaterGunTargets(Vector3 pos, Direction dir, int range)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return new List<Vector3>();
 
         List<Vector3> newTargets = new List<Vector3>();
         Vector3Int currentPos = currentMap.WorldToCell(pos);

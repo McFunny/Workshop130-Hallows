@@ -3587,6 +3587,37 @@ MonoBehaviour:
     type: 3}
   stoneDestructionP: {fileID: 707649693110747030, guid: 3a2304c34c9d5ae4a8aa6db6f60a9909,
     type: 3}
+--- !u!1 &4440993460313997844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2352191092968933568}
+  m_Layer: 0
+  m_Name: TestSpawn2 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2352191092968933568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4440993460313997844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -40.9, y: 0, z: -101.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1008784946656914511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4467738761642645672
 GameObject:
   m_ObjectHideFlags: 0
@@ -9541,7 +9572,7 @@ MonoBehaviour:
     r_varietyMin: 2
     r_varietyMax: 5
     s_varietyMin: 1
-    s_varietyMax: 4
+    s_varietyMax: 3
     hourlySpawnAttempts: 7
   - difficultyPointThreshold: 150
     c_varietyMin: 3
@@ -9579,6 +9610,8 @@ MonoBehaviour:
   - {fileID: 5314872771095763302}
   - {fileID: 6664686014214201321}
   - {fileID: 2016491063975046592}
+  - {fileID: 5905432174248883599}
+  - {fileID: 2352191092968933568}
   despawnPositions:
   - {fileID: 1731178260283816800}
   - {fileID: 7121509994226977754}
@@ -57164,6 +57197,10 @@ MonoBehaviour:
     prefab: {fileID: 446895733223214618, guid: 33cdc1b0f9171ba49b8921f09f1f76c3, type: 3}
     isLarge: 0
     spawnChance: 50
+  - name: Rock
+    prefab: {fileID: 333776889047174946, guid: 74b68e7b5b260af4ab1b74fcc6dd329d, type: 3}
+    isLarge: 0
+    spawnChance: 80
   allMaps: []
   wagon: {fileID: 0}
   returnPosition: {fileID: 3274068372633532939}
@@ -57260,6 +57297,8 @@ Transform:
   m_Children:
   - {fileID: 7187795816526134101}
   - {fileID: 8728786854694335367}
+  - {fileID: 5905432174248883599}
+  - {fileID: 2352191092968933568}
   - {fileID: 5275669529563945046}
   - {fileID: 3779783968378303726}
   - {fileID: 3216889733315768725}
@@ -58396,6 +58435,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 474536576919656251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8515351907838547938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5905432174248883599}
+  m_Layer: 0
+  m_Name: TestSpawn2 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5905432174248883599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8515351907838547938}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.6, y: 0, z: -100.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1008784946656914511}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8524718070177679459
 GameObject:
