@@ -148,12 +148,12 @@ public class DryingRack : StructureBehaviorScript
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         //drop items
-        GameObject droppedItem;
+        GameObject droppedItem = null;
         foreach(InventoryItemData item in savedItems)
         {
             if(progress == maxProgress)
             {
-                droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
+                if(item == meat) droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
                 if(item == meatSmall) droppedItem = ItemPoolManager.Instance.GrabItem(jerkySmall);
                 if(item == meatLarge) droppedItem = ItemPoolManager.Instance.GrabItem(jerkyLarge);
             }
