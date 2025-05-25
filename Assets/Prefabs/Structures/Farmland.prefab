@@ -625,6 +625,7 @@ MonoBehaviour:
   rocks: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
   mulch: {fileID: 0}
   nectar: {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
+  trellis: {fileID: 11400000, guid: f6930f9b874c12f4b8aede53004a1c28, type: 2}
   cropRenderer: {fileID: 8704679450468573891}
   itemDropTransform: {fileID: 3612033332719255909}
   finishedGrowingCollider: {fileID: 4807340030674617072}
@@ -651,9 +652,11 @@ MonoBehaviour:
   supportText: {fileID: 5692700354323459234}
   harvestText: {fileID: 2790798402760200067}
   cropNeedsUI: {fileID: 837279530193775678}
+  currentUpgrade: 0
   upgradeObjects:
   - {fileID: 7289239290994980319}
   - {fileID: 6875543514295602312}
+  - {fileID: 85767395232847966}
 --- !u!114 &837279530193775678
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,6 +24,8 @@ public class BearTrap : StructureBehaviorScript
 
     CreatureBehaviorScript capturedCreature;
 
+    Collider collider;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,6 +39,8 @@ public class BearTrap : StructureBehaviorScript
             topClamp.rotation = Quaternion.Euler(-161, 90, -90);
             bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
         }
+
+        collider = GetComponent<Collider>();
     }
 
     void Start()
@@ -255,8 +259,10 @@ public class BearTrap : StructureBehaviorScript
     IEnumerator HoldCorpse()
     {
         rearming = true;
+        collider.enabled = false;
         while(capturedCreature) yield return null;
         rearming = false;
+        collider.enabled = true;
     }
 
     void OnTriggerEnter(Collider other)
