@@ -81,7 +81,7 @@ public class StructureManager : MonoBehaviour
         {
             StartCoroutine(PopulateStructure(-3, 5, weedTile, false));
             PopulateDecorCrows(0, 2);
-            StartCoroutine(PopulateStructure(-1, 3, boulder, true));
+            StartCoroutine(PopulateStructure(-2, 3, boulder, true));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
