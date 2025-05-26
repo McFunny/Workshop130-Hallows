@@ -191,8 +191,9 @@ public class CarpenterNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    public override void EmptyShopItem()
+    public override void EmptyShopItem() //when an item is bought by the player
     {
+        if(lastInteractedStoreItem.clearUponPurchase == false) return;
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
     }

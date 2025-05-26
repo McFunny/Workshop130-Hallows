@@ -120,6 +120,7 @@ public class StoreItem : MonoBehaviour, IInteractable
     {
         PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(barterCost);
         PlayerInventoryHolder.Instance.UpdateInventory();
+        if(!clearUponPurchase) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
     }
 
     public void ToggleHighlight(bool enable)

@@ -134,19 +134,16 @@ public class FarmLand : StructureBehaviorScript
         {
             StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 10, 0);
             consumeItem = true;
-            return;
         }
         else if(item == gloamFert && nutrients.gloamLevel < 10)
         {
             StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 0, 10);
             consumeItem = true;
-            return;
         }
         else if(item == ichorFert && nutrients.ichorLevel < 10)
         {
             StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 10, 0, 0);
             consumeItem = true;
-            return;
         }
         else if(item == compost && (nutrients.gloamLevel < 10 || nutrients.terraLevel < 10))
         {
@@ -165,7 +162,7 @@ public class FarmLand : StructureBehaviorScript
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
             if(audioHandler != null) audioHandler.PlayRandomSound(audioHandler.miscSounds1);
         }
-        /*else if(!isWeed && item == mulch && currentUpgrade == FarmTileUpgrade.None)
+        /*else if(!isWeed && item == mulch && currentUpgrade == FarmTileUpgrade.None)-=
         {
             consumeItem = true;
             ApplyNewUpgrade(FarmTileUpgrade.Mulch);
@@ -350,7 +347,7 @@ public class FarmLand : StructureBehaviorScript
         }
         if(!crop && !isWeed)
         {
-            if(Random.Range(0, 10) > 6f) Destroy(this.gameObject);
+            if(Random.Range(0, 10) > 6f && currentUpgrade != FarmTileUpgrade.Trellis) Destroy(this.gameObject);
             return;
         }
         hoursSpent++;

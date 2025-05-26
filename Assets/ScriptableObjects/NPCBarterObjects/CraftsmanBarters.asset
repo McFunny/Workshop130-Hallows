@@ -20,9 +20,9 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 5
+      amount: 2
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-      amount: 5
+      amount: 2
   - name: Barrel
     itemForSale: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
     useItemPrice: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 10
+      amount: 3
   - name: BirdBath
     itemForSale: {fileID: 11400000, guid: 0bc13d18c81019245bbbcfee4abbab8a, type: 2}
     useItemPrice: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 10
+      amount: 8
   - name: Brazier
     itemForSale: {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
     useItemPrice: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 15
+      amount: 5
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 15
   - name: ImbuedScarecrow
@@ -56,9 +56,9 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 2
+      amount: 1
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-      amount: 5
+      amount: 2
   - name: DryingRack
     itemForSale: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
     useItemPrice: 0
@@ -66,13 +66,13 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 5
+      amount: 2
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
       amount: 2
   - name: Trellis
     itemForSale: {fileID: 11400000, guid: f6930f9b874c12f4b8aede53004a1c28, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 10
     barterChance: 0
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
@@ -84,7 +84,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 5
+      amount: 3
     - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
       amount: 1
   - name: DaysSinceDeathBoard
@@ -94,7 +94,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 3
+      amount: 2
   - name: Dresser
     itemForSale: {fileID: 11400000, guid: ad37073589d54554d89546022e0615a3, type: 2}
     useItemPrice: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 10
+      amount: 7
   - name: End Table
     itemForSale: {fileID: 11400000, guid: 5375149f1f13e474cb8b2c78dfea41b9, type: 2}
     useItemPrice: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 5
+      amount: 3
   - name: FlowerPot
     itemForSale: {fileID: 11400000, guid: 54188ac1a4b706740871786d81dbffe8, type: 2}
     useItemPrice: 0
@@ -118,7 +118,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 2
+      amount: 3
   - name: FogchimeLamp
     itemForSale: {fileID: 11400000, guid: 838a21377194c7d48b58ac064f1fe9da, type: 2}
     useItemPrice: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 5
+      amount: 3
     - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
       amount: 1
   - name: GrandfatherClock
@@ -146,7 +146,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 10
+      amount: 8
   - name: ItemCrate
     itemForSale: {fileID: 11400000, guid: 015b6ad30f765bd44b0521ce3c38d6dd, type: 2}
     useItemPrice: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 5
+      amount: 2
   - name: LargeTable
     itemForSale: {fileID: 11400000, guid: dc8109989d2a4824b8b8204c711699b2, type: 2}
     useItemPrice: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 10
+      amount: 5
   - name: PiggyBank
     itemForSale: {fileID: 11400000, guid: 34a49bec8bafae1498ea60b0c7779c96, type: 2}
     useItemPrice: 0
@@ -178,7 +178,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 3
+      amount: 2
   - name: RoundTable
     itemForSale: {fileID: 11400000, guid: bdeba9a96d3a12447a87ae337c6f4b75, type: 2}
     useItemPrice: 0
@@ -186,7 +186,7 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 3
+      amount: 2
   - name: StorageChest
     itemForSale: {fileID: 11400000, guid: 08f2970a8455d9243b49e5d93f89e338, type: 2}
     useItemPrice: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
     barterChance: 75
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 5
+      amount: 3
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 5
   - name: RabbitRug
