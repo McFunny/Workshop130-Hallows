@@ -17,11 +17,11 @@ public class StoreItem : MonoBehaviour, IInteractable
     public SpriteRenderer r;
     public Color original, highlighted;
     public GameObject costObject, arrowObject, barterObject;
-    public TextMeshProUGUI costText;
+    public TextMeshProUGUI costText, stockText;
 
     public NPC seller;
 
-    public int cost;
+    public int cost, amountLeft;
 
     public List<ItemWithAmount> barterCost = new List<ItemWithAmount>();
 
@@ -69,17 +69,26 @@ public class StoreItem : MonoBehaviour, IInteractable
         r.sprite = newItem.icon;
         itemData = newItem;
         cost = _cost;
+        amountLeft = 1;
+        stockText.text = "";
         costText.text = cost.ToString();
         if(cost > 0) costObject.SetActive(true);
         myCollider.enabled = true;
         barterObject.SetActive(false);
     }
 
-    public void RefreshItem(InventoryItemData newItem, int _cost, List<ItemWithAmount> newCost)
+    public void RefreshItem(InventoryItemData newItem, int _cost, List<ItemWithAmount> newCost, int _amount)
     {
         r.sprite = newItem.icon;
         itemData = newItem;
         cost = _cost;
+
+        amountLeft = _amount;
+        if(amountLeft >= 99) clearUponPurchase = false;
+        if(amountLeft == 0) amountLeft = 1;
+        if(amountLeft == 1 || !clearUponPurchase)  stockText.text = "";
+        else stockText.text = "x " + amountLeft;
+
         barterCost.Clear();
         for(int i = 0; i < newCost.Count; i++)
         {
@@ -98,6 +107,8 @@ public class StoreItem : MonoBehaviour, IInteractable
         cost = 0;
         costText.text = "";
         costObject.SetActive(false);
+        amountLeft = 0;
+        stockText.text = "";
         myCollider.enabled = false;
         if(awakeOver) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
         barterObject.SetActive(false);
@@ -116,11 +127,32 @@ public class StoreItem : MonoBehaviour, IInteractable
         return true;
     }
 
-    public void CompleteTrade()
+    public void CompleteTrade() //Completed a barter trade
     {
         PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(barterCost);
         PlayerInventoryHolder.Instance.UpdateInventory();
-        if(!clearUponPurchase) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        if(clearUponPurchase && amountLeft == 1)
+        {
+            Empty();
+            return;
+        }
+        ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        amountLeft--;
+        if(amountLeft == 1)  stockText.text = "";
+        else stockText.text = "x " + amountLeft;
+    }
+
+    public void CompletePurchase() //Completed a store purchase
+    {
+        if(clearUponPurchase && amountLeft == 1)
+        {
+            Empty();
+            return;
+        }
+        ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        amountLeft--;
+        if(amountLeft == 1)  stockText.text = "";
+        else stockText.text = "x " + amountLeft;
     }
 
     public void ToggleHighlight(bool enable)

@@ -218,12 +218,12 @@ public class LumberjackNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    public override void EmptyShopItem() //For when a player bought smth
+    /*public override void EmptyShopItem() //For when a player bought smth
     {
         if(!lastInteractedStoreItem.clearUponPurchase) return;
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
-    }
+    }*/
 
     public override void RefreshStore()
     {

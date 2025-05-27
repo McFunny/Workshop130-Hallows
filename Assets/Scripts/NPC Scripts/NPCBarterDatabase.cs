@@ -28,6 +28,7 @@ public class Barter
     public InventoryItemData itemForSale; //If there is more than 1, then give a pouch item filled with this reference instead
     public bool useItemPrice = false; //If true, mintCost is = to the item's default price
     public int mintCost;
+    public int amountForSale = 1;
     public float barterChance = 100; //Chance of this barter being available in store
     public List<ItemWithAmount> itemsRequired = new List<ItemWithAmount>();
 }

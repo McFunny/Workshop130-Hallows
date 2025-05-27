@@ -191,12 +191,12 @@ public class CarpenterNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    public override void EmptyShopItem() //when an item is bought by the player
+    /*public override void EmptyShopItem() //when an item is bought by the player
     {
         if(lastInteractedStoreItem.clearUponPurchase == false) return;
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
-    }
+    }*/
 
     public override void RefreshStore()
     {
@@ -217,15 +217,15 @@ public class CarpenterNPC : NPC, ITalkable
                 if(x == 0)
                 {
                     newItem = woodBarter.itemForSale;
-                    item.RefreshItem(newItem, 0, woodBarter.itemsRequired);
+                    item.RefreshItem(newItem, 0, woodBarter.itemsRequired, 99);
                 } 
                 if(x == 1)
                 {
                     newItem = gloomStalkBarter.itemForSale;
-                    item.RefreshItem(newItem, 0, gloomStalkBarter.itemsRequired);
+                    item.RefreshItem(newItem, 0, gloomStalkBarter.itemsRequired, 99);
                 }
                 item.seller = this;
-                item.clearUponPurchase = false;
+                //item.clearUponPurchase = false;
 
                 x++;
                 continue;
@@ -239,7 +239,7 @@ public class CarpenterNPC : NPC, ITalkable
             }
             while (!newItem);
             newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
-            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired);
+            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
             item.seller = this;
 
             x++;

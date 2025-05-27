@@ -182,11 +182,11 @@ public class CulinarianNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    public override void EmptyShopItem()
+    /*public override void EmptyShopItem()
     {
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
-    }
+    }*/
 
     public override void RefreshStore()
     {
@@ -208,7 +208,7 @@ public class CulinarianNPC : NPC, ITalkable
             }
             while (!newItem);
             int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
-            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired);
+            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
             item.seller = this;
             
             //This is the old way to populate items to sell for money

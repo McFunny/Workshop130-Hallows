@@ -78,7 +78,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             {
                 if(item.CanAffordTrade())
                 {
-                    item.CompleteTrade();
+                    //item.CompleteTrade();
                     currentPath = 2; //item sold
                     shopUI.shopImgObj.SetActive(false);
                 }
@@ -130,7 +130,14 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public virtual void RefreshStore(){}
 
-    public virtual void EmptyShopItem(){}
+    public virtual void EmptyShopItem()//when an item is bought by the player
+    {
+        if(lastInteractedStoreItem.clearUponPurchase == false) return;
+
+        if(lastInteractedStoreItem.barterCost.Count == 0) lastInteractedStoreItem.CompletePurchase();
+        else lastInteractedStoreItem.CompleteTrade();
+        lastInteractedStoreItem = null;
+    }
     
     public virtual void PlayerLeftRadius()
     {
