@@ -5,7 +5,7 @@ using UnityEngine;
 public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
-    public InventoryItemData barricade, shotGun, ammo, carrot, carrotSeeds;
+    public InventoryItemData barricade, shotGun, ammo, carrot, carrotSeeds, inventoryUpgrade;
     [HideInInspector] public bool interactedWithLantern;
     bool remembersGift; //if true and the player tries to sell barricades, he gets mad
     bool metPlayerAtEntrace = false; //resets at new day
@@ -208,6 +208,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         lastInteractedStoreItem = null;
         int i;
         float r;
+        int x = 0; //iterations
         InventoryItemData newItem;
         foreach (StoreItem item in storeItems)
         {
@@ -217,11 +218,14 @@ public class WagonMerchantNPC : NPC, ITalkable
                 i = Random.Range(0, possibleSoldItems.Length);
                 r = Random.Range(0f,1f);
                 if(r < itemWeight[i]) newItem = possibleSoldItems[i];
+
+                if(x == 0 && !PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) newItem = inventoryUpgrade;
             }
             while(!newItem);
             int newCost = (int) (newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
             item.seller = this;
+            x++;
         }
     }
 

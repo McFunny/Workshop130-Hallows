@@ -93,6 +93,22 @@ public class PlayerInventoryHolder : InventoryHolder
 
     }
 
+    public void IncreaseBackpackInventory() //For changing the size at runtime
+    {
+        this.secondaryInventorySize += 9;
+        //store temp ref of current inventory
+        InventorySystemSaveData tempData = this.secondaryInventorySystem.GetSaveData();
+        for(int i = 0; i < 9; i++)
+        {
+            tempData.savedSlots.Add(new InventorySlotSaveData(-1, 0));
+        }
+
+        this.secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
+        this.secondaryInventorySystem.LoadFromSaveData(tempData, _database);
+
+        UpdateInventory();
+    }
+
 
     private void Start()
     {

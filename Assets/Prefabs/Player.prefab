@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 6650565928944350188}
   - component: {fileID: 38908524066056234}
   - component: {fileID: 1326828943737913890}
+  - component: {fileID: 4974716673598902644}
   m_Layer: 10
   m_Name: PlayerObject
   m_TagString: Player
@@ -249,6 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCam: {fileID: 0}
   playerFeet: {fileID: 4363058580884312923}
+  playerUpgrades: {fileID: 0}
   rb: {fileID: 0}
   toolCooldown: 0
   currentMoney: 0
@@ -347,6 +349,19 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: -0.5, y: -0.5, z: 0}
+--- !u!114 &4974716673598902644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458327864404202536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fdab1cedd845894fbc027630d3c5424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gainedInventoryUpgrade: 0
 --- !u!1 &833586289986230531
 GameObject:
   m_ObjectHideFlags: 0

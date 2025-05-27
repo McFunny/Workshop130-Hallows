@@ -45,6 +45,7 @@ public class MainMenuScript : MonoBehaviour
 
     public List<FileData> fileDatas = new List<FileData>();
     public static int currentSaveSlot = -1;//-1 means nothing is selected
+    public static FileMode currentFileMode;
     public bool isNewGame;
     
     public GameObject loadingScreen;
@@ -548,4 +549,11 @@ public class FileData
     public int dayNum;
     public int mintsCurrent;
     public int mintsTotal;
+}
+
+public enum FileMode
+{
+    Normal,
+    Cozy
+    //Survival
 }

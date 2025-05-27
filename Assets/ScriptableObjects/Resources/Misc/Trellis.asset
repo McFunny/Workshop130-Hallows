@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 126
   displayName: Trellis
-  description: Wooden frame that can be placed onto tilled tiles. Some crops can
-    only grow with a trellis present. Blocks movement.
+  description: Wooden frame that can be placed onto empty tilled tiles. Some crops
+    require to be planted on a trellis. Blocks movement.
   icon: {fileID: 21300000, guid: 4f25a9fe5496389489cfc4f13392c4c3, type: 3}
   maxStackSize: 20
   value: 35
@@ -30,3 +30,4 @@ MonoBehaviour:
   gainedEffects: []
   itemBehavior: {fileID: 0}
   useSound: {fileID: 0}
+  cannotEnterInventory: 0

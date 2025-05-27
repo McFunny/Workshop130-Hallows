@@ -47,6 +47,8 @@ public class FarmLand : StructureBehaviorScript
     [HideInInspector] public FarmTileUpgrade currentUpgrade;
     public GameObject[] upgradeObjects;
 
+    public PopupScript needTrellis, removeTrellis;
+
     public enum FarmTileUpgrade
     {
         None,
@@ -193,12 +195,12 @@ public class FarmLand : StructureBehaviorScript
         {
             if(newCrop.requireTrellis && currentUpgrade != FarmTileUpgrade.Trellis)
             {
-                //give popup
+                PopupHandler.Instance.AddToQueue(needTrellis);
                 return;
             }
             if(!newCrop.requireTrellis && currentUpgrade == FarmTileUpgrade.Trellis)
             {
-                //give popup
+                PopupHandler.Instance.AddToQueue(removeTrellis);
                 return;
             }
             InsertCrop(newCrop.cropData);

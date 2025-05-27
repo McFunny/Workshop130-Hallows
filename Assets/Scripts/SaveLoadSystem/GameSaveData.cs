@@ -18,7 +18,8 @@ public class GameSaveData : MonoBehaviour
 
     public int hourSaved = 8;
 
-    //
+    [Header("Player Upgrade Variables. All must be false when building")]
+    public bool gainedInventoryUpgrade = false;
 
     [Header("Main Quest Progression Bools. All must be false when building")]
     public bool tutorialMerchantSpoke; //Tutorial Complete
@@ -92,6 +93,7 @@ public class GameSaveData : MonoBehaviour
         PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
         PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
         PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
+        PlayerInteraction.Instance.playerUpgrades.LoadData(data.allGameSaveData);
         TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
         TimeManager.Instance.currentHour = data.allGameSaveData.hourSaved;
         if(data.allGameSaveData.hourSaved == 0) TimeManager.Instance.currentHour = 8;
@@ -149,6 +151,8 @@ public class GameSaveData : MonoBehaviour
         public int pDayNumber;
         public int hourSaved;
 
+        public bool gainedInventoryUpgrade;
+
         public Quest[] activeQuests;
         public FetchQuest[] activeFetchQuests;
         public HuntQuest[] activeHuntQuests;
@@ -194,6 +198,10 @@ public class GameSaveData : MonoBehaviour
         pDayNumber = TimeManager.Instance.dayNum;
         hourSaved = TimeManager.Instance.currentHour;
         pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
+
+        gainedInventoryUpgrade = PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade;
+
+        
 
         //activeQuests = QuestManager.Instance.activeQuests.ToArray();
 

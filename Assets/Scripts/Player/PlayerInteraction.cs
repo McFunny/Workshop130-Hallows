@@ -14,6 +14,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public PlayerInventoryHolder playerInventoryHolder { get; private set; }
 
+    public PlayerUpgrades playerUpgrades;
+
     PlayerEffectsHandler playerEffects;
 
     ControlManager controlManager;
@@ -80,8 +82,8 @@ public class PlayerInteraction : MonoBehaviour
     void Start()
     {
         if(!mainCam) mainCam = FindObjectOfType<Camera>();
-        playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
-        playerEffects = FindObjectOfType<PlayerEffectsHandler>();
+        playerInventoryHolder = GetComponent<PlayerInventoryHolder>();
+        playerEffects = GetComponent<PlayerEffectsHandler>();
         rb = GetComponent<Rigidbody>();
 
         StartCoroutine(WakeUp());

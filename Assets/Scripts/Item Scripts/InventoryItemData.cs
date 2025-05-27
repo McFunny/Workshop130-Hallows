@@ -37,6 +37,8 @@ public class InventoryItemData : ScriptableObject
     public ItemBehavior itemBehavior;
 
     public AudioClip useSound;
+
+    public bool cannotEnterInventory = false; //This is for things that should never enter the inventory. Their behavior will be used if it has any instead of entering the inventory
    
     public void UseItem()
     {
