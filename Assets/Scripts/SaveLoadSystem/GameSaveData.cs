@@ -7,7 +7,7 @@ public class GameSaveData : MonoBehaviour
 {
     public static GameSaveData Instance;
 
-    public float pStamina;
+    public float pStamina, pFatigue;
     public float pWater;
     public int pCurrentMoney;
     public int pTotalMoneyEarned;
@@ -89,6 +89,7 @@ public class GameSaveData : MonoBehaviour
     private void LoadData(SaveData data)
     {
         PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
+        PlayerInteraction.Instance.fatigue = data.allGameSaveData.pFatigue;
         PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
         PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
         PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
@@ -144,6 +145,7 @@ public class GameSaveData : MonoBehaviour
     public struct AllGameSaveData
     {
         public float pStamina;
+        public float pFatigue;
         public float pWater;
         public int pCurrentMoney;
         public int pTotalMoneyEarned;
@@ -192,6 +194,7 @@ public class GameSaveData : MonoBehaviour
     public AllGameSaveData(GameSaveData data)
     {
         pStamina = PlayerInteraction.Instance.stamina;
+        pFatigue = PlayerInteraction.Instance.fatigue;
         pWater = PlayerInteraction.Instance.waterHeld;
         pCurrentMoney = PlayerInteraction.Instance.currentMoney;
         pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;

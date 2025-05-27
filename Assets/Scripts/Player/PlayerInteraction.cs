@@ -36,6 +36,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
+    public float fatigue = 0;
+    [HideInInspector] public readonly float maxFatigue = 150;
     bool sentLowStaminaMessage = false;
     public bool invincible = false;
 
@@ -111,6 +113,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(waterHeld > maxWaterHeld) waterHeld = maxWaterHeld;
         if(stamina > maxStamina) stamina = maxStamina;
+        if(fatigue > maxFatigue) fatigue = maxFatigue;
+
+        //if(stamina > maxStamina - fatigue) stamina = maxStamina - fatigue;
 
         DisplayHologramCheck();
 
@@ -356,6 +361,10 @@ public class PlayerInteraction : MonoBehaviour
             print("Damage negated to not go under threshold");
             return;
         }
+
+        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f;
+
+        fatigue += Mathf.Round(amount * 0.1f);
         
         if(repairMinigame.IsMinigameActive())
         {
@@ -364,7 +373,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
         
-        stamina += amount;
+        stamina +=  Mathf.Round(amount);
         if(amount <= -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
         {

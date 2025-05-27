@@ -322,6 +322,12 @@ public class NightSpawningManager : MonoBehaviour
             {
                 difficultyPoints = 100;
                 highestDifficultyPoints = 300;
+
+                if(MainMenuScript.currentFileMode == FileMode.Cozy)
+                {
+                    difficultyPoints = 50;
+                    highestDifficultyPoints = 150;
+                }
             }
             return;
         }
@@ -330,6 +336,8 @@ public class NightSpawningManager : MonoBehaviour
         else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.1f;
         else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = 0.75f;
         else difficultyMultiplier = 1;
+
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.5f;
 
         foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
         {
