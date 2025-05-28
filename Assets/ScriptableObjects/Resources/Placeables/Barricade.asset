@@ -17,8 +17,8 @@ MonoBehaviour:
   description: A cheap distraction to delay a creature's approach.
   icon: {fileID: 21300000, guid: 24e539a8f262b62478b035a78256e9ae, type: 3}
   maxStackSize: 5
-  value: 30
-  sellValueMultiplier: 0.5
+  value: 95
+  sellValueMultiplier: 0.25
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
@@ -30,6 +30,7 @@ MonoBehaviour:
   gainedEffects: []
   itemBehavior: {fileID: 0}
   useSound: {fileID: 0}
+  cannotEnterInventory: 0
   placedPrefab: {fileID: 7429279394833736076, guid: c3c490b5df32b9c4fb691d275bdc3d47,
     type: 3}
   hologramPrefab: {fileID: 8267911137866850728, guid: 887e2c9b1b5af6d4d898a46662184111,

@@ -52,6 +52,14 @@ MonoBehaviour:
     paragraphs:
     - You seem to have an inventory problem. A chest would fix that for you!
     emotions: 02000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - The {storeItemName}? If you give me some supplies I can make you one.
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - Unfortunately, I am a craftsman. Not a magician.
+    emotions: 02000000
   - pathName: Have a Chest
     paragraphs:
     - With all of those crops you are gonna grow, you are gonna need a place to store

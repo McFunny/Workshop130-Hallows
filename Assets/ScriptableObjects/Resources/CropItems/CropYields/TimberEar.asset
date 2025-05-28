@@ -14,18 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 116
   displayName: Timber Ears
-  description: Rotund bulbs that can be processed into usable lumber.
+  description: Rotund bulbs that can be processed into usable lumber. Can be refined
+    by the Craftsman or a Refinery.
   icon: {fileID: 1521500817, guid: 69a98f2d2f7861446a423cc38d52e967, type: 3}
-  maxStackSize: 20
-  value: 10
+  maxStackSize: 99
+  value: 4
   sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
-  bonusCompostValue: 0
+  bonusCompostValue: 5
   pickledForm: {fileID: 0}
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []
   itemBehavior: {fileID: 0}
   useSound: {fileID: 0}
+  cannotEnterInventory: 0

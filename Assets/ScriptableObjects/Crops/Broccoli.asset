@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
   m_Name: Broccoli
   m_EditorClassIdentifier: 
-  name: Broccoli
+  name: Belmoon Broccoli
   id: 9
   growthStages: 6
-  hoursPerStage: 2
+  hoursPerStage: 5
   harvestableGrowthStages: 06000000
   cropSprites:
   - {fileID: 2028101485, guid: 84cba93c958d4be4794430218466a020, type: 3}
@@ -32,11 +32,14 @@ MonoBehaviour:
   cropYieldVariance: 0
   seedYieldAmount: 1
   seedYieldVariance: 0
-  waterIntake: 5
+  waterIntake: 10
   ichorIntake: 0
   terraIntake: 1.5
   gloamIntake: -1
   stressLimit: 2
+  wealthValue: 5
+  requireScythe: 0
+  requirePollination: 1
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0

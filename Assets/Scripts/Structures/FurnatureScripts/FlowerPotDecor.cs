@@ -48,7 +48,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
             fogChimeLight.SetActive(false);
             return;
         }
-        addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
             Destroy(this.gameObject);
@@ -76,7 +76,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
 
     public override void DigAction()
     {
-        PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
 
         Destroy(this.gameObject);
     }
@@ -88,7 +88,8 @@ public class FlowerPotDecor : FurnitureBehaviorScript
             if(potItems[i].item == _item)
             {
                 r.sprite = potItems[i].sprite;
-                savedItems[0] = _item;
+                if(savedItems.Count > 0) savedItems[0] = _item;
+                else savedItems.Add(_item);
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
                 PlayerInventoryHolder.Instance.UpdateInventory();
 
@@ -112,6 +113,8 @@ public class FlowerPotDecor : FurnitureBehaviorScript
         if(savedItems.Count == 0 || savedItems[0] == null)
         {
             r.sprite = null;
+            savedItems.Clear();
+            savedItems.Add(null);
             return;
         }
 

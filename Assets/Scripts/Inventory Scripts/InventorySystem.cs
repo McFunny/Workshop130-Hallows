@@ -151,7 +151,7 @@ public class InventorySystem
         return new InventorySystemSaveData(slotSaves);
     }
 
-    public void LoadFromSaveData(InventorySystemSaveData saveData, Database database)
+    public void LoadFromSaveData(InventorySystemSaveData saveData, Database database) //Also call this for when we dynamically change inventory size
     {
         inventorySlots.Clear();
         foreach (var slotData in saveData.savedSlots)

@@ -120,7 +120,7 @@ public class NightSpawningManager : MonoBehaviour
             if(allCreatures[i].creatureData.contribuiteToCreatureCap) totalCreatures++;
         }
 
-        int maxCreatures = CalculateMaxCreatures();
+        int maxCreatures = currentDLevel.maxCreatures;
 
         creatureTallyDict.Clear();
         //Refresh the dictionary for creature spawns
@@ -322,14 +322,22 @@ public class NightSpawningManager : MonoBehaviour
             {
                 difficultyPoints = 100;
                 highestDifficultyPoints = 300;
+
+                if(MainMenuScript.currentFileMode == FileMode.Cozy)
+                {
+                    difficultyPoints = 50;
+                    highestDifficultyPoints = 150;
+                }
             }
             return;
         }
-
-        if(PlayerInteraction.Instance.totalMoneyEarned > 5000) difficultyMultiplier = 1.5f;
-        else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.25f;
+        if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.5f;
+        else if(PlayerInteraction.Instance.totalMoneyEarned > 5000) difficultyMultiplier = 1.25f;
+        else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.1f;
         else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = 0.75f;
         else difficultyMultiplier = 1;
+
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.5f;
 
         foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
         {
@@ -360,7 +368,7 @@ public class NightSpawningManager : MonoBehaviour
             }
         }
 
-        if(selectedCreatures.Count == 0) SelectCreaturesForNight();
+        if(selectedCreatures.Count == 0) SelectCreaturesForNight(); //potentially call this if the current d level increases
     }
 
     [ContextMenu("RefreshNightCreatures")]
@@ -444,7 +452,7 @@ public class NightSpawningManager : MonoBehaviour
         return tally;
     }
 
-    int CalculateMaxCreatures()
+    /*int CalculateMaxCreatures()
     {
         if(finaleActivated) return 8;
 
@@ -453,30 +461,8 @@ public class NightSpawningManager : MonoBehaviour
         else if(highestDifficultyPoints > 150) return 8;
         else if(highestDifficultyPoints > 50) return 6;
         else return 4;
-        /*
-        switch (TimeManager.Instance.dayNum)
-        {
-            case 1:
-                return 3;
-            case 2:
-                return 4;
-            case 3:
-                return 5;
-            case 4:
-                return 5;
-            case 5:
-                return 8;
-            case 6:
-                return 8;
-            case 7:
-                return 12;
-            default:
-                //use greater than statements
-                return 12;
-        }
-        */
 
-    }
+    }*/
 
     void ActivateFinale()
     {
@@ -562,5 +548,7 @@ public class DifficultyLevel
     public int s_varietyMin, s_varietyMax; //min and max of support spawns
 
     public int hourlySpawnAttempts = 5;
+
+    public int maxCreatures = 4;
 }
 

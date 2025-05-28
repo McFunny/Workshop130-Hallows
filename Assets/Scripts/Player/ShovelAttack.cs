@@ -74,7 +74,7 @@ public class ShovelAttack : MonoBehaviour
         }
 
         //it hit default collider
-        if(other.GetComponentInParent<NPC>()) return;
+        if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15) return;
         if(d_Collision == new Vector3(0,0,0))
         {
             d_Collision = other.ClosestPoint(transform.position);

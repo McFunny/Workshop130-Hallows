@@ -14,6 +14,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public PlayerInventoryHolder playerInventoryHolder { get; private set; }
 
+    public PlayerUpgrades playerUpgrades;
+
     PlayerEffectsHandler playerEffects;
 
     ControlManager controlManager;
@@ -34,6 +36,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
+    public float fatigue = 0;
+    [HideInInspector] public readonly float maxFatigue = 150;
     bool sentLowStaminaMessage = false;
     public bool invincible = false;
 
@@ -57,11 +61,13 @@ public class PlayerInteraction : MonoBehaviour
 
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
+    private RepairMinigame repairMinigame;
 
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        repairMinigame = FindFirstObjectByType<RepairMinigame>();
         stamina = maxStamina;
         waterHeld = maxWaterHeld;
         if(Instance != null && Instance != this)
@@ -78,8 +84,8 @@ public class PlayerInteraction : MonoBehaviour
     void Start()
     {
         if(!mainCam) mainCam = FindObjectOfType<Camera>();
-        playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
-        playerEffects = FindObjectOfType<PlayerEffectsHandler>();
+        playerInventoryHolder = GetComponent<PlayerInventoryHolder>();
+        playerEffects = GetComponent<PlayerEffectsHandler>();
         rb = GetComponent<Rigidbody>();
 
         StartCoroutine(WakeUp());
@@ -107,6 +113,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(waterHeld > maxWaterHeld) waterHeld = maxWaterHeld;
         if(stamina > maxStamina) stamina = maxStamina;
+        if(fatigue > maxFatigue) fatigue = maxFatigue;
+
+        //if(stamina > maxStamina - fatigue) stamina = maxStamina - fatigue;
 
         DisplayHologramCheck();
 
@@ -353,9 +362,18 @@ public class PlayerInteraction : MonoBehaviour
             return;
         }
 
-        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
+        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f;
+
+        fatigue += Mathf.Round(amount * 0.1f);
         
-        stamina += amount;
+        if(repairMinigame.IsMinigameActive())
+        {
+            repairMinigame.EndMinigame();
+        }
+
+        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
+        
+        stamina +=  Mathf.Round(amount);
         if(amount <= -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
         {

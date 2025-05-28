@@ -75,14 +75,14 @@ public class TavernNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk() //progress what they are saying or start new conversation
+    /*public void Talk() //progress what they are saying or start new conversation
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {

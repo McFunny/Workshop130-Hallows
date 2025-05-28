@@ -47,11 +47,14 @@ MonoBehaviour:
     savedString1: 
     savedString2: 
     savedString3: 
+    savedBool1: 0
   gridSize: 0
   structureType: 3
   mintRepairCost: 0
   repairItems:
   - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-    amount: 3
+    amount: 1
   - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-    amount: 10
+    amount: 1
+  requiredRepairs: 1
+  maxMisses: 2

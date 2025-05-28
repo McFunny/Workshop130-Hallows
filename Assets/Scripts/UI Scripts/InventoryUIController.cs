@@ -25,10 +25,11 @@ public class InventoryUIController : MonoBehaviour
     AudioSource source;
     public AudioClip openInventory;
     private TooltipControlsScript tooltipControlsScript;
+    private RepairMinigame repairMinigame;
 
     private void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -40,11 +41,12 @@ public class InventoryUIController : MonoBehaviour
         playerBackpackPanel.gameObject.SetActive(false);
 
         inventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
-        
+
         controlManager = FindFirstObjectByType<ControlManager>();
         toolTip = FindFirstObjectByType<ToolTipScript>();
         mouseData = FindFirstObjectByType<MouseItemData>();
         source = GetComponent<AudioSource>();
+        repairMinigame = FindFirstObjectByType<RepairMinigame>();
     }
 
     void Start()
@@ -92,8 +94,9 @@ public class InventoryUIController : MonoBehaviour
         //print("Pressed");
         if(mouseData && mouseData.IsHoldingItem()) return;
         if(PlayerMovement.isCodexOpen) return;
+        if(repairMinigame.IsMinigameActive()) return;
 
-        if(DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
+        if (DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
 
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused || PlayerMovement.isCodexOpen) return;
 

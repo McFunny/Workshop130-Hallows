@@ -12,7 +12,7 @@ public class BotanistNPC : NPC, ITalkable
     public InventoryItemData[] commonSeeds, rareSeeds, fertalizers;
     //public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
 
     public List<InventoryItemData> questCrops = new List<InventoryItemData>();
 
@@ -74,14 +74,14 @@ public class BotanistNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk() //progress what they are saying or start new conversation
+    /*public void Talk() //progress what they are saying or start new conversation
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
@@ -245,7 +245,7 @@ public class BotanistNPC : NPC, ITalkable
             }
         }
 
-            List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
+        List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
         while (commonSeedsForSale.Count < 3)
         {
             if (questCrops.Count > 0)
@@ -278,7 +278,13 @@ public class BotanistNPC : NPC, ITalkable
         {
             newItem = null;
 
-            if (currentItem < 6)
+            if(currentItem == 0) //This makes sure she is selling at least 1 resource crop
+            {
+                i = Random.Range(7, 9);
+                newItem = commonSeeds[i];
+            }
+
+            else if (currentItem < 6)
             {
                 i = Random.Range(0, commonSeedsForSale.Count - 1);
                 newItem = commonSeedsForSale[i];

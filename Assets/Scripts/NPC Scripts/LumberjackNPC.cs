@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LumberjackNPC : NPC, ITalkable
 {
-    public InventoryItemData papers, treeNut;
+    public InventoryItemData papers, treeNut, wood;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
 
     public Quest treeQuest;
 
@@ -99,7 +99,7 @@ public class LumberjackNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    /*public void Talk()
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
@@ -107,7 +107,7 @@ public class LumberjackNPC : NPC, ITalkable
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
@@ -187,7 +187,8 @@ public class LumberjackNPC : NPC, ITalkable
             }
             else
             {
-                currentPath = 2; //item sold
+                if(item.itemData == papers) currentPath = 5; //papers sold
+                else currentPath = 2; //item sold
                 shopUI.shopImgObj.SetActive(false);
             }
             anim.SetTrigger("IsTalking");
@@ -217,11 +218,12 @@ public class LumberjackNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    public override void EmptyShopItem()
+    /*public override void EmptyShopItem() //For when a player bought smth
     {
+        if(!lastInteractedStoreItem.clearUponPurchase) return;
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
-    }
+    }*/
 
     public override void RefreshStore()
     {
@@ -231,19 +233,21 @@ public class LumberjackNPC : NPC, ITalkable
         int i;
         float r;
         InventoryItemData newItem;
+        int x = 0; //iterations
         foreach (StoreItem item in storeItems)
         {
-            newItem = null;
-            do
+            if(x == 0) newItem = papers;
+            else
             {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f,1f);
-                if(r < itemWeight[i]) newItem = possibleSoldItems[i];
+                newItem = wood;
+                item.clearUponPurchase = false;
             }
-            while(!newItem);
+            
             int newCost = (int) (newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
             item.seller = this;
+
+            x++;
         }
     }
 

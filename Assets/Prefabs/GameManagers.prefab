@@ -3587,6 +3587,37 @@ MonoBehaviour:
     type: 3}
   stoneDestructionP: {fileID: 707649693110747030, guid: 3a2304c34c9d5ae4a8aa6db6f60a9909,
     type: 3}
+--- !u!1 &4440993460313997844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2352191092968933568}
+  m_Layer: 0
+  m_Name: TestSpawn2 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2352191092968933568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4440993460313997844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -40.9, y: 0, z: -101.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1008784946656914511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4467738761642645672
 GameObject:
   m_ObjectHideFlags: 0
@@ -9531,10 +9562,20 @@ MonoBehaviour:
     c_varietyMin: 2
     c_varietyMax: 5
     r_varietyMin: 1
-    r_varietyMax: 5
+    r_varietyMax: 3
     s_varietyMin: 0
-    s_varietyMax: 4
+    s_varietyMax: 3
     hourlySpawnAttempts: 5
+    maxCreatures: 4
+  - difficultyPointThreshold: 75
+    c_varietyMin: 2
+    c_varietyMax: 5
+    r_varietyMin: 2
+    r_varietyMax: 5
+    s_varietyMin: 1
+    s_varietyMax: 3
+    hourlySpawnAttempts: 5
+    maxCreatures: 6
   - difficultyPointThreshold: 150
     c_varietyMin: 3
     c_varietyMax: 5
@@ -9543,6 +9584,25 @@ MonoBehaviour:
     s_varietyMin: 1
     s_varietyMax: 4
     hourlySpawnAttempts: 7
+    maxCreatures: 8
+  - difficultyPointThreshold: 250
+    c_varietyMin: 3
+    c_varietyMax: 5
+    r_varietyMin: 2
+    r_varietyMax: 5
+    s_varietyMin: 1
+    s_varietyMax: 4
+    hourlySpawnAttempts: 8
+    maxCreatures: 12
+  - difficultyPointThreshold: 450
+    c_varietyMin: 3
+    c_varietyMax: 5
+    r_varietyMin: 3
+    r_varietyMax: 5
+    s_varietyMin: 1
+    s_varietyMax: 4
+    hourlySpawnAttempts: 10
+    maxCreatures: 16
   creatures:
   - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
@@ -9571,6 +9631,8 @@ MonoBehaviour:
   - {fileID: 5314872771095763302}
   - {fileID: 6664686014214201321}
   - {fileID: 2016491063975046592}
+  - {fileID: 5905432174248883599}
+  - {fileID: 2352191092968933568}
   despawnPositions:
   - {fileID: 1731178260283816800}
   - {fileID: 7121509994226977754}
@@ -9624,6 +9686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pStamina: 0
+  pFatigue: 0
   pWater: 0
   pCurrentMoney: 0
   pTotalMoneyEarned: 0
@@ -9632,6 +9695,7 @@ MonoBehaviour:
   currentMoney: 0
   totalEarnedMoney: 0
   hourSaved: 8
+  gainedInventoryUpgrade: 0
   tutorialMerchantSpoke: 0
   rascalWantsFood: 0
   rascalMentionedKey: 0
@@ -57132,12 +57196,12 @@ MonoBehaviour:
     prefab: {fileID: 3672103349891704917, guid: f9c56390acf3b2248a1b1b77c4e30d4f,
       type: 3}
     isLarge: 0
-    spawnChance: 90
+    spawnChance: 80
   - name: DigSite
     prefab: {fileID: 4227526203200057079, guid: fe3a357dee8f270419aba535ed8036ba,
       type: 3}
     isLarge: 0
-    spawnChance: 70
+    spawnChance: 90
   - name: BearTrap
     prefab: {fileID: 7210125489205192339, guid: 46ee7ea9c05813544a37a43efebad774,
       type: 3}
@@ -57156,6 +57220,10 @@ MonoBehaviour:
     prefab: {fileID: 446895733223214618, guid: 33cdc1b0f9171ba49b8921f09f1f76c3, type: 3}
     isLarge: 0
     spawnChance: 50
+  - name: Rock
+    prefab: {fileID: 333776889047174946, guid: 74b68e7b5b260af4ab1b74fcc6dd329d, type: 3}
+    isLarge: 0
+    spawnChance: 80
   allMaps: []
   wagon: {fileID: 0}
   returnPosition: {fileID: 3274068372633532939}
@@ -57188,7 +57256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dareVFX: {fileID: 6623914604336417809, guid: 2aa2cdf235a68b34cbcc707b817e917b, type: 3}
   burnVFX: {fileID: 3693141861885239285, guid: 926140a26c097e340b91077774900138, type: 3}
-  frostVFX: {fileID: 6623914604336417809, guid: 2aa2cdf235a68b34cbcc707b817e917b,
+  frostVFX: {fileID: 2811716324602631292, guid: 815b6a6d37ef405468861eb5f4b3a13b,
     type: 3}
 --- !u!1 &5908869676180100719
 GameObject:
@@ -57252,6 +57320,8 @@ Transform:
   m_Children:
   - {fileID: 7187795816526134101}
   - {fileID: 8728786854694335367}
+  - {fileID: 5905432174248883599}
+  - {fileID: 2352191092968933568}
   - {fileID: 5275669529563945046}
   - {fileID: 3779783968378303726}
   - {fileID: 3216889733315768725}
@@ -58388,6 +58458,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 474536576919656251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8515351907838547938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5905432174248883599}
+  m_Layer: 0
+  m_Name: TestSpawn2 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5905432174248883599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8515351907838547938}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.6, y: 0, z: -100.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1008784946656914511}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8524718070177679459
 GameObject:

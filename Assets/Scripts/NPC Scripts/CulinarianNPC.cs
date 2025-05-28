@@ -6,13 +6,11 @@ using UnityEngine.Rendering;
 
 public class CulinarianNPC : NPC, ITalkable
 {
-    // InventoryItemData papers;
-
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -64,7 +62,7 @@ public class CulinarianNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    /*public void Talk()
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
@@ -72,7 +70,7 @@ public class CulinarianNPC : NPC, ITalkable
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
@@ -122,7 +120,7 @@ public class CulinarianNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    /*public override void PurchaseAttempt(StoreItem item) //consider making this function in parent script to save on retyping
     {
         if (dialogueController.IsInterruptable() == false)
         {
@@ -130,8 +128,20 @@ public class CulinarianNPC : NPC, ITalkable
         }
         if (lastInteractedStoreItem == item)
         {
+            //Barter Price Check
+            if(item.barterCost.Count > 0)
+            {
+                if(item.CanAffordTrade())
+                {
+                    item.CompleteTrade();
+                    currentPath = 2; //item sold
+                    shopUI.shopImgObj.SetActive(false);
+                }
+                else currentPath = 6; //Not enough items to cover barter
+            }
+
             //check price, then give item
-            if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
+            else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
             {
                 currentPath = 3; //no money!?!?!?
             }
@@ -149,7 +159,8 @@ public class CulinarianNPC : NPC, ITalkable
         else
         {
             dialogueController.restartDialogue = true;
-            currentPath = 1; //item selected
+            if(item.cost > 0) currentPath = 1; //item selected
+            else currentPath = 5; //barter item selected
             anim.SetTrigger("IsTalking");
             if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
             lastInteractedStoreItem = item;
@@ -159,7 +170,7 @@ public class CulinarianNPC : NPC, ITalkable
         }
         currentType = PathType.Misc;
         Talk();
-    }
+    } */
 
     public override void PlayerLeftRadius()
     {
@@ -171,11 +182,11 @@ public class CulinarianNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    public override void EmptyShopItem()
+    /*public override void EmptyShopItem()
     {
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
-    }
+    }*/
 
     public override void RefreshStore()
     {
@@ -188,7 +199,20 @@ public class CulinarianNPC : NPC, ITalkable
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+            
             do
+            {
+                i = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[i].barterChance) newItem = barterDatabase.transactions[i].itemForSale;
+            }
+            while (!newItem);
+            int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
+            item.seller = this;
+            
+            //This is the old way to populate items to sell for money
+            /*do
             {
                 i = Random.Range(0, possibleSoldItems.Length);
                 r = Random.Range(0f, 1f);
@@ -197,7 +221,7 @@ public class CulinarianNPC : NPC, ITalkable
             while (!newItem);
             int newCost = (int)(newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
-            item.seller = this;
+            item.seller = this;*/
         }
     }
 

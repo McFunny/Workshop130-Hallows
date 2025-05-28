@@ -12,6 +12,8 @@ public class FyllaraNut : StructureBehaviorScript
 
     public Rigidbody rb;
 
+    LayerMask clearMask = 0;
+
     void Start()
     {
         OnDamage += TreeNutDrop;
@@ -31,6 +33,7 @@ public class FyllaraNut : StructureBehaviorScript
     void TreeNutDrop()
     {
         if(rb.useGravity == true) return;
+        GetComponent<Collider>().excludeLayers = clearMask;
         transform.parent = null;
         rb.useGravity = true;
         Vector3 dir3 = Random.onUnitSphere;

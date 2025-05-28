@@ -89,7 +89,7 @@ public class CropNeedsUI : MonoBehaviour
         if(nutrients.waterLevel < cropData.waterIntake) water.SetActive(true);
         else water.SetActive(false);
 
-        if(farmLand.NeedsPollenation()) pollen.SetActive(true);
+        if(farmLand.NeedsPollination()) pollen.SetActive(true);
         else {pollen.SetActive(false);}
 
         if(farmLand.hoursSpent == farmLand.crop.hoursPerStage - 1)

@@ -18,6 +18,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public Character character;
 
+    public NPCBarterDatabase barterDatabase;
+
     [HideInInspector] public int currentPath = -1; //-1 means default path
     [HideInInspector] public PathType currentType;
 
@@ -35,6 +37,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public List<ItemWithAmount> itemsToGive = new List<ItemWithAmount>();
 
+    [HideInInspector] public WaypointScript shopUI;
+
     protected virtual void Awake()
     {
         if(dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
@@ -51,11 +55,89 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public abstract void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item);
 
-    public virtual void PurchaseAttempt(StoreItem item){}
+    public virtual void Talk()
+    {
+        if(!dialogueController.FreeToSpeak(this)) return;
+        anim.SetTrigger("IsTalking");
+        movementHandler.TalkToPlayer();
+        dialogueController.currentTalker = this;
+        dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
+        startedDialogue = true;
+    }
+
+    public virtual void PurchaseAttempt(StoreItem item)
+    {
+        if (dialogueController.IsInterruptable() == false || !shopUI)
+        {
+            return;
+        }
+        if (lastInteractedStoreItem == item)
+        {
+            //Barter Price Check
+            if(item.barterCost.Count > 0)
+            {
+                if(item.CanAffordTrade())
+                {
+                    //item.CompleteTrade();
+                    currentPath = 2; //item sold
+                    shopUI.shopImgObj.SetActive(false);
+                }
+                else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
+                {
+                    currentPath = 3; //no money!?!?!?
+                }
+                else currentPath = 6; //Not enough items to cover barter
+            }
+
+            //check price, then give item
+            else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
+            {
+                currentPath = 3; //no money!?!?!?
+            }
+            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
+            {
+                currentPath = 4; //No space in inventory
+            }
+            else
+            {
+                currentPath = 2; //item sold
+                shopUI.shopImgObj.SetActive(false);
+                if (assignedStall.displaySign) assignedStall.displaySign.ResetDisplay();
+                if (assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
+            }
+            anim.SetTrigger("IsTalking");
+        }
+        else
+        {
+            dialogueController.restartDialogue = true;
+            if(item.barterCost.Count == 0) currentPath = 1; //item selected
+            else currentPath = 5; //barter item selected
+            anim.SetTrigger("IsTalking");
+            if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
+            lastInteractedStoreItem = item;
+            shopUI.shopTarget = item.arrowObject.transform;
+            shopUI.shopImgObj.SetActive(true);
+            if (assignedStall.displaySign)
+            {
+                assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
+            }
+            if (assignedStall.barterSign) assignedStall.barterSign.DisplayTrade(lastInteractedStoreItem);
+
+        }
+        currentType = PathType.Misc;
+        Talk();
+    }
 
     public virtual void RefreshStore(){}
 
-    public virtual void EmptyShopItem(){}
+    public virtual void EmptyShopItem()//when an item is bought by the player
+    {
+        if(lastInteractedStoreItem.clearUponPurchase == false) return;
+
+        if(lastInteractedStoreItem.barterCost.Count == 0) lastInteractedStoreItem.CompletePurchase();
+        else lastInteractedStoreItem.CompleteTrade();
+        lastInteractedStoreItem = null;
+    }
     
     public virtual void PlayerLeftRadius()
     {

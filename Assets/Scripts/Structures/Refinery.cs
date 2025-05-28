@@ -1,0 +1,222 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Refinery : StructureBehaviorScript
+{
+    public InventoryItemData timberEar, gloomStalk;
+    public InventoryItemData Wood, gloomBundles; //Cost to refine is lets just say 5 units of each
+
+    public PopupScript itemWarning; //Warning that the player does not have enough items
+    
+    public Transform itemDropTransform;
+    
+    //public bool ownedByPlayer = false; //To indicate if this is the town one
+
+    //public Animator anim;
+
+    public int progress = 0;
+    int maxProgress = 2;
+    int maxContainedItems = 25;
+
+    bool ignoreNextHour = false;
+
+    void Awake()
+    {
+        base.Awake();
+    }
+
+    void Start()
+    {
+        base.Start();
+    }
+
+
+    void Update()
+    {
+        base.Update();
+    }
+
+    public override void StructureInteraction()
+    {
+        /*if(isSpinning && savedItems.Count != maxContainedItems) return;
+
+        if(progress == maxProgress)
+        {
+            progress = 0;
+            ichorFertilizerChance = 0;
+            bonusCompostValue = 0;
+
+            foreach(InventoryItemData item in savedItems)
+            {
+                bonusCompostValue += item.bonusCompostValue; 
+                if(item == meat) ichorFertilizerChance++;
+                if(item == meatSmall) ichorFertilizerChance += 0.5f;
+                if(item == meatLarge) ichorFertilizerChance += 2;
+            }
+
+            bool ready = false;
+            int compostYield = 1;
+            float r;
+            while(!ready)
+            {
+                if(bonusCompostValue/2 > 100)
+                {
+                    bonusCompostValue -= 100;
+                    compostYield++;
+                }
+                else
+                {
+                    if(bonusCompostValue > 100)
+                    {
+                        bonusCompostValue *= 0.5f;
+                        for(int i = 0; i < 2; i++)
+                        {
+                            r = Random.Range(0,80);
+                            if(r < bonusCompostValue) compostYield++;
+                        }
+                        ready = true;
+                    }
+                    else
+                    {
+                        r = Random.Range(0,80);
+                        if(r < bonusCompostValue) compostYield++;
+                        ready = true;
+                    }
+                }
+            }
+            //
+            StartCoroutine(GrabItems(compostYield));
+        }*/
+    }
+
+    /*IEnumerator GrabItems(int num)
+    {
+        anim.SetBool("Spinning", false);
+        anim.SetBool("IsFull", false);
+
+        yield return new WaitForSeconds(0.7f);
+
+        GameObject droppedItem;
+        for(int i = 0; i < num; i++)
+        {
+            float r = Random.Range(0,10);
+            if(r < ichorFertilizerChance) droppedItem = ItemPoolManager.Instance.GrabItem(fertilizerI);
+            else droppedItem = ItemPoolManager.Instance.GrabItem(compost);
+            droppedItem.transform.position = itemDropTransform.position;
+
+            Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB.AddForce(Vector3.forward * 20);
+            itemRB.AddForce(Vector3.up * 10);
+            audioHandler.PlaySound(audioHandler.activatedSound);
+
+            GameObject poofParticle;
+            poofParticle = ParticlePoolManager.Instance.GrabCloudParticle();
+            poofParticle.transform.position = itemDropTransform.position;
+            yield return new WaitForSeconds(0.2f);
+        }
+        savedItems.Clear();
+        isSpinning = false;
+        fillPlane.SetActive(false);
+    }
+
+    public override void ItemInteraction(InventoryItemData item)
+    {
+        if(item.bonusCompostValue > 0 && savedItems.Count < maxContainedItems)
+        {
+            //
+            savedItems.Add(item);
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+
+            audioHandler.PlaySound(audioHandler.activatedSound);
+
+            GameObject poofParticle;
+            poofParticle = ParticlePoolManager.Instance.GrabCloudParticle();
+            poofParticle.transform.position = itemDropTransform.position;
+
+            //GameObject poofParticle = ParticlePoolManager.Instance.GrabExtinguishParticle();
+            //poofParticle.transform.position = seedSocket.position;
+
+            //audioHandler.PlaySound(audioHandler.itemInteractSound);
+
+            fillPlane.SetActive(true);
+
+            anim.Play("Recoil");
+
+            if(savedItems.Count == maxContainedItems)
+            {
+                isSpinning = true;
+                ignoreNextHour = true;
+                anim.SetBool("Spinning", true);
+                anim.SetBool("IsFull", true);
+            }
+        }
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+        if(type == ToolType.Shovel)
+        {
+            //StartCoroutine(DugUpForItem());
+            success = true;
+        }
+    }
+
+    public override void HourPassed()
+    {
+        if(progress < maxProgress && savedItems.Count == maxContainedItems)
+        {
+            if(ignoreNextHour)
+            {
+                ignoreNextHour = false;
+                return;
+            }
+            progress++;
+
+            if(progress == maxProgress)
+            {
+                isSpinning = false;
+                anim.SetBool("Spinning", false);
+            }
+        }
+    }
+
+    void OnDestroy()
+    {
+        base.OnDestroy();
+        if (!gameObject.scene.isLoaded) return; 
+        //drop items
+        GameObject droppedItem;
+        foreach(InventoryItemData item in savedItems)
+        {
+            droppedItem = ItemPoolManager.Instance.GrabItem(item);
+            droppedItem.transform.position = itemDropTransform.position;
+        }
+    }
+
+    public override void LoadVariables()
+    {
+        progress = saveInt1;
+        if(savedItems.Count == maxContainedItems)
+        {
+            isSpinning = true;
+            anim.SetBool("Spinning", true);
+            anim.SetBool("IsFull", true);
+        }
+
+        if(progress == maxProgress)
+        {
+            isSpinning = false;
+            anim.SetBool("Spinning", false);
+        }
+    }
+
+    public override void SaveVariables()
+    {
+        saveInt1 = progress;
+    }
+    */
+}

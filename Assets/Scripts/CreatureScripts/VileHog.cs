@@ -584,6 +584,7 @@ public class VileHog : CreatureBehaviorScript
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null && (structure.isObstacle || !structure.destructable))
             {
+                if(structure as PlacedHoe || structure as PlacedTorch) return;
                 if(!structure.destructable) //Hit a tree
                 {
                     structure.TakeDamage(damageToStructure);

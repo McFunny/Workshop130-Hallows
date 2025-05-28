@@ -69,6 +69,44 @@ public class StatusEffectManager : MonoBehaviour
         return false;
     }
 
+    public bool RemoveStatusOnPlayer(StatusEffectName s)
+    {
+        if(PlayerInteraction.Instance.currentEffects.Count == 0)
+        {
+            return false;
+        }
+        for(int x = 0; x < PlayerInteraction.Instance.currentEffects.Count; x++)
+        {
+            //do the effects referencing the scriptable object here
+            if(PlayerInteraction.Instance.currentEffects[x].effect.name == s)
+            {
+                PlayerInteraction.Instance.currentEffects[x].remainingDuration = 0;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool RemoveStatusOnCreature(StatusEffectName s, CreatureBehaviorScript c)
+    {
+        if(c.currentEffects.Count == 0)
+        {
+            return false;
+        }
+        for(int x = 0; x < c.currentEffects.Count; x++)
+        {
+            //do the effects referencing the scriptable object here
+            if(c.currentEffects[x].effect.name == s)
+            {
+                c.currentEffects[x].remainingDuration = 0;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     IEnumerator OneSecondTimer()
     {
         PlayerInteraction p = PlayerInteraction.Instance;

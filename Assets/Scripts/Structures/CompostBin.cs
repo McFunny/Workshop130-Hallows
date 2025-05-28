@@ -8,7 +8,7 @@ public class CompostBin : StructureBehaviorScript
     //public InventoryItemData fertilizerT, fertilizerG, fertilizerI;
     //public InventoryItemData[] fertilizers;
     public InventoryItemData compost;
-    public InventoryItemData meat;
+    public InventoryItemData meat, meatSmall, meatLarge;
     public InventoryItemData fertilizerI;
 
     public Transform itemDropTransform;
@@ -21,7 +21,7 @@ public class CompostBin : StructureBehaviorScript
     int maxContainedItems = 5;
 
     float bonusCompostValue = 0;
-    float ichorFertilizerChance = 0;
+    float ichorFertilizerChance = 0; //
 
     bool ignoreNextHour = false;
     bool isSpinning = false;
@@ -58,6 +58,8 @@ public class CompostBin : StructureBehaviorScript
             {
                 bonusCompostValue += item.bonusCompostValue; 
                 if(item == meat) ichorFertilizerChance++;
+                if(item == meatSmall) ichorFertilizerChance += 0.5f;
+                if(item == meatLarge) ichorFertilizerChance += 2;
             }
 
             bool ready = false;

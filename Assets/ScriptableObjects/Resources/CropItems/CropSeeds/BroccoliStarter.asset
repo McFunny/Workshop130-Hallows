@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 11
   displayName: Broccoli Starter
-  description: Slow growing crop that blooms into Broccoli.
+  description: Extremely slow growing but nutritous vegetable.
   icon: {fileID: 1418014373, guid: 84cba93c958d4be4794430218466a020, type: 3}
   maxStackSize: 20
-  value: 10
+  value: 15
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
@@ -29,6 +29,8 @@ MonoBehaviour:
   gainedEffects: []
   itemBehavior: {fileID: 0}
   useSound: {fileID: 0}
+  cannotEnterInventory: 0
   plantable: 1
   cropData: {fileID: 11400000, guid: 2b4e9f8ae29dc7e429a371586e24a180, type: 2}
   ableToBeShot: 0
+  requireTrellis: 0

@@ -345,8 +345,8 @@ public class FeralHareTest : CreatureBehaviorScript
         {
             yield return new WaitForSeconds(10);
             int burrowChance = Random.Range(0,10);
-            if(variant == Variant.Tunneler) burrowChance += 3;
-            if(structManager.CheckTile(transform.position) != new Vector3(0,0,0) && burrowChance > 5 && structManager.BurrowCount() < 8 && currentState == CreatureState.Wander
+            if(variant == Variant.Tunneler) burrowChance += 5;
+            if(structManager.CheckTile(transform.position) != new Vector3(0,0,0) && burrowChance > 7 && structManager.BurrowCount() < 20 && currentState == CreatureState.Wander
             && structManager.ValidateGridType(transform.position, GridType.Farm))
             {
                 currentState = CreatureState.MakingBurrow;
@@ -382,7 +382,7 @@ public class FeralHareTest : CreatureBehaviorScript
                                 minDistance = dist;
                                 closestTile = availableLands[i];
                             }
-                            if(availableLands[i].crop == carrotCrop)
+                            if(availableLands[i].crop == carrotCrop && variant != Variant.Tunneler)
                             {
                                 closestTile = availableLands[i];
                             }
