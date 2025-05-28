@@ -825,7 +825,7 @@ public class MutatedCrow : CreatureBehaviorScript
         Vector3 abovePlayerPosPostSwoop = player.position + Vector3.up * attackHeight;
         if (Vector3.Distance(transform.position, abovePlayerPosPostSwoop) < 3f) //If close enough hit the player
         {
-            PlayerInteraction.Instance.StaminaChange(-10);
+            PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
         }
 
         Vector3 endPos = transform.position + direction * 10f + Vector3.up * height;

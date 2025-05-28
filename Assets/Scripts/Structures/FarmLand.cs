@@ -494,6 +494,9 @@ public class FarmLand : StructureBehaviorScript
             case FarmTileUpgrade.Mulch:
             upgradeObjects[1].SetActive(true);
             break;
+            case FarmTileUpgrade.Trellis:
+            upgradeObjects[2].SetActive(true);
+            break;
         }
     }
 
