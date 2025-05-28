@@ -18,6 +18,7 @@ public class FireFearTrigger : MonoBehaviour
         {
             creature.EnteredFireRadius(this, out bool successful);
             OnScare?.Invoke(successful);
+            StatusEffectManager.Instance.RemoveStatusOnCreature(StatusEffectName.Frost, creature);
             return;
         }
 
@@ -27,6 +28,11 @@ public class FireFearTrigger : MonoBehaviour
             structure.nearbyFires.Add(this);
             affectedStructures.Add(structure);
             return;
+        }
+
+        if(other.gameObject.layer == 10)
+        {
+            StatusEffectManager.Instance.RemoveStatusOnPlayer(StatusEffectName.Frost);
         }
     }
 

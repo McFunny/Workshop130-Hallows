@@ -100,6 +100,7 @@ public class Wraith : CreatureBehaviorScript
             if (distanceToPlayer <= 3.5f)
             {
                 PlayerInteraction.Instance.StaminaChange(-7);
+                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 15);
             }
         }
         trackPlayerRoutine = null;
