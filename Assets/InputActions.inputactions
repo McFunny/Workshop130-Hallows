@@ -229,6 +229,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "HotbarSwitch",
+                    "type": "Button",
+                    "id": "9b226734-8e72-4af3-88a0-53b450789566",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1021,6 +1030,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "MinigameExit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10f08a82-ea49-4e0f-b53c-e840c8f5a9ae",
+                    "path": "<Keyboard>/#(Q)",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "HotbarSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44ac7f21-a500-4030-b949-31c2d7028555",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HotbarSwitch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

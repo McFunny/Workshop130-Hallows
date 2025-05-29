@@ -134,6 +134,18 @@ public class InventorySystem
         }
     }
 
+    public void ForcePopulateInventory(List<InventorySlot> newInventorySlots) //Used for quick switching hotbars
+    {
+        if(InventorySize != newInventorySlots.Count)
+        {
+            Debug.LogError("Mismatch in amount of slots");
+            return;
+        }
+
+        //inventorySlots.Clear();
+        inventorySlots = newInventorySlots;
+    }
+
     public InventorySystemSaveData GetSaveData()
     {
         List<InventorySlotSaveData> slotSaves = new List<InventorySlotSaveData>();
