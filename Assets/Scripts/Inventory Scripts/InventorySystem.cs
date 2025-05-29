@@ -145,7 +145,7 @@ public class InventorySystem
             }
             else
             {
-                slotSaves.Add(new InventorySlotSaveData(-1, -1)); //This Creates an empty slot
+                slotSaves.Add(new InventorySlotSaveData(-1, -1)); //This creates an empty slot
             }
         }
         return new InventorySystemSaveData(slotSaves);

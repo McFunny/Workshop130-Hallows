@@ -47,7 +47,7 @@ public class WaterCanBehavior : ToolBehavior
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .5f;
+                        animSpeedMod -= .25f;
                     }
                     if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
@@ -92,7 +92,7 @@ public class WaterCanBehavior : ToolBehavior
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .5f;
+                        animSpeedMod -= .25f;
                     }
                     if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
@@ -128,7 +128,7 @@ public class WaterCanBehavior : ToolBehavior
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .5f;
+                        animSpeedMod -= .25f;
                     }
                     if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
@@ -190,7 +190,7 @@ public class WaterCanBehavior : ToolBehavior
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .5f;
+                        animSpeedMod -= .25f;
                     }
                     if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
@@ -222,7 +222,7 @@ public class WaterCanBehavior : ToolBehavior
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .5f;
+                        animSpeedMod -= .25f;
                     }
                     if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 
@@ -257,7 +257,7 @@ public class WaterCanBehavior : ToolBehavior
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .5f;
+                        animSpeedMod -= .25f;
                     }
                     if(PlayerInteraction.Instance.stamina > 5f) PlayerInteraction.Instance.StaminaChange(-2);
 

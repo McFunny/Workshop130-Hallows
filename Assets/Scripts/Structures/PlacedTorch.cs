@@ -54,8 +54,10 @@ public class PlacedTorch : StructureBehaviorScript
         currentlyLit = true;
         float r = Random.Range(50, 70);
         lightScript.flickerSpeed = 0.1f;
+        lightScript.intensityVariation = 0.2f;
         yield return new WaitForSeconds(r * 0.7f);
-        lightScript.flickerSpeed = 0.3f;
+        lightScript.flickerSpeed = 0.9f;
+        lightScript.intensityVariation = 1f;
         yield return new WaitForSeconds(r * 0.3f);
         ExtinguishFlame();
     }

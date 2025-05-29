@@ -217,6 +217,7 @@ public class FarmLand : StructureBehaviorScript
             if((isWeed && !forceDig) || (rotted && !forceDig)) return; //Forces the player to dig the weeds and rotted plants using the shovel
             if(isWeed || forceDig) audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             else audioHandler.PlaySound(audioHandler.interactSound);
+
             if((rotted == false && harvestable) || isWeed)
             {
                 if (crop.creaturePrefab)
@@ -302,6 +303,11 @@ public class FarmLand : StructureBehaviorScript
                 if(crop && crop.behavior)
                 {
                     crop.behavior.OnCropDestroyed(this);
+                }
+
+                if(growthStage == 1 && crop && crop.cropSeed) //drop a seed if dug up in seed stage
+                {
+                    ItemPoolManager.Instance.GrabItem(crop.cropSeed).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
                 }
 
                 crop = null;
@@ -862,6 +868,9 @@ public class FarmLand : StructureBehaviorScript
             case 2:
             ApplyNewUpgrade(FarmTileUpgrade.Mulch);
             break;
+            case 3:
+            ApplyNewUpgrade(FarmTileUpgrade.Trellis);
+            break;
         }
 
         GetCropStats();
@@ -889,6 +898,9 @@ public class FarmLand : StructureBehaviorScript
                 break;
                 case FarmTileUpgrade.Mulch:
                 saveFloat1 = 2;
+                break;
+                case FarmTileUpgrade.Trellis:
+                saveFloat1 = 3;
                 break;
             }
 

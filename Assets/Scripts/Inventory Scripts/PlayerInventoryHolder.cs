@@ -112,8 +112,6 @@ public class PlayerInventoryHolder : InventoryHolder
 
     private void Start()
     {
-       
-       
         StartCoroutine(DelayedStart());
     }
 
@@ -474,6 +472,27 @@ public class PlayerInventoryHolder : InventoryHolder
                 secondaryInventorySystem.RemoveItemsFromInventory(list[i].item, amountToRemove);
             }
         }
+    }
+
+    public void SwitchHotBars()
+    {
+        /*List<InventorySlot> currentPInventory = new List<InventorySlot>();
+        List<InventorySlot> currentSInventoryRow1 = new List<InventorySlot>();
+        List<InventorySlot> currentSInventoryRow2 = new List<InventorySlot>();
+
+        for(int i = 0; i < 9; i++)
+        {
+            currentPInventory.Add(new InventorySlot(primaryInventorySystem.InventorySlots[i].ItemData, primaryInventorySystem.InventorySlots[i].StackSize));
+        }
+
+        for(int i = 0; i < secondaryInventorySystem.InventorySize; i++)
+        {
+            currentPInventory.Add(new InventorySlot(primaryInventorySystem.InventorySlots[i].ItemData, primaryInventorySystem.InventorySlots[i].StackSize));
+        }
+
+        primaryInventorySystem;
+        secondaryInventorySystem;
+        */
     }
 
     public void UpdateInventory()

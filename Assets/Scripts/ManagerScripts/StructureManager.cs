@@ -876,7 +876,7 @@ public class StructureManager : MonoBehaviour
         if(weedSpots.Count == 0) return;
         foreach(Vector3 weedPos in weedSpots)
         {
-            if(Random.Range(0f,10f) > 9.7f)
+            if(Random.Range(0f,10f) > 9.9f)
             {
                 SpawnStructure(weedTile, weedPos);
                 break;

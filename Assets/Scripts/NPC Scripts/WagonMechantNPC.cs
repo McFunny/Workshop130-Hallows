@@ -34,7 +34,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     void Start()
     {
         shopUI = FindObjectOfType<WaypointScript>();
-        RefreshStore();
+        StartCoroutine(DelayedStart());
         TimeManager.OnHourlyUpdate += HourlyUpdate;
         for(int i = 0; i < storeItems.Length; i++)
         {
@@ -49,6 +49,12 @@ public class WagonMerchantNPC : NPC, ITalkable
 
         if (displaySign) displaySign.UpdateNPCName(this);
 
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(2);
+        RefreshStore();
     }
 
     void OnDestroy()
