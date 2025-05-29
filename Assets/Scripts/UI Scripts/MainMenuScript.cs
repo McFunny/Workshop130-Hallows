@@ -511,7 +511,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsTotalText.gameObject.SetActive(true);
                 fileDatas[i].emptySlot.gameObject.SetActive(false);
                 saveCount++;
-                print(tempData.fileMode);
+                //print(tempData.fileMode);
                 //Enable/Disable uhh the thing idk I forgot
                 loadButtons[i].interactable = true;
                 deleteButtons[i].interactable = true;
