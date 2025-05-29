@@ -13,6 +13,7 @@ public class GameSaveData : MonoBehaviour
     public int pTotalMoneyEarned;
     public int pDaysSinceDeath;
     public int pDayNumber;
+    public string gameMode;
 
     public float currentMoney, totalEarnedMoney; //is this used because I dont think so?
 
@@ -100,6 +101,19 @@ public class GameSaveData : MonoBehaviour
         if(data.allGameSaveData.hourSaved == 0) TimeManager.Instance.currentHour = 8;
         TimeManager.Instance.RefreshSkybox();
 
+        switch(data.allGameSaveData.gameMode)
+        {
+            case "Normal":
+            MainMenuScript.currentFileMode = FileMode.Normal;
+            break;
+            case "Cozy":
+            MainMenuScript.currentFileMode = FileMode.Cozy;
+            break;
+            default:
+            MainMenuScript.currentFileMode = FileMode.Normal;
+            break;
+        }
+
         //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
         QuestManager.Instance.LoadData(data.allGameSaveData);
 
@@ -153,6 +167,8 @@ public class GameSaveData : MonoBehaviour
         public int pDayNumber;
         public int hourSaved;
 
+        public string gameMode;
+
         public bool gainedInventoryUpgrade;
 
         public Quest[] activeQuests;
@@ -201,6 +217,7 @@ public class GameSaveData : MonoBehaviour
         pDayNumber = TimeManager.Instance.dayNum;
         hourSaved = TimeManager.Instance.currentHour;
         pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
+        gameMode = MainMenuScript.currentFileMode.ToString();
 
         gainedInventoryUpgrade = PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade;
 
