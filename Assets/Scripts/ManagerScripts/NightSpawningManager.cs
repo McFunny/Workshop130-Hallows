@@ -74,6 +74,11 @@ public class NightSpawningManager : MonoBehaviour
         {
             SpawnCreature(creatures[0]);
         }*/
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            StartCoroutine(GameCompleted());
+        }
     }
 
     void OnDestroy()
@@ -507,6 +512,9 @@ public class NightSpawningManager : MonoBehaviour
 
     IEnumerator GameCompleted()
     {
+        // Set finale to player prefs to be true
+        PlayerPrefs.SetInt("FinaleCompleted", 1);
+
         TimeManager.Instance.stopTime = true;
         PlayerInteraction.Instance.invincible = true;
         yield return new WaitForSeconds(5);
