@@ -367,7 +367,8 @@ public class WagonMerchantNPC : NPC, ITalkable
             //currentType = PathType.Misc;
             GameSaveData.Instance.mm_giveGun = true;
             itemsToGive.Add(new ItemWithAmount(shotGun, 1));
-            itemsToGive.Add(new ItemWithAmount(ammo, 6));
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) itemsToGive.Add(new ItemWithAmount(ammo, 20));
+            else itemsToGive.Add(new ItemWithAmount(ammo, 6));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
         }
         else return;

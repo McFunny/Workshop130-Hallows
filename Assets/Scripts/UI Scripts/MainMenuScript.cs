@@ -608,6 +608,6 @@ public class FileData
 public enum FileMode
 {
     Normal,
-    Cozy
-    //Survival
+    Cozy,
+    Survival
 }
