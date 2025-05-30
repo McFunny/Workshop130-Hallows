@@ -83,7 +83,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                 GameSaveData.Instance.mm_giveBarricade = true;
                 currentPath = 11;
                 currentType = PathType.Misc;
-                itemsToGive.Add(new ItemWithAmount(barricade, 2));
+                itemsToGive.Add(new ItemWithAmount(barricade, 4));
                 remembersGift = true;
             }
             else
