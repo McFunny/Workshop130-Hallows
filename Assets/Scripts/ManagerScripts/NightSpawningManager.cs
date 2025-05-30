@@ -75,10 +75,10 @@ public class NightSpawningManager : MonoBehaviour
             SpawnCreature(creatures[0]);
         }*/
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        /*if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             StartCoroutine(GameCompleted());
-        }
+        }*/
     }
 
     void OnDestroy()
