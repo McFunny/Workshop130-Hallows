@@ -337,7 +337,7 @@ public class NightSpawningManager : MonoBehaviour
         else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = 0.75f;
         else difficultyMultiplier = 1;
 
-        if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.5f;
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.25f;
 
         foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
         {
