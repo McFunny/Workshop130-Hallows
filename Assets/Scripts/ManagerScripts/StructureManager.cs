@@ -117,7 +117,8 @@ public class StructureManager : MonoBehaviour
                 if(r >= 6 || allStructs[i].onFire) //Destroy structure. Could even replace some with rubble struct when we add it
                 {
                     print("Deleting: " + allStructs[i]);
-                    Destroy(allStructs[i].gameObject);
+                    //Destroy(allStructs[i].gameObject);
+                    allStructs[i].TakeDamage(999);
                     s++;
                 }
             }

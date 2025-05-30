@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf23a036745f5442b0dadf03d8707e9, type: 3}
+  m_Name: ApothBarters
+  m_EditorClassIdentifier: 
+  transactions:
+  - name: 
+    itemForSale: {fileID: 11400000, guid: b91eb7226c0651e4b93fa3b225208b93, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 10
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 573cd785fcc35aa4297d6cbb67192d97, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+      amount: 2

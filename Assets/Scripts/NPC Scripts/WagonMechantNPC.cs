@@ -83,7 +83,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                 GameSaveData.Instance.mm_giveBarricade = true;
                 currentPath = 11;
                 currentType = PathType.Misc;
-                itemsToGive.Add(new ItemWithAmount(barricade, 2));
+                itemsToGive.Add(new ItemWithAmount(barricade, 4));
                 remembersGift = true;
             }
             else
@@ -226,6 +226,15 @@ public class WagonMerchantNPC : NPC, ITalkable
                 if(r < itemWeight[i]) newItem = possibleSoldItems[i];
 
                 if(x == 0 && !PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) newItem = inventoryUpgrade;
+                if(x == 1 && MainMenuScript.currentFileMode == FileMode.Cozy)
+                {
+                    newItem = ammo;
+
+                    item.RefreshItem(newItem, (int) (newItem.value * sellMultiplier), new List<ItemWithAmount>(), 10);
+                    item.seller = this;
+                    x++;
+                    continue;
+                }
             }
             while(!newItem);
             int newCost = (int) (newItem.value * sellMultiplier);
@@ -358,7 +367,8 @@ public class WagonMerchantNPC : NPC, ITalkable
             //currentType = PathType.Misc;
             GameSaveData.Instance.mm_giveGun = true;
             itemsToGive.Add(new ItemWithAmount(shotGun, 1));
-            itemsToGive.Add(new ItemWithAmount(ammo, 6));
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) itemsToGive.Add(new ItemWithAmount(ammo, 20));
+            else itemsToGive.Add(new ItemWithAmount(ammo, 6));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
         }
         else return;

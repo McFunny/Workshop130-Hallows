@@ -10,7 +10,7 @@ public class Mandrake : CreatureBehaviorScript
 {
     [HideInInspector] public NavMeshAgent agent;
     private bool coroutineRunning = false;
-    public float fleeDistance = 3f;
+    public float fleeDistance = 5f;
 
     public float timeBeforeLeavingFarm;
     private float savedTime;
@@ -171,7 +171,7 @@ public class Mandrake : CreatureBehaviorScript
         //agent.angularSpeed = 150;
         if (playerInSightRange)
         {
-            if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
+            if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1.5f)
             {
                 hasTarget = false;
             }

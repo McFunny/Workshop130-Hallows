@@ -16,6 +16,8 @@ public class DebrisPile : StructureBehaviorScript
     private RepairMinigame repairMinigame;
     private DebrisUI debrisUI;
 
+    public PopupScript popup;
+
 
     //Do we prevent these being repaired at night? Or make it so u have to hold an interaction on them
     //Use popup to tell player if resources are insufficient and if they cant repair at night
@@ -69,6 +71,10 @@ public class DebrisPile : StructureBehaviorScript
             containsItems = true; // Is ready to start the minigame
             debrisUI.ShowRepairUI();
             //RepairStructure();
+        }
+        else
+        {
+            PopupHandler.Instance.AddToQueue(popup);
         }
     }
 

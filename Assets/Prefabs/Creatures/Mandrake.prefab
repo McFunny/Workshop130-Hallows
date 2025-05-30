@@ -223,6 +223,7 @@ MonoBehaviour:
   ichorDropRadius: 3.5
   creatureData: {fileID: 11400000, guid: 947e9493fabfc20459883c696723fe9d, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -234,10 +235,8 @@ MonoBehaviour:
   anim: {fileID: 2578899447384088564}
   droppedItems:
   - {fileID: 11400000, guid: 3b5afa9f577a91f4c84ad661e6f277cc, type: 2}
-  - {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
   dropChance:
   - 10
-  - 2
   sightRange: 20
   attackRange: 6
   playerInSightRange: 0
@@ -249,7 +248,9 @@ MonoBehaviour:
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 0
+  actionSpeedMod: 1
   hitColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 0.7176471}
+  currentEffects: []
   agent: {fileID: 0}
   fleeDistance: 3
   timeBeforeLeavingFarm: 30
@@ -264,8 +265,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 18
-  m_Acceleration: 12
+  m_Speed: 22
+  m_Acceleration: 16
   avoidancePriority: 50
   m_AngularSpeed: 240
   m_StoppingDistance: 0.1
