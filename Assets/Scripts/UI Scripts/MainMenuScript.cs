@@ -12,7 +12,7 @@ using TMPro;
 public class MainMenuScript : MonoBehaviour
 {
     public InputActionReference hideUI, UICancel;
-    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault, loadCanvas, loadDefault, difficultyOptions, resolutionBox;
+    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault, loadCanvas, loadSlotObject, loadDefault, difficultyOptions, difficultyDefault, resolutionBox;
     private SettingsValueManager settingsValueManager;
     ControlManager controlManager;
     public AudioSource source;
@@ -33,7 +33,6 @@ public class MainMenuScript : MonoBehaviour
 
     public GameObject dayLight, nightLight;
     public Button[] buttons;
-    public Button[] newGameButtons;
     public Button[] loadButtons;
     public Button[] deleteButtons;
     public Button[] nonNavigableButtons;
@@ -44,12 +43,12 @@ public class MainMenuScript : MonoBehaviour
     GameObject selectedLoadSlot;
 
     public List<FileData> fileDatas = new List<FileData>();
-    public List<FileMode> fileModes = new List<FileMode>();
     public static int currentSaveSlot = -1; //-1 means nothing is selecte
     public static FileMode currentFileMode;
     public bool isNewGame;
     public GameObject loadingScreen;
     public string cozyDesc, normalDesc;
+    private int tempPathNum;
 
     // Start is called before the first frame update
     void Awake()
@@ -103,8 +102,10 @@ public class MainMenuScript : MonoBehaviour
             else if(controlsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
             else if(resolutionBox.activeSelf)EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
             else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
-            else if(loadCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(loadDefault);
-            else{EventSystem.current.SetSelectedGameObject(defaultObject);}
+            else if(difficultyOptions.activeSelf) EventSystem.current.SetSelectedGameObject(difficultyDefault);
+            else if (menuObject.activeSelf) EventSystem.current.SetSelectedGameObject(defaultObject);
+            else if (loadCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(loadDefault);
+            else { EventSystem.current.SetSelectedGameObject(defaultObject); }
             print("Default Menu Object Selected");
 
             for(int i = 0; i < loadOptionsObjects.Length; i++)
@@ -173,11 +174,20 @@ public class MainMenuScript : MonoBehaviour
     public void LoadBack()
     {
         bool optionsOpen = false;
-        for(int i = 0; i < loadOptionsObjects.Length; i++)
+
+        if (difficultyOptions.activeSelf)
         {
-            if(i < loadOptionsObjects.Length/2)
+            difficultyOptions.SetActive(false);
+            loadSlotObject.SetActive(true);
+            if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(loadDefault);
+            return;
+        }
+
+        for (int i = 0; i < loadOptionsObjects.Length; i++)
+        {
+            if (i < loadOptionsObjects.Length / 2)
             {
-                if(!loadOptionsObjects[i].activeSelf) optionsOpen = true;
+                if (!loadOptionsObjects[i].activeSelf) optionsOpen = true;
                 loadOptionsObjects[i].SetActive(true);
             }
             else
@@ -254,15 +264,21 @@ public class MainMenuScript : MonoBehaviour
                     Debug.Log("No save data");
                     return;
                 }
-                if(isNewGame)
+                if (isNewGame)
                 {
-                    if(isTransitioning) return;
-                    isTransitioning = true;
+                    if (isTransitioning) return;
+                    loadSlotObject.SetActive(false);
+                    difficultyOptions.SetActive(true);
+                    currentSaveSlot = pathNum;
+                    if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(difficultyDefault);
+                    break;
+                    
+                    /*isTransitioning = true;
                     currentSaveSlot = pathNum;
                     StartCoroutine(StartGame());
                     loadingData = false;
                     loadCanvas.SetActive(false);
-                    break;
+                    break;*/
                 }
 
                 if(isTransitioning) return;
@@ -501,10 +517,20 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].dayNum = tempData.allGameSaveData.pDayNumber;
                 fileDatas[i].mintsCurrent = tempData.allGameSaveData.pCurrentMoney;
                 fileDatas[i].mintsTotal = tempData.allGameSaveData.pTotalMoneyEarned;
+                if (tempData.allGameSaveData.gameMode != null) // Edge case scenario for saves made before difficulties were added :/
+                {
+                    fileDatas[i].difficulty = tempData.allGameSaveData.gameMode;
+                }
+                else
+                {
+                    fileDatas[i].difficulty = "Normal";
+                }
+                
                 //populate the text variables
                 fileDatas[i].dayNumText.text = "Day: " + fileDatas[i].dayNum;
                 fileDatas[i].mintsCurrentText.text ="Current Mints: " + fileDatas[i].mintsCurrent;
                 fileDatas[i].mintsTotalText.text = "Total Mints: " + fileDatas[i].mintsTotal;
+                fileDatas[i].difficultyText.text = "Difficulty: " + fileDatas[i].difficulty.ToString();
 
                 fileDatas[i].dayNumText.gameObject.SetActive(true);
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(true);
@@ -518,6 +544,32 @@ public class MainMenuScript : MonoBehaviour
                 //fileDatas[i].slotButton.interactable = true;
             }
         }
+    }
+
+    public void SetFileMode(int mode)
+    {
+        switch (mode)
+        {
+            case 0: // Normal
+                currentFileMode = FileMode.Normal;
+                break;
+            case 1: // Cozy
+                currentFileMode = FileMode.Cozy;
+                break;
+            default:
+                Debug.LogError("Invalid file mode selected. Defaulting to Normal.");
+                currentFileMode = FileMode.Normal;
+                break;
+        }
+        isTransitioning = true;
+        CloseCanvases();
+        StartCoroutine(StartGame());
+    }
+    public void CloseCanvases()
+    {
+        loadCanvas.SetActive(false);
+        settingsCanvas.SetActive(false);
+        controlsCanvas.SetActive(false);
     }
 
     [ContextMenu("Set To Menu 1")]
@@ -544,7 +596,8 @@ public class MainMenuScript : MonoBehaviour
 public class FileData
 {
     public Button slotButton;
-    public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText, emptySlot;
+    public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText, emptySlot, difficultyText;
+    public string difficulty;
     public bool saveDataPresent = false;
 
     public int dayNum;
