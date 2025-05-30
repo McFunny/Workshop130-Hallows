@@ -226,6 +226,15 @@ public class WagonMerchantNPC : NPC, ITalkable
                 if(r < itemWeight[i]) newItem = possibleSoldItems[i];
 
                 if(x == 0 && !PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) newItem = inventoryUpgrade;
+                if(x == 1 && MainMenuScript.currentFileMode == FileMode.Cozy)
+                {
+                    newItem = ammo;
+
+                    item.RefreshItem(newItem, (int) (newItem.value * sellMultiplier), new List<ItemWithAmount>(), 10);
+                    item.seller = this;
+                    x++;
+                    continue;
+                }
             }
             while(!newItem);
             int newCost = (int) (newItem.value * sellMultiplier);
