@@ -5,11 +5,8 @@ using UnityEngine;
 public class SurvivalModeMerchant : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
-    public InventoryItemData inventoryUpgrade;
 
     public float sellMultiplier = 1;
-    public InventoryItemData[] possibleSoldItems;
-    public float[] itemWeight; //likelyness of being sold, from 0 - 1
     public StoreItem[] storeItems;
     public ItemDisplaySign displaySign;
 
@@ -75,11 +72,24 @@ public class SurvivalModeMerchant : NPC, ITalkable
             //if(dialogueController.FreeToSpeak(this))Talk();
             return;
         } 
-        if(item.sellValueMultiplier == 0 || item.value == 0)
+
+        if(TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 7);
+        else
+        {
+            //Cannot Buy, only at morning
+            lastSeenItem = item;
+            currentPath = 9;
+            currentType = PathType.Misc;
+            Talk();
+
+            anim.SetTrigger("IsTalking");
+        }
+
+        if(item.sellValueMultiplier == 0 || item.value == 0 || item as PlaceableItem)
         {
             //Cannot Buy
             lastSeenItem = item;
-            currentPath = 1;
+            currentPath = 6;
             currentType = PathType.Misc;
             Talk();
 
@@ -93,7 +103,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 //Are you sure?
                 lastSeenItem = item;
                 dialogueController.restartDialogue = true;
-                if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize > 1) currentPath = 3;
+                if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize > 1) currentPath = 8;
                 else currentPath = 0;
                 currentType = PathType.Misc;
 
@@ -103,17 +113,19 @@ public class SurvivalModeMerchant : NPC, ITalkable
             {
                 print("Repeated item");
                 //Sold, remove item and gain money
-                currentPath = 2;
+                currentPath = 7;
                 currentType = PathType.Misc;
 
                 anim.SetTrigger("Transaction");
+                InventorySlot slot = HotbarDisplay.currentSlot.AssignedInventorySlot;
+                SurvivalModeManager.Instance.mintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
             }
             Talk();
         }
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    /*public override void PurchaseAttempt(StoreItem item)
     {
         if(dialogueController.IsInterruptable() == false)
         {
@@ -155,31 +167,49 @@ public class SurvivalModeMerchant : NPC, ITalkable
         }
         currentType = PathType.Misc;
         Talk();
-    }
+    }*/
 
     public override void RefreshStore()
     {
-        if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
+        if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
         lastInteractedStoreItem = null;
         int i;
         float r;
-        int x = 0; //iterations
+        int newCost = 0;
         InventoryItemData newItem;
+        int x = 0; //iterations
+
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+
+            if(x < 5)
+            {
+                item.seller = this;
+
+                newItem = barterDatabase.uniqueTransactions[x].itemForSale;
+                item.RefreshItem(newItem, barterDatabase.uniqueTransactions[x].mintCost, barterDatabase.uniqueTransactions[x].itemsRequired,  barterDatabase.uniqueTransactions[x].amountForSale);
+
+                x++;
+                continue;
+            }
+
             do
             {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f,1f);
-                if(r < itemWeight[i]) newItem = possibleSoldItems[i];
-
-                if(x == 0 && !PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) newItem = inventoryUpgrade;
+                i = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i))
+                {
+                    newItem = barterDatabase.transactions[i].itemForSale;
+                    selectedTrades.Add(i);
+                }
             }
-            while(!newItem);
-            int newCost = (int) (newItem.value * sellMultiplier);
-            item.RefreshItem(newItem, newCost);
+            while (!newItem);
+            newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
             item.seller = this;
+
             x++;
         }
     }

@@ -34,6 +34,9 @@ public class PlayerInventoryHolder : InventoryHolder
     [Header("Starting Items")]
     [SerializeField] private List<Item> startingItems;
 
+    [Header("Starting Survival Items")]
+    [SerializeField] private List<Item> startingSurvivalItems; //For Survival Mode
+
     [Header("Debug Items")]
     [SerializeField] private List<Item> debugItems;
 
@@ -170,6 +173,24 @@ public class PlayerInventoryHolder : InventoryHolder
                 else
                 {
                     Debug.LogWarning("Debug item data is null.");
+                }
+            }
+        }
+        if(MainMenuScript.currentFileMode == FileMode.Survival)
+        {
+            foreach (var survivalItem in startingSurvivalItems)
+            {
+                if (survivalItem.itemData != null)
+                {
+                    bool addedSuccessfully = AddToInventory(survivalItem.itemData, survivalItem.amount);
+                    if (!addedSuccessfully)
+                    {
+                        Debug.LogWarning($"Failed to add {survivalItem.amount} of {survivalItem.itemData.name} to inventory.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Starting item data is null.");
                 }
             }
         }

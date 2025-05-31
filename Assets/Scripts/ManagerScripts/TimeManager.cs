@@ -61,6 +61,8 @@ public class TimeManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        if(MainMenuScript.currentFileMode == FileMode.Survival) minPerDayHour = 15;
     }
 
     

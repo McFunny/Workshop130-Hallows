@@ -16,7 +16,7 @@ public class TutorialNPC : NPC, ITalkable
     void Start()
     {
         mainQuest = QuestDatabase.Instance.GetMainQuest(0);
-        if(MainMenuScript.loadingData) StartCoroutine(Despawn());
+        if(MainMenuScript.loadingData || MainMenuScript.currentFileMode == FileMode.Survival) StartCoroutine(Despawn());
         else 
         {
             goneAtStart = false;
