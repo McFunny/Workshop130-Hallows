@@ -16,7 +16,7 @@ public class DebugUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(!StructureManager.Instance.enableCheats) return;
+        if (!StructureManager.Instance.enableCheats) return;
         panel.SetActive(true);
         isDebugMenuOpen = false;
         items = database.GetItemDatabase();
@@ -25,6 +25,8 @@ public class DebugUI : MonoBehaviour
 
         itemsLoaded = true;
         panel.SetActive(false);
+        print("File Mode: " + MainMenuScript.currentFileMode);
+        print("Save File: " + MainMenuScript.currentSaveSlot);
     }
 
     void Update()
