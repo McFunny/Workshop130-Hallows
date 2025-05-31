@@ -26,10 +26,12 @@ public class StructureManager : MonoBehaviour
     [Header("Debugs")]
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
     public bool enableCheats = false;
+    public bool forceSurvivalMode = false;
 
 
     void Awake()
     {
+        if(forceSurvivalMode) MainMenuScript.currentFileMode = FileMode.Survival;
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
