@@ -58,7 +58,6 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         if(!controlManager) controlManager = FindFirstObjectByType<ControlManager>();
         controlManager.hotbarSwitch.action.started += SwitchHotBars;
-        controlManager.hotbarSwitch.action.canceled += SwitchHotBars;
     }
 
     private void OnDisable()
@@ -67,7 +66,6 @@ public class PlayerInventoryHolder : InventoryHolder
         SaveLoad.OnLoadGame -= LoadInventory;
 
         controlManager.hotbarSwitch.action.started -= SwitchHotBars;
-        controlManager.hotbarSwitch.action.canceled -= SwitchHotBars;
     }
 
     protected override void Awake()
