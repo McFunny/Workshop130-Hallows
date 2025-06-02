@@ -22,6 +22,8 @@ public class Pollinator : CreatureBehaviorScript
     public List<FireFearTrigger> fireSources; //find out which one is the player torch; they will prioritize following this one
     int currentFirePriority = 0;
 
+    public List<ParticleSystem> pollenParticles;
+
     public enum CreatureState
     {
         SpawnIn,
@@ -190,6 +192,7 @@ public class Pollinator : CreatureBehaviorScript
         if(tile)
         {
             tile.isPollinated = true;
+            foreach(ParticleSystem p in pollenParticles) p.Play();
         }
         targetStructure = null;
         target = null;
