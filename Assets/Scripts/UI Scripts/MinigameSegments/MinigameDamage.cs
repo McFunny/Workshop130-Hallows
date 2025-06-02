@@ -6,10 +6,10 @@ public class MinigameDamage : MinigameFunctionality
 {
     [SerializeField] private float damage = 50f;
     private PlayerInteraction playerInteraction;
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         playerInteraction = FindObjectOfType<PlayerInteraction>();
-        size = this.transform.localScale.x / 2;
     }
     public override void MinigameFunction()
     {
