@@ -6,8 +6,6 @@ using System.Linq;
 
 public class NightSpawningManager : MonoBehaviour
 {
-    //Consider using "pools" of enemies. Example: Pool 1, hare, walker, fly. Pool 2, hare, hive, mancer
-
     public static NightSpawningManager Instance;
 
     float difficultyPoints = 0;
@@ -42,6 +40,9 @@ public class NightSpawningManager : MonoBehaviour
     public ParticleSystem finaleMist;
 
     public GameObject pollinatorTest;
+
+    public List<NightEventObject> nightEvents = new List<NightEventObject>();
+    bool eventOccured = false; //only 1 per night
 
     void Awake()
     {
@@ -96,6 +97,7 @@ public class NightSpawningManager : MonoBehaviour
             difficultyPoints = 0;
             highestDifficultyPoints = 0;
             selectedCreatures.Clear();
+            eventOccured = false;
             return;
         }
 
@@ -109,10 +111,8 @@ public class NightSpawningManager : MonoBehaviour
 
         CalculateDifficulty();
 
-        //if(difficultyPoints < 20 && TimeManager.Instance.currentHour == 21) difficultyPoints = 20;
-        //difficultyPoints += 1000;
-        //difficultyPoints += TimeManager.dayNum;
-        //originalDifficultyPoints = difficultyPoints;
+        //Call an event;
+        if(!eventOccured) TryToStartEvent();
 
         if(TownGate.Instance.location != PlayerLocation.InWilderness) HourlySpawns();
     }
@@ -214,7 +214,7 @@ public class NightSpawningManager : MonoBehaviour
         }
     }
 
-    void SpawnCreature(CreatureObject c)
+    public void SpawnCreature(CreatureObject c)
     {
         //Add chance of spawning variants here
         creatureTallyDict[c]++;
@@ -320,7 +320,7 @@ public class NightSpawningManager : MonoBehaviour
 
     void CalculateDifficulty()
     {
-
+        bool overrideDifficulty = false;
         if(finaleActivated)
         {
             if(difficultyPoints < 100)
@@ -334,35 +334,41 @@ public class NightSpawningManager : MonoBehaviour
                     highestDifficultyPoints = 150;
                 }
             }
-            return;
+            overrideDifficulty = true;
+            //return;
         }
-        if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.5f;
-        else if(PlayerInteraction.Instance.totalMoneyEarned > 5000) difficultyMultiplier = 1.25f;
-        else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.1f;
-        else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = 0.75f;
-        else difficultyMultiplier = 1;
 
-        if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.25f;
-
-        foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+        if(!overrideDifficulty)
         {
-            if(accountedStructures.Contains(structure) || structure.wealthValue == 0) continue;
-            if(removedDifficultyPoints > 0) //To account for example, a player removing a barrel, to then replace it elsewhere.
+            if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.5f;
+            else if(PlayerInteraction.Instance.totalMoneyEarned > 5000) difficultyMultiplier = 1.25f;
+            else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.1f;
+            else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = 0.75f;
+            else difficultyMultiplier = 1;
+
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.25f;
+
+            foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
             {
-                removedDifficultyPoints -= structure.wealthValue * difficultyMultiplier;
-                if(removedDifficultyPoints < 0) //removed difficulty points is a negative number
+                if(accountedStructures.Contains(structure) || structure.wealthValue == 0) continue;
+                if(removedDifficultyPoints > 0) //To account for example, a player removing a barrel, to then replace it elsewhere.
                 {
-                    difficultyPoints -= removedDifficultyPoints;
-                    removedDifficultyPoints = 0;
+                    removedDifficultyPoints -= structure.wealthValue * difficultyMultiplier;
+                    if(removedDifficultyPoints < 0) //removed difficulty points is a negative number
+                    {
+                        difficultyPoints -= removedDifficultyPoints;
+                        removedDifficultyPoints = 0;
+                    }
                 }
+                else
+                {
+                    difficultyPoints += structure.wealthValue * difficultyMultiplier;
+                    highestDifficultyPoints += structure.wealthValue * difficultyMultiplier;
+                }
+                accountedStructures.Add(structure);
             }
-            else
-            {
-                difficultyPoints += structure.wealthValue * difficultyMultiplier;
-                highestDifficultyPoints += structure.wealthValue * difficultyMultiplier;
-            }
-            accountedStructures.Add(structure);
         }
+        
 
         currentDLevel = null;
         foreach(DifficultyLevel l in dLevels)
@@ -457,6 +463,20 @@ public class NightSpawningManager : MonoBehaviour
         return tally;
     }
 
+    void TryToStartEvent()
+    {
+        for(int i = 0; i < nightEvents.Count; i++)
+        {
+            if(Random.Range(0, 100f) < nightEvents[i].occurenceChance  && !eventOccured)
+            {
+                nightEvents[i].InitiateEvent();
+                difficultyPoints -= nightEvents[i].difficultyPointsCost;
+                eventOccured = true;
+                return;
+            }
+        }
+    }
+
     /*int CalculateMaxCreatures()
     {
         if(finaleActivated) return 8;
@@ -525,25 +545,6 @@ public class NightSpawningManager : MonoBehaviour
         //Credits screen
         SceneManager.LoadSceneAsync(2);
     }
-
-
-    /*void ChooseCreatureTypesToSpawn()
-    {
-        foreach(CreatureVarietyThreshold t in varietyThresholds)
-        {
-            if(t.moneyThreshold <= PlayerInteraction.Instance.totalMoneyEarned || t.dayThreshold <= TimeManager.Instance.dayNum)
-            {
-                creatureTypesAllowed = t.typeAmounts;
-                break;
-            }
-        }
-        creatureSpawnPool.Clear();
-
-        while(creatureSpawnPool.Count < creatureTypesAllowed)
-        {
-
-        }
-    } */
 }
 
 //Not incorporated yet. Can be used to track things like spawns per hour and the creature density. Will need a function comparing the thresholds of levels to determine which one is active

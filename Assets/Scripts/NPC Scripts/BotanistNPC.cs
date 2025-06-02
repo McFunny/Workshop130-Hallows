@@ -140,7 +140,7 @@ public class BotanistNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    /*public override void PurchaseAttempt(StoreItem item)
     {
         if(dialogueController.IsInterruptable() == false)
         {
@@ -185,7 +185,7 @@ public class BotanistNPC : NPC, ITalkable
         }
         currentType = PathType.Misc;
         Talk();
-    }
+    }*/
 
     public override void PlayerLeftRadius()
     {
@@ -201,13 +201,100 @@ public class BotanistNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    public override void EmptyShopItem()
+    /*public override void EmptyShopItem()
     {
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
-    }
+    }*/
 
     public override void RefreshStore()
+    {
+        if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
+        lastInteractedStoreItem = null;
+        int i;
+        float r;
+        int newCost = 0;
+        InventoryItemData newItem;
+        int x = 0; //iterations
+
+        questCrops.Clear();
+
+        if (QuestManager.Instance.activeQuests.Count > 0)
+        {
+            for (int j = 0; j < QuestManager.Instance.activeQuests.Count; j++)
+            {
+                if (QuestManager.Instance.activeQuests[j] is GrowQuest gQuest)
+                {
+                    for (int k = 0; k < barterDatabase.transactions.Count; k++) 
+                    {
+                        if( barterDatabase.transactions[k].itemForSale == gQuest.desiredCrop.cropSeed)
+                        {
+                            questCrops.Add(gQuest.desiredCrop.cropSeed);
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        foreach (StoreItem item in storeItems)
+        {
+            newItem = null;
+
+            if(x == 0 || x > 8) //For guaranteed stuff to sell
+            {
+                if(x == 0)
+                {
+                    int sack = Random.Range(0, 2);
+                    item.RefreshItem(barterDatabase.uniqueTransactions[sack].itemForSale, barterDatabase.uniqueTransactions[sack].mintCost, barterDatabase.uniqueTransactions[sack].itemsRequired,
+                     barterDatabase.transactions[sack].amountForSale);
+                } 
+                if(x > 8)
+                {
+
+                    item.RefreshItem(barterDatabase.uniqueTransactions[x - 7].itemForSale, barterDatabase.uniqueTransactions[x - 7].mintCost, barterDatabase.uniqueTransactions[x - 7].itemsRequired,
+                     barterDatabase.transactions[x - 7].amountForSale);
+                }
+                item.seller = this;
+                //item.clearUponPurchase = false;
+
+                x++;
+                continue;
+            }
+
+            if (questCrops.Count > 0) //If there are any quests that need crops, make this more likely
+            {
+                for (int k = 0; k < barterDatabase.transactions.Count; k++) 
+                {
+                    if (barterDatabase.transactions[k].itemForSale == questCrops[0])
+                    {
+                        newItem = barterDatabase.transactions[k].itemForSale;
+                        questCrops.Remove(questCrops[0]);
+                    }
+                }
+            }
+
+            do
+            {
+
+                i = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[i].barterChance && !newItem)
+                {
+                    newItem = barterDatabase.transactions[i].itemForSale;
+                }
+            }
+            while (!newItem);
+            int extraItems = Random.Range(0, 3);
+            newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale + extraItems);
+            item.seller = this;
+
+            x++;
+        }
+    }
+
+    /*public override void RefreshStore()
     {
         //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
         if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
@@ -302,20 +389,13 @@ public class BotanistNPC : NPC, ITalkable
                 i = Random.Range(0, fertalizers.Length);
                 newItem = fertalizers[i];
             }
-            /*do
-            {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f,1f);
-                if(r < itemWeight[i]) newItem = possibleSoldItems[i];
-            }
-            while(!newItem); */
             int newCost = (int) (newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
             item.seller = this;
             currentItem++;
         }
         currentItem = 0;
-    }
+    }*/
 
     public override void BeginWorking()
     {

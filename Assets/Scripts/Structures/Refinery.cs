@@ -21,6 +21,9 @@ public class Refinery : StructureBehaviorScript
 
     bool ignoreNextHour = false;
 
+    bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    public PopupScript chargingPopup;
+
     void Awake()
     {
         base.Awake();
@@ -39,6 +42,12 @@ public class Refinery : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
         /*if(isSpinning && savedItems.Count != maxContainedItems) return;
 
         if(progress == maxProgress)
@@ -123,6 +132,12 @@ public class Refinery : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
         if(item.bonusCompostValue > 0 && savedItems.Count < maxContainedItems)
         {
             //
@@ -212,6 +227,8 @@ public class Refinery : StructureBehaviorScript
             isSpinning = false;
             anim.SetBool("Spinning", false);
         }
+
+        isFunctioning = true;
     }
 
     public override void SaveVariables()

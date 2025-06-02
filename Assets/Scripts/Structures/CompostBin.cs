@@ -29,7 +29,8 @@ public class CompostBin : StructureBehaviorScript
 
     public TextMeshProUGUI itemText;
 
-    //Dont forget to implement how it works when loading saved data
+    bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    public PopupScript chargingPopup;
 
     void Awake()
     {
@@ -50,6 +51,12 @@ public class CompostBin : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
         if(isSpinning && savedItems.Count != maxContainedItems) return;
 
         if(progress == maxProgress)
@@ -135,6 +142,12 @@ public class CompostBin : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
         if(item.bonusCompostValue > 0 && savedItems.Count < maxContainedItems)
         {
             //
@@ -227,6 +240,8 @@ public class CompostBin : StructureBehaviorScript
         }
 
         itemText.text = savedItems.Count + "/" + maxContainedItems;
+
+        isFunctioning = true;
     }
 
     public override void SaveVariables()
