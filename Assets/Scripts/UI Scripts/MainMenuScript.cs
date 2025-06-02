@@ -270,6 +270,7 @@ public class MainMenuScript : MonoBehaviour
                 {
                     if (isTransitioning) return;
                     loadSlotObject.SetActive(false);
+                    UpdateNavigation();
                     difficultyOptions.SetActive(true);
                     currentSaveSlot = pathNum;
                     if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(difficultyDefault);
@@ -605,7 +606,7 @@ public class MainMenuScript : MonoBehaviour
         nightLight.SetActive(true);
     }
 
-    private void UpdateNavigation()
+    private void UpdateNavigation() //Make this more modular later if needed
     {
         var f = PlayerPrefs.GetInt("FinaleCompleted", 0);
         if (f == 0)
