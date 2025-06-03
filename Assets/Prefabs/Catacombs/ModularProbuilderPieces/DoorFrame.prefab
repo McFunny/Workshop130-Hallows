@@ -34,7 +34,9 @@ Transform:
   m_LocalPosition: {x: -0.80371094, y: 1.6309357, z: -0.039901733}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5577155068946194692}
+  - {fileID: 5115789201964939709}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &145795442590974639
@@ -1578,3 +1580,151 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.6795654, y: 10.201294, z: 2.0001526}
   m_Center: {x: 7.1603394, y: 5.100647, z: -1.0000763}
+--- !u!1001 &5969625277923091771
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1864111920884853623}
+    m_Modifications:
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.9282985
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.039
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3326173506249308938, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_Name
+      value: Catacombs Torch (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 22e125b9183e8cf49a14d2dc3ea4fc33, type: 3}
+--- !u!4 &5115789201964939709 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+    type: 3}
+  m_PrefabInstance: {fileID: 5969625277923091771}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6431344085858319746
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1864111920884853623}
+    m_Modifications:
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.495
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.9282985
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.039
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3326173506249308938, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+        type: 3}
+      propertyPath: m_Name
+      value: Catacombs Torch
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 22e125b9183e8cf49a14d2dc3ea4fc33, type: 3}
+--- !u!4 &5577155068946194692 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1452043245191847046, guid: 22e125b9183e8cf49a14d2dc3ea4fc33,
+    type: 3}
+  m_PrefabInstance: {fileID: 6431344085858319746}
+  m_PrefabAsset: {fileID: 0}
