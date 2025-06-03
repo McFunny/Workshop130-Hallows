@@ -176,6 +176,7 @@ public class PlayerInventoryHolder : InventoryHolder
         }
         if(MainMenuScript.currentFileMode == FileMode.Survival)
         {
+            PlayerInteraction.Instance.currentMoney += 100;
             foreach (var survivalItem in startingSurvivalItems)
             {
                 if (survivalItem.itemData != null)

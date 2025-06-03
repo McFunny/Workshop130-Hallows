@@ -343,7 +343,7 @@ public class NightSpawningManager : MonoBehaviour
             if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.5f;
             else if(PlayerInteraction.Instance.totalMoneyEarned > 5000) difficultyMultiplier = 1.25f;
             else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.1f;
-            else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = 0.75f;
+            else if(TimeManager.Instance.dayNum == 1 && MainMenuScript.currentFileMode != FileMode.Survival) difficultyMultiplier = 0.75f;
             else difficultyMultiplier = 1;
 
             if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.25f;

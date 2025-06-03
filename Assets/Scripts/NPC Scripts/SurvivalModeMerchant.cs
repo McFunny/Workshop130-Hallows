@@ -8,7 +8,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
     public float sellMultiplier = 1;
     public StoreItem[] storeItems;
-    public ItemDisplaySign displaySign;
+    ItemDisplaySign displaySign;
 
 
 
@@ -83,6 +83,8 @@ public class SurvivalModeMerchant : NPC, ITalkable
             Talk();
 
             anim.SetTrigger("IsTalking");
+            interactSuccessful = true;
+            return;
         }
 
         if(item.sellValueMultiplier == 0 || item.value == 0 || item as PlaceableItem)
@@ -184,7 +186,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
         {
             newItem = null;
 
-            if(x < 5)
+            if(x < 6)
             {
                 item.seller = this;
 
@@ -212,12 +214,6 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
             x++;
         }
-    }
-
-    public override void EmptyShopItem()
-    {
-        lastInteractedStoreItem.Empty();
-        lastInteractedStoreItem = null;
     }
 
     public override void PlayerLeftRadius()

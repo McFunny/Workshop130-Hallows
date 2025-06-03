@@ -341,7 +341,7 @@ public class DialogueController : MonoBehaviour
         if(currentTalker.lastInteractedStoreItem)
         {
             p = p.Replace("{storeItemName}", $"{"<color=#81C6DE>" + currentTalker.lastInteractedStoreItem.itemData.displayName + "</color>"}");
-            p = p.Replace("{storeItemValue}", $"{"<color=#E0D38F>" + currentTalker.lastInteractedStoreItem.itemData.value + "</color>"}");
+            p = p.Replace("{storeItemValue}", $"{"<color=#E0D38F>" + currentTalker.lastInteractedStoreItem.cost + "</color>"}");
         }
 
         if(p.Contains("{itemBought}"))

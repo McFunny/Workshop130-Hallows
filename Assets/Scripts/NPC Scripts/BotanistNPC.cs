@@ -201,12 +201,6 @@ public class BotanistNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    /*public override void EmptyShopItem()
-    {
-        lastInteractedStoreItem.Empty();
-        lastInteractedStoreItem = null;
-    }*/
-
     public override void RefreshStore()
     {
         if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
