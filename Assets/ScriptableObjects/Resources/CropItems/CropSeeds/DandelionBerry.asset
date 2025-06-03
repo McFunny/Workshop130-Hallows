@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: DandelionBerry
   m_EditorClassIdentifier: 
   ID: 12
-  displayName: Dandelion Berry
-  description: Inedible berries from the Dandelion Berry plant.
+  displayName: Hollion Berry
+  description: Inedible berries that are prone to bursting at the slightest contact.
+    When grown, the berries fly off the plant and can damage nearby creatures.
   icon: {fileID: 31738408, guid: 449124c102f530d48a57d7a6ebc30606, type: 3}
   maxStackSize: 20
   value: 16
@@ -22,7 +23,7 @@ MonoBehaviour:
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
-  bonusCompostValue: 0
+  bonusCompostValue: 15
   pickledForm: {fileID: 0}
   itemInputsKBM:
   - RMB - Plant

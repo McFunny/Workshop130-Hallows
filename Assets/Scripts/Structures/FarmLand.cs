@@ -400,7 +400,11 @@ public class FarmLand : StructureBehaviorScript
                         growthComplete.Play();
                     }
 
-                    if(crop.behavior) crop.behavior.OnFullyGrown(this);
+                    if(crop.behavior)
+                    {
+                        print("Call Behavior");
+                        crop.behavior.OnFullyGrown(this);
+                    } 
                 }
                 else harvestable = false;
                 SpriteChange();
@@ -428,14 +432,14 @@ public class FarmLand : StructureBehaviorScript
         if(Tutorial.Instance) Tutorial.Instance.PlantedSeed();
     }
 
-    /*public void InsertCreature(CropData _data, int _growthStage)
+    public void ForceChangeGrowthStage(int newStage)
     {
-        //the mimic will use this function to "plant" itself
-        isWeed = true;
-        crop = _data;
-        growthStage = _growthStage;
+        growthStage = newStage;
+        if(crop && crop.growthStages < growthStage) growthStage =  crop.growthStages;
+        if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted) harvestable = true;
+        else harvestable = false;
         SpriteChange();
-    } */
+    }
 
     public void SpriteChange()
     {
@@ -480,7 +484,12 @@ public class FarmLand : StructureBehaviorScript
 
         if(harvestText)
         {
-            if(harvestable && !rotted) harvestText.text = "Interact To Harvest";
+            growthComplete.Stop();
+            if(harvestable && !rotted)
+            {
+                harvestText.text = "Interact To Harvest";
+                growthComplete.Play();
+            } 
             else harvestText.text = "";
         }
 
