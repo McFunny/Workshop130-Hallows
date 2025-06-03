@@ -30,7 +30,7 @@ public class FinaleCompleteCheck : MonoBehaviour
 
 
 // Editor buttons :)
-[CustomEditor(typeof(FinaleCompleteCheck), true)]
+/*[CustomEditor(typeof(FinaleCompleteCheck), true)]
 public class FinaleCompleteCheckEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -48,4 +48,4 @@ public class FinaleCompleteCheckEditor : Editor
             finaleCompleteCheck.ForceFinaleIncomplete();
         }
     }
-}
+}*/

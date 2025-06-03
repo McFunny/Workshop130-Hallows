@@ -847,6 +847,7 @@ public class FarmLand : StructureBehaviorScript
             print(crop);
         }
         growthStage = saveInt1;
+        if(crop && growthStage > crop.growthStages) growthStage = crop.growthStages;
         hoursSpent = saveInt2;
         plantStress = saveInt3;
         isPollinated = saveBool1;
