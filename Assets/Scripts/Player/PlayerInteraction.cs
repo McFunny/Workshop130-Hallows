@@ -364,15 +364,15 @@ public class PlayerInteraction : MonoBehaviour
 
         if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f;
 
-        fatigue += Mathf.Round(amount * 0.1f);
+        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
+
+        //if(amount > 6) fatigue += Mathf.Round(amount * 0.1f);
         
         if(repairMinigame.IsMinigameActive())
         {
             repairMinigame.EndMinigame();
         }
 
-        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
-        
         stamina +=  Mathf.Round(amount);
         if(amount <= -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
