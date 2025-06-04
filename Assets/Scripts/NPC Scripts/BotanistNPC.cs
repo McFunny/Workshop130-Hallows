@@ -234,6 +234,7 @@ public class BotanistNPC : NPC, ITalkable
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+            int extraItems = 0;
 
             if(x == 0 || x > 8) //For guaranteed stuff to sell
             {
@@ -256,14 +257,16 @@ public class BotanistNPC : NPC, ITalkable
                 continue;
             }
 
-            if (questCrops.Count > 0) //If there are any quests that need crops, make this more likely
+            if (questCrops.Count > 0 && questCrops[0] != null) //If there are any quests that need crops, make this more likely
             {
                 for (int k = 0; k < barterDatabase.transactions.Count; k++) 
                 {
                     if (barterDatabase.transactions[k].itemForSale == questCrops[0])
                     {
                         newItem = barterDatabase.transactions[k].itemForSale;
+                        extraItems += 5;
                         questCrops.Remove(questCrops[0]);
+                        break;
                     }
                 }
             }
@@ -279,7 +282,7 @@ public class BotanistNPC : NPC, ITalkable
                 }
             }
             while (!newItem);
-            int extraItems = Random.Range(0, 3);
+            extraItems += Random.Range(0, 3);
             newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale + extraItems);
             item.seller = this;

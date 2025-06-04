@@ -137,6 +137,8 @@ public class StoreItem : MonoBehaviour, IInteractable
             return;
         }
         ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        
+        if(clearUponPurchase == false) return;
         amountLeft--;
         if(amountLeft == 1)  stockText.text = "";
         else stockText.text = "x " + amountLeft;
@@ -150,6 +152,8 @@ public class StoreItem : MonoBehaviour, IInteractable
             return;
         }
         ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+
+        if(clearUponPurchase == false) return;
         amountLeft--;
         if(amountLeft == 1)  stockText.text = "";
         else stockText.text = "x " + amountLeft;

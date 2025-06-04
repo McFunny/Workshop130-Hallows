@@ -14,10 +14,24 @@ public class HollionProjectile : MonoBehaviour
 
     public InventoryItemData berryItem;
 
-    private void Start()
+    void OnEnable()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
+        AmbientAudioManager.OnWindBlow += WindPush;
+        StartCoroutine(LifeTime());
     }
+
+    void OnDisable()
+    {
+        AmbientAudioManager.OnWindBlow -= WindPush;
+        StopCoroutine(LifeTime());
+    }
+
+    void WindPush(Vector3 dir)
+    {
+        bulletRigidbody.AddForce(dir * Random.Range(7, 15), ForceMode.Impulse);
+    }
+
 
 
     void OnTriggerEnter(Collider other)
@@ -74,15 +88,6 @@ public class HollionProjectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnEnable()
-    {
-        StartCoroutine(LifeTime());
-    }
-
-    void OnDisable()
-    {
-        StopCoroutine(LifeTime());
-    }
 
     IEnumerator LifeTime()
     {

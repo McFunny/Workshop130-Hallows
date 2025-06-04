@@ -184,7 +184,7 @@ public class NightSpawningManager : MonoBehaviour
                 if(creatureQueue.Count == 0) StartCoroutine(SpawnCreatures());
                 creatureQueue.Enqueue(attemptedCreature);
                 spawnAttempts++;
-                totalCreatures++;
+                if(attemptedCreature.contribuiteToCreatureCap) totalCreatures++;
                 //print("Spawned Creature");
             }
             else 
@@ -340,8 +340,8 @@ public class NightSpawningManager : MonoBehaviour
 
         if(!overrideDifficulty)
         {
-            if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.5f;
-            else if(PlayerInteraction.Instance.totalMoneyEarned > 5000) difficultyMultiplier = 1.25f;
+            if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.3f;
+            else if(PlayerInteraction.Instance.totalMoneyEarned > 5000) difficultyMultiplier = 1.2f;
             else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.1f;
             else if(TimeManager.Instance.dayNum == 1 && MainMenuScript.currentFileMode != FileMode.Survival) difficultyMultiplier = 0.75f;
             else difficultyMultiplier = 1;

@@ -16,18 +16,18 @@ MonoBehaviour:
   - name: Barricade
     itemForSale: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
     useItemPrice: 0
-    mintCost: 35
+    mintCost: 20
     amountForSale: 3
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 2
+      amount: 1
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
       amount: 2
   - name: Barrel
     itemForSale: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
     useItemPrice: 0
-    mintCost: 45
+    mintCost: 35
     amountForSale: 3
     barterChance: 100
     itemsRequired:
@@ -36,7 +36,7 @@ MonoBehaviour:
   - name: BirdBath
     itemForSale: {fileID: 11400000, guid: 0bc13d18c81019245bbbcfee4abbab8a, type: 2}
     useItemPrice: 0
-    mintCost: 65
+    mintCost: 55
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -56,7 +56,7 @@ MonoBehaviour:
   - name: ImbuedScarecrow
     itemForSale: {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
     useItemPrice: 0
-    mintCost: 30
+    mintCost: 15
     amountForSale: 3
     barterChance: 100
     itemsRequired:
@@ -236,3 +236,4 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 77cbb6db30ada5a4988f545585cd29c2, type: 2}
       amount: 3
+  uniqueTransactions: []

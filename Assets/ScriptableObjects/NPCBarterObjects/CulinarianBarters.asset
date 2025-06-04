@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: CulinarianBarters
   m_EditorClassIdentifier: 
   transactions:
-  - name: 
+  - name: BakedTerraTuber
     itemForSale: {fileID: 11400000, guid: 23fb2e71f9e9a6b47a8cef4f7f659e40, type: 2}
     useItemPrice: 0
-    mintCost: 5
+    mintCost: 0
     amountForSale: 1
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 290e218f74d5d2445b4c40b0ba01d7c2, type: 2}
       amount: 1
-  - name: 
+  - name: HareSoup
     itemForSale: {fileID: 11400000, guid: 0322ac02f35aba8419c8ac5038c4225b, type: 2}
     useItemPrice: 0
-    mintCost: 30
+    mintCost: 0
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -33,17 +33,19 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
       amount: 2
-  - name: 
+  - name: Hogchop
     itemForSale: {fileID: 11400000, guid: d2dff224289caeb4abb6564c747527d6, type: 2}
     useItemPrice: 0
     mintCost: 0
     amountForSale: 1
-    barterChance: 0
-    itemsRequired: []
-  - name: 
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+      amount: 1
+  - name: PaleCarrotCake
     itemForSale: {fileID: 11400000, guid: 86effa1763457db43a40a9362bc37cdc, type: 2}
     useItemPrice: 0
-    mintCost: 25
+    mintCost: 0
     amountForSale: 1
     barterChance: 20
     itemsRequired:
@@ -51,19 +53,19 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
       amount: 2
-  - name: 
+  - name: Croissant
     itemForSale: {fileID: 11400000, guid: ce03bf77f7cfae644b8b257d4877bf50, type: 2}
     useItemPrice: 0
-    mintCost: 15
+    mintCost: 0
     amountForSale: 1
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
       amount: 4
-  - name: 
+  - name: Salad
     itemForSale: {fileID: 11400000, guid: 2b6d1ee1e98a13746a95c2991d3b951a, type: 2}
     useItemPrice: 0
-    mintCost: 10
+    mintCost: 0
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -73,3 +75,4 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
       amount: 1
+  uniqueTransactions: []
