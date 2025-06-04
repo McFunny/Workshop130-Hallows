@@ -410,7 +410,7 @@ public class TimeManager : MonoBehaviour
             {
                 currentHour++;
                 print(currentHour);
-                PlayerInteraction.Instance.StaminaChange(5);
+                PlayerInteraction.Instance.StaminaChange(10);
                 OnHourlyUpdate?.Invoke();
             }
         }
@@ -425,7 +425,7 @@ public class TimeManager : MonoBehaviour
         timeSkipping = false;
         stopTime = false;
 
-        currentMinute = 25;
+        currentMinute = 40;
 
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;

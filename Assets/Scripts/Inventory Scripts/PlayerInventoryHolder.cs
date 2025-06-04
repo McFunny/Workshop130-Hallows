@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerInventoryHolder : InventoryHolder
 {
@@ -19,6 +20,8 @@ public class PlayerInventoryHolder : InventoryHolder
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
 
     public bool useDebugItems;
+
+    ControlManager controlManager;
 
     [System.Serializable]
     public class Item
@@ -48,11 +51,20 @@ public class PlayerInventoryHolder : InventoryHolder
         }
     }
 
+    private void OnEnable()
+    {
+        if(!controlManager) controlManager = FindFirstObjectByType<ControlManager>();
+        controlManager.hotbarSwitch.action.started += SwitchHotBars;
+        controlManager.hotbarSwitch.action.canceled += SwitchHotBars;
+    }
 
     private void OnDisable()
     {
         SaveLoad.OnSaveGame -= SaveInventory;
         SaveLoad.OnLoadGame -= LoadInventory;
+
+        controlManager.hotbarSwitch.action.started -= SwitchHotBars;
+        controlManager.hotbarSwitch.action.canceled -= SwitchHotBars;
     }
 
     protected override void Awake()
@@ -112,8 +124,6 @@ public class PlayerInventoryHolder : InventoryHolder
 
     private void Start()
     {
-       
-       
         StartCoroutine(DelayedStart());
     }
 
@@ -474,6 +484,36 @@ public class PlayerInventoryHolder : InventoryHolder
                 secondaryInventorySystem.RemoveItemsFromInventory(list[i].item, amountToRemove);
             }
         }
+    }
+
+    public void SwitchHotBars(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || InputManager.isCharging || PauseScript.isPaused) return;
+
+        List<InventorySlot> currentPInventory = new List<InventorySlot>();
+        List<InventorySlot> currentSInventoryRow1 = new List<InventorySlot>();
+        List<InventorySlot> currentSInventoryRow2 = new List<InventorySlot>();
+
+        List<InventorySlot> newSInventory = new List<InventorySlot>();
+
+        for(int i = 0; i < 9; i++)
+        {
+            currentPInventory.Add(new InventorySlot(primaryInventorySystem.InventorySlots[i].ItemData, primaryInventorySystem.InventorySlots[i].StackSize));
+        }
+
+        for(int i = 0; i < secondaryInventorySystem.InventorySize; i++)
+        {
+            if(i < 9) currentSInventoryRow1.Add(new InventorySlot(secondaryInventorySystem.InventorySlots[i].ItemData, secondaryInventorySystem.InventorySlots[i].StackSize));
+            else currentSInventoryRow2.Add(new InventorySlot(secondaryInventorySystem.InventorySlots[i].ItemData, secondaryInventorySystem.InventorySlots[i].StackSize));
+        }
+
+        newSInventory.AddRange(currentSInventoryRow2);
+        newSInventory.AddRange(currentPInventory); //Reverse the order. This is now the secondary inventory
+
+        primaryInventorySystem.ForcePopulateInventory(currentSInventoryRow1);
+        secondaryInventorySystem.ForcePopulateInventory(newSInventory);
+        UpdateInventory();
+        
     }
 
     public void UpdateInventory()

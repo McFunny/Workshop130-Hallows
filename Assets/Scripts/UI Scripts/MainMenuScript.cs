@@ -12,7 +12,7 @@ using TMPro;
 public class MainMenuScript : MonoBehaviour
 {
     public InputActionReference hideUI, UICancel;
-    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault, loadCanvas, loadDefault, resolutionBox;
+    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault, loadCanvas, loadDefault, difficultyOptions, resolutionBox;
     private SettingsValueManager settingsValueManager;
     ControlManager controlManager;
     public AudioSource source;
@@ -44,11 +44,12 @@ public class MainMenuScript : MonoBehaviour
     GameObject selectedLoadSlot;
 
     public List<FileData> fileDatas = new List<FileData>();
-    public static int currentSaveSlot = -1;//-1 means nothing is selected
+    public List<FileMode> fileModes = new List<FileMode>();
+    public static int currentSaveSlot = -1; //-1 means nothing is selecte
     public static FileMode currentFileMode;
     public bool isNewGame;
-    
     public GameObject loadingScreen;
+    public string cozyDesc, normalDesc;
 
     // Start is called before the first frame update
     void Awake()
@@ -510,7 +511,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsTotalText.gameObject.SetActive(true);
                 fileDatas[i].emptySlot.gameObject.SetActive(false);
                 saveCount++;
-
+                //print(tempData.fileMode);
                 //Enable/Disable uhh the thing idk I forgot
                 loadButtons[i].interactable = true;
                 deleteButtons[i].interactable = true;

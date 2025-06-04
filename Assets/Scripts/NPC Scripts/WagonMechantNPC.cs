@@ -34,7 +34,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     void Start()
     {
         shopUI = FindObjectOfType<WaypointScript>();
-        RefreshStore();
+        StartCoroutine(DelayedStart());
         TimeManager.OnHourlyUpdate += HourlyUpdate;
         for(int i = 0; i < storeItems.Length; i++)
         {
@@ -49,6 +49,12 @@ public class WagonMerchantNPC : NPC, ITalkable
 
         if (displaySign) displaySign.UpdateNPCName(this);
 
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(2);
+        RefreshStore();
     }
 
     void OnDestroy()
@@ -77,7 +83,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                 GameSaveData.Instance.mm_giveBarricade = true;
                 currentPath = 11;
                 currentType = PathType.Misc;
-                itemsToGive.Add(new ItemWithAmount(barricade, 2));
+                itemsToGive.Add(new ItemWithAmount(barricade, 4));
                 remembersGift = true;
             }
             else

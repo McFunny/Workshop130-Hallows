@@ -86,7 +86,7 @@ public class CropStatsRework : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "FarmLand")
             {
-                hitCrop = hit.collider.GetComponent<FarmLand>();
+                hitCrop = hit.collider.GetComponentInParent<FarmLand>();
 
                 if(hitCrop.growthStage < 0 || !hitCrop.crop)
                 {

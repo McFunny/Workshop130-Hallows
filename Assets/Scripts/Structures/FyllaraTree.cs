@@ -68,9 +68,10 @@ public class FyllaraTree : StructureBehaviorScript
     {
         if(isFilled && treeStage == (treeStages.Length - 1))
         {
+            /*
             progressUntilNextGrowth += Random.Range(1,3);
             if(progressUntilNextGrowth < maxProgress) return;
-            progressUntilNextGrowth = 0;
+            progressUntilNextGrowth = 0;*/
             isFilled = false;
             renderer.enabled = false;
             PopulateTreeNut();
@@ -90,7 +91,7 @@ public class FyllaraTree : StructureBehaviorScript
             if(currentTreeNuts[i] == null)
             {
                 currentTreeNuts[i] = Instantiate(treeNut, nutSpawns[i].position, Quaternion.identity);
-                if(Random.Range(0,2) == 1) return;
+                if(Random.Range(0,3) == 1) return;
             }
         }
     }

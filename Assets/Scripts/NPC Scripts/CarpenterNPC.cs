@@ -208,6 +208,8 @@ public class CarpenterNPC : NPC, ITalkable
         int newCost = 0;
         InventoryItemData newItem;
         int x = 0; //iterations
+
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
@@ -235,7 +237,11 @@ public class CarpenterNPC : NPC, ITalkable
             {
                 i = Random.Range(0, barterDatabase.transactions.Count);
                 r = Random.Range(0f, 100f);
-                if (r < barterDatabase.transactions[i].barterChance) newItem = barterDatabase.transactions[i].itemForSale;
+                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i))
+                {
+                    newItem = barterDatabase.transactions[i].itemForSale;
+                    selectedTrades.Add(i);
+                }
             }
             while (!newItem);
             newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);

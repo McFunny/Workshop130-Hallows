@@ -132,7 +132,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public virtual void EmptyShopItem()//when an item is bought by the player
     {
-        if(lastInteractedStoreItem.clearUponPurchase == false) return;
+        //if(lastInteractedStoreItem.clearUponPurchase == false) return;
 
         if(lastInteractedStoreItem.barterCost.Count == 0) lastInteractedStoreItem.CompletePurchase();
         else lastInteractedStoreItem.CompleteTrade();

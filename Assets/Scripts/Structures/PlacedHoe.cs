@@ -30,6 +30,7 @@ public class PlacedHoe : StructureBehaviorScript
     {
         base.Start();
         ChangeRotation();
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }
 
     void Update()

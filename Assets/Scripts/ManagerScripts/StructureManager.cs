@@ -117,7 +117,8 @@ public class StructureManager : MonoBehaviour
                 if(r >= 6 || allStructs[i].onFire) //Destroy structure. Could even replace some with rubble struct when we add it
                 {
                     print("Deleting: " + allStructs[i]);
-                    Destroy(allStructs[i].gameObject);
+                    //Destroy(allStructs[i].gameObject);
+                    allStructs[i].TakeDamage(999);
                     s++;
                 }
             }
@@ -876,7 +877,7 @@ public class StructureManager : MonoBehaviour
         if(weedSpots.Count == 0) return;
         foreach(Vector3 weedPos in weedSpots)
         {
-            if(Random.Range(0f,10f) > 9.7f)
+            if(Random.Range(0f,10f) > 9.9f)
             {
                 SpawnStructure(weedTile, weedPos);
                 break;
