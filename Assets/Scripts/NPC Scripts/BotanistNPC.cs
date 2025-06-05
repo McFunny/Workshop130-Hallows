@@ -42,7 +42,7 @@ public class BotanistNPC : NPC, ITalkable
             else if(!GameSaveData.Instance.bot_giveSeeds && !PlayerInventoryHolder.Instance.IsInventoryFull())
             {
                 GameSaveData.Instance.bot_giveSeeds = true;
-                currentPath = 5;
+                currentPath = 7;
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(s_timber, 10));
             }
