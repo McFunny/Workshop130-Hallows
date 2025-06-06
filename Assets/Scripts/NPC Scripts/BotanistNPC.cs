@@ -8,11 +8,10 @@ public class BotanistNPC : NPC, ITalkable
     public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk, s_bean, s_ginger, s_spores, s_timber; //seeds
 
     public float sellMultiplier = 1;
-    //public InventoryItemData[] possibleSoldItems;
-    public InventoryItemData[] commonSeeds, rareSeeds, fertalizers;
-    //public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    //WaypointScript shopUI;
+
+    bool willExplainPollen = false;
+
 
     public List<InventoryItemData> questCrops = new List<InventoryItemData>();
 
@@ -45,10 +44,11 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = 7;
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(s_timber, 10));
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[0]); //Add the "Grow TimberEar Quest" quest
             }
-            else if(CompletedQuest())
+            else if(CompletedQuest()) //ADD UNIQUE FUNCTION TO GIVE UNIQUE DIALOGUE THAT IS QUEST DEPENDENT
             {
-                currentPath = 0;
+                currentPath = QuestCompletedDialogue();
                 currentType = PathType.QuestComplete;
             }
             else if(movementHandler.isWorking) //Working Dialogue
@@ -74,14 +74,22 @@ public class BotanistNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    /*public void Talk() //progress what they are saying or start new conversation
+    public int QuestCompletedDialogue() 
     {
-        if(!dialogueController.FreeToSpeak(this)) return;
-        anim.SetTrigger("IsTalking");
-        movementHandler.TalkToPlayer();
-        dialogueController.currentTalker = this;
-        dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
-    }*/
+        if(lastCompletedQuestIndex < 0)
+        {
+            return 0;
+        }
+        //reference lastCompletedQuestIndex to get which quest it is/what type it is, and give specific remarks here!!
+
+        //Remark about completing the timber ear quest here
+
+        //Remark about completing a grow quest here
+
+        //Remark about completing the pollination quest here
+
+        else return 0;
+    }
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
@@ -95,7 +103,7 @@ public class BotanistNPC : NPC, ITalkable
 
         if(CompletedQuestWithItem())
         {
-            currentPath = 0;
+            currentPath = QuestCompletedDialogue();
             currentType = PathType.QuestComplete;
         }
 
@@ -166,7 +174,6 @@ public class BotanistNPC : NPC, ITalkable
             }
         }
         
-
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
@@ -229,6 +236,18 @@ public class BotanistNPC : NPC, ITalkable
         }
     }
 
+    public override void PurchaseSuccess(InventoryItemData item)
+    {
+        if(!GameSaveData.Instance.bot_explainedPollen)
+        {
+            CropItem seed = item as CropItem;
+            if(seed && seed.cropData.requirePollination)
+            {
+                willExplainPollen = true;
+            }
+        }
+    }
+
     public override void BeginWorking()
     {
         if(!assignedStall) return;
@@ -256,6 +275,25 @@ public class BotanistNPC : NPC, ITalkable
         {
             assignedStall.displaySign.LeaveShop();
         }
+    }
+
+    public override void OnConvoEnd()
+    {
+        return; //CANNOT GIVE OUT QUEST UNTIL POLLINATOR POST IS IN
+        if(willExplainPollen) //Explain Pollination and give quest
+        {
+            willExplainPollen = false; 
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(301)); //Add the "Pollinate" quest
+
+            currentPath = 0;
+            currentType = PathType.Quest;
+
+            //PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
+            dialogueController.restartDialogue = true;
+            Talk();
+            GameSaveData.Instance.bot_explainedPollen = true;
+        }
+
     }
 
     public int IsItemASeed(InventoryItemData item)

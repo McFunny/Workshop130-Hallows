@@ -131,9 +131,18 @@ public class QuestManager : MonoBehaviour
         return -1;
     }
 
-    public void AddQuestProgress(int amount)
+    public void AddQuestProgress(int amount, Quest q)
     {
-
+        int questFoundID = FindSameQuest(q);
+        if(questFoundID > -1 && activeQuests[questFoundID].progress < activeQuests[questFoundID].maxProgress)
+        {
+            activeQuests[questFoundID].progress += amount;
+            if(activeQuests[questFoundID].progress > activeQuests[questFoundID].maxProgress) activeQuests[questFoundID].progress = activeQuests[questFoundID].maxProgress;
+            if(activeQuests[questFoundID].progress == activeQuests[questFoundID].maxProgress)
+            {
+                PopupHandler.Instance.AddToQueue(PopupHandler.Instance.questCompletePopup);
+            }
+        }
     }
 
     //This is probably bad practice, and should be changed into using Unity Events instead

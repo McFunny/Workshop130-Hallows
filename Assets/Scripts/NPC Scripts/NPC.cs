@@ -39,6 +39,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public WaypointScript shopUI;
 
+    protected int lastCompletedQuestIndex = -1;
+
     public Quest dailyQuest; //If given a quest today, they will hold it here and have an explanation overhead until its given
 
     protected virtual void Awake()
@@ -87,6 +89,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                     //item.CompleteTrade();
                     currentPath = 2; //item sold
                     shopUI.shopImgObj.SetActive(false);
+                    PurchaseSuccess(item.itemData);
                 }
                 else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
                 {
@@ -107,6 +110,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             else
             {
                 currentPath = 2; //item sold
+                PurchaseSuccess(item.itemData);
                 shopUI.shopImgObj.SetActive(false);
                 if (assignedStall && assignedStall.displaySign) assignedStall.displaySign.ResetDisplay();
                 if (assignedStall && assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
@@ -133,6 +137,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
         currentType = PathType.Misc;
         Talk();
     }
+
+    public virtual void PurchaseSuccess(InventoryItemData boughtItem){}
 
     public virtual void RefreshStore(){}
 
@@ -212,6 +218,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                     PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
                     //Spawn Items
 
+                    lastCompletedQuestIndex = i;
                     return true;
                 }
                 else continue;
@@ -223,6 +230,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
                 //Spawn Items
 
+                lastCompletedQuestIndex = i;
                 return true;
             }
         }
@@ -249,6 +257,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(fq.amount);
                     PlayerInventoryHolder.Instance.UpdateInventory();
+
+                    lastCompletedQuestIndex = i;
                     return true;
                 }
 
@@ -261,6 +271,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(gq.amount);
                     PlayerInventoryHolder.Instance.UpdateInventory();
+
+                    lastCompletedQuestIndex = i;
                     return true;
                 }
             }

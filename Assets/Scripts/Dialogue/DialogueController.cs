@@ -168,12 +168,13 @@ public class DialogueController : MonoBehaviour
         switch (type)
         {
             case PathType.QuestComplete:
-                for (int i = 0; i < dialogueText.questCompletePath.paragraphs.Length; i++)
+                for (int i = 0; i < dialogueText.questCompletePaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
-                    paragraphs.Enqueue(dialogueText.questCompletePath.paragraphs[i]);
-                    if(dialogueText.questCompletePath.emotions.Count <= i) dialogueText.questCompletePath.emotions.Add(Emotion.Null);
-                    emotions.Enqueue(dialogueText.questCompletePath.emotions[i]);
+                    paragraphs.Enqueue(dialogueText.questCompletePaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.questCompletePaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.questCompletePaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
+                    emotions.Enqueue(dialogueText.questCompletePaths[currentTalker.currentPath].emotions[i]);
                 }
+
                 break;
             case PathType.RepeatItem:
                 for (int i = 0; i < dialogueText.repeatedItemPath.paragraphs.Length; i++)
