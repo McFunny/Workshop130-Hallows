@@ -8,6 +8,9 @@ public class QuestDatabase : ScriptableObject
     /////////////////CAMS STUFF///////////////////
     [Header("ALWAYS UPDATE ID'S AND NEVER REORDER")]
     public Quest[] MainQuests; 
+    public Quest[] TutorialQuests; //id's are shifted by 300 to distinguish from main quests. If by some impossible metric we reach over 300 main quests, we got an issue
+
+    public GrowQuest[] UniqueGrowQuests;
     //can make other lists for specific quest types later
     [ContextMenu("Update ID's")]
     public void UpdateID()
@@ -15,6 +18,16 @@ public class QuestDatabase : ScriptableObject
         for(int i = 0; i < MainQuests.Length; i++)
         {
             MainQuests[i].questID = i;
+        }
+
+        for(int i = 0; i < TutorialQuests.Length; i++)
+        {
+            TutorialQuests[i].questID = i + 300;
+        }
+
+        for(int i = 0; i < UniqueGrowQuests.Length; i++)
+        {
+            UniqueGrowQuests[i].questID = i;
         }
     }
     //////////////////////////////////////////////
@@ -34,17 +47,13 @@ public class QuestDatabase : ScriptableObject
         }
     }
 
-    /*public void RefreshQuests() //Bad temp solution. Ideally, quests given from here should be a new instance of a quest
-    {
-        for(int i = 0; i < MainQuests.Length; i++)
-        {
-            MainQuests[i].progress = 0;
-            MainQuests[i].alreadyCompleted = false;
-        }
-    }*/
-
     public Quest GetMainQuest(int id)
     {
         return new Quest(MainQuests[id]);
+    }
+
+    public Quest GetTutorialQuest(int id)
+    {
+        return new Quest(TutorialQuests[id - 300]);
     }
 }

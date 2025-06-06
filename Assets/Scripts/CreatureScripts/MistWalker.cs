@@ -89,11 +89,25 @@ public class MistWalker : CreatureBehaviorScript
 
         if(variant == Variant.Strong) canDoubleLunge = true;
 
-        foreach(EquipEnemyArmor a in equippableArmor)
+        for(int i = 0; i < equippableArmor.Length; i++)
+        {
+            r = Random.Range(0,100);
+            if(equippableArmor[i].chanceToEquip >= r)
+            {
+                equippableArmor[i].armorObject.SetActive(true);
+                if(i == 0)
+                {
+                    //its a barrel, disable lunge
+                    canLunge = false;
+                }
+            }
+        }
+
+        /*foreach(EquipEnemyArmor a in equippableArmor)
         {
             r = Random.Range(0,100);
             if(a.chanceToEquip >= r) a.armorObject.SetActive(true);
-        }
+        }*/
 
         if(!inWilderness && Random.Range(0,5) > 2) currentState = CreatureState.WalkTowardsClosestStructure;
     }

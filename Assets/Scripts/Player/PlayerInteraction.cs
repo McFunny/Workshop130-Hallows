@@ -349,6 +349,12 @@ public class PlayerInteraction : MonoBehaviour
 
     }
 
+    public void GainMints(int amount, bool countForTotal)
+    {
+        currentMoney += amount;
+        if(countForTotal) totalMoneyEarned += amount;
+    }
+
     public void StaminaChange(float amount)
     {
         if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible)

@@ -316,7 +316,14 @@ public class FarmLand : StructureBehaviorScript
                 ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             } 
             harvestable = false;
-            if(forceDig || isWeed) Destroy(this.gameObject);
+            if(forceDig || isWeed)
+            {
+                if(currentUpgrade == FarmTileUpgrade.Trellis)
+                {
+                    ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                }
+                Destroy(this.gameObject);
+            }
             
             forceDig = false;
             hoursSpent = 0;

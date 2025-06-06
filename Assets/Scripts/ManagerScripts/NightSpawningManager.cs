@@ -39,10 +39,12 @@ public class NightSpawningManager : MonoBehaviour
 
     public ParticleSystem finaleMist;
 
-    public GameObject pollinatorTest;
+    public CreatureObject pollinator;
 
     public List<NightEventObject> nightEvents = new List<NightEventObject>();
     bool eventOccured = false; //only 1 per night
+
+    public PopupScript firstNightWarning;
 
     void Awake()
     {
@@ -105,9 +107,12 @@ public class NightSpawningManager : MonoBehaviour
 
         if(TimeManager.Instance.currentHour == 20)
         {
+            if(TimeManager.Instance.dayNum == 1) PopupHandler.Instance.AddToQueue(firstNightWarning);
+
             int r = Random.Range(1,4);
-            for(int i = 0; i < r; i++) Instantiate(pollinatorTest, RandomMistPosition(), Quaternion.identity);
+            for(int i = 0; i < r; i++) SpawnCreature(pollinator);//Instantiate(pollinator.objectPrefab, RandomMistPosition(), Quaternion.identity);
         }
+        if(ReportTotalOfCreature(pollinator) < 1 && Random.Range(0,2) == 1) SpawnCreature(pollinator);
 
         CalculateDifficulty();
 
@@ -185,6 +190,7 @@ public class NightSpawningManager : MonoBehaviour
                 creatureQueue.Enqueue(attemptedCreature);
                 spawnAttempts++;
                 if(attemptedCreature.contribuiteToCreatureCap) totalCreatures++;
+                creatureTallyDict[attemptedCreature]++;
                 //print("Spawned Creature");
             }
             else 
@@ -208,6 +214,7 @@ public class NightSpawningManager : MonoBehaviour
                 if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && totalCreatures < maxCreatures && newCreature.spawnCap > creatureTallyDict[newCreature]) 
                 {
                     totalCreatures++;
+                    creatureTallyDict[newCreature]++;
                     SpawnCreature(newCreature);
                 }
             }
@@ -216,9 +223,6 @@ public class NightSpawningManager : MonoBehaviour
 
     public void SpawnCreature(CreatureObject c)
     {
-        //Add chance of spawning variants here
-        creatureTallyDict[c]++;
-
         GameObject prefab = null;
         if(c.creatureVariants.Count > 0)
         {

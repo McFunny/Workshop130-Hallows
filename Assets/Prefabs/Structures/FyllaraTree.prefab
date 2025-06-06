@@ -231,9 +231,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 0}
+  itemForm: {fileID: 0}
   health: 5
   maxHealth: 5
   wealthValue: 0
+  salvageChance: 0
   destructable: 0
   flammable: 0
   onFire: 0
@@ -251,8 +253,8 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 0}
-  destructionType: 0
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:
@@ -277,6 +279,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   leafBurst: {fileID: 3759692862355327944}
+  explanation: {fileID: 11400000, guid: 92fe24c99099a5a43af1fadc1d688804, type: 2}
 --- !u!1 &2256257798530697428
 GameObject:
   m_ObjectHideFlags: 0

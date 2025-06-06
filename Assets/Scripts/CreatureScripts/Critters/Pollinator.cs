@@ -45,6 +45,8 @@ public class Pollinator : CreatureBehaviorScript
 
         StartCoroutine(RefreshTarget());
         target = null;
+
+        base.Start();
     }
 
     void Update()

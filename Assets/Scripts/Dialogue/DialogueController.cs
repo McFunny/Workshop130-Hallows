@@ -22,6 +22,7 @@ public class DialogueController : MonoBehaviour
     private bool interruptable = true;
     public bool restartDialogue = false;
     private bool freezePlayer = false;
+    private bool canAdvanceDialogue = true; //Pauses dialogue at the start so the player cant mash through it
 
     private string p;
 
@@ -56,7 +57,14 @@ public class DialogueController : MonoBehaviour
 
     public void AdvanceDialogue()
     {
-        if(IsTalking() == true && currentTalker) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
+        if(IsTalking() == true && currentTalker && canAdvanceDialogue) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
+    }
+
+    IEnumerator StartDialogueCooldown() //So the player does not accidentally skip over the start
+    {
+        canAdvanceDialogue = false;
+        yield return new WaitForSeconds(0.5f);
+        canAdvanceDialogue = true;
     }
 
     public void DisplayNextParagraph(DialogueText dialogueText, int path, PathType type)
@@ -142,6 +150,7 @@ public class DialogueController : MonoBehaviour
 
     private void StartConversation(DialogueText dialogueText, PathType type)
     {
+        StartCoroutine(StartDialogueCooldown());
         // Activate the text box
         if (!dialogueBox.activeSelf)
         {

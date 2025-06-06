@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf23a036745f5442b0dadf03d8707e9, type: 3}
+  m_Name: ButcherBarters
+  m_EditorClassIdentifier: 
+  transactions:
+  - name: Ammo
+    itemForSale: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+    useItemPrice: 1
+    mintCost: 25
+    amountForSale: 1
+    barterChance: 75
+    itemsRequired: []
+  - name: DryingRack
+    itemForSale: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
+    useItemPrice: 1
+    mintCost: 90
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+  - name: BearTrap
+    itemForSale: {fileID: 11400000, guid: 1c6623afdf1e992468dd092ddbfe177d, type: 2}
+    useItemPrice: 1
+    mintCost: 125
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+  - name: Ammo
+    itemForSale: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 75
+    itemsRequired:
+    - item: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+      amount: 1
+  - name: BearTrap
+    itemForSale: {fileID: 11400000, guid: 1c6623afdf1e992468dd092ddbfe177d, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 75
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
+      amount: 3
+  - name: Ichor Fertilizer
+    itemForSale: {fileID: 11400000, guid: a213798768e67f442a88e35faf4c873b, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 50
+    itemsRequired:
+    - item: {fileID: 11400000, guid: b7f3f9c4e43a981448c44672e7339abf, type: 2}
+      amount: 1
+  uniqueTransactions: []

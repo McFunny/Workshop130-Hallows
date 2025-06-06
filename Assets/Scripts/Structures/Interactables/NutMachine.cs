@@ -89,17 +89,21 @@ public class NutMachine : MonoBehaviour, IInteractable
 
         nutMachineAnim.Play("nutcracker");
         yield return new WaitForSeconds(1.1f);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(RandomNutItem());
-        Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
-        source.PlayOneShot(nutCut);
-        itemRB = droppedItem.GetComponent<Rigidbody>();
-        itemRB.AddForce(Vector3.forward * 40);
-        itemRB.AddForce(Vector3.up * 20);
-        lRB.isKinematic = false;
-        rRB.isKinematic = false;
-       
-        droppedItem.transform.position = new Vector3(nutSpawn.position.x, nutSpawn.position.y, nutSpawn.position.z);
-        abnerParticles.Play();
+        int iterations = Random.Range(1, 3);
+        for(int i = 0; i < iterations; i++)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(RandomNutItem());
+            Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+            source.PlayOneShot(nutCut);
+            itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB.AddForce(Vector3.forward * 40);
+            itemRB.AddForce(Vector3.up * 20);
+            lRB.isKinematic = false;
+            rRB.isKinematic = false;
+        
+            droppedItem.transform.position = new Vector3(nutSpawn.position.x, nutSpawn.position.y, nutSpawn.position.z);
+            abnerParticles.Play();
+        }
         yield return new WaitForSeconds(0.7f);
         lNut = null;
         rNut = null;
