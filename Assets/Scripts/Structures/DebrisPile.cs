@@ -13,6 +13,10 @@ public class DebrisPile : StructureBehaviorScript
 
     public int repairsLeft = 1;
     public int missesLeft = 1;
+    private RepairMinigame repairMinigame;
+    private DebrisUI debrisUI;
+
+    public PopupScript popup;
 
 
     //Do we prevent these being repaired at night? Or make it so u have to hold an interaction on them
@@ -21,6 +25,8 @@ public class DebrisPile : StructureBehaviorScript
     void Awake()
     {
         base.Awake();
+        repairMinigame = FindObjectOfType<RepairMinigame>();
+        debrisUI = GetComponent<DebrisUI>();
     }
     // Start is called before the first frame update
     void Start()
@@ -48,11 +54,12 @@ public class DebrisPile : StructureBehaviorScript
 
         if(containsItems)
         {
-            RepairStructure();
+            repairMinigame.StartMinigame(this);
+            //RepairStructure();
             return;
         }
 
-        if(CanRepair())
+        if (CanRepair())
         {
             PlayerInteraction.Instance.currentMoney -= repairedStruct.mintRepairCost;
             /*for(int i = 0; i < repairedStruct.repairItems.Count; i++)
@@ -61,8 +68,13 @@ public class DebrisPile : StructureBehaviorScript
             }*/
             PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(repairedStruct.repairItems);
             PlayerInventoryHolder.Instance.UpdateInventory();
-            containsItems = true;
+            containsItems = true; // Is ready to start the minigame
+            debrisUI.ShowRepairUI();
             //RepairStructure();
+        }
+        else
+        {
+            PopupHandler.Instance.AddToQueue(popup);
         }
     }
 
@@ -75,7 +87,7 @@ public class DebrisPile : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel)
+        if(type == ToolType.Shovel && !containsItems)
         {
             //StartCoroutine(Dig());
             success = true;
@@ -115,7 +127,7 @@ public class DebrisPile : StructureBehaviorScript
         }
     }
 
-    void RepairStructure()
+    public void RepairStructure()
     {
         clearTileOnDestroy = false;
         GameObject s = StructureManager.Instance.SpawnStructureWithInstance(repairedStruct.objectPrefab, transform.position);
@@ -124,6 +136,11 @@ public class DebrisPile : StructureBehaviorScript
         s.transform.rotation = transform.rotation;
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+        Destroy(gameObject);
+    }
+
+    public void DestroyStructure()
+    {
         Destroy(gameObject);
     }
 

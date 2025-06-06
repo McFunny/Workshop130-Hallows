@@ -8,4 +8,9 @@ public class ItemBehavior : ScriptableObject
     {
         consumeItem = false;
     }
+
+    public virtual void OnRecieve()
+    {
+        //
+    }
 }

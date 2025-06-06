@@ -14,15 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 7240314494536439997, guid: 2ab646416d4de044abd47a0acaf7b29c,
     type: 3}
-  creatureVariants: []
+  creatureVariants:
+  - name: Magic Mancer
+    prefab: {fileID: 2337580192286805976, guid: dc48067d0f11896499a433e1f2888397,
+      type: 3}
+    probabilityInFarm: 5
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 1500
   health: 25
   position:
   - 0
   - 0
   - 0
   id: 5
-  dangerCost: 25
-  dangerThreshold: 80
+  dangerCost: 14
+  dangerThreshold: 50
   spawnWeight: 2
   spawnCap: 3
   spawnCapPerHour: 1

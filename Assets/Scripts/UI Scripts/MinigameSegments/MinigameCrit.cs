@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MinigameCrit : MinigameFunctionality
-{    private void Start()
+{    public override void Start()
     {
-        size = this.transform.localScale.x / 2;
+
     }
     public override void MinigameFunction()
     {

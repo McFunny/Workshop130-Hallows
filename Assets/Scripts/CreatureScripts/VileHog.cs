@@ -527,11 +527,14 @@ public class VileHog : CreatureBehaviorScript
         yield return new WaitForSeconds(0.5f);
         chargeParticles.Stop();
         yield return new WaitForSeconds(recoilTime); //Charge Cooldown
+        allColliders[0].enabled = false; //Untested method of catching them in beartraps post charge
         bearTrapVulnerable = true;
+        allColliders[0].enabled = true;
 
         //Should probably flee for about 5 seconds or so to prevent constant charging
         agent.speed = runSpeed;
-        currentState = CreatureState.Idle;
+        yield return new WaitForSeconds(0.1f);
+        if(currentState == CreatureState.Charging) currentState = CreatureState.Idle;
         chargeRoutine = null;
 
     }
@@ -584,6 +587,7 @@ public class VileHog : CreatureBehaviorScript
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null && (structure.isObstacle || !structure.destructable))
             {
+                if(structure as PlacedHoe || structure as PlacedTorch) return;
                 if(!structure.destructable) //Hit a tree
                 {
                     structure.TakeDamage(damageToStructure);
@@ -600,7 +604,7 @@ public class VileHog : CreatureBehaviorScript
                     recoilTime = 1.7f;
                     isCharging = false;
                 }
-                else //Dealth damage
+                else //Dealt damage
                 {
                     structure.TakeDamage(damageToStructure);
                     attackHitbox.enabled = false;

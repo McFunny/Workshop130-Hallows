@@ -218,6 +218,24 @@
                     "id": "0945192f-fdb9-4fb4-ab07-f25d1c8ed7d9",
                     "expectedControlType": "Button",
                     "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MinigameExit",
+                    "type": "Button",
+                    "id": "6a7aa22d-6085-4740-a85d-e019b368fe38",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HotbarSwitch",
+                    "type": "Button",
+                    "id": "9b226734-8e72-4af3-88a0-53b450789566",
+                    "expectedControlType": "Button",
+                    "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 }
@@ -990,6 +1008,50 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "MinigamePress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6c5a3eb-5a6c-4a9e-89c7-c8883b1150c1",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MinigameExit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ffc99b58-80b2-4117-a0b2-32cb469d02ee",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MinigameExit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10f08a82-ea49-4e0f-b53c-e840c8f5a9ae",
+                    "path": "<Keyboard>/#(Q)",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "HotbarSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44ac7f21-a500-4030-b949-31c2d7028555",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HotbarSwitch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

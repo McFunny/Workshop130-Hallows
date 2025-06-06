@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Dare
   id: 11
   growthStages: 6
-  hoursPerStage: 3
+  hoursPerStage: 4
   harvestableGrowthStages: 06000000
   cropSprites:
   - {fileID: -207084151, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
@@ -31,12 +31,15 @@ MonoBehaviour:
   cropYieldAmount: 1
   cropYieldVariance: 0
   seedYieldAmount: 1
-  seedYieldVariance: 0
-  waterIntake: 5
+  seedYieldVariance: 1
+  waterIntake: 10
   ichorIntake: 1.5
   terraIntake: -0.25
   gloamIntake: 0.75
   stressLimit: 2
+  wealthValue: 5
+  requireScythe: 0
+  requirePollination: 1
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 11400000, guid: 0337e24e1bb254d468dece43a21988c7, type: 2}
   emitsGlow: 0

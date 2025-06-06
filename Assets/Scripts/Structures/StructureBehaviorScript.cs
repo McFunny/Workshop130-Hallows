@@ -103,6 +103,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void Start() //make sure absent from grid is checked if not on farm
     {
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Any) == false) absentFromGrid = true;
         if (absentFromGrid) return;
         StructureManager.Instance.allStructs.Add(this);
 
@@ -213,7 +214,7 @@ public class StructureBehaviorScript : MonoBehaviour
             }
 
             //logic for spawning the salvagable pile//
-            if(structData && !absentFromGrid && salvageChance > Random.Range(0,100))
+            if(structData && !absentFromGrid && salvageChance > Random.Range(0,100) && (!onFire || MainMenuScript.currentFileMode == FileMode.Cozy))
             {
                 //Spawn the pile
                 DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();
@@ -322,6 +323,7 @@ public class StructureBehaviorScript : MonoBehaviour
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
             else TakeDamage(2);
             yield return new WaitForSeconds(2f);
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
         }
     }
 

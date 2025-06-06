@@ -1,6 +1,7 @@
 using Cinemachine;
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed; //Current Move Speed
     private float savedMoveSpeed;
     public float sprintSpeed;
+
+    public List<MovementSpeedModifiers> speedMods = new List<MovementSpeedModifiers>();
 
     public float groundDrag;
 
@@ -207,6 +210,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
+        //The better system but one I really dont feel like working on
+        /*float walkMod = 1;
+
+        for(int i = 0; i < speedMods.Count; i++)
+        {
+            walkMod *= speedMods[i].modifier;
+        }*/ 
+
+
         float walkMod = 0;
         float sprintMod = 0;
 
@@ -214,6 +226,11 @@ public class PlayerMovement : MonoBehaviour
         {
             walkMod += 3f;
             sprintMod += 4.5f;
+        }
+        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Frost))
+        {
+            walkMod -= 5f;
+            sprintMod -= 6f;
         }
         if (isSprinting)
         {
@@ -243,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.AddForce(-Vector3.up * 30, ForceMode.Force);
+            rb.AddForce(-Vector3.up * 60, ForceMode.Force);
         }
     }
 

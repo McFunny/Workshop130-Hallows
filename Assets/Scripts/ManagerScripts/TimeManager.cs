@@ -9,7 +9,7 @@ public class TimeManager : MonoBehaviour
     public bool stopSaving = false;
 
     public int currentMinute = 0; 
-    int minPerDayHour = 45; //how long an hour lasts at day
+    int minPerDayHour = 60; //how long an hour lasts at day
     int minPerNightHour = 30; //how long an hour lasts at night
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
@@ -61,6 +61,8 @@ public class TimeManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        if(MainMenuScript.currentFileMode == FileMode.Survival) minPerDayHour = 15;
     }
 
     
@@ -410,7 +412,7 @@ public class TimeManager : MonoBehaviour
             {
                 currentHour++;
                 print(currentHour);
-                PlayerInteraction.Instance.StaminaChange(5);
+                PlayerInteraction.Instance.StaminaChange(10);
                 OnHourlyUpdate?.Invoke();
             }
         }
@@ -425,7 +427,7 @@ public class TimeManager : MonoBehaviour
         timeSkipping = false;
         stopTime = false;
 
-        currentMinute = 25;
+        currentMinute = 40;
 
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;

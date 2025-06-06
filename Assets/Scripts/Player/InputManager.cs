@@ -24,11 +24,13 @@ public class InputManager : MonoBehaviour
     bool interactButtonHeld = false;
 
     public InventoryItemData waterGun;
+    private RepairMinigame repairMinigame;
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         pauseScript = FindFirstObjectByType<PauseScript>();
+        repairMinigame = FindFirstObjectByType<RepairMinigame>();
     }
 
     void Start()
@@ -110,7 +112,7 @@ public class InputManager : MonoBehaviour
         if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
         if(!PlayerMovement.accessingInventory)
         {
-            if(!PauseScript.isPaused)
+            if(!PauseScript.isPaused && !repairMinigame.IsMinigameActive())
             {
                 isCharging = false;
                 chargeButtonHeld = false;

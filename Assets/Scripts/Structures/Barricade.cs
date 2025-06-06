@@ -32,8 +32,7 @@ public class Barricade : StructureBehaviorScript
     {
         if(item == gloomStalk && health < maxHealth)
         {
-            health += maxHealth/3;
-            if(health > maxHealth) health = maxHealth;
+            health = maxHealth;
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
             UpdateModel();

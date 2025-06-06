@@ -132,7 +132,7 @@ public class WildernessManager : MonoBehaviour
         {
             //print("Ran");
             if(skipTimer) t = 1f;
-            else t = Random.Range(5, 20);
+            else t = Random.Range(10, 20);
             yield return new WaitForSeconds(t);
             if(allCreatures.Count < maxCreatures && currentMap && !DialogueController.Instance.IsTalking())
             {
@@ -142,7 +142,7 @@ public class WildernessManager : MonoBehaviour
                 if(newCreature.spawnChance_w > Random.Range(0,100))
                 {
                     SpawnCreature(newCreature);
-                    if(allCreatures.Count < maxCreatures/2 && Random.Range(0,100) > 30) SpawnCreature(newCreature);
+                    if(allCreatures.Count < maxCreatures/2 && Random.Range(0,100) > 50) SpawnCreature(newCreature);
 
                     skipTimer = false;
                 }

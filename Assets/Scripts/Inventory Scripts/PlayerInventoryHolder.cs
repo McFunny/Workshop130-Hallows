@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerInventoryHolder : InventoryHolder
 {
@@ -20,6 +21,8 @@ public class PlayerInventoryHolder : InventoryHolder
 
     public bool useDebugItems;
 
+    ControlManager controlManager;
+
     [System.Serializable]
     public class Item
     {
@@ -30,6 +33,9 @@ public class PlayerInventoryHolder : InventoryHolder
 
     [Header("Starting Items")]
     [SerializeField] private List<Item> startingItems;
+
+    [Header("Starting Survival Items")]
+    [SerializeField] private List<Item> startingSurvivalItems; //For Survival Mode
 
     [Header("Debug Items")]
     [SerializeField] private List<Item> debugItems;
@@ -48,11 +54,18 @@ public class PlayerInventoryHolder : InventoryHolder
         }
     }
 
+    private void OnEnable()
+    {
+        if(!controlManager) controlManager = FindFirstObjectByType<ControlManager>();
+        controlManager.hotbarSwitch.action.started += SwitchHotBars;
+    }
 
     private void OnDisable()
     {
         SaveLoad.OnSaveGame -= SaveInventory;
         SaveLoad.OnLoadGame -= LoadInventory;
+
+        controlManager.hotbarSwitch.action.started -= SwitchHotBars;
     }
 
     protected override void Awake()
@@ -93,11 +106,25 @@ public class PlayerInventoryHolder : InventoryHolder
 
     }
 
+    public void IncreaseBackpackInventory() //For changing the size at runtime
+    {
+        this.secondaryInventorySize += 9;
+        //store temp ref of current inventory
+        InventorySystemSaveData tempData = this.secondaryInventorySystem.GetSaveData();
+        for(int i = 0; i < 9; i++)
+        {
+            tempData.savedSlots.Add(new InventorySlotSaveData(-1, 0));
+        }
+
+        this.secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
+        this.secondaryInventorySystem.LoadFromSaveData(tempData, _database);
+
+        UpdateInventory();
+    }
+
 
     private void Start()
     {
-       
-       
         StartCoroutine(DelayedStart());
     }
 
@@ -144,6 +171,25 @@ public class PlayerInventoryHolder : InventoryHolder
                 else
                 {
                     Debug.LogWarning("Debug item data is null.");
+                }
+            }
+        }
+        if(MainMenuScript.currentFileMode == FileMode.Survival)
+        {
+            PlayerInteraction.Instance.currentMoney += 100;
+            foreach (var survivalItem in startingSurvivalItems)
+            {
+                if (survivalItem.itemData != null)
+                {
+                    bool addedSuccessfully = AddToInventory(survivalItem.itemData, survivalItem.amount);
+                    if (!addedSuccessfully)
+                    {
+                        Debug.LogWarning($"Failed to add {survivalItem.amount} of {survivalItem.itemData.name} to inventory.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Starting item data is null.");
                 }
             }
         }
@@ -458,6 +504,36 @@ public class PlayerInventoryHolder : InventoryHolder
                 secondaryInventorySystem.RemoveItemsFromInventory(list[i].item, amountToRemove);
             }
         }
+    }
+
+    public void SwitchHotBars(InputAction.CallbackContext obj)
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || InputManager.isCharging || PauseScript.isPaused || PlayerMovement.accessingInventory) return;
+
+        List<InventorySlot> currentPInventory = new List<InventorySlot>();
+        List<InventorySlot> currentSInventoryRow1 = new List<InventorySlot>();
+        List<InventorySlot> currentSInventoryRow2 = new List<InventorySlot>();
+
+        List<InventorySlot> newSInventory = new List<InventorySlot>();
+
+        for(int i = 0; i < 9; i++)
+        {
+            currentPInventory.Add(new InventorySlot(primaryInventorySystem.InventorySlots[i].ItemData, primaryInventorySystem.InventorySlots[i].StackSize));
+        }
+
+        for(int i = 0; i < secondaryInventorySystem.InventorySize; i++)
+        {
+            if(i < 9) currentSInventoryRow1.Add(new InventorySlot(secondaryInventorySystem.InventorySlots[i].ItemData, secondaryInventorySystem.InventorySlots[i].StackSize));
+            else currentSInventoryRow2.Add(new InventorySlot(secondaryInventorySystem.InventorySlots[i].ItemData, secondaryInventorySystem.InventorySlots[i].StackSize));
+        }
+
+        newSInventory.AddRange(currentSInventoryRow2);
+        newSInventory.AddRange(currentPInventory); //Reverse the order. This is now the secondary inventory
+
+        primaryInventorySystem.ForcePopulateInventory(currentSInventoryRow1);
+        secondaryInventorySystem.ForcePopulateInventory(newSInventory);
+        UpdateInventory();
+        
     }
 
     public void UpdateInventory()

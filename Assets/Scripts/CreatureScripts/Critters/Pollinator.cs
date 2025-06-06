@@ -14,10 +14,15 @@ public class Pollinator : CreatureBehaviorScript
 
     float pollenDistance = 2;
 
+    float defaultSpeed = 3;
+    float fireSpeed = 6f;
+
     private StructureBehaviorScript targetStructure; //The thing they will seek out to pollinate like crops. NOT a brazier
 
     public List<FireFearTrigger> fireSources; //find out which one is the player torch; they will prioritize following this one
     int currentFirePriority = 0;
+
+    public List<ParticleSystem> pollenParticles;
 
     public enum CreatureState
     {
@@ -40,10 +45,15 @@ public class Pollinator : CreatureBehaviorScript
 
         StartCoroutine(RefreshTarget());
         target = null;
+
+        base.Start();
     }
 
     void Update()
     {
+        if(currentState != CreatureState.WanderByFire) agent.speed = defaultSpeed;
+        else agent.speed = fireSpeed;
+
         if(coroutineRunning) return;
         if(target)
         {
@@ -123,14 +133,14 @@ public class Pollinator : CreatureBehaviorScript
 
         float timeSpent = 0; //to make sure it doesnt get stuck
         float maxTime = Random.Range(5, 8);
-        if(currentState == CreatureState.SpawnIn) maxTime = 15;
+        if(currentState == CreatureState.SpawnIn) maxTime = 20;
         //else if(currentState == CreatureState.WanderByFire) maxTime = 3;
 
         while (timeSpent < maxTime)
         {
             if(target && currentState == CreatureState.Wander) timeSpent += 25; //if nearbyfire
 
-            if(currentState == CreatureState.WanderByFire && (target && Vector3.Distance(target.position, transform.position) > 7 || !target))
+            if(currentState == CreatureState.WanderByFire && (target && Vector3.Distance(target.position, transform.position) > 5 || !target))
             {
                 timeSpent += 25;
             }
@@ -184,6 +194,7 @@ public class Pollinator : CreatureBehaviorScript
         if(tile)
         {
             tile.isPollinated = true;
+            foreach(ParticleSystem p in pollenParticles) p.Play();
         }
         targetStructure = null;
         target = null;
@@ -207,7 +218,7 @@ public class Pollinator : CreatureBehaviorScript
                     {
                         FarmLand tile = structure as FarmLand;
 
-                        if(tile && tile.NeedsPollenation() && Random.Range(0, 10) > 2)
+                        if(tile && tile.NeedsPollination() && Random.Range(0, 10) > 2)
                         {
                             targetStructure = structure;
                             target = structure.transform;

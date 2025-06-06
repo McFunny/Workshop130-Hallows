@@ -274,7 +274,7 @@ public class MutatedCrow : CreatureBehaviorScript
         Vector3 targetPosition = point; //set this to item transform
         float distance = Vector3.Distance(transform.position, targetPosition);
         float t = (speed * 2 * Time.deltaTime) / distance;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t));
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t)); //Something here is throwing an error
         transform.LookAt(targetPosition);
         //After player has reached destination, have it go back to creaturestate.circlepoint and give it a random point
         //USE THIS TO DIVE FOR ITEM
@@ -530,12 +530,12 @@ public class MutatedCrow : CreatureBehaviorScript
             {
                 point = GetRandomPoint(150);
                 currentState = CreatureState.GoAway;
-                coroutineRunning = false;
             }
             else
             {
                 point = GetRandomPoint(15);
             }
+            coroutineRunning = false;
             
             yield break;
         }
@@ -825,7 +825,7 @@ public class MutatedCrow : CreatureBehaviorScript
         Vector3 abovePlayerPosPostSwoop = player.position + Vector3.up * attackHeight;
         if (Vector3.Distance(transform.position, abovePlayerPosPostSwoop) < 3f) //If close enough hit the player
         {
-            PlayerInteraction.Instance.StaminaChange(-10);
+            PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
         }
 
         Vector3 endPos = transform.position + direction * 10f + Vector3.up * height;

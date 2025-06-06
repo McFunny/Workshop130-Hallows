@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: HareSoup
   m_EditorClassIdentifier: 
   ID: 52
-  displayName: Hare Soup
-  description: Lukewarm broth with large hare chunks
+  displayName: Hare Stew
+  description: A common local Veilwood dish containing lukewarm broth and large hare
+    chunks.
   icon: {fileID: 21300000, guid: f1213f92c893dad449ef34c0b59d1ea6, type: 3}
   maxStackSize: 2
   value: 90
-  sellValueMultiplier: 1
+  sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
   staminaValue: 150
@@ -29,3 +30,4 @@ MonoBehaviour:
   gainedEffects: []
   itemBehavior: {fileID: 0}
   useSound: {fileID: 0}
+  cannotEnterInventory: 0

@@ -10,7 +10,7 @@ public class RascalNPC : NPC, ITalkable
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
 
     //public FetchQuest carrotQuest;
 
@@ -73,7 +73,7 @@ public class RascalNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    public override void Talk()
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         //anim.SetTrigger("IsTalking");

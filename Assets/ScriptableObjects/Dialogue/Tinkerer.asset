@@ -16,7 +16,9 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - About time that lazy oaf cleared that tree!
+    - 'About time that lazy oaf cleared that tree!
+
+      {freezePlayer}'
     - On the bright side, I just finished some new schematics for a variety of new
       gadgets.
     - You took up the farming task for the town, correct? Well, I just so happen
@@ -87,6 +89,12 @@ MonoBehaviour:
     - Just you wait. While doom rests right outside our doorstep, we are on the cusp...
     - ... of a mist powered technological renaissance!
     emotions: 0000000001000000
+  - pathName: Treat my stuff with care
+    paragraphs:
+    - Whatever you buy from me, make sure you treat it with care!
+    - Gears are hard to come by in these times. And what gears that do come in don't
+      sell for cheap!
+    emotions: 0500000003000000
   questPaths: []
   itemRecievedPaths:
   - pathName: Go Sell it instead
@@ -111,3 +119,4 @@ MonoBehaviour:
 
 '
     emotions: 06000000
+  branchingPaths: []

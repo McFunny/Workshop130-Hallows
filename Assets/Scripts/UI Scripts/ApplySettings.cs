@@ -7,11 +7,12 @@ using UnityEngine.Rendering.Universal;
 public class ApplySettings : MonoBehaviour
 {
     [SerializeField] Volume globalVolume;
-    // Start is called before the first frame update
+
+    // Start is called before the first frame update if you didnt know it's pretty useful sometimes
     void Awake()
     {
         globalVolume = FindFirstObjectByType<Volume>();
-        if(globalVolume.profile.TryGet(out ColorAdjustments colorAdjustments))
+        if (globalVolume.profile.TryGet(out ColorAdjustments colorAdjustments))
         {
             colorAdjustments.postExposure.overrideState = true;
         }

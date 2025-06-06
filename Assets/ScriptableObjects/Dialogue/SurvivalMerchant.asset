@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
+  m_Name: SurvivalMerchant
+  m_EditorClassIdentifier: 
+  speakerName: Mist Merchant
+  defaultPath:
+    pathName: Selling Something?
+    paragraphs:
+    - Got something to sell?
+    - Show me.
+    emotions: 0000000003000000
+  questCompletePath:
+    pathName: Thanks for completing quest
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 06000000
+  repeatedItemPath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  paths:
+  - pathName: Want to sell this?
+    paragraphs:
+    - 'For that {itemName} I can offer <color=#E0D38F> {itemValue} Mints</color>
+      <sprite index=0>.
+
+      Do we have a deal?'
+    emotions: 00000000
+  - pathName: Do you want to buy?
+    paragraphs:
+    - I see the {storeItemName} caught your eye. Care to buy for <color=#E0D38F>
+      {storeItemValue} Mints </color> ?
+    emotions: 00000000
+  - pathName: Here you go!
+    paragraphs:
+    - Sold! {itemBought}
+    emotions: 01000000
+  - pathName: Poor
+    paragraphs:
+    - Get some more money first.
+    emotions: 03000000
+  - pathName: No Space
+    paragraphs:
+    - This transaction is encumbered by your lack of organization. I will be waiting
+      here until you make space.
+    emotions: 03000000
+  - pathName: Do you want to Trade?
+    paragraphs:
+    - I see the {storeItemName} caught your eye. I will need 8 items to make it.
+    emotions: 00000000
+  - pathName: Will Not Buy
+    paragraphs:
+    - I have no need for that.
+    emotions: 03000000
+  - pathName: Sold!
+    paragraphs:
+    - Pleasure doing business. {itemSold}
+    emotions: 01000000
+  - pathName: Want me to buy all of those?
+    paragraphs:
+    - 'For all of those? I can offer <color=#E0D38F> {itemTotalValue} Mints</color>
+      <sprite index=0>.
+
+      What do you say?'
+    emotions: 00000000
+  - pathName: Come Later
+    paragraphs:
+    - I will purchase your harvest in the morning.
+    emotions: 00000000
+  fillerPaths:
+  - pathName: Middleman
+    paragraphs:
+    - Consider me a neutral force.
+    - Just here to make coin.
+    emotions: 
+  - pathName: I need your goods
+    paragraphs:
+    - Don't go dawdling on your farming duties.
+    - Exported crops from VeilWood go for a hefty price. I don't need you to staunch
+      my flow of riches.
+    emotions: 
+  questPaths: []
+  itemRecievedPaths: []
+  itemSpecificRemarks: []
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 00000000
+  branchingPaths:
+  - pathName: No Carrots??
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - Really...? You couldn't grow a single one?
+    - Here... Try again once more. This time consider planting fewer of them. The
+      more you have growing, the more creatures will come. {givePlayerItems}
+    - Do not botch this harvest. That young one over there looks like he is in dire
+      need of it.
+    - Perhaps this implement will also come in handy. Use those bullets sparingly.
+    emotions: 0000000005000000030000000300000001000000
+  - pathName: So Little Carrots
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - Hmm... I expected more. But this will do.
+    - Normally I would advise anything you grow you bring to me. But that young boy
+      over there looks peckish.
+    - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
+    - Be careful with the bullets. They are in short supply.
+    emotions: 0000000002000000000000000000000003000000
+  - pathName: Decent Carrots
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - You seem to have grown a majority of what you have sowed. These are good tidings
+      indeed.
+    - Normally I would advise anything you grow you bring to me. But that young boy
+      over there looks peckish.
+    - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
+    - Be careful with the bullets. They are in short supply.
+    emotions: 0000000001000000000000000000000003000000
+  - pathName: Many Carrots
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - A perfect yield. Excellent work.
+    - Normally I would advise anything you grow you bring to me. But that young boy
+      over there looks peckish.
+    - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
+    - Be careful with the bullets. They are in short supply.
+    emotions: 0000000001000000000000000000000003000000

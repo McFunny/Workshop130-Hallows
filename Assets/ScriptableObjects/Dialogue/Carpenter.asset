@@ -18,7 +18,7 @@ MonoBehaviour:
     paragraphs:
     - New face... you live over in that run down cabin?
     - It's a sore on the eyes. Maybe we can fix that.
-    - My wide assortment of vanity is sure to spruce up that dingy adobe.
+    - My wide assortment of vanity is sure to spruce up that dingy abode.
     emotions: 000000000300000001000000
   questCompletePath:
     pathName: Thanks for completing quest
@@ -51,6 +51,14 @@ MonoBehaviour:
   - pathName: No Space
     paragraphs:
     - You seem to have an inventory problem. A chest would fix that for you!
+    emotions: 02000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - The {storeItemName}? If you give me some supplies I can make you one.
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - Unfortunately, I am a craftsman. Not a magician.
     emotions: 02000000
   - pathName: Have a Chest
     paragraphs:

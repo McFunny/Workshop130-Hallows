@@ -23,10 +23,10 @@ public class ToolTipScript : MonoBehaviour
 
     void Start()
     {
-        input = new GameObject[4];
+        input = new GameObject[6];
         output = new GameObject[4];
 
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 6; i++)
         {
             input[i] = intakeParent.transform.GetChild(1).GetChild(i).gameObject;
         }
@@ -131,6 +131,12 @@ public class ToolTipScript : MonoBehaviour
 
             if(seedData.cropData.waterIntake > 0){input[3].SetActive(true);}
             else{input[3].SetActive(false);}
+
+            if(seedData.cropData.requirePollination){input[4].SetActive(true);}
+            else{input[4].SetActive(false);}
+
+            if(seedData.requireTrellis){input[5].SetActive(true);}
+            else{input[5].SetActive(false);}
 
             //Produces
 

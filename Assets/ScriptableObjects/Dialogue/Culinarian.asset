@@ -50,8 +50,16 @@ MonoBehaviour:
     emotions: 02000000
   - pathName: No Space
     paragraphs:
-    - Your stomach, or perhaps inventory, seems to full to buy this
+    - Your stomach, or perhaps inventory, seems too full to buy this.
     emotions: 05000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - One {storeItemName} coming right up! I just need a few ingredients first.
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - I cannot cook without proper ingredients!
+    emotions: 03000000
   fillerPaths:
   - pathName: Gloomstalk Bread
     paragraphs:
@@ -139,3 +147,4 @@ MonoBehaviour:
 
 '
     emotions: 06000000
+  branchingPaths: []

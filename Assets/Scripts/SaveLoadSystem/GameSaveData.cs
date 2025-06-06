@@ -7,18 +7,20 @@ public class GameSaveData : MonoBehaviour
 {
     public static GameSaveData Instance;
 
-    public float pStamina;
+    public float pStamina, pFatigue;
     public float pWater;
     public int pCurrentMoney;
     public int pTotalMoneyEarned;
     public int pDaysSinceDeath;
     public int pDayNumber;
+    public string gameMode;
 
     public float currentMoney, totalEarnedMoney; //is this used because I dont think so?
 
     public int hourSaved = 8;
 
-    //
+    [Header("Player Upgrade Variables. All must be false when building")]
+    public bool gainedInventoryUpgrade = false;
 
     [Header("Main Quest Progression Bools. All must be false when building")]
     public bool tutorialMerchantSpoke; //Tutorial Complete
@@ -88,14 +90,29 @@ public class GameSaveData : MonoBehaviour
     private void LoadData(SaveData data)
     {
         PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
+        PlayerInteraction.Instance.fatigue = data.allGameSaveData.pFatigue;
         PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
         PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
         PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
         PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
+        PlayerInteraction.Instance.playerUpgrades.LoadData(data.allGameSaveData);
         TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
         TimeManager.Instance.currentHour = data.allGameSaveData.hourSaved;
         if(data.allGameSaveData.hourSaved == 0) TimeManager.Instance.currentHour = 8;
         TimeManager.Instance.RefreshSkybox();
+
+        switch(data.allGameSaveData.gameMode)
+        {
+            case "Normal":
+            MainMenuScript.currentFileMode = FileMode.Normal;
+            break;
+            case "Cozy":
+            MainMenuScript.currentFileMode = FileMode.Cozy;
+            break;
+            default:
+            MainMenuScript.currentFileMode = FileMode.Normal;
+            break;
+        }
 
         //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
         QuestManager.Instance.LoadData(data.allGameSaveData);
@@ -142,12 +159,17 @@ public class GameSaveData : MonoBehaviour
     public struct AllGameSaveData
     {
         public float pStamina;
+        public float pFatigue;
         public float pWater;
         public int pCurrentMoney;
         public int pTotalMoneyEarned;
         public int pDaysSinceDeath;
         public int pDayNumber;
         public int hourSaved;
+
+        public string gameMode;
+
+        public bool gainedInventoryUpgrade;
 
         public Quest[] activeQuests;
         public FetchQuest[] activeFetchQuests;
@@ -188,12 +210,18 @@ public class GameSaveData : MonoBehaviour
     public AllGameSaveData(GameSaveData data)
     {
         pStamina = PlayerInteraction.Instance.stamina;
+        pFatigue = PlayerInteraction.Instance.fatigue;
         pWater = PlayerInteraction.Instance.waterHeld;
         pCurrentMoney = PlayerInteraction.Instance.currentMoney;
         pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
         pDayNumber = TimeManager.Instance.dayNum;
         hourSaved = TimeManager.Instance.currentHour;
         pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
+        gameMode = MainMenuScript.currentFileMode.ToString();
+
+        gainedInventoryUpgrade = PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade;
+
+        
 
         //activeQuests = QuestManager.Instance.activeQuests.ToArray();
 

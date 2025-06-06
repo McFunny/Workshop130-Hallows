@@ -47,11 +47,17 @@ public class DryingRack : StructureBehaviorScript
             progress = 0;
 
             //get item
-            GameObject droppedItem;
+            GameObject droppedItem = null;
             float r = Random.Range(0,10);
-            droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
+            if(savedItems[0] == meat) droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
             if(savedItems[0] == meatSmall) droppedItem = ItemPoolManager.Instance.GrabItem(jerkySmall);
             if(savedItems[0] == meatLarge) droppedItem = ItemPoolManager.Instance.GrabItem(jerkyLarge);
+
+            if(droppedItem == null)
+            {
+                Debug.LogError("What did you put inside this drying rack??");
+                return;
+            }
 
             droppedItem.transform.position = itemDropTransform.position;
 
@@ -142,12 +148,12 @@ public class DryingRack : StructureBehaviorScript
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         //drop items
-        GameObject droppedItem;
+        GameObject droppedItem = null;
         foreach(InventoryItemData item in savedItems)
         {
             if(progress == maxProgress)
             {
-                droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
+                if(item == meat) droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
                 if(item == meatSmall) droppedItem = ItemPoolManager.Instance.GrabItem(jerkySmall);
                 if(item == meatLarge) droppedItem = ItemPoolManager.Instance.GrabItem(jerkyLarge);
             }

@@ -18,6 +18,15 @@ public class DialogueText : ScriptableObject
     public DialoguePath[] alreadySpoken;
     public DialoguePath[] branchingPaths;
 
+    /*[ContextMenu("Numerate all paths")]
+    public void NumerateDialoguePaths()
+    {
+        for(int i = 0; i < paths.Length; i++)
+        {
+            paths[i].pathName = i + 
+        }
+    }*/
+
 }
 
 public enum Emotion

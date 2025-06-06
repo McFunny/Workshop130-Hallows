@@ -41,7 +41,7 @@ public class WildernessMap : MonoBehaviour
             r = Random.Range(0, obstacles.Length);
             obstacles[r].SetActive(true);
         }
-        t = Random.Range(25, 40);
+        t = Random.Range(30, 45);
         for(int i = 0; i < t; i++) //Interactables Generation
         {
             r = Random.Range(0, interactablePositions.Length);

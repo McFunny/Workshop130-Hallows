@@ -14,6 +14,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     public AudioSource source, footStepSource;
     public AudioClip itemPickup, itemEat, playerDie, playerDamage;
     public AudioClip grassFootsteps, stoneFootsteps, woodFootsteps;
+    AudioClip lastPlayedSteps;
 
     public LayerMask groundLayers;
 
@@ -41,6 +42,7 @@ public class PlayerEffectsHandler : MonoBehaviour
         ResetVignette();
 
         originalPitch = source.pitch;
+        lastPlayedSteps = grassFootsteps;
     }
 
     // Update is called once per frame
@@ -182,8 +184,10 @@ public class PlayerEffectsHandler : MonoBehaviour
             {
                 footStepSource.clip = grassFootsteps;
             }
+
+            lastPlayedSteps = footStepSource.clip;
         }
-        else footStepSource.clip = grassFootsteps;
+        else footStepSource.clip = lastPlayedSteps;
         footStepSource.pitch = Random.Range(0.7f, 1.3f);
         footStepSource.Play();
     }

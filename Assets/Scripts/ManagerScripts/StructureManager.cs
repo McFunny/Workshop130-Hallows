@@ -26,10 +26,12 @@ public class StructureManager : MonoBehaviour
     [Header("Debugs")]
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
     public bool enableCheats = false;
+    public bool forceSurvivalMode = false;
 
 
     void Awake()
     {
+        if(forceSurvivalMode) MainMenuScript.currentFileMode = FileMode.Survival;
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -81,7 +83,7 @@ public class StructureManager : MonoBehaviour
         {
             StartCoroutine(PopulateStructure(-3, 5, weedTile, false));
             PopulateDecorCrows(0, 2);
-            StartCoroutine(PopulateStructure(-3, 3, boulder, true));
+            StartCoroutine(PopulateStructure(-2, 3, boulder, true));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -89,10 +91,9 @@ public class StructureManager : MonoBehaviour
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
 
-        if(Random.Range(0,100) < 10f)
+        if(Random.Range(0,100) < 7)
         {
             Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
-            print("Spawned nut crow");
         }
     }
 
@@ -118,7 +119,8 @@ public class StructureManager : MonoBehaviour
                 if(r >= 6 || allStructs[i].onFire) //Destroy structure. Could even replace some with rubble struct when we add it
                 {
                     print("Deleting: " + allStructs[i]);
-                    Destroy(allStructs[i].gameObject);
+                    //Destroy(allStructs[i].gameObject);
+                    allStructs[i].TakeDamage(999);
                     s++;
                 }
             }
@@ -162,7 +164,7 @@ public class StructureManager : MonoBehaviour
             }
         }
         //print("No tile grid was found");
-        return farmTileMap;
+        return null;
     }
 
     public bool ValidateGridType(Vector3 pos, List<GridType> types)
@@ -172,7 +174,7 @@ public class StructureManager : MonoBehaviour
             switch(g)
             {
                 case GridType.Any:
-                    return true;
+                    if(CurrentTileMap(pos) != null) return true;
                     break;
                 case GridType.Farm:
                     if(CurrentTileMap(pos) == farmTileMap) return true;
@@ -194,7 +196,7 @@ public class StructureManager : MonoBehaviour
         switch(type)
         {
             case GridType.Any:
-                return true;
+                if(CurrentTileMap(pos) != null) return true;
                 break;
             case GridType.Farm:
                 if(CurrentTileMap(pos) == farmTileMap) return true;
@@ -337,6 +339,7 @@ public class StructureManager : MonoBehaviour
         List<Vector3> adjacentTiles = new List<Vector3>();
 
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return adjacentTiles;
 
         Vector3Int gridPos = currentMap.WorldToCell(pos);
 
@@ -363,6 +366,7 @@ public class StructureManager : MonoBehaviour
     public bool SpawnLargeStructure(GameObject obj, Vector3 pos, bool randomizeRotation)
     { 
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return false;
 
         List<Vector3Int> selectedTiles = new List<Vector3Int>();
         Vector3Int gridPos = currentMap.WorldToCell(pos);
@@ -405,6 +409,7 @@ public class StructureManager : MonoBehaviour
     public void SetLargeTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
 
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
         {
@@ -420,6 +425,7 @@ public class StructureManager : MonoBehaviour
     public void SetOneByTwoTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
 
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
         {
@@ -445,6 +451,7 @@ public class StructureManager : MonoBehaviour
     public void ClearLargeTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
         //fetch tiles within a small radius, should return the 4 its occupying
         //print("Clearing");
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
@@ -462,6 +469,7 @@ public class StructureManager : MonoBehaviour
     public void ClearOneByTwoTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
         //fetch tiles within a small radius, should return the 4 its occupying
         //print("Clearing");
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
@@ -544,6 +552,7 @@ public class StructureManager : MonoBehaviour
     public List<Vector3> WaterGunTargets(Vector3 pos, Direction dir, int range)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return new List<Vector3>();
 
         List<Vector3> newTargets = new List<Vector3>();
         Vector3Int currentPos = currentMap.WorldToCell(pos);
@@ -870,7 +879,7 @@ public class StructureManager : MonoBehaviour
         if(weedSpots.Count == 0) return;
         foreach(Vector3 weedPos in weedSpots)
         {
-            if(Random.Range(0f,10f) > 9.7f)
+            if(Random.Range(0f,10f) > 9.9f)
             {
                 SpawnStructure(weedTile, weedPos);
                 break;

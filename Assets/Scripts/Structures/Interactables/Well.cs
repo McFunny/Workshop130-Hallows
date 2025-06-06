@@ -30,6 +30,8 @@ public class Well : MonoBehaviour, IInteractable
     private Vector3 lineVertex1End;
     private Vector3 bucketBottom;
 
+    public Transform crankPivot;
+
     public enum WellPhase
     {
         BucketRisen,
@@ -142,6 +144,8 @@ public class Well : MonoBehaviour, IInteractable
         }
 
         if(altitude > 0 && altitude < 10 && !loopingSource.isPlaying) loopingSource.Play();
+
+        crankPivot.Rotate(crankPivot.rotation.x + currentRate, crankPivot.rotation.y, crankPivot.rotation.z);
     }
 
     public void ToggleHighlight(bool enable)

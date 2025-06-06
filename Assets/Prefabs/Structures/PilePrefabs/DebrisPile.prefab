@@ -297,6 +297,7 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -310,6 +311,9 @@ MonoBehaviour:
   hay_debris: {fileID: 5604972438910276181}
   metal_debris: {fileID: 8702022896396790183}
   default_debris: {fileID: 7775992484714964889}
+  repairsLeft: 1
+  missesLeft: 1
+  popup: {fileID: 11400000, guid: db84458b8c7581246bcdf40941db3482, type: 2}
 --- !u!114 &2480248165123578783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +339,8 @@ MonoBehaviour:
   - {fileID: 5076028140299244765}
   - {fileID: 8067045461458227488}
   - {fileID: 3090343417425676913}
+  imageContainer: {fileID: 7598013414877810520}
+  repairText: {fileID: 7321230054166117494}
 --- !u!1001 &4686476369043336964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -438,6 +444,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3733885780313159955}
     m_Modifications:
+    - target: {fileID: 79945388677770690, guid: aa98424f74641b84b83909747fdabcd5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 79945388677770690, guid: aa98424f74641b84b83909747fdabcd5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2312655876401807022, guid: aa98424f74641b84b83909747fdabcd5,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -466,6 +482,11 @@ PrefabInstance:
     - target: {fileID: 2312655876401807022, guid: aa98424f74641b84b83909747fdabcd5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035398838365634900, guid: aa98424f74641b84b83909747fdabcd5,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3463612103941873934, guid: aa98424f74641b84b83909747fdabcd5,
@@ -532,6 +553,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774756698303625358, guid: aa98424f74641b84b83909747fdabcd5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.19
       objectReference: {fileID: 0}
     - target: {fileID: 6207211206014497656, guid: aa98424f74641b84b83909747fdabcd5,
         type: 3}
@@ -693,6 +719,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9113122990230412345, guid: aa98424f74641b84b83909747fdabcd5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -782,6 +813,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7321230054166117494 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3035398838365634900, guid: aa98424f74641b84b83909747fdabcd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5730228923604073762}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7598013414877810520 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2806952208638620282, guid: aa98424f74641b84b83909747fdabcd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5730228923604073762}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8067045461458227488 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2339122768327732226, guid: aa98424f74641b84b83909747fdabcd5,
