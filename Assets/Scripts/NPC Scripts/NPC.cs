@@ -39,6 +39,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public WaypointScript shopUI;
 
+    protected int lastCompletedQuestIndex = -1;
+
+    public Quest dailyQuest; //If given a quest today, they will hold it here and have an explanation overhead until its given
+
     protected virtual void Awake()
     {
         if(dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
@@ -76,11 +80,16 @@ public abstract class NPC : MonoBehaviour, IInteractable
             //Barter Price Check
             if(item.barterCost.Count > 0)
             {
-                if(item.CanAffordTrade())
+                if(PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
+                {
+                    currentPath = 4; //No space in inventory
+                }
+                else if(item.CanAffordTrade())
                 {
                     //item.CompleteTrade();
                     currentPath = 2; //item sold
                     shopUI.shopImgObj.SetActive(false);
+                    PurchaseSuccess(item.itemData);
                 }
                 else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
                 {
@@ -101,6 +110,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             else
             {
                 currentPath = 2; //item sold
+                PurchaseSuccess(item.itemData);
                 shopUI.shopImgObj.SetActive(false);
                 if (assignedStall && assignedStall.displaySign) assignedStall.displaySign.ResetDisplay();
                 if (assignedStall && assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
@@ -127,6 +137,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
         currentType = PathType.Misc;
         Talk();
     }
+
+    public virtual void PurchaseSuccess(InventoryItemData boughtItem){}
 
     public virtual void RefreshStore(){}
 
@@ -195,13 +207,32 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
             var type = QuestManager.Instance.activeQuests[i].GetType();
 
-            if(type.Equals(typeof(FetchQuest)) || type.Equals(typeof(GrowQuest))) continue;
+            if(type.Equals(typeof(FetchQuest))) continue;
+
+            if(type.Equals(typeof(GrowQuest)))
+            {
+                GrowQuest gQ = QuestManager.Instance.activeQuests[i] as GrowQuest;
+                if(gQ.amount == 0)
+                {
+                    QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
+                    PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
+                    //Spawn Items
+                    GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
+
+                    lastCompletedQuestIndex = i;
+                    return true;
+                }
+                else continue;
+            }
 
             if(QuestManager.Instance.activeQuests[i].assignee == character && QuestManager.Instance.activeQuests[i].progress == QuestManager.Instance.activeQuests[i].maxProgress)
             {
                 QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
-                PlayerInteraction.Instance.currentMoney += QuestManager.Instance.activeQuests[i].mintReward;
-                PlayerInteraction.Instance.totalMoneyEarned += QuestManager.Instance.activeQuests[i].mintReward;
+                PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
+                //Spawn Items
+                GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
+
+                lastCompletedQuestIndex = i;
                 return true;
             }
         }
@@ -223,11 +254,14 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 if(fq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == fq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= fq.amount)
                 {
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
-                    PlayerInteraction.Instance.currentMoney += QuestManager.Instance.activeQuests[i].mintReward;
-                    PlayerInteraction.Instance.totalMoneyEarned += QuestManager.Instance.activeQuests[i].mintReward;
+                    PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
+                    //Spawn Items
+                    GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(fq.amount);
                     PlayerInventoryHolder.Instance.UpdateInventory();
+
+                    lastCompletedQuestIndex = i;
                     return true;
                 }
 
@@ -235,17 +269,34 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 if(gq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == gq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= gq.amount && gq.progress == gq.maxProgress)
                 {
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
-                    PlayerInteraction.Instance.currentMoney += QuestManager.Instance.activeQuests[i].mintReward;
-                    PlayerInteraction.Instance.totalMoneyEarned += QuestManager.Instance.activeQuests[i].mintReward;
+                    PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
+                    //Spawn Items
+                    GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(gq.amount);
                     PlayerInventoryHolder.Instance.UpdateInventory();
+
+                    lastCompletedQuestIndex = i;
                     return true;
                 }
             }
         }
 
         return false;
+    }
+
+    void GiveRewards(List<InventoryItemData> rewards)
+    {
+        Vector3 itemPos = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+        for(int i = 0; i < rewards.Count; i++)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(rewards[i]);
+            droppedItem.transform.position = new Vector3(itemPos.x, itemPos.y + 1f, itemPos.z);
+
+            Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB.AddForce(Vector3.up * 25);
+            itemRB.AddForce(transform.forward * 50);
+        }
     }
 
     public void ReturnFocalPoint(out Transform focalPoint)

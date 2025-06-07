@@ -8,11 +8,10 @@ public class BotanistNPC : NPC, ITalkable
     public InventoryItemData s_carrot, s_tuber, s_drake, s_stalk, s_bean, s_ginger, s_spores, s_timber; //seeds
 
     public float sellMultiplier = 1;
-    //public InventoryItemData[] possibleSoldItems;
-    public InventoryItemData[] commonSeeds, rareSeeds, fertalizers;
-    //public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    //WaypointScript shopUI;
+
+    bool willExplainPollen = false;
+
 
     public List<InventoryItemData> questCrops = new List<InventoryItemData>();
 
@@ -42,13 +41,14 @@ public class BotanistNPC : NPC, ITalkable
             else if(!GameSaveData.Instance.bot_giveSeeds && !PlayerInventoryHolder.Instance.IsInventoryFull())
             {
                 GameSaveData.Instance.bot_giveSeeds = true;
-                currentPath = 5;
+                currentPath = 7;
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(s_timber, 10));
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[0]); //Add the "Grow TimberEar Quest" quest
             }
-            else if(CompletedQuest())
+            else if(CompletedQuest()) //ADD UNIQUE FUNCTION TO GIVE UNIQUE DIALOGUE THAT IS QUEST DEPENDENT
             {
-                currentPath = 0;
+                currentPath = QuestCompletedDialogue();
                 currentType = PathType.QuestComplete;
             }
             else if(movementHandler.isWorking) //Working Dialogue
@@ -74,14 +74,23 @@ public class BotanistNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    /*public void Talk() //progress what they are saying or start new conversation
+    public int QuestCompletedDialogue() //Reference lastCompletedQuestIndex to get which quest it is/what type it is, and give specific remarks here!!
     {
-        if(!dialogueController.FreeToSpeak(this)) return;
-        anim.SetTrigger("IsTalking");
-        movementHandler.TalkToPlayer();
-        dialogueController.currentTalker = this;
-        dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
-    }*/
+        if(lastCompletedQuestIndex < 0)
+        {
+            return 0;
+        }
+
+        //Remark about completing the timber ear quest here
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[0])) return 2; //Unfort this means no random timber ear quests
+
+        //Remark about completing a grow quest here
+        if(QuestManager.Instance.activeQuests[lastCompletedQuestIndex] as GrowQuest != null) return 1;
+
+        //Remark about completing the pollination quest here
+
+        return 0;
+    }
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
@@ -95,7 +104,7 @@ public class BotanistNPC : NPC, ITalkable
 
         if(CompletedQuestWithItem())
         {
-            currentPath = 0;
+            currentPath = QuestCompletedDialogue();
             currentType = PathType.QuestComplete;
         }
 
@@ -111,24 +120,6 @@ public class BotanistNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
-        /*else if(item.staminaValue > 0)
-        {
-            currentPath = 0;
-            currentType = PathType.ItemRecieved;
-            if(!NPCManager.Instance.botanistFed)
-            {
-                currentPath = 0;
-                currentType = PathType.ItemRecieved;
-                NPCManager.Instance.botanistFed = true;
-                anim.SetTrigger("TakeItem");
-            }
-            else
-            {
-                currentPath = 1;
-                currentType = PathType.ItemRecieved;
-            }
-            //Its consumable and giftable
-        }*/
         else
         {
             currentPath = 0;
@@ -140,52 +131,6 @@ public class BotanistNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    /*public override void PurchaseAttempt(StoreItem item)
-    {
-        if(dialogueController.IsInterruptable() == false)
-        {
-            return;
-        } 
-        if(lastInteractedStoreItem == item)
-        {
-            //check price, then give item
-            if(PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
-            {
-                currentPath = 3; //no money!?!?!?
-            }
-            else if(PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
-            {
-                currentPath = 4; //No space in inventory
-            }
-            else
-            {
-                currentPath = 2; //item sold
-                shopUI.shopImgObj.SetActive(false);
-                if (assignedStall && assignedStall.displaySign)
-                {
-                    assignedStall.displaySign.ResetDisplay();
-                }
-            }
-            anim.SetTrigger("IsTalking");
-        }
-        else
-        {
-            dialogueController.restartDialogue = true;
-            currentPath = 1; //item selected
-            anim.SetTrigger("IsTalking");
-            if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-            lastInteractedStoreItem = item;
-            shopUI.shopTarget = item.arrowObject.transform;
-            shopUI.shopImgObj.SetActive(true);
-            if(assignedStall && assignedStall.displaySign)
-            {
-                assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
-            }
-            
-        }
-        currentType = PathType.Misc;
-        Talk();
-    }*/
 
     public override void PlayerLeftRadius()
     {
@@ -230,10 +175,11 @@ public class BotanistNPC : NPC, ITalkable
             }
         }
         
-
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+            int extraItems = 0;
+            newCost = -1;
 
             if(x == 0 || x > 8) //For guaranteed stuff to sell
             {
@@ -256,14 +202,17 @@ public class BotanistNPC : NPC, ITalkable
                 continue;
             }
 
-            if (questCrops.Count > 0) //If there are any quests that need crops, make this more likely
+            if (questCrops.Count > 0 && questCrops[0] != null) //If there are any quests that need crops, make this more likely
             {
                 for (int k = 0; k < barterDatabase.transactions.Count; k++) 
                 {
                     if (barterDatabase.transactions[k].itemForSale == questCrops[0])
                     {
                         newItem = barterDatabase.transactions[k].itemForSale;
+                        newCost = (int)(barterDatabase.transactions[k].mintCost * sellMultiplier);
+                        extraItems += 5;
                         questCrops.Remove(questCrops[0]);
+                        break;
                     }
                 }
             }
@@ -279,8 +228,8 @@ public class BotanistNPC : NPC, ITalkable
                 }
             }
             while (!newItem);
-            int extraItems = Random.Range(0, 3);
-            newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            extraItems += Random.Range(0, 3);
+            if(newCost == -1) newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale + extraItems);
             item.seller = this;
 
@@ -288,108 +237,17 @@ public class BotanistNPC : NPC, ITalkable
         }
     }
 
-    /*public override void RefreshStore()
+    public override void PurchaseSuccess(InventoryItemData item)
     {
-        //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
-        if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-        lastInteractedStoreItem = null;
-        int i;
-        float r;
-        int currentItem = 0;
-        InventoryItemData newItem;
-
-        InventoryItemData rareSeedForSale;
-        i = Random.Range(0, rareSeeds.Length);
-        rareSeedForSale = rareSeeds[i];
-
-        questCrops.Clear();
-
-        List <InventoryItemData> allSeeds = new List<InventoryItemData>();
-        allSeeds.AddRange(commonSeeds);
-        allSeeds.AddRange(rareSeeds);
-
-        if (QuestManager.Instance.activeQuests.Count > 0)
+        if(!GameSaveData.Instance.bot_explainedPollen)
         {
-            for (int j = 0; j < QuestManager.Instance.activeQuests.Count; j++)
+            CropItem seed = item as CropItem;
+            if(seed && seed.cropData.requirePollination)
             {
-                if (QuestManager.Instance.activeQuests[j] is GrowQuest gQuest)
-                {
-                    for (int k = 0; k < allSeeds.Count; k++) 
-                    {
-                        if( allSeeds[k] == gQuest.desiredCrop.cropSeed)
-                        {
-                            questCrops.Add(gQuest.desiredCrop.cropSeed);
-                        }
-                    }
-                }
-
+                willExplainPollen = true;
             }
         }
-
-        List<InventoryItemData> commonSeedsForSale = new List<InventoryItemData>();
-        while (commonSeedsForSale.Count < 3)
-        {
-            if (questCrops.Count > 0)
-            {
-                i = Random.Range(0, 4);
-                if (i > 0)
-                {
-                    i = Random.Range(0, questCrops.Count);
-                    if (!commonSeedsForSale.Contains(questCrops[i]))
-                    {
-                        commonSeedsForSale.Add(questCrops[i]);
-                        questCrops.Remove(questCrops[i]);
-                    }
-                }
-                else
-                {
-                    i = Random.Range(0, commonSeeds.Length);
-                    if (!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
-                }
-            }
-            else
-            { 
-                i = Random.Range(0, commonSeeds.Length);
-                if (!commonSeedsForSale.Contains(commonSeeds[i])) commonSeedsForSale.Add(commonSeeds[i]);
-            }
-            
-        }
-        int sellRareSeed = Random.Range(0, 2);
-        foreach (StoreItem item in storeItems)
-        {
-            newItem = null;
-
-            if(currentItem == 0) //This makes sure she is selling at least 1 resource crop
-            {
-                i = Random.Range(7, 9);
-                newItem = commonSeeds[i];
-            }
-
-            else if (currentItem < 6)
-            {
-                i = Random.Range(0, commonSeedsForSale.Count - 1);
-                newItem = commonSeedsForSale[i];
-            }
-            
-            else if (currentItem < 9)
-            {
-                
-                if (sellRareSeed == 0) newItem = rareSeedForSale;
-                else newItem = commonSeedsForSale[commonSeedsForSale.Count - 1];
-
-            }
-            else
-            {
-                i = Random.Range(0, fertalizers.Length);
-                newItem = fertalizers[i];
-            }
-            int newCost = (int) (newItem.value * sellMultiplier);
-            item.RefreshItem(newItem, newCost);
-            item.seller = this;
-            currentItem++;
-        }
-        currentItem = 0;
-    }*/
+    }
 
     public override void BeginWorking()
     {
@@ -418,6 +276,25 @@ public class BotanistNPC : NPC, ITalkable
         {
             assignedStall.displaySign.LeaveShop();
         }
+    }
+
+    public override void OnConvoEnd()
+    {
+        return; //CANNOT GIVE OUT QUEST UNTIL POLLINATOR POST IS IN
+        if(willExplainPollen) //Explain Pollination and give quest
+        {
+            willExplainPollen = false; 
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(301)); //Add the "Pollinate" quest
+
+            currentPath = 0;
+            currentType = PathType.Quest;
+
+            //PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
+            dialogueController.restartDialogue = true;
+            Talk();
+            GameSaveData.Instance.bot_explainedPollen = true;
+        }
+
     }
 
     public int IsItemASeed(InventoryItemData item)

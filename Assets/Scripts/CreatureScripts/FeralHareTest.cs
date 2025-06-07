@@ -91,6 +91,8 @@ public class FeralHareTest : CreatureBehaviorScript
                 }
             }
         }
+
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) actionSpeedMod -= 0.1f;
     }
 
     // Update is called once per frame
@@ -531,7 +533,7 @@ public class FeralHareTest : CreatureBehaviorScript
                 else foundFarmTile.crop.behavior.OnConsumedBeforeMaturity(this);
                 foundFarmTile.CropDestroyed();
             }
-            else if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20)
+            else if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20 && foundFarmTile.currentUpgrade != FarmLand.FarmTileUpgrade.Trellis)
             {
                 Vector3 pos = foundFarmTile.transform.position;
                 Destroy(foundFarmTile.gameObject);

@@ -21,11 +21,6 @@ MonoBehaviour:
     - Come visit my stall sometime if you are ever running low on seeds! I try to
       be there a little bit after dawn.
     emotions: 010000000400000000000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -54,6 +49,14 @@ MonoBehaviour:
     - Woah now, you can barely fit this in your pockets! Come again when you have
       more room.
     emotions: 05000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - One {storeItemName} coming right up! I just need a few things first.
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - Hey, you aren't trying to pull a fast one on me, are ya?
+    emotions: 03000000
   - pathName: Have some Seeds
     paragraphs:
     - Since you are just starting out, I will lend you some of these Timber Ear seeds!
@@ -100,7 +103,14 @@ MonoBehaviour:
     - Or if that is too much of an ask, you can just use my fertalizer!
     - I highly recommend the second option.
     emotions: 04000000060000000000000001000000
-  questPaths: []
+  questPaths:
+  - pathName: Pollen Explanaition
+    paragraphs:
+    - Quick thing farmer! That plant is going to need some pollination if you want
+      it to grow.
+    - There are some bugs out on your farm that I reckon would do the trick! Use
+      your torch to get their attention!
+    emotions: 0500000000000000
   itemRecievedPaths:
   - pathName: Go Sell that
     paragraphs:
@@ -181,3 +191,19 @@ MonoBehaviour:
 '
     emotions: 06000000
   branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thanks a million!
+    emotions: 01000000
+  - pathName: Grow Quest Complete
+    paragraphs:
+    - What an amazing harvest! This will keep us fed for a good while.
+    emotions: 01000000
+  - pathName: Timber Ear Quest Completed
+    paragraphs:
+    - See? I told you growing Timber Ear was easy work!
+    - Now I will let you in on a little secret...
+    - Mr. Wagon Man pays next to NOTHING for these things! You are much better off
+      taking these to the Craftsman.
+    emotions: 010000000000000003000000

@@ -9586,7 +9586,7 @@ MonoBehaviour:
     s_varietyMax: 3
     hourlySpawnAttempts: 5
     maxCreatures: 6
-  - difficultyPointThreshold: 150
+  - difficultyPointThreshold: 175
     c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 2
@@ -9595,7 +9595,7 @@ MonoBehaviour:
     s_varietyMax: 4
     hourlySpawnAttempts: 7
     maxCreatures: 8
-  - difficultyPointThreshold: 250
+  - difficultyPointThreshold: 300
     c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 2
@@ -9650,10 +9650,10 @@ MonoBehaviour:
   boxPlaced: 0
   finaleActivated: 0
   finaleMist: {fileID: 0}
-  pollinatorTest: {fileID: 7575999969673721782, guid: 33a4bd1b9d1f7434389e7fad8765e401,
-    type: 3}
+  pollinator: {fileID: 0}
   nightEvents:
   - {fileID: 11400000, guid: 846015b0d2cb63b4fa36b8246f961fa5, type: 2}
+  firstNightWarning: {fileID: 11400000, guid: 72660b2db610a4141a9a53f590aa60ec, type: 2}
 --- !u!114 &6272051581299996177
 MonoBehaviour:
   m_ObjectHideFlags: 0

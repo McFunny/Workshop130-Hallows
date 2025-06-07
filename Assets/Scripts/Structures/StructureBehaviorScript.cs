@@ -214,7 +214,7 @@ public class StructureBehaviorScript : MonoBehaviour
             }
 
             //logic for spawning the salvagable pile//
-            if(structData && !absentFromGrid && salvageChance > Random.Range(0,100) && !onFire)
+            if(structData && !absentFromGrid && salvageChance > Random.Range(0,100) && (!onFire || MainMenuScript.currentFileMode == FileMode.Cozy))
             {
                 //Spawn the pile
                 DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();

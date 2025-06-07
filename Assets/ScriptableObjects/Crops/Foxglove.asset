@@ -14,14 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Foxglove
   id: 14
-  growthStages: 5
-  hoursPerStage: 1
-  harvestableGrowthStages: 05000000
+  growthStages: 3
+  hoursPerStage: 2
+  harvestableGrowthStages: 03000000
   cropSprites:
-  - {fileID: -1948318975, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
   - {fileID: 1951648478, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
   - {fileID: -549786709, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
-  - {fileID: 1418615255, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
   - {fileID: -2102857513, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
   rottedImage: {fileID: -1124249375, guid: 2290b98a35be79e4fbfadfe577eaebab, type: 3}
   cropYield: {fileID: 11400000, guid: e17a35f1d70b23a4699d1887727d5504, type: 2}
@@ -32,12 +30,13 @@ MonoBehaviour:
   seedYieldAmount: 1
   seedYieldVariance: 2
   waterIntake: 5
-  ichorIntake: 1.25
+  ichorIntake: 1.5
   terraIntake: -0.5
-  gloamIntake: 1.25
+  gloamIntake: 0.75
   stressLimit: 2
-  wealthValue: 3
+  wealthValue: 2
   requireScythe: 0
+  requirePollination: 1
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 11400000, guid: 15203e99b418ccf42814ed8bcf259416, type: 2}
   emitsGlow: 0

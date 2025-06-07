@@ -10,19 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2edfa73c5b2ca624f88c7f0fb8be25d6, type: 3}
-  m_Name: DandelionBerry
+  m_Name: HollionBerry
   m_EditorClassIdentifier: 
   ID: 12
-  displayName: Dandelion Berry
-  description: Inedible berries from the Dandelion Berry plant.
+  displayName: Hollion Berry
+  description: Inedible berries that are prone to bursting at the slightest contact.
+    When grown, the berries fly off and can damage nearby creatures. Mist Walkers
+    ignore this crop.
   icon: {fileID: 31738408, guid: 449124c102f530d48a57d7a6ebc30606, type: 3}
   maxStackSize: 20
-  value: 16
+  value: 32
   sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
-  bonusCompostValue: 0
+  bonusCompostValue: 15
   pickledForm: {fileID: 0}
   itemInputsKBM:
   - RMB - Plant

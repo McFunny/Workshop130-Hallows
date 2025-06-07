@@ -19,6 +19,8 @@ public class FyllaraTree : StructureBehaviorScript
 
     public ParticleSystem leafBurst;
 
+    public PopupScript explanation;
+
 
     void Awake()
     {
@@ -51,8 +53,13 @@ public class FyllaraTree : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && !isFilled)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0)
         {
+            if(isFilled)
+            {
+                PopupHandler.Instance.AddToQueue(explanation);
+                return;
+            }
             FillWithWater();
             PlayerInteraction.Instance.waterHeld--;
             success = true;

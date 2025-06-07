@@ -30,6 +30,8 @@ public class WraithFlower : StructureBehaviorScript
     {
         base.Start();
         player = PlayerInteraction.Instance.transform;
+
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) appearRange += 10;
     }
 
     // Update is called once per frame

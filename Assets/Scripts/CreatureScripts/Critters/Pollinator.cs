@@ -45,6 +45,8 @@ public class Pollinator : CreatureBehaviorScript
 
         StartCoroutine(RefreshTarget());
         target = null;
+
+        base.Start();
     }
 
     void Update()
@@ -193,6 +195,7 @@ public class Pollinator : CreatureBehaviorScript
         {
             tile.isPollinated = true;
             foreach(ParticleSystem p in pollenParticles) p.Play();
+            QuestManager.Instance.AddQuestProgress(1, QuestDatabase.Instance.GetTutorialQuest(301)); //Complete the pollination quest
         }
         targetStructure = null;
         target = null;

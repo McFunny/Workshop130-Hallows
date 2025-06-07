@@ -8,7 +8,7 @@ public class QuestManager : MonoBehaviour
 
     public List<Quest> activeQuests = new List<Quest>();
 
-    public List<Quest> completedQuests = new List<Quest>();
+    //public List<Quest> completedQuests = new List<Quest>();
 
     void Awake()
     {
@@ -30,7 +30,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void ForceCompleteQuest(Quest q)
+    public void ForceCompleteQuest(Quest q) //Compares ID's to see if the quest given is an active quest. If so, mark it as done
     {
         int questFoundID = FindSameQuest(q);
         if(questFoundID > -1)
@@ -73,10 +73,12 @@ public class QuestManager : MonoBehaviour
         }*/
     }
 
-    public bool CheckForQuest(Quest q) //Finds if the current quest is already in the active quests list
+    public bool CheckForQuest(Quest q) //Finds if the current quest is already in the active quests list //SAME AS FINDSAMEQUEST
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
+            if(activeQuests[i].assignee != q.assignee) continue;
+
             FetchQuest fQ = activeQuests[i] as FetchQuest;
             HuntQuest hQ = activeQuests[i] as HuntQuest;
             GrowQuest gQ = activeQuests[i] as GrowQuest;
@@ -102,10 +104,12 @@ public class QuestManager : MonoBehaviour
         return false;
     }
 
-    public int FindSameQuest(Quest q) //Finds if the current quest is already in the active quests list and returns the index
+    public int FindSameQuest(Quest q) //Finds if the current quest is already in the active quests list and returns the index //SAME AS CHECKFORQUEST
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
+            if(activeQuests[i].assignee != q.assignee) continue;
+
             FetchQuest fQ = activeQuests[i] as FetchQuest;
             HuntQuest hQ = activeQuests[i] as HuntQuest;
             GrowQuest gQ = activeQuests[i] as GrowQuest;
@@ -129,6 +133,51 @@ public class QuestManager : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    public bool CompareQuests(Quest q1, Quest q2) //Finds if the 2 quests are the same
+    {
+        if(q1.assignee != q2.assignee) return false;
+
+        FetchQuest fQ1 = q1 as FetchQuest;
+        HuntQuest hQ1 = q1 as HuntQuest;
+        GrowQuest gQ1 = q1 as GrowQuest;
+
+        if(fQ1 != null)
+        {
+            FetchQuest fQ2 = q2 as FetchQuest;
+            if(fQ2 != null && fQ1.desiredItem == fQ2.desiredItem) return true;
+        }
+        else if(hQ1 != null)
+        {
+            HuntQuest hQ2 = q2 as HuntQuest;
+            if(hQ2 != null && hQ1.targetCreature == hQ2.targetCreature) return true;
+        }
+        else if(gQ1 != null)
+        {
+            GrowQuest gQ2 = q2 as GrowQuest;
+            if(gQ2 != null && gQ1.desiredCrop == gQ2.desiredCrop) return true;
+        }
+
+        if(q1.isMajorQuest && q2.isMajorQuest)
+        {
+            if((q1.name == q2.name || (q1.questID == q2.questID && q1.questID != -1))) return true;
+        }
+        return false;
+    }
+
+    public void AddQuestProgress(int amount, Quest q)
+    {
+        int questFoundID = FindSameQuest(q);
+        if(questFoundID > -1 && activeQuests[questFoundID].progress < activeQuests[questFoundID].maxProgress)
+        {
+            activeQuests[questFoundID].progress += amount;
+            if(activeQuests[questFoundID].progress > activeQuests[questFoundID].maxProgress) activeQuests[questFoundID].progress = activeQuests[questFoundID].maxProgress;
+            if(activeQuests[questFoundID].progress == activeQuests[questFoundID].maxProgress)
+            {
+                PopupHandler.Instance.AddToQueue(PopupHandler.Instance.questCompletePopup);
+            }
+        }
     }
 
     //This is probably bad practice, and should be changed into using Unity Events instead
@@ -180,31 +229,42 @@ public class QuestManager : MonoBehaviour
         int i = 0;
         foreach(Quest q in activeQuests)
         {
-            //var type = q.GetType();
+            if(q.alreadyCompleted && !q.isMajorQuest) //Removes all non main quests that are completed
+            {
+                i++;
+                continue;
+            }
+
+            q.savedRewardIDs.Clear();
+            for(int x = 0; x < q.itemRewards.Count; x++) //Saved item id's
+            {
+                q.savedRewardIDs.Add(q.itemRewards[x].ID);
+            }
+
             FetchQuest fQ = q as FetchQuest;
             HuntQuest hQ = q as HuntQuest;
             GrowQuest gQ = q as GrowQuest;
 
-            if(fQ != null && !fQ.alreadyCompleted)
+            if(fQ != null)
             {
                 fQ.objectID = fQ.desiredItem.ID;
                 fQ.orderIndex = i;
                 fQuestList.Add(fQ);
             }
-            else if(hQ != null && !hQ.alreadyCompleted)
+            else if(hQ != null)
             {
                 hQ.objectID = hQ.targetCreature.id;
                 hQ.orderIndex = i;
                 hQuestList.Add(hQ);
             }
-            else if(gQ != null && !gQ.alreadyCompleted)
+            else if(gQ != null)
             {
                 gQ.objectID = gQ.desiredCrop.id;
                 gQ.objectID2 = gQ.desiredItem.ID;
                 gQ.orderIndex = i;
                 gQuestList.Add(gQ);
             }
-            else if(!q.alreadyCompleted || q.isMajorQuest)
+            else
             {
                 q.orderIndex = i;
                 aQuestList.Add(q);
@@ -212,7 +272,6 @@ public class QuestManager : MonoBehaviour
 
             i++;
         }
-        //go thru completed quests too
 
         s_activeQuests = aQuestList.ToArray();
         s_activeFetchQuests = fQuestList.ToArray();
@@ -223,7 +282,7 @@ public class QuestManager : MonoBehaviour
     public void LoadData(AllGameSaveData data)
     {
         activeQuests.Clear();
-        completedQuests.Clear();
+        //completedQuests.Clear();
 
         List<Quest> tempList = new List<Quest>();
 
@@ -239,6 +298,11 @@ public class QuestManager : MonoBehaviour
             {
                 if(q.orderIndex == i)
                 {
+                    for(int x = 0; x < q.savedRewardIDs.Count; x++) //Saved item id's
+                    {
+                        q.itemRewards.Add(Database.Instance.GetItem(q.savedRewardIDs[x]));
+                    }
+
                     FetchQuest fQ = q as FetchQuest;
                     HuntQuest hQ = q as HuntQuest;
                     GrowQuest gQ = q as GrowQuest;
@@ -246,19 +310,20 @@ public class QuestManager : MonoBehaviour
                     if(fQ != null && fQ.objectID != -1)
                     {
                         fQ.desiredItem = Database.Instance.GetItem(fQ.objectID);
+                        activeQuests.Add(fQ);
                     }
                     else if(hQ != null && hQ.objectID != -1)
                     {
                         hQ.targetCreature = CreatureDatabase.Instance.GetCreature(hQ.objectID);
+                        activeQuests.Add(hQ);
                     }
                     else if(gQ != null && gQ.objectID != -1)
                     {
                         gQ.desiredCrop = CropDatabase.Instance.GetCrop(gQ.objectID);
                         gQ.desiredItem = Database.Instance.GetItem(gQ.objectID2);
+                        activeQuests.Add(gQ);
                     }
-
-
-                    activeQuests.Add(q);
+                    else activeQuests.Add(q);
                 }
             }
             i++;
@@ -277,13 +342,15 @@ public class Quest
     public string name; //NEVER CHANGE THE NAME OF THIS FOR MAIN QUESTS, OR ELSE IT WILL MAKE SAVE FILES CORRUPT
     [TextArea(5,10)]
     public string description; //Use the same method I used in the dialogue controller to parse the code in the strings
-    public QuestType type; //Dont worry about this, currently unnused
+    //public QuestType type; //Dont worry about this, currently unnused
     public bool isMajorQuest = false;
     public bool alreadyCompleted = false; //if you want to store completed quests, or just store completed main quests.
     public int mintReward;
+    public List<InventoryItemData> itemRewards = new List<InventoryItemData>();
+    //public int townFavorReward;
+
     public int progress = 0;
     public int maxProgress; //Just because its at max progress does NOT mean a quest is completed. You still need to check in with the assignee if there is one
-    //public InventoryItemData[] itemRewards;
     public int daysLeft = -1; //if -1, there is no time limit. Will need to setup this with the new day function to tick these down by 1 and then remove them later. Unimplemented
 
     public Character assignee; //use an enum to keep track of NPCs, and fill that in here
@@ -294,17 +361,23 @@ public class Quest
 
     [HideInInspector] public int objectID = -1; //The ID of the saved creature, item, crop, ect
     [HideInInspector] public int objectID2 = -1; //The ID of another saved creature, item, crop, ect
-    public int questID = -1; //The ID of this quest in the database
+    [HideInInspector] public List<int> savedRewardIDs = new List<int>(); //The ID of the item rewards
+    public int questID = -1; //The ID of this quest in the database. Used only by main quests
 
-    public Quest(){}
+    public Quest()
+    {
+        daysLeft = -1;
+        questID = -1;
+    }
 
     public Quest(Quest q) //Initialize a new quest based on a reference
     {
         name = q.name;
         description = q.description;
-        type = q.type;
+        //type = q.type;
         isMajorQuest = q.isMajorQuest;
         mintReward = q.mintReward;
+        itemRewards = q.itemRewards;
         maxProgress = q.maxProgress;
         daysLeft = q.daysLeft;
         assignee = q.assignee;
@@ -324,11 +397,6 @@ public class FetchQuest: Quest //Should hide progress, and max progress should b
         desiredItem = _desiredItem;
         amount = _amount;
     }
-
-    /*public FetchQuest(InventoryItemData _desiredItem, int amountMax, int amountMin) //randomizes fetch quest
-    {
-        //
-    }*/
 }
 
 [System.Serializable]
@@ -372,10 +440,10 @@ public class MiscQuest: Quest //For odd things like delivering an item or paying
     }
 }*/
 
-public enum QuestType
+/*public enum QuestType
 {
     Main,
     Collect,
     Tinkerer,
     Hunt
-}
+}*/

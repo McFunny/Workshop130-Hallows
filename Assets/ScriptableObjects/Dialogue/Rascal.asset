@@ -21,11 +21,6 @@ MonoBehaviour:
     - .... Oh wait.... False alarm...
     - Its just that new plant guy.
     emotions: 05000000060000000000000006000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: 
     paragraphs:
@@ -146,3 +141,8 @@ MonoBehaviour:
 '
     emotions: 06000000
   branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000
