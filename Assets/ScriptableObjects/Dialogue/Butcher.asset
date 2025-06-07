@@ -16,15 +16,10 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - You got a lot of creatures on that farm.
-    - If you need something to do with them...
-    - Come see me.
-    emotions: 000000000000000000000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 06000000
+    - Being the new farmer involves more than watching grass.
+    - It also involves getting your hands bloody.
+    - Else your farm will be reduced to burrows and scraps.
+    emotions: 030000000000000002000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -50,13 +45,22 @@ MonoBehaviour:
     emotions: 04000000
   - pathName: No Space
     paragraphs:
-    - You can't carry this
+    - You can't carry this.
+    emotions: 04000000
+  - pathName: Have some Ammo
+    paragraphs:
+    - It is dangerous to be beyond the town walls without any ammunition. {freezePlayer}
+    - Here, take some extra of mine.
+    - Whatever it takes to make sure I still have some greens on my plate at the
+      end of the day.
     emotions: 04000000
   fillerPaths:
   - pathName: Drying Rack
     paragraphs:
-    - My drying rack serves a good purpose for any animal meat
-    emotions: 00000000
+    - The meat of the animals here is not the same it was years ago.
+    - More marbling, excess bones, and filled with what I am hesitant to call blood.
+    - At least drying the flesh makes it... edible.
+    emotions: 020000000000000000000000
   - pathName: Dont waste Ammo
     paragraphs:
     - Be mindful of how much you shoot that gun of yours, ya hear??
@@ -69,8 +73,44 @@ MonoBehaviour:
     - We don't have the materials to make any. All my stock, comes from him.
     - Plus, with the way you aim, I would be making a fortune.
     emotions: 020000000000000001000000
+  - pathName: Limited supplies
+    paragraphs:
+    - It's already bad enough our hunting supplies are limited.
+    - Now the game we once hunted is hunting us.
+    - There are even stories of the deers attacking folk.
+    emotions: 000000000200000005000000
+  - pathName: The wagon merchant
+    paragraphs:
+    - I remember the day the merchant rolled into town.
+    - It was about a fortnight after the initial Mist began to envelop the community.
+    - He was able to slip in admist the panic, and no one even batted an eye at his
+      presence.
+    - Never did trust him. But he is the only trade the town has, ever since imports
+      stopped coming.
+    emotions: 000000000200000005000000
+  - pathName: Creatures are getting smarter
+    paragraphs:
+    - The beasts are getting smarter by the day.
+    - Each dawn I go to see if any of my traps outside claimed any meat, and each
+      day I go out to see the traps either empty of missing.
+    - I fear the day they begin to use the traps againt US.
+    emotions: 000000000000000002000000
+  - pathName: I went to the wilderness
+    paragraphs:
+    - Once some time ago I convinced the figure at the wagon to escort me into the
+      woods, where I used to catch game.
+    - I deployed so many of my traps, thinking I would outsmart at least one critter.
+    - But when I set out the next day, it was as if he took me to a completely different
+      spot. I never did see my traps again.
+    emotions: 000000000200000005000000
   questPaths: []
-  itemRecievedPaths: []
+  itemRecievedPaths:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:
@@ -81,3 +121,16 @@ MonoBehaviour:
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

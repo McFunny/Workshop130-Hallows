@@ -12,6 +12,8 @@ public class FyllaraNut : StructureBehaviorScript
 
     public Rigidbody rb;
 
+    LayerMask clearMask = 0;
+
     void Start()
     {
         OnDamage += TreeNutDrop;
@@ -31,6 +33,8 @@ public class FyllaraNut : StructureBehaviorScript
     void TreeNutDrop()
     {
         if(rb.useGravity == true) return;
+        GetComponent<Collider>().excludeLayers = clearMask;
+        transform.parent = null;
         rb.useGravity = true;
         Vector3 dir3 = Random.onUnitSphere;
         dir3 = new Vector3(dir3.x, transform.position.y, dir3.z);
@@ -39,6 +43,7 @@ public class FyllaraNut : StructureBehaviorScript
 
     void OnTriggerEnter(Collider other)
     {
+        if(!rb.useGravity) return;
         if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
         {
             GameObject droppedItem = ItemPoolManager.Instance.GrabItem(nut);
@@ -53,7 +58,7 @@ public class FyllaraNut : StructureBehaviorScript
         if(hasDealtDamage) return;
         if(other.gameObject.CompareTag("Player"))
         {
-            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
             hasDealtDamage = true;
             return;
         }

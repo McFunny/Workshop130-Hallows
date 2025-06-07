@@ -18,8 +18,8 @@ MonoBehaviour:
     creatures when lit.
   icon: {fileID: -1382611111, guid: 7636d0db8d1d05343b33ab6006b3d441, type: 3}
   maxStackSize: 5
-  value: 290
-  sellValueMultiplier: 0.5
+  value: 325
+  sellValueMultiplier: 0.25
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
@@ -28,13 +28,17 @@ MonoBehaviour:
   itemInputsKBM:
   - LMB - Place Structure
   itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
   placedPrefab: {fileID: 27398265843662350, guid: 67f76034e24417849b1f1a94dd588443,
     type: 3}
   hologramPrefab: {fileID: 5805779730593663547, guid: 9b4ed99c3c702df4fb02e2599cc16393,
     type: 3}
   removeAfterUse: 1
   placeSound: {fileID: 8300000, guid: 65f88b6da79e9d548906f86cb540e72f, type: 3}
-  gridType: 1
+  gridTypes: 01000000
   gridSize: 2
   canPlaceOnFloor: 1
   canPlaceOnTable: 0

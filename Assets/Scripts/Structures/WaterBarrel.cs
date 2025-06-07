@@ -5,8 +5,8 @@ using TMPro;
 
 public class WaterBarrel : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
-    public int waterLevel = 0; //max is 15
+    public int waterLevel = 0; //max is maxWaterLevel
+    int maxWaterLevel = 10;
     int oldLevel;
 
     public Transform waterTexture;
@@ -14,6 +14,11 @@ public class WaterBarrel : StructureBehaviorScript
     public Sprite[] waterSprites;
 
     public TextMeshProUGUI waterText;
+
+    public ParticleSystem splash;
+
+    bool showSplash = false;
+    bool waterCooldown = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -32,7 +37,7 @@ public class WaterBarrel : StructureBehaviorScript
     {
         base.Update();
 
-        waterText.text = waterLevel + "/" + 15;
+        waterText.text = waterLevel + "/" + maxWaterLevel;
 
         if(oldLevel != waterLevel)
         {
@@ -58,12 +63,12 @@ public class WaterBarrel : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
         if((type == ToolType.WateringCan || type == ToolType.WaterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
         {
-            if(waterLevel < 5)
+            /*if(waterLevel < 5)
             {
                 PlayerInteraction.Instance.waterHeld += waterLevel;
                 waterLevel = 0;
@@ -72,7 +77,16 @@ public class WaterBarrel : StructureBehaviorScript
             {
                 PlayerInteraction.Instance.waterHeld += 5;
                 waterLevel -= 5;
+            }*/
+            for(int i = 0; i < PlayerInteraction.Instance.maxWaterHeld; i++)
+            {
+                if(PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
+                {
+                    PlayerInteraction.Instance.waterHeld++;
+                    waterLevel--;
+                }
             }
+
             WaterLevelChange();
             success = true;
         }
@@ -80,11 +94,11 @@ public class WaterBarrel : StructureBehaviorScript
 
     public void ManualFill(out bool success)
     {
-        if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 15)
+        if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < maxWaterLevel)
         {
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < PlayerInteraction.Instance.maxWaterHeld; i++)
             {
-                if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 15)
+                if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel < maxWaterLevel)
                 {
                     PlayerInteraction.Instance.waterHeld--;
                     waterLevel++;
@@ -97,12 +111,21 @@ public class WaterBarrel : StructureBehaviorScript
         else success = false;
     }
 
-    IEnumerator DugUp()
+    public override void HitWithWater()
     {
-        yield return  new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-        Destroy(this.gameObject);
+        if(waterLevel < maxWaterLevel && !waterCooldown) 
+        {
+            waterLevel++;
+            WaterLevelChange();
+            StartCoroutine(WaterCooldown());
+        }
+    }
+
+    IEnumerator WaterCooldown()
+    {
+        waterCooldown = true;
+        yield return new WaitForSeconds(0.5f);
+        waterCooldown = false;
     }
 
     public void WaterLevelChange()
@@ -110,10 +133,17 @@ public class WaterBarrel : StructureBehaviorScript
         if(waterLevel > 0) renderer.enabled = true;
         else renderer.enabled = false;
 
-        if(waterLevel > 10) waterTexture.position = new Vector3(waterTexture.position.x, 1.3f, waterTexture.position.z);
-        else if(waterLevel > 5) waterTexture.position = new Vector3(waterTexture.position.x, 0.8f, waterTexture.position.z);
-        else if(waterLevel > 0) waterTexture.position = new Vector3(waterTexture.position.x, 0.45f, waterTexture.position.z);
+        if(waterLevel >= 8) waterTexture.position = new Vector3(waterTexture.position.x, 1.6f, waterTexture.position.z);
+        else if(waterLevel >= 5) waterTexture.position = new Vector3(waterTexture.position.x, 1f, waterTexture.position.z);
+        else if(waterLevel > 0) waterTexture.position = new Vector3(waterTexture.position.x, 0.5f, waterTexture.position.z);
         else waterTexture.position = new Vector3(waterTexture.position.x, 0.2f, waterTexture.position.z);
+
+        if(showSplash)
+        {
+            splash.Play();
+            audioHandler.PlaySound(audioHandler.interactSound);
+        }
+        else showSplash = true;
     }
 
     IEnumerator AnimateWater()

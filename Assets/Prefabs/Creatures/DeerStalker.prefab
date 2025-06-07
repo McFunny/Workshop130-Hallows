@@ -4978,10 +4978,11 @@ MonoBehaviour:
   health: 250
   maxHealth: 250
   corpseHealth: -50
-  ichorWorth: 5
-  ichorDropRadius: 3.5
+  ichorWorth: 8
+  ichorDropRadius: 6
   creatureData: {fileID: 11400000, guid: 06fc0b3b180ea6d4eb2df71cb3876847, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -4995,8 +4996,8 @@ MonoBehaviour:
   rb: {fileID: 2648838695334198475}
   anim: {fileID: 8332466437214087694}
   droppedItems:
-  - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
-  - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+  - {fileID: 11400000, guid: b7f3f9c4e43a981448c44672e7339abf, type: 2}
+  - {fileID: 11400000, guid: b7f3f9c4e43a981448c44672e7339abf, type: 2}
   - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
   dropChance:
   - 10
@@ -5013,7 +5014,12 @@ MonoBehaviour:
   damageToStructure: 15
   damageToPlayer: -35
   canCorpseBreak: 0
+  actionSpeedMod: 1
   hitColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0.1764706}
+  currentEffects: []
+  biteCheckMask:
+    serializedVersion: 2
+    m_Bits: 0
   variant: 0
   animTransformed: {fileID: 7233998061699986534}
   deer: {fileID: 176726581666077386}
@@ -14870,10 +14876,15 @@ MonoBehaviour:
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
-  idleSounds: []
-  hitSounds: []
+  idleSounds:
+  - {fileID: 8300000, guid: 38004618005978f47bc5c440c9f91e39, type: 3}
+  - {fileID: 8300000, guid: e4ca7c1c1174f0c40b9ba69bcd1fd8c9, type: 3}
+  - {fileID: 8300000, guid: ddfb827e5523b594b85cea3ffabedacd, type: 3}
+  - {fileID: 8300000, guid: 0e49062a7dd1b414db2f9749ebc9b4ac, type: 3}
+  hitSounds:
+  - {fileID: 8300000, guid: dd0cd0ffd186a0b40a52decfbd808731, type: 3}
   footSteps: []
-  deathSound: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: e1dcc84b7b562644687dcdeda34f16d7, type: 3}
   miscSound: {fileID: 8300000, guid: 1162356bbd3d0fa4dbc0b60cbe984684, type: 3}
   miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}

@@ -22,17 +22,15 @@ public class Burrow : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel && !isDigging)
+        if(type == ToolType.Shovel)
         {
-            StartCoroutine(Dig());
+            //StartCoroutine(Dig());
             success = true;
         }
     }
 
-    IEnumerator Dig()
+    public override void DigAction()
     {
-        isDigging = true;
-        yield return new WaitForSeconds(1f);
         audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: DesertRose
   m_EditorClassIdentifier: 
   name: Desert Rose
+  id: 12
   growthStages: 4
-  hoursPerStage: 4
+  hoursPerStage: 5
   harvestableGrowthStages: 04000000
   cropSprites:
   - {fileID: 460818113, guid: 3e14c572fde42b24889b033cd54aee28, type: 3}
@@ -32,8 +33,11 @@ MonoBehaviour:
   waterIntake: 0
   ichorIntake: 2
   terraIntake: -0.25
-  gloamIntake: 0.5
+  gloamIntake: 0.75
   stressLimit: 0
+  wealthValue: 5
+  requireScythe: 0
+  requirePollination: 1
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 11400000, guid: 389b844fd720c2149bfbae32f76d4b53, type: 2}
   emitsGlow: 0

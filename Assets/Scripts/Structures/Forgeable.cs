@@ -15,6 +15,8 @@ public class Forgeable : StructureBehaviorScript
     bool isDigging = false;
     bool usingShovel = false;
 
+    public AudioClip dugUpSound;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -31,23 +33,6 @@ public class Forgeable : StructureBehaviorScript
     void Update()
     {
         base.Update();
-    }
-
-    public override void StructureInteraction()
-    {
-        if(!isDigging && usingShovel)
-        {
-            audioHandler.PlaySound(audioHandler.interactSound);
-            isDigging = true;
-            GameObject droppedItem;
-
-            droppedItem = ItemPoolManager.Instance.GrabItem(type.item);
-            droppedItem.transform.position = transform.position;
-
-            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
-
-            gameObject.SetActive(false);
-        }
     }
 
     public void Refresh(bool inWilderness)
@@ -80,7 +65,7 @@ public class Forgeable : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !isDigging)
         {
-            StartCoroutine(DigPlant());
+            //StartCoroutine(DigPlant());
             success = true;
         }
     }
@@ -110,11 +95,19 @@ public class Forgeable : StructureBehaviorScript
     }
 
 
-    IEnumerator DigPlant()
+    public override void DigAction()
     {
-        yield return new WaitForSeconds(1f);
-        usingShovel = true;
-        StructureInteraction();
+        audioHandler.PlaySound(audioHandler.interactSound);
+        isDigging = true;
+        GameObject droppedItem;
+
+        droppedItem = ItemPoolManager.Instance.GrabItem(type.item);
+        droppedItem.transform.position = transform.position;
+
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        AudioPoolManager.Instance.PlayClipAtPosition(dugUpSound, transform.position);
+
+        gameObject.SetActive(false);
     }
 
 }

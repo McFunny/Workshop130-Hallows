@@ -22,6 +22,7 @@ public class DialogueController : MonoBehaviour
     private bool interruptable = true;
     public bool restartDialogue = false;
     private bool freezePlayer = false;
+    private bool canAdvanceDialogue = true; //Pauses dialogue at the start so the player cant mash through it
 
     private string p;
 
@@ -56,7 +57,14 @@ public class DialogueController : MonoBehaviour
 
     public void AdvanceDialogue()
     {
-        if(IsTalking() == true && currentTalker) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
+        if(IsTalking() == true && currentTalker && canAdvanceDialogue) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
+    }
+
+    IEnumerator StartDialogueCooldown() //So the player does not accidentally skip over the start
+    {
+        canAdvanceDialogue = false;
+        yield return new WaitForSeconds(0.5f);
+        canAdvanceDialogue = true;
     }
 
     public void DisplayNextParagraph(DialogueText dialogueText, int path, PathType type)
@@ -142,6 +150,7 @@ public class DialogueController : MonoBehaviour
 
     private void StartConversation(DialogueText dialogueText, PathType type)
     {
+        StartCoroutine(StartDialogueCooldown());
         // Activate the text box
         if (!dialogueBox.activeSelf)
         {
@@ -156,61 +165,86 @@ public class DialogueController : MonoBehaviour
         NPCNameText.text = dialogueText.speakerName;
 
         // Add dialogue text to queue
-        switch(type)
+        switch (type)
         {
             case PathType.QuestComplete:
-                for(int i = 0; i < dialogueText.questCompletePath.paragraphs.Length; i++)
+                for (int i = 0; i < dialogueText.questCompletePaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
-                    paragraphs.Enqueue(dialogueText.questCompletePath.paragraphs[i]);
-                    emotions.Enqueue(dialogueText.questCompletePath.emotions[i]);
+                    paragraphs.Enqueue(dialogueText.questCompletePaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.questCompletePaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.questCompletePaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
+                    emotions.Enqueue(dialogueText.questCompletePaths[currentTalker.currentPath].emotions[i]);
                 }
+
                 break;
             case PathType.RepeatItem:
-                for(int i = 0; i < dialogueText.repeatedItemPath.paragraphs.Length; i++)
+                for (int i = 0; i < dialogueText.repeatedItemPath.paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.repeatedItemPath.paragraphs[i]);
+                    if(dialogueText.repeatedItemPath.emotions.Count <= i) dialogueText.repeatedItemPath.emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.repeatedItemPath.emotions[i]);
                 }
                 break;
             case PathType.Misc:
-                for(int i = 0; i < dialogueText.paths[currentTalker.currentPath].paragraphs.Length; i++)
+                for (int i = 0; i < dialogueText.paths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.paths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.paths[currentTalker.currentPath].emotions.Count <= i) dialogueText.paths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.paths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
             case PathType.Filler:
-                for(int i = 0; i < dialogueText.fillerPaths[currentTalker.currentPath].paragraphs.Length; i++)
+                for (int i = 0; i < dialogueText.fillerPaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.fillerPaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.fillerPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.fillerPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.fillerPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
             case PathType.Quest:
-                for(int i = 0; i < dialogueText.questPaths[currentTalker.currentPath].paragraphs.Length; i++)
+                for (int i = 0; i < dialogueText.questPaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.questPaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.questPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.questPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.questPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
             case PathType.ItemRecieved:
-                for(int i = 0; i < dialogueText.itemRecievedPaths[currentTalker.currentPath].paragraphs.Length; i++)
+                for (int i = 0; i < dialogueText.itemRecievedPaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.itemRecievedPaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.itemRecievedPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.itemRecievedPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.itemRecievedPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
             case PathType.ItemSpecific:
-                for(int i = 0; i < dialogueText.itemSpecificRemarks[currentTalker.currentPath].paragraphs.Length; i++)
+                for (int i = 0; i < dialogueText.itemSpecificRemarks[currentTalker.currentPath].paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.itemSpecificRemarks[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.itemSpecificRemarks[currentTalker.currentPath].emotions.Count <= i) dialogueText.itemSpecificRemarks[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.itemSpecificRemarks[currentTalker.currentPath].emotions[i]);
+                }
+                break;
+            case PathType.AlreadySpoken:
+                for (int i = 0; i < dialogueText.alreadySpoken[currentTalker.currentPath].paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.alreadySpoken[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.alreadySpoken[currentTalker.currentPath].emotions.Count <= i) dialogueText.alreadySpoken[currentTalker.currentPath].emotions.Add(Emotion.Null);
+                    emotions.Enqueue(dialogueText.alreadySpoken[currentTalker.currentPath].emotions[i]);
+                }
+                break;
+            case PathType.BranchingPaths:
+                for (int i = 0; i < dialogueText.branchingPaths[currentTalker.currentPath].paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.branchingPaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.branchingPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.branchingPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
+                    emotions.Enqueue(dialogueText.branchingPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
             default:
                 for(int i = 0; i < dialogueText.defaultPath.paragraphs.Length; i++)
                 {
                     paragraphs.Enqueue(dialogueText.defaultPath.paragraphs[i]);
+                    //if(dialogueText.defaultPath[currentTalker.currentPath].emotions.Count <= i) dialogueText.defaultPath[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.defaultPath.emotions[i]);
                 }
                 break;
@@ -262,8 +296,19 @@ public class DialogueController : MonoBehaviour
 
     public void PlayerBoughtItem()
     {
+        InventoryItemData item = currentTalker.lastInteractedStoreItem.itemData;
+        if(item.cannotEnterInventory)
+        {
+            if(item.itemBehavior) item.itemBehavior.OnRecieve();
+            PlayerInteraction.Instance.currentMoney -= currentTalker.lastInteractedStoreItem.cost;
+            FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
+
+            currentTalker.EmptyShopItem();
+            return;
+        }
+
         var inventory = PlayerInventoryHolder.Instance;
-        if (inventory.AddToInventory(currentTalker.lastInteractedStoreItem.itemData, 1))
+        if (inventory.AddToInventory(item, 1))
         {
             PlayerInteraction.Instance.currentMoney -= currentTalker.lastInteractedStoreItem.cost;
             FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
@@ -276,6 +321,10 @@ public class DialogueController : MonoBehaviour
 
     void UpdateStringVariables()
     {
+        p = p.Replace("{replacementString1}", currentTalker.ReplacementString1());
+        p = p.Replace("{replacementString2}", currentTalker.ReplacementString2());
+        p = p.Replace("{replacementString3}", currentTalker.ReplacementString3());
+
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData)
         {
             float value = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.value * HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.sellValueMultiplier;
@@ -300,7 +349,7 @@ public class DialogueController : MonoBehaviour
         if(currentTalker.lastInteractedStoreItem)
         {
             p = p.Replace("{storeItemName}", $"{"<color=#81C6DE>" + currentTalker.lastInteractedStoreItem.itemData.displayName + "</color>"}");
-            p = p.Replace("{storeItemValue}", $"{"<color=#E0D38F>" + currentTalker.lastInteractedStoreItem.itemData.value + "</color>"}");
+            p = p.Replace("{storeItemValue}", $"{"<color=#E0D38F>" + currentTalker.lastInteractedStoreItem.cost + "</color>"}");
         }
 
         if(p.Contains("{itemBought}"))
@@ -336,6 +385,16 @@ public class DialogueController : MonoBehaviour
                 }
             }
         }
+
+        if(p.Contains("{givePlayerItems}"))
+        {
+            p = p.Replace("{givePlayerItems}", $"{""}");
+            foreach(ItemWithAmount x in currentTalker.itemsToGive)
+            {
+                PlayerInventoryHolder.Instance.AddToInventory(x.item, x.amount);
+            }
+            currentTalker.itemsToGive.Clear();
+        }
         
     }
 
@@ -364,5 +423,19 @@ public class DialogueController : MonoBehaviour
     public bool IsInterruptable()
     {
         return interruptable;
+    }
+
+    public bool FreeToSpeak(NPC talker)
+    {
+        if(currentTalker == null || currentTalker == talker)
+        {
+            print("It's my turn to talk");
+            return true;
+        }
+        else
+        {
+            print("It's not my turn to talk");
+            return false;
+        }
     }
 }

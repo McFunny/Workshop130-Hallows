@@ -46,6 +46,11 @@ public class MerchantLantern : MonoBehaviour, IInteractable
        
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(4);

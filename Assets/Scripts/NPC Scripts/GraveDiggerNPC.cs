@@ -8,7 +8,7 @@ public class GraveDiggerNPC : NPC, ITalkable
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -25,7 +25,7 @@ public class GraveDiggerNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if (dialogueController.IsTalking() == false)
+        if (dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
             if (!GameSaveData.Instance.graveMet)
             {
@@ -42,8 +42,9 @@ public class GraveDiggerNPC : NPC, ITalkable
                 }
                 else if (NPCManager.Instance.graveSpoke)
                 {
-                    interactSuccessful = false;
-                    return;
+                    int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                    currentPath = i;
+                    currentType = PathType.AlreadySpoken;
                 }
                 if (currentPath == -1)
                 {
@@ -59,19 +60,20 @@ public class GraveDiggerNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    /*public void Talk()
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         ToolItem tItem = item as ToolItem;
-        if (dialogueController.IsInterruptable() == false || tItem)
+        if (dialogueController.IsInterruptable() == false || tItem || !dialogueController.FreeToSpeak(this))
         {
             interactSuccessful = false;
             return;

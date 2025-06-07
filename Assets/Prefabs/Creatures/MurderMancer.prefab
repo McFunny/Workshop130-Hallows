@@ -19489,6 +19489,7 @@ MonoBehaviour:
   ichorDropRadius: 4
   creatureData: {fileID: 11400000, guid: abab0bf02c715684088aee5b9057c8e1, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -19516,11 +19517,15 @@ MonoBehaviour:
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 1
+  actionSpeedMod: 1
   hitColor: {r: 0, g: 0, b: 0, a: 0}
+  currentEffects: []
   timeSinceLastSeenPlayer: 0
   rightArmCrowSummon: {fileID: 8863659400037285465}
   leftArmCrowSummon: {fileID: 4264028873677904481}
-  crowData: {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
+  hareSummon: {fileID: 0}
+  spawnedCreatureData: {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346,
+    type: 2}
   burningParticles: {fileID: 3448870784950267024}
   stage1Particles:
   - {fileID: 6935573925713465058}
@@ -19529,6 +19534,7 @@ MonoBehaviour:
   stage2Particles:
   - {fileID: 1831879642961447957}
   - {fileID: 8491028001185724373}
+  variant: 0
   currentState: 0
 --- !u!114 &420264765594972481
 MonoBehaviour:

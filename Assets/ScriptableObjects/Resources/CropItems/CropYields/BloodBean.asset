@@ -17,11 +17,11 @@ MonoBehaviour:
   description: Ichor-rich legumes most commonly used in militia rations.
   icon: {fileID: -392329907, guid: 720bca9c821c9a34e95b984ada4cb125, type: 3}
   maxStackSize: 20
-  value: 27
+  value: 37
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 32
+  staminaValue: 38
   bonusCompostValue: 20
   pickledForm: {fileID: 11400000, guid: 37c24d23a84909247aa19d61278061fb, type: 2}
   itemInputsKBM:
@@ -30,3 +30,7 @@ MonoBehaviour:
   itemInputsController:
   - LT - Show Item
   - RT - Consume
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

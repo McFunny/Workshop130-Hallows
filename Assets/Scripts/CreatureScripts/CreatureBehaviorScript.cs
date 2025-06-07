@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CreatureBehaviorScript : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public CreatureObject creatureData;
     public bool inWilderness = false; //Creatures have dif behavior depending on where they are. This is changed by the Wilderness Manager
+    public Transform patrolPoint; //Creature will patrol this area instead of their wander behavior
 
     [HideInInspector] public StructureManager structManager;
     [HideInInspector] public CreatureEffectsHandler effectsHandler;
@@ -41,11 +43,14 @@ public class CreatureBehaviorScript : MonoBehaviour
     public int damageToStructure; //number must be positive
     public int damageToPlayer; //number must be negative
     public bool canCorpseBreak;
+    public float actionSpeedMod = 1; //Dictates the speed of specific interactions per creature
 
     List <Material> allMats = new List<Material>();
     List <Color> allMatColors = new List<Color>();
     bool flashing = false;
     public Color hitColor;
+
+    public List<StatusEffect> currentEffects = new List<StatusEffect>();
 
     public void Start()
     {
@@ -77,6 +82,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         print("Ouch");
+        if(StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Dare, this) && damage > 0) damage *= 1.5f;
         health -= damage;
         if(!flashing && hitColor != Color.black) StartCoroutine(DamageFlash());
         if(!isDead)
@@ -238,6 +244,62 @@ public class CreatureBehaviorScript : MonoBehaviour
         for(int i = 0; i < allMats.Count; i++)
         {
             allMats[i].SetColor("_EmissionColor", allMatColors[i]);
+        }
+    }
+
+    public Vector3 PointAroundPatrolPoint(float radius)
+    {
+        /*Vector3 finalPosition = Vector3.zero;
+        int x = 0;
+        while(x < 20 && finalPosition == Vector3.zero)
+        {
+            Vector3 randomDirection = Random.insideUnitSphere * radius;
+            randomDirection += transform.position;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomDirection, out hit, radius, 7)) {
+                finalPosition = hit.position;            
+            }
+        }
+        return finalPosition;*/
+
+        Vector2 randomDirection = Random.insideUnitCircle * radius;
+        Vector3 randomPoint = new Vector3(randomDirection.x, patrolPoint.position.y, randomDirection.y) + patrolPoint.position;
+        return randomPoint;
+    }
+
+    public void ApplyStatusEffect(StatusEffectObject status, int duration)
+    {
+        if(currentEffects.Count == 0)
+        {
+            currentEffects.Add(new StatusEffect(status, duration));
+            currentEffects[currentEffects.Count - 1].effect.OnEffectApplied(this);
+            GameObject vfx = StatusEffectManager.Instance.GrabStatusVFX(status.name);
+            if(vfx == null) return;
+            VFXStatusObject vfxObj = vfx.GetComponent<VFXStatusObject>();
+            if(vfxObj == null) return;
+            vfxObj.afflictedCreature = this;
+            if(corpseParticleTransform)
+            {
+                vfxObj.followTransform = corpseParticleTransform;
+                //vfx.transform.position = corpseParticleTransform.position;
+                //vfx.transform.parent = corpseParticleTransform;
+            } 
+            else
+            {
+                vfxObj.followTransform = transform;
+                //vfx.transform.position = transform.position;
+                //vfx.transform.parent = transform;
+            }
+            return;
+        }
+        for(int x = 0; x < currentEffects.Count; x++)
+        {
+            //do the effects referencing the scriptable object here
+            if(currentEffects[x].effect.name == status.name)
+            {
+                if(currentEffects[x].remainingDuration < duration) currentEffects[x].remainingDuration = duration;
+                return;
+            }
         }
     }
 

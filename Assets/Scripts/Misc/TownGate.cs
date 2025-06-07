@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class TownGate : MonoBehaviour
 {
     public GameObject townMist, farmMist;
+
+    public GameObject catacombGameObject;
     //public Transform townPos, farmPos;
     //public bool inTown = false;
 
@@ -80,6 +82,9 @@ public class TownGate : MonoBehaviour
             RenderSettings.fogDensity = 0.035f;
             break;
         }
+
+        //if(newLocation == PlayerLocation.InCrypt) catacombGameObject.SetActive(true);
+        //else catacombGameObject.SetActive(false);
 
         location = newLocation;
     }

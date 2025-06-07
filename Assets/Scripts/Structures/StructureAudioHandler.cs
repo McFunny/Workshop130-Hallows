@@ -29,7 +29,7 @@ public class StructureAudioHandler : MonoBehaviour
 
     public void PlaySoundAtPoint(AudioClip clip, Vector3 pos)
     {
-        AudioSource.PlayClipAtPoint(clip, pos);
+        AudioPoolManager.Instance.PlayClipAtPosition(clip, pos);
     }
 
     public AudioSource GetSource()

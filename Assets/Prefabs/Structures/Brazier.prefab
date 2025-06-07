@@ -53,9 +53,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 055a76f3c0d6c354c983dc5bbcd32124, type: 2}
+  itemForm: {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
   health: 45
   maxHealth: 45
-  wealthValue: 5
+  wealthValue: 0
+  salvageChance: 90
   destructable: 1
   flammable: 0
   onFire: 0
@@ -73,8 +75,8 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 7141263533764617103}
-  destructionType: 2
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:
@@ -83,7 +85,6 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 0}
-  recoveredItem: {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
   fireTrigger: {fileID: 5957836886852858113}
   fire: {fileID: 625837473614497391}
   flameLeft: 0

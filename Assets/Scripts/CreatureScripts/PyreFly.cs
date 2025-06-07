@@ -69,7 +69,7 @@ public class PyreFly : CreatureBehaviorScript
     void Start()
     {
         base.Start();
-        if(variant == Variant.Napalm || inWilderness) currentState = CreatureState.Wander;
+        if(variant == Variant.Napalm || inWilderness || patrolPoint) currentState = CreatureState.Wander;
         else if(ignited) currentState = CreatureState.WalkTowardsClosestStructure;
         else currentState = CreatureState.WalkTowardsClosestFlame;
 
@@ -78,7 +78,7 @@ public class PyreFly : CreatureBehaviorScript
 
         if(variant != Variant.Napalm) StartCoroutine(PlayerTurn());
 
-        if(!inWilderness && Random.Range(0,10) > 8)
+        if(!inWilderness && Random.Range(0,10) > 7)
         {
             Transform burrowPos = StructureManager.Instance.FindBurrow(false, transform.position);
             if(burrowPos != null)
@@ -174,7 +174,8 @@ public class PyreFly : CreatureBehaviorScript
             }
             else
             {
-                if(variant == Variant.Napalm) StartCoroutine(MoveToPoint(player.position)); //move to player
+                if(patrolPoint) StartCoroutine(MoveToPoint(PointAroundPatrolPoint(7)));
+                else if(variant == Variant.Napalm) StartCoroutine(MoveToPoint(player.position)); //move to player
                 else
                 {
                     //randomly wander
@@ -553,18 +554,23 @@ public class PyreFly : CreatureBehaviorScript
         if(!gameObject.scene.isLoaded) return;
         if(homeHive) homeHive.FlyLost();
 
-        if(ignited)
+        if(ignited && health <= 0)
         {
             ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
             if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);
-            if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f) PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
+            if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f)
+            {
+                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
+                PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
+            }
             Collider[] hitStructures = Physics.OverlapSphere(transform.position, 1.5f, 1 << 6);
             foreach(Collider collider in hitStructures)
             {
                 StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
-                if(structure && structure.IsFlammable())
+                if(structure)
                 {
-                    structure.LitOnFire();
+                    if(structure.IsFlammable()) structure.LitOnFire();
+                    else structure.TakeDamage(damageToStructure);
                 }
             }
 
@@ -574,7 +580,8 @@ public class PyreFly : CreatureBehaviorScript
                 var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
                 if (creature != null && creature.shovelVulnerable)
                 {
-                    creature.TakeDamage(125);
+                    creature.TakeDamage(75);
+                    creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 15));
                     creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 }
             }

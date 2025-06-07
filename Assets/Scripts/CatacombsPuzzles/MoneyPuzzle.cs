@@ -104,4 +104,9 @@ public class MoneyPuzzle : MonoBehaviour, IInteractable
             }*/
         }
     }
+
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
 }

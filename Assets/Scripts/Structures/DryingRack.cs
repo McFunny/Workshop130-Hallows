@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class DryingRack : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     public InventoryItemData meat, jerky;
+
+    public InventoryItemData jerkySmall, jerkyLarge;
+
+    public InventoryItemData meatSmall, meatLarge;
 
     public Transform itemDropTransform;
 
@@ -44,9 +47,18 @@ public class DryingRack : StructureBehaviorScript
             progress = 0;
 
             //get item
-            GameObject droppedItem;
+            GameObject droppedItem = null;
             float r = Random.Range(0,10);
-            droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
+            if(savedItems[0] == meat) droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
+            if(savedItems[0] == meatSmall) droppedItem = ItemPoolManager.Instance.GrabItem(jerkySmall);
+            if(savedItems[0] == meatLarge) droppedItem = ItemPoolManager.Instance.GrabItem(jerkyLarge);
+
+            if(droppedItem == null)
+            {
+                Debug.LogError("What did you put inside this drying rack??");
+                return;
+            }
+
             droppedItem.transform.position = itemDropTransform.position;
 
             Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
@@ -69,7 +81,7 @@ public class DryingRack : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(item == meat && savedItems.Count < maxContainedItems)
+        if((item == meat || item == meatSmall || item == meatLarge) && (savedItems.Count < maxContainedItems/* || !savedItems.Contains(item)*/))
         {
             //
             savedItems.Add(item);
@@ -94,18 +106,19 @@ public class DryingRack : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
     }
 
     public override void HourPassed()
     {
-        if(progress < maxProgress && savedItems.Count == maxContainedItems)
+        if(progress < maxProgress && savedItems.Count >= maxContainedItems)
         {
             if(ignoreNextHour)
             {
                 ignoreNextHour = false;
+                SpriteChange();
                 return;
             }
             progress++;
@@ -113,22 +126,20 @@ public class DryingRack : StructureBehaviorScript
         SpriteChange();
     }
 
-    IEnumerator DugUp()
-    {
-        yield return new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-
-        Destroy(this.gameObject);
-    }
-
     void SpriteChange()
     {
-        if(progress == maxProgress)
+        if(progress >= maxProgress && savedItems.Count >= maxContainedItems)
         {
             itemSprite.sprite = jerky.icon;
+            if(savedItems[0] == meatSmall) itemSprite.sprite = jerkySmall.icon;
+            if(savedItems[0] == meatLarge) itemSprite.sprite = jerkyLarge.icon;
         }
-        else if(savedItems.Count == 1) itemSprite.sprite = meat.icon;
+        else if(savedItems.Count == 1)
+        {
+            itemSprite.sprite = meat.icon;
+            if(savedItems[0] == meatSmall) itemSprite.sprite = meatSmall.icon;
+            if(savedItems[0] == meatLarge) itemSprite.sprite = meatLarge.icon;
+        }
         else itemSprite.sprite = null;
     }
 
@@ -137,10 +148,15 @@ public class DryingRack : StructureBehaviorScript
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         //drop items
-        GameObject droppedItem;
+        GameObject droppedItem = null;
         foreach(InventoryItemData item in savedItems)
         {
-            if(progress == maxProgress) droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
+            if(progress == maxProgress)
+            {
+                if(item == meat) droppedItem = ItemPoolManager.Instance.GrabItem(jerky);
+                if(item == meatSmall) droppedItem = ItemPoolManager.Instance.GrabItem(jerkySmall);
+                if(item == meatLarge) droppedItem = ItemPoolManager.Instance.GrabItem(jerkyLarge);
+            }
             else droppedItem = ItemPoolManager.Instance.GrabItem(item);
             droppedItem.transform.position = itemDropTransform.position;
         }
@@ -148,12 +164,12 @@ public class DryingRack : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        saveInt1 = progress;
+        progress = saveInt1;
         SpriteChange();
     }
 
     public override void SaveVariables()
     {
-        progress = saveInt1;
+        saveInt1 = progress;
     }
 }

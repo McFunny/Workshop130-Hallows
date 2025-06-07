@@ -19,11 +19,6 @@ MonoBehaviour:
     - Got something to sell?
     - Show me.
     emotions: 0000000003000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 06000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -72,12 +67,13 @@ MonoBehaviour:
   - pathName: Wilderness worthy
     paragraphs:
     - I have been watching you for some time now. {freezePlayer}
-    - You seem capable of fending for yourself. Perhaps you have some more untapped
-      worth.
-    - I will now take you on expeditions beyond the fog. In return, I expect great
-      returns.
+    - You seem capable. Perhaps you have some more untapped worth.
+    - I will now take you on expeditions beyond the fog. There you will find a variety
+      of unique seeds and lost artifacts.
+    - There will also be great danger. Plan accordingly.
+    - In return, I expect great returns. Not often do I escort others.
     - Interact with the lantern besides my wagon to inform me you are prepared.
-    emotions: 00000000050000000600000000000000
+    emotions: 000000000500000000000000030000000100000000000000
   - pathName: Going to the Wilderness?
     paragraphs:
     - Are you adequately prepared for our foray? If so, then we are off. {freezePlayer}
@@ -86,10 +82,103 @@ MonoBehaviour:
     paragraphs:
     - The sun will be setting soon. Attend to other matters. {freezePlayer}
     emotions: 02000000
-  fillerPaths: []
+  - pathName: Have a Barricade
+    paragraphs:
+    - Welcome to my wagon. Here I sell the various good and wares I compiled, in
+      exhange for <color=#E0D38F> Mints</color> <sprite index=0>. {freezePlayer}
+    - I will also purchase anything you wish to sell me. Anything that has worth,
+      that is.
+    - ...
+    - Your estate. It will not last long without proper fortifications.
+    - You are in luck. Today I recieved a surplus of units from the Craftsman.
+    - Take these on the house. {givePlayerItems}
+    - Consider it an investment.
+    emotions: 01000000000000000600000003000000050000000200000000000000
+  - pathName: Resell my barricades
+    paragraphs:
+    - ... {freezePlayer}
+    - Does my advice ring on deaf ears?
+    - Your ignorance knows no bounds. Do you not comprehend the importance of strong
+      fortification?
+    - Go on. Do what you will with these mints.
+    emotions: 06000000040000000300000000000000
+  - pathName: Go to my wagon
+    paragraphs:
+    - There you are. {freezePlayer}
+    - I feared you got lost.
+    - Go to my wagon. Besides the market square. We can discuss further down there.
+    emotions: 030000000200000000000000
+  - pathName: Text for shotgun
+    paragraphs:
+    - BlahBlahBlahShotgun {freezePlayer}
+    - Boop. {givePlayerItems}
+    emotions: 0300000002000000
+  fillerPaths:
+  - pathName: Middleman
+    paragraphs:
+    - Consider me a neutral force.
+    - Just here to make coin.
+    emotions: 
+  - pathName: I need your goods
+    paragraphs:
+    - Don't go dawdling on your farming duties.
+    - Exported crops from VeilWood go for a hefty price. I don't need you to staunch
+      my flow of riches.
+    emotions: 
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks: []
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 00000000
+  branchingPaths:
+  - pathName: No Carrots??
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - Really...? You couldn't grow a single one?
+    - Here... Try again once more. This time consider planting fewer of them. The
+      more you have growing, the more creatures will come. {givePlayerItems}
+    - Do not botch this harvest. That young one over there looks like he is in dire
+      need of it.
+    - Perhaps this implement will also come in handy. Use those bullets sparingly.
+    emotions: 0000000005000000030000000300000001000000
+  - pathName: So Little Carrots
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - Hmm... I expected more. But this will do.
+    - Normally I would advise anything you grow you bring to me. But that young boy
+      over there looks peckish.
+    - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
+    - Be careful with the bullets. They are in short supply.
+    emotions: 0000000002000000000000000000000003000000
+  - pathName: Decent Carrots
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - You seem to have grown a majority of what you have sowed. These are good tidings
+      indeed.
+    - Normally I would advise anything you grow you bring to me. But that young boy
+      over there looks peckish.
+    - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
+    - Be careful with the bullets. They are in short supply.
+    emotions: 0000000001000000000000000000000003000000
+  - pathName: Many Carrots
+    paragraphs:
+    - Hello again. Let us see how well your harvest fared.  {freezePlayer}
+    - A perfect yield. Excellent work.
+    - Normally I would advise anything you grow you bring to me. But that young boy
+      over there looks peckish.
+    - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
+    - Be careful with the bullets. They are in short supply.
+    emotions: 0000000001000000000000000000000003000000
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlacedTorch : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     //public FireFearTrigger fireTrigger;
     public GameObject fire;
 
     bool currentlyLit;
+
+    public LightController lightScript;
 
     void Awake()
     {
@@ -34,11 +35,11 @@ public class PlacedTorch : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
             HotbarDisplay display = FindObjectOfType<HotbarDisplay>();
-            int i = display.FindItemInHotbar(recoveredItem);
+            int i = display.FindItemInHotbar(itemForm);
             if(i != -1)
             {
                 display.SelectHotbarSlot(i);
@@ -52,7 +53,12 @@ public class PlacedTorch : StructureBehaviorScript
     {
         currentlyLit = true;
         float r = Random.Range(50, 70);
-        yield return new WaitForSeconds(r);
+        lightScript.flickerSpeed = 0.1f;
+        lightScript.intensityVariation = 0.2f;
+        yield return new WaitForSeconds(r * 0.7f);
+        lightScript.flickerSpeed = 0.9f;
+        lightScript.intensityVariation = 1f;
+        yield return new WaitForSeconds(r * 0.3f);
         ExtinguishFlame();
     }
 

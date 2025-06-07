@@ -11,9 +11,12 @@ public class HoeBehavior : ToolBehavior
     public AudioClip swing;
     public GameObject placedPrefab;
 
+    float coolDownMod = 1; //Multiplied to the tool use cooldown
+    float animSpeedMod = 0; //Added to animation speed
+
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || PlayerInteraction.Instance.stamina < 5)
+        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown)
         {
             return;
         } 
@@ -27,7 +30,7 @@ public class HoeBehavior : ToolBehavior
 
         tile = null;
 
-        if(Physics.Raycast(player.position, fwd, out hit, 7, mask))
+        if(Physics.Raycast(player.position, fwd, out hit, 7f, mask))
         {
 
             //tile = hit.collider.GetComponent<UntilledTile>();
@@ -49,7 +52,26 @@ public class HoeBehavior : ToolBehavior
                 usingPrimary = true;
                 HandItemManager.Instance.PlayPrimaryAnimation();
                 HandItemManager.Instance.toolSource.PlayOneShot(swing);
-                if(PlayerInteraction.Instance.stamina > 50)
+
+                coolDownMod = 1; //Multiplied to the tool use cooldown
+                animSpeedMod = 0; //Added to animation speed
+
+                if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
+                {
+                    coolDownMod -= .35f;
+                    animSpeedMod += .5f;
+                }
+                else if(PlayerInteraction.Instance.stamina <= 50)
+                {
+                    coolDownMod += .25f;
+                    animSpeedMod -= .25f;
+                }
+                if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
+
+                toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
+                PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * coolDownMod, 1.7f * coolDownMod));
+
+                /*if(PlayerInteraction.Instance.stamina > 50)
                 {
                     toolAnim.SetFloat("AnimSpeed", 1f);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f, 1.7f));
@@ -59,7 +81,7 @@ public class HoeBehavior : ToolBehavior
                 {
                     toolAnim.SetFloat("AnimSpeed", 0.75f);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * 1.25f, 1.7f * 1.25f));
-                }
+                }*/
                 PlayerMovement.restrictMovementTokens++;
                 PlayerCam.Instance.NewObjectOfInterest(pos);
             }
@@ -101,7 +123,7 @@ public class HoeBehavior : ToolBehavior
 
     IEnumerator ExtraLag()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.0f * coolDownMod);
         usingPrimary = false;
         PlayerMovement.restrictMovementTokens--;
     }

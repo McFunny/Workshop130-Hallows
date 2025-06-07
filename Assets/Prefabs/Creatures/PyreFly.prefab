@@ -46,13 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0864c5091e60c9543af3fdc8400c2763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 20
-  maxHealth: 20
+  health: 10
+  maxHealth: 10
   corpseHealth: 0
   ichorWorth: 1
-  ichorDropRadius: 2
+  ichorDropRadius: 4
   creatureData: {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -65,7 +66,7 @@ MonoBehaviour:
   droppedItems:
   - {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
   dropChance:
-  - 0.05
+  - 0.1
   sightRange: 20
   attackRange: 15
   playerInSightRange: 0
@@ -74,10 +75,12 @@ MonoBehaviour:
   fireVulnerable: 0
   bearTrapVulnerable: 0
   isDead: 0
-  damageToStructure: 0
-  damageToPlayer: 30
+  damageToStructure: 20
+  damageToPlayer: 15
   canCorpseBreak: 1
+  actionSpeedMod: 1
   hitColor: {r: 0, g: 0, b: 0, a: 0}
+  currentEffects: []
   variant: 0
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
@@ -267,7 +270,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b99a98991c0c51048bc9c799af83ea4b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.75
+      value: 4.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b99a98991c0c51048bc9c799af83ea4b,
         type: 3}

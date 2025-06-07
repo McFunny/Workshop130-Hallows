@@ -5728,11 +5728,11 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 2
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 0
@@ -5757,9 +5757,10 @@ MonoBehaviour:
   maxHealth: 75
   corpseHealth: -50
   ichorWorth: 5
-  ichorDropRadius: 2
+  ichorDropRadius: 4
   creatureData: {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -5784,7 +5785,9 @@ MonoBehaviour:
   damageToStructure: 15
   damageToPlayer: -35
   canCorpseBreak: 0
+  actionSpeedMod: 1
   hitColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0.25490198}
+  currentEffects: []
   variant: 0
   parent: {fileID: 0}
   babies: []
@@ -5804,7 +5807,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d9748bf765b774747a0a98a688e17291, type: 2}
   - {fileID: 11400000, guid: b9c8c2c3b5691904e95fcedd53154dac, type: 2}
   - {fileID: 11400000, guid: 5a60016cc237cd846b888ac0d414fcb4, type: 2}
+  undesiredCrops:
+  - {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
+  - {fileID: 11400000, guid: 327028795e7109e4085a7de271dd17a8, type: 2}
+  - {fileID: 11400000, guid: 5349594fbfaf93a4ea544f582119b7fb, type: 2}
+  - {fileID: 11400000, guid: 6d581edce78107e45ace1df7ddff4ae5, type: 2}
   foxGlove: {fileID: 11400000, guid: e17a35f1d70b23a4699d1887727d5504, type: 2}
+  dare: {fileID: 0}
   agent: {fileID: 0}
   attackHitbox: {fileID: 4821817011044093568}
   chargePosition: {fileID: 1933791243608813373}

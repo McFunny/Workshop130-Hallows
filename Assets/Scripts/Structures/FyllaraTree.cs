@@ -19,6 +19,8 @@ public class FyllaraTree : StructureBehaviorScript
 
     public ParticleSystem leafBurst;
 
+    public PopupScript explanation;
+
 
     void Awake()
     {
@@ -51,9 +53,15 @@ public class FyllaraTree : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && !isFilled)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0)
         {
+            if(isFilled)
+            {
+                PopupHandler.Instance.AddToQueue(explanation);
+                return;
+            }
             FillWithWater();
+            PlayerInteraction.Instance.waterHeld--;
             success = true;
         }
     }
@@ -67,9 +75,10 @@ public class FyllaraTree : StructureBehaviorScript
     {
         if(isFilled && treeStage == (treeStages.Length - 1))
         {
+            /*
             progressUntilNextGrowth += Random.Range(1,3);
             if(progressUntilNextGrowth < maxProgress) return;
-            progressUntilNextGrowth = 0;
+            progressUntilNextGrowth = 0;*/
             isFilled = false;
             renderer.enabled = false;
             PopulateTreeNut();
@@ -89,7 +98,7 @@ public class FyllaraTree : StructureBehaviorScript
             if(currentTreeNuts[i] == null)
             {
                 currentTreeNuts[i] = Instantiate(treeNut, nutSpawns[i].position, Quaternion.identity);
-                if(Random.Range(0,2) == 1) return;
+                if(Random.Range(0,3) == 1) return;
             }
         }
     }

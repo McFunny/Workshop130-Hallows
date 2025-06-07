@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Ginger
   m_EditorClassIdentifier: 
   name: Witch Heart
+  id: 2
   growthStages: 5
-  hoursPerStage: 2
+  hoursPerStage: 3
   harvestableGrowthStages: 05000000
   cropSprites:
   - {fileID: -1886327501, guid: bcbec771f4eb44040b9ca9c44991d074, type: 3}
@@ -35,6 +36,9 @@ MonoBehaviour:
   terraIntake: 1.5
   gloamIntake: 1.5
   stressLimit: 2
+  wealthValue: 7
+  requireScythe: 0
+  requirePollination: 1
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0

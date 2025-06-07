@@ -13,8 +13,8 @@ public class PlaceableItem : InventoryItemData
     GameObject currentHologram;
 
     public AudioClip placeSound;
-
-    public GridType gridType;
+    
+    [SerializeField] public List<GridType> gridTypes;
     public GridSize gridSize;
     [Header("Furnature Variables")]
     public bool canPlaceOnFloor = true;
@@ -36,10 +36,16 @@ public class PlaceableItem : InventoryItemData
             {
                 pos = StructureManager.Instance.CheckLargeTile(hit.point);
             }
-            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridType)) 
+            if(gridSize == GridSize.OneByTwo)
+            {
+                pos = StructureManager.Instance.CheckOneByTwoTile(hit.point, currentHologram.transform.rotation);
+            }
+
+            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridTypes)) 
             {
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
                 if(gridSize == GridSize.TwoByTwo) StructureManager.Instance.SetLargeTile(pos);
+                if(gridSize == GridSize.OneByTwo) StructureManager.Instance.SetOneByTwoTile(pos);
                 if(currentHologram)
                 {
                     Quaternion rotate = currentHologram.transform.rotation;
@@ -70,8 +76,19 @@ public class PlaceableItem : InventoryItemData
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
+        if(Physics.Raycast(player.position, fwd, out hit, 8, 1 << 6)) //to catch any structures
+        {
+            if(currentHologram.activeSelf)
+            {
+                currentHologram.SetActive(false);
+                currentTilePos = new Vector3(0,0,0);
+            }
+            return;
+        }
+
         if(Physics.Raycast(player.position, fwd, out hit, 8, 1 << 7))
         {
+            //Do a check here so that if the hit is on the structure layer, disable the hologram and return
             //Debug.Log("Displaying");
             Vector3 pos = new Vector3(0,0,0);
             if(gridSize == GridSize.OneByOne)
@@ -82,8 +99,12 @@ public class PlaceableItem : InventoryItemData
             {
                 pos = StructureManager.Instance.CheckLargeTile(hit.point);
             }
+            if(gridSize == GridSize.OneByTwo)
+            {
+                pos = StructureManager.Instance.CheckOneByTwoTile(hit.point, currentHologram.transform.rotation);
+            }
 
-            if(pos == new Vector3(0,0,0) || !StructureManager.Instance.ValidateGridType(pos, gridType)) 
+            if(pos == new Vector3(0,0,0) || !StructureManager.Instance.ValidateGridType(pos, gridTypes)) 
             {
                 //Debug.Log("CantDisplay");
                 if(currentHologram.activeSelf)
@@ -93,7 +114,7 @@ public class PlaceableItem : InventoryItemData
                 }
                 return;
             }
-            if(pos != currentTilePos)
+            if(pos != new Vector3(0,0,0) && (pos != currentTilePos || !currentHologram.activeSelf))
             {
                 //Debug.Log("PlacedHologram");
                 currentTilePos = pos;

@@ -10,12 +10,14 @@ public class WildernessMap : MonoBehaviour
     public Transform[] wagonPositions; //Associated wagon spawns
     public Transform[] enemySpawnPositions; //Spots enemies can spawn from. Should grab the closest 2 from the player
     public Transform[] setPiecePositions; //Locations that the giant setpieces can take
+    public ObjectWithProbability[] setPiecePrefabs;
     public WildernessInteractableSpot[] interactablePositions; //Locations of small things like trees with nuts, hives, and foreagables can spawn near
     public GameObject[] obstacles; //Locations that block paths. Must be enabled or disabled
 
     public GameObject forageablePrefab;//to make sure it no spawn new one
 
     List<GameObject> currentInteractables = new List<GameObject>();
+    List<GameObject> currentSetPieces = new List<GameObject>();
 
     void Start()
     {
@@ -34,13 +36,13 @@ public class WildernessMap : MonoBehaviour
     {
         int r; //random number
         int t = Random.Range(1, 5); //random number of interations
-        for(int i = 0; i < t; i++)
+        for(int i = 0; i < t; i++) //Obstacle Generation
         {
             r = Random.Range(0, obstacles.Length);
             obstacles[r].SetActive(true);
         }
-        t = Random.Range(30, 50);
-        for(int i = 0; i < t; i++)
+        t = Random.Range(30, 45);
+        for(int i = 0; i < t; i++) //Interactables Generation
         {
             r = Random.Range(0, interactablePositions.Length);
             if(!interactablePositions[r].occupied)
@@ -68,6 +70,26 @@ public class WildernessMap : MonoBehaviour
                     currentInteractables.Add(newPrefab);
                 }
             }
+        }
+
+        for(int i = 0; i < setPiecePositions.Length; i++) //Set Pieces Generation
+        {
+            GameObject prefabToSpawn = null;
+            int attempts = 0;
+            int s; //index
+            while(!prefabToSpawn)
+            {
+                if(attempts > 10) r = 0;
+                else r = Random.Range(0,100);
+                s = Random.Range(0, setPiecePrefabs.Length);
+                if(setPiecePrefabs[s]._probability >= r)
+                {
+                    prefabToSpawn = setPiecePrefabs[s]._object;
+                }
+                attempts++;
+            }
+            GameObject spawnedObject = Instantiate(prefabToSpawn, setPiecePositions[i].position, Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0));
+            currentSetPieces.Add(spawnedObject);
         }
     }
 
@@ -103,5 +125,14 @@ public class WildernessMap : MonoBehaviour
             spot.occupied = false;
         }
         currentInteractables.Clear();
+
+        foreach (GameObject obj in currentSetPieces)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        currentSetPieces.Clear();
     }
 }

@@ -87,6 +87,19 @@ public class InventorySystem
         return invSlot == null || invSlot.Count == 0 ? false : true; // If they do return true, if not return false
     }
 
+    public int ReturnItemCount(InventoryItemData itemToFind)
+    {
+        int i = 0;
+        List<InventorySlot> invSlot = InventorySlots.Where(i => i.ItemData == itemToFind).ToList(); // If they do get a list of all of them
+
+        foreach(InventorySlot s in invSlot)
+        {
+            i += s.StackSize;
+        }
+
+        return i;
+    }
+
     public bool HasFreeSlot(out InventorySlot freeSlot)
     {
       freeSlot = InventorySlots.FirstOrDefault(i => i.ItemData == null); //Get the first free slot
@@ -112,12 +125,79 @@ public class InventorySystem
                 {
                     itemsRemoved += stackSize;
                     slot.RemoveFromStack(stackSize);
-                    amount -= stackSize; 
+                    //amount -= stackSize; 
                 }
 
                 OnInventorySlotChanged?.Invoke(slot);
                 if(itemsRemoved >= amount) break;
             }
         }
+    }
+
+    public void ForcePopulateInventory(List<InventorySlot> newInventorySlots) //Used for quick switching hotbars
+    {
+        if(InventorySize != newInventorySlots.Count)
+        {
+            Debug.LogError("Mismatch in amount of slots");
+            return;
+        }
+
+        //inventorySlots.Clear();
+        inventorySlots = newInventorySlots;
+    }
+
+    public InventorySystemSaveData GetSaveData()
+    {
+        List<InventorySlotSaveData> slotSaves = new List<InventorySlotSaveData>();
+        foreach (var slot in InventorySlots)
+        {
+            if (slot.ItemData != null)
+            {
+                slotSaves.Add(new InventorySlotSaveData(slot.ItemData.ID, slot.StackSize));
+            }
+            else
+            {
+                slotSaves.Add(new InventorySlotSaveData(-1, -1)); //This creates an empty slot
+            }
+        }
+        return new InventorySystemSaveData(slotSaves);
+    }
+
+    public void LoadFromSaveData(InventorySystemSaveData saveData, Database database) //Also call this for when we dynamically change inventory size
+    {
+        inventorySlots.Clear();
+        foreach (var slotData in saveData.savedSlots)
+        {
+            if (slotData.itemID != -1)
+            {
+                InventoryItemData data = database.GetItem(slotData.itemID);
+                inventorySlots.Add(new InventorySlot(data, slotData.stackSize));
+            }
+            else
+            {
+                inventorySlots.Add(new InventorySlot()); // This also creates an empty slot
+            }
+        }
+    }
+
+    public bool ContainsAnyItems()
+    {
+        foreach (var slot in inventorySlots)
+        {
+            if (slot.StackSize != -1) return true;
+        }
+        return false;
+    }
+
+}
+
+[System.Serializable]
+public struct InventorySystemSaveData
+{
+    public List<InventorySlotSaveData> savedSlots;
+
+    public InventorySystemSaveData(List<InventorySlotSaveData> slots)
+    {
+        savedSlots = slots;
     }
 }

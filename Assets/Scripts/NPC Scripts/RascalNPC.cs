@@ -10,9 +10,9 @@ public class RascalNPC : NPC, ITalkable
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
 
-    public FetchQuest carrotQuest;
+    //public FetchQuest carrotQuest;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -30,7 +30,7 @@ public class RascalNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(dialogueController.IsTalking() == false)
+        if(dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
             if(!GameSaveData.Instance.rascalMet)
             {
@@ -43,7 +43,8 @@ public class RascalNPC : NPC, ITalkable
                 currentPath = 1;
                 currentType = PathType.Quest;
                 GameSaveData.Instance.rascalWantsFood = true; 
-                QuestManager.Instance.AddQuest(carrotQuest);
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(2));
+                QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(1));
             }
             else
             {
@@ -54,8 +55,9 @@ public class RascalNPC : NPC, ITalkable
                 }
                 else if(NPCManager.Instance.rascalSpoke)
                 {
-                    interactSuccessful = false;
-                    return;
+                    int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                    currentPath = i;
+                    currentType = PathType.AlreadySpoken;
                 }
                 if(currentPath == -1)
                 {
@@ -71,9 +73,11 @@ public class RascalNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    public override void Talk()
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         //anim.SetTrigger("IsTalking");
+        //movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
     }
@@ -81,7 +85,7 @@ public class RascalNPC : NPC, ITalkable
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         ToolItem tItem = item as ToolItem;
-        if(dialogueController.IsInterruptable() == false || tItem)
+        if(dialogueController.IsInterruptable() == false || tItem || !dialogueController.FreeToSpeak(this))
         {
             interactSuccessful = false;
             Talk();
@@ -100,7 +104,9 @@ public class RascalNPC : NPC, ITalkable
             currentType = PathType.Quest;
             GameSaveData.Instance.rascalMentionedKey = true;
 
-            QuestManager.Instance.ForceCompleteQuest(carrotQuest);
+            //QuestManager.Instance.ForceCompleteQuest(carrotQuest);
+            QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(2));
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(3));
 
             /*for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
             {

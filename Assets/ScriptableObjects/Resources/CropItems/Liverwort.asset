@@ -17,7 +17,7 @@ MonoBehaviour:
   description: 'Common lichen that is the ancestor of most of the current plant life. '
   icon: {fileID: 1800048514, guid: 5632b8a23f1338d459e5f3bfd4745e8a, type: 3}
   maxStackSize: 10
-  value: 26
+  value: 14
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
@@ -30,3 +30,7 @@ MonoBehaviour:
   itemInputsController:
   - LT - Show Item
   - RT - Consume
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

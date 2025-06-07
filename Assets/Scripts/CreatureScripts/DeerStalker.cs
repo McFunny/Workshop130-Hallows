@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class DeerStalker : CreatureBehaviorScript
 {
+    public LayerMask biteCheckMask;
     
     public Variant variant; // what variant of creature is this?
 
@@ -215,7 +216,7 @@ public class DeerStalker : CreatureBehaviorScript
         {
             if(variant == Variant.Pure)
             {
-                fleeTimeLeft = Random.Range(1,4);
+                //fleeTimeLeft = Random.Range(1,4);
             }
             else currentState = CreatureState.ChaseTarget;
             return;
@@ -261,7 +262,7 @@ public class DeerStalker : CreatureBehaviorScript
         while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 20)
         {
             timeSpent += Time.deltaTime;
-            if (playerInSightRange)
+            if (playerInSightRange && variant != Variant.Pure)
             {
                 if(hasTransformed)
                 {
@@ -269,12 +270,6 @@ public class DeerStalker : CreatureBehaviorScript
                     isMoving = false;
                     coroutineRunning = false;
                     walkRoutine = null;
-                }
-                else if(variant == Variant.Pure)
-                {
-                    fleeTimeLeft = Random.Range(2,4);
-                    currentState = CreatureState.Flee;
-                    coroutineRunning = false;
                 }
                 else
                 {
@@ -454,8 +449,9 @@ public class DeerStalker : CreatureBehaviorScript
         yield return new WaitForSeconds(0.1f);
         agent.velocity = Vector3.zero;
         attackHitbox.enabled = false;
-        if(hitPlayer)
+        if(hitPlayer && (hitStructures.Count == 0 || CanSeePlayer()))
         {
+            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
             hitPlayer = false;
             animTransformed.SetBool("AttackSuccessful", true);
             yield return new WaitForSeconds(1.5f);
@@ -499,15 +495,16 @@ public class DeerStalker : CreatureBehaviorScript
     }
     ///////////
 
-    /*bool CanSeePlayer()
+    bool CanSeePlayer()
     {
         RaycastHit hit;
-        if (Physics.Raycast(corpseParticleTransform.position, corpseParticleTransform.forward, out hit, 15, 1 << 10))
+        if (Physics.Raycast(corpseParticleTransform.position, corpseParticleTransform.forward, out hit, 15, biteCheckMask))
         {
-            return true;
+            if(hit.transform.gameObject.layer == 10) return true;
+            else return false;
         }
         return false;
-    }*/
+    }
 
     void Transformation()
     {
@@ -614,9 +611,9 @@ public class DeerStalker : CreatureBehaviorScript
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
-                playerInteraction.StaminaChange(damageToPlayer);
+                //playerInteraction.StaminaChange(damageToPlayer);
                 hitPlayer = true;
-                attackHitbox.enabled = false;
+                //attackHitbox.enabled = false;
             }
         }
 
@@ -739,16 +736,23 @@ public class DeerStalker : CreatureBehaviorScript
     {
         if(variant == Variant.Pure)
         {
+            effectsHandler.OnHit();
             fleeTimeLeft = Random.Range(3,7);
+            StopTrackingPlayer();
+            if(walkRoutine != null)
+            {
+                StopCoroutine(walkRoutine);
+                walkRoutine = null;
+                coroutineRunning = false;
+            }
             return;
         }
-        if(!recoilCooldown && hasTransformed && !isDead)
+        if(!recoilCooldown && hasTransformed && !isDead && (currentState == CreatureState.ChaseTarget))
         {
-            //Giving me too much trouble right now
-            /*recoilCooldown = true;
+            recoilCooldown = true;
             effectsHandler.OnHit();
-            animTransformed.SetTrigger("recoiling");
-            StartCoroutine(RecoilCooldown());*/
+            animTransformed.Play("Hit", -1, 0.18f);
+            StartCoroutine(RecoilCooldown());
             target = player;
         }
         else if(!hasTransformed && currentState != CreatureState.Stun)
@@ -776,10 +780,12 @@ public class DeerStalker : CreatureBehaviorScript
     {
         recoiling = true;
         coroutineRunning = true;
+        currentState = CreatureState.Stun;
         StopTrackingPlayer();
         StopCoroutine(AttackRoutine());
         attackHitbox.enabled = false;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.6f);
+        currentState = CreatureState.ChaseTarget;
         coroutineRunning = false;
         recoiling = false;
         yield return new WaitForSeconds(5);

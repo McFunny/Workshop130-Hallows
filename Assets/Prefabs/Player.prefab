@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 6650565928944350188}
   - component: {fileID: 38908524066056234}
   - component: {fileID: 1326828943737913890}
+  - component: {fileID: 4974716673598902644}
   m_Layer: 10
   m_Name: PlayerObject
   m_TagString: Player
@@ -198,6 +199,7 @@ MonoBehaviour:
   playerCamera: {fileID: 3801851222536505025}
   toolCamera: {fileID: 0}
   effectsCamera: {fileID: 0}
+  uiCamera: {fileID: 0}
   isSprinting: 0
   velocity: 0
 --- !u!114 &4060353663220160237
@@ -230,15 +232,25 @@ MonoBehaviour:
   - name: WaterCan
     itemData: {fileID: 11400000, guid: 1c675471aa3779f4da8dfdd5b4d89175, type: 2}
     amount: 1
-  - name: Shotgun
-    itemData: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
-    amount: 1
-  - name: Ammo
-    itemData: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
-    amount: 6
   - name: Torch
     itemData: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
     amount: 1
+  startingSurvivalItems:
+  - name: 
+    itemData: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
+    amount: 1
+  - name: 
+    itemData: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
+    amount: 1
+  - name: 
+    itemData: {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
+    amount: 5
+  - name: 
+    itemData: {fileID: 11400000, guid: 08f2970a8455d9243b49e5d93f89e338, type: 2}
+    amount: 1
+  - name: 
+    itemData: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+    amount: 3
   debugItems: []
 --- !u!114 &6650565928944350188
 MonoBehaviour:
@@ -254,17 +266,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCam: {fileID: 0}
   playerFeet: {fileID: 4363058580884312923}
+  playerUpgrades: {fileID: 4974716673598902644}
   rb: {fileID: 0}
   toolCooldown: 0
   currentMoney: 0
   totalMoneyEarned: 0
+  daysSinceDeath: 0
   stamina: 200
+  fatigue: 0
   invincible: 0
   waterHeld: 0
   torchLit: 0
+  currentEffects: []
   interactionLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 524352
   gameOver: 0
   lowStaminaWarning: {fileID: 11400000, guid: e159222587440be4088a83993405c954, type: 2}
 --- !u!114 &38908524066056234
@@ -285,9 +301,15 @@ MonoBehaviour:
   itemPickup: {fileID: 8300000, guid: 20b28e31502cac542adf9801c08a1e54, type: 3}
   itemEat: {fileID: 8300000, guid: de2b35f00939d9e42b297b84161ed163, type: 3}
   playerDie: {fileID: 8300000, guid: 7873b510c112e9042a0842b9a6e18c7a, type: 3}
-  playerDamage: {fileID: 0}
-  footstep: {fileID: 0}
+  playerDamage: {fileID: 8300000, guid: 94bb20f5b11b99047ae0c5c724d377f4, type: 3}
+  grassFootsteps: {fileID: 8300000, guid: 2bfc2099e4ceed24b951a7982085d5f6, type: 3}
+  stoneFootsteps: {fileID: 8300000, guid: 4b25d192cc97c434b8b563b8778f223d, type: 3}
+  woodFootsteps: {fileID: 8300000, guid: 3e18de8b56f944948a6aeba020009413, type: 3}
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 129
   shakeIntensity: 1
+  damageImpulse: {fileID: 1326828943737913890}
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   focusColor: {r: 0, g: 0, b: 0, a: 0}
   onItemSoundCooldown: 0
@@ -344,6 +366,19 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: -0.5, y: -0.5, z: 0}
+--- !u!114 &4974716673598902644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458327864404202536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fdab1cedd845894fbc027630d3c5424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gainedInventoryUpgrade: 0
 --- !u!1 &833586289986230531
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,6 +681,14 @@ MonoBehaviour:
   waterGunCharge: {fileID: 6660244490654419795, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
   dropItem: {fileID: 2433354606798157684, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  holdInteraction: {fileID: -1021831173366595447, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  minigamePress: {fileID: -3907603540835667376, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  minigameExit: {fileID: 3467299635010333050, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  hotbarSwitch: {fileID: -7345189336816485668, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
   playerInput: {fileID: 3987123363838110697}
 --- !u!114 &3987123363838110697
@@ -1016,7 +1059,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 33792
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -1067,10 +1110,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitDetection:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 262721
   collider: {fileID: 9208214954908016475}
   hitStruct: {fileID: 8300000, guid: 32902731c1131564a95c8392f4d81620, type: 3}
   hitFlesh: {fileID: 8300000, guid: 4d7da1a9abc17b84b89870c0cbf80d7b, type: 3}
+  hitDirt: {fileID: 8300000, guid: 1a51bf8f5a7c1c144a9b44c993eefb63, type: 3}
 --- !u!1 &4710172168767217788
 GameObject:
   m_ObjectHideFlags: 0

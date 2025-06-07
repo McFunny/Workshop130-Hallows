@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
-    public PopupScript tillP, plantP, waterP, killP, weedP, completeP, dontDestroySeedsP;
+    public PopupScript tillP, plantP, waterP, killP, weedP, completeP, dontDestroySeedsP, creatureP, corpseP;
 
     public static Tutorial Instance;
 
-    public GameObject scarecrow, weed;
+    public GameObject scarecrow, weed, hog;
 
     public StructureObject weedData;
 
@@ -59,8 +59,22 @@ public class Tutorial : MonoBehaviour
     {
         if(phase == TutorialPhase.Sow)
         {
-            if(!hasWatered) PopupHandler.Instance.AddToQueue(waterP);
-            phase = TutorialPhase.Water;
+            if(!hasWatered)
+            {
+                PopupHandler.Instance.AddToQueue(waterP);
+                phase = TutorialPhase.Water;
+            }
+            else
+            {
+                PopupHandler.Instance.AddToQueue(creatureP);
+                phase = TutorialPhase.Kill;
+
+                //StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();
+                //guy.health = 4;
+
+
+                Instantiate(hog, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+            }
             //PopupEvents.current.PlantSeed();
         }
         PopupEvents.current.PlantSeed();
@@ -71,12 +85,14 @@ public class Tutorial : MonoBehaviour
         if(phase == TutorialPhase.Water)
         {
             PopupHandler.Instance.AddToQueue(dontDestroySeedsP);
-            PopupHandler.Instance.AddToQueue(killP);
+            PopupHandler.Instance.AddToQueue(creatureP);
             phase = TutorialPhase.Kill;
             PopupEvents.current.WateredCrop();
 
-            StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();;
-            guy.health = 4;
+            //StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();;
+            //guy.health = 4;
+
+            Instantiate(hog, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
     }
 
@@ -84,15 +100,18 @@ public class Tutorial : MonoBehaviour
     {
         if(phase == TutorialPhase.Water)
         {
-            PopupHandler.Instance.AddToQueue(killP);
+            PopupHandler.Instance.ClearQueue();
+            PopupHandler.Instance.AddToQueue(creatureP);
             phase = TutorialPhase.Kill;
-            //PopupEvents.current.WateredCrop();
-            //spawnScarecrow
-            StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();
-            guy.health = 4;
+
+            //StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();
+            //guy.health = 4;
+
+            Instantiate(hog, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
         PopupEvents.current.WateredCrop();
         hasWatered = true;
+        //hasWatered = true;
     }
 
     public void KillScarecrow()
@@ -126,6 +145,32 @@ public class Tutorial : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void KillCreature()
+    {
+        PopupEvents.current.KillCreature();
+
+        PopupHandler.Instance.AddToQueue(corpseP);
+    }
+
+    public void ClearedCorpse()
+    {
+        print("Cleared Corpse");
+        PopupEvents.current.ClearedCorpse();
+
+        if(StructureManager.Instance.TallyStructure(weedData) == 0)
+        {
+            PopupHandler.Instance.AddToQueue(completeP);
+            phase = TutorialPhase.Complete;
+            PopupEvents.current.WeedDug();
+            Destroy(gameObject);
+        }
+        else
+        {
+            PopupHandler.Instance.AddToQueue(weedP);
+            phase = TutorialPhase.Weed;
+        }
+}
 
     public void WeedDestroyed()
     {

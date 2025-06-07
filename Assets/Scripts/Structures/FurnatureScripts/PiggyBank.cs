@@ -16,12 +16,19 @@ public class PiggyBank : FurnitureBehaviorScript
 
     public GameObject destructionParticles;
 
+    public int highestRandomMintValue = 250;
+
     void Start()
     {
-        moneyText.text = heldMints + "/" + maxMints + "<sprite index=0>";
         OnDamage += Break;
         base.Start();
         FurnitureStart();
+
+        if(absentFromGrid)
+        {
+            heldMints = Random.Range(0, highestRandomMintValue);
+        }
+        moneyText.text = heldMints + "/" + maxMints + "<sprite index=0>";
     }
 
     public override void StructureInteraction()
@@ -37,7 +44,7 @@ public class PiggyBank : FurnitureBehaviorScript
             }
         }
 
-        if(!success) return;
+        if(!success) return; 
 
         insertParticles.Play();
 
@@ -50,15 +57,14 @@ public class PiggyBank : FurnitureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false && heldMints == 0)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUp());
             success = true;
         }
     }
 
-    IEnumerator DugUp()
+    public override void DigAction()
     {
-        yield return new WaitForSeconds(1);
-        PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
 
         Destroy(this.gameObject);
     }
@@ -78,8 +84,9 @@ public class PiggyBank : FurnitureBehaviorScript
     void OnDestroy()
     {
         OnDamage -= Break;
-        Instantiate(destructionParticles, particleCenter.position, Quaternion.identity);
         base.OnDestroy();
+        if (!gameObject.scene.isLoaded) return; 
+        Instantiate(destructionParticles, particleCenter.position, Quaternion.identity);
     }
 
     public override void SaveVariables()

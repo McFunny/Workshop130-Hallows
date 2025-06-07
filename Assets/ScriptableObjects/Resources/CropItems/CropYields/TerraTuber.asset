@@ -15,15 +15,15 @@ MonoBehaviour:
   ID: 44
   displayName: Terra Tuber
   description: Resilient spud that can grow in many places. Has chance to yield multiple
-    harvests. Restores 34 Stamina.
+    harvests.
   icon: {fileID: 21300000, guid: f8681d3adf8699f44ae11ca52514822b, type: 3}
   maxStackSize: 20
-  value: 19
+  value: 22
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 34
-  bonusCompostValue: 20
+  staminaValue: 23
+  bonusCompostValue: 25
   pickledForm: {fileID: 11400000, guid: b0ccef0a77d437a45937a8a450d894a8, type: 2}
   itemInputsKBM:
   - LMB - Consume
@@ -31,3 +31,7 @@ MonoBehaviour:
   itemInputsController:
   - LT - Show Item
   - RT - Consume
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

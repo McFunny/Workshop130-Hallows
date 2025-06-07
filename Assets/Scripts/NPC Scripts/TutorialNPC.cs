@@ -10,12 +10,13 @@ public class TutorialNPC : NPC, ITalkable
 
     public InventoryItemData seeds;
 
-    public Quest mainQuest;
+    Quest mainQuest;
 
     public GameObject tutorial;
     void Start()
     {
-        if(MainMenuScript.loadingData) StartCoroutine(Despawn());
+        mainQuest = QuestDatabase.Instance.GetMainQuest(0);
+        if(MainMenuScript.loadingData || MainMenuScript.currentFileMode == FileMode.Survival) StartCoroutine(Despawn());
         else 
         {
             goneAtStart = false;
@@ -23,6 +24,8 @@ public class TutorialNPC : NPC, ITalkable
             CabinFog f = FindObjectOfType<CabinFog>();
             if(f) Destroy(f.gameObject);
             AmbientAudioManager.Instance.playMusicAtStart = false;
+
+            PlayerInteraction.Instance.waterHeld = 0;
         }
     }
 
@@ -41,7 +44,7 @@ public class TutorialNPC : NPC, ITalkable
         Talk();
         interactSuccessful = true;
         finishedTalking = true;
-        QuestManager.Instance.AddQuest(mainQuest);
+        //QuestManager.Instance.AddQuest(mainQuest);
 
     }
 

@@ -21,11 +21,6 @@ MonoBehaviour:
     - Come visit my stall sometime if you are ever running low on seeds! I try to
       be there a little bit after dawn.
     emotions: 010000000400000000000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 06000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -54,6 +49,23 @@ MonoBehaviour:
     - Woah now, you can barely fit this in your pockets! Come again when you have
       more room.
     emotions: 05000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - One {storeItemName} coming right up! I just need a few things first.
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - Hey, you aren't trying to pull a fast one on me, are ya?
+    emotions: 03000000
+  - pathName: Have some Seeds
+    paragraphs:
+    - Since you are just starting out, I will lend you some of these Timber Ear seeds!
+      {freezePlayer}
+    - They are really low maintenance, and most of the local fauna tend to ignore
+      them. {givePlayerItems}
+    - Timber Ear consumes a hefty chunk of nutrients, so make sure to not plant in
+      the same spot twice!
+    emotions: 010000000000000002000000
   fillerPaths:
   - pathName: Hard Work
     paragraphs:
@@ -91,7 +103,14 @@ MonoBehaviour:
     - Or if that is too much of an ask, you can just use my fertalizer!
     - I highly recommend the second option.
     emotions: 04000000060000000000000001000000
-  questPaths: []
+  questPaths:
+  - pathName: Pollen Explanaition
+    paragraphs:
+    - Quick thing farmer! That plant is going to need some pollination if you want
+      it to grow.
+    - There are some bugs out on your farm that I reckon would do the trick! Use
+      your torch to get their attention!
+    emotions: 0500000000000000
   itemRecievedPaths:
   - pathName: Go Sell that
     paragraphs:
@@ -118,20 +137,23 @@ MonoBehaviour:
   - pathName: Fertilizer
     paragraphs:
     - That stuff is real handy for when you have a plot of land that just can't support
-      life no more.
+      any life.
     - One bag will fill up any tile of ground with its specified nutrient.
     emotions: 0200000000000000
   - pathName: CarrotSeeds
     paragraphs:
-    - Pale carrots are a very well rounded crop. Not too picky, as long as you have
-      good levels of Gloamphage in your soil you are set!
-    emotions: 00000000
+    - Pale carrots are a very well rounded crop. Not too picky, and don't take much
+      time to grow.
+    - The difficult part is keeping them safe from the hares. They seem to have it
+      out for pale carrots, and will prioritize eating them over anything else.
+    emotions: 0000000002000000
   - pathName: TuberSeeds
     paragraphs:
-    - TerraTubers are very easy to care for, and can tolerate very rough conditions
-      longer than other plants
-    - Just be sure to keep them away from any sources of that nasty blight!
-    emotions: 0000000005000000
+    - While TerraTubers aren't too valuable on their own, it has the chance to produce
+      multiple upon harvest.
+    - They are not very appetizing, but in times like these, we take what we can
+      get.
+    emotions: 0000000002000000
   - pathName: DrakeSeeds
     paragraphs:
     - Mandrakes are a nasty bunch. They aren't harmful, but they are such a pain
@@ -140,10 +162,11 @@ MonoBehaviour:
     emotions: 0300000001000000
   - pathName: StalkSeeds
     paragraphs:
-    - With how fast these grow, I would personally classify them as a weed.
+    - Gloomstalk has been a staple crop for the town for years! It's versatility
+      and quick growth are unparalleled.
     - Keep an eye on their water intake and you will have a field of Gloomstalk in
       no time.
-    emotions: 0300000000000000
+    emotions: 0100000000000000
   - pathName: BeanSeeds
     paragraphs:
     - Unlike most plants, BloodBeans continue to grow after harvest if left in the
@@ -160,3 +183,27 @@ MonoBehaviour:
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thanks a million!
+    emotions: 01000000
+  - pathName: Grow Quest Complete
+    paragraphs:
+    - What an amazing harvest! This will keep us fed for a good while.
+    emotions: 01000000
+  - pathName: Timber Ear Quest Completed
+    paragraphs:
+    - See? I told you growing Timber Ear was easy work!
+    - Now I will let you in on a little secret...
+    - Mr. Wagon Man pays next to NOTHING for these things! You are much better off
+      taking these to the Craftsman.
+    emotions: 010000000000000003000000

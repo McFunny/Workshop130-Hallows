@@ -20,11 +20,6 @@ MonoBehaviour:
     - This mist...mist...mist...mist!
     - Can you believe it!
     emotions: 000000000100000005000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 06000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -55,8 +50,8 @@ MonoBehaviour:
   fillerPaths:
   - pathName: Mist Everywhere
     paragraphs:
-    - Thre used to be a time when the horizon was clear as day.
-    - Now you cant go ten FEET without it filling your eyes!
+    - There used to be a time when the horizon was clear as day.
+    - Now you can't go ten FEET without it filling your eyes!
     emotions: 0100000003000000
   - pathName: Mistwalkers
     paragraphs:
@@ -70,15 +65,65 @@ MonoBehaviour:
     - It's in the air... the water... the food!
     - In that foresaken cake!
     emotions: 030000000000000005000000
+  - pathName: Look at this
+    paragraphs:
+    - Do you see what I see!?!
+    - It's right there!!
+    - Deep within... It watches us. Talks to us!
+    - And no one can hear a thing!
+    emotions: 04000000050000000000000003000000
+  - pathName: Tainted Water
+    paragraphs:
+    - DON'T GO INTO THE WATER!
+    - It's tainted! TAINTED!
+    - It's all tainted and impure!
+    emotions: 050000000500000000000000
+  - pathName: Day or Night
+    paragraphs:
+    - I don't know which is worse!
+    - The monsters that lumber around at dusk...
+    - Or the ones that tread the streets at dawn!
+    emotions: 040000000000000002000000
+  - pathName: Endless Running
+    paragraphs:
+    - Endlessly running in circles...
+    - Around and around and around and around and around and around and around and
+      around and around and around and around and around and around.
+    - Just to end back up here!
+    emotions: 020000000000000001000000
+  - pathName: Mist Servants
+    paragraphs:
+    - You are all mindless servants to the Fog!
+    - Begging and scrounging around, to get even a morsel of what it offers you from
+      the ground!
+    - None of you are different than what shambles beyond the walls!
+    emotions: 030000000000000003000000
   questPaths: []
-  itemRecievedPaths: []
-  itemSpecificRemarks:
+  itemRecievedPaths:
   - pathName: Go Sell it instead
     paragraphs:
     - I don't have much use for something like that.
     - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
       it.
     emotions: 0200000000000000
+  itemSpecificRemarks:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - GET IT AWAY FROM ME.
+    emotions: 03000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

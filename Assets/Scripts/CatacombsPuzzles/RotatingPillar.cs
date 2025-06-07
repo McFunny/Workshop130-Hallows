@@ -95,6 +95,11 @@ public class RotatingPillar : MonoBehaviour, IInteractable
       
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
    
 
     public void SetCropInsertionListener(CropKey cropKey)

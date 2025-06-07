@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
+  m_Name: Pyra
+  m_EditorClassIdentifier: 
+  ID: 112
+  displayName: Pyra
+  description: A delicate pink bloom. One of the few remaining plant species to grow
+    in sunlight.
+  icon: {fileID: 2000957882, guid: cdbc3ef2e26744d4ba309bf68d2660a7, type: 3}
+  maxStackSize: 10
+  value: 42
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  bonusCompostValue: 15
+  pickledForm: {fileID: 0}
+  itemInputsKBM:
+  - LMB - Consume
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item
+  - RT - Consume
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

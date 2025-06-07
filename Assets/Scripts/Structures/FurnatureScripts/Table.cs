@@ -21,8 +21,8 @@ public class Table : FurnitureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(!CanBeRemoved()) return;
-        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        if(!CanBeRemoved() || (absentFromGrid && !onTable)) return;
+        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
             Destroy(this.gameObject);
@@ -35,7 +35,7 @@ public class Table : FurnitureBehaviorScript
         if(!CanBeRemoved()) return;
         if(type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUp());
             success = true;
         }
     }
@@ -49,10 +49,9 @@ public class Table : FurnitureBehaviorScript
         }
     }
 
-    IEnumerator DugUp()
+    public override void DigAction()
     {
-        yield return new WaitForSeconds(1);
-        PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
 
         Destroy(this.gameObject);
     }

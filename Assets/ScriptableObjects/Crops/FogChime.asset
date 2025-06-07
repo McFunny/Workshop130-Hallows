@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: FogChime
   m_EditorClassIdentifier: 
   name: FogChime
+  id: 1
   growthStages: 4
   hoursPerStage: 1
   harvestableGrowthStages: 04000000
@@ -34,6 +35,9 @@ MonoBehaviour:
   terraIntake: -1
   gloamIntake: -1
   stressLimit: 4
+  wealthValue: 3
+  requireScythe: 0
+  requirePollination: 0
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 11400000, guid: fe4897fd828fedc468e576734555c9ee, type: 2}
   emitsGlow: 1

@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 
 public class CropNeedsUI : MonoBehaviour
@@ -6,7 +9,8 @@ public class CropNeedsUI : MonoBehaviour
     private FarmLand farmLand;
     private CropData cropData;
     private NutrientStorage nutrients;
-    public GameObject gloam, terra, ichor, water, rot, background, canvas;
+    public GameObject gloam, terra, ichor, water, rot, pollen, background, canvas;
+    public Image gloamRed, terraRed, ichorRed, waterRed;
     ControlManager controlManager;
     private bool isDetailed;
 
@@ -18,12 +22,23 @@ public class CropNeedsUI : MonoBehaviour
         nutrients = farmLand.GetCropStats();
         DisableStats();
         controlManager = FindObjectOfType<ControlManager>();
+
+        StartCoroutine(OneSecondTimer());
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         UpdateNeedsUI();
+    }*/
+
+    IEnumerator OneSecondTimer()
+    {
+        while(true)
+        {
+            UpdateNeedsUI();
+            yield return new WaitForSeconds(0.4f);
+        }
     }
 
     public void UpdateNeedsUI()
@@ -40,11 +55,27 @@ public class CropNeedsUI : MonoBehaviour
             return;
         }
 
-        if(!gloam.activeSelf && !terra.activeSelf && !ichor.activeSelf && !water.activeSelf && !rot.activeSelf) {background.SetActive(false);}
-        else background.SetActive(true);
+        if(farmLand.growthStage == farmLand.crop.growthStages)
+        {
+            DisableStats();
+            return;
+        }
+
+        if(farmLand.rotted)
+        {
+            rot.SetActive(true);
+            Rotten();
+            return;
+        }
+        else {rot.SetActive(false);}
 
         nutrients = farmLand.GetCropStats();
         cropData = farmLand.crop;
+
+        if(!gloam.activeSelf && !terra.activeSelf && !ichor.activeSelf && !water.activeSelf && !rot.activeSelf && !pollen.activeSelf) {background.SetActive(false);}
+        else background.SetActive(true);
+
+        //print("Are we even getting here???");
 
         if(nutrients.gloamLevel < cropData.gloamIntake) gloam.SetActive(true);
         else gloam.SetActive(false);
@@ -58,12 +89,23 @@ public class CropNeedsUI : MonoBehaviour
         if(nutrients.waterLevel < cropData.waterIntake) water.SetActive(true);
         else water.SetActive(false);
 
-        if(farmLand.rotted)
+        if(farmLand.NeedsPollination()) pollen.SetActive(true);
+        else {pollen.SetActive(false);}
+
+        if(farmLand.hoursSpent == farmLand.crop.hoursPerStage - 1)
         {
-            rot.SetActive(true);
-            Rotten();
+            gloamRed.enabled = true;
+            terraRed.enabled = true;
+            ichorRed.enabled = true;
+            waterRed.enabled = true;
         }
-        else {rot.SetActive(false);}
+        else
+        {
+            gloamRed.enabled = false;
+            terraRed.enabled = false;
+            ichorRed.enabled = false;
+            waterRed.enabled = false;
+        }
 
         //canvas.SetActive(UICropStats.isDetailed);
 

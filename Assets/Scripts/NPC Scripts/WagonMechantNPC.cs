@@ -5,7 +5,15 @@ using UnityEngine;
 public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
+    public InventoryItemData barricade, shotGun, ammo, carrot, carrotSeeds, inventoryUpgrade;
     [HideInInspector] public bool interactedWithLantern;
+    bool remembersGift; //if true and the player tries to sell barricades, he gets mad
+    bool metPlayerAtEntrace = false; //resets at new day
+    bool talkingOutsideWagon = false; //if the merchant is talking outside of his wagon
+    public AudioClip scareSound;
+    public Transform townEntrancePos;
+    public Transform merchantWagonPos;
+    public Transform merchant;
 
     public MerchantLantern lantern;
 
@@ -15,14 +23,18 @@ public class WagonMerchantNPC : NPC, ITalkable
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     public StoreItem[] storeItems;
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
+    public ItemDisplaySign displaySign;
+
+    [TextArea(5,10)]
+    public string[] carrotComments;
 
     //Find a way to get feedback on when a dialogue tree is finished by calling an event/delegate.
 
     void Start()
     {
         shopUI = FindObjectOfType<WaypointScript>();
-        RefreshStore();
+        StartCoroutine(DelayedStart());
         TimeManager.OnHourlyUpdate += HourlyUpdate;
         for(int i = 0; i < storeItems.Length; i++)
         {
@@ -35,6 +47,14 @@ public class WagonMerchantNPC : NPC, ITalkable
             if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) lantern.EnableSelf();
         }
 
+        if (displaySign) displaySign.UpdateNPCName(this);
+
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(2);
+        RefreshStore();
     }
 
     void OnDestroy()
@@ -44,7 +64,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(dialogueController.IsTalking() == false)
+        if(dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
             if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) //Open Wilderness
             {
@@ -57,6 +77,14 @@ public class WagonMerchantNPC : NPC, ITalkable
             {
                 currentPath = 0;
                 currentType = PathType.QuestComplete;
+            }
+            else if(!GameSaveData.Instance.mm_giveBarricade && !PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                GameSaveData.Instance.mm_giveBarricade = true;
+                currentPath = 11;
+                currentType = PathType.Misc;
+                itemsToGive.Add(new ItemWithAmount(barricade, 4));
+                remembersGift = true;
             }
             else
             {
@@ -73,8 +101,9 @@ public class WagonMerchantNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    public override void Talk()
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
     }
@@ -85,9 +114,23 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(dialogueController.IsInterruptable() == false || tItem)
         {
             interactSuccessful = false;
-            Talk();
+            //if(dialogueController.FreeToSpeak(this))Talk();
             return;
         } 
+
+        if(!GameSaveData.Instance.mm_giveBarricade && !PlayerInventoryHolder.Instance.IsInventoryFull()) //Make sure he gives the intro to the store before player can start selling
+        {
+            GameSaveData.Instance.mm_giveBarricade = true;
+            currentPath = 11;
+            currentType = PathType.Misc;
+            itemsToGive.Add(new ItemWithAmount(barricade, 4));
+            remembersGift = true;
+            Talk();
+            interactSuccessful = true;
+            anim.SetTrigger("IsTalking");
+            return;
+        }
+
         if(item.sellValueMultiplier == 0 || item.value == 0)
         {
             //Cannot Buy
@@ -97,6 +140,13 @@ public class WagonMerchantNPC : NPC, ITalkable
             Talk();
 
             anim.SetTrigger("IsTalking");
+        }
+        else if(remembersGift && item == barricade)
+        {
+            remembersGift = false;
+            currentPath = 12;
+            currentType = PathType.Misc;
+            Talk();
         }
         else
         {
@@ -149,6 +199,10 @@ public class WagonMerchantNPC : NPC, ITalkable
             {
                 currentPath = 5; //item sold
                 shopUI.shopImgObj.SetActive(false);
+                if(displaySign)
+                {
+                    displaySign.ResetDisplay();
+                }
             }
             anim.SetTrigger("Transaction");
         }
@@ -161,6 +215,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             lastInteractedStoreItem = item;
             shopUI.shopTarget = item.arrowObject.transform;
             shopUI.shopImgObj.SetActive(true);
+            if (displaySign) displaySign.DisplayItem(lastInteractedStoreItem.itemData);
             
         }
         currentType = PathType.Misc;
@@ -173,6 +228,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         lastInteractedStoreItem = null;
         int i;
         float r;
+        int x = 0; //iterations
         InventoryItemData newItem;
         foreach (StoreItem item in storeItems)
         {
@@ -182,11 +238,23 @@ public class WagonMerchantNPC : NPC, ITalkable
                 i = Random.Range(0, possibleSoldItems.Length);
                 r = Random.Range(0f,1f);
                 if(r < itemWeight[i]) newItem = possibleSoldItems[i];
+
+                if(x == 0 && !PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) newItem = inventoryUpgrade;
+                if(x == 1 && MainMenuScript.currentFileMode == FileMode.Cozy)
+                {
+                    newItem = ammo;
+
+                    item.RefreshItem(newItem, (int) (newItem.value * sellMultiplier), new List<ItemWithAmount>(), 10);
+                    item.seller = this;
+                    x++;
+                    continue;
+                }
             }
             while(!newItem);
             int newCost = (int) (newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
             item.seller = this;
+            x++;
         }
     }
 
@@ -204,16 +272,22 @@ public class WagonMerchantNPC : NPC, ITalkable
         }
         if(lastSeenItem) lastSeenItem = null; 
         shopUI.shopImgObj.SetActive(false);
+        if (displaySign) displaySign.ResetDisplay();
 
         interactedWithLantern = false;
     }
 
     public void HourlyUpdate()
     {
-        //update store at night. Change to perform when not in view of the player 
-        if(TimeManager.Instance.currentHour == 6) //changed from 8 to 6. Lets see if this still works
+        if(TimeManager.Instance.currentHour == 6)
+        {
+            metPlayerAtEntrace = false;
+        }
+        if(TimeManager.Instance.currentHour == 8)
         {
             RefreshStore();
+            remembersGift = false;
+            //metPlayerAtEntrace = false;
         }
     }
 
@@ -264,6 +338,96 @@ public class WagonMerchantNPC : NPC, ITalkable
         WildernessManager.Instance.EnterWilderness();
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
+    }
+
+    public void PlayerEnteredTown()
+    {
+        if(metPlayerAtEntrace) return;
+
+        if(TimeManager.Instance.dayNum == 1 && (TimeManager.Instance.currentHour != 6 && TimeManager.Instance.currentHour != 7))
+        {
+            currentPath = 13;
+            currentType = PathType.Misc;
+        }
+        else if(!GameSaveData.Instance.mm_giveGun && PlayerInventoryHolder.Instance.ReturnFreeSlots() >= 3)
+        {
+            int carrotsHeld = PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(carrot);
+            if(carrotsHeld >= 8)
+            {
+                //bountiful harvest
+                currentPath = 3;
+                currentType = PathType.BranchingPaths;
+            }
+            else if(carrotsHeld >= 4)
+            {
+                //Decent
+                currentPath = 2;
+                currentType = PathType.BranchingPaths;
+            }
+            else if(carrotsHeld >= 1)
+            {
+                //Some
+                currentPath = 1;
+                currentType = PathType.BranchingPaths;
+            }
+            else
+            {
+                //No Harvest
+                currentPath = 0;
+                currentType = PathType.BranchingPaths;
+                itemsToGive.Add(new ItemWithAmount(carrotSeeds, 4));
+            }
+            //currentPath = 14;
+            //currentType = PathType.Misc;
+            GameSaveData.Instance.mm_giveGun = true;
+            itemsToGive.Add(new ItemWithAmount(shotGun, 1));
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) itemsToGive.Add(new ItemWithAmount(ammo, 20));
+            else itemsToGive.Add(new ItemWithAmount(ammo, 6));
+            //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
+        }
+        else return;
+        metPlayerAtEntrace = true;
+        talkingOutsideWagon = true;
+        AudioPoolManager.Instance.PlayClipAtPosition(scareSound, townEntrancePos.position);
+        merchant.position = townEntrancePos.position;
+        PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
+        //dialogueController.SetInterruptable(false);
+        dialogueController.restartDialogue = true;
+        Talk();
+        //StartCoroutine(WaitUntilDoneTalking());
+    }
+
+    public override void OnConvoEnd()
+    {
+        if(currentPath == 11) //Finished store introduction
+        {
+           PopupHandler.Instance.AddToQueue(PopupHandler.Instance.bedTutorialPopup); 
+           QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(300)); //Add the "go buy seeds" quest
+           QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(302)); //Add the "go barter" quest
+        }
+
+        if(!talkingOutsideWagon) return;
+        QuestManager qm = QuestManager.Instance;
+        if(currentType == PathType.BranchingPaths && !qm.CheckForQuest(QuestDatabase.Instance.GetMainQuest(2))) qm.AddQuest(QuestDatabase.Instance.GetMainQuest(1));
+        talkingOutsideWagon = false;
+        StartCoroutine(ReturnToWagon());
+    }
+
+    IEnumerator ReturnToWagon()
+    {
+        FadeScreen.coverScreen = true;
+        PlayerMovement.restrictMovementTokens++;
+        TimeManager.Instance.stopTime = false;
+        yield return new WaitForSeconds(1.5f);
+        merchant.position = merchantWagonPos.position;
+        PlayerMovement.restrictMovementTokens--;
+        FadeScreen.coverScreen = false;
+    }
+
+    [ContextMenu("Test")]
+    public void Test()
+    {
+        print(PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(carrotSeeds));
     }
     
 }

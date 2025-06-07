@@ -87,7 +87,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 2.65, y: 3.05, z: 0.49}
-  m_Center: {x: 0, y: 1.67, z: 0}
+  m_Center: {x: 0, y: 1.52, z: 0}
 --- !u!114 &5018737133425638597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,9 +218,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
+  itemForm: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
   health: 10
   maxHealth: 10
-  wealthValue: 10
+  wealthValue: 5
+  salvageChance: 80
   destructable: 1
   flammable: 1
   onFire: 0
@@ -238,9 +240,9 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 9163522446301080969, guid: 77c22edb72552ab4eb59de8ab40abaf2,
     type: 3}
-  destructionType: 1
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:
@@ -249,9 +251,12 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 0}
-  recoveredItem: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
   meat: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
   jerky: {fileID: 11400000, guid: 75697f8252c0faa4490e978dbf5526b2, type: 2}
+  jerkySmall: {fileID: 11400000, guid: 5d1b031ba347e6e4889b951e93ff29eb, type: 2}
+  jerkyLarge: {fileID: 11400000, guid: 21c21c4fbfa2f634db4664c8c84abe38, type: 2}
+  meatSmall: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
+  meatLarge: {fileID: 11400000, guid: b7f3f9c4e43a981448c44672e7339abf, type: 2}
   itemDropTransform: {fileID: 1071499094301025421}
   itemSprite: {fileID: 6461256147961617565}
   progress: 0
@@ -381,7 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3966842963428013064}
   - component: {fileID: 6461256147961617565}
-  m_Layer: 6
+  m_Layer: 15
   m_Name: MeatRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +448,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 99cc2de0b67f60d46815427a87d9a7f1, type: 3}
   m_Color: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
   m_FlipX: 0
@@ -452,7 +457,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1001 &7536375698567389626

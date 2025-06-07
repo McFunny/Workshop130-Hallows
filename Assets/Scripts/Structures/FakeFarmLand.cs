@@ -70,7 +70,7 @@ public class FakeFarmLand : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !isDigging)
         {
-            StartCoroutine(DigPlant());
+            //StartCoroutine(DigPlant());
             success = true;
         }
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && nutrients.waterLevel < 10)
@@ -128,10 +128,8 @@ public class FakeFarmLand : StructureBehaviorScript
         }
     }
 
-    IEnumerator DigPlant()
+    public override void DigAction()
     {
-        isDigging = true;
-        yield return new WaitForSeconds(1f);
         audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
@@ -158,6 +156,8 @@ public class FakeFarmLand : StructureBehaviorScript
             mimic.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
             mimic.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             mimic.currentState = PlantMimic.CreatureState.Emerge;
+
+            if(onFire) mimic.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 10);
         }
         if(health <= 0) ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }

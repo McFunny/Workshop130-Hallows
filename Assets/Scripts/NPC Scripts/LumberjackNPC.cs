@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LumberjackNPC : NPC, ITalkable
 {
-    public InventoryItemData papers, treeNut;
+    public InventoryItemData papers, treeNut, wood;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
 
     public Quest treeQuest;
 
@@ -29,7 +29,7 @@ public class LumberjackNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(dialogueController.IsTalking() == false)
+        if(dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
             if(!GameSaveData.Instance.lumberMet)
             {
@@ -42,7 +42,8 @@ public class LumberjackNPC : NPC, ITalkable
                 GameSaveData.Instance.lumber_offersDeal = true; //He will now start selling his papers at his shop
                 currentPath = 0;
                 currentType = PathType.Quest;
-                QuestManager.Instance.AddQuest(treeQuest);
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(4));
+                QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(3));
 
                 /*else if(!GameSaveData.Instance.lumber_choppedTree)
                 {
@@ -80,8 +81,9 @@ public class LumberjackNPC : NPC, ITalkable
                 }
                 else if(NPCManager.Instance.lumberjackSpoke)
                 {
-                    interactSuccessful = false;
-                    return;
+                    int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                    currentPath = i;
+                    currentType = PathType.AlreadySpoken;
                 }
                 if(currentPath == -1)
                 {
@@ -97,19 +99,20 @@ public class LumberjackNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    /*public void Talk()
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         ToolItem tItem = item as ToolItem;
-        if(dialogueController.IsInterruptable() == false || tItem)
+        if(dialogueController.IsInterruptable() == false || tItem || !dialogueController.FreeToSpeak(this))
         {
             interactSuccessful = false;
             return;
@@ -160,7 +163,6 @@ public class LumberjackNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
-        //code for the item being edible
         Talk();
 
         interactSuccessful = true;
@@ -185,7 +187,8 @@ public class LumberjackNPC : NPC, ITalkable
             }
             else
             {
-                currentPath = 2; //item sold
+                if(item.itemData == papers) currentPath = 5; //papers sold
+                else currentPath = 2; //item sold
                 shopUI.shopImgObj.SetActive(false);
             }
             anim.SetTrigger("IsTalking");
@@ -215,11 +218,12 @@ public class LumberjackNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    public override void EmptyShopItem()
+    /*public override void EmptyShopItem() //For when a player bought smth
     {
+        if(!lastInteractedStoreItem.clearUponPurchase) return;
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
-    }
+    }*/
 
     public override void RefreshStore()
     {
@@ -229,19 +233,21 @@ public class LumberjackNPC : NPC, ITalkable
         int i;
         float r;
         InventoryItemData newItem;
+        int x = 0; //iterations
         foreach (StoreItem item in storeItems)
         {
-            newItem = null;
-            do
+            if(x == 0) newItem = papers;
+            else
             {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f,1f);
-                if(r < itemWeight[i]) newItem = possibleSoldItems[i];
+                newItem = wood;
+                item.clearUponPurchase = false;
             }
-            while(!newItem);
+            
             int newCost = (int) (newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
             item.seller = this;
+
+            x++;
         }
     }
 

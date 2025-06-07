@@ -14,13 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Wagon Merchant
   defaultPath:
+    pathName: 
     paragraphs:
     - Got somethin to sell?
     - Show me.
     emotions: 0000000003000000
+  repeatedItemPath:
+    pathName: 
+    paragraphs: []
+    emotions: 
   paths: []
-  currentPath: -1
-  paragraphs:
-  - I don't recognize you...
-  - I am all out of seeds today. Come back later...
-  emotions: 0000000003000000
+  fillerPaths: []
+  questPaths: []
+  itemRecievedPaths: []
+  itemSpecificRemarks: []
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

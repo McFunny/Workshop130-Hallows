@@ -58,7 +58,12 @@ public class StructureSaveData : MonoBehaviour
                 structureList.Structures[x].rotation[1] = structure.gameObject.transform.eulerAngles.y;
                 structureList.Structures[x].rotation[2] = structure.gameObject.transform.eulerAngles.z;
 
-                structureList.Structures[x].savedItemList1 = structure.savedItems;
+                //structureList.Structures[x].savedItemList1 = structure.savedItems; //CHANGE TO SAVE A LIST OF ITEM ID'S
+                for(int i = 0; i < structure.savedItems.Count; i++)
+                {
+                    if(structure.savedItems[i] != null) structureList.Structures[x].savedItemIDList1.Add(structure.savedItems[i].ID);
+                }
+
                 structureList.Structures[x].savedInt1 = structure.saveInt1;
                 structureList.Structures[x].savedInt2 = structure.saveInt2;
                 structureList.Structures[x].savedInt3 = structure.saveInt3;
@@ -68,14 +73,15 @@ public class StructureSaveData : MonoBehaviour
                 structureList.Structures[x].savedString1 = structure.saveString1;
                 structureList.Structures[x].savedString2 = structure.saveString2;
                 structureList.Structures[x].savedString3 = structure.saveString3;
+                structureList.Structures[x].savedBool1 = structure.saveBool1;
             }
             x++;
         }
 
-        for(int i = 0; i < StructureManager.Instance.Storage.Count; i++)
+        for(int n = 0; n < StructureManager.Instance.Storage.Count; n++)
         {
-            structureList.Nutrients[i] = StructureManager.Instance.Storage[i];
-            if(structureList.Nutrients[i].waterLevel > 3) print("Water!!!");
+            structureList.Nutrients[n] = StructureManager.Instance.Storage[n];
+            //if(structureList.Nutrients[n].waterLevel > 3) print("Water!!!");
         }
 
         var structureData = new StructureInventory(structureList.Structures, structureList.Nutrients);
@@ -83,25 +89,6 @@ public class StructureSaveData : MonoBehaviour
 
         Debug.Log("Structures saved successfully. Total: " + x);
 
-
-        /*List<FarmLandSaveData> farmlandDataList = new List<FarmLandSaveData>();
-        List<FarmTreeSaveData> farmTreeDataList = new List<FarmTreeSaveData>();
-
-        foreach (var structure in StructureManager.Instance.allStructs)
-        {
-            if (structure is FarmLand farmLand)
-                farmlandDataList.Add(new FarmLandSaveData(farmLand));
-
-            if (structure is FarmTree farmTree)
-                farmTreeDataList.Add(new FarmTreeSaveData(farmTree));
-
-          
-        }
-
-        var structureData = new AllStructuresSaveData(farmlandDataList, farmTreeDataList);
-        SaveLoad.CurrentSaveData.allStructuresSaveData = structureData;
-
-        Debug.Log("Structures saved successfully."); */
     }
 
     public void LoadStructures(SaveData data)
@@ -134,7 +121,12 @@ public class StructureSaveData : MonoBehaviour
                     loadedRotation.y = data.allStructuresSaveData.Structures[i].rotation[1];
                     loadedRotation.z = data.allStructuresSaveData.Structures[i].rotation[2];
 
-                    StructureStats.savedItems = data.allStructuresSaveData.Structures[i].savedItemList1;
+                    StructureStats.savedItems = data.allStructuresSaveData.Structures[i].savedItemList1; //CHANGE TO POPULATE A LIST OF ITEMS FROM THE LOADED ITEM IDS
+                    for(int c = 0; c < data.allStructuresSaveData.Structures[i].savedItemIDList1.Count; c++)
+                    {
+                        StructureStats.savedItems.Add(Database.Instance.GetItem(data.allStructuresSaveData.Structures[i].savedItemIDList1[c]));
+                    }
+
                     StructureStats.saveInt1 = data.allStructuresSaveData.Structures[i].savedInt1;
                     StructureStats.saveInt2 = data.allStructuresSaveData.Structures[i].savedInt2;
                     StructureStats.saveInt3 = data.allStructuresSaveData.Structures[i].savedInt3;
@@ -144,6 +136,7 @@ public class StructureSaveData : MonoBehaviour
                     StructureStats.saveString1 = data.allStructuresSaveData.Structures[i].savedString1;
                     StructureStats.saveString2 = data.allStructuresSaveData.Structures[i].savedString2;
                     StructureStats.saveString3 = data.allStructuresSaveData.Structures[i].savedString3;
+                    StructureStats.saveBool1 = data.allStructuresSaveData.Structures[i].savedBool1;
 
                     newStructure.transform.position = loadedPosition;
                     newStructure.transform.rotation = Quaternion.Euler(loadedRotation.x, loadedRotation.y, loadedRotation.z);
@@ -153,87 +146,15 @@ public class StructureSaveData : MonoBehaviour
             }
 
             Debug.Log("Structures loaded successfully.");
-
-        /*
-        if (data.allStructuresSaveData.farmlandSaveData != null)
-        {
-            foreach (var farmlandData in data.allStructuresSaveData.farmlandSaveData)
-            {
-                GameObject newFarmLand = Instantiate(StructureManager.Instance.farmTile, farmlandData.position, Quaternion.identity);
-                FarmLand farmLand = newFarmLand.GetComponent<FarmLand>();
-
-                farmLand.health = farmlandData.health;
-                farmLand.onFire = farmlandData.onFire;
-                farmLand.isObstacle = farmlandData.isObstacle;
-                farmLand.crop = CropDatabase.GetCropByName(farmlandData.cropID);
-                farmLand.growthStage = farmlandData.growthStage;
-                farmLand.hoursSpent = farmlandData.hoursSpent;
-                farmLand.plantStress = farmlandData.plantStress;
-                farmLand.harvestable = farmlandData.harvestable;
-                farmLand.rotted = farmlandData.rotted;
-                farmLand.isWeed = farmlandData.isWeed;
-                farmLand.isFrosted = farmlandData.isFrosted;
-
-                // Restore Nutrients
-                NutrientStorage nutrients = new NutrientStorage
-                {
-                    ichorLevel = farmlandData.ichorLevel,
-                    terraLevel = farmlandData.terraLevel,
-                    gloamLevel = farmlandData.gloamLevel,
-                    waterLevel = farmlandData.waterLevel
-                };
-                StructureManager.Instance.UpdateStorage(farmlandData.position, nutrients);
-                StructureManager.Instance.SetTile(farmlandData.position);
-            }
-        }
-
-        if (data.allStructuresSaveData.farmTreeSaveData != null)
-        {
-            foreach (var farmTreeData in data.allStructuresSaveData.farmTreeSaveData)
-            {
-                GameObject newFarmTree = Instantiate(StructureManager.Instance.farmTree, farmTreeData.position, Quaternion.identity);
-                FarmTree farmTree = newFarmTree.GetComponent<FarmTree>();
-
-                farmTree.health = farmTreeData.health;
-                farmTree.onFire = farmTreeData.onFire;
-                farmTree.isObstacle = farmTreeData.isObstacle;
-                farmTree.structData.isLarge = farmTreeData.isLargeObject;
-
-                if (farmTree.structData.isLarge)
-                {
-                    StructureManager.Instance.SetLargeTile(farmTreeData.position);
-                }
-                else
-                {
-                    StructureManager.Instance.SetTile(farmTreeData.position);
-                }
-            }
-        }
-
-        Debug.Log("Structures loaded successfully.");
-        */
     }
 
 }
 
-/*[System.Serializable]
-public struct AllStructuresSaveData
-{
-    public List<FarmLandSaveData> farmlandSaveData;
-    public List<FarmTreeSaveData> farmTreeSaveData;
-   
-    public AllStructuresSaveData(List<FarmLandSaveData> farmlands, List<FarmTreeSaveData> farmTrees)
-    {
-        farmlandSaveData = farmlands;
-        farmTreeSaveData = farmTrees;
-    }
-} */
-
 [System.Serializable]
 public class StructureInventory
 {
-    public Structure[] Structures = new Structure[800];
-    public NutrientStorage[] Nutrients = new NutrientStorage[800];
+    public Structure[] Structures = new Structure[1900];
+    public NutrientStorage[] Nutrients = new NutrientStorage[1900];
     public void Clear()
     {
         for(int i = 0; i < Structures.Length; i++)
@@ -258,8 +179,8 @@ public class StructureInventory
 
     public StructureInventory() //Just as a precaution, unsure if redundant
     {
-        Structures = new Structure[800];
-        Nutrients = new NutrientStorage[800];
+        Structures = new Structure[1900];
+        Nutrients = new NutrientStorage[1900];
     }
 }
 

@@ -19,11 +19,6 @@ MonoBehaviour:
     - You are the new farmer, right?
     - I do hope you didn't bring any of that mist in with you.
     emotions: 040000000500000005000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 06000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -50,6 +45,14 @@ MonoBehaviour:
     paragraphs:
     - I don't think you would be able to carry this.
     emotions: 05000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - I can make a {storeItemName} if you have the stuff for one.
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - If you want these, you are gonna need to hand over some materials first.
+    emotions: 03000000
   fillerPaths:
   - pathName: Aloe
     paragraphs:
@@ -65,8 +68,42 @@ MonoBehaviour:
     - The old farmer used to have so many horror stories, but I haven't seen them
       hurt anyone!
     emotions: 0500000001000000
+  - pathName: Sacrifices for innovation
+    paragraphs:
+    - Mortality rates have undoubtidly increased since the azure haze arrived.
+    - But with it has come new advancements in the medical field.
+    - I like to think of those who lost their lives to this phenomenon, as making
+      sacrifices for the greater good of humanity.
+    emotions: 020000000500000000000000
+  - pathName: Old people are stubborn
+    paragraphs:
+    - There are some folk in this town that stubbornly cling to their old ways of
+      life.
+    - How can they not see how enriched our lives have become?
+    emotions: 0300000004000000
+  - pathName: Save the forageables for me
+    paragraphs:
+    - I am on the lookout for some new floral specimens amongst the town to test
+      some theories on.
+    - I would kindly appreciate it if you stopped digging them up!
+    emotions: 0000000003000000
+  - pathName: Foxglove
+    paragraphs:
+    - At one point, VeilWood was abundant in Foxgloves; a flowering plant with small
+      blooms.
+    - I conducted research on it, and found it had an increased potency in it's poison.
+    - Upon hearing the claim, she proceeded to uproot every last stalk of the plant,
+      fearing someone would eat one by mistake.
+    - Now, you cannot find a single trace of the flower in town.
+    emotions: 00000000050000000000000002000000
   questPaths: []
-  itemRecievedPaths: []
+  itemRecievedPaths:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:
@@ -77,3 +114,16 @@ MonoBehaviour:
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

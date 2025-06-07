@@ -18,7 +18,7 @@ MonoBehaviour:
     troublesome at best.
   icon: {fileID: -1358232093, guid: 737d75bd0db95ec438000c855501225a, type: 3}
   maxStackSize: 20
-  value: 21
+  value: 28
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
@@ -29,6 +29,11 @@ MonoBehaviour:
   - RMB - Plant
   itemInputsController:
   - LT - Plant
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
   plantable: 1
   cropData: {fileID: 11400000, guid: 8172637bdf1f08549abde986d4a5a463, type: 2}
   ableToBeShot: 0
+  requireTrellis: 0

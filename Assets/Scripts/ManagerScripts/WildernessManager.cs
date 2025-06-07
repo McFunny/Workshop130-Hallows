@@ -16,7 +16,6 @@ public class WildernessManager : MonoBehaviour
     //public GameObject[] interactablePrefabs;
     public WildernessInteractable[] wildernessInteractables;
     //public float[] interactableSpawnChances;
-    public GameObject[] setPiecePrefabs;
 
     [HideInInspector] public List<WildernessMap> allMaps = new List<WildernessMap>();
     WildernessMap currentMap;
@@ -96,6 +95,7 @@ public class WildernessManager : MonoBehaviour
     {
         if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InFarm);
         if(currentMap == null) return;
+        PlayerInteraction.Instance.transform.position = returnPosition.position; //Maybe this can make the fix
         AmbientAudioManager.Instance.ChangeMusic();
         ClearCreatures();
         currentMap.ClearMap();
@@ -112,7 +112,7 @@ public class WildernessManager : MonoBehaviour
             return;
         }
 
-        if(!TimeManager.Instance.isDay && currentMap)
+        if(TimeManager.Instance.currentHour == 18 && currentMap)
         {
             //Play the force cutscene back to the town
             wagon.StartCoroutine(wagon.PlayerTooLate());
@@ -126,17 +126,27 @@ public class WildernessManager : MonoBehaviour
     IEnumerator CreatureSpawn()
     {
         //If the cap is reached (or randomly), pick a random monster that is far from the player and teleport them elsewhere
+        bool skipTimer = false;
+        float t = 0;
         while(currentMap)
         {
-            print("Ran");
-            float t = Random.Range(10, 25);
+            //print("Ran");
+            if(skipTimer) t = 1f;
+            else t = Random.Range(10, 20);
             yield return new WaitForSeconds(t);
             if(allCreatures.Count < maxCreatures && currentMap && !DialogueController.Instance.IsTalking())
             {
-                print("Spawned");
+                //print("Spawned");
                 int r = Random.Range(0, creatures.Length);
                 CreatureObject newCreature = creatures[r];
-                SpawnCreature(newCreature);
+                if(newCreature.spawnChance_w > Random.Range(0,100))
+                {
+                    SpawnCreature(newCreature);
+                    if(allCreatures.Count < maxCreatures/2 && Random.Range(0,100) > 50) SpawnCreature(newCreature);
+
+                    skipTimer = false;
+                }
+                else skipTimer = true;
             }
         }
     }
@@ -185,7 +195,7 @@ public class WildernessManager : MonoBehaviour
         Vector3 closestPos = new Vector3 (0,0,0);
         float minDistance = 1000;
         float dist;
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 2; i++)
         {
             r = Random.Range(0, currentMap.enemySpawnPositions.Length);
             dist = Vector3.Distance(PlayerInteraction.Instance.transform.position, currentMap.enemySpawnPositions[r].position);
@@ -200,10 +210,10 @@ public class WildernessManager : MonoBehaviour
 
     void CalculateDifficulty()
     {
-        if(hoursSpentInWilderness > 6) maxCreatures = 12;
-        else if(hoursSpentInWilderness > 4) maxCreatures = 8;
-        else if(hoursSpentInWilderness > 2) maxCreatures = 6;
-        else maxCreatures = 4;
+        if(hoursSpentInWilderness > 6) maxCreatures = 25;
+        else if(hoursSpentInWilderness > 4) maxCreatures = 20;
+        else if(hoursSpentInWilderness > 2) maxCreatures = 15;
+        else maxCreatures = 10;
     }
 }
 [System.Serializable]

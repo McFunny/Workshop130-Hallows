@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Pinex
   m_EditorClassIdentifier: 
   name: Pinex
+  id: 18
   growthStages: 7
-  hoursPerStage: 4
+  hoursPerStage: 3
   harvestableGrowthStages: 07000000
   cropSprites:
   - {fileID: 119942120, guid: 2c0e1acd04ae7c94bad8f1c80962cbdf, type: 3}
@@ -37,6 +38,9 @@ MonoBehaviour:
   terraIntake: -0.25
   gloamIntake: 0.5
   stressLimit: 2
+  wealthValue: 5
+  requireScythe: 0
+  requirePollination: 1
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 11400000, guid: e6512597fa0177f40a28adc5a75d04cc, type: 2}
   emitsGlow: 0

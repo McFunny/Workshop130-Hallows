@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 8
   displayName: Pyre Fly Nectar
-  description: Nectar extracted from a PyreFly Hive. Has a smokey flavor.
+  description: Nectar extracted from a PyreFly Hive. Has a smokey flavor. Can be
+    used to pollinate crops.
   icon: {fileID: 21300000, guid: 711d996abeff61a4c80c17cdbbd5ed74, type: 3}
   maxStackSize: 10
   value: 32
@@ -29,3 +30,7 @@ MonoBehaviour:
   - LMB - Consume
   itemInputsController:
   - LT - Show Item
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

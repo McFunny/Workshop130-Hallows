@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 13
   displayName: Dare Seed
-  description: Consumes Ichor and Gloamphage. Produces Terrazyme.
+  description: Often used for a brief energant, the dare plant yields an energizing
+    (albiet addictive) fruit.
   icon: {fileID: 1687778557, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
   maxStackSize: 20
   value: 16
@@ -26,6 +27,11 @@ MonoBehaviour:
   pickledForm: {fileID: 0}
   itemInputsKBM: []
   itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
   plantable: 1
   cropData: {fileID: 11400000, guid: 128b6ca8bd9f85e4d935114766315a9c, type: 2}
   ableToBeShot: 0
+  requireTrellis: 0

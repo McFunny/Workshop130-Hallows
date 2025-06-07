@@ -18,12 +18,8 @@ MonoBehaviour:
     paragraphs:
     - Hey...
     - I haven't seen you around here...
-    emotions: 0000000000000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 06000000
+    - Guess we are both trapped in this hell hole.
+    emotions: 000000000000000002000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -73,8 +69,20 @@ MonoBehaviour:
       Veilwood.
     - It was so long ago... I can barely remember what the outside used to look like.
     emotions: 0000000002000000
+  - pathName: Repeating Themselves
+    paragraphs:
+    - Hey... Haven't you noticed people just... repeating themselves??
+    - Just what is going on with the memories of the people in this town?
+    - I swear that plant girl introduced herself to me 3 times in the past week!
+    emotions: 040000000400000005000000
   questPaths: []
-  itemRecievedPaths: []
+  itemRecievedPaths:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:
@@ -85,3 +93,16 @@ MonoBehaviour:
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

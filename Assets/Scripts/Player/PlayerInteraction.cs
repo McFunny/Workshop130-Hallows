@@ -14,6 +14,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public PlayerInventoryHolder playerInventoryHolder { get; private set; }
 
+    public PlayerUpgrades playerUpgrades;
+
     PlayerEffectsHandler playerEffects;
 
     ControlManager controlManager;
@@ -28,9 +30,14 @@ public class PlayerInteraction : MonoBehaviour
 
     public int currentMoney;
     public int totalMoneyEarned;
+    public int daysSinceDeath = 0;
+    public delegate void PlayerDeathEvent();
+    public static event PlayerDeathEvent OnPlayerDeath;
 
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
+    public float fatigue = 0;
+    [HideInInspector] public readonly float maxFatigue = 150;
     bool sentLowStaminaMessage = false;
     public bool invincible = false;
 
@@ -41,6 +48,10 @@ public class PlayerInteraction : MonoBehaviour
 
     private float reach = 8;
 
+    public List<StatusEffect> currentEffects = new List<StatusEffect>();
+
+   
+
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
 
@@ -50,11 +61,13 @@ public class PlayerInteraction : MonoBehaviour
 
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
+    private RepairMinigame repairMinigame;
 
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        repairMinigame = FindFirstObjectByType<RepairMinigame>();
         stamina = maxStamina;
         waterHeld = maxWaterHeld;
         if(Instance != null && Instance != this)
@@ -71,8 +84,8 @@ public class PlayerInteraction : MonoBehaviour
     void Start()
     {
         if(!mainCam) mainCam = FindObjectOfType<Camera>();
-        playerInventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
-        playerEffects = FindObjectOfType<PlayerEffectsHandler>();
+        playerInventoryHolder = GetComponent<PlayerInventoryHolder>();
+        playerEffects = GetComponent<PlayerEffectsHandler>();
         rb = GetComponent<Rigidbody>();
 
         StartCoroutine(WakeUp());
@@ -100,6 +113,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(waterHeld > maxWaterHeld) waterHeld = maxWaterHeld;
         if(stamina > maxStamina) stamina = maxStamina;
+        if(fatigue > maxFatigue) fatigue = maxFatigue;
+
+        //if(stamina > maxStamina - fatigue) stamina = maxStamina - fatigue;
 
         DisplayHologramCheck();
 
@@ -111,25 +127,25 @@ public class PlayerInteraction : MonoBehaviour
             StartCoroutine(GameOver());
         }
 
-        /*if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) && StructureManager.Instance.enableCheats)
             {
                 currentMoney += 200;
                 totalMoneyEarned += 200;
             }
-        }*/
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKeyDown(KeyCode.O) && StructureManager.Instance.enableCheats)
             {
                 print(InputManager.isCharging);
                 InputManager.isCharging = false;
             }
         }
 
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
+        //if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
 
     }
@@ -217,6 +233,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach + 4, interactionLayers))
         {
+            if(hit.collider.gameObject.layer == 19) return;
             var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
@@ -242,6 +259,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
         {
+            if(hit.collider.gameObject.layer == 19) return;
             var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
@@ -292,17 +310,49 @@ public class PlayerInteraction : MonoBehaviour
             return;
         }
 
+        if(itemUseCooldown) return;
+
+        bool itemUsed = false;
+
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
-            if(itemUseCooldown) return;
             StartCoroutine(ItemUseCooldown());
             //eat it
             StaminaChange(item.staminaValue);
+            itemUsed = true;
+        }
+
+        if(item.gainedEffects.Count > 0)
+        {
+            foreach(StatusEffect s in item.gainedEffects)
+            {
+                ApplyStatusEffect(s.effect, s.remainingDuration);
+            }
+
+            StartCoroutine(ItemUseCooldown());
+            itemUsed = true;
+        }
+
+        if(item.itemBehavior)
+        {
+            item.itemBehavior.UseItem(out bool consumedOnUse);
+            if(consumedOnUse) itemUsed = true;
+        }
+
+        if(itemUsed)
+        {
+            if(item.useSound) playerEffects.PlayClip(item.useSound);
+            else if(item.staminaValue > 0) playerEffects.PlayClip(playerEffects.itemEat);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
-            playerEffects.PlayClip(playerEffects.itemEat);
-            return;
         }
+
+    }
+
+    public void GainMints(int amount, bool countForTotal)
+    {
+        currentMoney += amount;
+        if(countForTotal) totalMoneyEarned += amount;
     }
 
     public void StaminaChange(float amount)
@@ -312,8 +362,25 @@ public class PlayerInteraction : MonoBehaviour
             print("Damage negated! Stamina is : " + stamina);
             return;
         }
-        stamina += amount;
-        if(amount < -5) playerEffects.PlayerDamage();
+        if(stamina + amount <= 50 && stamina > 50 && amount >= -4 && amount < 0)
+        {
+            print("Damage negated to not go under threshold");
+            return;
+        }
+
+        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f;
+
+        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
+
+        //if(amount > 6) fatigue += Mathf.Round(amount * 0.1f);
+        
+        if(repairMinigame.IsMinigameActive())
+        {
+            repairMinigame.EndMinigame();
+        }
+
+        stamina +=  Mathf.Round(amount);
+        if(amount <= -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
         {
             sentLowStaminaMessage = true;
@@ -322,9 +389,44 @@ public class PlayerInteraction : MonoBehaviour
         else if(stamina > 50) sentLowStaminaMessage = false;
     }
 
+    public void ApplyStatusEffect(StatusEffectObject status, int duration)
+    {
+        if(currentEffects.Count == 0)
+        {
+            currentEffects.Add(new StatusEffect(status, duration));
+            currentEffects[currentEffects.Count - 1].effect.OnEffectApplied();
+            GameObject vfx = StatusEffectManager.Instance.GrabStatusVFX(status.name);
+            if(vfx == null) return;
+            vfx.GetComponent<VFXStatusObject>().followTransform = playerFeet;
+            //vfx.transform.position = new Vector3(playerFeet.position.x, playerFeet.position.y + 0.5f, playerFeet.position.z);
+            //vfx.transform.parent = playerFeet;
+            return;
+        }
+        for(int x = 0; x < currentEffects.Count; x++)
+        {
+            //do the effects referencing the scriptable object here
+            if(currentEffects[x].effect.name == status.name)
+            {
+                if(currentEffects[x].remainingDuration < duration) currentEffects[x].remainingDuration = duration;
+                return;
+            }
+        }
+    }
+
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
     {
         if(time > 0) rb.velocity = new Vector3(0,0,0);
+        if(toolCooldown) yield break;
+        toolCooldown = true;
+        yield return new WaitForSeconds(time);
+        tool.ItemUsed();
+        yield return new WaitForSeconds(coolDown - time);
+        toolCooldown = false;
+    }
+
+    public IEnumerator ToolUseWithoutMovementReset(ToolBehavior tool, float time, float coolDown)
+    {
+        //if(time > 0) rb.velocity = new Vector3(0,0,0);
         if(toolCooldown) yield break;
         toolCooldown = true;
         yield return new WaitForSeconds(time);
@@ -359,6 +461,7 @@ public class PlayerInteraction : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
         {
+            if(hit.collider.gameObject.layer == 19) return;
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
@@ -396,8 +499,17 @@ public class PlayerInteraction : MonoBehaviour
     IEnumerator GameOver()
     {
         //maybe pause time? also make sure no issues arise when dying while talking to someone
+
+        //Remove Status Effects
+        foreach(StatusEffect e in currentEffects)
+        {
+            e.remainingDuration = 0;
+        }
+
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
+        daysSinceDeath = -1;
+        InvokePlayerDeathEvent();
         AmbientAudioManager.Instance.ChangeMusic();
         yield return new WaitForSeconds(0.5f);
         playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
@@ -412,7 +524,7 @@ public class PlayerInteraction : MonoBehaviour
         TownGate.Instance.Transition(PlayerLocation.InFarm);
 
         stamina = 100;
-        if(currentMoney > 0) currentMoney = currentMoney/2;
+        if(currentMoney > 0 && MainMenuScript.currentFileMode != FileMode.Cozy) currentMoney = (currentMoney/5) * 4; //I have no idea if this will work
         TimeManager.Instance.GameOver(); //Has to be last, this is where it saves
         print("Time GameOver Complete");
 
@@ -458,5 +570,16 @@ public class PlayerInteraction : MonoBehaviour
             i++;
         }
     }
-    
+
+    public void InvokePlayerDeathEvent()
+    {
+        OnPlayerDeath?.Invoke();
+    }
+
+    public void ShakeScreen(float intensity)
+    {
+        playerEffects.damageImpulse.GenerateImpulseWithForce(intensity);
+    }
+
+
 }

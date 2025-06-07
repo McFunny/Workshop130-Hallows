@@ -2029,7 +2029,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.4, y: 2.22, z: 1.54}
+  m_Size: {x: 3.26, y: 2.22, z: 1.54}
   m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!114 &4118398948084221391
 MonoBehaviour:
@@ -2161,9 +2161,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: b1b94011ab4c8ce449eeef3b1c2f3c44, type: 2}
-  health: 50
-  maxHealth: 50
+  itemForm: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
+  health: 30
+  maxHealth: 30
   wealthValue: 0
+  salvageChance: 80
   destructable: 1
   flammable: 1
   onFire: 0
@@ -2181,8 +2183,8 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 2402907152366001164}
-  destructionType: 3
   gibs: {fileID: 8788469494092045344, guid: 9d8d7c2eaa70e7f459d4cec3ce86d3aa, type: 3}
   nearbyFires: []
   highlight:
@@ -2191,7 +2193,6 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 0}
-  recoveredItem: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
   gloomStalk: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
   brokenBox: {fileID: 4722383386622465818}
   clearM: {fileID: 2100000, guid: 9d7df750b62889e4ca9276c18dde8004, type: 2}

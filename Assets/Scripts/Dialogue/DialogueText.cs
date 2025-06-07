@@ -7,7 +7,7 @@ public class DialogueText : ScriptableObject
 {
     public string speakerName;
     public DialoguePath defaultPath;
-    public DialoguePath questCompletePath;
+    //public DialoguePath questCompletePath; //Change to be an array, so there are diff dialogues for each type of quest completed
     public DialoguePath repeatedItemPath;
     public DialoguePath[] paths; //misc paths
     public DialoguePath[] fillerPaths; //the random text the NPC will say each day. 50% chance they say this or one from their friendship path
@@ -15,6 +15,18 @@ public class DialogueText : ScriptableObject
     public DialoguePath[] itemRecievedPaths;
     public DialoguePath[] itemSpecificRemarks;
     public DialoguePath[] friendshipPath1, friendshipPath2, friendshipPath3; //Random Text they can say depending on friendship levels
+    public DialoguePath[] alreadySpoken;
+    public DialoguePath[] branchingPaths;
+    public DialoguePath[] questCompletePaths;
+
+    /*[ContextMenu("Numerate all paths")]
+    public void NumerateDialoguePaths()
+    {
+        for(int i = 0; i < paths.Length; i++)
+        {
+            paths[i].pathName = i + 
+        }
+    }*/
 
 }
 
@@ -39,7 +51,9 @@ public enum PathType
     Filler,
     Quest,
     ItemRecieved,
-    ItemSpecific
+    ItemSpecific,
+    AlreadySpoken,
+    BranchingPaths
 }
 
 [System.Serializable]
@@ -49,5 +63,5 @@ public class DialoguePath
     //public string functionName; //for calling a specific function
     [TextArea(5,10)]
     public string[] paragraphs;
-    public Emotion[] emotions;
+    public List<Emotion> emotions;
 }

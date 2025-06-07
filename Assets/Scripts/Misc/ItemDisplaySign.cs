@@ -11,6 +11,10 @@ public class ItemDisplaySign : MonoBehaviour
     public TextMeshProUGUI shopNPC;
     private string lastSavedNPC;
     private Color c_default, c_tool, c_placeable, c_crop, c_consumable;
+    public StructureShopDisplay structureDisplay;
+
+    public ParticleSystem changeParticle;
+    public Rigidbody signRB;
 
     private void Start()
     {
@@ -34,6 +38,7 @@ public class ItemDisplaySign : MonoBehaviour
         {
             shopNPC.text = npc.dialogueText.speakerName.ToString();
             lastSavedNPC = npc.dialogueText.speakerName.ToString();
+            if(changeParticle) changeParticle.Play();
         }
         
     }
@@ -44,6 +49,9 @@ public class ItemDisplaySign : MonoBehaviour
         itemDescription.text = "";
         itemType.text = "";
         shopNPC.text = lastSavedNPC;
+        if (structureDisplay != null) { structureDisplay.LeaveShop(); }
+        if(changeParticle) changeParticle.Play();
+    
     }
 
     public void LeaveShop()
@@ -52,6 +60,8 @@ public class ItemDisplaySign : MonoBehaviour
         itemDescription.text = "";
         itemType.text = "";
         shopNPC.text = "";
+        if (structureDisplay != null) { structureDisplay.LeaveShop(); }
+        //if(changeParticle) changeParticle.Play();
     }
 
     public void DisplayItem(InventoryItemData itemData)
@@ -86,6 +96,10 @@ public class ItemDisplaySign : MonoBehaviour
 
         itemName.text = itemData.displayName;
         itemDescription.text = itemData.description;
+
+        if (structureDisplay != null) { structureDisplay.DisplayStructure(itemData); }
+        if(changeParticle) changeParticle.Play();
+        if(signRB && signRB.velocity.magnitude < 2) signRB.AddForce(signRB.transform.forward * -60, ForceMode.Impulse);
     }
 
 }

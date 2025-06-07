@@ -21,11 +21,6 @@ MonoBehaviour:
     - .... Oh wait.... False alarm...
     - Its just that new plant guy.
     emotions: 05000000060000000000000006000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 06000000
   repeatedItemPath:
     pathName: 
     paragraphs:
@@ -99,7 +94,7 @@ MonoBehaviour:
   - pathName: Food For Thought
     paragraphs:
     - I see you eyeing that big door. I bet you want to know how to open it. {freezePlayer}
-    - Well, I MAY know where the key is... But I am just soooo hungry, I can barely
+    - Well, I MAY know where a key is... But I am just soooo hungry, I can barely
       remember...
     - Maybe a Pale Carrot would jog my memory...
     emotions: 000000000100000002000000
@@ -138,3 +133,16 @@ MonoBehaviour:
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

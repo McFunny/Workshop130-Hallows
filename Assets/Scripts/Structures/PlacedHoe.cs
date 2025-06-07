@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlacedHoe : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     Vector3 startingAngle;
     Vector3 currentAngle;
@@ -31,6 +30,7 @@ public class PlacedHoe : StructureBehaviorScript
     {
         base.Start();
         ChangeRotation();
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
     }
 
     void Update()
@@ -112,7 +112,7 @@ public class PlacedHoe : StructureBehaviorScript
     public override void StructureInteraction()
     {
         if(isTriggered) return;
-        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
             Destroy(this.gameObject);

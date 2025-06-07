@@ -16,14 +16,9 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - I can hear what happens on your farm at night
-    - Hopefully I don't have to make a casket for you as well
+    - I can hear what happens on your farm at night.
+    - Hopefully I don't have to make a casket for you as well.
     emotions: 0000000000000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 06000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -71,8 +66,28 @@ MonoBehaviour:
     - I hardly know her! Ha ha!
     - My wife is dead.
     emotions: 040000000100000006000000
+  - pathName: Town Size
+    paragraphs:
+    - As years go by, our hamlet grows smaller and smaller.
+    - And as years go by, this graveyard grows fuller and fuller.
+    - So if you think about it, it is as if nothing has changed, eh?
+    emotions: 020000000200000000000000
+  - pathName: Fear for the boy
+    paragraphs:
+    - I fear for the boy.
+    - I recoil at the thought he will need to fend for himself, without my presence.
+    - Or worse. Come across me as one of those fiends outside the walls.
+    - ...
+    - At least he has developed good trade skills.
+    emotions: 0200000002000000030000000600000001000000
   questPaths: []
-  itemRecievedPaths: []
+  itemRecievedPaths:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:
@@ -83,3 +98,16 @@ MonoBehaviour:
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

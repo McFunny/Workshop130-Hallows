@@ -17,6 +17,8 @@ public class NewDayCounter : MonoBehaviour
     bool hideCounter = true;
     bool fortnite = false; //teehee!!!
 
+    public AudioClip transitionSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +54,8 @@ public class NewDayCounter : MonoBehaviour
         if(!hideCounter) animator.SetTrigger("NewDayTrigger");
         AnimatorReset(); // Makes sure the animation doesn't play twice, just in case
         yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.4f);
+        AudioPoolManager.Instance.PlayClipAtPosition(transitionSound, PlayerInteraction.Instance.transform.position);
     }
 
     public IEnumerator ForceAnim()

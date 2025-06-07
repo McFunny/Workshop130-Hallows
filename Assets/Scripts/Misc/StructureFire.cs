@@ -12,7 +12,7 @@ public class StructureFire : MonoBehaviour
     public AudioClip extinguishedSFX;
 
     float playerDamage = 6;
-    float creatureDamage = 15;
+    float creatureDamage = 5;
 
     // Update is called once per frame
     void Update()
@@ -32,7 +32,7 @@ public class StructureFire : MonoBehaviour
     {
         if(!gameObject.scene.isLoaded) return;
         ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = flameBase.position;
-        AudioSource.PlayClipAtPoint(extinguishedSFX, transform.position);
+        AudioPoolManager.Instance.PlayClipAtPosition(extinguishedSFX, transform.position);
         StopAllCoroutines();
         burningStruct = null;
     }
@@ -43,12 +43,14 @@ public class StructureFire : MonoBehaviour
         if (player != null)
         {
             player.StaminaChange(-playerDamage);
+            if(Random.Range(0,4) > 0) player.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
         if (creature != null && creature.shovelVulnerable && creature.fireVulnerable)
         {
             creature.TakeDamage(creatureDamage);
+            if(Random.Range(0,4) > 0) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 5);
 
             creature.PlayHitParticle(new Vector3(0, 0, 0));
         }
@@ -86,7 +88,7 @@ public class StructureFire : MonoBehaviour
                     if(structure && structure.IsFlammable() && !structure.onFire)
                     {
                         int r = Random.Range(0,10);
-                        if(r > 4) structure.LitOnFire();
+                        if(r > 3) structure.LitOnFire();
                         break;
                     }
                 }

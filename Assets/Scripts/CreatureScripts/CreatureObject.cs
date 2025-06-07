@@ -11,6 +11,8 @@ public class CreatureObject : ScriptableObject
 
     [HideInInspector] public float[] position = new float[3];
 
+    public int id = -1;
+
     public int dangerCost = 1; //how much wealth does it cost to spawn in
     public int dangerThreshold = 0; //how much wealth does the player need to have in order to spawn it
     public int spawnWeight = 10; //how likely is it to get spawned over another creature
@@ -24,6 +26,14 @@ public class CreatureObject : ScriptableObject
     public int amountKilled = 0;
 
     public bool hasSpawned = false;
+
+    //[HideInInspector] public bool forceSpawnVariant = false;
+
+    public SpawnType spawnType;
+
+    //////For Wilderness Spawning/////
+    /// 
+    public float spawnChance_w = 100;
 
     public Creature data = new Creature();
 
@@ -65,4 +75,10 @@ public class CreatureVariant
     public float probabilityInWilderness = 100;
     public bool canSpawnInWilderness;
     public int wealthPrerequisite = 0;
+}
+public enum SpawnType
+{
+    Common, //Grunt enemies
+    Rare, //More dynamic and gameplay changing
+    Support //Less impactful or optional creature
 }

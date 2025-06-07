@@ -6,18 +6,54 @@ using UnityEngine.UI;
 
 public class DebugUI : MonoBehaviour
 {
-    public bool isDebug;
+    //public bool isDebug;
     public static bool isDebugMenuOpen;
     public Database database;
     public GameObject debugButton, content, panel;
     private int databaseLength;
     [SerializeField] private List<InventoryItemData> items;
+    private bool itemsLoaded = false;
     // Start is called before the first frame update
     void Start()
     {
-        if(!isDebug) return;
+        if (!StructureManager.Instance.enableCheats) return;
         panel.SetActive(true);
         isDebugMenuOpen = false;
+        items = database.GetItemDatabase();
+
+        LoadItemDatabase();
+
+        itemsLoaded = true;
+        panel.SetActive(false);
+        print("File Mode: " + MainMenuScript.currentFileMode);
+        print("Save File: " + MainMenuScript.currentSaveSlot);
+    }
+
+    void Update()
+    {
+        if(!StructureManager.Instance.enableCheats) return;
+
+        isDebugMenuOpen = panel.activeSelf;
+
+        if(Input.GetKeyDown(KeyCode.Return) && !PauseScript.isPaused)
+        {
+            LoadItemDatabase();
+            panel.SetActive(!panel.activeInHierarchy);
+
+            if(panel.activeSelf) PlayerMovement.restrictMovementTokens++;
+            else PlayerMovement.restrictMovementTokens--;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape) && !PauseScript.isPaused && isDebugMenuOpen)
+        {
+            PlayerMovement.restrictMovementTokens--;
+            panel.SetActive(false);
+        }
+    }
+
+    private void LoadItemDatabase()
+    {
+        if(itemsLoaded) return;
         items = database.GetItemDatabase();
 
         for(int i = 0; i < items.Count; i++)
@@ -36,28 +72,6 @@ public class DebugUI : MonoBehaviour
             dataCmp.data = data;
         }
 
-        panel.SetActive(false);
-    }
-
-    void Update()
-    {
-        return;
-        if(!isDebug) return;
-
-        isDebugMenuOpen = panel.activeSelf;
-
-        if(Input.GetKeyDown(KeyCode.Return) && !PauseScript.isPaused)
-        {
-            panel.SetActive(!panel.activeInHierarchy);
-
-            if(panel.activeSelf) PlayerMovement.restrictMovementTokens++;
-            else PlayerMovement.restrictMovementTokens--;
-        }
-
-        if(Input.GetKeyDown(KeyCode.Escape) && !PauseScript.isPaused && isDebugMenuOpen)
-        {
-            PlayerMovement.restrictMovementTokens--;
-            panel.SetActive(false);
-        }
+        itemsLoaded = true;
     }
 }

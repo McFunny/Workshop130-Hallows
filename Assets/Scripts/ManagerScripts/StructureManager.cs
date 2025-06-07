@@ -8,13 +8,13 @@ public class StructureManager : MonoBehaviour
 {
     public static StructureManager Instance;
     [Header("Tiles")]
-    public Tilemap farmTileMap, cabinTileMap, townTileMap;
+    public Tilemap farmTileMap, cabinTileMap, cabinDecorTileMap, townTileMap, barnTileMap, barnDecorTileMap;
     public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them 
     //Would also then need an occupied border tile
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -23,12 +23,15 @@ public class StructureManager : MonoBehaviour
 
     public List<NutrientStorage> Storage => storage;
 
-    [Header("CropDebugs")]
+    [Header("Debugs")]
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
+    public bool enableCheats = false;
+    public bool forceSurvivalMode = false;
 
 
     void Awake()
     {
+        if(forceSurvivalMode) MainMenuScript.currentFileMode = FileMode.Survival;
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -43,8 +46,7 @@ public class StructureManager : MonoBehaviour
         //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
         if(!MainMenuScript.loadingData)
         {
-            PopulateTrees(15, 20);
-            PopulateWeeds(10, 20); //Only do this when a new game has started.
+            StartCoroutine(SpawnStartingStructures()); //Only do this when a new game has started.
         }
         TimeManager.OnHourlyUpdate += HourUpdate;
     }
@@ -79,15 +81,27 @@ public class StructureManager : MonoBehaviour
         //print("AllStructs: " + allStructs.Count);
         if(TimeManager.Instance.currentHour == 8)
         {
-            PopulateWeeds(-3, 5);
+            StartCoroutine(PopulateStructure(-3, 5, weedTile, false));
             PopulateDecorCrows(0, 2);
+            StartCoroutine(PopulateStructure(-2, 3, boulder, true));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
             PopulateForageables(-2, 3);
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
+
+        if(Random.Range(0,100) < 7)
+        {
+            Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+        }
     }
+
+    /*[ContextMenu("NutCrowTest")]
+    public void CrowTest()
+    {
+        Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+    }*/
 
     public void GameOver()
     {
@@ -102,10 +116,11 @@ public class StructureManager : MonoBehaviour
                 if(potentialWeed && potentialWeed.isWeed) continue;
 
                 r = Random.Range(0, 10);
-                if(r >= 7) //Destroy structure. Could even replace some with rubble struct when we add it
+                if(r >= 6 || allStructs[i].onFire) //Destroy structure. Could even replace some with rubble struct when we add it
                 {
                     print("Deleting: " + allStructs[i]);
-                    Destroy(allStructs[i].gameObject);
+                    //Destroy(allStructs[i].gameObject);
+                    allStructs[i].TakeDamage(999);
                     s++;
                 }
             }
@@ -149,7 +164,31 @@ public class StructureManager : MonoBehaviour
             }
         }
         //print("No tile grid was found");
-        return farmTileMap;
+        return null;
+    }
+
+    public bool ValidateGridType(Vector3 pos, List<GridType> types)
+    {
+        foreach(GridType g in types)
+        {
+            switch(g)
+            {
+                case GridType.Any:
+                    if(CurrentTileMap(pos) != null) return true;
+                    break;
+                case GridType.Farm:
+                    if(CurrentTileMap(pos) == farmTileMap) return true;
+                    break;
+                case GridType.Cabin:
+                    if(CurrentTileMap(pos) == cabinTileMap) return true;
+                    break;
+                case GridType.Town:
+                    if(CurrentTileMap(pos) == townTileMap) return true;
+                    break;
+            }
+        }
+        
+        return false;
     }
 
     public bool ValidateGridType(Vector3 pos, GridType type)
@@ -157,7 +196,7 @@ public class StructureManager : MonoBehaviour
         switch(type)
         {
             case GridType.Any:
-                return true;
+                if(CurrentTileMap(pos) != null) return true;
                 break;
             case GridType.Farm:
                 if(CurrentTileMap(pos) == farmTileMap) return true;
@@ -220,6 +259,41 @@ public class StructureManager : MonoBehaviour
         return center;
     }
 
+    public Vector3 CheckOneByTwoTile(Vector3 pos, Quaternion rot)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return new Vector3 (0,0,0);
+
+        List<Vector3Int> selectedTiles = new List<Vector3Int>();
+        Vector3Int gridPos = currentMap.WorldToCell(pos);
+
+        selectedTiles.Add(gridPos);
+        if(rot.y == 0|| rot.y == -1 || rot.y == 1) //item is sideways //problem is here
+        {
+            selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y)); //Top Right Tile
+            print("Sideways");
+        }
+        else
+        {
+            selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y - 1)); //Bottom Left Tile
+            print("Straight");
+        }
+        print(rot.y);
+
+        foreach(Vector3Int _pos in selectedTiles)
+        {
+            TileBase currentTile = currentMap.GetTile(_pos); //Is the tile free?
+            if(currentTile == null || currentTile != freeTile) return new Vector3 (0,0,0);
+        }
+
+        Vector3 start = currentMap.GetCellCenterWorld(gridPos);
+        Vector3 otherEnd = currentMap.GetCellCenterWorld(selectedTiles[1]);
+        Vector3 center = new Vector3((start.x + otherEnd.x)/2, (start.y + otherEnd.y)/2, (start.z + otherEnd.z)/2); 
+        //The center of the 1x2 Square
+        
+        return center;
+    }
+
     public Vector3 GetTileCenter(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
@@ -265,6 +339,7 @@ public class StructureManager : MonoBehaviour
         List<Vector3> adjacentTiles = new List<Vector3>();
 
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return adjacentTiles;
 
         Vector3Int gridPos = currentMap.WorldToCell(pos);
 
@@ -278,19 +353,20 @@ public class StructureManager : MonoBehaviour
     public void SpawnStructure(GameObject obj, Vector3 pos)
     {
         Instantiate(obj, pos, Quaternion.identity);
-        SetTile(pos);
+        //SetTile(pos);
     }
 
     public GameObject SpawnStructureWithInstance(GameObject obj, Vector3 pos)
     {
         GameObject instance = Instantiate(obj, pos, Quaternion.identity);
-        SetTile(pos);
+        //SetTile(pos);
         return instance;
     }
 
     public bool SpawnLargeStructure(GameObject obj, Vector3 pos, bool randomizeRotation)
     { 
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return false;
 
         List<Vector3Int> selectedTiles = new List<Vector3Int>();
         Vector3Int gridPos = currentMap.WorldToCell(pos);
@@ -305,10 +381,10 @@ public class StructureManager : MonoBehaviour
             if(currentTile == null || currentTile != freeTile) return false;
         }
 
-        foreach(Vector3Int _pos in selectedTiles)
+        /*foreach(Vector3Int _pos in selectedTiles)
         {
             currentMap.SetTile(_pos, occupiedTile);
-        }
+        }*/
 
         Vector3 start = currentMap.GetCellCenterWorld(gridPos);
         Vector3 otherEnd = currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x + 1, gridPos.y - 1));
@@ -333,11 +409,28 @@ public class StructureManager : MonoBehaviour
     public void SetLargeTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
 
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
         {
             Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
             if(Vector3.Distance(tilePosition, pos) <= 3f)
+            {
+                if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, occupiedTile);
+                //print("FoundTile");
+            }
+        }
+    }
+
+    public void SetOneByTwoTile(Vector3 pos)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
+
+        foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 2f)
             {
                 if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, occupiedTile);
                 //print("FoundTile");
@@ -358,12 +451,31 @@ public class StructureManager : MonoBehaviour
     public void ClearLargeTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
         //fetch tiles within a small radius, should return the 4 its occupying
         //print("Clearing");
         foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
         {
             Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
             if(Vector3.Distance(tilePosition, pos) <= 3f)
+            {
+                if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, freeTile);
+                //print("FoundTile");
+            }
+            
+        }
+    }
+
+    public void ClearOneByTwoTile(Vector3 pos)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
+        //fetch tiles within a small radius, should return the 4 its occupying
+        //print("Clearing");
+        foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 2f)
             {
                 if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, freeTile);
                 //print("FoundTile");
@@ -402,9 +514,45 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void NutrientRefill(Vector3 pos, float radius, float i, float t, float g)
+    {
+        foreach (var gridPosition in farmTileMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = farmTileMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= radius && farmTileMap.GetTile(gridPosition) != null)
+            {
+                for(int x = 0; x < allFarmTiles.Count; x++)
+                {
+                    if(allFarmTiles[x] == gridPosition)
+                    {
+                        if(storage[x] == null) storage[x] = new NutrientStorage();
+
+                        storage[x].ichorLevel += i;
+                        if(storage[x].ichorLevel > 10) storage[x].ichorLevel = 10;
+
+                        storage[x].terraLevel += t;
+                        if(storage[x].terraLevel > 10) storage[x].terraLevel = 10;
+
+                        storage[x].gloamLevel += g;
+                        if(storage[x].gloamLevel > 10) storage[x].gloamLevel = 10;
+
+                        StructureBehaviorScript structure = GrabStructureOnTile(tilePosition);
+                        if(structure)
+                        {
+                            FarmLand farmPlot = structure as FarmLand;
+                            if(farmPlot) farmPlot.RefreshNutrients();
+                        }
+                    } 
+                }
+            }
+            
+        }
+    }
+
     public List<Vector3> WaterGunTargets(Vector3 pos, Direction dir, int range)
     {
         Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return new List<Vector3>();
 
         List<Vector3> newTargets = new List<Vector3>();
         Vector3Int currentPos = currentMap.WorldToCell(pos);
@@ -512,7 +660,16 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    void PopulateWeeds(int min, int max)
+    IEnumerator SpawnStartingStructures()
+    {
+        StartCoroutine(PopulateTrees(18, 27));
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(PopulateStructure(15, 25, weedTile, false));
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(PopulateStructure(15, 25, boulder, true));
+    }
+
+    /*void PopulateWeeds(int min, int max)
     {
         List<Vector3Int> spawnablePositions = new List<Vector3Int>();
 
@@ -537,9 +694,57 @@ public class StructureManager : MonoBehaviour
                 }
             }
         }
+    }*/
+
+    IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation)
+    {
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        foreach (Vector3Int position in farmTileMap.cellBounds.allPositionsWithin)
+        {
+            if(farmTileMap.GetTile(position) == freeTile) spawnablePositions.Add(position);
+        }
+
+        int r = Random.Range(min,max + 1);
+        if (r <= 0) yield break;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = farmTileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(farmTileMap.GetTile(spawnablePositions[randomIndex]) != null && farmTileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
+                {
+                    GameObject newStruct = SpawnStructureWithInstance(prefab, spawnPos);
+                    if(randomizeRotation)
+                    {
+                        int n = Random.Range(0,4);
+
+                        switch(n)
+                        {
+                            case 0:
+                            break;
+                            case 1:
+                            newStruct.transform.Rotate(0, 90, 0);
+                            break;
+                            case 2:
+                            newStruct.transform.Rotate(0, 180, 0);
+                            break;
+                            case 3:
+                            newStruct.transform.Rotate(0, 270, 0);
+                            break;
+                        }
+                    }
+
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+        }
     }
 
-    void PopulateTrees(int min, int max)
+    IEnumerator PopulateTrees(int min, int max)
     {
         List<Vector3Int> spawnablePositions = new List<Vector3Int>();
 
@@ -550,7 +755,7 @@ public class StructureManager : MonoBehaviour
         }
 
         int r = Random.Range(min,max + 1);
-        if (r <= 0) return;
+        if (r <= 0) yield break;
         float i = 0;
         while(i < r)
         {
@@ -563,6 +768,7 @@ public class StructureManager : MonoBehaviour
                 {
                     bool success = SpawnLargeStructure(farmTree, spawnPos, true);
                     i++;
+                    yield return new WaitForSeconds(0.01f);
                     //print(success);
                 }
                 else i += 0.25f;
@@ -673,7 +879,7 @@ public class StructureManager : MonoBehaviour
         if(weedSpots.Count == 0) return;
         foreach(Vector3 weedPos in weedSpots)
         {
-            if(Random.Range(0f,10f) > 9.7f)
+            if(Random.Range(0f,10f) > 9.9f)
             {
                 SpawnStructure(weedTile, weedPos);
                 break;
@@ -701,7 +907,7 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    public Vector3 FindMimicTile()
+    public Vector3 FindFreeTileNearCrop()
     {
         List<Vector3> cropTiles = new List<Vector3>();
 
@@ -835,10 +1041,13 @@ public enum Direction
     West,
     Null
 }
+[System.Serializable]
 public enum GridType
 {
     Any,
     Farm,
     Cabin,
-    Town
+    Town, //Will most likely go unused and count as farm
+    Barn,
+    Decor
 }

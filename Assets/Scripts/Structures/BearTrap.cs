@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BearTrap : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
+    //public InventoryItemData recoveredItem;
     public Transform topClamp, bottomClamp;
     float animationTimeLeft;
     bool isTriggered, rearming, caughtSomething;
@@ -24,6 +24,8 @@ public class BearTrap : StructureBehaviorScript
 
     CreatureBehaviorScript capturedCreature;
 
+    Collider collider;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,6 +39,8 @@ public class BearTrap : StructureBehaviorScript
             topClamp.rotation = Quaternion.Euler(-161, 90, -90);
             bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
         }
+
+        collider = GetComponent<Collider>();
     }
 
     void Start()
@@ -80,18 +84,20 @@ public class BearTrap : StructureBehaviorScript
         if(caughtSomething) return;
         if(type == ToolType.Shovel && !rearming)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUp());
             success = true;
         }
     }
 
-    IEnumerator DugUp()
+    public override void DigAction()
     {
-        yield return  new WaitForSeconds(1);
         if(!caughtSomething)
         {
-            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-            droppedItem.transform.position = transform.position;
+            if(Random.Range(0, maxHealth) <= health) 
+            {
+                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemForm);
+                droppedItem.transform.position = transform.position;
+            }
             Destroy(this.gameObject);
         }
         
@@ -253,8 +259,10 @@ public class BearTrap : StructureBehaviorScript
     IEnumerator HoldCorpse()
     {
         rearming = true;
+        collider.enabled = false;
         while(capturedCreature) yield return null;
         rearming = false;
+        collider.enabled = true;
     }
 
     void OnTriggerEnter(Collider other)

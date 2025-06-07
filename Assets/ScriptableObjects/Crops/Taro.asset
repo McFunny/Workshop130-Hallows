@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Taro
   m_EditorClassIdentifier: 
   name: Taro
+  id: 17
   growthStages: 5
-  hoursPerStage: 3
+  hoursPerStage: 4
   harvestableGrowthStages: 05000000
   cropSprites:
   - {fileID: 305723951, guid: 66f06eb655397394999a0bf471dae613, type: 3}
@@ -33,8 +34,11 @@ MonoBehaviour:
   waterIntake: 10
   ichorIntake: 0
   terraIntake: -0.25
-  gloamIntake: 1.25
-  stressLimit: 3
+  gloamIntake: 1.5
+  stressLimit: 1
+  wealthValue: 5
+  requireScythe: 0
+  requirePollination: 0
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0

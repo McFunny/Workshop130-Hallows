@@ -12,6 +12,8 @@ public class CatacombDoor : MonoBehaviour, IInteractable
 
     public bool debugMode = false;
 
+    public bool isExit = false; //if true, this is the dorr inside the crypt
+
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
@@ -20,7 +22,7 @@ public class CatacombDoor : MonoBehaviour, IInteractable
     {
         if(GameSaveData.Instance.catacombUnlocked || debugMode)
         {
-            if(TownGate.Instance.location == PlayerLocation.InTown)
+            if(!isExit)
             {
                 StartCoroutine(Transition(true));
             }
@@ -36,9 +38,15 @@ public class CatacombDoor : MonoBehaviour, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
+        ToolItem t_item = item as ToolItem;
+        if (t_item)
+        {
+            interactSuccessful = false;
+            return;
+        }
         if(GameSaveData.Instance.catacombUnlocked || debugMode)
         {
-            if(TownGate.Instance.location == PlayerLocation.InTown)
+            if(!isExit)
             {
                 StartCoroutine(Transition(true));
             }
@@ -55,6 +63,8 @@ public class CatacombDoor : MonoBehaviour, IInteractable
             interactSuccessful = true;
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
+            QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(5));
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(6));
             return;
         }
         interactSuccessful = false;
@@ -66,20 +76,32 @@ public class CatacombDoor : MonoBehaviour, IInteractable
        
     }
 
+    public void ReturnFocalPoint(out Transform focalPoint)
+    {
+        focalPoint = transform;
+    }
+
     IEnumerator Transition(bool goingToCrypt)
     {
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         AmbientAudioManager.Instance.ChangeMusic();
         yield return new WaitForSeconds(3);
+        Rigidbody rb = PlayerInteraction.Instance.GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
         if(goingToCrypt)
         {
-            PlayerInteraction.Instance.transform.position = interior.position;
             TownGate.Instance.Transition(PlayerLocation.InCrypt);
+            yield return new WaitForSeconds(0.1f);
+            print("Went to crypt");
+            PlayerInteraction.Instance.transform.position = interior.position;
+            Physics.SyncTransforms();
         }
         else
         {
             PlayerInteraction.Instance.transform.position = exterior.position;
+            Physics.SyncTransforms();
+            print("Went to town");
             TownGate.Instance.Transition(PlayerLocation.InTown);
         }
         TimeManager.Instance.ToggleSkyLights();

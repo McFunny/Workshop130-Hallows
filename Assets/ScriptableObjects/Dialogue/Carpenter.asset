@@ -18,13 +18,8 @@ MonoBehaviour:
     paragraphs:
     - New face... you live over in that run down cabin?
     - It's a sore on the eyes. Maybe we can fix that.
-    - My wide assortment of vanity is sure to spruce up that dingy adobe.
+    - My wide assortment of vanity is sure to spruce up that dingy abode.
     emotions: 000000000300000001000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -52,6 +47,20 @@ MonoBehaviour:
     paragraphs:
     - You seem to have an inventory problem. A chest would fix that for you!
     emotions: 02000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - The {storeItemName}? If you give me some supplies I can make you one.
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - Unfortunately, I am a craftsman. Not a magician.
+    emotions: 02000000
+  - pathName: Have a Chest
+    paragraphs:
+    - With all of those crops you are gonna grow, you are gonna need a place to store
+      them. {freezePlayer}
+    - Here, this should help. You can place it inside your cabin. {givePlayerItems}
+    emotions: 0100000000000000
   fillerPaths:
   - pathName: Back to glory
     paragraphs:
@@ -70,8 +79,33 @@ MonoBehaviour:
     - I have little patience for that LumberJack.
     - So unmotivated, so lazy. It pains me to have my line of work overlap with his.
     emotions: 0300000002000000
+  - pathName: My Vanity
+    paragraphs:
+    - I am aware that my furnishing trade is of little importance to the survival
+      of Veilwood.
+    - However, the vanity alleviates the mind from our current situation. For a time,
+      that is.
+    emotions: 0200000000000000
+  - pathName: I Try to Help
+    paragraphs:
+    - Our town being under a constant threat has forced us to adapt our trades to
+      ensure our survival.
+    - I pray the crude bulwarks of defense I prepare serve their purpose well.
+    emotions: 0200000000000000
+  - pathName: Want to fix ruined houses
+    paragraphs:
+    - So badly do I wish to go beyond the town walls, and repair what was taken from
+      us.
+    - So much Infrastructure. So much property. Reduced to listless rubble.
+    emotions: 0000000002000000
   questPaths: []
-  itemRecievedPaths: []
+  itemRecievedPaths:
+  - pathName: Go Sell it instead
+    paragraphs:
+    - I don't have much use for something like that.
+    - If you are looking to sell your stuff, I bet that weird wagon fellow will purchase
+      it.
+    emotions: 0200000000000000
   itemSpecificRemarks:
   - pathName: Go Sell it instead
     paragraphs:
@@ -82,3 +116,16 @@ MonoBehaviour:
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

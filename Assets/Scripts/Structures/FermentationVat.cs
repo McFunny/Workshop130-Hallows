@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class FermentationVat : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     public Transform itemDropTransform;
 
     public ParticleSystem activatedParticles, completedParticles;
 
     public int progress = 0;
-    int maxProgress = 10;
+    int maxProgress = 8;
     int maxContainedItems = 1;
 
     bool ignoreNextHour = false;
     bool playingActiveParticles = false;
+
+    bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    public PopupScript chargingPopup;
 
     void Awake()
     {
@@ -36,6 +38,12 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
         if(progress < maxProgress && savedItems.Count > 0) return; //smth is hangin
 
         if(progress >= maxProgress)
@@ -68,7 +76,13 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(item.pickledForm && savedItems.Count < maxContainedItems)
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
+        if(item.pickledForm && savedItems.Count == 0)
         {
             //
             savedItems.Add(item);
@@ -93,14 +107,16 @@ public class FermentationVat : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
     }
 
     public override void HourPassed()
     {
-        if(progress < maxProgress && savedItems.Count == maxContainedItems)
+        if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
+
+        if(progress < maxProgress && (savedItems.Count > 0 && savedItems[0] != null))
         {
             if(ignoreNextHour)
             {
@@ -110,15 +126,6 @@ public class FermentationVat : StructureBehaviorScript
             progress++;
         }
         ParticleToggle();
-    }
-
-    IEnumerator DugUp()
-    {
-        yield return new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-
-        Destroy(this.gameObject);
     }
 
     void ParticleToggle()
@@ -161,12 +168,13 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        saveInt1 = progress;
+        progress = saveInt1;
         ParticleToggle();
+        isFunctioning = true;
     }
 
     public override void SaveVariables()
     {
-        progress = saveInt1;
+        saveInt1 = progress;
     }
 }

@@ -20,12 +20,17 @@ public class InputManager : MonoBehaviour
     public static bool isCharging = false;
     bool chargeButtonHeld = false;
 
+    public static bool isHoldingInteract = false;
+    bool interactButtonHeld = false;
+
     public InventoryItemData waterGun;
+    private RepairMinigame repairMinigame;
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         pauseScript = FindFirstObjectByType<PauseScript>();
+        repairMinigame = FindFirstObjectByType<RepairMinigame>();
     }
 
     void Start()
@@ -38,18 +43,26 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
         controlManager.hotbarUp.action.started += HotbarUp;
-        controlManager.hotbarDown.action.canceled += HotbarDown;  
+        controlManager.hotbarDown.action.started += HotbarDown;  
         controlManager.showGrid.action.canceled += ShowGrid;
         controlManager.pauseGame.action.started += PauseGame;
-        controlManager.waterGunCharge.action.performed += BeginCharge;
+        //controlManager.waterGunCharge.action.performed += BeginCharge;
+        controlManager.waterGunCharge.action.started += BeginCharge;
+        controlManager.waterGunCharge.action.canceled += BeginCharge; 
+        controlManager.holdInteraction.action.started += BeginHoldInteraction;
+        controlManager.holdInteraction.action.canceled += BeginHoldInteraction;
     }
     private void OnDisable()
     {
         controlManager.hotbarUp.action.started -= HotbarUp; 
-        controlManager.hotbarDown.action.canceled -= HotbarDown;  
+        controlManager.hotbarDown.action.started -= HotbarDown;  
         controlManager.showGrid.action.canceled -= ShowGrid;
         controlManager.pauseGame.action.started -= PauseGame;
-        controlManager.waterGunCharge.action.performed -= BeginCharge;
+        //controlManager.waterGunCharge.action.performed -= BeginCharge;
+        controlManager.waterGunCharge.action.started -= BeginCharge;
+        controlManager.waterGunCharge.action.canceled -= BeginCharge;
+        controlManager.holdInteraction.action.started -= BeginHoldInteraction;
+        controlManager.holdInteraction.action.canceled -= BeginHoldInteraction;
     }
 
     void Update()
@@ -105,11 +118,14 @@ public class InputManager : MonoBehaviour
         if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
         if(!PlayerMovement.accessingInventory)
         {
-            if(!PauseScript.isPaused)
+            if(!PauseScript.isPaused && !repairMinigame.IsMinigameActive())
             {
                 isCharging = false;
                 chargeButtonHeld = false;
                 pauseScript.PauseGame();
+
+                isHoldingInteract = false;
+                interactButtonHeld = false;
             }          
         } 
     }
@@ -158,6 +174,22 @@ public class InputManager : MonoBehaviour
             //return;
         }
         else isCharging = !isCharging;
+        //print("Is the gun charging? " + isCharging);
+    }
+
+    private void BeginHoldInteraction(InputAction.CallbackContext obj)
+    {
+        if(PauseScript.isPaused) return;
+
+        interactButtonHeld = !interactButtonHeld;
+        //print("Is button held? " + interactButtonHeld);
+
+        if(interactButtonHeld == false || PlayerMovement.restrictMovementTokens > 0)
+        {
+            isHoldingInteract = false;
+            //return;
+        }
+        else isHoldingInteract = !isHoldingInteract;
         //print("Is the gun charging? " + isCharging);
     }
 }

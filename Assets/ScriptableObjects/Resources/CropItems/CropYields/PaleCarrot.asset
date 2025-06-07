@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 41
   displayName: Pale Carrot
-  description: A largely unaltered form of the average carrot. Restores 54 Stamina.
-  icon: {fileID: 21300000, guid: 87007cc65640ea649bdd89843ff36ec9, type: 3}
+  description: A largely unaltered form of the average carrot.
+  icon: {fileID: 21300000, guid: 70a3225320c6c5b4b9887243af015abc, type: 3}
   maxStackSize: 20
-  value: 32
+  value: 28
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 54
+  staminaValue: 36
   bonusCompostValue: 25
   pickledForm: {fileID: 11400000, guid: a730146c01afdc1419cb3bdc80465d9b, type: 2}
   itemInputsKBM:
@@ -30,3 +30,7 @@ MonoBehaviour:
   itemInputsController:
   - LT - Show Item
   - RT - Consume
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

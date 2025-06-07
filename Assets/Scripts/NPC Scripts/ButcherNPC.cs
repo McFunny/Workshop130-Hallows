@@ -10,7 +10,7 @@ public class ButcherNPC : NPC, ITalkable
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    WaypointScript shopUI;
+    //WaypointScript shopUI;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -27,13 +27,14 @@ public class ButcherNPC : NPC, ITalkable
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if (dialogueController.IsTalking() == false)
+        if (dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
             if (!GameSaveData.Instance.butchMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.butchMet = true;
+                NPCManager.Instance.butchSpoke = true;
             }
             else
             {
@@ -44,8 +45,9 @@ public class ButcherNPC : NPC, ITalkable
                 }
                 else if (NPCManager.Instance.butchSpoke)
                 {
-                    interactSuccessful = false;
-                    return;
+                    int i = Random.Range(0, dialogueText.alreadySpoken.Length);
+                    currentPath = i;
+                    currentType = PathType.AlreadySpoken;
                 }
                 if (currentPath == -1)
                 {
@@ -61,19 +63,20 @@ public class ButcherNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    /*public void Talk()
     {
+        if(!dialogueController.FreeToSpeak(this)) return;
         anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         ToolItem tItem = item as ToolItem;
-        if (dialogueController.IsInterruptable() == false || tItem)
+        if (dialogueController.IsInterruptable() == false || tItem || !dialogueController.FreeToSpeak(this))
         {
             interactSuccessful = false;
             return;
@@ -118,7 +121,7 @@ public class ButcherNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    /*public override void PurchaseAttempt(StoreItem item)
     {
         if (dialogueController.IsInterruptable() == false)
         {
@@ -155,7 +158,7 @@ public class ButcherNPC : NPC, ITalkable
         }
         currentType = PathType.Misc;
         Talk();
-    }
+    }*/
 
     public override void PlayerLeftRadius()
     {
@@ -165,12 +168,6 @@ public class ButcherNPC : NPC, ITalkable
         }
         if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
-    }
-
-    public override void EmptyShopItem()
-    {
-        lastInteractedStoreItem.Empty();
-        lastInteractedStoreItem = null;
     }
 
     public override void RefreshStore()

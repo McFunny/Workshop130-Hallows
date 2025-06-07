@@ -19,7 +19,7 @@ MonoBehaviour:
     periods of bloody conflict.
   icon: {fileID: -1644708092, guid: f034a46cf8726404598663e17643f2b4, type: 3}
   maxStackSize: 20
-  value: 12
+  value: 14
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
@@ -30,6 +30,11 @@ MonoBehaviour:
   - RMB - Plant
   itemInputsController:
   - LT - Plant
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
   plantable: 1
   cropData: {fileID: 11400000, guid: 72c60368592508e4bb2600b17d058377, type: 2}
   ableToBeShot: 1
+  requireTrellis: 1

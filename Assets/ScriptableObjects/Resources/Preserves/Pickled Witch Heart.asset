@@ -17,11 +17,11 @@ MonoBehaviour:
   description: A jar of preserves.
   icon: {fileID: 21300000, guid: 2d0db09b76f52e1448df43413038ec6f, type: 3}
   maxStackSize: 20
-  value: 126
+  value: 136
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 186
+  staminaValue: 110
   bonusCompostValue: 0
   pickledForm: {fileID: 0}
   itemInputsKBM:
@@ -30,3 +30,7 @@ MonoBehaviour:
   itemInputsController:
   - LT - Show Item
   - RT - Consume
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

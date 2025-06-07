@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Brazier : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
+    //public InventoryItemData recoveredItem;
 
     public FireFearTrigger fireTrigger;
     public GameObject fire;
@@ -67,7 +67,7 @@ public class Brazier : StructureBehaviorScript
         }
         else if(type == ToolType.Shovel)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
         else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && flameLeft > 0)
@@ -87,14 +87,14 @@ public class Brazier : StructureBehaviorScript
         ExtinguishFlame();
     }
 
-    IEnumerator DugUp()
+    /*IEnumerator DugUp()
     {
         yield return  new WaitForSeconds(1);
         GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
         droppedItem.transform.position = transform.position;
         Destroy(this.gameObject);
         
-    }
+    }*/
 
     IEnumerator FireDrain()
     {

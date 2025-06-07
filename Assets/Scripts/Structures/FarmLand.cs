@@ -9,7 +9,7 @@ public class FarmLand : StructureBehaviorScript
     public CropDatabase cropDatabase;
 
     public CropData crop; //The current crop planted here //MUST BE SAVED
-    public InventoryItemData terraFert, gloamFert, ichorFert, compost;
+    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar, trellis;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
     public Collider finishedGrowingCollider;
@@ -17,6 +17,7 @@ public class FarmLand : StructureBehaviorScript
     public MeshRenderer meshRenderer;
     public Material dry, wet, barren, barrenWet;
 
+    [Header("Crop Stats")]
     public int growthStage = -1; //-1 means there is no crop //MUST BE SAVED
     public int hoursSpent = 0; //how long has the plant been in this growth stage for?
     public int plantStress = 0; //how much stress the plant has, gained from lack of nutrients/water. If 0 stress, the plant can produce seeds
@@ -25,23 +26,36 @@ public class FarmLand : StructureBehaviorScript
     public bool rotted = false; //MUST BE SAVED
     public bool isWeed = false; //MUST BE SAVED
     public bool isFrosted = false;
+    public bool isPollinated = false; //MUST BE SAVED
     bool forceDig = false;
 
-    private bool ignoreNextGrowthMoment = false; //tick this if crop was just planted
+    public bool ignoreNextGrowthMoment = false; //tick this if crop was just planted
 
     PlayerInventoryHolder playerInventoryHolder;
 
     private NutrientStorage nutrients;
-
-    public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
-    public GameObject frostParticles;
+    [Header("VFX and Extra References")]
     public GameObject light;
+    public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
     public TextMeshProUGUI supportText;
 
     public TextMeshProUGUI harvestText;
     [SerializeField] private CropNeedsUI cropNeedsUI;
 
     float oldMaxHealth;
+
+    [HideInInspector] public FarmTileUpgrade currentUpgrade;
+    public GameObject[] upgradeObjects;
+
+    public PopupScript needTrellis, removeTrellis;
+
+    public enum FarmTileUpgrade
+    {
+        None,
+        Stone,
+        Mulch,
+        Trellis
+    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -51,6 +65,7 @@ public class FarmLand : StructureBehaviorScript
         if(growthImpeded) growthImpeded.Stop();
 
         if(!crop) wealthValue = 0;
+        else wealthValue = crop.wealthValue;
 
         //tutorial
         if(Tutorial.Instance && !isWeed) Tutorial.Instance.TilledGround();
@@ -116,43 +131,78 @@ public class FarmLand : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        bool consumeItem = false;
         if(item == terraFert && nutrients.terraLevel < 10)
         {
-            nutrients.terraLevel = 10;
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-            playerInventoryHolder.UpdateInventory();
-            return;
+            StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 10, 0);
+            consumeItem = true;
         }
-        if(item == gloamFert && nutrients.gloamLevel < 10)
+        else if(item == gloamFert && nutrients.gloamLevel < 10)
         {
-            nutrients.gloamLevel = 10;
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-            playerInventoryHolder.UpdateInventory();
-            return;
+            StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 0, 10);
+            consumeItem = true;
         }
-        if(item == ichorFert && nutrients.ichorLevel < 10)
+        else if(item == ichorFert && nutrients.ichorLevel < 10)
         {
-            nutrients.ichorLevel = 10;
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-            playerInventoryHolder.UpdateInventory();
-            return;
+            StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 10, 0, 0);
+            consumeItem = true;
         }
-        if(item == compost && (nutrients.gloamLevel < 10 || nutrients.terraLevel < 10))
+        else if(item == compost && (nutrients.gloamLevel < 10 || nutrients.terraLevel < 10))
         {
             nutrients.gloamLevel += 2;
             nutrients.terraLevel += 2;
             if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
             if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
+            consumeItem = true;
+        }
+        //StructureManager.Instance.UpdateStorage(transform.position, nutrients);
+
+        else if(!isWeed && item == rocks && currentUpgrade == FarmTileUpgrade.None)
+        {
+            consumeItem = true;
+            ApplyNewUpgrade(FarmTileUpgrade.Stone);
+            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+            if(audioHandler != null) audioHandler.PlayRandomSound(audioHandler.miscSounds1);
+        }
+        else if(!isWeed && item == mulch && currentUpgrade == FarmTileUpgrade.None)
+        {
+            consumeItem = true;
+            ApplyNewUpgrade(FarmTileUpgrade.Mulch);
+        }
+        else if(!isWeed && item == trellis && currentUpgrade == FarmTileUpgrade.None && !crop)
+        {
+            consumeItem = true;
+            ApplyNewUpgrade(FarmTileUpgrade.Trellis);
+        }
+
+        else if(item == nectar && NeedsPollination())
+        {
+            consumeItem = true;
+            isPollinated = true;
+        }
+        
+        if(consumeItem)
+        {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
+            SpriteChange();
             return;
         }
-        StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 
         if(crop) return;
         CropItem newCrop = item as CropItem;
         if(newCrop && newCrop.plantable)
         {
+            if(newCrop.requireTrellis && currentUpgrade != FarmTileUpgrade.Trellis)
+            {
+                PopupHandler.Instance.AddToQueue(needTrellis);
+                return;
+            }
+            if(!newCrop.requireTrellis && currentUpgrade == FarmTileUpgrade.Trellis)
+            {
+                PopupHandler.Instance.AddToQueue(removeTrellis);
+                return;
+            }
             InsertCrop(newCrop.cropData);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
@@ -167,6 +217,7 @@ public class FarmLand : StructureBehaviorScript
             if((isWeed && !forceDig) || (rotted && !forceDig)) return; //Forces the player to dig the weeds and rotted plants using the shovel
             if(isWeed || forceDig) audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             else audioHandler.PlaySound(audioHandler.interactSound);
+
             if((rotted == false && harvestable) || isWeed)
             {
                 if (crop.creaturePrefab)
@@ -254,18 +305,31 @@ public class FarmLand : StructureBehaviorScript
                     crop.behavior.OnCropDestroyed(this);
                 }
 
+                if(growthStage == 1 && crop && crop.cropSeed) //drop a seed if dug up in seed stage
+                {
+                    ItemPoolManager.Instance.GrabItem(crop.cropSeed).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                }
+
                 crop = null;
                 wealthValue = 0;
                 ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
                 ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             } 
             harvestable = false;
-            if(forceDig || isWeed) Destroy(this.gameObject);
+            if(forceDig || isWeed)
+            {
+                if(currentUpgrade == FarmTileUpgrade.Trellis)
+                {
+                    ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                }
+                Destroy(this.gameObject);
+            }
             
             forceDig = false;
             hoursSpent = 0;
             SpriteChange();
             if(growthComplete) growthComplete.Stop();
+            ignoreNextGrowthMoment = true;
         }
     }
 
@@ -274,7 +338,7 @@ public class FarmLand : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !forceDig)
         {
-            StartCoroutine(DigPlant());
+            //StartCoroutine(DigPlant());
             success = true;
         }
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && (nutrients.waterLevel < 10 || onFire))
@@ -298,8 +362,7 @@ public class FarmLand : StructureBehaviorScript
         }
         if(!crop && !isWeed)
         {
-            float r = Random.Range(0, 10);
-            if(r > 6f) Destroy(this.gameObject);
+            if(Random.Range(0, 10) > 6f && currentUpgrade != FarmTileUpgrade.Trellis) Destroy(this.gameObject);
             return;
         }
         hoursSpent++;
@@ -307,21 +370,24 @@ public class FarmLand : StructureBehaviorScript
 
         if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
-            if(growthStage >= crop.growthStages && !isWeed)
+            if(growthStage >= crop.growthStages && !isWeed || NeedsPollination())
             {
-                return;
-                //IT HAS REACHED MAX GROWTH STATE
+                if(NeedsPollination()) return;
 
-                //if(hoursSpent < crop.hoursPerStage * 3) return;
-                //plant rots
-                //CropDied();
+                //Reduce water while fully grown
+                hoursSpent = 0;
+                health += 5;
+                if(health > maxHealth) health = maxHealth;
+                DrainNutrients(out bool gainedStress, true);
+                if(gainedStress && growthImpeded) growthImpeded.Play();
+                return;
             }
             else
             {
                 hoursSpent = 0;
                 health += 5;
                 if(health > maxHealth) health = maxHealth;
-                DrainNutrients(out bool gainedStress);
+                DrainNutrients(out bool gainedStress, false);
                 if(!isWeed)
                 {
                     if(gainedStress)
@@ -344,7 +410,11 @@ public class FarmLand : StructureBehaviorScript
                         growthComplete.Play();
                     }
 
-                    if(crop.behavior) crop.behavior.OnFullyGrown(this);
+                    if(crop.behavior)
+                    {
+                        print("Call Behavior");
+                        crop.behavior.OnFullyGrown(this);
+                    } 
                 }
                 else harvestable = false;
                 SpriteChange();
@@ -363,7 +433,7 @@ public class FarmLand : StructureBehaviorScript
         if(nutrients != null) SpriteChange();
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         if(audioHandler != null) audioHandler.PlayRandomSound(audioHandler.miscSounds1);
-        wealthValue = 5;
+        wealthValue = crop.wealthValue;
         ignoreNextGrowthMoment = true;
         maxHealth = oldMaxHealth;
 
@@ -372,14 +442,14 @@ public class FarmLand : StructureBehaviorScript
         if(Tutorial.Instance) Tutorial.Instance.PlantedSeed();
     }
 
-    /*public void InsertCreature(CropData _data, int _growthStage)
+    public void ForceChangeGrowthStage(int newStage)
     {
-        //the mimic will use this function to "plant" itself
-        isWeed = true;
-        crop = _data;
-        growthStage = _growthStage;
+        growthStage = newStage;
+        if(crop && crop.growthStages < growthStage) growthStage =  crop.growthStages;
+        if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted) harvestable = true;
+        else harvestable = false;
         SpriteChange();
-    } */
+    }
 
     public void SpriteChange()
     {
@@ -424,12 +494,38 @@ public class FarmLand : StructureBehaviorScript
 
         if(harvestText)
         {
-            if(harvestable && !rotted) harvestText.text = "Interact To Harvest";
+            growthComplete.Stop();
+            if(harvestable && !rotted)
+            {
+                harvestText.text = "Interact To Harvest";
+                growthComplete.Play();
+            } 
             else harvestText.text = "";
+        }
+
+        //For Updating the upgrades
+        if(upgradeObjects.Length == 0) return;
+        for(int i = 0; i < upgradeObjects.Length; i++)
+        {
+            upgradeObjects[i].SetActive(false);
+        }
+        switch (currentUpgrade)
+        {
+            case FarmTileUpgrade.None:
+            break;
+            case FarmTileUpgrade.Stone:
+            upgradeObjects[0].SetActive(true);
+            break;
+            case FarmTileUpgrade.Mulch:
+            upgradeObjects[1].SetActive(true);
+            break;
+            case FarmTileUpgrade.Trellis:
+            upgradeObjects[2].SetActive(true);
+            break;
         }
     }
 
-    void DrainNutrients(out bool gainedStress)
+    void DrainNutrients(out bool gainedStress, bool waterOnly)
     {
         //PLANTS DRAIN PER GROWTH STAGE, AND THE PLAYER SHOULD HAVE TO WATER ROUGHLY EVERY STAGE/EVERY OTHER STAGE
         gainedStress = false;
@@ -438,16 +534,19 @@ public class FarmLand : StructureBehaviorScript
             return;
         }
 
-        //Check if it can properly grow before draining
-        if(nutrients.ichorLevel - crop.ichorIntake < 0) gainedStress = true;
-        if(nutrients.terraLevel - crop.terraIntake < 0) gainedStress = true;
-        if(nutrients.gloamLevel - crop.gloamIntake < 0) gainedStress = true;
-        if(nutrients.waterLevel - crop.waterIntake < 0 && !isWeed) gainedStress = true;
+        bool ignoreWaterConsumption = false;
+        if(currentUpgrade == FarmTileUpgrade.Mulch && Random.Range(0, 10) > 6) ignoreWaterConsumption = true;
 
-        nutrients.waterLevel -= crop.waterIntake;
+        //Check if it can properly grow before draining
+        if(nutrients.ichorLevel - crop.ichorIntake < 0 && !waterOnly) gainedStress = true;
+        if(nutrients.terraLevel - crop.terraIntake < 0 && !waterOnly) gainedStress = true;
+        if(nutrients.gloamLevel - crop.gloamIntake < 0 && !waterOnly) gainedStress = true;
+        if(nutrients.waterLevel - crop.waterIntake < 0 && !isWeed && !ignoreWaterConsumption) gainedStress = true;
+
+        if(!ignoreWaterConsumption) nutrients.waterLevel -= crop.waterIntake;
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
 
-        if(!gainedStress)
+        if(!gainedStress && !waterOnly)
         {
             nutrients.ichorLevel -= crop.ichorIntake;
             if(nutrients.ichorLevel > 10) nutrients.ichorLevel = 10;
@@ -459,7 +558,7 @@ public class FarmLand : StructureBehaviorScript
             if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
 
         }
-        else plantStress++;
+        else if(gainedStress) plantStress++;
 
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 
@@ -524,10 +623,9 @@ public class FarmLand : StructureBehaviorScript
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);
     }
 
-    IEnumerator DigPlant()
+    public override void DigAction()
     {
         forceDig = true;
-        yield return new WaitForSeconds(1f);
         if(Tutorial.Instance && isWeed) Tutorial.Instance.WeedDug();
         else if(Tutorial.Instance && crop) Tutorial.Instance.LostSeed();
 
@@ -547,7 +645,15 @@ public class FarmLand : StructureBehaviorScript
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
 
-        if(health <= 0) ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        if(health <= 0)
+        {
+            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+            if(currentUpgrade == FarmTileUpgrade.Trellis) ParticlePoolManager.Instance.GrabDestructionParticle(StructureType.Wood).transform.position = transform.position;
+        }
+        else if(currentUpgrade == FarmTileUpgrade.Trellis) //Return Trellis upon removal
+        {
+            ItemPoolManager.Instance.GrabItem(crop.cropSecondaryYield).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        }
         if(crop && !rotted) crop.amountKilled++;
 
         if(crop && crop.behavior)
@@ -609,6 +715,7 @@ public class FarmLand : StructureBehaviorScript
     void Damaged()
     {
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        if(currentUpgrade == FarmTileUpgrade.Stone && health < 10) ApplyNewUpgrade(FarmTileUpgrade.None);
     }
 
     void FrostDamage() //When watering a frosted crop
@@ -693,6 +800,58 @@ public class FarmLand : StructureBehaviorScript
     public void RefreshNutrients()
     {
         nutrients = StructureManager.Instance.FetchNutrient(transform.position);
+        SpriteChange();
+    }
+
+    //[ContextMenu("PollenCheck")]
+    public bool NeedsPollination()
+    {
+        if(crop && crop.requirePollination && !isPollinated && growthStage == crop.growthStages - 1)
+        {
+            //print("true");
+            return true;
+        }
+        return false;
+        
+    }
+
+    void ApplyNewUpgrade(FarmTileUpgrade newUpgrade)
+    {
+        if(currentUpgrade == newUpgrade || isWeed) return;
+
+        //Removing current effects
+        switch (currentUpgrade)
+        {
+            case FarmTileUpgrade.Stone:
+            maxHealth -= 10;
+            break;
+            case FarmTileUpgrade.Trellis:
+            maxHealth -= 5;
+            isObstacle = false;
+            break;
+            default:
+            break;
+        }
+
+        currentUpgrade = newUpgrade;
+
+        //Applying New effects
+        switch (currentUpgrade)
+        {
+            case FarmTileUpgrade.Stone:
+            maxHealth += 10;
+            health += 10;
+            break;
+            case FarmTileUpgrade.Trellis:
+            maxHealth += 5;
+            health += 5;
+            isObstacle = true;
+            break;
+            default:
+            break;
+        }
+
+        SpriteChange();
     }
 
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it
@@ -707,14 +866,32 @@ public class FarmLand : StructureBehaviorScript
             print(crop);
         }
         growthStage = saveInt1;
+        if(crop && growthStage > crop.growthStages) growthStage = crop.growthStages;
         hoursSpent = saveInt2;
         plantStress = saveInt3;
+        isPollinated = saveBool1;
         if(saveString2 == "true") rotted = true;
         else rotted = false;
 
         //SpriteChange();
-        if(crop) wealthValue = 5;
+        if(crop) wealthValue = crop.wealthValue;
         else wealthValue = 0;
+
+        switch(saveFloat1)
+        {
+            case 0:
+            ApplyNewUpgrade(FarmTileUpgrade.None);
+            break;
+            case 1:
+            ApplyNewUpgrade(FarmTileUpgrade.Stone);
+            break;
+            case 2:
+            ApplyNewUpgrade(FarmTileUpgrade.Mulch);
+            break;
+            case 3:
+            ApplyNewUpgrade(FarmTileUpgrade.Trellis);
+            break;
+        }
 
         GetCropStats();
     }
@@ -730,6 +907,24 @@ public class FarmLand : StructureBehaviorScript
             saveInt3 = plantStress;
             if(rotted) saveString2 = "true";
             else saveString2 = "false";
+
+            switch (currentUpgrade)
+            {
+                case FarmTileUpgrade.None:
+                saveFloat1 = 0;
+                break;
+                case FarmTileUpgrade.Stone:
+                saveFloat1 = 1;
+                break;
+                case FarmTileUpgrade.Mulch:
+                saveFloat1 = 2;
+                break;
+                case FarmTileUpgrade.Trellis:
+                saveFloat1 = 3;
+                break;
+            }
+
+            saveBool1 = isPollinated;
         }
 
     }

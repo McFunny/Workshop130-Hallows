@@ -1,25 +1,30 @@
 using Cinemachine;
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;
+    public float moveSpeed; //Current Move Speed
     private float savedMoveSpeed;
     public float sprintSpeed;
+
+    public List<MovementSpeedModifiers> speedMods = new List<MovementSpeedModifiers>();
 
     public float groundDrag;
 
     public Transform orientation;
 
     public CinemachineVirtualCamera playerCamera;
-    public Camera toolCamera, effectsCamera;
+    public Camera toolCamera, effectsCamera, uiCamera;
 
     public static bool isStalled, isCodexOpen;
     public static bool accessingInventory;
     public static int restrictMovementTokens = 0; //if 0, player can move, else, they cant. This keeps track if multiple sources are stopping player movement
+    public static bool limitMaxVelocity = true;
+    public static bool ignoreMovementInputs = false; //if true, player can still look around but not move, which is different from the restrict movement tokens
 
     float horizontalInput;
     float verticalInput;
@@ -104,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isStalled || isCodexOpen)
+        if (isStalled || isCodexOpen || ignoreMovementInputs)
             return;
         MovePlayer();
     }
@@ -175,6 +180,13 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
 
+    public void ApplyForceToPlayer(float force, Vector3 dir)
+    {
+        //rb.velocity = Vector3.zero;
+        dir = new Vector3(dir.x, 0, dir.z);
+        rb.AddForce(dir.normalized * force, ForceMode.Force);
+    }
+
     private void HandleSprintCheck()
     {
         if (isSprinting && !isStalled)
@@ -198,19 +210,41 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
+        //The better system but one I really dont feel like working on
+        /*float walkMod = 1;
+
+        for(int i = 0; i < speedMods.Count; i++)
+        {
+            walkMod *= speedMods[i].modifier;
+        }*/ 
+
+
+        float walkMod = 0;
+        float sprintMod = 0;
+
+        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
+        {
+            walkMod += 3f;
+            sprintMod += 4.5f;
+        }
+        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Frost))
+        {
+            walkMod -= 5f;
+            sprintMod -= 6f;
+        }
         if (isSprinting)
         {
-            moveSpeed = sprintSpeed;
+            moveSpeed = sprintSpeed + sprintMod;
         }
         else
         {
-            moveSpeed = savedMoveSpeed;
+            moveSpeed = savedMoveSpeed + walkMod;
         }
 
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         // Limit velocity if needed
-        if (flatVel.magnitude > moveSpeed)
+        if (flatVel.magnitude > moveSpeed && limitMaxVelocity)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
@@ -226,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.AddForce(-Vector3.up * 30, ForceMode.Force);
+            rb.AddForce(-Vector3.up * 60, ForceMode.Force);
         }
     }
 
@@ -241,16 +275,24 @@ public class PlayerMovement : MonoBehaviour
             playerCamera.m_Lens.FieldOfView = Mathf.Lerp(startFoV, targetFoV, elapsedTime / duration);
             toolCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
             effectsCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
+            if(uiCamera) uiCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
             yield return null;
         }
 
         playerCamera.m_Lens.FieldOfView = targetFoV;
         toolCamera.fieldOfView = targetFoV;
         effectsCamera.fieldOfView = targetFoV;
+        if(uiCamera) uiCamera.fieldOfView = targetFoV;
     }
 
     public Vector3 GetVelocity()
     {
         return rb.velocity;
     }
+}
+
+public class MovementSpeedModifiers
+{
+    public string source;
+    public float modifier = 1f;
 }

@@ -10,7 +10,7 @@ public class CreatureArmor : MonoBehaviour
 
     public GameObject damageParticlesObject;
     List<ParticleSystem> damageParticles = new List<ParticleSystem>();
-    public DestructionType destructionType;
+    public StructureType structureType;
     public GameObject gibs;
 
     public Transform particleCenter; //for particles
@@ -59,7 +59,7 @@ public class CreatureArmor : MonoBehaviour
         if(!gameObject.scene.isLoaded) return;
         if(health <= 0)
         {
-            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(destructionType);
+            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structureType);
             if(p)
             {
                 if(particleCenter) p.transform.position = particleCenter.position;

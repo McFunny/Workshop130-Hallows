@@ -9,6 +9,7 @@ public class FarmTree : StructureBehaviorScript
     public bool taggedForCutting = false;
 
     public GameObject papers;
+    public GameObject logPile;
 
     public Transform itemDrop;
     public ParticleSystem leafBurst;
@@ -51,6 +52,7 @@ public class FarmTree : StructureBehaviorScript
     {
         if(taggedForCutting && TimeManager.Instance.currentHour == 8)
         {
+            Instantiate(logPile, StructureManager.Instance.GetTileCenter(transform.position), Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

@@ -9,6 +9,8 @@ public class WildernessMerchant : NPC, ITalkable
     public Transform merchantWagonPos;
     public Transform merchant;
 
+    public AudioSource source;
+
     void Start()
     {
         WildernessManager.Instance.wagon = this;
@@ -40,7 +42,7 @@ public class WildernessMerchant : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public void Talk()
+    public override void Talk()
     {
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
@@ -65,6 +67,7 @@ public class WildernessMerchant : NPC, ITalkable
 
         Vector3 pos = PlayerInteraction.Instance.transform.position + PlayerInteraction.Instance.mainCam.transform.forward * -5;
         pos.y = PlayerInteraction.Instance.transform.position.y;
+        source.Play();
         //pos = new Vector3(pos.x, pos.y - 1, pos.z);
         merchant.position = pos;
         currentPath = 0;

@@ -10,13 +10,19 @@ public class PlayerEffectsHandler : MonoBehaviour
 {
     //HANDLES THE AUDIO AND EFFECTS THAT COME FROM THE PLAYER
     public float volume = 1f;
+    float originalPitch;
     public AudioSource source, footStepSource;
-    public AudioClip itemPickup, itemEat, playerDie, playerDamage, footstep;
+    public AudioClip itemPickup, itemEat, playerDie, playerDamage;
+    public AudioClip grassFootsteps, stoneFootsteps, woodFootsteps;
+    AudioClip lastPlayedSteps;
+
+    public LayerMask groundLayers;
 
     public float shakeIntensity;
     //public AudioClip footSteps;
 
-    private CinemachineImpulseSource impulseSource;
+    public CinemachineImpulseSource damageImpulse;
+    //public CinemachineImpulseSource shakeImpulse;
 
     Volume globalVolume;
     public Color damageColor, focusColor;
@@ -30,11 +36,13 @@ public class PlayerEffectsHandler : MonoBehaviour
         StartCoroutine("FootStepsPitchChanger");
 
         globalVolume = FindObjectOfType<Volume>();
-        impulseSource = GetComponent<CinemachineImpulseSource>();
 
         PlayerInteraction p = PlayerInteraction.Instance;
 
         ResetVignette();
+
+        originalPitch = source.pitch;
+        lastPlayedSteps = grassFootsteps;
     }
 
     // Update is called once per frame
@@ -60,6 +68,7 @@ public class PlayerEffectsHandler : MonoBehaviour
         if(onItemSoundCooldown) return;
         onItemSoundCooldown = true;
         StartCoroutine(ItemCollectCooldown());
+        source.pitch = Random.Range(0.95f, 1.05f);
         source.PlayOneShot(itemPickup);
     }
 
@@ -73,8 +82,12 @@ public class PlayerEffectsHandler : MonoBehaviour
     {
         StopCoroutine(DamageFlash());
         StartCoroutine(DamageFlash());
-        impulseSource.GenerateImpulseWithForce(shakeIntensity);
-        if(playerDamage) source.PlayOneShot(playerDamage);
+        damageImpulse.GenerateImpulseWithForce(shakeIntensity);
+        if(playerDamage)
+        {
+            source.pitch = Random.Range(0.8f, 1.2f);
+            source.PlayOneShot(playerDamage);
+        }
 
     }
 
@@ -150,11 +163,31 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     public void PlayClip(AudioClip clip, float volume)
     {
+        source.pitch = originalPitch;
         source.PlayOneShot(clip, volume);
     }
 
     public void PlayFootstepSound()
     {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 3, groundLayers))
+        {
+            if(hit.collider.gameObject.tag == "Stone_FootStepSurface")
+            {
+                footStepSource.clip = stoneFootsteps;
+            }
+            else if(hit.collider.gameObject.tag == "Wood_FootStepSurface")
+            {
+                footStepSource.clip = woodFootsteps;
+            }
+            else
+            {
+                footStepSource.clip = grassFootsteps;
+            }
+
+            lastPlayedSteps = footStepSource.clip;
+        }
+        else footStepSource.clip = lastPlayedSteps;
         footStepSource.pitch = Random.Range(0.7f, 1.3f);
         footStepSource.Play();
     }

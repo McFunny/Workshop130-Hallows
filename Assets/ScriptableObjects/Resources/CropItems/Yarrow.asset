@@ -18,11 +18,11 @@ MonoBehaviour:
     count. '
   icon: {fileID: -1453312676, guid: 48b3766b678c142459e312073a2835f7, type: 3}
   maxStackSize: 10
-  value: 22
+  value: 16
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 36
+  staminaValue: 28
   bonusCompostValue: 20
   pickledForm: {fileID: 0}
   itemInputsKBM:
@@ -31,3 +31,7 @@ MonoBehaviour:
   itemInputsController:
   - LT - Show Item
   - RT - Consume
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

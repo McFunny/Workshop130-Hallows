@@ -10,12 +10,13 @@ public class VileHog : CreatureBehaviorScript
     public VileHog parent;
     public VileHog[] babies;
 
-    public List<CropData> desiredCrops; // what crops does this creature want to eat
+    //public List<CropData> desiredCrops; // what crops does this creature want to eat
+    public List<CropData> undesiredCrops; // what crops does this creature ignore
 
     FarmLand foundFarmTile;
     InventoryItemData heldItem;
 
-    public InventoryItemData foxGlove;
+    public InventoryItemData foxGlove, dare;
 
     private StructureBehaviorScript targetStructure;
 
@@ -383,8 +384,15 @@ public class VileHog : CreatureBehaviorScript
         if (Vector3.Distance(transform.position, target.position) < 2f)
         {
             agent.ResetPath();
-            coroutineRunning = true;
-            StartCoroutine(DigUpCrop());
+            if(foundFarmTile && foundFarmTile.crop && foundFarmTile.harvestable)
+            {
+                coroutineRunning = true;
+                StartCoroutine(DigUpCrop());
+            }
+            else
+            {
+                currentState = CreatureState.Wander;
+            }
         }
         /*else if(agent.destination != target.position)
         {
@@ -398,7 +406,7 @@ public class VileHog : CreatureBehaviorScript
         foreach (StructureBehaviorScript structure in structManager.allStructs)
         {
             FarmLand potentialFarmTile = structure as FarmLand;
-            if (potentialFarmTile && desiredCrops.Contains(potentialFarmTile.crop) && potentialFarmTile.harvestable)
+            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && potentialFarmTile.harvestable)
             {
                 availableLands.Add(potentialFarmTile);
             }
@@ -446,14 +454,21 @@ public class VileHog : CreatureBehaviorScript
         agent.SetDestination(transform.position);
         coroutineRunning = true;
         yield return new WaitForSeconds(2.3f);
-        if(heldItem == foxGlove) TakeDamage(999);
+        if(heldItem == foxGlove)
+        {
+            TakeDamage(999);
+        }
+        else if(heldItem == dare)
+        {
+            ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Dare), 30);
+        }
         else
         {
             currentState = CreatureState.Wander;
             health = maxHealth;
-            r.sprite = null;
-            heldItem = null;
         }
+        r.sprite = null;
+        heldItem = null;
         coroutineRunning = false;
     }
     #endregion
@@ -477,7 +492,7 @@ public class VileHog : CreatureBehaviorScript
         faceTarget = true;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
         bearTrapVulnerable = false;
-        yield return new WaitForSeconds(beginChargeTime); //Beginning to charge
+        yield return new WaitForSeconds(beginChargeTime/actionSpeedMod); //Beginning to charge
 
         //Actively Charging
         effectsHandler.MiscSound2();
@@ -512,11 +527,14 @@ public class VileHog : CreatureBehaviorScript
         yield return new WaitForSeconds(0.5f);
         chargeParticles.Stop();
         yield return new WaitForSeconds(recoilTime); //Charge Cooldown
+        allColliders[0].enabled = false; //Untested method of catching them in beartraps post charge
         bearTrapVulnerable = true;
+        allColliders[0].enabled = true;
 
         //Should probably flee for about 5 seconds or so to prevent constant charging
         agent.speed = runSpeed;
-        currentState = CreatureState.Idle;
+        yield return new WaitForSeconds(0.1f);
+        if(currentState == CreatureState.Charging) currentState = CreatureState.Idle;
         chargeRoutine = null;
 
     }
@@ -567,12 +585,14 @@ public class VileHog : CreatureBehaviorScript
         if(other.gameObject.layer == 6)
         {
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null && structure.isObstacle)
+            if (structure != null && (structure.isObstacle || !structure.destructable))
             {
+                if(structure as PlacedHoe || structure as PlacedTorch) return;
                 if(!structure.destructable) //Hit a tree
                 {
+                    structure.TakeDamage(damageToStructure);
                     attackHitbox.enabled = false;
-                    recoilTime = 3f;
+                    recoilTime = 2.5f;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     isCharging = false;
                 }
@@ -584,12 +604,12 @@ public class VileHog : CreatureBehaviorScript
                     recoilTime = 1.7f;
                     isCharging = false;
                 }
-                else //Dealth damage
+                else //Dealt damage
                 {
                     structure.TakeDamage(damageToStructure);
                     attackHitbox.enabled = false;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
-                    recoilTime = 3f;
+                    recoilTime = 2.5f;
                     isCharging = false;
                 }
                 return;
@@ -599,15 +619,16 @@ public class VileHog : CreatureBehaviorScript
         if(other.gameObject.layer == 9)
         {
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if (creature != null && creature.shovelVulnerable && creature.creatureData != creatureData && variant != Variant.Tiny)
+            if (creature != null && creature.shovelVulnerable && (creature.creatureData != creatureData || creature.health <= 0) && variant != Variant.Tiny)
             {
-                creature.TakeDamage(10);
+                creature.TakeDamage(30);
                 creature.PlayHitParticle(new Vector3(0,0,0));
             }
         }
 
         if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
         {
+            return; //causes wilderness issues
 
             attackHitbox.enabled = false;
             if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");

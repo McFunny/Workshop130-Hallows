@@ -14,19 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 7779117695335960027, guid: 76d9aa2d36ded034fb2bd343f4664be9,
     type: 3}
+  id: 12
   health: 5
   position:
   - 0
   - 0
   - 0
+  rotation:
+  - 0
+  - 0
+  - 0
   data:
     Name: 
-    Id: -1
+    Id: 12
     health: 0
     position:
     - 0
     - 0
     - 0
+    rotation:
+    - 0
+    - 0
+    - 0
+    savedItemList1: []
+    savedItemIDList1: 
     savedInt1: 0
     savedInt2: 0
     savedInt3: 0
@@ -36,4 +47,14 @@ MonoBehaviour:
     savedString1: 
     savedString2: 
     savedString3: 
-  isLarge: 0
+    savedBool1: 0
+  gridSize: 0
+  structureType: 2
+  mintRepairCost: 0
+  repairItems:
+  - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+    amount: 3
+  requiredRepairs: 3
+  maxMisses: 2

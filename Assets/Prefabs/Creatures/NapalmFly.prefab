@@ -110,13 +110,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0864c5091e60c9543af3fdc8400c2763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 20
-  maxHealth: 20
+  health: 10
+  maxHealth: 10
   corpseHealth: 0
   ichorWorth: 1
   ichorDropRadius: 2
   creatureData: {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -126,8 +127,10 @@ MonoBehaviour:
   corpseType: 1
   rb: {fileID: 6155095337502630407}
   anim: {fileID: 7179234017324643072}
-  droppedItems: []
-  dropChance: []
+  droppedItems:
+  - {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
+  dropChance:
+  - 0.5
   sightRange: 40
   attackRange: 20
   playerInSightRange: 0
@@ -136,10 +139,12 @@ MonoBehaviour:
   fireVulnerable: 0
   bearTrapVulnerable: 0
   isDead: 0
-  damageToStructure: 0
-  damageToPlayer: 35
+  damageToStructure: 20
+  damageToPlayer: 15
   canCorpseBreak: 1
+  actionSpeedMod: 1
   hitColor: {r: 0, g: 0, b: 0, a: 0}
+  currentEffects: []
   variant: 1
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
@@ -633,6 +638,8 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 4108a2624800e934eb5cd54569f2ee87, type: 3}
   miscSound: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   miscSound2: {fileID: 8300000, guid: 7d8b5891721400446b493a1ee95dd1fc, type: 3}
+  miscSound3: {fileID: 0}
+  particle1: {fileID: 0}
 --- !u!82 &313918095148910990
 AudioSource:
   m_ObjectHideFlags: 0

@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 53
   displayName: Hog Chop
-  description: Marinated Hog with a hint of Witch Heart
+  description: Marinated slice of hog meat with a garnish of grounded Timber Ear.
   icon: {fileID: 21300000, guid: b3ee3be4b22e13b41b708d7e5c1f20db, type: 3}
   maxStackSize: 1
-  value: 200
-  sellValueMultiplier: 1
+  value: 60
+  sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 200
+  staminaValue: 68
   bonusCompostValue: 0
   pickledForm: {fileID: 0}
   itemInputsKBM: []
   itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

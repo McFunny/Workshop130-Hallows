@@ -30,6 +30,15 @@ public class InventoryItemData : ScriptableObject
     [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
     public List<string> itemInputsKBM;
     public List<string> itemInputsController;
+
+    [Tooltip("What Status Effects Will Be Gained Upon Consumption")]
+    public List<StatusEffect> gainedEffects = new List<StatusEffect>();
+
+    public ItemBehavior itemBehavior;
+
+    public AudioClip useSound;
+
+    public bool cannotEnterInventory = false; //This is for things that should never enter the inventory. Their behavior will be used if it has any instead of entering the inventory
    
     public void UseItem()
     {
@@ -37,4 +46,14 @@ public class InventoryItemData : ScriptableObject
     }
 
     //public virtual void PrimaryUse(){}
+
+    [ContextMenu("CalculatePickledValues")]
+    public void CalculatePickledValues()
+    {
+        if(pickledForm)
+        {
+            pickledForm.value = value * 2f;
+            pickledForm.staminaValue = staminaValue * 1.25f;
+        }
+    }
 }

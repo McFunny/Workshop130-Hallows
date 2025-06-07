@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf23a036745f5442b0dadf03d8707e9, type: 3}
+  m_Name: CulinarianBarters
+  m_EditorClassIdentifier: 
+  transactions:
+  - name: BakedTerraTuber
+    itemForSale: {fileID: 11400000, guid: 23fb2e71f9e9a6b47a8cef4f7f659e40, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 290e218f74d5d2445b4c40b0ba01d7c2, type: 2}
+      amount: 1
+  - name: HareSoup
+    itemForSale: {fileID: 11400000, guid: 0322ac02f35aba8419c8ac5038c4225b, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
+      amount: 2
+  - name: Hogchop
+    itemForSale: {fileID: 11400000, guid: d2dff224289caeb4abb6564c747527d6, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+      amount: 1
+  - name: PaleCarrotCake
+    itemForSale: {fileID: 11400000, guid: 86effa1763457db43a40a9362bc37cdc, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 20
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+      amount: 2
+  - name: Croissant
+    itemForSale: {fileID: 11400000, guid: ce03bf77f7cfae644b8b257d4877bf50, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
+      amount: 4
+  - name: Salad
+    itemForSale: {fileID: 11400000, guid: 2b6d1ee1e98a13746a95c2991d3b951a, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: fdfadc98faaac3a43a9625ea63f6a3b6, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 344ae7d106f0b2646bc557fde3166d30, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
+      amount: 1
+  uniqueTransactions: []

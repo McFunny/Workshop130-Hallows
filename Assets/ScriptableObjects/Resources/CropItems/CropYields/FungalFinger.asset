@@ -15,17 +15,21 @@ MonoBehaviour:
   ID: 37
   displayName: Fungal Finger
   description: The stipe of the Mist's Grasp fungus, while inedible, is nutrient
-    dense and  often used for compost or select extracts.
+    dense and often used for compost or select extracts.
   icon: {fileID: 21300000, guid: 0d148093ebaaf644eac429678b117dd5, type: 3}
   maxStackSize: 20
-  value: 22
+  value: 39
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
-  bonusCompostValue: 40
+  bonusCompostValue: 55
   pickledForm: {fileID: 0}
   itemInputsKBM:
   - RMB - Show Item
   itemInputsController:
   - LT - Show Item
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

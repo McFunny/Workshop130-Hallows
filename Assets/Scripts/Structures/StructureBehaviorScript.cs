@@ -14,14 +14,20 @@ public class StructureBehaviorScript : MonoBehaviour
     public delegate void Damaged();
     [HideInInspector] public event Damaged OnDamage;
 
+    public delegate void DamagedWithValue(float damage);
+    [HideInInspector] public event DamagedWithValue OnDamageWithValue;
+
     [Header("Structure Stats")]
 
     public StructureObject structData;
+    public InventoryItemData itemForm;
 
     public float health = 5;
     public float maxHealth = 5;
 
     public float wealthValue = 0; //dictates how hard a night could be 
+
+    public float salvageChance = 0; //number out of 100 that dictates if it collapses into a pile or not
 
     [Tooltip("Can this structure be destroyed by lowering its health?")]
     public bool destructable = true;
@@ -44,10 +50,11 @@ public class StructureBehaviorScript : MonoBehaviour
     [HideInInspector] public int saveInt1, saveInt2, saveInt3;
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
     [HideInInspector] public string saveString1, saveString2, saveString3;
+    [HideInInspector] public bool saveBool1;
 
     public GameObject damageParticlesObject;
     List<ParticleSystem> damageParticles = new List<ParticleSystem>();
-    public DestructionType destructionType;
+    //public DestructionType destructionType;
     public GameObject gibs;
 
     public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
@@ -96,14 +103,32 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void Start() //make sure absent from grid is checked if not on farm
     {
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Any) == false) absentFromGrid = true;
         if (absentFromGrid) return;
         StructureManager.Instance.allStructs.Add(this);
-        if(structData && structData.isLarge)
+
+        if(structData)
+        {
+            if(structData.gridSize == GridSize.OneByOne)
+            {
+                StructureManager.Instance.SetTile(transform.position);
+            }
+            if(structData.gridSize == GridSize.TwoByTwo)
+            {
+                StructureManager.Instance.SetLargeTile(transform.position);
+            }
+            if(structData.gridSize == GridSize.OneByTwo)
+            {
+                StructureManager.Instance.SetOneByTwoTile(transform.position);
+            }
+        }
+
+        /*if(structData && structData.isLarge)
         {
             StructureManager.Instance.SetLargeTile(transform.position);
             //print("Set Large Tiles");
         }
-        else StructureManager.Instance.SetTile(transform.position);
+        else StructureManager.Instance.SetTile(transform.position);*/
     }
 
     public void Update()
@@ -133,6 +158,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         OnDamage?.Invoke();
+        OnDamageWithValue?.Invoke(damage);
         if(!destructable || health <= 0) return;
         health -= damage;
         //if(damageParticles) damageParticles.Play();
@@ -152,8 +178,21 @@ public class StructureBehaviorScript : MonoBehaviour
         //print("Destroyed");
         if(clearTileOnDestroy && structData && !absentFromGrid)
         {
-            if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
-            else StructureManager.Instance.ClearLargeTile(transform.position);
+            if(structData.gridSize == GridSize.OneByOne)
+            {
+                StructureManager.Instance.ClearTile(transform.position);
+            }
+            if(structData.gridSize == GridSize.TwoByTwo)
+            {
+                StructureManager.Instance.ClearLargeTile(transform.position);
+            }
+            if(structData.gridSize == GridSize.OneByTwo)
+            {
+                StructureManager.Instance.ClearOneByTwoTile(transform.position);
+            }
+
+            //if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
+            //else StructureManager.Instance.ClearLargeTile(transform.position);
         } 
         StructureManager.Instance.allStructs.Remove(this);
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
@@ -161,7 +200,7 @@ public class StructureBehaviorScript : MonoBehaviour
         
         if(health <= 0)
         {
-            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(destructionType);
+            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
             if(p)
             {
                 if(particleCenter) p.transform.position = particleCenter.position;
@@ -173,6 +212,16 @@ public class StructureBehaviorScript : MonoBehaviour
                 if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
                 else Instantiate(gibs, transform.position, Quaternion.identity);
             }
+
+            //logic for spawning the salvagable pile//
+            if(structData && !absentFromGrid && salvageChance > Random.Range(0,100) && (!onFire || MainMenuScript.currentFileMode == FileMode.Cozy))
+            {
+                //Spawn the pile
+                DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();
+                newPile.InsertStructure(structData);
+                newPile.transform.rotation = transform.rotation;
+                print("I spawned a pile");
+            }
         }
 
         if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
@@ -181,7 +230,23 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void ToggleHighlight(bool enable)
     {
-        if(highlight.Count == 0 || !canShowHighlight) return;
+        if(highlight.Count == 0)
+        {
+            return;
+        }
+        if(!canShowHighlight)
+        {
+            if(structureUI && enable) structureUI.SetActive(true);
+            if(structureUI && !enable) structureUI.SetActive(false);
+            if(highlightEnabled)
+            {
+                highlightEnabled = false;
+                foreach(GameObject thing in highlight) thing.SetActive(false);
+                //if(structureUI) structureUI.SetActive(false);
+            }
+            return;
+        }
+        
         if(highlightMaterial.Count == 0)
         {
             foreach(GameObject thing in highlight) highlightMaterial.Add(highlight[0].GetComponentInChildren<Renderer>().material);
@@ -246,7 +311,7 @@ public class StructureBehaviorScript : MonoBehaviour
         if(flammable)
         {
             flammable = false;
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(5);
             flammable = true;
         }
     }
@@ -257,9 +322,43 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
             else TakeDamage(2);
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(2f);
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
         }
     }
+
+    public virtual void DigAction()
+    {
+        if(itemForm)
+        {
+            if(Random.Range(0, maxHealth) <= health)
+            {
+                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemForm);
+                droppedItem.transform.position = transform.position;
+            }
+            else health = -5;
+
+            AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
+        }
+        Destroy(this.gameObject);
+    }
+
+    /*public virtual IEnumerator DugUpForItem()
+    {
+        yield return  new WaitForSeconds(1);
+        if(itemForm)
+        {
+            if(Random.Range(0, maxHealth) <= health)
+            {
+                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemForm);
+                droppedItem.transform.position = transform.position;
+            }
+            else health = -5;
+
+            AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
+        }
+        Destroy(this.gameObject);
+    }*/
 
     public virtual void SaveVariables()
     {

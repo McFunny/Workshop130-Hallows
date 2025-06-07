@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LandMine : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     public MeshRenderer light;
     //public Material yellow, red, purple, green, black;
@@ -17,7 +16,7 @@ public class LandMine : StructureBehaviorScript
     float lightLerp;
     bool flashOn = true;
 
-    float structureRange = 3;
+    float structureRange = 5;
     float creatureRange = 5.5f;
     float cooldownProgress = 0;
     float cooldownLength = 45; //seconds
@@ -142,7 +141,7 @@ public class LandMine : StructureBehaviorScript
         success = false;
         if(type == ToolType.Shovel && !isPrimed && !isExploding)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUpForItem());
             success = true;
         }
     }
@@ -201,7 +200,7 @@ public class LandMine : StructureBehaviorScript
 
         anim.SetTrigger("Exploded");
 
-        health -= 2;
+        health -= 5;
         if(health < 0) Destroy(this.gameObject);
     }
 
@@ -224,15 +223,6 @@ public class LandMine : StructureBehaviorScript
             //code to check
 
         }
-    }
-
-    IEnumerator DugUp()
-    {
-        yield return new WaitForSeconds(1);
-        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem);
-        droppedItem.transform.position = transform.position;
-
-        Destroy(this.gameObject);
     }
 
     void LightColorChange()
@@ -278,6 +268,17 @@ public class LandMine : StructureBehaviorScript
         if(nutrientType == NutrientType.Ichor && nutrients.ichorLevel > 8) return true;
 
         return false;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(!isPrimed) return;
+        if(other.gameObject.layer == 9 || other.gameObject.layer == 10)
+        {
+            CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
+            if(creature && !creature.bearTrapVulnerable && creature as VileHog == null) return;
+            TryExplosion();
+        }
     }
 
     void OnDestroy()

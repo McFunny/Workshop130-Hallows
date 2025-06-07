@@ -7,17 +7,20 @@ public class GameSaveData : MonoBehaviour
 {
     public static GameSaveData Instance;
 
-    public float pStamina;
+    public float pStamina, pFatigue;
     public float pWater;
     public int pCurrentMoney;
     public int pTotalMoneyEarned;
+    public int pDaysSinceDeath;
     public int pDayNumber;
+    public string gameMode;
 
-    public float currentMoney, totalEarnedMoney;
+    public float currentMoney, totalEarnedMoney; //is this used because I dont think so?
 
-    public int dayNum;
+    public int hourSaved = 8;
 
-    //
+    [Header("Player Upgrade Variables. All must be false when building")]
+    public bool gainedInventoryUpgrade = false;
 
     [Header("Main Quest Progression Bools. All must be false when building")]
     public bool tutorialMerchantSpoke; //Tutorial Complete
@@ -31,6 +34,12 @@ public class GameSaveData : MonoBehaviour
     public bool wildernessIntroduced; //Merchant has informed the player about the wilderness
     public bool playerHasBox; //Player currently has the box in their inventory, chest, or farm
     public bool watergunObtained;
+
+    public bool mm_giveBarricade; //Merchant handed the player a barricade at the start
+    public bool cm_giveChest; //Craftsman handed the player a chest at the start
+    public bool mm_giveGun; //Merchant handed the gun after the first day, and gave the "Go to rascal" quest
+    public bool bot_giveSeeds; //Botanist gave the player 10 timber ear seeds at the start
+    public bool bot_explainedPollen; //Player bought a seed requiring pollination
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
@@ -81,50 +90,88 @@ public class GameSaveData : MonoBehaviour
 
     private void LoadData(SaveData data)
     {
-            PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
-            PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
-            PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
-            PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
-            TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
+        PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
+        PlayerInteraction.Instance.fatigue = data.allGameSaveData.pFatigue;
+        PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
+        PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
+        PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
+        PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
+        PlayerInteraction.Instance.playerUpgrades.LoadData(data.allGameSaveData);
+        TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
+        TimeManager.Instance.currentHour = data.allGameSaveData.hourSaved;
+        if(data.allGameSaveData.hourSaved == 0) TimeManager.Instance.currentHour = 8;
+        TimeManager.Instance.RefreshSkybox();
 
-            //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
-            QuestManager.Instance.LoadData(data.allGameSaveData);
+        switch(data.allGameSaveData.gameMode)
+        {
+            case "Normal":
+            MainMenuScript.currentFileMode = FileMode.Normal;
+            break;
+            case "Cozy":
+            MainMenuScript.currentFileMode = FileMode.Cozy;
+            break;
+            default:
+            MainMenuScript.currentFileMode = FileMode.Normal;
+            break;
+        }
 
-            CropDatabase.Instance.LoadStats(data.allGameSaveData);
-            CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
+        //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
+        QuestManager.Instance.LoadData(data.allGameSaveData);
 
-            tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
-            rascalWantsFood = data.allGameSaveData.rascalWantsFood;
-            rascalMentionedKey = data.allGameSaveData.rascalMentionedKey;
-            lumber_offersDeal = data.allGameSaveData.lumber_offersDeal;
-            lumber_choppedTree = data.allGameSaveData.lumber_choppedTree;
-            bridgeCleared = data.allGameSaveData.bridgeCleared;
-            keyCollected = data.allGameSaveData.keyCollected;
-            catacombUnlocked = data.allGameSaveData.catacombUnlocked;
-            wildernessIntroduced = data.allGameSaveData.wildernessIntroduced;
-            playerHasBox = data.allGameSaveData.playerHasBox;
+        CropDatabase.Instance.LoadStats(data.allGameSaveData);
+        CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
 
-            rascalMet = data.allGameSaveData.rascalMet;
-            botMet = data.allGameSaveData.botMet;
-            lumberMet = data.allGameSaveData.lumberMet;
-            barMet = data.allGameSaveData.barMet;
-            tinkMet = data.allGameSaveData.tinkMet;
-            apothMet = data.allGameSaveData.apothMet;
-            culMet = data.allGameSaveData.culMet;
+        tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
+        rascalWantsFood = data.allGameSaveData.rascalWantsFood;
+        rascalMentionedKey = data.allGameSaveData.rascalMentionedKey;
+        lumber_offersDeal = data.allGameSaveData.lumber_offersDeal;
+        lumber_choppedTree = data.allGameSaveData.lumber_choppedTree;
+        bridgeCleared = data.allGameSaveData.bridgeCleared;
+        keyCollected = data.allGameSaveData.keyCollected;
+        catacombUnlocked = data.allGameSaveData.catacombUnlocked;
+        wildernessIntroduced = data.allGameSaveData.wildernessIntroduced;
+        playerHasBox = data.allGameSaveData.playerHasBox;
 
-            townTreeCleared1 = data.allGameSaveData.townTreeCleared1;
-            townTreeCleared2 = data.allGameSaveData.townTreeCleared2;
-            watergunObtained = data.allGameSaveData.watergunObtained;
+        rascalMet = data.allGameSaveData.rascalMet;
+        botMet = data.allGameSaveData.botMet;
+        lumberMet = data.allGameSaveData.lumberMet;
+        barMet = data.allGameSaveData.barMet;
+        tinkMet = data.allGameSaveData.tinkMet;
+        apothMet = data.allGameSaveData.apothMet;
+        culMet = data.allGameSaveData.culMet;
+
+        townTreeCleared1 = data.allGameSaveData.townTreeCleared1;
+        townTreeCleared2 = data.allGameSaveData.townTreeCleared2;
+        watergunObtained = data.allGameSaveData.watergunObtained;
+
+        mm_giveBarricade = data.allGameSaveData.mm_giveBarricade;
+        cm_giveChest = data.allGameSaveData.cm_giveChest;
+        mm_giveGun = data.allGameSaveData.mm_giveGun;
+        bot_giveSeeds = data.allGameSaveData.bot_giveSeeds;
+        bot_explainedPollen = data.allGameSaveData.bot_explainedPollen;
+
+        travMet = data.allGameSaveData.travMet;
+        graveMet = data.allGameSaveData.graveMet;
+        fanMet = data.allGameSaveData.fanMet;
+        butchMet = data.allGameSaveData.butchMet;
+        carpMet = data.allGameSaveData.carpMet;
     }
 }
     [System.Serializable]
     public struct AllGameSaveData
     {
         public float pStamina;
+        public float pFatigue;
         public float pWater;
         public int pCurrentMoney;
         public int pTotalMoneyEarned;
+        public int pDaysSinceDeath;
         public int pDayNumber;
+        public int hourSaved;
+
+        public string gameMode;
+
+        public bool gainedInventoryUpgrade;
 
         public Quest[] activeQuests;
         public FetchQuest[] activeFetchQuests;
@@ -152,49 +199,77 @@ public class GameSaveData : MonoBehaviour
         public bool tinkMet;
         public bool apothMet;
         public bool culMet;
+        public bool travMet, graveMet, fanMet, butchMet, carpMet;
 
         public bool townTreeCleared1, townTreeCleared2;
         public bool watergunObtained;
 
+        public bool mm_giveBarricade;
+        public bool cm_giveChest;
+        public bool mm_giveGun;
+        public bool bot_giveSeeds;
+        public bool bot_explainedPollen;
+
     public AllGameSaveData(GameSaveData data)
-        {
-            pStamina = PlayerInteraction.Instance.stamina;
-            pWater = PlayerInteraction.Instance.waterHeld;
-            pCurrentMoney = PlayerInteraction.Instance.currentMoney;
-            pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
-            pDayNumber = TimeManager.Instance.dayNum;
+    {
+        pStamina = PlayerInteraction.Instance.stamina;
+        pFatigue = PlayerInteraction.Instance.fatigue;
+        pWater = PlayerInteraction.Instance.waterHeld;
+        pCurrentMoney = PlayerInteraction.Instance.currentMoney;
+        pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
+        pDayNumber = TimeManager.Instance.dayNum;
+        hourSaved = TimeManager.Instance.currentHour;
+        pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
+        gameMode = MainMenuScript.currentFileMode.ToString();
 
-            //activeQuests = QuestManager.Instance.activeQuests.ToArray();
+        gainedInventoryUpgrade = PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade;
 
-            QuestManager.Instance.SaveQuestData(out activeQuests, out activeFetchQuests, out activeHuntQuests, out activeGrowQuests);
+        
 
-            CropDatabase.Instance.SaveStats(out cropStats);
-            CreatureDatabase.Instance.SaveStats(out creatureStats);
+        //activeQuests = QuestManager.Instance.activeQuests.ToArray();
+
+        QuestManager.Instance.SaveQuestData(out activeQuests, out activeFetchQuests, out activeHuntQuests, out activeGrowQuests);
+
+        CropDatabase.Instance.SaveStats(out cropStats);
+        CreatureDatabase.Instance.SaveStats(out creatureStats);
 
 
-            tutorialMerchantSpoke = data.tutorialMerchantSpoke;
-            rascalWantsFood = data.rascalWantsFood;
-            rascalMentionedKey = data.rascalMentionedKey;
-            lumber_offersDeal = data.lumber_offersDeal;
-            lumber_choppedTree = data.lumber_choppedTree;
-            bridgeCleared = data.bridgeCleared;
-            keyCollected = data.keyCollected;
-            catacombUnlocked = data.catacombUnlocked;
-            wildernessIntroduced = data.wildernessIntroduced;
-            playerHasBox = data.playerHasBox;
+        tutorialMerchantSpoke = data.tutorialMerchantSpoke;
+        rascalWantsFood = data.rascalWantsFood;
+        rascalMentionedKey = data.rascalMentionedKey;
+        lumber_offersDeal = data.lumber_offersDeal;
+        lumber_choppedTree = data.lumber_choppedTree;
+        bridgeCleared = data.bridgeCleared;
+        keyCollected = data.keyCollected;
+        catacombUnlocked = data.catacombUnlocked;
+        wildernessIntroduced = data.wildernessIntroduced;
+        playerHasBox = data.playerHasBox;
 
-            rascalMet = data.rascalMet;
-            botMet = data.botMet;
-            lumberMet = data.lumberMet;
-            barMet = data.barMet;
-            tinkMet = data.tinkMet;
-            apothMet = data.apothMet;
-            culMet = data.culMet;
+        rascalMet = data.rascalMet;
+        botMet = data.botMet;
+        lumberMet = data.lumberMet;
+        barMet = data.barMet;
+        tinkMet = data.tinkMet;
+        apothMet = data.apothMet;
+        culMet = data.culMet;
 
-            townTreeCleared1 = data.townTreeCleared1;
-            townTreeCleared2 = data.townTreeCleared2;
-            watergunObtained = data.watergunObtained;
-    //Debug.Log("Saving stamina. Result: " + pStamina);
-        }
+        townTreeCleared1 = data.townTreeCleared1;
+        townTreeCleared2 = data.townTreeCleared2;
+        watergunObtained = data.watergunObtained;
+
+        mm_giveBarricade = data.mm_giveBarricade;
+        cm_giveChest = data.cm_giveChest;
+        mm_giveGun = data.mm_giveGun;
+        bot_giveSeeds = data.bot_giveSeeds;
+        bot_explainedPollen = data.bot_explainedPollen;
+
+        travMet = data.travMet;
+        graveMet = data.graveMet;
+        fanMet = data.fanMet;
+        butchMet = data.butchMet;
+        carpMet = data.carpMet;
+
+//Debug.Log("Saving stamina. Result: " + pStamina);
+    }
     }
 

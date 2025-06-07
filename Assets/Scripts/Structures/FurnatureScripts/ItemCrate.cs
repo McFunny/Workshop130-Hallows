@@ -20,17 +20,18 @@ public class ItemCrate : FurnitureBehaviorScript
     public void Start()
     {
         base.Start();
+        FurnitureStart();
         RefreshSockets();
     }
 
     public override void StructureInteraction()
     {
-        if(!CanBeRemoved())
+        if(!CanBeRemoved()/* || (absentFromGrid && !onTable)*/)
         {
             RemoveClosestSocket();
             return;
         }
-        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
             Destroy(this.gameObject);
@@ -43,7 +44,7 @@ public class ItemCrate : FurnitureBehaviorScript
         if(!CanBeRemoved()) return;
         if(type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false)
         {
-            StartCoroutine(DugUp());
+            //StartCoroutine(DugUp());
             success = true;
         }
     }
@@ -56,10 +57,9 @@ public class ItemCrate : FurnitureBehaviorScript
         }
     }
 
-    IEnumerator DugUp()
+    public override void DigAction()
     {
-        yield return new WaitForSeconds(1);
-        PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
 
         Destroy(this.gameObject);
     }
@@ -138,6 +138,11 @@ public class ItemCrate : FurnitureBehaviorScript
     {
         for(int i = 0; i < itemSockets.Count; i++)
         {
+            if(i >= savedItems.Count)
+            {
+                itemSockets[i].sprite = null;
+                continue;
+            }
             if(savedItems[i] != null) itemSockets[i].sprite = savedItems[i].icon;
             else itemSockets[i].sprite = null;
         }
@@ -145,10 +150,23 @@ public class ItemCrate : FurnitureBehaviorScript
 
     bool CanBeRemoved()
     {
+        if(savedItems.Count == 0 || savedItems[0] == null) return true;
         for(int i = 0; i < itemSockets.Count; i++)
         {
             if(savedItems[i] != null) return false;
         }
         return true;
+    }
+
+    public override void LoadVariables()
+    {
+        if(savedItems.Count == 0)
+        {
+            for(int i = 0; i < itemSockets.Count; i++)
+            {
+                savedItems.Add(null);
+            }
+        }
+        RefreshSockets();
     }
 }

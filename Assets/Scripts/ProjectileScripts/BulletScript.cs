@@ -73,13 +73,15 @@ public class BulletScript : MonoBehaviour
             if (creature != null && creature.shovelVulnerable)
             {
                 if(fireBullet && !creature.fireVulnerable) return;
+
+                if(fireBullet) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(3, 7));
                 creature.TakeDamage(creatureDamage);
                 //playsound
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 print("Hit Creature");
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
-                gameObject.SetActive(false);
+                if(creature.health + creatureDamage > 0) gameObject.SetActive(false);
                 return;
             }
         }
@@ -98,6 +100,7 @@ public class BulletScript : MonoBehaviour
         {
             if(playerDamage == 0) return;
             PlayerInteraction.Instance.StaminaChange(-playerDamage);
+            PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(3, 5));
             ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             gameObject.SetActive(false);

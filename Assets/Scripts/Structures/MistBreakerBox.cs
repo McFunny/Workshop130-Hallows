@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MistBreakerBox : StructureBehaviorScript
 {
-    public InventoryItemData recoveredItem;
 
     public GameObject cropTile;
 
@@ -31,10 +30,11 @@ public class MistBreakerBox : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(recoveredItem, 1);
+        bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
             GameSaveData.Instance.playerHasBox = true;
+            NightSpawningManager.Instance.boxPlaced = false;
             Destroy(this.gameObject);
         }
     }
@@ -45,6 +45,7 @@ public class MistBreakerBox : StructureBehaviorScript
         {
             clearTileOnDestroy = false;
             FarmLand script = Instantiate(cropTile, transform.position, Quaternion.identity).GetComponent<FarmLand>();
+            GameSaveData.Instance.playerHasBox = false;
             script.InsertCrop(mistBreaker);
             Destroy(gameObject);
         }
@@ -54,10 +55,5 @@ public class MistBreakerBox : StructureBehaviorScript
     {
         base.OnDestroy();
         if(!gameObject.scene.isLoaded) return;
-        if(TimeManager.Instance.currentHour != 20 && !absentFromGrid)
-        {
-            NightSpawningManager.Instance.boxPlaced = false;
-            GameSaveData.Instance.playerHasBox = false;
-        }
     }
 }

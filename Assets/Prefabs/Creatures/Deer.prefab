@@ -24506,13 +24506,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ecf5a6f3b7be84499efc7b4c99b621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 150
-  maxHealth: 150
+  health: 100
+  maxHealth: 100
   corpseHealth: -50
-  ichorWorth: 5
-  ichorDropRadius: 3.5
+  ichorWorth: 7
+  ichorDropRadius: 4.5
   creatureData: {fileID: 11400000, guid: 0ca9e65aed1b98340a1d0601fc4e8c07, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -24526,13 +24527,12 @@ MonoBehaviour:
   rb: {fileID: 4528708480217109003}
   anim: {fileID: 423523980127809983}
   droppedItems:
-  - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
-  - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+  - {fileID: 11400000, guid: b7f3f9c4e43a981448c44672e7339abf, type: 2}
   - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
   dropChance:
   - 10
   - 5
-  sightRange: 15
+  sightRange: 10
   attackRange: 12
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -24543,7 +24543,12 @@ MonoBehaviour:
   damageToStructure: 15
   damageToPlayer: -35
   canCorpseBreak: 0
+  actionSpeedMod: 1
   hitColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0.1764706}
+  currentEffects: []
+  biteCheckMask:
+    serializedVersion: 2
+    m_Bits: 0
   variant: 1
   animTransformed: {fileID: 1320721866265420266}
   deer: {fileID: 861293224797824934}
@@ -29537,15 +29542,19 @@ MonoBehaviour:
   source: {fileID: 0}
   loopingSource: {fileID: 0}
   moveSound: {fileID: 0}
-  idleSound1: {fileID: 8300000, guid: 3b5b01a8c894ac34887a136e8c07c96d, type: 3}
-  idleSound2: {fileID: 8300000, guid: 13151c299a7f7984ab315235ccec2298, type: 3}
-  idleSounds: []
+  idleSound1: {fileID: 0}
+  idleSound2: {fileID: 0}
+  idleSounds:
+  - {fileID: 8300000, guid: 38004618005978f47bc5c440c9f91e39, type: 3}
+  - {fileID: 8300000, guid: e4ca7c1c1174f0c40b9ba69bcd1fd8c9, type: 3}
+  - {fileID: 8300000, guid: ddfb827e5523b594b85cea3ffabedacd, type: 3}
+  - {fileID: 8300000, guid: 0e49062a7dd1b414db2f9749ebc9b4ac, type: 3}
   hitSounds:
-  - {fileID: 8300000, guid: 5b79d22c2d3ea274fbf7785656622958, type: 3}
+  - {fileID: 8300000, guid: dd0cd0ffd186a0b40a52decfbd808731, type: 3}
   footSteps: []
-  deathSound: {fileID: 8300000, guid: b0dcf57c91effc04ca94da9a85816da4, type: 3}
-  miscSound: {fileID: 8300000, guid: 465679e429d042843aa25dfab93d355d, type: 3}
-  miscSound2: {fileID: 8300000, guid: 38cf39667f6d38043ae1b9302518241e, type: 3}
+  deathSound: {fileID: 8300000, guid: e1dcc84b7b562644687dcdeda34f16d7, type: 3}
+  miscSound: {fileID: 0}
+  miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
   particle1: {fileID: 0}
 --- !u!114 &4316506325950874850
