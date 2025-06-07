@@ -25,11 +25,6 @@ MonoBehaviour:
       to have some new tech that may interest you.
     - Meet me at my workshop near the evening.
     emotions: 05000000010000000400000000000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -120,3 +115,8 @@ MonoBehaviour:
 '
     emotions: 06000000
   branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

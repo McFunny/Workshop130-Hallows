@@ -164,11 +164,11 @@ public class FarmLand : StructureBehaviorScript
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
             if(audioHandler != null) audioHandler.PlayRandomSound(audioHandler.miscSounds1);
         }
-        /*else if(!isWeed && item == mulch && currentUpgrade == FarmTileUpgrade.None)-=
+        else if(!isWeed && item == mulch && currentUpgrade == FarmTileUpgrade.None)
         {
             consumeItem = true;
             ApplyNewUpgrade(FarmTileUpgrade.Mulch);
-        }*/
+        }
         else if(!isWeed && item == trellis && currentUpgrade == FarmTileUpgrade.None && !crop)
         {
             consumeItem = true;
@@ -372,19 +372,22 @@ public class FarmLand : StructureBehaviorScript
         {
             if(growthStage >= crop.growthStages && !isWeed || NeedsPollination())
             {
-                return;
-                //IT HAS REACHED MAX GROWTH STATE
+                if(NeedsPollination()) return;
 
-                //if(hoursSpent < crop.hoursPerStage * 3) return;
-                //plant rots
-                //CropDied();
+                //Reduce water while fully grown
+                hoursSpent = 0;
+                health += 5;
+                if(health > maxHealth) health = maxHealth;
+                DrainNutrients(out bool gainedStress, true);
+                if(gainedStress && growthImpeded) growthImpeded.Play();
+                return;
             }
             else
             {
                 hoursSpent = 0;
                 health += 5;
                 if(health > maxHealth) health = maxHealth;
-                DrainNutrients(out bool gainedStress);
+                DrainNutrients(out bool gainedStress, false);
                 if(!isWeed)
                 {
                     if(gainedStress)
@@ -522,7 +525,7 @@ public class FarmLand : StructureBehaviorScript
         }
     }
 
-    void DrainNutrients(out bool gainedStress)
+    void DrainNutrients(out bool gainedStress, bool waterOnly)
     {
         //PLANTS DRAIN PER GROWTH STAGE, AND THE PLAYER SHOULD HAVE TO WATER ROUGHLY EVERY STAGE/EVERY OTHER STAGE
         gainedStress = false;
@@ -532,18 +535,18 @@ public class FarmLand : StructureBehaviorScript
         }
 
         bool ignoreWaterConsumption = false;
-        if(currentUpgrade == FarmTileUpgrade.Mulch && Random.Range(0, 10) > 7) ignoreWaterConsumption = true;
+        if(currentUpgrade == FarmTileUpgrade.Mulch && Random.Range(0, 10) > 6) ignoreWaterConsumption = true;
 
         //Check if it can properly grow before draining
-        if(nutrients.ichorLevel - crop.ichorIntake < 0) gainedStress = true;
-        if(nutrients.terraLevel - crop.terraIntake < 0) gainedStress = true;
-        if(nutrients.gloamLevel - crop.gloamIntake < 0) gainedStress = true;
+        if(nutrients.ichorLevel - crop.ichorIntake < 0 && !waterOnly) gainedStress = true;
+        if(nutrients.terraLevel - crop.terraIntake < 0 && !waterOnly) gainedStress = true;
+        if(nutrients.gloamLevel - crop.gloamIntake < 0 && !waterOnly) gainedStress = true;
         if(nutrients.waterLevel - crop.waterIntake < 0 && !isWeed && !ignoreWaterConsumption) gainedStress = true;
 
         if(!ignoreWaterConsumption) nutrients.waterLevel -= crop.waterIntake;
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
 
-        if(!gainedStress)
+        if(!gainedStress && !waterOnly)
         {
             nutrients.ichorLevel -= crop.ichorIntake;
             if(nutrients.ichorLevel > 10) nutrients.ichorLevel = 10;
@@ -555,7 +558,7 @@ public class FarmLand : StructureBehaviorScript
             if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
 
         }
-        else plantStress++;
+        else if(gainedStress) plantStress++;
 
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);
 

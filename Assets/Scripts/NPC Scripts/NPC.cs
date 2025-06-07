@@ -217,6 +217,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                     PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
                     //Spawn Items
+                    GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                     lastCompletedQuestIndex = i;
                     return true;
@@ -229,6 +230,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                 PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
                 //Spawn Items
+                GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                 lastCompletedQuestIndex = i;
                 return true;
@@ -252,8 +254,9 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 if(fq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == fq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= fq.amount)
                 {
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
-                    PlayerInteraction.Instance.currentMoney += QuestManager.Instance.activeQuests[i].mintReward;
-                    PlayerInteraction.Instance.totalMoneyEarned += QuestManager.Instance.activeQuests[i].mintReward;
+                    PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
+                    //Spawn Items
+                    GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(fq.amount);
                     PlayerInventoryHolder.Instance.UpdateInventory();
@@ -266,8 +269,9 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 if(gq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == gq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= gq.amount && gq.progress == gq.maxProgress)
                 {
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
-                    PlayerInteraction.Instance.currentMoney += QuestManager.Instance.activeQuests[i].mintReward;
-                    PlayerInteraction.Instance.totalMoneyEarned += QuestManager.Instance.activeQuests[i].mintReward;
+                    PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
+                    //Spawn Items
+                    GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(gq.amount);
                     PlayerInventoryHolder.Instance.UpdateInventory();
@@ -279,6 +283,20 @@ public abstract class NPC : MonoBehaviour, IInteractable
         }
 
         return false;
+    }
+
+    void GiveRewards(List<InventoryItemData> rewards)
+    {
+        Vector3 itemPos = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+        for(int i = 0; i < rewards.Count; i++)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(rewards[i]);
+            droppedItem.transform.position = new Vector3(itemPos.x, itemPos.y + 1f, itemPos.z);
+
+            Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB.AddForce(Vector3.up * 25);
+            itemRB.AddForce(transform.forward * 50);
+        }
     }
 
     public void ReturnFocalPoint(out Transform focalPoint)

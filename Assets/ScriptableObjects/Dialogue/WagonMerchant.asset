@@ -19,11 +19,6 @@ MonoBehaviour:
     - Got something to sell?
     - Show me.
     emotions: 0000000003000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 06000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -182,3 +177,8 @@ MonoBehaviour:
     - ... Oh, that reminds me. Here, I forgot to hand this to you yesterday. {givePlayerItems}
     - Be careful with the bullets. They are in short supply.
     emotions: 0000000001000000000000000000000003000000
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

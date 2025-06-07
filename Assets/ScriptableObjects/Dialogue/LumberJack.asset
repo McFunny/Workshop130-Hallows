@@ -21,11 +21,6 @@ MonoBehaviour:
     - Which is a shame. My expertice of woodcutting is of no use to someone who cannot
       afford it.
     emotions: 000000000300000002000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: Sigh
     paragraphs:
@@ -167,3 +162,8 @@ MonoBehaviour:
 '
     emotions: 06000000
   branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

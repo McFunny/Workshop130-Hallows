@@ -74,21 +74,22 @@ public class BotanistNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public int QuestCompletedDialogue() 
+    public int QuestCompletedDialogue() //Reference lastCompletedQuestIndex to get which quest it is/what type it is, and give specific remarks here!!
     {
         if(lastCompletedQuestIndex < 0)
         {
             return 0;
         }
-        //reference lastCompletedQuestIndex to get which quest it is/what type it is, and give specific remarks here!!
 
         //Remark about completing the timber ear quest here
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[0])) return 2; //Unfort this means no random timber ear quests
 
         //Remark about completing a grow quest here
+        if(QuestManager.Instance.activeQuests[lastCompletedQuestIndex] as GrowQuest != null) return 1;
 
         //Remark about completing the pollination quest here
 
-        else return 0;
+        return 0;
     }
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)

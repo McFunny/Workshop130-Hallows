@@ -19,11 +19,6 @@ MonoBehaviour:
     - You are the new farmer, right?
     - I do hope you didn't bring any of that mist in with you.
     emotions: 040000000500000005000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -127,3 +122,8 @@ MonoBehaviour:
 '
     emotions: 06000000
   branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

@@ -222,4 +222,25 @@ MonoBehaviour:
     objectID2: 0
     savedRewardIDs: 
     questID: 2
-  UniqueGrowQuests: []
+  UniqueGrowQuests:
+  - name: Timber Ear Cultivation
+    description: The botanist gave you some Timber Ear seeds. This crop yields many
+      wood-like bulbs and is ignored by most creatures, so plant in abundance. The
+      bulbs can be refined into Timber by the Craftsman.
+    isMajorQuest: 0
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards: []
+    progress: 0
+    maxProgress: 10
+    daysLeft: -1
+    assignee: 2
+    displayProgress: 1
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    questID: -1
+    desiredCrop: {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
+    desiredItem: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
+    amount: 0

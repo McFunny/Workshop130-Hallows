@@ -19,10 +19,6 @@ MonoBehaviour:
     - Got somethin to sell?
     - Show me.
     emotions: 0000000003000000
-  questCompletePath:
-    pathName: 
-    paragraphs: []
-    emotions: 
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -42,3 +38,9 @@ MonoBehaviour:
 
 '
     emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000

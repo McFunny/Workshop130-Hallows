@@ -73,10 +73,12 @@ public class QuestManager : MonoBehaviour
         }*/
     }
 
-    public bool CheckForQuest(Quest q) //Finds if the current quest is already in the active quests list
+    public bool CheckForQuest(Quest q) //Finds if the current quest is already in the active quests list //SAME AS FINDSAMEQUEST
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
+            if(activeQuests[i].assignee != q.assignee) continue;
+
             FetchQuest fQ = activeQuests[i] as FetchQuest;
             HuntQuest hQ = activeQuests[i] as HuntQuest;
             GrowQuest gQ = activeQuests[i] as GrowQuest;
@@ -102,10 +104,12 @@ public class QuestManager : MonoBehaviour
         return false;
     }
 
-    public int FindSameQuest(Quest q) //Finds if the current quest is already in the active quests list and returns the index
+    public int FindSameQuest(Quest q) //Finds if the current quest is already in the active quests list and returns the index //SAME AS CHECKFORQUEST
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
+            if(activeQuests[i].assignee != q.assignee) continue;
+
             FetchQuest fQ = activeQuests[i] as FetchQuest;
             HuntQuest hQ = activeQuests[i] as HuntQuest;
             GrowQuest gQ = activeQuests[i] as GrowQuest;
@@ -129,6 +133,37 @@ public class QuestManager : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    public bool CompareQuests(Quest q1, Quest q2) //Finds if the 2 quests are the same
+    {
+        if(q1.assignee != q2.assignee) return false;
+
+        FetchQuest fQ1 = q1 as FetchQuest;
+        HuntQuest hQ1 = q1 as HuntQuest;
+        GrowQuest gQ1 = q1 as GrowQuest;
+
+        if(fQ1 != null)
+        {
+            FetchQuest fQ2 = q2 as FetchQuest;
+            if(fQ2 != null && fQ1.desiredItem == fQ2.desiredItem) return true;
+        }
+        else if(hQ1 != null)
+        {
+            HuntQuest hQ2 = q2 as HuntQuest;
+            if(hQ2 != null && hQ1.targetCreature == hQ2.targetCreature) return true;
+        }
+        else if(gQ1 != null)
+        {
+            GrowQuest gQ2 = q2 as GrowQuest;
+            if(gQ2 != null && gQ1.desiredCrop == gQ2.desiredCrop) return true;
+        }
+
+        if(q1.isMajorQuest && q2.isMajorQuest)
+        {
+            if((q1.name == q2.name || (q1.questID == q2.questID && q1.questID != -1))) return true;
+        }
+        return false;
     }
 
     public void AddQuestProgress(int amount, Quest q)
@@ -194,36 +229,42 @@ public class QuestManager : MonoBehaviour
         int i = 0;
         foreach(Quest q in activeQuests)
         {
+            if(q.alreadyCompleted && !q.isMajorQuest) //Removes all non main quests that are completed
+            {
+                i++;
+                continue;
+            }
+
             q.savedRewardIDs.Clear();
             for(int x = 0; x < q.itemRewards.Count; x++) //Saved item id's
             {
                 q.savedRewardIDs.Add(q.itemRewards[x].ID);
             }
-            //var type = q.GetType();
+
             FetchQuest fQ = q as FetchQuest;
             HuntQuest hQ = q as HuntQuest;
             GrowQuest gQ = q as GrowQuest;
 
-            if(fQ != null && !fQ.alreadyCompleted)
+            if(fQ != null)
             {
                 fQ.objectID = fQ.desiredItem.ID;
                 fQ.orderIndex = i;
                 fQuestList.Add(fQ);
             }
-            else if(hQ != null && !hQ.alreadyCompleted)
+            else if(hQ != null)
             {
                 hQ.objectID = hQ.targetCreature.id;
                 hQ.orderIndex = i;
                 hQuestList.Add(hQ);
             }
-            else if(gQ != null && !gQ.alreadyCompleted)
+            else if(gQ != null)
             {
                 gQ.objectID = gQ.desiredCrop.id;
                 gQ.objectID2 = gQ.desiredItem.ID;
                 gQ.orderIndex = i;
                 gQuestList.Add(gQ);
             }
-            else if(!q.alreadyCompleted || q.isMajorQuest)
+            else
             {
                 q.orderIndex = i;
                 aQuestList.Add(q);
@@ -231,7 +272,6 @@ public class QuestManager : MonoBehaviour
 
             i++;
         }
-        //go thru completed quests too
 
         s_activeQuests = aQuestList.ToArray();
         s_activeFetchQuests = fQuestList.ToArray();
@@ -324,7 +364,11 @@ public class Quest
     [HideInInspector] public List<int> savedRewardIDs = new List<int>(); //The ID of the item rewards
     public int questID = -1; //The ID of this quest in the database. Used only by main quests
 
-    public Quest(){}
+    public Quest()
+    {
+        daysLeft = -1;
+        questID = -1;
+    }
 
     public Quest(Quest q) //Initialize a new quest based on a reference
     {

@@ -20,11 +20,6 @@ MonoBehaviour:
     - Hopefully I'll be using your crops to make some great food!
     - Come by my shop and try the cuisine of Veilwood!
     emotions: 000000000000000001000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -148,3 +143,8 @@ MonoBehaviour:
 '
     emotions: 06000000
   branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000
