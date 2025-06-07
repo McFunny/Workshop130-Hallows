@@ -347,7 +347,7 @@ public class Quest
     public bool alreadyCompleted = false; //if you want to store completed quests, or just store completed main quests.
     public int mintReward;
     public List<InventoryItemData> itemRewards = new List<InventoryItemData>();
-    //public int townFavorReward;
+    public int townFavorReward;
 
     public int progress = 0;
     public int maxProgress; //Just because its at max progress does NOT mean a quest is completed. You still need to check in with the assignee if there is one
@@ -374,7 +374,6 @@ public class Quest
     {
         name = q.name;
         description = q.description;
-        //type = q.type;
         isMajorQuest = q.isMajorQuest;
         mintReward = q.mintReward;
         itemRewards = q.itemRewards;
@@ -384,6 +383,20 @@ public class Quest
         displayProgress = q.displayProgress;
         questID = q.questID;
     }
+
+    /*public Quest(QuestTemplate q) //Initialize a new quest based on a reference
+    {
+        name = q.name;
+        description = q.description;
+
+        mintReward = q.mintReward;
+        itemRewards = q.itemRewards;
+        maxProgress = q.maxProgress;
+        daysLeft = q.daysLeft;
+        assignee = q.assignee;
+        displayProgress = q.displayProgress;
+        questID = q.questID;
+    }*/
 
 }
 [System.Serializable]
@@ -397,6 +410,26 @@ public class FetchQuest: Quest //Should hide progress, and max progress should b
         desiredItem = _desiredItem;
         amount = _amount;
     }
+
+    public FetchQuest(QuestTemplate q) //Initialize a new quest based on a reference
+    {
+        name = q.name;
+        description = q.description;
+        desiredItem = q.item;
+        amount = Random.Range(q.minObject, q.maxObject);
+        if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(q.item.value * q.mintMultiplier * q.item.sellValueMultiplier * amount); //Money Reward
+        else
+        {
+            int i = Random.Range(0, q.itemRewards.Count);
+            if(!q.itemRewards[i].item || q.itemRewards[i].amount <= 0) mintReward = Mathf.RoundToInt(q.item.value * q.mintMultiplier * q.item.sellValueMultiplier * amount); //Money Reward
+            else for(int x = 0; x < q.itemRewards[i].amount; x++) itemRewards.Add(q.itemRewards[i].item); //Item Reward
+        }
+        maxProgress = amount;
+        if(q.daysLeftMin <= 0) daysLeft = -1;
+        else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
+        assignee = q.assignee;
+        displayProgress = q.displayProgress;
+    }
 }
 
 [System.Serializable]
@@ -409,6 +442,26 @@ public class HuntQuest: Quest //max progress should be amount
     {
         targetCreature = _targetCreature;
         amount = _amount;
+    }
+
+    public HuntQuest(QuestTemplate q) //Initialize a new quest based on a reference
+    {
+        name = q.name;
+        description = q.description;
+        targetCreature = q.creature;
+        amount = Random.Range(q.minObject, q.maxObject);
+        if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(q.creature.mintWorth * q.mintMultiplier * amount); //Money Reward
+        else
+        {
+            int i = Random.Range(0, q.itemRewards.Count);
+            if(!q.itemRewards[i].item || q.itemRewards[i].amount <= 0) mintReward = Mathf.RoundToInt(q.creature.mintWorth * q.mintMultiplier * amount); //Money Reward
+            else for(int x = 0; x < q.itemRewards[i].amount; x++) itemRewards.Add(q.itemRewards[i].item); //Item Reward
+        }
+        maxProgress = amount;
+        if(q.daysLeftMin <= 0) daysLeft = -1;
+        else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
+        assignee = q.assignee;
+        displayProgress = q.displayProgress;
     }
 }
 
@@ -425,20 +478,28 @@ public class GrowQuest: Quest //max progress should be amount
         amount = _amount;
         desiredCrop = _desiredCrop;
     }
-}
 
-/*[System.Serializable]
-public class MiscQuest: Quest //For odd things like delivering an item or paying money to an npc
-{
-    public CreatureObject targetCreature;
-    public int amount;
-
-    public HuntQuest(CreatureObject _targetCreature, int _amount)
+    public GrowQuest(QuestTemplate q) //Initialize a new quest based on a reference
     {
-        targetCreature = _targetCreature;
-        amount = _amount;
+        name = q.name;
+        description = q.description;
+        desiredCrop = q.crop;
+        desiredItem = q.crop.cropYield;
+        amount = Random.Range(q.minObject, q.maxObject);
+        if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(desiredItem.value * q.mintMultiplier * desiredItem.sellValueMultiplier * amount); //Money Reward
+        else
+        {
+            int i = Random.Range(0, q.itemRewards.Count);
+            if(!q.itemRewards[i].item || q.itemRewards[i].amount <= 0) mintReward = Mathf.RoundToInt(desiredItem.value * q.mintMultiplier * desiredItem.sellValueMultiplier * amount); //Money Reward
+            else for(int x = 0; x < q.itemRewards[i].amount; x++) itemRewards.Add(q.itemRewards[i].item); //Item Reward
+        }
+        maxProgress = amount;
+        if(q.daysLeftMin <= 0) daysLeft = -1;
+        else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
+        assignee = q.assignee;
+        displayProgress = q.displayProgress;
     }
-}*/
+}
 
 /*public enum QuestType
 {

@@ -51,6 +51,12 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = QuestCompletedDialogue();
                 currentType = PathType.QuestComplete;
             }
+            else if(dailyQuest != null)
+            {
+                currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                currentType = PathType.GivingDaily;
+                GivePlayerDailyQuest();
+            }
             else if(movementHandler.isWorking) //Working Dialogue
             {
                 currentPath = 0;

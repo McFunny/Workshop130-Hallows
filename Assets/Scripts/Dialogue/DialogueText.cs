@@ -18,6 +18,7 @@ public class DialogueText : ScriptableObject
     public DialoguePath[] alreadySpoken;
     public DialoguePath[] branchingPaths;
     public DialoguePath[] questCompletePaths;
+    public DialoguePath[] dailyQuestPaths; //Dialogue for giving a daily
 
     /*[ContextMenu("Numerate all paths")]
     public void NumerateDialoguePaths()
@@ -53,7 +54,8 @@ public enum PathType
     ItemRecieved,
     ItemSpecific,
     AlreadySpoken,
-    BranchingPaths
+    BranchingPaths,
+    GivingDaily
 }
 
 [System.Serializable]

@@ -35,6 +35,8 @@ public class CreatureObject : ScriptableObject
     /// 
     public float spawnChance_w = 100;
 
+    public int mintWorth = 1; //Used for quests
+
     public Creature data = new Creature();
 
     public Creature CreateCreature()

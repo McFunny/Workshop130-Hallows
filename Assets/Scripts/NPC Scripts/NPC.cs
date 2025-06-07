@@ -16,6 +16,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public Transform eyeLine;
 
+    public GameObject exclamationObject;
+
     public Character character;
 
     public NPCBarterDatabase barterDatabase;
@@ -41,6 +43,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     protected int lastCompletedQuestIndex = -1;
 
+    //REMEMBER TO CAST THIS AS THE CORRECT TYPE OF QUEST WHEN HANDING IT OUT!!!!!!!!
     public Quest dailyQuest; //If given a quest today, they will hold it here and have an explanation overhead until its given
 
     protected virtual void Awake()
@@ -67,6 +70,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
+
+        ExclamationCheck();
     }
 
     public virtual void PurchaseAttempt(StoreItem item)
@@ -161,6 +166,30 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual void OnConvoEnd()
     {
         currentPath = -1;
+        ExclamationCheck();
+    }
+
+    public void GiveDailyQuest(Quest q)
+    {
+        if(q == null) return;
+        dailyQuest = q;
+        ExclamationCheck();
+    }
+
+    protected void GivePlayerDailyQuest()
+    {
+        if(dailyQuest == null) return;
+
+        //Check to see if we have to identify the type of quest
+        QuestManager.Instance.AddQuest(dailyQuest);
+        dailyQuest = null;
+    }
+
+    public virtual void ExclamationCheck() //Checks if the exclamation point should persist
+    {
+        if(!exclamationObject) return;
+        if(dailyQuest != null) exclamationObject.SetActive(true);
+        else exclamationObject.SetActive(false);
     }
 
     public virtual void BeginWorking(){}
@@ -212,7 +241,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             if(type.Equals(typeof(GrowQuest)))
             {
                 GrowQuest gQ = QuestManager.Instance.activeQuests[i] as GrowQuest;
-                if(gQ.amount == 0)
+                if(gQ.amount == 0 && gQ.progress == gQ.maxProgress)
                 {
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                     PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
