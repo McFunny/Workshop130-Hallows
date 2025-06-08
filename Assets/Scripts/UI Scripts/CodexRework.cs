@@ -110,7 +110,7 @@ public class CodexRework : MonoBehaviour
             }
         }
 
-        PlayerMovement.isCodexOpen = codex.activeInHierarchy;
+        //PlayerMovement.isCodexOpen = codex.activeInHierarchy;
 
         if(ControlManager.isController)
         {
