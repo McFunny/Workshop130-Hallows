@@ -185,11 +185,19 @@ public abstract class NPC : MonoBehaviour, IInteractable
         dailyQuest = null;
     }
 
-    public virtual void ExclamationCheck() //Checks if the exclamation point should persist
+    public virtual bool ExclamationCheck() //Checks if the exclamation point should persist
     {
-        if(!exclamationObject) return;
-        if(dailyQuest != null) exclamationObject.SetActive(true);
-        else exclamationObject.SetActive(false);
+        if(!exclamationObject) return false;
+        if(dailyQuest != null || QuestManager.Instance.CheckForFinishedNPCQuest(character))
+        {
+            exclamationObject.SetActive(true);
+            return true;
+        }
+        else
+        {
+            exclamationObject.SetActive(false);
+            return false;
+        }
     }
 
     public virtual void BeginWorking(){}

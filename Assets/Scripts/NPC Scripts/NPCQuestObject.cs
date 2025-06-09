@@ -13,7 +13,7 @@ public class NPCQuestObject : ScriptableObject
 
     public List<Quest> uniqueQuests = new List<Quest>();
 
-    public int currentDailyQuestPath = 0; //Use this to give unique dialogue per quest 
+    [HideInInspector] public int currentDailyQuestPath = 0; //Use this to give unique dialogue per quest 
     
     
     public Quest GrabQuest()

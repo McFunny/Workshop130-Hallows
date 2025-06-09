@@ -75,7 +75,7 @@ public class NPCManager : MonoBehaviour
             butchSpoke = false;
             carpSpoke = false;
 
-            GiveDailyQuests();
+            if(TimeManager.Instance.dayNum != 1) GiveDailyQuests(); //Maybe delay this if the game does this before loading
         }
         
     }
@@ -94,19 +94,19 @@ public class NPCManager : MonoBehaviour
 
         //Add limit to how many quests, or make sure an npc cannot give multiple quests
 
-        Debug.Log ("Giving Daily");
+        //Debug.Log ("Giving Daily");
 
-        int recipients = 1;//Random.Range(0,2);
+        int recipients = Random.Range(1,3);
         int x = 0;
         List<NPC> selectedNPCs = new List<NPC>();
         while(selectedNPCs.Count < recipients && x < 20)
         {
             int r = 0;//Random.Range(0, townsPeople.Count);
-            if(!selectedNPCs.Contains(townsPeople[r]))
+            if(!selectedNPCs.Contains(townsPeople[r]) && !QuestManager.Instance.DuplicateAssignees(townsPeople[r].character))
             {
                 selectedNPCs.Add(townsPeople[r]);
                 townsPeople[r].GiveDailyQuest(QuestDatabase.Instance.GetDailyQuest(townsPeople[r].character));
-                Debug.Log ("NPC Chosen");
+                //Debug.Log ("NPC Chosen");
             }
             x++;
         }

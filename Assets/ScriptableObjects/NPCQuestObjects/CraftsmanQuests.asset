@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d589004e78c87459e24d154dfcbd19, type: 3}
+  m_Name: CraftsmanQuests
+  m_EditorClassIdentifier: 
+  character: 13
+  templates:
+  - name: Lumber Request
+    description: '"Our wood supply is running low, no thanks to a certain individual
+      slacking off. Could you please assist by bringing me {itemAmount} {itemName}?
+      I can process it for you if you trade me some Timber Ear."'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 1.3
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
+      amount: 3
+    townFavorReward: 5
+    daysLeftMin: 3
+    daysLeftMax: 6
+    assignee: 13
+    displayProgress: 1
+    minObject: 7
+    maxObject: 15
+  - name: GloomStalk Request
+    description: '"I am prepping a large order of barricades, and I am running out
+      of materials. Could you bring me {itemAmount} {itemName}? I can process it
+      for you if you trade me some Gloomstalk."'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 1.3
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
+      amount: 2
+    townFavorReward: 5
+    daysLeftMin: 3
+    daysLeftMax: 6
+    assignee: 13
+    displayProgress: 1
+    minObject: 7
+    maxObject: 15
+  - name: Kill Walkers
+    description: '"Our walls continue to wear down as time goes on. Please twindle
+      the population of our aggressors.'
+    dialogPath: 0
+    creature: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
+    item: {fileID: 0}
+    crop: {fileID: 0}
+    mintMultiplier: 0.8
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+      amount: 5
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 6
+    townFavorReward: 5
+    daysLeftMin: 2
+    daysLeftMax: 4
+    assignee: 13
+    displayProgress: 1
+    minObject: 6
+    maxObject: 15
+  - name: Kill Hogs
+    description: '"Our walls continue to wear down as time goes on. Please twindle
+      the population of our aggressors.'
+    dialogPath: 0
+    creature: {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
+    item: {fileID: 0}
+    crop: {fileID: 0}
+    mintMultiplier: 0.8
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+      amount: 5
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 6
+    townFavorReward: 5
+    daysLeftMin: 2
+    daysLeftMax: 4
+    assignee: 13
+    displayProgress: 1
+    minObject: 4
+    maxObject: 12
+  uniqueQuestChance: 0
+  uniqueQuests: []
+  currentDailyQuestPath: 0

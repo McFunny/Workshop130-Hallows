@@ -166,6 +166,24 @@ public class QuestManager : MonoBehaviour
         return false;
     }
 
+    public bool DuplicateAssignees(Character name)
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            if(activeQuests[i].assignee == name) return true;
+        }
+        return false;
+    }
+
+    public bool CheckForFinishedNPCQuest(Character name) //Checks if the player completed a quest and needs to return it to the person
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            if(activeQuests[i].assignee == name && !activeQuests[i].alreadyCompleted && activeQuests[i].progress == activeQuests[i].maxProgress && activeQuests[i].progress != 0) return true;
+        }
+        return false;
+    }
+
     public void AddQuestProgress(int amount, Quest q)
     {
         int questFoundID = FindSameQuest(q);
@@ -362,6 +380,8 @@ public class Quest
     [HideInInspector] public int objectID = -1; //The ID of the saved creature, item, crop, ect
     [HideInInspector] public int objectID2 = -1; //The ID of another saved creature, item, crop, ect
     [HideInInspector] public List<int> savedRewardIDs = new List<int>(); //The ID of the item rewards
+    [HideInInspector] public int behaviorID = -1; //The ID of the behavior associated with the quest
+    [HideInInspector] public int questBehavior = -1; //The Behavior Object of the quest to handle special interactions
     public int questID = -1; //The ID of this quest in the database. Used only by main quests
 
     public Quest()

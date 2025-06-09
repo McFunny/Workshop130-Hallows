@@ -13,6 +13,8 @@ public class QuestDatabase : ScriptableObject
 
     public List<NPCQuestObject> npcQuestObjects = new List<NPCQuestObject>();
 
+    //List of the behaviors
+
     [ContextMenu("Update ID's")]
     public void UpdateID()
     {
@@ -30,6 +32,8 @@ public class QuestDatabase : ScriptableObject
         {
             UniqueGrowQuests[i].questID = i;
         }
+
+        //Function to order the behaviors
     }
 
 
@@ -91,6 +95,11 @@ public class QuestDatabase : ScriptableObject
         }
 
         return null;
+    }
+
+    public void GetQuestBehavior(int id)
+    {
+        //return new Quest(MainQuests[id]);
     }
 
     [ContextMenu("Test Quest Get")]

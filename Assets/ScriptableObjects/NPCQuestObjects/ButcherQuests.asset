@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d589004e78c87459e24d154dfcbd19, type: 3}
+  m_Name: ButcherQuests
+  m_EditorClassIdentifier: 
+  character: 12
+  templates:
+  - name: Hunt Hares
+    description: '"The only good hare is a dead hare."'
+    dialogPath: 0
+    creature: {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
+    item: {fileID: 0}
+    crop: {fileID: 0}
+    mintMultiplier: 1.1
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 6
+    - item: {fileID: 11400000, guid: d0554b0d40ace204cbd02dfe2e674641, type: 2}
+      amount: 1
+    townFavorReward: 5
+    daysLeftMin: 4
+    daysLeftMax: 6
+    assignee: 12
+    displayProgress: 1
+    minObject: 6
+    maxObject: 18
+  - name: Hunt Hogs
+    description: '"The only good hog is a dead hog."'
+    dialogPath: 0
+    creature: {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
+    item: {fileID: 0}
+    crop: {fileID: 0}
+    mintMultiplier: 1.1
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 6
+    townFavorReward: 5
+    daysLeftMin: 4
+    daysLeftMax: 6
+    assignee: 12
+    displayProgress: 1
+    minObject: 6
+    maxObject: 14
+  - name: Hunt Deer
+    description: '"Normal or not, I don''t trust them."'
+    dialogPath: 0
+    creature: {fileID: 11400000, guid: 0ca9e65aed1b98340a1d0601fc4e8c07, type: 2}
+    item: {fileID: 0}
+    crop: {fileID: 0}
+    mintMultiplier: 1.1
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 6
+    townFavorReward: 5
+    daysLeftMin: 4
+    daysLeftMax: 6
+    assignee: 12
+    displayProgress: 1
+    minObject: 1
+    maxObject: 3
+  - name: Fetch Albino Pelt
+    description: '"Man eating rabbits must have a luxurious pelt. I want one".'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: 77cbb6db30ada5a4988f545585cd29c2, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 1.4
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 6
+    townFavorReward: 3
+    daysLeftMin: 0
+    daysLeftMax: 0
+    assignee: 12
+    displayProgress: 1
+    minObject: 1
+    maxObject: 2
+  - name: Hunt Plant Mimic
+    description: '"Plant or not, it has meat and it breathes."'
+    dialogPath: 0
+    creature: {fileID: 11400000, guid: 4a3f2bb9ea16f5242b1fc5432a77b36c, type: 2}
+    item: {fileID: 0}
+    crop: {fileID: 0}
+    mintMultiplier: 1.1
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+      amount: 20
+    - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+      amount: 15
+    townFavorReward: 5
+    daysLeftMin: 4
+    daysLeftMax: 6
+    assignee: 12
+    displayProgress: 1
+    minObject: 3
+    maxObject: 6
+  uniqueQuestChance: 0
+  uniqueQuests: []
+  currentDailyQuestPath: 0

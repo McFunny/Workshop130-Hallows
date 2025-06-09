@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[CreateAssetMenu(fileName = "New Night Event", menuName = "Night Events/Default")]
 public class NightEventObject : ScriptableObject
 {
     public string name;

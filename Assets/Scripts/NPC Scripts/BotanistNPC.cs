@@ -303,6 +303,24 @@ public class BotanistNPC : NPC, ITalkable
 
     }
 
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(!GameSaveData.Instance.bot_giveSeeds)
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        return true;
+    }
+
     public int IsItemASeed(InventoryItemData item)
     {
         if(item == s_carrot) return 2;

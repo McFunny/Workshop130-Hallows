@@ -42,6 +42,12 @@ public class CulinarianNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
+                else if(dailyQuest != null)
+                {
+                    currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                    currentType = PathType.GivingDaily;
+                    GivePlayerDailyQuest();
+                }
                 else if (NPCManager.Instance.culinarianSpoke)
                 {
                     int i = Random.Range(0, dialogueText.alreadySpoken.Length);

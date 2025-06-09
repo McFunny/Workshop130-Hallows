@@ -42,13 +42,20 @@ public class TinkererNPC : NPC, ITalkable
                 currentType = PathType.Default;
                 GameSaveData.Instance.tinkMet = true;
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(7));
+                dailyQuest = null;
             }
             else
             {
-                if(CompletedQuest())
+                if(CompletedQuest()) //ADD UNIQUE FUNCTION TO GIVE UNIQUE DIALOGUE THAT IS QUEST DEPENDENT
                 {
-                    currentPath = 0;
+                    currentPath = QuestCompletedDialogue();
                     currentType = PathType.QuestComplete;
+                }
+                else if(dailyQuest != null)
+                {
+                    currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                    currentType = PathType.GivingDaily;
+                    GivePlayerDailyQuest();
                 }
                 else if (NPCManager.Instance.tinkererSpoke)
                 {
@@ -70,15 +77,10 @@ public class TinkererNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    /*public void Talk()
+    public int QuestCompletedDialogue() //Reference lastCompletedQuestIndex to get which quest it is/what type it is, and give specific remarks here!!
     {
-        if(!dialogueController.FreeToSpeak(this)) return;
-        anim.SetTrigger("IsTalking");
-        movementHandler.TalkToPlayer();
-        dialogueController.currentTalker = this;
-        dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
-        startedDialogue = true;
-    }*/
+        return 0;
+    }
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
@@ -91,7 +93,7 @@ public class TinkererNPC : NPC, ITalkable
 
         if(CompletedQuestWithItem())
         {
-            currentPath = 0;
+            currentPath = QuestCompletedDialogue();
             currentType = PathType.QuestComplete;
         }
 
