@@ -14,6 +14,7 @@ public class QuestDatabase : ScriptableObject
     public List<NPCQuestObject> npcQuestObjects = new List<NPCQuestObject>();
 
     //List of the behaviors
+    public List<QuestBehavior> questBehaviors = new List<QuestBehavior>();
 
     [ContextMenu("Update ID's")]
     public void UpdateID()
@@ -34,6 +35,10 @@ public class QuestDatabase : ScriptableObject
         }
 
         //Function to order the behaviors
+        for(int i = 0; i < questBehaviors.Count; i++)
+        {
+            questBehaviors[i].id = i;
+        }
     }
 
 
@@ -90,6 +95,8 @@ public class QuestDatabase : ScriptableObject
                 if(chosenQuest as GrowQuest != null) Debug.Log ("Its a grow quest");
                 if(chosenQuest as HuntQuest != null) Debug.Log ("Its a hunt quest");
                 if(chosenQuest as FetchQuest != null) Debug.Log ("Its a fetch quest");
+
+                if(chosenQuest != null && chosenQuest.questBehavior) chosenQuest.questBehavior.QuestAssigned(chosenQuest);
                 return chosenQuest;
             }
         }
@@ -97,9 +104,10 @@ public class QuestDatabase : ScriptableObject
         return null;
     }
 
-    public void GetQuestBehavior(int id)
+    public QuestBehavior GetQuestBehavior(int id)
     {
-        //return new Quest(MainQuests[id]);
+        if(id == -1) return null;
+        return questBehaviors[id];
     }
 
     [ContextMenu("Test Quest Get")]

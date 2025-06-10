@@ -31,7 +31,7 @@ MonoBehaviour:
     objectID2: -1
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
+    questBehavior: {fileID: 0}
     questID: 0
   - name: Talk To Rascal
     description: You were informed about a kid who looked hungry, by the town graveyard.
@@ -50,7 +50,7 @@ MonoBehaviour:
     objectID2: -1
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
+    questBehavior: {fileID: 0}
     questID: 1
   - name: Carrot of Knowledge
     description: The little rascal in the town is asking for 1 Pale Carrot. In exchange,
@@ -70,7 +70,7 @@ MonoBehaviour:
     objectID2: 0
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
+    questBehavior: {fileID: 0}
     questID: 2
   - name: Talk To Lumberjack
     description: The key to the door in the graveyard lies beyond the collapsed tree
@@ -90,7 +90,7 @@ MonoBehaviour:
     objectID2: -1
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
+    questBehavior: {fileID: 0}
     questID: 3
   - name: Fallen Tree Removal
     description: The Lumberjack has agreed to clear the fallen tree blocking the
@@ -111,7 +111,7 @@ MonoBehaviour:
     objectID2: -1
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
+    questBehavior: {fileID: 0}
     questID: 4
   - name: Fetch Key
     description: The key must be somewhere across the bridge.
@@ -130,7 +130,7 @@ MonoBehaviour:
     objectID2: -1
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
+    questBehavior: {fileID: 0}
     questID: 5
   - name: Complete Catacomb Puzzle
     description: You found many mechanisms in the crypt below the town. They seem
@@ -150,7 +150,7 @@ MonoBehaviour:
     objectID2: -1
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
+    questBehavior: {fileID: 0}
     questID: 6
   - name: Grab New Invention
     description: The Tinkerer claims to have something that would interest you. Check
@@ -170,7 +170,7 @@ MonoBehaviour:
     objectID2: -1
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
+    questBehavior: {fileID: 0}
     questID: 7
   - name: Finale
     description: Deep in the heart of the catacombs lies a metal box. Grab it and
@@ -190,7 +190,7 @@ MonoBehaviour:
     objectID2: -1
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
+    questBehavior: {fileID: 0}
     questID: 8
   TutorialQuests:
   - name: Stock Up
@@ -212,8 +212,8 @@ MonoBehaviour:
     objectID2: 0
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
-    questID: 0
+    questBehavior: {fileID: 0}
+    questID: 300
   - name: Pollination Station
     description: 'Some crops require to be pollinated to grow. Guide the small bugs
       on the farm with a torch for them to begin pollination.
@@ -235,8 +235,8 @@ MonoBehaviour:
     objectID2: 0
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
-    questID: 1
+    questBehavior: {fileID: 0}
+    questID: 301
   - name: Learning The Trade
     description: Some individuals prefer to make trades instead of relying on mints.
       Inspect their store sign to identify what items they are requesting, and make
@@ -256,8 +256,8 @@ MonoBehaviour:
     objectID2: 0
     savedRewardIDs: 
     behaviorID: -1
-    questBehavior: -1
-    questID: 2
+    questBehavior: {fileID: 0}
+    questID: 302
   UniqueGrowQuests:
   - name: Timber Ear Cultivation
     description: The botanist gave you some Timber Ear seeds. This crop yields many
@@ -278,8 +278,8 @@ MonoBehaviour:
     objectID2: 0
     savedRewardIDs: 
     behaviorID: 0
-    questBehavior: 0
-    questID: -1
+    questBehavior: {fileID: 0}
+    questID: 0
     desiredCrop: {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
     desiredItem: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
     amount: 0
@@ -289,3 +289,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 539453db3b2ea2f49a2a453528ce8a61, type: 2}
   - {fileID: 11400000, guid: c74f5a5d78b4ea04ebb07079b0e1bcb1, type: 2}
   - {fileID: 11400000, guid: 059bb249c6cee48419f294a49f9ad991, type: 2}
+  questBehaviors:
+  - {fileID: 11400000, guid: 01c3e316a7aaaf94ba7ff4af75df9271, type: 2}

@@ -134,8 +134,7 @@ public class DebrisPile : StructureBehaviorScript
         if(repairedStruct.gridSize == GridSize.TwoByTwo) StructureManager.Instance.SetLargeTile(transform.position);
         if(repairedStruct.gridSize == GridSize.OneByTwo) StructureManager.Instance.SetOneByTwoTile(transform.position);
         s.transform.rotation = transform.rotation;
-        ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
-        ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+
         Destroy(gameObject);
     }
 
@@ -158,6 +157,9 @@ public class DebrisPile : StructureBehaviorScript
     void OnDestroy()
     {
         base.OnDestroy();
+        if (!gameObject.scene.isLoaded) return;
+        ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
+        ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
     }
 
     public override void SaveVariables()

@@ -21,6 +21,18 @@ public class QuestManager : MonoBehaviour
 
     }
 
+    void OnEnable()
+    {
+        StructureBehaviorScript.OnStructureDestroyed += StructureDestroyedEvent;
+        TimeManager.OnHourlyUpdate += HourUpdate;
+    }
+
+    void OnDisable()
+    {
+        StructureBehaviorScript.OnStructureDestroyed -= StructureDestroyedEvent;
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
     public void AddQuest(Quest q)
     {
         if(!CheckForQuest(q))
@@ -237,6 +249,25 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    public void HourUpdate()
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            Quest q = activeQuests[i];
+            if(q.questBehavior && !q.alreadyCompleted && q.progress != q.maxProgress) q.questBehavior.HourUpdate(q);
+        }
+    }
+
+    public void StructureDestroyedEvent(StructureObject structData)
+    {
+        //Tigger virtual functions in active quests
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            Quest q = activeQuests[i];
+            if(q.questBehavior && !q.alreadyCompleted && q.progress != q.maxProgress) q.questBehavior.StructureDestroyedEvent(structData, q);
+        }
+    }
+
     public void SaveQuestData(out Quest[] s_activeQuests, out FetchQuest[] s_activeFetchQuests, out HuntQuest[] s_activeHuntQuests, out GrowQuest[] s_activeGrowQuests)
     {
         List<Quest> aQuestList = new List<Quest>();
@@ -258,6 +289,9 @@ public class QuestManager : MonoBehaviour
             {
                 q.savedRewardIDs.Add(q.itemRewards[x].ID);
             }
+
+            if(q.questBehavior) q.behaviorID = q.questBehavior.id;
+            else q.behaviorID = -1;
 
             FetchQuest fQ = q as FetchQuest;
             HuntQuest hQ = q as HuntQuest;
@@ -321,6 +355,8 @@ public class QuestManager : MonoBehaviour
                         q.itemRewards.Add(Database.Instance.GetItem(q.savedRewardIDs[x]));
                     }
 
+                    q.questBehavior = QuestDatabase.Instance.GetQuestBehavior(q.behaviorID);
+
                     FetchQuest fQ = q as FetchQuest;
                     HuntQuest hQ = q as HuntQuest;
                     GrowQuest gQ = q as GrowQuest;
@@ -381,13 +417,14 @@ public class Quest
     [HideInInspector] public int objectID2 = -1; //The ID of another saved creature, item, crop, ect
     [HideInInspector] public List<int> savedRewardIDs = new List<int>(); //The ID of the item rewards
     [HideInInspector] public int behaviorID = -1; //The ID of the behavior associated with the quest
-    [HideInInspector] public int questBehavior = -1; //The Behavior Object of the quest to handle special interactions
+    [HideInInspector] public QuestBehavior questBehavior; //The Behavior Object of the quest to handle special interactions
     public int questID = -1; //The ID of this quest in the database. Used only by main quests
 
     public Quest()
     {
         daysLeft = -1;
         questID = -1;
+        behaviorID = -1;
     }
 
     public Quest(Quest q) //Initialize a new quest based on a reference
@@ -402,21 +439,30 @@ public class Quest
         assignee = q.assignee;
         displayProgress = q.displayProgress;
         questID = q.questID;
+
+        if(q.questBehavior) questBehavior = q.questBehavior;
     }
 
-    /*public Quest(QuestTemplate q) //Initialize a new quest based on a reference
+    public Quest(QuestTemplate q) //Initialize a new quest based on a reference
     {
         name = q.name;
         description = q.description;
-
-        mintReward = q.mintReward;
-        itemRewards = q.itemRewards;
-        maxProgress = q.maxProgress;
-        daysLeft = q.daysLeft;
+        if(q.itemRewards.Count == 0) mintReward = (int)q.mintMultiplier; //Money Reward
+        else
+        {
+            int i = Random.Range(0, q.itemRewards.Count);
+            if(!q.itemRewards[i].item || q.itemRewards[i].amount <= 0) mintReward = (int)q.mintMultiplier; //Money Reward
+            else for(int x = 0; x < q.itemRewards[i].amount; x++) itemRewards.Add(q.itemRewards[i].item); //Item Reward
+        }
+        maxProgress = Random.Range(q.minObject, q.maxObject); //dictates how much progress is needed
+        if(maxProgress <= 0) maxProgress = 1;
+        if(q.daysLeftMin <= 0) daysLeft = -1;
+        else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
         assignee = q.assignee;
         displayProgress = q.displayProgress;
-        questID = q.questID;
-    }*/
+
+        if(q.questBehavior) questBehavior = q.questBehavior;
+    }
 
 }
 [System.Serializable]
@@ -449,6 +495,9 @@ public class FetchQuest: Quest //Should hide progress, and max progress should b
         else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
         assignee = q.assignee;
         displayProgress = q.displayProgress;
+
+        if(q.questBehavior) questBehavior = q.questBehavior;
+        else maxProgress = 0; //Remember that fetch quests dont track progress, so only have max progress be tracked if there is a behavior modifying that progress
     }
 }
 
@@ -482,6 +531,8 @@ public class HuntQuest: Quest //max progress should be amount
         else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
         assignee = q.assignee;
         displayProgress = q.displayProgress;
+        
+        if(q.questBehavior) questBehavior = q.questBehavior;
     }
 }
 
@@ -518,8 +569,12 @@ public class GrowQuest: Quest //max progress should be amount
         else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
         assignee = q.assignee;
         displayProgress = q.displayProgress;
+
+        if(q.questBehavior) questBehavior = q.questBehavior;
     }
 }
+
+//(Should probably make a new quest archetype for break structure quest)
 
 /*public enum QuestType
 {

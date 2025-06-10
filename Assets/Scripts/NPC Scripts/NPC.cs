@@ -51,6 +51,16 @@ public abstract class NPC : MonoBehaviour, IInteractable
         if(dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
     }
 
+    void OnEnable()
+    {
+        TimeManager.OnHourlyUpdate += HourUpdate;
+    }
+
+    void OnDisable()
+    {
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
     public void EndInteraction()
     {
         throw new System.NotImplementedException();
@@ -71,6 +81,11 @@ public abstract class NPC : MonoBehaviour, IInteractable
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
 
+        ExclamationCheck();
+    }
+
+    void HourUpdate()
+    {
         ExclamationCheck();
     }
 
@@ -188,7 +203,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual bool ExclamationCheck() //Checks if the exclamation point should persist
     {
         if(!exclamationObject) return false;
-        if(dailyQuest != null || QuestManager.Instance.CheckForFinishedNPCQuest(character))
+        if(dailyQuest != null || QuestManager.Instance.CheckForFinishedNPCQuest(character)) //Need a way to call this hourly, otherwise this wont update when the player completes quests
         {
             exclamationObject.SetActive(true);
             return true;
