@@ -28,5 +28,7 @@ public enum ToolType
     WateringCan,
     ShotGun,
     Torch,
-    WaterGun
+    WaterGun,
+    BugNet,
+    Scythe
 }
