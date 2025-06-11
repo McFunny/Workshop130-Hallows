@@ -28,6 +28,7 @@ public class FarmLand : StructureBehaviorScript
     public bool isFrosted = false;
     public bool isPollinated = false; //MUST BE SAVED
     bool forceDig = false;
+    bool harvestedByScythe = false;
 
     public bool ignoreNextGrowthMoment = false; //tick this if crop was just planted
 
@@ -86,7 +87,11 @@ public class FarmLand : StructureBehaviorScript
         }
         if(harvestText)
         {
-            if(harvestable) harvestText.text = "Interact To Harvest";
+            if(harvestable)
+            {
+                if(crop.requireScythe) harvestText.text = "Shovel To Harvest";
+                else harvestText.text = "Interact To Harvest";
+            }
             else harvestText.text = "";
         }
         playerInventoryHolder = PlayerInventoryHolder.Instance;
@@ -214,7 +219,8 @@ public class FarmLand : StructureBehaviorScript
     {
         if(harvestable || forceDig || rotted)
         {
-            if((isWeed && !forceDig) || (rotted && !forceDig)) return; //Forces the player to dig the weeds and rotted plants using the shovel
+            if((isWeed || rotted) && !forceDig && !harvestedByScythe) return; //Forces the player to dig the weeds and rotted plants using the shovel
+            if(crop && crop.requireScythe && !forceDig && !harvestedByScythe) return; //Forces player to either use scythe or shovel for scyth crops
             if(isWeed || forceDig) audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             else audioHandler.PlaySound(audioHandler.interactSound);
 
@@ -326,10 +332,12 @@ public class FarmLand : StructureBehaviorScript
             }
             
             forceDig = false;
+            harvestedByScythe = false;
             hoursSpent = 0;
             SpriteChange();
             if(growthComplete) growthComplete.Stop();
             ignoreNextGrowthMoment = true;
+            
         }
     }
 
@@ -497,7 +505,8 @@ public class FarmLand : StructureBehaviorScript
             growthComplete.Stop();
             if(harvestable && !rotted)
             {
-                harvestText.text = "Interact To Harvest";
+                if(crop.requireScythe) harvestText.text = "Shovel To Harvest";
+                else harvestText.text = "Interact To Harvest";
                 growthComplete.Play();
             } 
             else harvestText.text = "";
