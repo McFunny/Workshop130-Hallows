@@ -55,7 +55,7 @@ public class TavernNPC : NPC, ITalkable
             }
             else if (currentPath == -1) //Give 1 daily flavor text
             {
-                if((Random.Range(0, 10) >= 6 && CurrentPlayerQuests() < 3) || CurrentPlayerQuests() == 0)
+                if((Random.Range(0, 10) >= 99 && CurrentPlayerQuests() < 3) || CurrentPlayerQuests() == 0) //temp disabled
                 {
                     GiveQuest();
                     int i = Random.Range(0, dialogueText.questPaths.Length);

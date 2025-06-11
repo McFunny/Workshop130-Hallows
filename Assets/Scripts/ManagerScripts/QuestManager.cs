@@ -182,7 +182,7 @@ public class QuestManager : MonoBehaviour
     {
         for(int i = 0; i < activeQuests.Count; i++)
         {
-            if(activeQuests[i].assignee == name) return true;
+            if(activeQuests[i].assignee == name && !activeQuests[i].alreadyCompleted) return true;
         }
         return false;
     }

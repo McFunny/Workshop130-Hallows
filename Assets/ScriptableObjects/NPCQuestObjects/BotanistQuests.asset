@@ -20,7 +20,7 @@ MonoBehaviour:
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
-    mintMultiplier: 1.2
+    mintMultiplier: 1.1
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -35,13 +35,14 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 6
     maxObject: 12
+    questBehavior: {fileID: 0}
   - name: Fresh Carrot Request
     description: Grow and deliver {itemAmount} {itemName}.
     dialogPath: 1
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
-    mintMultiplier: 1.3
+    mintMultiplier: 1.1
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -52,13 +53,14 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 15
     maxObject: 25
+    questBehavior: {fileID: 0}
   - name: Fresh Broccoli Request
     description: Grow and deliver {itemAmount} {itemName}.
     dialogPath: 1
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: 2b4e9f8ae29dc7e429a371586e24a180, type: 2}
-    mintMultiplier: 1.2
+    mintMultiplier: 1.1
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -73,6 +75,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 4
     maxObject: 8
+    questBehavior: {fileID: 0}
   - name: Fetch Rocks
     description: This person has requested {itemAmount} units of {itemName}.
     dialogPath: 0
@@ -96,6 +99,7 @@ MonoBehaviour:
     displayProgress: 0
     minObject: 4
     maxObject: 8
+    questBehavior: {fileID: 0}
   - name: Hunt Hares
     description: '"Hares are a vile pest to any farm. Get rid of them!"'
     dialogPath: 2
@@ -111,6 +115,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 6
     maxObject: 12
+    questBehavior: {fileID: 0}
   - name: Hunt Hogs
     description: '"Those nasty hogs are always stealing my crops, right as they grow!
       Remove them!"'
@@ -127,6 +132,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 6
     maxObject: 10
+    questBehavior: {fileID: 0}
   - name: Hunt Crows
     description: '"The crows have just torn down my last scarecrow! I Need you to
       buy me time while I get a new one."'
@@ -149,13 +155,14 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 6
     maxObject: 15
+    questBehavior: {fileID: 0}
   - name: Fresh Tuber Request
     description: Grow and deliver {itemAmount} {itemName}.
     dialogPath: 1
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
-    mintMultiplier: 1.3
+    mintMultiplier: 1.1
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -166,13 +173,14 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 15
     maxObject: 20
+    questBehavior: {fileID: 0}
   - name: Fresh Peanut Request
     description: Grow and deliver {itemAmount} {itemName}.
     dialogPath: 1
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: b9c8c2c3b5691904e95fcedd53154dac, type: 2}
-    mintMultiplier: 1.3
+    mintMultiplier: 1.1
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -181,8 +189,9 @@ MonoBehaviour:
     daysLeftMax: 7
     assignee: 2
     displayProgress: 1
-    minObject: 20
-    maxObject: 30
+    minObject: 15
+    maxObject: 25
+    questBehavior: {fileID: 0}
   - name: Fresh Gloomstalk Request
     description: Grow and deliver {itemAmount} {itemName}.
     dialogPath: 1
@@ -208,6 +217,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 30
     maxObject: 60
+    questBehavior: {fileID: 0}
   uniqueQuestChance: 0
-  uniqueQuests: []
+  uniqueTemplates: []
   currentDailyQuestPath: 1

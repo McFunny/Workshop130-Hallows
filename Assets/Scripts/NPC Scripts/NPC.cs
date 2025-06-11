@@ -44,11 +44,12 @@ public abstract class NPC : MonoBehaviour, IInteractable
     protected int lastCompletedQuestIndex = -1;
 
     //REMEMBER TO CAST THIS AS THE CORRECT TYPE OF QUEST WHEN HANDING IT OUT!!!!!!!!
-    public Quest dailyQuest; //If given a quest today, they will hold it here and have an explanation overhead until its given
+    public Quest dailyQuest = null; //If given a quest today, they will hold it here and have an explanation overhead until its given
 
     protected virtual void Awake()
     {
         if(dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
+        dailyQuest = null;
     }
 
     void OnEnable()

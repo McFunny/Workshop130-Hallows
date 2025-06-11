@@ -9,7 +9,7 @@ public class FarmLand : StructureBehaviorScript
     public CropDatabase cropDatabase;
 
     public CropData crop; //The current crop planted here //MUST BE SAVED
-    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar, trellis;
+    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar, trellis, plantFiber;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
     public Collider finishedGrowingCollider;
@@ -132,12 +132,12 @@ public class FarmLand : StructureBehaviorScript
     public override void ItemInteraction(InventoryItemData item)
     {
         bool consumeItem = false;
-        if(item == terraFert && nutrients.terraLevel < 10)
+        if(item == terraFert/* && nutrients.terraLevel < 10*/)
         {
             StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 10, 0);
             consumeItem = true;
         }
-        else if(item == gloamFert && nutrients.gloamLevel < 10)
+        else if(item == gloamFert/* && nutrients.gloamLevel < 10*/)
         {
             StructureManager.Instance.NutrientRefill(transform.position, 4.5f, 0, 0, 10);
             consumeItem = true;
@@ -292,6 +292,7 @@ public class FarmLand : StructureBehaviorScript
             if(rotted)
             {
                 ReturnNutrientsFromDeadPlant();
+                ItemPoolManager.Instance.GrabItem(plantFiber).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
             }
 
             if(crop.behavior && crop.behavior.DestroyOnHarvest() == false && !rotted && harvestable)
@@ -318,10 +319,9 @@ public class FarmLand : StructureBehaviorScript
             harvestable = false;
             if(forceDig || isWeed)
             {
-                if(currentUpgrade == FarmTileUpgrade.Trellis)
-                {
-                    ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-                }
+                if(currentUpgrade == FarmTileUpgrade.Trellis) ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
                 Destroy(this.gameObject);
             }
             
@@ -649,10 +649,6 @@ public class FarmLand : StructureBehaviorScript
         {
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
             if(currentUpgrade == FarmTileUpgrade.Trellis) ParticlePoolManager.Instance.GrabDestructionParticle(StructureType.Wood).transform.position = transform.position;
-        }
-        else if(currentUpgrade == FarmTileUpgrade.Trellis) //Return Trellis upon removal
-        {
-            ItemPoolManager.Instance.GrabItem(crop.cropSecondaryYield).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         }
         if(crop && !rotted) crop.amountKilled++;
 

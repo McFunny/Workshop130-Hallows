@@ -68,7 +68,7 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = i;
                 currentType = PathType.AlreadySpoken;
             }
-            else if(currentPath == -1) //Give 1 daily flavor text
+            else //if(currentPath == -1) //Give 1 daily flavor text
             {
                 int i = Random.Range(0, dialogueText.fillerPaths.Length);
                 currentPath = i;
@@ -318,6 +318,7 @@ public class BotanistNPC : NPC, ITalkable
                 return false;
             }
         }
+        exclamationObject.SetActive(true);
         return true;
     }
 

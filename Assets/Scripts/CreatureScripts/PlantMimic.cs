@@ -258,7 +258,7 @@ public class PlantMimic : CreatureBehaviorScript
         effectsHandler.Idle2();
         yield return new WaitForSeconds(0.5f);
         agent.enabled = true;
-        currentState = CreatureState.Wander;
+        if(currentState != CreatureState.Stunned) currentState = CreatureState.Wander;
         coroutineRunning = false;
     }
 

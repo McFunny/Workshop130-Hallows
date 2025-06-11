@@ -75,9 +75,15 @@ public class NPCManager : MonoBehaviour
             butchSpoke = false;
             carpSpoke = false;
 
-            if(TimeManager.Instance.dayNum != 1) GiveDailyQuests(); //Maybe delay this if the game does this before loading
+            StartCoroutine(DelayedHourUpdate());
         }
         
+    }
+
+    IEnumerator DelayedHourUpdate()
+    {
+        yield return new WaitForSeconds(3);
+        if(TimeManager.Instance.dayNum != 1) GiveDailyQuests(); 
     }
 
     private void OnDisable()
