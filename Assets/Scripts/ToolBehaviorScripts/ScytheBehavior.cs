@@ -8,7 +8,7 @@ public class ScytheBehavior : ToolBehavior
     //
     public InventoryItemData thisItem;
     ScytheAttack scytheAttack;
-    public AudioClip swing, dig;
+    public AudioClip swing;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
