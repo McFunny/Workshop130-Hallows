@@ -15,7 +15,7 @@ public class ScytheBehavior : ToolBehavior
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
-        //if(!scytheAttack) scytheAttack = FindObjectOfType<ShovelAttack>();
+        if(!scytheAttack) scytheAttack = FindObjectOfType<ScytheAttack>();
         usingPrimary = true;
         
         //swing
@@ -37,7 +37,7 @@ public class ScytheBehavior : ToolBehavior
         }
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.9f * coolDownMod, 1.8f * coolDownMod));
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.6f * coolDownMod, 1.8f * coolDownMod));
 
         //PlayerMovement.limitMaxVelocity = false;
         //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(40, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
