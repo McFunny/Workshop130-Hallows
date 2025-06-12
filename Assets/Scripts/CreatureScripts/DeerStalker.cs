@@ -43,7 +43,7 @@ public class DeerStalker : CreatureBehaviorScript
 
     private Coroutine trackPlayerRoutine, walkRoutine; 
 
-    public ParticleSystem transformationParticles;
+    public ParticleSystem transformationParticles, biteParticles;
 
     //Its purpose is a player attacker only. Only attacks structures that impede it
     //Still needs Idle anim variance and transform particles
@@ -449,6 +449,8 @@ public class DeerStalker : CreatureBehaviorScript
         yield return new WaitForSeconds(0.1f);
         agent.velocity = Vector3.zero;
         attackHitbox.enabled = false;
+        effectsHandler.MiscSound2(); //Bite Sound
+        biteParticles.Play();
         if(hitPlayer && (hitStructures.Count == 0 || CanSeePlayer()))
         {
             PlayerInteraction.Instance.StaminaChange(damageToPlayer);
@@ -750,7 +752,11 @@ public class DeerStalker : CreatureBehaviorScript
         if(!recoilCooldown && hasTransformed && !isDead && (currentState == CreatureState.ChaseTarget))
         {
             recoilCooldown = true;
-            effectsHandler.OnHit();
+            //effectsHandler.OnHit();
+
+            if(Random.Range(0,2) == 1) effectsHandler.Idle1();
+            else effectsHandler.Idle2();
+
             animTransformed.Play("Hit", -1, 0.18f);
             StartCoroutine(RecoilCooldown());
             target = player;
@@ -797,7 +803,12 @@ public class DeerStalker : CreatureBehaviorScript
         while(health > 0)
         {
             int i = Random.Range(4,10);
-            effectsHandler.RandomIdle();
+            if(hasTransformed)
+            {
+                if(i > 7) effectsHandler.Idle1();
+                else effectsHandler.Idle2();
+            }
+            else effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
         }
     }

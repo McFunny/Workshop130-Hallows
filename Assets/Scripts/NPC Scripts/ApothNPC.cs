@@ -39,6 +39,12 @@ public class ApothNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
+                else if(dailyQuest != null)
+                {
+                    currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                    currentType = PathType.GivingDaily;
+                    GivePlayerDailyQuest();
+                }
                 else if (NPCManager.Instance.apothSpoke)
                 {
                     int i = Random.Range(0, dialogueText.alreadySpoken.Length);
@@ -59,15 +65,6 @@ public class ApothNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    /*public void Talk()
-    {
-        if(!dialogueController.FreeToSpeak(this)) return;
-        anim.SetTrigger("IsTalking");
-        movementHandler.TalkToPlayer();
-        dialogueController.currentTalker = this;
-        dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
-        startedDialogue = true;
-    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {

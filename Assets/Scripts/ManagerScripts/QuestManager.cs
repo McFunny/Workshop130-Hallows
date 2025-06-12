@@ -21,6 +21,18 @@ public class QuestManager : MonoBehaviour
 
     }
 
+    void OnEnable()
+    {
+        StructureBehaviorScript.OnStructureDestroyed += StructureDestroyedEvent;
+        TimeManager.OnHourlyUpdate += HourUpdate;
+    }
+
+    void OnDisable()
+    {
+        StructureBehaviorScript.OnStructureDestroyed -= StructureDestroyedEvent;
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
     public void AddQuest(Quest q)
     {
         if(!CheckForQuest(q))
@@ -166,6 +178,24 @@ public class QuestManager : MonoBehaviour
         return false;
     }
 
+    public bool DuplicateAssignees(Character name)
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            if(activeQuests[i].assignee == name && !activeQuests[i].alreadyCompleted) return true;
+        }
+        return false;
+    }
+
+    public bool CheckForFinishedNPCQuest(Character name) //Checks if the player completed a quest and needs to return it to the person
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            if(activeQuests[i].assignee == name && !activeQuests[i].alreadyCompleted && activeQuests[i].progress == activeQuests[i].maxProgress && activeQuests[i].progress != 0) return true;
+        }
+        return false;
+    }
+
     public void AddQuestProgress(int amount, Quest q)
     {
         int questFoundID = FindSameQuest(q);
@@ -219,6 +249,25 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    public void HourUpdate()
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            Quest q = activeQuests[i];
+            if(q.questBehavior && !q.alreadyCompleted && q.progress != q.maxProgress) q.questBehavior.HourUpdate(q);
+        }
+    }
+
+    public void StructureDestroyedEvent(StructureObject structData)
+    {
+        //Tigger virtual functions in active quests
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            Quest q = activeQuests[i];
+            if(q.questBehavior && !q.alreadyCompleted && q.progress != q.maxProgress) q.questBehavior.StructureDestroyedEvent(structData, q);
+        }
+    }
+
     public void SaveQuestData(out Quest[] s_activeQuests, out FetchQuest[] s_activeFetchQuests, out HuntQuest[] s_activeHuntQuests, out GrowQuest[] s_activeGrowQuests)
     {
         List<Quest> aQuestList = new List<Quest>();
@@ -240,6 +289,9 @@ public class QuestManager : MonoBehaviour
             {
                 q.savedRewardIDs.Add(q.itemRewards[x].ID);
             }
+
+            if(q.questBehavior) q.behaviorID = q.questBehavior.id;
+            else q.behaviorID = -1;
 
             FetchQuest fQ = q as FetchQuest;
             HuntQuest hQ = q as HuntQuest;
@@ -303,6 +355,8 @@ public class QuestManager : MonoBehaviour
                         q.itemRewards.Add(Database.Instance.GetItem(q.savedRewardIDs[x]));
                     }
 
+                    q.questBehavior = QuestDatabase.Instance.GetQuestBehavior(q.behaviorID);
+
                     FetchQuest fQ = q as FetchQuest;
                     HuntQuest hQ = q as HuntQuest;
                     GrowQuest gQ = q as GrowQuest;
@@ -347,7 +401,7 @@ public class Quest
     public bool alreadyCompleted = false; //if you want to store completed quests, or just store completed main quests.
     public int mintReward;
     public List<InventoryItemData> itemRewards = new List<InventoryItemData>();
-    //public int townFavorReward;
+    public int townFavorReward;
 
     public int progress = 0;
     public int maxProgress; //Just because its at max progress does NOT mean a quest is completed. You still need to check in with the assignee if there is one
@@ -362,19 +416,21 @@ public class Quest
     [HideInInspector] public int objectID = -1; //The ID of the saved creature, item, crop, ect
     [HideInInspector] public int objectID2 = -1; //The ID of another saved creature, item, crop, ect
     [HideInInspector] public List<int> savedRewardIDs = new List<int>(); //The ID of the item rewards
+    [HideInInspector] public int behaviorID = -1; //The ID of the behavior associated with the quest
+    [HideInInspector] public QuestBehavior questBehavior; //The Behavior Object of the quest to handle special interactions
     public int questID = -1; //The ID of this quest in the database. Used only by main quests
 
     public Quest()
     {
         daysLeft = -1;
         questID = -1;
+        behaviorID = -1;
     }
 
     public Quest(Quest q) //Initialize a new quest based on a reference
     {
         name = q.name;
         description = q.description;
-        //type = q.type;
         isMajorQuest = q.isMajorQuest;
         mintReward = q.mintReward;
         itemRewards = q.itemRewards;
@@ -383,6 +439,29 @@ public class Quest
         assignee = q.assignee;
         displayProgress = q.displayProgress;
         questID = q.questID;
+
+        if(q.questBehavior) questBehavior = q.questBehavior;
+    }
+
+    public Quest(QuestTemplate q) //Initialize a new quest based on a reference
+    {
+        name = q.name;
+        description = q.description;
+        if(q.itemRewards.Count == 0) mintReward = (int)q.mintMultiplier; //Money Reward
+        else
+        {
+            int i = Random.Range(0, q.itemRewards.Count);
+            if(!q.itemRewards[i].item || q.itemRewards[i].amount <= 0) mintReward = (int)q.mintMultiplier; //Money Reward
+            else for(int x = 0; x < q.itemRewards[i].amount; x++) itemRewards.Add(q.itemRewards[i].item); //Item Reward
+        }
+        maxProgress = Random.Range(q.minObject, q.maxObject); //dictates how much progress is needed
+        if(maxProgress <= 0) maxProgress = 1;
+        if(q.daysLeftMin <= 0) daysLeft = -1;
+        else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
+        assignee = q.assignee;
+        displayProgress = q.displayProgress;
+
+        if(q.questBehavior) questBehavior = q.questBehavior;
     }
 
 }
@@ -397,6 +476,29 @@ public class FetchQuest: Quest //Should hide progress, and max progress should b
         desiredItem = _desiredItem;
         amount = _amount;
     }
+
+    public FetchQuest(QuestTemplate q) //Initialize a new quest based on a reference
+    {
+        name = q.name;
+        description = q.description;
+        desiredItem = q.item;
+        amount = Random.Range(q.minObject, q.maxObject);
+        if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(q.item.value * q.mintMultiplier * q.item.sellValueMultiplier * amount); //Money Reward
+        else
+        {
+            int i = Random.Range(0, q.itemRewards.Count);
+            if(!q.itemRewards[i].item || q.itemRewards[i].amount <= 0) mintReward = Mathf.RoundToInt(q.item.value * q.mintMultiplier * q.item.sellValueMultiplier * amount); //Money Reward
+            else for(int x = 0; x < q.itemRewards[i].amount; x++) itemRewards.Add(q.itemRewards[i].item); //Item Reward
+        }
+        maxProgress = amount;
+        if(q.daysLeftMin <= 0) daysLeft = -1;
+        else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
+        assignee = q.assignee;
+        displayProgress = q.displayProgress;
+
+        if(q.questBehavior) questBehavior = q.questBehavior;
+        else maxProgress = 0; //Remember that fetch quests dont track progress, so only have max progress be tracked if there is a behavior modifying that progress
+    }
 }
 
 [System.Serializable]
@@ -409,6 +511,28 @@ public class HuntQuest: Quest //max progress should be amount
     {
         targetCreature = _targetCreature;
         amount = _amount;
+    }
+
+    public HuntQuest(QuestTemplate q) //Initialize a new quest based on a reference
+    {
+        name = q.name;
+        description = q.description;
+        targetCreature = q.creature;
+        amount = Random.Range(q.minObject, q.maxObject);
+        if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(q.creature.mintWorth * q.mintMultiplier * amount); //Money Reward
+        else
+        {
+            int i = Random.Range(0, q.itemRewards.Count);
+            if(!q.itemRewards[i].item || q.itemRewards[i].amount <= 0) mintReward = Mathf.RoundToInt(q.creature.mintWorth * q.mintMultiplier * amount); //Money Reward
+            else for(int x = 0; x < q.itemRewards[i].amount; x++) itemRewards.Add(q.itemRewards[i].item); //Item Reward
+        }
+        maxProgress = amount;
+        if(q.daysLeftMin <= 0) daysLeft = -1;
+        else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
+        assignee = q.assignee;
+        displayProgress = q.displayProgress;
+        
+        if(q.questBehavior) questBehavior = q.questBehavior;
     }
 }
 
@@ -425,20 +549,32 @@ public class GrowQuest: Quest //max progress should be amount
         amount = _amount;
         desiredCrop = _desiredCrop;
     }
+
+    public GrowQuest(QuestTemplate q) //Initialize a new quest based on a reference
+    {
+        name = q.name;
+        description = q.description;
+        desiredCrop = q.crop;
+        desiredItem = q.crop.cropYield;
+        amount = Random.Range(q.minObject, q.maxObject);
+        if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(desiredItem.value * q.mintMultiplier * desiredItem.sellValueMultiplier * amount); //Money Reward
+        else
+        {
+            int i = Random.Range(0, q.itemRewards.Count);
+            if(!q.itemRewards[i].item || q.itemRewards[i].amount <= 0) mintReward = Mathf.RoundToInt(desiredItem.value * q.mintMultiplier * desiredItem.sellValueMultiplier * amount); //Money Reward
+            else for(int x = 0; x < q.itemRewards[i].amount; x++) itemRewards.Add(q.itemRewards[i].item); //Item Reward
+        }
+        maxProgress = amount;
+        if(q.daysLeftMin <= 0) daysLeft = -1;
+        else daysLeft = Random.Range(q.daysLeftMin, q.daysLeftMax);
+        assignee = q.assignee;
+        displayProgress = q.displayProgress;
+
+        if(q.questBehavior) questBehavior = q.questBehavior;
+    }
 }
 
-/*[System.Serializable]
-public class MiscQuest: Quest //For odd things like delivering an item or paying money to an npc
-{
-    public CreatureObject targetCreature;
-    public int amount;
-
-    public HuntQuest(CreatureObject _targetCreature, int _amount)
-    {
-        targetCreature = _targetCreature;
-        amount = _amount;
-    }
-}*/
+//(Should probably make a new quest archetype for break structure quest)
 
 /*public enum QuestType
 {

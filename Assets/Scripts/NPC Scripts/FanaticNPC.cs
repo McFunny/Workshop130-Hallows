@@ -40,6 +40,12 @@ public class FanaticNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
+                else if(dailyQuest != null)
+                {
+                    currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                    currentType = PathType.GivingDaily;
+                    GivePlayerDailyQuest();
+                }
                 else if (NPCManager.Instance.fanSpoke)
                 {
                     int i = Random.Range(0, dialogueText.alreadySpoken.Length);

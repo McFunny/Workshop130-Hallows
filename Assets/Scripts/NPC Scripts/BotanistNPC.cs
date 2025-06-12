@@ -51,6 +51,12 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = QuestCompletedDialogue();
                 currentType = PathType.QuestComplete;
             }
+            else if(dailyQuest != null)
+            {
+                currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                currentType = PathType.GivingDaily;
+                GivePlayerDailyQuest();
+            }
             else if(movementHandler.isWorking) //Working Dialogue
             {
                 currentPath = 0;
@@ -62,7 +68,7 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = i;
                 currentType = PathType.AlreadySpoken;
             }
-            else if(currentPath == -1) //Give 1 daily flavor text
+            else //if(currentPath == -1) //Give 1 daily flavor text
             {
                 int i = Random.Range(0, dialogueText.fillerPaths.Length);
                 currentPath = i;
@@ -295,6 +301,25 @@ public class BotanistNPC : NPC, ITalkable
             GameSaveData.Instance.bot_explainedPollen = true;
         }
 
+    }
+
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(!GameSaveData.Instance.bot_giveSeeds)
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        exclamationObject.SetActive(true);
+        return true;
     }
 
     public int IsItemASeed(InventoryItemData item)

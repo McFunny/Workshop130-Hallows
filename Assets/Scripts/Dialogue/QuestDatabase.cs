@@ -1,17 +1,21 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "QuestDatabase", menuName = "Databases/QuestDatabase")]
 public class QuestDatabase : ScriptableObject
 {
-
-    /////////////////CAMS STUFF///////////////////
     [Header("ALWAYS UPDATE ID'S AND NEVER REORDER")]
     public Quest[] MainQuests; 
     public Quest[] TutorialQuests; //id's are shifted by 300 to distinguish from main quests. If by some impossible metric we reach over 300 main quests, we got an issue
 
     public GrowQuest[] UniqueGrowQuests;
-    //can make other lists for specific quest types later
+
+    public List<NPCQuestObject> npcQuestObjects = new List<NPCQuestObject>();
+
+    //List of the behaviors
+    public List<QuestBehavior> questBehaviors = new List<QuestBehavior>();
+
     [ContextMenu("Update ID's")]
     public void UpdateID()
     {
@@ -29,8 +33,14 @@ public class QuestDatabase : ScriptableObject
         {
             UniqueGrowQuests[i].questID = i;
         }
+
+        //Function to order the behaviors
+        for(int i = 0; i < questBehaviors.Count; i++)
+        {
+            questBehaviors[i].id = i;
+        }
     }
-    //////////////////////////////////////////////
+
 
     private static QuestDatabase _instance;
 
@@ -47,6 +57,18 @@ public class QuestDatabase : ScriptableObject
         }
     }
 
+    public int GetQuestPath(Character name)
+    {
+        foreach(NPCQuestObject questPool in npcQuestObjects)
+        {
+            if(questPool.character == name && questPool.currentDailyQuestPath >= 0)
+            {
+                return questPool.currentDailyQuestPath;
+            }
+        }
+        return 0;
+    }
+
     public Quest GetMainQuest(int id)
     {
         return new Quest(MainQuests[id]);
@@ -56,4 +78,45 @@ public class QuestDatabase : ScriptableObject
     {
         return new Quest(TutorialQuests[id - 300]);
     }
+
+    public Quest GetDailyQuest(Character npcName)
+    {
+        if(npcName == Character.Null) return null;
+
+        Quest chosenQuest = null;
+
+        Debug.Log ("Accessing Quest Pool");
+
+        foreach(NPCQuestObject questPool in npcQuestObjects)
+        {
+            if(questPool.character == npcName)
+            {
+                chosenQuest = questPool.GrabQuest();
+                if(chosenQuest as GrowQuest != null) Debug.Log ("Its a grow quest");
+                if(chosenQuest as HuntQuest != null) Debug.Log ("Its a hunt quest");
+                if(chosenQuest as FetchQuest != null) Debug.Log ("Its a fetch quest");
+
+                if(chosenQuest != null && chosenQuest.questBehavior) chosenQuest.questBehavior.QuestAssigned(chosenQuest);
+                return chosenQuest;
+            }
+        }
+
+        return null;
+    }
+
+    public QuestBehavior GetQuestBehavior(int id)
+    {
+        if(id == -1) return null;
+        return questBehaviors[id];
+    }
+
+    [ContextMenu("Test Quest Get")]
+    public void GetDailyQuestTest() //IT ACTUALLY WORKS!!!!!
+    {
+        Quest chosenQuest = npcQuestObjects[0].GrabSampleQuest();
+        if(chosenQuest as GrowQuest != null) Debug.Log ("Its a grow quest");
+        if(chosenQuest as HuntQuest != null) Debug.Log ("Its a hunt quest");
+        if(chosenQuest as FetchQuest != null) Debug.Log ("Its a fetch quest");
+    }
+
 }

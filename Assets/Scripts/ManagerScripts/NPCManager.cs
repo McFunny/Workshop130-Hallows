@@ -13,15 +13,17 @@ public class NPCManager : MonoBehaviour
     //public bool rascalMentionedKey;
 
 
-    [Header("NPC Fed Bools")]
+    /*[Header("NPC Fed Bools")]
     public bool rascalFed = false;
     public bool lumberjackFed = false;
     public bool botanistFed = false;
     public bool barkeepFed = false;
     public bool tinkererFed = false;
     public bool apothFed = false;
-    public bool culinarianFed = false;
+    public bool culinarianFed = false;*/
     //we can add more npcs later when we decide more about them - abner
+
+    public List<NPC> townsPeople = new List<NPC>(); //Dont include any of the wagon merchants
 
     [Header("NPC Spoken Bools")]
     public bool rascalSpoke = false;
@@ -53,6 +55,7 @@ public class NPCManager : MonoBehaviour
     void Start()
     {
         TimeManager.OnHourlyUpdate += HourUpdate;
+        HourUpdate();
     }
 
     public void HourUpdate()
@@ -71,12 +74,48 @@ public class NPCManager : MonoBehaviour
             fanSpoke = false;
             butchSpoke = false;
             carpSpoke = false;
+
+            StartCoroutine(DelayedHourUpdate());
         }
+        
+    }
+
+    IEnumerator DelayedHourUpdate()
+    {
+        yield return new WaitForSeconds(3);
+        if(TimeManager.Instance.dayNum != 1) GiveDailyQuests(); 
     }
 
     private void OnDisable()
     {
         TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
+    void GiveDailyQuests()
+    {
+        foreach(Quest q in QuestManager.Instance.activeQuests)
+        {
+            if(q.alreadyCompleted && !q.isMajorQuest) QuestManager.Instance.ForceRemoveQuest(q);
+        }
+
+        //Add limit to how many quests, or make sure an npc cannot give multiple quests
+
+        //Debug.Log ("Giving Daily");
+
+        int recipients = Random.Range(1,3);
+        int x = 0;
+        List<NPC> selectedNPCs = new List<NPC>();
+        while(selectedNPCs.Count < recipients && x < 20)
+        {
+            int r = 0;//Random.Range(0, townsPeople.Count);
+            if(!selectedNPCs.Contains(townsPeople[r]) && !QuestManager.Instance.DuplicateAssignees(townsPeople[r].character))
+            {
+                selectedNPCs.Add(townsPeople[r]);
+                townsPeople[r].GiveDailyQuest(QuestDatabase.Instance.GetDailyQuest(townsPeople[r].character));
+                //Debug.Log ("NPC Chosen");
+            }
+            x++;
+        }
     }
 
 }

@@ -43,6 +43,12 @@ public class ButcherNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
+                else if(dailyQuest != null)
+                {
+                    currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                    currentType = PathType.GivingDaily;
+                    GivePlayerDailyQuest();
+                }
                 else if (NPCManager.Instance.butchSpoke)
                 {
                     int i = Random.Range(0, dialogueText.alreadySpoken.Length);
@@ -86,27 +92,6 @@ public class ButcherNPC : NPC, ITalkable
         {
             currentPath = 0;
             currentType = PathType.QuestComplete;
-        }
-
-        else if (item.staminaValue > 0)
-        {
-            currentPath = 0;
-            currentType = PathType.ItemRecieved;
-            /*
-            if(!NPCManager.Instance.lumberjackFed)
-            {
-                currentPath = 0;
-                currentType = PathType.ItemRecieved;
-                NPCManager.Instance.lumberjackFed = true;
-                anim.SetTrigger("TakeItem");
-            }
-            else
-            {
-                currentPath = 1;
-                currentType = PathType.ItemRecieved;
-            }
-            */
-            //Its consumable and giftable
         }
 
         else

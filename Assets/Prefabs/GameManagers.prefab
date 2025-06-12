@@ -9650,7 +9650,7 @@ MonoBehaviour:
   boxPlaced: 0
   finaleActivated: 0
   finaleMist: {fileID: 0}
-  pollinator: {fileID: 0}
+  pollinator: {fileID: 11400000, guid: 8a1a437e421cbf64ba6829e930502495, type: 2}
   nightEvents:
   - {fileID: 11400000, guid: 846015b0d2cb63b4fa36b8246f961fa5, type: 2}
   firstNightWarning: {fileID: 11400000, guid: 72660b2db610a4141a9a53f590aa60ec, type: 2}
@@ -9666,13 +9666,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52fa92d816326b9408faa4877777069a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rascalFed: 0
-  lumberjackFed: 0
-  botanistFed: 0
-  barkeepFed: 0
-  tinkererFed: 0
-  apothFed: 0
-  culinarianFed: 0
+  townsPeople:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   rascalSpoke: 0
   lumberjackSpoke: 0
   botanistSpoke: 0
@@ -9724,6 +9730,7 @@ MonoBehaviour:
   cm_giveChest: 0
   mm_giveGun: 0
   bot_giveSeeds: 0
+  bot_explainedPollen: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   rascalMet: 0
@@ -57254,7 +57261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeQuests: []
-  completedQuests: []
 --- !u!114 &3640743660825113604
 MonoBehaviour:
   m_ObjectHideFlags: 0

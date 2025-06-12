@@ -589,7 +589,7 @@ public class FeralHareTest : CreatureBehaviorScript
             StructureBehaviorScript obstacle = hit.collider.GetComponentInParent<StructureBehaviorScript>(); //To check if its a tree because trees arent "obstacles"
             if(obstacle)
             {
-                if(obstacle.GetComponent<FarmTree>() || obstacle.isObstacle) return true;
+                if(obstacle.GetComponent<FarmTree>() || obstacle.GetComponent<Boulder>() || obstacle.isObstacle) return true;
                 else return false;
             }
             if(hit.collider) return true;

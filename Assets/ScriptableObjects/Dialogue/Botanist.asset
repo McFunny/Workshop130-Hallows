@@ -30,7 +30,9 @@ MonoBehaviour:
   - pathName: Buy something!
     paragraphs:
     - Find something that interests you?
-    emotions: 00000000
+    - If you show me some seeds, I would be happy to give you some details about
+      them!
+    emotions: 0400000001000000
   - pathName: Want to buy this?
     paragraphs:
     - I see you looking at the {storeItemName}. Its yours for {storeItemValue} <color=#E0D38F>Mints</color>
@@ -108,7 +110,7 @@ MonoBehaviour:
     paragraphs:
     - Quick thing farmer! That plant is going to need some pollination if you want
       it to grow.
-    - There are some bugs out on your farm that I reckon would do the trick! Use
+    - There are some moths out on your farm that I reckon would do the trick! Use
       your torch to get their attention!
     emotions: 0500000000000000
   itemRecievedPaths:
@@ -207,3 +209,19 @@ MonoBehaviour:
     - Mr. Wagon Man pays next to NOTHING for these things! You are much better off
       taking these to the Craftsman.
     emotions: 010000000000000003000000
+  dailyQuestPaths:
+  - pathName: Daily Quest
+    paragraphs:
+    - Perfect timing! I was hoping you could help me out with something. {freezePlayer}
+    emotions: 01000000
+  - pathName: Grow Quest
+    paragraphs:
+    - Just the farmer I was in need of! The town is running low on food, and my plant
+      beds just aren't cutting it. {freezePlayer}
+    - If you could grow me these crops real soon, it would be highly appreciated.
+    emotions: 0500000001000000
+  - pathName: Hunt Quest
+    paragraphs:
+    - These vile vermin have made a mockery of my personal garden! {freezePlayer}
+    - Make them pay Mr.Farmer! Let it rain ichor!
+    emotions: 0300000003000000

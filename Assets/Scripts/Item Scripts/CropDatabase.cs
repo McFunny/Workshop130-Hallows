@@ -105,6 +105,7 @@ public class CropDatabase : ScriptableObject
         int i = 0;
         foreach(CropData c in _cropDatabase)
         {
+            if(i >= data.cropStats.Length) return;
             c.amountHarvested = data.cropStats[i].amountHarvested;
             c.amountKilled = data.cropStats[i].amountKilled;
             i++;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Barter Object", menuName = "NPC Barter")]
+[CreateAssetMenu(fileName = "New Barter Object", menuName = "NPC Objects/NPC Barter")]
 public class NPCBarterDatabase : ScriptableObject
 {
     public List<Barter> transactions = new List<Barter>();
