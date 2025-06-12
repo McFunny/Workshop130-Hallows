@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ScytheAttack : MonoBehaviour
 {
-    /*public LayerMask hitDetection;
+    public LayerMask hitDetection;
     public Collider collider;
 
-    public AudioClip hitPlant, hitFlesh, hitGround;
+    public AudioClip hitPlant, hitFlesh, hitGround, hitHardObject;
 
     bool cancelSwing; //Happens when the player hits a hard thing
 
@@ -16,8 +16,6 @@ public class ScytheAttack : MonoBehaviour
     List<FarmLand> hitCrops = new List<FarmLand>();
     //List<StructureBehaviorScript> hitStructures = new List<StructureBehaviorScript>();
     CreatureArmor hitArmor;
-
-    Vector3 c_Collision, s_Collision, d_Collision;
 
     void Start()
     {
@@ -29,10 +27,9 @@ public class ScytheAttack : MonoBehaviour
         cancelSwing = false;
 
         hitCreatures.Clear();
-        hitStructures.Clear();
+        hitCrops.Clear();
         hitArmor = null;
         collider.enabled = true;
-        d_Collision = new Vector3(0,0,0);
         yield return new WaitForSeconds(0.02f);
         collider.enabled = false;
         HitObjects();
@@ -51,23 +48,30 @@ public class ScytheAttack : MonoBehaviour
         var structure = other.GetComponentInParent<StructureBehaviorScript>();
         if (structure != null)
         {
+            FarmLand crop = structure as FarmLand;
             //if not farmland, hand it recoil
-            hitStructures.Add(structure);
-            s_Collision = other.ClosestPoint(transform.position);
+            if(crop)
+            {
+                hitCrops.Add(crop);
+                return;
+            }
+            cancelSwing = true;
+            return;
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
         if (creature != null && creature.shovelVulnerable)
         {
             hitCreatures.Add(creature);
-            c_Collision = other.ClosestPoint(transform.position);
         }
 
         var creatureArmor = other.GetComponentInParent<CreatureArmor>();
-        if (creatureArmor != null && hitArmor == null)
+        if (creatureArmor != null)
         {
-            //Cancel the swing
-            hitArmor = creatureArmor;
+            cancelSwing = true;
+            hitArmor.TakeDamage(1);
+            HandItemManager.Instance.toolSource.PlayOneShot(hitHardObject);
+            return;
         }
 
         if (other.gameObject.layer == 17)
@@ -86,21 +90,19 @@ public class ScytheAttack : MonoBehaviour
 
         //it hit default collider
         if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15) return;
-        if(d_Collision == new Vector3(0,0,0))
-        {
-            //Cancel the swing
-
-            d_Collision = other.ClosestPoint(transform.position);
-            if(other.gameObject.tag == "Grass_FootStepSurface") type = GroundType.Dirt;
-            else type = GroundType.Other;
-        }
-
+        
+        cancelSwing = true;
+        return;
         
     }
 
     void HitObjects()
     {
-        if(cancelSwing) return;
+        if(cancelSwing)
+        {
+            HandItemManager.Instance.PlaySecondaryAnimation(); //PlayRecoil
+            return;
+        }
 
         for(int i = 0; i < hitCreatures.Count; i++)
         {
@@ -108,35 +110,16 @@ public class ScytheAttack : MonoBehaviour
             hitCreatures[i].TakeDamage(25);
             HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
 
-            ParticlePoolManager.Instance.MoveAndPlayVFX(hitCreatures[i].ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
-            hitCreatures[i].PlayHitParticle(hitCreatures[i].ClosestPoint(transform.position));
+            ParticlePoolManager.Instance.MoveAndPlayVFX(hitCreatures[i].GetComponent<Collider>().ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
+            hitCreatures[i].PlayHitParticle(hitCreatures[i].GetComponent<Collider>().ClosestPoint(transform.position));
         }
 
         for(int i = 0; i < hitCrops.Count; i++)
         {
             if(hitCrops[i] == null) continue;
             //Harvest grown
-            HandItemManager.Instance.toolSource.PlayOneShot(hitPlant);
-        }
-
-
-        if(hitArmor)
-        {
-            hitArmor.TakeDamage(2);
-            HandItemManager.Instance.toolSource.PlayOneShot(hitPlant);
-            print("Hit Armor");
-            //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
-
-            //PlayHitParticle(s_Collision);
-            return;
-        }
-
-        if(d_Collision != new Vector3(0,0,0))
-        {
-            print("Hit default");
-
-            PlayHitParticle(d_Collision);
-            HandItemManager.Instance.toolSource.PlayOneShot(hitPlant);
+            hitCrops[i].ToolInteraction(ToolType.Scythe, out bool success);
+            if(success) HandItemManager.Instance.toolSource.PlayOneShot(hitPlant);
         }
     }
 
@@ -147,5 +130,4 @@ public class ScytheAttack : MonoBehaviour
         ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
         return;
     }
-    */
 }

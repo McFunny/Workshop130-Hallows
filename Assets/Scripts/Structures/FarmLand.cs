@@ -356,6 +356,11 @@ public class FarmLand : StructureBehaviorScript
 
             PlayerInteraction.Instance.waterHeld--;
         }
+        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable))
+        {
+            StructureInteraction();
+            success = true;
+        }
     }
 
     public override void HourPassed()

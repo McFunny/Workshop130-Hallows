@@ -7,7 +7,7 @@ public class ScytheBehavior : ToolBehavior
 {
     //
     public InventoryItemData thisItem;
-    //ShovelAttack shovelAttack;
+    ScytheAttack scytheAttack;
     public AudioClip swing, dig;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
@@ -15,7 +15,7 @@ public class ScytheBehavior : ToolBehavior
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
-        //if(!shovelAttack) shovelAttack = FindObjectOfType<ShovelAttack>();
+        //if(!scytheAttack) scytheAttack = FindObjectOfType<ShovelAttack>();
         usingPrimary = true;
         
         //swing
@@ -56,7 +56,7 @@ public class ScytheBehavior : ToolBehavior
     void ScytheSwing()
     {
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == null || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != thisItem) return;
-        //shovelAttack.StartCoroutine(shovelAttack.Swing());
+        scytheAttack.StartCoroutine(scytheAttack.Swing());
         //PlayerMovement.limitMaxVelocity = true;
         //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(200, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
     }
