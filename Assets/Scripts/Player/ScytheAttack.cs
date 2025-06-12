@@ -52,9 +52,13 @@ public class ScytheAttack : MonoBehaviour
             //if not farmland, hand it recoil
             if(crop)
             {
+                if(hitCrops.Contains(crop)) return;
                 hitCrops.Add(crop);
                 return;
             }
+
+            structure.TakeDamage(1);
+            ParticlePoolManager.Instance.MoveAndPlayVFX(other.ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
             cancelSwing = true;
             return;
         }
@@ -62,6 +66,7 @@ public class ScytheAttack : MonoBehaviour
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
         if (creature != null && creature.shovelVulnerable)
         {
+            if(hitCreatures.Contains(creature)) return;
             hitCreatures.Add(creature);
         }
 
@@ -69,8 +74,9 @@ public class ScytheAttack : MonoBehaviour
         if (creatureArmor != null)
         {
             cancelSwing = true;
-            hitArmor.TakeDamage(1);
+            hitArmor.TakeDamage(2);
             HandItemManager.Instance.toolSource.PlayOneShot(hitHardObject);
+            ParticlePoolManager.Instance.MoveAndPlayVFX(other.ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
             return;
         }
 
@@ -91,8 +97,10 @@ public class ScytheAttack : MonoBehaviour
         //it hit default collider
         if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15) return;
         
+        /*
         cancelSwing = true;
         return;
+        */
         
     }
 
@@ -104,10 +112,14 @@ public class ScytheAttack : MonoBehaviour
             return;
         }
 
+        if(hitCreatures.Count == 0 && hitCrops.Count == 0) return;
+
+        if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-2);
+
         for(int i = 0; i < hitCreatures.Count; i++)
         {
             if(hitCreatures[i] == null) continue;
-            hitCreatures[i].TakeDamage(30);
+            hitCreatures[i].TakeDamage(35);
             HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
 
             ParticlePoolManager.Instance.MoveAndPlayVFX(hitCreatures[i].GetComponent<Collider>().ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
