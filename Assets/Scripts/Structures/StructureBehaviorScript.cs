@@ -9,7 +9,9 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public delegate void StructuresUpdated();
     public static event StructuresUpdated OnStructuresUpdated; //Unity Event that will notify enemies when structures are updated
-    //Should this be static Abner?
+
+    public delegate void StructureDestroyed(StructureObject structData);
+    public static event StructureDestroyed OnStructureDestroyed; //Unity Event that will listeners when a specific structure is destroyed
 
     public delegate void Damaged();
     [HideInInspector] public event Damaged OnDamage;
@@ -198,7 +200,7 @@ public class StructureBehaviorScript : MonoBehaviour
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
         
-        if(health <= 0)
+        if(health <= 0) //For when a structure is destroyed by removing all the hp
         {
             GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
             if(p)
@@ -214,7 +216,7 @@ public class StructureBehaviorScript : MonoBehaviour
             }
 
             //logic for spawning the salvagable pile//
-            if(structData && !absentFromGrid && salvageChance > Random.Range(0,100) && !onFire)
+            if(structData && !absentFromGrid && salvageChance > Random.Range(0,100) && (!onFire || MainMenuScript.currentFileMode == FileMode.Cozy))
             {
                 //Spawn the pile
                 DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();
@@ -222,6 +224,8 @@ public class StructureBehaviorScript : MonoBehaviour
                 newPile.transform.rotation = transform.rotation;
                 print("I spawned a pile");
             }
+
+            OnStructureDestroyed?.Invoke(structData);
         }
 
         if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
@@ -323,6 +327,7 @@ public class StructureBehaviorScript : MonoBehaviour
             if(health > 10) TakeDamage(Mathf.Round(health / 5));
             else TakeDamage(2);
             yield return new WaitForSeconds(2f);
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
         }
     }
 

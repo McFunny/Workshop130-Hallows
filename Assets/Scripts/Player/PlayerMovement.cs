@@ -260,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.AddForce(-Vector3.up * 30, ForceMode.Force);
+            rb.AddForce(-Vector3.up * 60, ForceMode.Force);
         }
     }
 

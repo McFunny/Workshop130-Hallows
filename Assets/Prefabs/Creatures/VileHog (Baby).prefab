@@ -5609,9 +5609,9 @@ MonoBehaviour:
   rb: {fileID: 2295615419374848060}
   anim: {fileID: 468413940514494510}
   droppedItems:
-  - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+  - {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
   dropChance:
-  - 1
+  - 2
   sightRange: 90
   attackRange: 10
   playerInSightRange: 0
@@ -5623,27 +5623,15 @@ MonoBehaviour:
   damageToStructure: 3
   damageToPlayer: -15
   canCorpseBreak: 0
+  actionSpeedMod: 1
   hitColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0.25490198}
+  currentEffects: []
   variant: 2
   parent: {fileID: 0}
   babies: []
-  desiredCrops:
-  - {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
-  - {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
-  - {fileID: 11400000, guid: 8172637bdf1f08549abde986d4a5a463, type: 2}
-  - {fileID: 11400000, guid: 72c60368592508e4bb2600b17d058377, type: 2}
-  - {fileID: 11400000, guid: c340655b4291c0442892bcb81daa89f7, type: 2}
-  - {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
-  - {fileID: 11400000, guid: 2b4e9f8ae29dc7e429a371586e24a180, type: 2}
-  - {fileID: 11400000, guid: cf8af9956b089464085a930ba02b3711, type: 2}
-  - {fileID: 11400000, guid: 128b6ca8bd9f85e4d935114766315a9c, type: 2}
-  - {fileID: 11400000, guid: d21a6e65259c92d499af2658e49ce8ed, type: 2}
-  - {fileID: 11400000, guid: e7f84fbc95567f84e8d00919f4781bf9, type: 2}
-  - {fileID: 11400000, guid: d76b160dc47240047a3199c2e726eae6, type: 2}
-  - {fileID: 11400000, guid: d9748bf765b774747a0a98a688e17291, type: 2}
-  - {fileID: 11400000, guid: b9c8c2c3b5691904e95fcedd53154dac, type: 2}
-  - {fileID: 11400000, guid: 5a60016cc237cd846b888ac0d414fcb4, type: 2}
+  undesiredCrops: []
   foxGlove: {fileID: 11400000, guid: e17a35f1d70b23a4699d1887727d5504, type: 2}
+  dare: {fileID: 0}
   agent: {fileID: 0}
   attackHitbox: {fileID: 7901703077215774893}
   chargePosition: {fileID: 5353757385000498089}

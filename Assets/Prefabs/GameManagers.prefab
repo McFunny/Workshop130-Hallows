@@ -9453,6 +9453,7 @@ MonoBehaviour:
   fogChime: {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   ignoreCropGrowthTime: 0
   enableCheats: 0
+  forceSurvivalMode: 0
 --- !u!114 &1570504167119801372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9585,7 +9586,7 @@ MonoBehaviour:
     s_varietyMax: 3
     hourlySpawnAttempts: 5
     maxCreatures: 6
-  - difficultyPointThreshold: 150
+  - difficultyPointThreshold: 175
     c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 2
@@ -9594,7 +9595,7 @@ MonoBehaviour:
     s_varietyMax: 4
     hourlySpawnAttempts: 7
     maxCreatures: 8
-  - difficultyPointThreshold: 250
+  - difficultyPointThreshold: 300
     c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 2
@@ -9649,8 +9650,10 @@ MonoBehaviour:
   boxPlaced: 0
   finaleActivated: 0
   finaleMist: {fileID: 0}
-  pollinatorTest: {fileID: 7575999969673721782, guid: 33a4bd1b9d1f7434389e7fad8765e401,
-    type: 3}
+  pollinator: {fileID: 11400000, guid: 8a1a437e421cbf64ba6829e930502495, type: 2}
+  nightEvents:
+  - {fileID: 11400000, guid: 846015b0d2cb63b4fa36b8246f961fa5, type: 2}
+  firstNightWarning: {fileID: 11400000, guid: 72660b2db610a4141a9a53f590aa60ec, type: 2}
 --- !u!114 &6272051581299996177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9663,13 +9666,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52fa92d816326b9408faa4877777069a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rascalFed: 0
-  lumberjackFed: 0
-  botanistFed: 0
-  barkeepFed: 0
-  tinkererFed: 0
-  apothFed: 0
-  culinarianFed: 0
+  townsPeople:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   rascalSpoke: 0
   lumberjackSpoke: 0
   botanistSpoke: 0
@@ -9701,6 +9710,7 @@ MonoBehaviour:
   pTotalMoneyEarned: 0
   pDaysSinceDeath: 0
   pDayNumber: 0
+  gameMode: 
   currentMoney: 0
   totalEarnedMoney: 0
   hourSaved: 8
@@ -9720,6 +9730,7 @@ MonoBehaviour:
   cm_giveChest: 0
   mm_giveGun: 0
   bot_giveSeeds: 0
+  bot_explainedPollen: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   rascalMet: 0
@@ -57250,7 +57261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeQuests: []
-  completedQuests: []
 --- !u!114 &3640743660825113604
 MonoBehaviour:
   m_ObjectHideFlags: 0

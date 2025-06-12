@@ -117,6 +117,20 @@ public class WagonMerchantNPC : NPC, ITalkable
             //if(dialogueController.FreeToSpeak(this))Talk();
             return;
         } 
+
+        if(!GameSaveData.Instance.mm_giveBarricade && !PlayerInventoryHolder.Instance.IsInventoryFull()) //Make sure he gives the intro to the store before player can start selling
+        {
+            GameSaveData.Instance.mm_giveBarricade = true;
+            currentPath = 11;
+            currentType = PathType.Misc;
+            itemsToGive.Add(new ItemWithAmount(barricade, 4));
+            remembersGift = true;
+            Talk();
+            interactSuccessful = true;
+            anim.SetTrigger("IsTalking");
+            return;
+        }
+
         if(item.sellValueMultiplier == 0 || item.value == 0)
         {
             //Cannot Buy
@@ -226,6 +240,15 @@ public class WagonMerchantNPC : NPC, ITalkable
                 if(r < itemWeight[i]) newItem = possibleSoldItems[i];
 
                 if(x == 0 && !PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) newItem = inventoryUpgrade;
+                if(x == 1 && MainMenuScript.currentFileMode == FileMode.Cozy)
+                {
+                    newItem = ammo;
+
+                    item.RefreshItem(newItem, (int) (newItem.value * sellMultiplier), new List<ItemWithAmount>(), 10);
+                    item.seller = this;
+                    x++;
+                    continue;
+                }
             }
             while(!newItem);
             int newCost = (int) (newItem.value * sellMultiplier);
@@ -358,7 +381,8 @@ public class WagonMerchantNPC : NPC, ITalkable
             //currentType = PathType.Misc;
             GameSaveData.Instance.mm_giveGun = true;
             itemsToGive.Add(new ItemWithAmount(shotGun, 1));
-            itemsToGive.Add(new ItemWithAmount(ammo, 6));
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) itemsToGive.Add(new ItemWithAmount(ammo, 20));
+            else itemsToGive.Add(new ItemWithAmount(ammo, 6));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
         }
         else return;
@@ -375,7 +399,13 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void OnConvoEnd()
     {
-        if(currentPath == 11) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.bedTutorialPopup);
+        if(currentPath == 11) //Finished store introduction
+        {
+           PopupHandler.Instance.AddToQueue(PopupHandler.Instance.bedTutorialPopup); 
+           QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(300)); //Add the "go buy seeds" quest
+           QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(302)); //Add the "go barter" quest
+        }
+
         if(!talkingOutsideWagon) return;
         QuestManager qm = QuestManager.Instance;
         if(currentType == PathType.BranchingPaths && !qm.CheckForQuest(QuestDatabase.Instance.GetMainQuest(2))) qm.AddQuest(QuestDatabase.Instance.GetMainQuest(1));

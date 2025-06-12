@@ -41,11 +41,12 @@ public class TavernNPC : NPC, ITalkable
                 currentPath = 0;
                 currentType = PathType.QuestComplete;
             }
-            /*else if (movementHandler.isWorking) //Working Dialogue
+            else if(dailyQuest != null)
             {
-                currentPath = 0;
-                currentType = PathType.Misc;
-            }*/
+                currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                currentType = PathType.GivingDaily;
+                GivePlayerDailyQuest();
+            }
             else if (NPCManager.Instance.barkeepSpoke) //Say nothing if already given flavor text
             {
                 int i = Random.Range(0, dialogueText.alreadySpoken.Length);
@@ -54,7 +55,7 @@ public class TavernNPC : NPC, ITalkable
             }
             else if (currentPath == -1) //Give 1 daily flavor text
             {
-                if((Random.Range(0, 10) >= 6 && CurrentPlayerQuests() < 3) || CurrentPlayerQuests() == 0)
+                if((Random.Range(0, 10) >= 99 && CurrentPlayerQuests() < 3) || CurrentPlayerQuests() == 0) //temp disabled
                 {
                     GiveQuest();
                     int i = Random.Range(0, dialogueText.questPaths.Length);

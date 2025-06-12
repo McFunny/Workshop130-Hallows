@@ -19,11 +19,6 @@ MonoBehaviour:
     - You are the new farmer, right?
     - I do hope you didn't bring any of that mist in with you.
     emotions: 040000000500000005000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -50,6 +45,14 @@ MonoBehaviour:
     paragraphs:
     - I don't think you would be able to carry this.
     emotions: 05000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - I can make a {storeItemName} if you have the stuff for one.
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - If you want these, you are gonna need to hand over some materials first.
+    emotions: 03000000
   fillerPaths:
   - pathName: Aloe
     paragraphs:
@@ -118,3 +121,14 @@ MonoBehaviour:
 
 '
     emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000
+  dailyQuestPaths:
+  - pathName: Daily Quest
+    paragraphs:
+    - Perfect timing! I was hoping you could help me out with something. {freezePlayer}
+    emotions: 01000000

@@ -16,10 +16,11 @@ MonoBehaviour:
   - name: Starting Quest
     description: You were reminded by a cloaked individual to be a farmer. Go do
       that.
-    type: 0
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
@@ -28,13 +29,17 @@ MonoBehaviour:
     orderIndex: 0
     objectID: -1
     objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
     questID: 0
   - name: Talk To Rascal
     description: You were informed about a kid who looked hungry, by the town graveyard.
-    type: 0
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
@@ -43,14 +48,18 @@ MonoBehaviour:
     orderIndex: 0
     objectID: -1
     objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
     questID: 1
   - name: Carrot of Knowledge
     description: The little rascal in the town is asking for 1 Pale Carrot. In exchange,
       he promises to offer information about the door near the graveyard.
-    type: 0
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 1
     maxProgress: 1
     daysLeft: -1
@@ -59,14 +68,18 @@ MonoBehaviour:
     orderIndex: 0
     objectID: 0
     objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
     questID: 2
   - name: Talk To Lumberjack
     description: The key to the door in the graveyard lies beyond the collapsed tree
       in town. The Lumberjack may be able to clear the path.
-    type: 0
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
@@ -75,15 +88,19 @@ MonoBehaviour:
     orderIndex: 0
     objectID: -1
     objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
     questID: 3
   - name: Fallen Tree Removal
     description: The Lumberjack has agreed to clear the fallen tree blocking the
       bridge to the other side of town. However, his work is not free, and he demands
       a 500 Mint stipend. Use the papers from his store to indicate the tree to chop.
-    type: 0
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
@@ -92,13 +109,17 @@ MonoBehaviour:
     orderIndex: 0
     objectID: -1
     objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
     questID: 4
   - name: Fetch Key
     description: The key must be somewhere across the bridge.
-    type: 0
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
@@ -107,14 +128,18 @@ MonoBehaviour:
     orderIndex: 0
     objectID: -1
     objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
     questID: 5
   - name: Complete Catacomb Puzzle
     description: You found many mechanisms in the crypt below the town. They seem
       to react to certain items brought from outside.
-    type: 0
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
@@ -123,14 +148,18 @@ MonoBehaviour:
     orderIndex: 0
     objectID: -1
     objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
     questID: 6
-  - name: Grab WaterGun
+  - name: Grab New Invention
     description: The Tinkerer claims to have something that would interest you. Check
       out her shop by her home near the end of the day.
-    type: 0
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
@@ -139,14 +168,18 @@ MonoBehaviour:
     orderIndex: 0
     objectID: -1
     objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
     questID: 7
   - name: Finale
     description: Deep in the heart of the catacombs lies a metal box. Grab it and
       place it on your farm.
-    type: 0
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
@@ -155,4 +188,106 @@ MonoBehaviour:
     orderIndex: 0
     objectID: -1
     objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
     questID: 8
+  TutorialQuests:
+  - name: Stock Up
+    description: For a farmer, seeds are a necessity. Stop by the market stalls in
+      the morning to grab some extra seeds. (Caution! The more seeds planted, the
+      harder a night will be.)
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
+    progress: 0
+    maxProgress: 0
+    daysLeft: -1
+    assignee: 0
+    displayProgress: 0
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 300
+  - name: Pollination Station
+    description: 'Some crops require to be pollinated to grow. Guide the small bugs
+      on the farm with a torch for them to begin pollination.
+
+      REPLACE TEXT.
+      (Have the reward be a pollinator post.)'
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
+    progress: 0
+    maxProgress: 1
+    daysLeft: -1
+    assignee: 2
+    displayProgress: 1
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 301
+  - name: Learning The Trade
+    description: Some individuals prefer to make trades instead of relying on mints.
+      Inspect their store sign to identify what items they are requesting, and make
+      a trade. Bartering for structures is a great way to fortify your farm.
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
+    progress: 0
+    maxProgress: 0
+    daysLeft: -1
+    assignee: 0
+    displayProgress: 1
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 302
+  UniqueGrowQuests:
+  - name: Timber Ear Cultivation
+    description: The botanist gave you some Timber Ear seeds. This crop yields many
+      wood-like bulbs and is ignored by most creatures, so plant in abundance. The
+      bulbs can be refined into Timber by the Craftsman.
+    isMajorQuest: 0
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards: []
+    townFavorReward: 5
+    progress: 0
+    maxProgress: 10
+    daysLeft: -1
+    assignee: 2
+    displayProgress: 1
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: 0
+    questBehavior: {fileID: 0}
+    questID: 0
+    desiredCrop: {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
+    desiredItem: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
+    amount: 0
+  npcQuestObjects:
+  - {fileID: 11400000, guid: 8c8e1e3e46520f847977634a78f612a8, type: 2}
+  - {fileID: 11400000, guid: 76d9cf775cc656847aeabc3b5a841417, type: 2}
+  - {fileID: 11400000, guid: 539453db3b2ea2f49a2a453528ce8a61, type: 2}
+  - {fileID: 11400000, guid: c74f5a5d78b4ea04ebb07079b0e1bcb1, type: 2}
+  - {fileID: 11400000, guid: 059bb249c6cee48419f294a49f9ad991, type: 2}
+  questBehaviors:
+  - {fileID: 11400000, guid: 01c3e316a7aaaf94ba7ff4af75df9271, type: 2}

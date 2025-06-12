@@ -20,11 +20,6 @@ MonoBehaviour:
     - It's a sore on the eyes. Maybe we can fix that.
     - My wide assortment of vanity is sure to spruce up that dingy abode.
     emotions: 000000000300000001000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -129,3 +124,14 @@ MonoBehaviour:
 '
     emotions: 06000000
   branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000
+  dailyQuestPaths:
+  - pathName: Daily Quest
+    paragraphs:
+    - Friend, it is good to see you. If you are open to some extra work, I could
+      use a hand with something.
+    emotions: 01000000

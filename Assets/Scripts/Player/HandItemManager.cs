@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HandItemManager : MonoBehaviour
 {
-    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch;
+    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe;
     public GameObject torchFlame;
 
     ToolType currentType = ToolType.Null;
@@ -79,8 +79,16 @@ public class HandItemManager : MonoBehaviour
                 torch.SetActive(true);
                 currentHandObject = torch;
                 break;
+            case ToolType.BugNet:
+                bugNet.SetActive(true);
+                currentHandObject = bugNet;
+                break;
+            case ToolType.Scythe:
+                scythe.SetActive(true);
+                currentHandObject = scythe;
+                break;
             default:
-            currentHandObject = null;
+                currentHandObject = null;
                 break;
         }
         if(currentHandObject) currentAnim = currentHandObject.GetComponent<Animator>();
@@ -120,7 +128,7 @@ public class HandItemManager : MonoBehaviour
 
     bool MissingObject()
     {
-        if(!hoe || !shovel || !wateringCan || !shotGun || !torch)
+        if(!hoe || !shovel || !wateringCan || !shotGun || !torch || !bugNet || !scythe)
         {
             Debug.Log("Missing a reference to a hand object");
             return true;

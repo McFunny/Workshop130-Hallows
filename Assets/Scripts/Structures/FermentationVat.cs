@@ -10,11 +10,14 @@ public class FermentationVat : StructureBehaviorScript
     public ParticleSystem activatedParticles, completedParticles;
 
     public int progress = 0;
-    int maxProgress = 30;
+    int maxProgress = 8;
     int maxContainedItems = 1;
 
     bool ignoreNextHour = false;
     bool playingActiveParticles = false;
+
+    bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    public PopupScript chargingPopup;
 
     void Awake()
     {
@@ -35,6 +38,12 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
         if(progress < maxProgress && savedItems.Count > 0) return; //smth is hangin
 
         if(progress >= maxProgress)
@@ -67,6 +76,12 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
         if(item.pickledForm && savedItems.Count == 0)
         {
             //
@@ -99,6 +114,8 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void HourPassed()
     {
+        if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
+
         if(progress < maxProgress && (savedItems.Count > 0 && savedItems[0] != null))
         {
             if(ignoreNextHour)
@@ -153,6 +170,7 @@ public class FermentationVat : StructureBehaviorScript
     {
         progress = saveInt1;
         ParticleToggle();
+        isFunctioning = true;
     }
 
     public override void SaveVariables()

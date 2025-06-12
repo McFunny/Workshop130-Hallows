@@ -35,11 +35,16 @@ public class TravelerNPC : NPC, ITalkable
             }
             else
             {
-                if (CompletedQuest())
+                if(CompletedQuest()) //ADD UNIQUE FUNCTION TO GIVE UNIQUE DIALOGUE THAT IS QUEST DEPENDENT
                 {
-                  
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
+                }
+                else if(dailyQuest != null)
+                {
+                    currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                    currentType = PathType.GivingDaily;
+                    GivePlayerDailyQuest();
                 }
                 else if (NPCManager.Instance.travSpoke)
                 {
@@ -62,16 +67,6 @@ public class TravelerNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    /*public void Talk()
-    {
-        if(!dialogueController.FreeToSpeak(this)) return;
-        anim.SetTrigger("IsTalking");
-        movementHandler.TalkToPlayer();
-        dialogueController.currentTalker = this;
-        dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
-        startedDialogue = true;
-    }*/
-
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         ToolItem tItem = item as ToolItem;
@@ -86,27 +81,6 @@ public class TravelerNPC : NPC, ITalkable
             currentPath = 0;
             currentType = PathType.QuestComplete;
         }
-
-        /*else if (item.staminaValue > 0)
-        {
-            currentPath = 0;
-            currentType = PathType.ItemRecieved;
-            *//*
-            if(!NPCManager.Instance.lumberjackFed)
-            {
-                currentPath = 0;
-                currentType = PathType.ItemRecieved;
-                NPCManager.Instance.lumberjackFed = true;
-                anim.SetTrigger("TakeItem");
-            }
-            else
-            {
-                currentPath = 1;
-                currentType = PathType.ItemRecieved;
-            }
-            *//*
-            //Its consumable and giftable
-        }*/
 
         else
         {

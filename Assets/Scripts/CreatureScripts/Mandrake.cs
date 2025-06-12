@@ -13,7 +13,7 @@ public class Mandrake : CreatureBehaviorScript
     public float fleeDistance = 5f;
 
     public float timeBeforeLeavingFarm;
-    private float savedTime;
+    //private float savedTime;
 
     Vector3 despawnPos;
 
@@ -38,7 +38,7 @@ public class Mandrake : CreatureBehaviorScript
         base.Start();
         agent = GetComponent<NavMeshAgent>();
         currentState = CreatureState.WakeUp;
-        savedTime = timeBeforeLeavingFarm;
+        //savedTime = timeBeforeLeavingFarm;
 
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
@@ -55,7 +55,7 @@ public class Mandrake : CreatureBehaviorScript
         }
         if (timeBeforeLeavingFarm < 0)
         {
-            if(TimeManager.Instance.isDay) currentState = CreatureState.LeaveFarm;
+            currentState = CreatureState.LeaveFarm;
         }
         else timeBeforeLeavingFarm -= Time.deltaTime;
 
@@ -166,7 +166,7 @@ public class Mandrake : CreatureBehaviorScript
 
     private void Run()
     {
-        timeBeforeLeavingFarm = savedTime;
+        //timeBeforeLeavingFarm = savedTime;
         //agent.speed = 10;
         //agent.angularSpeed = 150;
         if (playerInSightRange)

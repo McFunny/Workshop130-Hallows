@@ -349,6 +349,12 @@ public class PlayerInteraction : MonoBehaviour
 
     }
 
+    public void GainMints(int amount, bool countForTotal)
+    {
+        currentMoney += amount;
+        if(countForTotal) totalMoneyEarned += amount;
+    }
+
     public void StaminaChange(float amount)
     {
         if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible)
@@ -364,15 +370,15 @@ public class PlayerInteraction : MonoBehaviour
 
         if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f;
 
-        fatigue += Mathf.Round(amount * 0.1f);
+        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
+
+        //if(amount > 6) fatigue += Mathf.Round(amount * 0.1f);
         
         if(repairMinigame.IsMinigameActive())
         {
             repairMinigame.EndMinigame();
         }
 
-        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
-        
         stamina +=  Mathf.Round(amount);
         if(amount <= -5) playerEffects.PlayerDamage();
         if(!sentLowStaminaMessage && stamina <= 50)
@@ -518,7 +524,7 @@ public class PlayerInteraction : MonoBehaviour
         TownGate.Instance.Transition(PlayerLocation.InFarm);
 
         stamina = 100;
-        if(currentMoney > 0) currentMoney = (currentMoney/5) * 4; //I have no idea if this will work
+        if(currentMoney > 0 && MainMenuScript.currentFileMode != FileMode.Cozy) currentMoney = (currentMoney/5) * 4; //I have no idea if this will work
         TimeManager.Instance.GameOver(); //Has to be last, this is where it saves
         print("Time GameOver Complete");
 

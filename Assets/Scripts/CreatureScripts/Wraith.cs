@@ -97,7 +97,7 @@ public class Wraith : CreatureBehaviorScript
             yield return new WaitForSeconds(1.5f); // update destination every 0.5 seconds to prevent overloading it
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            if (distanceToPlayer <= 3.5f)
+            if (distanceToPlayer <= 3.5f && !PlayerInteraction.Instance.torchLit)
             {
                 PlayerInteraction.Instance.StaminaChange(-7);
                 PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 15);

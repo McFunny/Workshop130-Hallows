@@ -20,11 +20,6 @@ MonoBehaviour:
     - So how has that new farm been treating you?
     - Well if you want some extra tasks, be sure to come talk to me.
     emotions: 010000000100000000000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -122,3 +117,14 @@ MonoBehaviour:
 
 '
     emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000
+  dailyQuestPaths:
+  - pathName: Daily Quest
+    paragraphs:
+    - Perfect timing! I was hoping you could help me out with something. {freezePlayer}
+    emotions: 01000000

@@ -174,8 +174,10 @@ public class RepairMinigame : MonoBehaviour
     {
         for (int i = 0; i < possibleSegments.Count; i++)
         {
-            if (minigameSlider.value >= 0.5f - possibleSegments[i].size && minigameSlider.value <= 0.5f + possibleSegments[i].size)
+            var trueSize = possibleSegments[i].size / 2;
+            if (minigameSlider.value >= 0.5f - trueSize && minigameSlider.value <= 0.5f + trueSize)
             {
+                print("Minimum Value: " + (0.5f - trueSize) + " Maximum Value: " + (0.5f + trueSize));
                 // Call the minigame function
                 possibleSegments[i].Invoke("MinigameFunction", 0f);
                 hitSegment = possibleSegments[i];

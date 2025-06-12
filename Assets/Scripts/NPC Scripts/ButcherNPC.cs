@@ -43,6 +43,12 @@ public class ButcherNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
+                else if(dailyQuest != null)
+                {
+                    currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                    currentType = PathType.GivingDaily;
+                    GivePlayerDailyQuest();
+                }
                 else if (NPCManager.Instance.butchSpoke)
                 {
                     int i = Random.Range(0, dialogueText.alreadySpoken.Length);
@@ -88,27 +94,6 @@ public class ButcherNPC : NPC, ITalkable
             currentType = PathType.QuestComplete;
         }
 
-        else if (item.staminaValue > 0)
-        {
-            currentPath = 0;
-            currentType = PathType.ItemRecieved;
-            /*
-            if(!NPCManager.Instance.lumberjackFed)
-            {
-                currentPath = 0;
-                currentType = PathType.ItemRecieved;
-                NPCManager.Instance.lumberjackFed = true;
-                anim.SetTrigger("TakeItem");
-            }
-            else
-            {
-                currentPath = 1;
-                currentType = PathType.ItemRecieved;
-            }
-            */
-            //Its consumable and giftable
-        }
-
         else
         {
             currentPath = 0;
@@ -121,7 +106,7 @@ public class ButcherNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    /*public override void PurchaseAttempt(StoreItem item)
     {
         if (dialogueController.IsInterruptable() == false)
         {
@@ -158,7 +143,7 @@ public class ButcherNPC : NPC, ITalkable
         }
         currentType = PathType.Misc;
         Talk();
-    }
+    }*/
 
     public override void PlayerLeftRadius()
     {
@@ -168,12 +153,6 @@ public class ButcherNPC : NPC, ITalkable
         }
         if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
-    }
-
-    public override void EmptyShopItem()
-    {
-        lastInteractedStoreItem.Empty();
-        lastInteractedStoreItem = null;
     }
 
     public override void RefreshStore()

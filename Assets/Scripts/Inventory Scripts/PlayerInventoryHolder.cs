@@ -34,6 +34,9 @@ public class PlayerInventoryHolder : InventoryHolder
     [Header("Starting Items")]
     [SerializeField] private List<Item> startingItems;
 
+    [Header("Starting Survival Items")]
+    [SerializeField] private List<Item> startingSurvivalItems; //For Survival Mode
+
     [Header("Debug Items")]
     [SerializeField] private List<Item> debugItems;
 
@@ -55,7 +58,6 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         if(!controlManager) controlManager = FindFirstObjectByType<ControlManager>();
         controlManager.hotbarSwitch.action.started += SwitchHotBars;
-        controlManager.hotbarSwitch.action.canceled += SwitchHotBars;
     }
 
     private void OnDisable()
@@ -64,7 +66,6 @@ public class PlayerInventoryHolder : InventoryHolder
         SaveLoad.OnLoadGame -= LoadInventory;
 
         controlManager.hotbarSwitch.action.started -= SwitchHotBars;
-        controlManager.hotbarSwitch.action.canceled -= SwitchHotBars;
     }
 
     protected override void Awake()
@@ -170,6 +171,25 @@ public class PlayerInventoryHolder : InventoryHolder
                 else
                 {
                     Debug.LogWarning("Debug item data is null.");
+                }
+            }
+        }
+        if(MainMenuScript.currentFileMode == FileMode.Survival)
+        {
+            PlayerInteraction.Instance.currentMoney += 100;
+            foreach (var survivalItem in startingSurvivalItems)
+            {
+                if (survivalItem.itemData != null)
+                {
+                    bool addedSuccessfully = AddToInventory(survivalItem.itemData, survivalItem.amount);
+                    if (!addedSuccessfully)
+                    {
+                        Debug.LogWarning($"Failed to add {survivalItem.amount} of {survivalItem.itemData.name} to inventory.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Starting item data is null.");
                 }
             }
         }
@@ -488,7 +508,7 @@ public class PlayerInventoryHolder : InventoryHolder
 
     public void SwitchHotBars(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || InputManager.isCharging || PauseScript.isPaused) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || InputManager.isCharging || PauseScript.isPaused || PlayerMovement.accessingInventory) return;
 
         List<InventorySlot> currentPInventory = new List<InventorySlot>();
         List<InventorySlot> currentSInventoryRow1 = new List<InventorySlot>();

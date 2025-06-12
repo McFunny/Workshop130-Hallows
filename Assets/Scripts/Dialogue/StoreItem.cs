@@ -129,6 +129,8 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public void CompleteTrade() //Completed a barter trade
     {
+        QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetTutorialQuest(302)); //Completed the Barter quest if assigned
+
         PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(barterCost);
         PlayerInventoryHolder.Instance.UpdateInventory();
         if(clearUponPurchase && amountLeft == 1)
@@ -137,6 +139,8 @@ public class StoreItem : MonoBehaviour, IInteractable
             return;
         }
         ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        
+        if(clearUponPurchase == false) return;
         amountLeft--;
         if(amountLeft == 1)  stockText.text = "";
         else stockText.text = "x " + amountLeft;
@@ -144,12 +148,16 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public void CompletePurchase() //Completed a store purchase
     {
+        QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetTutorialQuest(300)); //Completed the Purchase Seeds Quest if assigned
+
         if(clearUponPurchase && amountLeft == 1)
         {
             Empty();
             return;
         }
         ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+
+        if(clearUponPurchase == false) return;
         amountLeft--;
         if(amountLeft == 1)  stockText.text = "";
         else stockText.text = "x " + amountLeft;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CompostBin : StructureBehaviorScript
 {
@@ -26,11 +27,15 @@ public class CompostBin : StructureBehaviorScript
     bool ignoreNextHour = false;
     bool isSpinning = false;
 
-    //Dont forget to implement how it works when loading saved data
+    public TextMeshProUGUI itemText;
+
+    bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    public PopupScript chargingPopup;
 
     void Awake()
     {
         base.Awake();
+        itemText.text = savedItems.Count + "/" + maxContainedItems;
     }
 
     void Start()
@@ -46,6 +51,12 @@ public class CompostBin : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
         if(isSpinning && savedItems.Count != maxContainedItems) return;
 
         if(progress == maxProgress)
@@ -126,10 +137,17 @@ public class CompostBin : StructureBehaviorScript
         savedItems.Clear();
         isSpinning = false;
         fillPlane.SetActive(false);
+        itemText.text = savedItems.Count + "/" + maxContainedItems;
     }
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(!isFunctioning)
+        {
+            PopupHandler.Instance.AddToQueue(chargingPopup);
+            return;
+        }
+
         if(item.bonusCompostValue > 0 && savedItems.Count < maxContainedItems)
         {
             //
@@ -159,6 +177,7 @@ public class CompostBin : StructureBehaviorScript
                 anim.SetBool("Spinning", true);
                 anim.SetBool("IsFull", true);
             }
+            itemText.text = savedItems.Count + "/" + maxContainedItems;
         }
     }
 
@@ -219,6 +238,10 @@ public class CompostBin : StructureBehaviorScript
             isSpinning = false;
             anim.SetBool("Spinning", false);
         }
+
+        itemText.text = savedItems.Count + "/" + maxContainedItems;
+
+        isFunctioning = true;
     }
 
     public override void SaveVariables()

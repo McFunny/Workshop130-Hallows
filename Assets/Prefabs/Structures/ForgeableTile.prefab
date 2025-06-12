@@ -408,9 +408,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: c045dbc157547ed448ab306f228410d1, type: 2}
+  itemForm: {fileID: 0}
   health: 5
   maxHealth: 5
   wealthValue: 1
+  salvageChance: 0
   destructable: 0
   flammable: 0
   onFire: 0
@@ -428,8 +430,8 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 0}
-  destructionType: 0
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:
@@ -447,7 +449,7 @@ MonoBehaviour:
     sprite: {fileID: 0}
   possibleItems:
   - item: {fileID: 11400000, guid: a9318b4aa64bb2c4caba19dcc4372731, type: 2}
-    wildernessSpawnRate: 70
+    wildernessSpawnRate: 40
     townSpawnRate: 30
     sprite: {fileID: -1459842230, guid: dde1cdb333d3ca5438a95b2bdfc2c39f, type: 3}
   - item: {fileID: 11400000, guid: 6f316f85a007ad645b60a914fa4f0367, type: 2}

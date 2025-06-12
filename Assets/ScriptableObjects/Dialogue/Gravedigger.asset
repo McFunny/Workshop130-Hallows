@@ -16,14 +16,9 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - I can hear what happens on your farm at night
-    - Hopefully I don't have to make a casket for you as well
+    - I can hear what happens on your farm at night.
+    - Hopefully I don't have to make a casket for you as well.
     emotions: 0000000000000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -110,3 +105,14 @@ MonoBehaviour:
 
 '
     emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000
+  dailyQuestPaths:
+  - pathName: Daily Quest
+    paragraphs:
+    - Perfect timing! I was hoping you could help me out with something. {freezePlayer}
+    emotions: 01000000

@@ -9,11 +9,20 @@ public class MurderMancer : CreatureBehaviorScript
     private bool coroutineRunning;
     public Transform rightArmCrowSummon;
     public Transform leftArmCrowSummon;
-    public CreatureObject crowData;
+    public Transform hareSummon;
+    public CreatureObject spawnedCreatureData;
     public GameObject burningParticles;
     public ParticleSystem[] stage1Particles, stage2Particles;
 
     Vector3 origin;
+
+    public enum Variant
+    {
+        Normal,
+        Hare
+    }
+
+    public Variant variant; // what variant of creature is this?
 
     public enum CreatureState
     {
@@ -280,29 +289,53 @@ public class MurderMancer : CreatureBehaviorScript
         coroutineRunning = true;
         effectsHandler.Idle1();
 
-        int totalCrows = NightSpawningManager.Instance.ReportTotalOfCreature(crowData);
-        if(totalCrows < 6)
+        if(variant == Variant.Normal)
         {
-            int spawnCycles = 1;
-            if(totalCrows < 4) spawnCycles++;
-            for(int i = 0; i < spawnCycles; i++)
+            int totalCrows = NightSpawningManager.Instance.ReportTotalOfCreature(spawnedCreatureData);
+            if(totalCrows < 6)
             {
-                MutatedCrow crow1 = Instantiate(crowData.objectPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
-                MutatedCrow crow2 = Instantiate(crowData.objectPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();
+                int spawnCycles = 1;
+                if(totalCrows < 4) spawnCycles++;
+                for(int i = 0; i < spawnCycles; i++)
+                {
+                    MutatedCrow crow1 = Instantiate(spawnedCreatureData.objectPrefab, leftArmCrowSummon.position, leftArmCrowSummon.rotation).GetComponent<MutatedCrow>();
+                    MutatedCrow crow2 = Instantiate(spawnedCreatureData.objectPrefab, rightArmCrowSummon.position, rightArmCrowSummon.rotation).GetComponent<MutatedCrow>();
 
-                GameObject poofParticle1 = ParticlePoolManager.Instance.GrabCloudParticle();
-                poofParticle1.transform.position = crow1.transform.position;
-                GameObject poofParticle2 = ParticlePoolManager.Instance.GrabCloudParticle();
-                poofParticle2.transform.position = crow2.transform.position;
+                    GameObject poofParticle1 = ParticlePoolManager.Instance.GrabCloudParticle();
+                    poofParticle1.transform.position = crow1.transform.position;
+                    GameObject poofParticle2 = ParticlePoolManager.Instance.GrabCloudParticle();
+                    poofParticle2.transform.position = crow2.transform.position;
 
-                crow1.isSummoned = true;
-                crow2.isSummoned = true;
-                crow1.isAttackCrow = true;
-                crow2.isAttackCrow = false;
+                    crow1.isSummoned = true;
+                    crow2.isSummoned = true;
+                    crow1.isAttackCrow = true;
+                    crow2.isAttackCrow = false;
 
-                yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.5f);
+                }
             }
         }
+
+        if(variant == Variant.Hare)
+        {
+            int totalHares = NightSpawningManager.Instance.ReportTotalOfCreature(spawnedCreatureData);
+            if(totalHares < 6)
+            {
+                for(int i = 0; i < 4; i++)
+                {
+                    int hareType = UnityEngine.Random.Range(0, (spawnedCreatureData.creatureVariants.Count + 1));
+                    if(hareType > 0 && spawnedCreatureData.creatureVariants[hareType - 1].probabilityInFarm <= 0) hareType = 0;
+                    GameObject prefab;
+                    if(hareType == 0) prefab = spawnedCreatureData.objectPrefab;
+                    else prefab = spawnedCreatureData.creatureVariants[hareType - 1].prefab;
+                    Instantiate(prefab, hareSummon.position, Quaternion.identity);
+                    ParticlePoolManager.Instance.GrabCloudParticle().transform.position = hareSummon.position;
+                }
+
+
+            }
+        }
+        
         
         //yield return new WaitForSeconds(0.3f);
         HandItemManager.Instance.TorchFlameToggle(false);

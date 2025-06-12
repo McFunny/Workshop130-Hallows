@@ -43,7 +43,7 @@ public class Sprinkler : StructureBehaviorScript
 
         if(rotating) head.Rotate(0, Time.deltaTime * 20, 0, Space.Self);
 
-        waterText.text = waterLevel + "/" + 3;
+        waterText.text = waterLevel + "/" + 5;
 
     }
 
@@ -64,10 +64,10 @@ public class Sprinkler : StructureBehaviorScript
             //StartCoroutine(DugUpForItem());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 3 && waterLevel < 3)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 5 && waterLevel < 5)
         {
-            PlayerInteraction.Instance.waterHeld -= 3;
-            waterLevel = 3;
+            PlayerInteraction.Instance.waterHeld -= 5;
+            waterLevel = 5;
             StartCoroutine(WaterTiles());
             success = true;
         }
@@ -75,7 +75,7 @@ public class Sprinkler : StructureBehaviorScript
 
     public override void HitWithWater()
     {
-        if(waterLevel < 3) waterLevel++;
+        if(waterLevel < 5) waterLevel++;
     }
 
     public override void TimeLapse(int hours)

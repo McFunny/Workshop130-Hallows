@@ -274,7 +274,7 @@ public class MutatedCrow : CreatureBehaviorScript
         Vector3 targetPosition = point; //set this to item transform
         float distance = Vector3.Distance(transform.position, targetPosition);
         float t = (speed * 2 * Time.deltaTime) / distance;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t));
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Mathf.Clamp01(t)); //Something here is throwing an error
         transform.LookAt(targetPosition);
         //After player has reached destination, have it go back to creaturestate.circlepoint and give it a random point
         //USE THIS TO DIVE FOR ITEM

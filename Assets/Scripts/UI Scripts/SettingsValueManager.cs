@@ -35,6 +35,7 @@ public class SettingsValueManager : MonoBehaviour
 
     void Awake()
     {
+
         defaultSensitivity = 1.0f;
         defaultVolume = 1.0f;
         sensitivity = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);

@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d589004e78c87459e24d154dfcbd19, type: 3}
+  m_Name: TinkererQuests
+  m_EditorClassIdentifier: 
+  character: 6
+  templates:
+  - name: Brain Fuel
+    description: '"Innovation requires a steady mind and a full belly. I don''t have
+      either, but we can fix one of them! Bring me a treat, pronto!'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: 23fb2e71f9e9a6b47a8cef4f7f659e40, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 1.2
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 1
+    townFavorReward: 3
+    daysLeftMin: 2
+    daysLeftMax: 3
+    assignee: 6
+    displayProgress: 0
+    minObject: 1
+    maxObject: 1
+    questBehavior: {fileID: 0}
+  - name: Brain Fuel
+    description: '"Innovation requires a steady mind and a full belly. I don''t have
+      either, but we can fix one of them! Bring me a treat, pronto!'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: 0322ac02f35aba8419c8ac5038c4225b, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 1.2
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
+      amount: 1
+    townFavorReward: 3
+    daysLeftMin: 2
+    daysLeftMax: 3
+    assignee: 6
+    displayProgress: 0
+    minObject: 1
+    maxObject: 1
+    questBehavior: {fileID: 0}
+  - name: Brain Fuel
+    description: '"Innovation requires a steady mind and a full belly. I don''t have
+      either, but we can fix one of them! Bring me a treat, pronto!'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: ce03bf77f7cfae644b8b257d4877bf50, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 1.2
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 8
+    townFavorReward: 3
+    daysLeftMin: 2
+    daysLeftMax: 3
+    assignee: 6
+    displayProgress: 0
+    minObject: 1
+    maxObject: 1
+    questBehavior: {fileID: 0}
+  - name: Brain Fuel
+    description: '"Innovation requires a steady mind and a full belly. I don''t have
+      either, but we can fix one of them! Bring me a treat, pronto!'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: 86effa1763457db43a40a9362bc37cdc, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 1.2
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 8
+    - item: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
+      amount: 1
+    townFavorReward: 3
+    daysLeftMin: 2
+    daysLeftMax: 3
+    assignee: 6
+    displayProgress: 0
+    minObject: 1
+    maxObject: 1
+    questBehavior: {fileID: 0}
+  uniqueQuestChance: 25
+  uniqueTemplates:
+  - name: Machine Defender
+    description: '"I want to conduct some experiments on your farm firsthand. I sent
+      over a machine. Keep it safe from the wildlife will ya?? Oh, it is also prone
+      to overheating. Haven''t quite sorted out that kink yet."'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 0}
+    crop: {fileID: 0}
+    mintMultiplier: 150
+    itemRewards:
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: a213798768e67f442a88e35faf4c873b, type: 2}
+      amount: 3
+    - item: {fileID: 0}
+      amount: 0
+    townFavorReward: 8
+    daysLeftMin: 0
+    daysLeftMax: 0
+    assignee: 6
+    displayProgress: 0
+    minObject: 0
+    maxObject: 0
+    questBehavior: {fileID: 11400000, guid: 01c3e316a7aaaf94ba7ff4af75df9271, type: 2}
+  currentDailyQuestPath: 0

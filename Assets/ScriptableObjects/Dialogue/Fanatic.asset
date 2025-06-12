@@ -20,11 +20,6 @@ MonoBehaviour:
     - This mist...mist...mist...mist!
     - Can you believe it!
     emotions: 000000000100000005000000
-  questCompletePath:
-    pathName: Thanks for completing quest
-    paragraphs:
-    - Thank you for completing my quest!
-    emotions: 01000000
   repeatedItemPath:
     pathName: Again...?
     paragraphs:
@@ -126,3 +121,14 @@ MonoBehaviour:
 
 '
     emotions: 06000000
+  branchingPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for completing my quest!
+    emotions: 01000000
+  dailyQuestPaths:
+  - pathName: Daily Quest
+    paragraphs:
+    - Perfect timing! I was hoping you could help me out with something. {freezePlayer}
+    emotions: 01000000

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Spa : MonoBehaviour, IInteractable
 {
-    bool playerInSpa;
+    bool playerInSpa, activated;
 
     public InventoryItemData waterCan, waterGun;
 
@@ -14,6 +14,10 @@ public class Spa : MonoBehaviour, IInteractable
     public ParticleSystem splashVFX;
 
     public Transform focalPoint;
+
+    public GameObject activatedEffects;
+
+    public AudioSource source;
 
     void Start()
     {
@@ -33,20 +37,39 @@ public class Spa : MonoBehaviour, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if((item != waterCan && item != waterGun) || PlayerInteraction.Instance.waterHeld == PlayerInteraction.Instance.maxWaterHeld)
+        if((item == waterCan || item == waterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld)
         {
-            interactSuccessful = false;
+            interactSuccessful = true;
+            PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
+            splashVFX.Play();
+            source.Play();
             return;
         }
-        interactSuccessful = true;
-        PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
-        splashVFX.Play();
+        if(item == bathBomb && !activated)
+        {
+            interactSuccessful = true;
+            activated = true;
+            activatedEffects.SetActive(true);
+            StartCoroutine(ActivationTimer());
+            splashVFX.Play();
+            source.Play();
+            return;
+        }
+
+        interactSuccessful = false;
         
     }
     
     public void EndInteraction()
     {
        
+    }
+
+    IEnumerator ActivationTimer()
+    {
+        yield return new WaitForSeconds(60);
+        activated = false;
+        activatedEffects.SetActive(false);
     }
 
     public void ReturnFocalPoint(out Transform _focalPoint)
@@ -86,7 +109,11 @@ public class Spa : MonoBehaviour, IInteractable
         do
         {
             yield return new WaitForSeconds(0.5f);
-            if(playerInSpa && PlayerInteraction.Instance.stamina < PlayerInteraction.Instance.maxStamina * 0.75f) PlayerInteraction.Instance.stamina += 5;
+            if(playerInSpa && activated)
+            {
+                if(PlayerInteraction.Instance.stamina < PlayerInteraction.Instance.maxStamina) PlayerInteraction.Instance.stamina += 15;
+                if(PlayerInteraction.Instance.fatigue > 0)  PlayerInteraction.Instance.fatigue -= 5;
+            }
         }
         while(gameObject.activeSelf);
     }

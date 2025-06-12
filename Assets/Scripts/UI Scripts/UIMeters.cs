@@ -6,7 +6,7 @@ using TMPro;
 
 public class UIMeters : MonoBehaviour
 {
-    public Slider waterBar, staminaBar;
+    public Slider waterBar, staminaBar, fatigueBar;
     public Image waterFill, staminaFill;
     public GameObject leftTextbox, rightTextbox;
     public Color c_stamina, c_water, c_damage;
@@ -19,6 +19,7 @@ public class UIMeters : MonoBehaviour
         p = PlayerInteraction.Instance;
         currentStamina = p.stamina;
         currentWater = p.waterHeld;
+        fatigueBar.maxValue = p.maxStamina;
         controlManager = FindFirstObjectByType<ControlManager>();
 
         rightTextbox.SetActive(false);
@@ -46,6 +47,7 @@ public class UIMeters : MonoBehaviour
     {
         waterBar.value = p.waterHeld/p.maxWaterHeld;
         staminaBar.value = p.stamina/p.maxStamina;
+        fatigueBar.value = p.maxStamina + (p.fatigue - p.maxStamina); // math scares me
 
         leftText.text = p.waterHeld + "/" + p.maxWaterHeld;
         rightText.text = p.stamina + "/" + p.maxStamina;

@@ -22,6 +22,7 @@ public class DialogueController : MonoBehaviour
     private bool interruptable = true;
     public bool restartDialogue = false;
     private bool freezePlayer = false;
+    private bool canAdvanceDialogue = true; //Pauses dialogue at the start so the player cant mash through it
 
     private string p;
 
@@ -56,7 +57,14 @@ public class DialogueController : MonoBehaviour
 
     public void AdvanceDialogue()
     {
-        if(IsTalking() == true && currentTalker) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
+        if(IsTalking() == true && currentTalker && canAdvanceDialogue) DisplayNextParagraph(currentTalker.dialogueText, currentPath, currentType);
+    }
+
+    IEnumerator StartDialogueCooldown() //So the player does not accidentally skip over the start
+    {
+        canAdvanceDialogue = false;
+        yield return new WaitForSeconds(0.5f);
+        canAdvanceDialogue = true;
     }
 
     public void DisplayNextParagraph(DialogueText dialogueText, int path, PathType type)
@@ -142,6 +150,7 @@ public class DialogueController : MonoBehaviour
 
     private void StartConversation(DialogueText dialogueText, PathType type)
     {
+        StartCoroutine(StartDialogueCooldown());
         // Activate the text box
         if (!dialogueBox.activeSelf)
         {
@@ -159,12 +168,13 @@ public class DialogueController : MonoBehaviour
         switch (type)
         {
             case PathType.QuestComplete:
-                for (int i = 0; i < dialogueText.questCompletePath.paragraphs.Length; i++)
+                for (int i = 0; i < dialogueText.questCompletePaths[currentTalker.currentPath].paragraphs.Length; i++)
                 {
-                    paragraphs.Enqueue(dialogueText.questCompletePath.paragraphs[i]);
-                    if(dialogueText.questCompletePath.emotions.Count <= i) dialogueText.questCompletePath.emotions.Add(Emotion.Null);
-                    emotions.Enqueue(dialogueText.questCompletePath.emotions[i]);
+                    paragraphs.Enqueue(dialogueText.questCompletePaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.questCompletePaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.questCompletePaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
+                    emotions.Enqueue(dialogueText.questCompletePaths[currentTalker.currentPath].emotions[i]);
                 }
+
                 break;
             case PathType.RepeatItem:
                 for (int i = 0; i < dialogueText.repeatedItemPath.paragraphs.Length; i++)
@@ -228,6 +238,14 @@ public class DialogueController : MonoBehaviour
                     paragraphs.Enqueue(dialogueText.branchingPaths[currentTalker.currentPath].paragraphs[i]);
                     if(dialogueText.branchingPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.branchingPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
                     emotions.Enqueue(dialogueText.branchingPaths[currentTalker.currentPath].emotions[i]);
+                }
+                break;
+            case PathType.GivingDaily:
+                for (int i = 0; i < dialogueText.dailyQuestPaths[currentTalker.currentPath].paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.dailyQuestPaths[currentTalker.currentPath].paragraphs[i]);
+                    if(dialogueText.dailyQuestPaths[currentTalker.currentPath].emotions.Count <= i) dialogueText.dailyQuestPaths[currentTalker.currentPath].emotions.Add(Emotion.Null);
+                    emotions.Enqueue(dialogueText.dailyQuestPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
             default:
@@ -341,7 +359,7 @@ public class DialogueController : MonoBehaviour
         if(currentTalker.lastInteractedStoreItem)
         {
             p = p.Replace("{storeItemName}", $"{"<color=#81C6DE>" + currentTalker.lastInteractedStoreItem.itemData.displayName + "</color>"}");
-            p = p.Replace("{storeItemValue}", $"{"<color=#E0D38F>" + currentTalker.lastInteractedStoreItem.itemData.value + "</color>"}");
+            p = p.Replace("{storeItemValue}", $"{"<color=#E0D38F>" + currentTalker.lastInteractedStoreItem.cost + "</color>"}");
         }
 
         if(p.Contains("{itemBought}"))
