@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 
 public class Codex3 : MonoBehaviour
 {
-    private CodexEntries[] TutorialEntries, ToolEntries, CreatureEntries, PlantEntries;
-    private List<CodexEntries> TutorialList, ToolList, CreatureList, PlantList;
-    private int menuIndex;
+    private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries ;
+    private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList;
+    private int menuIndex; //Maybe use this later idk
     private string defaultName = "???";
-    private ChildActivator childActivator;
+    [SerializeField] private ChildActivator childActivator;
     private enum OpenCategory
     {
         Tutorial,
         Tools,
+        Structures,
         Plants,
         Creatures,
         Quests // This is not implemented yet
@@ -26,7 +28,7 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private GameObject[] secondaryContainers;
     [SerializeField] private TextMeshProUGUI categoryTitle;
     [SerializeField] private GameObject categoryContainer;
-    [SerializeField] private GameObject plantPage;
+    [SerializeField] private GameObject tutorialPage, plantPage;
 
     [Header("Plant Page Vars")]
     [SerializeField] private TextMeshProUGUI plantPageTitle;
@@ -34,6 +36,11 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private TextMeshProUGUI plantPageDescription;
     [SerializeField] private TextMeshProUGUI plantPageHarvested, plantPageWealth, plantPageGrowthStages, plantPageConsumes, plantPageProduces, plantPageTrellis, plantPagePollen;
     [SerializeField] private GameObject[] plantPageConsumesIcons, plantPageProducesIcons;
+
+    [Header("Tutorial Page Vars")]
+    [SerializeField] private TextMeshProUGUI tutorialPageTitle;
+    [SerializeField] private Image tutorialPageImage;
+    [SerializeField] private TextMeshProUGUI tutorialPageDescriptionLeft, tutorialPageDescriptionRight;
     
 
 
@@ -84,17 +91,23 @@ public class Codex3 : MonoBehaviour
                     Cat = ToolEntries;
                     break;
                 case 2:
+                    // Structures Here
+                    Cat = null;
+                    break;
+                case 3:
                     PlantList = new List<CodexEntries>();
                     Cat = PlantEntries;
                     break;
-                case 3:
+                case 4:
                     CreatureList = new List<CodexEntries>();
                     Cat = CreatureEntries;
                     break;
-                case 4:
+                case 5:
                     return; // Quests category is not implemented yet
             }
 
+            if (Cat == null) continue;
+            
             print(Cat.Length + " entries found in category " + i);
             for (int e = 0; e < Cat.Length; e++)
             {
@@ -171,9 +184,12 @@ public class Codex3 : MonoBehaviour
                         ToolList.Add(Cat[e]);
                         break;
                     case 2:
-                        PlantList.Add(Cat[e]);
+                        //Put Structures Here
                         break;
                     case 3:
+                        PlantList.Add(Cat[e]);
+                        break;
+                    case 4:
                         CreatureList.Add(Cat[e]);
                         break;
                         
@@ -190,8 +206,17 @@ public class Codex3 : MonoBehaviour
             return;
         }
 
-        if (entry.cropData)
+        if (entry.entryType == CodexEntries.EntryType.Plant)
         {
+            if (!entry.cropData)
+            {
+                Debug.LogWarning("No cropdata found");
+                return;
+            }
+
+            CropItem cropItem = (CropItem)entry.cropData.cropSeed;
+            print(cropItem);
+
             plantPageTitle.text = entry.entryName;
             plantPageImage.sprite = entry.mainImage;
             plantPageDescription.text = entry.description[0];
@@ -199,34 +224,35 @@ public class Codex3 : MonoBehaviour
             plantPageWealth.text = "Wealth: " + entry.cropData.wealthValue;
             plantPageGrowthStages.text = "Growth Stages: " + entry.cropData.growthStages;
 
-            
+
+
 
             // Consumes
             if (entry.cropData.gloamIntake > 0) { plantPageConsumesIcons[0].SetActive(true); }
             else { plantPageConsumesIcons[0].SetActive(false); }
 
-            if(entry.cropData.terraIntake > 0){plantPageConsumesIcons[1].SetActive(true);}
-            else{plantPageConsumesIcons[1].SetActive(false);}
+            if (entry.cropData.terraIntake > 0) { plantPageConsumesIcons[1].SetActive(true); }
+            else { plantPageConsumesIcons[1].SetActive(false); }
 
-            if(entry.cropData.ichorIntake > 0){plantPageConsumesIcons[2].SetActive(true);}
-            else{plantPageConsumesIcons[2].SetActive(false);}
+            if (entry.cropData.ichorIntake > 0) { plantPageConsumesIcons[2].SetActive(true); }
+            else { plantPageConsumesIcons[2].SetActive(false); }
 
-            if(entry.cropData.waterIntake > 0){plantPageConsumesIcons[3].SetActive(true);}
-            else{plantPageConsumesIcons[3].SetActive(false);}
+            if (entry.cropData.waterIntake > 0) { plantPageConsumesIcons[3].SetActive(true); }
+            else { plantPageConsumesIcons[3].SetActive(false); }
 
             //Produces
-            if(entry.cropData.gloamIntake < 0){plantPageProducesIcons[0].SetActive(true);}
-            else{plantPageProducesIcons[0].SetActive(false);}
+            if (entry.cropData.gloamIntake < 0) { plantPageProducesIcons[0].SetActive(true); }
+            else { plantPageProducesIcons[0].SetActive(false); }
 
-            if(entry.cropData.terraIntake < 0){plantPageProducesIcons[1].SetActive(true);}
-            else{plantPageProducesIcons[1].SetActive(false);}
+            if (entry.cropData.terraIntake < 0) { plantPageProducesIcons[1].SetActive(true); }
+            else { plantPageProducesIcons[1].SetActive(false); }
 
-            if(entry.cropData.ichorIntake < 0){plantPageProducesIcons[2].SetActive(true);}
-            else{plantPageProducesIcons[2].SetActive(false);}
+            if (entry.cropData.ichorIntake < 0) { plantPageProducesIcons[2].SetActive(true); }
+            else { plantPageProducesIcons[2].SetActive(false); }
 
-            if(entry.cropData.waterIntake < 0){plantPageProducesIcons[3].SetActive(true);}
-            else{plantPageProducesIcons[3].SetActive(false);}
-            
+            if (entry.cropData.waterIntake < 0) { plantPageProducesIcons[3].SetActive(true); }
+            else { plantPageProducesIcons[3].SetActive(false); }
+
 
             //plantPageTrellis.text = "Trellis: " + (entry.cropData.trellis ? "Yes" : "No");
             plantPagePollen.text = entry.cropData.requirePollination ? "Requires Pollination" : "Does not Require Pollination";
@@ -234,14 +260,19 @@ public class Codex3 : MonoBehaviour
             categoryContainer.SetActive(false);
             plantPage.SetActive(true);
         }
-        else if (entry.creatureData)
+        else if (entry.entryType == CodexEntries.EntryType.Tutorial)
         {
-            // Handle creature data if needed
+            tutorialPageTitle.text = entry.entryName;
+            tutorialPageImage.sprite = entry.mainImage;
+            tutorialPageDescriptionLeft.text = entry.leftText;
+            tutorialPageDescriptionRight.text = entry.rightText;
+            categoryContainer.SetActive(false);
+            tutorialPage.SetActive(true);
         }
-        else
+        /*else()
         {
-            // Handle other types of entries if needed
-        }
+            // Handle other types of entries if needed (quests?)
+        }*/
         
     }
 
@@ -273,11 +304,13 @@ public class Codex3 : MonoBehaviour
         containers[2].SetActive(false);
         containers[3].SetActive(false);
         containers[4].SetActive(false);
+        containers[5].SetActive(false);
     }
 
     public void ChangeCategory(int categoryIndex)
     {
         categoryContainer.SetActive(true); // Show category container when changing categories
+        tutorialPage.SetActive(false);
         plantPage.SetActive(false); // Hide entry pages when changing categories
 
         // Change the open category based on the index of the button pressed
