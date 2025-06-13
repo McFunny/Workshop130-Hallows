@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlantPage : CodexPage
 {
     [SerializeField] private TextMeshProUGUI description;
-    [SerializeField] private TextMeshProUGUI harvested, wealth, growthStages, consumes, produces, trellis, pollen;
+    [SerializeField] private TextMeshProUGUI harvested, wealth, growthStages, growthSpeed, consumes, produces, trellis, pollen;
     [SerializeField] private GameObject[] consumesIcons, producesIcons;
 
     public override void UpdatePage(CodexEntries entry, GameObject catContainer, GameObject containerToOpen)
@@ -23,9 +23,14 @@ public class PlantPage : CodexPage
         title.text = entry.entryName;
         image.sprite = entry.mainImage;
         description.text = entry.description[0];
-        harvested.text = "Harvested: " + entry.cropData.amountHarvested;
+        
+        if(entry.entryName == "Mandrake") harvested.text = "Times harvested: " + entry.cropData.amountHarvested;
+        else harvested.text = "Times Killed: " + entry.cropData.amountKilled;
+
         wealth.text = "Wealth: " + entry.cropData.wealthValue;
         growthStages.text = "Growth Stages: " + entry.cropData.growthStages;
+        growthSpeed.text = "Time per Stage: " + entry.cropData.hoursPerStage;
+
 
         // Consumes
         if (entry.cropData.gloamIntake > 0) { consumesIcons[0].SetActive(true); }
@@ -54,7 +59,7 @@ public class PlantPage : CodexPage
         else { producesIcons[3].SetActive(false); }
 
 
-        trellis.text = "Trellis: " + (cropItem.requireTrellis ? "Yes" : "No");
+        trellis.text = cropItem.requireTrellis ? "Requires a Trellis" : "Does not Require a Trellis";
         pollen.text = entry.cropData.requirePollination ? "Requires Pollination" : "Does not Require Pollination";
 
         catContainer.SetActive(false);
