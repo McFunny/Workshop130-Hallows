@@ -5938,6 +5938,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6986550136871157786}
   - component: {fileID: 1377777569002357533}
+  - component: {fileID: 155691833311592357}
+  - component: {fileID: 852272441846676517}
   m_Layer: 0
   m_Name: UI Canvases
   m_TagString: Untagged
@@ -5987,6 +5989,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c205cdbd0fb17c64bbe25017c7bafd3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &155691833311592357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987382957477208780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c11322c01f33d54186b7d5a481d7c1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 852272441846676517}
+  keyToPress: 283
+--- !u!225 &852272441846676517
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987382957477208780}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2031065634536275157
 GameObject:
   m_ObjectHideFlags: 0
@@ -26440,6 +26468,7 @@ MonoBehaviour:
     type: 3}
   content: {fileID: 2598926912806419561}
   panel: {fileID: 8891297332369540243}
+  newCodex: {fileID: 0}
   items: []
 --- !u!1 &8340781503790669184
 GameObject:

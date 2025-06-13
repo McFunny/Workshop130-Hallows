@@ -7,28 +7,44 @@ public class CodexButtonID : MonoBehaviour
     public CodexEntries assignedEntry;
     public Quest assignedQuest;
     private CodexRework codex;
+    private Codex3 newCodex;
 
     void Awake()
     {
-        codex = FindAnyObjectByType<CodexRework>();
+        codex = GetComponentInParent<CodexRework>();
+        newCodex = GetComponentInParent<Codex3>();
     }
 
     public void ShowEntry()
     {
-        if(assignedEntry != null)
+        if (codex != null)
         {
-            print(assignedEntry.entryName);
+            if (assignedEntry != null)
+            {
+                print(assignedEntry.entryName);
 
-            if(!assignedEntry.unlocked && CreatureCheck() && CropCheck()) return; // I mean, it works, I guess
+                if (!assignedEntry.unlocked && CreatureCheck() && CropCheck()) return; // I mean, it works, I guess
 
-            codex.currentEntry = assignedEntry;
-            codex.UpdatePage(0, assignedEntry, true);
+                codex.currentEntry = assignedEntry;
+                codex.UpdatePage(0, assignedEntry, true);
+            }
+            else
+            {
+                codex.currentEntry = null;
+                codex.UpdateQuests(assignedQuest);
+            }
         }
-        else
+        else if(newCodex != null)
         {
-            codex.currentEntry = null;
-            codex.UpdateQuests(assignedQuest);
+            if (assignedEntry != null)
+            {
+                print(assignedEntry.entryName);
+
+                if (!assignedEntry.unlocked && CreatureCheck() && CropCheck()) return; // I mean, it works, I guess
+                newCodex.UpdatePage(assignedEntry);
+            }
         }
+        
     }
 
     bool CreatureCheck()
@@ -51,7 +67,7 @@ public class CodexButtonID : MonoBehaviour
         {
             if(assignedEntry.cropData.amountHarvested > 0)
             {
-                 print("Is a crop");
+                print("Is a crop");
                 return true;
             }
             else return false;

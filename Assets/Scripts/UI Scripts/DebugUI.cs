@@ -10,6 +10,7 @@ public class DebugUI : MonoBehaviour
     public static bool isDebugMenuOpen;
     public Database database;
     public GameObject debugButton, content, panel;
+    public GameObject newCodex;
     private int databaseLength;
     [SerializeField] private List<InventoryItemData> items;
     private bool itemsLoaded = false;
@@ -35,14 +36,31 @@ public class DebugUI : MonoBehaviour
 
         isDebugMenuOpen = panel.activeSelf;
 
-        if(Input.GetKeyDown(KeyCode.Return) && !PauseScript.isPaused)
+        if (Input.GetKeyDown(KeyCode.F1) && !PauseScript.isPaused)
         {
-            LoadItemDatabase();
-            panel.SetActive(!panel.activeInHierarchy);
-
-            if(panel.activeSelf) PlayerMovement.restrictMovementTokens++;
-            else PlayerMovement.restrictMovementTokens--;
+            newCodex.SetActive(!newCodex.activeSelf);
+            if (newCodex.activeSelf)
+            {
+                PlayerMovement.isCodexOpen = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                PlayerMovement.isCodexOpen = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }    
         }
+
+        if (Input.GetKeyDown(KeyCode.Return) && !PauseScript.isPaused)
+            {
+                LoadItemDatabase();
+                panel.SetActive(!panel.activeInHierarchy);
+
+                if (panel.activeSelf) PlayerMovement.restrictMovementTokens++;
+                else PlayerMovement.restrictMovementTokens--;
+            }
 
         if(Input.GetKeyDown(KeyCode.Escape) && !PauseScript.isPaused && isDebugMenuOpen)
         {
