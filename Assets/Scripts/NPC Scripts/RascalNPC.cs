@@ -259,6 +259,25 @@ public class RascalNPC : NPC, ITalkable
         shopUI.shopImgObj.SetActive(false);
     }
 
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(!GameSaveData.Instance.rascalWantsFood)
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        exclamationObject.SetActive(true);
+        return true;
+    }
+
     public override bool ActionCheck1()
     {
         if(GameSaveData.Instance.rascalMentionedKey && Random.Range(0,10) > 4) return true;

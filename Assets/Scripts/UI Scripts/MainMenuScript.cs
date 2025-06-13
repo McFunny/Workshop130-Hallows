@@ -47,7 +47,7 @@ public class MainMenuScript : MonoBehaviour
     public static FileMode currentFileMode;
     public bool isNewGame;
     public GameObject loadingScreen;
-    public string cozyDesc, normalDesc;
+    //public string cozyDesc, normalDesc;
     public Button[] fileModeButtons;
     private int tempPathNum;
 

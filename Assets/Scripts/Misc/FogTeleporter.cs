@@ -8,13 +8,16 @@ public class FogTeleporter : MonoBehaviour
 
     public Transform enemyTeleport; //To prevent enemies from spawning behind the cabin and getting stuck
 
+    public bool overrideRotation = false;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 10)
         {
             if(otherEnd) 
             {
-                other.transform.position = otherEnd.position;
+                other.transform.position = new Vector3(otherEnd.position.x, otherEnd.position.y + 1.23f, otherEnd.position.z); //To account for misalignment of player (thx Abner)
+                if(overrideRotation) other.transform.rotation = otherEnd.parent.transform.rotation;
             }
         }
         else if(other.gameObject.layer == 9)

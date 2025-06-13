@@ -45,7 +45,7 @@ public class GameSaveData : MonoBehaviour
     public bool townTreeCleared2; //Extra tree by cabin
 
     [Header("NPC Bools. All must be false when building")]
-    public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet;
+    public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet;
 
     //IF WE HAVE THE GAME ONLY SAVE AT THE MORNING LIKE STARDEW, WE DONT HAVE TO SAVE ALOT OF STUFF LIKE TOWNSPEOPLE POS AND SHOP ITEMS
 
@@ -155,6 +155,7 @@ public class GameSaveData : MonoBehaviour
         fanMet = data.allGameSaveData.fanMet;
         butchMet = data.allGameSaveData.butchMet;
         carpMet = data.allGameSaveData.carpMet;
+        mandrakeMet = data.allGameSaveData.mandrakeMet;
     }
 }
     [System.Serializable]
@@ -199,7 +200,7 @@ public class GameSaveData : MonoBehaviour
         public bool tinkMet;
         public bool apothMet;
         public bool culMet;
-        public bool travMet, graveMet, fanMet, butchMet, carpMet;
+        public bool travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet;
 
         public bool townTreeCleared1, townTreeCleared2;
         public bool watergunObtained;
@@ -268,6 +269,7 @@ public class GameSaveData : MonoBehaviour
         fanMet = data.fanMet;
         butchMet = data.butchMet;
         carpMet = data.carpMet;
+        mandrakeMet = data.mandrakeMet;
 
 //Debug.Log("Saving stamina. Result: " + pStamina);
     }
