@@ -75,6 +75,7 @@ public class NPCManager : MonoBehaviour
             fanSpoke = false;
             butchSpoke = false;
             carpSpoke = false;
+            mandrakeSpoke = false;
 
             StartCoroutine(DelayedHourUpdate());
         }
