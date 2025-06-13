@@ -54,6 +54,7 @@ public class MainMenuScript : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        loadingData = false;
         controlManager = FindFirstObjectByType<ControlManager>();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -273,6 +274,7 @@ public class MainMenuScript : MonoBehaviour
                     UpdateNavigation();
                     difficultyOptions.SetActive(true);
                     currentSaveSlot = pathNum;
+                    loadingData = false;
                     if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(difficultyDefault);
                     break;
 
@@ -515,6 +517,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].dayNumText.gameObject.SetActive(false);
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(false);
                 fileDatas[i].mintsTotalText.gameObject.SetActive(false);
+                fileDatas[i].difficultyText.gameObject.SetActive(false);
                 fileDatas[i].emptySlot.gameObject.SetActive(true);
                 loadButtons[i].interactable = false;
                 deleteButtons[i].interactable = false;
@@ -548,6 +551,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].dayNumText.gameObject.SetActive(true);
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(true);
                 fileDatas[i].mintsTotalText.gameObject.SetActive(true);
+                fileDatas[i].difficultyText.gameObject.SetActive(true);
                 fileDatas[i].emptySlot.gameObject.SetActive(false);
                 saveCount++;
                 //print(tempData.fileMode);

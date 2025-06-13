@@ -26,23 +26,10 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private Button[] categoryButtons;
     [SerializeField] private GameObject[] containers;
     [SerializeField] private GameObject[] secondaryContainers;
+    [SerializeField] private List<CodexPage> codexPages;
     [SerializeField] private TextMeshProUGUI categoryTitle;
     [SerializeField] private GameObject categoryContainer;
-    [SerializeField] private GameObject tutorialPage, plantPage;
-
-    [Header("Plant Page Vars")]
-    [SerializeField] private TextMeshProUGUI plantPageTitle;
-    [SerializeField] private Image plantPageImage;
-    [SerializeField] private TextMeshProUGUI plantPageDescription;
-    [SerializeField] private TextMeshProUGUI plantPageHarvested, plantPageWealth, plantPageGrowthStages, plantPageConsumes, plantPageProduces, plantPageTrellis, plantPagePollen;
-    [SerializeField] private GameObject[] plantPageConsumesIcons, plantPageProducesIcons;
-
-    [Header("Tutorial Page Vars")]
-    [SerializeField] private TextMeshProUGUI tutorialPageTitle;
-    [SerializeField] private Image tutorialPageImage;
-    [SerializeField] private TextMeshProUGUI tutorialPageDescriptionLeft, tutorialPageDescriptionRight;
-    
-
+    [SerializeField] private GameObject tutorialPage, toolPage, plantPage;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject entryButtonPrefab;
@@ -206,74 +193,36 @@ public class Codex3 : MonoBehaviour
             return;
         }
 
-        if (entry.entryType == CodexEntries.EntryType.Plant)
+        GameObject containerToOpen = null;
+
+        switch ((int)entry.entryType)
         {
-            if (!entry.cropData)
-            {
-                Debug.LogWarning("No cropdata found");
-                return;
-            }
+            case 0:
+                containerToOpen = tutorialPage;
+                break;
 
-            CropItem cropItem = (CropItem)entry.cropData.cropSeed;
-            print(cropItem);
+            case 1:
+                containerToOpen = toolPage;
+                break;
 
-            plantPageTitle.text = entry.entryName;
-            plantPageImage.sprite = entry.mainImage;
-            plantPageDescription.text = entry.description[0];
-            plantPageHarvested.text = "Harvested: " + entry.cropData.amountHarvested;
-            plantPageWealth.text = "Wealth: " + entry.cropData.wealthValue;
-            plantPageGrowthStages.text = "Growth Stages: " + entry.cropData.growthStages;
+            case 2:
+                containerToOpen = null;
+                break;
 
+            case 3:
+                containerToOpen = plantPage;
+                break;
 
-
-
-            // Consumes
-            if (entry.cropData.gloamIntake > 0) { plantPageConsumesIcons[0].SetActive(true); }
-            else { plantPageConsumesIcons[0].SetActive(false); }
-
-            if (entry.cropData.terraIntake > 0) { plantPageConsumesIcons[1].SetActive(true); }
-            else { plantPageConsumesIcons[1].SetActive(false); }
-
-            if (entry.cropData.ichorIntake > 0) { plantPageConsumesIcons[2].SetActive(true); }
-            else { plantPageConsumesIcons[2].SetActive(false); }
-
-            if (entry.cropData.waterIntake > 0) { plantPageConsumesIcons[3].SetActive(true); }
-            else { plantPageConsumesIcons[3].SetActive(false); }
-
-            //Produces
-            if (entry.cropData.gloamIntake < 0) { plantPageProducesIcons[0].SetActive(true); }
-            else { plantPageProducesIcons[0].SetActive(false); }
-
-            if (entry.cropData.terraIntake < 0) { plantPageProducesIcons[1].SetActive(true); }
-            else { plantPageProducesIcons[1].SetActive(false); }
-
-            if (entry.cropData.ichorIntake < 0) { plantPageProducesIcons[2].SetActive(true); }
-            else { plantPageProducesIcons[2].SetActive(false); }
-
-            if (entry.cropData.waterIntake < 0) { plantPageProducesIcons[3].SetActive(true); }
-            else { plantPageProducesIcons[3].SetActive(false); }
-
-
-            //plantPageTrellis.text = "Trellis: " + (entry.cropData.trellis ? "Yes" : "No");
-            plantPagePollen.text = entry.cropData.requirePollination ? "Requires Pollination" : "Does not Require Pollination";
-
-            categoryContainer.SetActive(false);
-            plantPage.SetActive(true);
+            case 4:
+                containerToOpen = null;
+                break;
+            
+            case 5:
+                containerToOpen = null;
+                break;
         }
-        else if (entry.entryType == CodexEntries.EntryType.Tutorial)
-        {
-            tutorialPageTitle.text = entry.entryName;
-            tutorialPageImage.sprite = entry.mainImage;
-            tutorialPageDescriptionLeft.text = entry.leftText;
-            tutorialPageDescriptionRight.text = entry.rightText;
-            categoryContainer.SetActive(false);
-            tutorialPage.SetActive(true);
-        }
-        /*else()
-        {
-            // Handle other types of entries if needed (quests?)
-        }*/
-        
+
+        codexPages[(int)entry.entryType].UpdatePage(entry, categoryContainer, containerToOpen);
     }
 
     private void ClearCodex()
