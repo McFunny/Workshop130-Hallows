@@ -18,7 +18,7 @@ public class PlantPage : CodexPage
         }
             
         CropItem cropItem = (CropItem)entry.cropData.cropSeed;
-            print(cropItem);
+        print(cropItem);
 
         title.text = entry.entryName;
         image.sprite = entry.mainImage;

@@ -221,6 +221,7 @@ public class Codex3 : MonoBehaviour
                 containerToOpen = null;
                 break;
         }
+        print(containerToOpen.gameObject);
 
         codexPages[(int)entry.entryType].UpdatePage(entry, categoryContainer, containerToOpen);
     }
@@ -245,21 +246,25 @@ public class Codex3 : MonoBehaviour
     private void ResetCodex() //Sets the codex to its default state
     {
         print("Resetting Codex to default state.");
+        ChangeCategory(0); // Start with the Tutorial category open
 
+        /*tutorialPage.SetActive(false);
+        toolPage.SetActive(false);
         plantPage.SetActive(false);
         categoryContainer.SetActive(true);
-        containers[0].SetActive(true); // Start with the Tutorial category open
+        containers[0].SetActive(true); 
         containers[1].SetActive(false);
         containers[2].SetActive(false);
         containers[3].SetActive(false);
         containers[4].SetActive(false);
-        containers[5].SetActive(false);
+        containers[5].SetActive(false);*/
     }
 
     public void ChangeCategory(int categoryIndex)
     {
         categoryContainer.SetActive(true); // Show category container when changing categories
         tutorialPage.SetActive(false);
+        toolPage.SetActive(false);
         plantPage.SetActive(false); // Hide entry pages when changing categories
 
         // Change the open category based on the index of the button pressed

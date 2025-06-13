@@ -13,5 +13,8 @@ public class TutorialPage : CodexPage
         image.sprite = entry.mainImage;
         descriptionLeft.text = entry.leftText;
         descriptionRight.text = entry.rightText;
+
+        catContainer.SetActive(false);
+        containerToOpen.SetActive(true);
     }
 }
