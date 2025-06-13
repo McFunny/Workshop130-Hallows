@@ -54,7 +54,7 @@ public class PlantPage : CodexPage
         else { producesIcons[3].SetActive(false); }
 
 
-        //plantPageTrellis.text = "Trellis: " + (entry.cropData.trellis ? "Yes" : "No");
+        trellis.text = "Trellis: " + (cropItem.requireTrellis ? "Yes" : "No");
         pollen.text = entry.cropData.requirePollination ? "Requires Pollination" : "Does not Require Pollination";
 
         catContainer.SetActive(false);

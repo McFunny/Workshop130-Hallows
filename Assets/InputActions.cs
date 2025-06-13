@@ -163,7 +163,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""OpenCodex"",
+                    ""name"": ""CodexBack"",
                     ""type"": ""Button"",
                     ""id"": ""ace33fef-f9d2-4c87-97ea-35990da5d5d6"",
                     ""expectedControlType"": ""Button"",
@@ -776,7 +776,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""OpenCodex"",
+                    ""action"": ""CodexBack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -787,7 +787,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""OpenCodex"",
+                    ""action"": ""CodexBack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -2073,7 +2073,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_CloseInventory = m_Gameplay.FindAction("CloseInventory", throwIfNotFound: true);
         m_Gameplay_RotateStructure = m_Gameplay.FindAction("RotateStructure", throwIfNotFound: true);
         m_Gameplay_PauseGame = m_Gameplay.FindAction("PauseGame", throwIfNotFound: true);
-        m_Gameplay_OpenCodex = m_Gameplay.FindAction("OpenCodex", throwIfNotFound: true);
+        m_Gameplay_CodexBack = m_Gameplay.FindAction("CodexBack", throwIfNotFound: true);
         m_Gameplay_UIScroll = m_Gameplay.FindAction("UIScroll", throwIfNotFound: true);
         m_Gameplay_PageUp = m_Gameplay.FindAction("PageUp", throwIfNotFound: true);
         m_Gameplay_PageDown = m_Gameplay.FindAction("PageDown", throwIfNotFound: true);
@@ -2183,7 +2183,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_CloseInventory;
     private readonly InputAction m_Gameplay_RotateStructure;
     private readonly InputAction m_Gameplay_PauseGame;
-    private readonly InputAction m_Gameplay_OpenCodex;
+    private readonly InputAction m_Gameplay_CodexBack;
     private readonly InputAction m_Gameplay_UIScroll;
     private readonly InputAction m_Gameplay_PageUp;
     private readonly InputAction m_Gameplay_PageDown;
@@ -2213,7 +2213,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @CloseInventory => m_Wrapper.m_Gameplay_CloseInventory;
         public InputAction @RotateStructure => m_Wrapper.m_Gameplay_RotateStructure;
         public InputAction @PauseGame => m_Wrapper.m_Gameplay_PauseGame;
-        public InputAction @OpenCodex => m_Wrapper.m_Gameplay_OpenCodex;
+        public InputAction @CodexBack => m_Wrapper.m_Gameplay_CodexBack;
         public InputAction @UIScroll => m_Wrapper.m_Gameplay_UIScroll;
         public InputAction @PageUp => m_Wrapper.m_Gameplay_PageUp;
         public InputAction @PageDown => m_Wrapper.m_Gameplay_PageDown;
@@ -2278,9 +2278,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PauseGame.started += instance.OnPauseGame;
             @PauseGame.performed += instance.OnPauseGame;
             @PauseGame.canceled += instance.OnPauseGame;
-            @OpenCodex.started += instance.OnOpenCodex;
-            @OpenCodex.performed += instance.OnOpenCodex;
-            @OpenCodex.canceled += instance.OnOpenCodex;
+            @CodexBack.started += instance.OnCodexBack;
+            @CodexBack.performed += instance.OnCodexBack;
+            @CodexBack.canceled += instance.OnCodexBack;
             @UIScroll.started += instance.OnUIScroll;
             @UIScroll.performed += instance.OnUIScroll;
             @UIScroll.canceled += instance.OnUIScroll;
@@ -2360,9 +2360,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PauseGame.started -= instance.OnPauseGame;
             @PauseGame.performed -= instance.OnPauseGame;
             @PauseGame.canceled -= instance.OnPauseGame;
-            @OpenCodex.started -= instance.OnOpenCodex;
-            @OpenCodex.performed -= instance.OnOpenCodex;
-            @OpenCodex.canceled -= instance.OnOpenCodex;
+            @CodexBack.started -= instance.OnCodexBack;
+            @CodexBack.performed -= instance.OnCodexBack;
+            @CodexBack.canceled -= instance.OnCodexBack;
             @UIScroll.started -= instance.OnUIScroll;
             @UIScroll.performed -= instance.OnUIScroll;
             @UIScroll.canceled -= instance.OnUIScroll;
@@ -2673,7 +2673,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnCloseInventory(InputAction.CallbackContext context);
         void OnRotateStructure(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
-        void OnOpenCodex(InputAction.CallbackContext context);
+        void OnCodexBack(InputAction.CallbackContext context);
         void OnUIScroll(InputAction.CallbackContext context);
         void OnPageUp(InputAction.CallbackContext context);
         void OnPageDown(InputAction.CallbackContext context);

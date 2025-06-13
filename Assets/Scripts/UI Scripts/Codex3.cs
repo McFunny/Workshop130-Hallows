@@ -4,13 +4,16 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
+using UnityEngine.InputSystem;
+using System;
 
 public class Codex3 : MonoBehaviour
 {
-    private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries ;
+    private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries;
     private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList;
-    private int menuIndex; //Maybe use this later idk
+    private int menuIndex; //0 = closed, 1 = open, 2 = entry page open
     private string defaultName = "???";
+    private ControlManager controlManager;
     [SerializeField] private ChildActivator childActivator;
     private enum OpenCategory
     {
@@ -36,6 +39,7 @@ public class Codex3 : MonoBehaviour
 
     private void Awake()
     {
+        controlManager = FindFirstObjectByType<ControlManager>();
         childActivator = GetComponentInChildren<ChildActivator>();
 
         if (childActivator != null)
@@ -57,6 +61,61 @@ public class Codex3 : MonoBehaviour
         UpdateEntries();
         ChangeCategory(0); // Set the initial category to Tutorial
         codex.SetActive(false);
+        menuIndex = 0;
+    }
+
+    private void OnEnable()
+    {
+        controlManager.backCodex.action.started += InputBack;
+    }
+
+    private void OnDisable()
+    {
+        controlManager.backCodex.action.started -= InputBack;
+    }
+
+    private void InputBack(InputAction.CallbackContext context)
+    {
+        Back();
+    }
+    
+    public void OpenCodex()
+    {
+
+        menuIndex = 1;
+        codex.SetActive(true);
+        PlayerMovement.isCodexOpen = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void CloseCodex()
+    {
+        menuIndex = 0;
+        codex.SetActive(false);
+        PlayerMovement.isCodexOpen = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void Back()
+    {
+        switch (menuIndex)
+        {
+            case 0:
+                break;
+
+            case 1:
+                CloseCodex();
+                break;
+
+            case 2:
+                ChangeCategory((int)openCategory);
+                break;
+
+            default:
+                break;
+        }
     }
 
     private void UpdateEntries()
@@ -94,7 +153,7 @@ public class Codex3 : MonoBehaviour
             }
 
             if (Cat == null) continue;
-            
+
             print(Cat.Length + " entries found in category " + i);
             for (int e = 0; e < Cat.Length; e++)
             {
@@ -102,7 +161,7 @@ public class Codex3 : MonoBehaviour
                 if (e < 16) chosenContainer = containers[i];
                 else chosenContainer = secondaryContainers[i];
 
-    
+
                 GameObject entryButton = Instantiate(entryButtonPrefab, chosenContainer.transform);
                 entryButton.name = Cat[e].entryName + " Entry";
 
@@ -179,7 +238,7 @@ public class Codex3 : MonoBehaviour
                     case 4:
                         CreatureList.Add(Cat[e]);
                         break;
-                        
+
                 }
             }
         }
@@ -216,14 +275,17 @@ public class Codex3 : MonoBehaviour
             case 4:
                 containerToOpen = null;
                 break;
-            
+
             case 5:
                 containerToOpen = null;
                 break;
         }
         print(containerToOpen.gameObject);
 
+        if (containerToOpen == null) return;
+
         codexPages[(int)entry.entryType].UpdatePage(entry, categoryContainer, containerToOpen);
+        menuIndex = 2;
     }
 
     private void ClearCodex()
@@ -247,6 +309,7 @@ public class Codex3 : MonoBehaviour
     {
         print("Resetting Codex to default state.");
         ChangeCategory(0); // Start with the Tutorial category open
+        menuIndex = 1;
 
         /*tutorialPage.SetActive(false);
         toolPage.SetActive(false);
@@ -262,10 +325,7 @@ public class Codex3 : MonoBehaviour
 
     public void ChangeCategory(int categoryIndex)
     {
-        categoryContainer.SetActive(true); // Show category container when changing categories
-        tutorialPage.SetActive(false);
-        toolPage.SetActive(false);
-        plantPage.SetActive(false); // Hide entry pages when changing categories
+        CloseEntryPages();
 
         // Change the open category based on the index of the button pressed
         openCategory = (OpenCategory)categoryIndex;
@@ -282,7 +342,16 @@ public class Codex3 : MonoBehaviour
             containers[i].SetActive(i == categoryIndex); //i is true when i = categoryIndex. Did not know I could do this lol
             secondaryContainers[i].SetActive(i == categoryIndex);
         }
-
         categoryTitle.text = openCategory.ToString(); // Update the category title
+    }
+
+    private void CloseEntryPages()
+    {
+        categoryContainer.SetActive(true);
+        tutorialPage.SetActive(false);
+        toolPage.SetActive(false);
+        plantPage.SetActive(false); // Hide entry pages when changing categories
+
+        menuIndex = 1;
     }
 }
