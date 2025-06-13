@@ -365,7 +365,7 @@ public enum Character
     Botanist,
     Rascal,
     Lumberjack,
-    Apothocary,
+    Apothecary,
     Tinkerer,
     Culinarian,
     Tavernkeep,
@@ -373,5 +373,6 @@ public enum Character
     Fanatic,
     Gravedigger,
     Butcher,
-    Craftsman
+    Craftsman,
+    ElderMandrake
 }

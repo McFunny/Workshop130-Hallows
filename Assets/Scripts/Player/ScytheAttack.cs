@@ -14,8 +14,6 @@ public class ScytheAttack : MonoBehaviour
 
     List<CreatureBehaviorScript> hitCreatures = new List<CreatureBehaviorScript>();
     List<FarmLand> hitCrops = new List<FarmLand>();
-    //List<StructureBehaviorScript> hitStructures = new List<StructureBehaviorScript>();
-    CreatureArmor hitArmor;
 
     void Start()
     {
@@ -28,7 +26,6 @@ public class ScytheAttack : MonoBehaviour
 
         hitCreatures.Clear();
         hitCrops.Clear();
-        hitArmor = null;
         collider.enabled = true;
         yield return new WaitForSeconds(0.02f);
         collider.enabled = false;
@@ -74,7 +71,7 @@ public class ScytheAttack : MonoBehaviour
         if (creatureArmor != null)
         {
             cancelSwing = true;
-            hitArmor.TakeDamage(2);
+            creatureArmor.TakeDamage(2);
             HandItemManager.Instance.toolSource.PlayOneShot(hitHardObject);
             ParticlePoolManager.Instance.MoveAndPlayVFX(other.ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
             return;

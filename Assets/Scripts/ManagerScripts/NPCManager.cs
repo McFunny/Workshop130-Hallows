@@ -38,6 +38,7 @@ public class NPCManager : MonoBehaviour
     public bool fanSpoke = false;
     public bool butchSpoke = false;
     public bool carpSpoke = false;
+    public bool mandrakeSpoke = false;
 
     void Awake()
     {
@@ -93,9 +94,14 @@ public class NPCManager : MonoBehaviour
 
     void GiveDailyQuests()
     {
-        foreach(Quest q in QuestManager.Instance.activeQuests)
+        for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
         {
-            if(q.alreadyCompleted && !q.isMajorQuest) QuestManager.Instance.ForceRemoveQuest(q);
+            Quest q = QuestManager.Instance.activeQuests[i];
+            if(q.alreadyCompleted && !q.isMajorQuest)
+            {
+                QuestManager.Instance.ForceRemoveQuest(q);
+                i--;
+            }
         }
 
         //Add limit to how many quests, or make sure an npc cannot give multiple quests

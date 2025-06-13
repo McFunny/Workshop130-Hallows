@@ -103,6 +103,8 @@ public class MistWalker : CreatureBehaviorScript
             }
         }
 
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) canLunge = false;
+
         /*foreach(EquipEnemyArmor a in equippableArmor)
         {
             r = Random.Range(0,100);
@@ -517,7 +519,7 @@ public class MistWalker : CreatureBehaviorScript
             transform.LookAt(player.position);
         }
         else if (distance > attackRange && distance <= lungeRange && canLunge && 
-        (!PlayerInteraction.Instance.torchLit || (PlayerInteraction.Instance.torchLit && HandItemManager.Instance.GetCurrentType() != ToolType.Torch)) && MainMenuScript.currentFileMode != FileMode.Cozy)
+        (!PlayerInteraction.Instance.torchLit || (PlayerInteraction.Instance.torchLit && HandItemManager.Instance.GetCurrentType() != ToolType.Torch)))
         {
             StartCoroutine(LungeAtPlayer());
         }
@@ -548,7 +550,7 @@ public class MistWalker : CreatureBehaviorScript
         yield return new WaitForSeconds(1f); 
         if(!targetStructure || isRecoiling || health <= 0)
         {
-            currentState = CreatureState.Idle;
+            if(currentState != CreatureState.Stun) currentState = CreatureState.Idle;
             coroutineRunning = false;
             yield break;
         }
@@ -735,6 +737,7 @@ public class MistWalker : CreatureBehaviorScript
         while (b && b.health > 0)
         {
             yield return new WaitForSeconds(1);
+            currentState = CreatureState.Stun;
             anim.SetTrigger("IsRecoiling");
         }
         currentState = CreatureState.Wander;
