@@ -15,21 +15,37 @@ MonoBehaviour:
   speakerName: Elder Mandrake
   defaultPath:
     pathName: I love Ichor
-    paragraphs: []
-    emotions: 
+    paragraphs:
+    - Me... Elder Mandrake...
+    - You... Farmer...
+    - You... Make more of me..?
+    emotions: 000000000000000004000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
     emotions: 
   paths: []
-  fillerPaths: []
+  fillerPaths:
+  - pathName: We don't last long
+    paragraphs:
+    - Mandrakes... Short life span...
+    - Turn to wood...
+    emotions: 0200000000000000
   questPaths: []
   itemRecievedPaths: []
-  itemSpecificRemarks: []
+  itemSpecificRemarks:
+  - pathName: Mandrake
+    paragraphs:
+    - Friend..... Is sleeping..?
+    emotions: 04000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
-  alreadySpoken: []
+  alreadySpoken:
+  - pathName: 
+    paragraphs:
+    - ...
+    emotions: 06000000
   branchingPaths: []
   questCompletePaths: []
   dailyQuestPaths: []
