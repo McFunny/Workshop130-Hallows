@@ -28,6 +28,7 @@ public class CodexEntries : ScriptableObject
 
     public CropData cropData;
     public CreatureObject creatureData;
+    public StructureObject structureData;
 
     [Tooltip("Unused in new Codex, but used in old Codex.")]
     [TextArea(4, 10)]

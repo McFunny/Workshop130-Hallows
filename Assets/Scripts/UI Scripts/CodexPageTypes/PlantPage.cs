@@ -9,7 +9,7 @@ public class PlantPage : CodexPage
     [SerializeField] private TextMeshProUGUI harvested, wealth, growthStages, growthSpeed, consumes, produces, trellis, pollen;
     [SerializeField] private GameObject[] consumesIcons, producesIcons;
 
-    public override void UpdatePage(CodexEntries entry, GameObject catContainer, GameObject containerToOpen)
+    public override void UpdatePage(CodexEntries entry)
     {
         if (!entry.cropData)
         {
@@ -61,8 +61,5 @@ public class PlantPage : CodexPage
 
         trellis.text = cropItem.requireTrellis ? "Requires a Trellis" : "Does not Require a Trellis";
         pollen.text = entry.cropData.requirePollination ? "Requires Pollination" : "Does not Require Pollination";
-
-        catContainer.SetActive(false);
-        containerToOpen.SetActive(true);
     }
 }

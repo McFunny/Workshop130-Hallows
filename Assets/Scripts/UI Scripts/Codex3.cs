@@ -55,6 +55,7 @@ public class Codex3 : MonoBehaviour
     {
         TutorialEntries = Resources.LoadAll<CodexEntries>("Codex/GettingStarted/");
         ToolEntries = Resources.LoadAll<CodexEntries>("Codex/Tools/");
+        StructureEntries = Resources.LoadAll<CodexEntries>("Codex/Structures");
         CreatureEntries = Resources.LoadAll<CodexEntries>("Codex/Creatures/");
         PlantEntries = Resources.LoadAll<CodexEntries>("Codex/Plants/");
         openCategory = OpenCategory.Tutorial;
@@ -139,8 +140,8 @@ public class Codex3 : MonoBehaviour
                     Cat = ToolEntries;
                     break;
                 case 2:
-                    // Structures Here
-                    Cat = null;
+                    StructureList = new List<CodexEntries>();
+                    Cat = StructureEntries;
                     break;
                 case 3:
                     PlantList = new List<CodexEntries>();
@@ -237,7 +238,7 @@ public class Codex3 : MonoBehaviour
                         ToolList.Add(Cat[e]);
                         break;
                     case 2:
-                        //Put Structures Here
+                        StructureList.Add(Cat[e]);
                         break;
                     case 3:
                         PlantList.Add(Cat[e]);
@@ -278,7 +279,7 @@ public class Codex3 : MonoBehaviour
                 break;
 
             case 2:
-                containerToOpen = null;
+                containerToOpen = codexPages[2].gameObject;
                 break;
 
             case 3:
@@ -297,7 +298,11 @@ public class Codex3 : MonoBehaviour
 
         if (containerToOpen == null) return;
 
-        codexPages[(int)entry.entryType].UpdatePage(entry, categoryContainer, containerToOpen);
+        codexPages[(int)entry.entryType].UpdatePage(entry);
+
+        categoryContainer.SetActive(false);
+        containerToOpen.SetActive(true);
+
         menuIndex = 2;
     }
 

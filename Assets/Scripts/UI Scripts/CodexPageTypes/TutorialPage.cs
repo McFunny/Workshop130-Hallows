@@ -7,14 +7,11 @@ public class TutorialPage : CodexPage
 {
     public TextMeshProUGUI descriptionLeft, descriptionRight;
 
-    public override void UpdatePage(CodexEntries entry, GameObject catContainer, GameObject containerToOpen)
+    public override void UpdatePage(CodexEntries entry)
     {
         title.text = entry.entryName;
         image.sprite = entry.mainImage;
         descriptionLeft.text = entry.leftText;
         descriptionRight.text = entry.rightText;
-
-        catContainer.SetActive(false);
-        containerToOpen.SetActive(true);
     }
 }
