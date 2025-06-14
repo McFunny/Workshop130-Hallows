@@ -37,7 +37,7 @@ public class ScytheBehavior : ToolBehavior
         }
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.6f * coolDownMod, 2f * coolDownMod));
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUseWithoutMovementReset(this, 0.6f * coolDownMod, 2f * coolDownMod));
 
         //PlayerMovement.limitMaxVelocity = false;
         //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(40, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
@@ -57,7 +57,8 @@ public class ScytheBehavior : ToolBehavior
     {
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == null || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != thisItem) return;
         scytheAttack.StartCoroutine(scytheAttack.Swing());
-        //PlayerMovement.limitMaxVelocity = true;
-        //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(200, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
+        PlayerMovement.limitMaxVelocity = false;
+        PlayerMovement.ignoreMovementInputs = true;
+        PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(300, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
     }
 }

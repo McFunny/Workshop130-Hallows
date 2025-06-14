@@ -27,13 +27,13 @@ public class ScytheAttack : MonoBehaviour
         hitCreatures.Clear();
         hitCrops.Clear();
         collider.enabled = true;
-        yield return new WaitForSeconds(0.02f);
+        yield return new WaitForSeconds(0.08f);
         collider.enabled = false;
         HitObjects();
 
-        //yield return new WaitForSeconds(0.1f);
-        //PlayerMovement.limitMaxVelocity = true;
-        //PlayerMovement.ignoreMovementInputs = false;
+        yield return new WaitForSeconds(0.4f);
+        PlayerMovement.limitMaxVelocity = true;
+        PlayerMovement.ignoreMovementInputs = false;
     }
 
     void OnTriggerEnter(Collider other)
