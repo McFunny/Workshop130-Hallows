@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScytheAttack : MonoBehaviour
 {
-    public LayerMask hitDetection;
+    //public LayerMask hitDetection;
     public Collider collider;
 
     public AudioClip hitPlant, hitFlesh, hitGround, hitHardObject;
@@ -14,6 +14,7 @@ public class ScytheAttack : MonoBehaviour
 
     List<CreatureBehaviorScript> hitCreatures = new List<CreatureBehaviorScript>();
     List<FarmLand> hitCrops = new List<FarmLand>();
+    List<BugBehaviorScript> hitBugs = new List<BugBehaviorScript>();
 
     void Start()
     {
@@ -26,6 +27,7 @@ public class ScytheAttack : MonoBehaviour
 
         hitCreatures.Clear();
         hitCrops.Clear();
+        hitBugs.Clear();
         collider.enabled = true;
         yield return new WaitForSeconds(0.08f);
         collider.enabled = false;
@@ -77,6 +79,13 @@ public class ScytheAttack : MonoBehaviour
             return;
         }
 
+        var bug = other.GetComponentInParent<BugBehaviorScript>();
+        if (bug != null)
+        {
+            if(hitBugs.Contains(bug)) return;
+            hitBugs.Add(bug);
+        }
+
         if (other.gameObject.layer == 17)
         {
             //Cancel the swing
@@ -106,6 +115,7 @@ public class ScytheAttack : MonoBehaviour
         if(cancelSwing)
         {
             HandItemManager.Instance.PlaySecondaryAnimation(); //PlayRecoil
+            HandItemManager.Instance.toolSource.PlayOneShot(hitHardObject);
             return;
         }
 
@@ -129,6 +139,12 @@ public class ScytheAttack : MonoBehaviour
             //Harvest grown
             hitCrops[i].ToolInteraction(ToolType.Scythe, out bool success);
             if(success) HandItemManager.Instance.toolSource.PlayOneShot(hitPlant);
+        }
+
+        for(int i = 0; i < hitBugs.Count; i++)
+        {
+            if(hitBugs[i] == null) continue;
+            hitBugs[i].Struck();
         }
     }
 
