@@ -16,6 +16,7 @@ MonoBehaviour:
   unlocked: 1
   mainImage: {fileID: -1878664672, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
   entryName: Crop Nutrients
+  entryType: 0
   cropData: {fileID: 0}
   creatureData: {fileID: 0}
   description:
@@ -27,3 +28,12 @@ MonoBehaviour:
   - Ichor is a unique nutrient, in that no plant can produce it. The main way to
     restore Ichor to a tile is by defeating a creature nearby the tile. Larger creatures
     produce more Ichor.
+  leftText: 'Nutrients are seperated into 3 types: Gloamphage  <sprite name=N_Gloam>,
+    Terrazyme  <sprite name=N_Terra>, and Ichor  <sprite name=N_Ichor>. Each plant
+    consumes and produces different nutrients, and these nutrients are required for
+    growth.'
+  rightText: A tile lacking in nutrients can be restored by either planting a crop
+    that produces the desired nutrient, or purchasing fertilizer and applying it
+    to the tile directly. Ichor is a unique nutrient, in that no plant can produce
+    it. The main way to restore Ichor to a tile is by defeating a creature nearby
+    the tile. Larger creatures produce more Ichor.

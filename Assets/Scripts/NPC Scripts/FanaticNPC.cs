@@ -5,10 +5,7 @@ using UnityEngine;
 public class FanaticNPC : NPC, ITalkable
 {
     public float sellMultiplier = 1;
-    public InventoryItemData[] possibleSoldItems;
-    public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    //WaypointScript shopUI;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -91,26 +88,6 @@ public class FanaticNPC : NPC, ITalkable
             currentType = PathType.QuestComplete;
         }
 
-        else if (item.staminaValue > 0)
-        {
-            currentPath = 0;
-            currentType = PathType.ItemRecieved;
-            /*
-            if(!NPCManager.Instance.lumberjackFed)
-            {
-                currentPath = 0;
-                currentType = PathType.ItemRecieved;
-                NPCManager.Instance.lumberjackFed = true;
-                anim.SetTrigger("TakeItem");
-            }
-            else
-            {
-                currentPath = 1;
-                currentType = PathType.ItemRecieved;
-            }
-            */
-            //Its consumable and giftable
-        }
 
         else
         {
@@ -124,44 +101,6 @@ public class FanaticNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
-    {
-        if (dialogueController.IsInterruptable() == false)
-        {
-            return;
-        }
-        if (lastInteractedStoreItem == item)
-        {
-            //check price, then give item
-            if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
-            {
-                currentPath = 3; //no money!?!?!?
-            }
-            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
-            {
-                currentPath = 4; //No space in inventory
-            }
-            else
-            {
-                currentPath = 2; //item sold
-                shopUI.shopImgObj.SetActive(false);
-            }
-            anim.SetTrigger("IsTalking");
-        }
-        else
-        {
-            dialogueController.restartDialogue = true;
-            currentPath = 1; //item selected
-            anim.SetTrigger("IsTalking");
-            if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-            lastInteractedStoreItem = item;
-            shopUI.shopTarget = item.arrowObject.transform;
-            shopUI.shopImgObj.SetActive(true);
-
-        }
-        currentType = PathType.Misc;
-        Talk();
-    }
 
     public override void PlayerLeftRadius()
     {
@@ -179,29 +118,7 @@ public class FanaticNPC : NPC, ITalkable
         lastInteractedStoreItem = null;
     }
 
-    public override void RefreshStore()
-    {
-        //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
-        if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-        lastInteractedStoreItem = null;
-        int i;
-        float r;
-        InventoryItemData newItem;
-        foreach (StoreItem item in storeItems)
-        {
-            newItem = null;
-            do
-            {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f, 1f);
-                if (r < itemWeight[i]) newItem = possibleSoldItems[i];
-            }
-            while (!newItem);
-            int newCost = (int)(newItem.value * sellMultiplier);
-            item.RefreshItem(newItem, newCost);
-            item.seller = this;
-        }
-    }
+ 
 
     public override void BeginWorking()
     {

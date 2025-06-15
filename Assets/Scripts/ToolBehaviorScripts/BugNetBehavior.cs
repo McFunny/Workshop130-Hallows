@@ -6,7 +6,7 @@ using UnityEngine;
 public class BugNetBehavior : ToolBehavior
 {
     public InventoryItemData thisItem;
-    //ShovelAttack shovelAttack;
+    BugNetSwing netAttack;
     public AudioClip swing, dig;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
@@ -14,7 +14,7 @@ public class BugNetBehavior : ToolBehavior
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
-        //if(!shovelAttack) shovelAttack = FindObjectOfType<ShovelAttack>();
+        if(!netAttack) netAttack = FindObjectOfType<BugNetSwing>();
         usingPrimary = true;
         
         //swing
@@ -29,14 +29,14 @@ public class BugNetBehavior : ToolBehavior
             coolDownMod -= .35f;
             animSpeedMod += .7f;
         }
-        else if(PlayerInteraction.Instance.stamina <= 50)
+        /*else if(PlayerInteraction.Instance.stamina <= 50)
         {
             coolDownMod += .25f;
             animSpeedMod -= .3f;
-        }
+        }*/
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, 1.8f * coolDownMod));
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, 4f * coolDownMod));
 
         //PlayerMovement.limitMaxVelocity = false;
         //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(40, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
@@ -55,8 +55,7 @@ public class BugNetBehavior : ToolBehavior
     void NetSwing()
     {
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == null || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != thisItem) return;
-        //shovelAttack.StartCoroutine(shovelAttack.Swing());
-        //PlayerMovement.limitMaxVelocity = true;
-        //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(200, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
+        netAttack.StartCoroutine(netAttack.Swing());
+
     }
 }

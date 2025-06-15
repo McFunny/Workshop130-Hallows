@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
+  m_Name: ElderMandrake
+  m_EditorClassIdentifier: 
+  speakerName: Elder Mandrake
+  defaultPath:
+    pathName: I love Ichor
+    paragraphs:
+    - Me... Elder Mandrake...
+    - You... Farmer...
+    - You... Make more of me..?
+    emotions: 000000000000000004000000
+  repeatedItemPath:
+    pathName: 
+    paragraphs: []
+    emotions: 
+  paths: []
+  fillerPaths:
+  - pathName: We don't last long
+    paragraphs:
+    - Mandrakes... Short life span...
+    - Turn to wood...
+    emotions: 0200000000000000
+  questPaths: []
+  itemRecievedPaths: []
+  itemSpecificRemarks:
+  - pathName: Mandrake
+    paragraphs:
+    - Friend..... Is sleeping..?
+    emotions: 04000000
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []
+  alreadySpoken:
+  - pathName: 
+    paragraphs:
+    - ...
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths: []
+  dailyQuestPaths: []

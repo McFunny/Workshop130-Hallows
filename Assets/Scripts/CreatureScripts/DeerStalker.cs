@@ -43,7 +43,7 @@ public class DeerStalker : CreatureBehaviorScript
 
     private Coroutine trackPlayerRoutine, walkRoutine; 
 
-    public ParticleSystem transformationParticles;
+    public ParticleSystem transformationParticles, biteParticles;
 
     //Its purpose is a player attacker only. Only attacks structures that impede it
     //Still needs Idle anim variance and transform particles
@@ -450,6 +450,7 @@ public class DeerStalker : CreatureBehaviorScript
         agent.velocity = Vector3.zero;
         attackHitbox.enabled = false;
         effectsHandler.MiscSound2(); //Bite Sound
+        biteParticles.Play();
         if(hitPlayer && (hitStructures.Count == 0 || CanSeePlayer()))
         {
             PlayerInteraction.Instance.StaminaChange(damageToPlayer);

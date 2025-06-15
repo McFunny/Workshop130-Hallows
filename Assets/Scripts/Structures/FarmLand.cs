@@ -217,7 +217,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(harvestable || forceDig || rotted)
+        if(harvestable || forceDig || rotted || harvestedByScythe)
         {
             if((isWeed || rotted) && !forceDig && !harvestedByScythe) return; //Forces the player to dig the weeds and rotted plants using the shovel
             if(crop && crop.requireScythe && !forceDig && !harvestedByScythe) return; //Forces player to either use scythe or shovel for scyth crops
@@ -226,7 +226,7 @@ public class FarmLand : StructureBehaviorScript
 
             if((rotted == false && harvestable) || isWeed)
             {
-                if (crop.creaturePrefab)
+                if (crop && crop.creaturePrefab)
                 {
                     Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Outdated code
                 }
@@ -355,6 +355,12 @@ public class FarmLand : StructureBehaviorScript
             success = true;
 
             PlayerInteraction.Instance.waterHeld--;
+        }
+        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable))
+        {
+            harvestedByScythe = true;
+            StructureInteraction();
+            success = true;
         }
     }
 

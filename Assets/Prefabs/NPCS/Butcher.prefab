@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1752434254093689799}
   - component: {fileID: 762474408021584392}
-  - component: {fileID: 2817051116514268975}
-  m_Layer: 6
+  - component: {fileID: 2156036581182701953}
+  m_Layer: 15
   m_Name: Exclamation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 1610790388, guid: 6eb7dedf3a337d3478e0c5a6b46860f5, type: 3}
   m_Color: {r: 0.6886792, g: 0.56659764, b: 0.13968495, a: 1}
   m_FlipX: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2817051116514268975
+--- !u!114 &2156036581182701953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,9 +94,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3080164754136708169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1dcc4d190c25ae4584687149da7ad29, type: 3}
+  m_Script: {fileID: 11500000, guid: dfaf9ee1ef95c6241925cd1a6fe8ef16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invert: 0
 --- !u!1 &3166767519974764479
 GameObject:
   m_ObjectHideFlags: 0

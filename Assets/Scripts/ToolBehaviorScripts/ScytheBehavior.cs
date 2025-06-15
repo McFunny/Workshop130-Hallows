@@ -7,15 +7,15 @@ public class ScytheBehavior : ToolBehavior
 {
     //
     public InventoryItemData thisItem;
-    //ShovelAttack shovelAttack;
-    public AudioClip swing, dig;
+    ScytheAttack scytheAttack;
+    public AudioClip swing;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
-        //if(!shovelAttack) shovelAttack = FindObjectOfType<ShovelAttack>();
+        if(!scytheAttack) scytheAttack = FindObjectOfType<ScytheAttack>();
         usingPrimary = true;
         
         //swing
@@ -37,7 +37,7 @@ public class ScytheBehavior : ToolBehavior
         }
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, 1.8f * coolDownMod));
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUseWithoutMovementReset(this, 0.6f * coolDownMod, 2f * coolDownMod));
 
         //PlayerMovement.limitMaxVelocity = false;
         //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(40, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
@@ -56,8 +56,9 @@ public class ScytheBehavior : ToolBehavior
     void ScytheSwing()
     {
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == null || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != thisItem) return;
-        //shovelAttack.StartCoroutine(shovelAttack.Swing());
-        //PlayerMovement.limitMaxVelocity = true;
-        //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(200, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
+        scytheAttack.StartCoroutine(scytheAttack.Swing());
+        PlayerMovement.limitMaxVelocity = false;
+        PlayerMovement.ignoreMovementInputs = true;
+        PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(300, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
     }
 }

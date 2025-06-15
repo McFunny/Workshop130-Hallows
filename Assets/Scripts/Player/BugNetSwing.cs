@@ -1,0 +1,67 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BugNetSwing : MonoBehaviour
+{
+    public LayerMask hitDetection;
+    public Collider collider;
+
+    public AudioClip collectedItem;
+
+    bool cancelSwing; //Happens when the player hits a hard thing
+
+    SpriteRenderer bugRenderer;
+
+    //Maybe functionality to grabbin an item, so players can get stuff slightly out of reach
+
+
+    BugBehaviorScript caughtBug;
+
+    void Start()
+    {
+        collider.enabled = false;
+        if(HandItemManager.Instance.bugNet) bugRenderer = HandItemManager.Instance.bugNet.GetComponentInChildren<SpriteRenderer>();
+    }
+    
+    public IEnumerator Swing()
+    {
+        cancelSwing = false;
+
+        caughtBug = null;
+        collider.enabled = true;
+        yield return new WaitForSeconds(0.02f);
+        collider.enabled = false;
+
+        yield return new WaitForSeconds(2f);
+        ObtainBug();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        //Vector3 collisionPoint;
+
+        if(cancelSwing || caughtBug) return;
+
+        var bug = other.GetComponentInParent<BugBehaviorScript>();
+        if (bug != null && caughtBug == null)
+        {
+            caughtBug = bug;
+            bugRenderer.sprite = bug.bugItem.icon;
+            return;
+        }
+
+        //it hit default collider
+        if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15) return;
+        
+    }
+
+    void ObtainBug()
+    {
+        if(caughtBug == null) return;
+        ParticlePoolManager.Instance.GrabSparkParticle().transform.position = bugRenderer.transform.position;
+        if(PlayerInventoryHolder.Instance.AddToInventory(caughtBug.bugItem, 1) == false) ItemPoolManager.Instance.GrabItem(caughtBug.bugItem).transform.position = PlayerInventoryHolder.Instance.transform.position;
+        else FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
+        bugRenderer.sprite = null;
+    }
+}
