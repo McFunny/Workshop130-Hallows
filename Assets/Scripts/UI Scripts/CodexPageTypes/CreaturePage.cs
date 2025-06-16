@@ -6,7 +6,7 @@ using UnityEngine;
 public class CreaturePage : CodexPage
 {
     [SerializeField] private TextMeshProUGUI description, timesKilled;
-    public override void UpdatePage(CodexEntries entry)
+    public override void UpdatePage(CodexEntries entry, Quest quest)
     {
         title.text = entry.entryName;
         image.sprite = entry.mainImage;

@@ -34,7 +34,7 @@ public class CodexButtonID : MonoBehaviour
                 codex.UpdateQuests(assignedQuest);
             }
         }
-        else if(newCodex != null)
+        else if (newCodex != null)
         {
             if (assignedEntry != null)
             {
@@ -74,6 +74,10 @@ public class CodexButtonID : MonoBehaviour
                 }
 
                 //newCodex.UpdatePage(assignedEntry);
+            }
+            else if (assignedQuest != null)
+            {
+                newCodex.UpdateQuest(assignedQuest);
             }
         }
         

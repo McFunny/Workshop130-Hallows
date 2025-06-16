@@ -23,6 +23,7 @@ public class CodexEntries : ScriptableObject
         Structure,
         Plant,
         Creature,
+        Bug,
     }
     public EntryType entryType;
 

@@ -9,7 +9,7 @@ public class PlantPage : CodexPage
     [SerializeField] private TextMeshProUGUI harvested, wealth, growthStages, growthSpeed, consumes, produces, trellis, pollen;
     [SerializeField] private GameObject[] consumesIcons, producesIcons;
 
-    public override void UpdatePage(CodexEntries entry)
+    public override void UpdatePage(CodexEntries entry, Quest quest)
     {
         if (!entry.cropData)
         {

@@ -9,6 +9,6 @@ public abstract class CodexPage : MonoBehaviour
     public TextMeshProUGUI title;
     public Image image;
 
-    public abstract void UpdatePage(CodexEntries entry);
+    public abstract void UpdatePage(CodexEntries entry = null, Quest quest = null);
     
 }

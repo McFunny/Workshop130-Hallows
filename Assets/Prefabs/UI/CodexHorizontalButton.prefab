@@ -100,7 +100,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 45
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -354,16 +354,23 @@ MonoBehaviour:
   assignedQuest:
     name: 
     description: 
-    type: 0
     isMajorQuest: 0
     alreadyCompleted: 0
     mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
     assignee: 0
     displayProgress: 0
     orderIndex: 0
+    objectID: -1
+    objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: -1
 --- !u!1 &6884370113047126746
 GameObject:
   m_ObjectHideFlags: 0

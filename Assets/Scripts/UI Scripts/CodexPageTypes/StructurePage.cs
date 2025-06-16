@@ -12,7 +12,7 @@ public class StructurePage : CodexPage
     [SerializeField] private List<Image> resourceIcons;
     [SerializeField] private List<TextMeshProUGUI> resourceText;
 
-    public override void UpdatePage(CodexEntries entry)
+    public override void UpdatePage(CodexEntries entry, Quest quest)
     {
         GetReferences();
 

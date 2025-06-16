@@ -7,11 +7,12 @@ using System;
 
 public class Codex3 : MonoBehaviour
 {
-    private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries;
-    private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList;
+    private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries, BugEntries; //Looks dumb but I need a reference to the SO's cached or else this gets really messy
+    private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList, BugList;
     private int menuIndex; //0 = closed, 1 = open, 2 = entry page open
     private string defaultName = "???";
     private ControlManager controlManager;
+    private QuestManager questManager;
     [SerializeField] private ChildActivator childActivator;
     public enum OpenCategory
     {
@@ -20,8 +21,8 @@ public class Codex3 : MonoBehaviour
         Structures,
         Plants,
         Creatures,
+        Bugs,
         Quests, // This is not implemented yet
-        Bugs
     }
     OpenCategory openCategory;
     [SerializeField] private GameObject codex;
@@ -31,10 +32,12 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private List<CodexPage> codexPages;
     [SerializeField] private TextMeshProUGUI categoryTitle;
     [SerializeField] private GameObject categoryContainer;
+    [SerializeField] private List<Quest> activeQuests = new List<Quest>();
     //[SerializeField] private GameObject tutorialPage, toolPage, plantPage;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject entryButtonPrefab;
+    [SerializeField] private GameObject entryButtonHorizontalPrefab;
 
     [Header("Override References")]
     [SerializeField] private CodexEntries mandrakeEntry;
@@ -58,6 +61,8 @@ public class Codex3 : MonoBehaviour
         StructureEntries = Resources.LoadAll<CodexEntries>("Codex/Structures");
         CreatureEntries = Resources.LoadAll<CodexEntries>("Codex/Creatures/");
         PlantEntries = Resources.LoadAll<CodexEntries>("Codex/Plants/");
+        BugEntries = Resources.LoadAll<CodexEntries>("Codex/Bugs");
+        questManager = FindAnyObjectByType<QuestManager>();
         openCategory = OpenCategory.Tutorial;
 
         ResetCodex();
@@ -129,6 +134,7 @@ public class Codex3 : MonoBehaviour
         for (int i = 0; i < containers.Length; i++)
         {
             var Cat = TutorialEntries;
+            var isQuest = false;
             switch (i)
             {
                 case 0:
@@ -152,12 +158,41 @@ public class Codex3 : MonoBehaviour
                     Cat = CreatureEntries;
                     break;
                 case 5:
-                    Cat = null;
-                    return; // Quests category is not implemented yet
+                    BugList = new List<CodexEntries>();
+                    Cat = BugEntries;
+                    break; 
 
                 case 6:
+                    isQuest = true;
                     Cat = null;
+                    break;
+            }
+
+            if (isQuest)
+            {
+                print("Attempting to load Quest Category");
+
+                if (activeQuests.Count == 0)
+                {
+                    print("No Frests found.");
                     return;
+                }
+                
+                for (int e = 0; e < activeQuests.Count; e++)
+                    {
+                        var chosenContainer = containers[i];
+                        if (e < 10) chosenContainer = containers[i];
+                        else chosenContainer = secondaryContainers[i];
+
+                        GameObject entryButton = Instantiate(entryButtonHorizontalPrefab, chosenContainer.transform);
+                        entryButton.name = activeQuests[e].name + " Quest";
+
+                        var questTitle = entryButton.GetComponentInChildren<TextMeshProUGUI>();
+                        var buttonScript = entryButton.GetComponent<CodexButtonID>();
+
+                        questTitle.text = activeQuests[e].name;
+                        buttonScript.assignedQuest = activeQuests[e];
+                    }
             }
 
             if (Cat == null) continue;
@@ -192,6 +227,17 @@ public class Codex3 : MonoBehaviour
                 }
                 else if (Cat == PlantEntries)
                 {
+                    if (Cat[e] == mandrakeEntry)
+                    {
+                        if (mandrakeEntry.cropData.amountKilled > 0)
+                        {
+                            mandrakeEntry.unlocked = true;
+                            continue;
+                        }
+                        else mandrakeEntry.unlocked = false;
+                    }
+
+
                     if (Cat[e].cropData.amountHarvested > 0) //Unlocks if amount of crop harvested > 0
                     {
                         tempText.text = Cat[e].entryName;
@@ -247,15 +293,12 @@ public class Codex3 : MonoBehaviour
                         CreatureList.Add(Cat[e]);
                         break;
                     case 5:
-                        //Put Bugs Here
+                        BugList.Add(Cat[e]);
                         break;
 
                 }
             }
         }
-
-        if(mandrakeEntry.cropData.amountKilled > 0) mandrakeEntry.unlocked = true;
-        else mandrakeEntry.unlocked = false;
     }
 
     public void UpdatePage(CodexEntries entry)
@@ -266,43 +309,52 @@ public class Codex3 : MonoBehaviour
             return;
         }
 
-        GameObject containerToOpen = null;
+        GameObject pageToOpen = null;
 
         switch ((int)entry.entryType)
         {
             case 0:
-                containerToOpen = codexPages[0].gameObject;
+                pageToOpen = codexPages[0].gameObject;
                 break;
 
             case 1:
-                containerToOpen = codexPages[1].gameObject;
+                pageToOpen = codexPages[1].gameObject;
                 break;
 
             case 2:
-                containerToOpen = codexPages[2].gameObject;
+                pageToOpen = codexPages[2].gameObject;
                 break;
 
             case 3:
-                containerToOpen = codexPages[3].gameObject;
+                pageToOpen = codexPages[3].gameObject;
                 break;
 
             case 4:
-                containerToOpen = codexPages[4].gameObject;
+                pageToOpen = codexPages[4].gameObject;
                 break;
 
             case 5:
-                containerToOpen = null;
+                pageToOpen = codexPages[5].gameObject;
                 break;
         }
-        print(containerToOpen.gameObject);
+        print(pageToOpen.gameObject);
 
-        if (containerToOpen == null) return;
+        if (pageToOpen == null) return;
 
         codexPages[(int)entry.entryType].UpdatePage(entry);
 
         categoryContainer.SetActive(false);
-        containerToOpen.SetActive(true);
+        pageToOpen.SetActive(true);
 
+        menuIndex = 2;
+    }
+
+    public void UpdateQuest(Quest quest)
+    {
+        codexPages[(int)OpenCategory.Quests].UpdatePage(null, quest);
+
+        categoryContainer.SetActive(false);
+        codexPages[(int)OpenCategory.Quests].gameObject.SetActive(true);
         menuIndex = 2;
     }
 
@@ -319,14 +371,18 @@ public class Codex3 : MonoBehaviour
 
         TutorialList.Clear();
         ToolList.Clear();
+        StructureList.Clear();
         CreatureList.Clear();
         PlantList.Clear();
+        BugList.Clear();
     }
 
     private void ResetCodex() //Sets the codex to its default state
     {
-        print("Resetting Codex to default state.");
+        print("Resetting Codex to default state and updating entries.");
+        UpdateEntries();
         ChangeCategory("Tutorial"); // Start with the Tutorial category open
+        activeQuests = questManager.activeQuests;
         menuIndex = 1;
     }
 
@@ -338,12 +394,12 @@ public class Codex3 : MonoBehaviour
         openCategory = (OpenCategory)Enum.Parse(typeof(OpenCategory), categoryToOpen); //Wow
         var catInt = (int)openCategory;
 
-        if (openCategory == OpenCategory.Quests)
+        /*if (openCategory == OpenCategory.Quests)
         {
             Debug.LogWarning("Quests category is not implemented yet. Defaulting to Tutorial.");
             openCategory = OpenCategory.Tutorial; // Reset to Tutorial if Quests is selected
             catInt = 0; // Reset category index to Tutorial
-        }
+        }*/
         /*if (openCategory == OpenCategory.Bugs)
         {
             Debug.LogWarning("Bugs category is not implemented yet. Defaulting to Tutorial.");
