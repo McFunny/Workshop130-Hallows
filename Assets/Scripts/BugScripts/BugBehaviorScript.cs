@@ -197,7 +197,7 @@ public class BugBehaviorScript : MonoBehaviour
             Destroy(gameObject);
             break;
             case DespawnMethod.Burrow:
-            transform.DOShakePosition(3f, 0.9f, 1, 0.2f, false);
+            transform.DOShakePosition(3f, 0.9f, 0, 0.2f, false);
             transform.DOMoveY(transform.position.y - .5f, 4);
             burrowingParticles.transform.DOMoveY(burrowingParticles.transform.position.y + .5f, 4); //to offset the dig
             burrowingParticles.Play();
