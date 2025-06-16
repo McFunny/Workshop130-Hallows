@@ -182,6 +182,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         if(dialogueController.IsInterruptable() == false)
         {
+            Talk();
             return;
         } 
         if(lastInteractedStoreItem == item)

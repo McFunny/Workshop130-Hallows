@@ -94,6 +94,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
     {
         if (dialogueController.IsInterruptable() == false || !shopUI)
         {
+            Talk();
             return;
         }
         if (lastInteractedStoreItem == item)

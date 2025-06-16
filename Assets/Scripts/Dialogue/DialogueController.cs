@@ -141,10 +141,10 @@ public class DialogueController : MonoBehaviour
         if (paragraphs.Count == 0)
         {
             conversationEnded = true;
-            interruptable = true;
+            //interruptable = true; //Temp disabled because ppl didnt want to accidentilly buy an item in the shop
             //isTalking = false;
         }
-        else interruptable = false;
+        /*else*/ interruptable = false;
         
     }
 
