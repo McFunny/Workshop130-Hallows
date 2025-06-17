@@ -386,6 +386,10 @@ public class WagonMerchantNPC : NPC, ITalkable
             else itemsToGive.Add(new ItemWithAmount(ammo, 6));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
         }
+        else if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 2000)
+        {
+
+        }
         else return;
         metPlayerAtEntrace = true;
         talkingOutsideWagon = true;
