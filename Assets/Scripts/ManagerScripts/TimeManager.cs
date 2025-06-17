@@ -18,7 +18,7 @@ public class TimeManager : MonoBehaviour
                                         /// </summary>
     public bool isDay;
     public int dayNum = 1; //what day is it?
-    public TextMeshProUGUI timeText;
+    public TimeOfDay timeOfDay;
     public Light dayLight, nightLight, cryptLight;
 
     //Sun and moon Variables
@@ -74,12 +74,12 @@ public class TimeManager : MonoBehaviour
         if(!dayLight || !nightLight) Debug.Log("Error, did not apply daylight/nightlight variable in the inspector");
         StartCoroutine("TimePassage");
         InitializeSkyBox();
-        if(timeText)
-        {
-            timeText.text = currentHour + ":00";
-        }
         if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
         if(sunRenderer) StartCoroutine(AnimateSun());
+
+        TimeOfDayCheck();
+
+        OnHourlyUpdate += TimeOfDayCheck;
     }
 
     // Update is called once per frame
@@ -130,12 +130,14 @@ public class TimeManager : MonoBehaviour
     void HourPassed()
     {
 
-        if(currentHour != 2 || !NightSpawningManager.Instance.finaleActivated) currentHour++;
+        if(currentHour != 2 || !NightSpawningManager.Instance.finaleActivated) currentHour++; //To keep finale frozen
         
         if(currentHour >= 24) currentHour = 0;
 
         if(currentHour >= 6 && currentHour < 20) isDay = true;
         else isDay = false;
+
+        TimeOfDayCheck();
 
         //if hour is 8, new day transition. dark screen, invoke, save, then brighten screen
             
@@ -180,11 +182,6 @@ public class TimeManager : MonoBehaviour
         }
         DynamicGI.UpdateEnvironment();
         CalculateSunAndMoonRotation();
-
-        if (timeText)
-        {
-            timeText.text = currentHour + ":00";
-        }
 
         ignoreQuickSave = false;
     }
@@ -433,6 +430,31 @@ public class TimeManager : MonoBehaviour
         PlayerMovement.restrictMovementTokens--;
     }
 
+    void TimeOfDayCheck()
+    {
+        if(!isDay)
+        {
+            timeOfDay = TimeOfDay.Twilight;
+            return;
+        }
+        if(currentHour >= 6 && currentHour <= 10)
+        {
+            timeOfDay = TimeOfDay.Dawn;
+            return;
+        }
+        if(currentHour >= 11 && currentHour <= 16)
+        {
+            timeOfDay = TimeOfDay.Noon;
+            return;
+        }
+        if(currentHour >= 17 && currentHour <= 21)
+        {
+            timeOfDay = TimeOfDay.Dusk;
+            return;
+        }
+        Debug.LogError("Somethin aint right");
+    }
+
     
 
     [ContextMenu("Set To Start Of Morning")]
@@ -623,4 +645,12 @@ public class TimeManager : MonoBehaviour
             nightLight.enabled = true;
         }
     }
+}
+
+public enum TimeOfDay
+{
+    Dawn, //6 am to 10 pm
+    Noon, //11 am to 4 pm
+    Dusk, //5 pm to 9 pm
+    Twilight //10pm to 5 am
 }
