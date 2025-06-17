@@ -15,14 +15,16 @@ public class BugObject : ScriptableObject
 
     public int amountCaught = 0; //If 0, should not appear in codex
 
-    public BugSpawnMethod spawnMethod;
+    public List<BugSpawnMethod> spawnMethod = new List<BugSpawnMethod>();
+    public List<TimeOfDay> activeHours = new List<TimeOfDay>();
+    public List<BugSpawnArea> spawnLocations = new List<BugSpawnArea>();
 }
 public enum BugSpawnMethod
 {
-    Ground, //Spawn on the ground anywhere
-    Trees, //Spawns in/near trees
-    Corpses, //Spawns on top of corpses
-    Weeds, //Spawns from weeds
+    Ground, //Spawn on the ground anywhere over time
+    Trees, //Spawns in/near trees over time
+    Corpses, //Spawns on top of corpses over time
+    Weeds, //Spawns from weeds over time
     StructureDestruction, //Spawns from structure getting destroyed, such as a rock or a plant
     BugSpawner //Spawns from a spawner or specified event, such as another creature or structure
 }

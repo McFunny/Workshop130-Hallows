@@ -120,6 +120,7 @@ public class GameSaveData : MonoBehaviour
 
         CropDatabase.Instance.LoadStats(data.allGameSaveData);
         CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
+        BugDatabase.Instance.LoadStats(data.allGameSaveData);
 
         tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
         rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -181,6 +182,7 @@ public class GameSaveData : MonoBehaviour
 
         public CropPlayerStats[] cropStats;
         public CreaturePlayerStats[] creatureStats;
+        public int[] bugStats;
 
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
@@ -233,6 +235,7 @@ public class GameSaveData : MonoBehaviour
 
         CropDatabase.Instance.SaveStats(out cropStats);
         CreatureDatabase.Instance.SaveStats(out creatureStats);
+        BugDatabase.Instance.SaveStats(out bugStats);
 
 
         tutorialMerchantSpoke = data.tutorialMerchantSpoke;

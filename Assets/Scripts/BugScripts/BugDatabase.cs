@@ -21,7 +21,7 @@ public class BugDatabase : ScriptableObject
         }
     }
 
-    [SerializeField] private List<BugObject> _bugDatabase; //DONT ALTER ORDER
+    [SerializeField] public List<BugObject> _bugDatabase; //DONT ALTER ORDER
 
     [ContextMenu("Update ID's")]
     public void UpdateID()
@@ -53,7 +53,7 @@ public class BugDatabase : ScriptableObject
         }
     }
 
-    /*public void SaveStats(out int[] bugStats) //NEEDS SAVING FUNCTIONALITY ADDED
+    public void SaveStats(out int[] bugStats)
     {
         List<int> temp = new List<int>();
 
@@ -69,10 +69,10 @@ public class BugDatabase : ScriptableObject
         int i = 0;
         foreach(BugObject c in _bugDatabase)
         {
-            if(i >= data.bugStats.Count) return;
+            if(i >= data.bugStats.Length) return;
             c.amountCaught = data.bugStats[i];
             i++;
         }
-    }*/
+    }
 
 }

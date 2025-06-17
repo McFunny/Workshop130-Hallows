@@ -34,8 +34,9 @@ public class BugBehaviorScript : MonoBehaviour
     protected Transform player;
     protected Collider hitBox;
 
-    //public BugData bugData
+    public BugObject bugData;
     public DespawnMethod despawnMethod;
+    protected int hoursAlive = 0; //Leave at 10
 
     public enum DespawnMethod
     {
@@ -108,6 +109,23 @@ public class BugBehaviorScript : MonoBehaviour
     {
         player = PlayerInteraction.Instance.transform;
         StartCoroutine(AnimateBug());
+
+        TimeManager.OnHourlyUpdate -= HourlyUpdate;
+    }
+
+    protected void OnDisable()
+    {
+        TimeManager.OnHourlyUpdate -= HourlyUpdate;
+        if(BugSpawningManager.Instance.allBugs.Contains(this.gameObject))
+        {
+            BugSpawningManager.Instance.allBugs.Remove(this.gameObject);
+        }
+    }
+
+    protected virtual void HourlyUpdate()
+    {
+        hoursAlive++;
+        if(hoursAlive >= 10 || !bugData.activeHours.Contains(TimeManager.Instance.timeOfDay)) currentState = BugState.Leave;
     }
 
     protected virtual void Update()
@@ -275,6 +293,7 @@ public class BugBehaviorScript : MonoBehaviour
         ParticlePoolManager.Instance.GrabBugSplatParticle().transform.position = transform.position;
         Destroy(gameObject);
     }
+
 
 
 }
