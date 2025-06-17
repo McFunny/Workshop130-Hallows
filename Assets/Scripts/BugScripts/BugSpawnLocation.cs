@@ -27,5 +27,6 @@ public enum BugSpawnArea
     Barn,
     Town,
     Wilderness,
-    Catacombs
+    Catacombs,
+    Indoors
 }

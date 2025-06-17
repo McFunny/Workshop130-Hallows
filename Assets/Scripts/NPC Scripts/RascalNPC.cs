@@ -46,6 +46,19 @@ public class RascalNPC : NPC, ITalkable
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(2));
                 QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(1));
             }
+            else if(AbleToGiveNetQuest()) //Ask for the lost net
+            {
+                currentPath = 3;
+                currentType = PathType.Quest;
+                GameSaveData.Instance.ras_askedForNet = true; 
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(303));
+            }
+            else if(AbleToCompleteNetQuest()) //Net retrieved
+            {
+                currentPath = 4;
+                currentType = PathType.Quest;
+                QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetTutorialQuest(303));
+            }
             else
             {
                 if(CompletedQuest())
@@ -263,7 +276,7 @@ public class RascalNPC : NPC, ITalkable
     {
         if(base.ExclamationCheck() == false)
         {
-            if(!GameSaveData.Instance.rascalWantsFood)
+            if(!GameSaveData.Instance.rascalWantsFood || AbleToGiveNetQuest())
             {
                 exclamationObject.SetActive(true);
                 return true;
@@ -276,6 +289,23 @@ public class RascalNPC : NPC, ITalkable
         }
         exclamationObject.SetActive(true);
         return true;
+    }
+
+    bool AbleToGiveNetQuest()
+    {
+        if(!GameSaveData.Instance.ras_askedForNet && !GameSaveData.Instance.bugNetObtained && TimeManager.Instance.dayNum > 2 && GameSaveData.Instance.rascalMentionedKey) return true;
+        return false;
+    }
+
+    bool AbleToCompleteNetQuest()
+    {
+        if(GameSaveData.Instance.bugNetObtained)
+        {
+            int questNum = QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.GetTutorialQuest(303));
+            if(questNum == -1) return false;
+            if(QuestManager.Instance.activeQuests[questNum].progress == QuestManager.Instance.activeQuests[questNum].maxProgress) return true;
+        }
+        return false;
     }
 
     public override bool ActionCheck1()

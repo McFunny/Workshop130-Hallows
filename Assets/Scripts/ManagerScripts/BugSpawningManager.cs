@@ -30,11 +30,18 @@ public class BugSpawningManager : MonoBehaviour
     void Start()
     {
         TimeManager.OnHourlyUpdate += SpawnHourlyBugs;
+        StartCoroutine(DelayedStart());
     }
 
     void OnDisable()
     {
         TimeManager.OnHourlyUpdate -= SpawnHourlyBugs;
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(1);
+        SpawnHourlyBugs();
     }
 
     void SpawnHourlyBugs()
@@ -86,7 +93,8 @@ public class BugSpawningManager : MonoBehaviour
         //Sort by time of day available and method and location
         foreach(BugObject bug in BugDatabase.Instance._bugDatabase)
         {
-            if(bug.spawnMethod.Contains(spawnMethod) && bug.activeHours.Contains(TimeManager.Instance.timeOfDay) && bug.spawnLocations.Contains(location)) possibleBugs.Add(bug);
+            if(bug.spawnMethod.Contains(spawnMethod) && bug.activeHours.Contains(TimeManager.Instance.timeOfDay) && bug.spawnLocations.Contains(location)
+            && PlayerInteraction.Instance.totalMoneyEarned >= bug.wealthPrerequisite) possibleBugs.Add(bug);
         }
         if(possibleBugs.Count == 0) return;
 
@@ -99,6 +107,8 @@ public class BugSpawningManager : MonoBehaviour
         }
 
         if(chosenBug) Instantiate(chosenBug, spawnPos, Quaternion.identity);
+
+        Debug.Log("Spawned a " + chosenBug);
     }
 
     int GrabSpecificSpot(BugSpawnArea location)

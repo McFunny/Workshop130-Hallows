@@ -36,7 +36,8 @@ public class BugBehaviorScript : MonoBehaviour
 
     public BugObject bugData;
     public DespawnMethod despawnMethod;
-    protected int hoursAlive = 0; //Leave at 10
+    protected int hoursAlive = 0;
+    protected int maxLifetime = 6;
 
     public enum DespawnMethod
     {
@@ -125,7 +126,7 @@ public class BugBehaviorScript : MonoBehaviour
     protected virtual void HourlyUpdate()
     {
         hoursAlive++;
-        if(hoursAlive >= 10 || !bugData.activeHours.Contains(TimeManager.Instance.timeOfDay)) currentState = BugState.Leave;
+        if(hoursAlive >= maxLifetime || !bugData.activeHours.Contains(TimeManager.Instance.timeOfDay)) currentState = BugState.Leave;
     }
 
     protected virtual void Update()

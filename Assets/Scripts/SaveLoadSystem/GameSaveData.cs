@@ -34,12 +34,15 @@ public class GameSaveData : MonoBehaviour
     public bool wildernessIntroduced; //Merchant has informed the player about the wilderness
     public bool playerHasBox; //Player currently has the box in their inventory, chest, or farm
     public bool watergunObtained;
+    public bool bugNetObtained;
+    public bool scytheObtained;
 
     public bool mm_giveBarricade; //Merchant handed the player a barricade at the start
     public bool cm_giveChest; //Craftsman handed the player a chest at the start
     public bool mm_giveGun; //Merchant handed the gun after the first day, and gave the "Go to rascal" quest
     public bool bot_giveSeeds; //Botanist gave the player 10 timber ear seeds at the start
     public bool bot_explainedPollen; //Player bought a seed requiring pollination
+    public bool ras_askedForNet; //Gave the find my net quest
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
@@ -120,7 +123,7 @@ public class GameSaveData : MonoBehaviour
 
         CropDatabase.Instance.LoadStats(data.allGameSaveData);
         CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
-        BugDatabase.Instance.LoadStats(data.allGameSaveData);
+        if(data.allGameSaveData.bugStats != null) BugDatabase.Instance.LoadStats(data.allGameSaveData);
 
         tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
         rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -144,12 +147,15 @@ public class GameSaveData : MonoBehaviour
         townTreeCleared1 = data.allGameSaveData.townTreeCleared1;
         townTreeCleared2 = data.allGameSaveData.townTreeCleared2;
         watergunObtained = data.allGameSaveData.watergunObtained;
+        bugNetObtained = data.allGameSaveData.bugNetObtained;
+        scytheObtained = data.allGameSaveData.scytheObtained;
 
         mm_giveBarricade = data.allGameSaveData.mm_giveBarricade;
         cm_giveChest = data.allGameSaveData.cm_giveChest;
         mm_giveGun = data.allGameSaveData.mm_giveGun;
         bot_giveSeeds = data.allGameSaveData.bot_giveSeeds;
         bot_explainedPollen = data.allGameSaveData.bot_explainedPollen;
+        ras_askedForNet = data.allGameSaveData.ras_askedForNet;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -206,12 +212,15 @@ public class GameSaveData : MonoBehaviour
 
         public bool townTreeCleared1, townTreeCleared2;
         public bool watergunObtained;
+        public bool bugNetObtained;
+        public bool scytheObtained;
 
         public bool mm_giveBarricade;
         public bool cm_giveChest;
         public bool mm_giveGun;
         public bool bot_giveSeeds;
         public bool bot_explainedPollen;
+        public bool ras_askedForNet;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -260,12 +269,15 @@ public class GameSaveData : MonoBehaviour
         townTreeCleared1 = data.townTreeCleared1;
         townTreeCleared2 = data.townTreeCleared2;
         watergunObtained = data.watergunObtained;
+        bugNetObtained = data.bugNetObtained;
+        scytheObtained = data.scytheObtained;
 
         mm_giveBarricade = data.mm_giveBarricade;
         cm_giveChest = data.cm_giveChest;
         mm_giveGun = data.mm_giveGun;
         bot_giveSeeds = data.bot_giveSeeds;
         bot_explainedPollen = data.bot_explainedPollen;
+        ras_askedForNet = data.ras_askedForNet;
 
         travMet = data.travMet;
         graveMet = data.graveMet;

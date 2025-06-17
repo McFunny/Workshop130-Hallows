@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 872821869, guid: d0710e56d2aef50499a412eac361d9f5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -205,8 +205,9 @@ MonoBehaviour:
   walkSpeed: 1
   fleeSpeed: 2
   sightRange: 5
-  reactionTimeMin: 0.5
-  reactionTimeMax: 1
+  reactionTimeMin: 1
+  reactionTimeMax: 3
+  bugData: {fileID: 11400000, guid: 03397ac13d3d3474face9cf3dd14f6c3, type: 2}
   despawnMethod: 1
   currentState: 0
 --- !u!195 &5770375967272279073

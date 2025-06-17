@@ -69,7 +69,7 @@ public class BugDatabase : ScriptableObject
         int i = 0;
         foreach(BugObject c in _bugDatabase)
         {
-            if(i >= data.bugStats.Length) return;
+            if(data.bugStats != null || i >= data.bugStats.Length || data.bugStats.Length == 0) return;
             c.amountCaught = data.bugStats[i];
             i++;
         }
