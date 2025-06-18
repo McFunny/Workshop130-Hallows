@@ -171,13 +171,20 @@ public class BugBehaviorScript : MonoBehaviour
         agent.destination = destination;
 
         float timeSpent = 0; //to make sure it doesnt get stuck
-        float maxTime = Random.Range(1.5f, 5f);
+        float maxTime = Random.Range(1.5f, 3f);
+        bool stopEarly = false;
         if(currentState == BugState.Panic) maxTime = maxTime/3;
 
         while (timeSpent < maxTime)
         {
             timeSpent += Time.deltaTime;
-            if((target != null && currentState == BugState.Wander) || currentState == BugState.Leave)
+            if(target != null && currentState == BugState.Wander) stopEarly = true;
+
+            if(currentState == BugState.Leave) stopEarly = true;
+
+            //if(((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && currentState == BugState.Panic)) stopEarly = true;
+
+            if(stopEarly)
             {
                 isMoving = false;
                 coroutineRunning = false;

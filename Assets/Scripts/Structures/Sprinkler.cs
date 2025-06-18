@@ -129,6 +129,7 @@ public class Sprinkler : StructureBehaviorScript
     {
         rotating = true;
         waterVFX.SetActive(true);
+        audioHandler.PlaySound(audioHandler.activatedSound);
         yield return new WaitForSeconds(5);
         rotating = false;
         yield return new WaitForSeconds(2);

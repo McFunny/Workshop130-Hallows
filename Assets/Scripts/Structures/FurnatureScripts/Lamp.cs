@@ -6,6 +6,8 @@ using UnityEngine;
 public class Lamp : FurnitureBehaviorScript
 {
     // Start is called before the first frame update
+    public AudioSource source;
+    public AudioClip onSound, offSound;
 
     public List<GameObject> lights = new List<GameObject>();
     private bool isOn = true;
@@ -21,12 +23,14 @@ public class Lamp : FurnitureBehaviorScript
 
         if (isOn)
         {
+            source.PlayOneShot(offSound);
             LightsOnOff(!isOn);
             success = true;
            
         }
         else if (!isOn)
         {
+            source.PlayOneShot(onSound);
             LightsOnOff(!isOn);
             success = true;
         }
