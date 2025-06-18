@@ -155,20 +155,23 @@ public class TimeManager : MonoBehaviour
                 ToggleDayNightLights(true);
                 break;
             case 6:
-                SetSkyBox(0.8f);
+                SetSkyBox(0.7f);
                 break;
             case 7:
-                SetSkyBox(1f);
+                SetSkyBox(0.9f);
                 ToggleDayNightLights(true);
                 break;
             case 8:
+                SetSkyBox(1f);
+                ToggleDayNightLights(true);
                 StartCoroutine(NewDayTransition());
                 break;
-            //case 17:
+            case 17:
                 //ToggleDayNightLights(true);
-                //;
+                SetSkyBox(0.9f);
+                break;
             case 18:
-                SetSkyBox(0.8f);
+                SetSkyBox(0.7f);
                 ToggleDayNightLights(true);
                 break;
             case 19:

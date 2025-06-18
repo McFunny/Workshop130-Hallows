@@ -24,6 +24,7 @@ public class BugBehaviorScript : MonoBehaviour
     public float walkSpeed, fleeSpeed;
     public float sightRange = 0; //0 means it ignores the player
     public float reactionTimeMin, reactionTimeMax; //How fast it does its action when approached by the player, IE time before fleeing after approached by player
+    public float despawnChance = 100; //Chance of the state turning to Leave when approached by the player
 
     protected bool isMoving = false;
     protected bool coroutineRunning = false;
@@ -52,7 +53,7 @@ public class BugBehaviorScript : MonoBehaviour
     {
         Wander,
         MovingToTarget,
-        Flee,
+        Panic,
         Leave,
         Stun,
         UniqueBehavior1,
@@ -72,8 +73,8 @@ public class BugBehaviorScript : MonoBehaviour
                 MovingToTarget();
                 break;
 
-            case BugState.Flee:
-                Flee();
+            case BugState.Panic:
+                Panic();
                 break;
 
             case BugState.Leave:
@@ -131,7 +132,7 @@ public class BugBehaviorScript : MonoBehaviour
 
     protected virtual void Update()
     {
-        if(currentState == BugState.Flee) agent.speed = fleeSpeed;
+        if(currentState == BugState.Panic) agent.speed = fleeSpeed;
         else agent.speed = walkSpeed;
 
         float distance = Vector3.Distance(player.position, transform.position);
@@ -171,6 +172,7 @@ public class BugBehaviorScript : MonoBehaviour
 
         float timeSpent = 0; //to make sure it doesnt get stuck
         float maxTime = Random.Range(1.5f, 5f);
+        if(currentState == BugState.Panic) maxTime = maxTime/3;
 
         while (timeSpent < maxTime)
         {
@@ -198,7 +200,17 @@ public class BugBehaviorScript : MonoBehaviour
         }
     }
 
-    private void Flee() //currently no timer is implemented
+    private void Panic() 
+    {
+        if (!isMoving && currentState == BugState.Panic)
+        {
+            Vector3 randomPoint;
+            randomPoint = GetRandomPointAround(transform.position, 5f);
+            walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
+        }
+    }
+
+    private void Flee() //currently not implemented
     {
         if(!target) target = player;
         Vector3 runTo = transform.position + ((transform.position - target.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
@@ -244,9 +256,15 @@ public class BugBehaviorScript : MonoBehaviour
 
     protected IEnumerator ApproachedByPlayer()
     {
+        if(currentState == BugState.Wander) currentState = BugState.Panic;
         yield return new WaitForSeconds(Random.Range(reactionTimeMin, reactionTimeMax));
         //if no specific bug behavior
-        currentState = BugState.Leave;
+        if(Random.Range(0, 100) < despawnChance) currentState = BugState.Leave;
+        else
+        {
+            currentState = BugState.Wander;
+            approachedRoutine = null;
+        }
     }
 
 
