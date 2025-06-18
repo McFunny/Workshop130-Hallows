@@ -10,7 +10,8 @@ public class DebugUI : MonoBehaviour
     public static bool isDebugMenuOpen;
     public Database database;
     public GameObject debugButton, content, panel;
-    public GameObject newCodex;
+    public Codex3 newCodex;
+    private GameObject codexActual;
     private int databaseLength;
     [SerializeField] private List<InventoryItemData> items;
     private bool itemsLoaded = false;
@@ -28,6 +29,8 @@ public class DebugUI : MonoBehaviour
         panel.SetActive(false);
         print("File Mode: " + MainMenuScript.currentFileMode);
         print("Save File: " + MainMenuScript.currentSaveSlot);
+
+        codexActual = newCodex.transform.GetChild(0).gameObject;
     }
 
     void Update()
@@ -38,18 +41,13 @@ public class DebugUI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F1) && !PauseScript.isPaused)
         {
-            newCodex.SetActive(!newCodex.activeSelf);
-            if (newCodex.activeSelf)
+            if (!PlayerMovement.isCodexOpen)
             {
-                PlayerMovement.isCodexOpen = true;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                newCodex.OpenCodex();
             }
             else
             {
-                PlayerMovement.isCodexOpen = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                newCodex.CloseCodex();
             }    
         }
 
