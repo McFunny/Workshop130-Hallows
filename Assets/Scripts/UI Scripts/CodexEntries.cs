@@ -46,7 +46,7 @@ public class CodexEntries : ScriptableObject
         }
         else
         {
-          for (int i = 0; i < description.Length; i++)
+            for (int i = 0; i < description.Length; i++)
             {
                 if (i == 0)
                 {
@@ -61,8 +61,10 @@ public class CodexEntries : ScriptableObject
                     Debug.LogWarning("CodexEntries: More than 2 description lines found, only the first two will be used.");
                     break;
                 }
-            }  
+            }
         }
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
     }
 }
 
