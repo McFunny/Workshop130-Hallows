@@ -33,13 +33,11 @@ public class PauseScript : MonoBehaviour
 
     private void OnEnable()
     {
-        controlManager.pauseGame.action.started += PausePressed;
         codex3.onCodexClosed += CodexClosed;
         //controlManager.closeCodex.action.started += UnPause;
     }
     private void OnDisable()
     {
-        controlManager.pauseGame.action.started -= PausePressed;
         codex3.onCodexClosed -= CodexClosed;
         //controlManager.closeCodex.action.started -= UnPause;
     }
@@ -103,11 +101,6 @@ public class PauseScript : MonoBehaviour
             codex.OpenCloseCodex();
             EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
         }*/
-    }
-
-    private void PausePressed(InputAction.CallbackContext obj)
-    {
-        //ResumeGame();
     }
 
     public void PauseGame()

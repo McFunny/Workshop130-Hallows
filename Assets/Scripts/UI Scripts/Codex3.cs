@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 public class Codex3 : MonoBehaviour
 {
     public System.Action onCodexClosed;
+    private GameSaveData gameSaveData;
     private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries, BugEntries; //Looks dumb but I need a reference to the SO's cached or else this gets really messy
     private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList, BugList;
     private List<UILerp> buttonLerps = new List<UILerp>();
@@ -47,21 +48,29 @@ public class Codex3 : MonoBehaviour
 
     [Header("Images")]
     [SerializeField] private List<Image> controllerImages = new List<Image>();
+    [SerializeField] private GameObject backControllerObject;
+    [SerializeField] private GameObject backKBMObject;
 
     [Header("Override References")]
-    [SerializeField] private CodexEntries mandrakeEntry;
+    [SerializeField] private CodexEntries mandrakeCreatureEntry;
+    [SerializeField] private CodexEntries mandrakeCropEntry;
+    [SerializeField] private CodexEntries waterGunEntry;
+    [SerializeField] private CodexEntries scytheEntry;
+    [SerializeField] private CodexEntries bugNetEntry;
 
     private void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
         childActivator = GetComponentInChildren<ChildActivator>();
+        questManager = FindAnyObjectByType<QuestManager>();
+        gameSaveData = FindFirstObjectByType<GameSaveData>();
 
         /*if (childActivator != null)
         {
             childActivator.onChildActivated += ResetCodex; // Reset the codex when the child is activated
         }*/
 
-        for(int i = 0; i < categoryButtons.Length; i++)
+        for (int i = 0; i < categoryButtons.Length; i++)
         {
             buttonLerps.Add(categoryButtons[i].GetComponent<UILerp>());
         }
@@ -77,7 +86,6 @@ public class Codex3 : MonoBehaviour
         CreatureEntries = Resources.LoadAll<CodexEntries>("Codex/Creatures/");
         PlantEntries = Resources.LoadAll<CodexEntries>("Codex/Plants/");
         BugEntries = Resources.LoadAll<CodexEntries>("Codex/Bugs");
-        questManager = FindAnyObjectByType<QuestManager>();
         openCategory = OpenCategory.Tutorial;
 
         ResetCodex();
@@ -121,7 +129,7 @@ public class Codex3 : MonoBehaviour
 
             OpenCategory c = (OpenCategory)currentIndex;
             ChangeCategory(c.ToString());
-            
+
             EventSystem.current.SetSelectedGameObject(null);
             if (containers[(int)openCategory].transform.childCount > 0)
             {
@@ -158,6 +166,8 @@ public class Codex3 : MonoBehaviour
 
         if (ControlManager.isController)
         {
+            backControllerObject.SetActive(true);
+            backKBMObject.SetActive(false);
             for (int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = true;
 
             if (menuIndex == 1)
@@ -175,7 +185,9 @@ public class Codex3 : MonoBehaviour
         }
         else
         {
-            for(int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = false;
+            backControllerObject.SetActive(false);
+            backKBMObject.SetActive(true);
+            for (int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = false;
         }
     }
 
@@ -226,7 +238,7 @@ public class Codex3 : MonoBehaviour
 
             case 2:
                 UpdateEntries();
-                if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
+                if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
                 ChangeCategory(openCategory.ToString());
                 break;
 
@@ -269,7 +281,7 @@ public class Codex3 : MonoBehaviour
                 case 5:
                     BugList = new List<CodexEntries>();
                     Cat = BugEntries;
-                    break; 
+                    break;
 
                 case 6:
                     isQuest = true;
@@ -286,7 +298,7 @@ public class Codex3 : MonoBehaviour
                     print("No Frests found.");
                     return;
                 }
-                
+
                 for (int e = 0; e < activeQuests.Count; e++)
                 {
                     var chosenContainer = containers[i];
@@ -302,7 +314,7 @@ public class Codex3 : MonoBehaviour
                     var type = activeQuests[e].GetType();
 
                     print(type);
-                    if(type.Equals(typeof(FetchQuest)))
+                    if (type.Equals(typeof(FetchQuest)))
                     {
                         //print("Fetch Quest");
                         var q = activeQuests[e] as FetchQuest;
@@ -315,7 +327,7 @@ public class Codex3 : MonoBehaviour
 
                         questTitle.text = t;
                     }
-                    else if(type.Equals(typeof(HuntQuest)))
+                    else if (type.Equals(typeof(HuntQuest)))
                     {
                         //print("Hunt Quest");
                         var q = activeQuests[e] as HuntQuest;
@@ -328,7 +340,7 @@ public class Codex3 : MonoBehaviour
 
                         questTitle.text = t;
                     }
-                    else if(type.Equals(typeof(GrowQuest)))
+                    else if (type.Equals(typeof(GrowQuest)))
                     {
                         //print("Grow Quest");
                         var q = activeQuests[e] as GrowQuest;
@@ -346,7 +358,7 @@ public class Codex3 : MonoBehaviour
                         questTitle.text = activeQuests[e].name;
                     }
 
-                    if(!activeQuests[e].alreadyCompleted) questTitle.text = questTitle.text;
+                    if (!activeQuests[e].alreadyCompleted) questTitle.text = questTitle.text;
                     else questTitle.text = "<s>" + questTitle.text + "</s>";
 
                     buttonScript.assignedQuest = activeQuests[e];
@@ -386,7 +398,7 @@ public class Codex3 : MonoBehaviour
                 }
                 else if (Cat == PlantEntries)
                 {
-                    if (Cat[e] == mandrakeEntry)
+                    /*if (Cat[e] == mandrakeEntry)
                     {
                         if (mandrakeEntry.cropData.amountKilled > 0)
                         {
@@ -394,7 +406,7 @@ public class Codex3 : MonoBehaviour
                             continue;
                         }
                         else mandrakeEntry.unlocked = false;
-                    }
+                    }*/
 
 
                     if (Cat[e].cropData.amountHarvested > 0) //Unlocks if amount of crop harvested > 0
@@ -544,6 +556,7 @@ public class Codex3 : MonoBehaviour
     private void ResetCodex() //Sets the codex to its default state
     {
         print("Resetting Codex to default state and updating entries.");
+        OverrideEntries(); // Override unlocks for specific entries
         UpdateEntries();
         ChangeCategory("Tutorial"); // Start with the Tutorial category open
         activeQuests = questManager.activeQuests;
@@ -558,7 +571,7 @@ public class Codex3 : MonoBehaviour
         openCategory = (OpenCategory)Enum.Parse(typeof(OpenCategory), categoryToOpen); //Wow
         var catInt = (int)openCategory;
 
-        for(int i = 0; i < categoryButtons.Length; i++) //help
+        for (int i = 0; i < categoryButtons.Length; i++) //help
         {
             if (i == catInt) buttonLerps[i].lerpToStart = false;
             else buttonLerps[i].lerpToStart = true;
@@ -581,5 +594,23 @@ public class Codex3 : MonoBehaviour
         }
 
         menuIndex = 1;
+    }
+
+    private void OverrideEntries()
+    {
+        waterGunEntry.unlocked = gameSaveData.watergunObtained;
+        bugNetEntry.unlocked = gameSaveData.bugNetObtained;
+        scytheEntry.unlocked = gameSaveData.scytheObtained;
+
+        if (mandrakeCreatureEntry.creatureData.amountKilled > 0)
+        {
+            mandrakeCreatureEntry.unlocked = true;
+            mandrakeCropEntry.unlocked = true;
+        }
+        else
+        {
+            mandrakeCreatureEntry.unlocked = false;
+            mandrakeCropEntry.unlocked = false;
+        }    
     }
 }
