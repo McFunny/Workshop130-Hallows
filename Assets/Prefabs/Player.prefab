@@ -777,9 +777,9 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 4.02, y: 0.39, z: 2.86}
+  m_Size: {x: 4.29, y: 0.39, z: 3.46}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4129650681484225867
 Rigidbody:
@@ -820,9 +820,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b586c4865b2de5458849c17e66d3b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitDetection:
-    serializedVersion: 2
-    m_Bits: 262721
   collider: {fileID: 7939557920489333164}
   hitPlant: {fileID: 8300000, guid: 94cec95ad42426d4cbe04b630940bed8, type: 3}
   hitFlesh: {fileID: 8300000, guid: b66b6c34f14516f41bedd19299e5693a, type: 3}
@@ -1214,9 +1211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68dadb45cdf7a7149876e646b17cd88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitDetection:
-    serializedVersion: 2
-    m_Bits: 262721
   collider: {fileID: 9208214954908016475}
   hitStruct: {fileID: 8300000, guid: 32902731c1131564a95c8392f4d81620, type: 3}
   hitFlesh: {fileID: 8300000, guid: 4d7da1a9abc17b84b89870c0cbf80d7b, type: 3}
@@ -1402,6 +1396,7 @@ Transform:
   - {fileID: 1326707668455324591}
   - {fileID: 771101908317818649}
   - {fileID: 3453621485043267150}
+  - {fileID: 5848718052370853448}
   - {fileID: 8248381022118270939}
   - {fileID: 1161298806788455096}
   - {fileID: 5686401068769705809}
@@ -1500,6 +1495,105 @@ MonoBehaviour:
     m_FrequencyGain: 1
     m_Duration: 1
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!1 &7192286484543296396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5848718052370853448}
+  - component: {fileID: 5538233878325030906}
+  - component: {fileID: 2244257781938274765}
+  - component: {fileID: 8119872313947886165}
+  m_Layer: 2
+  m_Name: BugSwingCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5848718052370853448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7192286484543296396}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.303, z: 2.48}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8139505338580327214}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &5538233878325030906
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7192286484543296396}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 2097143
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 4.13
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &2244257781938274765
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7192286484543296396}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8119872313947886165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7192286484543296396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5183a326dbf271b49a871fb6dcfc083d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collider: {fileID: 5538233878325030906}
+  collectedItem: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  caught: {fileID: 8300000, guid: 670c8869953582347943c68fdb8f866b, type: 3}
 --- !u!1 &8451255029938577494
 GameObject:
   m_ObjectHideFlags: 0

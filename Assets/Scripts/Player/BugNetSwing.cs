@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class BugNetSwing : MonoBehaviour
 {
-    public LayerMask hitDetection;
+    //public LayerMask hitDetection;
     public Collider collider;
 
-    public AudioClip collectedItem;
+    public AudioClip collectedItem, caught;
 
     bool cancelSwing; //Happens when the player hits a hard thing
 
@@ -16,12 +16,14 @@ public class BugNetSwing : MonoBehaviour
     //Maybe functionality to grabbin an item, so players can get stuff slightly out of reach
 
 
-    BugBehaviorScript caughtBug;
+    InventoryItemData caughtBug;
 
     void Start()
     {
         collider.enabled = false;
         if(HandItemManager.Instance.bugNet) bugRenderer = HandItemManager.Instance.bugNet.GetComponentInChildren<SpriteRenderer>();
+
+        caughtBug = null;
     }
     
     public IEnumerator Swing()
@@ -46,13 +48,12 @@ public class BugNetSwing : MonoBehaviour
         var bug = other.GetComponentInParent<BugBehaviorScript>();
         if (bug != null && caughtBug == null)
         {
-            caughtBug = bug;
+            caughtBug = bug.bugItem;
+            bug.Captured();
+            HandItemManager.Instance.toolSource.PlayOneShot(caught);
             bugRenderer.sprite = bug.bugItem.icon;
             return;
         }
-
-        //it hit default collider
-        if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15) return;
         
     }
 
@@ -60,8 +61,9 @@ public class BugNetSwing : MonoBehaviour
     {
         if(caughtBug == null) return;
         ParticlePoolManager.Instance.GrabSparkParticle().transform.position = bugRenderer.transform.position;
-        if(PlayerInventoryHolder.Instance.AddToInventory(caughtBug.bugItem, 1) == false) ItemPoolManager.Instance.GrabItem(caughtBug.bugItem).transform.position = PlayerInventoryHolder.Instance.transform.position;
+        if(PlayerInventoryHolder.Instance.AddToInventory(caughtBug, 1) == false) ItemPoolManager.Instance.GrabItem(caughtBug).transform.position = PlayerInventoryHolder.Instance.transform.position;
         else FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
         bugRenderer.sprite = null;
+        caughtBug = null;
     }
 }

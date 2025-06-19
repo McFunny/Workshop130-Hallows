@@ -75,6 +75,8 @@ public class DryingRack : StructureBehaviorScript
 
             SpriteChange();
 
+            audioHandler.PlaySound(audioHandler.interactSound);
+
         }
     }
 
@@ -97,6 +99,8 @@ public class DryingRack : StructureBehaviorScript
             SpriteChange();
 
             ignoreNextHour = true;
+
+            audioHandler.PlaySound(audioHandler.itemInteractSound);
 
         }
     }

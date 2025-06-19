@@ -12,7 +12,7 @@ public class ParticlePoolManager : MonoBehaviour
     public VisualEffect hitEffect;
 
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
-    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle;
+    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP;
 
@@ -31,6 +31,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> frostBurstPool = new List<GameObject>();
     List<GameObject> splashPool = new List<GameObject>();
     List<GameObject> impactPool = new List<GameObject>();
+    List<GameObject> bugSplatPool = new List<GameObject>();
 
     //Destruction
     List<GameObject> woodPool = new List<GameObject>();
@@ -184,6 +185,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(impactParticle);
             impactPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(bugSplatParticle);
+            bugSplatPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -512,6 +520,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(impactParticle);
         impactPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabBugSplatParticle()
+    {
+        foreach (GameObject particle in bugSplatPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(bugSplatParticle);
+        bugSplatPool.Add(newParticle);
         return newParticle;
     }
 

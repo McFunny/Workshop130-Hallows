@@ -88,7 +88,7 @@ MonoBehaviour:
     - Don't you have some beartraps to step on?
     emotions: 00000000
   questPaths:
-  - pathName: Fetch Quest
+  - pathName: Empty
     paragraphs: []
     emotions: 
   - pathName: Food For Thought
@@ -105,6 +105,19 @@ MonoBehaviour:
     - Talk to that old wood guy. I'm sure he can clear that big tree in front of
       it.
     emotions: 010000000500000000000000
+  - pathName: Lost My Net
+    paragraphs:
+    - Oh farmer guy, we have much more important things to be concerned over than
+      some lousey carrots! {freezePlayer}
+    - My bugnet is missing! You just gotta help me find it!
+    - ... Whats that look for?? Who do you think keeps our streets clean?!
+    emotions: 050000000500000003000000
+  - pathName: You Found My Net
+    paragraphs:
+    - Oh hey, you found my net. {freezePlayer}
+    - Thing is, I got bored and made a new one. With reinforced Gloomstalk netting!
+    - I don't need that old one anymore, you can have it.
+    emotions: 000000000200000000000000
   itemRecievedPaths:
   - pathName: Go Sell that
     paragraphs:

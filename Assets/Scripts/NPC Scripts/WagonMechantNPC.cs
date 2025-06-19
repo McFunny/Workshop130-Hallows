@@ -17,6 +17,8 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public MerchantLantern lantern;
 
+    int wildernessPrice = 150;
+
     //public Animator anim;
 
     public float sellMultiplier = 1;
@@ -182,6 +184,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         if(dialogueController.IsInterruptable() == false)
         {
+            Talk();
             return;
         } 
         if(lastInteractedStoreItem == item)
@@ -295,7 +298,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) //Open Wilderness
+            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 2000) //Open Wilderness
             {
                 currentPath = 8;
                 currentType = PathType.Misc;
@@ -303,7 +306,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             else //Are you sure you want to go/You cannot go yet
             {
-                if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay || WildernessManager.Instance.visitedWilderness)
+                if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay || WildernessManager.Instance.visitedWilderness) //Cannot go
                 {
                     currentPath = 10;
                     currentType = PathType.Misc;
@@ -313,6 +316,11 @@ public class WagonMerchantNPC : NPC, ITalkable
                     currentPath = 9;
                     currentType = PathType.Misc;
                     interactedWithLantern = true;
+                }
+                else if(PlayerInteraction.Instance.currentMoney < wildernessPrice)
+                {
+                    currentPath = 6; //no money!?!?!?
+                    currentType = PathType.Misc;
                 }
                 else
                 {
@@ -334,6 +342,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         interactedWithLantern = false;
+        PlayerInteraction.Instance.currentMoney -= wildernessPrice;
         yield return new WaitForSeconds(3);
         WildernessManager.Instance.EnterWilderness();
         FadeScreen.coverScreen = false;
@@ -384,6 +393,13 @@ public class WagonMerchantNPC : NPC, ITalkable
             if(MainMenuScript.currentFileMode == FileMode.Cozy) itemsToGive.Add(new ItemWithAmount(ammo, 20));
             else itemsToGive.Add(new ItemWithAmount(ammo, 6));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
+        }
+        else if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 2000)
+        {
+            currentPath = 8;
+            currentType = PathType.Misc;
+            GameSaveData.Instance.wildernessIntroduced = true;
+            lantern.EnableSelf();
         }
         else return;
         metPlayerAtEntrace = true;

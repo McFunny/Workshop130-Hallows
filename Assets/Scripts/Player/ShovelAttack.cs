@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShovelAttack : MonoBehaviour
 {
-    public LayerMask hitDetection;
+    //public LayerMask hitDetection;
     public Collider collider;
 
     public AudioClip hitStruct, hitFlesh, hitDirt;
@@ -12,6 +12,7 @@ public class ShovelAttack : MonoBehaviour
     CreatureBehaviorScript hitCreature;
     StructureBehaviorScript hitStructure;
     CreatureArmor hitArmor;
+    BugBehaviorScript hitBug;
 
     Vector3 c_Collision, s_Collision, d_Collision;
     GroundType type;
@@ -26,6 +27,7 @@ public class ShovelAttack : MonoBehaviour
         hitCreature = null;
         hitStructure = null;
         hitArmor = null;
+        hitBug = null;
         collider.enabled = true;
         d_Collision = new Vector3(0,0,0);
         yield return new WaitForSeconds(0.04f);
@@ -59,6 +61,12 @@ public class ShovelAttack : MonoBehaviour
         if (creatureArmor != null && hitArmor == null)
         {
             hitArmor = creatureArmor;
+        }
+
+        var bug = other.GetComponentInParent<BugBehaviorScript>();
+        if (bug != null && hitBug == null)
+        {
+            hitBug = bug;
         }
 
         if (other.gameObject.layer == 17)
@@ -122,6 +130,12 @@ public class ShovelAttack : MonoBehaviour
             if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             PlayHitParticle(s_Collision);
+        }
+
+        if(hitBug)
+        {
+            hitBug.Struck();
+            return; //To stop hitting the floor after striking bug
         }
 
         if(d_Collision != new Vector3(0,0,0))

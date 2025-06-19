@@ -12,7 +12,7 @@ public class TinkererNPC : NPC, ITalkable
   
 
     public float sellMultiplier = 1;
-    public InventoryItemData watergun;
+    public InventoryItemData watergun, scythe;
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
@@ -155,6 +155,10 @@ public class TinkererNPC : NPC, ITalkable
                     GameSaveData.Instance.watergunObtained = true;
                     QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(7));
                 }
+                if (item.itemData == scythe) 
+                {
+                    GameSaveData.Instance.scytheObtained = true;
+                }
                 shopUI.shopImgObj.SetActive(false);
             }
             anim.SetTrigger("IsTalking");
@@ -214,6 +218,13 @@ public class TinkererNPC : NPC, ITalkable
                 if (i == 0 && !GameSaveData.Instance.watergunObtained && timesSetUpShop > 0 && GameSaveData.Instance.tinkMet)
                 {
                     newItem = watergun;
+                    int newCost = (int)(newItem.value * sellMultiplier);
+                    storeItems[0].RefreshItem(newItem, newCost);
+                    storeItems[0].seller = this;
+                }
+                else if (i == 0 && !GameSaveData.Instance.scytheObtained && timesSetUpShop == 0)
+                {
+                    newItem = scythe;
                     int newCost = (int)(newItem.value * sellMultiplier);
                     storeItems[0].RefreshItem(newItem, newCost);
                     storeItems[0].seller = this;

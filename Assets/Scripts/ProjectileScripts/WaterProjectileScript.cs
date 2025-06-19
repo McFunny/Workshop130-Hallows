@@ -148,6 +148,9 @@ public class WaterProjectileScript : MonoBehaviour
             return;
         }
 
+        var bug = other.GetComponent<BugBehaviorScript>();
+        if(bug) bug.Struck();
+
     }
 
     void FreezeShot()
