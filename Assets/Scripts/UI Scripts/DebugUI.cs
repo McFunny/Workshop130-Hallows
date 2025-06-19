@@ -39,7 +39,7 @@ public class DebugUI : MonoBehaviour
 
         isDebugMenuOpen = panel.activeSelf;
 
-        if (Input.GetKeyDown(KeyCode.F1) && !PauseScript.isPaused)
+        if (Input.GetKeyDown(KeyCode.F2) && !PauseScript.isPaused)
         {
             if (!PlayerMovement.isCodexOpen)
             {

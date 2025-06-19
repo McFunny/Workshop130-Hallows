@@ -20,24 +20,27 @@ public class PauseScript : MonoBehaviour
     public ConfirmationBox confirmationBox;
     public GameObject loadingScreen;
     
-    private CodexRework codex;
+    //private CodexRework codex;
+    private Codex3 codex3;
     // Start is called before the first frame update
     void Awake()
     {
         isPaused = false;
         controlManager = FindFirstObjectByType<ControlManager>();
         settingsValueManager = settingsCanvas.GetComponent<SettingsValueManager>();
-        codex = FindFirstObjectByType<CodexRework>();
+        codex3 = FindFirstObjectByType<Codex3>();
     }
 
     private void OnEnable()
     {
         controlManager.pauseGame.action.started += PausePressed;
+        codex3.onCodexClosed += CodexClosed;
         //controlManager.closeCodex.action.started += UnPause;
     }
     private void OnDisable()
     {
         controlManager.pauseGame.action.started -= PausePressed;
+        codex3.onCodexClosed -= CodexClosed;
         //controlManager.closeCodex.action.started -= UnPause;
     }
 
@@ -74,13 +77,12 @@ public class PauseScript : MonoBehaviour
         
         
 
-        if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused)
+        if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused && !PlayerMovement.isCodexOpen)
         {
             if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             else if(controlsObject.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
             else if(resolutionBox.activeSelf)EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
             else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
-            else if(codexObject.activeSelf)EventSystem.current.SetSelectedGameObject(codexDefault);
             else{EventSystem.current.SetSelectedGameObject(defaultObject);}
             print("Default Menu Object Selected");
         } 
@@ -110,7 +112,8 @@ public class PauseScript : MonoBehaviour
 
     public void PauseGame()
     {
-        if(isTransitioning || (!isPaused && PlayerMovement.restrictMovementTokens > 0)) return;
+        if(PlayerMovement.isCodexOpen) return;
+        if (isTransitioning || (!isPaused && PlayerMovement.restrictMovementTokens > 0)) return;
         isPaused = !isPaused;
         if(isPaused)
         {
@@ -187,7 +190,7 @@ public class PauseScript : MonoBehaviour
         print("Resume Game Pressed");
         //if(codexObject.activeSelf) return;
 
-        if(confirmationBox.gameObject.activeSelf)
+        if (confirmationBox.gameObject.activeSelf)
         {
             NoPressed();
             return;
@@ -203,17 +206,18 @@ public class PauseScript : MonoBehaviour
             controlsObject.SetActive(false);
             return;
         }
-        if(codexObject.activeSelf)
+        /*if(codexObject.activeSelf)
         {
-            //print("COdex");
-            codex.OpenCloseCodex();
             if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
-            //PlayerMovement.isCodexOpen = false;
             return;
-        }
-
+        }*/
         PauseGame();
         controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
+    }
+
+    private void CodexClosed()
+    {
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
     }
 
     public void GoToMainMenu()
@@ -272,9 +276,9 @@ public class PauseScript : MonoBehaviour
 
     public void OpenPauseCodex()
     {
-        codex.OpenCloseCodex();
+        codex3.OpenCodex();
         //PlayerMovement.isCodexOpen = true;
-        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(codexDefault);
+        //if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(codexDefault);
     }
     
 }

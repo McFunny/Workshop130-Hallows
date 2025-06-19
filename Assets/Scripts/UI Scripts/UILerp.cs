@@ -6,6 +6,8 @@ public class UILerp : MonoBehaviour
     public bool lerpToStart = true; // If true, lerps to startPoint, otherwise to endPoint
     public bool disableOnEnd = false;
     public bool startAtEnd = false;
+    public bool ignoreTimeScale = true; // If true, lerp will ignore Time.timeScale
+    private float timeScale;
     [SerializeField] private RectTransform transformToLerp;
     [SerializeField] private float lerpMultiplier = 1f; // Multiplier to adjust the speed of the lerp
     [SerializeField] private RectTransform startPoint, endPoint;
@@ -14,9 +16,12 @@ public class UILerp : MonoBehaviour
     private void Awake()
     {
 
-        if(transformToLerp == null) transformToLerp = GetComponent<RectTransform>();
+        if (transformToLerp == null) transformToLerp = GetComponent<RectTransform>();
 
         if (startAtEnd) transformToLerp.position = endPoint.position;
+
+        if (ignoreTimeScale) timeScale = Time.fixedDeltaTime;
+        else timeScale = Time.deltaTime;
 
     }
 
@@ -24,7 +29,7 @@ public class UILerp : MonoBehaviour
     {
         if (lerpToStart)
         {
-            transformToLerp.position = Vector2.Lerp(transformToLerp.position, startPoint.position, Time.deltaTime * lerpMultiplier);
+            transformToLerp.position = Vector2.Lerp(transformToLerp.position, startPoint.position, timeScale * lerpMultiplier);
             if (Vector2.Distance(transformToLerp.position, startPoint.position) < 0.01f)
             {
                 transformToLerp.position = startPoint.position;
@@ -32,7 +37,7 @@ public class UILerp : MonoBehaviour
         }
         else
         {
-            transformToLerp.position = Vector2.Lerp(transformToLerp.position, endPoint.position, Time.deltaTime * lerpMultiplier);
+            transformToLerp.position = Vector2.Lerp(transformToLerp.position, endPoint.position, timeScale * lerpMultiplier);
             if(Vector2.Distance(transformToLerp.position, endPoint.position) < 0.1f)
             {
                 transformToLerp.position = endPoint.position;

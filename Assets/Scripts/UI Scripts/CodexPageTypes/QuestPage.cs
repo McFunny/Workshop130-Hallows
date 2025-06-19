@@ -10,6 +10,7 @@ public class QuestPage : CodexPage
     private QuestManager questManager;
     private Codex3 codex;
     private Quest currentOpenQuest;
+    private ControlManager controlManager;
     [SerializeField] private VerticalLayoutGroup mainVert;
     [SerializeField] private GameObject rewardsContainer;
     [SerializeField] private Image rewardIcon;
@@ -29,18 +30,23 @@ public class QuestPage : CodexPage
     {
         questManager = FindFirstObjectByType<QuestManager>();
         codex = GetComponentInParent<Codex3>();
-        print(confirmationBox);
+        //print(confirmationBox);
+        controlManager = FindFirstObjectByType<ControlManager>();
     }
 
     private void OnEnable()
     {
         Canvas.ForceUpdateCanvases();
+        controlManager.deleteQuest.action.started += ControllerDeleteQuest;
     }
 
     private void OnDisable()
     {
         currentOpenQuest = null;
+        controlManager.deleteQuest.action.started -= ControllerDeleteQuest;
     }
+
+
 
     public override void UpdatePage(CodexEntries entry, Quest quest)
     {
@@ -99,11 +105,16 @@ public class QuestPage : CodexPage
         mainVert.enabled = false;
         mainVert.enabled = true; //Yeah of course the solution is to turn it off and then turn it back on
     }
+    
+    private void ControllerDeleteQuest(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        if(confirmationBox.gameObject.activeSelf) return;
+        if (codex.menuIndex == 2) DeleteQuest();
+    }
 
     public void DeleteQuest()
     {
-        if(currentOpenQuest.isMajorQuest) return;
-
+        if (currentOpenQuest.isMajorQuest) return;
         OpenConfirmationBox(deleteQuestText);
     }
 

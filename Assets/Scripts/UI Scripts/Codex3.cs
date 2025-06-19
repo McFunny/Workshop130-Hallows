@@ -4,14 +4,16 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System;
+using UnityEngine.EventSystems;
 
 public class Codex3 : MonoBehaviour
 {
+    public System.Action onCodexClosed;
     private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries, BugEntries; //Looks dumb but I need a reference to the SO's cached or else this gets really messy
     private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList, BugList;
     private List<UILerp> buttonLerps = new List<UILerp>();
 
-    private int menuIndex; //0 = closed, 1 = open, 2 = entry page open
+    public int menuIndex; //0 = closed, 1 = open, 2 = entry page open
     private string defaultName = "???";
     private ControlManager controlManager;
     private QuestManager questManager;
@@ -27,6 +29,7 @@ public class Codex3 : MonoBehaviour
         Quests,
     }
     OpenCategory openCategory;
+    [SerializeField] private UIAlphaController bgPanel;
     [SerializeField] private GameObject codex;
     [SerializeField] private UILerp uiLerp;
     [SerializeField] private Button[] categoryButtons;
@@ -42,6 +45,9 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private GameObject entryButtonPrefab;
     [SerializeField] private GameObject entryButtonHorizontalPrefab;
 
+    [Header("Images")]
+    [SerializeField] private List<Image> controllerImages = new List<Image>();
+
     [Header("Override References")]
     [SerializeField] private CodexEntries mandrakeEntry;
 
@@ -50,10 +56,10 @@ public class Codex3 : MonoBehaviour
         controlManager = FindFirstObjectByType<ControlManager>();
         childActivator = GetComponentInChildren<ChildActivator>();
 
-        if (childActivator != null)
+        /*if (childActivator != null)
         {
             childActivator.onChildActivated += ResetCodex; // Reset the codex when the child is activated
-        }
+        }*/
 
         for(int i = 0; i < categoryButtons.Length; i++)
         {
@@ -75,8 +81,6 @@ public class Codex3 : MonoBehaviour
         openCategory = OpenCategory.Tutorial;
 
         ResetCodex();
-        UpdateEntries();
-        ChangeCategory("Tutorial"); // Set the initial category to Tutorial
         codex.SetActive(false);
         menuIndex = 0;
     }
@@ -84,11 +88,22 @@ public class Codex3 : MonoBehaviour
     private void OnEnable()
     {
         controlManager.backCodex.action.started += InputBack;
+        controlManager.hotbarUp.action.started += InputDown;
+        controlManager.hotbarDown.action.started += InputUp;
+        controlManager.codexOpen.action.started += InputOpen;
     }
 
     private void OnDisable()
     {
         controlManager.backCodex.action.started -= InputBack;
+        controlManager.hotbarUp.action.started -= InputDown;
+        controlManager.hotbarDown.action.started -= InputUp;
+        controlManager.codexOpen.action.started -= InputOpen;
+    }
+
+    private void InputOpen(InputAction.CallbackContext context)
+    {
+        if (menuIndex == 0 && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens == 0) OpenCodex();
     }
 
     private void InputBack(InputAction.CallbackContext context)
@@ -96,11 +111,88 @@ public class Codex3 : MonoBehaviour
         Back();
     }
 
+    private void InputUp(InputAction.CallbackContext context)
+    {
+        if (menuIndex > 0) // If the codex is open
+        {
+            int currentIndex = (int)openCategory;
+            currentIndex = currentIndex + 1;
+            if (currentIndex == categoryButtons.Length) currentIndex = 0; // Wrap around to the first category if at the last one
+
+            OpenCategory c = (OpenCategory)currentIndex;
+            ChangeCategory(c.ToString());
+            
+            EventSystem.current.SetSelectedGameObject(null);
+            if (containers[(int)openCategory].transform.childCount > 0)
+            {
+                EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+            }
+        }
+    }
+
+    private void InputDown(InputAction.CallbackContext context)
+    {
+        if (menuIndex > 0) // If the codex is open
+        {
+            int currentIndex = (int)openCategory;
+            currentIndex = currentIndex - 1;
+            if (currentIndex < 0) currentIndex = categoryButtons.Length - 1; // Wrap around to the last category if at the first one
+
+            OpenCategory c = (OpenCategory)currentIndex;
+            ChangeCategory(c.ToString());
+
+            EventSystem.current.SetSelectedGameObject(null);
+            if (containers[(int)openCategory].transform.childCount > 0)
+            {
+                EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        //print(EventSystem.current.currentSelectedGameObject);
+
+        if (menuIndex == 0 || menuIndex == 2) return;
+        if (!PlayerMovement.isCodexOpen) return;
+
+        if (ControlManager.isController)
+        {
+            for (int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = true;
+
+            if (menuIndex == 1)
+            {
+                // Set the selected game object to the first child of the current category container
+                // I think this will work idk
+                if (EventSystem.current.currentSelectedGameObject == null)
+                {
+                    if (containers[(int)openCategory].transform.childCount > 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for(int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = false;
+        }
+    }
+
     public void OpenCodex()
     {
         uiLerp.lerpToStart = true; // Start the UI lerp animation
+        bgPanel.FadeIn(); // Fade in the background panel
         menuIndex = 1;
         codex.SetActive(true);
+        ResetCodex();
+
+        if (ControlManager.isController && containers[(int)openCategory].transform.childCount > 0)
+        {
+            EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+        }
+
+        Time.timeScale = 0f;
         PlayerMovement.isCodexOpen = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -108,8 +200,14 @@ public class Codex3 : MonoBehaviour
 
     public void CloseCodex()
     {
+        onCodexClosed?.Invoke();
+        bgPanel.FadeOut(); // Fade in the background panel
         uiLerp.lerpToStart = false; // Reverse the UI lerp animation
         menuIndex = 0;
+
+        EventSystem.current.SetSelectedGameObject(null);
+
+        Time.timeScale = 1f;
         PlayerMovement.isCodexOpen = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -128,6 +226,7 @@ public class Codex3 : MonoBehaviour
 
             case 2:
                 UpdateEntries();
+                if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
                 ChangeCategory(openCategory.ToString());
                 break;
 

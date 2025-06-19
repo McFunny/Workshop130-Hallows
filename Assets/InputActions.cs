@@ -260,6 +260,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenCodex"",
+                    ""type"": ""Button"",
+                    ""id"": ""d694fc67-1c42-47fe-8866-f9c3d22edf8d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DeleteQuest"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa0306c5-4537-4e3c-be63-123560255564"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1074,6 +1092,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""HotbarSwitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""acba6973-151b-4850-83d7-488f4a4da784"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenCodex"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b0adc48d-8df8-4447-b72f-455f0ff22d84"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenCodex"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4b0076f-4f09-49cd-be0e-6525d379749c"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DeleteQuest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2084,6 +2135,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_MinigamePress = m_Gameplay.FindAction("MinigamePress", throwIfNotFound: true);
         m_Gameplay_MinigameExit = m_Gameplay.FindAction("MinigameExit", throwIfNotFound: true);
         m_Gameplay_HotbarSwitch = m_Gameplay.FindAction("HotbarSwitch", throwIfNotFound: true);
+        m_Gameplay_OpenCodex = m_Gameplay.FindAction("OpenCodex", throwIfNotFound: true);
+        m_Gameplay_DeleteQuest = m_Gameplay.FindAction("DeleteQuest", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -2194,6 +2247,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_MinigamePress;
     private readonly InputAction m_Gameplay_MinigameExit;
     private readonly InputAction m_Gameplay_HotbarSwitch;
+    private readonly InputAction m_Gameplay_OpenCodex;
+    private readonly InputAction m_Gameplay_DeleteQuest;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -2224,6 +2279,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @MinigamePress => m_Wrapper.m_Gameplay_MinigamePress;
         public InputAction @MinigameExit => m_Wrapper.m_Gameplay_MinigameExit;
         public InputAction @HotbarSwitch => m_Wrapper.m_Gameplay_HotbarSwitch;
+        public InputAction @OpenCodex => m_Wrapper.m_Gameplay_OpenCodex;
+        public InputAction @DeleteQuest => m_Wrapper.m_Gameplay_DeleteQuest;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2311,6 +2368,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @HotbarSwitch.started += instance.OnHotbarSwitch;
             @HotbarSwitch.performed += instance.OnHotbarSwitch;
             @HotbarSwitch.canceled += instance.OnHotbarSwitch;
+            @OpenCodex.started += instance.OnOpenCodex;
+            @OpenCodex.performed += instance.OnOpenCodex;
+            @OpenCodex.canceled += instance.OnOpenCodex;
+            @DeleteQuest.started += instance.OnDeleteQuest;
+            @DeleteQuest.performed += instance.OnDeleteQuest;
+            @DeleteQuest.canceled += instance.OnDeleteQuest;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -2393,6 +2456,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @HotbarSwitch.started -= instance.OnHotbarSwitch;
             @HotbarSwitch.performed -= instance.OnHotbarSwitch;
             @HotbarSwitch.canceled -= instance.OnHotbarSwitch;
+            @OpenCodex.started -= instance.OnOpenCodex;
+            @OpenCodex.performed -= instance.OnOpenCodex;
+            @OpenCodex.canceled -= instance.OnOpenCodex;
+            @DeleteQuest.started -= instance.OnDeleteQuest;
+            @DeleteQuest.performed -= instance.OnDeleteQuest;
+            @DeleteQuest.canceled -= instance.OnDeleteQuest;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -2684,6 +2753,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnMinigamePress(InputAction.CallbackContext context);
         void OnMinigameExit(InputAction.CallbackContext context);
         void OnHotbarSwitch(InputAction.CallbackContext context);
+        void OnOpenCodex(InputAction.CallbackContext context);
+        void OnDeleteQuest(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
