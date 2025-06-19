@@ -21,7 +21,7 @@ public class Refinery : StructureBehaviorScript
 
     bool ignoreNextHour = false;
 
-    bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
     public PopupScript chargingPopup;
 
     public TextMeshProUGUI storedText, finishedText;
@@ -90,8 +90,14 @@ public class Refinery : StructureBehaviorScript
             return;
         }
 
-        if((item == timberEar || item == gloomStalk) && savedItems.Count < maxContainedItems && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= 5)
+        if((item == timberEar || item == gloomStalk) && savedItems.Count < maxContainedItems)
         {
+
+            if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize < 5) //Not enough items
+            {
+                PopupHandler.Instance.AddToQueue(chargingPopup);
+                return;
+            }
             for(int i = 0; i < 5; i++)
             {
                 savedItems.Add(item);
@@ -104,6 +110,7 @@ public class Refinery : StructureBehaviorScript
             ParticlePoolManager.Instance.GrabCloudParticle().transform.position = itemDropTransform.position;
 
             anim.SetTrigger("InsertItem");
+            anim.SetBool("IsRunning", true);
             fumes.Play();
         }
     }
@@ -147,7 +154,7 @@ public class Refinery : StructureBehaviorScript
     {
         int storedStacks = 0;
         if(savedItems.Count > 0) storedStacks = savedItems.Count / 5;
-        storedText.text = "Stacks Stored:  " + storedStacks + "/" + maxContainedItems/5;
+        storedText.text = "Stacks Stored:   " + storedStacks + "/" + maxContainedItems/5;
 
         finishedText.text = "Items Finished: " + itemsFinished + "/" + maxContainedItems/5;
     }

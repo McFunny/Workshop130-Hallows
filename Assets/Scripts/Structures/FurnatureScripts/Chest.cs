@@ -19,6 +19,9 @@ public class Chest : FurnitureBehaviorScript
 
     public Animator anim;
 
+    public AudioSource source;
+    public AudioClip openSFX, closeSFX;
+
     void Awake()
     {
         base.Awake();
@@ -95,6 +98,7 @@ public class Chest : FurnitureBehaviorScript
         PlayerInventoryHolder.Instance.UpdateOpenInventory();
 
         RefreshSockets();
+        source.PlayOneShot(openSFX);
     }
 
     void RefreshSockets()
@@ -112,6 +116,7 @@ public class Chest : FurnitureBehaviorScript
         yield return new WaitForSeconds(0.1f);
         yield return new WaitUntil(() => !PlayerMovement.accessingInventory);
         anim.SetBool("isOpen", false);
+        source.PlayOneShot(closeSFX);
         RefreshSockets();
     }
 
