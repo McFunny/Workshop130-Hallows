@@ -651,7 +651,7 @@ MonoBehaviour:
     type: 3}
   pauseGame: {fileID: 1951717230994014852, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
-  openCodex: {fileID: 2501542077455503555, guid: 060d319d61d58794a97cf0963535b7d5,
+  backCodex: {fileID: 2501542077455503555, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
   closeCodex: {fileID: -4834840198640523706, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
@@ -689,6 +689,10 @@ MonoBehaviour:
   minigameExit: {fileID: 3467299635010333050, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
   hotbarSwitch: {fileID: -7345189336816485668, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  codexOpen: {fileID: -8227761213151258999, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  deleteQuest: {fileID: -6494375332500068535, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
   playerInput: {fileID: 3987123363838110697}
 --- !u!114 &3987123363838110697
@@ -775,7 +779,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 4.02, y: 0.39, z: 3.46}
+  m_Size: {x: 4.29, y: 0.39, z: 3.46}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4129650681484225867
 Rigidbody:

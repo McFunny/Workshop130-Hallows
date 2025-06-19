@@ -94,6 +94,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
     {
         if (dialogueController.IsInterruptable() == false || !shopUI)
         {
+            Talk();
             return;
         }
         if (lastInteractedStoreItem == item)
@@ -187,14 +188,14 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public void GiveDailyQuest(Quest q)
     {
-        if(q == null) return;
+        if(q == null || q.name == "") return;
         dailyQuest = q;
         ExclamationCheck();
     }
 
     protected void GivePlayerDailyQuest()
     {
-        if(dailyQuest == null) return;
+        if(dailyQuest == null || dailyQuest.name == "") return;
 
         //Check to see if we have to identify the type of quest
         QuestManager.Instance.AddQuest(dailyQuest);
@@ -204,7 +205,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual bool ExclamationCheck() //Checks if the exclamation point should persist
     {
         if(!exclamationObject) return false;
-        if(dailyQuest != null || QuestManager.Instance.CheckForFinishedNPCQuest(character)) //Need a way to call this hourly, otherwise this wont update when the player completes quests
+        if((dailyQuest != null && dailyQuest.name != "") || QuestManager.Instance.CheckForFinishedNPCQuest(character)) //Need a way to call this hourly, otherwise this wont update when the player completes quests
         {
             exclamationObject.SetActive(true);
             return true;

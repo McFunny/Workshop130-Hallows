@@ -508,7 +508,7 @@ public class PlayerInventoryHolder : InventoryHolder
 
     public void SwitchHotBars(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || InputManager.isCharging || PauseScript.isPaused || PlayerMovement.accessingInventory) return;
+        if(PlayerMovement.restrictMovementTokens > 0 || InputManager.isCharging || PauseScript.isPaused || PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen) return;
 
         List<InventorySlot> currentPInventory = new List<InventorySlot>();
         List<InventorySlot> currentSInventoryRow1 = new List<InventorySlot>();

@@ -995,6 +995,16 @@ public class StructureManager : MonoBehaviour
         return x;
     }
 
+    public List<GameObject> ReturnStructuresOfType(StructureObject data)
+    {
+        List<GameObject> temp = new List<GameObject>();
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            if(allStructs[i].structData && allStructs[i].structData == data) temp.Add(allStructs[i].gameObject);
+        }
+        return temp;
+    }
+
 
 }
 

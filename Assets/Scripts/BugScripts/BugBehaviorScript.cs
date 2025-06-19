@@ -24,6 +24,7 @@ public class BugBehaviorScript : MonoBehaviour
     public float walkSpeed, fleeSpeed;
     public float sightRange = 0; //0 means it ignores the player
     public float reactionTimeMin, reactionTimeMax; //How fast it does its action when approached by the player, IE time before fleeing after approached by player
+    public float despawnChance = 100; //Chance of the state turning to Leave when approached by the player
 
     protected bool isMoving = false;
     protected bool coroutineRunning = false;
@@ -34,8 +35,10 @@ public class BugBehaviorScript : MonoBehaviour
     protected Transform player;
     protected Collider hitBox;
 
-    //public BugData bugData
+    public BugObject bugData;
     public DespawnMethod despawnMethod;
+    protected int hoursAlive = 0;
+    protected int maxLifetime = 6;
 
     public enum DespawnMethod
     {
@@ -50,7 +53,7 @@ public class BugBehaviorScript : MonoBehaviour
     {
         Wander,
         MovingToTarget,
-        Flee,
+        Panic,
         Leave,
         Stun,
         UniqueBehavior1,
@@ -70,8 +73,8 @@ public class BugBehaviorScript : MonoBehaviour
                 MovingToTarget();
                 break;
 
-            case BugState.Flee:
-                Flee();
+            case BugState.Panic:
+                Panic();
                 break;
 
             case BugState.Leave:
@@ -108,11 +111,28 @@ public class BugBehaviorScript : MonoBehaviour
     {
         player = PlayerInteraction.Instance.transform;
         StartCoroutine(AnimateBug());
+
+        TimeManager.OnHourlyUpdate -= HourlyUpdate;
+    }
+
+    protected void OnDisable()
+    {
+        TimeManager.OnHourlyUpdate -= HourlyUpdate;
+        if(BugSpawningManager.Instance.allBugs.Contains(this.gameObject))
+        {
+            BugSpawningManager.Instance.allBugs.Remove(this.gameObject);
+        }
+    }
+
+    protected virtual void HourlyUpdate()
+    {
+        hoursAlive++;
+        if(hoursAlive >= maxLifetime || !bugData.activeHours.Contains(TimeManager.Instance.timeOfDay)) currentState = BugState.Leave;
     }
 
     protected virtual void Update()
     {
-        if(currentState == BugState.Flee) agent.speed = fleeSpeed;
+        if(currentState == BugState.Panic) agent.speed = fleeSpeed;
         else agent.speed = walkSpeed;
 
         float distance = Vector3.Distance(player.position, transform.position);
@@ -151,12 +171,20 @@ public class BugBehaviorScript : MonoBehaviour
         agent.destination = destination;
 
         float timeSpent = 0; //to make sure it doesnt get stuck
-        float maxTime = Random.Range(1.5f, 5f);
+        float maxTime = Random.Range(1.5f, 3f);
+        bool stopEarly = false;
+        if(currentState == BugState.Panic) maxTime = maxTime/3;
 
         while (timeSpent < maxTime)
         {
             timeSpent += Time.deltaTime;
-            if((target != null && currentState == BugState.Wander) || currentState == BugState.Leave)
+            if(target != null && currentState == BugState.Wander) stopEarly = true;
+
+            if(currentState == BugState.Leave) stopEarly = true;
+
+            //if(((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && currentState == BugState.Panic)) stopEarly = true;
+
+            if(stopEarly)
             {
                 isMoving = false;
                 coroutineRunning = false;
@@ -179,7 +207,17 @@ public class BugBehaviorScript : MonoBehaviour
         }
     }
 
-    private void Flee() //currently no timer is implemented
+    private void Panic() 
+    {
+        if (!isMoving && currentState == BugState.Panic)
+        {
+            Vector3 randomPoint;
+            randomPoint = GetRandomPointAround(transform.position, 5f);
+            walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
+        }
+    }
+
+    private void Flee() //currently not implemented
     {
         if(!target) target = player;
         Vector3 runTo = transform.position + ((transform.position - target.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
@@ -197,7 +235,7 @@ public class BugBehaviorScript : MonoBehaviour
             Destroy(gameObject);
             break;
             case DespawnMethod.Burrow:
-            transform.DOShakePosition(3f, 0.9f, 1, 0.2f, false);
+            transform.DOShakePosition(3f, 0.9f, 0, 0.2f, false);
             transform.DOMoveY(transform.position.y - .5f, 4);
             burrowingParticles.transform.DOMoveY(burrowingParticles.transform.position.y + .5f, 4); //to offset the dig
             burrowingParticles.Play();
@@ -225,9 +263,15 @@ public class BugBehaviorScript : MonoBehaviour
 
     protected IEnumerator ApproachedByPlayer()
     {
+        if(currentState == BugState.Wander) currentState = BugState.Panic;
         yield return new WaitForSeconds(Random.Range(reactionTimeMin, reactionTimeMax));
         //if no specific bug behavior
-        currentState = BugState.Leave;
+        if(Random.Range(0, 100) < despawnChance) currentState = BugState.Leave;
+        else
+        {
+            currentState = BugState.Wander;
+            approachedRoutine = null;
+        }
     }
 
 
@@ -275,6 +319,7 @@ public class BugBehaviorScript : MonoBehaviour
         ParticlePoolManager.Instance.GrabBugSplatParticle().transform.position = transform.position;
         Destroy(gameObject);
     }
+
 
 
 }

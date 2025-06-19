@@ -1,28 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Refinery : StructureBehaviorScript
 {
     public InventoryItemData timberEar, gloomStalk;
-    public InventoryItemData Wood, gloomBundles; //Cost to refine is lets just say 5 units of each
+    public InventoryItemData wood, gloomBundles; //Cost to refine is lets just say 5 units of each
 
     public PopupScript itemWarning; //Warning that the player does not have enough items
     
-    public Transform itemDropTransform;
-    
-    //public bool ownedByPlayer = false; //To indicate if this is the town one
+    public Transform itemDropTransform, itemInsertPos;
 
-    //public Animator anim;
+    public Animator anim;
 
     public int progress = 0;
-    int maxProgress = 2;
+    int maxProgress = 3;
     int maxContainedItems = 25;
+    int itemsFinished = 0;
 
     bool ignoreNextHour = false;
 
-    bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
     public PopupScript chargingPopup;
+
+    public TextMeshProUGUI storedText, finishedText;
+
+    public ParticleSystem fumes;
 
     void Awake()
     {
@@ -38,6 +42,8 @@ public class Refinery : StructureBehaviorScript
     void Update()
     {
         base.Update();
+
+        UpdateText();
     }
 
     public override void StructureInteraction()
@@ -48,86 +54,32 @@ public class Refinery : StructureBehaviorScript
             return;
         }
 
-        /*if(isSpinning && savedItems.Count != maxContainedItems) return;
+        if(itemsFinished < 1 || savedItems.Count == 0 || savedItems[0] == null) return;
 
-        if(progress == maxProgress)
+        InventoryItemData itemToSpawn = null;
+        anim.SetTrigger("TakeItem");
+
+        for(int i = 0; i < itemsFinished; i++)
         {
-            progress = 0;
-            ichorFertilizerChance = 0;
-            bonusCompostValue = 0;
+            if(savedItems[0] == timberEar) itemToSpawn = wood;
+            if(savedItems[0] == gloomStalk) itemToSpawn = gloomBundles;
 
-            foreach(InventoryItemData item in savedItems)
-            {
-                bonusCompostValue += item.bonusCompostValue; 
-                if(item == meat) ichorFertilizerChance++;
-                if(item == meatSmall) ichorFertilizerChance += 0.5f;
-                if(item == meatLarge) ichorFertilizerChance += 2;
-            }
-
-            bool ready = false;
-            int compostYield = 1;
-            float r;
-            while(!ready)
-            {
-                if(bonusCompostValue/2 > 100)
-                {
-                    bonusCompostValue -= 100;
-                    compostYield++;
-                }
-                else
-                {
-                    if(bonusCompostValue > 100)
-                    {
-                        bonusCompostValue *= 0.5f;
-                        for(int i = 0; i < 2; i++)
-                        {
-                            r = Random.Range(0,80);
-                            if(r < bonusCompostValue) compostYield++;
-                        }
-                        ready = true;
-                    }
-                    else
-                    {
-                        r = Random.Range(0,80);
-                        if(r < bonusCompostValue) compostYield++;
-                        ready = true;
-                    }
-                }
-            }
-            //
-            StartCoroutine(GrabItems(compostYield));
-        }*/
-    }
-
-    /*IEnumerator GrabItems(int num)
-    {
-        anim.SetBool("Spinning", false);
-        anim.SetBool("IsFull", false);
-
-        yield return new WaitForSeconds(0.7f);
-
-        GameObject droppedItem;
-        for(int i = 0; i < num; i++)
-        {
-            float r = Random.Range(0,10);
-            if(r < ichorFertilizerChance) droppedItem = ItemPoolManager.Instance.GrabItem(fertilizerI);
-            else droppedItem = ItemPoolManager.Instance.GrabItem(compost);
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemToSpawn);
             droppedItem.transform.position = itemDropTransform.position;
 
             Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
             itemRB = droppedItem.GetComponent<Rigidbody>();
             itemRB.AddForce(Vector3.forward * 20);
             itemRB.AddForce(Vector3.up * 10);
-            audioHandler.PlaySound(audioHandler.activatedSound);
 
-            GameObject poofParticle;
-            poofParticle = ParticlePoolManager.Instance.GrabCloudParticle();
-            poofParticle.transform.position = itemDropTransform.position;
-            yield return new WaitForSeconds(0.2f);
+            ParticlePoolManager.Instance.GrabCloudParticle().transform.position = itemDropTransform.position;
+
+            for(int x = 0; x < 5; x++) savedItems.RemoveAt(0);
         }
-        savedItems.Clear();
-        isSpinning = false;
-        fillPlane.SetActive(false);
+
+        itemsFinished = 0;
+        audioHandler.PlaySound(audioHandler.activatedSound);
+
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -138,35 +90,28 @@ public class Refinery : StructureBehaviorScript
             return;
         }
 
-        if(item.bonusCompostValue > 0 && savedItems.Count < maxContainedItems)
+        if((item == timberEar || item == gloomStalk) && savedItems.Count < maxContainedItems)
         {
-            //
-            savedItems.Add(item);
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+
+            if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize < 5) //Not enough items
+            {
+                PopupHandler.Instance.AddToQueue(chargingPopup);
+                return;
+            }
+            for(int i = 0; i < 5; i++)
+            {
+                savedItems.Add(item);
+            }
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(5);
             PlayerInventoryHolder.Instance.UpdateInventory();
 
             audioHandler.PlaySound(audioHandler.activatedSound);
 
-            GameObject poofParticle;
-            poofParticle = ParticlePoolManager.Instance.GrabCloudParticle();
-            poofParticle.transform.position = itemDropTransform.position;
+            ParticlePoolManager.Instance.GrabCloudParticle().transform.position = itemDropTransform.position;
 
-            //GameObject poofParticle = ParticlePoolManager.Instance.GrabExtinguishParticle();
-            //poofParticle.transform.position = seedSocket.position;
-
-            //audioHandler.PlaySound(audioHandler.itemInteractSound);
-
-            fillPlane.SetActive(true);
-
-            anim.Play("Recoil");
-
-            if(savedItems.Count == maxContainedItems)
-            {
-                isSpinning = true;
-                ignoreNextHour = true;
-                anim.SetBool("Spinning", true);
-                anim.SetBool("IsFull", true);
-            }
+            anim.SetTrigger("InsertItem");
+            anim.SetBool("IsRunning", true);
+            fumes.Play();
         }
     }
 
@@ -182,8 +127,9 @@ public class Refinery : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(progress < maxProgress && savedItems.Count == maxContainedItems)
+        if(progress < maxProgress && savedItems.Count > itemsFinished * 5)
         {
+            anim.SetBool("IsRunning", true);
             if(ignoreNextHour)
             {
                 ignoreNextHour = false;
@@ -191,12 +137,26 @@ public class Refinery : StructureBehaviorScript
             }
             progress++;
 
-            if(progress == maxProgress)
+            if(progress >= maxProgress)
             {
-                isSpinning = false;
-                anim.SetBool("Spinning", false);
+                progress = 0;
+                itemsFinished++;
             }
         }
+        else 
+        {
+            anim.SetBool("IsRunning", false);
+            fumes.Stop();
+        }
+    }
+
+    void UpdateText()
+    {
+        int storedStacks = 0;
+        if(savedItems.Count > 0) storedStacks = savedItems.Count / 5;
+        storedText.text = "Stacks Stored:   " + storedStacks + "/" + maxContainedItems/5;
+
+        finishedText.text = "Items Finished: " + itemsFinished + "/" + maxContainedItems/5;
     }
 
     void OnDestroy()
@@ -215,25 +175,16 @@ public class Refinery : StructureBehaviorScript
     public override void LoadVariables()
     {
         progress = saveInt1;
-        if(savedItems.Count == maxContainedItems)
-        {
-            isSpinning = true;
-            anim.SetBool("Spinning", true);
-            anim.SetBool("IsFull", true);
-        }
-
-        if(progress == maxProgress)
-        {
-            isSpinning = false;
-            anim.SetBool("Spinning", false);
-        }
+        itemsFinished = saveInt2;
 
         isFunctioning = true;
+
+        if(progress < maxProgress && savedItems.Count > itemsFinished * 5) fumes.Play();
     }
 
     public override void SaveVariables()
     {
         saveInt1 = progress;
+        saveInt2 = itemsFinished;
     }
-    */
 }

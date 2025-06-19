@@ -10,7 +10,7 @@ public class FermentationVat : StructureBehaviorScript
     public ParticleSystem activatedParticles, completedParticles;
 
     public int progress = 0;
-    int maxProgress = 8;
+    int maxProgress = 14;
     int maxContainedItems = 1;
 
     bool ignoreNextHour = false;

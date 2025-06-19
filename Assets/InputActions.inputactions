@@ -141,7 +141,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OpenCodex",
+                    "name": "CodexBack",
                     "type": "Button",
                     "id": "ace33fef-f9d2-4c87-97ea-35990da5d5d6",
                     "expectedControlType": "Button",
@@ -234,6 +234,24 @@
                     "name": "HotbarSwitch",
                     "type": "Button",
                     "id": "9b226734-8e72-4af3-88a0-53b450789566",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OpenCodex",
+                    "type": "Button",
+                    "id": "d694fc67-1c42-47fe-8866-f9c3d22edf8d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DeleteQuest",
+                    "type": "Button",
+                    "id": "aa0306c5-4537-4e3c-be63-123560255564",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -754,7 +772,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "OpenCodex",
+                    "action": "CodexBack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -765,7 +783,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "OpenCodex",
+                    "action": "CodexBack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1052,6 +1070,39 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "HotbarSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "acba6973-151b-4850-83d7-488f4a4da784",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenCodex",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b0adc48d-8df8-4447-b72f-455f0ff22d84",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenCodex",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e4b0076f-4f09-49cd-be0e-6525d379749c",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DeleteQuest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

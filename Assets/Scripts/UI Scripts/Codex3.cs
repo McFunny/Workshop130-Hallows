@@ -1,62 +1,238 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
+using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System;
+using UnityEngine.EventSystems;
 
 public class Codex3 : MonoBehaviour
 {
-    private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries ;
-    private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList;
-    private int menuIndex; //Maybe use this later idk
+    public System.Action onCodexClosed;
+    private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries, BugEntries; //Looks dumb but I need a reference to the SO's cached or else this gets really messy
+    private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList, BugList;
+    private List<UILerp> buttonLerps = new List<UILerp>();
+
+    public int menuIndex; //0 = closed, 1 = open, 2 = entry page open
     private string defaultName = "???";
+    private ControlManager controlManager;
+    private QuestManager questManager;
     [SerializeField] private ChildActivator childActivator;
-    private enum OpenCategory
+    public enum OpenCategory
     {
         Tutorial,
         Tools,
         Structures,
         Plants,
         Creatures,
-        Quests // This is not implemented yet
+        Bugs,
+        Quests,
     }
     OpenCategory openCategory;
+    [SerializeField] private UIAlphaController bgPanel;
     [SerializeField] private GameObject codex;
+    [SerializeField] private UILerp uiLerp;
     [SerializeField] private Button[] categoryButtons;
     [SerializeField] private GameObject[] containers;
     [SerializeField] private GameObject[] secondaryContainers;
     [SerializeField] private List<CodexPage> codexPages;
     [SerializeField] private TextMeshProUGUI categoryTitle;
     [SerializeField] private GameObject categoryContainer;
-    [SerializeField] private GameObject tutorialPage, toolPage, plantPage;
+    [SerializeField] private List<Quest> activeQuests = new List<Quest>();
+    //[SerializeField] private GameObject tutorialPage, toolPage, plantPage;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject entryButtonPrefab;
+    [SerializeField] private GameObject entryButtonHorizontalPrefab;
+
+    [Header("Images")]
+    [SerializeField] private List<Image> controllerImages = new List<Image>();
+
+    [Header("Override References")]
+    [SerializeField] private CodexEntries mandrakeEntry;
 
     private void Awake()
     {
+        controlManager = FindFirstObjectByType<ControlManager>();
         childActivator = GetComponentInChildren<ChildActivator>();
 
-        if (childActivator != null)
+        /*if (childActivator != null)
         {
             childActivator.onChildActivated += ResetCodex; // Reset the codex when the child is activated
+        }*/
+
+        for(int i = 0; i < categoryButtons.Length; i++)
+        {
+            buttonLerps.Add(categoryButtons[i].GetComponent<UILerp>());
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        uiLerp.lerpToStart = false;
         TutorialEntries = Resources.LoadAll<CodexEntries>("Codex/GettingStarted/");
         ToolEntries = Resources.LoadAll<CodexEntries>("Codex/Tools/");
+        StructureEntries = Resources.LoadAll<CodexEntries>("Codex/Structures");
         CreatureEntries = Resources.LoadAll<CodexEntries>("Codex/Creatures/");
         PlantEntries = Resources.LoadAll<CodexEntries>("Codex/Plants/");
+        BugEntries = Resources.LoadAll<CodexEntries>("Codex/Bugs");
+        questManager = FindAnyObjectByType<QuestManager>();
         openCategory = OpenCategory.Tutorial;
 
         ResetCodex();
-        UpdateEntries();
-        ChangeCategory(0); // Set the initial category to Tutorial
         codex.SetActive(false);
+        menuIndex = 0;
+    }
+
+    private void OnEnable()
+    {
+        controlManager.backCodex.action.started += InputBack;
+        controlManager.hotbarUp.action.started += InputDown;
+        controlManager.hotbarDown.action.started += InputUp;
+        controlManager.codexOpen.action.started += InputOpen;
+    }
+
+    private void OnDisable()
+    {
+        controlManager.backCodex.action.started -= InputBack;
+        controlManager.hotbarUp.action.started -= InputDown;
+        controlManager.hotbarDown.action.started -= InputUp;
+        controlManager.codexOpen.action.started -= InputOpen;
+    }
+
+    private void InputOpen(InputAction.CallbackContext context)
+    {
+        if (menuIndex == 0 && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens == 0) OpenCodex();
+    }
+
+    private void InputBack(InputAction.CallbackContext context)
+    {
+        Back();
+    }
+
+    private void InputUp(InputAction.CallbackContext context)
+    {
+        if (menuIndex > 0) // If the codex is open
+        {
+            int currentIndex = (int)openCategory;
+            currentIndex = currentIndex + 1;
+            if (currentIndex == categoryButtons.Length) currentIndex = 0; // Wrap around to the first category if at the last one
+
+            OpenCategory c = (OpenCategory)currentIndex;
+            ChangeCategory(c.ToString());
+            
+            EventSystem.current.SetSelectedGameObject(null);
+            if (containers[(int)openCategory].transform.childCount > 0)
+            {
+                EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+            }
+        }
+    }
+
+    private void InputDown(InputAction.CallbackContext context)
+    {
+        if (menuIndex > 0) // If the codex is open
+        {
+            int currentIndex = (int)openCategory;
+            currentIndex = currentIndex - 1;
+            if (currentIndex < 0) currentIndex = categoryButtons.Length - 1; // Wrap around to the last category if at the first one
+
+            OpenCategory c = (OpenCategory)currentIndex;
+            ChangeCategory(c.ToString());
+
+            EventSystem.current.SetSelectedGameObject(null);
+            if (containers[(int)openCategory].transform.childCount > 0)
+            {
+                EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        //print(EventSystem.current.currentSelectedGameObject);
+
+        if (menuIndex == 0 || menuIndex == 2) return;
+        if (!PlayerMovement.isCodexOpen) return;
+
+        if (ControlManager.isController)
+        {
+            for (int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = true;
+
+            if (menuIndex == 1)
+            {
+                // Set the selected game object to the first child of the current category container
+                // I think this will work idk
+                if (EventSystem.current.currentSelectedGameObject == null)
+                {
+                    if (containers[(int)openCategory].transform.childCount > 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for(int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = false;
+        }
+    }
+
+    public void OpenCodex()
+    {
+        uiLerp.lerpToStart = true; // Start the UI lerp animation
+        bgPanel.FadeIn(); // Fade in the background panel
+        menuIndex = 1;
+        codex.SetActive(true);
+        ResetCodex();
+
+        if (ControlManager.isController && containers[(int)openCategory].transform.childCount > 0)
+        {
+            EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+        }
+
+        Time.timeScale = 0f;
+        PlayerMovement.isCodexOpen = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void CloseCodex()
+    {
+        onCodexClosed?.Invoke();
+        bgPanel.FadeOut(); // Fade in the background panel
+        uiLerp.lerpToStart = false; // Reverse the UI lerp animation
+        menuIndex = 0;
+
+        EventSystem.current.SetSelectedGameObject(null);
+
+        Time.timeScale = 1f;
+        PlayerMovement.isCodexOpen = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void Back()
+    {
+        switch (menuIndex)
+        {
+            case 0:
+                break;
+
+            case 1:
+                CloseCodex();
+                break;
+
+            case 2:
+                UpdateEntries();
+                if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
+                ChangeCategory(openCategory.ToString());
+                break;
+
+            default:
+                break;
+        }
     }
 
     private void UpdateEntries()
@@ -67,6 +243,7 @@ public class Codex3 : MonoBehaviour
         for (int i = 0; i < containers.Length; i++)
         {
             var Cat = TutorialEntries;
+            var isQuest = false;
             switch (i)
             {
                 case 0:
@@ -78,8 +255,8 @@ public class Codex3 : MonoBehaviour
                     Cat = ToolEntries;
                     break;
                 case 2:
-                    // Structures Here
-                    Cat = null;
+                    StructureList = new List<CodexEntries>();
+                    Cat = StructureEntries;
                     break;
                 case 3:
                     PlantList = new List<CodexEntries>();
@@ -90,11 +267,95 @@ public class Codex3 : MonoBehaviour
                     Cat = CreatureEntries;
                     break;
                 case 5:
-                    return; // Quests category is not implemented yet
+                    BugList = new List<CodexEntries>();
+                    Cat = BugEntries;
+                    break; 
+
+                case 6:
+                    isQuest = true;
+                    Cat = null;
+                    break;
+            }
+
+            if (isQuest)
+            {
+                print("Attempting to load Quest Category");
+
+                if (activeQuests.Count == 0)
+                {
+                    print("No Frests found.");
+                    return;
+                }
+                
+                for (int e = 0; e < activeQuests.Count; e++)
+                {
+                    var chosenContainer = containers[i];
+                    if (e < 10) chosenContainer = containers[i];
+                    else chosenContainer = secondaryContainers[i];
+
+                    GameObject entryButton = Instantiate(entryButtonHorizontalPrefab, chosenContainer.transform);
+                    entryButton.name = activeQuests[e].name + " Quest";
+
+                    var questTitle = entryButton.GetComponentInChildren<TextMeshProUGUI>();
+                    var buttonScript = entryButton.GetComponent<CodexButtonID>();
+
+                    var type = activeQuests[e].GetType();
+
+                    print(type);
+                    if(type.Equals(typeof(FetchQuest)))
+                    {
+                        //print("Fetch Quest");
+                        var q = activeQuests[e] as FetchQuest;
+                        var t = q.name;
+
+                        if (q.amount > 1 && !q.desiredItem.displayName.EndsWith("s")) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+                        else t = t.Replace("{itemName}", q.desiredItem.displayName.ToString());
+
+                        t = t.Replace("{itemAmount}", q.amount.ToString());
+
+                        questTitle.text = t;
+                    }
+                    else if(type.Equals(typeof(HuntQuest)))
+                    {
+                        //print("Hunt Quest");
+                        var q = activeQuests[e] as HuntQuest;
+                        var t = q.name;
+
+                        if (q.amount > 1 && !q.targetCreature.name.EndsWith("s")) t = t.Replace("{creatureName}", q.targetCreature.name.ToString() + "s");
+                        else t = t.Replace("{creatureName}", q.targetCreature.name.ToString());
+
+                        t = t.Replace("{creatureAmount}", q.amount.ToString());
+
+                        questTitle.text = t;
+                    }
+                    else if(type.Equals(typeof(GrowQuest)))
+                    {
+                        //print("Grow Quest");
+                        var q = activeQuests[e] as GrowQuest;
+                        var t = q.name;
+
+                        if (q.amount > 1 && !q.desiredItem.displayName.EndsWith("s")) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+                        else t = t.Replace("{itemName}", q.desiredItem.displayName.ToString());
+
+                        t = t.Replace("{itemAmount}", q.amount.ToString());
+
+                        questTitle.text = t;
+                    }
+                    else
+                    {
+                        questTitle.text = activeQuests[e].name;
+                    }
+
+                    if(!activeQuests[e].alreadyCompleted) questTitle.text = questTitle.text;
+                    else questTitle.text = "<s>" + questTitle.text + "</s>";
+
+                    buttonScript.assignedQuest = activeQuests[e];
+                }
             }
 
             if (Cat == null) continue;
-            
+            // Attempt to load all other categories
+
             print(Cat.Length + " entries found in category " + i);
             for (int e = 0; e < Cat.Length; e++)
             {
@@ -102,7 +363,7 @@ public class Codex3 : MonoBehaviour
                 if (e < 16) chosenContainer = containers[i];
                 else chosenContainer = secondaryContainers[i];
 
-    
+
                 GameObject entryButton = Instantiate(entryButtonPrefab, chosenContainer.transform);
                 entryButton.name = Cat[e].entryName + " Entry";
 
@@ -125,6 +386,17 @@ public class Codex3 : MonoBehaviour
                 }
                 else if (Cat == PlantEntries)
                 {
+                    if (Cat[e] == mandrakeEntry)
+                    {
+                        if (mandrakeEntry.cropData.amountKilled > 0)
+                        {
+                            mandrakeEntry.unlocked = true;
+                            continue;
+                        }
+                        else mandrakeEntry.unlocked = false;
+                    }
+
+
                     if (Cat[e].cropData.amountHarvested > 0) //Unlocks if amount of crop harvested > 0
                     {
                         tempText.text = Cat[e].entryName;
@@ -171,7 +443,7 @@ public class Codex3 : MonoBehaviour
                         ToolList.Add(Cat[e]);
                         break;
                     case 2:
-                        //Put Structures Here
+                        StructureList.Add(Cat[e]);
                         break;
                     case 3:
                         PlantList.Add(Cat[e]);
@@ -179,7 +451,10 @@ public class Codex3 : MonoBehaviour
                     case 4:
                         CreatureList.Add(Cat[e]);
                         break;
-                        
+                    case 5:
+                        BugList.Add(Cat[e]);
+                        break;
+
                 }
             }
         }
@@ -193,37 +468,53 @@ public class Codex3 : MonoBehaviour
             return;
         }
 
-        GameObject containerToOpen = null;
+        GameObject pageToOpen = null;
 
         switch ((int)entry.entryType)
         {
             case 0:
-                containerToOpen = tutorialPage;
+                pageToOpen = codexPages[0].gameObject;
                 break;
 
             case 1:
-                containerToOpen = toolPage;
+                pageToOpen = codexPages[1].gameObject;
                 break;
 
             case 2:
-                containerToOpen = null;
+                pageToOpen = codexPages[2].gameObject;
                 break;
 
             case 3:
-                containerToOpen = plantPage;
+                pageToOpen = codexPages[3].gameObject;
                 break;
 
             case 4:
-                containerToOpen = null;
+                pageToOpen = codexPages[4].gameObject;
                 break;
-            
+
             case 5:
-                containerToOpen = null;
+                pageToOpen = codexPages[5].gameObject;
                 break;
         }
-        print(containerToOpen.gameObject);
+        print(pageToOpen.gameObject);
 
-        codexPages[(int)entry.entryType].UpdatePage(entry, categoryContainer, containerToOpen);
+        if (pageToOpen == null) return;
+
+        codexPages[(int)entry.entryType].UpdatePage(entry);
+
+        categoryContainer.SetActive(false);
+        pageToOpen.SetActive(true);
+
+        menuIndex = 2;
+    }
+
+    public void UpdateQuest(Quest quest)
+    {
+        codexPages[(int)OpenCategory.Quests].UpdatePage(null, quest);
+
+        categoryContainer.SetActive(false);
+        codexPages[(int)OpenCategory.Quests].gameObject.SetActive(true);
+        menuIndex = 2;
     }
 
     private void ClearCodex()
@@ -235,54 +526,60 @@ public class Codex3 : MonoBehaviour
             {
                 Destroy(child.gameObject);
             }
+
+            foreach (Transform child in secondaryContainers[i].transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
 
         TutorialList.Clear();
         ToolList.Clear();
+        StructureList.Clear();
         CreatureList.Clear();
         PlantList.Clear();
+        BugList.Clear();
     }
 
     private void ResetCodex() //Sets the codex to its default state
     {
-        print("Resetting Codex to default state.");
-        ChangeCategory(0); // Start with the Tutorial category open
-
-        /*tutorialPage.SetActive(false);
-        toolPage.SetActive(false);
-        plantPage.SetActive(false);
-        categoryContainer.SetActive(true);
-        containers[0].SetActive(true); 
-        containers[1].SetActive(false);
-        containers[2].SetActive(false);
-        containers[3].SetActive(false);
-        containers[4].SetActive(false);
-        containers[5].SetActive(false);*/
+        print("Resetting Codex to default state and updating entries.");
+        UpdateEntries();
+        ChangeCategory("Tutorial"); // Start with the Tutorial category open
+        activeQuests = questManager.activeQuests;
+        menuIndex = 1;
     }
 
-    public void ChangeCategory(int categoryIndex)
+    public void ChangeCategory(string categoryToOpen)
     {
-        categoryContainer.SetActive(true); // Show category container when changing categories
-        tutorialPage.SetActive(false);
-        toolPage.SetActive(false);
-        plantPage.SetActive(false); // Hide entry pages when changing categories
+        CloseEntryPages();
 
         // Change the open category based on the index of the button pressed
-        openCategory = (OpenCategory)categoryIndex;
+        openCategory = (OpenCategory)Enum.Parse(typeof(OpenCategory), categoryToOpen); //Wow
+        var catInt = (int)openCategory;
 
-        if (openCategory == OpenCategory.Quests)
+        for(int i = 0; i < categoryButtons.Length; i++) //help
         {
-            Debug.LogWarning("Quests category is not implemented yet. Defaulting to Tutorial.");
-            openCategory = OpenCategory.Tutorial; // Reset to Tutorial if Quests is selected
-            categoryIndex = 0; // Reset category index to Tutorial
+            if (i == catInt) buttonLerps[i].lerpToStart = false;
+            else buttonLerps[i].lerpToStart = true;
         }
 
         for (int i = 0; i < containers.Length; i++)
         {
-            containers[i].SetActive(i == categoryIndex); //i is true when i = categoryIndex. Did not know I could do this lol
-            secondaryContainers[i].SetActive(i == categoryIndex);
+            containers[i].SetActive(i == catInt); //i is true when i = categoryIndex. Did not know I could do this lol
+            secondaryContainers[i].SetActive(i == catInt);
+        }
+        categoryTitle.text = openCategory.ToString(); // Update the category title
+    }
+
+    private void CloseEntryPages()
+    {
+        categoryContainer.SetActive(true);
+        foreach (CodexPage page in codexPages)
+        {
+            if (page != null) page.gameObject.SetActive(false);
         }
 
-        categoryTitle.text = openCategory.ToString(); // Update the category title
+        menuIndex = 1;
     }
 }

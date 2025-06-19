@@ -163,7 +163,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""OpenCodex"",
+                    ""name"": ""CodexBack"",
                     ""type"": ""Button"",
                     ""id"": ""ace33fef-f9d2-4c87-97ea-35990da5d5d6"",
                     ""expectedControlType"": ""Button"",
@@ -256,6 +256,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""HotbarSwitch"",
                     ""type"": ""Button"",
                     ""id"": ""9b226734-8e72-4af3-88a0-53b450789566"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenCodex"",
+                    ""type"": ""Button"",
+                    ""id"": ""d694fc67-1c42-47fe-8866-f9c3d22edf8d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DeleteQuest"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa0306c5-4537-4e3c-be63-123560255564"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -776,7 +794,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""OpenCodex"",
+                    ""action"": ""CodexBack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -787,7 +805,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""OpenCodex"",
+                    ""action"": ""CodexBack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1074,6 +1092,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""HotbarSwitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""acba6973-151b-4850-83d7-488f4a4da784"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenCodex"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b0adc48d-8df8-4447-b72f-455f0ff22d84"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenCodex"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4b0076f-4f09-49cd-be0e-6525d379749c"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DeleteQuest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2073,7 +2124,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_CloseInventory = m_Gameplay.FindAction("CloseInventory", throwIfNotFound: true);
         m_Gameplay_RotateStructure = m_Gameplay.FindAction("RotateStructure", throwIfNotFound: true);
         m_Gameplay_PauseGame = m_Gameplay.FindAction("PauseGame", throwIfNotFound: true);
-        m_Gameplay_OpenCodex = m_Gameplay.FindAction("OpenCodex", throwIfNotFound: true);
+        m_Gameplay_CodexBack = m_Gameplay.FindAction("CodexBack", throwIfNotFound: true);
         m_Gameplay_UIScroll = m_Gameplay.FindAction("UIScroll", throwIfNotFound: true);
         m_Gameplay_PageUp = m_Gameplay.FindAction("PageUp", throwIfNotFound: true);
         m_Gameplay_PageDown = m_Gameplay.FindAction("PageDown", throwIfNotFound: true);
@@ -2084,6 +2135,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_MinigamePress = m_Gameplay.FindAction("MinigamePress", throwIfNotFound: true);
         m_Gameplay_MinigameExit = m_Gameplay.FindAction("MinigameExit", throwIfNotFound: true);
         m_Gameplay_HotbarSwitch = m_Gameplay.FindAction("HotbarSwitch", throwIfNotFound: true);
+        m_Gameplay_OpenCodex = m_Gameplay.FindAction("OpenCodex", throwIfNotFound: true);
+        m_Gameplay_DeleteQuest = m_Gameplay.FindAction("DeleteQuest", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -2183,7 +2236,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_CloseInventory;
     private readonly InputAction m_Gameplay_RotateStructure;
     private readonly InputAction m_Gameplay_PauseGame;
-    private readonly InputAction m_Gameplay_OpenCodex;
+    private readonly InputAction m_Gameplay_CodexBack;
     private readonly InputAction m_Gameplay_UIScroll;
     private readonly InputAction m_Gameplay_PageUp;
     private readonly InputAction m_Gameplay_PageDown;
@@ -2194,6 +2247,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_MinigamePress;
     private readonly InputAction m_Gameplay_MinigameExit;
     private readonly InputAction m_Gameplay_HotbarSwitch;
+    private readonly InputAction m_Gameplay_OpenCodex;
+    private readonly InputAction m_Gameplay_DeleteQuest;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -2213,7 +2268,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @CloseInventory => m_Wrapper.m_Gameplay_CloseInventory;
         public InputAction @RotateStructure => m_Wrapper.m_Gameplay_RotateStructure;
         public InputAction @PauseGame => m_Wrapper.m_Gameplay_PauseGame;
-        public InputAction @OpenCodex => m_Wrapper.m_Gameplay_OpenCodex;
+        public InputAction @CodexBack => m_Wrapper.m_Gameplay_CodexBack;
         public InputAction @UIScroll => m_Wrapper.m_Gameplay_UIScroll;
         public InputAction @PageUp => m_Wrapper.m_Gameplay_PageUp;
         public InputAction @PageDown => m_Wrapper.m_Gameplay_PageDown;
@@ -2224,6 +2279,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @MinigamePress => m_Wrapper.m_Gameplay_MinigamePress;
         public InputAction @MinigameExit => m_Wrapper.m_Gameplay_MinigameExit;
         public InputAction @HotbarSwitch => m_Wrapper.m_Gameplay_HotbarSwitch;
+        public InputAction @OpenCodex => m_Wrapper.m_Gameplay_OpenCodex;
+        public InputAction @DeleteQuest => m_Wrapper.m_Gameplay_DeleteQuest;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2278,9 +2335,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PauseGame.started += instance.OnPauseGame;
             @PauseGame.performed += instance.OnPauseGame;
             @PauseGame.canceled += instance.OnPauseGame;
-            @OpenCodex.started += instance.OnOpenCodex;
-            @OpenCodex.performed += instance.OnOpenCodex;
-            @OpenCodex.canceled += instance.OnOpenCodex;
+            @CodexBack.started += instance.OnCodexBack;
+            @CodexBack.performed += instance.OnCodexBack;
+            @CodexBack.canceled += instance.OnCodexBack;
             @UIScroll.started += instance.OnUIScroll;
             @UIScroll.performed += instance.OnUIScroll;
             @UIScroll.canceled += instance.OnUIScroll;
@@ -2311,6 +2368,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @HotbarSwitch.started += instance.OnHotbarSwitch;
             @HotbarSwitch.performed += instance.OnHotbarSwitch;
             @HotbarSwitch.canceled += instance.OnHotbarSwitch;
+            @OpenCodex.started += instance.OnOpenCodex;
+            @OpenCodex.performed += instance.OnOpenCodex;
+            @OpenCodex.canceled += instance.OnOpenCodex;
+            @DeleteQuest.started += instance.OnDeleteQuest;
+            @DeleteQuest.performed += instance.OnDeleteQuest;
+            @DeleteQuest.canceled += instance.OnDeleteQuest;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -2360,9 +2423,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PauseGame.started -= instance.OnPauseGame;
             @PauseGame.performed -= instance.OnPauseGame;
             @PauseGame.canceled -= instance.OnPauseGame;
-            @OpenCodex.started -= instance.OnOpenCodex;
-            @OpenCodex.performed -= instance.OnOpenCodex;
-            @OpenCodex.canceled -= instance.OnOpenCodex;
+            @CodexBack.started -= instance.OnCodexBack;
+            @CodexBack.performed -= instance.OnCodexBack;
+            @CodexBack.canceled -= instance.OnCodexBack;
             @UIScroll.started -= instance.OnUIScroll;
             @UIScroll.performed -= instance.OnUIScroll;
             @UIScroll.canceled -= instance.OnUIScroll;
@@ -2393,6 +2456,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @HotbarSwitch.started -= instance.OnHotbarSwitch;
             @HotbarSwitch.performed -= instance.OnHotbarSwitch;
             @HotbarSwitch.canceled -= instance.OnHotbarSwitch;
+            @OpenCodex.started -= instance.OnOpenCodex;
+            @OpenCodex.performed -= instance.OnOpenCodex;
+            @OpenCodex.canceled -= instance.OnOpenCodex;
+            @DeleteQuest.started -= instance.OnDeleteQuest;
+            @DeleteQuest.performed -= instance.OnDeleteQuest;
+            @DeleteQuest.canceled -= instance.OnDeleteQuest;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -2673,7 +2742,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnCloseInventory(InputAction.CallbackContext context);
         void OnRotateStructure(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
-        void OnOpenCodex(InputAction.CallbackContext context);
+        void OnCodexBack(InputAction.CallbackContext context);
         void OnUIScroll(InputAction.CallbackContext context);
         void OnPageUp(InputAction.CallbackContext context);
         void OnPageDown(InputAction.CallbackContext context);
@@ -2684,6 +2753,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnMinigamePress(InputAction.CallbackContext context);
         void OnMinigameExit(InputAction.CallbackContext context);
         void OnHotbarSwitch(InputAction.CallbackContext context);
+        void OnOpenCodex(InputAction.CallbackContext context);
+        void OnDeleteQuest(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

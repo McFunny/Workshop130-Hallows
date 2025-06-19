@@ -35,7 +35,7 @@ public class BugNetSwing : MonoBehaviour
         yield return new WaitForSeconds(0.02f);
         collider.enabled = false;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         ObtainBug();
     }
 

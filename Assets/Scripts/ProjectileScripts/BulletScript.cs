@@ -125,6 +125,9 @@ public class BulletScript : MonoBehaviour
             gameObject.SetActive(false);
         }
 
+        var bug = other.GetComponent<BugBehaviorScript>();
+        if(bug) bug.Struck();
+
     }
 
     void OnEnable()

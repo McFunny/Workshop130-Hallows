@@ -12,17 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3b4c4f202173f4c8b374726138955a, type: 3}
   m_Name: Stamina
   m_EditorClassIdentifier: 
-  buttonIcon: {fileID: 0}
+  buttonIcon: {fileID: 481132665, guid: dde1cdb333d3ca5438a95b2bdfc2c39f, type: 3}
   unlocked: 1
-  mainImage: {fileID: -1107782907, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
+  mainImage: {fileID: -1459842230, guid: dde1cdb333d3ca5438a95b2bdfc2c39f, type: 3}
   entryName: Stamina
   entryType: 0
   cropData: {fileID: 0}
   creatureData: {fileID: 0}
+  structureData: {fileID: 0}
   description:
   - Performing actions and recieving strikes from enemies depletes your stamina.
     You can restore it by eating food or by resting in the town spring.
   - When below 1/4th of max stamina, you may no longer sprint, and any actions the
     player makes will take longer to perform.
   leftText: 
-  rightText: 
+  rightText: Performing actions and recieving strikes from enemies depletes your
+    stamina. You can restore it by eating food or by resting in the town spring.
+    When below 1/4th of max stamina, you may no longer sprint, and any actions the
+    player makes will take longer to perform.

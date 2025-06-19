@@ -49,7 +49,7 @@ public class ScytheAttack : MonoBehaviour
         {
             FarmLand crop = structure as FarmLand;
             //if not farmland, hand it recoil
-            if(crop)
+            if(crop && crop.currentUpgrade != FarmLand.FarmTileUpgrade.Trellis)
             {
                 if(hitCrops.Contains(crop)) return;
                 hitCrops.Add(crop);

@@ -535,7 +535,12 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsTotal = tempData.allGameSaveData.pTotalMoneyEarned;
                 if (tempData.allGameSaveData.gameMode != null) // Edge case scenario for saves made before difficulties were added :/
                 {
-                    fileDatas[i].difficulty = tempData.allGameSaveData.gameMode;
+                    if (tempData.allGameSaveData.gameMode == "Cozy")
+                    {
+                        fileDatas[i].difficulty = "Relaxed";
+                    }
+                    else fileDatas[i].difficulty = tempData.allGameSaveData.gameMode;
+                    
                 }
                 else
                 {

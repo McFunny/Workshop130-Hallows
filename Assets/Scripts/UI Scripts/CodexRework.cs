@@ -78,13 +78,13 @@ public class CodexRework : MonoBehaviour
 
     void OnEnable()
     {
-        controlManager.openCodex.action.started += OpenCodexPressed;
+        controlManager.backCodex.action.started += OpenCodexPressed;
         //controlManager.closeCodex.action.started += CloseCodexPressed;
     }
 
     void OnDisable()
     {
-        controlManager.openCodex.action.started -= OpenCodexPressed;
+        controlManager.backCodex.action.started -= OpenCodexPressed;
         //controlManager.closeCodex.action.started -= CloseCodexPressed;
     }
 

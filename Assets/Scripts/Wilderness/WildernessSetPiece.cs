@@ -18,7 +18,7 @@ public class WildernessSetPiece : MonoBehaviour
         int x = 0; //iterations of while loop
         for(int i = 0; i < interactablePositions.Length; i++) //Interactables Generation
         {
-            if(Random.Range(0, 100) < 60) continue;
+            if(Random.Range(0, 100) < 50) continue;
 
 
             x = 0;

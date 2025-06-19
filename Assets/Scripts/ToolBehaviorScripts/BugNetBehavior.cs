@@ -24,19 +24,8 @@ public class BugNetBehavior : ToolBehavior
         float coolDownMod = 1; //Multiplied to the tool use cooldown
         float animSpeedMod = 0; //Added to animation speed
 
-        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
-        {
-            coolDownMod -= .35f;
-            animSpeedMod += .7f;
-        }
-        /*else if(PlayerInteraction.Instance.stamina <= 50)
-        {
-            coolDownMod += .25f;
-            animSpeedMod -= .3f;
-        }*/
-
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, 3.6f * coolDownMod));
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, 3.5f * coolDownMod));
 
         //PlayerMovement.limitMaxVelocity = false;
         //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(40, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));

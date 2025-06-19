@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3b4c4f202173f4c8b374726138955a, type: 3}
   m_Name: Growing Crops
   m_EditorClassIdentifier: 
-  buttonIcon: {fileID: 0}
+  buttonIcon: {fileID: 21300000, guid: b094673e480f08d408eee7da77dd1815, type: 3}
   unlocked: 1
   mainImage: {fileID: 21300000, guid: b094673e480f08d408eee7da77dd1815, type: 3}
   entryName: Growing Crops
   entryType: 0
   cropData: {fileID: 0}
   creatureData: {fileID: 0}
+  structureData: {fileID: 0}
   description:
   - Crops will only grow during the night. Each crop takes varying hours to advance
     1 stage of growth.
@@ -26,4 +27,7 @@ MonoBehaviour:
     needs met. Otherwise, they will take stress damage. Too much stress and the plant
     will wither, providing no harvest.
   leftText: 
-  rightText: 
+  rightText: Crops will only grow during the night. Each crop takes varying hours
+    to advance 1 stage of growth. In order to advance their growth, the plant must
+    have their Water and Nutritional needs met. Otherwise, they will take stress
+    damage. Too much stress and the plant will wither, providing no harvest.

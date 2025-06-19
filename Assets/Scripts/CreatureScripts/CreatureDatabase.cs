@@ -70,6 +70,7 @@ public class CreatureDatabase : ScriptableObject
         int i = 0;
         foreach(CreatureObject c in _creatureDatabase)
         {
+            if(i >= data.creatureStats.Length) return;
             c.hasSpawned = data.creatureStats[i].hasSpawned;
             c.amountKilled = data.creatureStats[i].amountKilled;
             i++;

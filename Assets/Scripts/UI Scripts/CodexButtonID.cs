@@ -34,14 +34,50 @@ public class CodexButtonID : MonoBehaviour
                 codex.UpdateQuests(assignedQuest);
             }
         }
-        else if(newCodex != null)
+        else if (newCodex != null)
         {
             if (assignedEntry != null)
             {
                 print(assignedEntry.entryName);
 
-                if (!assignedEntry.unlocked && CreatureCheck() && CropCheck()) return; // I mean, it works, I guess
-                newCodex.UpdatePage(assignedEntry);
+                //if (!assignedEntry.unlocked && CreatureCheck() && CropCheck()) return; // I mean, it works, I guess
+                if (assignedEntry.unlocked)
+                {
+                    newCodex.UpdatePage(assignedEntry);
+                    return;
+                }
+
+                if (assignedEntry.entryType == CodexEntries.EntryType.Creature)
+                {
+                    if (assignedEntry.creatureData != null)
+                    {
+                        if (assignedEntry.creatureData.amountKilled > 0) newCodex.UpdatePage(assignedEntry);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No Creature Data Found!!!!!!!");
+                        return;
+                    }
+                }
+
+                if (assignedEntry.entryType == CodexEntries.EntryType.Plant)
+                {
+                    if (assignedEntry.cropData != null)
+                    {
+                        if (assignedEntry.cropData.amountHarvested > 0) newCodex.UpdatePage(assignedEntry);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No Crop Data Found!!!!!!!");
+                        return;
+                    }
+                }
+
+                //newCodex.UpdatePage(assignedEntry);
+            }
+            else if (assignedQuest != null)
+            {
+                newCodex.UpdateQuest(assignedQuest);
             }
         }
         

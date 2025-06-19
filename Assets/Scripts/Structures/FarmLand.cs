@@ -89,7 +89,7 @@ public class FarmLand : StructureBehaviorScript
         {
             if(harvestable)
             {
-                if(crop.requireScythe) harvestText.text = "Shovel To Harvest";
+                if(crop.requireScythe) harvestText.text = "Use Tool to Harvest";
                 else harvestText.text = "Interact To Harvest";
             }
             else harvestText.text = "";
@@ -511,7 +511,7 @@ public class FarmLand : StructureBehaviorScript
             growthComplete.Stop();
             if(harvestable && !rotted)
             {
-                if(crop.requireScythe) harvestText.text = "Shovel To Harvest";
+                if(crop.requireScythe) harvestText.text = "Use Tool to Harvest";
                 else harvestText.text = "Interact To Harvest";
                 growthComplete.Play();
             } 
