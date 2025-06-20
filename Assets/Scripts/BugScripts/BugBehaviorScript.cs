@@ -16,6 +16,7 @@ public class BugBehaviorScript : MonoBehaviour
     public SpriteRenderer r;
 
     public Transform colliderObject;
+    Vector3 startPos;
 
     public Sprite[] movingSprites;
     public float animSpeed = 0.3f;
@@ -41,7 +42,7 @@ public class BugBehaviorScript : MonoBehaviour
     public BugObject bugData;
     public DespawnMethod despawnMethod;
     protected int hoursAlive = 0;
-    protected int maxLifetime = 6;
+    protected int maxLifetime = 4;
 
     private Sequence flutter;
 
@@ -111,6 +112,7 @@ public class BugBehaviorScript : MonoBehaviour
         hitBox = GetComponentInChildren<Collider>();
         target = null;
         if(!colliderObject) colliderObject = transform;
+        startPos = colliderObject.position;
     }
 
     void Start()
@@ -120,7 +122,7 @@ public class BugBehaviorScript : MonoBehaviour
 
         TimeManager.OnHourlyUpdate -= HourlyUpdate;
 
-        if(despawnMethod == DespawnMethod.Fly) Flutter();
+        //if(despawnMethod == DespawnMethod.Fly) Flutter();
     }
 
     protected void OnDisable()
@@ -151,6 +153,8 @@ public class BugBehaviorScript : MonoBehaviour
         CheckState(currentState);
 
         CheckOrientation();
+
+        if(despawnMethod == DespawnMethod.Fly && currentState != BugState.Leave) Flutter();
         
     }
 
@@ -285,9 +289,12 @@ public class BugBehaviorScript : MonoBehaviour
 
     protected void Flutter()
     {
-        flutter = colliderObject.DOLocalJump(colliderObject.position, 1, 1, 1.5f)
+        /*flutter = colliderObject.DOLocalJump(colliderObject.position, 1, 1, 1.5f)
                  .SetLoops(-1, LoopType.Restart)
-                 .SetEase(Ease.InOutQuad);
+                 .SetEase(Ease.InOutQuad);*/
+
+        float newY = Mathf.Sin(Time.time * 3) * 0.7f; //Last number is the height
+        transform.position = new Vector3(startPos.x, startPos.y + newY, startPos.z);
     }
 
 

@@ -18,7 +18,7 @@ public class CompostBin : StructureBehaviorScript
     public Animator anim;
 
     public int progress = 0;
-    int maxProgress = 5;
+    int maxProgress = 8;
     int maxContainedItems = 5;
 
     float bonusCompostValue = 0;

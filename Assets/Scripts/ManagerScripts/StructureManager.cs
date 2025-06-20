@@ -823,7 +823,11 @@ public class StructureManager : MonoBehaviour
         Vector3 spawnPos = new Vector3 (0,0,0);
         foreach (Vector3Int position in farmTileMap.cellBounds.allPositionsWithin)
         {
-            if(farmTileMap.GetTile(position) == freeTile && FetchNutrient(position).ichorLevel >= 4) spawnablePositions.Add(position);
+            Vector3 tilePos = farmTileMap.GetCellCenterWorld(position);
+            if(farmTileMap.GetTile(position) == freeTile && FetchNutrient(tilePos).ichorLevel >= 4)
+            {
+                spawnablePositions.Add(position);
+            }
         }
 
         int r = Random.Range(min,max + 1);

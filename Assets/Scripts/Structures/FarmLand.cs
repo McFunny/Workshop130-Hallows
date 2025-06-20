@@ -257,7 +257,7 @@ public class FarmLand : StructureBehaviorScript
                         }
                     }
 
-                    int r = Random.Range(1, crop.cropYieldAmount + crop.cropYieldVariance);
+                    int r = Random.Range(1, crop.cropYieldAmount + crop.cropYieldVariance + 1); //Adding 1 due to it being non inclusive
                     totalCropYield += r;
                     //if (totalCropYield <= 0) totalCropYield = 1;
                     for (int i = 0; i < totalCropYield; i++) //Primary crop yield
@@ -275,7 +275,7 @@ public class FarmLand : StructureBehaviorScript
                     }
 
 
-                    r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1);
+                    r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
                     if(r == 0 && Random.Range(0,10) >= 8 && crop.seedYieldAmount > 0) r = 1;
                     for (int i = 0; i < r; i++) //Seed yield
                     {
@@ -399,8 +399,6 @@ public class FarmLand : StructureBehaviorScript
             else
             {
                 hoursSpent = 0;
-                health += 5;
-                if(health > maxHealth) health = maxHealth;
                 DrainNutrients(out bool gainedStress, false);
                 if(!isWeed)
                 {
@@ -412,6 +410,8 @@ public class FarmLand : StructureBehaviorScript
                     {
                         growthStage++;
                         if(growth) growth.Play();
+                        health += 5;
+                        if(health > maxHealth) health = maxHealth;
                     }
                 }
                 if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)

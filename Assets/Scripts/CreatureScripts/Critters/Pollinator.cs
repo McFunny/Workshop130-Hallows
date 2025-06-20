@@ -233,7 +233,7 @@ public class Pollinator : CreatureBehaviorScript
             if(fireSources.Count > 0)
             {
                 float distFromFire = 0;
-                float minDistance = 15;
+                float minDistance = 25;
 
                 if(!target) currentFirePriority = 0;
                 for(int i = 0; i < fireSources.Count; i++)
@@ -260,7 +260,7 @@ public class Pollinator : CreatureBehaviorScript
                 if(target && !targetStructure) //if the target is fire and is too far away, remove the target
                 {
                     distFromFire = Vector3.Distance(target.position, transform.position);
-                    if(distFromFire > 15) target = null;
+                    if(distFromFire > minDistance) target = null;
                 } 
             }
         }
