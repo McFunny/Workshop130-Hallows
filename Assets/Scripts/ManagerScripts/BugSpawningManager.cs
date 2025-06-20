@@ -47,12 +47,13 @@ public class BugSpawningManager : MonoBehaviour
 
     void SpawnHourlyBugs()
     {
-        int hourlyBugCap = Random.Range(-6, 4); //Max amount to spawn per hour
+        int hourlyBugCap = Random.Range(-10, 4); //Max amount to spawn per hour
         Vector3 spawnPos = Vector3.zero;
 
         //Standard spawning of hourly bugs that spawn over time in the Farm, Town, Wilderness, ect
         for(int i = 0; i < hourlyBugCap; i++)
         {
+            if(allBugs.Count >= maxBugs) continue;
             //spawn hourly bugs
             int r;
             //if(TownGate.Instance.playerLocation == Location.Wilderness) r = GrabSpecificSpot(BugSpawnArea.Wilderness)
@@ -74,7 +75,8 @@ public class BugSpawningManager : MonoBehaviour
             hourlyBugCap = (int) Mathf.Round(totalWeeds * 0.2f) + 1;
             for(int i = 0; i < hourlyBugCap; i++)
             {
-                if((totalWeeds * .5f) > Random.Range(0, 100))
+                if(allBugs.Count >= maxBugs) continue;
+                if((totalWeeds * .3f) > Random.Range(0, 100))
                 {
                     List<GameObject> weeds = StructureManager.Instance.ReturnStructuresOfType(weedData);
                     SpawnBug(weeds[Random.Range(0, weeds.Count)].transform.position, BugSpawnMethod.Weeds, BugSpawnArea.Farm);
@@ -108,7 +110,7 @@ public class BugSpawningManager : MonoBehaviour
             iterations++;
         }
 
-        if(chosenBug) Instantiate(chosenBug, spawnPos, Quaternion.identity);
+        if(chosenBug) allBugs.Add(Instantiate(chosenBug, spawnPos, Quaternion.identity));
 
         Debug.Log("Spawned a " + chosenBug);
     }
@@ -136,7 +138,7 @@ public class BugSpawningManager : MonoBehaviour
             iterations++;
         }
 
-        if(chosenBug) Instantiate(chosenBug, spawnPos, Quaternion.identity);
+        if(chosenBug) allBugs.Add(Instantiate(chosenBug, spawnPos, Quaternion.identity));
 
         Debug.Log("Spawned a " + chosenBug);
     }

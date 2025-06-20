@@ -55,7 +55,7 @@ MonoBehaviour:
   - {fileID: 412870147, guid: 1dfa509679fe88246bbee481972a07a1, type: 3}
   - {fileID: -742989316, guid: 1dfa509679fe88246bbee481972a07a1, type: 3}
   - {fileID: 412870147, guid: 1dfa509679fe88246bbee481972a07a1, type: 3}
-  animSpeed: 0.6
+  animSpeed: 0.2
   burrowingParticles: {fileID: 9175212794770918335}
   walkSpeed: 1
   fleeSpeed: 5
@@ -5012,8 +5012,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.85, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.67, y: 0.67, z: 0.67}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2741265699421483159}
   m_Father: {fileID: 3567942862874934461}
@@ -5139,7 +5139,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1056855348, guid: 1dfa509679fe88246bbee481972a07a1, type: 3}
   m_Color: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
   m_FlipX: 0

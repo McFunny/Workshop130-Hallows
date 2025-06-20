@@ -257,7 +257,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
         for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
         {
-            if(QuestManager.Instance.activeQuests[i].alreadyCompleted || QuestManager.Instance.activeQuests[i].isMajorQuest) continue;
+            if(QuestManager.Instance.activeQuests[i].alreadyCompleted || QuestManager.Instance.activeQuests[i].isMajorQuest || QuestManager.Instance.activeQuests[i].assignee != character) continue;
 
             var type = QuestManager.Instance.activeQuests[i].GetType();
 
@@ -279,7 +279,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 else continue;
             }
 
-            if(QuestManager.Instance.activeQuests[i].assignee == character && QuestManager.Instance.activeQuests[i].progress == QuestManager.Instance.activeQuests[i].maxProgress)
+            if(QuestManager.Instance.activeQuests[i].progress == QuestManager.Instance.activeQuests[i].maxProgress)
             {
                 QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                 PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);

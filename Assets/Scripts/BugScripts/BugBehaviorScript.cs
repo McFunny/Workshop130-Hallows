@@ -108,7 +108,7 @@ public class BugBehaviorScript : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        hitBox = GetComponent<Collider>();
+        hitBox = GetComponentInChildren<Collider>();
         target = null;
         if(!colliderObject) colliderObject = transform;
     }
@@ -285,7 +285,7 @@ public class BugBehaviorScript : MonoBehaviour
 
     protected void Flutter()
     {
-        flutter = colliderObject.DOJump(colliderObject.position, 1, 1, 1.7f)
+        flutter = colliderObject.DOLocalJump(colliderObject.position, 1, 1, 1.5f)
                  .SetLoops(-1, LoopType.Restart)
                  .SetEase(Ease.InOutQuad);
     }

@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 872821869, guid: d0710e56d2aef50499a412eac361d9f5, type: 3}
   m_Color: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
   m_FlipX: 0
@@ -196,11 +196,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bugItem: {fileID: 11400000, guid: c9af372d6ca36fd46b681856e9182698, type: 2}
   r: {fileID: 1693233992065491012}
+  colliderObject: {fileID: 0}
   movingSprites:
   - {fileID: 872821869, guid: d0710e56d2aef50499a412eac361d9f5, type: 3}
   - {fileID: 1049879365, guid: d0710e56d2aef50499a412eac361d9f5, type: 3}
   - {fileID: 154593929, guid: d0710e56d2aef50499a412eac361d9f5, type: 3}
   - {fileID: 1049879365, guid: d0710e56d2aef50499a412eac361d9f5, type: 3}
+  animSpeed: 0.3
   burrowingParticles: {fileID: 4140486920534733091}
   walkSpeed: 1
   fleeSpeed: 3
