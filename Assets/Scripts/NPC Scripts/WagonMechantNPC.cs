@@ -31,8 +31,6 @@ public class WagonMerchantNPC : NPC, ITalkable
     [TextArea(5,10)]
     public string[] carrotComments;
 
-    //Find a way to get feedback on when a dialogue tree is finished by calling an event/delegate.
-
     void Start()
     {
         shopUI = FindObjectOfType<WaypointScript>();

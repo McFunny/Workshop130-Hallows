@@ -636,6 +636,12 @@ public class VileHog : CreatureBehaviorScript
             isCharging = false;
             return;
         }
+
+        var bug = other.GetComponentInParent<BugBehaviorScript>();
+        if (bug != null)
+        {
+            bug.Struck();
+        }
     }
 
     public override bool OnBearTrapStun(StructureBehaviorScript b)

@@ -1022,7 +1022,7 @@ public class NutrientStorage
 
     public NutrientStorage()
     {
-        ichorLevel = 6; 
+        ichorLevel = 0; 
         terraLevel = 10; 
         gloamLevel = 10; 
         waterLevel = 3;
@@ -1030,7 +1030,7 @@ public class NutrientStorage
 
     public void ResetStorage(NutrientStorage s)
     {
-        s.ichorLevel = 6;
+        s.ichorLevel = 0;
         s.terraLevel = 10;
         s.gloamLevel = 10;
         s.waterLevel = 3;

@@ -494,7 +494,7 @@ public class FarmLand : StructureBehaviorScript
             }
         }
 
-        if(nutrients.ichorLevel <= 1 || nutrients.terraLevel <= 1 || nutrients.gloamLevel <= 1)
+        if(/*nutrients.ichorLevel <= 1 ||*/ nutrients.terraLevel <= 1 || nutrients.gloamLevel <= 1)
         {
             meshRenderer.material = barren;
         }
