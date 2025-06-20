@@ -258,7 +258,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void StructureDestroyedEvent(StructureObject structData)
+    public void StructureDestroyedEvent(StructureObject structData, Vector3 pos)
     {
         //Tigger virtual functions in active quests
         for(int i = 0; i < activeQuests.Count; i++)

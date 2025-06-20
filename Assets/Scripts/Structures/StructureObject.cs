@@ -27,6 +27,8 @@ public class StructureObject : ScriptableObject
     public int requiredRepairs = 1;
     public int maxMisses = 1;
 
+    public float bugSpawnChance = 0; //Chance of spawning a bug when this is destroyed
+
 
     public Structure CreateStructure()
     {

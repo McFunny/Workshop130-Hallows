@@ -30,6 +30,7 @@ public class BugSpawningManager : MonoBehaviour
     void Start()
     {
         TimeManager.OnHourlyUpdate += SpawnHourlyBugs;
+        StructureBehaviorScript.OnStructureDestroyed += SpawnBug;
         StartCoroutine(DelayedStart());
     }
 
@@ -104,6 +105,35 @@ public class BugSpawningManager : MonoBehaviour
         {
             int r = Random.Range(0, possibleBugs.Count);
             if(possibleBugs[r].spawnChance > Random.Range(0,100)) chosenBug = possibleBugs[r].objectPrefab;
+            iterations++;
+        }
+
+        if(chosenBug) Instantiate(chosenBug, spawnPos, Quaternion.identity);
+
+        Debug.Log("Spawned a " + chosenBug);
+    }
+
+    public void SpawnBug(StructureObject structure, Vector3 spawnPos)
+    {
+        if(structure.bugSpawnChance < Random.Range(0, 100)) return;
+
+        List<BugObject> possibleBugs = new List<BugObject>();
+
+        //Sort by time of day available and method and location
+        foreach(BugObject bug in BugDatabase.Instance._bugDatabase)
+        {
+            if(bug.activeHours.Contains(TimeManager.Instance.timeOfDay) && PlayerInteraction.Instance.totalMoneyEarned >= bug.wealthPrerequisite
+            && bug.homeStructures.Contains(structure)) possibleBugs.Add(bug);
+        }
+        if(possibleBugs.Count == 0) return;
+
+        int iterations = 0;
+        GameObject chosenBug = null;
+        while(iterations < 10 && !chosenBug)
+        {
+            int r = Random.Range(0, possibleBugs.Count);
+            if(possibleBugs[r].spawnChance > Random.Range(0,100)) chosenBug = possibleBugs[r].objectPrefab;
+            iterations++;
         }
 
         if(chosenBug) Instantiate(chosenBug, spawnPos, Quaternion.identity);
