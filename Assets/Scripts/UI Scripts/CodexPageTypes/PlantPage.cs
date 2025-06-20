@@ -58,8 +58,9 @@ public class PlantPage : CodexPage
         if (entry.cropData.waterIntake < 0) { producesIcons[3].SetActive(true); }
         else { producesIcons[3].SetActive(false); }
 
-
-        trellis.text = cropItem.requireTrellis ? "Requires a Trellis" : "Does not Require a Trellis";
+        if (cropItem != null) trellis.text = cropItem.requireTrellis ? "Requires a Trellis" : "Does not Require a Trellis";
+        else trellis.text = "Does not Require a Trellis";
+        
         pollen.text = entry.cropData.requirePollination ? "Requires Pollination" : "Does not Require Pollination";
     }
 }
