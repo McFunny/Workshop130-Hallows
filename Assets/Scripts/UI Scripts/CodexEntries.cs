@@ -63,8 +63,11 @@ public class CodexEntries : ScriptableObject
                 }
             }
         }
+        
+        #if UNITY_EDITOR
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
+        #endif
     }
 }
 
