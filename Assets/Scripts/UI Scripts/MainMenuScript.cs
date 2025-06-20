@@ -383,8 +383,11 @@ public class MainMenuScript : MonoBehaviour
         yield return new WaitForSecondsRealtime(2);
 
         AsyncOperation operation;
-        if (!loadingData) operation = SceneManager.LoadSceneAsync(3); //cutscene
-        else operation = SceneManager.LoadSceneAsync(1); //game
+
+        /*if (!loadingData) operation = SceneManager.LoadSceneAsync(3); //cutscene
+        else operation = SceneManager.LoadSceneAsync(1); //game*/
+
+        operation = SceneManager.LoadSceneAsync(1); //game
         loadingScreen.SetActive(true);
         var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
 

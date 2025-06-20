@@ -112,6 +112,7 @@ public class Codex3 : MonoBehaviour
     private void InputOpen(InputAction.CallbackContext context)
     {
         if (menuIndex == 0 && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens == 0) OpenCodex();
+        else if (menuIndex > 0) CloseCodex();
     }
 
     private void InputBack(InputAction.CallbackContext context)
