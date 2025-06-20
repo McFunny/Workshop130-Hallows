@@ -823,7 +823,7 @@ public class StructureManager : MonoBehaviour
         Vector3 spawnPos = new Vector3 (0,0,0);
         foreach (Vector3Int position in farmTileMap.cellBounds.allPositionsWithin)
         {
-            if(farmTileMap.GetTile(position) == freeTile) spawnablePositions.Add(position);
+            if(farmTileMap.GetTile(position) == freeTile && FetchNutrient(position).ichorLevel >= 4) spawnablePositions.Add(position);
         }
 
         int r = Random.Range(min,max + 1);
@@ -842,6 +842,7 @@ public class StructureManager : MonoBehaviour
                     script.wealthValue = 0;
                     SetTile(spawnPos);
                 }
+                spawnablePositions.RemoveAt(randomIndex);
             }
         }
     }
@@ -887,7 +888,7 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    public void IncreaseNutrients()
+    public void IncreaseNutrients() //Occurs every new day
     {
         for(int i = 0; i < storage.Count; i++)
         {
@@ -1011,7 +1012,7 @@ public class StructureManager : MonoBehaviour
 [System.Serializable]
 public class NutrientStorage
 {
-    public float ichorLevel = 6; //max is 10
+    public float ichorLevel = 0; //max is 10
     public float terraLevel = 10; //max is 10
     public float gloamLevel = 10; //max is 10
 

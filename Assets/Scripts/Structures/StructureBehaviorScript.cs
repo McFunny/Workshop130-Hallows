@@ -10,7 +10,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public delegate void StructuresUpdated();
     public static event StructuresUpdated OnStructuresUpdated; //Unity Event that will notify enemies when structures are updated
 
-    public delegate void StructureDestroyed(StructureObject structData);
+    public delegate void StructureDestroyed(StructureObject structData, Vector3 pos);
     public static event StructureDestroyed OnStructureDestroyed; //Unity Event that will listeners when a specific structure is destroyed
 
     public delegate void Damaged();
@@ -225,7 +225,7 @@ public class StructureBehaviorScript : MonoBehaviour
                 print("I spawned a pile");
             }
 
-            OnStructureDestroyed?.Invoke(structData);
+            if(structData) OnStructureDestroyed?.Invoke(structData, transform.position);
         }
 
         if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);

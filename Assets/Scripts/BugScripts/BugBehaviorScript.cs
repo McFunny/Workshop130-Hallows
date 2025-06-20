@@ -15,7 +15,10 @@ public class BugBehaviorScript : MonoBehaviour
 
     public SpriteRenderer r;
 
+    public Transform colliderObject;
+
     public Sprite[] movingSprites;
+    public float animSpeed = 0.3f;
 
     public ParticleSystem burrowingParticles;
 
@@ -39,6 +42,8 @@ public class BugBehaviorScript : MonoBehaviour
     public DespawnMethod despawnMethod;
     protected int hoursAlive = 0;
     protected int maxLifetime = 6;
+
+    private Sequence flutter;
 
     public enum DespawnMethod
     {
@@ -105,6 +110,7 @@ public class BugBehaviorScript : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         hitBox = GetComponent<Collider>();
         target = null;
+        if(!colliderObject) colliderObject = transform;
     }
 
     void Start()
@@ -113,6 +119,8 @@ public class BugBehaviorScript : MonoBehaviour
         StartCoroutine(AnimateBug());
 
         TimeManager.OnHourlyUpdate -= HourlyUpdate;
+
+        if(despawnMethod == DespawnMethod.Fly) Flutter();
     }
 
     protected void OnDisable()
@@ -226,23 +234,24 @@ public class BugBehaviorScript : MonoBehaviour
 
     protected IEnumerator Leaving()
     {
+        if(flutter != null) flutter.Kill();
         hitBox.enabled = false;
         agent.enabled = false;
         switch(despawnMethod)
         {
             case DespawnMethod.Poof:
-            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+            ParticlePoolManager.Instance.MoveAndPlayParticle(colliderObject.position, ParticlePoolManager.Instance.dirtParticle);
             Destroy(gameObject);
             break;
             case DespawnMethod.Burrow:
-            transform.DOShakePosition(3f, 0.9f, 0, 0.2f, false);
-            transform.DOMoveY(transform.position.y - .5f, 4);
-            burrowingParticles.transform.DOMoveY(burrowingParticles.transform.position.y + .5f, 4); //to offset the dig
+            colliderObject.DOShakePosition(3f, 0.9f, 0, 0.2f, false);
+            colliderObject.DOMoveY(colliderObject.position.y - .5f, 4);
+            if(colliderObject == transform) burrowingParticles.transform.DOMoveY(burrowingParticles.transform.position.y + .5f, 4); //to offset the dig
             burrowingParticles.Play();
             for(int i = 0; i < 5; i++)
             {
                 yield return new WaitForSeconds(0.5f);
-                ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+                ParticlePoolManager.Instance.MoveAndPlayParticle(colliderObject.position, ParticlePoolManager.Instance.dirtParticle);
             }
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             Destroy(gameObject);
@@ -274,6 +283,13 @@ public class BugBehaviorScript : MonoBehaviour
         }
     }
 
+    protected void Flutter()
+    {
+        flutter = colliderObject.DOJump(colliderObject.position, 1, 1, 1.7f)
+                 .SetLoops(-1, LoopType.Restart)
+                 .SetEase(Ease.InOutQuad);
+    }
+
 
     protected IEnumerator AnimateBug()
     {
@@ -282,7 +298,7 @@ public class BugBehaviorScript : MonoBehaviour
         {
             currentSprite++;
             if(currentSprite >= movingSprites.Length) currentSprite = 0;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(animSpeed);
             r.sprite = movingSprites[currentSprite];
         }
     }
