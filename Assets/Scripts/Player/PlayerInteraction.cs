@@ -202,17 +202,6 @@ public class PlayerInteraction : MonoBehaviour
         isInteracting = false;
     }
 
-    void DestroyStruct()
-    {
-        Vector3 fwd = mainCam.transform.TransformDirection(Vector3.forward);
-        RaycastHit hit;
-
-        if(Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
-        {
-            Destroy(hit.collider.gameObject);
-        }
-    }
-
     void StructureInteractionWithItem()
     {
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
