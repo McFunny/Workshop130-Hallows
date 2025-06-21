@@ -69,7 +69,7 @@ public class RepairMinigame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (debugMode)
+        /*if (debugMode)
         {
             if (Keyboard.current.zKey.wasPressedThisFrame)
             {
@@ -79,9 +79,9 @@ public class RepairMinigame : MonoBehaviour
             if (Keyboard.current.xKey.wasPressedThisFrame)
             {
                 Debug.Log("Forced: Ending Minigame");
-                EndMinigame();
+                //EndMinigame();
             }
-        }
+        }*/
 
         if (!minigameActive) return;
 
