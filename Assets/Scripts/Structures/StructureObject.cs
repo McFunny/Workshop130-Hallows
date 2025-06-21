@@ -29,6 +29,8 @@ public class StructureObject : ScriptableObject
 
     public float bugSpawnChance = 0; //Chance of spawning a bug when this is destroyed
 
+    public bool hasBeenPlaced = false; //For codex unlock purposes
+
 
     public Structure CreateStructure()
     {
