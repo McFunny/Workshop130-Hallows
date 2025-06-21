@@ -41,8 +41,8 @@ public class PlayerInteraction : MonoBehaviour
     bool sentLowStaminaMessage = false;
     public bool invincible = false;
 
-    public float waterHeld = 15; //for watering can
-    [HideInInspector] public readonly float maxWaterHeld = 15;
+    public float waterHeld = 10; //for watering can //USED TO BE 15, TRYING 10
+    [HideInInspector] public readonly float maxWaterHeld = 10;
 
     public bool torchLit = false;
 
