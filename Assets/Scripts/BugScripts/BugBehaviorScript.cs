@@ -42,7 +42,7 @@ public class BugBehaviorScript : MonoBehaviour
     public BugObject bugData;
     public DespawnMethod despawnMethod;
     protected int hoursAlive = 0;
-    protected int maxLifetime = 4;
+    protected int maxLifetime = 6;
 
     private Sequence flutter;
 
