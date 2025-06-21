@@ -111,11 +111,13 @@ public class Codex3 : MonoBehaviour
 
     private void InputOpen(InputAction.CallbackContext context)
     {
+        if (menuIndex > 0 && !ControlManager.isController)
+        {
+            CloseCodex();
+            return;
+        }
+        
         if (menuIndex == 0 && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens == 0) OpenCodex();
-
-        // Controller Stuff
-        if (ControlManager.isController) return;
-        if (menuIndex > 0) CloseCodex();
     }
 
     private void InputBack(InputAction.CallbackContext context)
@@ -430,6 +432,22 @@ public class Codex3 : MonoBehaviour
                 else if (Cat[e].creatureData != null) //Unlocks if amount of enemy killed > 0
                 {
                     if (Cat[e].creatureData.amountKilled > 0 || Cat[e].creatureData.hasSpawned)
+                    {
+                        tempText.text = Cat[e].entryName;
+                        tempImage.SetActive(true);
+                        tempUnlock.SetActive(false);
+                        tempSprite.sprite = Cat[e].buttonIcon;
+                    }
+                    else
+                    {
+                        tempText.text = defaultName;
+                        tempImage.SetActive(false);
+                        tempUnlock.SetActive(true);
+                    }
+                }
+                else if (Cat[e].bugData != null) //Unlocks if amount of bug caught > 0
+                {
+                    if (Cat[e].bugData.amountCaught > 0)
                     {
                         tempText.text = Cat[e].entryName;
                         tempImage.SetActive(true);
