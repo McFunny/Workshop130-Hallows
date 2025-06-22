@@ -132,4 +132,5 @@ public class Pottable
 {
     public InventoryItemData item;
     public Sprite sprite;
+    public int intValue; //I use this to track how long it lasts when socketed into the post
 }
