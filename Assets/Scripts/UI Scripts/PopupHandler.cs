@@ -110,7 +110,7 @@ public class PopupHandler : MonoBehaviour
     public void NewsForNewDay()
     {
         if(MainMenuScript.currentFileMode == FileMode.Survival) return;
-        if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) AddToQueue(wildernessUnlockedPopup);
+        //if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) AddToQueue(wildernessUnlockedPopup);
     }
 
     public void AddToQueue(PopupScript popup)

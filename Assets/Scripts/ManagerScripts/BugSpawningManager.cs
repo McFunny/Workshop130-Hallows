@@ -12,7 +12,7 @@ public class BugSpawningManager : MonoBehaviour
 
     public StructureObject weedData;
 
-    int maxBugs = 20; //Will not spawn any more hourly after this cap
+    int maxBugs = 25; //Will not spawn any more hourly after this cap
 
     void Awake()
     {
@@ -76,7 +76,7 @@ public class BugSpawningManager : MonoBehaviour
             for(int i = 0; i < hourlyBugCap; i++)
             {
                 if(allBugs.Count >= maxBugs) continue;
-                if((totalWeeds * .3f) > Random.Range(0, 100))
+                if((totalWeeds * .15f) > Random.Range(0, 100))
                 {
                     List<GameObject> weeds = StructureManager.Instance.ReturnStructuresOfType(weedData);
                     SpawnBug(weeds[Random.Range(0, weeds.Count)].transform.position, BugSpawnMethod.Weeds, BugSpawnArea.Farm);

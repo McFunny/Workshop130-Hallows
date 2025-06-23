@@ -203,9 +203,9 @@ public class NightSpawningManager : MonoBehaviour
         }
         while(spawnAttempts < currentDLevel.hourlySpawnAttempts);
 
-        if(allCreatures.Count < maxCreatures && difficultyPoints < 6)
+        if(allCreatures.Count < maxCreatures && difficultyPoints < 8)
         {
-            r = Random.Range(1,3);
+            r = Random.Range(1,4);
             for(int i = 0; i < r; i++)
             {
                 r = Random.Range(0, selectedFillerCreatures.Count);

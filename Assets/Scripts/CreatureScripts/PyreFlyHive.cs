@@ -160,7 +160,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
         if(!producedNectar || health > 0) return;
         GameObject droppedItem;
         Rigidbody itemRB;
-        r = Random.Range(4,7);
+        r = Random.Range(2,4);
         for(int i = 0; i < r; i++)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(nectar);

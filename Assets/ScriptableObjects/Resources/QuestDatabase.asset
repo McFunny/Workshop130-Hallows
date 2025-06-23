@@ -216,16 +216,14 @@ MonoBehaviour:
     questBehavior: {fileID: 0}
     questID: 300
   - name: Pollination Station
-    description: 'Some crops require to be pollinated to grow. Guide the small bugs
-      on the farm with a torch for them to begin pollination.
-
-      REPLACE TEXT.
-      (Have the reward be a pollinator post.)'
+    description: Some crops require to be pollinated to grow. Guide the moths on
+      the farm with a torch for them to begin pollination.
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
-    itemRewards: []
-    townFavorReward: 0
+    itemRewards:
+    - {fileID: 11400000, guid: 4186d0990441d9b40a416ac71bf280ff, type: 2}
+    townFavorReward: 2
     progress: 0
     maxProgress: 1
     daysLeft: -1

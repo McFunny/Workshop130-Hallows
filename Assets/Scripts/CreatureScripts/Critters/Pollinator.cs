@@ -8,7 +8,7 @@ public class Pollinator : CreatureBehaviorScript
     private bool isMoving = false;
     private bool coroutineRunning = false;
     private Transform target;
-    public List<StructureObject> targettableStructures;
+    //public List<StructureObject> targettableStructures;
     private Vector3 despawnPos;
     [HideInInspector] public NavMeshAgent agent;
 
@@ -55,7 +55,8 @@ public class Pollinator : CreatureBehaviorScript
         else agent.speed = fireSpeed;
 
         if(coroutineRunning) return;
-        if(target)
+        if(TimeManager.Instance.isDay) currentState = CreatureState.Wander;
+        else if(target)
         {
             if(targetStructure)  currentState = CreatureState.WalkTowardsTarget;
             else  currentState = CreatureState.WanderByFire;
@@ -169,7 +170,7 @@ public class Pollinator : CreatureBehaviorScript
     void WalkTowardsClosestTarget()
     {
         if(coroutineRunning) return;
-        if (target == null || !target.gameObject.activeInHierarchy)
+        if (target == null || !target.gameObject.activeInHierarchy || TimeManager.Instance.isDay)
         {
             currentState = CreatureState.Wander;
         }
@@ -197,6 +198,16 @@ public class Pollinator : CreatureBehaviorScript
             foreach(ParticleSystem p in pollenParticles) p.Play();
             QuestManager.Instance.AddQuestProgress(1, QuestDatabase.Instance.GetTutorialQuest(301)); //Complete the pollination quest
         }
+        else
+        {
+            PollinatorPost post = targetStructure as PollinatorPost;
+            if(post && !post.containsMoth)
+            {
+                post.InsertMoth();
+                Destroy(gameObject);
+                yield break;
+            }
+        }
         targetStructure = null;
         target = null;
         currentState = CreatureState.Wander;
@@ -220,6 +231,14 @@ public class Pollinator : CreatureBehaviorScript
                         FarmLand tile = structure as FarmLand;
 
                         if(tile && tile.NeedsPollination() && Random.Range(0, 10) > 2)
+                        {
+                            targetStructure = structure;
+                            target = structure.transform;
+                            break;
+                        }
+
+                        PollinatorPost post = structure as PollinatorPost;
+                        if(post && !post.containsMoth)
                         {
                             targetStructure = structure;
                             target = structure.transform;

@@ -18,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour
 
     PlayerEffectsHandler playerEffects;
 
-    ControlManager controlManager;
+    [HideInInspector] public ControlManager controlManager;
 
     [HideInInspector] public Rigidbody rb;
 
@@ -50,7 +50,6 @@ public class PlayerInteraction : MonoBehaviour
 
     public List<StatusEffect> currentEffects = new List<StatusEffect>();
 
-   
 
     public LayerMask interactionLayers;
     private bool ltCanPress = false;

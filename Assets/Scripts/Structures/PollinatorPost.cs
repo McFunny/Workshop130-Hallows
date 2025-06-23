@@ -8,12 +8,17 @@ public class PollinatorPost : StructureBehaviorScript
 
     public List<Pottable> potItems;
 
-    public GameObject fogChimeLight, mothLight;
+    public GameObject fogChimeLight, mothLight, nectarObject;
     public InventoryItemData fogChime, nectarItem;
 
     public int flowerHealth = 0; //How many times until a new flower is needed
 
     public bool containsMoth, containsNectar;
+
+    public MeshRenderer renderer;
+    Material postMat;
+
+    public CreatureObject mothData; //Spawn this if inside and destroyed or daylight
 
     public void Awake()
     {
@@ -22,12 +27,24 @@ public class PollinatorPost : StructureBehaviorScript
         mothLight.SetActive(false);
         savedItems.Add(null);
         r.sprite = null;
+        postMat = renderer.materials[0];
     }
 
     public void Start()
     {
         base.Start();
         LoadVariables();
+    }
+
+    public override void HourPassed()
+    {
+        if(TimeManager.Instance.isDay && containsMoth)
+        {
+            containsMoth = false;
+            containsNectar = true;
+            UpdateModel();
+            Instantiate(mothData.objectPrefab, transform.position, Quaternion.identity);
+        }
     }
 
     public override void StructureInteraction()
@@ -46,7 +63,7 @@ public class PollinatorPost : StructureBehaviorScript
             }
 
             PlayerInventoryHolder.Instance.UpdateInventory();
-            fogChimeLight.SetActive(false);
+            containsNectar = false;
             return;
         }
     }
@@ -87,10 +104,35 @@ public class PollinatorPost : StructureBehaviorScript
         }
     }
 
+    public void InsertMoth()
+    {
+        containsMoth = true;
+        UpdateModel();
+    }
+
     void UpdateModel()
     {
-        if(containsMoth) mothLight.SetActive(true);
-        else mothLight.SetActive(false);
+        if(containsMoth)
+        {
+            //postMat.emission = true;
+            postMat.EnableKeyword("_EMISSION");
+            mothLight.SetActive(true);
+        }
+        else 
+        {
+            postMat.DisableKeyword("_EMISSION");
+            //postMat.emission = false;
+            mothLight.SetActive(false);
+        }
+
+        if(containsNectar)
+        {
+            nectarObject.SetActive(true);
+        }
+        else
+        {
+            nectarObject.SetActive(false);
+        }
 
         if(savedItems.Count == 0 || savedItems[0] == null)
         {
@@ -118,13 +160,27 @@ public class PollinatorPost : StructureBehaviorScript
         else fogChimeLight.SetActive(false);
     }
 
+    void OnDestroy()
+    {
+        base.OnDestroy();
+        if (!gameObject.scene.isLoaded) return; 
+
+        if(containsMoth)
+        {
+            Instantiate(mothData.objectPrefab, transform.position, Quaternion.identity);
+        }
+    }
+
     public override void SaveVariables()
     {
         saveInt1 = flowerHealth;
+        saveBool1 = containsNectar;
     }
 
     public override void LoadVariables()
     {
+        containsNectar = saveBool1;
+
         UpdateModel();
 
         flowerHealth = saveInt1;
