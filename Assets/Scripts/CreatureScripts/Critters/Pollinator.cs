@@ -55,7 +55,8 @@ public class Pollinator : CreatureBehaviorScript
         else agent.speed = fireSpeed;
 
         if(coroutineRunning) return;
-        if(target)
+        if(TimeManager.Instance.isDay) currentState = CreatureState.Wander;
+        else if(target)
         {
             if(targetStructure)  currentState = CreatureState.WalkTowardsTarget;
             else  currentState = CreatureState.WanderByFire;

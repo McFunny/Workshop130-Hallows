@@ -183,6 +183,17 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual void PlayerLeftRadius()
     {
         startedDialogue = false;
+
+        if (lastInteractedStoreItem)
+        {
+            lastInteractedStoreItem = null;
+        }
+
+        if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
+        {
+            assignedStall.displaySign.ResetDisplay();
+            if (assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
+        }
     }
 
     public virtual void GivePlayerItem(int id, int amount){}
@@ -226,7 +237,16 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public virtual void BeginWorking(){}
 
-    public virtual void StopWorking(){}
+    public virtual void StopWorking()
+    {
+        if (assignedStall.displaySign)
+        {
+            assignedStall.displaySign.LeaveShop();
+        }
+        if (assignedStall.barterSign) assignedStall.barterSign.LeaveShop();
+
+        if (lastInteractedStoreItem) lastInteractedStoreItem = null;
+    }
 
     public virtual void ShotAt(){}
 
@@ -264,7 +284,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
         for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
         {
-            if(QuestManager.Instance.activeQuests[i].alreadyCompleted || QuestManager.Instance.activeQuests[i].isMajorQuest || QuestManager.Instance.activeQuests[i].assignee != character) continue;
+            if(QuestManager.Instance.activeQuests[i].alreadyCompleted /*|| QuestManager.Instance.activeQuests[i].isMajorQuest*/ || QuestManager.Instance.activeQuests[i].assignee != character) continue;
+            if(QuestManager.Instance.activeQuests[i].isMajorQuest && QuestManager.Instance.activeQuests[i].maxProgress == 0) continue; //To prevent major quests from completing automatically
 
             var type = QuestManager.Instance.activeQuests[i].GetType();
 

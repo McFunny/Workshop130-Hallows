@@ -50,7 +50,6 @@ public class PlayerInteraction : MonoBehaviour
 
     public List<StatusEffect> currentEffects = new List<StatusEffect>();
 
-   
 
     public LayerMask interactionLayers;
     private bool ltCanPress = false;

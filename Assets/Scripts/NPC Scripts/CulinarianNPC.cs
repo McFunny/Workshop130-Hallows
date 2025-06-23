@@ -180,10 +180,6 @@ public class CulinarianNPC : NPC, ITalkable
 
     public override void PlayerLeftRadius()
     {
-        if (lastInteractedStoreItem)
-        {
-            lastInteractedStoreItem = null;
-        }
         if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
     }
@@ -255,5 +251,6 @@ public class CulinarianNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+        if (assignedStall.barterSign) assignedStall.barterSign.LeaveShop();
     }
 }

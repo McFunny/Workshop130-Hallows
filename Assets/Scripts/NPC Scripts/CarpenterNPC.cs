@@ -156,15 +156,7 @@ public class CarpenterNPC : NPC, ITalkable
 
     public override void PlayerLeftRadius()
     {
-        if (lastInteractedStoreItem)
-        {
-            lastInteractedStoreItem = null;
-        }
         if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
-        if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
-        {
-            assignedStall.displaySign.ResetDisplay();
-        }
         base.PlayerLeftRadius();
     }
 
@@ -260,15 +252,8 @@ public class CarpenterNPC : NPC, ITalkable
         {
             storeItems[i].Empty();
         }
-        if (lastInteractedStoreItem)
-        {
-            lastInteractedStoreItem = null;
-        }
         shopUI.shopImgObj.SetActive(false);
-        if (assignedStall.displaySign)
-        {
-            assignedStall.displaySign.LeaveShop();
-        }
+        base.StopWorking();
     }
 
     public override bool ExclamationCheck()

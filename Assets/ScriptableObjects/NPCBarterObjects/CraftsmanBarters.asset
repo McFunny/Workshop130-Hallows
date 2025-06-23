@@ -16,7 +16,7 @@ MonoBehaviour:
   - name: Barricade
     itemForSale: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
     useItemPrice: 0
-    mintCost: 10
+    mintCost: 0
     amountForSale: 3
     barterChance: 100
     itemsRequired:
@@ -25,16 +25,18 @@ MonoBehaviour:
   - name: CobbledBarricade
     itemForSale: {fileID: 11400000, guid: 6048853c0bacbf44e81cf05e0f2d956e, type: 2}
     useItemPrice: 0
-    mintCost: 40
+    mintCost: 0
     amountForSale: 3
     barterChance: 75
     itemsRequired:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 6
+    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+      amount: 1
   - name: Barrel
     itemForSale: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
     useItemPrice: 0
-    mintCost: 20
+    mintCost: 0
     amountForSale: 3
     barterChance: 100
     itemsRequired:
@@ -43,7 +45,7 @@ MonoBehaviour:
   - name: BirdBath
     itemForSale: {fileID: 11400000, guid: 0bc13d18c81019245bbbcfee4abbab8a, type: 2}
     useItemPrice: 0
-    mintCost: 35
+    mintCost: 0
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -52,34 +54,34 @@ MonoBehaviour:
   - name: Brazier
     itemForSale: {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
     useItemPrice: 0
-    mintCost: 90
+    mintCost: 0
     amountForSale: 1
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
       amount: 5
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 10
+      amount: 15
   - name: ImbuedScarecrow
     itemForSale: {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
     useItemPrice: 0
-    mintCost: 5
+    mintCost: 0
     amountForSale: 3
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
       amount: 1
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-      amount: 2
+      amount: 1
   - name: DryingRack
     itemForSale: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
     useItemPrice: 0
-    mintCost: 15
+    mintCost: 0
     amountForSale: 3
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 3
+      amount: 2
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
       amount: 2
   - name: Trellis
@@ -94,7 +96,7 @@ MonoBehaviour:
   - name: PollinatorPost
     itemForSale: {fileID: 11400000, guid: 4186d0990441d9b40a416ac71bf280ff, type: 2}
     useItemPrice: 0
-    mintCost: 30
+    mintCost: 0
     amountForSale: 3
     barterChance: 100
     itemsRequired:
