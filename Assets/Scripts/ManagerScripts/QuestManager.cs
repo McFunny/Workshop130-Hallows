@@ -352,7 +352,7 @@ public class QuestManager : MonoBehaviour
                 {
                     for(int x = 0; x < q.savedRewardIDs.Count; x++) //Saved item id's
                     {
-                        q.itemRewards.Add(Database.Instance.GetItem(q.savedRewardIDs[x]));
+                        if(q.savedRewardIDs[x] != -1) q.itemRewards.Add(Database.Instance.GetItem(q.savedRewardIDs[x]));
                     }
 
                     q.questBehavior = QuestDatabase.Instance.GetQuestBehavior(q.behaviorID);
