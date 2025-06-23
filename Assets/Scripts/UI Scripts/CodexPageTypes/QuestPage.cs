@@ -213,7 +213,7 @@ public class QuestPage : CodexPage
             if (q.maxProgress == 1 || q.desiredItem.displayName.EndsWith("s")) progressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
             else progressText.text = q.desiredItem.displayName + "s handed in: " + q.progress + "/" + q.maxProgress;
         }
-        if (type.Equals(typeof(HuntQuest)))
+        else if (type.Equals(typeof(HuntQuest)))
         {
             //print("Hunt Quest");
             var q = quest as HuntQuest;
@@ -229,7 +229,7 @@ public class QuestPage : CodexPage
             if (q.maxProgress == 1 || q.targetCreature.name.EndsWith("s")) progressText.text = q.targetCreature.name + " eliminated: " + q.progress + "/" + q.maxProgress;
             else progressText.text = q.targetCreature.name + "s eliminated: " + q.progress + "/" + q.maxProgress;
         }
-        if (type.Equals(typeof(GrowQuest)))
+        else if (type.Equals(typeof(GrowQuest)))
         {
             //print("Grow Quest");
             var q = quest as GrowQuest;
@@ -245,6 +245,10 @@ public class QuestPage : CodexPage
 
             if (q.maxProgress == 1 || !q.desiredItem.displayName.EndsWith("s")) progressText.text = q.desiredItem.displayName + " grown: " + q.progress + "/" + q.maxProgress;
             else progressText.text = q.desiredItem.displayName + "s grown: " + q.progress + "/" + q.maxProgress;
+        }
+        else
+        {
+            progressText.text = "Progress: " + quest.progress + "/" + quest.maxProgress;
         }
     }
 }
