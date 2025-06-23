@@ -10,6 +10,15 @@ public class Barricade : StructureBehaviorScript
 
     public Material clearM, brokenM, veryBrokenM;
 
+    public List<RepairItem> repairItems;
+
+    [System.Serializable]
+    public class RepairItem
+    {
+        public InventoryItemData item;
+        public int repairAmount;
+    }
+
 
     void Awake()
     {
@@ -30,7 +39,21 @@ public class Barricade : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(item == gloomStalk && health < maxHealth)
+        if(health >= maxHealth) return;
+        foreach(RepairItem r in repairItems)
+        {
+            if(r.item == item)
+            {
+                if(maxHealth <= r.repairAmount + health) health = maxHealth;
+                else health += r.repairAmount;
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                PlayerInventoryHolder.Instance.UpdateInventory();
+                UpdateModel();
+                return;
+            }
+        }
+
+        /*if(item == gloomStalk && health < maxHealth)
         {
             if(maxHealth <= 40) health = maxHealth;
             else health += maxHealth/3;
@@ -38,7 +61,7 @@ public class Barricade : StructureBehaviorScript
             PlayerInventoryHolder.Instance.UpdateInventory();
             UpdateModel();
             return;
-        }
+        }*/
     }
 
     public override void ToolInteraction(ToolType type, out bool success)

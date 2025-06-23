@@ -900,7 +900,7 @@ public class MutatedCrow : CreatureBehaviorScript
         foreach (StructureBehaviorScript structure in structManager.allStructs)
         {
             int r = Random.Range(0,10);
-            if(structure.structData == scareCrow && r > 5)
+            if(structure.structData == scareCrow && r > 2)
             {
                 targetStructure = structure;
                 print("Scarecrow");
