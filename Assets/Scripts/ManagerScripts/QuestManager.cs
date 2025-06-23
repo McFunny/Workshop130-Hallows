@@ -350,6 +350,7 @@ public class QuestManager : MonoBehaviour
             {
                 if(q.orderIndex == i)
                 {
+                    q.itemRewards.Clear(); //To remove the leftover scriptable object data
                     for(int x = 0; x < q.savedRewardIDs.Count; x++) //Saved item id's
                     {
                         if(q.savedRewardIDs[x] != -1) q.itemRewards.Add(Database.Instance.GetItem(q.savedRewardIDs[x]));
