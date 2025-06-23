@@ -94,6 +94,7 @@ public class BotanistNPC : NPC, ITalkable
         if(QuestManager.Instance.activeQuests[lastCompletedQuestIndex] as GrowQuest != null) return 1;
 
         //Remark about completing the pollination quest here
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.GetTutorialQuest(301))) return 3;
 
         return 0;
     }
@@ -243,14 +244,17 @@ public class BotanistNPC : NPC, ITalkable
         }
     }
 
-    public override void PurchaseSuccess(InventoryItemData item)
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
     {
+        uniqueDialogue = false;
         if(!GameSaveData.Instance.bot_explainedPollen)
         {
             CropItem seed = item as CropItem;
             if(seed && seed.cropData.requirePollination)
             {
                 willExplainPollen = true;
+                ExplainPollen();
+                uniqueDialogue = true;
             }
         }
     }
@@ -284,9 +288,8 @@ public class BotanistNPC : NPC, ITalkable
         }
     }
 
-    public override void OnConvoEnd()
+    void ExplainPollen()
     {
-        return; //CANNOT GIVE OUT QUEST UNTIL POLLINATOR POST IS IN
         if(willExplainPollen) //Explain Pollination and give quest
         {
             willExplainPollen = false; 

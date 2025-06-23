@@ -222,6 +222,7 @@ MonoBehaviour:
   shocked:
   - {fileID: 8300000, guid: 792a3902239b18743982b922c0467d88, type: 3}
   eyeLine: {fileID: 7031332008590127860}
+  exclamationObject: {fileID: 0}
   character: 1
   barterDatabase: {fileID: 0}
   currentPath: -1
@@ -236,6 +237,26 @@ MonoBehaviour:
   assignedStall: {fileID: 0}
   itemsToGive: []
   shopUI: {fileID: 0}
+  dailyQuest:
+    name: 
+    description: 
+    isMajorQuest: 0
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
+    progress: 0
+    maxProgress: 0
+    daysLeft: -1
+    assignee: 0
+    displayProgress: 0
+    orderIndex: 0
+    objectID: -1
+    objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: -1
   barricade: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
   shotGun: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
   ammo: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
@@ -259,6 +280,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
   - {fileID: 11400000, guid: 1c3c20e899a81124d9d03ffd3cd1ad3b, type: 2}
   - {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
+  - {fileID: 11400000, guid: 4186d0990441d9b40a416ac71bf280ff, type: 2}
   itemWeight:
   - 1
   - 1
@@ -266,6 +288,7 @@ MonoBehaviour:
   - 0.75
   - 1
   - 1
+  - 0.75
   - 0.75
   - 0.75
   - 0.75

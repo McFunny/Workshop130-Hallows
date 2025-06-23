@@ -18,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour
 
     PlayerEffectsHandler playerEffects;
 
-    ControlManager controlManager;
+    [HideInInspector] public ControlManager controlManager;
 
     [HideInInspector] public Rigidbody rb;
 

@@ -660,6 +660,8 @@ public class FarmLand : StructureBehaviorScript
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
 
+        if(forceDig || harvestedByScythe) CallDestroyedEvent();
+
         if(health <= 0)
         {
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);

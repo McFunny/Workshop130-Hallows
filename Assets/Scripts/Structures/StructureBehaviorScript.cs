@@ -232,6 +232,11 @@ public class StructureBehaviorScript : MonoBehaviour
 
     }
 
+    protected void CallDestroyedEvent() //Used for the farm tiles
+    {
+        OnStructureDestroyed?.Invoke(structData, transform.position);
+    }
+
     public void ToggleHighlight(bool enable)
     {
         if(highlight.Count == 0)

@@ -92,6 +92,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public virtual void PurchaseAttempt(StoreItem item)
     {
+        bool uniqueDialogue = false;
         if (dialogueController.IsInterruptable() == false || !shopUI)
         {
             Talk();
@@ -111,7 +112,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                     //item.CompleteTrade();
                     currentPath = 2; //item sold
                     shopUI.shopImgObj.SetActive(false);
-                    PurchaseSuccess(item.itemData);
+                    PurchaseSuccess(item.itemData, out uniqueDialogue);
                 }
                 else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
                 {
@@ -132,7 +133,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             else
             {
                 currentPath = 2; //item sold
-                PurchaseSuccess(item.itemData);
+                PurchaseSuccess(item.itemData, out uniqueDialogue);
                 shopUI.shopImgObj.SetActive(false);
                 if (assignedStall && assignedStall.displaySign) assignedStall.displaySign.ResetDisplay();
                 if (assignedStall && assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
@@ -156,11 +157,17 @@ public abstract class NPC : MonoBehaviour, IInteractable
             if (assignedStall && assignedStall.barterSign) assignedStall.barterSign.DisplayTrade(lastInteractedStoreItem);
 
         }
-        currentType = PathType.Misc;
-        Talk();
+        if(!uniqueDialogue)
+        {
+            currentType = PathType.Misc;
+            Talk();
+        }
     }
 
-    public virtual void PurchaseSuccess(InventoryItemData boughtItem){}
+    public virtual void PurchaseSuccess(InventoryItemData boughtItem, out bool uniqueDialogue)
+    {
+        uniqueDialogue = false;
+    }
 
     public virtual void RefreshStore(){}
 

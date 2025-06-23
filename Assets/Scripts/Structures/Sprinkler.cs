@@ -5,7 +5,7 @@ using TMPro;
 
 public class Sprinkler : StructureBehaviorScript
 {
-    public int waterLevel = 0; //max is 3
+    public int waterLevel = 0; //max is 5
     public GameObject water;
     public Transform head;
     public GameObject waterVFX;
@@ -64,9 +64,9 @@ public class Sprinkler : StructureBehaviorScript
             //StartCoroutine(DugUpForItem());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 5 && waterLevel < 5)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld >= (5 - waterLevel) && waterLevel < 5)
         {
-            PlayerInteraction.Instance.waterHeld -= 5;
+            PlayerInteraction.Instance.waterHeld -= 5 - waterLevel;
             waterLevel = 5;
             StartCoroutine(WaterTiles());
             success = true;
