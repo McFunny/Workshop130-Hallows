@@ -64,12 +64,6 @@ public class QuestPage : CodexPage
             timeRemainingText.transform.parent.gameObject.SetActive(false);
         }
 
-        //Override for repeatable quests and stuff like that I dont know man I dont know anything ever
-        UpdateQuestName(quest);
-        UpdateQuestDescription(quest);
-
-        currentOpenQuest = quest;
-
         if (quest.displayProgress == false)
         {
             progressText.text = "";
@@ -82,6 +76,12 @@ public class QuestPage : CodexPage
             progressSlider.maxValue = quest.maxProgress;
             progressSlider.value = quest.progress;
         }
+
+        //Override for repeatable quests and stuff like that I dont know man I dont know anything ever
+        UpdateQuestName(quest);
+        UpdateQuestDescription(quest);
+
+        currentOpenQuest = quest;
 
         if (quest.itemRewards.Count > 0)
         {
