@@ -8623,7 +8623,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 852272441846676517}
-  keyToPress: 282
+  tooltipCanvasGroup: {fileID: 8265285987103749587}
+  mainKey: 282
+  tooltipKey: 284
 --- !u!225 &852272441846676517
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -30083,6 +30085,7 @@ GameObject:
   - component: {fileID: 3361167732148877873}
   - component: {fileID: 3026772674794729766}
   - component: {fileID: 1477044009720078271}
+  - component: {fileID: 8265285987103749587}
   - component: {fileID: 6214075476237832276}
   m_Layer: 0
   m_Name: TooltipCanvas
@@ -30177,6 +30180,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &8265285987103749587
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517537882366014615}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &6214075476237832276
 MonoBehaviour:
   m_ObjectHideFlags: 0
