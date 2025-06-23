@@ -50,6 +50,8 @@ public class QuestPage : CodexPage
 
     public override void UpdatePage(CodexEntries entry, Quest quest)
     {
+        currentOpenQuest = quest;
+
         title.text = quest.assignee.ToString() + ": " + quest.name;
         title.text = title.text.Replace("Null", "Task");
         description.text = quest.description;
@@ -80,8 +82,6 @@ public class QuestPage : CodexPage
         //Override for repeatable quests and stuff like that I dont know man I dont know anything ever
         UpdateQuestName(quest);
         UpdateQuestDescription(quest);
-
-        currentOpenQuest = quest;
 
         if (quest.itemRewards.Count > 0)
         {
