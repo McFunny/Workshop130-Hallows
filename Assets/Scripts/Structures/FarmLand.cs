@@ -38,6 +38,7 @@ public class FarmLand : StructureBehaviorScript
     [Header("VFX and Extra References")]
     public GameObject light;
     public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
+    public GameObject splashObject; //extra particles
     public TextMeshProUGUI supportText;
 
     public TextMeshProUGUI harvestText;
@@ -691,6 +692,7 @@ public class FarmLand : StructureBehaviorScript
         //for sprinkler and gun
         nutrients.waterLevel = 10;
         waterSplash.Play();
+        if(splashObject && !splashObject.activeSelf) splashObject.SetActive(true);
         SpriteChange();
         if(isFrosted) FrostDamage();
         if(onFire) Extinguish();
