@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class PyreFly : CreatureBehaviorScript
 {
+    public InventoryItemData bugItem;
+
     public Variant variant; // what variant of creature is this?
 
     private bool isMoving = false;
@@ -17,7 +19,7 @@ public class PyreFly : CreatureBehaviorScript
 
     float igniteDistance = 3; //distance to ignite structures/be ignited/enter hive
 
-    bool ignited = true;
+    [HideInInspector]public bool ignited = true;
     public GameObject pyreFire;
     public Material ignitedMat, extinguishedMat;
     public MeshRenderer meshRenderer;
@@ -581,7 +583,7 @@ public class PyreFly : CreatureBehaviorScript
                 if (creature != null && creature.shovelVulnerable)
                 {
                     creature.TakeDamage(75);
-                    creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 15));
+                    if(creature.fireVulnerable) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 15));
                     creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 }
             }
@@ -609,6 +611,11 @@ public class PyreFly : CreatureBehaviorScript
         {
             PlayerInteraction.Instance.waterHeld--;
             IgnitionToggle(false);
+            success = true;
+        }
+        else if(type == ToolType.Pyrefly && !PlayerInteraction.Instance.pyreflyLit && ignited)
+        {
+            HandItemManager.Instance.PyreflyFlameToggle(true);
             success = true;
         }
         else success = false;

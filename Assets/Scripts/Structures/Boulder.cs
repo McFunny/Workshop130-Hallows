@@ -8,7 +8,7 @@ public class Boulder : StructureBehaviorScript
 
     public InventoryItemData rocks, gold;
 
-    float damageThreshold = 15;
+    float damageThreshold = 10;
 
     bool dropItems = false;
 

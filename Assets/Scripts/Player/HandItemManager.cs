@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HandItemManager : MonoBehaviour
 {
-    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe;
-    public GameObject torchFlame;
+    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly;
+    public GameObject torchFlame, pyreflyFlame;
 
     ToolType currentType = ToolType.Null;
 
@@ -86,6 +86,10 @@ public class HandItemManager : MonoBehaviour
             case ToolType.Scythe:
                 scythe.SetActive(true);
                 currentHandObject = scythe;
+                break;
+            case ToolType.Pyrefly:
+                pyrefly.SetActive(true);
+                currentHandObject = pyrefly;
                 break;
             default:
                 currentHandObject = null;
@@ -193,6 +197,22 @@ public class HandItemManager : MonoBehaviour
             } 
             PlayerInteraction.Instance.torchLit = false;
             torchFlame.SetActive(false);
+        }
+    }
+
+    public void PyreflyFlameToggle(bool ignite)
+    {
+        if((PlayerInteraction.Instance.pyreflyLit && ignite) || (!PlayerInteraction.Instance.pyreflyLit && !ignite)) return;
+
+        if(ignite)
+        {
+            PlayerInteraction.Instance.pyreflyLit = true;
+            pyreflyFlame.SetActive(true);
+        }
+        else
+        {
+            PlayerInteraction.Instance.pyreflyLit = false;
+            pyreflyFlame.SetActive(false);
         }
     }
 
