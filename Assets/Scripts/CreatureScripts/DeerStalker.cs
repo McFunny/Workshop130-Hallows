@@ -774,6 +774,15 @@ public class DeerStalker : CreatureBehaviorScript
         }
     }
 
+    public override void OnCorpseDamage()
+    {
+        if(health <= 0 && canCorpseBreak)
+        {
+            if(hasTransformed) animTransformed.Play("DeathRecoil");
+            else anim.Play("DeathRecoil");
+        }
+    }
+
     IEnumerator DeathTimer()
     {
         if(hasTransformed) yield return new WaitForSeconds(2);

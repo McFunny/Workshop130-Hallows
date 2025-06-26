@@ -801,4 +801,12 @@ public class VileHog : CreatureBehaviorScript
         coroutineRunning = false;
     }
 
+    public override void OnCorpseDamage()
+    {
+        if(health <= 0 && canCorpseBreak)
+        {
+            anim.Play("DeathRecoil");
+        }
+    }
+
 }

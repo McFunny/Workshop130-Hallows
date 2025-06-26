@@ -26,6 +26,7 @@ public class InventoryItemData : ScriptableObject
     public float staminaValue = 0; //if higher than 0, restores stamina when eaten, and is therefore consumable
     public float bonusCompostValue = 0;
     public InventoryItemData pickledForm;
+    public List<ItemConversion> itemConversions = new List<ItemConversion>();
 
     [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
     public List<string> itemInputsKBM;
@@ -61,4 +62,38 @@ public class InventoryItemData : ScriptableObject
     {
         Debug.Log("Sell Value is " + value * sellValueMultiplier);
     }
+
+    public ItemConversion FetchConversion(ItemConversionMethod method) //A null check prior to calling this may be needed
+    {
+        foreach(ItemConversion i in itemConversions)
+        {
+            if(i.method == method)
+            {
+                if(i.newItem == null)
+                {
+                    Debug.LogError("No new item reference");
+                    return null;
+                }
+
+                return i;
+            }
+        }
+        return null;
+    }
+}
+
+[System.Serializable]
+public class ItemConversion
+{
+    public ItemConversionMethod method;
+    public InventoryItemData newItem;
+    public int itemsNeeded = 1; //How much is consumed
+    public int itemsGained = 1; //How much is produced
+}
+
+public enum ItemConversionMethod
+{
+    Null,
+    Drying,
+    Refining
 }

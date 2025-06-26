@@ -42,9 +42,10 @@ public class PlayerInteraction : MonoBehaviour
     public bool invincible = false;
 
     public float waterHeld = 10; //for watering can //USED TO BE 15, TRYING 10
-    [HideInInspector] public readonly float maxWaterHeld = 10;
+    [HideInInspector] public float maxWaterHeld = 10;
 
-    public bool torchLit = false;
+    public bool torchLit = false; //For the tool item
+    public bool pyreflyLit = false; //For the tool item
 
     private float reach = 8;
 

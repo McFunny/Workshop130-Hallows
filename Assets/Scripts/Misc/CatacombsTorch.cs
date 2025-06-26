@@ -27,13 +27,18 @@ public class CatacombsTorch : StructureBehaviorScript
                 source.Play();
                 success = true;
             }
-            else if ((fire.activeInHierarchy == true && !PlayerInteraction.Instance.torchLit) || (fireAlwaysActive && !PlayerInteraction.Instance.torchLit))
+            else if ((fire.activeInHierarchy == true || fireAlwaysActive) && !PlayerInteraction.Instance.torchLit)
             {
                 HandItemManager.Instance.TorchFlameToggle(true);
                 success = true;
             }
             else success = false;
             return;
+        }
+        else if (type == ToolType.Pyrefly && (fire.activeInHierarchy == true || fireAlwaysActive) && !PlayerInteraction.Instance.pyreflyLit)
+        {
+            HandItemManager.Instance.PyreflyFlameToggle(true);
+            success = true;
         }
         else success = false;
 

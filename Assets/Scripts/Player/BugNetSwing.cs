@@ -55,6 +55,27 @@ public class BugNetSwing : MonoBehaviour
             bugRenderer.sprite = bug.bugItem.icon;
             return;
         }
+
+        var enemy = other.GetComponentInParent<CreatureBehaviorScript>();
+        if (enemy != null)
+        {
+            PyreFly fly = enemy as PyreFly;
+            if(fly)
+            {
+                if(fly.ignited)
+                {
+                    fly.TakeDamage(999);
+                }
+                else
+                {
+                    caughtBug = fly.bugItem;
+                    HandItemManager.Instance.toolSource.PlayOneShot(caught);
+                    bugRenderer.sprite = caughtBug.icon;
+                    Destroy(fly.gameObject);
+                }
+                return;
+            } 
+        }
         
     }
 

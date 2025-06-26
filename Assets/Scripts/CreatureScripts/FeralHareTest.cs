@@ -568,6 +568,14 @@ public class FeralHareTest : CreatureBehaviorScript
         effectsHandler.OnHit();
     }
 
+    public override void OnCorpseDamage()
+    {
+        if(health <= 0 && canCorpseBreak)
+        {
+            anim.Play("DeathRecoil");
+        }
+    }
+
     IEnumerator IdleSoundTimer()
     {
         while(health > 0)

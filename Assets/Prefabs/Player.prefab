@@ -267,6 +267,7 @@ MonoBehaviour:
   mainCam: {fileID: 0}
   playerFeet: {fileID: 4363058580884312923}
   playerUpgrades: {fileID: 4974716673598902644}
+  controlManager: {fileID: 0}
   rb: {fileID: 0}
   toolCooldown: 0
   currentMoney: 0
@@ -277,6 +278,7 @@ MonoBehaviour:
   invincible: 0
   waterHeld: 0
   torchLit: 0
+  pyreflyLit: 0
   currentEffects: []
   interactionLayers:
     serializedVersion: 2
@@ -1542,7 +1544,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 2097143
+    m_Bits: 2096631
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0

@@ -76,6 +76,11 @@ public class Brazier : StructureBehaviorScript
             HitWithWater();
             success = true;
         }
+        else if (type == ToolType.Pyrefly && flameLeft > 0 && !PlayerInteraction.Instance.pyreflyLit)
+        {
+            HandItemManager.Instance.PyreflyFlameToggle(true);
+            success = true;
+        }
         else success = false;
         
     }

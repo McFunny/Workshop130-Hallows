@@ -239,11 +239,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public virtual void StopWorking()
     {
-        if (assignedStall.displaySign)
-        {
-            assignedStall.displaySign.LeaveShop();
-        }
-        if (assignedStall.barterSign) assignedStall.barterSign.LeaveShop();
+        if (assignedStall && assignedStall.displaySign) assignedStall.displaySign.LeaveShop();
+        if (assignedStall && assignedStall.barterSign) assignedStall.barterSign.LeaveShop();
 
         if (lastInteractedStoreItem) lastInteractedStoreItem = null;
     }

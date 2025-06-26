@@ -59,10 +59,12 @@ MonoBehaviour:
   burrowingParticles: {fileID: 9175212794770918335}
   walkSpeed: 1
   fleeSpeed: 5
-  sightRange: 5
-  reactionTimeMin: 1
-  reactionTimeMax: 3
-  despawnChance: 30
+  sightRange: 10
+  reactionTimeMin: 3
+  reactionTimeMax: 5
+  despawnChance: 40
+  minTravelTime: 1
+  maxTravelTime: 1.5
   bugData: {fileID: 11400000, guid: 385bebc0a15c3764e94c173be5051457, type: 2}
   despawnMethod: 2
   currentState: 0

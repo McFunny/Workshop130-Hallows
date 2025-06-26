@@ -5,8 +5,8 @@ using TMPro;
 
 public class Refinery : StructureBehaviorScript
 {
-    public InventoryItemData timberEar, gloomStalk;
-    public InventoryItemData wood, gloomBundles; //Cost to refine is lets just say 5 units of each
+    //public InventoryItemData timberEar, gloomStalk;
+    //public InventoryItemData wood, gloomBundles; //Cost to refine is lets just say 5 units of each
 
     public PopupScript itemWarning; //Warning that the player does not have enough items
     
@@ -61,8 +61,10 @@ public class Refinery : StructureBehaviorScript
 
         for(int i = 0; i < itemsFinished; i++)
         {
-            if(savedItems[0] == timberEar) itemToSpawn = wood;
-            if(savedItems[0] == gloomStalk) itemToSpawn = gloomBundles;
+            /*if(savedItems[0] == timberEar) itemToSpawn = wood;
+            if(savedItems[0] == gloomStalk) itemToSpawn = gloomBundles;*/
+
+            itemToSpawn = savedItems[0].FetchConversion(ItemConversionMethod.Refining).newItem;
 
             GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemToSpawn);
             droppedItem.transform.position = itemDropTransform.position;
@@ -74,7 +76,8 @@ public class Refinery : StructureBehaviorScript
 
             ParticlePoolManager.Instance.GrabCloudParticle().transform.position = itemDropTransform.position;
 
-            for(int x = 0; x < 5; x++) savedItems.RemoveAt(0);
+            int itemsToRemove = savedItems[0].FetchConversion(ItemConversionMethod.Refining).itemsNeeded;
+            for(int x = 0; x < itemsToRemove; x++) savedItems.RemoveAt(0);
         }
 
         itemsFinished = 0;
@@ -89,20 +92,20 @@ public class Refinery : StructureBehaviorScript
             PopupHandler.Instance.AddToQueue(chargingPopup);
             return;
         }
-
-        if((item == timberEar || item == gloomStalk) && savedItems.Count < maxContainedItems)
+        ItemConversion ic = savedItems[0].FetchConversion(ItemConversionMethod.Refining);
+        if(ic != null && (ic.itemsNeeded + savedItems.Count) <= maxContainedItems /*&& savedItems.Count < maxContainedItems*/)
         {
 
-            if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize < 5) //Not enough items
+            if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize < ic.itemsNeeded) //Not enough items
             {
                 PopupHandler.Instance.AddToQueue(chargingPopup);
                 return;
             }
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < ic.itemsNeeded; i++)
             {
                 savedItems.Add(item);
             }
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(5);
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(ic.itemsNeeded);
             PlayerInventoryHolder.Instance.UpdateInventory();
 
             audioHandler.PlaySound(audioHandler.activatedSound);

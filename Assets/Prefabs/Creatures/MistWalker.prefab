@@ -5953,6 +5953,7 @@ Transform:
   - {fileID: 2657110937739336163}
   - {fileID: 2573679523722460690}
   - {fileID: 6416619188908011507}
+  - {fileID: 4404147124106985870}
   m_Father: {fileID: 5280180835034457372}
   m_LocalEulerAnglesHint: {x: 5.932986, y: 3.878552, z: 0.56214285}
 --- !u!136 &4701143560977699689
@@ -8646,7 +8647,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3201560652370425664}
-  - {fileID: 4404147124106985870}
   - {fileID: 4024535351668611303}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8664,7 +8664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
-  corpseHealth: -25
+  corpseHealth: -50
   ichorWorth: 5
   ichorDropRadius: 4.5
   creatureData: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
@@ -9755,12 +9755,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8751900738574353003}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.271, z: -1.43}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5681818, y: 0.5681818, z: 0.5681818}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4041892218060830233}
+  m_Father: {fileID: 1498562781344354756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8794614074407585299
 GameObject:

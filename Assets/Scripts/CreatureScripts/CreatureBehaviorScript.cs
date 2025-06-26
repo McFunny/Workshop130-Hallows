@@ -85,10 +85,8 @@ public class CreatureBehaviorScript : MonoBehaviour
         if(StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Dare, this) && damage > 0) damage *= 1.5f;
         health -= damage;
         if(!flashing && hitColor != Color.black) StartCoroutine(DamageFlash());
-        if(!isDead)
-        {
-            OnDamage();
-        }
+        if(!isDead) OnDamage();
+        else OnCorpseDamage();
         if(health <= 0 && !isDead) //turns into a corpse, and fertilizes nearby crops
         {
             effectsHandler.OnDeath();
@@ -153,6 +151,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     }
 
     public virtual void OnDamage(){} //Triggers creature specific effects
+    public virtual void OnCorpseDamage(){}
     public virtual void OnDeath()
     {
         if(NightSpawningManager.Instance.allCreatures.Contains(this)) NightSpawningManager.Instance.allCreatures.Remove(this);
