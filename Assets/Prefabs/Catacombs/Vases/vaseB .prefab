@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1935978125610757530}
   - component: {fileID: 1819718562869854650}
   - component: {fileID: 5918123705821957645}
+  - component: {fileID: -3692000278589598931}
+  - component: {fileID: 1568743060267083659}
   m_Layer: 0
   m_Name: 'vaseB '
   m_TagString: Untagged
@@ -27,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5721674980130634089}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1471.5032, y: -9.314458, z: 12.748528}
   m_LocalScale: {x: 60, y: 80, z: 60}
   m_ConstrainProportionsScale: 0
@@ -62,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -205629353262513385, guid: 2be8a83ff2f31684e811cd00b7bfbddd, type: 3}
+  - {fileID: 2100000, guid: fffe2114894432f44bb72b4aa7f05de9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,3 +109,66 @@ CapsuleCollider:
   m_Height: 0.03
   m_Direction: 1
   m_Center: {x: 9.313226e-10, y: 0, z: -4.656613e-10}
+--- !u!114 &-3692000278589598931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5721674980130634089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4dae2cd0d9676845be20a20e3da6d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  structData: {fileID: 11400000, guid: 7d44529dd0fc3ce409786812fb7e7708, type: 2}
+  itemForm: {fileID: 0}
+  health: 2
+  maxHealth: 2
+  wealthValue: 0
+  salvageChance: 0
+  destructable: 1
+  flammable: 0
+  onFire: 0
+  isObstacle: 0
+  absentFromGrid: 1
+  focalPoint: {fileID: 0}
+  particleCenter: {fileID: 0}
+  savedItems: []
+  saveInt1: 0
+  saveInt2: 0
+  saveInt3: 0
+  saveFloat1: 0
+  saveFloat2: 0
+  saveFloat3: 0
+  saveString1: 
+  saveString2: 
+  saveString3: 
+  saveBool1: 0
+  damageParticlesObject: {fileID: 0}
+  gibs: {fileID: 2559222304818923719, guid: 687b3fb3ece422b4d9f02fc5a747eee1, type: 3}
+  nearbyFires: []
+  highlight: []
+  canShowHighlight: 0
+  audioHandler: {fileID: 0}
+  clearTileOnDestroy: 1
+  structureUI: {fileID: 0}
+--- !u!114 &1568743060267083659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5721674980130634089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24acd9ba387ddb41bb2f8f181c3e512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitSounds: []
+  miscSounds1: []
+  miscSounds2: []
+  interactSound: {fileID: 0}
+  itemInteractSound: {fileID: 0}
+  breakSound: {fileID: 8300000, guid: 3e46d5f747e039342bde44f872c785fb, type: 3}
+  activatedSound: {fileID: 0}
