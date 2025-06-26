@@ -21,6 +21,7 @@ public class GameSaveData : MonoBehaviour
 
     [Header("Player Upgrade Variables. All must be false when building")]
     public bool gainedInventoryUpgrade = false;
+    public bool gainedWaterStorage = false;
 
     [Header("Main Quest Progression Bools. All must be false when building")]
     public bool tutorialMerchantSpoke; //Tutorial Complete
@@ -180,6 +181,7 @@ public class GameSaveData : MonoBehaviour
         public string gameMode;
 
         public bool gainedInventoryUpgrade;
+        public bool gainedWaterStorage;
 
         public Quest[] activeQuests;
         public FetchQuest[] activeFetchQuests;
@@ -224,6 +226,9 @@ public class GameSaveData : MonoBehaviour
 
     public AllGameSaveData(GameSaveData data)
     {
+        gainedInventoryUpgrade = PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade;
+        gainedWaterStorage = PlayerInteraction.Instance.playerUpgrades.gainedWaterStorage; //Put this first so the maxwater amount will be correct
+
         pStamina = PlayerInteraction.Instance.stamina;
         pFatigue = PlayerInteraction.Instance.fatigue;
         pWater = PlayerInteraction.Instance.waterHeld;
@@ -233,8 +238,6 @@ public class GameSaveData : MonoBehaviour
         hourSaved = TimeManager.Instance.currentHour;
         pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
         gameMode = MainMenuScript.currentFileMode.ToString();
-
-        gainedInventoryUpgrade = PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade;
 
         
 

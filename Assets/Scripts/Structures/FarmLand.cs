@@ -56,7 +56,8 @@ public class FarmLand : StructureBehaviorScript
         None,
         Stone,
         Mulch,
-        Trellis
+        Trellis,
+        MiniWeeds
     }
     // Start is called before the first frame update
     void Awake()
@@ -218,6 +219,14 @@ public class FarmLand : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
+        if(currentUpgrade == FarmTileUpgrade.MiniWeeds && !forceDig && !harvestedByScythe) //To remove the weeds
+        {
+            audioHandler.PlaySound(audioHandler.interactSound);
+            ApplyNewUpgrade(FarmTileUpgrade.None);
+            if(Random.Range(0, 10) > 6) ItemPoolManager.Instance.GrabItem(plantFiber).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+            ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+            return;
+        }
         if(harvestable || forceDig || rotted || harvestedByScythe)
         {
             if((isWeed || rotted) && !forceDig && !harvestedByScythe) return; //Forces the player to dig the weeds and rotted plants using the shovel
@@ -513,6 +522,7 @@ public class FarmLand : StructureBehaviorScript
             if(harvestable && !rotted)
             {
                 if(crop.requireScythe) harvestText.text = "Use Tool to Harvest";
+                else if(currentUpgrade == FarmTileUpgrade.MiniWeeds) harvestText.text = "Interact To Remove Weeds";
                 else harvestText.text = "Interact To Harvest";
                 growthComplete.Play();
             } 
@@ -538,6 +548,9 @@ public class FarmLand : StructureBehaviorScript
             case FarmTileUpgrade.Trellis:
             upgradeObjects[2].SetActive(true);
             break;
+            case FarmTileUpgrade.MiniWeeds:
+            upgradeObjects[3].SetActive(true);
+            break;
         }
     }
 
@@ -559,19 +572,29 @@ public class FarmLand : StructureBehaviorScript
         if(nutrients.gloamLevel - crop.gloamIntake < 0 && !waterOnly) gainedStress = true;
         if(nutrients.waterLevel - crop.waterIntake < 0 && !isWeed && !ignoreWaterConsumption) gainedStress = true;
 
-        if(!ignoreWaterConsumption) nutrients.waterLevel -= crop.waterIntake;
+        if(!ignoreWaterConsumption) 
+        {
+            nutrients.waterLevel -= crop.waterIntake;
+            if(currentUpgrade == FarmTileUpgrade.MiniWeeds) nutrients.waterLevel -= 2f; //MiniWeeds
+        }
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
 
         if(!gainedStress && !waterOnly)
         {
             nutrients.ichorLevel -= crop.ichorIntake;
+            if(currentUpgrade == FarmTileUpgrade.MiniWeeds) nutrients.ichorLevel -= 0.25f; //MiniWeeds
             if(nutrients.ichorLevel > 10) nutrients.ichorLevel = 10;
+            if(nutrients.ichorLevel < 0) nutrients.ichorLevel = 0;
 
             nutrients.terraLevel -= crop.terraIntake;
+            if(currentUpgrade == FarmTileUpgrade.MiniWeeds) nutrients.terraLevel -= 0.25f; //MiniWeeds
             if(nutrients.terraLevel > 10) nutrients.terraLevel = 10;
+            if(nutrients.terraLevel < 0) nutrients.terraLevel = 0;
 
             nutrients.gloamLevel -= crop.gloamIntake;
+            if(currentUpgrade == FarmTileUpgrade.MiniWeeds) nutrients.gloamLevel -= 0.25f; //MiniWeeds
             if(nutrients.gloamLevel > 10) nutrients.gloamLevel = 10;
+            if(nutrients.gloamLevel < 0) nutrients.gloamLevel = 0;
 
         }
         else if(gainedStress) plantStress++;
@@ -830,7 +853,7 @@ public class FarmLand : StructureBehaviorScript
         
     }
 
-    void ApplyNewUpgrade(FarmTileUpgrade newUpgrade)
+    public void ApplyNewUpgrade(FarmTileUpgrade newUpgrade)
     {
         if(currentUpgrade == newUpgrade || isWeed) return;
 
