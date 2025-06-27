@@ -28,7 +28,8 @@ MonoBehaviour:
   paths:
   - pathName: Buy something!
     paragraphs:
-    - I assure you, what you find here is of highest quality.
+    - Feel free to browse my selection. The large hanging sign will let you know
+      what I need to construct what you want.
     emotions: 01000000
   - pathName: Want to buy this?
     paragraphs:
@@ -113,6 +114,16 @@ MonoBehaviour:
     - I have need to spend my precious <color=#E0D38F> Mints</color> <sprite index=0>
       on your junk.
     emotions: 0200000000000000
+  - pathName: Ear/Stalk
+    paragraphs:
+    - If you let me refine those for you, I can use them to make you some structures
+      for your farm.
+    - Unlike the Wagon Man, I won't scam you out of all your mints.
+    emotions: 0000000003000000
+  - pathName: Timber/Bundles/Rocks
+    paragraphs:
+    - Some fine quality resources. I can make you some constructions with those.
+    emotions: 01000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
