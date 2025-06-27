@@ -117,6 +117,7 @@ MonoBehaviour:
   nearbyFires: []
   highlight:
   - {fileID: 7121078692772685180}
+  - {fileID: 5622205369945526346}
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
@@ -2225,7 +2226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1075589074401141005
 Transform:
   m_ObjectHideFlags: 0
@@ -2234,12 +2235,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5622205369945526346}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.37228408, z: 1.0102375}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 83688889200870556}
+  m_Father: {fileID: 839855343862847918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &121573965522885983
 MeshFilter:
@@ -2777,7 +2778,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4749173689880398602}
-  - {fileID: 1075589074401141005}
   m_Father: {fileID: 4623105182217809999}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &7175270108846648676
@@ -3310,7 +3310,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1088619777609266644, guid: f7268e7490fcf1c48bd38acf6ec9f196,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1075589074401141005}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f7268e7490fcf1c48bd38acf6ec9f196,
         type: 3}
@@ -3350,3 +3354,9 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &839855343862847918 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1088619777609266644, guid: f7268e7490fcf1c48bd38acf6ec9f196,
+    type: 3}
+  m_PrefabInstance: {fileID: 341233535861255290}
+  m_PrefabAsset: {fileID: 0}
