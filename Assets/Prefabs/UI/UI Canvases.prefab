@@ -9073,6 +9073,7 @@ GameObject:
   - component: {fileID: 1377777569002357533}
   - component: {fileID: 155691833311592357}
   - component: {fileID: 852272441846676517}
+  - component: {fileID: 6043592888970242467}
   m_Layer: 0
   m_Name: UI Canvases
   m_TagString: Untagged
@@ -9152,6 +9153,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &6043592888970242467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987382957477208780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13aa741625998cc4fa9fdafd0b345179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenshotKey: 275
+  path: /Screenshots/
+  size: 1
 --- !u!1 &2031065634536275157
 GameObject:
   m_ObjectHideFlags: 0
