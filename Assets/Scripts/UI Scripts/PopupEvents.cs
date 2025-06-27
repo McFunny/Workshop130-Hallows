@@ -12,7 +12,7 @@ public class PopupEvents : MonoBehaviour
         current = this;
     }
 
-    public event System.Action OnTillGround, OnShovelSwing, OnPlant, OnKill, OnWeedDug, OnWateredCrop, OnKillCreature, OnClearCorpse; 
+    public event System.Action OnTillGround, OnShovelSwing, OnPlant, OnKill, OnWeedDug, OnWateredCrop, OnKillCreature, OnClearCorpse, OnOpenCodex; 
 
     public void TillGround()
     {
@@ -52,5 +52,10 @@ public class PopupEvents : MonoBehaviour
     public void KillCreature()
     {
         if (OnKillCreature != null) OnKillCreature(); 
+    }
+
+    public void OpenCodex()
+    {
+        if (OnOpenCodex != null) OnOpenCodex(); 
     }
 }

@@ -214,6 +214,8 @@ public class Codex3 : MonoBehaviour
         PlayerMovement.isCodexOpen = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        if(Tutorial.Instance) Tutorial.Instance.OpenCodex();
     }
 
     public void CloseCodex()
