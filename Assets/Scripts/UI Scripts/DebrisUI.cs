@@ -31,6 +31,12 @@ public class DebrisUI : MonoBehaviour
         hideUI.onUIShown += ShowDebrisUI;
     }
 
+    private void OnDestroy()
+    {
+        hideUI.onUIHidden -= HideDebrisUI;
+        hideUI.onUIShown -= ShowDebrisUI;
+    }
+
     private void PopulateDebrisUI()
     {
         if (!debrisPile.repairedStruct) return;
