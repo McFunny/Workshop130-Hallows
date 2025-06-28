@@ -282,6 +282,14 @@ public class DeerStalker : CreatureBehaviorScript
                 yield break;
             }
 
+            if(currentState == CreatureState.Flee)
+            {
+                isMoving = false;
+                coroutineRunning = false;
+                walkRoutine = null;
+                yield break;
+            }
+
             yield return null;
         }
 
@@ -400,6 +408,12 @@ public class DeerStalker : CreatureBehaviorScript
         {
             currentState = CreatureState.Wander;
         }
+    }
+
+    public override void FogTeleport()
+    {
+        fleeTimeLeft = 0;
+        currentState = CreatureState.SpawnIn;
     }
     #endregion
     private void Attack()

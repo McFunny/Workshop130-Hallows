@@ -92,14 +92,14 @@ public class RascalNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void Talk()
+    /*public override void Talk()
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         //anim.SetTrigger("IsTalking");
         //movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
-    }
+    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {

@@ -210,6 +210,21 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    public void AdvanceDayTimers()
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            if(activeQuests[i].daysLeft <= -1 || activeQuests[i].isMajorQuest) continue;
+
+            activeQuests[i].daysLeft--;
+            if(activeQuests[i].daysLeft == 0)
+            {
+                activeQuests.RemoveAt(i);
+                i--;
+            }
+        }
+    }
+
     //This is probably bad practice, and should be changed into using Unity Events instead
     public void CreatureDeath(CreatureObject c)
     {

@@ -34,11 +34,11 @@ MonoBehaviour:
   - pathName: Want to buy this?
     paragraphs:
     - The {storeItemName}? That will run you {storeItemValue} <color=#E0D38F>Mints</color>
-      <sprite index=0>.
+      <sprite index=0>. {dontfreezePlayer}
     emotions: 04000000
   - pathName: Sold!
     paragraphs:
-    - You sure you don't want the warranty? {itemBought}
+    - You sure you don't want the warranty? {itemBought}  {dontfreezePlayer}
     emotions: 01000000
   - pathName: No Money
     paragraphs:
@@ -50,7 +50,7 @@ MonoBehaviour:
     emotions: 02000000
   - pathName: Want To Trade for this?
     paragraphs:
-    - The {storeItemName}? If you give me some supplies I can make you one.
+    - The {storeItemName}? If you give me some supplies I can make you one.  {dontfreezePlayer}
     emotions: 01000000
   - pathName: Not Enough Items
     paragraphs:

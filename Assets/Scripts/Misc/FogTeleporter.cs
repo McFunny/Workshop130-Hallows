@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class FogTeleporter : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class FogTeleporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 10)
+        bool teleportSuccessful = false;
+        if(other.gameObject.layer == 10) //player
         {
             if(otherEnd) 
             {
@@ -20,7 +22,7 @@ public class FogTeleporter : MonoBehaviour
                 if(overrideRotation) other.transform.rotation = otherEnd.parent.transform.rotation;
             }
         }
-        else if(other.gameObject.layer == 9)
+        else if(other.gameObject.layer == 9) //creature
         {
             if(TimeManager.Instance.isDay)
             {
@@ -29,13 +31,33 @@ public class FogTeleporter : MonoBehaviour
             }
             else if(enemyTeleport)
             {
+                NavMeshAgent agent = other.gameObject.GetComponentInParent<NavMeshAgent>();
+                if(agent)
+                {
+                    agent.Warp(enemyTeleport.position);
+                    teleportSuccessful = true;
+                }
                 var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
-                if(creature) creature.transform.position = enemyTeleport.position;
+                if(creature)
+                {
+                    if(!teleportSuccessful) creature.transform.position = enemyTeleport.position;
+                    creature.FogTeleport();
+                }
             } 
             else if(otherEnd) 
             {
+                NavMeshAgent agent = other.gameObject.GetComponentInParent<NavMeshAgent>();
+                if(agent)
+                {
+                    agent.Warp(otherEnd.position);
+                    teleportSuccessful = true;
+                }
                 var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
-                if(creature) creature.transform.position = otherEnd.position;
+                if(creature)
+                {
+                    if(!teleportSuccessful) creature.transform.position = enemyTeleport.position;
+                    creature.FogTeleport();
+                }
             }
         }
 
