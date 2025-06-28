@@ -239,7 +239,9 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void ToggleHighlight(bool enable)
     {
-        if(highlight.Count == 0)
+        if(HideUI.hideUI) return; //if the UI is hidden, do not show highlights
+        
+        if (highlight.Count == 0)
         {
             return;
         }
