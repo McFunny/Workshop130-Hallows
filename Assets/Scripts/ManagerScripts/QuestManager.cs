@@ -482,6 +482,7 @@ public class FetchQuest: Quest //Should hide progress, and max progress should b
     {
         name = q.name;
         description = q.description;
+        //isMajorQuest = q.isMajorQuest;
         desiredItem = q.item;
         amount = Random.Range(q.minObject, q.maxObject);
         if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(q.item.value * q.mintMultiplier * q.item.sellValueMultiplier * amount); //Money Reward
@@ -518,6 +519,7 @@ public class HuntQuest: Quest //max progress should be amount
     {
         name = q.name;
         description = q.description;
+        //isMajorQuest = q.isMajorQuest;
         targetCreature = q.creature;
         amount = Random.Range(q.minObject, q.maxObject);
         if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(q.creature.mintWorth * q.mintMultiplier * amount); //Money Reward
@@ -555,6 +557,7 @@ public class GrowQuest: Quest //max progress should be amount
     {
         name = q.name;
         description = q.description;
+        //isMajorQuest = q.isMajorQuest;
         desiredCrop = q.crop;
         desiredItem = q.crop.cropYield;
         amount = Random.Range(q.minObject, q.maxObject);
