@@ -810,7 +810,7 @@ public class MistWalker : CreatureBehaviorScript
     {
         if(health <= 0 && canCorpseBreak)
         {
-            anim.Play("MistDeathInteract");
+            anim.Play("MistDeathInteract", -1, 0f);
         }
     }
 

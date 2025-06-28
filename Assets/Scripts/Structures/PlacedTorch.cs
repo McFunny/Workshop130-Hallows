@@ -49,6 +49,17 @@ public class PlacedTorch : StructureBehaviorScript
         }
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if (type == ToolType.Pyrefly && currentlyLit && !PlayerInteraction.Instance.pyreflyLit)
+        {
+            HandItemManager.Instance.PyreflyFlameToggle(true);
+            success = true;
+        }
+        else success = false;
+        
+    }
+
     IEnumerator FireDrain()
     {
         currentlyLit = true;

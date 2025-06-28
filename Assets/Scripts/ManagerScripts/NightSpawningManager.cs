@@ -112,7 +112,7 @@ public class NightSpawningManager : MonoBehaviour
             int r = Random.Range(1,4);
             for(int i = 0; i < r; i++) SpawnCreature(pollinator);//Instantiate(pollinator.objectPrefab, RandomMistPosition(), Quaternion.identity);
         }
-        if(ReportTotalOfCreature(pollinator) < 1 && Random.Range(0,2) == 1) SpawnCreature(pollinator);
+        if(ReportTotalOfCreature(pollinator) < 1 && Random.Range(0,4) == 1) SpawnCreature(pollinator);
 
         CalculateDifficulty();
 

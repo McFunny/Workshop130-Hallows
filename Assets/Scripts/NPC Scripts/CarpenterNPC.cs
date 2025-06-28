@@ -15,6 +15,8 @@ public class CarpenterNPC : NPC, ITalkable
 
     public Barter woodBarter, gloomStalkBarter;
 
+    public InventoryItemData timberEar, stalk, bundle, timber, rocks;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -94,6 +96,17 @@ public class CarpenterNPC : NPC, ITalkable
             currentPath = 0;
             currentType = PathType.QuestComplete;
         }
+        else if(item == timberEar || item == stalk)
+        {
+            currentPath = 1;
+            currentType = PathType.ItemSpecific;
+        }
+        else if(item == timber || item == bundle || item == rocks)
+        {
+            currentPath = 2;
+            currentType = PathType.ItemSpecific;
+        }
+
 
         else
         {

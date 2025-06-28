@@ -14,11 +14,15 @@ public class HollionProjectile : MonoBehaviour
 
     public InventoryItemData berryItem;
 
+    public Sprite[] movingSprites;
+    public SpriteRenderer r;
+
     void OnEnable()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
         AmbientAudioManager.OnWindBlow += WindPush;
         StartCoroutine(LifeTime());
+        StartCoroutine(Animate());
     }
 
     void OnDisable()
@@ -95,5 +99,17 @@ public class HollionProjectile : MonoBehaviour
         yield return new WaitForSeconds(bulletLifetime);
         if(!detonated) Detonate();
         //maybe plant a new one if the tile is free
+    }
+
+    IEnumerator Animate()
+    {
+        int currentSprite = 0;
+        while(gameObject.activeSelf)
+        {
+            currentSprite++;
+            if(currentSprite >= movingSprites.Length) currentSprite = 0;
+            yield return new WaitForSeconds(.3f);
+            r.sprite = movingSprites[currentSprite];
+        }
     }
 }

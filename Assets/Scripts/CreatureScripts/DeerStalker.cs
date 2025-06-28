@@ -778,8 +778,8 @@ public class DeerStalker : CreatureBehaviorScript
     {
         if(health <= 0 && canCorpseBreak)
         {
-            if(hasTransformed) animTransformed.Play("DeathRecoil");
-            else anim.Play("DeathRecoil");
+            if(hasTransformed) animTransformed.Play("DeathRecoil", -1, 0f);
+            else anim.Play("DeathRecoil", -1, 0f);
         }
     }
 
