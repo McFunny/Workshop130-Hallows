@@ -427,7 +427,7 @@ public class PlantMimic : CreatureBehaviorScript
     {
         if(health <= 0 && canCorpseBreak)
         {
-            anim.Play("DeathRecoil");
+            anim.Play("DeathRecoil", -1, 0f);
         }
     }
 
