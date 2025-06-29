@@ -355,6 +355,7 @@ public class TimeManager : MonoBehaviour
         //save game
         NightSpawningManager.Instance.ClearAllCreatures();
         StructureManager.Instance.IncreaseNutrients();
+        QuestManager.Instance.AdvanceDayTimers();
         yield return new WaitForSecondsRealtime(0.2f);
         OnHourlyUpdate?.Invoke();
         yield return new WaitForSecondsRealtime(2);

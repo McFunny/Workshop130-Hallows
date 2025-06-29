@@ -29,31 +29,31 @@ MonoBehaviour:
     - 'For that {itemName} I can offer <color=#E0D38F> {itemValue} Mints</color>
       <sprite index=0>.
 
-      Do we have a deal?'
+      Do we have a deal? {dontfreezePlayer}'
     emotions: 00000000
   - pathName: Will Not Buy
     paragraphs:
-    - I have no need for that.
+    - I have no need for that. {dontfreezePlayer}
     emotions: 03000000
   - pathName: Sold!
     paragraphs:
-    - Pleasure doing business. {itemSold}
+    - Pleasure doing business. {itemSold} {dontfreezePlayer}
     emotions: 01000000
   - pathName: Want me to buy all of those?
     paragraphs:
     - 'For all of those? I can offer <color=#E0D38F> {itemTotalValue} Mints</color>
       <sprite index=0>.
 
-      What do you say?'
+      What do you say? {dontfreezePlayer}'
     emotions: 00000000
   - pathName: Do you want to buy?
     paragraphs:
     - I see the {storeItemName} caught your eye. Care to buy for <color=#E0D38F>
-      {storeItemValue} Mints </color> <sprite index=0>?
+      {storeItemValue} Mints </color> <sprite index=0>? {dontfreezePlayer}
     emotions: 00000000
   - pathName: Here you go!
     paragraphs:
-    - Sold! {itemBought}
+    - Sold! {itemBought} {dontfreezePlayer}
     emotions: 01000000
   - pathName: Poor
     paragraphs:

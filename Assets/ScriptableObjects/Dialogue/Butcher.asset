@@ -33,11 +33,11 @@ MonoBehaviour:
   - pathName: Want to buy this?
     paragraphs:
     - Ahh that {storeItemName}. It will cost you {storeItemValue} <color=#E0D38F>Mints</color>
-      <sprite index=0>!
+      <sprite index=0>! {dontfreezePlayer}
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
-    - It is all yours. {itemBought}
+    - It is all yours. {itemBought} {dontfreezePlayer}
     emotions: 01000000
   - pathName: No Money
     paragraphs:
@@ -50,7 +50,7 @@ MonoBehaviour:
   - pathName: Have some Ammo
     paragraphs:
     - It is dangerous to be beyond the town walls without any ammunition. {freezePlayer}
-    - Here, take some extra of mine.
+    - Here, take some extra of mine. {givePlayerItems}
     - Whatever it takes to make sure I still have some greens on my plate at the
       end of the day.
     emotions: 04000000

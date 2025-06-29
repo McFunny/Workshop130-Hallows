@@ -199,6 +199,8 @@ public class CreatureBehaviorScript : MonoBehaviour
         success = false;
     }
 
+    public virtual void FogTeleport(){}
+
     public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
     {
         RaycastHit hit;
