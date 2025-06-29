@@ -58,8 +58,15 @@ public class QuestPage : CodexPage
 
         if (quest.daysLeft >= 0)
         {
-            timeRemainingText.text = quest.daysLeft + " Days Left to Complete";
-            timeRemainingText.transform.parent.gameObject.SetActive(true);
+            if (quest.daysLeft == 1)
+            {
+                timeRemainingText.text = "Final Day to Complete";
+            }
+            else
+            {
+                timeRemainingText.text = quest.daysLeft + " Days Left to Complete";
+                timeRemainingText.transform.parent.gameObject.SetActive(true);
+            }
         }
         else
         {
