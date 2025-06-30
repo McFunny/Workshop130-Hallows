@@ -31,6 +31,7 @@ public class Codex3 : MonoBehaviour
     }
     OpenCategory openCategory;
     [SerializeField] private UIAlphaController bgPanel;
+    private Image bgPanelImage;
     [SerializeField] private GameObject codex;
     [SerializeField] private UILerp uiLerp;
     [SerializeField] private Button[] categoryButtons;
@@ -64,6 +65,7 @@ public class Codex3 : MonoBehaviour
         childActivator = GetComponentInChildren<ChildActivator>();
         questManager = FindAnyObjectByType<QuestManager>();
         gameSaveData = FindFirstObjectByType<GameSaveData>();
+        bgPanelImage = bgPanel.GetComponent<Image>();
 
         /*if (childActivator != null)
         {
@@ -90,6 +92,7 @@ public class Codex3 : MonoBehaviour
 
         ResetCodex();
         codex.SetActive(false);
+        bgPanelImage.raycastTarget = false; // Disable raycasting on the background panel
         menuIndex = 0;
     }
 
@@ -116,8 +119,13 @@ public class Codex3 : MonoBehaviour
             CloseCodex();
             return;
         }
-        
-        if (menuIndex == 0 && !PauseScript.isPaused && PlayerMovement.restrictMovementTokens == 0) OpenCodex();
+
+        if (menuIndex != 0) return;
+        if (PauseScript.isPaused) return;
+        if (PlayerMovement.restrictMovementTokens != 0) return;
+        if (PlayerMovement.accessingInventory) return;
+
+        OpenCodex();
     }
 
     private void InputBack(InputAction.CallbackContext context)
@@ -200,7 +208,7 @@ public class Codex3 : MonoBehaviour
     public void OpenCodex()
     {
         uiLerp.lerpToStart = true; // Start the UI lerp animation
-        bgPanel.FadeIn(); // Fade in the background panel
+        bgPanelImage.raycastTarget = true; // Enable raycasting on the background panel
         menuIndex = 1;
         codex.SetActive(true);
         ResetCodex();
@@ -221,7 +229,7 @@ public class Codex3 : MonoBehaviour
     public void CloseCodex()
     {
         onCodexClosed?.Invoke();
-        bgPanel.FadeOut(); // Fade in the background panel
+        bgPanelImage.raycastTarget = false; // Enable raycasting on the background panel
         uiLerp.lerpToStart = false; // Reverse the UI lerp animation
         menuIndex = 0;
 
@@ -406,17 +414,6 @@ public class Codex3 : MonoBehaviour
                 }
                 else if (Cat == PlantEntries)
                 {
-                    /*if (Cat[e] == mandrakeEntry)
-                    {
-                        if (mandrakeEntry.cropData.amountKilled > 0)
-                        {
-                            mandrakeEntry.unlocked = true;
-                            continue;
-                        }
-                        else mandrakeEntry.unlocked = false;
-                    }*/
-
-
                     if (Cat[e].cropData.amountHarvested > 0) //Unlocks if amount of crop harvested > 0
                     {
                         tempText.text = Cat[e].entryName;
@@ -450,6 +447,22 @@ public class Codex3 : MonoBehaviour
                 else if (Cat[e].bugData != null) //Unlocks if amount of bug caught > 0
                 {
                     if (Cat[e].bugData.amountCaught > 0)
+                    {
+                        tempText.text = Cat[e].entryName;
+                        tempImage.SetActive(true);
+                        tempUnlock.SetActive(false);
+                        tempSprite.sprite = Cat[e].buttonIcon;
+                    }
+                    else
+                    {
+                        tempText.text = defaultName;
+                        tempImage.SetActive(false);
+                        tempUnlock.SetActive(true);
+                    }
+                }
+                else if (Cat[e].structureData != null) //Unlocks if structure has been placed
+                {
+                    if (Cat[e].structureData.hasBeenPlaced)
                     {
                         tempText.text = Cat[e].entryName;
                         tempImage.SetActive(true);
