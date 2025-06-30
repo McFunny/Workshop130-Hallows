@@ -29,10 +29,10 @@ public class PlantPage : CodexPage
         image.sprite = entry.mainImage;
         description.text = entry.description[0];
 
-        /*if(entry.entryName != "Mandrake") harvested.text = "Times harvested: " + entry.cropData.amountHarvested;
-        else harvested.text = "Times Killed: " + entry.cropData.amountKilled;*/
+        if(entry.entryName != "Mandrake") harvested.text = "Times harvested: " + entry.cropData.amountHarvested;
+        else harvested.text = "Times harvested: " + entry.cropData.amountKilled;
 
-        wealth.text = "Wealth: " + entry.cropData.wealthValue;
+        wealth.text = "Allure Value: " + entry.cropData.wealthValue;
         growthStages.text = "Growth Stages: " + entry.cropData.growthStages;
         growthSpeed.text = "Time per Stage: " + entry.cropData.hoursPerStage;
 
