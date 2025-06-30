@@ -30,6 +30,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     Rigidbody rb;
 
     public bool onItemSoundCooldown = false;
+    bool isFocusing = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -119,6 +120,8 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     public IEnumerator Focus()
     {
+        if(isFocusing) yield break;
+        isFocusing = true;
         if(globalVolume.profile.TryGet(out Vignette vignette))
         {
             vignette.color.Override(focusColor);
@@ -145,6 +148,7 @@ public class PlayerEffectsHandler : MonoBehaviour
             while(vignette.intensity.value > 0);
             ResetVignette();
         }
+        isFocusing = false;
     }
 
     void ResetVignette()
