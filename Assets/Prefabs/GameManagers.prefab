@@ -10875,9 +10875,18 @@ MonoBehaviour:
     s_varietyMax: 4
     hourlySpawnAttempts: 7
     maxCreatures: 8
+  - difficultyPointThreshold: 225
+    c_varietyMin: 2
+    c_varietyMax: 6
+    r_varietyMin: 2
+    r_varietyMax: 5
+    s_varietyMin: 2
+    s_varietyMax: 4
+    hourlySpawnAttempts: 7
+    maxCreatures: 10
   - difficultyPointThreshold: 300
     c_varietyMin: 3
-    c_varietyMax: 5
+    c_varietyMax: 6
     r_varietyMin: 2
     r_varietyMax: 5
     s_varietyMin: 1
@@ -10996,6 +11005,7 @@ MonoBehaviour:
   totalEarnedMoney: 0
   hourSaved: 8
   gainedInventoryUpgrade: 0
+  gainedWaterStorage: 0
   tutorialMerchantSpoke: 0
   rascalWantsFood: 0
   rascalMentionedKey: 0
@@ -11015,6 +11025,7 @@ MonoBehaviour:
   bot_giveSeeds: 0
   bot_explainedPollen: 0
   ras_askedForNet: 0
+  bot_explainedTrellis: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   rascalMet: 0

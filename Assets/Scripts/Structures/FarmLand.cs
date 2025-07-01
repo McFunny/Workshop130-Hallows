@@ -223,7 +223,7 @@ public class FarmLand : StructureBehaviorScript
         {
             audioHandler.PlaySound(audioHandler.interactSound);
             ApplyNewUpgrade(FarmTileUpgrade.None);
-            if(Random.Range(0, 10) > 6) ItemPoolManager.Instance.GrabItem(plantFiber).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+            if(Random.Range(0, 10) > 7) ItemPoolManager.Instance.GrabItem(plantFiber).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             return;
         }
@@ -579,14 +579,14 @@ public class FarmLand : StructureBehaviorScript
         if(!ignoreWaterConsumption) 
         {
             nutrients.waterLevel -= crop.waterIntake;
-            if(currentUpgrade == FarmTileUpgrade.MiniWeeds) nutrients.waterLevel -= 2f; //MiniWeeds
+            if(currentUpgrade == FarmTileUpgrade.MiniWeeds) nutrients.waterLevel -= 3f; //MiniWeeds
         }
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
 
         if(!gainedStress && !waterOnly)
         {
             nutrients.ichorLevel -= crop.ichorIntake;
-            if(currentUpgrade == FarmTileUpgrade.MiniWeeds) nutrients.ichorLevel -= 0.25f; //MiniWeeds
+            if(currentUpgrade == FarmTileUpgrade.MiniWeeds) nutrients.ichorLevel -= 0.5f; //MiniWeeds
             if(nutrients.ichorLevel > 10) nutrients.ichorLevel = 10;
             if(nutrients.ichorLevel < 0) nutrients.ichorLevel = 0;
 

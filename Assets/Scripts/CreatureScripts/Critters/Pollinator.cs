@@ -15,7 +15,7 @@ public class Pollinator : CreatureBehaviorScript
     float pollenDistance = 2;
 
     float defaultSpeed = 3;
-    float fireSpeed = 6f;
+    float fireSpeed = 9f;
 
     private StructureBehaviorScript targetStructure; //The thing they will seek out to pollinate like crops. NOT a brazier
 
@@ -238,7 +238,7 @@ public class Pollinator : CreatureBehaviorScript
                         }
 
                         PollinatorPost post = structure as PollinatorPost;
-                        if(post && !post.containsMoth)
+                        if(post && !post.containsMoth && post.flowerHealth > 0)
                         {
                             targetStructure = structure;
                             target = structure.transform;

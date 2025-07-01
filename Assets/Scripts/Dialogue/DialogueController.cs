@@ -380,7 +380,7 @@ public class DialogueController : MonoBehaviour
         if(p.Contains("{freezePlayer}")) //Should be used for dialogue without an eye line
         {
             p = p.Replace("{freezePlayer}", $"{""}");
-            if(!freezePlayer)
+            if(!freezePlayer && PlayerMovement.restrictMovementTokens == 0)
             {
                 freezePlayer = true;
                 PlayerMovement.restrictMovementTokens++;
