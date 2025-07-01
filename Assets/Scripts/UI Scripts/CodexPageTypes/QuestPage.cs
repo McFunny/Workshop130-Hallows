@@ -107,7 +107,8 @@ public class QuestPage : CodexPage
             rewardsContainer.SetActive(false);
         }
 
-        removeQuestButton.gameObject.SetActive(!quest.isMajorQuest);
+        if(quest.isMajorQuest || quest.alreadyCompleted) removeQuestButton.gameObject.SetActive(false);
+        else removeQuestButton.gameObject.SetActive(true);
 
         mainVert.enabled = false;
         mainVert.enabled = true; //Yeah of course the solution is to turn it off and then turn it back on
