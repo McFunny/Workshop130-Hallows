@@ -112,6 +112,8 @@ MonoBehaviour:
   reactionTimeMin: 2
   reactionTimeMax: 4
   despawnChance: 50
+  minTravelTime: 1.5
+  maxTravelTime: 3
   bugData: {fileID: 11400000, guid: 41c4ac019847d12479b0372a4ff58d68, type: 2}
   despawnMethod: 0
   currentState: 0
@@ -136,7 +138,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
+  m_ObstacleAvoidanceType: 3
 --- !u!1 &6346317157928169216
 GameObject:
   m_ObjectHideFlags: 0

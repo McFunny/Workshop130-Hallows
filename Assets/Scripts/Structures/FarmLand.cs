@@ -286,7 +286,7 @@ public class FarmLand : StructureBehaviorScript
 
 
                     r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
-                    if(r == 0 && Random.Range(0,10) >= 8 && crop.seedYieldAmount > 0) r = 1;
+                    //if(r == 0 && Random.Range(0,10) >= 8 && crop.seedYieldAmount > 0) r = 1; //Disabled. Crops no longer produce seeds on a perfect yield
                     for (int i = 0; i < r; i++) //Seed yield
                     {
                         if(crop.cropSeed && plantStress == 0)
@@ -386,7 +386,11 @@ public class FarmLand : StructureBehaviorScript
         }
         if(!crop && !isWeed)
         {
-            if(Random.Range(0, 10) > 6f && currentUpgrade != FarmTileUpgrade.Trellis) Destroy(this.gameObject);
+            if(Random.Range(0, 10) > 7f && currentUpgrade != FarmTileUpgrade.Trellis) Destroy(this.gameObject);
+            return;
+        }
+        if(!isWeed && (nutrients.waterLevel - crop.waterIntake) < 0) //Behavior for when a crop is not watered enough to advance a stage
+        {
             return;
         }
         hoursSpent++;
@@ -519,10 +523,10 @@ public class FarmLand : StructureBehaviorScript
         if(harvestText)
         {
             growthComplete.Stop();
-            if(harvestable && !rotted)
+            if(currentUpgrade == FarmTileUpgrade.MiniWeeds) harvestText.text = "Interact To Remove Weeds";
+            else if(harvestable && !rotted)
             {
                 if(crop.requireScythe) harvestText.text = "Use Tool to Harvest";
-                else if(currentUpgrade == FarmTileUpgrade.MiniWeeds) harvestText.text = "Interact To Remove Weeds";
                 else harvestText.text = "Interact To Harvest";
                 growthComplete.Play();
             } 

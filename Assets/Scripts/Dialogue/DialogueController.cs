@@ -143,6 +143,7 @@ public class DialogueController : MonoBehaviour
             print("Look at npc");
             PlayerMovement.restrictMovementTokens++;
             PlayerCam.Instance.NewObjectOfInterest(currentTalker.eyeLine.position);
+            playerEffects.StartCoroutine(playerEffects.Focus());
         }
         
 
@@ -376,7 +377,7 @@ public class DialogueController : MonoBehaviour
             PlayerBoughtItem();
         }
 
-        if(p.Contains("{freezePlayer}")) //Should do nothing now
+        if(p.Contains("{freezePlayer}")) //Should be used for dialogue without an eye line
         {
             p = p.Replace("{freezePlayer}", $"{""}");
             if(!freezePlayer)

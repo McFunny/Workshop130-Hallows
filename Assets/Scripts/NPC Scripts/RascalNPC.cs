@@ -58,6 +58,7 @@ public class RascalNPC : NPC, ITalkable
                 currentPath = 4;
                 currentType = PathType.Quest;
                 QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetTutorialQuest(303));
+                PlayerInteraction.Instance.GainMints(QuestDatabase.Instance.GetTutorialQuest(303).mintReward, true);
             }
             else
             {

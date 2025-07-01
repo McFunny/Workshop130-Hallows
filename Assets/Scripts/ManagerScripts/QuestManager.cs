@@ -118,8 +118,15 @@ public class QuestManager : MonoBehaviour
 
     public int FindSameQuest(Quest q) //Finds if the current quest is already in the active quests list and returns the index //SAME AS CHECKFORQUEST
     {
+        if(q == null) return -1;
         for(int i = 0; i < activeQuests.Count; i++)
         {
+            if(activeQuests[i] == null)
+            {
+                activeQuests.RemoveAt(i);
+                i--;
+                continue;
+            }
             if(activeQuests[i].assignee != q.assignee) continue;
 
             FetchQuest fQ = activeQuests[i] as FetchQuest;
