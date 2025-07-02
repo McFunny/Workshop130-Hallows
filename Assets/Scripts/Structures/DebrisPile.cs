@@ -18,6 +18,8 @@ public class DebrisPile : StructureBehaviorScript
 
     public PopupScript popup;
 
+    public InventoryItemData repairKit;
+
 
     //Do we prevent these being repaired at night? Or make it so u have to hold an interaction on them
     //Use popup to tell player if resources are insufficient and if they cant repair at night
@@ -80,6 +82,13 @@ public class DebrisPile : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(item == repairKit)
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            RepairStructure();
+            return;
+        }
         StructureInteraction();
 
     }
