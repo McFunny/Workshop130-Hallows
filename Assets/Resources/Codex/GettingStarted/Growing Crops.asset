@@ -27,8 +27,10 @@ MonoBehaviour:
   - In order to advance their growth, the plant must have their Water and Nutritional
     needs met. Otherwise, they will take stress damage. Too much stress and the plant
     will wither, providing no harvest.
-  leftText: 
-  rightText: Crops will only grow during the night. Each crop takes varying hours
+  leftText: Crops will only grow during the night. Each crop takes varying hours
     to advance 1 stage of growth. In order to advance their growth, the plant must
     have their Water and Nutritional needs met. Otherwise, they will take stress
     damage. Too much stress and the plant will wither, providing no harvest.
+  rightText: If a crop grows without taking any stress damage, they have a chance
+    to yield a seed. On Relaxed Mode, crops cannot take stress damage from lack of
+    water. They also cannot drop a bonus seed.
