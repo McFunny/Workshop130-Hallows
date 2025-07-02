@@ -10,7 +10,7 @@ public class TimeManager : MonoBehaviour
 
     public int currentMinute = 0; 
     int minPerDayHour = 75; //how long an hour lasts at day
-    int minPerNightHour = 30; //how long an hour lasts at night
+    int minPerNightHour = 45; //how long an hour lasts at night
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
                                         /// /Day lasts 14 hours. Morning starts at 6, town opens at 8
@@ -110,13 +110,13 @@ public class TimeManager : MonoBehaviour
                 clockDarkenEffect = false;
                 currentMinute++;
                 LerpSunAndMoon();
-                if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour))
+                if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour) || (currentHour < 8 && currentMinute >= minPerNightHour))
                 {
                     currentMinute = 0;
                     HourPassed();
                 }
 
-                if((currentHour == 7 && currentMinute == 25) || (currentHour == 18 && currentMinute == 40)) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
+                if((currentHour == 7 && currentMinute == minPerNightHour - 5) || (currentHour == 18 && currentMinute == minPerDayHour - 5)) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
             }
             else
             {
@@ -428,7 +428,7 @@ public class TimeManager : MonoBehaviour
         timeSkipping = false;
         stopTime = false;
 
-        currentMinute = 40;
+        currentMinute = minPerDayHour - 20;
 
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;

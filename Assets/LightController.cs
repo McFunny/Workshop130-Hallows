@@ -9,7 +9,7 @@ public class LightController : MonoBehaviour
     public float flickerSpeed = 5f;
 
     private float gradientPosition = 0f;
-    private float baseIntensity;
+    [HideInInspector] public float baseIntensity;
     private float targetIntensityOffset = 0f;
     private float currentIntensityOffset = 0f;
     private float colorChangeSpeed;

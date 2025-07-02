@@ -266,8 +266,8 @@ public class BugBehaviorScript : MonoBehaviour
             case DespawnMethod.Fly:
             for(int i = 0; i < 100; i++)
             {
-                yield return new WaitForSeconds(0.1f);
-                colliderObject.Translate(Vector3.up * Time.deltaTime * 20, Space.World);
+                yield return new WaitForSeconds(0.05f);
+                colliderObject.Translate(Vector3.up * Time.deltaTime * 15, Space.World);
             }
             Destroy(gameObject);
             break;

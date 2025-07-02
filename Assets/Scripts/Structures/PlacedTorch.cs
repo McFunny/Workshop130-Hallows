@@ -12,6 +12,8 @@ public class PlacedTorch : StructureBehaviorScript
 
     public LightController lightScript;
 
+    public ParticleSystem lowFireParticle;
+
     void Awake()
     {
         base.Awake();
@@ -67,6 +69,7 @@ public class PlacedTorch : StructureBehaviorScript
         lightScript.flickerSpeed = 0.1f;
         lightScript.intensityVariation = 0.2f;
         yield return new WaitForSeconds(r * 0.7f);
+        lowFireParticle.Play();
         lightScript.flickerSpeed = 0.9f;
         lightScript.intensityVariation = 1f;
         yield return new WaitForSeconds(r * 0.3f);
