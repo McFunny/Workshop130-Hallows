@@ -234,8 +234,8 @@ public class QuestPage : CodexPage
 
             description.text = t;
 
-            if (q.maxProgress == 1 || q.targetCreature.name.EndsWith("s")) progressText.text = q.targetCreature.name + " eliminated: " + q.progress + "/" + q.maxProgress;
-            else progressText.text = q.targetCreature.name + "s eliminated: " + q.progress + "/" + q.maxProgress;
+            if (q.maxProgress == 1 || q.targetCreature.name.EndsWith("s")) progressText.text = q.targetCreature.name.ToString() + " eliminated: " + q.progress + "/" + q.maxProgress;
+            else progressText.text = q.targetCreature.name.ToString() + "s eliminated: " + q.progress + "/" + q.maxProgress;
         }
         else if (type.Equals(typeof(GrowQuest)))
         {
