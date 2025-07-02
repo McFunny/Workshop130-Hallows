@@ -218,8 +218,10 @@ public class QuestPage : CodexPage
             description.text = t;
             //questProgressText.text = q.progress + "/" + q.maxProgress;
 
-            if (q.maxProgress == 1 || q.desiredItem.displayName.EndsWith("s")) progressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
-            else progressText.text = q.desiredItem.displayName + "s handed in: " + q.progress + "/" + q.maxProgress;
+            /*if (q.maxProgress == 1 || q.desiredItem.displayName.EndsWith("s")) progressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
+            else progressText.text = q.desiredItem.displayName + "s handed in: " + q.progress + "/" + q.maxProgress;*/
+            progressSlider.transform.parent.gameObject.SetActive(false);
+            
         }
         else if (type.Equals(typeof(HuntQuest)))
         {
