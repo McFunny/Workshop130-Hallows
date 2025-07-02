@@ -5,6 +5,8 @@ using UnityEngine;
 public class Burrow : StructureBehaviorScript
 {
     bool isDigging;
+
+    public BugObject termite;
     
     void Awake()
     {
@@ -35,6 +37,17 @@ public class Burrow : StructureBehaviorScript
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         Destroy(this.gameObject);
+    }
+
+    public override void HourPassed()
+    {
+        if(Random.Range(0,20) > 17) StartCoroutine(SpawnBug());
+    }
+
+    IEnumerator SpawnBug()
+    {
+        yield return new WaitForSeconds(Random.Range(2, 15));
+        BugSpawningManager.Instance.SpawnBug(transform.position, termite);
     }
 
     void OnDestroy()

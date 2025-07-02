@@ -1009,8 +1009,6 @@ public class StructureManager : MonoBehaviour
         }
         return temp;
     }
-
-
 }
 
 [System.Serializable]
