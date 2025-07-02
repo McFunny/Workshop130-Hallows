@@ -69,7 +69,7 @@ public class HoeBehavior : ToolBehavior
                 if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
 
                 toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-                PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * coolDownMod, 1.7f * coolDownMod));
+                PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * coolDownMod, 1.1f * coolDownMod));
 
                 /*if(PlayerInteraction.Instance.stamina > 50)
                 {
@@ -123,7 +123,7 @@ public class HoeBehavior : ToolBehavior
 
     IEnumerator ExtraLag()
     {
-        yield return new WaitForSeconds(1.0f * coolDownMod);
+        yield return new WaitForSeconds(0.8f * coolDownMod);
         usingPrimary = false;
         PlayerMovement.restrictMovementTokens--;
     }

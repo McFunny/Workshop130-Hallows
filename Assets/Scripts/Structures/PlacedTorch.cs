@@ -65,7 +65,7 @@ public class PlacedTorch : StructureBehaviorScript
     IEnumerator FireDrain()
     {
         currentlyLit = true;
-        float r = Random.Range(50, 70);
+        float r = Random.Range(80, 100);
         lightScript.flickerSpeed = 0.1f;
         lightScript.intensityVariation = 0.2f;
         yield return new WaitForSeconds(r * 0.7f);

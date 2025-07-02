@@ -205,7 +205,7 @@ public class NightSpawningManager : MonoBehaviour
 
         if(allCreatures.Count < maxCreatures && difficultyPoints < 8)
         {
-            r = Random.Range(1,4);
+            r = Random.Range(2,6);
             for(int i = 0; i < r; i++)
             {
                 r = Random.Range(0, selectedFillerCreatures.Count);
@@ -247,7 +247,7 @@ public class NightSpawningManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         while(creatureQueue.Count != 0)
         {
-            yield return new WaitForSeconds(Random.Range(1f, 4f));
+            yield return new WaitForSeconds(Random.Range(2f, 6f));
             CreatureObject c = creatureQueue.Dequeue();
             SpawnCreature(c);
         }
@@ -345,9 +345,9 @@ public class NightSpawningManager : MonoBehaviour
         if(!overrideDifficulty)
         {
             if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.6f;
-            else if(PlayerInteraction.Instance.totalMoneyEarned > 5000) difficultyMultiplier = 1.4f;
+            else if(PlayerInteraction.Instance.totalMoneyEarned > 6000) difficultyMultiplier = 1.4f;
             else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.25f;
-            else if(TimeManager.Instance.dayNum == 1 && MainMenuScript.currentFileMode != FileMode.Survival) difficultyMultiplier = 0.75f;
+            else if(TimeManager.Instance.dayNum < 3 && MainMenuScript.currentFileMode != FileMode.Survival) difficultyMultiplier = 0.75f;
             else difficultyMultiplier = 1;
 
             if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.25f;

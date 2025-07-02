@@ -145,6 +145,8 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
+        if (StructureManager.Instance.enableCheats && Input.GetKeyDown(KeyCode.Y) && !toolCooldown && PlayerMovement.restrictMovementTokens == 0) StartCoroutine(WaterPropulsion());
+
         //if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
 
@@ -558,6 +560,22 @@ public class PlayerInteraction : MonoBehaviour
             TimeManager.Instance.respawnFocus.position = new Vector3(TimeManager.Instance.respawnFocus.position.x, TimeManager.Instance.respawnFocus.position.y - 0.4f, TimeManager.Instance.respawnFocus.position.z);
             i++;
         }
+    }
+
+    public IEnumerator WaterPropulsion()
+    {
+        if(toolCooldown || waterHeld < 1) yield break;
+        waterHeld -= 1;
+        playerEffects.PlayClip(playerEffects.waterJet);
+        toolCooldown = true;
+        PlayerMovement.limitMaxVelocity = false;
+        PlayerMovement.ignoreMovementInputs = true;
+        GetComponent<PlayerMovement>().ApplyForceToPlayer(3000, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
+        yield return new WaitForSeconds(0.2f);
+        PlayerMovement.limitMaxVelocity = true;
+        PlayerMovement.ignoreMovementInputs = false;
+        yield return new WaitForSeconds(0.4f);
+        toolCooldown = false;
     }
 
     public void InvokePlayerDeathEvent()

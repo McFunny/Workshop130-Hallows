@@ -404,7 +404,7 @@ public class DeerStalker : CreatureBehaviorScript
         Vector3 runTo = transform.position + ((transform.position - player.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
         agent.destination = runTo;
         fleeTimeLeft -= Time.deltaTime;
-        if(fleeTimeLeft <= 0)
+        if(fleeTimeLeft <= 0 && currentState == CreatureState.Flee)
         {
             currentState = CreatureState.Wander;
         }
@@ -414,6 +414,8 @@ public class DeerStalker : CreatureBehaviorScript
     {
         fleeTimeLeft = 0;
         currentState = CreatureState.SpawnIn;
+        coroutineRunning = false;
+        isMoving = false;
     }
     #endregion
     private void Attack()

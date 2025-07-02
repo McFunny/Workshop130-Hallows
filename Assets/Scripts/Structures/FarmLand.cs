@@ -336,7 +336,7 @@ public class FarmLand : StructureBehaviorScript
             if(forceDig || isWeed)
             {
                 if(currentUpgrade == FarmTileUpgrade.Trellis) ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-                if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                //if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
                 Destroy(this.gameObject);
             }
@@ -386,7 +386,7 @@ public class FarmLand : StructureBehaviorScript
         }
         if(!crop && !isWeed)
         {
-            if(Random.Range(0, 10) > 7f && currentUpgrade != FarmTileUpgrade.Trellis) Destroy(this.gameObject);
+            if(Random.Range(0, 10) > 6f && currentUpgrade == FarmTileUpgrade.None) Destroy(this.gameObject);
             return;
         }
         if(!isWeed && (nutrients.waterLevel - crop.waterIntake) < 0 && MainMenuScript.currentFileMode == FileMode.Cozy) //Behavior for when a crop is not watered enough to advance a stage
@@ -695,6 +695,7 @@ public class FarmLand : StructureBehaviorScript
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
             if(currentUpgrade == FarmTileUpgrade.Trellis) ParticlePoolManager.Instance.GrabDestructionParticle(StructureType.Wood).transform.position = transform.position;
         }
+        else if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         if(crop && !rotted) crop.amountKilled++;
 
         if(crop && crop.behavior)
