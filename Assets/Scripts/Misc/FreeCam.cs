@@ -58,11 +58,11 @@ public class FreeCam : MonoBehaviour
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (Mathf.Abs(scroll) > 0.01f)
             {
-                targetFOV -= scroll * 20f; // invert to match zoom expectation
+                targetFOV -= scroll * 20f;
                 targetFOV = Mathf.Clamp(targetFOV, 10f, 100f);
             }
 
-            // FOV smooth lerp
+            // FOV lerp
             if (cam != null)
                 cam.m_Lens.FieldOfView = Mathf.Lerp(cam.m_Lens.FieldOfView, targetFOV, Time.deltaTime * fovLerpSpeed);
 
@@ -103,7 +103,7 @@ public class FreeCam : MonoBehaviour
 
 
             // Tracking
-            if (Input.GetKeyDown(KeyCode.O)) // middle mouse click
+            if (Input.GetKeyDown(KeyCode.O))
             {
                 if (trackingTarget == null)
                 {
@@ -119,11 +119,11 @@ public class FreeCam : MonoBehaviour
                 }
                 else
                 {
-                    trackingTarget = null; // release
+                    trackingTarget = null; 
                 }
             }
 
-            // If tracking a target, look at it
+            // If tracking a target look at it
             if (trackingTarget != null)
             {
                 Vector3 dir = trackingTarget.position - transform.position;
@@ -162,13 +162,13 @@ public class FreeCam : MonoBehaviour
                 float t = Mathf.Clamp01(fovLerpTimer / fovLerpDuration);
                 cam.m_Lens.FieldOfView = Mathf.Lerp(fovLerpStart, fovLerpEnd, t);
 
-                // Stop lerping after duration
+               
                 if (t >= 1f)
                 {
                     isFOVLerping = false;
                 }
 
-                // Also update targetFOV to match (so scroll keeps continuity)
+               
                 targetFOV = cam.m_Lens.FieldOfView;
             }
 
@@ -177,7 +177,7 @@ public class FreeCam : MonoBehaviour
             if (effectsCamera) effectsCamera.fieldOfView = cam.m_Lens.FieldOfView;
             if (uiCamera) uiCamera.fieldOfView = cam.m_Lens.FieldOfView;
 
-            // Toggle off
+           
             if (Input.GetKey(KeyCode.N) && Input.GetKeyDown(KeyCode.M))
             {
                 activeFreeCam = false;
@@ -189,7 +189,7 @@ public class FreeCam : MonoBehaviour
         }
         else
         {
-            // Toggle on
+          
             if (Input.GetKey(KeyCode.N) && Input.GetKeyDown(KeyCode.M))
             {
                 activeFreeCam = true;
