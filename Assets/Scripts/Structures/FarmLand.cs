@@ -303,6 +303,8 @@ public class FarmLand : StructureBehaviorScript
                     }
                 }
                 crop.amountHarvested++;
+
+                if(crop && crop.behavior) crop.behavior.OnHarvest(this, forceDig, harvestedByScythe);
             }
 
             if(rotted)
@@ -376,7 +378,15 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(isWeed && !TimeManager.Instance.isDay) StructureManager.Instance.WeedSpread(transform.position);
+        if(isWeed && !TimeManager.Instance.isDay)
+        {
+            StructureManager.Instance.WeedSpread(transform.position, out bool becomeThorn);
+            if(becomeThorn)
+            {
+                growthStage = 5;
+                SpriteChange();
+            }
+        }
         //print(cropNeedsUI);
         if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay || isFrosted)
         {
@@ -751,6 +761,8 @@ public class FarmLand : StructureBehaviorScript
 
     public override bool IsFlammable()
     {
+        if(crop && crop.behavior && !crop.behavior.IsFlammable()) return false;
+
         if((crop || isWeed) && !onFire) return true;
         else return false;
     }
@@ -767,7 +779,7 @@ public class FarmLand : StructureBehaviorScript
         TakeDamage(5);
         ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
         if(isWeed) return;
-        TakeStressDamage();
+        TakeStressDamage(1);
     }
 
     public void RecieveFrost()
@@ -784,10 +796,10 @@ public class FarmLand : StructureBehaviorScript
         }
     }
 
-    public void TakeStressDamage()
+    public void TakeStressDamage(int amount)
     {
         if(!crop) return;
-        plantStress++;
+        plantStress += amount;
         growthImpeded.Play();
 
         if(plantStress > crop.stressLimit && !isWeed)
@@ -895,6 +907,16 @@ public class FarmLand : StructureBehaviorScript
         }
 
         SpriteChange();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 10 && isWeed && growthStage == 5)
+        {
+            PlayerInteraction.Instance.StaminaChange(-5); //Hit by a thorn
+        }
+
+        if(crop && crop.behavior) crop.behavior.OnContact(this, other.gameObject);
     }
 
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it

@@ -247,7 +247,7 @@ public class NightSpawningManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         while(creatureQueue.Count != 0)
         {
-            yield return new WaitForSeconds(Random.Range(2f, 6f));
+            yield return new WaitForSeconds(Random.Range(3f, 8f));
             CreatureObject c = creatureQueue.Dequeue();
             SpawnCreature(c);
         }
