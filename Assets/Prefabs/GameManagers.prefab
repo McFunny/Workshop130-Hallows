@@ -10846,8 +10846,8 @@ MonoBehaviour:
     r_varietyMax: 2
     s_varietyMin: 0
     s_varietyMax: 2
-    hourlySpawnAttempts: 3
-    maxCreatures: 4
+    hourlySpawnAttempts: 5
+    maxCreatures: 6
   - difficultyPointThreshold: 25
     c_varietyMin: 2
     c_varietyMax: 5
@@ -10856,7 +10856,7 @@ MonoBehaviour:
     s_varietyMin: 1
     s_varietyMax: 3
     hourlySpawnAttempts: 5
-    maxCreatures: 4
+    maxCreatures: 6
   - difficultyPointThreshold: 75
     c_varietyMin: 2
     c_varietyMax: 5
@@ -10864,8 +10864,8 @@ MonoBehaviour:
     r_varietyMax: 4
     s_varietyMin: 1
     s_varietyMax: 3
-    hourlySpawnAttempts: 5
-    maxCreatures: 6
+    hourlySpawnAttempts: 6
+    maxCreatures: 8
   - difficultyPointThreshold: 150
     c_varietyMin: 2
     c_varietyMax: 5
@@ -10873,17 +10873,26 @@ MonoBehaviour:
     r_varietyMax: 5
     s_varietyMin: 2
     s_varietyMax: 4
+    hourlySpawnAttempts: 8
+    maxCreatures: 10
+  - difficultyPointThreshold: 225
+    c_varietyMin: 2
+    c_varietyMax: 6
+    r_varietyMin: 2
+    r_varietyMax: 5
+    s_varietyMin: 2
+    s_varietyMax: 4
     hourlySpawnAttempts: 7
-    maxCreatures: 8
+    maxCreatures: 10
   - difficultyPointThreshold: 300
     c_varietyMin: 3
-    c_varietyMax: 5
+    c_varietyMax: 6
     r_varietyMin: 2
     r_varietyMax: 5
     s_varietyMin: 1
     s_varietyMax: 4
-    hourlySpawnAttempts: 8
-    maxCreatures: 12
+    hourlySpawnAttempts: 10
+    maxCreatures: 14
   - difficultyPointThreshold: 450
     c_varietyMin: 3
     c_varietyMax: 5
@@ -10891,7 +10900,7 @@ MonoBehaviour:
     r_varietyMax: 5
     s_varietyMin: 1
     s_varietyMax: 4
-    hourlySpawnAttempts: 10
+    hourlySpawnAttempts: 12
     maxCreatures: 16
   creatures:
   - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
@@ -10996,6 +11005,7 @@ MonoBehaviour:
   totalEarnedMoney: 0
   hourSaved: 8
   gainedInventoryUpgrade: 0
+  gainedWaterStorage: 0
   tutorialMerchantSpoke: 0
   rascalWantsFood: 0
   rascalMentionedKey: 0
@@ -11015,6 +11025,7 @@ MonoBehaviour:
   bot_giveSeeds: 0
   bot_explainedPollen: 0
   ras_askedForNet: 0
+  bot_explainedTrellis: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   rascalMet: 0

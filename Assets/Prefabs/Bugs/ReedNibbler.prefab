@@ -112,6 +112,8 @@ MonoBehaviour:
   reactionTimeMin: 2
   reactionTimeMax: 4
   despawnChance: 50
+  minTravelTime: 1.5
+  maxTravelTime: 3
   bugData: {fileID: 11400000, guid: 41c4ac019847d12479b0372a4ff58d68, type: 2}
   despawnMethod: 0
   currentState: 0
@@ -126,9 +128,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 12
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 240
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
@@ -136,7 +138,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
+  m_ObstacleAvoidanceType: 3
 --- !u!1 &6346317157928169216
 GameObject:
   m_ObjectHideFlags: 0
@@ -5108,7 +5110,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 391107131, guid: 798d38e4b1a0a4541b3f5865dcd2f215, type: 3}
-  m_Color: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
+  m_Color: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

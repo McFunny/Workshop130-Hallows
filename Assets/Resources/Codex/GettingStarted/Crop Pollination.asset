@@ -14,16 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonIcon: {fileID: -333400560, guid: 22b3bab1073cdc24ab12b9a07ef249ce, type: 3}
   unlocked: 1
-  mainImage: {fileID: -333400560, guid: 22b3bab1073cdc24ab12b9a07ef249ce, type: 3}
+  mainImage: {fileID: 21300000, guid: e232961c63ce7f5478f40880d5010d05, type: 3}
   entryName: Crop Pollination
   entryType: 0
   cropData: {fileID: 0}
   creatureData: {fileID: 0}
   structureData: {fileID: 0}
+  bugData: {fileID: 0}
   description:
-  - Some crops require to be pollinated in order to fully grow. This can be done
-    by either luring a pollinator to the plant via light, or by applying nectar.
+  - If a crop has the <sprite name="Pollinator3"> icon, this means it requires pollination
+    in order to grow. This can be done by either luring a pollinator to the plant
+    via light, or by applying nectar.
   leftText: 
-  rightText: Some crops require to be pollinated in order to fully grow. This can
-    be done by either luring a pollinator to the plant via light, or by applying
-    nectar.
+  rightText: If a crop has the <sprite name="Pollinator3"> icon, this means it requires
+    pollination in order to grow. This can be done by either luring a pollinator
+    to the plant via light, or by applying nectar.

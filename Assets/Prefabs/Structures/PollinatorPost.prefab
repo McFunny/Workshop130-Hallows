@@ -5589,6 +5589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7062269640661455994}
   - component: {fileID: 4538867263545920415}
+  - component: {fileID: 5626367629857990620}
   m_Layer: 15
   m_Name: FlowerSprite
   m_TagString: Untagged
@@ -5663,6 +5664,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5626367629857990620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7802687956234837773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfaf9ee1ef95c6241925cd1a6fe8ef16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invert: 0
 --- !u!1 &8961105412490807626
 GameObject:
   m_ObjectHideFlags: 0

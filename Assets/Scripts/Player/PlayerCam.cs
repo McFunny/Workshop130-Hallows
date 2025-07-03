@@ -102,6 +102,10 @@ public class PlayerCam : MonoBehaviour
             yRotation += lookX;
             xRotation -= lookY;
 
+            if(xRotation > 90) xRotation = xRotation - 360; //To fix focus issue (causes some irregularities)
+
+            //print(xRotation);
+
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
             transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
@@ -125,7 +129,7 @@ public class PlayerCam : MonoBehaviour
             orientation.rotation = Quaternion.Euler(0, rot.y, 0);
 
             xRotation = rot.eulerAngles.x;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            //xRotation = Mathf.Clamp(xRotation, -90f, 90f);
             yRotation = rot.eulerAngles.y;
         }
 

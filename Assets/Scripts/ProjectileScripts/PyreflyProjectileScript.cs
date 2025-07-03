@@ -58,6 +58,11 @@ public class PyreflyProjectileScript : MonoBehaviour
                 if(creature.fireVulnerable) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(4, 15));
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
             }
+            else if(creature)
+            {
+                MurderMancer mancer = collider.gameObject.GetComponentInParent<MurderMancer>();
+                if(mancer) mancer.IgnitedByOther();
+            }
         }
 
         gameObject.SetActive(false);

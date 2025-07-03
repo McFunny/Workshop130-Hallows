@@ -37,11 +37,11 @@ MonoBehaviour:
   - pathName: Want to buy this?
     paragraphs:
     - I see you got your eye on the {storeItemName}. It'll cost you {storeItemValue}
-      <color=#E0D38F>Mints</color> <sprite index=0>!
+      <color=#E0D38F>Mints</color> <sprite index=0>! {dontfreezePlayer}
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
-    - Let me know if it actually works! {itemBought}
+    - Let me know if it actually works! {itemBought} {dontfreezePlayer}
     emotions: 01000000
   - pathName: No Money
     paragraphs:

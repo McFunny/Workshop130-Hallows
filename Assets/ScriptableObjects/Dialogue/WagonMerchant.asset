@@ -29,31 +29,31 @@ MonoBehaviour:
     - 'For that {itemName} I can offer <color=#E0D38F> {itemValue} Mints</color>
       <sprite index=0>.
 
-      Do we have a deal?'
+      Do we have a deal? {dontfreezePlayer}'
     emotions: 00000000
   - pathName: Will Not Buy
     paragraphs:
-    - I have no need for that.
+    - I have no need for that. {dontfreezePlayer}
     emotions: 03000000
   - pathName: Sold!
     paragraphs:
-    - Pleasure doing business. {itemSold}
+    - Pleasure doing business. {itemSold} {dontfreezePlayer}
     emotions: 01000000
   - pathName: Want me to buy all of those?
     paragraphs:
     - 'For all of those? I can offer <color=#E0D38F> {itemTotalValue} Mints</color>
       <sprite index=0>.
 
-      What do you say?'
+      What do you say? {dontfreezePlayer}'
     emotions: 00000000
   - pathName: Do you want to buy?
     paragraphs:
     - I see the {storeItemName} caught your eye. Care to buy for <color=#E0D38F>
-      {storeItemValue} Mints </color> <sprite index=0>?
+      {storeItemValue} Mints </color> <sprite index=0>? {dontfreezePlayer}
     emotions: 00000000
   - pathName: Here you go!
     paragraphs:
-    - Sold! {itemBought}
+    - Sold! {itemBought} {dontfreezePlayer}
     emotions: 01000000
   - pathName: Poor
     paragraphs:
@@ -71,13 +71,13 @@ MonoBehaviour:
     - I will now take you on expeditions beyond the fog. There you will find a variety
       of unique seeds and lost artifacts.
     - There will also be great danger. Plan accordingly.
-    - In return, I expect great returns. Not often do I escort others.
+    - In return, I expect a great bounty. Not often do I escort outsiders.
     - Interact with the lantern besides my wagon to inform me you are prepared.
     emotions: 000000000500000000000000030000000100000000000000
   - pathName: Going to the Wilderness?
     paragraphs:
-    - Are you adequately prepared for our foray? If so, pay the 150 mint fine we
-      are off. {freezePlayer}
+    - Are you adequately prepared for our foray? The fee is 100 <color=#E0D38F> Mints
+      </color> <sprite index=0. {freezePlayer}
     emotions: 04000000
   - pathName: Cannot go to Wilderness currently
     paragraphs:

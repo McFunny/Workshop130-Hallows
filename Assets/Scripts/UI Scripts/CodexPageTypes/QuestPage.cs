@@ -58,8 +58,15 @@ public class QuestPage : CodexPage
 
         if (quest.daysLeft >= 0)
         {
-            timeRemainingText.text = quest.daysLeft + " Days Left to Complete";
-            timeRemainingText.transform.parent.gameObject.SetActive(true);
+            if (quest.daysLeft == 1)
+            {
+                timeRemainingText.text = "Final Day to Complete";
+            }
+            else
+            {
+                timeRemainingText.text = quest.daysLeft + " Days Left to Complete";
+                timeRemainingText.transform.parent.gameObject.SetActive(true);
+            }
         }
         else
         {
@@ -100,7 +107,8 @@ public class QuestPage : CodexPage
             rewardsContainer.SetActive(false);
         }
 
-        removeQuestButton.gameObject.SetActive(!quest.isMajorQuest);
+        if(quest.isMajorQuest || quest.alreadyCompleted) removeQuestButton.gameObject.SetActive(false);
+        else removeQuestButton.gameObject.SetActive(true);
 
         mainVert.enabled = false;
         mainVert.enabled = true; //Yeah of course the solution is to turn it off and then turn it back on

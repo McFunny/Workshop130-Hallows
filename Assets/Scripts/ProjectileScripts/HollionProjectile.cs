@@ -33,7 +33,7 @@ public class HollionProjectile : MonoBehaviour
 
     void WindPush(Vector3 dir)
     {
-        bulletRigidbody.AddForce(dir * Random.Range(7, 15), ForceMode.Impulse);
+        bulletRigidbody.AddForce(dir * Random.Range(4, 8), ForceMode.Impulse);
     }
 
 
@@ -95,7 +95,7 @@ public class HollionProjectile : MonoBehaviour
 
     IEnumerator LifeTime()
     {
-        float bulletLifetime = Random.Range(35,60);
+        float bulletLifetime = Random.Range(55,80);
         yield return new WaitForSeconds(bulletLifetime);
         if(!detonated) Detonate();
         //maybe plant a new one if the tile is free

@@ -30,7 +30,7 @@ public class BugSpawningManager : MonoBehaviour
     void Start()
     {
         TimeManager.OnHourlyUpdate += SpawnHourlyBugs;
-        StructureBehaviorScript.OnStructureDestroyed += SpawnBug;
+        StructureBehaviorScript.OnStructureDestroyed += SpawnBugFromStructure;
         StartCoroutine(DelayedStart());
     }
 
@@ -115,7 +115,14 @@ public class BugSpawningManager : MonoBehaviour
         Debug.Log("Spawned a " + chosenBug);
     }
 
-    public void SpawnBug(StructureObject structure, Vector3 spawnPos)
+    public void SpawnBug(Vector3 spawnPos, BugObject bugObject) //Spawns a bug via reference
+    {
+        if(!bugObject.activeHours.Contains(TimeManager.Instance.timeOfDay) || PlayerInteraction.Instance.totalMoneyEarned < bugObject.wealthPrerequisite) return;
+
+        allBugs.Add(Instantiate(bugObject.objectPrefab, spawnPos, Quaternion.identity));
+    }
+
+    public void SpawnBugFromStructure(StructureObject structure, Vector3 spawnPos) //Spawns a bug from specified structure
     {
         if(structure.bugSpawnChance < Random.Range(0, 100)) return;
 
