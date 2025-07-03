@@ -16,6 +16,8 @@ public class UIBillboard : MonoBehaviour
 
     void Update()
     {
-     	transform.rotation = transformCamera.rotation * originalRotation;   
+        if (FreeCam.activeFreeCam) transformCamera = FindObjectOfType<FreeCam>().transform;
+        else transformCamera = FindObjectOfType<PlayerCam>().transform;
+        transform.rotation = transformCamera.rotation * originalRotation;   
     }
 }

@@ -6,10 +6,13 @@ using Cinemachine;
 public class FreeCam : MonoBehaviour
 {
     public CinemachineVirtualCamera cam;
+    public Camera toolCamera, effectsCamera, uiCamera;
 
-    public float defaultMoveSpeed = 5f;
-    public float minSpeed = 1f;
-    public float maxSpeed = 20f;
+    public static bool activeFreeCam = false;
+
+    public float defaultMoveSpeed = 50f;
+    public float minSpeed = 20f;
+    public float maxSpeed = 100f;
 
     private float moveSpeed;
     private float baseMoveSpeed;
@@ -30,7 +33,7 @@ public class FreeCam : MonoBehaviour
     private float pitch;
     private float yaw;
 
-    public bool activeFreeCam = false;
+   
 
     public float positionSmoothTime = 0.1f;
     public float rotationSmoothTime = 0.1f;
@@ -66,11 +69,11 @@ public class FreeCam : MonoBehaviour
             // Speed controls
             if (Input.GetKeyDown(KeyCode.N))
             {
-                baseMoveSpeed = Mathf.Max(minSpeed, baseMoveSpeed - 1);
+                baseMoveSpeed = Mathf.Max(minSpeed, baseMoveSpeed - 3);
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
-                baseMoveSpeed = Mathf.Min(maxSpeed, baseMoveSpeed + 1);
+                baseMoveSpeed = Mathf.Min(maxSpeed, baseMoveSpeed + 3);
             }
 
             moveSpeed = baseMoveSpeed * (Input.GetKey(KeyCode.LeftShift) ? 2f : 1f);
@@ -100,16 +103,17 @@ public class FreeCam : MonoBehaviour
 
 
             // Tracking
-            if (Input.GetMouseButtonDown(2)) // middle mouse click
+            if (Input.GetKeyDown(KeyCode.O)) // middle mouse click
             {
                 if (trackingTarget == null)
                 {
                     Ray ray = new Ray(transform.position, transform.forward);
                     if (Physics.Raycast(ray, out RaycastHit hit, 20f))
                     {
-                        if (hit.collider.GetComponent<CreatureBehaviorScript>() || hit.collider.GetComponent<NPCMovement>())
+                        if (hit.collider.transform.gameObject.layer == 9 || hit.collider.GetComponent<NPCMovement>())
                         {
                             trackingTarget = hit.collider.transform;
+                            Debug.Log("HitTargetForTracking");
                         }
                     }
                 }
@@ -168,6 +172,10 @@ public class FreeCam : MonoBehaviour
                 targetFOV = cam.m_Lens.FieldOfView;
             }
 
+            // Sync FOV with other cameras
+            if (toolCamera) toolCamera.fieldOfView = cam.m_Lens.FieldOfView;
+            if (effectsCamera) effectsCamera.fieldOfView = cam.m_Lens.FieldOfView;
+            if (uiCamera) uiCamera.fieldOfView = cam.m_Lens.FieldOfView;
 
             // Toggle off
             if (Input.GetKey(KeyCode.N) && Input.GetKeyDown(KeyCode.M))
@@ -177,6 +185,7 @@ public class FreeCam : MonoBehaviour
                 PlayerMovement.restrictMovementTokens--;
                 ResetFreeCamState();
             }
+
         }
         else
         {
