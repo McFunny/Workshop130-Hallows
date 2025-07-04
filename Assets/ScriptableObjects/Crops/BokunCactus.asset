@@ -10,38 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
-  m_Name: FlumenthornCactus
+  m_Name: BokunCactus
   m_EditorClassIdentifier: 
-  name: Flumenthorn Cactus
-  id: -1
-  growthStages: 6
+  name: Bokun Cactus
+  id: 23
+  growthStages: 7
   hoursPerStage: 2
-  harvestableGrowthStages: 
+  harvestableGrowthStages: 07000000
   cropSprites:
   - {fileID: -1276452328, guid: eba09bc6d2bfaa54a84310ce743d87d7, type: 3}
   - {fileID: 1019555734, guid: eba09bc6d2bfaa54a84310ce743d87d7, type: 3}
   - {fileID: -296526114, guid: eba09bc6d2bfaa54a84310ce743d87d7, type: 3}
   - {fileID: -2005527667, guid: eba09bc6d2bfaa54a84310ce743d87d7, type: 3}
   - {fileID: 1849717320, guid: eba09bc6d2bfaa54a84310ce743d87d7, type: 3}
+  - {fileID: 145356231, guid: cf3b6413f77af3a45b49841637436bbb, type: 3}
   - {fileID: -2031835375, guid: eba09bc6d2bfaa54a84310ce743d87d7, type: 3}
-  rottedImage: {fileID: 0}
+  rottedImage: {fileID: -606297440, guid: 0cca7e469e212d64093bd4a18376a1a3, type: 3}
   cropYield: {fileID: 0}
   cropSecondaryYield: {fileID: 0}
   cropSeed: {fileID: 0}
   cropYieldAmount: 1
   cropYieldVariance: 0
-  seedYieldAmount: 1
-  seedYieldVariance: 1
+  seedYieldAmount: 0
+  seedYieldVariance: 0
   waterIntake: 5
   ichorIntake: 0
-  terraIntake: 0
-  gloamIntake: 0
+  terraIntake: 0.5
+  gloamIntake: -0.25
   stressLimit: 5
   wealthValue: 1
   requireScythe: 0
   requirePollination: 0
   creaturePrefab: {fileID: 0}
-  behavior: {fileID: 0}
+  behavior: {fileID: 11400000, guid: 6f5ce739db4ec2a4cb7f45a2ce635451, type: 2}
   emitsGlow: 0
   amountHarvested: 0
   amountKilled: 0

@@ -1,0 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "New Crop Behavior", menuName = "Crop Behavior/Cactus")]
+public class CactusBehavior : CropBehavior
+{
+    //
+}
