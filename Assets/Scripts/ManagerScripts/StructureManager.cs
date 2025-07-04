@@ -870,18 +870,23 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    public void WeedSpread(Vector3 pos)
+    public void WeedSpread(Vector3 pos, out bool becomeThorn)
     {
+        becomeThorn = false;
         int weedTotal = 0;
         for(int i = 0; i < allStructs.Count; i++)
         {
             FarmLand weedScript = allStructs[i] as FarmLand;
             if(weedScript && weedScript.isWeed) weedTotal++;
         }
-        if(weedTotal > 60) return;
+        if(weedTotal > 80) return;
 
         List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
-        if(weedSpots.Count == 0) return;
+        if(weedSpots.Count == 0)
+        {
+            if(Random.Range(0f, 10f) > 9.5f) becomeThorn = true;
+            return;
+        } 
         foreach(Vector3 weedPos in weedSpots)
         {
             if(Random.Range(0f,10f) > 9.7f)

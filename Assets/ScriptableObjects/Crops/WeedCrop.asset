@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Weed
   id: 8
-  growthStages: 3
+  growthStages: 5
   hoursPerStage: 3
-  harvestableGrowthStages: 010000000200000003000000
+  harvestableGrowthStages: 0100000002000000030000000400000005000000
   cropSprites:
   - {fileID: -666897899, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   - {fileID: 541782167, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   - {fileID: -2031693096, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
+  - {fileID: -1369042599, guid: 428ed0432f19d434499786564dd7eed0, type: 3}
+  - {fileID: 1236630733, guid: 428ed0432f19d434499786564dd7eed0, type: 3}
   rottedImage: {fileID: -666897899, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   cropYield: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
   cropSecondaryYield: {fileID: 0}
@@ -40,5 +42,5 @@ MonoBehaviour:
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0
-  amountHarvested: 0
+  amountHarvested: 2
   amountKilled: 0
