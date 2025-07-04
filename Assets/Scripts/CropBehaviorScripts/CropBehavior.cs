@@ -31,4 +31,13 @@ public class CropBehavior : ScriptableObject
     public virtual void OnConsumed(CreatureBehaviorScript creature){} //For when eaten at full growth
 
     public virtual void OnConsumedBeforeMaturity(CreatureBehaviorScript creature){} //For when eaten at all
+
+    public virtual void OnContact(FarmLand tile, GameObject contactedObject){}
+
+    public virtual void OnHarvest(FarmLand tile, bool usedShovel, bool usedScythe){}
+
+    public virtual bool IsFlammable()
+    {
+        return true;
+    }
 }

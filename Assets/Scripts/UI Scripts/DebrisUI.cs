@@ -12,12 +12,13 @@ public class DebrisUI : MonoBehaviour
     [SerializeField] private Image[] resourceIcons;
     [SerializeField] private TextMeshProUGUI[] resourceText;
     [SerializeField] private GameObject imageContainer, repairText;
-
+    private HideUI hideUI;
     private DebrisPile debrisPile;
 
     private void Start()
     {
         debrisPile = GetComponent<DebrisPile>();
+        hideUI = FindObjectOfType<HideUI>();
         uiContainer.SetActive(false);
 
         for (int i = 0; i < resourceIcons.Length; i++)
@@ -25,15 +26,18 @@ public class DebrisUI : MonoBehaviour
             resourceIcons[i].gameObject.SetActive(false);
         }
 
-        ShowDebrisUI();
+        PopulateDebrisUI();
+        hideUI.onUIHidden += HideDebrisUI;
+        hideUI.onUIShown += ShowDebrisUI;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-
+        hideUI.onUIHidden -= HideDebrisUI;
+        hideUI.onUIShown -= ShowDebrisUI;
     }
 
-    private void ShowDebrisUI()
+    private void PopulateDebrisUI()
     {
         if (!debrisPile.repairedStruct) return;
         if (forceHideUI) return;
@@ -63,6 +67,12 @@ public class DebrisUI : MonoBehaviour
     private void HideDebrisUI()
     {
         uiContainer.SetActive(false);
+    }
+
+    private void ShowDebrisUI()
+    {
+        if(forceHideUI) return;
+        uiContainer.SetActive(true);
     }
 
     public void ShowRepairUI()

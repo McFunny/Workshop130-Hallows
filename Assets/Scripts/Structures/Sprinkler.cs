@@ -5,7 +5,8 @@ using TMPro;
 
 public class Sprinkler : StructureBehaviorScript
 {
-    public int waterLevel = 0; //max is 5
+    public int waterLevel = 0; 
+    int maxWaterLevel = 3;
     public GameObject water;
     public Transform head;
     public GameObject waterVFX;
@@ -43,7 +44,7 @@ public class Sprinkler : StructureBehaviorScript
 
         if(rotating) head.Rotate(0, Time.deltaTime * 20, 0, Space.Self);
 
-        waterText.text = waterLevel + "/" + 5;
+        waterText.text = waterLevel + "/" + maxWaterLevel;
 
     }
 
@@ -64,10 +65,10 @@ public class Sprinkler : StructureBehaviorScript
             //StartCoroutine(DugUpForItem());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld >= (5 - waterLevel) && waterLevel < 5)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld >= (maxWaterLevel - waterLevel) && waterLevel < maxWaterLevel)
         {
-            PlayerInteraction.Instance.waterHeld -= 5 - waterLevel;
-            waterLevel = 5;
+            PlayerInteraction.Instance.waterHeld -= maxWaterLevel - waterLevel;
+            waterLevel = maxWaterLevel;
             StartCoroutine(WaterTiles());
             success = true;
         }
@@ -75,7 +76,7 @@ public class Sprinkler : StructureBehaviorScript
 
     public override void HitWithWater()
     {
-        if(waterLevel < 5) waterLevel++;
+        if(waterLevel < maxWaterLevel) waterLevel++;
     }
 
     public override void TimeLapse(int hours)

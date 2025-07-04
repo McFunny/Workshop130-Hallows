@@ -19,9 +19,13 @@ public class Spa : MonoBehaviour, IInteractable
 
     public AudioSource source;
 
+    public SpriteRenderer renderer;
+    public Sprite[] waterSprites;
+
     void Start()
     {
         StartCoroutine(Heal());
+        StartCoroutine(AnimateWater());
     }
 
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
@@ -114,6 +118,19 @@ public class Spa : MonoBehaviour, IInteractable
                 if(PlayerInteraction.Instance.stamina < PlayerInteraction.Instance.maxStamina) PlayerInteraction.Instance.stamina += 15;
                 if(PlayerInteraction.Instance.fatigue > 0)  PlayerInteraction.Instance.fatigue -= 5;
             }
+        }
+        while(gameObject.activeSelf);
+    }
+
+    IEnumerator AnimateWater()
+    {
+        int currentSprite = 0;
+        do
+        {
+            currentSprite++;
+            if(currentSprite >= waterSprites.Length) currentSprite = 0;
+            yield return new WaitForSeconds(0.15f);
+            renderer.sprite = waterSprites[currentSprite];
         }
         while(gameObject.activeSelf);
     }

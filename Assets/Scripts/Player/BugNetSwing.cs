@@ -53,6 +53,7 @@ public class BugNetSwing : MonoBehaviour
             bug.Captured();
             HandItemManager.Instance.toolSource.PlayOneShot(caught);
             bugRenderer.sprite = bug.bugItem.icon;
+            bug.bugData.amountCaught++;
             return;
         }
 

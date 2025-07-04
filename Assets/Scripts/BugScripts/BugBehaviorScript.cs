@@ -227,7 +227,7 @@ public class BugBehaviorScript : MonoBehaviour
         if (!isMoving && currentState == BugState.Panic)
         {
             Vector3 randomPoint;
-            randomPoint = GetRandomPointAround(transform.position, 5f);
+            randomPoint = GetRandomPointAround(transform.position, 7f);
             walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
@@ -266,8 +266,8 @@ public class BugBehaviorScript : MonoBehaviour
             case DespawnMethod.Fly:
             for(int i = 0; i < 100; i++)
             {
-                yield return new WaitForSeconds(0.1f);
-                colliderObject.Translate(Vector3.up * Time.deltaTime * 20, Space.World);
+                yield return new WaitForSeconds(0.05f);
+                colliderObject.Translate(Vector3.up * Time.deltaTime * 15, Space.World);
             }
             Destroy(gameObject);
             break;
@@ -308,7 +308,8 @@ public class BugBehaviorScript : MonoBehaviour
         {
             currentSprite++;
             if(currentSprite >= movingSprites.Length) currentSprite = 0;
-            yield return new WaitForSeconds(animSpeed);
+            if(currentState == BugState.Panic) yield return new WaitForSeconds(animSpeed * (walkSpeed/fleeSpeed));
+            else yield return new WaitForSeconds(animSpeed);
             r.sprite = movingSprites[currentSprite];
         }
     }

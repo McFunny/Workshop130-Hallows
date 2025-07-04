@@ -41,6 +41,8 @@ public class NPCQuestObject : ScriptableObject
             else if(selectedTemplate.crop) chosenQuest = new GrowQuest(selectedTemplate);
             else chosenQuest = new Quest(selectedTemplate); //Default Quest. Should have a behavior attached
 
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) chosenQuest.daysLeft *= 2;
+
             if(QuestManager.Instance.CheckForQuest(chosenQuest)) chosenQuest = null;
             else currentDailyQuestPath = templates[index].dialogPath;
         }

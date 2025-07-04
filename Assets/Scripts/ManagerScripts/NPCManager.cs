@@ -109,12 +109,12 @@ public class NPCManager : MonoBehaviour
 
         //Debug.Log ("Giving Daily");
 
-        int recipients = Random.Range(1,3);
+        int recipients = Random.Range(2,5);
         int x = 0;
         List<NPC> selectedNPCs = new List<NPC>();
         while(selectedNPCs.Count < recipients && x < 20)
         {
-            int r = 0;//Random.Range(0, townsPeople.Count);
+            int r = Random.Range(0, townsPeople.Count);
             if(!selectedNPCs.Contains(townsPeople[r]) && !QuestManager.Instance.DuplicateAssignees(townsPeople[r].character))
             {
                 selectedNPCs.Add(townsPeople[r]);

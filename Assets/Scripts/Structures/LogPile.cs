@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LogPile : StructureBehaviorScript
 {
-    int woodToDrop = 20;
+    int woodToDrop = 10;
 
     public override void ToolInteraction(ToolType type, out bool success)
     {

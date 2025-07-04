@@ -17,7 +17,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public MerchantLantern lantern;
 
-    int wildernessPrice = 150;
+    int wildernessPrice = 100;
     int wildernessUnlockThreshold = 2000;
 
     //public Animator anim;

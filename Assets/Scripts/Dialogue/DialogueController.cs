@@ -69,6 +69,8 @@ public class DialogueController : MonoBehaviour
 
     public void DisplayNextParagraph(DialogueText dialogueText, int path, PathType type)
     {
+        bool onFirstDialogue = false; //Is true when dialogue starts, then its false
+
         // If nothing left in queue
         isTalking = true;
         if(path != currentPath || type != currentType || restartDialogue)
@@ -95,6 +97,7 @@ public class DialogueController : MonoBehaviour
             if(!conversationEnded)
             {
                 StartConversation(dialogueText, type);
+                onFirstDialogue = true;
             }
             else
             {
@@ -131,9 +134,17 @@ public class DialogueController : MonoBehaviour
             default:
                 break;
         }
-
+        freezePlayer = onFirstDialogue;
         // Update convo text
         UpdateStringVariables();
+
+        if(freezePlayer && currentTalker && currentTalker.eyeLine) 
+        {
+            print("Look at npc");
+            PlayerMovement.restrictMovementTokens++;
+            PlayerCam.Instance.NewObjectOfInterest(currentTalker.eyeLine.position);
+            playerEffects.StartCoroutine(playerEffects.Focus());
+        }
         
 
         NPCDialogueText.text = p;
@@ -257,8 +268,6 @@ public class DialogueController : MonoBehaviour
                 }
                 break;
         }
-
-        if(freezePlayer && currentTalker && currentTalker.eyeLine) PlayerCam.Instance.NewObjectOfInterest(currentTalker.eyeLine.position);
         
     }
 
@@ -272,9 +281,9 @@ public class DialogueController : MonoBehaviour
         conversationEnded = false;
         isTalking = false;
 
-        if(freezePlayer)
+        if(/*freezePlayer*/PlayerMovement.restrictMovementTokens > 0)
         {
-            freezePlayer = false;
+            //freezePlayer = false;
             PlayerMovement.restrictMovementTokens--;
             PlayerCam.Instance.ClearObjectOfInterest();
         }
@@ -368,15 +377,21 @@ public class DialogueController : MonoBehaviour
             PlayerBoughtItem();
         }
 
-        if(p.Contains("{freezePlayer}"))
+        if(p.Contains("{freezePlayer}")) //Should be used for dialogue without an eye line
         {
             p = p.Replace("{freezePlayer}", $"{""}");
-            if(!freezePlayer)
+            if(!freezePlayer && PlayerMovement.restrictMovementTokens == 0)
             {
                 freezePlayer = true;
                 PlayerMovement.restrictMovementTokens++;
                 playerEffects.StartCoroutine(playerEffects.Focus());
             }
+        }
+
+        if(p.Contains("{dontfreezePlayer}")) //Place at start of dialogue to prevent player from being frozen
+        {
+            p = p.Replace("{dontfreezePlayer}", $"{""}");
+            freezePlayer = false;
         }
 
         if(p.Contains("{giveGift}"))

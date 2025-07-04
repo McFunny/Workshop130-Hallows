@@ -64,6 +64,7 @@ public class PollinatorPost : StructureBehaviorScript
 
             PlayerInventoryHolder.Instance.UpdateInventory();
             containsNectar = false;
+            UpdateModel();
             return;
         }
     }

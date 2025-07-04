@@ -366,6 +366,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     void GiveRewards(List<InventoryItemData> rewards)
     {
+        if(PlayerInventoryHolder.Instance.AddToInventory(rewards[0], rewards.Count)) return; //Gave all the rewards. Only does first item cuz quests should only give 1 type
+
         Vector3 itemPos = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
         for(int i = 0; i < rewards.Count; i++)
         {

@@ -34,11 +34,11 @@ MonoBehaviour:
   - pathName: Want to buy this?
     paragraphs:
     - Oh I know you are interested in the {storeItemName}. For such a low price,
-      how could you NOT say yes?!
+      how could you NOT say yes?! {dontfreezePlayer}
     emotions: 01000000
   - pathName: Sold!
     paragraphs:
-    - This store stuff is such easy work!! {itemBought}
+    - This store stuff is such easy work!! {itemBought} {dontfreezePlayer}
     emotions: 01000000
   - pathName: No Money
     paragraphs:

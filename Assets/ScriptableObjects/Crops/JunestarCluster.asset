@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: JunestarCluster
+  m_EditorClassIdentifier: 
+  name: Junestar Cluster
+  id: 22
+  growthStages: 7
+  hoursPerStage: 2
+  harvestableGrowthStages: 07000000
+  cropSprites:
+  - {fileID: -2112376658, guid: 128da73c3fd92a642946e77d40024255, type: 3}
+  - {fileID: -2111983684, guid: 128da73c3fd92a642946e77d40024255, type: 3}
+  - {fileID: -1044838997, guid: 128da73c3fd92a642946e77d40024255, type: 3}
+  - {fileID: -1981089291, guid: 128da73c3fd92a642946e77d40024255, type: 3}
+  - {fileID: -2101396928, guid: 128da73c3fd92a642946e77d40024255, type: 3}
+  - {fileID: -673412452, guid: 128da73c3fd92a642946e77d40024255, type: 3}
+  - {fileID: -1273240689, guid: 128da73c3fd92a642946e77d40024255, type: 3}
+  rottedImage: {fileID: -582442468, guid: 128da73c3fd92a642946e77d40024255, type: 3}
+  cropYield: {fileID: 11400000, guid: c827ff8b58c3e1646ad51c2f70041d07, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 11400000, guid: 742bbec419ba208448aa9082fd1c9d8b, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  waterIntake: 5
+  ichorIntake: 0
+  terraIntake: -0.25
+  gloamIntake: 0.5
+  stressLimit: 1
+  wealthValue: 5
+  requireScythe: 0
+  requirePollination: 0
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 0}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

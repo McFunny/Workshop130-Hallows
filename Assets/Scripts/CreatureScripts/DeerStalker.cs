@@ -282,6 +282,14 @@ public class DeerStalker : CreatureBehaviorScript
                 yield break;
             }
 
+            if(currentState == CreatureState.Flee)
+            {
+                isMoving = false;
+                coroutineRunning = false;
+                walkRoutine = null;
+                yield break;
+            }
+
             yield return null;
         }
 
@@ -396,10 +404,18 @@ public class DeerStalker : CreatureBehaviorScript
         Vector3 runTo = transform.position + ((transform.position - player.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
         agent.destination = runTo;
         fleeTimeLeft -= Time.deltaTime;
-        if(fleeTimeLeft <= 0)
+        if(fleeTimeLeft <= 0 && currentState == CreatureState.Flee)
         {
             currentState = CreatureState.Wander;
         }
+    }
+
+    public override void FogTeleport()
+    {
+        fleeTimeLeft = 0;
+        currentState = CreatureState.SpawnIn;
+        coroutineRunning = false;
+        isMoving = false;
     }
     #endregion
     private void Attack()

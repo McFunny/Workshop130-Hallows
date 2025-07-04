@@ -11,6 +11,7 @@ public class BotanistNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
 
     bool willExplainPollen = false;
+    bool willExplainTrellis = false;
 
 
     public List<InventoryItemData> questCrops = new List<InventoryItemData>();
@@ -255,8 +256,20 @@ public class BotanistNPC : NPC, ITalkable
             if(seed && seed.cropData.requirePollination)
             {
                 willExplainPollen = true;
-                ExplainPollen();
+                ExtraInformation();
                 uniqueDialogue = true;
+                return;
+            }
+        }
+        if(!GameSaveData.Instance.bot_explainedTrellis)
+        {
+            CropItem seed = item as CropItem;
+            if(seed && seed.requireTrellis)
+            {
+                willExplainTrellis = true;
+                ExtraInformation();
+                uniqueDialogue = true;
+                return;
             }
         }
     }
@@ -290,7 +303,7 @@ public class BotanistNPC : NPC, ITalkable
         }
     }
 
-    void ExplainPollen()
+    void ExtraInformation()
     {
         if(willExplainPollen) //Explain Pollination and give quest
         {
@@ -304,6 +317,19 @@ public class BotanistNPC : NPC, ITalkable
             dialogueController.restartDialogue = true;
             Talk();
             GameSaveData.Instance.bot_explainedPollen = true;
+            return;
+        }
+        if(willExplainTrellis)
+        {
+            willExplainTrellis = false; 
+
+            currentPath = 8; //Explaining trellis
+            currentType = PathType.Misc;
+
+            //PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
+            dialogueController.restartDialogue = true;
+            Talk();
+            GameSaveData.Instance.bot_explainedTrellis = true;
         }
 
     }
