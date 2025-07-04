@@ -15,16 +15,17 @@ MonoBehaviour:
   ID: 115
   displayName: Stone
   description: Small bits of rock that can be placed on crop tiles to increase their
-    resilience or used in construction.
+    resilience or used in construction. Tiles with rocks do not naturally despawn.
   icon: {fileID: 21300000, guid: 7df288daf9b050d42ba2356e93d102d4, type: 3}
   maxStackSize: 99
-  value: 10
-  sellValueMultiplier: 0.4
+  value: 20
+  sellValueMultiplier: 0.2
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
   bonusCompostValue: 0
   pickledForm: {fileID: 0}
+  itemConversions: []
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

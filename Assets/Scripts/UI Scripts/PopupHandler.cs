@@ -46,6 +46,7 @@ public class PopupHandler : MonoBehaviour
         PopupEvents.current.OnWateredCrop += OnWateredCrop;
         PopupEvents.current.OnKillCreature += OnKillCreature;
         PopupEvents.current.OnClearCorpse += OnClearCorpse;
+        PopupEvents.current.OnOpenCodex += OnOpenCodex;
         //popupContainer.SetActive(false);
         conditionMet = false;
         popupTransform.position = lerpStart.position;
@@ -63,6 +64,7 @@ public class PopupHandler : MonoBehaviour
         PopupEvents.current.OnKillCreature -= OnKillCreature;
         PopupEvents.current.OnClearCorpse -= OnClearCorpse;
         TimeManager.OnHourlyUpdate -= NightWarning;
+        PopupEvents.current.OnOpenCodex -= OnOpenCodex;
     }
 
     void Update()
@@ -110,7 +112,7 @@ public class PopupHandler : MonoBehaviour
     public void NewsForNewDay()
     {
         if(MainMenuScript.currentFileMode == FileMode.Survival) return;
-        if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) AddToQueue(wildernessUnlockedPopup);
+        //if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) AddToQueue(wildernessUnlockedPopup);
     }
 
     public void AddToQueue(PopupScript popup)
@@ -222,6 +224,12 @@ public class PopupHandler : MonoBehaviour
             print("Corpse!!!");
             conditionMet = false; // Reset
         }
+        else if (popup.endCondition == PopupScript.EndCondition.OpenCodex)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Codex!!!");
+            conditionMet = false; // Reset
+        }
         //print("HI!!!");
         isActive = false;
         yield return new WaitUntil(() => offScreen);
@@ -289,6 +297,14 @@ public class PopupHandler : MonoBehaviour
     private void OnClearCorpse()
     {
         if (isActive && currentPopup.endCondition == PopupScript.EndCondition.ClearCorpse)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnOpenCodex()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.OpenCodex)
         {
             conditionMet = true;
         }

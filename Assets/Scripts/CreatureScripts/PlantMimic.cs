@@ -423,4 +423,12 @@ public class PlantMimic : CreatureBehaviorScript
         pacesUntilCalm = Random.Range(4, 8);
     }
 
+    public override void OnCorpseDamage()
+    {
+        if(health <= 0 && canCorpseBreak)
+        {
+            anim.Play("DeathRecoil", -1, 0f);
+        }
+    }
+
 }

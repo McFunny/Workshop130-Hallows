@@ -11,6 +11,7 @@ public class BotanistNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
 
     bool willExplainPollen = false;
+    bool willExplainTrellis = false;
 
 
     public List<InventoryItemData> questCrops = new List<InventoryItemData>();
@@ -37,6 +38,7 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.botMet = true;
+                dailyQuest = null;
             }
             else if(!GameSaveData.Instance.bot_giveSeeds && !PlayerInventoryHolder.Instance.IsInventoryFull())
             {
@@ -45,6 +47,7 @@ public class BotanistNPC : NPC, ITalkable
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(s_timber, 10));
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[0]); //Add the "Grow TimberEar Quest" quest
+                dailyQuest = null;
             }
             else if(CompletedQuest()) //ADD UNIQUE FUNCTION TO GIVE UNIQUE DIALOGUE THAT IS QUEST DEPENDENT
             {
@@ -94,6 +97,7 @@ public class BotanistNPC : NPC, ITalkable
         if(QuestManager.Instance.activeQuests[lastCompletedQuestIndex] as GrowQuest != null) return 1;
 
         //Remark about completing the pollination quest here
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.GetTutorialQuest(301))) return 3;
 
         return 0;
     }
@@ -243,14 +247,29 @@ public class BotanistNPC : NPC, ITalkable
         }
     }
 
-    public override void PurchaseSuccess(InventoryItemData item)
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
     {
+        uniqueDialogue = false;
         if(!GameSaveData.Instance.bot_explainedPollen)
         {
             CropItem seed = item as CropItem;
             if(seed && seed.cropData.requirePollination)
             {
                 willExplainPollen = true;
+                ExtraInformation();
+                uniqueDialogue = true;
+                return;
+            }
+        }
+        if(!GameSaveData.Instance.bot_explainedTrellis)
+        {
+            CropItem seed = item as CropItem;
+            if(seed && seed.requireTrellis)
+            {
+                willExplainTrellis = true;
+                ExtraInformation();
+                uniqueDialogue = true;
+                return;
             }
         }
     }
@@ -284,9 +303,8 @@ public class BotanistNPC : NPC, ITalkable
         }
     }
 
-    public override void OnConvoEnd()
+    void ExtraInformation()
     {
-        return; //CANNOT GIVE OUT QUEST UNTIL POLLINATOR POST IS IN
         if(willExplainPollen) //Explain Pollination and give quest
         {
             willExplainPollen = false; 
@@ -299,6 +317,19 @@ public class BotanistNPC : NPC, ITalkable
             dialogueController.restartDialogue = true;
             Talk();
             GameSaveData.Instance.bot_explainedPollen = true;
+            return;
+        }
+        if(willExplainTrellis)
+        {
+            willExplainTrellis = false; 
+
+            currentPath = 8; //Explaining trellis
+            currentType = PathType.Misc;
+
+            //PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);
+            dialogueController.restartDialogue = true;
+            Talk();
+            GameSaveData.Instance.bot_explainedTrellis = true;
         }
 
     }

@@ -7,6 +7,6 @@ public class DesertRoseBehavior : CropBehavior
 {
     public override void OnWatered(FarmLand tile)
     {
-        tile.TakeStressDamage();
+        tile.TakeStressDamage(5);
     }
 }

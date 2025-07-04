@@ -5953,6 +5953,7 @@ Transform:
   - {fileID: 2657110937739336163}
   - {fileID: 2573679523722460690}
   - {fileID: 6416619188908011507}
+  - {fileID: 4404147124106985870}
   m_Father: {fileID: 5280180835034457372}
   m_LocalEulerAnglesHint: {x: 5.932986, y: 3.878552, z: 0.56214285}
 --- !u!136 &4701143560977699689
@@ -8646,7 +8647,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3201560652370425664}
-  - {fileID: 4404147124106985870}
   - {fileID: 4024535351668611303}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8664,7 +8664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
-  corpseHealth: -25
+  corpseHealth: -50
   ichorWorth: 5
   ichorDropRadius: 4.5
   creatureData: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
@@ -8722,6 +8722,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
   - {fileID: 11400000, guid: e37643fcb5671364e846369eb8b98f88, type: 2}
   - {fileID: 11400000, guid: d7b2bc56be6439d4983793299e5322a7, type: 2}
+  - {fileID: 11400000, guid: 7b24f9b8375dbf545ace3adbd66c6898, type: 2}
+  - {fileID: 11400000, guid: f53bb30f1600cb84fa76b1fbdd5fbf69, type: 2}
   availableStructure: []
   undesiredCrops:
   - {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
@@ -8730,6 +8732,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5349594fbfaf93a4ea544f582119b7fb, type: 2}
   - {fileID: 11400000, guid: 6d581edce78107e45ace1df7ddff4ae5, type: 2}
   - {fileID: 11400000, guid: cf8af9956b089464085a930ba02b3711, type: 2}
+  - {fileID: 11400000, guid: a501ca9b19d35a648a26a5b5683a9a07, type: 2}
+  - {fileID: 11400000, guid: 472d8d69d5ad5b046b724150f19e191b, type: 2}
   agent: {fileID: 0}
   animEvents: {fileID: 1571331616092395312}
   lungeAttackHitbox: {fileID: 9090513854541498605}
@@ -8763,7 +8767,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!54 &8906599069740921222
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9753,12 +9757,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8751900738574353003}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.271, z: -1.43}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5681818, y: 0.5681818, z: 0.5681818}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4041892218060830233}
+  m_Father: {fileID: 1498562781344354756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8794614074407585299
 GameObject:

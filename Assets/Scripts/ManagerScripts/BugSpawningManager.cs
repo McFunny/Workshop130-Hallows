@@ -12,7 +12,7 @@ public class BugSpawningManager : MonoBehaviour
 
     public StructureObject weedData;
 
-    int maxBugs = 20; //Will not spawn any more hourly after this cap
+    int maxBugs = 25; //Will not spawn any more hourly after this cap
 
     void Awake()
     {
@@ -30,6 +30,7 @@ public class BugSpawningManager : MonoBehaviour
     void Start()
     {
         TimeManager.OnHourlyUpdate += SpawnHourlyBugs;
+        StructureBehaviorScript.OnStructureDestroyed += SpawnBugFromStructure;
         StartCoroutine(DelayedStart());
     }
 
@@ -46,12 +47,13 @@ public class BugSpawningManager : MonoBehaviour
 
     void SpawnHourlyBugs()
     {
-        int hourlyBugCap = Random.Range(-6, 4); //Max amount to spawn per hour
+        int hourlyBugCap = Random.Range(-2, 3); //Max amount to spawn per hour
         Vector3 spawnPos = Vector3.zero;
 
         //Standard spawning of hourly bugs that spawn over time in the Farm, Town, Wilderness, ect
         for(int i = 0; i < hourlyBugCap; i++)
         {
+            if(allBugs.Count >= maxBugs) continue;
             //spawn hourly bugs
             int r;
             //if(TownGate.Instance.playerLocation == Location.Wilderness) r = GrabSpecificSpot(BugSpawnArea.Wilderness)
@@ -73,7 +75,8 @@ public class BugSpawningManager : MonoBehaviour
             hourlyBugCap = (int) Mathf.Round(totalWeeds * 0.2f) + 1;
             for(int i = 0; i < hourlyBugCap; i++)
             {
-                if((totalWeeds * .5f) > Random.Range(0, 100))
+                if(allBugs.Count >= maxBugs) continue;
+                if((totalWeeds * .15f) > Random.Range(0, 100))
                 {
                     List<GameObject> weeds = StructureManager.Instance.ReturnStructuresOfType(weedData);
                     SpawnBug(weeds[Random.Range(0, weeds.Count)].transform.position, BugSpawnMethod.Weeds, BugSpawnArea.Farm);
@@ -104,9 +107,45 @@ public class BugSpawningManager : MonoBehaviour
         {
             int r = Random.Range(0, possibleBugs.Count);
             if(possibleBugs[r].spawnChance > Random.Range(0,100)) chosenBug = possibleBugs[r].objectPrefab;
+            iterations++;
         }
 
-        if(chosenBug) Instantiate(chosenBug, spawnPos, Quaternion.identity);
+        if(chosenBug) allBugs.Add(Instantiate(chosenBug, spawnPos, Quaternion.identity));
+
+        Debug.Log("Spawned a " + chosenBug);
+    }
+
+    public void SpawnBug(Vector3 spawnPos, BugObject bugObject) //Spawns a bug via reference
+    {
+        if(!bugObject.activeHours.Contains(TimeManager.Instance.timeOfDay) || PlayerInteraction.Instance.totalMoneyEarned < bugObject.wealthPrerequisite) return;
+
+        allBugs.Add(Instantiate(bugObject.objectPrefab, spawnPos, Quaternion.identity));
+    }
+
+    public void SpawnBugFromStructure(StructureObject structure, Vector3 spawnPos) //Spawns a bug from specified structure
+    {
+        if(structure.bugSpawnChance < Random.Range(0, 100)) return;
+
+        List<BugObject> possibleBugs = new List<BugObject>();
+
+        //Sort by time of day available and method and location
+        foreach(BugObject bug in BugDatabase.Instance._bugDatabase)
+        {
+            if(bug.activeHours.Contains(TimeManager.Instance.timeOfDay) && PlayerInteraction.Instance.totalMoneyEarned >= bug.wealthPrerequisite
+            && bug.homeStructures.Contains(structure)) possibleBugs.Add(bug);
+        }
+        if(possibleBugs.Count == 0) return;
+
+        int iterations = 0;
+        GameObject chosenBug = null;
+        while(iterations < 10 && !chosenBug)
+        {
+            int r = Random.Range(0, possibleBugs.Count);
+            if(possibleBugs[r].spawnChance > Random.Range(0,100)) chosenBug = possibleBugs[r].objectPrefab;
+            iterations++;
+        }
+
+        if(chosenBug) allBugs.Add(Instantiate(chosenBug, spawnPos, Quaternion.identity));
 
         Debug.Log("Spawned a " + chosenBug);
     }

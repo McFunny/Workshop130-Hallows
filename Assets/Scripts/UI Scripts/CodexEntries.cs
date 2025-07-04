@@ -30,6 +30,7 @@ public class CodexEntries : ScriptableObject
     public CropData cropData;
     public CreatureObject creatureData;
     public StructureObject structureData;
+    public BugObject bugData;
 
     [Tooltip("Unused in new Codex, but used in old Codex.")]
     [TextArea(4, 10)]
@@ -63,8 +64,11 @@ public class CodexEntries : ScriptableObject
                 }
             }
         }
+        
+        #if UNITY_EDITOR
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
+        #endif
     }
 }
 

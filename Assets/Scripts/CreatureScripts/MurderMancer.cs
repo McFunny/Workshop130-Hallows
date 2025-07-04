@@ -123,12 +123,12 @@ public class MurderMancer : CreatureBehaviorScript
 
     private void CheckStage()
     {
-        if (timeSinceLastSeenPlayer >= 80 && currentState != CreatureState.SummonCrows)
+        if (timeSinceLastSeenPlayer >= 85 && currentState != CreatureState.SummonCrows)
         {
             currentState = CreatureState.SummonCrows;
             anim.SetInteger("PowerLevel", 4);
         }
-        else if (timeSinceLastSeenPlayer >= 60)
+        else if (timeSinceLastSeenPlayer >= 65)
         {
             if(currentState != CreatureState.Stage3)
             {
@@ -145,7 +145,7 @@ public class MurderMancer : CreatureBehaviorScript
             currentState = CreatureState.Stage3;
             anim.SetInteger("PowerLevel", 3);
         }
-        else if (timeSinceLastSeenPlayer >= 40)
+        else if (timeSinceLastSeenPlayer >= 45)
         {
             if(currentState != CreatureState.Stage2)
             {
@@ -162,7 +162,7 @@ public class MurderMancer : CreatureBehaviorScript
             currentState = CreatureState.Stage2;
             anim.SetInteger("PowerLevel", 2);
         }
-        else if (timeSinceLastSeenPlayer >= 20)
+        else if (timeSinceLastSeenPlayer >= 25)
         {
             if(currentState != CreatureState.Stage1)
             {
@@ -179,7 +179,7 @@ public class MurderMancer : CreatureBehaviorScript
             currentState = CreatureState.Stage1;
             anim.SetInteger("PowerLevel", 1);
         }
-        else if (timeSinceLastSeenPlayer < 20 && currentState != CreatureState.Idle)
+        else if (timeSinceLastSeenPlayer < 25 && currentState != CreatureState.Idle)
         {
             if(currentState != CreatureState.Idle)
             {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
-    public PopupScript tillP, plantP, waterP, killP, weedP, completeP, dontDestroySeedsP, creatureP, corpseP;
+    public PopupScript tillP, plantP, waterP, killP, weedP, completeP, dontDestroySeedsP, creatureP, corpseP, codexP;
 
     public static Tutorial Instance;
 
@@ -23,7 +23,8 @@ public class Tutorial : MonoBehaviour
         Water,
         Kill,
         Weed,
-        Complete
+        Complete,
+        Codex
     }
 
     void Awake()
@@ -114,9 +115,9 @@ public class Tutorial : MonoBehaviour
         //hasWatered = true;
     }
 
-    public void KillScarecrow()
+    public void KillScarecrow() //Unused
     {
-        if(phase == TutorialPhase.Kill)
+        /*if(phase == TutorialPhase.Kill)
         {
             PopupEvents.current.KillStructure();
 
@@ -132,17 +133,16 @@ public class Tutorial : MonoBehaviour
                 PopupHandler.Instance.AddToQueue(weedP);
                 phase = TutorialPhase.Weed;
             }
-        }
+        }*/
     }
 
     public void WeedDug()
     {
         if(phase == TutorialPhase.Weed)
         {
-            PopupHandler.Instance.AddToQueue(completeP);
-            phase = TutorialPhase.Complete;
+            PopupHandler.Instance.AddToQueue(codexP);
+            phase = TutorialPhase.Codex;
             PopupEvents.current.WeedDug();
-            Destroy(gameObject);
         }
     }
 
@@ -158,7 +158,7 @@ public class Tutorial : MonoBehaviour
         print("Cleared Corpse");
         PopupEvents.current.ClearedCorpse();
 
-        if(StructureManager.Instance.TallyStructure(weedData) == 0)
+        if(StructureManager.Instance.TallyStructure(weedData) == 0) //Should never happen but just in case
         {
             PopupHandler.Instance.AddToQueue(completeP);
             phase = TutorialPhase.Complete;
@@ -175,6 +175,17 @@ public class Tutorial : MonoBehaviour
     public void WeedDestroyed()
     {
         if(StructureManager.Instance.TallyStructure(weedData) == 0) Instantiate(weed, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity);
+    }
+
+    public void OpenCodex()
+    {
+        if(phase == TutorialPhase.Codex)
+        {
+            PopupHandler.Instance.AddToQueue(completeP);
+            phase = TutorialPhase.Complete;
+            PopupEvents.current.OpenCodex();
+            Destroy(gameObject);
+        }
     }
 
     void OnDestroy()

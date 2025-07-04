@@ -38,9 +38,6 @@ public class ScytheBehavior : ToolBehavior
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUseWithoutMovementReset(this, 0.6f * coolDownMod, 2f * coolDownMod));
-
-        //PlayerMovement.limitMaxVelocity = false;
-        //PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(40, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
     }
 
     public override void ItemUsed()
@@ -59,6 +56,14 @@ public class ScytheBehavior : ToolBehavior
         scytheAttack.StartCoroutine(scytheAttack.Swing());
         PlayerMovement.limitMaxVelocity = false;
         PlayerMovement.ignoreMovementInputs = true;
-        PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(300, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
+        //if moving backwards/still, do forward. else, do the direction of movement
+        Vector2 moveInput = PlayerInteraction.Instance.controlManager.movement.action.ReadValue<Vector2>();
+        //For not moving forward
+        //if(moveInput.y < 0f || moveInput.x == 0f) PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(300, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
+        //else PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(600, PlayerInteraction.Instance.mainCam.transform.TransformDirection(moveInput.normalized));
+
+        if((moveInput.y >= 0f && moveInput.x != 0f) || moveInput.y > 0f) 
+            PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(600, PlayerInteraction.Instance.mainCam.transform.TransformDirection(moveInput.normalized));
+        else PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(300, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
     }
 }

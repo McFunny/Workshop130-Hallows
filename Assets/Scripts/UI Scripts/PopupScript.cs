@@ -15,7 +15,8 @@ public class PopupScript : ScriptableObject
         WeedDug,
         WateredCrop,
         ClearCorpse,
-        KillCreature
+        KillCreature,
+        OpenCodex
     }
 
     [TextArea(2,2)]

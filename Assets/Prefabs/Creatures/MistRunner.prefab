@@ -12313,6 +12313,7 @@ Transform:
   - {fileID: 8221209433488772365}
   - {fileID: 8380765186006595223}
   - {fileID: 4096529283704283865}
+  - {fileID: 3661701415570003252}
   m_Father: {fileID: 2346874274018867804}
   m_LocalEulerAnglesHint: {x: 14.202793, y: -35.778954, z: -3.1258953}
 --- !u!136 &3994085690873669244
@@ -14813,12 +14814,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9061537682961434486}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.271, z: -1.43}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5681818, y: 0.5681818, z: 0.5681818}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5199659019987088690}
+  m_Father: {fileID: 7362239351750270060}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9132377047094329102
 GameObject:
@@ -14949,7 +14950,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 699864811872313994}
-  - {fileID: 3661701415570003252}
   - {fileID: 6851930683935370628}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14967,7 +14967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 125
   maxHealth: 125
-  corpseHealth: -30
+  corpseHealth: -50
   ichorWorth: 5
   ichorDropRadius: 4.5
   creatureData: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
@@ -15025,6 +15025,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
   - {fileID: 11400000, guid: e37643fcb5671364e846369eb8b98f88, type: 2}
   - {fileID: 11400000, guid: d7b2bc56be6439d4983793299e5322a7, type: 2}
+  - {fileID: 11400000, guid: 7b24f9b8375dbf545ace3adbd66c6898, type: 2}
+  - {fileID: 11400000, guid: f53bb30f1600cb84fa76b1fbdd5fbf69, type: 2}
   availableStructure: []
   undesiredCrops:
   - {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
@@ -15033,6 +15035,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5349594fbfaf93a4ea544f582119b7fb, type: 2}
   - {fileID: 11400000, guid: 6d581edce78107e45ace1df7ddff4ae5, type: 2}
   - {fileID: 11400000, guid: cf8af9956b089464085a930ba02b3711, type: 2}
+  - {fileID: 11400000, guid: a501ca9b19d35a648a26a5b5683a9a07, type: 2}
+  - {fileID: 11400000, guid: 472d8d69d5ad5b046b724150f19e191b, type: 2}
   agent: {fileID: 0}
   animEvents: {fileID: 3094718834792625156}
   lungeAttackHitbox: {fileID: 1289346468327540786}
@@ -15066,7 +15070,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!54 &3768720028828805083
 Rigidbody:
   m_ObjectHideFlags: 0

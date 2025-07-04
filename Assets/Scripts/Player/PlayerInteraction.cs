@@ -18,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour
 
     PlayerEffectsHandler playerEffects;
 
-    ControlManager controlManager;
+    [HideInInspector] public ControlManager controlManager;
 
     [HideInInspector] public Rigidbody rb;
 
@@ -41,16 +41,16 @@ public class PlayerInteraction : MonoBehaviour
     bool sentLowStaminaMessage = false;
     public bool invincible = false;
 
-    public float waterHeld = 15; //for watering can
-    [HideInInspector] public readonly float maxWaterHeld = 15;
+    public float waterHeld = 10; //for watering can //USED TO BE 15, TRYING 10
+    [HideInInspector] public float maxWaterHeld = 10;
 
-    public bool torchLit = false;
+    public bool torchLit = false; //For the tool item
+    public bool pyreflyLit = false; //For the tool item
 
     private float reach = 8;
 
     public List<StatusEffect> currentEffects = new List<StatusEffect>();
 
-   
 
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
@@ -145,6 +145,8 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
+        if (StructureManager.Instance.enableCheats && Input.GetKeyDown(KeyCode.Y) && !toolCooldown && PlayerMovement.restrictMovementTokens == 0) StartCoroutine(WaterPropulsion());
+
         //if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
 
@@ -200,17 +202,6 @@ public class PlayerInteraction : MonoBehaviour
     void EndInteraction()
     {
         isInteracting = false;
-    }
-
-    void DestroyStruct()
-    {
-        Vector3 fwd = mainCam.transform.TransformDirection(Vector3.forward);
-        RaycastHit hit;
-
-        if(Physics.Raycast(mainCam.transform.position, fwd, out hit, reach, interactionLayers))
-        {
-            Destroy(hit.collider.gameObject);
-        }
     }
 
     void StructureInteractionWithItem()
@@ -569,6 +560,22 @@ public class PlayerInteraction : MonoBehaviour
             TimeManager.Instance.respawnFocus.position = new Vector3(TimeManager.Instance.respawnFocus.position.x, TimeManager.Instance.respawnFocus.position.y - 0.4f, TimeManager.Instance.respawnFocus.position.z);
             i++;
         }
+    }
+
+    public IEnumerator WaterPropulsion()
+    {
+        if(toolCooldown || waterHeld < 1) yield break;
+        waterHeld -= 1;
+        playerEffects.PlayClip(playerEffects.waterJet);
+        toolCooldown = true;
+        PlayerMovement.limitMaxVelocity = false;
+        PlayerMovement.ignoreMovementInputs = true;
+        GetComponent<PlayerMovement>().ApplyForceToPlayer(3000, PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward));
+        yield return new WaitForSeconds(0.2f);
+        PlayerMovement.limitMaxVelocity = true;
+        PlayerMovement.ignoreMovementInputs = false;
+        yield return new WaitForSeconds(0.4f);
+        toolCooldown = false;
     }
 
     public void InvokePlayerDeathEvent()

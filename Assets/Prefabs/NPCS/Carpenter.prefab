@@ -123,7 +123,7 @@ Transform:
   m_GameObject: {fileID: 723630831845939188}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.622, z: 0.127}
+  m_LocalPosition: {x: 0, y: 3.099, z: 0.127}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -382,7 +382,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 3.25
+  m_Height: 4.38
   m_Direction: 1
   m_Center: {x: 0, y: 1.67, z: 0}
 --- !u!114 &8429954048068116195
@@ -540,6 +540,11 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
       amount: 8
+  timberEar: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
+  stalk: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
+  bundle: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+  timber: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+  rocks: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
 --- !u!1001 &164801628791657663
 PrefabInstance:
   m_ObjectHideFlags: 0

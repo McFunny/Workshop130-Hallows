@@ -36,11 +36,11 @@ MonoBehaviour:
   - pathName: Want to buy this?
     paragraphs:
     - I see you looking at the {storeItemName}. Its yours for {storeItemValue} <color=#E0D38F>Mints</color>
-      <sprite index=0>!
+      <sprite index=0>! {dontfreezePlayer}
     emotions: 00000000
   - pathName: Sold!
     paragraphs:
-    - Make good use of that! {itemBought}
+    - Make good use of that! {itemBought} {dontfreezePlayer}
     emotions: 01000000
   - pathName: No Money
     paragraphs:
@@ -53,7 +53,7 @@ MonoBehaviour:
     emotions: 05000000
   - pathName: Want To Trade for this?
     paragraphs:
-    - One {storeItemName} coming right up! I just need a few things first.
+    - One {storeItemName} coming right up! I just need a few things first. {dontfreezePlayer}
     emotions: 01000000
   - pathName: Not Enough Items
     paragraphs:
@@ -68,6 +68,14 @@ MonoBehaviour:
     - Timber Ear consumes a hefty chunk of nutrients, so make sure to not plant in
       the same spot twice!
     emotions: 010000000000000002000000
+  - pathName: Trellis Explanaition
+    paragraphs:
+    - Quick thing before you buy, farmer! That plant is going to need a trellis if
+      you want it to grow. {freezePlayer}
+    - The trellis will block your movement a bit, but it allows the crops to continue
+      producing even after they are harvested!
+    - You can buy a trellis from me, or have the Craftsman make some for you.
+    emotions: 050000000000000000000000
   fillerPaths:
   - pathName: Hard Work
     paragraphs:
@@ -108,10 +116,11 @@ MonoBehaviour:
   questPaths:
   - pathName: Pollen Explanaition
     paragraphs:
-    - Quick thing farmer! That plant is going to need some pollination if you want
-      it to grow.
+    - Quick thing before you buy, farmer! That plant is going to need some pollination
+      if you want it to grow. {freezePlayer}
     - There are some moths out on your farm that I reckon would do the trick! Use
-      your torch to get their attention!
+      your torch to get their attention and guide them to your crops once they are
+      almost grown!
     emotions: 0500000000000000
   itemRecievedPaths:
   - pathName: Go Sell that
@@ -209,6 +218,12 @@ MonoBehaviour:
     - Mr. Wagon Man pays next to NOTHING for these things! You are much better off
       taking these to the Craftsman.
     emotions: 010000000000000003000000
+  - pathName: Pollen Quest Completed
+    paragraphs:
+    - Great work! Those Lumen Moths sure are handy little helpers, arent they??
+    - Here, take this. With this post, you can start harvesting the nectar they produce!
+    - Think of it like a cute little inn for the moths!
+    emotions: 050000000000000001000000
   dailyQuestPaths:
   - pathName: Daily Quest
     paragraphs:

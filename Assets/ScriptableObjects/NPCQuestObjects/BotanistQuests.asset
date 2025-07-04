@@ -20,13 +20,15 @@ MonoBehaviour:
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
-    mintMultiplier: 1.1
+    mintMultiplier: 1.2
     itemRewards:
     - item: {fileID: 0}
       amount: 0
     - item: {fileID: 0}
       amount: 0
     - item: {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
+      amount: 7
+    - item: {fileID: 11400000, guid: d25a0f4a47914b54a90b7ba093cdd6ee, type: 2}
       amount: 7
     townFavorReward: 5
     daysLeftMin: 3
@@ -42,7 +44,7 @@ MonoBehaviour:
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
-    mintMultiplier: 1.1
+    mintMultiplier: 1.4
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -60,7 +62,7 @@ MonoBehaviour:
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: 2b4e9f8ae29dc7e429a371586e24a180, type: 2}
-    mintMultiplier: 1.1
+    mintMultiplier: 1.2
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -162,10 +164,12 @@ MonoBehaviour:
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
-    mintMultiplier: 1.1
+    mintMultiplier: 1.3
     itemRewards:
     - item: {fileID: 0}
       amount: 0
+    - item: {fileID: 11400000, guid: f9d22d5f993f103409c44aacdd00c6a7, type: 2}
+      amount: 8
     townFavorReward: 15
     daysLeftMin: 4
     daysLeftMax: 6
@@ -180,7 +184,7 @@ MonoBehaviour:
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: b9c8c2c3b5691904e95fcedd53154dac, type: 2}
-    mintMultiplier: 1.1
+    mintMultiplier: 1.3
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -198,7 +202,7 @@ MonoBehaviour:
     creature: {fileID: 0}
     item: {fileID: 0}
     crop: {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
-    mintMultiplier: 1.3
+    mintMultiplier: 1.8
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -216,7 +220,7 @@ MonoBehaviour:
     assignee: 2
     displayProgress: 1
     minObject: 30
-    maxObject: 60
+    maxObject: 50
     questBehavior: {fileID: 0}
   uniqueQuestChance: 0
   uniqueTemplates: []

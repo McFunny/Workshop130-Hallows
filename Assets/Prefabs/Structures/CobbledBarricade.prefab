@@ -755,7 +755,7 @@ MonoBehaviour:
   itemForm: {fileID: 11400000, guid: 6048853c0bacbf44e81cf05e0f2d956e, type: 2}
   health: 50
   maxHealth: 50
-  wealthValue: 0
+  wealthValue: 1
   salvageChance: 80
   destructable: 1
   flammable: 0
@@ -789,6 +789,9 @@ MonoBehaviour:
   clearM: {fileID: 2100000, guid: 9d7df750b62889e4ca9276c18dde8004, type: 2}
   brokenM: {fileID: 2100000, guid: a7fba40119810734b8f5096746ee3969, type: 2}
   veryBrokenM: {fileID: 2100000, guid: 1a9226c67418dbd4d90d925cac84e838, type: 2}
+  repairItems:
+  - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+    repairAmount: 10
 --- !u!54 &4356847056734754540
 Rigidbody:
   m_ObjectHideFlags: 0

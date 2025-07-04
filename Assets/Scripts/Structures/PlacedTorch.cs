@@ -12,6 +12,8 @@ public class PlacedTorch : StructureBehaviorScript
 
     public LightController lightScript;
 
+    public ParticleSystem lowFireParticle;
+
     void Awake()
     {
         base.Awake();
@@ -49,13 +51,25 @@ public class PlacedTorch : StructureBehaviorScript
         }
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if (type == ToolType.Pyrefly && currentlyLit && !PlayerInteraction.Instance.pyreflyLit)
+        {
+            HandItemManager.Instance.PyreflyFlameToggle(true);
+            success = true;
+        }
+        else success = false;
+        
+    }
+
     IEnumerator FireDrain()
     {
         currentlyLit = true;
-        float r = Random.Range(50, 70);
+        float r = Random.Range(80, 100);
         lightScript.flickerSpeed = 0.1f;
         lightScript.intensityVariation = 0.2f;
         yield return new WaitForSeconds(r * 0.7f);
+        lowFireParticle.Play();
         lightScript.flickerSpeed = 0.9f;
         lightScript.intensityVariation = 1f;
         yield return new WaitForSeconds(r * 0.3f);

@@ -34,6 +34,8 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
       amount: 3
+    - item: {fileID: 11400000, guid: 47382b2ad18cb524ca356db160e7f67a, type: 2}
+      amount: 2
     townFavorReward: 5
     daysLeftMin: 3
     daysLeftMax: 6
@@ -41,6 +43,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 7
     maxObject: 15
+    questBehavior: {fileID: 0}
   - name: GloomStalk Request
     description: '"I am prepping a large order of barricades, and I am running out
       of materials. Could you bring me {itemAmount} {itemName}? I can process it
@@ -61,13 +64,18 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
       amount: 2
+    - item: {fileID: 11400000, guid: 1c6623afdf1e992468dd092ddbfe177d, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: 47382b2ad18cb524ca356db160e7f67a, type: 2}
+      amount: 2
     townFavorReward: 5
     daysLeftMin: 3
-    daysLeftMax: 6
+    daysLeftMax: 5
     assignee: 13
     displayProgress: 1
-    minObject: 7
-    maxObject: 15
+    minObject: 5
+    maxObject: 10
+    questBehavior: {fileID: 0}
   - name: Kill Walkers
     description: '"Our walls continue to wear down as time goes on. Please twindle
       the population of our aggressors.'
@@ -91,6 +99,8 @@ MonoBehaviour:
       amount: 5
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 6
+    - item: {fileID: 11400000, guid: 47382b2ad18cb524ca356db160e7f67a, type: 2}
+      amount: 6
     townFavorReward: 5
     daysLeftMin: 2
     daysLeftMax: 4
@@ -98,6 +108,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 6
     maxObject: 15
+    questBehavior: {fileID: 0}
   - name: Kill Hogs
     description: '"Our walls continue to wear down as time goes on. Please twindle
       the population of our aggressors.'
@@ -121,6 +132,8 @@ MonoBehaviour:
       amount: 5
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 6
+    - item: {fileID: 11400000, guid: 47382b2ad18cb524ca356db160e7f67a, type: 2}
+      amount: 2
     townFavorReward: 5
     daysLeftMin: 2
     daysLeftMax: 4
@@ -128,6 +141,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 4
     maxObject: 12
+    questBehavior: {fileID: 0}
   uniqueQuestChance: 0
-  uniqueQuests: []
+  uniqueTemplates: []
   currentDailyQuestPath: 0

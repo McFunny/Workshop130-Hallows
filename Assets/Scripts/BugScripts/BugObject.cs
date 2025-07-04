@@ -18,6 +18,8 @@ public class BugObject : ScriptableObject
     public List<BugSpawnMethod> spawnMethod = new List<BugSpawnMethod>();
     public List<TimeOfDay> activeHours = new List<TimeOfDay>();
     public List<BugSpawnArea> spawnLocations = new List<BugSpawnArea>();
+
+    public List<StructureObject> homeStructures = new List<StructureObject>();
 }
 public enum BugSpawnMethod
 {
@@ -25,6 +27,5 @@ public enum BugSpawnMethod
     Trees, //Spawns in/near trees over time
     Corpses, //Spawns on top of corpses over time
     Weeds, //Spawns from weeds over time
-    StructureDestruction, //Spawns from structure getting destroyed, such as a rock or a plant
     BugSpawner //Spawns from a spawner or specified event, such as another creature or structure
 }

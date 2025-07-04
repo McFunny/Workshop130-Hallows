@@ -92,6 +92,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public virtual void PurchaseAttempt(StoreItem item)
     {
+        bool uniqueDialogue = false;
         if (dialogueController.IsInterruptable() == false || !shopUI)
         {
             Talk();
@@ -111,7 +112,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                     //item.CompleteTrade();
                     currentPath = 2; //item sold
                     shopUI.shopImgObj.SetActive(false);
-                    PurchaseSuccess(item.itemData);
+                    PurchaseSuccess(item.itemData, out uniqueDialogue);
                 }
                 else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
                 {
@@ -132,7 +133,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             else
             {
                 currentPath = 2; //item sold
-                PurchaseSuccess(item.itemData);
+                PurchaseSuccess(item.itemData, out uniqueDialogue);
                 shopUI.shopImgObj.SetActive(false);
                 if (assignedStall && assignedStall.displaySign) assignedStall.displaySign.ResetDisplay();
                 if (assignedStall && assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
@@ -156,11 +157,17 @@ public abstract class NPC : MonoBehaviour, IInteractable
             if (assignedStall && assignedStall.barterSign) assignedStall.barterSign.DisplayTrade(lastInteractedStoreItem);
 
         }
-        currentType = PathType.Misc;
-        Talk();
+        if(!uniqueDialogue)
+        {
+            currentType = PathType.Misc;
+            Talk();
+        }
     }
 
-    public virtual void PurchaseSuccess(InventoryItemData boughtItem){}
+    public virtual void PurchaseSuccess(InventoryItemData boughtItem, out bool uniqueDialogue)
+    {
+        uniqueDialogue = false;
+    }
 
     public virtual void RefreshStore(){}
 
@@ -176,6 +183,17 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual void PlayerLeftRadius()
     {
         startedDialogue = false;
+
+        if (lastInteractedStoreItem)
+        {
+            lastInteractedStoreItem = null;
+        }
+
+        if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
+        {
+            assignedStall.displaySign.ResetDisplay();
+            if (assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
+        }
     }
 
     public virtual void GivePlayerItem(int id, int amount){}
@@ -219,7 +237,13 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     public virtual void BeginWorking(){}
 
-    public virtual void StopWorking(){}
+    public virtual void StopWorking()
+    {
+        if (assignedStall && assignedStall.displaySign) assignedStall.displaySign.LeaveShop();
+        if (assignedStall && assignedStall.barterSign) assignedStall.barterSign.LeaveShop();
+
+        if (lastInteractedStoreItem) lastInteractedStoreItem = null;
+    }
 
     public virtual void ShotAt(){}
 
@@ -257,7 +281,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
         for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
         {
-            if(QuestManager.Instance.activeQuests[i].alreadyCompleted || QuestManager.Instance.activeQuests[i].isMajorQuest) continue;
+            if(QuestManager.Instance.activeQuests[i].alreadyCompleted /*|| QuestManager.Instance.activeQuests[i].isMajorQuest*/ || QuestManager.Instance.activeQuests[i].assignee != character) continue;
+            if(QuestManager.Instance.activeQuests[i].isMajorQuest && QuestManager.Instance.activeQuests[i].maxProgress == 0) continue; //To prevent major quests from completing automatically
 
             var type = QuestManager.Instance.activeQuests[i].GetType();
 
@@ -279,7 +304,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 else continue;
             }
 
-            if(QuestManager.Instance.activeQuests[i].assignee == character && QuestManager.Instance.activeQuests[i].progress == QuestManager.Instance.activeQuests[i].maxProgress)
+            if(QuestManager.Instance.activeQuests[i].progress == QuestManager.Instance.activeQuests[i].maxProgress)
             {
                 QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                 PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
@@ -341,6 +366,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     void GiveRewards(List<InventoryItemData> rewards)
     {
+        if(PlayerInventoryHolder.Instance.AddToInventory(rewards[0], rewards.Count)) return; //Gave all the rewards. Only does first item cuz quests should only give 1 type
+
         Vector3 itemPos = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
         for(int i = 0; i < rewards.Count; i++)
         {

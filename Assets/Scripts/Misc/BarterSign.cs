@@ -35,7 +35,11 @@ public class BarterSign : MonoBehaviour
 
     public void DisplayTrade(StoreItem storeItem)
     {
-        if(storeItem.barterCost.Count == 0) return;
+        if(storeItem.barterCost.Count == 0)
+        {
+            ResetDisplay();
+            return;
+        }
 
         itemName.text = storeItem.itemData.displayName;
         //tradeDetails.text = itemData.description;

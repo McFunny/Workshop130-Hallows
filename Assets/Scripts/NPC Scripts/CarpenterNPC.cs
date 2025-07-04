@@ -15,6 +15,8 @@ public class CarpenterNPC : NPC, ITalkable
 
     public Barter woodBarter, gloomStalkBarter;
 
+    public InventoryItemData timberEar, stalk, bundle, timber, rocks;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -94,6 +96,17 @@ public class CarpenterNPC : NPC, ITalkable
             currentPath = 0;
             currentType = PathType.QuestComplete;
         }
+        else if(item == timberEar || item == stalk)
+        {
+            currentPath = 1;
+            currentType = PathType.ItemSpecific;
+        }
+        else if(item == timber || item == bundle || item == rocks)
+        {
+            currentPath = 2;
+            currentType = PathType.ItemSpecific;
+        }
+
 
         else
         {
@@ -156,15 +169,7 @@ public class CarpenterNPC : NPC, ITalkable
 
     public override void PlayerLeftRadius()
     {
-        if (lastInteractedStoreItem)
-        {
-            lastInteractedStoreItem = null;
-        }
         if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
-        if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
-        {
-            assignedStall.displaySign.ResetDisplay();
-        }
         base.PlayerLeftRadius();
     }
 
@@ -260,15 +265,8 @@ public class CarpenterNPC : NPC, ITalkable
         {
             storeItems[i].Empty();
         }
-        if (lastInteractedStoreItem)
-        {
-            lastInteractedStoreItem = null;
-        }
         shopUI.shopImgObj.SetActive(false);
-        if (assignedStall.displaySign)
-        {
-            assignedStall.displaySign.LeaveShop();
-        }
+        base.StopWorking();
     }
 
     public override bool ExclamationCheck()

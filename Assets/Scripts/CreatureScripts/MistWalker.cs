@@ -543,11 +543,15 @@ public class MistWalker : CreatureBehaviorScript
 
     private IEnumerator AttackingStructure()
     {
+        bool attackingPlant = false;
+        if(targetStructure && targetStructure as FarmLand) attackingPlant = true;
+
         coroutineRunning = true;
-        anim.SetTrigger("IsAttacking");
+        if(attackingPlant) anim.SetTrigger("IsAttackingPlant");
+        else anim.SetTrigger("IsAttacking");
         transform.LookAt(targetStructure.transform.position);
 
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(1f);
         if(!targetStructure || isRecoiling || health <= 0)
         {
             if(currentState != CreatureState.Stun) currentState = CreatureState.Idle;
@@ -781,7 +785,7 @@ public class MistWalker : CreatureBehaviorScript
         if (!isDead)
         {
             isDead = true;
-            anim.SetTrigger("IsDead");
+            anim.SetBool("IsDead", true);
             base.OnDeath();
             agent.enabled = false;
             rb.isKinematic = true;
@@ -799,6 +803,14 @@ public class MistWalker : CreatureBehaviorScript
             effectsHandler.OnHit();
             anim.SetTrigger("IsRecoiling");
             StartCoroutine(RecoilCooldown());
+        }
+    }
+
+    public override void OnCorpseDamage()
+    {
+        if(health <= 0 && canCorpseBreak)
+        {
+            anim.Play("MistDeathInteract", -1, 0f);
         }
     }
 

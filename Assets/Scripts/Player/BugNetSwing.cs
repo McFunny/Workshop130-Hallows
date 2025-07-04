@@ -34,6 +34,7 @@ public class BugNetSwing : MonoBehaviour
         collider.enabled = true;
         yield return new WaitForSeconds(0.02f);
         collider.enabled = false;
+        if(PlayerInteraction.Instance.stamina > 50 && caughtBug) PlayerInteraction.Instance.StaminaChange(-1);
 
         yield return new WaitForSeconds(2f);
         ObtainBug();
@@ -52,7 +53,29 @@ public class BugNetSwing : MonoBehaviour
             bug.Captured();
             HandItemManager.Instance.toolSource.PlayOneShot(caught);
             bugRenderer.sprite = bug.bugItem.icon;
+            bug.bugData.amountCaught++;
             return;
+        }
+
+        var enemy = other.GetComponentInParent<CreatureBehaviorScript>();
+        if (enemy != null)
+        {
+            PyreFly fly = enemy as PyreFly;
+            if(fly)
+            {
+                if(fly.ignited)
+                {
+                    fly.TakeDamage(999);
+                }
+                else
+                {
+                    caughtBug = fly.bugItem;
+                    HandItemManager.Instance.toolSource.PlayOneShot(caught);
+                    bugRenderer.sprite = caughtBug.icon;
+                    Destroy(fly.gameObject);
+                }
+                return;
+            } 
         }
         
     }

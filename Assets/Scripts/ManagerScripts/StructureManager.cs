@@ -823,7 +823,11 @@ public class StructureManager : MonoBehaviour
         Vector3 spawnPos = new Vector3 (0,0,0);
         foreach (Vector3Int position in farmTileMap.cellBounds.allPositionsWithin)
         {
-            if(farmTileMap.GetTile(position) == freeTile) spawnablePositions.Add(position);
+            Vector3 tilePos = farmTileMap.GetCellCenterWorld(position);
+            if(farmTileMap.GetTile(position) == freeTile && FetchNutrient(tilePos).ichorLevel >= 4)
+            {
+                spawnablePositions.Add(position);
+            }
         }
 
         int r = Random.Range(min,max + 1);
@@ -842,6 +846,7 @@ public class StructureManager : MonoBehaviour
                     script.wealthValue = 0;
                     SetTile(spawnPos);
                 }
+                spawnablePositions.RemoveAt(randomIndex);
             }
         }
     }
@@ -865,21 +870,26 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    public void WeedSpread(Vector3 pos)
+    public void WeedSpread(Vector3 pos, out bool becomeThorn)
     {
+        becomeThorn = false;
         int weedTotal = 0;
         for(int i = 0; i < allStructs.Count; i++)
         {
             FarmLand weedScript = allStructs[i] as FarmLand;
             if(weedScript && weedScript.isWeed) weedTotal++;
         }
-        if(weedTotal > 60) return;
+        if(weedTotal > 80) return;
 
         List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
-        if(weedSpots.Count == 0) return;
+        if(weedSpots.Count == 0)
+        {
+            if(Random.Range(0f, 10f) > 9.5f) becomeThorn = true;
+            return;
+        } 
         foreach(Vector3 weedPos in weedSpots)
         {
-            if(Random.Range(0f,10f) > 9.9f)
+            if(Random.Range(0f,10f) > 9.7f)
             {
                 SpawnStructure(weedTile, weedPos);
                 break;
@@ -887,7 +897,7 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    public void IncreaseNutrients()
+    public void IncreaseNutrients() //Occurs every new day
     {
         for(int i = 0; i < storage.Count; i++)
         {
@@ -1004,14 +1014,12 @@ public class StructureManager : MonoBehaviour
         }
         return temp;
     }
-
-
 }
 
 [System.Serializable]
 public class NutrientStorage
 {
-    public float ichorLevel = 6; //max is 10
+    public float ichorLevel = 0; //max is 10
     public float terraLevel = 10; //max is 10
     public float gloamLevel = 10; //max is 10
 
@@ -1021,7 +1029,7 @@ public class NutrientStorage
 
     public NutrientStorage()
     {
-        ichorLevel = 6; 
+        ichorLevel = 0; 
         terraLevel = 10; 
         gloamLevel = 10; 
         waterLevel = 3;
@@ -1029,7 +1037,7 @@ public class NutrientStorage
 
     public void ResetStorage(NutrientStorage s)
     {
-        s.ichorLevel = 6;
+        s.ichorLevel = 0;
         s.terraLevel = 10;
         s.gloamLevel = 10;
         s.waterLevel = 3;

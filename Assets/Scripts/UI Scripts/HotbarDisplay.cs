@@ -9,7 +9,7 @@ public class HotbarDisplay : MonoBehaviour
     private int currentIndex;
     TooltipControlsScript tooltipControls; //Handles hovering over structure with item
 
-    public InventoryItemData torch;
+    public InventoryItemData torch, pyrefly;
     
 
     private void Start()
@@ -126,6 +126,7 @@ public class HotbarDisplay : MonoBehaviour
         }
 
         if(PlayerInventoryHolder.Instance.FindItemInBothInventories(torch)) HandItemManager.Instance.TorchFlameToggle(false);
+        if(PlayerInventoryHolder.Instance.FindItemInBothInventories(pyrefly)) HandItemManager.Instance.PyreflyFlameToggle(false);
     }
 
     private void UpdateHandItem(InventorySystem inv)

@@ -58,6 +58,8 @@ public class PlaceableItem : InventoryItemData
                     DisableHologram();
                 }
                 if(placeSound) HandItemManager.Instance.toolSource.PlayOneShot(placeSound);
+
+                newStruct.GetComponentInChildren<StructureBehaviorScript>().structData.hasBeenPlaced = true;
             }
 
         }

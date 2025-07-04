@@ -256,9 +256,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: f8c723bdc5ce2b54e90db5f0c86dc4d8, type: 2}
+  itemForm: {fileID: 0}
   health: 10
   maxHealth: 10
   wealthValue: 0
+  salvageChance: 0
   destructable: 1
   flammable: 1
   onFire: 0
@@ -276,8 +278,8 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 0}
-  destructionType: 0
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:
@@ -308,6 +310,7 @@ MonoBehaviour:
   ichor: {fileID: 5217377511629083410}
   water: {fileID: 8112570605617426330}
   rot: {fileID: 5885381647459943154}
+  pollen: {fileID: 0}
   background: {fileID: 7398435184218315080}
   canvas: {fileID: 5674097151787438865}
   gloamRed: {fileID: 0}

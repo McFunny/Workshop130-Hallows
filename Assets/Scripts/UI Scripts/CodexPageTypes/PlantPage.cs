@@ -9,6 +9,11 @@ public class PlantPage : CodexPage
     [SerializeField] private TextMeshProUGUI harvested, wealth, growthStages, growthSpeed, consumes, produces, trellis, pollen;
     [SerializeField] private GameObject[] consumesIcons, producesIcons;
 
+    private void Start()
+    {
+        trellis.text = "Requires a Trellis";
+        pollen.text = "Requires Pollination";
+    }
     public override void UpdatePage(CodexEntries entry, Quest quest)
     {
         if (!entry.cropData)
@@ -16,18 +21,18 @@ public class PlantPage : CodexPage
             Debug.LogWarning("No cropdata found");
             return;
         }
-            
+
         CropItem cropItem = (CropItem)entry.cropData.cropSeed;
         print(cropItem);
 
         title.text = entry.entryName;
         image.sprite = entry.mainImage;
         description.text = entry.description[0];
-        
-        if(entry.entryName == "Mandrake") harvested.text = "Times harvested: " + entry.cropData.amountHarvested;
-        else harvested.text = "Times Killed: " + entry.cropData.amountKilled;
 
-        wealth.text = "Wealth: " + entry.cropData.wealthValue;
+        if(entry.entryName != "Mandrake") harvested.text = "Times harvested: " + entry.cropData.amountHarvested;
+        else harvested.text = "Times harvested: " + entry.cropData.amountKilled;
+
+        wealth.text = "Allure Value: " + entry.cropData.wealthValue;
         growthStages.text = "Growth Stages: " + entry.cropData.growthStages;
         growthSpeed.text = "Time per Stage: " + entry.cropData.hoursPerStage;
 
@@ -58,8 +63,13 @@ public class PlantPage : CodexPage
         if (entry.cropData.waterIntake < 0) { producesIcons[3].SetActive(true); }
         else { producesIcons[3].SetActive(false); }
 
+        if (cropItem != null)
+        {
+            if (cropItem.requireTrellis) trellis.gameObject.SetActive(true);
+            else trellis.gameObject.SetActive(false);
+        }
 
-        trellis.text = cropItem.requireTrellis ? "Requires a Trellis" : "Does not Require a Trellis";
-        pollen.text = entry.cropData.requirePollination ? "Requires Pollination" : "Does not Require Pollination";
+        if(entry.cropData.requirePollination) pollen.gameObject.SetActive(true);
+        else pollen.gameObject.SetActive(false);
     }
 }

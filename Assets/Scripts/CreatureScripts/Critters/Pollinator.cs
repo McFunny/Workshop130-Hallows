@@ -8,14 +8,14 @@ public class Pollinator : CreatureBehaviorScript
     private bool isMoving = false;
     private bool coroutineRunning = false;
     private Transform target;
-    public List<StructureObject> targettableStructures;
+    //public List<StructureObject> targettableStructures;
     private Vector3 despawnPos;
     [HideInInspector] public NavMeshAgent agent;
 
     float pollenDistance = 2;
 
     float defaultSpeed = 3;
-    float fireSpeed = 6f;
+    float fireSpeed = 9f;
 
     private StructureBehaviorScript targetStructure; //The thing they will seek out to pollinate like crops. NOT a brazier
 
@@ -55,7 +55,8 @@ public class Pollinator : CreatureBehaviorScript
         else agent.speed = fireSpeed;
 
         if(coroutineRunning) return;
-        if(target)
+        if(TimeManager.Instance.isDay) currentState = CreatureState.Wander;
+        else if(target)
         {
             if(targetStructure)  currentState = CreatureState.WalkTowardsTarget;
             else  currentState = CreatureState.WanderByFire;
@@ -169,7 +170,7 @@ public class Pollinator : CreatureBehaviorScript
     void WalkTowardsClosestTarget()
     {
         if(coroutineRunning) return;
-        if (target == null || !target.gameObject.activeInHierarchy)
+        if (target == null || !target.gameObject.activeInHierarchy || TimeManager.Instance.isDay)
         {
             currentState = CreatureState.Wander;
         }
@@ -196,6 +197,16 @@ public class Pollinator : CreatureBehaviorScript
             tile.isPollinated = true;
             foreach(ParticleSystem p in pollenParticles) p.Play();
             QuestManager.Instance.AddQuestProgress(1, QuestDatabase.Instance.GetTutorialQuest(301)); //Complete the pollination quest
+        }
+        else
+        {
+            PollinatorPost post = targetStructure as PollinatorPost;
+            if(post && !post.containsMoth)
+            {
+                post.InsertMoth();
+                Destroy(gameObject);
+                yield break;
+            }
         }
         targetStructure = null;
         target = null;
@@ -225,6 +236,14 @@ public class Pollinator : CreatureBehaviorScript
                             target = structure.transform;
                             break;
                         }
+
+                        PollinatorPost post = structure as PollinatorPost;
+                        if(post && !post.containsMoth && post.flowerHealth > 0)
+                        {
+                            targetStructure = structure;
+                            target = structure.transform;
+                            break;
+                        }
                     }
                 }
             }
@@ -233,7 +252,7 @@ public class Pollinator : CreatureBehaviorScript
             if(fireSources.Count > 0)
             {
                 float distFromFire = 0;
-                float minDistance = 15;
+                float minDistance = 25;
 
                 if(!target) currentFirePriority = 0;
                 for(int i = 0; i < fireSources.Count; i++)
@@ -260,7 +279,7 @@ public class Pollinator : CreatureBehaviorScript
                 if(target && !targetStructure) //if the target is fire and is too far away, remove the target
                 {
                     distFromFire = Vector3.Distance(target.position, transform.position);
-                    if(distFromFire > 15) target = null;
+                    if(distFromFire > minDistance) target = null;
                 } 
             }
         }

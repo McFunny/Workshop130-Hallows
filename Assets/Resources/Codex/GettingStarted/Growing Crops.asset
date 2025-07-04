@@ -14,20 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonIcon: {fileID: 21300000, guid: b094673e480f08d408eee7da77dd1815, type: 3}
   unlocked: 1
-  mainImage: {fileID: 21300000, guid: b094673e480f08d408eee7da77dd1815, type: 3}
+  mainImage: {fileID: 21300000, guid: c1d92239583d88841aad9f7f060c1fd9, type: 3}
   entryName: Growing Crops
   entryType: 0
   cropData: {fileID: 0}
   creatureData: {fileID: 0}
   structureData: {fileID: 0}
+  bugData: {fileID: 0}
   description:
   - Crops will only grow during the night. Each crop takes varying hours to advance
     1 stage of growth.
   - In order to advance their growth, the plant must have their Water and Nutritional
     needs met. Otherwise, they will take stress damage. Too much stress and the plant
     will wither, providing no harvest.
-  leftText: 
-  rightText: Crops will only grow during the night. Each crop takes varying hours
+  leftText: Crops will only grow during the night. Each crop takes varying hours
     to advance 1 stage of growth. In order to advance their growth, the plant must
     have their Water and Nutritional needs met. Otherwise, they will take stress
     damage. Too much stress and the plant will wither, providing no harvest.
+  rightText: If a crop grows without taking any stress damage, they have a chance
+    to yield a seed. On Relaxed Mode, crops cannot take stress damage from lack of
+    water. They also cannot drop a bonus seed.

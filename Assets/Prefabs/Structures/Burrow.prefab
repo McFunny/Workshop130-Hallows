@@ -322,13 +322,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 0d622c4fe4bf3a248b83c951519b0196, type: 2}
+  itemForm: {fileID: 0}
   health: 4
   maxHealth: 4
   wealthValue: 0
+  salvageChance: 0
   destructable: 1
   flammable: 0
   onFire: 0
   isObstacle: 0
+  absentFromGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -341,15 +344,17 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
   damageParticlesObject: {fileID: 0}
-  destructionType: 0
   gibs: {fileID: 0}
   nearbyFires: []
   highlight:
   - {fileID: 3946170580284634071}
+  canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   structureUI: {fileID: 0}
+  termite: {fileID: 11400000, guid: 745e1657ff76d9449bdcc105da2bd664, type: 2}
 --- !u!1001 &7116199962997091811
 PrefabInstance:
   m_ObjectHideFlags: 0

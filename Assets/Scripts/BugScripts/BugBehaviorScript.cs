@@ -15,7 +15,11 @@ public class BugBehaviorScript : MonoBehaviour
 
     public SpriteRenderer r;
 
+    public Transform colliderObject;
+    Vector3 startPos;
+
     public Sprite[] movingSprites;
+    public float animSpeed = 0.3f;
 
     public ParticleSystem burrowingParticles;
 
@@ -25,12 +29,15 @@ public class BugBehaviorScript : MonoBehaviour
     public float sightRange = 0; //0 means it ignores the player
     public float reactionTimeMin, reactionTimeMax; //How fast it does its action when approached by the player, IE time before fleeing after approached by player
     public float despawnChance = 100; //Chance of the state turning to Leave when approached by the player
+    public float minTravelTime = 1.5f;
+    public float maxTravelTime = 3; //how long until it finds a new point
 
     protected bool isMoving = false;
     protected bool coroutineRunning = false;
     protected bool isLeaving;
+    protected bool playerInSightRange;
 
-    private Coroutine approachedRoutine, walkRoutine; 
+    protected Coroutine approachedRoutine, walkRoutine; 
     protected Transform target;
     protected Transform player;
     protected Collider hitBox;
@@ -39,6 +46,8 @@ public class BugBehaviorScript : MonoBehaviour
     public DespawnMethod despawnMethod;
     protected int hoursAlive = 0;
     protected int maxLifetime = 6;
+
+    private Sequence flutter;
 
     public enum DespawnMethod
     {
@@ -100,19 +109,23 @@ public class BugBehaviorScript : MonoBehaviour
         }
     }
 
-    void Awake()
+    protected void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        hitBox = GetComponent<Collider>();
+        hitBox = GetComponentInChildren<Collider>();
         target = null;
+        if(!colliderObject) colliderObject = transform;
+        startPos = colliderObject.position;
     }
 
-    void Start()
+    protected void Start()
     {
         player = PlayerInteraction.Instance.transform;
         StartCoroutine(AnimateBug());
 
         TimeManager.OnHourlyUpdate -= HourlyUpdate;
+
+        //if(despawnMethod == DespawnMethod.Fly) Flutter();
     }
 
     protected void OnDisable()
@@ -136,17 +149,19 @@ public class BugBehaviorScript : MonoBehaviour
         else agent.speed = walkSpeed;
 
         float distance = Vector3.Distance(player.position, transform.position);
-        bool playerInSightRange = distance <= sightRange;
+        playerInSightRange = distance <= sightRange;
 
         if(playerInSightRange && approachedRoutine == null) approachedRoutine = StartCoroutine(ApproachedByPlayer());
 
         CheckState(currentState);
 
         CheckOrientation();
+
+        if(despawnMethod == DespawnMethod.Fly && currentState != BugState.Leave) Flutter();
         
     }
 
-    protected void Wander()
+    protected virtual void Wander()
     {
         if (!isMoving && currentState == BugState.Wander)
         {
@@ -156,14 +171,14 @@ public class BugBehaviorScript : MonoBehaviour
         }
     }
 
-    private Vector3 GetRandomPointAround(Vector3 origin, float radius)
+    protected Vector3 GetRandomPointAround(Vector3 origin, float radius)
     {
         Vector2 randomDirection = Random.insideUnitCircle * radius;
         Vector3 randomPoint = new Vector3(randomDirection.x, origin.y, randomDirection.y) + origin;
         return randomPoint;
     }
 
-    private IEnumerator MoveToPoint(Vector3 destination)
+    protected IEnumerator MoveToPoint(Vector3 destination)
     {
         isMoving = true;
         coroutineRunning = true;
@@ -171,7 +186,7 @@ public class BugBehaviorScript : MonoBehaviour
         agent.destination = destination;
 
         float timeSpent = 0; //to make sure it doesnt get stuck
-        float maxTime = Random.Range(1.5f, 3f);
+        float maxTime = Random.Range(minTravelTime, maxTravelTime);
         bool stopEarly = false;
         if(currentState == BugState.Panic) maxTime = maxTime/3;
 
@@ -212,7 +227,7 @@ public class BugBehaviorScript : MonoBehaviour
         if (!isMoving && currentState == BugState.Panic)
         {
             Vector3 randomPoint;
-            randomPoint = GetRandomPointAround(transform.position, 5f);
+            randomPoint = GetRandomPointAround(transform.position, 7f);
             walkRoutine = StartCoroutine(MoveToPoint(randomPoint));
         }
     }
@@ -226,23 +241,24 @@ public class BugBehaviorScript : MonoBehaviour
 
     protected IEnumerator Leaving()
     {
+        if(flutter != null) flutter.Kill();
         hitBox.enabled = false;
         agent.enabled = false;
         switch(despawnMethod)
         {
             case DespawnMethod.Poof:
-            ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+            ParticlePoolManager.Instance.MoveAndPlayParticle(colliderObject.position, ParticlePoolManager.Instance.dirtParticle);
             Destroy(gameObject);
             break;
             case DespawnMethod.Burrow:
-            transform.DOShakePosition(3f, 0.9f, 0, 0.2f, false);
-            transform.DOMoveY(transform.position.y - .5f, 4);
-            burrowingParticles.transform.DOMoveY(burrowingParticles.transform.position.y + .5f, 4); //to offset the dig
+            colliderObject.DOShakePosition(3f, 0.9f, 0, 0.2f, false);
+            colliderObject.DOMoveY(colliderObject.position.y - .5f, 4);
+            if(colliderObject == transform) burrowingParticles.transform.DOMoveY(burrowingParticles.transform.position.y + .5f, 4); //to offset the dig
             burrowingParticles.Play();
             for(int i = 0; i < 5; i++)
             {
                 yield return new WaitForSeconds(0.5f);
-                ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+                ParticlePoolManager.Instance.MoveAndPlayParticle(colliderObject.position, ParticlePoolManager.Instance.dirtParticle);
             }
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             Destroy(gameObject);
@@ -250,8 +266,8 @@ public class BugBehaviorScript : MonoBehaviour
             case DespawnMethod.Fly:
             for(int i = 0; i < 100; i++)
             {
-                yield return new WaitForSeconds(0.1f);
-                transform.Translate(Vector3.up * Time.deltaTime, Space.World);
+                yield return new WaitForSeconds(0.05f);
+                colliderObject.Translate(Vector3.up * Time.deltaTime * 15, Space.World);
             }
             Destroy(gameObject);
             break;
@@ -274,6 +290,16 @@ public class BugBehaviorScript : MonoBehaviour
         }
     }
 
+    protected void Flutter()
+    {
+        /*flutter = colliderObject.DOLocalJump(colliderObject.position, 1, 1, 1.5f)
+                 .SetLoops(-1, LoopType.Restart)
+                 .SetEase(Ease.InOutQuad);*/
+
+        float newY = Mathf.Sin(Time.time * 3) * 0.5f; //Last number is the height
+        colliderObject.position = new Vector3(transform.position.x, startPos.y + newY, transform.position.z);
+    }
+
 
     protected IEnumerator AnimateBug()
     {
@@ -282,7 +308,8 @@ public class BugBehaviorScript : MonoBehaviour
         {
             currentSprite++;
             if(currentSprite >= movingSprites.Length) currentSprite = 0;
-            yield return new WaitForSeconds(0.3f);
+            if(currentState == BugState.Panic) yield return new WaitForSeconds(animSpeed * (walkSpeed/fleeSpeed));
+            else yield return new WaitForSeconds(animSpeed);
             r.sprite = movingSprites[currentSprite];
         }
     }
@@ -310,13 +337,13 @@ public class BugBehaviorScript : MonoBehaviour
 
     public void Captured()
     {
-        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        ParticlePoolManager.Instance.MoveAndPlayParticle(colliderObject.position, ParticlePoolManager.Instance.dirtParticle);
         Destroy(gameObject);
     }
 
     public void Struck() //By player shovel most likely
     {
-        ParticlePoolManager.Instance.GrabBugSplatParticle().transform.position = transform.position;
+        ParticlePoolManager.Instance.GrabBugSplatParticle().transform.position = colliderObject.position;
         Destroy(gameObject);
     }
 

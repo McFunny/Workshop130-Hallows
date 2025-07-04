@@ -636,6 +636,12 @@ public class VileHog : CreatureBehaviorScript
             isCharging = false;
             return;
         }
+
+        var bug = other.GetComponentInParent<BugBehaviorScript>();
+        if (bug != null)
+        {
+            bug.Struck();
+        }
     }
 
     public override bool OnBearTrapStun(StructureBehaviorScript b)
@@ -793,6 +799,14 @@ public class VileHog : CreatureBehaviorScript
             yield return new WaitForSeconds(1.2f); // update destination every 0.5 seconds to prevent overloading it
         }
         coroutineRunning = false;
+    }
+
+    public override void OnCorpseDamage()
+    {
+        if(health <= 0 && canCorpseBreak)
+        {
+            anim.Play("DeathRecoil", -1, 0f);
+        }
     }
 
 }

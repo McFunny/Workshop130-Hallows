@@ -11,13 +11,6 @@ public class FlowerPotDecor : FurnitureBehaviorScript
     public GameObject fogChimeLight;
     public InventoryItemData fogChime;
 
-    [System.Serializable]
-    public class Pottable
-    {
-        public InventoryItemData item;
-        public Sprite sprite;
-    }
-
     public void Awake()
     {
         base.Awake();
@@ -132,4 +125,12 @@ public class FlowerPotDecor : FurnitureBehaviorScript
             }
         }
     }
+}
+
+[System.Serializable]
+public class Pottable
+{
+    public InventoryItemData item;
+    public Sprite sprite;
+    public int intValue; //I use this to track how long it lasts when socketed into the post
 }

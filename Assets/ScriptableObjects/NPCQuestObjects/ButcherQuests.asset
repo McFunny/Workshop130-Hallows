@@ -41,6 +41,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 6
     maxObject: 18
+    questBehavior: {fileID: 0}
   - name: Hunt Hogs
     description: '"The only good hog is a dead hog."'
     dialogPath: 0
@@ -66,6 +67,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 6
     maxObject: 14
+    questBehavior: {fileID: 0}
   - name: Hunt Deer
     description: '"Normal or not, I don''t trust them."'
     dialogPath: 0
@@ -91,6 +93,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 1
     maxObject: 3
+    questBehavior: {fileID: 0}
   - name: Fetch Albino Pelt
     description: '"Man eating rabbits must have a luxurious pelt. I want one".'
     dialogPath: 0
@@ -116,6 +119,7 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 1
     maxObject: 2
+    questBehavior: {fileID: 0}
   - name: Hunt Plant Mimic
     description: '"Plant or not, it has meat and it breathes."'
     dialogPath: 0
@@ -143,6 +147,31 @@ MonoBehaviour:
     displayProgress: 1
     minObject: 3
     maxObject: 6
+    questBehavior: {fileID: 0}
+  - name: Hunt Lumen Moth
+    description: '"They are harmless. Makes killing them so much easier."'
+    dialogPath: 0
+    creature: {fileID: 11400000, guid: 8a1a437e421cbf64ba6829e930502495, type: 2}
+    item: {fileID: 0}
+    crop: {fileID: 0}
+    mintMultiplier: 1.1
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+      amount: 4
+    townFavorReward: 5
+    daysLeftMin: 3
+    daysLeftMax: 6
+    assignee: 12
+    displayProgress: 1
+    minObject: 5
+    maxObject: 10
+    questBehavior: {fileID: 0}
   uniqueQuestChance: 0
-  uniqueQuests: []
+  uniqueTemplates: []
   currentDailyQuestPath: 0

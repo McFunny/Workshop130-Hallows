@@ -118,8 +118,15 @@ public class QuestManager : MonoBehaviour
 
     public int FindSameQuest(Quest q) //Finds if the current quest is already in the active quests list and returns the index //SAME AS CHECKFORQUEST
     {
+        if(q == null) return -1;
         for(int i = 0; i < activeQuests.Count; i++)
         {
+            if(activeQuests[i] == null)
+            {
+                activeQuests.RemoveAt(i);
+                i--;
+                continue;
+            }
             if(activeQuests[i].assignee != q.assignee) continue;
 
             FetchQuest fQ = activeQuests[i] as FetchQuest;
@@ -210,6 +217,21 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    public void AdvanceDayTimers()
+    {
+        for(int i = 0; i < activeQuests.Count; i++)
+        {
+            if(activeQuests[i].daysLeft <= -1 || activeQuests[i].isMajorQuest) continue;
+
+            activeQuests[i].daysLeft--;
+            if(activeQuests[i].daysLeft == 0)
+            {
+                activeQuests.RemoveAt(i);
+                i--;
+            }
+        }
+    }
+
     //This is probably bad practice, and should be changed into using Unity Events instead
     public void CreatureDeath(CreatureObject c)
     {
@@ -258,7 +280,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void StructureDestroyedEvent(StructureObject structData)
+    public void StructureDestroyedEvent(StructureObject structData, Vector3 pos)
     {
         //Tigger virtual functions in active quests
         for(int i = 0; i < activeQuests.Count; i++)
@@ -350,9 +372,10 @@ public class QuestManager : MonoBehaviour
             {
                 if(q.orderIndex == i)
                 {
+                    q.itemRewards.Clear(); //To remove the leftover scriptable object data
                     for(int x = 0; x < q.savedRewardIDs.Count; x++) //Saved item id's
                     {
-                        q.itemRewards.Add(Database.Instance.GetItem(q.savedRewardIDs[x]));
+                        if(q.savedRewardIDs[x] != -1) q.itemRewards.Add(Database.Instance.GetItem(q.savedRewardIDs[x]));
                     }
 
                     q.questBehavior = QuestDatabase.Instance.GetQuestBehavior(q.behaviorID);
@@ -481,6 +504,7 @@ public class FetchQuest: Quest //Should hide progress, and max progress should b
     {
         name = q.name;
         description = q.description;
+        //isMajorQuest = q.isMajorQuest;
         desiredItem = q.item;
         amount = Random.Range(q.minObject, q.maxObject);
         if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(q.item.value * q.mintMultiplier * q.item.sellValueMultiplier * amount); //Money Reward
@@ -517,6 +541,7 @@ public class HuntQuest: Quest //max progress should be amount
     {
         name = q.name;
         description = q.description;
+        //isMajorQuest = q.isMajorQuest;
         targetCreature = q.creature;
         amount = Random.Range(q.minObject, q.maxObject);
         if(q.itemRewards.Count == 0) mintReward = Mathf.RoundToInt(q.creature.mintWorth * q.mintMultiplier * amount); //Money Reward
@@ -554,6 +579,7 @@ public class GrowQuest: Quest //max progress should be amount
     {
         name = q.name;
         description = q.description;
+        //isMajorQuest = q.isMajorQuest;
         desiredCrop = q.crop;
         desiredItem = q.crop.cropYield;
         amount = Random.Range(q.minObject, q.maxObject);

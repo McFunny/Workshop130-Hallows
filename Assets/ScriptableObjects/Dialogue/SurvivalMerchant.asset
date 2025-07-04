@@ -34,11 +34,11 @@ MonoBehaviour:
   - pathName: Do you want to buy?
     paragraphs:
     - I see the {storeItemName} caught your eye. Care to buy for <color=#E0D38F>
-      {storeItemValue} Mints </color> ?
+      {storeItemValue} Mints </color> ? {dontfreezePlayer}
     emotions: 00000000
   - pathName: Here you go!
     paragraphs:
-    - Sold! {itemBought}
+    - Sold! {itemBought} {dontfreezePlayer}
     emotions: 01000000
   - pathName: Poor
     paragraphs:
@@ -52,6 +52,7 @@ MonoBehaviour:
   - pathName: Do you want to Trade?
     paragraphs:
     - I see the {storeItemName} caught your eye. I will need 8 items to make it.
+      {dontfreezePlayer}
     emotions: 00000000
   - pathName: Will Not Buy
     paragraphs:
@@ -59,14 +60,14 @@ MonoBehaviour:
     emotions: 03000000
   - pathName: Sold!
     paragraphs:
-    - Pleasure doing business. {itemSold}
+    - Pleasure doing business. {itemSold} {dontfreezePlayer}
     emotions: 01000000
   - pathName: Want me to buy all of those?
     paragraphs:
     - 'For all of those? I can offer <color=#E0D38F> {itemTotalValue} Mints</color>
       <sprite index=0>.
 
-      What do you say?'
+      What do you say? {dontfreezePlayer}'
     emotions: 00000000
   - pathName: Come Later
     paragraphs:

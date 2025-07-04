@@ -17,7 +17,8 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public MerchantLantern lantern;
 
-    int wildernessPrice = 150;
+    int wildernessPrice = 100;
+    int wildernessUnlockThreshold = 2000;
 
     //public Animator anim;
 
@@ -30,8 +31,6 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     [TextArea(5,10)]
     public string[] carrotComments;
-
-    //Find a way to get feedback on when a dialogue tree is finished by calling an event/delegate.
 
     void Start()
     {
@@ -46,7 +45,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         if(lantern)
         {
             lantern.merchant = this;
-            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) lantern.EnableSelf();
+            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold) lantern.EnableSelf();
         }
 
         if (displaySign) displaySign.UpdateNPCName(this);
@@ -68,7 +67,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
-            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 1000) //Open Wilderness
+            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold) //Open Wilderness
             {
                 currentPath = 8;
                 currentType = PathType.Misc;
@@ -298,7 +297,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false)
         {
-            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 2000) //Open Wilderness
+            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold) //Open Wilderness
             {
                 currentPath = 8;
                 currentType = PathType.Misc;
@@ -394,7 +393,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             else itemsToGive.Add(new ItemWithAmount(ammo, 6));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
         }
-        else if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > 2000)
+        else if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold)
         {
             currentPath = 8;
             currentType = PathType.Misc;

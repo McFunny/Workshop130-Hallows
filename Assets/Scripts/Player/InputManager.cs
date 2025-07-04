@@ -107,12 +107,10 @@ public class InputManager : MonoBehaviour
     private void PauseGame(InputAction.CallbackContext obj)
     {
         if(PauseScript.isPaused) { pauseScript.ResumeGame(); return; }
-
-        if(PlayerMovement.isCodexOpen) return;
         if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
         if(!PlayerMovement.accessingInventory)
         {
-            if(!PauseScript.isPaused && !repairMinigame.IsMinigameActive())
+            if(!PauseScript.isPaused && !repairMinigame.IsMinigameActive() && !PlayerMovement.isCodexOpen)
             {
                 isCharging = false;
                 chargeButtonHeld = false;

@@ -50,25 +50,28 @@ public class QuestPage : CodexPage
 
     public override void UpdatePage(CodexEntries entry, Quest quest)
     {
+        currentOpenQuest = quest;
+
         title.text = quest.assignee.ToString() + ": " + quest.name;
         title.text = title.text.Replace("Null", "Task");
         description.text = quest.description;
 
         if (quest.daysLeft >= 0)
         {
-            timeRemainingText.text = quest.daysLeft + " Days Left to Complete";
-            timeRemainingText.transform.parent.gameObject.SetActive(true);
+            if (quest.daysLeft == 1)
+            {
+                timeRemainingText.text = "Final Day to Complete";
+            }
+            else
+            {
+                timeRemainingText.text = quest.daysLeft + " Days Left to Complete";
+                timeRemainingText.transform.parent.gameObject.SetActive(true);
+            }
         }
         else
         {
             timeRemainingText.transform.parent.gameObject.SetActive(false);
         }
-
-        //Override for repeatable quests and stuff like that I dont know man I dont know anything ever
-        UpdateQuestName(quest);
-        UpdateQuestDescription(quest);
-
-        currentOpenQuest = quest;
 
         if (quest.displayProgress == false)
         {
@@ -82,6 +85,10 @@ public class QuestPage : CodexPage
             progressSlider.maxValue = quest.maxProgress;
             progressSlider.value = quest.progress;
         }
+
+        //Override for repeatable quests and stuff like that I dont know man I dont know anything ever
+        UpdateQuestName(quest);
+        UpdateQuestDescription(quest);
 
         if (quest.itemRewards.Count > 0)
         {
@@ -100,7 +107,8 @@ public class QuestPage : CodexPage
             rewardsContainer.SetActive(false);
         }
 
-        removeQuestButton.gameObject.SetActive(!quest.isMajorQuest);
+        if(quest.isMajorQuest || quest.alreadyCompleted) removeQuestButton.gameObject.SetActive(false);
+        else removeQuestButton.gameObject.SetActive(true);
 
         mainVert.enabled = false;
         mainVert.enabled = true; //Yeah of course the solution is to turn it off and then turn it back on
@@ -213,7 +221,7 @@ public class QuestPage : CodexPage
             if (q.maxProgress == 1 || q.desiredItem.displayName.EndsWith("s")) progressText.text = q.desiredItem.displayName + " handed in: " + q.progress + "/" + q.maxProgress;
             else progressText.text = q.desiredItem.displayName + "s handed in: " + q.progress + "/" + q.maxProgress;
         }
-        if (type.Equals(typeof(HuntQuest)))
+        else if (type.Equals(typeof(HuntQuest)))
         {
             //print("Hunt Quest");
             var q = quest as HuntQuest;
@@ -229,7 +237,7 @@ public class QuestPage : CodexPage
             if (q.maxProgress == 1 || q.targetCreature.name.EndsWith("s")) progressText.text = q.targetCreature.name + " eliminated: " + q.progress + "/" + q.maxProgress;
             else progressText.text = q.targetCreature.name + "s eliminated: " + q.progress + "/" + q.maxProgress;
         }
-        if (type.Equals(typeof(GrowQuest)))
+        else if (type.Equals(typeof(GrowQuest)))
         {
             //print("Grow Quest");
             var q = quest as GrowQuest;
@@ -245,6 +253,10 @@ public class QuestPage : CodexPage
 
             if (q.maxProgress == 1 || !q.desiredItem.displayName.EndsWith("s")) progressText.text = q.desiredItem.displayName + " grown: " + q.progress + "/" + q.maxProgress;
             else progressText.text = q.desiredItem.displayName + "s grown: " + q.progress + "/" + q.maxProgress;
+        }
+        else
+        {
+            progressText.text = "Progress: " + quest.progress + "/" + quest.maxProgress;
         }
     }
 }

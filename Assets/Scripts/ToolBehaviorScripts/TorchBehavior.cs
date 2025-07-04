@@ -192,7 +192,7 @@ public class TorchBehavior : ToolBehavior
 
                 if(PlayerInteraction.Instance.torchLit && enemy.canCorpseBreak && enemy.fireVulnerable && !StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Fire, enemy))
                 {
-                    enemy.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 20);
+                    enemy.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 70);
 
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(ignite);

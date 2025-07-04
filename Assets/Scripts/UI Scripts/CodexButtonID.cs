@@ -72,6 +72,30 @@ public class CodexButtonID : MonoBehaviour
                         return;
                     }
                 }
+                if (assignedEntry.entryType == CodexEntries.EntryType.Structure)
+                {
+                    if (assignedEntry.structureData != null)
+                    {
+                        if (assignedEntry.structureData.hasBeenPlaced) newCodex.UpdatePage(assignedEntry);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No Structure Data Found!!!!!!!");
+                        return;
+                    }
+                }
+                if(assignedEntry.entryType == CodexEntries.EntryType.Bug)
+                {
+                    if (assignedEntry.bugData != null)
+                    {
+                        if (assignedEntry.bugData.amountCaught > 0) newCodex.UpdatePage(assignedEntry);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No Bug Data Found!!!!!!!");
+                        return;
+                    }
+                }
 
                 //newCodex.UpdatePage(assignedEntry);
             }

@@ -6,12 +6,13 @@ public class ProjectilePoolManager : MonoBehaviour
 {
     public static ProjectilePoolManager Instance;
 
-    public GameObject bulletPrefab, largeWaterPrefab, seedBulletPrefab, fireBallPrefab;
+    public GameObject bulletPrefab, largeWaterPrefab, seedBulletPrefab, fireBallPrefab, pyreflyPrefab;
 
     List<GameObject> bulletPool = new List<GameObject>();
     List<GameObject> largeWaterPool = new List<GameObject>();
     List<GameObject> seedPool = new List<GameObject>();
     List<GameObject> fireBallPool = new List<GameObject>();
+    List<GameObject> pyreflyPool = new List<GameObject>();
 
     void Awake()
     {
@@ -57,6 +58,13 @@ public class ProjectilePoolManager : MonoBehaviour
         {
             GameObject newBullet = Instantiate(fireBallPrefab);
             fireBallPool.Add(newBullet);
+            newBullet.SetActive(false);
+        }
+
+        for(int i = 0; i < 4; i++)
+        {
+            GameObject newBullet = Instantiate(pyreflyPrefab);
+            pyreflyPool.Add(newBullet);
             newBullet.SetActive(false);
         }
     }
@@ -133,6 +141,25 @@ public class ProjectilePoolManager : MonoBehaviour
         //No available projectiles, must make a new one
         GameObject newBullet = Instantiate(fireBallPrefab);
         fireBallPool.Add(newBullet);
+        newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+        return newBullet;
+    }
+
+    public GameObject GrabPyreflyBullet()
+    {
+        foreach (GameObject bullet in pyreflyPool)
+        {
+            if(!bullet.activeSelf)
+            {
+                bullet.SetActive(true);
+                bullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+                return bullet;
+            }
+        }
+
+        //No available projectiles, must make a new one
+        GameObject newBullet = Instantiate(pyreflyPrefab);
+        pyreflyPool.Add(newBullet);
         newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
         return newBullet;
     }
