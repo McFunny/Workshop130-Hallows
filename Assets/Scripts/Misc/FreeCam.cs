@@ -154,6 +154,14 @@ public class FreeCam : MonoBehaviour
                 fovLerpTimer = 0f;
                 isFOVLerping = true;
             }
+            // return to default no matter where
+            if (Input.GetKeyDown(KeyCode.Semicolon))
+            {
+                fovLerpStart = cam.m_Lens.FieldOfView;
+                fovLerpEnd = defaultFOV;
+                fovLerpTimer = 0f;
+                isFOVLerping = true;
+            }
 
             // Perform FOV lerp
             if (isFOVLerping)
@@ -178,7 +186,7 @@ public class FreeCam : MonoBehaviour
             if (uiCamera) uiCamera.fieldOfView = cam.m_Lens.FieldOfView;
 
            
-            if (Input.GetKey(KeyCode.N) && Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKey(KeyCode.N) && Input.GetKeyDown(KeyCode.Comma))
             {
                 activeFreeCam = false;
                 cam.Priority = 0;
@@ -190,7 +198,7 @@ public class FreeCam : MonoBehaviour
         else
         {
           
-            if (Input.GetKey(KeyCode.N) && Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKey(KeyCode.N) && Input.GetKeyDown(KeyCode.Comma))
             {
                 activeFreeCam = true;
                 cam.Priority = 20;
