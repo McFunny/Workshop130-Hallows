@@ -123,7 +123,7 @@ public class BugBehaviorScript : MonoBehaviour
         player = PlayerInteraction.Instance.transform;
         StartCoroutine(AnimateBug());
 
-        TimeManager.OnHourlyUpdate -= HourlyUpdate;
+        TimeManager.OnHourlyUpdate += HourlyUpdate;
 
         //if(despawnMethod == DespawnMethod.Fly) Flutter();
     }
