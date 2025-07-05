@@ -313,7 +313,7 @@ public class FarmLand : StructureBehaviorScript
                 ItemPoolManager.Instance.GrabItem(plantFiber).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
             }
 
-            if(crop.behavior && crop.behavior.DestroyOnHarvest() == false && !rotted && harvestable)
+            if(crop.behavior && crop.behavior.DestroyOnHarvest(this) == false && !rotted && harvestable)
             {
                 growthStage -= 3;
             }
@@ -408,11 +408,13 @@ public class FarmLand : StructureBehaviorScript
 
         if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
+            if(crop && crop.behavior && !crop.behavior.CanGrow(this)) return;
+
             if(growthStage >= crop.growthStages && !isWeed || NeedsPollination())
             {
                 if(NeedsPollination()) return;
 
-                //Reduce water while fully grown
+                //Reduce only water while fully grown
                 hoursSpent = 0;
                 health += 5;
                 if(health > maxHealth) health = maxHealth;

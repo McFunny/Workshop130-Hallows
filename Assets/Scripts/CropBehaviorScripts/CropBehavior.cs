@@ -10,7 +10,7 @@ public class CropBehavior : ScriptableObject
     }
     public virtual void OnHour(FarmLand tile){}
     public virtual void OnFullyGrown(FarmLand tile){}
-    public virtual bool DestroyOnHarvest()
+    public virtual bool DestroyOnHarvest(FarmLand tile)
     {
         return true;
     }
@@ -37,6 +37,11 @@ public class CropBehavior : ScriptableObject
     public virtual void OnHarvest(FarmLand tile, bool usedShovel, bool usedScythe){}
 
     public virtual bool IsFlammable()
+    {
+        return true;
+    }
+
+    public virtual bool CanGrow(FarmLand tile)
     {
         return true;
     }
