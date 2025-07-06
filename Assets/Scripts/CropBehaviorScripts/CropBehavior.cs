@@ -22,6 +22,11 @@ public class CropBehavior : ScriptableObject
         secondaryCropBonus = 0;
     }
 
+    public virtual void CropRemovalBonusYield(FarmLand tile, out int secondaryCropBonus) //This is called at any time the plant is removed
+    {
+        secondaryCropBonus = 0;
+    }
+
     public virtual void OnCropDestroyed(FarmLand tile){}
 
     public virtual void OnWatered(FarmLand tile){}

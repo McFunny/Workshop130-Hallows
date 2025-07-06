@@ -36,7 +36,7 @@ public class CropNeedsUI : MonoBehaviour
     {
         while(true)
         {
-            UpdateNeedsUI();
+            UpdateNeedsUI(); //IS NOT CAUSING LAG
             yield return new WaitForSeconds(0.4f);
         }
     }
