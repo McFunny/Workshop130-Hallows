@@ -50,10 +50,8 @@ public class QuestPage : CodexPage
 
     public override void UpdatePage(CodexEntries entry, Quest quest)
     {
-        currentOpenQuest = quest;
-
         title.text = quest.assignee.ToString() + ": " + quest.name;
-        title.text = title.text.Replace("Null", "Task");
+        currentOpenQuest = quest;
         description.text = quest.description;
 
         if (quest.daysLeft >= 0)
@@ -61,6 +59,7 @@ public class QuestPage : CodexPage
             if (quest.daysLeft == 1)
             {
                 timeRemainingText.text = "Final Day to Complete";
+                timeRemainingText.transform.parent.gameObject.SetActive(true);
             }
             else
             {
@@ -163,7 +162,7 @@ public class QuestPage : CodexPage
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
-            title.text = t;
+            title.text = quest.assignee.ToString() + ": " + t;
         }
         else if (type.Equals(typeof(HuntQuest)))
         {
@@ -176,7 +175,7 @@ public class QuestPage : CodexPage
 
             t = t.Replace("{creatureAmount}", q.amount.ToString());
 
-            title.text = t;
+            title.text = quest.assignee.ToString() + ": " + t;
         }
         else if (type.Equals(typeof(GrowQuest)))
         {
@@ -189,15 +188,14 @@ public class QuestPage : CodexPage
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
-            title.text = t;
+            title.text = quest.assignee.ToString() + ": " + t;
         }
         else
         {
-            title.text = quest.name;
+            title.text = quest.assignee.ToString() + ": " + quest.name;
         }
 
-        if(!quest.alreadyCompleted) title.text = title.text;
-        else title.text = "<s>" + title.text + "</s>";
+        title.text = title.text.Replace("Null", "");
     }
 
     private void UpdateQuestDescription(Quest quest)
