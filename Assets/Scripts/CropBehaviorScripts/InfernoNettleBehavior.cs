@@ -44,6 +44,7 @@ public class InfernoNettleBehavior : CropBehavior
             c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), burnDuration);
             tile.growthStage = 1;
             tile.SpriteChange();
+            tile.harvestable = false;
             AudioPoolManager.Instance.PlayClipAtPosition(contactSFX, tile.transform.position);
             ParticlePoolManager.Instance.MoveAndPlayParticle(tile.transform.position, ParticlePoolManager.Instance.dirtParticle);
         } 
@@ -53,6 +54,7 @@ public class InfernoNettleBehavior : CropBehavior
             PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), burnDuration/2);
             tile.growthStage = 1;
             tile.SpriteChange();
+            tile.harvestable = false;
             AudioPoolManager.Instance.PlayClipAtPosition(contactSFX, tile.transform.position);
             ParticlePoolManager.Instance.MoveAndPlayParticle(tile.transform.position, ParticlePoolManager.Instance.dirtParticle);
         }

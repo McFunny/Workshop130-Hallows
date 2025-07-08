@@ -282,7 +282,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
 
         float playerDistance = Vector3.Distance(player.position, transform.position);
-        if (playerDistance > 100f)
+        if (playerDistance > 100f || transform.position == targetPosition)
         {
             Destroy(this.gameObject);
         }

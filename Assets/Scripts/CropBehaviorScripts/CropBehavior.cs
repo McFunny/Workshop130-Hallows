@@ -10,7 +10,7 @@ public class CropBehavior : ScriptableObject
     }
     public virtual void OnHour(FarmLand tile){}
     public virtual void OnFullyGrown(FarmLand tile){}
-    public virtual bool DestroyOnHarvest()
+    public virtual bool DestroyOnHarvest(FarmLand tile)
     {
         return true;
     }
@@ -19,6 +19,11 @@ public class CropBehavior : ScriptableObject
     public virtual void CropBonusYield(FarmLand tile, out int cropBonus, out int secondaryCropBonus)
     {
         cropBonus = 0;
+        secondaryCropBonus = 0;
+    }
+
+    public virtual void CropRemovalBonusYield(FarmLand tile, out int secondaryCropBonus) //This is called at any time the plant is removed
+    {
         secondaryCropBonus = 0;
     }
 
@@ -37,6 +42,11 @@ public class CropBehavior : ScriptableObject
     public virtual void OnHarvest(FarmLand tile, bool usedShovel, bool usedScythe){}
 
     public virtual bool IsFlammable()
+    {
+        return true;
+    }
+
+    public virtual bool CanGrow(FarmLand tile)
     {
         return true;
     }

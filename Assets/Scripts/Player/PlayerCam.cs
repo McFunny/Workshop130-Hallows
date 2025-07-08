@@ -102,7 +102,12 @@ public class PlayerCam : MonoBehaviour
             yRotation += lookX;
             xRotation -= lookY;
 
-            if(xRotation > 90) xRotation = xRotation - 360; //To fix focus issue (causes some irregularities)
+            if(xRotation > 90) 
+            {
+                print("Passed! Old num was " + xRotation);
+                if(xRotation < 300) xRotation = 90; //To fix focus issue (causes some irregularities)
+                else xRotation = xRotation - 360;
+            }
 
             //print(xRotation);
 

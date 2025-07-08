@@ -124,7 +124,7 @@ public class FarmLand : StructureBehaviorScript
 
         if((!crop || growthStage < crop.growthStages) && !isWeed && !onFire && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
 
-        if(!crop && growthComplete) growthComplete.Stop();
+        if(!crop && growthComplete && growthComplete.HasAnySystemAwake()) growthComplete.Stop();
 
         if(supportText != null && !highlight[0].activeSelf)
         {
@@ -306,6 +306,24 @@ public class FarmLand : StructureBehaviorScript
 
                 if(crop && crop.behavior) crop.behavior.OnHarvest(this, forceDig, harvestedByScythe);
             }
+            
+            if(crop.behavior && crop.cropSecondaryYield) //For a bonus yield at any point like cactus seeds
+            {
+                GameObject bonusDroppedItem;
+                Rigidbody bonusItemRB;
+                crop.behavior.CropRemovalBonusYield(this, out int secondaryCropBonus2);
+                for (int i = 0; i < secondaryCropBonus2; i++) //Secondary crop yield
+                {
+                    bonusDroppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSecondaryYield);
+                    bonusDroppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+                    Vector3 dir3 = Random.onUnitSphere;
+                    dir3 = new Vector3(dir3.x, bonusDroppedItem.transform.position.y, dir3.z);
+                    bonusItemRB = bonusDroppedItem.GetComponent<Rigidbody>();
+                    bonusItemRB.AddForce(dir3 * 20);
+                    bonusItemRB.AddForce(Vector3.up * 50);
+                }
+            }
 
             if(rotted)
             {
@@ -313,7 +331,7 @@ public class FarmLand : StructureBehaviorScript
                 ItemPoolManager.Instance.GrabItem(plantFiber).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
             }
 
-            if(crop.behavior && crop.behavior.DestroyOnHarvest() == false && !rotted && harvestable)
+            if(crop.behavior && crop.behavior.DestroyOnHarvest(this) == false && !rotted && harvestable)
             {
                 growthStage -= 3;
             }
@@ -408,11 +426,13 @@ public class FarmLand : StructureBehaviorScript
 
         if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
+            if(crop && crop.behavior && !crop.behavior.CanGrow(this)) return;
+
             if(growthStage >= crop.growthStages && !isWeed || NeedsPollination())
             {
                 if(NeedsPollination()) return;
 
-                //Reduce water while fully grown
+                //Reduce only water while fully grown
                 hoursSpent = 0;
                 health += 5;
                 if(health > maxHealth) health = maxHealth;
@@ -685,6 +705,9 @@ public class FarmLand : StructureBehaviorScript
         if(crop) StructureInteraction();
         else
         {
+            if(currentUpgrade == FarmTileUpgrade.Trellis) ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+            if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
             audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;

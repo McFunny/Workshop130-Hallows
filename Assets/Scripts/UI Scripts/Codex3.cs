@@ -553,7 +553,7 @@ public class Codex3 : MonoBehaviour
 
         categoryContainer.SetActive(false);
         pageToOpen.SetActive(true);
-
+        Canvas.ForceUpdateCanvases();
         menuIndex = 2;
     }
 
@@ -563,6 +563,7 @@ public class Codex3 : MonoBehaviour
 
         categoryContainer.SetActive(false);
         codexPages[(int)OpenCategory.Quests].gameObject.SetActive(true);
+        Canvas.ForceUpdateCanvases();
         menuIndex = 2;
     }
 

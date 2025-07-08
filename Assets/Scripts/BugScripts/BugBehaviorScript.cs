@@ -45,7 +45,7 @@ public class BugBehaviorScript : MonoBehaviour
     public BugObject bugData;
     public DespawnMethod despawnMethod;
     protected int hoursAlive = 0;
-    protected int maxLifetime = 6;
+    protected int maxLifetime = 10;
 
     private Sequence flutter;
 
@@ -123,7 +123,7 @@ public class BugBehaviorScript : MonoBehaviour
         player = PlayerInteraction.Instance.transform;
         StartCoroutine(AnimateBug());
 
-        TimeManager.OnHourlyUpdate -= HourlyUpdate;
+        TimeManager.OnHourlyUpdate += HourlyUpdate;
 
         //if(despawnMethod == DespawnMethod.Fly) Flutter();
     }
