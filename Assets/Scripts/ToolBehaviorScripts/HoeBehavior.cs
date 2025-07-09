@@ -66,7 +66,7 @@ public class HoeBehavior : ToolBehavior
                     coolDownMod += .25f;
                     animSpeedMod -= .25f;
                 }
-                if(PlayerInteraction.Instance.stamina > 5) PlayerInteraction.Instance.StaminaChange(-2);
+                if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-2);
 
                 toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                 PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * coolDownMod, 1.1f * coolDownMod));

@@ -111,7 +111,7 @@ public class MistWalker : CreatureBehaviorScript
             if(a.chanceToEquip >= r) a.armorObject.SetActive(true);
         }*/
 
-        if(!inWilderness && Random.Range(0,5) > 2) currentState = CreatureState.WalkTowardsClosestStructure;
+        //if(!inWilderness && Random.Range(0,5) > 2) currentState = CreatureState.WalkTowardsClosestStructure; //causing issues I think
     }
 
     void OnDisable()
@@ -544,7 +544,11 @@ public class MistWalker : CreatureBehaviorScript
     private IEnumerator AttackingStructure()
     {
         bool attackingPlant = false;
-        if(targetStructure && targetStructure as FarmLand) attackingPlant = true;
+        if(targetStructure)
+        {
+            FarmLand farmTile = targetStructure as FarmLand;
+            if(farmTile) attackingPlant = true;
+        }
 
         coroutineRunning = true;
         if(attackingPlant) anim.SetTrigger("IsAttackingPlant");
