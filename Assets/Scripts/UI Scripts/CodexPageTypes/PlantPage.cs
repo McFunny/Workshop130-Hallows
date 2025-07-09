@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,12 +10,15 @@ public class PlantPage : CodexPage
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private TextMeshProUGUI harvested, wealth, growthStages, growthSpeed, trellis, pollen;
     [SerializeField] private GameObject consumesParent, producesParent, targetedByParent;
+    [SerializeField] private VerticalLayoutGroup rightPageLayoutGroup;
+    [SerializeField] private VerticalLayoutGroup consumesLayoutGroup, producesLayoutGroup;
     [SerializeField] private GameObject[] consumesObject, producesObject;
     [SerializeField] private Slider[] consumesSlider, producesSlider;
     [SerializeField] private Image[] targetedByImages;
     private Color disabledColor = new Color(1f, 1f, 1f, 0f);
     private Color enabledColor = new Color(1f, 1f, 1f, 1f);
-    [SerializeField] private TextMeshProUGUI[] targetedByText;
+    private TextMeshProUGUI[] targetedByText;
+    private RectTransform rightPageRectTransform, consumesRectTransform, producesRectTransform;
 
     private void Awake()
     {
@@ -31,6 +35,9 @@ public class PlantPage : CodexPage
         {
             targetedByText[i] = targetedByImages[i].gameObject.GetComponentInChildren<TextMeshProUGUI>();
         }
+        rightPageRectTransform = rightPageLayoutGroup.GetComponent<RectTransform>();
+        consumesRectTransform = consumesLayoutGroup.GetComponent<RectTransform>();
+        producesRectTransform = producesLayoutGroup.GetComponent<RectTransform>();
     }
     private void Start()
     {
@@ -41,6 +48,7 @@ public class PlantPage : CodexPage
     private void OnEnable()
     {
         Canvas.ForceUpdateCanvases(); //help
+        StartCoroutine(DelayedUpdate());
     }
 
     public override void UpdatePage(CodexEntries entry, Quest quest)
@@ -103,8 +111,6 @@ public class PlantPage : CodexPage
             targetedByParent.SetActive(true);
         }
         else targetedByParent.SetActive(false);
-
-        Canvas.ForceUpdateCanvases();
     }
 
     private void UpdateConsumesAndProduces(CodexEntries entry)
@@ -121,7 +127,6 @@ public class PlantPage : CodexPage
         {
             consumesObject[0].SetActive(false);
         }
-        Canvas.ForceUpdateCanvases();
 
         if (entry.cropData.terraIntake > 0)
         {
@@ -132,7 +137,6 @@ public class PlantPage : CodexPage
         {
             consumesObject[1].SetActive(false);
         }
-        Canvas.ForceUpdateCanvases();
 
         if (entry.cropData.ichorIntake > 0)
         {
@@ -143,7 +147,6 @@ public class PlantPage : CodexPage
         {
             consumesObject[2].SetActive(false);
         }
-        Canvas.ForceUpdateCanvases();
 
         /*if (entry.cropData.waterIntake > 0)
         {
@@ -159,7 +162,6 @@ public class PlantPage : CodexPage
             consumesParent.SetActive(true);
         }
         else consumesParent.SetActive(false);
-        Canvas.ForceUpdateCanvases();
 
         //Produces
         if (entry.cropData.gloamIntake < 0)
@@ -171,7 +173,6 @@ public class PlantPage : CodexPage
         {
             producesObject[0].SetActive(false);
         }
-        Canvas.ForceUpdateCanvases();
 
         if (entry.cropData.terraIntake < 0)
         {
@@ -182,7 +183,6 @@ public class PlantPage : CodexPage
         {
             producesObject[1].SetActive(false);
         }
-        Canvas.ForceUpdateCanvases();
 
         if (entry.cropData.ichorIntake < 0)
         {
@@ -193,7 +193,6 @@ public class PlantPage : CodexPage
         {
             producesObject[2].SetActive(false);
         }
-        Canvas.ForceUpdateCanvases();
 
         /*if (entry.cropData.waterIntake < 0)
         {
@@ -209,6 +208,33 @@ public class PlantPage : CodexPage
             producesParent.SetActive(true);
         }
         else producesParent.SetActive(false);
+
+        
+    }
+
+    public IEnumerator DelayedUpdate() // this is stupid
+    {
+        yield return new WaitForEndOfFrame();
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(producesRectTransform);
         Canvas.ForceUpdateCanvases();
+        producesLayoutGroup.enabled = false; 
+        producesLayoutGroup.enabled = true; 
+
+        
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(consumesRectTransform);
+        Canvas.ForceUpdateCanvases();
+        consumesLayoutGroup.enabled = false; 
+        consumesLayoutGroup.enabled = true; 
+
+        
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rightPageRectTransform);
+        rightPageLayoutGroup.enabled = false; 
+        rightPageLayoutGroup.enabled = true; 
+
+        StopCoroutine(DelayedUpdate());
     }
 }
