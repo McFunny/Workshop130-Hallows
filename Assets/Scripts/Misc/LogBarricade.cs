@@ -31,7 +31,7 @@ public class LogBarricade : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(isPapered)
+        /*if(isPapered)
         {
             isPapered = false;
             GameObject droppedItem = ItemPoolManager.Instance.GrabItem(papers);
@@ -39,7 +39,7 @@ public class LogBarricade : MonoBehaviour, IInteractable
             paperSprite.SetActive(false);
             interactSuccessful = true;
             return;
-        }
+        }*/
         interactSuccessful = false;
     }
 
@@ -115,7 +115,7 @@ public class LogBarricade : MonoBehaviour, IInteractable
 
     void CheckData()
     {
-        if(checkStart || TimeManager.Instance.currentHour == 8) checkStart = false;
+        if(checkStart || TimeManager.Instance.currentHour == 8 || TimeManager.Instance.currentHour == 19);
         else return;
         
         switch(id)
@@ -129,7 +129,7 @@ public class LogBarricade : MonoBehaviour, IInteractable
                     QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(5));
                 } 
                 QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(4));
-                Destroy(this.gameObject);
+                if(TimeManager.Instance.currentHour == 8 || checkStart) Destroy(this.gameObject);
             }
             break;
 
@@ -137,10 +137,11 @@ public class LogBarricade : MonoBehaviour, IInteractable
             if(GameSaveData.Instance.townTreeCleared2 || isPapered)
             {
                 if(!GameSaveData.Instance.townTreeCleared2) GameSaveData.Instance.townTreeCleared2 = true;
-                Destroy(this.gameObject);
+                if(TimeManager.Instance.currentHour == 8 || checkStart) Destroy(this.gameObject);
             }
             break;
         }
+        checkStart = false;
     }
 
     IEnumerator DelayedCheck()

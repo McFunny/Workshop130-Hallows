@@ -7,6 +7,8 @@ public class FanaticNPC : NPC, ITalkable
     public float sellMultiplier = 1;
     List<StoreItem> storeItems = new List<StoreItem>();
 
+    public InventoryItemData bathBomb;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -29,6 +31,14 @@ public class FanaticNPC : NPC, ITalkable
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.fanMet = true;
+            }
+            else if(!GameSaveData.Instance.fan_giveBombs && !PlayerInventoryHolder.Instance.IsInventoryFull())
+            {
+                GameSaveData.Instance.fan_giveBombs = true;
+                currentPath = 5;
+                currentType = PathType.Misc;
+                itemsToGive.Add(new ItemWithAmount(bathBomb, 3));
+                dailyQuest = null;
             }
             else
             {

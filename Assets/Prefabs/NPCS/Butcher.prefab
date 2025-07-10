@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  enabled: 0
 --- !u!1 &3166767519974764479
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 1
+  enabled: 0
 --- !u!114 &9008461425270318482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,7 +437,7 @@ MonoBehaviour:
   eyeLine: {fileID: 7415443264785453035}
   exclamationObject: {fileID: 3080164754136708169}
   character: 12
-  barterDatabase: {fileID: 0}
+  barterDatabase: {fileID: 11400000, guid: adda8b556248405459a9ae4a5558306e, type: 2}
   currentPath: -1
   currentType: 0
   lastInteractedStoreItem: {fileID: 0}

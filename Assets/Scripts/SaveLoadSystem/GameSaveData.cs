@@ -45,6 +45,7 @@ public class GameSaveData : MonoBehaviour
     public bool bot_explainedPollen; //Player bought a seed requiring pollination
     public bool ras_askedForNet; //Gave the find my net quest
     public bool bot_explainedTrellis; //Player bought a seed requiring a trellis
+    public bool fan_giveBombs; //Fanatic gave player bathbombs at the start
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
@@ -159,6 +160,7 @@ public class GameSaveData : MonoBehaviour
         bot_explainedPollen = data.allGameSaveData.bot_explainedPollen;
         bot_explainedTrellis = data.allGameSaveData.bot_explainedTrellis;
         ras_askedForNet = data.allGameSaveData.ras_askedForNet;
+        fan_giveBombs = data.allGameSaveData.fan_giveBombs;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -226,6 +228,7 @@ public class GameSaveData : MonoBehaviour
         public bool bot_explainedPollen;
         public bool ras_askedForNet;
         public bool bot_explainedTrellis;
+        public bool fan_giveBombs;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -285,6 +288,7 @@ public class GameSaveData : MonoBehaviour
         bot_explainedPollen = data.bot_explainedPollen;
         bot_explainedTrellis = data.bot_explainedTrellis;
         ras_askedForNet = data.ras_askedForNet;
+        fan_giveBombs = data.fan_giveBombs;
 
         travMet = data.travMet;
         graveMet = data.graveMet;

@@ -157,24 +157,29 @@ public class ButcherNPC : NPC, ITalkable
 
     public override void RefreshStore()
     {
-        //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
         if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
         lastInteractedStoreItem = null;
         int i;
         float r;
         InventoryItemData newItem;
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+            
             do
             {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f, 1f);
-                if (r < itemWeight[i]) newItem = possibleSoldItems[i];
+                i = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i))
+                {
+                    newItem = barterDatabase.transactions[i].itemForSale;
+                    selectedTrades.Add(i);
+                } 
             }
             while (!newItem);
-            int newCost = (int)(newItem.value * sellMultiplier);
-            item.RefreshItem(newItem, newCost);
+            int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
             item.seller = this;
         }
     }
