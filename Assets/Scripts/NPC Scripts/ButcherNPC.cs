@@ -161,10 +161,12 @@ public class ButcherNPC : NPC, ITalkable
         lastInteractedStoreItem = null;
         int i;
         float r;
+        int itemsDisplayed = 0;
         InventoryItemData newItem;
         List<int> selectedTrades = new List<int>(); //Make sure no repeats
         foreach (StoreItem item in storeItems)
         {
+            if(itemsDisplayed > 4) break; //Limit the amount of items she sells
             newItem = null;
             
             do
@@ -181,6 +183,7 @@ public class ButcherNPC : NPC, ITalkable
             int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
             item.seller = this;
+            itemsDisplayed++;
         }
     }
 
