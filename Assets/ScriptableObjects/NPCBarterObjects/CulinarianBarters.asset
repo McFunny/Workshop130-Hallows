@@ -33,15 +33,6 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
       amount: 2
-  - name: Hogchop
-    itemForSale: {fileID: 11400000, guid: d2dff224289caeb4abb6564c747527d6, type: 2}
-    useItemPrice: 0
-    mintCost: 0
-    amountForSale: 3
-    barterChance: 0
-    itemsRequired:
-    - item: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
-      amount: 1
   - name: PaleCarrotCake
     itemForSale: {fileID: 11400000, guid: 86effa1763457db43a40a9362bc37cdc, type: 2}
     useItemPrice: 0
@@ -75,4 +66,31 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
       amount: 1
+  - name: BugKabob
+    itemForSale: {fileID: 11400000, guid: 995e68105f917cf43a48bd00d4fd1feb, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: c9af372d6ca36fd46b681856e9182698, type: 2}
+      amount: 3
+  - name: SpringRoll
+    itemForSale: {fileID: 11400000, guid: 800035b1dded5f64b85f9d723e794adc, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+      amount: 4
+  - name: SpringRoll
+    itemForSale: {fileID: 11400000, guid: 7e77e4e632c56a3429789bd989125387, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 7768b12c99afd534b97a45295f745592, type: 2}
+      amount: 4
   uniqueTransactions: []

@@ -95,7 +95,7 @@ MonoBehaviour:
   - name: Fallen Tree Removal
     description: The Lumberjack has agreed to clear the fallen tree blocking the
       bridge to the other side of town. However, his work is not free, and he demands
-      a 700 Mint stipend. Use the papers from his store to indicate the tree to chop.
+      a 600 Mint stipend. Use the papers from his store to indicate the tree to chop.
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
@@ -175,6 +175,26 @@ MonoBehaviour:
   - name: Finale
     description: Deep in the heart of the catacombs lies a metal box. Grab it and
       place it on your farm.
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards: []
+    townFavorReward: 0
+    progress: 0
+    maxProgress: 0
+    daysLeft: -1
+    assignee: 0
+    displayProgress: 0
+    orderIndex: 0
+    objectID: -1
+    objectID2: -1
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 8
+  - name: Grow the Titan Yellow Marigleam
+    description: Inside the Catacombs lies 4 sockets, each needing a unique flower.
+      Grow enough Yellow Marigleams so the Apothecary can make the titan seed.
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0

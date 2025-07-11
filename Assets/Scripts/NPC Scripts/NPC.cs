@@ -217,6 +217,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
         //Check to see if we have to identify the type of quest
         QuestManager.Instance.AddQuest(dailyQuest);
+        if(dailyQuest != null && dailyQuest.questBehavior) dailyQuest.questBehavior.QuestAssigned(dailyQuest);
         dailyQuest = null;
     }
 

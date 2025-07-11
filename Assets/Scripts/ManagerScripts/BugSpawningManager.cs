@@ -47,7 +47,7 @@ public class BugSpawningManager : MonoBehaviour
 
     void SpawnHourlyBugs()
     {
-        int hourlyBugCap = Random.Range(-2, 3); //Max amount to spawn per hour
+        int hourlyBugCap = Random.Range(-3, 5); //Max amount to spawn per hour
         Vector3 spawnPos = Vector3.zero;
 
         //Standard spawning of hourly bugs that spawn over time in the Farm, Town, Wilderness, ect

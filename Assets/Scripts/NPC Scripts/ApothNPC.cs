@@ -127,6 +127,27 @@ public class ApothNPC : NPC, ITalkable
         {
             newItem = null;
 
+            /*if(x < 2 && /*Was handed diagram*//*)
+            {
+                if(x == 0)
+                {
+                    newItem = barterDatabase.uniqueTransactions[0].itemForSale;
+                    newCost = (int)(barterDatabase.uniqueTransactions[0].mintCost * sellMultiplier);
+                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
+                } 
+                if(x == 1)
+                {
+                    newItem = barterDatabase.uniqueTransactions[1].itemForSale;
+                    newCost = (int)(barterDatabase.uniqueTransactions[1].mintCost * sellMultiplier);
+                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
+                }
+                item.seller = this;
+                //item.clearUponPurchase = false;
+
+                x++;
+                continue;
+            }*/
+
             do
             {
                 i = Random.Range(0, barterDatabase.transactions.Count);

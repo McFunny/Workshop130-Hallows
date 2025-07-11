@@ -96,7 +96,6 @@ public class QuestDatabase : ScriptableObject
                 if(chosenQuest as HuntQuest != null) Debug.Log ("Its a hunt quest");
                 if(chosenQuest as FetchQuest != null) Debug.Log ("Its a fetch quest");
 
-                if(chosenQuest != null && chosenQuest.questBehavior) chosenQuest.questBehavior.QuestAssigned(chosenQuest);
                 return chosenQuest;
             }
         }

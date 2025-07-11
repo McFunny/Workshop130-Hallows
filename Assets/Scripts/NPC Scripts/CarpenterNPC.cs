@@ -196,7 +196,7 @@ public class CarpenterNPC : NPC, ITalkable
         {
             newItem = null;
 
-            if(x < 2)
+            if(x < 3)
             {
                 if(x == 0)
                 {
@@ -207,6 +207,11 @@ public class CarpenterNPC : NPC, ITalkable
                 {
                     newItem = gloomStalkBarter.itemForSale;
                     item.RefreshItem(newItem, 0, gloomStalkBarter.itemsRequired, 99);
+                }
+                if(x == 2)
+                {
+                    newItem = barterDatabase.uniqueTransactions[0].itemForSale;
+                    item.RefreshItem(newItem, 0, barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
                 }
                 item.seller = this;
                 //item.clearUponPurchase = false;
