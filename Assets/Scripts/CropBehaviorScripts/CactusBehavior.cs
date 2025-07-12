@@ -18,6 +18,8 @@ public class CactusBehavior : CropBehavior
         {
             tile.growthStage = 5;
             tile.SpriteChange();
+            tile.DrainNutrients(out bool gainedStress, false);
+            if(gainedStress && tile.growthImpeded) tile.growthImpeded.Play();
             return;
         }
 
