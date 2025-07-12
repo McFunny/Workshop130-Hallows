@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
-  enabled: 0
+  objectActive: 0
 --- !u!1 &9058944406745858869
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 1
-  enabled: 0
+  objectActive: 0
 --- !u!114 &2929969690303042137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,32 +441,32 @@ MonoBehaviour:
   dialogueController: {fileID: 0}
   anim: {fileID: 8793892611043133520}
   happy:
-  - {fileID: 8300000, guid: 9f9e53c542fd11a4aa271ccbffe43a99, type: 3}
-  - {fileID: 8300000, guid: 30f630726a6330d44b499d89ff6cca3a, type: 3}
-  - {fileID: 8300000, guid: 399d975d9d324c24eafb735fd64615bd, type: 3}
+  - {fileID: 8300000, guid: 6368a9b398404964f9db8bb305f77f9b, type: 3}
+  - {fileID: 8300000, guid: e179044c28705bf44bbb93d63b55a4e9, type: 3}
+  - {fileID: 8300000, guid: fc7bba96d81853742b0d5ab5ae2a9704, type: 3}
+  - {fileID: 8300000, guid: 28e012a98bea87e45aaa7076dec40475, type: 3}
   sad:
-  - {fileID: 8300000, guid: 6419876517e84864c8067aa8bfcc1579, type: 3}
-  - {fileID: 8300000, guid: a142876e0d5f0e149af2473a154f1351, type: 3}
-  - {fileID: 8300000, guid: 6a1b61975e86576459d17c0a33c114d0, type: 3}
+  - {fileID: 8300000, guid: 1619a228a61d8f041b02325d807493d5, type: 3}
+  - {fileID: 8300000, guid: f04af2131f851d7498eaee941b8fd0f1, type: 3}
+  - {fileID: 8300000, guid: 9710d245c0cbb7e47995b1a5b77703b0, type: 3}
   neutral:
-  - {fileID: 8300000, guid: 32dbcccff288a094fb8a03a433439194, type: 3}
-  - {fileID: 8300000, guid: ae6b1b529ac322c47bb5ac2bc7ce7b55, type: 3}
-  - {fileID: 8300000, guid: dc451f92c669604489a838176599abe3, type: 3}
-  - {fileID: 8300000, guid: 9a8ac574d16f79a44aef1eaf4da7ad58, type: 3}
-  - {fileID: 8300000, guid: 4c98129e9397ae147a88bb25988233ae, type: 3}
-  - {fileID: 8300000, guid: 8ce6afab43a27954dab11fcf345168cc, type: 3}
-  - {fileID: 8300000, guid: bbaa56962ca868b45ab2a5db760b7327, type: 3}
+  - {fileID: 8300000, guid: b98edce4a60816340b2eba9cf730752a, type: 3}
+  - {fileID: 8300000, guid: 3b8b7ab042640f544a0ec5412e9077c1, type: 3}
+  - {fileID: 8300000, guid: 99cfb2de10000ef49bcb0df44b183492, type: 3}
+  - {fileID: 8300000, guid: 06d934b00b24ea948889c1f431962bfb, type: 3}
+  - {fileID: 8300000, guid: 08faeb0a3f638344ba681fa6ec5bf33b, type: 3}
+  - {fileID: 8300000, guid: f75c2882c17306d4ca5b11264ab97014, type: 3}
   angry:
-  - {fileID: 8300000, guid: 1a240ddf68582a04ca3f215a25af9de2, type: 3}
-  - {fileID: 8300000, guid: 3c9f8846b4a0be74089539a7704110db, type: 3}
-  - {fileID: 8300000, guid: e7f64d1f65945ea4d9d331cf01b3b6c6, type: 3}
+  - {fileID: 8300000, guid: d2993b4f733dcb14f8ed10dcc4cbee93, type: 3}
+  - {fileID: 8300000, guid: d635d8fc717044a46a657ce928a0c943, type: 3}
   confused:
-  - {fileID: 8300000, guid: 122ecf70001a8794e994123b6894297a, type: 3}
-  - {fileID: 8300000, guid: 8bc66725d9fc0ae4da305d1159f2e195, type: 3}
-  - {fileID: 8300000, guid: 0c427a498f685304d87462162551bed5, type: 3}
+  - {fileID: 8300000, guid: 59cc63addef14114c82c27ea8c93d8d0, type: 3}
+  - {fileID: 8300000, guid: 9fc9c6a0c414bb74295782573d97709b, type: 3}
   shocked:
-  - {fileID: 8300000, guid: b278c3ef6e07f1f4fa68e2e2612ed603, type: 3}
-  - {fileID: 8300000, guid: f6ca63fdf5d7687478d0bf42a96e550f, type: 3}
+  - {fileID: 8300000, guid: ee4c6942c548593488e0315c01edad04, type: 3}
+  - {fileID: 8300000, guid: 7ab813b6ce393f84f9dc92d0b1e86a20, type: 3}
+  - {fileID: 8300000, guid: 795396da9d9faf1459e9ee794ee3cdda, type: 3}
+  - {fileID: 8300000, guid: d06696076d93dd842b53756a95aa1a29, type: 3}
   eyeLine: {fileID: 2559324535568017811}
   exclamationObject: {fileID: 6702150721317582885}
   character: 10

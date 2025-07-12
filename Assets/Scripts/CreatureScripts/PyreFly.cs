@@ -20,7 +20,7 @@ public class PyreFly : CreatureBehaviorScript
     float igniteDistance = 3; //distance to ignite structures/be ignited/enter hive
 
     [HideInInspector]public bool ignited = true;
-    public GameObject pyreFire;
+    public GameObject pyreFire, splashObject;
     public Material ignitedMat, extinguishedMat;
     public MeshRenderer meshRenderer;
     float textureOffset = 0;
@@ -647,6 +647,7 @@ public class PyreFly : CreatureBehaviorScript
         else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && ignited)
         {
             PlayerInteraction.Instance.waterHeld--;
+            splashObject.SetActive(true);
             IgnitionToggle(false);
             success = true;
         }
