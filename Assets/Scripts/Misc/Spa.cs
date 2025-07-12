@@ -57,6 +57,8 @@ public class Spa : MonoBehaviour, IInteractable
             StartCoroutine(ActivationTimer());
             splashVFX.Play();
             source.Play();
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
             return;
         }
 
@@ -115,7 +117,7 @@ public class Spa : MonoBehaviour, IInteractable
             yield return new WaitForSeconds(0.5f);
             if(playerInSpa && activated)
             {
-                if(PlayerInteraction.Instance.stamina < PlayerInteraction.Instance.maxStamina) PlayerInteraction.Instance.stamina += 15;
+                if(PlayerInteraction.Instance.stamina < PlayerInteraction.Instance.maxStamina) PlayerInteraction.Instance.stamina += 10;
                 if(PlayerInteraction.Instance.fatigue > 0)  PlayerInteraction.Instance.fatigue -= 5;
             }
         }
@@ -129,7 +131,7 @@ public class Spa : MonoBehaviour, IInteractable
         {
             currentSprite++;
             if(currentSprite >= waterSprites.Length) currentSprite = 0;
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.5f);
             renderer.sprite = waterSprites[currentSprite];
         }
         while(gameObject.activeSelf);

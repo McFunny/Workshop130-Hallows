@@ -96,7 +96,17 @@ MonoBehaviour:
       fearing someone would eat one by mistake.
     - Now, you cannot find a single trace of the flower in town.
     emotions: 00000000050000000000000002000000
-  questPaths: []
+  questPaths:
+  - pathName: I figured it out
+    paragraphs:
+    - After lengthy research and testing, I have deduced a few things.
+    - I was unable to synthesize the plant shown on that diagram. However, I was
+      able to make dwarf versions of it.
+    - I hypothesize that with enough samples of the smaller plant, I can recreate
+      the larger one.
+    - If you bring me enough specimens, then I may be able to bring this flower back
+      from extinction.
+    emotions: 00000000020000000000000001000000
   itemRecievedPaths:
   - pathName: Go Sell it instead
     paragraphs:
@@ -111,6 +121,13 @@ MonoBehaviour:
     - I have need to spend my precious <color=#E0D38F> Mints</color> <sprite index=0>
       on your junk.
     emotions: 0200000000000000
+  - pathName: I will decrypt this scroll
+    paragraphs:
+    - What is this? The writing on this goes into such excruciating detail...
+    - I have never seen or heard of this plant species before. Fascinating...
+    - ...
+    - Give me time. Come back tomorrow.
+    emotions: 04000000040000000600000000000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
