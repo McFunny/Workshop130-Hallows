@@ -92,12 +92,12 @@ public class ShovelBehavior : ToolBehavior
                     else if(PlayerInteraction.Instance.stamina <= 50)
                     {
                         coolDownMod += .25f;
-                        animSpeedMod -= .25f;
+                        animSpeedMod -= .15f;
                     }
                     if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.6f * coolDownMod));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 2f * coolDownMod));
 
                     /*
                     if(PlayerInteraction.Instance.stamina > 50)

@@ -20,7 +20,7 @@ public class PyreFly : CreatureBehaviorScript
     float igniteDistance = 3; //distance to ignite structures/be ignited/enter hive
 
     [HideInInspector]public bool ignited = true;
-    public GameObject pyreFire;
+    public GameObject pyreFire, splashObject;
     public Material ignitedMat, extinguishedMat;
     public MeshRenderer meshRenderer;
     float textureOffset = 0;
@@ -31,14 +31,16 @@ public class PyreFly : CreatureBehaviorScript
     private StructureBehaviorScript targetStructure; //Struct to burn
     private StructureBehaviorScript targetFireSource;
 
-    //public LayerMask layerMask;
-
     bool idleTurn = false;
 
     public Transform strafePointL, strafePointR;
     //Coroutine strafeCoroutine = null;
     bool strafing = false;
     public GameObject fireball;
+
+    public GameObject fearObject; //The particle system
+    Vector3 fearedObjectPosition; //Where the lavent leaf is
+    Vector3 fleeToPos; //Where its fleeing to
 
 
     public enum CreatureState
@@ -49,7 +51,8 @@ public class PyreFly : CreatureBehaviorScript
         ReturnToHive,
         Stun,
         Die,
-        StrafePlayer
+        StrafePlayer,
+        Flee
         //WalkTowardsPlayer,
         //AttackPlayer,
     }
@@ -152,6 +155,10 @@ public class PyreFly : CreatureBehaviorScript
                 StrafePlayer();
                 break;
 
+            case CreatureState.Flee:
+                Flee();
+                break;
+
             default:
                 Debug.LogError("Unknown state: " + currentState);
                 break;
@@ -210,12 +217,21 @@ public class PyreFly : CreatureBehaviorScript
         {
             if((playerInAttackRange && variant == Variant.Napalm)) timeSpent += 25;
             if(variant == Variant.Napalm && playerInSightRange) agent.destination = destination;
+            if(fearedObjectPosition != Vector3.zero) timeSpent += 25;
 
             timeSpent += Time.deltaTime;
             yield return null;
         }
 
         float r = Random.Range(0,10);
+
+        if(fearedObjectPosition != Vector3.zero)
+        {
+            currentState = CreatureState.Flee;
+            isMoving = false;
+            coroutineRunning = false;
+            yield break;
+        }
 
         if((playerInAttackRange && variant == Variant.Napalm))
         {
@@ -365,6 +381,18 @@ public class PyreFly : CreatureBehaviorScript
         {
             target = homeHive.transform;
             agent.destination = target.position;
+        }
+    }
+
+    void Flee()
+    {
+        if(Vector3.Distance(transform.position, fearedObjectPosition) > 8)
+        {
+            fearedObjectPosition = Vector3.zero;
+            targetStructure = null;
+            currentState = CreatureState.Wander;
+            fearObject.SetActive(false);
+            return;
         }
     }
 
@@ -550,6 +578,15 @@ public class PyreFly : CreatureBehaviorScript
         IgnitionToggle(false);
     }
 
+    public override void NearLaventLeaf(Vector3 pos)
+    {
+        if(currentState == CreatureState.Flee) return;
+        fearedObjectPosition = pos;
+        fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
+        agent.destination = fleeToPos;
+        fearObject.SetActive(true);
+    }
+
     public void OnDestroy()
     {
         base.OnDestroy();
@@ -610,6 +647,7 @@ public class PyreFly : CreatureBehaviorScript
         else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && ignited)
         {
             PlayerInteraction.Instance.waterHeld--;
+            splashObject.SetActive(true);
             IgnitionToggle(false);
             success = true;
         }

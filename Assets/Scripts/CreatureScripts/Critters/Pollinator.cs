@@ -24,12 +24,17 @@ public class Pollinator : CreatureBehaviorScript
 
     public List<ParticleSystem> pollenParticles;
 
+    public GameObject fearObject; //The particle system
+    Vector3 fearedObjectPosition; //Where the lavent leaf is
+    Vector3 fleeToPos; //Where its fleeing to
+
     public enum CreatureState
     {
         SpawnIn,
         Wander,
         WanderByFire,
         WalkTowardsTarget,
+        Flee
     }
     public CreatureState currentState;
 
@@ -55,13 +60,17 @@ public class Pollinator : CreatureBehaviorScript
         else agent.speed = fireSpeed;
 
         if(coroutineRunning) return;
-        if(TimeManager.Instance.isDay) currentState = CreatureState.Wander;
-        else if(target)
+        if(currentState != CreatureState.Flee)
         {
-            if(targetStructure)  currentState = CreatureState.WalkTowardsTarget;
-            else  currentState = CreatureState.WanderByFire;
+            if(TimeManager.Instance.isDay) currentState = CreatureState.Wander;
+            else if(target)
+            {
+                if(targetStructure)  currentState = CreatureState.WalkTowardsTarget;
+                else  currentState = CreatureState.WanderByFire;
+            }
+            else if(currentState != CreatureState.SpawnIn) currentState = CreatureState.Wander;
         }
-        else if(currentState != CreatureState.SpawnIn) currentState = CreatureState.Wander;
+    
 
         CheckState(currentState);
     }
@@ -79,9 +88,11 @@ public class Pollinator : CreatureBehaviorScript
             case CreatureState.WanderByFire:
                 WanderByFire();
                 break;
-
             case CreatureState.WalkTowardsTarget:
                 WalkTowardsClosestTarget();
+                break;
+            case CreatureState.Flee:
+                Flee();
                 break;
 
             default:
@@ -151,10 +162,22 @@ public class Pollinator : CreatureBehaviorScript
                 timeSpent += 25;
             }
 
+            if(fearedObjectPosition != Vector3.zero) timeSpent += 25;
+
+            
+
             timeSpent += Time.deltaTime;
             yield return null;
         }
         print("Done Moving");
+
+        if(fearedObjectPosition != Vector3.zero)
+        {
+            currentState = CreatureState.Flee;
+            isMoving = false;
+            coroutineRunning = false;
+            yield break;
+        }
 
         if(target)
         {
@@ -184,6 +207,18 @@ public class Pollinator : CreatureBehaviorScript
         if(target && agent.destination != target.position)
         {
             agent.destination = target.position;
+        }
+    }
+
+    void Flee()
+    {
+        if(Vector3.Distance(transform.position, fearedObjectPosition) > 8)
+        {
+            fearedObjectPosition = Vector3.zero;
+            targetStructure = null;
+            currentState = CreatureState.Wander;
+            fearObject.SetActive(false);
+            return;
         }
     }
 
@@ -219,6 +254,8 @@ public class Pollinator : CreatureBehaviorScript
         while(true)
         {
             yield return new WaitForSeconds(1.5f);
+
+            if(fearedObjectPosition != Vector3.zero) continue;
 
             if(!targetStructure)
             {
@@ -293,5 +330,14 @@ public class Pollinator : CreatureBehaviorScript
             successful = true;
         }
         else successful = false;
+    }
+
+    public override void NearLaventLeaf(Vector3 pos)
+    {
+        if(currentState == CreatureState.Flee) return;
+        fearedObjectPosition = pos;
+        fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
+        agent.destination = fleeToPos;
+        fearObject.SetActive(true);
     }
 }
