@@ -7,6 +7,9 @@ public class HandItemManager : MonoBehaviour
     public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly;
     public GameObject torchFlame, pyreflyFlame;
 
+    Vector3 hoePos, shovelPos, wateringCanPos, shotGunPos, waterGunPos, torchPos, bugNetPos, scythePos, pyreflyPos; //starting positions
+    Quaternion hoeRot, shovelRot, wateringCanRot, shotGunRot, waterGunRot, torchRot, bugNetRot, scytheRot, pyreflyRot; //starting rotations
+
     ToolType currentType = ToolType.Null;
 
     GameObject currentHandObject;
@@ -33,6 +36,7 @@ public class HandItemManager : MonoBehaviour
         {
             Instance = this;
         }
+        //InitializeStartingVectors();
     }
 
     void Start()
@@ -58,38 +62,56 @@ public class HandItemManager : MonoBehaviour
             case ToolType.Hoe:
                 hoe.SetActive(true);
                 currentHandObject = hoe;
+                //hoe.transform.position = hoePos;
+                //hoe.transform.rotation = hoeRot;
                 break;
             case ToolType.Shovel:
                 shovel.SetActive(true);
                 currentHandObject = shovel;
+                //shovel.transform.position = shovelPos;
+                //shovel.transform.rotation = shovelRot;
                 break;
             case ToolType.WateringCan:
                 wateringCan.SetActive(true);
                 currentHandObject = wateringCan;
+                //wateringCan.transform.position = wateringCanPos;
+                //wateringCan.transform.rotation = wateringCanRot;
                 break;
             case ToolType.ShotGun:
                 shotGun.SetActive(true);
                 currentHandObject = shotGun;
+                //shotGun.transform.position = shotGunPos;
+                //shotGun.transform.rotation = shotGunRot;
                 break;
             case ToolType.WaterGun:
                 waterGun.SetActive(true);
                 currentHandObject = waterGun;
+                //waterGun.transform.position = waterGunPos;
+                //waterGun.transform.rotation = waterGunRot;
                 break;
             case ToolType.Torch:
                 torch.SetActive(true);
                 currentHandObject = torch;
+                //torch.transform.position = torchPos;
+                //torch.transform.rotation = torchRot;
                 break;
             case ToolType.BugNet:
                 bugNet.SetActive(true);
                 currentHandObject = bugNet;
+                //bugNet.transform.position = bugNetPos;
+                //bugNet.transform.rotation = bugNetRot;
                 break;
             case ToolType.Scythe:
                 scythe.SetActive(true);
                 currentHandObject = scythe;
+                //scythe.transform.position = scythePos;
+                //scythe.transform.rotation = scytheRot;
                 break;
             case ToolType.Pyrefly:
                 pyrefly.SetActive(true);
                 currentHandObject = pyrefly;
+                //pyrefly.transform.position = pyreflyPos;
+                //pyrefly.transform.rotation = pyreflyRot;
                 break;
             default:
                 currentHandObject = null;
@@ -219,5 +241,35 @@ public class HandItemManager : MonoBehaviour
     public ToolType GetCurrentType()
     {
         return currentType;
+    }
+
+    void InitializeStartingVectors() //no worky
+    {
+        hoePos = hoe.transform.position;
+        hoeRot = hoe.transform.rotation;
+
+        shovelPos = shovel.transform.position;
+        shovelRot = shovel.transform.rotation;
+
+        wateringCanPos = wateringCan.transform.position;
+        wateringCanRot = wateringCan.transform.rotation;
+
+        shotGunPos = shotGun.transform.position;
+        shotGunRot = shotGun.transform.rotation;
+
+        waterGunPos = waterGun.transform.position;
+        waterGunRot = waterGun.transform.rotation;
+
+        torchPos = torch.transform.position;
+        torchRot = torch.transform.rotation;
+
+        bugNetPos = bugNet.transform.position;
+        bugNetRot = bugNet.transform.rotation;
+
+        scythePos = scythe.transform.position;
+        scytheRot = scythe.transform.rotation;
+
+        pyreflyPos = pyrefly.transform.position;
+        pyreflyRot = pyrefly.transform.rotation;
     }
 }

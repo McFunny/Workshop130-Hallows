@@ -150,7 +150,7 @@ public class ItemCrate : FurnitureBehaviorScript
 
     bool CanBeRemoved()
     {
-        if(savedItems.Count == 0 || savedItems[0] == null) return true;
+        if(savedItems.Count == 0) return true;
         for(int i = 0; i < itemSockets.Count; i++)
         {
             if(savedItems[i] != null) return false;

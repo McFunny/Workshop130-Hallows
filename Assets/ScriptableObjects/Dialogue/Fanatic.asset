@@ -47,6 +47,12 @@ MonoBehaviour:
     paragraphs:
     - Your stomach, or perhaps inventory, seems to full to buy this
     emotions: 05000000
+  - pathName: Have bombs
+    paragraphs:
+    - I can see it! All over you!
+    - The Mist's stain! You must cleanse yourself!
+    - Place these in the water of the spring and let it purify you! {givePlayerItems}
+    emotions: 050000000300000000000000
   fillerPaths:
   - pathName: Mist Everywhere
     paragraphs:
@@ -111,6 +117,11 @@ MonoBehaviour:
     paragraphs:
     - GET IT AWAY FROM ME.
     emotions: 03000000
+  - pathName: Scroll
+    paragraphs:
+    - THE LIGHT! ITS BLINDING! THOSE WHO CAME BEFORE WILL FIND US!
+    - DO YOU WANT EVEN MORE EYES ON THIS TOWN??
+    emotions: 0300000005000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

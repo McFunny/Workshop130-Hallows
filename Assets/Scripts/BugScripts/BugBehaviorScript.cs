@@ -49,6 +49,9 @@ public class BugBehaviorScript : MonoBehaviour
 
     private Sequence flutter;
 
+    Vector3 fearedObjectPosition; //Where the lavent leaf is
+    Vector3 fleeToPos; //Where its fleeing to
+
     public enum DespawnMethod
     {
         Poof,
@@ -63,6 +66,7 @@ public class BugBehaviorScript : MonoBehaviour
         Wander,
         MovingToTarget,
         Panic,
+        Flee,
         Leave,
         Stun,
         UniqueBehavior1,
@@ -84,6 +88,10 @@ public class BugBehaviorScript : MonoBehaviour
 
             case BugState.Panic:
                 Panic();
+                break;
+
+            case BugState.Flee:
+                Flee();
                 break;
 
             case BugState.Leave:
@@ -195,7 +203,7 @@ public class BugBehaviorScript : MonoBehaviour
             timeSpent += Time.deltaTime;
             if(target != null && currentState == BugState.Wander) stopEarly = true;
 
-            if(currentState == BugState.Leave) stopEarly = true;
+            if(currentState == BugState.Leave || currentState == BugState.Flee) stopEarly = true;
 
             //if(((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && currentState == BugState.Panic)) stopEarly = true;
 
@@ -232,11 +240,14 @@ public class BugBehaviorScript : MonoBehaviour
         }
     }
 
-    private void Flee() //currently not implemented
+    private void Flee() //For LaventLeaf
     {
-        if(!target) target = player;
-        Vector3 runTo = transform.position + ((transform.position - target.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
-        agent.destination = runTo;
+        if(Vector3.Distance(transform.position, fearedObjectPosition) > 8)
+        {
+            fearedObjectPosition = Vector3.zero;
+            currentState = BugState.Wander;
+            return;
+        }
     }
 
     protected IEnumerator Leaving()
@@ -347,6 +358,12 @@ public class BugBehaviorScript : MonoBehaviour
         Destroy(gameObject);
     }
 
-
+    public virtual void NearLaventLeaf(Vector3 pos)
+    {
+        if(currentState == BugState.Leave || currentState == BugState.Stun || currentState == BugState.Flee) return;
+        fearedObjectPosition = pos;
+        fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
+        agent.destination = fleeToPos;
+    }
 
 }

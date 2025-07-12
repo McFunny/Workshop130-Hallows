@@ -113,6 +113,8 @@ public class FarmLand : StructureBehaviorScript
 
         OnDamage += Damaged;
 
+        if(!isWeed) StartCoroutine(BehaviorTimer());
+
     }
 
     // Update is called once per frame
@@ -134,6 +136,19 @@ public class FarmLand : StructureBehaviorScript
         
         
         
+    }
+
+    IEnumerator BehaviorTimer()
+    {
+        while(health > 0)
+        {
+            if(crop && crop.behavior && crop.behavior.behaviorUpdateTime > 0)
+            {
+                yield return new WaitForSeconds(crop.behavior.behaviorUpdateTime);
+                crop.behavior.BehaviorUpdate(this);
+            }
+            else yield return new WaitForSeconds(1);
+        }
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -286,7 +301,6 @@ public class FarmLand : StructureBehaviorScript
 
 
                     r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
-                    if(r == 0 && Random.Range(0,10) >= 8 && crop.seedYieldAmount > 0 && MainMenuScript.currentFileMode != FileMode.Cozy) r = 1; //Disabled on cozy. Crops no longer produce seeds on a perfect yield
                     for (int i = 0; i < r; i++) //Seed yield
                     {
                         if(crop.cropSeed && plantStress == 0)
