@@ -6,10 +6,9 @@ using UnityEngine;
 public class CactusBehavior : CropBehavior
 {
     public AudioClip contactSFX;
-    public override void CropBonusYield(FarmLand tile, out int cropBonus, out int secondaryCropBonus)
+    public override void CropRemovalBonusYield(FarmLand tile, out int secondaryCropBonus)
     {
-        cropBonus = 0;
-        if(tile.growthStage >= 5 && tile.growthStage <= 7) secondaryCropBonus = Random.Range(1,3);
+        if(tile.growthStage >= 5 && tile.growthStage <= 7) secondaryCropBonus = Random.Range(1,4);
         else secondaryCropBonus = 0;
     }
 
@@ -19,6 +18,8 @@ public class CactusBehavior : CropBehavior
         {
             tile.growthStage = 5;
             tile.SpriteChange();
+            tile.DrainNutrients(out bool gainedStress, false);
+            if(gainedStress && tile.growthImpeded) tile.growthImpeded.Play();
             return;
         }
 
@@ -30,7 +31,8 @@ public class CactusBehavior : CropBehavior
                 tile.SpriteChange();
             }
         }
-        else if(!TimeManager.Instance.isDay)
+
+        if(!TimeManager.Instance.isDay && (tile.growthStage == 5 || tile.growthStage == 6))
         {
             tile.GetCropStats().waterLevel -= 5;
         }
@@ -52,6 +54,7 @@ public class CactusBehavior : CropBehavior
             c.TakeDamage(10);
             AudioPoolManager.Instance.PlayClipAtPosition(contactSFX, tile.transform.position);
             ParticlePoolManager.Instance.MoveAndPlayParticle(tile.transform.position, ParticlePoolManager.Instance.dirtParticle);
+            c.PlayHitParticle(Vector3.zero);
         } 
 
         if(contactedObject.layer == 10)

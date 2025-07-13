@@ -238,6 +238,7 @@ public class NPCMovement : MonoBehaviour
         //agent.Stop();
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
+        agent.Stop();
         if (actionToPlay == ActionAnim.Stand) npcScript.faceCamera.enabled = true;
         StartCoroutine(ReturnToSchedule());
     }

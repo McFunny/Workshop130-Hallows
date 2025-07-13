@@ -32,6 +32,10 @@ public class CodexEntries : ScriptableObject
     public StructureObject structureData;
     public BugObject bugData;
 
+    [Header("I know I should be using separate classes for each category but it kept giving me issues so whatever idc anymore")]
+    [Header("This uses the button icon from the selected codex entry btw")]
+    public CodexEntries[] targetedBy;
+
     [Tooltip("Unused in new Codex, but used in old Codex.")]
     [TextArea(4, 10)]
     public string[] description;
@@ -64,11 +68,11 @@ public class CodexEntries : ScriptableObject
                 }
             }
         }
-        
-        #if UNITY_EDITOR
+
+#if UNITY_EDITOR
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
-        #endif
+#endif
     }
 }
 

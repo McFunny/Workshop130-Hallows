@@ -113,6 +113,8 @@ public class FarmLand : StructureBehaviorScript
 
         OnDamage += Damaged;
 
+        if(!isWeed) StartCoroutine(BehaviorTimer());
+
     }
 
     // Update is called once per frame
@@ -124,7 +126,7 @@ public class FarmLand : StructureBehaviorScript
 
         if((!crop || growthStage < crop.growthStages) && !isWeed && !onFire && finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = false;
 
-        if(!crop && growthComplete) growthComplete.Stop();
+        if(!crop && growthComplete && growthComplete.HasAnySystemAwake()) growthComplete.Stop();
 
         if(supportText != null && !highlight[0].activeSelf)
         {
@@ -134,6 +136,19 @@ public class FarmLand : StructureBehaviorScript
         
         
         
+    }
+
+    IEnumerator BehaviorTimer()
+    {
+        while(health > 0)
+        {
+            if(crop && crop.behavior && crop.behavior.behaviorUpdateTime > 0)
+            {
+                yield return new WaitForSeconds(crop.behavior.behaviorUpdateTime);
+                crop.behavior.BehaviorUpdate(this);
+            }
+            else yield return new WaitForSeconds(1);
+        }
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -286,7 +301,6 @@ public class FarmLand : StructureBehaviorScript
 
 
                     r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
-                    if(r == 0 && Random.Range(0,10) >= 8 && crop.seedYieldAmount > 0 && MainMenuScript.currentFileMode != FileMode.Cozy) r = 1; //Disabled on cozy. Crops no longer produce seeds on a perfect yield
                     for (int i = 0; i < r; i++) //Seed yield
                     {
                         if(crop.cropSeed && plantStress == 0)
@@ -305,6 +319,24 @@ public class FarmLand : StructureBehaviorScript
                 crop.amountHarvested++;
 
                 if(crop && crop.behavior) crop.behavior.OnHarvest(this, forceDig, harvestedByScythe);
+            }
+            
+            if(crop.behavior && crop.cropSecondaryYield) //For a bonus yield at any point like cactus seeds
+            {
+                GameObject bonusDroppedItem;
+                Rigidbody bonusItemRB;
+                crop.behavior.CropRemovalBonusYield(this, out int secondaryCropBonus2);
+                for (int i = 0; i < secondaryCropBonus2; i++) //Secondary crop yield
+                {
+                    bonusDroppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSecondaryYield);
+                    bonusDroppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+                    Vector3 dir3 = Random.onUnitSphere;
+                    dir3 = new Vector3(dir3.x, bonusDroppedItem.transform.position.y, dir3.z);
+                    bonusItemRB = bonusDroppedItem.GetComponent<Rigidbody>();
+                    bonusItemRB.AddForce(dir3 * 20);
+                    bonusItemRB.AddForce(Vector3.up * 50);
+                }
             }
 
             if(rotted)
@@ -570,7 +602,7 @@ public class FarmLand : StructureBehaviorScript
         }
     }
 
-    void DrainNutrients(out bool gainedStress, bool waterOnly)
+    public void DrainNutrients(out bool gainedStress, bool waterOnly) //Drains nutrients according to crop
     {
         //PLANTS DRAIN PER GROWTH STAGE, AND THE PLAYER SHOULD HAVE TO WATER ROUGHLY EVERY STAGE/EVERY OTHER STAGE
         gainedStress = false;
@@ -687,6 +719,9 @@ public class FarmLand : StructureBehaviorScript
         if(crop) StructureInteraction();
         else
         {
+            if(currentUpgrade == FarmTileUpgrade.Trellis) ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+            if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
             audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;

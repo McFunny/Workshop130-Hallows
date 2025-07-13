@@ -213,10 +213,15 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     protected void GivePlayerDailyQuest()
     {
-        if(dailyQuest == null || dailyQuest.name == "") return;
+        if(dailyQuest == null || dailyQuest.name == "")
+        {
+            dailyQuest = null;
+            return;
+        }
 
         //Check to see if we have to identify the type of quest
         QuestManager.Instance.AddQuest(dailyQuest);
+        if(dailyQuest != null && dailyQuest.questBehavior) dailyQuest.questBehavior.QuestAssigned(dailyQuest);
         dailyQuest = null;
     }
 
@@ -366,6 +371,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     void GiveRewards(List<InventoryItemData> rewards)
     {
+        if(rewards.Count == 0 || rewards[0] == null) return;
+
         if(PlayerInventoryHolder.Instance.AddToInventory(rewards[0], rewards.Count)) return; //Gave all the rewards. Only does first item cuz quests should only give 1 type
 
         Vector3 itemPos = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);

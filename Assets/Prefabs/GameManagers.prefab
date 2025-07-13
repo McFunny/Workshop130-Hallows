@@ -10662,6 +10662,7 @@ GameObject:
   - component: {fileID: 1908568139050500351}
   - component: {fileID: 3640743660825113604}
   - component: {fileID: 6641095865559575426}
+  - component: {fileID: 2367110641730823191}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -10762,8 +10763,8 @@ MonoBehaviour:
   timeSkipping: 0
   stopTime: 0
   skyMat: {fileID: 2100000, guid: b765a272ba3f08b4cbd57e302799320e, type: 2}
-  nightColor: {r: 0.46858314, g: 0.4895267, b: 0.8490566, a: 1}
-  dayColor: {r: 0.7058824, g: 0.68235296, b: 0.5647059, a: 1}
+  nightColor: {r: 0.57254905, g: 0.5921569, b: 0.8392157, a: 1}
+  dayColor: {r: 0.7176471, g: 0.7058824, b: 0.65882355, a: 1}
   clockDarkenEffect: 0
   playerRespawn: {fileID: 8003300629687511125}
   respawnFocus: {fileID: 8786104782901986432}
@@ -58588,6 +58589,19 @@ MonoBehaviour:
   allBugs: []
   bugSpawns: []
   weedData: {fileID: 11400000, guid: f8c723bdc5ce2b54e90db5f0c86dc4d8, type: 2}
+--- !u!114 &2367110641730823191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 146b06e21488e064f873f27dc566a692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allFaceCameras: []
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0

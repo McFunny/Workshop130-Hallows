@@ -201,6 +201,8 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public virtual void FogTeleport(){}
 
+    public virtual void NearLaventLeaf(Vector3 pos){}
+
     public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
     {
         RaycastHit hit;

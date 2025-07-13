@@ -68,4 +68,20 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
-  uniqueTransactions: []
+  uniqueTransactions:
+  - name: YellowMarigleamSeeds
+    itemForSale: {fileID: 11400000, guid: 747cebbd0cf1e854d84e73ad4d034f05, type: 2}
+    useItemPrice: 1
+    mintCost: 23
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired: []
+  - name: TitanYellowMarigleamSeed
+    itemForSale: {fileID: 11400000, guid: 49bed0a6ab6e814429f20cc0bf7f9cf7, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
+      amount: 20

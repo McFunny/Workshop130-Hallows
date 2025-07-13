@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CropBehavior : ScriptableObject
 {
+    public float behaviorUpdateTime = 0; //For use only on behavior update function
+
     public virtual bool ConsumeNutrientsWhileGrown()
     {
         return false;
@@ -19,6 +21,11 @@ public class CropBehavior : ScriptableObject
     public virtual void CropBonusYield(FarmLand tile, out int cropBonus, out int secondaryCropBonus)
     {
         cropBonus = 0;
+        secondaryCropBonus = 0;
+    }
+
+    public virtual void CropRemovalBonusYield(FarmLand tile, out int secondaryCropBonus) //This is called at any time the plant is removed
+    {
         secondaryCropBonus = 0;
     }
 
@@ -45,4 +52,6 @@ public class CropBehavior : ScriptableObject
     {
         return true;
     }
+
+    public virtual void BehaviorUpdate(FarmLand tile){}
 }
