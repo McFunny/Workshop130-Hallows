@@ -71,6 +71,7 @@ public class CactusBehavior : CropBehavior
         {
             tile.growthStage = 6;
             tile.SpriteChange();
+            tile.growth.Play();
             return;
         }
     }
