@@ -197,13 +197,13 @@ public class BotanistNPC : NPC, ITalkable
                 {
                     int sack = Random.Range(0, 2);
                     item.RefreshItem(barterDatabase.uniqueTransactions[sack].itemForSale, barterDatabase.uniqueTransactions[sack].mintCost, barterDatabase.uniqueTransactions[sack].itemsRequired,
-                     barterDatabase.uniqueTransactions[sack].amountForSale);
+                    barterDatabase.uniqueTransactions[sack].amountForSale);
                 } 
                 if(x > 8)
                 {
 
                     item.RefreshItem(barterDatabase.uniqueTransactions[x - 7].itemForSale, barterDatabase.uniqueTransactions[x - 7].mintCost, barterDatabase.uniqueTransactions[x - 7].itemsRequired,
-                     barterDatabase.uniqueTransactions[x - 7].amountForSale);
+                    barterDatabase.uniqueTransactions[x - 7].amountForSale);
                 }
                 item.seller = this;
                 //item.clearUponPurchase = false;
@@ -238,7 +238,7 @@ public class BotanistNPC : NPC, ITalkable
                 }
             }
             while (!newItem);
-            extraItems += Random.Range(0, 3);
+            extraItems += Random.Range(1, 6);
             if(newCost == -1) newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale + extraItems);
             item.seller = this;

@@ -47,6 +47,14 @@ MonoBehaviour:
     paragraphs:
     - You can't carry this.
     emotions: 04000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - The {storeItemName}? It is yours if we make a trade.  {dontfreezePlayer}
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - Where did you plan to put this? Make room.
+    emotions: 02000000
   - pathName: Have some Ammo
     paragraphs:
     - It is dangerous to be beyond the town walls without any ammunition. {freezePlayer}

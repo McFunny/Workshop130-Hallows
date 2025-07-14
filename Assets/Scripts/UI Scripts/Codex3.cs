@@ -553,7 +553,6 @@ public class Codex3 : MonoBehaviour
 
         categoryContainer.SetActive(false);
         pageToOpen.SetActive(true);
-        Canvas.ForceUpdateCanvases();
         menuIndex = 2;
     }
 
