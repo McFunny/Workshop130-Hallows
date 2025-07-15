@@ -20,6 +20,10 @@ public class ShrineBox : MonoBehaviour, IInteractable
     public TextMeshProUGUI structureUItext;
     public SpriteRenderer itemWantedSprite;
 
+    private AudioSource audioSource;
+
+    public Transform particlePoint;
+
 
     public void EndInteraction()
     {
@@ -38,6 +42,9 @@ public class ShrineBox : MonoBehaviour, IInteractable
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             interactor.playerInventoryHolder.UpdateInventory();
             itemsDeposited++;
+            audioSource.PlayOneShot(audioSource.clip);
+            GameObject particle = ParticlePoolManager.Instance.GrabExtinguishParticle();
+            particle.transform.position = particlePoint.position;
             CheckToSeeIfSolved();
             interactSuccessful = true;
         }
@@ -50,6 +57,7 @@ public class ShrineBox : MonoBehaviour, IInteractable
             isSolved = true;
             ToggleHighlight(false);
             itemWantedSprite.color = Color.white;
+            ShrineBoxManager.Instance.CheckToSeeIfSolved();
         }
     }
 
@@ -112,6 +120,40 @@ public class ShrineBox : MonoBehaviour, IInteractable
     {
         itemWantedSprite.sprite = wantedItem.icon;
         itemWantedSprite.color = Color.black;
+        audioSource = GetComponent<AudioSource>();
     }
 
+    public ShrineSaveData ExportSaveData()
+    {
+        return new ShrineSaveData
+        {
+            itemsNeededData = itemsNeeded,
+            itemsDepositedData = itemsDeposited,
+            itemID = wantedItem.ID,
+            isSolvedData = isSolved
+        };
+    }
+
+    public void ImportSaveData(ShrineSaveData data)
+    {
+       itemsNeeded = data.itemsNeededData;
+       itemsDeposited = data.itemsDepositedData;
+       wantedItem = Database.Instance.GetItem(data.itemID);
+       isSolved = data.isSolvedData;
+
+        itemWantedSprite.sprite = wantedItem.icon;
+        itemWantedSprite.color = isSolved ? Color.white : Color.black;
+
+    }
+
+}
+
+
+[System.Serializable]
+public struct ShrineSaveData
+{
+    public int itemsNeededData;
+    public int itemsDepositedData;
+    public int itemID;
+    public bool isSolvedData;
 }

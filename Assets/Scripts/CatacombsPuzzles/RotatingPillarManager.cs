@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using SaveLoadSystem;
 
 public class RotatingPillarManager : MonoBehaviour
 {
@@ -14,11 +15,24 @@ public class RotatingPillarManager : MonoBehaviour
 
     public List<PuzzleSetEntry> puzzleSets = new List<PuzzleSetEntry>();
     public List<CropData> cropData = new List<CropData>();
-    public bool rotatingPillarPuzzleSolved = false;
+    public bool puzzleSolved = false;
 
     [SerializeField] private Database _database;
     private AudioSource audioSource;
     private int puzzlesSolved = 0;
+
+    public static RotatingPillarManager Instance;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
+    }
 
     private void Start()
     {
@@ -103,7 +117,7 @@ public class RotatingPillarManager : MonoBehaviour
         if (puzzleSets.All(e => e.isSolved))
         {
             Debug.Log("All puzzles solved! Great job!");
-            rotatingPillarPuzzleSolved = true;
+            puzzleSolved = true;
             PuzzleManager.Instance.totalPuzzlesSolved++;
             PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
         }
@@ -133,7 +147,7 @@ public class RotatingPillarManager : MonoBehaviour
     public void ImportSaveData(RotatingPuzzleSaveData data)
     {
         puzzlesSolved = data.PuzzlesSolved;
-        rotatingPillarPuzzleSolved = (puzzlesSolved == puzzleSets.Count);
+        puzzleSolved = (puzzlesSolved == puzzleSets.Count);
 
         for (int i = 0; i < puzzleSets.Count; i++)
         {
