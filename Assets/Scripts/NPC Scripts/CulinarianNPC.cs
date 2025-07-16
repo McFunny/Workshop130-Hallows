@@ -93,6 +93,12 @@ public class CulinarianNPC : NPC, ITalkable
             currentType = PathType.QuestComplete;
         }
 
+        else if (item.ID == 163)
+        {
+            currentPath = 1;
+            currentType = PathType.ItemSpecific;
+        }
+
         else if (item.staminaValue > 0)
         {
             currentPath = 0;
