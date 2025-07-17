@@ -132,6 +132,15 @@ public class WagonMerchantNPC : NPC, ITalkable
             return;
         }
 
+        else if (item.ID == 163)
+        {
+            currentPath = 1;
+            currentType = PathType.ItemSpecific;
+            lastSeenItem = item;
+            Talk();
+            anim.SetTrigger("IsTalking");
+        }
+
         if(item.sellValueMultiplier == 0 || item.value == 0)
         {
             //Cannot Buy

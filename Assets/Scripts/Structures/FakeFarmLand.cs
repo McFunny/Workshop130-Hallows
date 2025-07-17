@@ -80,6 +80,11 @@ public class FakeFarmLand : StructureBehaviorScript
 
             PlayerInteraction.Instance.waterHeld--;
         }
+        if(type == ToolType.Scythe && !isDigging)
+        {
+            DigAction();
+            success = true;
+        }
     }
 
     public override void HourPassed()
@@ -154,7 +159,7 @@ public class FakeFarmLand : StructureBehaviorScript
         if (mimic)
         {
             mimic.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
-            mimic.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            mimic.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.8f);
             mimic.currentState = PlantMimic.CreatureState.Emerge;
 
             if(onFire) mimic.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 10);

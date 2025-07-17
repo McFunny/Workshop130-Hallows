@@ -28,6 +28,9 @@ public class Pollinator : CreatureBehaviorScript
     Vector3 fearedObjectPosition; //Where the lavent leaf is
     Vector3 fleeToPos; //Where its fleeing to
 
+    public GameObject bugModel;
+    Vector3 startPos;
+
     public enum CreatureState
     {
         SpawnIn,
@@ -41,6 +44,7 @@ public class Pollinator : CreatureBehaviorScript
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        startPos = bugModel.transform.position;
     }
 
     void Start()
@@ -56,6 +60,8 @@ public class Pollinator : CreatureBehaviorScript
 
     void Update()
     {
+        Flutter();
+
         if(currentState != CreatureState.WanderByFire) agent.speed = defaultSpeed;
         else agent.speed = fireSpeed;
 
@@ -339,5 +345,11 @@ public class Pollinator : CreatureBehaviorScript
         fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
         agent.destination = fleeToPos;
         fearObject.SetActive(true);
+    }
+
+    protected void Flutter()
+    {
+        float newY = Mathf.Sin(Time.time * 3) * 0.2f; //Last number is the height
+        bugModel.transform.position = new Vector3(transform.position.x, startPos.y + newY, transform.position.z);
     }
 }

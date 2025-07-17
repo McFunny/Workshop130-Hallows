@@ -106,6 +106,11 @@ public class CarpenterNPC : NPC, ITalkable
             currentPath = 2;
             currentType = PathType.ItemSpecific;
         }
+        else if (item.ID == 163)
+        {
+            currentPath = 3;
+            currentType = PathType.ItemSpecific;
+        }
 
 
         else

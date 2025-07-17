@@ -94,6 +94,12 @@ public class ButcherNPC : NPC, ITalkable
             currentType = PathType.QuestComplete;
         }
 
+        else if (item.ID == 163)
+        {
+            currentPath = 1;
+            currentType = PathType.ItemSpecific;
+        }
+
         else
         {
             currentPath = 0;
