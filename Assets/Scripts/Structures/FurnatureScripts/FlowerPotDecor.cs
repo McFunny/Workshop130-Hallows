@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class FlowerPotDecor : FurnitureBehaviorScript
 
     public GameObject fogChimeLight;
     public InventoryItemData fogChime;
+
+    public bool cantDigUp;
+    public bool isLocked = false;
 
     public void Awake()
     {
@@ -29,6 +33,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
     public override void StructureInteraction()
     {
         bool addedSuccessfully;
+        if (isLocked) return;
         if(!CanBeRemoved()/* || (absentFromGrid && !onTable)*/)
         {
             addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(savedItems[0], 1);
@@ -52,7 +57,9 @@ public class FlowerPotDecor : FurnitureBehaviorScript
     {
         success = false;
         if(!CanBeRemoved()) return;
-        if(type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false)
+        if (cantDigUp) return;
+        if (isLocked) return;
+        if (type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false)
         {
             //StartCoroutine(DugUp());
             success = true;
@@ -61,7 +68,8 @@ public class FlowerPotDecor : FurnitureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(item && (savedItems.Count == 0 || savedItems[0] == null))
+        if (isLocked) return;
+        if (item && (savedItems.Count == 0 || savedItems[0] == null))
         {
             InsertItem(item);
         }
@@ -90,6 +98,8 @@ public class FlowerPotDecor : FurnitureBehaviorScript
                 {
                     fogChimeLight.SetActive(true);
                 }
+                FlowerPotCatacombs catacombsFlowerPuzzle = GetComponent<FlowerPotCatacombs>();
+                if (catacombsFlowerPuzzle) catacombsFlowerPuzzle.UpdateFlower(_item);
                 return;
             }
         }
@@ -124,6 +134,14 @@ public class FlowerPotDecor : FurnitureBehaviorScript
                 return;
             }
         }
+
+        isLocked = saveBool1;
+    }
+
+    public void LockFlowerPot()
+    {
+        isLocked = true;
+        saveBool1 = isLocked;
     }
 }
 
