@@ -602,7 +602,7 @@ public class FarmLand : StructureBehaviorScript
         }
     }
 
-    void DrainNutrients(out bool gainedStress, bool waterOnly)
+    public void DrainNutrients(out bool gainedStress, bool waterOnly) //Drains nutrients according to crop
     {
         //PLANTS DRAIN PER GROWTH STAGE, AND THE PLAYER SHOULD HAVE TO WATER ROUGHLY EVERY STAGE/EVERY OTHER STAGE
         gainedStress = false;
