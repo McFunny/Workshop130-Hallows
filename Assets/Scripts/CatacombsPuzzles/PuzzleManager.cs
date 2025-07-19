@@ -25,6 +25,7 @@ public class PuzzleManager : MonoBehaviour
     public GameObject pillarPuzzleSteam;
     public GameObject slotPuzzleSteam;
     public GameObject shrinePuzzleSteam;
+    public GameObject flowerPuzzleSteam;
 
     private CinemachineImpulseSource impulseSource;
 
@@ -51,7 +52,7 @@ public class PuzzleManager : MonoBehaviour
     {
         if (SlotMachine.Instance.puzzleSolved && RotatingPillarManager.Instance.puzzleSolved
             && BrazierPuzzleManager.Instance.puzzleSolved && WaterPuzzleManager.Instance.puzzleSolved
-            && ShrineBoxManager.Instance.puzzleSolved)
+            && ShrineBoxManager.Instance.puzzleSolved && FlowerPotManager.Instance.puzzleSolved)
         {
             StartCoroutine(MoveStatue());
         }
@@ -78,6 +79,7 @@ public class PuzzleManager : MonoBehaviour
         if(RotatingPillarManager.Instance.puzzleSolved) pillarPuzzleSteam.SetActive(true);
         if(WaterPuzzleManager.Instance.puzzleSolved) waterPuzzleSteam.SetActive(true);
         if(ShrineBoxManager.Instance.puzzleSolved) shrinePuzzleSteam.SetActive(true);
+        if (FlowerPotManager.Instance.puzzleSolved) flowerPuzzleSteam.SetActive(true);
     }
 
         private void SaveData()
@@ -99,6 +101,7 @@ public class PuzzleManager : MonoBehaviour
             rotatingPuzzleData = RotatingPillarManager.Instance.ExportSaveData(),
             brazierPuzzleData = BrazierPuzzleManager.Instance.ExportSaveData(),
             shrinePuzzleData = ShrineBoxManager.Instance.ExportSaveData(),
+            flowerPuzzleData = FlowerPotManager.Instance.ExportSaveData(),
             totalPuzzlesSolved = totalPuzzlesSolved,
             allPuzzlesSolved = allPuzzlesSolved
         };
@@ -111,6 +114,7 @@ public class PuzzleManager : MonoBehaviour
         RotatingPillarManager.Instance.ImportSaveData(data.rotatingPuzzleData);
         BrazierPuzzleManager.Instance.ImportSaveData(data.brazierPuzzleData);
         ShrineBoxManager.Instance.ImportSaveData(data.shrinePuzzleData);
+        FlowerPotManager.Instance.ImportSaveData(data.flowerPuzzleData);
         totalPuzzlesSolved = data.totalPuzzlesSolved;
         allPuzzlesSolved = data.allPuzzlesSolved;
         if (allPuzzlesSolved)
@@ -130,6 +134,7 @@ public struct PuzzleManagerSaveData
     public RotatingPuzzleSaveData rotatingPuzzleData;
     public BrazierPuzzleSaveData brazierPuzzleData;
     public ShrinePuzzleSaveData shrinePuzzleData;
+    public FlowerPuzzleSaveData flowerPuzzleData;
     public int totalPuzzlesSolved;
     public bool allPuzzlesSolved;
 }

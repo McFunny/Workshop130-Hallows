@@ -34,6 +34,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
     {
         bool addedSuccessfully;
         if (isLocked) return;
+        if (cantDigUp) return;
         if(!CanBeRemoved()/* || (absentFromGrid && !onTable)*/)
         {
             addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(savedItems[0], 1);
@@ -121,6 +122,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
             return;
         }
 
+
         for(int i = 0; i < potItems.Count; i++)
         {
             if(potItems[i].item == savedItems[0])
@@ -135,8 +137,23 @@ public class FlowerPotDecor : FurnitureBehaviorScript
             }
         }
 
+        savedItems[0] = Database.Instance.GetItem(saveInt3);
+        if (savedItems[0] == fogChime)
+        {
+            fogChimeLight.SetActive(true);
+        }
+
         isLocked = saveBool1;
     }
+
+    public override void SaveVariables()
+    {
+        if (savedItems.Count > 0 && savedItems[0] != null)
+            saveInt3 = savedItems[0].ID;
+
+        saveBool1 = isLocked;
+    }
+
 
     public void LockFlowerPot()
     {
