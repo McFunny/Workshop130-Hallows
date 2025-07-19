@@ -68,11 +68,20 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
+  - name: Dull Seeds
+    itemForSale: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 75
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 9a70b19ccd0b85f41b2dcd849c9d0584, type: 2}
+      amount: 1
   uniqueTransactions:
   - name: YellowMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: 747cebbd0cf1e854d84e73ad4d034f05, type: 2}
     useItemPrice: 1
-    mintCost: 18
+    mintCost: 23
     amountForSale: 10
     barterChance: 100
     itemsRequired: []

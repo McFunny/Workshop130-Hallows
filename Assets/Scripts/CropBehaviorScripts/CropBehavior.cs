@@ -33,7 +33,7 @@ public class CropBehavior : ScriptableObject
 
     public virtual void OnWatered(FarmLand tile){}
 
-    public virtual void OnPlanted(FarmLand tile){}
+    public virtual void OnPlanted(FarmLand tile){} //Happens when the crop is planted and on load
 
     public virtual void OnConsumed(CreatureBehaviorScript creature){} //For when eaten at full growth
 

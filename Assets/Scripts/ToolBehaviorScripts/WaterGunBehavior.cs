@@ -140,7 +140,7 @@ public class WaterGunBehavior : ToolBehavior
         bulletCount = 1;
         //Debug.Log("1");
         yield return new WaitForSeconds(0.65f);
-        if(InputManager.isCharging && PlayerInteraction.Instance.waterHeld >= 3)
+        if(InputManager.isCharging /*&& PlayerInteraction.Instance.waterHeld >= 3*/)
         {
             //Debug.Log("Showing Range");
             HandItemManager.Instance.StartCoroutine(ShowRange());
@@ -236,7 +236,7 @@ public class WaterGunBehavior : ToolBehavior
             freeMultishotting = true;
         }
 
-        PlayerInteraction.Instance.waterHeld -= bulletCount; //See if this is unbalanced and we should revert back to 1 cost to multi shot
+        PlayerInteraction.Instance.waterHeld -= 1; //See if this is unbalanced and we should revert back to 1 cost to multi shot
         GameObject newBullet;
         Vector3 dir;
         float extraForce = 15;

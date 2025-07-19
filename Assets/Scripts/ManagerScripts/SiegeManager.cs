@@ -6,6 +6,8 @@ public class SiegeManager : MonoBehaviour
 {
     public int siegePhase = 0; //This determines stuff like when items are sold, what siege level is next, and what macguffin crop is needed to be grown/sold
 
+    public bool siegeCropOnFarm = false;
+
     public static SiegeManager Instance;
 
     void Awake()

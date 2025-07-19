@@ -39,6 +39,13 @@ public class ApothNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
+                else if(!GameSaveData.Instance.apo_explainedSiege && GameSaveData.Instance.apo_readScroll)
+                {
+                    GameSaveData.Instance.apo_explainedSiege = true;
+                    currentPath = 0;
+                    currentType = PathType.Quest;
+                    QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[9]);
+                }
                 else if(dailyQuest != null)
                 {
                     currentPath = QuestDatabase.Instance.GetQuestPath(character);
@@ -87,6 +94,7 @@ public class ApothNPC : NPC, ITalkable
         {
             currentPath = 1;
             currentType = PathType.ItemSpecific;
+            GameSaveData.Instance.apo_readScroll = true; //Have this be set later in the day, when she stops working or when the game saves at night
         }
 
         else if (item.staminaValue > 0)
@@ -133,7 +141,7 @@ public class ApothNPC : NPC, ITalkable
         {
             newItem = null;
 
-            /*if(x < 2 && /*Was handed diagram*//*)
+            if(x < 2 && CanSellSiegeSeeds())
             {
                 if(x == 0)
                 {
@@ -152,7 +160,7 @@ public class ApothNPC : NPC, ITalkable
 
                 x++;
                 continue;
-            }*/
+            }
 
             do
             {
@@ -192,6 +200,12 @@ public class ApothNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+    }
+
+    bool CanSellSiegeSeeds()
+    {
+        if(GameSaveData.Instance.siegeCropInHand || SiegeManager.Instance.siegeCropOnFarm || !GameSaveData.Instance.apo_readScroll) return false;
+        return true;
     }
 
     public override bool ActionCheck1()
