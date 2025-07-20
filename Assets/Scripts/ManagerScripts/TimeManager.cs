@@ -375,7 +375,7 @@ public class TimeManager : MonoBehaviour
         StartCoroutine(QuickSaveGame());
     }
 
-    IEnumerator QuickSaveGame() //Used on the 19th hour and sleeping. Unimplimented, still needs logic for loading the game at the right hour
+    IEnumerator QuickSaveGame() //Used on the 19th hour and sleeping.
     {
         if(ignoreQuickSave) yield break;
 

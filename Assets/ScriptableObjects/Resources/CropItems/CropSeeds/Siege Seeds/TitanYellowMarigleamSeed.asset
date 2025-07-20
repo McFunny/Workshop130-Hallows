@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 161
   displayName: Titan Yellow Marigleam Seed
-  description: A seed modified to yield a massive bloom. Will attract unwanted attention
-    when planted.
+  description: A seed modified to yield a massive bloom that should be planted before
+    the moon rises. Will attract undesirable attention.
   icon: {fileID: 2051083079, guid: 46dc88132ac0641408acf6922fab534f, type: 3}
-  maxStackSize: 20
+  maxStackSize: 1
   value: 0
   sellValueMultiplier: 1
   isKeyItem: 1
@@ -33,6 +33,6 @@ MonoBehaviour:
   useSound: {fileID: 0}
   cannotEnterInventory: 0
   plantable: 1
-  cropData: {fileID: 0}
+  cropData: {fileID: 11400000, guid: 1e18b8e75c42d584891a44c2ae62a35f, type: 2}
   ableToBeShot: 0
   requireTrellis: 0

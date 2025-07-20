@@ -53,7 +53,7 @@ public class GameSaveData : MonoBehaviour
     public bool townTreeCleared2; //Extra tree by cabin
 
     [Header("Siege Progression Bools. All must be false when building")]
-    public bool siege1Cleared;
+    public int siegesCleared = 0;
     public bool siegeCropInHand; //The Player is holding the seed but hasnt planted it
 
     [Header("NPC Bools. All must be false when building")]
@@ -177,7 +177,7 @@ public class GameSaveData : MonoBehaviour
         carpMet = data.allGameSaveData.carpMet;
         mandrakeMet = data.allGameSaveData.mandrakeMet;
 
-        siege1Cleared = data.allGameSaveData.siege1Cleared;
+        siegesCleared = data.allGameSaveData.siegesCleared;
         siegeCropInHand = data.allGameSaveData.siegeCropInHand;
     }
 }
@@ -243,7 +243,7 @@ public class GameSaveData : MonoBehaviour
         public bool apo_readScroll;
         public bool apo_explainedSiege;
 
-        public bool siege1Cleared;
+        public int siegesCleared;
         public bool siegeCropInHand; //
 
     public AllGameSaveData(GameSaveData data)
@@ -315,7 +315,7 @@ public class GameSaveData : MonoBehaviour
         carpMet = data.carpMet;
         mandrakeMet = data.mandrakeMet;
 
-        siege1Cleared = data.siege1Cleared;
+        siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;
 
 //Debug.Log("Saving stamina. Result: " + pStamina);

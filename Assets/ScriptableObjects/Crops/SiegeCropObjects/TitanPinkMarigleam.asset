@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
-  m_Name: TitanYellowMarigleam
+  m_Name: TitanPinkMarigleam
   m_EditorClassIdentifier: 
-  name: Titan Yellow Marigleam
-  id: 26
+  name: Titan Pink Marigleam
+  id: 32
   growthStages: 5
   hoursPerStage: 2
-  harvestableGrowthStages: 
+  harvestableGrowthStages: 05000000
   cropSprites:
-  - {fileID: 1140883415, guid: 5b44c2228bd1ab44a9e1a8693b3cc739, type: 3}
-  - {fileID: 167736935, guid: 5b44c2228bd1ab44a9e1a8693b3cc739, type: 3}
-  - {fileID: -256103978, guid: 5b44c2228bd1ab44a9e1a8693b3cc739, type: 3}
-  - {fileID: -135958293, guid: 5b44c2228bd1ab44a9e1a8693b3cc739, type: 3}
-  - {fileID: -143138845, guid: 5b44c2228bd1ab44a9e1a8693b3cc739, type: 3}
+  - {fileID: 1579438679, guid: 09e65382870cfe54b85b6d60eb7946d7, type: 3}
+  - {fileID: -721259936, guid: 09e65382870cfe54b85b6d60eb7946d7, type: 3}
+  - {fileID: -1355271011, guid: 09e65382870cfe54b85b6d60eb7946d7, type: 3}
+  - {fileID: 783264091, guid: 09e65382870cfe54b85b6d60eb7946d7, type: 3}
+  - {fileID: 1928167131, guid: 09e65382870cfe54b85b6d60eb7946d7, type: 3}
   rottedImage: {fileID: 336115953, guid: 5b44c2228bd1ab44a9e1a8693b3cc739, type: 3}
-  cropYield: {fileID: 11400000, guid: c91c08f8718281e48b25e55c946b6b99, type: 2}
+  cropYield: {fileID: 11400000, guid: c93669c1fbe6c9847b1e1810a6ea34c5, type: 2}
   cropSecondaryYield: {fileID: 0}
-  cropSeed: {fileID: 0}
+  cropSeed: {fileID: 11400000, guid: 2f7f5a9aef68d4248967b825e3acf3f6, type: 2}
   cropYieldAmount: 1
   cropYieldVariance: 0
   seedYieldAmount: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
   terraIntake: -1
   gloamIntake: 1.25
   stressLimit: 1
-  wealthValue: 500
+  wealthValue: 700
   requireScythe: 1
   requirePollination: 0
   creaturePrefab: {fileID: 0}
