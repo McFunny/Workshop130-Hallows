@@ -16,20 +16,22 @@ MonoBehaviour:
   templates:
   - name: Brain Fuel
     description: '"Innovation requires a steady mind and a full belly. I don''t have
-      either, but we can fix one of them! Bring me a treat, pronto!'
+      either, but we can fix one of them! Bring me a {itemName}, pronto!'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: 23fb2e71f9e9a6b47a8cef4f7f659e40, type: 2}
     crop: {fileID: 0}
-    mintMultiplier: 1.2
+    mintMultiplier: 1.5
     itemRewards:
     - item: {fileID: 0}
       amount: 0
     - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
       amount: 1
+    - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+      amount: 16
     townFavorReward: 3
-    daysLeftMin: 2
-    daysLeftMax: 3
+    daysLeftMin: 3
+    daysLeftMax: 4
     assignee: 6
     displayProgress: 0
     minObject: 1
@@ -37,12 +39,12 @@ MonoBehaviour:
     questBehavior: {fileID: 0}
   - name: Brain Fuel
     description: '"Innovation requires a steady mind and a full belly. I don''t have
-      either, but we can fix one of them! Bring me a treat, pronto!'
+      either, but we can fix one of them! Bring me a {itemName}, pronto!'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: 0322ac02f35aba8419c8ac5038c4225b, type: 2}
     crop: {fileID: 0}
-    mintMultiplier: 1.2
+    mintMultiplier: 1.5
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -50,9 +52,11 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
       amount: 1
+    - item: {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
+      amount: 1
     townFavorReward: 3
-    daysLeftMin: 2
-    daysLeftMax: 3
+    daysLeftMin: 3
+    daysLeftMax: 4
     assignee: 6
     displayProgress: 0
     minObject: 1
@@ -60,12 +64,12 @@ MonoBehaviour:
     questBehavior: {fileID: 0}
   - name: Brain Fuel
     description: '"Innovation requires a steady mind and a full belly. I don''t have
-      either, but we can fix one of them! Bring me a treat, pronto!'
+      either, but we can fix one of them! Bring me a {itemName}, pronto!'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: ce03bf77f7cfae644b8b257d4877bf50, type: 2}
     crop: {fileID: 0}
-    mintMultiplier: 1.2
+    mintMultiplier: 1.5
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -73,9 +77,11 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 8
+    - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+      amount: 14
     townFavorReward: 3
-    daysLeftMin: 2
-    daysLeftMax: 3
+    daysLeftMin: 3
+    daysLeftMax: 4
     assignee: 6
     displayProgress: 0
     minObject: 1
@@ -83,12 +89,12 @@ MonoBehaviour:
     questBehavior: {fileID: 0}
   - name: Brain Fuel
     description: '"Innovation requires a steady mind and a full belly. I don''t have
-      either, but we can fix one of them! Bring me a treat, pronto!'
+      either, but we can fix one of them! Bring me a {itemName}, pronto!'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: 86effa1763457db43a40a9362bc37cdc, type: 2}
     crop: {fileID: 0}
-    mintMultiplier: 1.2
+    mintMultiplier: 1.5
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -99,8 +105,8 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
       amount: 1
     townFavorReward: 3
-    daysLeftMin: 2
-    daysLeftMax: 3
+    daysLeftMin: 3
+    daysLeftMax: 4
     assignee: 6
     displayProgress: 0
     minObject: 1

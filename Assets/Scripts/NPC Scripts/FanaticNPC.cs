@@ -97,7 +97,11 @@ public class FanaticNPC : NPC, ITalkable
             currentPath = 0;
             currentType = PathType.QuestComplete;
         }
-
+        else if (item.ID == 163)
+        {
+            currentPath = 1;
+            currentType = PathType.ItemSpecific;
+        }
 
         else
         {

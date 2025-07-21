@@ -16,6 +16,7 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip[] wildernessMusicAmbience;
     public AudioClip[] catacombMusicAmbience;
     public AudioClip[] lightningAmbience;
+    public AudioClip[] siegeMusicAmbience;
 
     public AudioClip finaleTheme, finaleIntro, finaleLose, finaleWin;
 
@@ -164,8 +165,16 @@ public class AmbientAudioManager : MonoBehaviour
             else if(gramoPhoneTrack != null) musicSource.clip = gramoPhoneTrack;
             else if(TownGate.Instance.location == PlayerLocation.InWilderness) musicSource.clip = wildernessMusicAmbience[Random.Range(0, wildernessMusicAmbience.Length)];
             else if(TownGate.Instance.location == PlayerLocation.InCrypt) musicSource.clip = catacombMusicAmbience[Random.Range(0, catacombMusicAmbience.Length)];
-            else if (TimeManager.Instance.isDay) musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
-            else musicSource.clip = musicNightAmbience[Random.Range(0, musicNightAmbience.Length)];
+            else if (TimeManager.Instance.isDay)
+            {
+                yield return new WaitForSecondsRealtime(Random.Range(8, 20));
+                musicSource.clip = musicAmbience[Random.Range(0, musicAmbience.Length)];
+            }
+            else
+            {
+                if(SiegeManager.Instance.siegeCropOnFarm) musicSource.clip = siegeMusicAmbience[Random.Range(0, siegeMusicAmbience.Length)];
+                else musicSource.clip = musicNightAmbience[Random.Range(0, musicNightAmbience.Length)];
+            } 
 
             float musicRuntime = musicSource.clip.length;
             if(!playingGramophone) musicSource.Play();

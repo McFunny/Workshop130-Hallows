@@ -5,9 +5,6 @@ using TMPro;
 
 public class CompostBin : StructureBehaviorScript
 {
-
-    //public InventoryItemData fertilizerT, fertilizerG, fertilizerI;
-    //public InventoryItemData[] fertilizers;
     public InventoryItemData compost;
     public InventoryItemData meat, meatSmall, meatLarge;
     public InventoryItemData fertilizerI;
@@ -19,9 +16,11 @@ public class CompostBin : StructureBehaviorScript
 
     public int progress = 0;
     int maxProgress = 8;
-    int maxContainedItems = 5;
+    //int maxContainedItems = 5;
+    float currentCompostValue = 0;
+    int maxCompostValue = 100;
 
-    float bonusCompostValue = 0;
+    //float bonusCompostValue = 0;
     float ichorFertilizerChance = 0; //
 
     bool ignoreNextHour = false;
@@ -29,13 +28,13 @@ public class CompostBin : StructureBehaviorScript
 
     public TextMeshProUGUI itemText;
 
-    bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
     public PopupScript chargingPopup;
 
     void Awake()
     {
         base.Awake();
-        itemText.text = savedItems.Count + "/" + maxContainedItems;
+        itemText.text = currentCompostValue + "/" + maxCompostValue;
     }
 
     void Start()
@@ -57,25 +56,29 @@ public class CompostBin : StructureBehaviorScript
             return;
         }
 
-        if(isSpinning && savedItems.Count != maxContainedItems) return;
+        if(isSpinning) return;
 
         if(progress == maxProgress)
         {
             progress = 0;
             ichorFertilizerChance = 0;
-            bonusCompostValue = 0;
+            //bonusCompostValue = 0;
 
             foreach(InventoryItemData item in savedItems)
             {
-                bonusCompostValue += item.bonusCompostValue; 
-                if(item == meat) ichorFertilizerChance++;
-                if(item == meatSmall) ichorFertilizerChance += 0.5f;
+                //bonusCompostValue += item.bonusCompostValue; 
+                if(item == meat) ichorFertilizerChance += 0.5f;
+                if(item == meatSmall) ichorFertilizerChance += 0.25f;
                 if(item == meatLarge) ichorFertilizerChance += 2;
             }
 
-            bool ready = false;
             int compostYield = 1;
-            float r;
+            if(Random.Range(0, 10) > 4) 
+            {
+                compostYield++;
+            }
+            /*float r;
+            bool ready = false;
             while(!ready)
             {
                 if(bonusCompostValue/2 > 100)
@@ -102,8 +105,7 @@ public class CompostBin : StructureBehaviorScript
                         ready = true;
                     }
                 }
-            }
-            //
+            }*/
             StartCoroutine(GrabItems(compostYield));
         }
     }
@@ -137,7 +139,8 @@ public class CompostBin : StructureBehaviorScript
         savedItems.Clear();
         isSpinning = false;
         fillPlane.SetActive(false);
-        itemText.text = savedItems.Count + "/" + maxContainedItems;
+        currentCompostValue = 0;
+        itemText.text = currentCompostValue + "/" + maxCompostValue;
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -148,9 +151,10 @@ public class CompostBin : StructureBehaviorScript
             return;
         }
 
-        if(item.bonusCompostValue > 0 && savedItems.Count < maxContainedItems)
+        if(item.bonusCompostValue > 0 && currentCompostValue < maxCompostValue)
         {
-            //
+            currentCompostValue += item.bonusCompostValue;
+
             savedItems.Add(item);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
@@ -161,23 +165,19 @@ public class CompostBin : StructureBehaviorScript
             poofParticle = ParticlePoolManager.Instance.GrabCloudParticle();
             poofParticle.transform.position = itemDropTransform.position;
 
-            //GameObject poofParticle = ParticlePoolManager.Instance.GrabExtinguishParticle();
-            //poofParticle.transform.position = seedSocket.position;
-
-            //audioHandler.PlaySound(audioHandler.itemInteractSound);
-
             fillPlane.SetActive(true);
 
             anim.Play("Recoil");
 
-            if(savedItems.Count == maxContainedItems)
+            if(currentCompostValue >= maxCompostValue)
             {
+                currentCompostValue = maxCompostValue;
                 isSpinning = true;
                 ignoreNextHour = true;
                 anim.SetBool("Spinning", true);
                 anim.SetBool("IsFull", true);
             }
-            itemText.text = savedItems.Count + "/" + maxContainedItems;
+            itemText.text = currentCompostValue + "/" + maxCompostValue;
         }
     }
 
@@ -193,7 +193,9 @@ public class CompostBin : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(progress < maxProgress && savedItems.Count == maxContainedItems)
+        if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
+        
+        if(progress < maxProgress && currentCompostValue >= maxCompostValue)
         {
             if(ignoreNextHour)
             {
@@ -226,7 +228,8 @@ public class CompostBin : StructureBehaviorScript
     public override void LoadVariables()
     {
         progress = saveInt1;
-        if(savedItems.Count == maxContainedItems)
+        currentCompostValue = saveFloat1;
+        if(currentCompostValue >= maxCompostValue)
         {
             isSpinning = true;
             anim.SetBool("Spinning", true);
@@ -239,7 +242,7 @@ public class CompostBin : StructureBehaviorScript
             anim.SetBool("Spinning", false);
         }
 
-        itemText.text = savedItems.Count + "/" + maxContainedItems;
+        itemText.text = currentCompostValue + "/" + maxCompostValue;
 
         isFunctioning = true;
     }
@@ -247,5 +250,6 @@ public class CompostBin : StructureBehaviorScript
     public override void SaveVariables()
     {
         saveInt1 = progress;
+        saveFloat1 = currentCompostValue;
     }
 }

@@ -34,7 +34,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: e505b9c244165464a9e94558ed7e8d3c, type: 2}
       amount: 2
     - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
-      amount: 3
+      amount: 6
   - name: Lunorchid Seeds
     itemForSale: {fileID: 11400000, guid: ad748d007dc8baa42963f208130ad626, type: 2}
     useItemPrice: 0
@@ -65,15 +65,24 @@ MonoBehaviour:
     barterChance: 75
     itemsRequired:
     - item: {fileID: 11400000, guid: a6d94f2d39d88dd42b8a2a300232702f, type: 2}
-      amount: 2
+      amount: 1
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
+  - name: Dull Seeds
+    itemForSale: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 75
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 9a70b19ccd0b85f41b2dcd849c9d0584, type: 2}
+      amount: 1
   uniqueTransactions:
   - name: YellowMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: 747cebbd0cf1e854d84e73ad4d034f05, type: 2}
     useItemPrice: 1
-    mintCost: 23
-    amountForSale: 5
+    mintCost: 18
+    amountForSale: 10
     barterChance: 100
     itemsRequired: []
   - name: TitanYellowMarigleamSeed
@@ -84,4 +93,58 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
-      amount: 20
+      amount: 25
+  - name: CyanMarigleamSeeds
+    itemForSale: {fileID: 11400000, guid: fec308c6a7c345441b58f0ccd9c51249, type: 2}
+    useItemPrice: 1
+    mintCost: 18
+    amountForSale: 10
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
+      amount: 25
+  - name: TitanCyanMarigleamSeed
+    itemForSale: {fileID: 11400000, guid: d66ed27d6902f1c4882381c124286ca4, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 955fac238d5677b40886f9ec7626d081, type: 2}
+      amount: 25
+  - name: PinkMarigleamSeeds
+    itemForSale: {fileID: 11400000, guid: d461c5d515815844dbaa743766386a1d, type: 2}
+    useItemPrice: 1
+    mintCost: 18
+    amountForSale: 10
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
+      amount: 25
+  - name: TitanPinkMarigleamSeed
+    itemForSale: {fileID: 11400000, guid: 2f7f5a9aef68d4248967b825e3acf3f6, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 7250a5aa0c9fea44eb860ae937dc3d76, type: 2}
+      amount: 25
+  - name: IndigoMarigleamSeeds
+    itemForSale: {fileID: 11400000, guid: 5b1571d80f24d964289f0fe232caed16, type: 2}
+    useItemPrice: 1
+    mintCost: 18
+    amountForSale: 10
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
+      amount: 25
+  - name: TitanIndigoMarigleamSeed
+    itemForSale: {fileID: 11400000, guid: df5b49ad6812ae543904975c3eacdd6d, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: a469d32a52505e0499f81a4ddb0bcf60, type: 2}
+      amount: 25

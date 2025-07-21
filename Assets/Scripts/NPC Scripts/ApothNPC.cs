@@ -9,6 +9,8 @@ public class ApothNPC : NPC, ITalkable
     public float sellMultiplier = 1;
     List<StoreItem> storeItems = new List<StoreItem>();
 
+    bool currentlyReadingScroll = false;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -38,6 +40,13 @@ public class ApothNPC : NPC, ITalkable
                 {
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
+                }
+                else if(!GameSaveData.Instance.apo_explainedSiege && GameSaveData.Instance.apo_readScroll)
+                {
+                    GameSaveData.Instance.apo_explainedSiege = true;
+                    currentPath = 0;
+                    currentType = PathType.Quest;
+                    QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[9]);
                 }
                 else if(dailyQuest != null)
                 {
@@ -81,6 +90,13 @@ public class ApothNPC : NPC, ITalkable
         {
             currentPath = 0;
             currentType = PathType.QuestComplete;
+        }
+
+        else if (item.ID == 163)
+        {
+            currentPath = 1;
+            currentType = PathType.ItemSpecific;
+            currentlyReadingScroll = true;
         }
 
         else if (item.staminaValue > 0)
@@ -127,26 +143,27 @@ public class ApothNPC : NPC, ITalkable
         {
             newItem = null;
 
-            /*if(x < 2 && /*Was handed diagram*//*)
+            if(x < 2 && CanSellSiegeSeeds())
             {
+                int index = GameSaveData.Instance.siegesCleared * 2;
                 if(x == 0)
                 {
-                    newItem = barterDatabase.uniqueTransactions[0].itemForSale;
-                    newCost = (int)(barterDatabase.uniqueTransactions[0].mintCost * sellMultiplier);
-                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
+                    newItem = barterDatabase.uniqueTransactions[index].itemForSale;
+                    newCost = (int)(barterDatabase.uniqueTransactions[index].mintCost * sellMultiplier);
+                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[index].itemsRequired, barterDatabase.uniqueTransactions[index].amountForSale);
                 } 
                 if(x == 1)
                 {
-                    newItem = barterDatabase.uniqueTransactions[1].itemForSale;
-                    newCost = (int)(barterDatabase.uniqueTransactions[1].mintCost * sellMultiplier);
-                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
+                    newItem = barterDatabase.uniqueTransactions[index + 1].itemForSale;
+                    newCost = (int)(barterDatabase.uniqueTransactions[index + 1].mintCost * sellMultiplier);
+                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[index + 1].itemsRequired, barterDatabase.uniqueTransactions[index + 1].amountForSale);
                 }
                 item.seller = this;
                 //item.clearUponPurchase = false;
 
                 x++;
                 continue;
-            }*/
+            }
 
             do
             {
@@ -167,6 +184,17 @@ public class ApothNPC : NPC, ITalkable
         }
     }
 
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
+    {
+        uniqueDialogue = false;
+
+        int index = GameSaveData.Instance.siegesCleared * 2;
+        if(item == barterDatabase.uniqueTransactions[index + 1].itemForSale)
+        {
+            GameSaveData.Instance.siegeCropInHand = true;
+        }
+    }
+
     public override void BeginWorking()
     {
         if (!assignedStall) return;
@@ -176,6 +204,12 @@ public class ApothNPC : NPC, ITalkable
 
     public override void StopWorking()
     {
+        if(currentlyReadingScroll)
+        {
+            currentlyReadingScroll = false;
+            GameSaveData.Instance.apo_readScroll = true;
+        }
+
         if (!assignedStall || storeItems.Count == 0) return;
         for (int i = 0; i < storeItems.Count; i++)
         {
@@ -186,6 +220,23 @@ public class ApothNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+    }
+
+    protected override void HourUpdate()
+    {
+        base.HourUpdate();
+        if(currentlyReadingScroll && (TimeManager.Instance.currentHour == 8 || TimeManager.Instance.currentHour == 19 || TimeManager.Instance.currentHour == 20))
+        {
+            currentlyReadingScroll = false;
+            GameSaveData.Instance.apo_readScroll = true;
+        }
+    }
+
+    bool CanSellSiegeSeeds()
+    {
+        if(GameSaveData.Instance.siegeCropInHand || SiegeManager.Instance.siegeCropOnFarm || !GameSaveData.Instance.apo_readScroll) return false;
+        if(GameSaveData.Instance.siegesCleared >= 4) return false; //All sieges done
+        return true;
     }
 
     public override bool ActionCheck1()

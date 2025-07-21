@@ -27,11 +27,17 @@ public class StructureManager : MonoBehaviour
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
     public bool enableCheats = false;
     public bool forceSurvivalMode = false;
+    public bool forceSellSiegeSeeds = false; //If true, the apoth will have the bools ticked as if she has already seen the scroll
+    public bool disableBarricades = false; //If true, all fallen trees will already be cleared
 
 
     void Awake()
     {
         if(forceSurvivalMode) MainMenuScript.currentFileMode = FileMode.Survival;
+        if(forceSellSiegeSeeds)
+        {
+            GameSaveData.Instance.apo_readScroll = true;
+        }
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);

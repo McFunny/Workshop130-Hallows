@@ -41,7 +41,7 @@ public class Burrow : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(Random.Range(0,20) > 19) StartCoroutine(SpawnBug());
+        if(Random.Range(0,20) > 15) StartCoroutine(SpawnBug());
     }
 
     IEnumerator SpawnBug()

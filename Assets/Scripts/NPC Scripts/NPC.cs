@@ -85,7 +85,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
         ExclamationCheck();
     }
 
-    void HourUpdate()
+    protected virtual void HourUpdate()
     {
         ExclamationCheck();
     }
@@ -342,7 +342,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                     //Spawn Items
                     GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
-                    HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(fq.amount);
+                    HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(fq.amount); //Remember this only works with quests that need items less than their stack size
                     PlayerInventoryHolder.Instance.UpdateInventory();
 
                     lastCompletedQuestIndex = i;
@@ -357,7 +357,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                     //Spawn Items
                     GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
-                    HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(gq.amount);
+                    HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(gq.amount); //Remember this only works with quests that need items less than their stack size
                     PlayerInventoryHolder.Instance.UpdateInventory();
 
                     lastCompletedQuestIndex = i;

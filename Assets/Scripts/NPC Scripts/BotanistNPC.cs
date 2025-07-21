@@ -124,6 +124,12 @@ public class BotanistNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
+        else if (item.ID == 163)
+        {
+            currentPath = 8;
+            currentType = PathType.ItemSpecific;
+        }
+
         else if(IsItemASeed(item) > -1)
         {
             currentPath = IsItemASeed(item);

@@ -46,9 +46,15 @@ public class GameSaveData : MonoBehaviour
     public bool ras_askedForNet; //Gave the find my net quest
     public bool bot_explainedTrellis; //Player bought a seed requiring a trellis
     public bool fan_giveBombs; //Fanatic gave player bathbombs at the start
+    public bool apo_readScroll; //Apoth has recieved the scroll and will start selling the seeds
+    public bool apo_explainedSiege; //Apoth has explained they read the scroll and have explained the seeds
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
+
+    [Header("Siege Progression Bools. All must be false when building")]
+    public int siegesCleared = 0;
+    public bool siegeCropInHand; //The Player is holding the seed but hasnt planted it
 
     [Header("NPC Bools. All must be false when building")]
     public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet;
@@ -161,6 +167,8 @@ public class GameSaveData : MonoBehaviour
         bot_explainedTrellis = data.allGameSaveData.bot_explainedTrellis;
         ras_askedForNet = data.allGameSaveData.ras_askedForNet;
         fan_giveBombs = data.allGameSaveData.fan_giveBombs;
+        apo_readScroll = data.allGameSaveData.apo_readScroll;
+        apo_explainedSiege = data.allGameSaveData.apo_explainedSiege;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -168,6 +176,9 @@ public class GameSaveData : MonoBehaviour
         butchMet = data.allGameSaveData.butchMet;
         carpMet = data.allGameSaveData.carpMet;
         mandrakeMet = data.allGameSaveData.mandrakeMet;
+
+        siegesCleared = data.allGameSaveData.siegesCleared;
+        siegeCropInHand = data.allGameSaveData.siegeCropInHand;
     }
 }
     [System.Serializable]
@@ -229,6 +240,11 @@ public class GameSaveData : MonoBehaviour
         public bool ras_askedForNet;
         public bool bot_explainedTrellis;
         public bool fan_giveBombs;
+        public bool apo_readScroll;
+        public bool apo_explainedSiege;
+
+        public int siegesCleared;
+        public bool siegeCropInHand; //
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -289,6 +305,8 @@ public class GameSaveData : MonoBehaviour
         bot_explainedTrellis = data.bot_explainedTrellis;
         ras_askedForNet = data.ras_askedForNet;
         fan_giveBombs = data.fan_giveBombs;
+        apo_readScroll = data.apo_readScroll;
+        apo_explainedSiege = data.apo_explainedSiege;
 
         travMet = data.travMet;
         graveMet = data.graveMet;
@@ -296,6 +314,9 @@ public class GameSaveData : MonoBehaviour
         butchMet = data.butchMet;
         carpMet = data.carpMet;
         mandrakeMet = data.mandrakeMet;
+
+        siegesCleared = data.siegesCleared;
+        siegeCropInHand = data.siegeCropInHand;
 
 //Debug.Log("Saving stamina. Result: " + pStamina);
     }

@@ -126,7 +126,7 @@ public class ScytheAttack : MonoBehaviour
         for(int i = 0; i < hitCreatures.Count; i++)
         {
             if(hitCreatures[i] == null) continue;
-            hitCreatures[i].TakeDamage(35);
+            hitCreatures[i].TakeDamage(35, PlayerInteraction.Instance.transform.position);
             HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
 
             ParticlePoolManager.Instance.MoveAndPlayVFX(hitCreatures[i].GetComponent<Collider>().ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
