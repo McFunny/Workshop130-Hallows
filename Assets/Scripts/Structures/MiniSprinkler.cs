@@ -8,14 +8,16 @@ public class MiniSprinkler : StructureBehaviorScript
     public int waterLevel = 0; 
     int maxWaterLevel = 3;
     public GameObject water;
-    public GameObject waterVFX;
+    //public GameObject waterVFX;
 
     public TextMeshProUGUI waterText, modeText;
 
     public SprinklerMode mode;
     public Collider c_stream, c_cone;
+    public GameObject streamWater, coneWater;
 
     bool watering = false;
+    bool waterCooldown = false;
 
     List<StructureBehaviorScript> structsInRange = new List<StructureBehaviorScript>();
 
@@ -31,7 +33,6 @@ public class MiniSprinkler : StructureBehaviorScript
     void Awake()
     {
         base.Awake();
-        waterVFX.SetActive(false);
     }
 
     void Start()
@@ -93,7 +94,18 @@ public class MiniSprinkler : StructureBehaviorScript
 
     public override void HitWithWater()
     {
-        if(waterLevel < maxWaterLevel) waterLevel++;
+        if(waterLevel < maxWaterLevel && !waterCooldown) 
+        {
+            waterLevel++;
+            StartCoroutine(WaterCooldown()); //Keep disabled if the watergun costs 1 per multi shot
+        }
+    }
+
+    IEnumerator WaterCooldown()
+    {
+        waterCooldown = true;
+        yield return new WaitForSeconds(.9f);
+        waterCooldown = false;
     }
 
     public override void TimeLapse(int hours)
@@ -169,11 +181,13 @@ public class MiniSprinkler : StructureBehaviorScript
     IEnumerator SprinkleAnimation()
     {
         watering = true;
-        waterVFX.SetActive(true);
+        if(mode == SprinklerMode.Stream) streamWater.SetActive(true);
+        else coneWater.SetActive(true);
         audioHandler.PlaySound(audioHandler.activatedSound);
         yield return new WaitForSeconds(5);
+        streamWater.SetActive(false);
+        coneWater.SetActive(false);
         watering = false;
-        waterVFX.SetActive(false);
     }
 
     public override void LoadVariables()

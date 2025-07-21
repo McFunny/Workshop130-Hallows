@@ -50,9 +50,9 @@ public class Sprinkler : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(waterLevel > 0 && !TimeManager.Instance.isDay)
+        if(waterLevel == maxWaterLevel && !TimeManager.Instance.isDay)
         {
-            waterLevel--;
+            waterLevel = 0;
             StartCoroutine(WaterTiles());
         }
     }
@@ -89,6 +89,7 @@ public class Sprinkler : StructureBehaviorScript
 
     IEnumerator WaterTiles()
     {
+        waterLevel = 0;
         StartCoroutine(SprinkleAnimation());
         yield return new WaitForSeconds(1);
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f);

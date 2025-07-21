@@ -34,10 +34,6 @@ public class StructureManager : MonoBehaviour
     void Awake()
     {
         if(forceSurvivalMode) MainMenuScript.currentFileMode = FileMode.Survival;
-        if(forceSellSiegeSeeds)
-        {
-            GameSaveData.Instance.apo_readScroll = true;
-        }
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -61,6 +57,11 @@ public class StructureManager : MonoBehaviour
     {
         PopulateForageables(1, 4);
         PopulateDecorCrows(0, 2);
+
+        if(forceSellSiegeSeeds)
+        {
+            GameSaveData.Instance.apo_readScroll = true;
+        }
     }
 
     void OnDestroy()
