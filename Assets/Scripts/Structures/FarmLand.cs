@@ -400,7 +400,7 @@ public class FarmLand : StructureBehaviorScript
 
             PlayerInteraction.Instance.waterHeld--;
         }
-        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable))
+        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable) && currentUpgrade != FarmTileUpgrade.Trellis)
         {
             harvestedByScythe = true;
             StructureInteraction();

@@ -184,6 +184,17 @@ public class ApothNPC : NPC, ITalkable
         }
     }
 
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
+    {
+        uniqueDialogue = false;
+
+        int index = GameSaveData.Instance.siegesCleared * 2;
+        if(item == barterDatabase.uniqueTransactions[index + 1].itemForSale)
+        {
+            GameSaveData.Instance.siegeCropInHand = true;
+        }
+    }
+
     public override void BeginWorking()
     {
         if (!assignedStall) return;

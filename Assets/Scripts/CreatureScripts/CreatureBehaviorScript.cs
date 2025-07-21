@@ -60,7 +60,7 @@ public class CreatureBehaviorScript : MonoBehaviour
 
         if(hitColor != Color.black)
         {
-            SkinnedMeshRenderer[] allChildRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+            MeshRenderer[] allChildRenderers = GetComponentsInChildren<MeshRenderer>();
             for(int i = 0; i < allChildRenderers.Length; i++)
             {
                 foreach(Material mat in allChildRenderers[i].materials)
@@ -134,6 +134,12 @@ public class CreatureBehaviorScript : MonoBehaviour
             }
         }
         
+    }
+
+    public virtual void TakeDamage(float damage, Vector3 source)
+    {
+        TakeDamage(damage);
+        //For stuff like golem and buzzsaw bot. Will need to be called from the shovel behavior script at least
     }
 
     public void PlayHitParticle(Vector3 pos) //pass (0,0,0) for it to use its own transform instead
