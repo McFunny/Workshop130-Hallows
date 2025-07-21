@@ -44,6 +44,8 @@ public class NightSpawningManager : MonoBehaviour
     public List<NightEventObject> nightEvents = new List<NightEventObject>();
     bool eventOccured = false; //only 1 per night
 
+    public NightPoolObject currentSpawnPool;
+
     public PopupScript firstNightWarning;
 
     void Awake()
@@ -100,6 +102,7 @@ public class NightSpawningManager : MonoBehaviour
             highestDifficultyPoints = 0;
             selectedCreatures.Clear();
             eventOccured = false;
+            currentSpawnPool = null;
             return;
         }
 
@@ -110,7 +113,9 @@ public class NightSpawningManager : MonoBehaviour
             if(TimeManager.Instance.dayNum == 1) PopupHandler.Instance.AddToQueue(firstNightWarning);
 
             int r = Random.Range(1,4);
-            for(int i = 0; i < r; i++) SpawnCreature(pollinator);//Instantiate(pollinator.objectPrefab, RandomMistPosition(), Quaternion.identity);
+            for(int i = 0; i < r; i++) SpawnCreature(pollinator);
+
+            SelectNightPool();
         }
         if(ReportTotalOfCreature(pollinator) < 1 && Random.Range(0,4) == 1) SpawnCreature(pollinator);
 
@@ -342,6 +347,16 @@ public class NightSpawningManager : MonoBehaviour
             //return;
         }
 
+        if(currentSpawnPool)
+        {
+            if(currentSpawnPool.forceSetDifficultyPoints > 0) overrideDifficulty = true;
+            if(TimeManager.Instance.currentHour == 20)
+            {
+                difficultyPoints = currentSpawnPool.forceSetDifficultyPoints;
+                highestDifficultyPoints = currentSpawnPool.forceSetDifficultyPoints;
+            }
+        }
+
         if(!overrideDifficulty)
         {
             if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.6f;
@@ -386,6 +401,15 @@ public class NightSpawningManager : MonoBehaviour
         if(selectedCreatures.Count == 0) SelectCreaturesForNight(); //potentially call this if the current d level increases
     }
 
+    void SelectNightPool()
+    {
+        currentSpawnPool = null;
+        if(SiegeManager.Instance.siegeCropOnFarm)
+        {
+            currentSpawnPool = SiegeManager.Instance.siegePools[GameSaveData.Instance.siegesCleared];
+        }
+    }
+
     [ContextMenu("RefreshNightCreatures")]
     void SelectCreaturesForNight()
     {
@@ -396,6 +420,13 @@ public class NightSpawningManager : MonoBehaviour
         {
             selectedCreatures = creatures.ToList();
             selectedFillerCreatures = creatures.ToList();
+            return;
+        }
+
+        if(currentSpawnPool)
+        {
+            selectedCreatures = currentSpawnPool.creatures.ToList();
+            selectedFillerCreatures = currentSpawnPool.creatures.ToList();
             return;
         }
 

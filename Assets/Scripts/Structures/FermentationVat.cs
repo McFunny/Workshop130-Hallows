@@ -16,7 +16,7 @@ public class FermentationVat : StructureBehaviorScript
     bool ignoreNextHour = false;
     bool playingActiveParticles = false;
 
-    bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
     public PopupScript chargingPopup;
 
     void Awake()

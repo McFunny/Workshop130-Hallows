@@ -85,7 +85,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
         ExclamationCheck();
     }
 
-    void HourUpdate()
+    protected virtual void HourUpdate()
     {
         ExclamationCheck();
     }

@@ -2924,6 +2924,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ac1957d8dd17cae4b886bec42afb0efe, type: 3}
   - {fileID: 8300000, guid: 3095334711ca5fd4285ec2337d54cf3b, type: 3}
   - {fileID: 8300000, guid: 3e2bb06674947a94a9c8fe55820c80fe, type: 3}
+  siegeMusicAmbience:
+  - {fileID: 8300000, guid: 14b0b1dc2de40374082741c0ba488de4, type: 3}
   finaleTheme: {fileID: 8300000, guid: 1405197918fbcae468e707b99d917085, type: 3}
   finaleIntro: {fileID: 8300000, guid: 1bbac2b1ef7acec498c664c44e43e206, type: 3}
   finaleLose: {fileID: 8300000, guid: 58067976820abad4bb39a8211ce42775, type: 3}
@@ -10663,6 +10665,7 @@ GameObject:
   - component: {fileID: 3640743660825113604}
   - component: {fileID: 6641095865559575426}
   - component: {fileID: 2367110641730823191}
+  - component: {fileID: 7859859832328411273}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -10731,6 +10734,8 @@ MonoBehaviour:
   ignoreCropGrowthTime: 0
   enableCheats: 0
   forceSurvivalMode: 0
+  forceSellSiegeSeeds: 0
+  disableBarricades: 0
 --- !u!114 &1570504167119801372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10943,6 +10948,7 @@ MonoBehaviour:
   pollinator: {fileID: 11400000, guid: 8a1a437e421cbf64ba6829e930502495, type: 2}
   nightEvents:
   - {fileID: 11400000, guid: 846015b0d2cb63b4fa36b8246f961fa5, type: 2}
+  currentSpawnPool: {fileID: 0}
   firstNightWarning: {fileID: 11400000, guid: 72660b2db610a4141a9a53f590aa60ec, type: 2}
 --- !u!114 &6272051581299996177
 MonoBehaviour:
@@ -11027,8 +11033,13 @@ MonoBehaviour:
   bot_explainedPollen: 0
   ras_askedForNet: 0
   bot_explainedTrellis: 0
+  fan_giveBombs: 0
+  apo_readScroll: 0
+  apo_explainedSiege: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
+  siegesCleared: 0
+  siegeCropInHand: 0
   rascalMet: 0
   botMet: 0
   lumberMet: 0
@@ -58602,6 +58613,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allFaceCameras: []
+--- !u!114 &7859859832328411273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecd93ca6514013741beb7043c6d419fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  siegeCropOnFarm: 0
+  siegePools:
+  - {fileID: 11400000, guid: aac3ba6948d8d104293133d975e92bae, type: 2}
+  - {fileID: 11400000, guid: 349a73c4a1558e941b8025bff8c5a78e, type: 2}
+  - {fileID: 11400000, guid: 6bacb107d31507744aad99148323a6f8, type: 2}
+  - {fileID: 11400000, guid: a082a4d11ce5a8e4eb9d7a5980a73e4b, type: 2}
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0

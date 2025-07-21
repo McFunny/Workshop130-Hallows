@@ -147,6 +147,7 @@ public class LogBarricade : MonoBehaviour, IInteractable
     IEnumerator DelayedCheck()
     {
         yield return new WaitForSeconds(2);
+        if(StructureManager.Instance.disableBarricades) isPapered = true;
         CheckData();
     }
 
