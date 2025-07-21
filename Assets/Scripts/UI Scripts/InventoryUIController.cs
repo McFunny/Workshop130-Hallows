@@ -43,7 +43,7 @@ public class InventoryUIController : MonoBehaviour
         inventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
 
         controlManager = FindFirstObjectByType<ControlManager>();
-        toolTip = FindFirstObjectByType<ToolTipScript>();
+        toolTip = GameObject.Find("InventoryItemDescriptions").GetComponent<ToolTipScript>();
         mouseData = FindFirstObjectByType<MouseItemData>();
         source = GetComponent<AudioSource>();
         repairMinigame = FindFirstObjectByType<RepairMinigame>();
