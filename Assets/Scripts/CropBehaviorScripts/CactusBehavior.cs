@@ -29,6 +29,7 @@ public class CactusBehavior : CropBehavior
             {
                 tile.growthStage = 7;
                 tile.SpriteChange();
+                tile.harvestable = true;
             }
         }
 
