@@ -9,19 +9,19 @@ public class NPCInteractRadius : MonoBehaviour
     void Start()
     {
         dialogueController = DialogueController.Instance;
-        if(!npcScript) npcScript = GetComponentInParent<NPC>();
+        if (!npcScript) npcScript = GetComponentInParent<NPC>();
     }
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player") 
+        if (other.gameObject.tag == "Player")
         {
-            if(npcScript && dialogueController.currentTalker != null && dialogueController.currentTalker == npcScript) //to make sure walking npcs dont disable another conversation
+            if (npcScript && dialogueController.currentTalker != null && dialogueController.currentTalker == npcScript) //to make sure walking npcs dont disable another conversation
             {
                 dialogueController.currentTalker.PlayerLeftRadius();
                 dialogueController.EndConversation();
                 Debug.Log("dialogueEnded");
             }
-            else if(npcScript)
+            else if (npcScript)
             {
                 npcScript.PlayerLeftRadius();
             }

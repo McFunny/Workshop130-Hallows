@@ -7,15 +7,19 @@ using UnityEngine.UI;
 
 public class ToolTipScript : MonoBehaviour
 {
-    public GameObject toolTip, panel, barterPanel;
+    public GameObject panel;
     public TextMeshProUGUI itemName, itemDesc, itemStamina, itemType;
     public Color c_default, c_tool, c_placeable, c_crop, c_consumable;
     public GameObject intakeParent, outputParent;
     public GameObject[] input, output;
-    private VerticalLayoutGroup verticalLayoutGroup;
     [SerializeField] private GameObject[] barterIcons;
-    private Image[] barterIconImages;
-    private TextMeshProUGUI[] barterIconTexts;
+
+    [Header("Only needed for barter tooltips")]
+    [SerializeField] private Sprite mintImage;
+    [SerializeField] private Image[] barterIconImages;
+    [SerializeField] private TextMeshProUGUI[] barterIconTexts;
+    private WaypointScript shopUI;
+    [SerializeField] private List<VerticalLayoutGroup> verticalLayoutGroups = new List<VerticalLayoutGroup>();
     //protected Vector3[] corners;
 
     public void Awake()
@@ -26,7 +30,7 @@ public class ToolTipScript : MonoBehaviour
 
     void Start()
     {
-        barterPanel.SetActive(false);
+        //shopUI = FindFirstObjectByType<WaypointScript>();
         input = new GameObject[6];
         output = new GameObject[4];
 
@@ -43,17 +47,22 @@ public class ToolTipScript : MonoBehaviour
             }
         }
 
+        foreach (var layoutGroup in GetComponentsInChildren<VerticalLayoutGroup>())
+        {
+            verticalLayoutGroups.Add(layoutGroup);
+        }
+
         for (int i = 0; i < 6; i++)
-            {
-                input[i] = intakeParent.transform.GetChild(1).GetChild(i).gameObject;
-            }
+        {
+            input[i] = intakeParent.transform.GetChild(1).GetChild(i).gameObject;
+        }
 
         for (int i = 0; i < 4; i++)
         {
             output[i] = outputParent.transform.GetChild(1).GetChild(i).gameObject;
         }
-        verticalLayoutGroup = panel.GetComponent<VerticalLayoutGroup>();
-        this.gameObject.SetActive(false);
+
+        panel.SetActive(false);
     }
 
     protected void LateUpdate()
@@ -84,11 +93,9 @@ public class ToolTipScript : MonoBehaviour
 
         transform.position = pos;*/
     }
-    public void UpdateToolTip(InventoryItemData itemData, bool isBarter = false)
+    public void UpdateToolTip(InventoryItemData itemData)
     {
         if (itemData == null || !panel.activeSelf) return;
-
-        barterPanel.SetActive(isBarter);
 
         var type = itemData.GetType();
 
@@ -186,40 +193,48 @@ public class ToolTipScript : MonoBehaviour
         itemType.gameObject.SetActive(true);
         itemDesc.gameObject.SetActive(true);*/
 
-        Canvas.ForceUpdateCanvases(); //This is stupid why should I have to do this?
-        verticalLayoutGroup.enabled = false;
-        verticalLayoutGroup.enabled = true; //Yeah of course the solution is to turn it off and then turn it back on
+        for (int i = 0; i < verticalLayoutGroups.Count; i++)
+        {
+            Canvas.ForceUpdateCanvases();
+            verticalLayoutGroups[i].enabled = false;
+            verticalLayoutGroups[i].enabled = true;
+        }
 
     }
 
-    public void UpdateTooltipBarter(List<ItemWithAmount> barterCost)
+    public void UpdateTooltipBarter(InventoryItemData item, List<ItemWithAmount> barterCost, int cost)
     {
-        for (int i = 0; i < barterIcons.Length; i++)
+        UpdateToolTip(item);
+
+        if (cost > 0)
         {
-            if (i < barterIconImages.Length && i < barterIconTexts.Length)
+            barterIcons[0].SetActive(true);
+            barterIconImages[0].sprite = mintImage;
+            barterIconTexts[0].text = "x" + cost.ToString();
+        }
+        else
+        {
+            barterIcons[0].SetActive(false);
+        }
+
+        if (barterCost == null) return;
+
+        for (int i = 1; i < barterIcons.Length; i++)
+        {
+            if (i > barterCost.Count)
             {
                 barterIconImages[i].sprite = null;
                 barterIconTexts[i].text = "";
                 barterIcons[i].SetActive(false);
             }
-        }
-
-        for (int i = 0; i < barterCost.Count; i++)
-        {
-            if (i < barterIcons.Length)
+            else
             {
                 barterIcons[i].SetActive(true);
-                barterIconImages[i].sprite = barterCost[i].item.icon;
-                barterIconTexts[i].text = "x " + barterCost[i].amount.ToString();
+                barterIconImages[i].sprite = barterCost[i - 1].item.icon;
+                barterIconTexts[i].text = "x" + barterCost[i - 1].amount.ToString();
             }
         }
-    }
-    public void ShowToolTip()
-    {
-        toolTip.SetActive(true);
-    }
-    public void HideToolTip()
-    {
-        toolTip.SetActive(false);
+
+        
     }
 }
