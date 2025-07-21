@@ -1,3 +1,4 @@
+using SaveLoadSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,16 +7,29 @@ public class BrazierPuzzleManager : MonoBehaviour
 {
     [SerializeField] private List<PuzzleBrazier> brazierList = new List<PuzzleBrazier>();
 
-    public bool brazierPuzzleSolved;
+    public bool puzzleSolved;
 
     public Color gold;
     public Color gray;
 
     public SpriteRenderer totalPuzzleWin;
 
+    public static BrazierPuzzleManager Instance;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
+    }
+
     private void Start()
     {
-        brazierPuzzleSolved = false;
+        puzzleSolved = false;
         InitializePuzzles();
     }
 
@@ -52,7 +66,7 @@ public class BrazierPuzzleManager : MonoBehaviour
             brazier.isLocked = true;
         }
 
-        brazierPuzzleSolved = true;
+        puzzleSolved = true;
         PuzzleManager.Instance.totalPuzzlesSolved++;
         PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
     }
@@ -68,16 +82,16 @@ public class BrazierPuzzleManager : MonoBehaviour
         return new BrazierPuzzleSaveData
         {
             braziers = braziers,
-            brazierPuzzleSolved = brazierPuzzleSolved
+            brazierPuzzleSolved = puzzleSolved
         };
     }
 
     public void ImportSaveData(BrazierPuzzleSaveData data)
     {
-        brazierPuzzleSolved = data.brazierPuzzleSolved;
+        puzzleSolved = data.brazierPuzzleSolved;
 
-        if (brazierPuzzleSolved) { totalPuzzleWin.color = gold; }
-        else if (!brazierPuzzleSolved) { totalPuzzleWin.color = gray; }
+        if (puzzleSolved) { totalPuzzleWin.color = gold; }
+        else if (!puzzleSolved) { totalPuzzleWin.color = gray; }
 
         for (int i = 0; i < brazierList.Count; i++)
         {

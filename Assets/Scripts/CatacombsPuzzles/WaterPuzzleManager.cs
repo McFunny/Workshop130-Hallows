@@ -1,3 +1,4 @@
+using SaveLoadSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,20 @@ public class WaterPuzzleManager : MonoBehaviour
     public WaterPuzzleTile puzzle2;
     public WaterPuzzleTile puzzle3;
 
-    public bool waterPuzzleSolved = false;
+    public bool puzzleSolved = false;
 
+    public static WaterPuzzleManager Instance;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
+    }
     private void Start()
     {
         // Load puzzle state when the game starts
@@ -21,12 +34,12 @@ public class WaterPuzzleManager : MonoBehaviour
 
     void Update()
     {
-        if (puzzle1.isSolved && puzzle2.isSolved && puzzle3.isSolved && !waterPuzzleSolved)
+        if (puzzle1.isSolved && puzzle2.isSolved && puzzle3.isSolved && !puzzleSolved)
         {
             puzzle1.isLocked = true;
             puzzle2.isLocked = true;
             puzzle3.isLocked = true;
-            waterPuzzleSolved = true;
+            puzzleSolved = true;
 
             //SavePuzzleState();
             PuzzleManager.Instance.totalPuzzlesSolved++;
@@ -39,7 +52,7 @@ public class WaterPuzzleManager : MonoBehaviour
     {
         return new WaterPuzzleData
         {
-            waterPuzzleSolved = waterPuzzleSolved,
+            waterPuzzleSolved = puzzleSolved,
             puzzle1Solved = puzzle1.isSolved,
             puzzle2Solved = puzzle2.isSolved,
             puzzle3Solved = puzzle3.isSolved
@@ -49,7 +62,7 @@ public class WaterPuzzleManager : MonoBehaviour
 
     public void LoadFromData(WaterPuzzleData data)
     {
-        waterPuzzleSolved = data.waterPuzzleSolved;
+        puzzleSolved = data.waterPuzzleSolved;
 
         puzzle1.SetSolvedState(data.puzzle1Solved);
         puzzle2.SetSolvedState(data.puzzle2Solved);
