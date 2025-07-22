@@ -28,14 +28,11 @@ public class InventorySlot_UI : MonoBehaviour
         ClearSlot();
         button = GetComponent<Button>();
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
-        toolTip = FindFirstObjectByType<ToolTipScript>();
+        toolTip = GameObject.Find("InventoryItemDescriptions").GetComponent<ToolTipScript>();
         AddEventTriggers();
         itemName.gameObject.SetActive(false);
     }
-    void Start()
-    {
-        //toolTip = FindObjectOfType<ToolTipScript>();
-    }
+
     private void OnEnable()
     {
         controlManager.select.action.started += Select;

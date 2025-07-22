@@ -110,9 +110,9 @@ public class ShovelAttack : MonoBehaviour
 
         if(hitCreature)
         {
-            hitCreature.TakeDamage(25);
+            hitCreature.TakeDamage(25, PlayerInteraction.Instance.transform.position);
             //playsound
-            HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
+            if(hitCreature.corpseType != CorpseParticleType.Metal) HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
             print("Hit Creature");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 

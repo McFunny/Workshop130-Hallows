@@ -9,7 +9,7 @@ public class FarmLand : StructureBehaviorScript
     public CropDatabase cropDatabase;
 
     public CropData crop; //The current crop planted here //MUST BE SAVED
-    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar, trellis, plantFiber;
+    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar, trellis, plantFiber, crabGrassSeeds;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
     public Collider finishedGrowingCollider;
@@ -301,6 +301,7 @@ public class FarmLand : StructureBehaviorScript
 
 
                     r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
+                    if(isWeed && Random.Range(0, 100) > 97) r = 1; //For crabgrass seeds from weeds
                     for (int i = 0; i < r; i++) //Seed yield
                     {
                         if(crop.cropSeed && plantStress == 0)
@@ -400,7 +401,7 @@ public class FarmLand : StructureBehaviorScript
 
             PlayerInteraction.Instance.waterHeld--;
         }
-        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable))
+        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable) && currentUpgrade != FarmTileUpgrade.Trellis)
         {
             harvestedByScythe = true;
             StructureInteraction();

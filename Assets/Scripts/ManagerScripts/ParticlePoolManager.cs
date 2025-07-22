@@ -230,6 +230,10 @@ public class ParticlePoolManager : MonoBehaviour
             corpsePoolYellow.Add(newParticle);
             return newParticle;
         }
+        else if(type == CorpseParticleType.Metal)
+        {
+            return GrabDestructionParticle(StructureType.Metal);
+        }
         else return null;
     }
 
@@ -557,7 +561,8 @@ public enum CorpseParticleType
 {
     Red,
     Yellow,
-    Null
+    Null,
+    Metal
 }
 
 public enum StructureType

@@ -1,3 +1,4 @@
+using SaveLoadSystem;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,8 +50,19 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
     public AudioClip mouthOpen, mouthClose, clickInPlace, win, brokenSound;
 
+    public static SlotMachine Instance;
 
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
+    }
 
 
     public UnityAction<IInteractable> OnInteractionComplete { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }

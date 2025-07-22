@@ -7,12 +7,19 @@ using UnityEngine.UI;
 
 public class ToolTipScript : MonoBehaviour
 {
-    public GameObject toolTip, panel;
+    public GameObject panel;
     public TextMeshProUGUI itemName, itemDesc, itemStamina, itemType;
     public Color c_default, c_tool, c_placeable, c_crop, c_consumable;
     public GameObject intakeParent, outputParent;
     public GameObject[] input, output;
-    private VerticalLayoutGroup verticalLayoutGroup;
+    [SerializeField] private GameObject[] barterIcons;
+
+    [Header("Only needed for barter tooltips")]
+    [SerializeField] private Sprite mintImage;
+    [SerializeField] private Image[] barterIconImages;
+    [SerializeField] private TextMeshProUGUI[] barterIconTexts;
+    private WaypointScript shopUI;
+    [SerializeField] private List<VerticalLayoutGroup> verticalLayoutGroups = new List<VerticalLayoutGroup>();
     //protected Vector3[] corners;
 
     public void Awake()
@@ -23,20 +30,39 @@ public class ToolTipScript : MonoBehaviour
 
     void Start()
     {
+        //shopUI = FindFirstObjectByType<WaypointScript>();
         input = new GameObject[6];
         output = new GameObject[4];
 
-        for(int i = 0; i < 6; i++)
+        if (barterIcons.Length > 0)
+        {
+            barterIconImages = new Image[barterIcons.Length];
+            barterIconTexts = new TextMeshProUGUI[barterIcons.Length];
+            for (int i = 0; i < barterIcons.Length; i++)
+            {
+                barterIconImages[i] = barterIcons[i].GetComponentInChildren<Image>();
+                barterIconTexts[i] = barterIcons[i].GetComponentInChildren<TextMeshProUGUI>();
+
+                barterIcons[i].SetActive(false);
+            }
+        }
+
+        foreach (var layoutGroup in GetComponentsInChildren<VerticalLayoutGroup>())
+        {
+            verticalLayoutGroups.Add(layoutGroup);
+        }
+
+        for (int i = 0; i < 6; i++)
         {
             input[i] = intakeParent.transform.GetChild(1).GetChild(i).gameObject;
         }
 
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             output[i] = outputParent.transform.GetChild(1).GetChild(i).gameObject;
         }
 
-        verticalLayoutGroup = panel.GetComponent<VerticalLayoutGroup>();
+        panel.SetActive(false);
     }
 
     protected void LateUpdate()
@@ -69,19 +95,11 @@ public class ToolTipScript : MonoBehaviour
     }
     public void UpdateToolTip(InventoryItemData itemData)
     {
-        if(itemData == null || !panel.activeSelf) return;
-        
+        if (itemData == null || !panel.activeSelf) return;
+
         var type = itemData.GetType();
 
-        /*//Resetting the descriptionbox contents
-        itemName.gameObject.SetActive(false);
-        itemType.gameObject.SetActive(false);
-        itemDesc.gameObject.SetActive(false);
-        itemStamina.gameObject.SetActive(false);
-        intakeParent.SetActive(false);
-        outputParent.SetActive(false);*/
-
-        if(itemData.staminaValue != 0)
+        if (itemData.staminaValue != 0)
         {
             itemStamina.text = "Heals " + itemData.staminaValue + " stamina.";
             itemStamina.gameObject.SetActive(true);
@@ -90,7 +108,7 @@ public class ToolTipScript : MonoBehaviour
             outputParent.SetActive(false);
             itemType.color = c_consumable;
         }
-        else if(type.Equals(typeof(ToolItem)))
+        else if (type.Equals(typeof(ToolItem)))
         {
             itemType.text = "Tool";
             intakeParent.SetActive(false);
@@ -98,60 +116,60 @@ public class ToolTipScript : MonoBehaviour
             itemStamina.gameObject.SetActive(false);
             itemType.color = c_tool;
         }
-        else if(type.Equals(typeof(PlaceableItem)))
+        else if (type.Equals(typeof(PlaceableItem)))
         {
             var item = itemData as PlaceableItem;
             //print(item);
-            if(item.gridTypes.Count == 0) Debug.LogError("Forgot to assign this structure a grid type!");
-            else if(item.gridTypes[0] == GridType.Any) itemType.text = "Structure";
-            else if(item.gridTypes[0] == GridType.Farm) itemType.text = "Farm Structure";
-            else if(item.gridTypes[0] == GridType.Cabin) itemType.text = "Cabin Structure";
-            else if(item.gridTypes[0] == GridType.Town) itemType.text = "Town Structure";
-            
+            if (item.gridTypes.Count == 0) Debug.LogError("Forgot to assign this structure a grid type!");
+            else if (item.gridTypes[0] == GridType.Any) itemType.text = "Structure";
+            else if (item.gridTypes[0] == GridType.Farm) itemType.text = "Farm Structure";
+            else if (item.gridTypes[0] == GridType.Cabin) itemType.text = "Cabin Structure";
+            else if (item.gridTypes[0] == GridType.Town) itemType.text = "Town Structure";
+
             intakeParent.SetActive(false);
             outputParent.SetActive(false);
             itemStamina.gameObject.SetActive(false);
             itemType.color = c_placeable;
         }
-        else if(type.Equals(typeof(CropItem)))
+        else if (type.Equals(typeof(CropItem)))
         {
             itemType.text = "Seed";
             var seedData = itemData as CropItem; //why did I name it like this
 
             //Consumes
 
-            if(seedData.cropData.gloamIntake > 0){input[0].SetActive(true);}
-            else{input[0].SetActive(false);}
+            if (seedData.cropData.gloamIntake > 0) { input[0].SetActive(true); }
+            else { input[0].SetActive(false); }
 
-            if(seedData.cropData.terraIntake > 0){input[1].SetActive(true);}
-            else{input[1].SetActive(false);}
+            if (seedData.cropData.terraIntake > 0) { input[1].SetActive(true); }
+            else { input[1].SetActive(false); }
 
-            if(seedData.cropData.ichorIntake > 0){input[2].SetActive(true);}
-            else{input[2].SetActive(false);}
+            if (seedData.cropData.ichorIntake > 0) { input[2].SetActive(true); }
+            else { input[2].SetActive(false); }
 
-            if(seedData.cropData.waterIntake > 0){input[3].SetActive(true);}
-            else{input[3].SetActive(false);}
+            if (seedData.cropData.waterIntake > 0) { input[3].SetActive(true); }
+            else { input[3].SetActive(false); }
 
-            if(seedData.cropData.requirePollination){input[4].SetActive(true);}
-            else{input[4].SetActive(false);}
+            if (seedData.cropData.requirePollination) { input[4].SetActive(true); }
+            else { input[4].SetActive(false); }
 
-            if(seedData.requireTrellis){input[5].SetActive(true);}
-            else{input[5].SetActive(false);}
+            if (seedData.requireTrellis) { input[5].SetActive(true); }
+            else { input[5].SetActive(false); }
 
             //Produces
 
-            if(seedData.cropData.gloamIntake < 0){output[0].SetActive(true);}
-            else{output[0].SetActive(false);}
+            if (seedData.cropData.gloamIntake < 0) { output[0].SetActive(true); }
+            else { output[0].SetActive(false); }
 
-            if(seedData.cropData.terraIntake < 0){output[1].SetActive(true);}
-            else{output[1].SetActive(false);}
+            if (seedData.cropData.terraIntake < 0) { output[1].SetActive(true); }
+            else { output[1].SetActive(false); }
 
-            if(seedData.cropData.ichorIntake < 0){output[2].SetActive(true);}
-            else{output[2].SetActive(false);}
+            if (seedData.cropData.ichorIntake < 0) { output[2].SetActive(true); }
+            else { output[2].SetActive(false); }
 
-            if(seedData.cropData.waterIntake < 0){output[3].SetActive(true);}
-            else{output[3].SetActive(false);}
-            
+            if (seedData.cropData.waterIntake < 0) { output[3].SetActive(true); }
+            else { output[3].SetActive(false); }
+
             intakeParent.SetActive(true);
             outputParent.SetActive(true);
             itemStamina.gameObject.SetActive(false);
@@ -175,9 +193,48 @@ public class ToolTipScript : MonoBehaviour
         itemType.gameObject.SetActive(true);
         itemDesc.gameObject.SetActive(true);*/
 
-        Canvas.ForceUpdateCanvases(); //This is stupid why should I have to do this?
-        verticalLayoutGroup.enabled = false;
-        verticalLayoutGroup.enabled = true; //Yeah of course the solution is to turn it off and then turn it back on
+        for (int i = 0; i < verticalLayoutGroups.Count; i++)
+        {
+            Canvas.ForceUpdateCanvases();
+            verticalLayoutGroups[i].enabled = false;
+            verticalLayoutGroups[i].enabled = true;
+        }
+
+    }
+
+    public void UpdateTooltipBarter(InventoryItemData item, List<ItemWithAmount> barterCost, int cost)
+    {
+        UpdateToolTip(item);
+
+        if (cost > 0)
+        {
+            barterIcons[0].SetActive(true);
+            barterIconImages[0].sprite = mintImage;
+            barterIconTexts[0].text = "x" + cost.ToString();
+        }
+        else
+        {
+            barterIcons[0].SetActive(false);
+        }
+
+        if (barterCost == null) return;
+
+        for (int i = 1; i < barterIcons.Length; i++)
+        {
+            if (i > barterCost.Count)
+            {
+                barterIconImages[i].sprite = null;
+                barterIconTexts[i].text = "";
+                barterIcons[i].SetActive(false);
+            }
+            else
+            {
+                barterIcons[i].SetActive(true);
+                barterIconImages[i].sprite = barterCost[i - 1].item.icon;
+                barterIconTexts[i].text = "x" + barterCost[i - 1].amount.ToString();
+            }
+        }
+
         
     }
 }
