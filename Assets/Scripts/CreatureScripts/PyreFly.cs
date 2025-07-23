@@ -294,6 +294,7 @@ public class PyreFly : CreatureBehaviorScript
             if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower)
             {
                 if(!tile || (tile && !tile.isWeed)) availableStructure.Add(structure);
+                if(tile && tile.crop && tile.crop.id == 20 && Random.Range(0,10) > 6) targetStructure = structure;
             }
         }
 

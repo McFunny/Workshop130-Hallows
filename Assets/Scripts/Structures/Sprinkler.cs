@@ -6,7 +6,7 @@ using TMPro;
 public class Sprinkler : StructureBehaviorScript
 {
     public int waterLevel = 0; 
-    int maxWaterLevel = 3;
+    int maxWaterLevel = 5;
     public GameObject water;
     public Transform head;
     public GameObject waterVFX;
