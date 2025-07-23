@@ -600,8 +600,9 @@ public class PyreFly : CreatureBehaviorScript
             if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);
             if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f)
             {
-                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
+                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 8);
                 PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
+                PlayerInteraction.Instance.PlayerTrip();
             }
             Collider[] hitStructures = Physics.OverlapSphere(transform.position, 1.5f, 1 << 6);
             foreach(Collider collider in hitStructures)

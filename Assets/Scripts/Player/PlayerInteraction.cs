@@ -5,12 +5,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public Camera mainCam;
 
-    public Transform playerFeet;
+    public Transform playerFeet, cameraPos, trippedFocalPoint;
 
     public PlayerInventoryHolder playerInventoryHolder { get; private set; }
 
@@ -24,7 +25,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public bool isInteracting { get; private set; }
     public bool toolCooldown;
-    bool itemUseCooldown;
+    bool itemUseCooldown, isTripped;
 
     public static PlayerInteraction Instance;
 
@@ -348,7 +349,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void StaminaChange(float amount)
     {
-        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible)
+        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible || isTripped)
         {
             print("Damage negated! Stamina is : " + stamina);
             return;
@@ -496,6 +497,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             e.remainingDuration = 0;
         }
+        PlayerTrip();
 
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
@@ -586,6 +588,39 @@ public class PlayerInteraction : MonoBehaviour
     public void ShakeScreen(float intensity)
     {
         playerEffects.damageImpulse.GenerateImpulseWithForce(intensity);
+    }
+
+    [ContextMenu("Test Trip")]
+    public void PlayerTrip()
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || isTripped) return;
+        StartCoroutine(PlayerTripRoutine());
+    }
+
+    IEnumerator PlayerTripRoutine() //for recoiling purposes
+    {
+        isTripped = true;
+        PlayerMovement.restrictMovementTokens++;
+        PlayerMovement.limitMaxVelocity = false;
+        GetComponent<PlayerMovement>().ApplyForceToPlayer(2000, PlayerInteraction.Instance.mainCam.transform.TransformDirection(-Vector3.forward));
+        cameraPos.DOMoveY(cameraPos.position.y + 1, 0.15f); //Move up
+
+        PlayerCam.Instance.NewObjectOfInterest(trippedFocalPoint.position);
+        yield return new WaitForSeconds(.15f);
+
+        cameraPos.DOMoveY(cameraPos.position.y - 2.5f, 0.25f); //Move Down
+        yield return new WaitForSeconds(.25f);
+        playerEffects.PlayClip(playerEffects.trip);
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        yield return new WaitForSeconds(.50f);
+        PlayerMovement.limitMaxVelocity = true;
+        if(stamina <= 0) yield return new WaitForSeconds(3f); //Death extra time
+
+        cameraPos.DOMoveY(cameraPos.position.y + 1.5f, 0.75f); //Stand back up
+        yield return new WaitForSeconds(0.75f);
+        PlayerCam.Instance.ClearObjectOfInterest();
+        isTripped = false;
+        PlayerMovement.restrictMovementTokens--;
     }
 
 

@@ -289,6 +289,7 @@ public class PlayerMovement : MonoBehaviour
     {
         return rb.velocity;
     }
+
 }
 
 public class MovementSpeedModifiers

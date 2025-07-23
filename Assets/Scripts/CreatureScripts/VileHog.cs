@@ -53,6 +53,7 @@ public class VileHog : CreatureBehaviorScript
     bool usingThrusters = false;
 
     public ParticleSystem exhaustL, exhaustR;
+    public GameObject thrusterParticles;
 
     public enum CreatureState
     {
@@ -516,7 +517,7 @@ public class VileHog : CreatureBehaviorScript
             yield return new WaitForSeconds(0.3f/actionSpeedMod);
             agent.acceleration = thrusterSpeed;
             effectsHandler.PlayExtraSound(0);
-
+            thrusterParticles.SetActive(true);
         }
         else yield return new WaitForSeconds(beginChargeTime/actionSpeedMod); //Beginning to charge
 
@@ -539,6 +540,7 @@ public class VileHog : CreatureBehaviorScript
             agent.SetDestination(chargePosition.position);
             yield return null;
         }
+        if(usingThrusters) thrusterParticles.SetActive(false);
         attackHitbox.enabled = false;
         dashParticles.Stop();
         if(chargeTimeElapsed >= chargeTime)
@@ -608,6 +610,7 @@ public class VileHog : CreatureBehaviorScript
                 int extraDamage = 0;
                 if(usingThrusters) extraDamage += 15;
                 playerInteraction.StaminaChange(damageToPlayer + extraDamage);
+                playerInteraction.PlayerTrip();
                 attackHitbox.enabled = false;
                 if(!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
                 recoilTime = 1.7f;

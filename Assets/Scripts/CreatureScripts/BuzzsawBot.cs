@@ -212,6 +212,7 @@ public class BuzzsawBot : CreatureBehaviorScript
 
     public override void HitWithWater()
     {
+        ParticlePoolManager.Instance.GrabElecZapParticle().transform.position = transform.position;
         TakeDamage(25);
     }
 }
