@@ -464,6 +464,18 @@ MonoBehaviour:
     wildernessSpawnRate: 30
     townSpawnRate: 0
     sprite: {fileID: -1121692499, guid: cdbc3ef2e26744d4ba309bf68d2660a7, type: 3}
+  - item: {fileID: 11400000, guid: c43d4fefc31a74f438658385a62f10cc, type: 2}
+    wildernessSpawnRate: 40
+    townSpawnRate: 10
+    sprite: {fileID: -658940679, guid: 539a8d6022dfa864f900b83fbaae38d9, type: 3}
+  - item: {fileID: 11400000, guid: b0232ab7646c01349b9d3981e5ebe092, type: 2}
+    wildernessSpawnRate: 50
+    townSpawnRate: 50
+    sprite: {fileID: 966189109, guid: 539a8d6022dfa864f900b83fbaae38d9, type: 3}
+  - item: {fileID: 11400000, guid: 1c88f2578c856db478e5447c134d120b, type: 2}
+    wildernessSpawnRate: 30
+    townSpawnRate: 40
+    sprite: {fileID: -265457967, guid: 539a8d6022dfa864f900b83fbaae38d9, type: 3}
   dugUpSound: {fileID: 8300000, guid: 670c8869953582347943c68fdb8f866b, type: 3}
 --- !u!1 &4952454737248816691
 GameObject:
@@ -563,6 +575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  objectActive: 0
 --- !u!1 &7063790860838755327
 GameObject:
   m_ObjectHideFlags: 0

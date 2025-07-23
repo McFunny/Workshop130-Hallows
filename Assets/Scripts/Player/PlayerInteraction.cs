@@ -590,19 +590,18 @@ public class PlayerInteraction : MonoBehaviour
         playerEffects.damageImpulse.GenerateImpulseWithForce(intensity);
     }
 
-    [ContextMenu("Test Trip")]
     public void PlayerTrip()
     {
         if(PlayerMovement.restrictMovementTokens > 0 || isTripped) return;
-        StartCoroutine(PlayerTripRoutine());
+        StartCoroutine(PlayerTripRoutine(true));
     }
 
-    IEnumerator PlayerTripRoutine() //for recoiling purposes
+    IEnumerator PlayerTripRoutine(bool addKnockback) //for recoiling purposes
     {
         isTripped = true;
         PlayerMovement.restrictMovementTokens++;
         PlayerMovement.limitMaxVelocity = false;
-        GetComponent<PlayerMovement>().ApplyForceToPlayer(2000, PlayerInteraction.Instance.mainCam.transform.TransformDirection(-Vector3.forward));
+        if(addKnockback) GetComponent<PlayerMovement>().ApplyForceToPlayer(2000, PlayerInteraction.Instance.mainCam.transform.TransformDirection(-Vector3.forward));
         cameraPos.DOMoveY(cameraPos.position.y + 1, 0.15f); //Move up
 
         PlayerCam.Instance.NewObjectOfInterest(trippedFocalPoint.position);
