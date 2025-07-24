@@ -197,6 +197,7 @@ public class PlayerInventoryHolder : InventoryHolder
 
     public bool AddToInventory(InventoryItemData data, int amount)
     {
+
         if (primaryInventorySystem.ContainsItem(data, out List<InventorySlot> primarySlots))
         {
             foreach (var slot in primarySlots)
