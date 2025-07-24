@@ -54,6 +54,7 @@ public class VileHog : CreatureBehaviorScript
 
     public ParticleSystem exhaustL, exhaustR;
     public GameObject thrusterParticles;
+    public GameObject armor;
 
     public enum CreatureState
     {
@@ -496,7 +497,7 @@ public class VileHog : CreatureBehaviorScript
     IEnumerator ChargeRoutine()
     {
         usingThrusters = false;
-        if(thrustersReady)
+        if(thrustersReady && armor)
         {
             usingThrusters = true;
             StartCoroutine(ThrusterRecharge());
@@ -853,7 +854,13 @@ public class VileHog : CreatureBehaviorScript
         thrustersReady = false;
         exhaustL.Play();
         exhaustR.Play();
-        yield return new WaitForSeconds(15);
+        int time = 0;
+        while(time < 15)
+        {
+            if(!armor) time = 15;
+            time++;
+            yield return new WaitForSeconds(1);
+        }
         thrustersReady = true;
         exhaustL.Stop();
         exhaustR.Stop();
