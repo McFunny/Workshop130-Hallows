@@ -538,7 +538,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &7573596260100209977
 MonoBehaviour:
@@ -16380,8 +16380,14 @@ MonoBehaviour:
   - {fileID: 5227316622429469450}
   - {fileID: 4302777565218329331}
   - {fileID: 6515050825963686383}
-  consumesSlider: []
-  producesSlider: []
+  consumesSlider:
+  - {fileID: 7531656129496939921}
+  - {fileID: 9105332308851978027}
+  - {fileID: 5206231721301987460}
+  producesSlider:
+  - {fileID: 6161038839514665948}
+  - {fileID: 2643007062005373114}
+  - {fileID: 7219871134663483615}
   targetedByImages:
   - {fileID: 5750376316329515016}
   - {fileID: 7620856778476597285}
