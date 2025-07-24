@@ -23,6 +23,8 @@ public class CreatureEffectsHandler : MonoBehaviour
     public AudioClip miscSound2;
     public AudioClip miscSound3;
 
+    public AudioClip[] extraSounds;
+
     public ParticleSystem particle1;
 
 
@@ -117,5 +119,10 @@ public class CreatureEffectsHandler : MonoBehaviour
     public void PlayParticle1()
     {
         particle1.Play();
+    }
+
+    public void PlayExtraSound(int i)
+    {
+        if(extraSounds.Length > i) source.PlayOneShot(extraSounds[i], volume);
     }
 }

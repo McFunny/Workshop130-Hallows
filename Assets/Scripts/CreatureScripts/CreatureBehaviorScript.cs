@@ -34,10 +34,13 @@ public class CreatureBehaviorScript : MonoBehaviour
     public float attackRange = 6;
     public bool playerInSightRange = false;
     public bool playerInAttackRange = false;
-    public bool shovelVulnerable = true;
+
+    //Vulnerabilities
+    public bool shovelVulnerable = true; //More like physical attack vulnerable
     public bool fireVulnerable = true;
     public bool bearTrapVulnerable = true;
-    //public bool isTrapped = false;
+    public bool frostVulnerable = true;
+
     public bool isDead = false;
     bool corpseDestroyed = false;
     public int damageToStructure; //number must be positive
@@ -60,7 +63,7 @@ public class CreatureBehaviorScript : MonoBehaviour
 
         if(hitColor != Color.black)
         {
-            MeshRenderer[] allChildRenderers = GetComponentsInChildren<MeshRenderer>();
+            SkinnedMeshRenderer[] allChildRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
             for(int i = 0; i < allChildRenderers.Length; i++)
             {
                 foreach(Material mat in allChildRenderers[i].materials)
@@ -196,7 +199,14 @@ public class CreatureBehaviorScript : MonoBehaviour
         fearSuccessful = false;
     }
 
-    public virtual void HitWithWater(){}
+    public virtual void HitWithWater()
+    {
+        if(StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Frost, this))
+        {
+            TakeDamage(25);
+            ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+        }
+    }
 
     public virtual void NewPriorityTarget(StructureBehaviorScript newStruct){}
 

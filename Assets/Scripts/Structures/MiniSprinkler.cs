@@ -18,6 +18,7 @@ public class MiniSprinkler : StructureBehaviorScript
 
     bool watering = false;
     bool waterCooldown = false;
+    bool wateredThisHour = false; //To make sure it doesnt water twice in the same hour
 
     List<StructureBehaviorScript> structsInRange = new List<StructureBehaviorScript>();
 
@@ -61,11 +62,13 @@ public class MiniSprinkler : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(waterLevel > 0 && !TimeManager.Instance.isDay)
+        if(waterLevel > 0 && !TimeManager.Instance.isDay && !watering)
         {
             waterLevel--;
             StartCoroutine(WaterTiles());
+            wateredThisHour = true;
         }
+        else wateredThisHour = false;
     }
 
     public override void StructureInteraction()
@@ -78,6 +81,7 @@ public class MiniSprinkler : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
+        if(watering) return;
         if(type == ToolType.Shovel)
         {
             //StartCoroutine(DugUpForItem());
@@ -87,7 +91,12 @@ public class MiniSprinkler : StructureBehaviorScript
         {
             PlayerInteraction.Instance.waterHeld -= maxWaterLevel - waterLevel;
             waterLevel = maxWaterLevel;
-            StartCoroutine(WaterTiles());
+            if(!wateredThisHour) 
+            {
+                StartCoroutine(WaterTiles());
+                waterLevel--;
+                wateredThisHour = true;
+            }
             success = true;
         }
     }
@@ -147,10 +156,13 @@ public class MiniSprinkler : StructureBehaviorScript
 
             if(structsInRange[index].onFire) structsInRange[index].Extinguish();
             structsInRange[index].HitWithWater();
+            FarmLand tile = structsInRange[index] as FarmLand;
+            if(tile) tile.WaterCrops();
 
             if(structsInRange[index].isObstacle && mode == SprinklerMode.Stream)
             {
                 structsInRange.Clear();
+                yield break;
             }
 
             structsInRange.RemoveAt(index);
@@ -162,6 +174,7 @@ public class MiniSprinkler : StructureBehaviorScript
         StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
         if(structure && !structsInRange.Contains(structure))
         {
+            //print("Found a structure");
             structsInRange.Add(structure);
         }
         /*

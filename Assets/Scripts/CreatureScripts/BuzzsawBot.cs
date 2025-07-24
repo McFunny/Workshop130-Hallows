@@ -92,7 +92,7 @@ public class BuzzsawBot : CreatureBehaviorScript
     IEnumerator RefreshWanderPoint()
     {
         if(!inWilderness) targetPos = StructureManager.Instance.GetRandomTile();
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(9);
         while(health > 0)
         {
             yield return new WaitForSeconds(Random.Range(2, 4));
@@ -107,8 +107,8 @@ public class BuzzsawBot : CreatureBehaviorScript
                 targetPos = player.position;
                 continue;
             }
-            float x = Random.Range(-7f, 7f);
-            float z = Random.Range(-7f, 7f);
+            float x = Random.Range(-10f, 10f);
+            float z = Random.Range(-10f, 10f);
             targetPos = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
         }
     }
@@ -194,7 +194,7 @@ public class BuzzsawBot : CreatureBehaviorScript
             currentState = CreatureState.Recoil;
             recoilTimeLeft = Random.Range(0.5f, 2f);
             Vector3 dir = (transform.position - hitObject.transform.position).normalized;
-            rb.AddForce(dir * Random.Range(30, 70), ForceMode.Impulse);
+            rb.AddForce(dir * Random.Range(60, 100), ForceMode.Impulse);
             effectsHandler.MiscSound();
         }
         
@@ -212,6 +212,7 @@ public class BuzzsawBot : CreatureBehaviorScript
 
     public override void HitWithWater()
     {
+        ParticlePoolManager.Instance.GrabElecZapParticle().transform.position = transform.position;
         TakeDamage(25);
     }
 }

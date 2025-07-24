@@ -13,7 +13,7 @@ public class TitanMarigleamBehavior : CropBehavior
         }
     }
 
-    public override void OnPlanted(FarmLand tile)
+    public override void OnCropAwake(FarmLand tile)
     {
         GameSaveData.Instance.siegeCropInHand = false;
         if(!TimeManager.Instance.isDay)
@@ -54,5 +54,11 @@ public class TitanMarigleamBehavior : CropBehavior
             default:
             break;
         }
+    }
+
+    public override bool CanDig(FarmLand tile)
+    {
+        if(tile.growthStage == 1) return false;
+        return true;
     }
 }

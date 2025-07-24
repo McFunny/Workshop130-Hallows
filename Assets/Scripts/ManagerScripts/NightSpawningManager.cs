@@ -17,7 +17,7 @@ public class NightSpawningManager : MonoBehaviour
     DifficultyLevel currentDLevel;
 
     public CreatureObject[] creatures; //list of possible creatures to spawn
-    public CreatureObject[] fillerCreatures; //list of creatures that can spawn when out of danger points
+    //public CreatureObject[] fillerCreatures; //list of creatures that can spawn when out of danger points
 
     List<CreatureObject> selectedCreatures = new List<CreatureObject>();//List of creatures selected to spawn this specific night
     List<CreatureObject> selectedFillerCreatures = new List<CreatureObject>();//List of filler creatures selected to spawn this specific night
@@ -138,20 +138,18 @@ public class NightSpawningManager : MonoBehaviour
         int maxCreatures = currentDLevel.maxCreatures;
 
         creatureTallyDict.Clear();
-        //Refresh the dictionary for creature spawns
+        //Refresh the dictionary for how many of each creature has spawned
         foreach(CreatureObject c in creatures)
         {
             creatureTallyDict.Add(c, 0);
         }
 
-        //List<int> creatureTally = new List<int>(); //this list keeps track of the amount of each specific creature
         //Each monster has their weight added to a list
         List<int> weightArray = new List<int>();
         spawnedCreaturesThisHour.Clear();
         for(int i = 0; i < selectedCreatures.Count; i++)
         {
             spawnedCreaturesThisHour.Add(0);
-            //creatureTally.Add(0);
         }
 
 
@@ -172,7 +170,6 @@ public class NightSpawningManager : MonoBehaviour
             w++;
         }
 
-        //try to spawn up to 6 things per hour, with a failed attempt counting for 0.5f tries
         float spawnAttempts = 0;
         int r;
         float threshhold = difficultyPoints * GetThreshold();
@@ -185,22 +182,19 @@ public class NightSpawningManager : MonoBehaviour
             CreatureObject attemptedCreature = selectedCreatures[weightArray[r]];
             //If there is enough points to afford the creature and it hasnt reached it's spawn cap, spawn it
             if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreaturesThisHour[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold
-                && attemptedCreature.spawnCap > creatureTallyDict[attemptedCreature] && PlayerInteraction.Instance.totalMoneyEarned >= attemptedCreature.wealthPrerequisite
-                && totalCreatures < maxCreatures)
+                && attemptedCreature.spawnCap > creatureTallyDict[attemptedCreature] && totalCreatures < maxCreatures)
             {
                 spawnedCreaturesThisHour[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
-                //SpawnCreature(attemptedCreature); //this is to spawn creatures instantly
                 if(creatureQueue.Count == 0) StartCoroutine(SpawnCreatures());
                 creatureQueue.Enqueue(attemptedCreature);
                 spawnAttempts++;
                 if(attemptedCreature.contribuiteToCreatureCap) totalCreatures++;
                 creatureTallyDict[attemptedCreature]++;
-                //print("Spawned Creature");
             }
             else 
             {
-                spawnAttempts += 0.5f;
+                spawnAttempts += 0.1f;
                 //print("Unable to Spawn");
                 //if(difficultyPoints <= threshhold) print("Points under threshhold");
             }
@@ -211,7 +205,7 @@ public class NightSpawningManager : MonoBehaviour
         if(totalCreatures < maxCreatures/2 && difficultyPoints < 8)
         {
             r = Random.Range(2,6);
-            for(int i = 0; i < r; i++)
+            for(float i = 0; i < r; i++)
             {
                 r = Random.Range(0, selectedFillerCreatures.Count);
                 CreatureObject newCreature = selectedFillerCreatures[r];
@@ -222,6 +216,7 @@ public class NightSpawningManager : MonoBehaviour
                     creatureTallyDict[newCreature]++;
                     SpawnCreature(newCreature);
                 }
+                else i -= 0.9f;
             }
         }
     }
@@ -438,7 +433,7 @@ public class NightSpawningManager : MonoBehaviour
         a = Random.Range(currentDLevel.c_varietyMin, currentDLevel.c_varietyMin);
         foreach(CreatureObject c in creatures)
         {
-            if(c.spawnType == SpawnType.Common && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
+            if(c.spawnType == SpawnType.Common && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
             //c.forceSpawnVariant = false;
         }
         for(int i = 0; i < a; i++)
@@ -457,7 +452,7 @@ public class NightSpawningManager : MonoBehaviour
         a = Random.Range(currentDLevel.r_varietyMin, currentDLevel.r_varietyMin);
         foreach(CreatureObject c in creatures)
         {
-            if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
+            if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
         }
         for(int i = 0; i < a; i++)
         {
@@ -474,7 +469,7 @@ public class NightSpawningManager : MonoBehaviour
         a = Random.Range(currentDLevel.s_varietyMin, currentDLevel.s_varietyMin);
         foreach(CreatureObject c in creatures)
         {
-            if(c.spawnType == SpawnType.Support && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) temp.Add(c);
+            if(c.spawnType == SpawnType.Support && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
         }
         for(int i = 0; i < a; i++)
         {
@@ -502,7 +497,7 @@ public class NightSpawningManager : MonoBehaviour
     {
         for(int i = 0; i < nightEvents.Count; i++)
         {
-            if(Random.Range(0, 100f) < nightEvents[i].occurenceChance  && !eventOccured)
+            if(Random.Range(0, 100f) < nightEvents[i].occurenceChance  && !eventOccured && TimeManager.Instance.dayNum > 1)
             {
                 nightEvents[i].InitiateEvent();
                 difficultyPoints -= nightEvents[i].difficultyPointsCost;

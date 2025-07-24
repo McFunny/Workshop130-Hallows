@@ -8,6 +8,8 @@ public class CreatureArmor : MonoBehaviour
     public float health = 6;
     public float maxHealth = 6;
 
+    public GameObject armorObject; //For disabling a mesh not attatched to the script, IE hog armor
+
     public GameObject damageParticlesObject;
     List<ParticleSystem> damageParticles = new List<ParticleSystem>();
     public StructureType structureType;
@@ -57,6 +59,7 @@ public class CreatureArmor : MonoBehaviour
     public void OnDestroy()
     {
         if(!gameObject.scene.isLoaded) return;
+        if(armorObject) Destroy(armorObject);
         if(health <= 0)
         {
             GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structureType);
