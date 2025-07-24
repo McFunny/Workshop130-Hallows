@@ -290,7 +290,7 @@ public class BugBehaviorScript : MonoBehaviour
 
     protected IEnumerator ApproachedByPlayer()
     {
-        if(currentState == BugState.Wander) currentState = BugState.Panic;
+        if(currentState == BugState.Wander || currentState == BugState.MovingToTarget) currentState = BugState.Panic;
         yield return new WaitForSeconds(Random.Range(reactionTimeMin, reactionTimeMax));
         //if no specific bug behavior
         if(Random.Range(0, 100) < despawnChance) currentState = BugState.Leave;

@@ -420,7 +420,7 @@ public class VileHog : CreatureBehaviorScript
         foreach (StructureBehaviorScript structure in structManager.allStructs)
         {
             FarmLand potentialFarmTile = structure as FarmLand;
-            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && potentialFarmTile.harvestable)
+            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && potentialFarmTile.harvestable && !potentialFarmTile.rotted)
             {
                 availableLands.Add(potentialFarmTile);
             }
@@ -515,7 +515,7 @@ public class VileHog : CreatureBehaviorScript
         bearTrapVulnerable = false;
         if(usingThrusters)
         {
-            yield return new WaitForSeconds(0.3f/actionSpeedMod);
+            yield return new WaitForSeconds(0.4f/actionSpeedMod);
             agent.acceleration = thrusterSpeed;
             effectsHandler.PlayExtraSound(0);
             thrusterParticles.SetActive(true);
@@ -610,7 +610,7 @@ public class VileHog : CreatureBehaviorScript
             {
                 int extraDamage = 0;
                 if(usingThrusters) extraDamage += 15;
-                playerInteraction.StaminaChange(damageToPlayer + extraDamage);
+                playerInteraction.StaminaChange(damageToPlayer - extraDamage);
                 playerInteraction.PlayerTrip();
                 attackHitbox.enabled = false;
                 if(!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
@@ -627,7 +627,7 @@ public class VileHog : CreatureBehaviorScript
                 if(structure as PlacedHoe || structure as PlacedTorch) return;
 
                 int extraDamage = 0;
-                if(usingThrusters) extraDamage += 5;
+                if(usingThrusters) extraDamage += 10;
                 if(!structure.destructable) //Hit a tree
                 {
                     structure.TakeDamage(damageToStructure + extraDamage);
@@ -661,7 +661,9 @@ public class VileHog : CreatureBehaviorScript
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable && (creature.creatureData != creatureData || creature.health <= 0) && variant != Variant.Tiny)
             {
-                creature.TakeDamage(30);
+                float extraDamage = 0;
+                if(usingThrusters) extraDamage += 30;
+                creature.TakeDamage(30 + extraDamage);
                 creature.PlayHitParticle(new Vector3(0,0,0));
             }
         }

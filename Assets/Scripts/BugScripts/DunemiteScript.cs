@@ -78,7 +78,7 @@ public class DunemiteScript : BugBehaviorScript
             yield return new WaitForSeconds(3);
             if(targetStructure == null || !inEatingRange) continue;
 
-            targetStructure.TakeDamage(1);
+            targetStructure.TakeDamage(0.5f);
             AudioPoolManager.Instance.PlayClipAtPosition(eatSound, transform.position);
         }
     }
