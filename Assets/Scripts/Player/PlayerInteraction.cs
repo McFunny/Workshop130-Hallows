@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using DG.Tweening;
 
@@ -63,6 +61,9 @@ public class PlayerInteraction : MonoBehaviour
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
     private RepairMinigame repairMinigame;
+    public delegate void FoodConsumedEvent();
+    public static event FoodConsumedEvent onFoodConsumed;
+
 
 
     void Awake()
@@ -310,6 +311,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             StartCoroutine(ItemUseCooldown());
             //eat it
+            onFoodConsumed?.Invoke();
             StaminaChange(item.staminaValue);
             itemUsed = true;
         }
@@ -338,13 +340,12 @@ public class PlayerInteraction : MonoBehaviour
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
         }
-
     }
 
     public void GainMints(int amount, bool countForTotal)
     {
         currentMoney += amount;
-        if(countForTotal) totalMoneyEarned += amount;
+        if (countForTotal) totalMoneyEarned += amount;
     }
 
     public void StaminaChange(float amount)
