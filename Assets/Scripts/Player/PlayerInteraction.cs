@@ -308,7 +308,6 @@ public class PlayerInteraction : MonoBehaviour
 
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
-            StartCoroutine(ItemUseCooldown());
             //eat it
             StaminaChange(item.staminaValue);
             itemUsed = true;
@@ -321,7 +320,6 @@ public class PlayerInteraction : MonoBehaviour
                 ApplyStatusEffect(s.effect, s.remainingDuration);
             }
 
-            StartCoroutine(ItemUseCooldown());
             itemUsed = true;
         }
 
@@ -329,10 +327,18 @@ public class PlayerInteraction : MonoBehaviour
         {
             item.itemBehavior.UseItem(out bool consumedOnUse);
             if(consumedOnUse) itemUsed = true;
+            else 
+            {
+                if(item.useSound) playerEffects.PlayClip(item.useSound);
+                if(item.useCooldown > 0) StartCoroutine(ItemUseCooldown(item.useCooldown));
+                return;
+            }
         }
 
         if(itemUsed)
         {
+            if(item.useCooldown > 0) StartCoroutine(ItemUseCooldown(item.useCooldown));
+
             if(item.useSound) playerEffects.PlayClip(item.useSound);
             else if(item.staminaValue > 0) playerEffects.PlayClip(playerEffects.itemEat);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
@@ -531,10 +537,10 @@ public class PlayerInteraction : MonoBehaviour
 
     }
 
-    IEnumerator ItemUseCooldown()
+    IEnumerator ItemUseCooldown(float duration)
     {
         itemUseCooldown = true;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(duration);
         itemUseCooldown = false;
     }
 
