@@ -59222,6 +59222,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7149016490371872094}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6559774477928481716, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4862066851411407236}
     - targetCorrespondingSourceObject: {fileID: 2467031324219838494, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
         type: 3}
       insertIndex: -1
@@ -59338,6 +59342,26 @@ MonoBehaviour:
   lerpEnd: {fileID: 663207950215297601}
   moneyTrackerTransform: {fileID: 2744623164265803602}
   forceActive: 0
+--- !u!1 &6269437990276945034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6559774477928481716, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
+    type: 3}
+  m_PrefabInstance: {fileID: 867088628395939646}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4862066851411407236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6269437990276945034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf878cd0d10c33469dcac659431ce29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultCooldown: 5
+  foodCooldown: 0
 --- !u!224 &6328105362038773112 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6618451763018252870, guid: 0cf3ef733806f9b4e8e8670e3d9c1481,
