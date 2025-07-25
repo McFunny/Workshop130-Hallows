@@ -309,7 +309,7 @@ public class InventorySlot_UI : MonoBehaviour
         if (inventoryAnims.isFoodCooldownActive)
         {
             foodCooldownSlider.gameObject.SetActive(true);
-            foodCooldownSlider.value = inventoryAnims.foodCooldown;
+            foodCooldownSlider.value = inventoryAnims.foodCooldownPercent;
             itemGrey.enabled = true;
         }
         else
