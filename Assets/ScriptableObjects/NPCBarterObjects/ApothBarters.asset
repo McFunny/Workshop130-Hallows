@@ -23,7 +23,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 573cd785fcc35aa4297d6cbb67192d97, type: 2}
       amount: 1
     - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
-      amount: 2
+      amount: 3
   - name: FloralBathBomb
     itemForSale: {fileID: 11400000, guid: f9d22d5f993f103409c44aacdd00c6a7, type: 2}
     useItemPrice: 0
@@ -43,9 +43,9 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: e505b9c244165464a9e94558ed7e8d3c, type: 2}
-      amount: 1
+      amount: 3
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
-      amount: 1
+      amount: 2
   - name: HollionBerry
     itemForSale: {fileID: 11400000, guid: fd5df79885821954eaeb7cdb40432017, type: 2}
     useItemPrice: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     barterChance: 75
     itemsRequired:
     - item: {fileID: 11400000, guid: db3eedd8c1bfeb449a96c46609a10d63, type: 2}
-      amount: 4
+      amount: 3
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
   - name: InfernoNettleSeeds
@@ -68,8 +68,8 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
-  - name: Dull Seeds
-    itemForSale: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+  - name: CrabGrassSeeds
+    itemForSale: {fileID: 11400000, guid: 4470dbc8b50650a4e845701bfa14bdd6, type: 2}
     useItemPrice: 0
     mintCost: 0
     amountForSale: 3
@@ -81,7 +81,7 @@ MonoBehaviour:
   - name: YellowMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: 747cebbd0cf1e854d84e73ad4d034f05, type: 2}
     useItemPrice: 1
-    mintCost: 18
+    mintCost: 12
     amountForSale: 10
     barterChance: 100
     itemsRequired: []
@@ -97,7 +97,7 @@ MonoBehaviour:
   - name: CyanMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: fec308c6a7c345441b58f0ccd9c51249, type: 2}
     useItemPrice: 1
-    mintCost: 18
+    mintCost: 14
     amountForSale: 10
     barterChance: 100
     itemsRequired:
@@ -115,7 +115,7 @@ MonoBehaviour:
   - name: PinkMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: d461c5d515815844dbaa743766386a1d, type: 2}
     useItemPrice: 1
-    mintCost: 18
+    mintCost: 16
     amountForSale: 10
     barterChance: 100
     itemsRequired:

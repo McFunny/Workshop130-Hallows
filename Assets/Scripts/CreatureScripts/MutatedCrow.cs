@@ -811,6 +811,8 @@ public class MutatedCrow : CreatureBehaviorScript
 
         float timer = 0;
 
+        effectsHandler.RandomIdle();
+
         while (Vector3.Distance(transform.position, abovePlayerPos) > 2.5f && timer < 1.2f)
         {
             float distance = Vector3.Distance(transform.position, abovePlayerPos);

@@ -42,14 +42,18 @@ public abstract class NPC : MonoBehaviour, IInteractable
     [HideInInspector] public WaypointScript shopUI;
 
     protected int lastCompletedQuestIndex = -1;
+    private ToolTipScript toolTipScript;
 
     //REMEMBER TO CAST THIS AS THE CORRECT TYPE OF QUEST WHEN HANDING IT OUT!!!!!!!!
     public Quest dailyQuest = null; //If given a quest today, they will hold it here and have an explanation overhead until its given
 
+    //private ToolTipScript toolTipScript;
+
     protected virtual void Awake()
     {
-        if(dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
+        if (dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
         dailyQuest = null;
+        toolTipScript = GameObject.Find("BarterCanvas").GetComponent<ToolTipScript>();
     }
 
     void OnEnable()
@@ -101,40 +105,50 @@ public abstract class NPC : MonoBehaviour, IInteractable
         if (lastInteractedStoreItem == item)
         {
             //Barter Price Check
-            if(item.barterCost.Count > 0)
+            if (item.barterCost.Count > 0)
             {
-                if(PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
+                if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
                 {
                     currentPath = 4; //No space in inventory
+                    toolTipScript.panel.SetActive(false);
                 }
-                else if(item.CanAffordTrade())
+                else if (item.CanAffordTrade())
                 {
                     //item.CompleteTrade();
                     currentPath = 2; //item sold
                     shopUI.shopImgObj.SetActive(false);
+                    toolTipScript.panel.SetActive(false);
                     PurchaseSuccess(item.itemData, out uniqueDialogue);
                 }
                 else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
                 {
                     currentPath = 3; //no money!?!?!?
+                    toolTipScript.panel.SetActive(false);
                 }
-                else currentPath = 6; //Not enough items to cover barter
+                else
+                {
+                    currentPath = 6; //Not enough items to cover barter
+                    toolTipScript.panel.SetActive(false);
+                }
             }
 
             //check price, then give item
             else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
             {
                 currentPath = 3; //no money!?!?!?
+                toolTipScript.panel.SetActive(false);
             }
             else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
             {
                 currentPath = 4; //No space in inventory
+                toolTipScript.panel.SetActive(false);
             }
             else
             {
                 currentPath = 2; //item sold
                 PurchaseSuccess(item.itemData, out uniqueDialogue);
                 shopUI.shopImgObj.SetActive(false);
+                toolTipScript.panel.SetActive(false);
                 if (assignedStall && assignedStall.displaySign) assignedStall.displaySign.ResetDisplay();
                 if (assignedStall && assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
             }
@@ -179,7 +193,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
         else lastInteractedStoreItem.CompleteTrade();
         lastInteractedStoreItem = null;
     }
-    
+
     public virtual void PlayerLeftRadius()
     {
         startedDialogue = false;
@@ -187,6 +201,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
         if (lastInteractedStoreItem)
         {
             lastInteractedStoreItem = null;
+            //toolTipScript.panel.SetActive(false);
         }
 
         if (assignedStall && assignedStall.displaySign && movementHandler.isWorking)
@@ -194,6 +209,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             assignedStall.displaySign.ResetDisplay();
             if (assignedStall.barterSign) assignedStall.barterSign.ResetDisplay();
         }
+        
     }
 
     public virtual void GivePlayerItem(int id, int amount){}

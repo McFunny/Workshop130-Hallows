@@ -29361,7 +29361,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
   dropChance:
   - 10
-  - 5
+  - 2
   sightRange: 10
   attackRange: 12
   playerInSightRange: 0
@@ -29369,6 +29369,7 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 1
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 15
   damageToPlayer: -35
@@ -34387,6 +34388,7 @@ MonoBehaviour:
   miscSound: {fileID: 0}
   miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!114 &4316506325950874850
 MonoBehaviour:

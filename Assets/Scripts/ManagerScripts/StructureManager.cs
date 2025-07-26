@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -34,10 +34,6 @@ public class StructureManager : MonoBehaviour
     void Awake()
     {
         if(forceSurvivalMode) MainMenuScript.currentFileMode = FileMode.Survival;
-        if(forceSellSiegeSeeds)
-        {
-            GameSaveData.Instance.apo_readScroll = true;
-        }
         if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -61,6 +57,12 @@ public class StructureManager : MonoBehaviour
     {
         PopulateForageables(1, 4);
         PopulateDecorCrows(0, 2);
+        StartCoroutine(PopulateStructure(-2, 2, buriedItem, true));
+
+        if(forceSellSiegeSeeds)
+        {
+            GameSaveData.Instance.apo_readScroll = true;
+        }
     }
 
     void OnDestroy()
@@ -850,7 +852,6 @@ public class StructureManager : MonoBehaviour
                 {
                     FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
                     script.InsertCrop(fogChime);
-                    script.wealthValue = 0;
                     SetTile(spawnPos);
                 }
                 spawnablePositions.RemoveAt(randomIndex);

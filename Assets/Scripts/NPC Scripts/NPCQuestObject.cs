@@ -36,7 +36,11 @@ public class NPCQuestObject : ScriptableObject
                 selectedTemplate = templates[index];
             } 
 
-            if(selectedTemplate.creature) chosenQuest = new HuntQuest(selectedTemplate);
+            if(selectedTemplate.creature)
+            {
+                if(selectedTemplate.creature.hasSpawned) chosenQuest = new HuntQuest(selectedTemplate);
+                else continue;
+            }
             else if(selectedTemplate.item) chosenQuest = new FetchQuest(selectedTemplate);
             else if(selectedTemplate.crop) chosenQuest = new GrowQuest(selectedTemplate);
             else chosenQuest = new Quest(selectedTemplate); //Default Quest. Should have a behavior attached

@@ -29,6 +29,13 @@ public class Burrow : StructureBehaviorScript
             //StartCoroutine(Dig());
             success = true;
         }
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0)
+        {
+            ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
+            PlayerInteraction.Instance.waterHeld--;
+            success = true;
+            Destroy(gameObject);
+        }
     }
 
     public override void DigAction()
@@ -41,7 +48,7 @@ public class Burrow : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(Random.Range(0,20) > 15) StartCoroutine(SpawnBug());
+        if(Random.Range(0,20) > 17) StartCoroutine(SpawnBug());
     }
 
     IEnumerator SpawnBug()
@@ -59,5 +66,12 @@ public class Burrow : StructureBehaviorScript
     void Damaged()
     {
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+    }
+
+    public override void HitWithWater()
+    {
+        ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
+        ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+        Destroy(gameObject);
     }
 }

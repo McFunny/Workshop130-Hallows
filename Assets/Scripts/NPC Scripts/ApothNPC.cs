@@ -138,7 +138,7 @@ public class ApothNPC : NPC, ITalkable
         InventoryItemData newItem;
         int x = 0; //iterations
 
-        //List<int> selectedTrades = new List<int>(); //Make sure no repeats
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
@@ -169,10 +169,10 @@ public class ApothNPC : NPC, ITalkable
             {
                 i = Random.Range(0, barterDatabase.transactions.Count);
                 r = Random.Range(0f, 100f);
-                if (r < barterDatabase.transactions[i].barterChance/* && !selectedTrades.Contains(i)*/)
+                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i))
                 {
                     newItem = barterDatabase.transactions[i].itemForSale;
-                    //selectedTrades.Add(i);
+                    selectedTrades.Add(i);
                 }
             }
             while (!newItem);

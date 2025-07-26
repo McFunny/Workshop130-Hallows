@@ -5076,6 +5076,7 @@ MonoBehaviour:
   ichorDropRadius: 2
   creatureData: {fileID: 11400000, guid: 27c7e9804970e6e49bdbdb028abc6734, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -5093,11 +5094,14 @@ MonoBehaviour:
   shovelVulnerable: 0
   fireVulnerable: 0
   bearTrapVulnerable: 0
+  frostVulnerable: 0
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 0
+  actionSpeedMod: 1
   hitColor: {r: 0, g: 0, b: 0, a: 0}
+  currentEffects: []
   flowerPrefab: {fileID: 4417471642985031599, guid: 2d560ac035121214eaae984fa846d090,
     type: 3}
   timeSpentInFire: 0

@@ -1,16 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public Camera mainCam;
 
-    public Transform playerFeet;
+    public Transform playerFeet, cameraPos, trippedFocalPoint;
 
     public PlayerInventoryHolder playerInventoryHolder { get; private set; }
 
@@ -24,7 +23,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public bool isInteracting { get; private set; }
     public bool toolCooldown;
-    bool itemUseCooldown;
+    bool itemUseCooldown, isTripped;
 
     public static PlayerInteraction Instance;
 
@@ -62,6 +61,9 @@ public class PlayerInteraction : MonoBehaviour
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
     private RepairMinigame repairMinigame;
+    public delegate void FoodConsumedEvent();
+    public static event FoodConsumedEvent onFoodConsumed;
+
 
 
     void Awake()
@@ -307,8 +309,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
-            StartCoroutine(ItemUseCooldown());
             //eat it
+            onFoodConsumed?.Invoke();
             StaminaChange(item.staminaValue);
             itemUsed = true;
         }
@@ -320,7 +322,6 @@ public class PlayerInteraction : MonoBehaviour
                 ApplyStatusEffect(s.effect, s.remainingDuration);
             }
 
-            StartCoroutine(ItemUseCooldown());
             itemUsed = true;
         }
 
@@ -328,27 +329,34 @@ public class PlayerInteraction : MonoBehaviour
         {
             item.itemBehavior.UseItem(out bool consumedOnUse);
             if(consumedOnUse) itemUsed = true;
+            else 
+            {
+                if(item.useSound) playerEffects.PlayClip(item.useSound);
+                if(item.useCooldown > 0) StartCoroutine(ItemUseCooldown(item.useCooldown));
+                return;
+            }
         }
 
         if(itemUsed)
         {
+            if(item.useCooldown > 0) StartCoroutine(ItemUseCooldown(item.useCooldown));
+
             if(item.useSound) playerEffects.PlayClip(item.useSound);
             else if(item.staminaValue > 0) playerEffects.PlayClip(playerEffects.itemEat);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
         }
-
     }
 
     public void GainMints(int amount, bool countForTotal)
     {
         currentMoney += amount;
-        if(countForTotal) totalMoneyEarned += amount;
+        if (countForTotal) totalMoneyEarned += amount;
     }
 
     public void StaminaChange(float amount)
     {
-        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible)
+        if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible || isTripped)
         {
             print("Damage negated! Stamina is : " + stamina);
             return;
@@ -496,6 +504,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             e.remainingDuration = 0;
         }
+        PlayerTrip();
 
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
@@ -529,10 +538,10 @@ public class PlayerInteraction : MonoBehaviour
 
     }
 
-    IEnumerator ItemUseCooldown()
+    IEnumerator ItemUseCooldown(float duration)
     {
         itemUseCooldown = true;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(duration);
         itemUseCooldown = false;
     }
 
@@ -586,6 +595,44 @@ public class PlayerInteraction : MonoBehaviour
     public void ShakeScreen(float intensity)
     {
         playerEffects.damageImpulse.GenerateImpulseWithForce(intensity);
+    }
+
+    public void PlayerTrip()
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || isTripped) return;
+        StartCoroutine(PlayerTripRoutine(true));
+    }
+
+    public void PlayerTripNoKnockback()
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || isTripped) return;
+        StartCoroutine(PlayerTripRoutine(false));
+    }
+
+    IEnumerator PlayerTripRoutine(bool addKnockback) //for recoiling purposes
+    {
+        isTripped = true;
+        PlayerMovement.restrictMovementTokens++;
+        PlayerMovement.limitMaxVelocity = false;
+        if(addKnockback) GetComponent<PlayerMovement>().ApplyForceToPlayer(2000, PlayerInteraction.Instance.mainCam.transform.TransformDirection(-Vector3.forward));
+        cameraPos.DOMoveY(cameraPos.position.y + 1, 0.15f); //Move up
+
+        if(addKnockback) PlayerCam.Instance.NewObjectOfInterest(trippedFocalPoint.position);
+        yield return new WaitForSeconds(.15f);
+
+        cameraPos.DOMoveY(cameraPos.position.y - 2.5f, 0.25f); //Move Down
+        yield return new WaitForSeconds(.25f);
+        playerEffects.PlayClip(playerEffects.trip);
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        yield return new WaitForSeconds(.50f);
+        PlayerMovement.limitMaxVelocity = true;
+        if(stamina <= 0) yield return new WaitForSeconds(3f); //Death extra time
+
+        cameraPos.DOMoveY(cameraPos.position.y + 1.5f, 0.75f); //Stand back up
+        yield return new WaitForSeconds(0.75f);
+        PlayerCam.Instance.ClearObjectOfInterest();
+        isTripped = false;
+        PlayerMovement.restrictMovementTokens--;
     }
 
 

@@ -9719,6 +9719,8 @@ MonoBehaviour:
   - {fileID: 8625940236746857139}
   - {fileID: 7143453097874679523}
   followTransform: {fileID: 0}
+  appliedSFX: {fileID: 8300000, guid: ea55634a2c25475478ace194eb30558f, type: 3}
+  removedSFX: {fileID: 0}
 --- !u!114 &5832111754653040988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9732,6 +9734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fleeRange: 10
+  priority: 0
 --- !u!65 &-3238310250631054781
 BoxCollider:
   m_ObjectHideFlags: 0

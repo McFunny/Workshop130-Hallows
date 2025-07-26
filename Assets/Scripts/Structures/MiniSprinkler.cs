@@ -8,14 +8,18 @@ public class MiniSprinkler : StructureBehaviorScript
     public int waterLevel = 0; 
     int maxWaterLevel = 3;
     public GameObject water;
-    public GameObject waterVFX;
+    //public GameObject waterVFX;
 
     public TextMeshProUGUI waterText, modeText;
 
     public SprinklerMode mode;
     public Collider c_stream, c_cone;
+    public GameObject streamWater, coneWater;
+    public ParticleSystem splash;
 
     bool watering = false;
+    bool waterCooldown = false;
+    bool wateredThisHour = false; //To make sure it doesnt water twice in the same hour
 
     List<StructureBehaviorScript> structsInRange = new List<StructureBehaviorScript>();
 
@@ -31,7 +35,6 @@ public class MiniSprinkler : StructureBehaviorScript
     void Awake()
     {
         base.Awake();
-        waterVFX.SetActive(false);
     }
 
     void Start()
@@ -60,11 +63,13 @@ public class MiniSprinkler : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(waterLevel > 0 && !TimeManager.Instance.isDay)
+        if(waterLevel > 0 && !TimeManager.Instance.isDay && !watering)
         {
             waterLevel--;
             StartCoroutine(WaterTiles());
+            wateredThisHour = true;
         }
+        else wateredThisHour = false;
     }
 
     public override void StructureInteraction()
@@ -77,6 +82,7 @@ public class MiniSprinkler : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
+        if(watering) return;
         if(type == ToolType.Shovel)
         {
             //StartCoroutine(DugUpForItem());
@@ -86,14 +92,32 @@ public class MiniSprinkler : StructureBehaviorScript
         {
             PlayerInteraction.Instance.waterHeld -= maxWaterLevel - waterLevel;
             waterLevel = maxWaterLevel;
-            StartCoroutine(WaterTiles());
+            if(!wateredThisHour) 
+            {
+                StartCoroutine(WaterTiles());
+                waterLevel--;
+                wateredThisHour = true;
+            }
+            splash.Play();
             success = true;
         }
     }
 
     public override void HitWithWater()
     {
-        if(waterLevel < maxWaterLevel) waterLevel++;
+        if(waterLevel < maxWaterLevel && !waterCooldown) 
+        {
+            waterLevel++;
+            splash.Play();
+            StartCoroutine(WaterCooldown()); //Keep disabled if the watergun costs 1 per multi shot
+        }
+    }
+
+    IEnumerator WaterCooldown()
+    {
+        waterCooldown = true;
+        yield return new WaitForSeconds(.9f);
+        waterCooldown = false;
     }
 
     public override void TimeLapse(int hours)
@@ -134,11 +158,18 @@ public class MiniSprinkler : StructureBehaviorScript
 
 
             if(structsInRange[index].onFire) structsInRange[index].Extinguish();
-            structsInRange[index].HitWithWater();
+            
+            MiniSprinkler sprinkler = structsInRange[index] as MiniSprinkler;
+            if(sprinkler && sprinkler.transform.rotation != transform.rotation) ;//Makes sure that u can only water sprinklers from behind
+            else structsInRange[index].HitWithWater();
+
+            FarmLand tile = structsInRange[index] as FarmLand;
+            if(tile) tile.WaterCrops();
 
             if(structsInRange[index].isObstacle && mode == SprinklerMode.Stream)
             {
                 structsInRange.Clear();
+                yield break;
             }
 
             structsInRange.RemoveAt(index);
@@ -150,6 +181,7 @@ public class MiniSprinkler : StructureBehaviorScript
         StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
         if(structure && !structsInRange.Contains(structure))
         {
+            //print("Found a structure");
             structsInRange.Add(structure);
         }
         /*
@@ -169,11 +201,13 @@ public class MiniSprinkler : StructureBehaviorScript
     IEnumerator SprinkleAnimation()
     {
         watering = true;
-        waterVFX.SetActive(true);
+        if(mode == SprinklerMode.Stream) streamWater.SetActive(true);
+        else coneWater.SetActive(true);
         audioHandler.PlaySound(audioHandler.activatedSound);
         yield return new WaitForSeconds(5);
+        streamWater.SetActive(false);
+        coneWater.SetActive(false);
         watering = false;
-        waterVFX.SetActive(false);
     }
 
     public override void LoadVariables()

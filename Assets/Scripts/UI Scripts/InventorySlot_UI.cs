@@ -2,11 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class InventorySlot_UI : MonoBehaviour
 {
-    [SerializeField] private Image itemSprite;
+    [SerializeField] private Image itemSprite, itemGrey;
+    [SerializeField] private Slider foodCooldownSlider;
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private TextMeshProUGUI itemCount;
     [SerializeField] public GameObject slotHighlight;
@@ -17,9 +20,9 @@ public class InventorySlot_UI : MonoBehaviour
     ControlManager controlManager;
     bool isSelected;
     ToolTipScript toolTip; //Handles hovering item in inventory
-    
-    string itemDesc;
+    private InventoryAnims inventoryAnims;
 
+    string itemDesc;
     Button button;
 
     private void Awake()
@@ -28,14 +31,14 @@ public class InventorySlot_UI : MonoBehaviour
         ClearSlot();
         button = GetComponent<Button>();
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
-        toolTip = FindFirstObjectByType<ToolTipScript>();
+        toolTip = GameObject.Find("InventoryItemDescriptions").GetComponent<ToolTipScript>();
+        inventoryAnims = FindFirstObjectByType<InventoryAnims>();
         AddEventTriggers();
         itemName.gameObject.SetActive(false);
+        itemGrey.enabled = false;
+        foodCooldownSlider.value = 0;
     }
-    void Start()
-    {
-        //toolTip = FindObjectOfType<ToolTipScript>();
-    }
+
     private void OnEnable()
     {
         controlManager.select.action.started += Select;
@@ -43,6 +46,8 @@ public class InventorySlot_UI : MonoBehaviour
 
         controlManager.hotbarUp.action.started += LeftBumper;
         controlManager.hotbarDown.action.started += RightBumper;
+
+        //PlayerInteraction.onFoodConsumed += SetFoodCooldown;
     }
     private void OnDisable()
     {
@@ -51,11 +56,13 @@ public class InventorySlot_UI : MonoBehaviour
 
         controlManager.hotbarUp.action.started += LeftBumper;
         controlManager.hotbarDown.action.started += RightBumper;
+
+        //PlayerInteraction.onFoodConsumed -= SetFoodCooldown;
     }
 
     void Update()
     {
-        if(PlayerMovement.accessingInventory)
+        if (PlayerMovement.accessingInventory)
         {
             button.enabled = true;
         }
@@ -65,29 +72,38 @@ public class InventorySlot_UI : MonoBehaviour
         }
 
         //print(EventSystem.current.currentSelectedGameObject);
-        if(PlayerMovement.accessingInventory && ControlManager.isGamepad)
+        if (PlayerMovement.accessingInventory && ControlManager.isGamepad)
         {
             slotHighlight.SetActive(isSelected);
+
             //itemName.gameObject.SetActive(isSelected);
 
-            if(isSelected)
+            if (isSelected)
             {
-                if(itemName.text != "")
+                if (itemName.text != "")
                 {
-                    if(itemDesc!= null){toolTip.UpdateToolTip(assignedInventorySlot.ItemData);}
+                    if (itemDesc != null) { toolTip.UpdateToolTip(assignedInventorySlot.ItemData); }
                     toolTip.panel.SetActive(true);
                 }
                 else
                 {
                     toolTip.panel.SetActive(false);
-                }          
+                }
             }
         }
-        if(!PlayerMovement.accessingInventory)
+        if (!PlayerMovement.accessingInventory)
         {
             itemName.gameObject.SetActive(false);
             if (HotbarDisplay.currentSlot == this) { slotHighlight.SetActive(true); }
-        }  
+        }
+
+        if (assignedInventorySlot.ItemData == null)
+        {
+            foodCooldownSlider.gameObject.SetActive(false);
+            return;
+        }
+        
+        if (assignedInventorySlot.ItemData.staminaValue > 0) FoodCooldownHandler();
     }
 
     public void TestPrint()
@@ -123,34 +139,34 @@ public class InventorySlot_UI : MonoBehaviour
     private void Select(InputAction.CallbackContext obj)
     {
         //print("SelectCheck");
-        if(PlayerMovement.accessingInventory == true)
+        if (PlayerMovement.accessingInventory == true)
         {
-           OnLeftUISlotClick();
-        }     
+            OnLeftUISlotClick();
+        }
     }
     private void Split(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.accessingInventory == true)
+        if (PlayerMovement.accessingInventory == true)
         {
             OnRightUISlotClick();
         }
-    }  
+    }
 
     private void LeftBumper(InputAction.CallbackContext obj)
     {
         //print("SelectCheck");
-        if(PlayerMovement.accessingInventory == true)
+        if (PlayerMovement.accessingInventory == true)
         {
-           OnLeftUISlotBumper();
-        }     
+            OnLeftUISlotBumper();
+        }
     }
     private void RightBumper(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.accessingInventory == true)
+        if (PlayerMovement.accessingInventory == true)
         {
             OnRightUISlotBumper();
         }
-    }  
+    }
 
     public void Selected()
     {
@@ -161,41 +177,41 @@ public class InventorySlot_UI : MonoBehaviour
     {
         isSelected = false;
     }
-        
+
 
     public void OnLeftUISlotClick()
     {
         // Handle left-click behavior
-        if(isSelected){ParentDisplay?.HandleSlotLeftClick(this);}
+        if (isSelected) { ParentDisplay?.HandleSlotLeftClick(this); }
     }
 
     public void OnRightUISlotClick()
     {
         // Handle right-click behavior
-        if(isSelected){ParentDisplay?.HandleSlotRightClick(this);}
+        if (isSelected) { ParentDisplay?.HandleSlotRightClick(this); }
     }
 
     public void OnLeftUISlotBumper()
     {
         // Handle left-Bumper behavior
-        if(isSelected){ParentDisplay?.HandleLeftBumper(this);}
+        if (isSelected) { ParentDisplay?.HandleLeftBumper(this); }
     }
 
     public void OnRightUISlotBumper()
     {
         // Handle right-Bumper behavior
-        if(isSelected){ParentDisplay?.HandleRightBumper(this);}
+        if (isSelected) { ParentDisplay?.HandleRightBumper(this); }
     }
 
     private void OnHighlight(bool selected)
     {
-        if(!ControlManager.isGamepad)
+        if (!ControlManager.isGamepad)
         {
             slotHighlight.SetActive(selected);
             //itemName.gameObject.SetActive(selected);
-            if(selected)
+            if (selected)
             {
-                if(itemName.text != "")
+                if (itemName.text != "")
                 {
                     toolTip.panel.SetActive(true);
                 }
@@ -208,9 +224,9 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 toolTip.panel.SetActive(false);
             }
-            if(assignedInventorySlot.ItemData!= null){toolTip.UpdateToolTip(assignedInventorySlot.ItemData);}
+            if (assignedInventorySlot.ItemData != null) { toolTip.UpdateToolTip(assignedInventorySlot.ItemData); }
         }
-            
+
     }
 
     public void Init(InventorySlot slot)
@@ -245,7 +261,7 @@ public class InventorySlot_UI : MonoBehaviour
 
     public void UpdateUISlot()
     {
-        if (assignedInventorySlot != null) 
+        if (assignedInventorySlot != null)
         {
             UpdateUISlot(assignedInventorySlot);
             //print(assignedInventorySlot);
@@ -261,5 +277,45 @@ public class InventorySlot_UI : MonoBehaviour
         itemName.text = "";
         itemDesc = "";
         //itemName.gameObject.SetActive(false);
+    }
+
+    /*private void SetFoodCooldown()
+    {
+        if (assignedInventorySlot.ItemData == null) return;
+        if (assignedInventorySlot.ItemData.staminaValue == 0) return;
+
+        if (inventoryAnims.isFoodCooldownActive)
+        {
+
+        }
+    }
+
+    private IEnumerator InitiateFoodCooldown()
+    {
+        print("Food cooldown anim started");
+        while (inventoryAnims.foodCooldown < inventoryAnims.defaultCooldown)
+        {
+            foodCooldownSlider.gameObject.SetActive(true);
+            itemGrey.enabled = true;
+        }
+        foodCooldownSlider.gameObject.SetActive(false);
+        itemGrey.enabled = false;
+        StopCoroutine(InitiateFoodCooldown());
+        yield break;
+    }*/
+
+    private void FoodCooldownHandler()
+    {
+        if (inventoryAnims.isFoodCooldownActive)
+        {
+            foodCooldownSlider.gameObject.SetActive(true);
+            foodCooldownSlider.value = inventoryAnims.foodCooldown;
+            itemGrey.enabled = true;
+        }
+        else
+        {
+            foodCooldownSlider.gameObject.SetActive(false);
+            itemGrey.enabled = false;
+        }
     }
 }

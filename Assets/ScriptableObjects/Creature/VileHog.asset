@@ -19,7 +19,7 @@ MonoBehaviour:
     prefab: {fileID: 3950954694662362984, guid: 5c35fc27737ad2d4abf354a4b3721304,
       type: 3}
     probabilityInFarm: 5
-    probabilityInWilderness: 5
+    probabilityInWilderness: 7
     canSpawnInWilderness: 1
     wealthPrerequisite: 2000
   health: 0
@@ -37,8 +37,9 @@ MonoBehaviour:
   contribuiteToCreatureCap: 1
   amountKilled: 0
   hasSpawned: 0
+  excludeFromNormalNights: 0
   spawnType: 0
-  spawnChance_w: 70
+  spawnChance_w: 60
   mintWorth: 18
   data:
     Name: 

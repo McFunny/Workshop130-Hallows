@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: Terrarium
+  m_EditorClassIdentifier: 
+  ID: 181
+  displayName: Terrarium
+  description: A miniature prison for your insect victims.
+  icon: {fileID: 21300000, guid: 4f25a9fe5496389489cfc4f13392c4c3, type: 3}
+  maxStackSize: 20
+  value: 90
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  bonusCompostValue: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 1451522244595564021, guid: 178596c6b8f43bd498063685e58f89b6,
+    type: 3}
+  hologramPrefab: {fileID: 493698159823132093, guid: ec15e72199cf8074aac4a52a3f03d6e3,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 65f88b6da79e9d548906f86cb540e72f, type: 3}
+  gridTypes: 02000000
+  gridSize: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 1

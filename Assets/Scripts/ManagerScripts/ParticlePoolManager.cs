@@ -12,7 +12,7 @@ public class ParticlePoolManager : MonoBehaviour
     public VisualEffect hitEffect;
 
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
-    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle;
+    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP;
 
@@ -32,6 +32,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> splashPool = new List<GameObject>();
     List<GameObject> impactPool = new List<GameObject>();
     List<GameObject> bugSplatPool = new List<GameObject>();
+    List<GameObject> elecZapPool = new List<GameObject>();
 
     //Destruction
     List<GameObject> woodPool = new List<GameObject>();
@@ -192,6 +193,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(bugSplatParticle);
             bugSplatPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(elecZapParticle);
+            elecZapPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -541,6 +549,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(bugSplatParticle);
         bugSplatPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabElecZapParticle()
+    {
+        foreach (GameObject particle in elecZapPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(elecZapParticle);
+        elecZapPool.Add(newParticle);
         return newParticle;
     }
 
