@@ -119,7 +119,8 @@ public class PachinkoManager : MonoBehaviour, IInteractable
         {
             int forceIndex = Mathf.Clamp(Mathf.FloorToInt(chargeT * forceAmounts.Count), 0, forceAmounts.Count - 1);
             float selectedForce = forceAmounts[forceIndex];
-
+            BugProjectile bugScript = activeBug.GetComponent<BugProjectile>();
+            bugScript.LaunchBall();
             Rigidbody bugRB = activeBug.GetComponent<Rigidbody>();
             Vector3 direction = activeBug.transform.forward;
             bugRB.AddForce(direction.normalized * selectedForce, ForceMode.Impulse);

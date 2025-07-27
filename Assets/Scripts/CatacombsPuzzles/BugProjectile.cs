@@ -60,8 +60,13 @@ public class BugProjectile : MonoBehaviour
     private void Start()
     {
         myCollider = GetComponent<SphereCollider>();
-        StartCoroutine(DestroyBall());
+        
 
+    }
+
+    public void LaunchBall()
+    {
+        StartCoroutine(DestroyBall());
     }
 
     IEnumerator DestroyBall()
