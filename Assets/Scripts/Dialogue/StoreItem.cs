@@ -28,11 +28,13 @@ public class StoreItem : MonoBehaviour, IInteractable
     public bool clearUponPurchase = true;
 
     bool awakeOver = false;
+    private ToolTipScript toolTipScript;
 
     private void Awake()
     {
         myCollider = GetComponent<SphereCollider>();
-        if(!itemData || !seller) Empty();
+        if (!itemData || !seller) Empty();
+        toolTipScript = GameObject.Find("BarterCanvas").GetComponent<ToolTipScript>();
     }
 
     void Start()
@@ -42,9 +44,16 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(cost > 0 || barterCost.Count > 0)
+        if (cost > 0 || barterCost.Count > 0)
         {
             seller.PurchaseAttempt(this);
+            toolTipScript.panel.SetActive(true);
+            if(itemData != null)
+            {
+                toolTipScript.UpdateTooltipBarter(itemData, barterCost, cost);
+            }
+            else toolTipScript.panel.SetActive(false);
+            
         }
         interactSuccessful = true;
     }
@@ -139,8 +148,9 @@ public class StoreItem : MonoBehaviour, IInteractable
             return;
         }
         ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        toolTipScript.panel.SetActive(false);
         
-        if(clearUponPurchase == false) return;
+        if (clearUponPurchase == false) return;
         amountLeft--;
         if(amountLeft == 1)  stockText.text = "";
         else stockText.text = "x " + amountLeft;
@@ -156,8 +166,9 @@ public class StoreItem : MonoBehaviour, IInteractable
             return;
         }
         ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+        toolTipScript.panel.SetActive(false);
 
-        if(clearUponPurchase == false) return;
+        if (clearUponPurchase == false) return;
         amountLeft--;
         if(amountLeft == 1)  stockText.text = "";
         else stockText.text = "x " + amountLeft;

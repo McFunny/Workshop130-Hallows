@@ -254,7 +254,14 @@ public class TinkererNPC : NPC, ITalkable
         else if (timesSetUpShop > 0) { timesSetUpShop = 0; }
     }
 
-      
+    protected override void HourUpdate()
+    {
+        base.HourUpdate();
+        if(TimeManager.Instance.currentHour == 8)
+        {
+            timesSetUpShop = 0;
+        }
+    }
     
 
     public override void BeginWorking()

@@ -117,14 +117,14 @@ public class WaterBarrel : StructureBehaviorScript
         {
             waterLevel++;
             WaterLevelChange();
-            //StartCoroutine(WaterCooldown()); //Keep disabled if the watergun costs 1 per multi shot
+            StartCoroutine(WaterCooldown()); //Keep disabled if the watergun costs 1 per multi shot
         }
     }
 
     IEnumerator WaterCooldown()
     {
         waterCooldown = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(.9f);
         waterCooldown = false;
     }
 

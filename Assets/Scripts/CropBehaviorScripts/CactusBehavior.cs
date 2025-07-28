@@ -25,10 +25,12 @@ public class CactusBehavior : CropBehavior
 
         if((tile.growthStage == 5 || tile.growthStage == 6))
         {
-            if(Random.Range(0, 100) > 96)
+            if(Random.Range(0, 100) >= 97)
             {
                 tile.growthStage = 7;
                 tile.SpriteChange();
+                tile.harvestable = true;
+                tile.growthComplete.Play();
             }
         }
 

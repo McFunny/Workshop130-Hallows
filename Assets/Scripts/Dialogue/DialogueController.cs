@@ -37,12 +37,13 @@ public class DialogueController : MonoBehaviour
     private PathType currentType;
     private InventoryItemData currentItemToGive;
     private int amountToGive;
+    private ToolTipScript toolTipScript;
 
     PlayerEffectsHandler playerEffects;
 
     void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -53,6 +54,7 @@ public class DialogueController : MonoBehaviour
         }
 
         playerEffects = FindObjectOfType<PlayerEffectsHandler>();
+        toolTipScript = GameObject.Find("BarterCanvas").GetComponent<ToolTipScript>();
     }
 
     public void AdvanceDialogue()
@@ -291,10 +293,11 @@ public class DialogueController : MonoBehaviour
         currentTalker.OnConvoEnd();
         currentTalker = null;
 
-        if(dialogueBox.activeSelf)
+        if (dialogueBox.activeSelf)
         {
             source.PlayOneShot(end);
             dialogueBox.SetActive(false);
+            toolTipScript.panel.SetActive(false);
         }
 
         interruptable = true;

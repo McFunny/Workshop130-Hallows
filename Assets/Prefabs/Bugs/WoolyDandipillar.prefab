@@ -4993,6 +4993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1dcc4d190c25ae4584687149da7ad29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enabled: 0
 --- !u!1 &6879038601022206721
 GameObject:
   m_ObjectHideFlags: 0
@@ -5121,8 +5122,8 @@ MonoBehaviour:
   - {fileID: 1113688544, guid: 8a944e35e485dce4597b70eebaef9208, type: 3}
   animSpeed: 0.3
   burrowingParticles: {fileID: 2180958326631428412}
-  walkSpeed: 0.5
-  fleeSpeed: 1
+  walkSpeed: 0.8
+  fleeSpeed: 1.5
   sightRange: 2
   reactionTimeMin: 3
   reactionTimeMax: 6

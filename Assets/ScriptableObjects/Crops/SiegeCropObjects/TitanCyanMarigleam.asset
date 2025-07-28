@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: TitanCyanMarigleam
+  m_EditorClassIdentifier: 
+  name: Titan Cyan Marigleam
+  id: 28
+  growthStages: 5
+  hoursPerStage: 2
+  harvestableGrowthStages: 05000000
+  cropSprites:
+  - {fileID: 1127498198, guid: c6e858b85ed111b49ad5a87fd55215c4, type: 3}
+  - {fileID: -1449928491, guid: c6e858b85ed111b49ad5a87fd55215c4, type: 3}
+  - {fileID: -105479664, guid: c6e858b85ed111b49ad5a87fd55215c4, type: 3}
+  - {fileID: 434314552, guid: c6e858b85ed111b49ad5a87fd55215c4, type: 3}
+  - {fileID: 140203, guid: c6e858b85ed111b49ad5a87fd55215c4, type: 3}
+  rottedImage: {fileID: 336115953, guid: 5b44c2228bd1ab44a9e1a8693b3cc739, type: 3}
+  cropYield: {fileID: 11400000, guid: 818f15293fb70ab42a400acd116caf35, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 11400000, guid: d66ed27d6902f1c4882381c124286ca4, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  waterIntake: 10
+  ichorIntake: 0
+  terraIntake: -1
+  gloamIntake: 1.5
+  stressLimit: 1
+  wealthValue: 600
+  requireScythe: 1
+  requirePollination: 0
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 11400000, guid: 35676539efa62e14ca376c932a176d41, type: 2}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

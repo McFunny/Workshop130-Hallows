@@ -90,7 +90,7 @@ public class Codex3 : MonoBehaviour
         BugEntries = Resources.LoadAll<CodexEntries>("Codex/Bugs");
         openCategory = OpenCategory.Tutorial;
 
-        ResetCodex();
+        ResetCodex(true);
         codex.SetActive(false);
         bgPanelImage.raycastTarget = false; // Disable raycasting on the background panel
         menuIndex = 0;
@@ -590,13 +590,16 @@ public class Codex3 : MonoBehaviour
         BugList.Clear();
     }
 
-    private void ResetCodex() //Sets the codex to its default state
+    private void ResetCodex(bool fullReset = false) //Sets the codex to its default state
     {
         print("Resetting Codex to default state and updating entries.");
         OverrideEntries(); // Override unlocks for specific entries
         UpdateEntries();
-        ChangeCategory("Tutorial"); // Start with the Tutorial category open
+        if(fullReset) ChangeCategory("Tutorial"); // Start with the Tutorial category open
+        else ChangeCategory(openCategory.ToString()); // Keep the current category open
         activeQuests = questManager.activeQuests;
+
+        
         menuIndex = 1;
     }
 

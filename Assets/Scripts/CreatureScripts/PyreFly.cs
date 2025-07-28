@@ -294,6 +294,7 @@ public class PyreFly : CreatureBehaviorScript
             if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower)
             {
                 if(!tile || (tile && !tile.isWeed)) availableStructure.Add(structure);
+                if(tile && tile.crop && tile.crop.id == 20 && Random.Range(0,10) > 6) targetStructure = structure;
             }
         }
 
@@ -599,8 +600,9 @@ public class PyreFly : CreatureBehaviorScript
             if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);
             if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 8.1f)
             {
-                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
+                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 8);
                 PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
+                PlayerInteraction.Instance.PlayerTrip();
             }
             Collider[] hitStructures = Physics.OverlapSphere(transform.position, 1.5f, 1 << 6);
             foreach(Collider collider in hitStructures)
@@ -619,9 +621,9 @@ public class PyreFly : CreatureBehaviorScript
                 var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
                 if (creature != null && creature.shovelVulnerable)
                 {
-                    creature.TakeDamage(75);
+                    creature.TakeDamage(80);
                     if(creature.fireVulnerable) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 15));
-                    creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
+                    creature.PlayHitParticle(creature.transform.position);
                 }
             }
         }

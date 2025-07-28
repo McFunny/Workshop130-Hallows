@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -27,6 +27,8 @@ public class StructureManager : MonoBehaviour
     public bool ignoreCropGrowthTime = false; //if true, each growth phase takes an hour
     public bool enableCheats = false;
     public bool forceSurvivalMode = false;
+    public bool forceSellSiegeSeeds = false; //If true, the apoth will have the bools ticked as if she has already seen the scroll
+    public bool disableBarricades = false; //If true, all fallen trees will already be cleared
 
 
     void Awake()
@@ -55,6 +57,12 @@ public class StructureManager : MonoBehaviour
     {
         PopulateForageables(1, 4);
         PopulateDecorCrows(0, 2);
+        StartCoroutine(PopulateStructure(-2, 2, buriedItem, true));
+
+        if(forceSellSiegeSeeds)
+        {
+            GameSaveData.Instance.apo_readScroll = true;
+        }
     }
 
     void OnDestroy()
@@ -844,7 +852,6 @@ public class StructureManager : MonoBehaviour
                 {
                     FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
                     script.InsertCrop(fogChime);
-                    script.wealthValue = 0;
                     SetTile(spawnPos);
                 }
                 spawnablePositions.RemoveAt(randomIndex);

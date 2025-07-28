@@ -304,4 +304,9 @@ public class Mandrake : CreatureBehaviorScript
     {
         rb.isKinematic = true;
     }
+
+    public override void FogTeleport()
+    {
+        Destroy(this.gameObject);
+    }
 }

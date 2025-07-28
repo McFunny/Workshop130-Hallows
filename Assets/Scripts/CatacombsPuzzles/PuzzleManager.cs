@@ -9,10 +9,8 @@ public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager Instance;
 
-    public SlotMachine slotMachinePuzzle;
-    public RotatingPillarManager pillarPuzzle;
-    public BrazierPuzzleManager brazierPuzzle;
-    public WaterPuzzleManager waterPuzzle;
+
+
 
     public AudioSource audioSource;
     public bool allPuzzlesSolved;
@@ -26,6 +24,8 @@ public class PuzzleManager : MonoBehaviour
     public GameObject waterPuzzleSteam;
     public GameObject pillarPuzzleSteam;
     public GameObject slotPuzzleSteam;
+    public GameObject shrinePuzzleSteam;
+    public GameObject flowerPuzzleSteam;
 
     private CinemachineImpulseSource impulseSource;
 
@@ -50,12 +50,13 @@ public class PuzzleManager : MonoBehaviour
 
     public void CheckToSeeIfPuzzlesAreComplete()
     {
-        if (slotMachinePuzzle.puzzleSolved && pillarPuzzle.rotatingPillarPuzzleSolved
-            && brazierPuzzle.brazierPuzzleSolved && waterPuzzle.waterPuzzleSolved)
+        if (SlotMachine.Instance.puzzleSolved && RotatingPillarManager.Instance.puzzleSolved
+            && BrazierPuzzleManager.Instance.puzzleSolved && WaterPuzzleManager.Instance.puzzleSolved
+            && ShrineBoxManager.Instance.puzzleSolved && FlowerPotManager.Instance.puzzleSolved)
         {
             StartCoroutine(MoveStatue());
         }
-        RunForLoop();
+        ActivateSteams();
     }
 
     IEnumerator MoveStatue()
@@ -71,12 +72,14 @@ public class PuzzleManager : MonoBehaviour
         PlayerMovement.restrictMovementTokens--;
     }
 
-    private void RunForLoop()
+    private void ActivateSteams()
     {
-        if(slotMachinePuzzle.puzzleSolved) slotPuzzleSteam.SetActive(true);
-        if(brazierPuzzle.brazierPuzzleSolved) brazierPuzzleSteam.SetActive(true);
-        if(pillarPuzzle.rotatingPillarPuzzleSolved) pillarPuzzleSteam.SetActive(true);
-        if(waterPuzzle.waterPuzzleSolved) waterPuzzleSteam.SetActive(true);
+        if(SlotMachine.Instance.puzzleSolved) slotPuzzleSteam.SetActive(true);
+        if(BrazierPuzzleManager.Instance.puzzleSolved) brazierPuzzleSteam.SetActive(true);
+        if(RotatingPillarManager.Instance.puzzleSolved) pillarPuzzleSteam.SetActive(true);
+        if(WaterPuzzleManager.Instance.puzzleSolved) waterPuzzleSteam.SetActive(true);
+        if(ShrineBoxManager.Instance.puzzleSolved) shrinePuzzleSteam.SetActive(true);
+        if (FlowerPotManager.Instance.puzzleSolved) flowerPuzzleSteam.SetActive(true);
     }
 
         private void SaveData()
@@ -93,10 +96,12 @@ public class PuzzleManager : MonoBehaviour
     {
         return new PuzzleManagerSaveData
         {
-            slotMachineSaveData = slotMachinePuzzle.ExportSaveData(),
-            waterPuzzleData = waterPuzzle.GetPuzzleData(),
-            rotatingPuzzleData = pillarPuzzle.ExportSaveData(),
-            brazierPuzzleData = brazierPuzzle.ExportSaveData(),
+            slotMachineSaveData = SlotMachine.Instance.ExportSaveData(),
+            waterPuzzleData = WaterPuzzleManager.Instance.GetPuzzleData(),
+            rotatingPuzzleData = RotatingPillarManager.Instance.ExportSaveData(),
+            brazierPuzzleData = BrazierPuzzleManager.Instance.ExportSaveData(),
+            shrinePuzzleData = ShrineBoxManager.Instance.ExportSaveData(),
+            flowerPuzzleData = FlowerPotManager.Instance.ExportSaveData(),
             totalPuzzlesSolved = totalPuzzlesSolved,
             allPuzzlesSolved = allPuzzlesSolved
         };
@@ -104,10 +109,12 @@ public class PuzzleManager : MonoBehaviour
 
     public void LoadFromData(PuzzleManagerSaveData data)
     {
-        slotMachinePuzzle.ImportSaveData(data.slotMachineSaveData);
-        waterPuzzle.LoadFromData(data.waterPuzzleData);
-        pillarPuzzle.ImportSaveData(data.rotatingPuzzleData);
-        brazierPuzzle.ImportSaveData(data.brazierPuzzleData);
+        SlotMachine.Instance.ImportSaveData(data.slotMachineSaveData);
+        WaterPuzzleManager.Instance.LoadFromData(data.waterPuzzleData);
+        RotatingPillarManager.Instance.ImportSaveData(data.rotatingPuzzleData);
+        BrazierPuzzleManager.Instance.ImportSaveData(data.brazierPuzzleData);
+        ShrineBoxManager.Instance.ImportSaveData(data.shrinePuzzleData);
+        FlowerPotManager.Instance.ImportSaveData(data.flowerPuzzleData);
         totalPuzzlesSolved = data.totalPuzzlesSolved;
         allPuzzlesSolved = data.allPuzzlesSolved;
         if (allPuzzlesSolved)
@@ -115,7 +122,7 @@ public class PuzzleManager : MonoBehaviour
             puzzleBeforeMove.SetActive(false);
             puzzleAfterMove.SetActive(true);
         }
-        RunForLoop();
+        ActivateSteams();
     }
 }
 
@@ -126,6 +133,8 @@ public struct PuzzleManagerSaveData
     public WaterPuzzleData waterPuzzleData;
     public RotatingPuzzleSaveData rotatingPuzzleData;
     public BrazierPuzzleSaveData brazierPuzzleData;
+    public ShrinePuzzleSaveData shrinePuzzleData;
+    public FlowerPuzzleSaveData flowerPuzzleData;
     public int totalPuzzlesSolved;
     public bool allPuzzlesSolved;
 }

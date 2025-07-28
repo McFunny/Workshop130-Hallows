@@ -6,6 +6,8 @@ public class CropBehavior : ScriptableObject
 {
     public float behaviorUpdateTime = 0; //For use only on behavior update function
 
+    public virtual void OnCropAwake(FarmLand tile){} //Called when the crop is planted AND when the game reloads
+
     public virtual bool ConsumeNutrientsWhileGrown()
     {
         return false;
@@ -33,7 +35,7 @@ public class CropBehavior : ScriptableObject
 
     public virtual void OnWatered(FarmLand tile){}
 
-    public virtual void OnPlanted(FarmLand tile){}
+    public virtual void OnPlanted(FarmLand tile){} //Happens when the crop is planted
 
     public virtual void OnConsumed(CreatureBehaviorScript creature){} //For when eaten at full growth
 
@@ -49,6 +51,11 @@ public class CropBehavior : ScriptableObject
     }
 
     public virtual bool CanGrow(FarmLand tile)
+    {
+        return true;
+    }
+
+    public virtual bool CanDig(FarmLand tile)
     {
         return true;
     }

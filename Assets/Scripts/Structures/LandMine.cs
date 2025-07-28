@@ -155,7 +155,11 @@ public class LandMine : StructureBehaviorScript
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         
-        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 5.5f) PlayerInteraction.Instance.StaminaChange(-65);
+        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 5.5f)
+        {
+            PlayerInteraction.Instance.StaminaChange(-65);
+            PlayerInteraction.Instance.PlayerTrip();
+        }
         Collider[] hitStructures = Physics.OverlapSphere(transform.position, structureRange, 1 << 6);
         foreach(Collider collider in hitStructures)
         {

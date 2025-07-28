@@ -9,7 +9,7 @@ public class FarmLand : StructureBehaviorScript
     public CropDatabase cropDatabase;
 
     public CropData crop; //The current crop planted here //MUST BE SAVED
-    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar, trellis, plantFiber;
+    public InventoryItemData terraFert, gloamFert, ichorFert, compost, rocks, mulch, nectar, trellis, plantFiber, crabGrassSeeds;
     public SpriteRenderer cropRenderer;
     public Transform itemDropTransform;
     public Collider finishedGrowingCollider;
@@ -301,6 +301,8 @@ public class FarmLand : StructureBehaviorScript
 
 
                     r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
+                    if(isWeed && Random.Range(0, 100) > 97) r = 1; //For crabgrass seeds from weeds
+                    if(r == 0 && crop.noStressSeedChance > Random.Range(0, 100f)) r = 1;
                     for (int i = 0; i < r; i++) //Seed yield
                     {
                         if(crop.cropSeed && plantStress == 0)
@@ -391,7 +393,8 @@ public class FarmLand : StructureBehaviorScript
         if(type == ToolType.Shovel && !forceDig)
         {
             //StartCoroutine(DigPlant());
-            success = true;
+            if(crop && crop.behavior && !crop.behavior.CanDig(this)) success = false;
+            else success = true;
         }
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && (nutrients.waterLevel < 10 || onFire))
         {
@@ -400,7 +403,7 @@ public class FarmLand : StructureBehaviorScript
 
             PlayerInteraction.Instance.waterHeld--;
         }
-        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable))
+        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable) && currentUpgrade != FarmTileUpgrade.Trellis)
         {
             harvestedByScythe = true;
             StructureInteraction();
@@ -509,7 +512,11 @@ public class FarmLand : StructureBehaviorScript
         ignoreNextGrowthMoment = true;
         maxHealth = oldMaxHealth;
 
-        if(crop.behavior) crop.behavior.OnPlanted(this);
+        if(crop.behavior) 
+        {
+            crop.behavior.OnPlanted(this);
+            crop.behavior.OnCropAwake(this);
+        }
 
         if(Tutorial.Instance) Tutorial.Instance.PlantedSeed();
     }
@@ -948,9 +955,24 @@ public class FarmLand : StructureBehaviorScript
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 10 && isWeed && growthStage == 5)
+        if(isFrosted)
         {
-            PlayerInteraction.Instance.StaminaChange(-5); //Hit by a thorn
+            if(other.gameObject.layer == 10)
+            {
+                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 4);
+            }
+
+            else if(other.gameObject.layer == 9) 
+            {
+                CreatureBehaviorScript c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+                if(c && c.frostVulnerable) c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 6);
+            }
+        }
+
+        if(other.gameObject.layer == 10 && isWeed)
+        {
+            if(growthStage == 5) PlayerInteraction.Instance.StaminaChange(-5); //Hit by a thorn
+            if(growthStage == 6) PlayerInteraction.Instance.PlayerTripNoKnockback(); //Tripped by weed
         }
 
         if(crop && crop.behavior) crop.behavior.OnContact(this, other.gameObject);
@@ -994,6 +1016,8 @@ public class FarmLand : StructureBehaviorScript
             ApplyNewUpgrade(FarmTileUpgrade.Trellis);
             break;
         }
+
+        if(crop && crop.behavior) crop.behavior.OnCropAwake(this);
 
         GetCropStats();
     }

@@ -26,6 +26,7 @@ public class CreatureObject : ScriptableObject
     public int amountKilled = 0;
 
     public bool hasSpawned = false;
+    public bool excludeFromNormalNights = false; //If true, the creature will not be picked to be part of the regular nighttime enemies
 
     //[HideInInspector] public bool forceSpawnVariant = false;
 

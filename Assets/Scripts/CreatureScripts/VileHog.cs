@@ -41,11 +41,20 @@ public class VileHog : CreatureBehaviorScript
     float walkSpeed = 4;
     float runSpeed = 8;
     float chargeSpeed = 14;
+    float accelerateSpeed;
+    float thrusterSpeed = 30;
     bool faceTarget;
 
     private Vector3 despawnPos;
 
     private Coroutine trackPlayerRoutine, walkRoutine, chargeRoutine; 
+
+    bool thrustersReady = false; //Cult hog only
+    bool usingThrusters = false;
+
+    public ParticleSystem exhaustL, exhaustR;
+    public GameObject thrusterParticles;
+    public GameObject armor;
 
     public enum CreatureState
     {
@@ -64,8 +73,9 @@ public class VileHog : CreatureBehaviorScript
     public enum Variant
     {
         Normal,
-        Chunky,
-        Tiny
+        Chunky, //unused
+        Tiny,
+        Armored
     }
 
     public CreatureState currentState;
@@ -95,6 +105,10 @@ public class VileHog : CreatureBehaviorScript
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
         targetStructure = null;
         StartCoroutine(IdleSoundTimer());
+
+        if(variant == Variant.Armored) thrustersReady = true;
+
+        accelerateSpeed = agent.acceleration;
 
     }
 
@@ -406,7 +420,7 @@ public class VileHog : CreatureBehaviorScript
         foreach (StructureBehaviorScript structure in structManager.allStructs)
         {
             FarmLand potentialFarmTile = structure as FarmLand;
-            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && potentialFarmTile.harvestable)
+            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && potentialFarmTile.harvestable && !potentialFarmTile.rotted)
             {
                 availableLands.Add(potentialFarmTile);
             }
@@ -482,6 +496,13 @@ public class VileHog : CreatureBehaviorScript
 
     IEnumerator ChargeRoutine()
     {
+        usingThrusters = false;
+        if(thrustersReady && armor)
+        {
+            usingThrusters = true;
+            StartCoroutine(ThrusterRecharge());
+        }
+
         float chargeTimeElapsed = 0;
         //
         anim.SetBool("ChargePrep", true);
@@ -492,7 +513,14 @@ public class VileHog : CreatureBehaviorScript
         faceTarget = true;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
         bearTrapVulnerable = false;
-        yield return new WaitForSeconds(beginChargeTime/actionSpeedMod); //Beginning to charge
+        if(usingThrusters)
+        {
+            yield return new WaitForSeconds(0.4f/actionSpeedMod);
+            agent.acceleration = thrusterSpeed;
+            effectsHandler.PlayExtraSound(0);
+            thrusterParticles.SetActive(true);
+        }
+        else yield return new WaitForSeconds(beginChargeTime/actionSpeedMod); //Beginning to charge
 
         //Actively Charging
         effectsHandler.MiscSound2();
@@ -500,6 +528,11 @@ public class VileHog : CreatureBehaviorScript
         dashParticles.Play();
         faceTarget = false;
         agent.speed = chargeSpeed;
+        if(usingThrusters)
+        {
+            agent.speed += 12;
+            chargeTimeElapsed += 1;
+        }
         isCharging = true;
         attackHitbox.enabled = true;
         while(isCharging && chargeTimeElapsed < chargeTime)
@@ -508,6 +541,7 @@ public class VileHog : CreatureBehaviorScript
             agent.SetDestination(chargePosition.position);
             yield return null;
         }
+        if(usingThrusters) thrusterParticles.SetActive(false);
         attackHitbox.enabled = false;
         dashParticles.Stop();
         if(chargeTimeElapsed >= chargeTime)
@@ -531,8 +565,8 @@ public class VileHog : CreatureBehaviorScript
         bearTrapVulnerable = true;
         allColliders[0].enabled = true;
 
-        //Should probably flee for about 5 seconds or so to prevent constant charging
         agent.speed = runSpeed;
+
         yield return new WaitForSeconds(0.1f);
         if(currentState == CreatureState.Charging) currentState = CreatureState.Idle;
         chargeRoutine = null;
@@ -574,7 +608,10 @@ public class VileHog : CreatureBehaviorScript
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
-                playerInteraction.StaminaChange(damageToPlayer);
+                int extraDamage = 0;
+                if(usingThrusters) extraDamage += 15;
+                playerInteraction.StaminaChange(damageToPlayer - extraDamage);
+                playerInteraction.PlayerTrip();
                 attackHitbox.enabled = false;
                 if(!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
                 recoilTime = 1.7f;
@@ -588,17 +625,20 @@ public class VileHog : CreatureBehaviorScript
             if (structure != null && (structure.isObstacle || !structure.destructable))
             {
                 if(structure as PlacedHoe || structure as PlacedTorch) return;
+
+                int extraDamage = 0;
+                if(usingThrusters) extraDamage += 10;
                 if(!structure.destructable) //Hit a tree
                 {
-                    structure.TakeDamage(damageToStructure);
+                    structure.TakeDamage(damageToStructure + extraDamage);
                     attackHitbox.enabled = false;
                     recoilTime = 2.5f;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     isCharging = false;
                 }
-                else if(structure.health <= damageToStructure) //Broke it
+                else if(structure.health <= (damageToStructure + extraDamage)) //Broke it
                 {
-                    structure.TakeDamage(damageToStructure);
+                    structure.TakeDamage(damageToStructure + extraDamage);
                     attackHitbox.enabled = false;
                     if(!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
                     recoilTime = 1.7f;
@@ -606,7 +646,7 @@ public class VileHog : CreatureBehaviorScript
                 }
                 else //Dealt damage
                 {
-                    structure.TakeDamage(damageToStructure);
+                    structure.TakeDamage(damageToStructure + extraDamage);
                     attackHitbox.enabled = false;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     recoilTime = 2.5f;
@@ -621,7 +661,9 @@ public class VileHog : CreatureBehaviorScript
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable && (creature.creatureData != creatureData || creature.health <= 0) && variant != Variant.Tiny)
             {
-                creature.TakeDamage(30);
+                float extraDamage = 0;
+                if(usingThrusters) extraDamage += 30;
+                creature.TakeDamage(30 + extraDamage);
                 creature.PlayHitParticle(new Vector3(0,0,0));
             }
         }
@@ -807,6 +849,23 @@ public class VileHog : CreatureBehaviorScript
         {
             anim.Play("DeathRecoil", -1, 0f);
         }
+    }
+
+    IEnumerator ThrusterRecharge()
+    {
+        thrustersReady = false;
+        exhaustL.Play();
+        exhaustR.Play();
+        int time = 0;
+        while(time < 15)
+        {
+            if(!armor) time = 15;
+            time++;
+            yield return new WaitForSeconds(1);
+        }
+        thrustersReady = true;
+        exhaustL.Stop();
+        exhaustR.Stop();
     }
 
 }

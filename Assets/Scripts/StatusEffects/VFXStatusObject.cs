@@ -16,6 +16,8 @@ public class VFXStatusObject : MonoBehaviour
 
     public Transform followTransform;
 
+    public AudioClip appliedSFX, removedSFX;
+
 
     void OnEnable()
     {
@@ -28,6 +30,8 @@ public class VFXStatusObject : MonoBehaviour
         {
             p.Play();
         }
+
+        if(appliedSFX) AudioPoolManager.Instance.PlayClipAtPosition(appliedSFX, transform.position);
     }
 
     void OnDisable()
@@ -36,6 +40,8 @@ public class VFXStatusObject : MonoBehaviour
         StopCoroutine(CheckForStatus());
         onPlayer = false;
         followTransform = null;
+
+        if(removedSFX) AudioPoolManager.Instance.PlayClipAtPosition(removedSFX, transform.position);
     }
 
     void Update()

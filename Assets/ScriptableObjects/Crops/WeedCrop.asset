@@ -14,23 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Weed
   id: 8
-  growthStages: 5
+  growthStages: 6
   hoursPerStage: 3
-  harvestableGrowthStages: 0100000002000000030000000400000005000000
+  harvestableGrowthStages: 010000000200000003000000040000000500000006000000
   cropSprites:
   - {fileID: -666897899, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   - {fileID: 541782167, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   - {fileID: -2031693096, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   - {fileID: -1369042599, guid: 428ed0432f19d434499786564dd7eed0, type: 3}
   - {fileID: 1236630733, guid: 428ed0432f19d434499786564dd7eed0, type: 3}
+  - {fileID: 21300000, guid: 28b78fa967ff03f4cbe9637b58340210, type: 3}
   rottedImage: {fileID: -666897899, guid: 16ebfa7ad06a54647881f740b4cc1bba, type: 3}
   cropYield: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
   cropSecondaryYield: {fileID: 0}
-  cropSeed: {fileID: 0}
+  cropSeed: {fileID: 11400000, guid: 4470dbc8b50650a4e845701bfa14bdd6, type: 2}
   cropYieldAmount: 1
   cropYieldVariance: 0
   seedYieldAmount: 0
   seedYieldVariance: 0
+  noStressSeedChance: 0
   waterIntake: 10
   ichorIntake: 1
   terraIntake: -0.5
@@ -42,5 +44,5 @@ MonoBehaviour:
   creaturePrefab: {fileID: 0}
   behavior: {fileID: 0}
   emitsGlow: 0
-  amountHarvested: 2
-  amountKilled: 1
+  amountHarvested: 0
+  amountKilled: 0

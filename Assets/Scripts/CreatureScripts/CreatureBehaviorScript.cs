@@ -34,10 +34,13 @@ public class CreatureBehaviorScript : MonoBehaviour
     public float attackRange = 6;
     public bool playerInSightRange = false;
     public bool playerInAttackRange = false;
-    public bool shovelVulnerable = true;
+
+    //Vulnerabilities
+    public bool shovelVulnerable = true; //More like physical attack vulnerable
     public bool fireVulnerable = true;
     public bool bearTrapVulnerable = true;
-    //public bool isTrapped = false;
+    public bool frostVulnerable = true;
+
     public bool isDead = false;
     bool corpseDestroyed = false;
     public int damageToStructure; //number must be positive
@@ -136,6 +139,12 @@ public class CreatureBehaviorScript : MonoBehaviour
         
     }
 
+    public virtual void TakeDamage(float damage, Vector3 source)
+    {
+        TakeDamage(damage);
+        //For stuff like golem and buzzsaw bot. Will need to be called from the shovel behavior script at least
+    }
+
     public void PlayHitParticle(Vector3 pos) //pass (0,0,0) for it to use its own transform instead
     {
         if(corpseType == CorpseParticleType.Red) 
@@ -190,7 +199,14 @@ public class CreatureBehaviorScript : MonoBehaviour
         fearSuccessful = false;
     }
 
-    public virtual void HitWithWater(){}
+    public virtual void HitWithWater()
+    {
+        if(StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Frost, this))
+        {
+            TakeDamage(25);
+            ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
+        }
+    }
 
     public virtual void NewPriorityTarget(StructureBehaviorScript newStruct){}
 

@@ -9,12 +9,14 @@ public class CropData : ScriptableObject
     public string name;
     public int id = -1;
 
+    [Header("Growth Stage Variables")]
     public int growthStages = 5; //How many different stages of life does it have
     public int hoursPerStage = 6; //How many in game hours must take place before each growth change
     public List<int> harvestableGrowthStages; //at what stage is it harvestable?
     public Sprite[] cropSprites; //should equal growth stages
     public Sprite rottedImage;
 
+    [Header("Yield Variables")]
     public InventoryItemData cropYield; //what does the crop drop
     public InventoryItemData cropSecondaryYield; //for if crops can drop 2 items
     public InventoryItemData cropSeed;
@@ -22,7 +24,9 @@ public class CropData : ScriptableObject
     public int cropYieldVariance = 0;
     public int seedYieldAmount = 1;  //wont yield any seeds if 0, irregardless of the seed variance
     public int seedYieldVariance = 1;
-    
+    public float noStressSeedChance = 0; //Chance out of 100 of producing an extra seed if grown perfectly
+
+    [Header("Intake Variables")]
     public float waterIntake = 1; //how many units of water does it consume per growth state
     //Nutrients, if the variable is negative, it gives it to the soil instead
     public float ichorIntake;

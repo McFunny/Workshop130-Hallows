@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda309ec47a8b7044b7f23e52468985c, type: 3}
+  m_Name: JagBeetle
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 2781758244375365745, guid: aa9ae8a0bd2c057409c7f65e9521ee85,
+    type: 3}
+  id: 7
+  spawnChance: 50
+  wealthPrerequisite: 400
+  amountCaught: 0
+  spawnMethod: 03000000
+  activeHours: 000000000200000003000000
+  spawnLocations: 00000000
+  homeStructures:
+  - {fileID: 11400000, guid: f8c723bdc5ce2b54e90db5f0c86dc4d8, type: 2}

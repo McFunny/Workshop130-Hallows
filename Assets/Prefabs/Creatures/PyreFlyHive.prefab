@@ -142,6 +142,7 @@ MonoBehaviour:
   ichorDropRadius: 0
   creatureData: {fileID: 11400000, guid: 95ffc7b6187e26f4a90d2729967ca357, type: 2}
   inWilderness: 0
+  patrolPoint: {fileID: 0}
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -160,11 +161,14 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 0
   bearTrapVulnerable: 0
+  frostVulnerable: 0
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 1
+  actionSpeedMod: 1
   hitColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 0.7176471}
+  currentEffects: []
   ignited: 1
   pyreFire: {fileID: 6602609957410571494}
   ignitedMat: {fileID: 2100000, guid: c85d80daf9fac6140a59c43eacddfc49, type: 2}

@@ -266,6 +266,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCam: {fileID: 0}
   playerFeet: {fileID: 4363058580884312923}
+  cameraPos: {fileID: 7521247179793965377}
+  trippedFocalPoint: {fileID: 4864265244631940823}
   playerUpgrades: {fileID: 4974716673598902644}
   controlManager: {fileID: 0}
   rb: {fileID: 0}
@@ -306,6 +308,7 @@ MonoBehaviour:
   playerDie: {fileID: 8300000, guid: 7873b510c112e9042a0842b9a6e18c7a, type: 3}
   playerDamage: {fileID: 8300000, guid: 94bb20f5b11b99047ae0c5c724d377f4, type: 3}
   waterJet: {fileID: 8300000, guid: 35a2794032807a642ba42dc77c0dcfce, type: 3}
+  trip: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
   grassFootsteps: {fileID: 8300000, guid: 2bfc2099e4ceed24b951a7982085d5f6, type: 3}
   stoneFootsteps: {fileID: 8300000, guid: 4b25d192cc97c434b8b563b8778f223d, type: 3}
   woodFootsteps: {fileID: 8300000, guid: 3e18de8b56f944948a6aeba020009413, type: 3}
@@ -1362,7 +1365,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4864265244631940823}
   m_Father: {fileID: 968838946076285070}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5710377670276995475
@@ -1599,6 +1603,37 @@ MonoBehaviour:
   collider: {fileID: 5538233878325030906}
   collectedItem: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
   caught: {fileID: 8300000, guid: 670c8869953582347943c68fdb8f866b, type: 3}
+--- !u!1 &7622246450863309278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4864265244631940823}
+  m_Layer: 10
+  m_Name: TrippedFocalPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4864265244631940823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7622246450863309278}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.7, z: 2.4300027}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2948405178405840430}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8451255029938577494
 GameObject:
   m_ObjectHideFlags: 0
