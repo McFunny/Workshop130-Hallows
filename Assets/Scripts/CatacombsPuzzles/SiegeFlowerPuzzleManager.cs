@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +6,8 @@ public class SiegeFlowerPuzzleManager : MonoBehaviour
 {
     public static SiegeFlowerPuzzleManager Instance;
 
-    public List<SiegeFlowerTotem> siegeTotems = new List<SiegeFlowerTotem>();
-
     public bool puzzleSolved = false;
+    public List<SiegeFlowerTotem> pots = new List<SiegeFlowerTotem>();
 
     private void Awake()
     {
@@ -18,53 +17,58 @@ public class SiegeFlowerPuzzleManager : MonoBehaviour
             return;
         }
         Instance = this;
-
     }
-    void Start()
-    {
 
+    public void CheckToSeeIfSolved()
+    {
+        int correctPots = 0;
+        for (int i = 0; i < pots.Count; i++)
+        {
+            if (pots[i].isLocked) // ✅ Use .isLocked to track final state
+            {
+                correctPots++;
+            }
+        }
+
+        if (correctPots == pots.Count)
+        {
+            foreach (var pot in pots)
+            {
+                pot.LockPuzzle();
+            }
+            puzzleSolved = true;
+            PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
+        }
     }
 
     public SiegeFlowerPuzzleSaveData ExportSaveData()
     {
         List<SiegeFlowerSaveData> saveEntries = new List<SiegeFlowerSaveData>();
-
-        foreach (var box in siegeTotems)
+        foreach (var box in pots)
         {
             saveEntries.Add(box.ExportSaveData());
         }
 
         return new SiegeFlowerPuzzleSaveData
         {
-            totems = saveEntries,
-            siegeFlowerPuzzleSolved = puzzleSolved
+            pots = saveEntries,
+            siegeflowerPuzzleSolved = puzzleSolved,
         };
     }
 
     public void ImportSaveData(SiegeFlowerPuzzleSaveData data)
     {
-        puzzleSolved = data.siegeFlowerPuzzleSolved;
+        puzzleSolved = data.siegeflowerPuzzleSolved;
 
-        for (int i = 0; i < siegeTotems.Count; i++)
+        for (int i = 0; i < pots.Count; i++)
         {
-            siegeTotems[i].ImportSaveData(data.totems[i]);
-        }
-    }
-
-    internal void CheckToSeeIfSolved()
-    {
-        int puzzlesSolved = 0;
-        for (int i = 0; i < siegeTotems.Count; i++)
-        {
-            if (siegeTotems[i].isSolved)
-            {
-                puzzlesSolved++;
-            }
+            pots[i].ImportSaveData(data.pots[i]);
         }
 
-        if (puzzlesSolved == siegeTotems.Count)
+        if (puzzleSolved)
         {
-            puzzleSolved = true;
+            foreach (var pot in pots)
+                pot.LockPuzzle();
         }
     }
 }
@@ -72,6 +76,6 @@ public class SiegeFlowerPuzzleManager : MonoBehaviour
 [System.Serializable]
 public struct SiegeFlowerPuzzleSaveData
 {
-    public List<SiegeFlowerSaveData> totems;
-    public bool siegeFlowerPuzzleSolved;
+    public List<SiegeFlowerSaveData> pots;
+    public bool siegeflowerPuzzleSolved;
 }
