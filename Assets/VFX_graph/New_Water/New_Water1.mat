@@ -44,25 +44,35 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Bits: 36
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Cull: 2
     - _DstBlend: 10
+    - _FoamOffset: 0.63
+    - _Metallic: 0.5
+    - _Normal_Speed: 0.1
+    - _Normal_Strength: 1
+    - _Normal_Strength_2: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RippleScale: 5
+    - _RippleDissolve: 8.82
+    - _RippleScale: 7.29
     - _RippleSpeed: 2
+    - _Smoothness: 0.5
     - _SrcBlend: 1
     - _Surface: 1
+    - _Transparency: -0.01
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 0.7219952, g: 2.6449146, b: 5.278032, a: 0}
-    - _RippleColor: {r: 0.3537736, g: 0.9145856, b: 1, a: 0}
+    - _BaseColor: {r: 0, g: 0.06910583, b: 10.680627, a: 0}
+    - _FoamColor: {r: 0.37450984, g: 0.37450984, b: 0.37450984, a: 0}
+    - _RippleColor: {r: 0.8705506, g: 0.8705506, b: 0.8705506, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &338489370531727516
 MonoBehaviour:
