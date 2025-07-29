@@ -3,33 +3,33 @@ using UnityEngine;
 
 public class InventoryAnims : MonoBehaviour
 {
-    public float defaultCooldown = 5.0f; // Replace later if we need to I think the food cooldown is hardcoded to be 5 seconds in PlayerInteraction.cs
+    public float cooldownStart = 5.0f; 
     private float foodCooldown; // Current cooldown for food items
-    public float foodCooldownPercent => foodCooldown / defaultCooldown; // Percentage of cooldown remaining
-    public bool isFoodCooldownActive => foodCooldown != defaultCooldown; // Apparently this can check if the cooldown is active??? Wow
+    public float foodCooldownPercent => foodCooldown / cooldownStart; // Percentage of cooldown remaining
+    public bool isFoodCooldownActive => foodCooldown != cooldownStart; // Apparently this can check if the cooldown is active??? Wow
 
     private void Awake()
     {
-        foodCooldown = defaultCooldown; // Initialize cooldown
+        foodCooldown = cooldownStart; // Initialize cooldown
         PlayerInteraction.onFoodConsumed += SetFoodCooldown;
     }
 
     private void SetFoodCooldown(InventoryItemData item)
     {
         foodCooldown = item.useCooldown; // Reset cooldown
-        defaultCooldown = item.useCooldown; // Set the cooldown based on the item
+        cooldownStart = item.useCooldown; // Set the cooldown based on the item
         StartCoroutine(InitiateFoodCooldown());
     }
 
     private IEnumerator InitiateFoodCooldown()
     {
-        Debug.Log($"Food cooldown started for {defaultCooldown} seconds.");
+        Debug.Log($"Food cooldown started for {cooldownStart} seconds.");
         while (foodCooldown > 0)
         {
             foodCooldown -= Time.deltaTime;
             yield return null; // Wait for the next frame
         }
-        foodCooldown = defaultCooldown;
+        foodCooldown = cooldownStart;
         StopCoroutine(InitiateFoodCooldown());
     }
 
