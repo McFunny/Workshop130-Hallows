@@ -23,6 +23,8 @@ public class CreatureEffectsHandler : MonoBehaviour
     public AudioClip miscSound2;
     public AudioClip miscSound3;
 
+    public AudioClip eatSound, petSound;
+
     public AudioClip[] extraSounds;
 
     public ParticleSystem particle1;

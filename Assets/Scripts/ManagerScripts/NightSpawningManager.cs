@@ -25,8 +25,7 @@ public class NightSpawningManager : MonoBehaviour
     List<int> spawnedCreaturesThisHour = new List<int>(); //tracks how many of a specific type of creature was spawned this hour //CREATURES NEED TO BE REMOVED WHEN KILLED
     Queue<CreatureObject> creatureQueue = new Queue<CreatureObject>(); //Holds the enemies that are set to spawn but have not spawned yet
 
-    public List<CreatureBehaviorScript> allCreatures; //all creatures in the scene
-    //this list saves all current creatures, and all spawned creatures through this/saved by this manager should be assigned to this list
+    public List<CreatureBehaviorScript> allCreatures; //all creatures spawned by this manager
 
     public List<Transform> testSpawns;
     public Transform[] despawnPositions;
@@ -304,7 +303,8 @@ public class NightSpawningManager : MonoBehaviour
 
         foreach (CreatureBehaviorScript creature in creaturesOnFarm)
         {
-            if (creature != null && creature.gameObject != null)
+            CritterBehaviorScript critter = creature as CritterBehaviorScript;
+            if (creature != null && creature.gameObject != null && !critter) //Add a check for farm critters as well so they arent deleted
             {
                 Destroy(creature.gameObject);
             }
@@ -544,10 +544,6 @@ public class NightSpawningManager : MonoBehaviour
     {
         AmbientAudioManager.Instance.WinFinaleTheme();
         StartCoroutine(GameCompleted());
-        /*for(int i = 0; i < allCreatures.Count; i++)
-        {
-            allCreatures[i].TakeDamage(999);
-        }*/
 
         CreatureBehaviorScript[] creaturesOnFarm = FindObjectsOfType<CreatureBehaviorScript>();
 

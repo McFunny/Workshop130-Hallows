@@ -133,9 +133,6 @@ public class FarmLand : StructureBehaviorScript
             if(structureUI) supportText.gameObject.SetActive(structureUI.activeSelf);
             if(crop != null) supportText.text = "";
         }
-        
-        
-        
     }
 
     IEnumerator BehaviorTimer()
