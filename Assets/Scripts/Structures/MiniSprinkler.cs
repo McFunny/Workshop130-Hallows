@@ -15,6 +15,7 @@ public class MiniSprinkler : StructureBehaviorScript
     public SprinklerMode mode;
     public Collider c_stream, c_cone;
     public GameObject streamWater, coneWater;
+    public ParticleSystem splash;
 
     bool watering = false;
     bool waterCooldown = false;
@@ -97,6 +98,7 @@ public class MiniSprinkler : StructureBehaviorScript
                 waterLevel--;
                 wateredThisHour = true;
             }
+            splash.Play();
             success = true;
         }
     }
@@ -106,6 +108,7 @@ public class MiniSprinkler : StructureBehaviorScript
         if(waterLevel < maxWaterLevel && !waterCooldown) 
         {
             waterLevel++;
+            splash.Play();
             StartCoroutine(WaterCooldown()); //Keep disabled if the watergun costs 1 per multi shot
         }
     }
@@ -155,7 +158,11 @@ public class MiniSprinkler : StructureBehaviorScript
 
 
             if(structsInRange[index].onFire) structsInRange[index].Extinguish();
-            structsInRange[index].HitWithWater();
+            
+            MiniSprinkler sprinkler = structsInRange[index] as MiniSprinkler;
+            if(sprinkler && sprinkler.transform.rotation != transform.rotation) ;//Makes sure that u can only water sprinklers from behind
+            else structsInRange[index].HitWithWater();
+
             FarmLand tile = structsInRange[index] as FarmLand;
             if(tile) tile.WaterCrops();
 

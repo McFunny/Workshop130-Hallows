@@ -969,9 +969,10 @@ public class FarmLand : StructureBehaviorScript
             }
         }
 
-        if(other.gameObject.layer == 10 && isWeed && growthStage == 5)
+        if(other.gameObject.layer == 10 && isWeed)
         {
-            PlayerInteraction.Instance.StaminaChange(-5); //Hit by a thorn
+            if(growthStage == 5) PlayerInteraction.Instance.StaminaChange(-5); //Hit by a thorn
+            if(growthStage == 6) PlayerInteraction.Instance.PlayerTripNoKnockback(); //Tripped by weed
         }
 
         if(crop && crop.behavior) crop.behavior.OnContact(this, other.gameObject);

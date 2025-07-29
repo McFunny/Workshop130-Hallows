@@ -401,6 +401,7 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 0
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 5
@@ -460,13 +461,16 @@ MonoBehaviour:
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
-  idleSounds: []
+  idleSounds:
+  - {fileID: 8300000, guid: b73bc0e2591e4264581a12ca8557c3bb, type: 3}
+  - {fileID: 8300000, guid: bfa04744047bf10418b4c5e6c01ee4b0, type: 3}
   hitSounds: []
   footSteps: []
   deathSound: {fileID: 0}
   miscSound: {fileID: 0}
   miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!54 &218861372867643202
 Rigidbody:
@@ -508,7 +512,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.166
   m_Pitch: 1
   Loop: 0
   Mute: 0

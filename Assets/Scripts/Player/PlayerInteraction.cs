@@ -603,6 +603,12 @@ public class PlayerInteraction : MonoBehaviour
         StartCoroutine(PlayerTripRoutine(true));
     }
 
+    public void PlayerTripNoKnockback()
+    {
+        if(PlayerMovement.restrictMovementTokens > 0 || isTripped) return;
+        StartCoroutine(PlayerTripRoutine(false));
+    }
+
     IEnumerator PlayerTripRoutine(bool addKnockback) //for recoiling purposes
     {
         isTripped = true;
@@ -611,7 +617,7 @@ public class PlayerInteraction : MonoBehaviour
         if(addKnockback) GetComponent<PlayerMovement>().ApplyForceToPlayer(2000, PlayerInteraction.Instance.mainCam.transform.TransformDirection(-Vector3.forward));
         cameraPos.DOMoveY(cameraPos.position.y + 1, 0.15f); //Move up
 
-        PlayerCam.Instance.NewObjectOfInterest(trippedFocalPoint.position);
+        if(addKnockback) PlayerCam.Instance.NewObjectOfInterest(trippedFocalPoint.position);
         yield return new WaitForSeconds(.15f);
 
         cameraPos.DOMoveY(cameraPos.position.y - 2.5f, 0.25f); //Move Down
