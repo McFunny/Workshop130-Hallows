@@ -15,6 +15,7 @@ public class FadeScreen : MonoBehaviour
     {
         coverScreen = false;
         if(image) imageColor = image.color;
+        image.gameObject.SetActive(true);
 
         StartCoroutine(DelayedStart());
     }

@@ -2,9 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using System.Collections;
 
 public class InventorySlot_UI : MonoBehaviour
 {
@@ -14,6 +12,7 @@ public class InventorySlot_UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemCount;
     [SerializeField] public GameObject slotHighlight;
     [SerializeField] private InventorySlot assignedInventorySlot;
+    [SerializeField] private Animator pickupAnim;
 
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
     public InventoryDisplay ParentDisplay { get; private set; }
@@ -21,6 +20,7 @@ public class InventorySlot_UI : MonoBehaviour
     bool isSelected;
     ToolTipScript toolTip; //Handles hovering item in inventory
     private InventoryAnims inventoryAnims;
+
 
     string itemDesc;
     Button button;
@@ -46,6 +46,7 @@ public class InventorySlot_UI : MonoBehaviour
 
         controlManager.hotbarUp.action.started += LeftBumper;
         controlManager.hotbarDown.action.started += RightBumper;
+        PlayerInventoryHolder.onItemAddedToInventory += OnItemAdded;
 
         //PlayerInteraction.onFoodConsumed += SetFoodCooldown;
     }
@@ -54,8 +55,9 @@ public class InventorySlot_UI : MonoBehaviour
         controlManager.select.action.started -= Select;
         controlManager.split.action.started -= Split;
 
-        controlManager.hotbarUp.action.started += LeftBumper;
-        controlManager.hotbarDown.action.started += RightBumper;
+        controlManager.hotbarUp.action.started -= LeftBumper;
+        controlManager.hotbarDown.action.started -= RightBumper;
+        PlayerInventoryHolder.onItemAddedToInventory -= OnItemAdded;
 
         //PlayerInteraction.onFoodConsumed -= SetFoodCooldown;
     }
@@ -102,7 +104,7 @@ public class InventorySlot_UI : MonoBehaviour
             foodCooldownSlider.gameObject.SetActive(false);
             return;
         }
-        
+
         if (assignedInventorySlot.ItemData.staminaValue > 0) FoodCooldownHandler();
     }
 
@@ -279,31 +281,6 @@ public class InventorySlot_UI : MonoBehaviour
         //itemName.gameObject.SetActive(false);
     }
 
-    /*private void SetFoodCooldown()
-    {
-        if (assignedInventorySlot.ItemData == null) return;
-        if (assignedInventorySlot.ItemData.staminaValue == 0) return;
-
-        if (inventoryAnims.isFoodCooldownActive)
-        {
-
-        }
-    }
-
-    private IEnumerator InitiateFoodCooldown()
-    {
-        print("Food cooldown anim started");
-        while (inventoryAnims.foodCooldown < inventoryAnims.defaultCooldown)
-        {
-            foodCooldownSlider.gameObject.SetActive(true);
-            itemGrey.enabled = true;
-        }
-        foodCooldownSlider.gameObject.SetActive(false);
-        itemGrey.enabled = false;
-        StopCoroutine(InitiateFoodCooldown());
-        yield break;
-    }*/
-
     private void FoodCooldownHandler()
     {
         if (inventoryAnims.isFoodCooldownActive)
@@ -317,5 +294,13 @@ public class InventorySlot_UI : MonoBehaviour
             foodCooldownSlider.gameObject.SetActive(false);
             itemGrey.enabled = false;
         }
+    }
+
+    private void OnItemAdded(InventorySlot slot)
+    {
+        if (slot != assignedInventorySlot) return;
+
+        pickupAnim.Play("ItemPickup");
+        print("slot animated");
     }
 }
