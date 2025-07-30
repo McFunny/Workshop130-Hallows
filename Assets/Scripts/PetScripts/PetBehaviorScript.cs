@@ -28,13 +28,13 @@ public class PetBehaviorScript : MonoBehaviour
     public NavMeshAgent agent;
 
     public float walkSpeed, runSpeed;
-    public float followDistance = 100; //Follow player once they leave this range
+    public float followDistance = 80; //Follow player once they leave this range
 
     protected bool isMoving = false;
     protected bool interruptAction = false;
     protected Coroutine currentRoutine;
     protected Transform player;
-    protected Vector3 target;
+    protected Vector3 target, spawnOrigin;
     protected int forceFollows = 0;
 
     protected bool showStats = false;
@@ -47,6 +47,15 @@ public class PetBehaviorScript : MonoBehaviour
         player = PlayerInteraction.Instance.transform;
 
         StartCoroutine(IdleSoundTimer());
+
+        spawnOrigin = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+        GameSaveData.Instance.currentPet = this;
+    }
+
+    void OnDisable()
+    {
+        GameSaveData.Instance.currentPet = null;
     }
 
     protected void Update()
@@ -92,7 +101,7 @@ public class PetBehaviorScript : MonoBehaviour
         effectsHandler.PlaySound(effectsHandler.eatSound);
     }
 
-    protected IEnumerator MoveToPoint(Vector3 destination)
+    protected IEnumerator MoveToPoint(Vector3 destination, float maxTime)
     {
         isMoving = true;
         interruptAction = false;
@@ -101,9 +110,9 @@ public class PetBehaviorScript : MonoBehaviour
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 100)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < maxTime)
         {
-            if(StopMovingEarlyCheck()) timeSpent += 100;
+            if(StopMovingEarlyCheck()) timeSpent += maxTime;
 
             timeSpent += Time.deltaTime;
             yield return null;
@@ -114,8 +123,21 @@ public class PetBehaviorScript : MonoBehaviour
 
     protected Vector3 GetRandomPointAround(Vector3 origin, float radius)
     {
-        Vector2 randomDirection = Random.insideUnitCircle * radius;
-        Vector3 randomPoint = new Vector3(randomDirection.x, origin.y, randomDirection.y) + origin;
+        int x = 0;
+        Vector3 randomPoint = origin;
+        while(x < 20)
+        {
+            Vector2 randomDirection = Random.insideUnitCircle * radius;
+            randomPoint = new Vector3(randomDirection.x, origin.y, randomDirection.y) + origin;
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+            {
+                x += 20;
+                randomPoint = hit.position;
+            }
+
+            x++;
+        }
+
         return randomPoint;
     }
 
@@ -140,7 +162,7 @@ public class PetBehaviorScript : MonoBehaviour
     {
         while(true)
         {
-            yield return new WaitForSeconds(Random.Range(5, 9));
+            yield return new WaitForSeconds(Random.Range(9, 16));
             effectsHandler.RandomIdle();
         }
 

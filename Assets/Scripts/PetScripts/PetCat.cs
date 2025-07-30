@@ -115,11 +115,11 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     void Decide()
     {
-        if(isMoving || currentRoutine != null) return; //Wait until all coroutines are done to avoid overlap
+        if(isMoving || currentRoutine != null || TimeManager.Instance.stopTime) return; //Wait until all coroutines are done to avoid overlap
 
-        if(TownGate.Instance.location != PlayerLocation.InFarm) //Make sure pet is following when not in town
+        if(TownGate.Instance.location != PlayerLocation.InFarm) //Make sure pet is following when not in farm
         {
-            if(TownGate.Instance.location != PlayerLocation.InTown) //Player is not within reach
+            if(TownGate.Instance.location != PlayerLocation.InTown) //Player is not within reach, so stay still
             {
                 currentState = PetState.AwaitPlayer;
                 return;
@@ -156,9 +156,9 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     void Idle()
     {
-        if(!isMoving && currentState == PetState.Idle)
+        if(!isMoving)
         {
-            float distance = Vector3.Distance(player.position, transform.position);
+            float distance = Vector3.Distance(player.position, spawnOrigin);
             if(distance > followDistance)
             {
                 currentState = PetState.Follow;
@@ -172,15 +172,15 @@ public class PetCat : PetBehaviorScript, IInteractable
         {
             target = StructureManager.Instance.GetRandomTile();
             target = GetRandomPointAround(target, 3);
-            currentRoutine = StartCoroutine(MoveToPoint(target));
+            currentRoutine = StartCoroutine(MoveToPoint(target, 5));
         }
     }
 
     void Follow()
     {
-        if(!isMoving && currentState == PetState.Follow && currentRoutine == null)
+        if(!isMoving && currentRoutine == null)
         {
-            float distance = Vector3.Distance(player.position, transform.position);
+            float distance = Vector3.Distance(player.position, spawnOrigin);
             if(distance < followDistance && TownGate.Instance.location == PlayerLocation.InFarm && forceFollows <= 0)
             {
                 int r = Random.Range(0,100);
@@ -190,12 +190,17 @@ public class PetCat : PetBehaviorScript, IInteractable
                     return;
                 }
             }
-
-            if(distance > 10) agent.speed = runSpeed;
+            float playerDistance = Vector3.Distance(player.position, transform.position);
+            float pointRange = 5;
+            if(playerDistance > 15)
+            {
+                pointRange = 1.5f;
+                agent.speed = runSpeed;
+            } 
             else agent.speed = walkSpeed;
 
-            target = GetRandomPointAround(player.position, 5);
-            currentRoutine = StartCoroutine(MoveToPoint(target));
+            target = GetRandomPointAround(player.position, pointRange);
+            currentRoutine = StartCoroutine(MoveToPoint(target, 3));
             forceFollows--;
         }
     }
@@ -238,7 +243,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(currentRoutine == null && !isMoving)
         {
-            currentRoutine = StartCoroutine(MoveToPoint(target));
+            currentRoutine = StartCoroutine(MoveToPoint(target, 3));
         }
     }
 
@@ -271,7 +276,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(currentRoutine == null && !isMoving && targetTable)
         {
-            currentRoutine = StartCoroutine(MoveToPoint(targetTable.transform.position));
+            currentRoutine = StartCoroutine(MoveToPoint(targetTable.transform.position, 10));
         }
     }
 
@@ -285,14 +290,14 @@ public class PetCat : PetBehaviorScript, IInteractable
         if(currentState == PetState.Idle)
         {
             currentRoutine = StartCoroutine(IdleRoutine());
-            currentState = PetState.Decide;
             isMoving = false;
             return;
         }
 
         if(currentState == PetState.Follow)
         {
-            currentRoutine = StartCoroutine(FollowRoutine());
+            if(Vector3.Distance(player.position, transform.position) < 10) currentRoutine = StartCoroutine(FollowRoutine());
+            else currentRoutine = null;
             isMoving = false;
             return;
         }
@@ -302,13 +307,20 @@ public class PetCat : PetBehaviorScript, IInteractable
             Transform sitPos = targetTable.GrabOpenSocketTransform();
             if(sitPos)
             {
-                agent.Stop();
-                transform.position = sitPos.position;
-                transform.Rotate(0, 180, 0);
-                currentRoutine = StartCoroutine(SitRoutine());
-                currentState = PetState.Decide;
+                if(Vector3.Distance(targetTable.transform.position, transform.position) < 4f)
+                {
+                    agent.Stop();
+                    transform.position = sitPos.position;
+                    transform.Rotate(0, 180, 0);
+                    currentRoutine = StartCoroutine(SitRoutine());
+                }
+                else currentRoutine = null;
             }
-            else currentState = PetState.Idle;
+            else 
+            {
+                currentState = PetState.Idle;
+                currentRoutine = null;
+            }
 
             isMoving = false;
             return;
@@ -364,12 +376,13 @@ public class PetCat : PetBehaviorScript, IInteractable
             yield return new WaitForSeconds(2);
 
         }
+        currentState = PetState.Decide;
         currentRoutine = null;
     }
 
     IEnumerator FollowRoutine()
     {
-        yield return new WaitForSeconds(Random.Range(0.5f, 3f));
+        yield return new WaitForSeconds(Random.Range(1f, 4f));
         currentRoutine = null;
     }
 
@@ -378,12 +391,13 @@ public class PetCat : PetBehaviorScript, IInteractable
         anim.SetBool("IsSitting", true);
         agent.enabled = false;
         targetTable.usedByPet = true;
-        yield return new WaitForSeconds(Random.Range(15f, 35f));
+        yield return new WaitForSeconds(Random.Range(25f, 90f));
         anim.SetBool("IsSitting", false);
         yield return new WaitForSeconds(2);
         targetTable.usedByPet = false;
         targetTable = null;
         agent.enabled = true;
+        currentState = PetState.Decide;
         currentRoutine = null;
 
         FriendPointsChange(6);
