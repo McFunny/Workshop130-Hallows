@@ -8,6 +8,8 @@ public class Table : FurnitureBehaviorScript
 
     public List<TableSocket> sockets = new List<TableSocket>();
 
+    public bool usedByPet = false; //A cat for example could jump on the table
+
     public void Awake()
     {
         base.Awake();
@@ -44,7 +46,7 @@ public class Table : FurnitureBehaviorScript
     public override void ItemInteraction(InventoryItemData item)
     {
         PlaceableItem p = item as PlaceableItem;
-        if(p && p.canPlaceOnTable)
+        if(p && p.canPlaceOnTable && !usedByPet)
         {
             PlaceOnClosestSocket(p);
         }
@@ -119,12 +121,33 @@ public class Table : FurnitureBehaviorScript
 
     bool CanBeRemoved()
     {
+        if(usedByPet) return false;
         for(int i = 0; i < sockets.Count; i++)
         {
             if(sockets[i].socketedObject != null) return false;
         }
         return true;
     }
+    ////////////////////////For Pets/////////////////////////
+    public bool HasOpenSocket()
+    {
+        for(int i = 0; i < sockets.Count; i++)
+        {
+            if(sockets[i].socketedObject == null) return true;
+        }
+        return false;
+    }
+
+    public Transform GrabOpenSocketTransform()
+    {
+        for(int i = 0; i < sockets.Count; i++)
+        {
+            if(sockets[i].socketedObject == null) return sockets[i].socketTransform;
+        }
+        return null;
+    }
+
+    ///////////////////////////
 }
 
 [System.Serializable]

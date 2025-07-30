@@ -1,0 +1,464 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class PetCat : PetBehaviorScript, IInteractable
+{
+    public InventoryItemData heldItem;
+    public SpriteRenderer itemR;
+    public List<ItemWithAmount> possibleGiftItems = new List<ItemWithAmount>();
+    public List<CreatureObject> targettableCreatures = new List<CreatureObject>();
+
+    //private Coroutine idleRoutine, walkRoutine, currentRoutine; 
+
+    Table targetTable; //For Sitting
+    BugBehaviorScript targetBug;
+    CreatureBehaviorScript targetCreature;
+
+    public LayerMask BugCreatureMask;
+
+    public PetState currentState;
+
+    public enum PetState
+    {
+        Decide, //Make a choice on the next action
+        AwaitPlayer, //When the player is gone in the crypt/wilderness
+        Idle,
+        Follow, //Follow the player
+        ChaseCreature, //Attack hare/crow/bug
+        Sit, //Sit still and watch
+        BegForFood //Sits and stares at bowl
+    }
+
+    public void CheckState(PetState currentState)
+    {
+        switch (currentState)
+        {
+            case PetState.Decide:
+                Decide();
+                break;
+
+            case PetState.AwaitPlayer:
+                AwaitPlayer();
+                break;
+                
+            case PetState.Idle:
+                Idle();
+                break;
+
+            case PetState.Follow:
+                Follow();
+                break;
+
+            case PetState.ChaseCreature:
+                ChaseCreature();
+                break;
+
+            case PetState.Sit:
+                Sit();
+                break;
+
+            case PetState.BegForFood:
+                BegForFood();
+                break;
+
+            default:
+                Debug.LogError("Unknown state: " + currentState);
+                break;
+        }
+    }
+
+    void Start()
+    {
+        if(TimeManager.Instance.currentHour == 8) FindItem();
+        base.Start();
+    }
+
+    void Update()
+    {
+        base.Update();
+
+        if(currentState != PetState.Follow)
+        {
+            agent.speed = walkSpeed;
+        }
+
+        if(agent.velocity.magnitude < 0.2f)
+        {
+            anim.SetBool("IsWalking", false);
+            anim.SetBool("IsRunning", false);
+        }
+        else if(agent.velocity.magnitude < walkSpeed + 1)
+        {
+            anim.SetBool("IsWalking", true);
+            anim.SetBool("IsRunning", false);
+        }
+        else
+        {
+            anim.SetBool("IsWalking", false);
+            anim.SetBool("IsRunning", true);
+        }
+
+        //
+        CheckState(currentState);
+    }
+
+    protected virtual void OnHour()
+    {
+        base.OnHour();
+        if(TimeManager.Instance.currentHour == 8)
+        {
+            FindItem();
+        }
+    }
+
+    void Decide()
+    {
+        if(isMoving || currentRoutine != null) return; //Wait until all coroutines are done to avoid overlap
+
+        if(TownGate.Instance.location != PlayerLocation.InFarm) //Make sure pet is following when not in town
+        {
+            if(TownGate.Instance.location != PlayerLocation.InTown) //Player is not within reach
+            {
+                currentState = PetState.AwaitPlayer;
+                return;
+            }
+            currentState = PetState.Follow;
+            forceFollows = 5;
+            return;
+        }
+
+        float positiveActionChance = (friendshipLevel + 1) * .75f;
+        float r = Random.Range(0, 100f);
+
+        if(r < positiveActionChance)
+        {
+            currentState = PetState.ChaseCreature;
+            return;
+        }
+
+        r = Random.Range(0, 100);
+
+        if(r < 80) currentState = PetState.Idle;
+        else if(r < 95) currentState = PetState.Sit;
+        else
+        {
+            currentState = PetState.Follow;
+            forceFollows = 10;
+        }
+    }
+
+    void AwaitPlayer()
+    {
+        if(TownGate.Instance.location == PlayerLocation.InFarm || TownGate.Instance.location == PlayerLocation.InTown) currentState = PetState.Follow;
+    }
+
+    void Idle()
+    {
+        if(!isMoving && currentState == PetState.Idle)
+        {
+            float distance = Vector3.Distance(player.position, transform.position);
+            if(distance > followDistance)
+            {
+                currentState = PetState.Follow;
+                currentRoutine = null;
+                forceFollows = 5;
+                return;
+            }
+        }
+
+        if(currentRoutine == null)
+        {
+            target = StructureManager.Instance.GetRandomTile();
+            target = GetRandomPointAround(target, 3);
+            currentRoutine = StartCoroutine(MoveToPoint(target));
+        }
+    }
+
+    void Follow()
+    {
+        if(!isMoving && currentState == PetState.Follow && currentRoutine == null)
+        {
+            float distance = Vector3.Distance(player.position, transform.position);
+            if(distance < followDistance && TownGate.Instance.location == PlayerLocation.InFarm && forceFollows <= 0)
+            {
+                int r = Random.Range(0,100);
+                if(r > 80)
+                {
+                    currentState = PetState.Decide;
+                    return;
+                }
+            }
+
+            if(distance > 10) agent.speed = runSpeed;
+            else agent.speed = walkSpeed;
+
+            target = GetRandomPointAround(player.position, 5);
+            currentRoutine = StartCoroutine(MoveToPoint(target));
+            forceFollows--;
+        }
+    }
+
+    void ChaseCreature()
+    {
+        if(!targetBug && !targetCreature)
+        {
+            agent.speed = runSpeed;
+            Collider[] hitTargets = Physics.OverlapSphere(transform.position, 80f, BugCreatureMask);
+            foreach(Collider collider in hitTargets)
+            {
+                BugBehaviorScript bug = collider.gameObject.GetComponentInParent<BugBehaviorScript>();
+                if(bug && Random.Range(0,10) > 6)
+                {
+                    targetBug = bug;
+                    target = bug.gameObject.transform.position;
+                }
+
+                CreatureBehaviorScript creature = collider.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+                if(creature && Random.Range(0,10) > 3 && creature.health > 0 && targettableCreatures.Contains(creature.creatureData))
+                {
+                    targetCreature = creature;
+                    target = creature.gameObject.transform.position;
+                    return;
+                }
+
+                if(targetBug) return;
+            }
+            currentState = PetState.Idle;
+            return;
+        }
+
+        if(Vector3.Distance(target, transform.position) < 1.5f)
+        {
+            print("Cat close enough to Target");
+            interruptAction = true;
+            return;
+        }
+
+        if(currentRoutine == null && !isMoving)
+        {
+            currentRoutine = StartCoroutine(MoveToPoint(target));
+        }
+    }
+
+    void Sit()
+    {
+        if(!targetTable)
+        {
+            Collider[] hitStructures = Physics.OverlapSphere(transform.position, 80f, 1 << 6);
+            foreach(Collider collider in hitStructures)
+            {
+                Table table = collider.gameObject.GetComponentInParent<Table>();
+                if(table && table.HasOpenSocket() && Random.Range(0,10) > 3)
+                {
+                    targetTable = table;
+                    return;
+                }
+            }
+            currentState = PetState.Idle;
+            return;
+        }
+
+
+        if(targetTable && Vector3.Distance(targetTable.transform.position, transform.position) < 3.5f)
+        {
+            print("Cat close enough to table");
+            if(currentRoutine == null) FinishedMoving();
+            else interruptAction = true;
+            return;
+        }
+
+        if(currentRoutine == null && !isMoving && targetTable)
+        {
+            currentRoutine = StartCoroutine(MoveToPoint(targetTable.transform.position));
+        }
+    }
+
+    void BegForFood()
+    {
+        //
+    }
+
+    protected override void FinishedMoving()
+    {
+        if(currentState == PetState.Idle)
+        {
+            currentRoutine = StartCoroutine(IdleRoutine());
+            currentState = PetState.Decide;
+            isMoving = false;
+            return;
+        }
+
+        if(currentState == PetState.Follow)
+        {
+            currentRoutine = StartCoroutine(FollowRoutine());
+            isMoving = false;
+            return;
+        }
+
+        if(currentState == PetState.Sit && targetTable)
+        {
+            Transform sitPos = targetTable.GrabOpenSocketTransform();
+            if(sitPos)
+            {
+                agent.Stop();
+                transform.position = sitPos.position;
+                transform.Rotate(0, 180, 0);
+                currentRoutine = StartCoroutine(SitRoutine());
+                currentState = PetState.Decide;
+            }
+            else currentState = PetState.Idle;
+
+            isMoving = false;
+            return;
+        }
+
+        if(currentState == PetState.ChaseCreature)
+        {
+            if(targetCreature) target = targetCreature.transform.position;
+            if(targetBug) target = targetBug.transform.position;
+            if(Vector3.Distance(target, transform.position) < 3f)
+            {
+                //play anim
+                currentRoutine = StartCoroutine(FollowRoutine()); //Just to buy the animation some time
+
+                effectsHandler.PlayExtraSound(Random.Range(0, effectsHandler.extraSounds.Length));
+                if(targetBug)
+                {
+                    if(Random.Range(0,10) < (friendshipLevel + 1)/2 && !heldItem)
+                    {
+                        heldItem = targetBug.bugItem;
+                        itemR.sprite = heldItem.icon;
+                        Destroy(targetBug.gameObject);
+                    }
+                    else targetBug.Struck();
+                }
+                if(targetCreature)
+                {
+                    targetCreature.TakeDamage(25);
+                }
+                targetBug = null;
+                targetCreature = null;
+                isMoving = false;
+                return;
+            }
+        }
+        
+        isMoving = false;
+        currentRoutine = null;
+    }
+
+    IEnumerator IdleRoutine()
+    {
+        float time = Random.Range(2f, 15);
+        if(time > 10)
+        {
+            anim.SetBool("IsSitting", true);
+            time += 10;
+        }
+        yield return new WaitForSeconds(time);
+        if(time > 10)
+        {
+            anim.SetBool("IsSitting", false);
+            yield return new WaitForSeconds(2);
+
+        }
+        currentRoutine = null;
+    }
+
+    IEnumerator FollowRoutine()
+    {
+        yield return new WaitForSeconds(Random.Range(0.5f, 3f));
+        currentRoutine = null;
+    }
+
+    IEnumerator SitRoutine()
+    {
+        anim.SetBool("IsSitting", true);
+        agent.enabled = false;
+        targetTable.usedByPet = true;
+        yield return new WaitForSeconds(Random.Range(15f, 35f));
+        anim.SetBool("IsSitting", false);
+        yield return new WaitForSeconds(2);
+        targetTable.usedByPet = false;
+        targetTable = null;
+        agent.enabled = true;
+        currentRoutine = null;
+
+        FriendPointsChange(6);
+    }
+
+    protected override bool StopMovingEarlyCheck()
+    {
+        if(base.StopMovingEarlyCheck() == true) return true;
+        return false;
+    }
+
+    void FindItem()
+    {
+        if(Random.Range(0f, 100f) < (friendshipLevel + 1) * 8.5f)
+        {
+            int x = 0;
+            InventoryItemData chosenItem = null;
+            while(x < 30 && chosenItem == null)
+            {
+                int r = Random.Range(0, possibleGiftItems.Count);
+                if(Random.Range(0, 100) < possibleGiftItems[r].amount) chosenItem = possibleGiftItems[r].item;
+            }
+            if(chosenItem)
+            {
+                itemR.sprite = chosenItem.icon;
+                heldItem = chosenItem;
+            }
+        }
+    }
+
+
+    /////IInteractable nonsense/////
+
+    public UnityAction<IInteractable> OnInteractionComplete { get; set; }
+
+    public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
+    {
+        if(heldItem && PlayerInventoryHolder.Instance.AddToInventory(heldItem, 1))
+        {
+            heldItem = null;
+            itemR.sprite = null;
+            FriendPointsChange(10);
+        }
+
+        else if(!alreadyPet)
+        {
+            alreadyPet = true;
+            FriendPointsChange(25);
+            effectsHandler.PlaySound(effectsHandler.petSound);
+        }
+        interactSuccessful = true;
+    }
+
+    public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
+    {
+        if(hunger < 50)
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            EatFood(item);
+        }
+        interactSuccessful = true;
+    }
+    
+    public void EndInteraction(){}
+
+    public void ToggleHighlight(bool enabled)
+    {
+        showStats = enabled;
+    }
+
+    public void ReturnFocalPoint(out Transform point)
+    {
+        if(focalPoint) point = focalPoint;
+        else point = transform;
+    }
+    ///////////////////////////////
+}

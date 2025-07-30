@@ -191,7 +191,7 @@ public class BugBehaviorScript : MonoBehaviour
         isMoving = true;
         coroutineRunning = true;
 
-        agent.destination = destination;
+        if(agent.enabled) agent.destination = destination;
 
         float timeSpent = 0; //to make sure it doesnt get stuck
         float maxTime = Random.Range(minTravelTime, maxTravelTime);
@@ -363,7 +363,7 @@ public class BugBehaviorScript : MonoBehaviour
         if(currentState == BugState.Leave || currentState == BugState.Stun || currentState == BugState.Flee) return;
         fearedObjectPosition = pos;
         fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
-        agent.destination = fleeToPos;
+        if(agent.enabled) agent.destination = fleeToPos;
     }
 
 }
