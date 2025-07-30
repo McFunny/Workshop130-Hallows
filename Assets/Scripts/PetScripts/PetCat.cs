@@ -28,7 +28,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         Follow, //Follow the player
         ChaseCreature, //Attack hare/crow/bug
         Sit, //Sit still and watch
-        BegForFood //Sits and stares at bowl
+        Flee
     }
 
     public void CheckState(PetState currentState)
@@ -59,8 +59,8 @@ public class PetCat : PetBehaviorScript, IInteractable
                 Sit();
                 break;
 
-            case PetState.BegForFood:
-                BegForFood();
+            case PetState.Flee:
+                Flee();
                 break;
 
             default:
@@ -79,7 +79,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     {
         base.Update();
 
-        if(currentState != PetState.Follow)
+        if(currentState != PetState.Follow && currentState != PetState.ChaseCreature && currentState != PetState.Flee)
         {
             agent.speed = walkSpeed;
         }
@@ -130,6 +130,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         }
 
         float positiveActionChance = (friendshipLevel + 1) * .75f;
+        if(!TimeManager.Instance.isDay) positiveActionChance *= 2;
         float r = Random.Range(0, 100f);
 
         if(r < positiveActionChance)
@@ -225,6 +226,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 {
                     targetCreature = creature;
                     target = creature.gameObject.transform.position;
+                    targetBug = null;
                     return;
                 }
 
@@ -236,14 +238,14 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(Vector3.Distance(target, transform.position) < 1.5f)
         {
-            print("Cat close enough to Target");
+            //print("Cat close enough to Target");
             interruptAction = true;
-            return;
+            //return;
         }
 
         if(currentRoutine == null && !isMoving)
         {
-            currentRoutine = StartCoroutine(MoveToPoint(target, 3));
+            currentRoutine = StartCoroutine(MoveToPoint(target, 0.5f));
         }
     }
 
@@ -280,9 +282,23 @@ public class PetCat : PetBehaviorScript, IInteractable
         }
     }
 
-    void BegForFood()
+    void Flee()
     {
-        //
+        if(!isMoving && currentRoutine == null)
+        {
+            agent.speed = runSpeed;
+            // 1. Calculate direction to target
+            Vector3 directionToTarget = transform.position - target;
+
+            // 2. Normalize the direction
+            Vector3 normalizedDirection = directionToTarget.normalized;
+
+            // 3. Calculate the flee position
+            Vector3 fleePosition = transform.position + normalizedDirection * 20;
+
+            // 4. Set the agent's destination
+            currentRoutine = StartCoroutine(MoveToPoint(fleePosition, 4));
+        }
     }
 
     protected override void FinishedMoving()
@@ -349,12 +365,19 @@ public class PetCat : PetBehaviorScript, IInteractable
                 if(targetCreature)
                 {
                     targetCreature.TakeDamage(25);
+                    targetCreature.PlayHitParticle(targetCreature.transform.position);
                 }
                 targetBug = null;
                 targetCreature = null;
                 isMoving = false;
+                currentState = PetState.Decide;
                 return;
             }
+        }
+
+        if(currentState == PetState.Flee)
+        {
+            currentState = PetState.Decide;
         }
         
         isMoving = false;
@@ -363,20 +386,67 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     IEnumerator IdleRoutine()
     {
+        bool creatureNear = false;
+        float t = 0;
         float time = Random.Range(2f, 15);
         if(time > 10)
         {
             anim.SetBool("IsSitting", true);
             time += 10;
         }
-        yield return new WaitForSeconds(time);
+        while(t < time)
+        {
+            yield return new WaitForSeconds(1);
+            t++;
+            Collider[] hitTargets = Physics.OverlapSphere(transform.position, 5, BugCreatureMask); //Check if it should flee from nearby creatures
+            foreach(Collider collider in hitTargets)
+            {
+                CreatureBehaviorScript creature = collider.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+                if(creature && creature.health > 0)
+                {
+                    if(!targettableCreatures.Contains(creature.creatureData))
+                    {
+                        creatureNear = true;
+                        target = creature.gameObject.transform.position;
+                        t += time;
+                        break;
+                    }
+                    else
+                    {
+                        float positiveActionChance = (friendshipLevel + 1) * .75f;
+                        if(!TimeManager.Instance.isDay) positiveActionChance *= 2;
+
+                        if(Random.Range(0, 10f) < friendshipLevel + 1)
+                        {
+                            creatureNear = true;
+                            targetCreature = creature;
+                            target = creature.gameObject.transform.position;
+                            t += time;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
         if(time > 10)
         {
             anim.SetBool("IsSitting", false);
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
 
         }
-        currentState = PetState.Decide;
+        if(creatureNear)
+        {
+            if(targetCreature)
+            {
+                currentState = PetState.ChaseCreature;
+            }
+            else 
+            {
+                currentState = PetState.Flee;
+            }
+        }
+        else currentState = PetState.Decide;
         currentRoutine = null;
     }
 
