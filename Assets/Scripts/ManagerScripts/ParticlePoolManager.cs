@@ -12,7 +12,7 @@ public class ParticlePoolManager : MonoBehaviour
     public VisualEffect hitEffect;
 
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
-    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle;
+    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP;
 
@@ -33,6 +33,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> impactPool = new List<GameObject>();
     List<GameObject> bugSplatPool = new List<GameObject>();
     List<GameObject> elecZapPool = new List<GameObject>();
+    List<GameObject> heartPool = new List<GameObject>();
 
     //Destruction
     List<GameObject> woodPool = new List<GameObject>();
@@ -200,6 +201,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(elecZapParticle);
             elecZapPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(heartParticles);
+            heartPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -566,6 +574,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(elecZapParticle);
         elecZapPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabHeartParticle()
+    {
+        foreach (GameObject particle in heartPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(heartParticles);
+        heartPool.Add(newParticle);
         return newParticle;
     }
 

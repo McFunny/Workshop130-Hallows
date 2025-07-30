@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.AI;
+using TMPro;
 
 public class PetBehaviorScript : MonoBehaviour
 {
@@ -27,22 +28,36 @@ public class PetBehaviorScript : MonoBehaviour
     public NavMeshAgent agent;
 
     public float walkSpeed, runSpeed;
-    public float followDistance = 75; //Follow player once they leave this range
+    public float followDistance = 100; //Follow player once they leave this range
 
     protected bool isMoving = false;
     protected bool interruptAction = false;
     protected Coroutine currentRoutine;
     protected Transform player;
-    protected Vector3 target, origin;
+    protected Vector3 target;
+    protected int forceFollows = 0;
+
+    protected bool showStats = false;
+    public GameObject statsUI;
+    public TextMeshProUGUI hungerText, friendshipText;
     
-    void Start()
+    protected void Start()
     {
         TimeManager.OnHourlyUpdate += OnHour;
         player = PlayerInteraction.Instance.transform;
 
-        origin = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-
         StartCoroutine(IdleSoundTimer());
+    }
+
+    protected void Update()
+    {
+        if(showStats)
+        {
+            if(!statsUI.activeSelf) statsUI.SetActive(true);
+            hungerText.text = "Hunger: " + hunger + "/" + maxHunger;
+            friendshipText.text = "Level: " + friendshipLevel;
+        }
+        else if(statsUI.activeSelf) statsUI.SetActive(false);
     }
 
     protected virtual void OnHour()
@@ -55,6 +70,8 @@ public class PetBehaviorScript : MonoBehaviour
 
     public void FriendPointsChange(float amount)
     {
+        if(amount > 5) ParticlePoolManager.Instance.GrabHeartParticle().transform.position = focalPoint.position;
+
         friendPoints += amount;
         if(friendPoints < 0) friendPoints = 0;
         if(friendPoints >= 100)
@@ -70,7 +87,8 @@ public class PetBehaviorScript : MonoBehaviour
         //if(item.staminaValue == 0) hunger += value * sellValueModifier * 2;
         hunger = 100;
         if(hunger > maxHunger) hunger = maxHunger;
-        FriendPointsChange(10);
+        if(foodDiet.Contains(item)) FriendPointsChange(20);
+        else FriendPointsChange(5);
         effectsHandler.PlaySound(effectsHandler.eatSound);
     }
 
@@ -83,7 +101,7 @@ public class PetBehaviorScript : MonoBehaviour
 
         float timeSpent = 0; //to make sure it doesnt get stuck
 
-        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 25)
+        while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 100)
         {
             if(StopMovingEarlyCheck()) timeSpent += 100;
 
@@ -109,10 +127,11 @@ public class PetBehaviorScript : MonoBehaviour
 
     protected virtual bool StopMovingEarlyCheck()
     {
-        if(currentRoutine == null || interruptAction) 
+        if(interruptAction) 
         {
-            return true;
             interruptAction = false;
+            print("Pet stopped moving early");
+            return true;
         }
         return false;
     }
