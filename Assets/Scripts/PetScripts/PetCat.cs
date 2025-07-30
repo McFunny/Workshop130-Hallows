@@ -79,10 +79,10 @@ public class PetCat : PetBehaviorScript, IInteractable
     {
         base.Update();
 
-        if(currentState != PetState.Follow && currentState != PetState.ChaseCreature && currentState != PetState.Flee)
+        /*if(currentState != PetState.Follow && currentState != PetState.ChaseCreature && currentState != PetState.Flee)
         {
             agent.speed = walkSpeed;
-        }
+        }*/
 
         if(agent.velocity.magnitude < 0.2f)
         {
@@ -113,6 +113,25 @@ public class PetCat : PetBehaviorScript, IInteractable
         }
     }
 
+    void StateSwitch(PetState newState)
+    {
+        //Leaving Old State Effects
+        if(currentState == PetState.Idle)
+        {
+            anim.SetBool("IsSitting", false);
+        }
+
+        //Change the State
+        agent.ResetPath();
+        currentState = newState;
+
+        //Entering New State Effects
+        if(currentState != PetState.Follow && currentState != PetState.ChaseCreature && currentState != PetState.Flee)
+        {
+            agent.speed = walkSpeed;
+        }
+    }
+
     void Decide()
     {
         if(isMoving || currentRoutine != null || TimeManager.Instance.stopTime) return; //Wait until all coroutines are done to avoid overlap
@@ -121,10 +140,12 @@ public class PetCat : PetBehaviorScript, IInteractable
         {
             if(TownGate.Instance.location != PlayerLocation.InTown) //Player is not within reach, so stay still
             {
-                currentState = PetState.AwaitPlayer;
+                //currentState = PetState.AwaitPlayer;
+                StateSwitch(PetState.AwaitPlayer);
                 return;
             }
-            currentState = PetState.Follow;
+            //currentState = PetState.Follow;
+            StateSwitch(PetState.Follow);
             forceFollows = 5;
             return;
         }
@@ -135,24 +156,25 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(r < positiveActionChance)
         {
-            currentState = PetState.ChaseCreature;
+            //currentState = PetState.ChaseCreature;
+            StateSwitch(PetState.ChaseCreature);
             return;
         }
 
         r = Random.Range(0, 100);
 
-        if(r < 80) currentState = PetState.Idle;
-        else if(r < 95) currentState = PetState.Sit;
+        if(r < 80) StateSwitch(PetState.Idle);
+        else if(r < 95) StateSwitch(PetState.Sit);
         else
         {
-            currentState = PetState.Follow;
+            StateSwitch(PetState.Follow);
             forceFollows = 10;
         }
     }
 
     void AwaitPlayer()
     {
-        if(TownGate.Instance.location == PlayerLocation.InFarm || TownGate.Instance.location == PlayerLocation.InTown) currentState = PetState.Follow;
+        if(TownGate.Instance.location == PlayerLocation.InFarm || TownGate.Instance.location == PlayerLocation.InTown) StateSwitch(PetState.Follow);
     }
 
     void Idle()
@@ -162,7 +184,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             float distance = Vector3.Distance(player.position, spawnOrigin);
             if(distance > followDistance)
             {
-                currentState = PetState.Follow;
+                StateSwitch(PetState.Follow);
                 currentRoutine = null;
                 forceFollows = 5;
                 return;
@@ -187,7 +209,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 int r = Random.Range(0,100);
                 if(r > 80)
                 {
-                    currentState = PetState.Decide;
+                    StateSwitch(PetState.Decide);
                     return;
                 }
             }
@@ -232,7 +254,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
                 if(targetBug) return;
             }
-            currentState = PetState.Idle;
+            StateSwitch(PetState.Idle);
             return;
         }
 
@@ -263,7 +285,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                     return;
                 }
             }
-            currentState = PetState.Idle;
+            StateSwitch(PetState.Idle);
             return;
         }
 
@@ -334,7 +356,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             }
             else 
             {
-                currentState = PetState.Idle;
+                StateSwitch(PetState.Idle);
                 currentRoutine = null;
             }
 
@@ -370,14 +392,14 @@ public class PetCat : PetBehaviorScript, IInteractable
                 targetBug = null;
                 targetCreature = null;
                 isMoving = false;
-                currentState = PetState.Decide;
+                StateSwitch(PetState.Decide);
                 return;
             }
         }
 
         if(currentState == PetState.Flee)
         {
-            currentState = PetState.Decide;
+            StateSwitch(PetState.Decide);
         }
         
         isMoving = false;
@@ -439,14 +461,14 @@ public class PetCat : PetBehaviorScript, IInteractable
         {
             if(targetCreature)
             {
-                currentState = PetState.ChaseCreature;
+                StateSwitch(PetState.ChaseCreature);
             }
             else 
             {
-                currentState = PetState.Flee;
+                StateSwitch(PetState.Flee);
             }
         }
-        else currentState = PetState.Decide;
+        else StateSwitch(PetState.Decide);
         currentRoutine = null;
     }
 
@@ -467,7 +489,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         targetTable.usedByPet = false;
         targetTable = null;
         agent.enabled = true;
-        currentState = PetState.Decide;
+        StateSwitch(PetState.Decide);
         currentRoutine = null;
 
         FriendPointsChange(6);
