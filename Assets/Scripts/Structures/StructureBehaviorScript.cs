@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 public class StructureBehaviorScript : MonoBehaviour
 {
@@ -77,6 +78,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
     Coroutine highlightCoroutine;
 
+    //NavMeshSurface navSurface;
+
     //[Header("Structure Specific")]
 
     //Once we get structure specific UI to see health, then we can add repairability to structures so players can know if they can dig it up safely
@@ -85,7 +88,9 @@ public class StructureBehaviorScript : MonoBehaviour
     public void Awake()
     {
         OnStructuresUpdated?.Invoke();
-        //source = GetComponent<AudioSource>();
+        //navSurface = FindObjectOfType<NavMeshSurface>();
+
+        //navSurface.UpdateNavMesh(navSurface.navMeshData);
         audioHandler = GetComponent<StructureAudioHandler>();
 
         TimeManager.OnHourlyUpdate += HourPassed;
