@@ -136,6 +136,8 @@ public class StructureBehaviorScript : MonoBehaviour
             //print("Set Large Tiles");
         }
         else StructureManager.Instance.SetTile(transform.position);*/
+
+        if(GetComponentInChildren<Unity.AI.Navigation.NavMeshModifierVolume>()) StructureManager.Instance.UpdateNavMesh();
     }
 
     public void Update()
@@ -234,6 +236,8 @@ public class StructureBehaviorScript : MonoBehaviour
         }
 
         if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
+
+        if(GetComponentInChildren<Unity.AI.Navigation.NavMeshModifierVolume>()) StructureManager.Instance.UpdateNavMesh();
 
     }
 

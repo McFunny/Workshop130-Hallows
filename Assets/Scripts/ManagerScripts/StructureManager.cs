@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 public class StructureManager : MonoBehaviour
 {
     public static StructureManager Instance;
+
+    public Unity.AI.Navigation.NavMeshSurface petSurface;
+    bool updatingNavmesh;
+
     [Header("Tiles")]
     public Tilemap farmTileMap, cabinTileMap, cabinDecorTileMap, townTileMap, barnTileMap, barnDecorTileMap;
     public TileBase freeTile, occupiedTile, borderTile; //border tiles cannot be changed nor interacted with the player, but enemies could use them 
@@ -51,6 +57,11 @@ public class StructureManager : MonoBehaviour
             StartCoroutine(SpawnStartingStructures()); //Only do this when a new game has started.
         }
         TimeManager.OnHourlyUpdate += HourUpdate;
+
+        petSurface = FindObjectOfType<Unity.AI.Navigation.NavMeshSurface>();
+        petSurface.size = new Vector3(100, 100, 100);
+
+        UpdateNavMesh();
     }
 
     void Start()
@@ -63,6 +74,21 @@ public class StructureManager : MonoBehaviour
         {
             GameSaveData.Instance.apo_readScroll = true;
         }
+    }
+
+    [ContextMenu ("ForceUpdateNavmesh")]
+    public void UpdateNavMesh()
+    {
+        if(updatingNavmesh) StopCoroutine(UpdateNavMeshRoutine());
+        StartCoroutine(UpdateNavMeshRoutine());
+    }
+
+    IEnumerator UpdateNavMeshRoutine()
+    {
+        updatingNavmesh = true;
+        yield return new WaitForSeconds(1);
+        petSurface.UpdateNavMesh(petSurface.navMeshData);
+        updatingNavmesh = false;
     }
 
     void OnDestroy()
