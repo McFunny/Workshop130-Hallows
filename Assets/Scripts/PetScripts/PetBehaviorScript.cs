@@ -72,14 +72,14 @@ public class PetBehaviorScript : MonoBehaviour
     protected virtual void OnHour()
     {
         hunger -= hungerDecayRate;
-        if(hunger < 0) FriendPointsChange(-5);
+        if(hunger < 0) FriendPointsChange(-5, false);
 
         if(TimeManager.Instance.currentHour == 8) alreadyPet = false;
     }
 
-    public void FriendPointsChange(float amount)
+    public void FriendPointsChange(float amount, bool showHearts)
     {
-        if(amount > 5) ParticlePoolManager.Instance.GrabHeartParticle().transform.position = focalPoint.position;
+        if(showHearts) ParticlePoolManager.Instance.GrabHeartParticle().transform.position = focalPoint.position;
 
         friendPoints += amount;
         if(friendPoints < 0) friendPoints = 0;
@@ -92,12 +92,15 @@ public class PetBehaviorScript : MonoBehaviour
 
     protected void EatFood(InventoryItemData item)
     {
-        //hunger += item.staminaValue * 3;
-        //if(item.staminaValue == 0) hunger += value * sellValueModifier * 2;
-        hunger = 100;
+        float hungerRestored = item.staminaValue * 1.5f;
+        if(hungerRestored == 0) hungerRestored = item.value * item.sellValueMultiplier * 2;
+        if(hunger + hungerRestored > 100) hungerRestored -= hunger + hungerRestored - 100;
+        hunger += hungerRestored;
+
+        //hunger = 100;
         if(hunger > maxHunger) hunger = maxHunger;
-        if(foodDiet.Contains(item)) FriendPointsChange(20);
-        else FriendPointsChange(5);
+        if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/2, true);
+        else FriendPointsChange(hungerRestored/4, true);
         effectsHandler.PlaySound(effectsHandler.eatSound);
     }
 

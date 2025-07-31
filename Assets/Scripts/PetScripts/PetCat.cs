@@ -28,7 +28,8 @@ public class PetCat : PetBehaviorScript, IInteractable
         Follow, //Follow the player
         ChaseCreature, //Attack hare/crow/bug
         Sit, //Sit still and watch
-        Flee
+        Flee,
+        Pet
     }
 
     public void CheckState(PetState currentState)
@@ -118,7 +119,8 @@ public class PetCat : PetBehaviorScript, IInteractable
         //Leaving Old State Effects
         if(currentState == PetState.Idle)
         {
-            anim.SetBool("IsSitting", false);
+            anim.Play("Idle"); //Reset the anim
+            StopCoroutine(IdleRoutine());
         }
 
         //Change the State
@@ -370,7 +372,8 @@ public class PetCat : PetBehaviorScript, IInteractable
             if(targetBug) target = targetBug.transform.position;
             if(Vector3.Distance(target, transform.position) < 3f)
             {
-                //play anim
+                anim.Play("CatAttack1");
+                agent.ResetPath();
                 currentRoutine = StartCoroutine(FollowRoutine()); //Just to buy the animation some time
 
                 effectsHandler.PlayExtraSound(Random.Range(0, effectsHandler.extraSounds.Length));
@@ -408,12 +411,14 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     IEnumerator IdleRoutine()
     {
+        agent.ResetPath();
         bool creatureNear = false;
         float t = 0;
         float time = Random.Range(2f, 15);
         if(time > 10)
         {
             anim.SetBool("IsSitting", true);
+            anim.Play("CatSit");
             time += 10;
         }
         while(t < time)
@@ -481,6 +486,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     IEnumerator SitRoutine()
     {
         anim.SetBool("IsSitting", true);
+        anim.Play("CatLoaf");
         agent.enabled = false;
         targetTable.usedByPet = true;
         yield return new WaitForSeconds(Random.Range(25f, 90f));
@@ -492,7 +498,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         StateSwitch(PetState.Decide);
         currentRoutine = null;
 
-        FriendPointsChange(6);
+        FriendPointsChange(6, true);
     }
 
     protected override bool StopMovingEarlyCheck()
@@ -531,13 +537,13 @@ public class PetCat : PetBehaviorScript, IInteractable
         {
             heldItem = null;
             itemR.sprite = null;
-            FriendPointsChange(10);
+            FriendPointsChange(10, true);
         }
 
         else if(!alreadyPet)
         {
             alreadyPet = true;
-            FriendPointsChange(25);
+            FriendPointsChange(25, true);
             effectsHandler.PlaySound(effectsHandler.petSound);
         }
         interactSuccessful = true;
@@ -545,7 +551,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(hunger < 50)
+        if(hunger < 100)
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
