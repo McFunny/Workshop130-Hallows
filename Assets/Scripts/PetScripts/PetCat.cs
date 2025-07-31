@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public class PetCat : PetBehaviorScript, IInteractable
 {
@@ -10,15 +11,21 @@ public class PetCat : PetBehaviorScript, IInteractable
     public List<ItemWithAmount> possibleGiftItems = new List<ItemWithAmount>();
     public List<CreatureObject> targettableCreatures = new List<CreatureObject>();
 
-    //private Coroutine idleRoutine, walkRoutine, currentRoutine; 
+    public Transform headPivot;
+    Vector3 starePoint;
+    Quaternion defaultHeadRotation;
+    //bool lookFreely;
 
     Table targetTable; //For Sitting
     BugBehaviorScript targetBug;
     CreatureBehaviorScript targetCreature;
 
-    public LayerMask BugCreatureMask;
+    public LayerMask BugCreatureMask, PlayerStructureMask;
 
     public PetState currentState;
+
+    [Header("Debug tool to test out states")]
+    public PetState forceState;
 
     public enum PetState
     {
@@ -64,16 +71,26 @@ public class PetCat : PetBehaviorScript, IInteractable
                 Flee();
                 break;
 
+            case PetState.Pet:
+                Pet();
+                break;
+
             default:
                 Debug.LogError("Unknown state: " + currentState);
                 break;
         }
     }
 
+    void Awake()
+    {
+        defaultHeadRotation = headPivot.rotation;
+    }
+
     void Start()
     {
         if(TimeManager.Instance.currentHour == 8) FindItem();
         base.Start();
+        StartCoroutine(CheckSurroundings());
     }
 
     void Update()
@@ -84,6 +101,8 @@ public class PetCat : PetBehaviorScript, IInteractable
         {
             agent.speed = walkSpeed;
         }*/
+
+        if(currentState == PetState.Idle) LookAtObject();
 
         if(agent.velocity.magnitude < 0.2f)
         {
@@ -120,7 +139,38 @@ public class PetCat : PetBehaviorScript, IInteractable
         if(currentState == PetState.Idle)
         {
             anim.Play("Idle"); //Reset the anim
+            anim.SetBool("IsSitting)", false);
             StopCoroutine(IdleRoutine());
+            currentRoutine = null;
+            isMoving = false;
+        }
+
+        if(currentState == PetState.ChaseCreature)
+        {
+            targetBug = null;
+            targetCreature = null;
+            anim.Play("Idle"); //Reset the anim
+            if(currentRoutine != null) StopCoroutine(currentRoutine);
+            currentRoutine = null;
+            isMoving = false;
+        }
+
+        if(currentState == PetState.Sit && newState == PetState.Pet)
+        {
+            if(targetTable && Vector3.Distance(targetTable.transform.position, transform.position) < 3.5f) //Play the animation and effects but dont change the state
+            {
+                alreadyPet = true;
+                FriendPointsChange(25, true);
+                effectsHandler.PlaySound(effectsHandler.petSound);
+                anim.Play("CatPet");
+                return;
+            }
+            else //Stop and pet the cat if its on its way to sit
+            {
+                if(currentRoutine != null) StopCoroutine(currentRoutine);
+                currentRoutine = null;
+                isMoving = false;
+            }
         }
 
         //Change the State
@@ -137,6 +187,12 @@ public class PetCat : PetBehaviorScript, IInteractable
     void Decide()
     {
         if(isMoving || currentRoutine != null || TimeManager.Instance.stopTime) return; //Wait until all coroutines are done to avoid overlap
+
+        if(forceState != PetState.Decide)
+        {
+            StateSwitch(forceState);
+            return;
+        }
 
         if(TownGate.Instance.location != PlayerLocation.InFarm) //Make sure pet is following when not in farm
         {
@@ -325,6 +381,19 @@ public class PetCat : PetBehaviorScript, IInteractable
         }
     }
 
+    void Pet()
+    {
+        if(!isMoving && currentRoutine == null)
+        {
+            alreadyPet = true;
+            FriendPointsChange(25, true);
+            effectsHandler.PlaySound(effectsHandler.petSound);
+            agent.ResetPath();
+            currentRoutine = StartCoroutine(TimerRoutine(4));
+            anim.Play("CatPet");
+        }
+    }
+
     protected override void FinishedMoving()
     {
         if(currentState == PetState.Idle)
@@ -350,8 +419,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 if(Vector3.Distance(targetTable.transform.position, transform.position) < 4f)
                 {
                     agent.Stop();
-                    transform.position = sitPos.position;
-                    transform.Rotate(0, 180, 0);
+                    transform.DOJump(sitPos.position, 1, 1, 0.5f);
                     currentRoutine = StartCoroutine(SitRoutine());
                 }
                 else currentRoutine = null;
@@ -409,6 +477,15 @@ public class PetCat : PetBehaviorScript, IInteractable
         currentRoutine = null;
     }
 
+    protected void FinishedCoroutine()
+    {
+        if(currentState == PetState.Pet)
+        {
+            StateSwitch(PetState.Decide);
+        }
+        currentRoutine = null;
+    }
+
     IEnumerator IdleRoutine()
     {
         agent.ResetPath();
@@ -425,7 +502,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         {
             yield return new WaitForSeconds(1);
             t++;
-            Collider[] hitTargets = Physics.OverlapSphere(transform.position, 5, BugCreatureMask); //Check if it should flee from nearby creatures
+            /*Collider[] hitTargets = Physics.OverlapSphere(transform.position, 5, BugCreatureMask); //Check if it should flee from nearby creatures
             foreach(Collider collider in hitTargets)
             {
                 CreatureBehaviorScript creature = collider.gameObject.GetComponentInParent<CreatureBehaviorScript>();
@@ -453,7 +530,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                         }
                     }
                 }
-            }
+            }*/
         }
         
         if(time > 10)
@@ -485,6 +562,11 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     IEnumerator SitRoutine()
     {
+        //transform.position = sitPos.position;
+        anim.Play("CatAttack1");
+        yield return new WaitForSeconds(.5f);
+        transform.Rotate(0, 180, 0);
+
         anim.SetBool("IsSitting", true);
         anim.Play("CatLoaf");
         agent.enabled = false;
@@ -499,6 +581,103 @@ public class PetCat : PetBehaviorScript, IInteractable
         currentRoutine = null;
 
         FriendPointsChange(6, true);
+    }
+
+    IEnumerator TimerRoutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+        FinishedCoroutine();
+    }
+
+    IEnumerator CheckSurroundings()
+    {
+        bool checkStructures = false;
+        Collider[] hitTargets = new Collider[10];
+        while(true)
+        {
+            yield return new WaitForSeconds(1f);
+            if(currentState == PetState.Idle || currentState == PetState.Follow)
+            {
+                int numColliders = Physics.OverlapSphereNonAlloc(transform.position, 5, hitTargets, BugCreatureMask);
+                for (int i = 0; i < numColliders; i++)
+                {
+                    CreatureBehaviorScript creature = hitTargets[i].gameObject.GetComponentInParent<CreatureBehaviorScript>();
+                    if(creature && creature.health > 0)
+                    {
+                        if(!targettableCreatures.Contains(creature.creatureData))
+                        {
+                            target = creature.gameObject.transform.position;
+                            StateSwitch(PetState.Flee);
+                            break;
+                        }
+                        else
+                        {
+                            float positiveActionChance = (friendshipLevel + 1) * .75f;
+                            if(!TimeManager.Instance.isDay) positiveActionChance *= 2;
+
+                            if(Random.Range(0, 20f) < positiveActionChance)
+                            {
+                                targetCreature = creature;
+                                target = creature.gameObject.transform.position;
+                                StateSwitch(PetState.ChaseCreature);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(checkStructures)
+            {
+                checkStructures = false;
+                int numColliders = Physics.OverlapSphereNonAlloc(transform.position, 8, hitTargets, PlayerStructureMask);
+                for (int i = 0; i < numColliders; i++)
+                {
+                    if(hitTargets[i].gameObject.layer == 10)
+                    {
+                        //print("Player is near");
+                        //starePoint = hitTargets[i].gameObject.transform.position;
+                        if(Random.Range(0, 10) > 6)
+                        {
+                            starePoint = hitTargets[i].gameObject.transform.position;
+                            print(starePoint);
+                            break;
+                        }
+                    }
+                    StructureBehaviorScript structure = hitTargets[i].gameObject.GetComponentInParent<StructureBehaviorScript>();
+                    if(structure && Random.Range(0, 10) > 3)
+                    {
+                        starePoint =  hitTargets[i].gameObject.transform.position;
+                        print(starePoint);
+                        break;
+                    }
+                }
+            }
+            else checkStructures = true;
+        }
+    }
+
+    void LookAtObject()
+    {
+        //Check the Dot
+        if(starePoint == Vector3.zero) return;
+
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        Vector3 toTarget = Vector3.Normalize(starePoint - transform.position);
+
+        if (Vector3.Dot(forward, toTarget) > .52f)
+        {
+            Vector3 direction = starePoint - headPivot.position;
+            //direction.y = 0;
+            Quaternion toRotation = Quaternion.LookRotation(direction);
+            toRotation *= defaultHeadRotation;
+
+            headPivot.rotation = Quaternion.Slerp(headPivot.rotation, toRotation, 2 * Time.deltaTime);
+        }
+        else
+        {
+            headPivot.rotation = Quaternion.Slerp(headPivot.rotation, transform.rotation, 2 * Time.deltaTime);
+        }
     }
 
     protected override bool StopMovingEarlyCheck()
@@ -542,9 +721,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         else if(!alreadyPet)
         {
-            alreadyPet = true;
-            FriendPointsChange(25, true);
-            effectsHandler.PlaySound(effectsHandler.petSound);
+            StateSwitch(PetState.Pet);
         }
         interactSuccessful = true;
     }
