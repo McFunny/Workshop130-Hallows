@@ -415,7 +415,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     void Eat()
     {
-        if(!targetStructure) //If there is no bowl, then they should not be in this state
+        if(!targetStructure && currentRoutine == null) //If there is no bowl, then they should not be in this state
         {
             StateSwitch(PetState.Decide);
             return;
@@ -536,7 +536,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     protected void FinishedCoroutine()
     {
-        if(currentState == PetState.Pet)
+        if(currentState == PetState.Pet || currentState == PetState.Eat)
         {
             StateSwitch(PetState.Decide);
         }
