@@ -155,6 +155,11 @@ public class PetCat : PetBehaviorScript, IInteractable
             isMoving = false;
         }
 
+        if(currentState == PetState.Pet)
+        {
+            anim.SetBool("IsSitting)", false);
+        }
+
         if(currentState == PetState.Sit && newState == PetState.Pet)
         {
             if(targetTable && Vector3.Distance(targetTable.transform.position, transform.position) < 3.5f) //Play the animation and effects but dont change the state
@@ -495,7 +500,8 @@ public class PetCat : PetBehaviorScript, IInteractable
         if(time > 10)
         {
             anim.SetBool("IsSitting", true);
-            anim.Play("CatSit");
+            if(Random.Range(0, 10) > 2) anim.Play("CatSit");
+            else anim.Play("CatClean");
             time += 10;
         }
         while(t < time)
@@ -593,12 +599,14 @@ public class PetCat : PetBehaviorScript, IInteractable
     {
         bool checkStructures = false;
         Collider[] hitTargets = new Collider[10];
+        int numColliders;
         while(true)
         {
             yield return new WaitForSeconds(1f);
+
             if(currentState == PetState.Idle || currentState == PetState.Follow)
             {
-                int numColliders = Physics.OverlapSphereNonAlloc(transform.position, 5, hitTargets, BugCreatureMask);
+                numColliders = Physics.OverlapSphereNonAlloc(transform.position, 5, hitTargets, BugCreatureMask);
                 for (int i = 0; i < numColliders; i++)
                 {
                     CreatureBehaviorScript creature = hitTargets[i].gameObject.GetComponentInParent<CreatureBehaviorScript>();
@@ -627,33 +635,45 @@ public class PetCat : PetBehaviorScript, IInteractable
                 }
             }
 
-            if(checkStructures)
-            {
+            Vector3 closestTarget = Vector3.zero;
+            float dist = 0;
+            float minDist = 100;
+            //if(checkStructures)
+            //{
                 checkStructures = false;
-                int numColliders = Physics.OverlapSphereNonAlloc(transform.position, 8, hitTargets, PlayerStructureMask);
+                numColliders = Physics.OverlapSphereNonAlloc(transform.position, 8, hitTargets, PlayerStructureMask);
                 for (int i = 0; i < numColliders; i++)
                 {
-                    if(hitTargets[i].gameObject.layer == 10)
+                    /*if(hitTargets[i].gameObject.layer == 10)
                     {
                         //print("Player is near");
                         //starePoint = hitTargets[i].gameObject.transform.position;
-                        if(Random.Range(0, 10) > 6)
+                        dist = Vector3.Distance(transform.position, hitTargets[i].gameObject.transform.position);
+                        if(dist > minDist)
                         {
-                            starePoint = hitTargets[i].gameObject.transform.position;
-                            print(starePoint);
-                            break;
+                            minDist = dist;
+                            closestTarget = hitTargets[i].gameObject.transform.position;
+                        }
+                    } */
+                    StructureBehaviorScript structure = hitTargets[i].gameObject.GetComponentInParent<StructureBehaviorScript>();
+                    if(structure || hitTargets[i].gameObject.layer == 10) 
+                    {
+                        dist = Vector3.Distance(transform.position, hitTargets[i].gameObject.transform.position);
+                        if(dist < minDist && Random.Range(0, 10) > 2)
+                        {
+                            minDist = dist;
+                            closestTarget = hitTargets[i].gameObject.transform.position;
                         }
                     }
-                    StructureBehaviorScript structure = hitTargets[i].gameObject.GetComponentInParent<StructureBehaviorScript>();
-                    if(structure && Random.Range(0, 10) > 3)
-                    {
-                        starePoint =  hitTargets[i].gameObject.transform.position;
-                        print(starePoint);
-                        break;
-                    }
                 }
-            }
-            else checkStructures = true;
+
+                if(closestTarget != Vector3.zero)
+                {
+                    starePoint = closestTarget;
+                    print(starePoint);
+                }
+            //}
+            //else checkStructures = true;
         }
     }
 
@@ -665,7 +685,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 toTarget = Vector3.Normalize(starePoint - transform.position);
 
-        if (Vector3.Dot(forward, toTarget) > .52f)
+        if (Vector3.Dot(forward, toTarget) > .1f)
         {
             Vector3 direction = starePoint - headPivot.position;
             //direction.y = 0;
