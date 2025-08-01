@@ -108,7 +108,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             agent.speed = walkSpeed;
         }*/
 
-        if(currentState == PetState.Idle) LookAtObject();
+        if(currentState == PetState.Idle || currentState == PetState.Sit) LookAtObject();
 
         if(agent.velocity.magnitude < 0.2f)
         {
@@ -185,7 +185,9 @@ public class PetCat : PetBehaviorScript, IInteractable
         }
 
         //Change the State
+        agent.velocity = Vector3.zero;
         agent.ResetPath();
+        headPivot.rotation = transform.rotation;
         currentState = newState;
 
         //Entering New State Effects
@@ -219,7 +221,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             return;
         }
 
-        if(hunger <= 20 && EatCheck())
+        if(hunger <= 25 && EatCheck())
         {
             StateSwitch(PetState.Eat);
             return;
@@ -418,7 +420,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             StateSwitch(PetState.Decide);
             return;
         }
-        if(!interruptAction && targetStructure && Vector3.Distance(targetStructure.transform.position, transform.position) < 0.8f) //Are they close enough? If so, begin eating
+        if(!interruptAction && targetStructure && Vector3.Distance(targetStructure.transform.position, transform.position) < 1.5f) //Are they close enough? If so, begin eating
         {
             print("Cat close enough to Dish");
             if(currentRoutine == null) FinishedMoving();
@@ -522,8 +524,10 @@ public class PetCat : PetBehaviorScript, IInteractable
                 EatFood(itemEaten);
                 currentRoutine = StartCoroutine(TimerRoutine(3));
                 isMoving = false;
+                targetStructure = null;
                 return;
             }
+            if(!bowl) targetStructure = null;
         }
         
         isMoving = false;
@@ -692,17 +696,6 @@ public class PetCat : PetBehaviorScript, IInteractable
                 numColliders = Physics.OverlapSphereNonAlloc(transform.position, 8, hitTargets, PlayerStructureMask);
                 for (int i = 0; i < numColliders; i++)
                 {
-                    /*if(hitTargets[i].gameObject.layer == 10)
-                    {
-                        //print("Player is near");
-                        //starePoint = hitTargets[i].gameObject.transform.position;
-                        dist = Vector3.Distance(transform.position, hitTargets[i].gameObject.transform.position);
-                        if(dist > minDist)
-                        {
-                            minDist = dist;
-                            closestTarget = hitTargets[i].gameObject.transform.position;
-                        }
-                    } */
                     StructureBehaviorScript structure = hitTargets[i].gameObject.GetComponentInParent<StructureBehaviorScript>();
                     if(structure || hitTargets[i].gameObject.layer == 10) 
                     {
@@ -733,7 +726,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 toTarget = Vector3.Normalize(starePoint - transform.position);
 
-        if (Vector3.Dot(forward, toTarget) > .1f)
+        if (Vector3.Dot(forward, toTarget) > .1f /*|| (currentState == PetState.Idle || currentState == PetState.Sit || starePoint == Vector3.zero)*/)
         {
             Vector3 direction = starePoint - headPivot.position;
             //direction.y = 0;
@@ -811,13 +804,24 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
+        if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && (currentState == PetState.Idle || currentState == PetState.Follow))
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            interactSuccessful = true;
+            target = player.position;
+            StateSwitch(PetState.Flee);
+            effectsHandler.MiscSound();
+            return;
+        }
         if(hunger < 100)
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
             EatFood(item);
+            interactSuccessful = true;
+            return;
         }
-        interactSuccessful = true;
+        interactSuccessful = false;
     }
     
     public void EndInteraction(){}

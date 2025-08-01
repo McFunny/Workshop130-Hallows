@@ -1256,6 +1256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   petType: 0
+  name: Kevin
   friendshipLevel: 0
   friendPoints: 0
   foodDiet:
@@ -1275,7 +1276,7 @@ MonoBehaviour:
   anim: {fileID: 6371543081529119668}
   agent: {fileID: 8155568372631556379}
   walkSpeed: 4
-  runSpeed: 16
+  runSpeed: 14
   followDistance: 70
   statsUI: {fileID: 1536019265878782017}
   hungerText: {fileID: 7061672337993236960}
@@ -1323,7 +1324,7 @@ NavMeshAgent:
   m_Acceleration: 6
   avoidancePriority: 50
   m_AngularSpeed: 460
-  m_StoppingDistance: 0.5
+  m_StoppingDistance: 0.8
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -1361,7 +1362,7 @@ MonoBehaviour:
   hitSounds: []
   footSteps: []
   deathSound: {fileID: 0}
-  miscSound: {fileID: 0}
+  miscSound: {fileID: 8300000, guid: 785a198104aa10441a00e4cc224774f4, type: 3}
   miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
   eatSound: {fileID: 8300000, guid: 4df0fb46c5696c245ade7b68802aa21d, type: 3}

@@ -274,7 +274,7 @@ public class GameSaveData : MonoBehaviour
 
         public float petHunger, petProgress;
         public int petLevel;
-        public string petType;
+        public string petType, petName;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -354,6 +354,7 @@ public class GameSaveData : MonoBehaviour
             petProgress = data.currentPet.friendPoints;
             petLevel = data.currentPet.friendshipLevel;
             petType = data.currentPet.petType.ToString();
+            petName = data.currentPet.name;
         }
         else
         {
@@ -361,6 +362,7 @@ public class GameSaveData : MonoBehaviour
             petProgress = 0;
             petLevel = 0;
             petType = "";
+            petName = "Kevin";
         }
 
 //Debug.Log("Saving stamina. Result: " + pStamina);

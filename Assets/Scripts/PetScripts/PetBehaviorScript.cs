@@ -8,6 +8,7 @@ using TMPro;
 public class PetBehaviorScript : MonoBehaviour
 {
     public PetType petType;
+    public string name = "Kevin";
 
     public int friendshipLevel = 0;
     int maxFriendshipLevel = 10; //Increases frequency of actions
