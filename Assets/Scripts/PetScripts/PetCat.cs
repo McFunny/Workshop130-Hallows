@@ -19,6 +19,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     Table targetTable; //For Sitting
     BugBehaviorScript targetBug;
     CreatureBehaviorScript targetCreature;
+    StructureBehaviorScript targetStructure;
 
     public LayerMask BugCreatureMask, PlayerStructureMask;
 
@@ -36,7 +37,8 @@ public class PetCat : PetBehaviorScript, IInteractable
         ChaseCreature, //Attack hare/crow/bug
         Sit, //Sit still and watch
         Flee,
-        Pet
+        Pet,
+        Eat //Pet goes to bowl to eat
     }
 
     public void CheckState(PetState currentState)
@@ -73,6 +75,10 @@ public class PetCat : PetBehaviorScript, IInteractable
 
             case PetState.Pet:
                 Pet();
+                break;
+
+            case PetState.Eat:
+                Eat();
                 break;
 
             default:
@@ -139,7 +145,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         if(currentState == PetState.Idle)
         {
             anim.Play("Idle"); //Reset the anim
-            anim.SetBool("IsSitting)", false);
+            anim.SetBool("IsSitting", false);
             StopCoroutine(IdleRoutine());
             currentRoutine = null;
             isMoving = false;
@@ -157,7 +163,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(currentState == PetState.Pet)
         {
-            anim.SetBool("IsSitting)", false);
+            anim.SetBool("IsSitting", false);
         }
 
         if(currentState == PetState.Sit && newState == PetState.Pet)
@@ -183,7 +189,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         currentState = newState;
 
         //Entering New State Effects
-        if(currentState != PetState.Follow && currentState != PetState.ChaseCreature && currentState != PetState.Flee)
+        if(currentState != PetState.Follow && currentState != PetState.ChaseCreature && currentState != PetState.Flee && currentState != PetState.Eat)
         {
             agent.speed = walkSpeed;
         }
@@ -210,6 +216,12 @@ public class PetCat : PetBehaviorScript, IInteractable
             //currentState = PetState.Follow;
             StateSwitch(PetState.Follow);
             forceFollows = 5;
+            return;
+        }
+
+        if(hunger <= 20 && EatCheck())
+        {
+            StateSwitch(PetState.Eat);
             return;
         }
 
@@ -353,7 +365,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         }
 
 
-        if(targetTable && Vector3.Distance(targetTable.transform.position, transform.position) < 3.5f)
+        if(!interruptAction && targetTable && Vector3.Distance(targetTable.transform.position, transform.position) < 3.5f && isMoving)
         {
             print("Cat close enough to table");
             if(currentRoutine == null) FinishedMoving();
@@ -396,6 +408,27 @@ public class PetCat : PetBehaviorScript, IInteractable
             agent.ResetPath();
             currentRoutine = StartCoroutine(TimerRoutine(4));
             anim.Play("CatPet");
+        }
+    }
+
+    void Eat()
+    {
+        if(!targetStructure) //If there is no bowl, then they should not be in this state
+        {
+            StateSwitch(PetState.Decide);
+            return;
+        }
+        if(!interruptAction && targetStructure && Vector3.Distance(targetStructure.transform.position, transform.position) < 0.8f) //Are they close enough? If so, begin eating
+        {
+            print("Cat close enough to Dish");
+            if(currentRoutine == null) FinishedMoving();
+            else interruptAction = true;
+            return;
+        }
+        if(!isMoving && currentRoutine == null) //Move to the dish
+        {
+            agent.speed = runSpeed;
+            currentRoutine = StartCoroutine(MoveToPoint(targetStructure.transform.position, 8));
         }
     }
 
@@ -476,6 +509,21 @@ public class PetCat : PetBehaviorScript, IInteractable
         if(currentState == PetState.Flee)
         {
             StateSwitch(PetState.Decide);
+        }
+
+        if(currentState == PetState.Eat && targetStructure) //Cat Reached the Bowl
+        {
+            PetBowl bowl = targetStructure as PetBowl;
+            if(bowl && Vector3.Distance(targetStructure.transform.position, transform.position) < 1f && bowl.ContainsEdibleItem(foodDiet))
+            {
+                agent.Stop();
+                anim.Play("CatEat");
+                bowl.RemoveItem(out InventoryItemData itemEaten);
+                EatFood(itemEaten);
+                currentRoutine = StartCoroutine(TimerRoutine(3));
+                isMoving = false;
+                return;
+            }
         }
         
         isMoving = false;
@@ -723,6 +771,21 @@ public class PetCat : PetBehaviorScript, IInteractable
                 heldItem = chosenItem;
             }
         }
+    }
+
+    bool EatCheck()
+    {
+        var foundBowls = FindObjectsByType<PetBowl>(FindObjectsSortMode.None);
+        if(foundBowls.Length == 0) return false;
+        for(int i = 0; i < foundBowls.Length; i++)
+        {
+            if(foundBowls[i].ContainsEdibleItem(foodDiet))
+            {
+                targetStructure = foundBowls[i];
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -62,10 +62,11 @@ public class PetBowl : FurnitureBehaviorScript
         }
     }
 
-    public void RemoveItem() //For pets taking items
+    public void RemoveItem(out InventoryItemData itemRemoved) //For pets taking items
     {
+        itemRemoved = savedItems[0];
         r.sprite = null;
-            savedItems[0] = null;
+        savedItems[0] = null;
     }
 
     public override void DigAction()
@@ -79,6 +80,15 @@ public class PetBowl : FurnitureBehaviorScript
     {
         if(savedItems.Count > 0 && savedItems[0] != null) return false;
         return true;
+    }
+
+    public bool ContainsEdibleItem(List<InventoryItemData> petDiet)
+    {
+        if(savedItems.Count == 0 || savedItems[0] == null) return false;
+
+        if(savedItems[0].staminaValue > 0 || petDiet.Contains(savedItems[0])) return true;
+
+        return false;
     }
 
     public override void LoadVariables()
