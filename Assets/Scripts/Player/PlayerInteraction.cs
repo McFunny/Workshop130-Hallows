@@ -61,7 +61,7 @@ public class PlayerInteraction : MonoBehaviour
     StructureBehaviorScript lastSeenStruct;
     IInteractable lastSeenInteractable;
     private RepairMinigame repairMinigame;
-    public delegate void FoodConsumedEvent();
+    public delegate void FoodConsumedEvent(InventoryItemData item);
     public static event FoodConsumedEvent onFoodConsumed;
 
 
@@ -310,7 +310,7 @@ public class PlayerInteraction : MonoBehaviour
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
             //eat it
-            onFoodConsumed?.Invoke();
+            onFoodConsumed?.Invoke(item);
             StaminaChange(item.staminaValue);
             itemUsed = true;
         }
