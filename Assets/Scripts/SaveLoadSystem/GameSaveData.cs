@@ -204,6 +204,7 @@ public class GameSaveData : MonoBehaviour
             currentPet.hunger = data.allGameSaveData.petHunger;
             currentPet.friendPoints = data.allGameSaveData.petProgress;
             currentPet.friendshipLevel = data.allGameSaveData.petLevel;
+            currentPet.gameObject.SetActive(true);
         }
     }
 }
