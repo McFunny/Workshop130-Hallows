@@ -9,7 +9,7 @@ public class PetBowl : FurnitureBehaviorScript
     public void Awake()
     {
         base.Awake();
-        savedItems.Add(null);
+        //savedItems.Add(null);
     }
 
     public void Start()
@@ -29,7 +29,7 @@ public class PetBowl : FurnitureBehaviorScript
             if (!addedSuccessfully) return;
 
             r.sprite = null;
-            savedItems[0] = null;
+            savedItems.Clear();
 
             PlayerInventoryHolder.Instance.UpdateInventory();
             return;
@@ -66,7 +66,7 @@ public class PetBowl : FurnitureBehaviorScript
     {
         itemRemoved = savedItems[0];
         r.sprite = null;
-        savedItems[0] = null;
+        savedItems.Clear();
     }
 
     public override void DigAction()
@@ -97,7 +97,7 @@ public class PetBowl : FurnitureBehaviorScript
         {
             r.sprite = null;
             savedItems.Clear();
-            savedItems.Add(null);
+            //savedItems.Add(null);
             return;
         }
 
