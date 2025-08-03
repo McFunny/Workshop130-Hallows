@@ -9,6 +9,7 @@ public class GameSaveData : MonoBehaviour
 
     [Header("References to pets in scene. These must be filled manually")]
     public PetBehaviorScript catRef;
+    [HideInInspector] public PetBehaviorScript currentPet;
 
 
 
@@ -61,18 +62,6 @@ public class GameSaveData : MonoBehaviour
 
     [Header("NPC Bools. All must be false when building")]
     public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet;
-
-    //[Header("Pet Stats")]
-    [HideInInspector] public PetBehaviorScript currentPet;
-    /*public float petHunger, petProgress;
-    public int petLevel;
-    public string petType;
-    //public string petName;*/
-
-    //IF WE HAVE THE GAME ONLY SAVE AT THE MORNING LIKE STARDEW, WE DONT HAVE TO SAVE ALOT OF STUFF LIKE TOWNSPEOPLE POS AND SHOP ITEMS
-
-
-
 
     void Awake()
     {
@@ -204,6 +193,7 @@ public class GameSaveData : MonoBehaviour
             currentPet.hunger = data.allGameSaveData.petHunger;
             currentPet.friendPoints = data.allGameSaveData.petProgress;
             currentPet.friendshipLevel = data.allGameSaveData.petLevel;
+            currentPet.gameObject.SetActive(true);
         }
     }
 }
@@ -274,7 +264,7 @@ public class GameSaveData : MonoBehaviour
 
         public float petHunger, petProgress;
         public int petLevel;
-        public string petType;
+        public string petType, petName;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -354,6 +344,7 @@ public class GameSaveData : MonoBehaviour
             petProgress = data.currentPet.friendPoints;
             petLevel = data.currentPet.friendshipLevel;
             petType = data.currentPet.petType.ToString();
+            petName = data.currentPet.name;
         }
         else
         {
@@ -361,6 +352,7 @@ public class GameSaveData : MonoBehaviour
             petProgress = 0;
             petLevel = 0;
             petType = "";
+            petName = "Kevin";
         }
 
 //Debug.Log("Saving stamina. Result: " + pStamina);

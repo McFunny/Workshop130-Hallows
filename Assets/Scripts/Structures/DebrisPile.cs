@@ -133,6 +133,9 @@ public class DebrisPile : StructureBehaviorScript
             case StructureType.Hay:
                 hay_debris.SetActive(true);
                 break;
+            case StructureType.Stone:
+                default_debris.SetActive(true);
+                break;
         }
     }
 

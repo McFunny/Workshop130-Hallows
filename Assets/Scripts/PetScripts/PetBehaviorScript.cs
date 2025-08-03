@@ -8,22 +8,28 @@ using TMPro;
 public class PetBehaviorScript : MonoBehaviour
 {
     public PetType petType;
+    public string name = "Kevin";
 
     public int friendshipLevel = 0;
     int maxFriendshipLevel = 10; //Increases frequency of actions
     public float friendPoints = 0;
     float maxFriendPoints = 100; //Increases level when maxed
     public List<InventoryItemData> foodDiet = new List<InventoryItemData>();
-    public float hunger = 100; //Animals will eat once their hunger is below half
+    public float hunger = 100; //Animals will eat once their hunger is below a fourth
     public float maxHunger = 100;
     public float hungerDecayRate = 5;
+    public float thirst = 100; //Animals will drink once their thirst is below a fourth
+    public float maxThirst = 100;
+    public float thirstDecayRate = 4;
 
     public Transform focalPoint;
+    protected CreatureBehaviorScript targetCreature;
+    protected StructureBehaviorScript targetStructure;
 
     protected bool alreadyPet = false;
 
     public CreatureEffectsHandler effectsHandler;
-    public Rigidbody rb;
+    //public Rigidbody rb;
     public Animator anim;
     public NavMeshAgent agent;
 
@@ -40,6 +46,8 @@ public class PetBehaviorScript : MonoBehaviour
     protected bool showStats = false;
     public GameObject statsUI;
     public TextMeshProUGUI hungerText, friendshipText;
+
+    public ParticleSystem dripParticles;
     
     protected void Start()
     {
@@ -72,7 +80,18 @@ public class PetBehaviorScript : MonoBehaviour
     protected virtual void OnHour()
     {
         hunger -= hungerDecayRate;
-        if(hunger < 0) FriendPointsChange(-5, false);
+        if(hunger <= 0)
+        {
+            FriendPointsChange(-2.5f, false);
+            hunger = 0;
+        }
+
+        thirst -= thirstDecayRate;
+        if(thirst <= 0)
+        {
+            FriendPointsChange(-2.5f, false);
+            thirst = 0;
+        }
 
         if(TimeManager.Instance.currentHour == 8) alreadyPet = false;
     }
@@ -92,20 +111,26 @@ public class PetBehaviorScript : MonoBehaviour
 
     protected void EatFood(InventoryItemData item)
     {
-        float hungerRestored = item.staminaValue * 1.5f;
-        if(hungerRestored == 0) hungerRestored = item.value * item.sellValueMultiplier * 2;
+        float hungerRestored = item.staminaValue * 3f;
+        if(hungerRestored == 0) hungerRestored = item.value * item.sellValueMultiplier * 4;
         if(hunger + hungerRestored > 100) hungerRestored -= hunger + hungerRestored - 100;
         hunger += hungerRestored;
 
         //hunger = 100;
         if(hunger > maxHunger) hunger = maxHunger;
-        if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/2, true);
-        else FriendPointsChange(hungerRestored/4, true);
+        if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/3, true);
+        else FriendPointsChange(hungerRestored/5, true);
         effectsHandler.PlaySound(effectsHandler.eatSound);
     }
 
     protected IEnumerator MoveToPoint(Vector3 destination, float maxTime)
     {
+        if(agent.enabled == false) 
+        {
+            FinishedMoving();
+            print("Agent is not enabled");
+            yield break;
+        }
         isMoving = true;
         interruptAction = false;
 
@@ -161,6 +186,22 @@ public class PetBehaviorScript : MonoBehaviour
         return false;
     }
 
+    protected bool EatCheck(bool checkForThirst)
+    {
+        var foundBowls = FindObjectsByType<PetBowl>(FindObjectsSortMode.None);
+        if(foundBowls.Length == 0) return false;
+        for(int i = 0; i < foundBowls.Length; i++)
+        {
+            if((!checkForThirst && foundBowls[i].ContainsEdibleItem(foodDiet)) || (checkForThirst && foundBowls[i].containsWater))
+            {
+                targetStructure = foundBowls[i];
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     IEnumerator IdleSoundTimer()
     {
         while(true)
@@ -169,6 +210,13 @@ public class PetBehaviorScript : MonoBehaviour
             effectsHandler.RandomIdle();
         }
 
+    }
+
+    protected IEnumerator DripEffects()
+    {
+        dripParticles.Play();
+        yield return new WaitForSeconds(8);
+        dripParticles.Stop();
     }
 
     void OnDestroy()

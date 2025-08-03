@@ -5,11 +5,18 @@ using UnityEngine;
 public class PetBowl : FurnitureBehaviorScript
 {
     public SpriteRenderer r;
+    public GameObject water;
+    public SpriteRenderer waterR;
+    public Sprite[] waterSprites;
+    [HideInInspector] public bool containsWater;
+    public ParticleSystem splash;
+
+    public AudioClip waterFillSFX;
 
     public void Awake()
     {
         base.Awake();
-        savedItems.Add(null);
+        //savedItems.Add(null);
     }
 
     public void Start()
@@ -18,6 +25,7 @@ public class PetBowl : FurnitureBehaviorScript
         FurnitureStart();
         r.sprite = null;
         LoadVariables();
+        StartCoroutine(AnimateWater());
     }
 
     public override void StructureInteraction()
@@ -29,7 +37,7 @@ public class PetBowl : FurnitureBehaviorScript
             if (!addedSuccessfully) return;
 
             r.sprite = null;
-            savedItems[0] = null;
+            savedItems.Clear();
 
             PlayerInventoryHolder.Instance.UpdateInventory();
             return;
@@ -49,10 +57,19 @@ public class PetBowl : FurnitureBehaviorScript
         {
             success = true;
         }
+        if (type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            WaterChange(true);
+            splash.Play();
+            AudioPoolManager.Instance.PlayClipAtPosition(waterFillSFX, transform.position);
+            success = true;
+        }
     }
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(containsWater) return;
         if (item && (savedItems.Count == 0 || savedItems[0] == null) && !item.isKeyItem)
         {
             r.sprite = item.icon;
@@ -66,7 +83,7 @@ public class PetBowl : FurnitureBehaviorScript
     {
         itemRemoved = savedItems[0];
         r.sprite = null;
-        savedItems[0] = null;
+        savedItems.Clear();
     }
 
     public override void DigAction()
@@ -91,22 +108,50 @@ public class PetBowl : FurnitureBehaviorScript
         return false;
     }
 
+    public void WaterChange(bool hasWater)
+    {
+        if(hasWater == containsWater) return;
+
+        containsWater = hasWater;
+
+        if(containsWater) water.SetActive(true);
+        else water.SetActive(false);
+    }
+
+    IEnumerator AnimateWater()
+    {
+        int currentSprite = 0;
+        do
+        {
+            currentSprite++;
+            if(currentSprite >= waterSprites.Length) currentSprite = 0;
+            yield return new WaitForSeconds(0.15f);
+            waterR.sprite = waterSprites[currentSprite];
+        }
+        while(gameObject.activeSelf);
+    }
+
     public override void LoadVariables()
     {
         if(savedItems.Count == 0 || savedItems[0] == null)
         {
             r.sprite = null;
             savedItems.Clear();
-            savedItems.Add(null);
+            //savedItems.Add(null);
             return;
         }
 
         if(saveInt3 >= 0) savedItems[0] = Database.Instance.GetItem(saveInt3);
+
+        containsWater = saveBool1;
+        WaterChange(containsWater);
     }
 
     public override void SaveVariables()
     {
         if (savedItems.Count > 0 && savedItems[0] != null)
             saveInt3 = savedItems[0].ID;
+
+        saveBool1 = containsWater;
     }
 }

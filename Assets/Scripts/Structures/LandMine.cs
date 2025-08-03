@@ -220,6 +220,7 @@ public class LandMine : StructureBehaviorScript
                 {
                     cooldownProgress = 0;
                     isPrimed = true;
+                    audioHandler.PlaySound(audioHandler.interactSound);
                     anim.SetBool("IsActivated", true);
                 }
             }
