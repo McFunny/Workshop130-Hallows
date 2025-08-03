@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 [RequireComponent(typeof(MeshFilter))]
 public class MeshCombiner : MonoBehaviour
 {
     // Source Meshes you want to combine
-    public List<MeshFilter> listMeshFilter;
+    public List<MeshFilter> listMeshFilter = new List<MeshFilter>();
 
     // Make a new mesh to be the target of the combine operation
     public MeshFilter TargetMesh;
@@ -60,7 +61,6 @@ public class MeshCombiner : MonoBehaviour
     }
 }
 
-#if UNITY_EDITOR
 // Editor buttons :)
 [CustomEditor(typeof(MeshCombiner), true)]
 public class MeshCombinerEditor : Editor
