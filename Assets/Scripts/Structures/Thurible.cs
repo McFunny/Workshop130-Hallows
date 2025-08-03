@@ -99,7 +99,7 @@ public class Thurible : StructureBehaviorScript
             yield return new WaitForSeconds(1);
             if(flameLeft == 0) continue;
 
-            float range = 4f;
+            float range = 5f;
 
             Collider[] hitEnemies = Physics.OverlapSphere(transform.position, range, 1 << 9);
             foreach(Collider collider in hitEnemies)

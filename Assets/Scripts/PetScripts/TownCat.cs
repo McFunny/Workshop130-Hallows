@@ -59,7 +59,7 @@ public class TownCat : MonoBehaviour, IInteractable
         {
             Vector3 target = StructureManager.Instance.GetRandomTile();
             target = GetRandomPointAround(origin, 30);
-            currentRoutine = StartCoroutine(MoveToPoint(target, 5));
+            currentRoutine = StartCoroutine(MoveToPoint(target, 7));
         }
     }
 
@@ -89,6 +89,12 @@ public class TownCat : MonoBehaviour, IInteractable
             yield return new WaitForSeconds(1);
 
         }
+        currentRoutine = null;
+    }
+
+    IEnumerator PetRoutine()
+    {
+        yield return new WaitForSeconds(4);
         currentRoutine = null;
     }
 
@@ -212,12 +218,12 @@ public class TownCat : MonoBehaviour, IInteractable
             alreadyPet = true;
             effectsHandler.PlaySound(effectsHandler.petSound);
             anim.Play("CatPet");
+            anim.SetBool("IsSitting", false);
             ParticlePoolManager.Instance.GrabHeartParticle().transform.position = focalPoint.position;
             if(!isMoving) 
             {
-                currentRoutine = null;
+                currentRoutine = StartCoroutine(PetRoutine());
                 StopCoroutine(IdleRoutine());
-                anim.SetBool("IsSitting", false);
             }
             else interruptAction = true;
         }
