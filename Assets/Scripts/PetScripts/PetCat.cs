@@ -107,7 +107,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         //if(agent.velocity != Vector3.zero) transform.rotation = Quaternion.LookRotation(agent.velocity); //To fix slow rotation issue
 
-        if(currentState == PetState.Idle || currentState == PetState.Sit) LookAtObject();
+        if(currentState == PetState.Idle || currentState == PetState.Sit || currentState == PetState.Follow) LookAtObject();
 
         if(agent.velocity.magnitude < 0.2f)
         {

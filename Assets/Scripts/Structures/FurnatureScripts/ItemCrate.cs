@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ItemCrate : FurnitureBehaviorScript
 {
-    //when inserting onto a table, have the object rotate to the table's rotation
-
     public List<SpriteRenderer> itemSockets = new List<SpriteRenderer>();
 
     public void Awake()

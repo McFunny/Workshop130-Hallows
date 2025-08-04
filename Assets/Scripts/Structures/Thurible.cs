@@ -18,7 +18,7 @@ public class Thurible : StructureBehaviorScript
     int maxLeafCount = 5; //Each count is worth 30 seconds
 
     public float flameLeft; //if 0, fire is gone
-    float maxFlame = 40; //Max flame per level
+    float maxFlame = 50; //Max flame per level
 
     void Awake()
     {

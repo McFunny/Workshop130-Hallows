@@ -60,7 +60,7 @@ public class DunemiteScript : BugBehaviorScript
             for(int i = 0; i < nearbyStructures.Count; i++)
             {
                 if(nearbyStructures[i].structData && (nearbyStructures[i].structData.structureType == StructureType.Wood || nearbyStructures[i].structData.structureType == StructureType.Hay) &&
-                 (!nearestStructure || Vector3.Distance(transform.position, nearbyStructures[i].transform.position) < minDistance))
+                 (!nearestStructure || Vector3.Distance(transform.position, nearbyStructures[i].transform.position) < minDistance) && !nearbyStructures[i].absentFromFarmGrid)
                 {
                     nearestStructure = nearbyStructures[i];
                     minDistance = Vector3.Distance(transform.position, nearbyStructures[i].transform.position);

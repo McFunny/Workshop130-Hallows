@@ -4322,6 +4322,7 @@ Transform:
   m_Children:
   - {fileID: 5888730988772639455}
   - {fileID: 6015689667237086059}
+  - {fileID: 5587654324192233364}
   - {fileID: 1359058269127191968}
   - {fileID: 3388871124519061304}
   - {fileID: 3797967172448806636}
@@ -9808,6 +9809,7 @@ MonoBehaviour:
   - {fileID: 3298337801092368734}
   - {fileID: 5547556843952242998}
   - {fileID: 4013105136114358314}
+  - {fileID: 5587654324192233364}
 --- !u!114 &3223520130733931973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10717,10 +10719,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   farmTileMap: {fileID: 0}
   cabinTileMap: {fileID: 0}
-  cabinDecorTileMap: {fileID: 0}
-  townTileMap: {fileID: 0}
   barnTileMap: {fileID: 0}
-  barnDecorTileMap: {fileID: 0}
   freeTile: {fileID: 11400000, guid: 9d9d488400de3d04882230bc03c095b7, type: 2}
   occupiedTile: {fileID: 11400000, guid: 147fc03a3d7579845993f41d1f7b4ecc, type: 2}
   borderTile: {fileID: 0}
@@ -10736,6 +10735,8 @@ MonoBehaviour:
     type: 3}
   boulder: {fileID: 333776889047174946, guid: 74b68e7b5b260af4ab1b74fcc6dd329d, type: 3}
   buriedItem: {fileID: 9190844650672230191, guid: 1858943e5c67d4e458e7f60710ee31ec,
+    type: 3}
+  barricade: {fileID: 7429279394833736076, guid: c3c490b5df32b9c4fb691d275bdc3d47,
     type: 3}
   fogChime: {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   ignoreCropGrowthTime: 0
@@ -11005,6 +11006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   catRef: {fileID: 7724304851125435548}
+  currentPet: {fileID: 0}
   pStamina: 0
   pFatigue: 0
   pWater: 0
@@ -11056,7 +11058,6 @@ MonoBehaviour:
   butchMet: 0
   carpMet: 0
   mandrakeMet: 0
-  currentPet: {fileID: 0}
 --- !u!114 &1864734984650053270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58920,6 +58921,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaName: 0
+--- !u!1 &6292477427035627469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5587654324192233364}
+  m_Layer: 0
+  m_Name: Spot (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5587654324192233364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6292477427035627469}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 56.84, y: -0.4, z: 16.58}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2881688292652800857}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6321736909920126847
 GameObject:
   m_ObjectHideFlags: 0
