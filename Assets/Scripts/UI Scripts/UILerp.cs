@@ -13,20 +13,21 @@ public class UILerp : MonoBehaviour
     [SerializeField] private RectTransform startPoint, endPoint;
 
 
-    private void Awake()
+    public void Awake()
     {
 
         if (transformToLerp == null) transformToLerp = GetComponent<RectTransform>();
 
         if (startAtEnd) transformToLerp.position = endPoint.position;
 
-        if (ignoreTimeScale) timeScale = Time.fixedDeltaTime;
-        else timeScale = Time.deltaTime;
-
     }
 
-    private void Update()
+    public void Update()
     {
+        
+        if (ignoreTimeScale) timeScale = Time.fixedDeltaTime;
+        else timeScale = Time.deltaTime;
+        
         if (lerpToStart)
         {
             transformToLerp.position = Vector2.Lerp(transformToLerp.position, startPoint.position, timeScale * lerpMultiplier);
@@ -38,7 +39,7 @@ public class UILerp : MonoBehaviour
         else
         {
             transformToLerp.position = Vector2.Lerp(transformToLerp.position, endPoint.position, timeScale * lerpMultiplier);
-            if(Vector2.Distance(transformToLerp.position, endPoint.position) < 0.1f)
+            if (Vector2.Distance(transformToLerp.position, endPoint.position) < 0.1f)
             {
                 transformToLerp.position = endPoint.position;
             }

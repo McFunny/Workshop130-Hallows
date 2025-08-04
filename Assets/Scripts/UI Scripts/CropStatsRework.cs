@@ -18,12 +18,12 @@ public class CropStatsRework : MonoBehaviour
     string growthString;
     ControlManager controlManager;
     //For Lerps
-    public Transform lerpStart, lerpEnd, lerpEndD, cropUITransform, cropUITransformD;
     float timeSpendAnimating = 0;
     float moveProgress = 0;
     float maxMoveProgress = 0.5f;
     
     [SerializeField] private string lackingGloam, lackingTerra, lackingIchor;
+    [SerializeField] private UILerpHandler lerpA, lerpB;
 
     void Awake()
     {
@@ -31,8 +31,8 @@ public class CropStatsRework : MonoBehaviour
     }
     void Start()
     {
-        cropUITransform.position = lerpStart.position;
-        cropUITransformD.position = lerpStart.position;
+        //cropUITransform.position = lerpStart.position;
+        //cropUITransformD.position = lerpStart.position;
         growthStageNumber.text = "";
         growthStageNumberD.text = "";
         mainCam = Camera.main;
@@ -41,7 +41,7 @@ public class CropStatsRework : MonoBehaviour
 
     void Update()
     {
-        if(controlManager.moreInfo.action.IsPressed())
+        if (controlManager.moreInfo.action.IsPressed())
         {
             cropStats.SetActive(false);
             cropStatsDetailed.SetActive(true);
@@ -54,11 +54,15 @@ public class CropStatsRework : MonoBehaviour
             isDetailed = false;
         }
 
-        if(isActive && moveProgress < maxMoveProgress)
+        lerpA.lerpToStartArray[0] = !isActive; //This is stupid but it works
+        lerpB.lerpToStartArray[0] = !isActive;
+
+        /*
+        if (isActive && moveProgress < maxMoveProgress)
         {
             moveProgress += Time.deltaTime;
-            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
-            cropUITransformD.position = Vector3.Lerp(lerpStart.position, lerpEndD.position, moveProgress/maxMoveProgress);
+            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress / maxMoveProgress);
+            cropUITransformD.position = Vector3.Lerp(lerpStart.position, lerpEndD.position, moveProgress / maxMoveProgress);
         }
 
         if(!isActive && moveProgress > 0)
@@ -67,6 +71,7 @@ public class CropStatsRework : MonoBehaviour
             cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
             cropUITransformD.position = Vector3.Lerp(lerpStart.position, lerpEndD.position, moveProgress/maxMoveProgress);
         }
+        */
     }
 
     IEnumerator CheckTimer()
