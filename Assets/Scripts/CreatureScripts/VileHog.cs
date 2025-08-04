@@ -388,13 +388,6 @@ public class VileHog : CreatureBehaviorScript
             return;
         }
 
-        /*if(CheckForObstacle(transform) != null)
-        {
-            targetStructure = CheckForObstacle(transform);
-            target = targetStructure.transform;
-            agent.destination = target.position;
-        }*/
-
         if (Vector3.Distance(transform.position, target.position) < 2f)
         {
             agent.ResetPath();
@@ -408,10 +401,6 @@ public class VileHog : CreatureBehaviorScript
                 currentState = CreatureState.Wander;
             }
         }
-        /*else if(agent.destination != target.position)
-        {
-            agent.destination = target.position;
-        }*/
     }
 
     void CropCheck()

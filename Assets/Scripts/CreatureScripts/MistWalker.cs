@@ -139,7 +139,7 @@ public class MistWalker : CreatureBehaviorScript
         availableStructure.Clear();
         foreach (var structure in structManager.allStructs)
         {
-            if (structure && targettableStructures.Contains(structure.structData))
+            if (structure && targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid)
             {
                 FarmLand f = structure as FarmLand;
                 if(f && (!f.crop || undesiredCrops.Contains(f.crop))) continue;

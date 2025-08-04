@@ -181,7 +181,8 @@ public class WildernessManager : MonoBehaviour
 
         foreach (CreatureBehaviorScript creature in creatures)
         {
-            if (creature != null && creature.gameObject != null)
+            ICritter critter = creature as ICritter;
+            if (creature != null && creature.gameObject != null && critter == null)
             {
                 Destroy(creature.gameObject);
             }

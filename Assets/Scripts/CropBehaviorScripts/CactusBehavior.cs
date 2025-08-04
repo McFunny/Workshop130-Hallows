@@ -51,7 +51,7 @@ public class CactusBehavior : CropBehavior
         if(tile.growthStage != 6) return;
 
         CreatureBehaviorScript c = contactedObject.GetComponentInParent<CreatureBehaviorScript>();
-        if(c && c.shovelVulnerable)
+        if(c && c.shovelVulnerable && (c as ICritter) == null)
         {
             c.TakeDamage(10);
             AudioPoolManager.Instance.PlayClipAtPosition(contactSFX, tile.transform.position);

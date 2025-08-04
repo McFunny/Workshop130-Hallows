@@ -80,7 +80,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public virtual void Talk()
     {
         if(!dialogueController.FreeToSpeak(this)) return;
-        anim.SetTrigger("IsTalking");
+        if(anim) anim.SetTrigger("IsTalking");
         movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);

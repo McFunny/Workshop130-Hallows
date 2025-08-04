@@ -291,7 +291,7 @@ public class PyreFly : CreatureBehaviorScript
         {
             WraithFlower flower = structure as WraithFlower;
             FarmLand tile = structure as FarmLand;
-            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower)
+            if (targettableStructures.Contains(structure.structData) && structure.IsFlammable() && !flower && !structure.absentFromFarmGrid)
             {
                 if(!tile || (tile && !tile.isWeed)) availableStructure.Add(structure);
                 if(tile && tile.crop && tile.crop.id == 20 && Random.Range(0,10) > 6) targetStructure = structure;

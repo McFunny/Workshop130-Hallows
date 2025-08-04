@@ -107,7 +107,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         //if(agent.velocity != Vector3.zero) transform.rotation = Quaternion.LookRotation(agent.velocity); //To fix slow rotation issue
 
-        if(currentState == PetState.Idle || currentState == PetState.Sit) LookAtObject();
+        if(currentState == PetState.Idle || currentState == PetState.Sit || currentState == PetState.Follow) LookAtObject();
 
         if(agent.velocity.magnitude < 0.2f)
         {
@@ -346,9 +346,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(Vector3.Distance(target, transform.position) < 1.5f)
         {
-            //print("Cat close enough to Target");
             interruptAction = true;
-            //return;
         }
 
         if(currentRoutine == null && !isMoving)
@@ -655,7 +653,6 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     IEnumerator SitRoutine()
     {
-        //transform.position = sitPos.position;
         anim.Play("CatAttack1");
         yield return new WaitForSeconds(.5f);
         transform.Rotate(0, 180, 0);
@@ -690,7 +687,6 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     IEnumerator CheckSurroundings()
     {
-        bool checkStructures = false;
         Collider[] hitTargets = new Collider[10];
         int numColliders;
         while(true)
@@ -731,33 +727,22 @@ public class PetCat : PetBehaviorScript, IInteractable
             Vector3 closestTarget = Vector3.zero;
             float dist = 0;
             float minDist = 100;
-            //if(checkStructures)
-            //{
-                checkStructures = false;
-                numColliders = Physics.OverlapSphereNonAlloc(transform.position, 8, hitTargets, PlayerStructureMask);
-                for (int i = 0; i < numColliders; i++)
+            numColliders = Physics.OverlapSphereNonAlloc(transform.position, 8, hitTargets, PlayerStructureMask);
+            for (int i = 0; i < numColliders; i++)
+            {
+                StructureBehaviorScript structure = hitTargets[i].gameObject.GetComponentInParent<StructureBehaviorScript>();
+                if(structure || hitTargets[i].gameObject.layer == 10) 
                 {
-                    StructureBehaviorScript structure = hitTargets[i].gameObject.GetComponentInParent<StructureBehaviorScript>();
-                    if(structure || hitTargets[i].gameObject.layer == 10) 
+                    dist = Vector3.Distance(transform.position, hitTargets[i].gameObject.transform.position);
+                    if(dist < minDist && Random.Range(0, 10) > 1)
                     {
-                        dist = Vector3.Distance(transform.position, hitTargets[i].gameObject.transform.position);
-                        if(dist < minDist && Random.Range(0, 10) > 1)
-                        {
-                            minDist = dist;
-                            closestTarget = hitTargets[i].gameObject.transform.position;
-                        }
+                        minDist = dist;
+                        closestTarget = hitTargets[i].gameObject.transform.position;
                     }
                 }
+            }
 
-                starePoint = closestTarget;
-
-                /*if(closestTarget != Vector3.zero)
-                {
-                    starePoint = closestTarget;
-                    //print(starePoint);
-                }*/
-            //}
-            //else checkStructures = true;
+            starePoint = closestTarget;
         }
     }
 
@@ -842,7 +827,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             StartCoroutine(DripEffects());
             return;
         }
-        if(hunger < 100 && (item.staminaValue > 0 || foodDiet.Contains(item)))
+        if(hunger < 100 && (item.animalHungerValue > 0 || foodDiet.Contains(item)))
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();

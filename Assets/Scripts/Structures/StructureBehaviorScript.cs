@@ -42,6 +42,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool isObstacle = true;
 
     public bool absentFromGrid = false; //if true, this object wont count as all structs, nor will it interact with tiles, allowing free placement.
+    [HideInInspector] public bool absentFromFarmGrid = false; //if true, this object should be ignored by creatures that target structures
 
     public Transform focalPoint; //for when the camera needs to focus on the object
     public Transform particleCenter; //for particles
@@ -111,6 +112,8 @@ public class StructureBehaviorScript : MonoBehaviour
     public void Start() //make sure absent from grid is checked if not on farm
     {
         if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Any) == false) absentFromGrid = true;
+        else if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) absentFromFarmGrid = true;
+        
         if (absentFromGrid) return;
         StructureManager.Instance.allStructs.Add(this);
 

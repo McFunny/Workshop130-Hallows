@@ -39,7 +39,7 @@ public class InfernoNettleBehavior : CropBehavior
         }
 
         CreatureBehaviorScript c = contactedObject.GetComponentInParent<CreatureBehaviorScript>();
-        if(c && c.fireVulnerable)
+        if(c && c.fireVulnerable && (c as ICritter) == null)
         {
             c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), burnDuration);
             tile.growthStage = 1;
