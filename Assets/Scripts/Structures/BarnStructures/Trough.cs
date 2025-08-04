@@ -194,6 +194,7 @@ public class Trough : StructureBehaviorScript
                 itemAte = savedItems[i];
                 itemSockets[i].sprite = null;
                 savedItems[i] = null;
+                ParticlePoolManager.Instance.MoveAndPlayParticle(itemSockets[i].transform.position, ParticlePoolManager.Instance.dirtParticle);
                 return true;
             }
         }

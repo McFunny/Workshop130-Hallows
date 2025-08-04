@@ -292,15 +292,43 @@ public class TruffleHog : CritterBehaviorScript
             }
         }
 
-        if(currentState == CritterState.Dig)
+        if(currentState == CritterState.Eat && targetObject) //Cat Reached the Bowl
         {
-            if (Vector3.Distance(transform.position, target) < 1.5f)
+            Trough trough = targetObject.GetComponent<Trough>();
+            if(!trough) //Trough is gone
             {
-                anim.Play("Eat");
-                currentRoutine = StartCoroutine(EatRoutine());
+                targetObject = null;
                 isMoving = false;
+                currentRoutine = null;
                 return;
             }
+            bool isEating = false, isDrinking = false;
+            if(hunger <= 25 && trough.HasEdibleItem(foodDiet)) isEating = true;
+            if(thirst <= 25 && trough.waterLevel > 0) isDrinking = true;
+
+            if(Vector3.Distance(targetObject.transform.position, transform.position) < 1.5f && (isEating || isDrinking))
+            {
+                agent.velocity = Vector3.zero;
+                agent.ResetPath();
+                anim.Play("Chew");
+                if(isEating)
+                {
+                    trough.EatItem(foodDiet, out InventoryItemData itemEaten);
+                    EatFood(itemEaten);
+                }
+                else
+                {
+                    trough.WaterLevelChange(-1);
+                    thirst = maxThirst;
+                    FriendPointsChange(5, true);
+                }
+                currentRoutine = StartCoroutine(EatRoutine());
+                isMoving = false;
+                targetObject = null;
+                target = Vector3.zero;
+                return;
+            }
+            else if(!isEating && !isDrinking) targetObject = null;
         }
         
         isMoving = false;
@@ -329,7 +357,9 @@ public class TruffleHog : CritterBehaviorScript
 
     IEnumerator EatRoutine()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(5);
+        currentState = CritterState.Wander;
+        currentRoutine = null;
     }
 
 
