@@ -1517,6 +1517,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 474536576919656251}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1656591139726445129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8058425567482587507}
+  m_Layer: 0
+  m_Name: BarnOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8058425567482587507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656591139726445129}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 47.6, y: 0, z: 172.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1751230884533432961
 GameObject:
   m_ObjectHideFlags: 0
@@ -10672,6 +10703,7 @@ GameObject:
   - component: {fileID: 6641095865559575426}
   - component: {fileID: 2367110641730823191}
   - component: {fileID: 7859859832328411273}
+  - component: {fileID: 5403788078324475412}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -10703,6 +10735,7 @@ Transform:
   - {fileID: 3274068372633532939}
   - {fileID: 6939406517493349671}
   - {fileID: 4157573345881856525}
+  - {fileID: 8058425567482587507}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4040343108907326756
@@ -10738,6 +10771,7 @@ MonoBehaviour:
     type: 3}
   barricade: {fileID: 7429279394833736076, guid: c3c490b5df32b9c4fb691d275bdc3d47,
     type: 3}
+  trough: {fileID: 8684909107654101805, guid: a4ac41c7e0ee32149a9de1a6c60734ca, type: 3}
   fogChime: {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   ignoreCropGrowthTime: 0
   enableCheats: 0
@@ -58638,6 +58672,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 349a73c4a1558e941b8025bff8c5a78e, type: 2}
   - {fileID: 11400000, guid: 6bacb107d31507744aad99148323a6f8, type: 2}
   - {fileID: 11400000, guid: a082a4d11ce5a8e4eb9d7a5980a73e4b, type: 2}
+--- !u!114 &5403788078324475412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99630e6f049c24241a805dbf02d7ed0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barnSource: {fileID: 8058425567482587507}
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0

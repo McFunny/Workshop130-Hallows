@@ -303,8 +303,8 @@ public class NightSpawningManager : MonoBehaviour
 
         foreach (CreatureBehaviorScript creature in creaturesOnFarm)
         {
-            CritterBehaviorScript critter = creature as CritterBehaviorScript;
-            if (creature != null && creature.gameObject != null && !critter) //Add a check for farm critters as well so they arent deleted
+            ICritter critter = creature as ICritter;
+            if (creature != null && creature.gameObject != null && critter == null) //Add a check for farm critters as well so they arent deleted
             {
                 Destroy(creature.gameObject);
             }

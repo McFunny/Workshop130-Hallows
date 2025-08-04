@@ -51,6 +51,11 @@ public class Burrow : StructureBehaviorScript
         if(Random.Range(0,20) > 17) StartCoroutine(SpawnBug());
     }
 
+    public void InsertItem(InventoryItemData item)
+    {
+        savedItems.Add(item);
+    }
+
     IEnumerator SpawnBug()
     {
         yield return new WaitForSeconds(Random.Range(2, 15));
@@ -61,6 +66,14 @@ public class Burrow : StructureBehaviorScript
     {
         OnDamage -= Damaged;
         base.OnDestroy();
+        if (!gameObject.scene.isLoaded) return; 
+        //drop items
+        GameObject droppedItem;
+        foreach(InventoryItemData item in savedItems)
+        {
+            droppedItem = ItemPoolManager.Instance.GrabItem(item);
+            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+        }
     }
 
     void Damaged()

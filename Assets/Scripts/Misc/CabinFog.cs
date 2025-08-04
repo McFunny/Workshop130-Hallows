@@ -19,6 +19,8 @@ public class CabinFog : MonoBehaviour
         TimeManager.Instance.stopTime = true;
         AmbientAudioManager.Instance.playMusicAtStart = false;
         newDayCounter = FindFirstObjectByType<NewDayCounter>();
+
+        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) > 50) StartCoroutine(FadeOut()); //For Debugging
     }
 
 

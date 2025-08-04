@@ -250,7 +250,7 @@ public class Trough : StructureBehaviorScript
     {
         for(int i = 0; i < itemSockets.Count; i++)
         {
-            if(savedItems[i] != null && (savedItems[i].staminaValue > 0 || savedItems[i] as CropItem) && Random.Range(0, 10) > 7)
+            if(savedItems[i] != null && savedItems[i].animalHungerValue > 0 && Random.Range(0, 10) > 7)
             {
                 Instantiate(crowPrefab, itemSockets[i].transform.position, Quaternion.identity).GetComponentInChildren<MutatedCrow>().isDecorCrow = true;
                 itemSockets[i].sprite = null;

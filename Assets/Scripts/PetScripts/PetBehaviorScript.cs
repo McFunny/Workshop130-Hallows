@@ -102,7 +102,7 @@ public class PetBehaviorScript : MonoBehaviour
 
         friendPoints += amount;
         if(friendPoints < 0) friendPoints = 0;
-        if(friendPoints >= 100)
+        if(friendPoints >= 100 && friendshipLevel < maxFriendshipLevel)
         {
             friendPoints = 0;
             friendshipLevel++;
@@ -111,15 +111,14 @@ public class PetBehaviorScript : MonoBehaviour
 
     protected void EatFood(InventoryItemData item)
     {
-        float hungerRestored = item.staminaValue * 3f;
-        if(hungerRestored == 0) hungerRestored = item.value * item.sellValueMultiplier * 4;
+        float hungerRestored = item.animalHungerValue;
         if(hunger + hungerRestored > 100) hungerRestored -= hunger + hungerRestored - 100;
         hunger += hungerRestored;
 
         //hunger = 100;
         if(hunger > maxHunger) hunger = maxHunger;
-        if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/3, true);
-        else FriendPointsChange(hungerRestored/5, true);
+        if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/4, true);
+        else FriendPointsChange(hungerRestored/6, true);
         effectsHandler.PlaySound(effectsHandler.eatSound);
     }
 

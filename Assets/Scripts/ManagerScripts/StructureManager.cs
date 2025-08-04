@@ -14,11 +14,12 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allFarmTiles = new List<Vector3Int>();
+    List<Vector3Int> allBarnTiles = new List<Vector3Int>();
     List<NutrientStorage> storage = new List<NutrientStorage>(); //MUST BE SAVED
 
     public List<NutrientStorage> Storage => storage;
@@ -215,7 +216,7 @@ public class StructureManager : MonoBehaviour
                 if(CurrentTileMap(pos) == cabinTileMap) return true;
                 else return false;
                 break;
-            case GridType.Town:
+            case GridType.Barn:
                 if(CurrentTileMap(pos) == barnTileMap) return true;
                 else return false;
                 break;
@@ -325,6 +326,26 @@ public class StructureManager : MonoBehaviour
         }
         int r = Random.Range(0, allFarmTiles.Count);
         return farmTileMap.GetCellCenterWorld(allFarmTiles[r]);
+    }
+
+    public Vector3 GetRandomTile(GridType type)
+    {
+        switch(type)
+        {
+            case GridType.Barn:
+                //currently for farm tiles only
+                if(allBarnTiles.Count == 0)
+                {
+                    print("No available tiles");
+                    return new Vector3 (0,0,0);
+                }
+                int r = Random.Range(0, allBarnTiles.Count);
+                return barnTileMap.GetCellCenterWorld(allBarnTiles[r]);
+                break;
+            default :
+                return GetRandomTile();
+                break;
+        }
     }
 
     public Vector3 GetRandomClearTile()
@@ -679,6 +700,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(15, 25, boulder, true, farmTileMap));
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 2, barricade, true, barnTileMap));
+        StartCoroutine(PopulateStructure(1, 1, trough, true, barnTileMap));
     }
 
     /*void PopulateWeeds(int min, int max)

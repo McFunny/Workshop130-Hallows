@@ -21,7 +21,7 @@ public class PlayerInteraction : MonoBehaviour
 
     [HideInInspector] public Rigidbody rb;
 
-    public bool isInteracting { get; private set; }
+    public bool isInteracting { get; private set; } //Obsolete I think
     public bool toolCooldown;
     bool itemUseCooldown, isTripped;
 
@@ -241,6 +241,13 @@ public class PlayerInteraction : MonoBehaviour
                 //Debug.Log("Interacted with item");
                 return;
             }
+
+            var critter = hit.collider.GetComponentInParent<ICritter>();
+            if (critter != null)
+            {
+                critter.InteractWithItem(this, out bool interactSuccessful, item);
+                return;
+            }
         }
 
     }
@@ -269,6 +276,13 @@ public class PlayerInteraction : MonoBehaviour
             {
                 structure.StructureInteraction();
                 //Debug.Log("Interacting with a structure");
+                return;
+            }
+
+            var critter = hit.collider.GetComponentInParent<ICritter>();
+            if (critter != null)
+            {
+                critter.Interact(this, out bool interactSuccessful);
                 return;
             }
         }
