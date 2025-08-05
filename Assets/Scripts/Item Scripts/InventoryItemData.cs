@@ -24,6 +24,7 @@ public class InventoryItemData : ScriptableObject
     public bool hasModel;
 
     public float staminaValue = 0; //if higher than 0, restores stamina when eaten, and is therefore consumable
+    public float animalHungerValue = 0; //How much hunger it restores when eaten
     public float bonusCompostValue = 0;
     public float useCooldown = 0;
     public InventoryItemData pickledForm;

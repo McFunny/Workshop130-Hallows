@@ -173,6 +173,7 @@ public class BearTrap : StructureBehaviorScript
     {
         float lerp = 0;
         rearming = true;
+        audioHandler.PlaySound(audioHandler.activatedSound);
         do
         {
             lerp += 0.1f;

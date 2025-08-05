@@ -33,7 +33,8 @@ public class TitanMarigleamBehavior : CropBehavior
     public override void OnHarvest(FarmLand tile, bool usedShovel, bool usedScythe)
     {
         SiegeManager.Instance.siegeCropOnFarm = false;
-        GameSaveData.Instance.siegesCleared++;
+        ///////MOVE THIS CODE TO THE PEDASTAL SCRIPT SO ITS WHEN THE ITEM IS SOCKETED, THEN THIS HAPPENS. ALSO MAKE THESE NO LONGER A KEY ITEM SINCE MORE CAN BE GAINED
+        /*GameSaveData.Instance.siegesCleared++;
         switch(GameSaveData.Instance.siegesCleared)
         {
             case 1:
@@ -53,7 +54,8 @@ public class TitanMarigleamBehavior : CropBehavior
             break;
             default:
             break;
-        }
+        }*/
+        ////////
     }
 
     public override bool CanDig(FarmLand tile)

@@ -4952,8 +4952,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0.18, z: 0}
 --- !u!54 &6134715752130678236
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5023,7 +5023,7 @@ MonoBehaviour:
   - {fileID: -665059292, guid: f2c82e950d7597b45aa36644a6fc01a1, type: 3}
   - {fileID: 1092913411, guid: f2c82e950d7597b45aa36644a6fc01a1, type: 3}
   animSpeed: 0.3
-  burrowingParticles: {fileID: 0}
+  burrowingParticles: {fileID: 1236913968859754623}
   walkSpeed: 1.2
   fleeSpeed: 6
   sightRange: 7
@@ -5134,3 +5134,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1dcc4d190c25ae4584687149da7ad29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enabled: 0

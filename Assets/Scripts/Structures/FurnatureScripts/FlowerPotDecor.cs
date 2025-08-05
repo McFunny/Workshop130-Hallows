@@ -137,7 +137,7 @@ public class FlowerPotDecor : FurnitureBehaviorScript
             }
         }
 
-        savedItems[0] = Database.Instance.GetItem(saveInt3);
+        savedItems[0] = Database.Instance.GetItem(saveInt3); //Wont this cause issues if saveInt3 is defaulted to 0??
         if (savedItems[0] == fogChime)
         {
             fogChimeLight.SetActive(true);

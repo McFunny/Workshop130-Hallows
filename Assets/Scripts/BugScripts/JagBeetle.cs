@@ -10,5 +10,12 @@ public class JagBeetle : BugBehaviorScript
         {
             PlayerInteraction.Instance.StaminaChange(-7);
         }
+
+        CreatureBehaviorScript creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+        if(creature && creature.health > 0 && creature.shovelVulnerable)
+        {
+            creature.TakeDamage(5);
+            creature.PlayHitParticle(creature.transform.position);
+        }
     }
 }

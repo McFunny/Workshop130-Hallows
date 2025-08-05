@@ -71,7 +71,7 @@ public class WaterCanBehavior : ToolBehavior
                 } 
             }
 
-            var interactable = hit.collider.GetComponent<IInteractable>();
+            var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
                 interactable.InteractWithItem(PlayerInteraction.Instance, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
@@ -202,7 +202,7 @@ public class WaterCanBehavior : ToolBehavior
                 } 
             }
 
-            var interactable = hit.collider.GetComponent<IInteractable>();
+            var interactable = hit.collider.GetComponentInParent<IInteractable>();
             if (interactable != null)
             {
                 interactable.InteractWithItem(PlayerInteraction.Instance, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);

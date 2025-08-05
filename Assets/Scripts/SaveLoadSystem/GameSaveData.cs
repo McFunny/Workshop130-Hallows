@@ -7,6 +7,12 @@ public class GameSaveData : MonoBehaviour
 {
     public static GameSaveData Instance;
 
+    [Header("References to pets in scene. These must be filled manually")]
+    public PetBehaviorScript catRef;
+    [HideInInspector] public PetBehaviorScript currentPet;
+
+
+
     public float pStamina, pFatigue;
     public float pWater;
     public int pCurrentMoney;
@@ -14,8 +20,6 @@ public class GameSaveData : MonoBehaviour
     public int pDaysSinceDeath;
     public int pDayNumber;
     public string gameMode;
-
-    public float currentMoney, totalEarnedMoney; //is this used because I dont think so?
 
     public int hourSaved = 8;
 
@@ -58,11 +62,6 @@ public class GameSaveData : MonoBehaviour
 
     [Header("NPC Bools. All must be false when building")]
     public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet;
-
-    //IF WE HAVE THE GAME ONLY SAVE AT THE MORNING LIKE STARDEW, WE DONT HAVE TO SAVE ALOT OF STUFF LIKE TOWNSPEOPLE POS AND SHOP ITEMS
-
-
-
 
     void Awake()
     {
@@ -179,6 +178,23 @@ public class GameSaveData : MonoBehaviour
 
         siegesCleared = data.allGameSaveData.siegesCleared;
         siegeCropInHand = data.allGameSaveData.siegeCropInHand;
+
+        switch(data.allGameSaveData.petType)
+        {
+            case "Cat":
+                currentPet = catRef;
+                break;
+            default:
+                break;
+        }
+
+        if(currentPet)
+        {
+            currentPet.hunger = data.allGameSaveData.petHunger;
+            currentPet.friendPoints = data.allGameSaveData.petProgress;
+            currentPet.friendshipLevel = data.allGameSaveData.petLevel;
+            currentPet.gameObject.SetActive(true);
+        }
     }
 }
     [System.Serializable]
@@ -245,6 +261,10 @@ public class GameSaveData : MonoBehaviour
 
         public int siegesCleared;
         public bool siegeCropInHand; //
+
+        public float petHunger, petProgress;
+        public int petLevel;
+        public string petType, petName;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -317,6 +337,23 @@ public class GameSaveData : MonoBehaviour
 
         siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;
+
+        if(data.currentPet)
+        {
+            petHunger = data.currentPet.hunger;
+            petProgress = data.currentPet.friendPoints;
+            petLevel = data.currentPet.friendshipLevel;
+            petType = data.currentPet.petType.ToString();
+            petName = data.currentPet.name;
+        }
+        else
+        {
+            petHunger = 100;
+            petProgress = 0;
+            petLevel = 0;
+            petType = "";
+            petName = "Kevin";
+        }
 
 //Debug.Log("Saving stamina. Result: " + pStamina);
     }

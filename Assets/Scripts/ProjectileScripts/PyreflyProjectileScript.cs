@@ -65,6 +65,13 @@ public class PyreflyProjectileScript : MonoBehaviour
             }
         }
 
+        Collider[] hitBugs = Physics.OverlapSphere(transform.position, 6f, 1 << 18);
+        foreach(Collider collider in hitBugs)
+        {
+            var bug = collider.GetComponentInParent<BugBehaviorScript>();
+            if(bug) bug.Struck();
+        }
+
         gameObject.SetActive(false);
     }
 

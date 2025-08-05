@@ -60,7 +60,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
         int cycles = 0;
         while(!isDead)
         {
-            randomTime = Random.Range(13, 20);
+            randomTime = Random.Range(15, 30);
             yield return new WaitForSeconds(randomTime);
             if(fliesActive < maxFlies && !TimeManager.Instance.isDay)
             {
