@@ -63,6 +63,9 @@ public class GameSaveData : MonoBehaviour
     [Header("NPC Bools. All must be false when building")]
     public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet;
 
+    [Header("Critter Save Array")]
+    public List<CritterData> critterData = new List<CritterData>();
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -132,6 +135,7 @@ public class GameSaveData : MonoBehaviour
         CropDatabase.Instance.LoadStats(data.allGameSaveData);
         CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.bugStats != null) BugDatabase.Instance.LoadStats(data.allGameSaveData);
+        if(data.allGameSaveData.critterStats != null) BarnManager.Instance.LoadStats(data.allGameSaveData);
 
         tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
         rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -222,6 +226,7 @@ public class GameSaveData : MonoBehaviour
         public CropPlayerStats[] cropStats;
         public CreaturePlayerStats[] creatureStats;
         public int[] bugStats;
+        public CritterData[] critterStats;
 
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
@@ -290,6 +295,7 @@ public class GameSaveData : MonoBehaviour
         CropDatabase.Instance.SaveStats(out cropStats);
         CreatureDatabase.Instance.SaveStats(out creatureStats);
         BugDatabase.Instance.SaveStats(out bugStats);
+        BarnManager.Instance.SaveStats(out critterStats);
 
 
         tutorialMerchantSpoke = data.tutorialMerchantSpoke;
@@ -354,6 +360,7 @@ public class GameSaveData : MonoBehaviour
             petType = "";
             petName = "Kevin";
         }
+
 
 //Debug.Log("Saving stamina. Result: " + pStamina);
     }

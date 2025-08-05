@@ -34,6 +34,8 @@ public interface ICritter
         return new CritterData();
     }
 
+    public void LoadData(CritterData c){}
+
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful);
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item);

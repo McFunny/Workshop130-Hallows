@@ -30,4 +30,26 @@ public class BarnManager : MonoBehaviour
         if(Vector3.Distance(pos, barnSource.position) > 80) return false;
         else return true;
     }
+
+    public void SaveStats(out CritterData[] critterStats)
+    {
+        List<CritterData> temp = new List<CritterData>();
+
+        foreach(ICritter c in allCritters)
+        {
+            temp.Add(c.GetCritterData());
+        }
+        critterStats = temp.ToArray();
+    }
+
+    public void LoadStats(AllGameSaveData data)
+    {
+        int i = 0;
+        foreach(CritterData c in data.critterStats)
+        {
+            if(c.id == -1 || c.health <= 0) continue;
+            CritterBehaviorScript newCritter = Instantiate(CreatureDatabase.Instance.GetCreature(c.id).objectPrefab, barnSource.position, Quaternion.identity).GetComponent<CritterBehaviorScript>();
+            if(newCritter) newCritter.LoadData(c);
+        }
+    }
 }
