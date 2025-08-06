@@ -8419,18 +8419,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1387047885202070209}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9044691619768129273}
   - {fileID: 6046055227782970269}
-  m_Father: {fileID: 3228350055307665873}
+  m_Father: {fileID: 2666966673116705583}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.6363, y: 236.50497}
+  m_AnchoredPosition: {x: -0.6363, y: -21.752655}
   m_SizeDelta: {x: 501.9031, y: 288.4988}
   m_Pivot: {x: 0.5000001, y: -0.000000085720316}
 --- !u!1 &1411802298066471569
@@ -10992,6 +10992,7 @@ MonoBehaviour:
   disableOnEnd: 0
   startAtEnd: 0
   ignoreTimeScale: 1
+  isAtEnd: 0
   transformToLerp: {fileID: 0}
   lerpMultiplier: 8
   startPoint: {fileID: 1280286359041771048}
@@ -12747,18 +12748,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2252011770840358099}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.88509, y: 0.88509, z: 0.88509}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6234792274390840693}
   - {fileID: 3758634492424222858}
-  m_Father: {fileID: 3228350055307665873}
+  m_Father: {fileID: 2666966673116705583}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 323.51434}
+  m_AnchoredPosition: {x: 0, y: 65.25665}
   m_SizeDelta: {x: 568.5023, y: 227.65}
   m_Pivot: {x: 0.5, y: -0.00000018067658}
 --- !u!1 &2258727631011268697
@@ -14381,6 +14382,7 @@ MonoBehaviour:
   disableOnEnd: 0
   startAtEnd: 0
   ignoreTimeScale: 1
+  isAtEnd: 0
   transformToLerp: {fileID: 0}
   lerpMultiplier: 8
   startPoint: {fileID: 6471035147383618272}
@@ -17023,10 +17025,48 @@ MonoBehaviour:
   disableOnEnd: 0
   startAtEnd: 0
   ignoreTimeScale: 1
+  isAtEnd: 0
   transformToLerp: {fileID: 0}
   lerpMultiplier: 8
   startPoint: {fileID: 5662710288128566118}
   endPoint: {fileID: 1751325521824347252}
+--- !u!1 &2931019467912548658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2666966673116705583}
+  m_Layer: 5
+  m_Name: CropStatsParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2666966673116705583
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931019467912548658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6864879551709486233}
+  - {fileID: 5791827120973517739}
+  m_Father: {fileID: 5913270937876701881}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0.000038146973}
+  m_SizeDelta: {x: 503.17572, y: 332.0041}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2936847212884696172
 GameObject:
   m_ObjectHideFlags: 0
@@ -25206,8 +25246,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6864879551709486233}
-  - {fileID: 5791827120973517739}
+  - {fileID: 5913270937876701881}
   - {fileID: 8243734349955881779}
   - {fileID: 1280672921717509108}
   - {fileID: 3572117026110847215}
@@ -25297,6 +25336,7 @@ MonoBehaviour:
   c_rising: {r: 0.3019608, g: 1, b: 0, a: 1}
   c_lowering: {r: 1, g: 0, b: 0, a: 1}
   c_transparent: {r: 0, g: 0, b: 0, a: 0}
+  cropStatsParent: {fileID: 0}
   cropStats: {fileID: 2252011770840358099}
   cropStatsDetailed: {fileID: 1387047885202070209}
   cropSprite: {fileID: 3239511505369963383}
@@ -25305,6 +25345,7 @@ MonoBehaviour:
   terraArrow: {fileID: 3892795866352590031}
   ichorArrow: {fileID: 8364140506911516513}
   waterArrow: {fileID: 6770572243867040440}
+  isActive: 0
   isDetailed: 0
   reach: 8
   cropNameText: {fileID: 113249938423175349}
@@ -25327,14 +25368,11 @@ MonoBehaviour:
   terraFillD: {fileID: 1875265071904713724}
   ichorFillD: {fileID: 4032277823836888502}
   waterFillD: {fileID: 7463394803544799138}
-  lerpStart: {fileID: 3572117026110847215}
-  lerpEnd: {fileID: 8243734349955881779}
-  lerpEndD: {fileID: 1280672921717509108}
-  cropUITransform: {fileID: 6864879551709486233}
-  cropUITransformD: {fileID: 5791827120973517739}
   lackingGloam: 
   lackingTerra: 
   lackingIchor: 
+  lerpHandler: {fileID: 0}
+  petStatsUI: {fileID: 0}
 --- !u!1 &4279044992047347573
 GameObject:
   m_ObjectHideFlags: 0
@@ -34109,6 +34147,7 @@ MonoBehaviour:
   disableOnEnd: 0
   startAtEnd: 0
   ignoreTimeScale: 1
+  isAtEnd: 0
   transformToLerp: {fileID: 0}
   lerpMultiplier: 8
   startPoint: {fileID: 2657247410910828370}
@@ -35112,6 +35151,7 @@ MonoBehaviour:
   disableOnEnd: 1
   startAtEnd: 1
   ignoreTimeScale: 1
+  isAtEnd: 0
   transformToLerp: {fileID: 7412593234904780016}
   lerpMultiplier: 5
   startPoint: {fileID: 8792646691950916440}
@@ -46580,6 +46620,7 @@ MonoBehaviour:
   disableOnEnd: 0
   startAtEnd: 0
   ignoreTimeScale: 1
+  isAtEnd: 0
   transformToLerp: {fileID: 0}
   lerpMultiplier: 8
   startPoint: {fileID: 7354872878441270327}
@@ -47524,6 +47565,42 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7703916888729759576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5913270937876701881}
+  m_Layer: 5
+  m_Name: DescHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5913270937876701881
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7703916888729759576}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2666966673116705583}
+  m_Father: {fileID: 3228350055307665873}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 258.25763}
+  m_SizeDelta: {x: 503.17572, y: 332.00415}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7729283143556714925
 GameObject:
   m_ObjectHideFlags: 0
@@ -47809,6 +47886,7 @@ MonoBehaviour:
   disableOnEnd: 0
   startAtEnd: 0
   ignoreTimeScale: 1
+  isAtEnd: 0
   transformToLerp: {fileID: 0}
   lerpMultiplier: 8
   startPoint: {fileID: 8818576390446345936}
@@ -47963,6 +48041,7 @@ MonoBehaviour:
   disableOnEnd: 0
   startAtEnd: 0
   ignoreTimeScale: 1
+  isAtEnd: 0
   transformToLerp: {fileID: 0}
   lerpMultiplier: 8
   startPoint: {fileID: 8321729324113679484}

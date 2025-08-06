@@ -7,10 +7,10 @@ public class CropStatsRework : MonoBehaviour
 {
     Camera mainCam;
     public Color c_default, c_rising, c_lowering, c_transparent;
-    public GameObject cropStats, cropStatsDetailed;
+    public GameObject cropStatsParent, cropStats, cropStatsDetailed;
     private FarmLand hitCrop;
     public Image cropSprite, cropSpriteD, gloamArrow, terraArrow, ichorArrow, waterArrow;
-    private bool isActive;
+    public bool isActive;
     public bool isDetailed;
     public float reach = 8;
     public TextMeshProUGUI cropNameText, cropNameTextD, growthStageNumber, growthStageNumberD, gloamIntake, terraIntake, ichorIntake, waterIntake, gloamValue, terraValue, ichorValue, waterValue;
@@ -23,7 +23,10 @@ public class CropStatsRework : MonoBehaviour
     float maxMoveProgress = 0.5f;
     
     [SerializeField] private string lackingGloam, lackingTerra, lackingIchor;
-    [SerializeField] private UILerpHandler lerpA, lerpB;
+    [SerializeField] private UILerpHandler lerpHandler;
+    [SerializeField] private PetStatsUI petStatsUI;
+    public delegate void CropStatsShown();
+    public event CropStatsShown OnCropStatsShown;
 
     void Awake()
     {
@@ -54,8 +57,8 @@ public class CropStatsRework : MonoBehaviour
             isDetailed = false;
         }
 
-        lerpA.lerpToStartArray[0] = !isActive; //This is stupid but it works
-        lerpB.lerpToStartArray[0] = !isActive;
+        lerpHandler.lerpToStartArray[0] = isActive; //This is stupid but it works
+       
 
         /*
         if (isActive && moveProgress < maxMoveProgress)
@@ -122,6 +125,7 @@ public class CropStatsRework : MonoBehaviour
     void FarmlandStatUpdate(FarmLand tile)
     {
         NutrientStorage tileNutrients = tile.GetCropStats();
+        OnCropStatsShown?.Invoke();
         if (tileNutrients == null) { return; }
 
         gloamFill.value = tileNutrients.gloamLevel / 10;

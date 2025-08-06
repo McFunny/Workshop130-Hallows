@@ -52,7 +52,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             case PetState.AwaitPlayer:
                 AwaitPlayer();
                 break;
-                
+
             case PetState.Idle:
                 Idle();
                 break;

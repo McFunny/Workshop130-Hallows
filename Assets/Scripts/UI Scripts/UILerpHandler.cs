@@ -5,19 +5,36 @@ using UnityEngine;
 
 public class UILerpHandler : UILerp
 {
+    public enum LogicType
+    {
+        OR,
+        AND
+    }
+    [Header("AND is currently unused")]
+    public LogicType logicType;
     public bool[] lerpToStartArray; // Array of booleans to determine if each lerp should go to start or end
 
     private void Awake()
     {
-        base.Awake();   
+        base.Awake();
     }
     private void Update()
     {
         base.Update();
-        lerpToStart = LerpToStartOrEnd();
+
+        switch (logicType)
+        {
+            case LogicType.OR:
+                LerpOrGate();
+                break;
+            case LogicType.AND:
+                // Unused
+                break;
+        }
+        lerpToStart = LerpOrGate();
     }
 
-    private bool LerpToStartOrEnd()
+    private bool LerpOrGate()
     {
         var trueCount = 0;
         for (int i = 0; i < lerpToStartArray.Length; i++)
@@ -25,11 +42,11 @@ public class UILerpHandler : UILerp
             if (lerpToStartArray[i]) trueCount++;
         }
         
-        if(trueCount == lerpToStartArray.Length)
+        if(trueCount > 0)
         {
-            return true; // All elements are true, lerp to start
+            return true;
         }
-        else return false; // Not all elements are true, lerp to end
+        else return false;
             
     }
 }
