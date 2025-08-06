@@ -54,6 +54,7 @@ public class BugPuzzleManager : ImAPuzzleManager, IInteractable
         interactSuccessful = false;
         //Add a check for if puzzle is complete
         //Add QOL for 75 items at one time
+        if (puzzleSolved) return;
         if (item == wantedItem && !puzzleSolved)
         {
             if (HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= 5 && itemsDeposited+5 <= itemsNeeded)
@@ -62,19 +63,19 @@ public class BugPuzzleManager : ImAPuzzleManager, IInteractable
                 interactor.playerInventoryHolder.UpdateInventory();
                 itemsDeposited = itemsDeposited + 5;
                 audioSource.PlayOneShot(audioSource.clip);
-                GameObject particle = ParticlePoolManager.Instance.GrabExtinguishParticle();
-                particle.transform.position = particlePoint.position;
+               /* GameObject particle = ParticlePoolManager.Instance.GrabExtinguishParticle();
+                particle.transform.position = particlePoint.position;*/
                 CheckToSeeIfSolved();
                 interactSuccessful = true;
             }
-            else
+            else if (itemsDeposited < itemsNeeded) 
             {
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
                 interactor.playerInventoryHolder.UpdateInventory();
                 itemsDeposited++;
                 audioSource.PlayOneShot(audioSource.clip);
-                GameObject particle = ParticlePoolManager.Instance.GrabExtinguishParticle();
-                particle.transform.position = particlePoint.position;
+               /* GameObject particle = ParticlePoolManager.Instance.GrabExtinguishParticle();
+                particle.transform.position = particlePoint.position;*/
                 CheckToSeeIfSolved();
                 interactSuccessful = true;
             }
@@ -152,7 +153,8 @@ public class BugPuzzleManager : ImAPuzzleManager, IInteractable
     void Start()
     {
         itemWantedSprite.sprite = wantedItem.icon;
-        itemWantedSprite.color = Color.black;
+
+        if(!puzzleSolved) itemWantedSprite.color = Color.black;
         audioSource = GetComponent<AudioSource>();
     }
 

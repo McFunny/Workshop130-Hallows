@@ -51,6 +51,17 @@ public class PuzzleManager : MonoBehaviour
 
     public void CheckToSeeIfPuzzlesAreComplete()
     {
+       GetTotalSolved();
+        FireCheck();
+        if (totalPuzzlesSolved == allPuzzleManagers.Count)
+        {
+            StartCoroutine(MoveStatue());
+        }
+        ActivateSteams();
+    }
+
+    public void GetTotalSolved()
+    {
         totalPuzzlesSolved = 0;
         foreach (var puzzle in allPuzzleManagers)
         {
@@ -59,15 +70,15 @@ public class PuzzleManager : MonoBehaviour
                 totalPuzzlesSolved++;
             }
         }
+    }
+
+    public void FireCheck()
+    {
+        GetTotalSolved();
         for (int i = 0; i < totalPuzzlesSolved; i++)
         {
             firesUponCompletion[i].SetActive(true);
         }
-        if (totalPuzzlesSolved == allPuzzleManagers.Count)
-        {
-            StartCoroutine(MoveStatue());
-        }
-        ActivateSteams();
     }
 
     IEnumerator MoveStatue()
@@ -139,6 +150,7 @@ public class PuzzleManager : MonoBehaviour
             puzzleBeforeMove.SetActive(false);
             puzzleAfterMove.SetActive(true);
         }
+        FireCheck();
         ActivateSteams();
     }
 }

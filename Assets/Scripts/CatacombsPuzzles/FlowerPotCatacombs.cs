@@ -161,6 +161,7 @@ public class FlowerPotCatacombs : MonoBehaviour, IInteractable
     private void GetDataForTablet(int flowerIndex)
     {
         flowerTablet.activePopup = FlowerPotManager.Instance.flowerAssignmentsReference[flowerIndex].popup;
+        requiredItem = FlowerPotManager.Instance.flowerAssignmentsReference[flowerIndex].flower;
     }
 
     public void ToggleHighlight(bool enable)

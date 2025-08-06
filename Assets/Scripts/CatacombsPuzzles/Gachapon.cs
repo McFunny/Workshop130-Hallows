@@ -21,6 +21,8 @@ public class Gachapon : MonoBehaviour, IInteractable
     public List<int> itemBacklog = new List<int>();
     public List<int> itemNumberBacklog = new List<int>();
 
+    private bool coroutineRunning = false;
+
 
 
     private void Awake()
@@ -50,31 +52,47 @@ public class Gachapon : MonoBehaviour, IInteractable
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         interactSuccessful = false;
-        if (itemBacklog.Count > 0 && currentlyOfferingPrize)
+        if (itemBacklog.Count > 0 && currentlyOfferingPrize && !coroutineRunning)
         {
             InventoryItemData item = Database.Instance.GetItem(itemBacklog[0]);
             if (PlayerInventoryHolder.Instance.AddToInventory(item, itemNumberBacklog[0]))
             {
-                animator.SetTrigger("Close");
-                itemBacklog.RemoveAt(0);
-                itemNumberBacklog.RemoveAt(0);
-                ballSprite.enabled = false;
-                currentlyOfferingPrize = false;
+                StartCoroutine(CloseGachapon());
                 interactSuccessful = true;
-                if (itemBacklog.Count > 0) PlayParticles(true);
-                else PlayParticles(false);
             }
         }
-        else if (itemBacklog.Count > 0 && !currentlyOfferingPrize)
+        else if (itemBacklog.Count > 0 && !currentlyOfferingPrize && !coroutineRunning)
         {
-            animator.SetTrigger("Open");
-            ballSprite.enabled = true;
-            currentlyOfferingPrize = true;
+            StartCoroutine(OpenGachapon());
             interactSuccessful = true;
         }
 
     }
 
+
+    IEnumerator OpenGachapon()
+    {
+        coroutineRunning = true;
+        animator.SetTrigger("Open");
+        ballSprite.enabled = true;
+        currentlyOfferingPrize = true;
+        yield return new WaitForSeconds(0.75f);
+        coroutineRunning = false;
+    }
+
+    IEnumerator CloseGachapon()
+    {
+        coroutineRunning = true;
+        animator.SetTrigger("Close");
+        itemBacklog.RemoveAt(0);
+        itemNumberBacklog.RemoveAt(0);
+        ballSprite.enabled = false;
+        currentlyOfferingPrize = false;
+        if (itemBacklog.Count > 0) PlayParticles(true);
+        else PlayParticles(false);
+        yield return new WaitForSeconds(0.75f);
+        coroutineRunning = false;
+    }
     private void PlayParticles(bool enable)
     {
         foreach (ParticleSystem p in steamParticles)
