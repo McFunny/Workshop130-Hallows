@@ -25,7 +25,7 @@ public class Spa : MonoBehaviour, IInteractable
     void Start()
     {
         StartCoroutine(Heal());
-        StartCoroutine(AnimateWater());
+        //StartCoroutine(AnimateWater());
     }
 
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
@@ -124,7 +124,7 @@ public class Spa : MonoBehaviour, IInteractable
         while(gameObject.activeSelf);
     }
 
-    IEnumerator AnimateWater()
+    /*IEnumerator AnimateWater()
     {
         int currentSprite = 0;
         do
@@ -135,5 +135,5 @@ public class Spa : MonoBehaviour, IInteractable
             renderer.sprite = waterSprites[currentSprite];
         }
         while(gameObject.activeSelf);
-    }
+    }*/
 }

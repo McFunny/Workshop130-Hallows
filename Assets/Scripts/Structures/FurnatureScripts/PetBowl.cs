@@ -70,7 +70,7 @@ public class PetBowl : FurnitureBehaviorScript
     public override void ItemInteraction(InventoryItemData item)
     {
         if(containsWater) return;
-        if (item && (savedItems.Count == 0 || savedItems[0] == null) && !item.isKeyItem)
+        if (item && (savedItems.Count == 0 || savedItems[0] == null) && item.animalHungerValue > 0)
         {
             r.sprite = item.icon;
             savedItems.Add(item);
@@ -103,7 +103,7 @@ public class PetBowl : FurnitureBehaviorScript
     {
         if(savedItems.Count == 0 || savedItems[0] == null) return false;
 
-        if(savedItems[0].staminaValue > 0 || petDiet.Contains(savedItems[0])) return true;
+        if(petDiet.Contains(savedItems[0])) return true;
 
         return false;
     }

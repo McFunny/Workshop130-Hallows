@@ -35,14 +35,14 @@ public class TruffleHog : CritterBehaviorScript
     void Start()
     {
         base.Start();
-        CritterStart();
+        //CritterStart();
         StartCoroutine(IdleSoundTimer());
     }
 
     void OnDestroy()
     {
         base.OnDestroy();
-        OnCritterDestroy();
+        //OnCritterDestroy();
     }
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     public float GetCritterHealth(){ return health;}
@@ -77,6 +77,7 @@ public class TruffleHog : CritterBehaviorScript
     
     public void CheckState(CritterState currentState)
     {
+        if(behaviorDelay) return;
         switch (currentState)
         {
             case CritterState.Decide:

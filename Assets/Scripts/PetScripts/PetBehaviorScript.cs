@@ -117,7 +117,7 @@ public class PetBehaviorScript : MonoBehaviour
 
         //hunger = 100;
         if(hunger > maxHunger) hunger = maxHunger;
-        if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/4, true);
+        if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/4, true); //It should always contain this
         else FriendPointsChange(hungerRestored/6, true);
         effectsHandler.PlaySound(effectsHandler.eatSound);
     }

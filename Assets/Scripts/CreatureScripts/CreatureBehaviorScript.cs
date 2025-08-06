@@ -270,19 +270,6 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public Vector3 PointAroundPatrolPoint(float radius)
     {
-        /*Vector3 finalPosition = Vector3.zero;
-        int x = 0;
-        while(x < 20 && finalPosition == Vector3.zero)
-        {
-            Vector3 randomDirection = Random.insideUnitSphere * radius;
-            randomDirection += transform.position;
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomDirection, out hit, radius, 7)) {
-                finalPosition = hit.position;            
-            }
-        }
-        return finalPosition;*/
-
         Vector2 randomDirection = Random.insideUnitCircle * radius;
         Vector3 randomPoint = new Vector3(randomDirection.x, patrolPoint.position.y, randomDirection.y) + patrolPoint.position;
         return randomPoint;

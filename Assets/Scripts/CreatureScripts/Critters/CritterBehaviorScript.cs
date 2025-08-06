@@ -19,6 +19,8 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     public float thirst = 100; //Animals will drink once their thirst is below a fourth
     public float maxThirst = 100;
     public float thirstDecayRate = 4;
+    public PenType penType;
+    protected CritterPen homePen;
     protected bool alreadyPet = false;
     protected Coroutine currentRoutine;
     protected bool isMoving, interruptAction;
@@ -26,7 +28,10 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     protected Transform targetObject;
     public NavMeshAgent agent;
 
-    protected void Start() //Have all critters call these 2 functions in their Start method
+    bool justSpawned = true;
+    protected bool behaviorDelay = true;
+
+    protected void Start() //Have all critters call these 2 functions in their Start method (Nvm?)
     {
         base.Start();
         CritterStart();
@@ -37,10 +42,25 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         TimeManager.OnHourlyUpdate += OnHour;
         BarnManager.Instance.allCritters.Add(this);
         OnHour();
+        StartCoroutine(BehaviorDelay());
+    }
+
+    IEnumerator BehaviorDelay()
+    {
+        yield return new WaitForSeconds(1);
+        behaviorDelay = false;
     }
 
     protected virtual void OnHour()
     {
+        print("Ping");
+        if(justSpawned)
+        {
+            justSpawned = false;
+            return;
+        }
+        else if(TimeManager.Instance.currentHour == 8) Destroy(gameObject);
+    
         if(isDead)
         {
             TakeDamage(999);
@@ -52,17 +72,21 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         if(hunger < 0)
         {
             TakeDamage(5);
+            FriendPointsChange(-2, false);
             tookDamage = true;
         }
         thirst -= thirstDecayRate;
         if(thirst < 0)
         {
             TakeDamage(5);
+            FriendPointsChange(-2, false);
             tookDamage = true;
         }
 
         if(!tookDamage) health += 5;
         if(health > maxHealth) health = maxHealth;
+        
+        if(!homePen) FindHomePen();
     }
 
     protected void EatFood(InventoryItemData item)
@@ -80,8 +104,18 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 
     protected bool EatCheck(bool checkForThirst)
     {
-        var foundSources = FindObjectsByType<Trough>(FindObjectsSortMode.None);
-        if(foundSources.Length == 0) return false;
+        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 80f, 1 << 6);
+        foreach(Collider collider in hitStructures)
+        {
+            Trough t = collider.gameObject.GetComponent<Trough>();
+            if(t && ((!checkForThirst && t.HasEdibleItem(foodDiet)) || (checkForThirst && t.waterLevel > 0)))
+            {
+                targetObject = t.transform;
+                return true;
+            }
+        }
+        //var foundSources = FindObjectsByType<Trough>(FindObjectsSortMode.None);
+        /*if(foundSources.Length == 0) return false;
         for(int i = 0; i < foundSources.Length; i++)
         {
             if((!checkForThirst && foundSources[i].HasEdibleItem(foodDiet)) || (checkForThirst && foundSources[i].waterLevel > 0))
@@ -89,7 +123,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
                 targetObject = foundSources[i].transform;
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
@@ -150,7 +184,22 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         currentRoutine = null;
     }
 
-    protected void OnDestroy() //Have all critters call these 2 functions in their Destroy method
+    void FindHomePen()
+    {
+        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 80f, 1 << 6);
+        foreach(Collider collider in hitStructures)
+        {
+            CritterPen pen = collider.gameObject.GetComponent<CritterPen>();
+            if(pen && pen.type == penType && pen.housedCritters.Count < pen.maxOccupency)
+            {
+                homePen = pen;
+                pen.housedCritters.Add(this);
+                return;
+            }
+        }
+    }
+
+    protected void OnDestroy() //Have all critters call these 2 functions in their Destroy method (Nvm?)
     {
         base.OnDestroy();
         OnCritterDestroy();
@@ -160,6 +209,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     {
         TimeManager.OnHourlyUpdate -= OnHour;
         BarnManager.Instance.allCritters.Remove(this);
+        if(homePen) homePen.housedCritters.Remove(this);
     }
 
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -168,7 +218,22 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     public float GetCritterThirst(){ return thirst;}
     public string GetCritterName(){ return name;}
     public int GetCritterID(){ return creatureData.id;}
+    public bool IsCritterHomeless()
+    {
+        if(homePen) return false;
+        else return true;
+    }
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name);} //For saving purposes
+
+    public void LoadData(CritterData c)
+    {
+        friendshipLevel = c.friendshipLevel;
+        friendPoints = c.friendPoints;
+        health = c.health;
+        hunger = c.hunger;
+        thirst = c.thirst;
+        name = c.name;
+    }
 
     public virtual void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {

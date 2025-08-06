@@ -29,10 +29,17 @@ public interface ICritter
         return -1;
     }
 
+    public bool IsCritterHomeless()
+    {
+        return true;
+    }
+
     public CritterData GetCritterData()
     {
         return new CritterData();
     }
+
+    public void LoadData(CritterData c){}
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful);
 
