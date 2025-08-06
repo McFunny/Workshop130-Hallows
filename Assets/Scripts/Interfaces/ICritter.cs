@@ -29,6 +29,11 @@ public interface ICritter
         return -1;
     }
 
+    public bool IsCritterHomeless()
+    {
+        return true;
+    }
+
     public CritterData GetCritterData()
     {
         return new CritterData();

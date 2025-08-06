@@ -5678,7 +5678,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3008943703359663933}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.76
   m_Speed: 4
   m_Acceleration: 16
   avoidancePriority: 50
@@ -5687,7 +5687,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 1.52
   m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -5781,6 +5781,7 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 1
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 15
   damageToPlayer: -35
@@ -5805,6 +5806,10 @@ MonoBehaviour:
   r: {fileID: 9147928635845148833}
   chargeParticles: {fileID: 2889223921765428286}
   dashParticles: {fileID: 3700494825260136038}
+  exhaustL: {fileID: 0}
+  exhaustR: {fileID: 0}
+  thrusterParticles: {fileID: 0}
+  armor: {fileID: 0}
   currentState: 0
 --- !u!1 &3147736856225823495
 GameObject:
@@ -16362,6 +16367,9 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 1ea8d59dbc57d394db95467523c4c267, type: 3}
   miscSound2: {fileID: 8300000, guid: df47dbe5320cf7d4f99db3a106bfab9f, type: 3}
   miscSound3: {fileID: 8300000, guid: 12e8e482b09f9134ebcc1ab0cb7c4610, type: 3}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 4912352774350906052}
 --- !u!82 &7384973090513336802
 AudioSource:

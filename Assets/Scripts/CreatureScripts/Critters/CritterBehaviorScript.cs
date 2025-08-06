@@ -218,6 +218,11 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     public float GetCritterThirst(){ return thirst;}
     public string GetCritterName(){ return name;}
     public int GetCritterID(){ return creatureData.id;}
+    public bool IsCritterHomeless()
+    {
+        if(homePen) return false;
+        else return true;
+    }
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name);} //For saving purposes
 
     public void LoadData(CritterData c)

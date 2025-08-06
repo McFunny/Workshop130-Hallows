@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e14c53294b14d418d174be0feefd90, type: 3}
+  m_Name: WaspSwarm
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 1056344402660918890, guid: 6c867875c814ead4ebf56dd95e7aa75d,
+    type: 3}
+  creatureVariants: []
+  health: 0
+  position:
+  - 0
+  - 0
+  - 0
+  id: 17
+  dangerCost: 9
+  dangerThreshold: 0
+  spawnWeight: 2
+  spawnCap: 2
+  spawnCapPerHour: 2
+  wealthPrerequisite: 1800
+  contribuiteToCreatureCap: 1
+  amountKilled: 0
+  hasSpawned: 0
+  excludeFromNormalNights: 0
+  spawnType: 2
+  spawnChance_w: 0
+  mintWorth: 26
+  data:
+    Name: 
+    Id: -1
+    health: 0
+    position:
+    - 0
+    - 0
+    - 0
