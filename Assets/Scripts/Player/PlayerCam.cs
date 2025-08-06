@@ -50,7 +50,7 @@ public class PlayerCam : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen || DebugUI.isDebugMenuOpen)
         {

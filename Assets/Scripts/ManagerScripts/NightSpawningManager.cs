@@ -116,7 +116,7 @@ public class NightSpawningManager : MonoBehaviour
 
             SelectNightPool();
         }
-        if(ReportTotalOfCreature(pollinator) < 1 && Random.Range(0,4) == 1) SpawnCreature(pollinator);
+        if(ReportTotalOfCreature(pollinator) < 2 && Random.Range(0,4) == 1) SpawnCreature(pollinator);
 
         CalculateDifficulty();
 

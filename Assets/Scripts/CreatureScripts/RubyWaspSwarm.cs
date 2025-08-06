@@ -31,7 +31,7 @@ public class RubyWaspSwarm : CreatureBehaviorScript
         while(wasps.Count > 0)
         {
             yield return new WaitForSeconds(Random.Range(10, 20));
-            transform.position = StructureManager.Instance.GetRandomNearbyTile(GridType.Farm, 25, transform.position);
+            transform.position = StructureManager.Instance.GetRandomNearbyTile(GridType.Farm, 40, transform.position);
         }
         Destroy(gameObject);
     }
