@@ -31,7 +31,7 @@ public class VFXStatusObject : MonoBehaviour
             p.Play();
         }
 
-        if(appliedSFX) AudioPoolManager.Instance.PlayClipAtPosition(appliedSFX, transform.position);
+        if(appliedSFX && AudioPoolManager.Instance) AudioPoolManager.Instance.PlayClipAtPosition(appliedSFX, transform.position);
     }
 
     void OnDisable()

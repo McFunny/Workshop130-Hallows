@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 public class StructureBehaviorScript : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool isObstacle = true;
 
     public bool absentFromGrid = false; //if true, this object wont count as all structs, nor will it interact with tiles, allowing free placement.
+    [HideInInspector] public bool absentFromFarmGrid = false; //if true, this object should be ignored by creatures that target structures
 
     public Transform focalPoint; //for when the camera needs to focus on the object
     public Transform particleCenter; //for particles
@@ -77,6 +79,8 @@ public class StructureBehaviorScript : MonoBehaviour
 
     Coroutine highlightCoroutine;
 
+    //NavMeshSurface navSurface;
+
     //[Header("Structure Specific")]
 
     //Once we get structure specific UI to see health, then we can add repairability to structures so players can know if they can dig it up safely
@@ -85,7 +89,9 @@ public class StructureBehaviorScript : MonoBehaviour
     public void Awake()
     {
         OnStructuresUpdated?.Invoke();
-        //source = GetComponent<AudioSource>();
+        //navSurface = FindObjectOfType<NavMeshSurface>();
+
+        //navSurface.UpdateNavMesh(navSurface.navMeshData);
         audioHandler = GetComponent<StructureAudioHandler>();
 
         TimeManager.OnHourlyUpdate += HourPassed;
@@ -106,6 +112,8 @@ public class StructureBehaviorScript : MonoBehaviour
     public void Start() //make sure absent from grid is checked if not on farm
     {
         if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Any) == false) absentFromGrid = true;
+        else if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) absentFromFarmGrid = true;
+        
         if (absentFromGrid) return;
         StructureManager.Instance.allStructs.Add(this);
 

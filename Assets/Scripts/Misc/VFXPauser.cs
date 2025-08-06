@@ -16,12 +16,16 @@ public class VFXPauser : MonoBehaviour
     {
         effects = GetComponentsInChildren<VisualEffect>();
 
+        int x = 0;
         foreach(VisualEffect v in effects)
         {
+            if(x > 0) return;
             //v.SetFloat("playRate", 0.75f);
             if(!hiPoly || !lowPoly) return;
             if(useLowPoly) v.SetMesh("SmokeMesh", lowPoly);
             else v.SetMesh("SmokeMesh", hiPoly);
+
+            x++;
         }
 
     }

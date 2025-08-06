@@ -12,6 +12,9 @@ public class Barricade : StructureBehaviorScript
 
     public List<RepairItem> repairItems;
 
+    public Transform mount;
+    [HideInInspector] public bool catOnStruct;
+
     [System.Serializable]
     public class RepairItem
     {
@@ -34,7 +37,7 @@ public class Barricade : StructureBehaviorScript
 
     void Update()
     {
-        base.Update();
+        if(!catOnStruct) base.Update();
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -67,7 +70,7 @@ public class Barricade : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel && !absentFromGrid)
+        if(type == ToolType.Shovel && !absentFromGrid && !catOnStruct)
         {
             //StartCoroutine(DugUpForItem());
             success = true;

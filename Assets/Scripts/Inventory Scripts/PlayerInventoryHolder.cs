@@ -18,6 +18,8 @@ public class PlayerInventoryHolder : InventoryHolder
     public static UnityAction<InventorySystem> OnPlayerHotbarDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerBackpackDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
+    public delegate void ItemAddedToInventory(InventorySlot slot);
+    public static event ItemAddedToInventory onItemAddedToInventory;
 
     public bool useDebugItems;
 
@@ -207,6 +209,7 @@ public class PlayerInventoryHolder : InventoryHolder
                     slot.AddToStack(amount);
                     OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
                     OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+                    onItemAddedToInventory?.Invoke(slot);
                     return true;
                 }
             }
@@ -220,6 +223,7 @@ public class PlayerInventoryHolder : InventoryHolder
                 {
                     slot.AddToStack(amount);
                     OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+                    onItemAddedToInventory?.Invoke(slot);
                     return true;
                 }
             }
@@ -232,6 +236,7 @@ public class PlayerInventoryHolder : InventoryHolder
                 freePrimarySlot.UpdateInventorySlot(data, amount);
                 OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
                 OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
+                onItemAddedToInventory?.Invoke(freePrimarySlot);
                 return true;
             }
         }
@@ -242,6 +247,7 @@ public class PlayerInventoryHolder : InventoryHolder
             {
                 freeSecondarySlot.UpdateInventorySlot(data, amount);
                 OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+                onItemAddedToInventory?.Invoke(freeSecondarySlot);
                 return true;
             }
         }

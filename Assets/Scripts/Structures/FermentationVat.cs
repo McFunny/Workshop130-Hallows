@@ -19,6 +19,8 @@ public class FermentationVat : StructureBehaviorScript
     public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
     public PopupScript chargingPopup;
 
+    public AudioSource loopingSource1, loopingSource2;
+
     void Awake()
     {
         base.Awake();
@@ -96,6 +98,7 @@ public class FermentationVat : StructureBehaviorScript
             poofParticle.transform.position = itemDropTransform.position;*/
 
             ParticleToggle();
+            LoopingSourceToggle(true);
 
             ignoreNextHour = true;
 
@@ -142,6 +145,7 @@ public class FermentationVat : StructureBehaviorScript
             playingActiveParticles = false;
             activatedParticles.Stop();
             completedParticles.Play();
+            LoopingSourceToggle(false);
         }
 
         if(savedItems.Count == 0)
@@ -149,6 +153,20 @@ public class FermentationVat : StructureBehaviorScript
             playingActiveParticles = false;
             activatedParticles.Stop();
             completedParticles.Stop();
+        }
+    }
+
+    void LoopingSourceToggle(bool turnOn)
+    {
+        if(turnOn)
+        {
+            loopingSource1.Play();
+            loopingSource2.Play();
+        }
+        else
+        {
+            loopingSource1.Stop();
+            loopingSource2.Stop();
         }
     }
 
@@ -169,6 +187,7 @@ public class FermentationVat : StructureBehaviorScript
     public override void LoadVariables()
     {
         progress = saveInt1;
+        if(progress > 0) LoopingSourceToggle(true);
         ParticleToggle();
         isFunctioning = true;
     }

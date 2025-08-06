@@ -101,7 +101,7 @@ public class ScytheAttack : MonoBehaviour
         }
 
         //it hit default collider
-        if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15) return;
+        if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15 || other.GetComponentInParent<PetBehaviorScript>()) return;
         
         /*
         cancelSwing = true;

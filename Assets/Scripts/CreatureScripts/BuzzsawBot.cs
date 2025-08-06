@@ -102,7 +102,7 @@ public class BuzzsawBot : CreatureBehaviorScript
                 targetPos = despawnPos;
                 continue;
             }
-            else if(inWilderness)
+            else if(inWilderness || Random.Range(0, 15) == 0)
             {
                 targetPos = player.position;
                 continue;
