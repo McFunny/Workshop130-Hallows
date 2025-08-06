@@ -2756,7 +2756,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6726864080473807637}
-  - component: {fileID: 8656468715716477022}
   m_Layer: 0
   m_Name: ClosedFist (1)
   m_TagString: Untagged
@@ -2780,27 +2779,6 @@ Transform:
   - {fileID: 5296398516154527229}
   m_Father: {fileID: 3758415054592525023}
   m_LocalEulerAnglesHint: {x: 0, y: -96.168, z: 0}
---- !u!65 &8656468715716477022
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3070966622874895183}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.1, y: 0.1, z: 0.1}
-  m_Center: {x: 0, y: 0.72, z: 0.03}
 --- !u!1 &3082170006297851756
 GameObject:
   m_ObjectHideFlags: 0
@@ -7217,7 +7195,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.46591192, y: -0.5316804, z: 0.53357977, w: 0.46425724}
   m_LocalPosition: {x: 37.289, y: -1.318, z: -131.676}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1569187600007071379}

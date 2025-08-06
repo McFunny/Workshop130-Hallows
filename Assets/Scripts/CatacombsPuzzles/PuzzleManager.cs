@@ -10,7 +10,8 @@ public class PuzzleManager : MonoBehaviour
     public static PuzzleManager Instance;
 
 
-
+    public List<ImAPuzzleManager> allPuzzleManagers = new List<ImAPuzzleManager>();
+    public List<GameObject> firesUponCompletion = new List<GameObject>();
 
     public AudioSource audioSource;
     public bool allPuzzlesSolved;
@@ -23,9 +24,9 @@ public class PuzzleManager : MonoBehaviour
     public GameObject brazierPuzzleSteam;
     public GameObject waterPuzzleSteam;
     public GameObject pillarPuzzleSteam;
-    public GameObject slotPuzzleSteam;
     public GameObject shrinePuzzleSteam;
     public GameObject flowerPuzzleSteam;
+    public GameObject bugPuzzleSteam;
 
     private CinemachineImpulseSource impulseSource;
 
@@ -50,9 +51,19 @@ public class PuzzleManager : MonoBehaviour
 
     public void CheckToSeeIfPuzzlesAreComplete()
     {
-        if (SlotMachine.Instance.puzzleSolved && RotatingPillarManager.Instance.puzzleSolved
-            && BrazierPuzzleManager.Instance.puzzleSolved && WaterPuzzleManager.Instance.puzzleSolved
-            && ShrineBoxManager.Instance.puzzleSolved && FlowerPotManager.Instance.puzzleSolved)
+        totalPuzzlesSolved = 0;
+        foreach (var puzzle in allPuzzleManagers)
+        {
+            if (puzzle.puzzleSolved == true)
+            {
+                totalPuzzlesSolved++;
+            }
+        }
+        for (int i = 0; i < totalPuzzlesSolved; i++)
+        {
+            firesUponCompletion[i].SetActive(true);
+        }
+        if (totalPuzzlesSolved == allPuzzleManagers.Count)
         {
             StartCoroutine(MoveStatue());
         }
@@ -74,12 +85,12 @@ public class PuzzleManager : MonoBehaviour
 
     private void ActivateSteams()
     {
-        if(SlotMachine.Instance.puzzleSolved) slotPuzzleSteam.SetActive(true);
-        if(BrazierPuzzleManager.Instance.puzzleSolved) brazierPuzzleSteam.SetActive(true);
+       /* if(BrazierPuzzleManager.Instance.puzzleSolved) brazierPuzzleSteam.SetActive(true);
         if(RotatingPillarManager.Instance.puzzleSolved) pillarPuzzleSteam.SetActive(true);
         if(WaterPuzzleManager.Instance.puzzleSolved) waterPuzzleSteam.SetActive(true);
         if(ShrineBoxManager.Instance.puzzleSolved) shrinePuzzleSteam.SetActive(true);
         if (FlowerPotManager.Instance.puzzleSolved) flowerPuzzleSteam.SetActive(true);
+        if (BugPuzzleManager.Instance.puzzleSolved) bugPuzzleSteam.SetActive(true);*/
     }
 
         private void SaveData()
@@ -96,12 +107,15 @@ public class PuzzleManager : MonoBehaviour
     {
         return new PuzzleManagerSaveData
         {
-            slotMachineSaveData = SlotMachine.Instance.ExportSaveData(),
-            waterPuzzleData = WaterPuzzleManager.Instance.GetPuzzleData(),
+
+            waterPuzzleData = WaterPuzzleManager.Instance.ExportSaveData(),
             rotatingPuzzleData = RotatingPillarManager.Instance.ExportSaveData(),
             brazierPuzzleData = BrazierPuzzleManager.Instance.ExportSaveData(),
             shrinePuzzleData = ShrineBoxManager.Instance.ExportSaveData(),
             flowerPuzzleData = FlowerPotManager.Instance.ExportSaveData(),
+            bugPuzzleSaveData = BugPuzzleManager.Instance.ExportSaveData(),
+            siegeFlowerSaveData = SiegeFlowerPuzzleManager.Instance.ExportSaveData(),
+            gachaponSaveData = Gachapon.Instance.ExportSaveData(),
             totalPuzzlesSolved = totalPuzzlesSolved,
             allPuzzlesSolved = allPuzzlesSolved
         };
@@ -109,12 +123,15 @@ public class PuzzleManager : MonoBehaviour
 
     public void LoadFromData(PuzzleManagerSaveData data)
     {
-        SlotMachine.Instance.ImportSaveData(data.slotMachineSaveData);
-        WaterPuzzleManager.Instance.LoadFromData(data.waterPuzzleData);
+        
+        WaterPuzzleManager.Instance.ImportSaveData(data.waterPuzzleData);
         RotatingPillarManager.Instance.ImportSaveData(data.rotatingPuzzleData);
         BrazierPuzzleManager.Instance.ImportSaveData(data.brazierPuzzleData);
         ShrineBoxManager.Instance.ImportSaveData(data.shrinePuzzleData);
         FlowerPotManager.Instance.ImportSaveData(data.flowerPuzzleData);
+        BugPuzzleManager.Instance.ImportSaveData(data.bugPuzzleSaveData);
+        SiegeFlowerPuzzleManager.Instance.ImportSaveData(data.siegeFlowerSaveData);
+        Gachapon.Instance.ImportSaveData(data.gachaponSaveData);
         totalPuzzlesSolved = data.totalPuzzlesSolved;
         allPuzzlesSolved = data.allPuzzlesSolved;
         if (allPuzzlesSolved)
@@ -129,12 +146,15 @@ public class PuzzleManager : MonoBehaviour
 [System.Serializable]
 public struct PuzzleManagerSaveData
 {
-    public SlotMachineSaveData slotMachineSaveData;
+    
     public WaterPuzzleData waterPuzzleData;
     public RotatingPuzzleSaveData rotatingPuzzleData;
     public BrazierPuzzleSaveData brazierPuzzleData;
     public ShrinePuzzleSaveData shrinePuzzleData;
     public FlowerPuzzleSaveData flowerPuzzleData;
+    public BugPuzzleSaveData bugPuzzleSaveData;
+    public SiegeFlowerPuzzleSaveData siegeFlowerSaveData;
+    public GachaponSaveData gachaponSaveData;
     public int totalPuzzlesSolved;
     public bool allPuzzlesSolved;
 }

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SiegeFlowerPuzzleManager : MonoBehaviour
+public class SiegeFlowerPuzzleManager : ImAPuzzleManager
 {
     public static SiegeFlowerPuzzleManager Instance;
 
-    public bool puzzleSolved = false;
     public List<SiegeFlowerTotem> pots = new List<SiegeFlowerTotem>();
 
     private void Awake()

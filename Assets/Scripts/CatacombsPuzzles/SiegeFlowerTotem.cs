@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -24,6 +25,12 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
     private Coroutine highlightCoroutine;
     public bool canShowHighlight = true;
     public GameObject structureUI;
+    public SpriteRenderer structureUIRenderer;
+
+    [Header("Gachapon Stuff")]
+    public InventoryItemData gachaponReward;
+    public int gachaponRewardCount;
+
 
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
@@ -31,11 +38,12 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
     {
      
         foreach (var obj in highlight) obj.SetActive(false);
-        if (structureUI) structureUI.SetActive(false);
+        if (structureUI) structureUIRenderer.enabled = false;
     }
 
     private void Start()
     {
+        structureUIRenderer.sprite = requiredItem.icon;
         UpdateVisual();
     }
 
@@ -65,14 +73,41 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
         {
             currentItem = item;
             isLocked = true;
+            if (structureUI) structureUI.SetActive(false);
             UpdateVisual();
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
             UpdateFlower(item);
             interactSuccessful = true;
+            Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
+            UpdateSieges();
         }
     }
 
+    private void UpdateSieges()
+    {
+        GameSaveData.Instance.siegesCleared++;
+        switch (GameSaveData.Instance.siegesCleared)
+        {
+            case 1:
+                QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.MainQuests[9]);
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[10]);
+                break;
+            case 2:
+                QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.MainQuests[10]);
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[11]);
+                break;
+            case 3:
+                QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.MainQuests[11]);
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[12]);
+                break;
+            case 4:
+                QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.MainQuests[12]);
+                break;
+            default:
+                break;
+        }
+    }
 
     public void EndInteraction() { }
 
@@ -122,6 +157,10 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
     public void ImportSaveData(SiegeFlowerSaveData data)
     {
         isLocked = data.isLockedData;
+        if(isLocked == true)
+        {
+            if (structureUI) structureUI.SetActive(false);
+        }
 
         if (data.currentItemID != -1)
         {
@@ -144,7 +183,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
 
         if (!canShowHighlight)
         {
-            if (structureUI) structureUI.SetActive(enable);
+            if (structureUI) structureUIRenderer.enabled = enable;
             DisableHighlight();
             return;
         }
@@ -162,7 +201,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
         if (enable && highlightCoroutine == null)
         {
             foreach (var h in highlight) h.SetActive(true);
-            if (structureUI) structureUI.SetActive(true);
+            if (structureUI) structureUIRenderer.enabled = true;
             highlightCoroutine = StartCoroutine(HightlightFlash());
         }
 
@@ -177,7 +216,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
     private void DisableHighlight()
     {
         foreach (var h in highlight) h.SetActive(false);
-        if (structureUI) structureUI.SetActive(false);
+        if (structureUI) structureUIRenderer.enabled = false;
     }
 
     private IEnumerator HightlightFlash()
@@ -187,6 +226,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
         {
             while (power > 1f)
             {
+                structureUIRenderer.enabled = true;
                 power -= 0.1f;
                 foreach (Material mat in highlightMaterial)
                     mat.SetFloat("_Fresnel_Power", power);
@@ -195,6 +235,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
 
             while (power < 2.5f)
             {
+                structureUIRenderer.enabled = true;
                 power += 0.1f;
                 foreach (Material mat in highlightMaterial)
                     mat.SetFloat("_Fresnel_Power", power);

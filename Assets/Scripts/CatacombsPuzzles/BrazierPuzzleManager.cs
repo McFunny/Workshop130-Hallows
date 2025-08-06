@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrazierPuzzleManager : MonoBehaviour
+public class BrazierPuzzleManager : ImAPuzzleManager
 {
     [SerializeField] private List<PuzzleBrazier> brazierList = new List<PuzzleBrazier>();
 
-    public bool puzzleSolved;
 
     public Color gold;
     public Color gray;
@@ -15,6 +14,10 @@ public class BrazierPuzzleManager : MonoBehaviour
     public SpriteRenderer totalPuzzleWin;
 
     public static BrazierPuzzleManager Instance;
+
+    [Header("Gachapon Stuff")]
+    public InventoryItemData gachaponReward;
+    public int gachaponRewardCount;
 
     private void Awake()
     {
@@ -30,7 +33,8 @@ public class BrazierPuzzleManager : MonoBehaviour
     private void Start()
     {
         puzzleSolved = false;
-        InitializePuzzles();
+        if(!puzzleSolved) InitializePuzzles();
+
     }
 
     private void InitializePuzzles()
@@ -68,6 +72,7 @@ public class BrazierPuzzleManager : MonoBehaviour
 
         puzzleSolved = true;
         PuzzleManager.Instance.totalPuzzlesSolved++;
+        Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
         PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
     }
 
