@@ -966,17 +966,32 @@ public class FarmLand : StructureBehaviorScript
             }
         }
 
-        if(other.gameObject.layer == 10 && isWeed)
+        if(other.gameObject.layer == 10)
         {
-            if(growthStage == 5) 
+            if(crop)
             {
-                PlayerInteraction.Instance.StaminaChange(-5); //Hit by a thorn
-                StructureManager.Instance.IchorRefill(transform.position, 1, 1);
+                PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.7f));
             }
-            if(growthStage == 6) PlayerInteraction.Instance.PlayerTripNoKnockback(); //Tripped by weed
+            if(isWeed)
+            {
+                if(growthStage == 5) 
+                {
+                    PlayerInteraction.Instance.StaminaChange(-5); //Hit by a thorn
+                    StructureManager.Instance.IchorRefill(transform.position, 1, 1);
+                }
+                if(growthStage == 6) PlayerInteraction.Instance.PlayerTripNoKnockback(); //Tripped by weed
+            }
         }
 
         if(crop && crop.behavior) crop.behavior.OnContact(this, other.gameObject);
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.layer == 10)
+        {
+            PlayerMovement.Instance.RemoveSpeedMod(gameObject);
+        }
     }
 
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it
