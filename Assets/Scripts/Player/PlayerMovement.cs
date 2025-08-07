@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance;
+
     [Header("Movement")]
     public float moveSpeed; //Current Move Speed
     private float savedMoveSpeed;
@@ -49,6 +51,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else Instance = this;
+
         controlManager = FindFirstObjectByType<ControlManager>();
         headBobController = FindFirstObjectByType<HeadBobController>();
         restrictMovementTokens = 0;
@@ -206,17 +215,44 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void ApplySpeedMod(MovementSpeedModifiers newMod)
+    {
+        for(int i = 0; i < speedMods.Count; i++)
+        {
+            if(speedMods[i].source == newMod.source) return;
+        }
+
+        speedMods.Add(newMod);
+    }
+
+    public void RemoveSpeedMod(GameObject source)
+    {
+        for(int i = 0; i < speedMods.Count; i++)
+        {
+            if(speedMods[i].source == source)
+            {
+                speedMods.RemoveAt(i);
+                return;
+            }
+        }
+    }
+
 
 
     private void SpeedControl()
     {
         //The better system but one I really dont feel like working on
-        /*float walkMod = 1;
+        float movementMult = 1;
 
         for(int i = 0; i < speedMods.Count; i++)
         {
-            walkMod *= speedMods[i].modifier;
-        }*/ 
+            if(speedMods[i].source == null)
+            {
+                speedMods.RemoveAt(i);
+                i--;
+            }
+            else movementMult *= speedMods[i].modifier;
+        }
 
 
         float walkMod = 0;
@@ -234,11 +270,11 @@ public class PlayerMovement : MonoBehaviour
         }
         if (isSprinting)
         {
-            moveSpeed = sprintSpeed + sprintMod;
+            moveSpeed = (sprintSpeed + sprintMod) * movementMult;
         }
         else
         {
-            moveSpeed = savedMoveSpeed + walkMod;
+            moveSpeed = (savedMoveSpeed + walkMod) * movementMult;
         }
 
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
@@ -294,6 +330,12 @@ public class PlayerMovement : MonoBehaviour
 
 public class MovementSpeedModifiers
 {
-    public string source;
+    public GameObject source;
     public float modifier = 1f;
+
+    public MovementSpeedModifiers(GameObject _source, float _modifier)
+    {
+        source = _source;
+        modifier = _modifier;
+    }
 }

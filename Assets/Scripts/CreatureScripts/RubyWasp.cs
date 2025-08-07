@@ -25,6 +25,7 @@ public class RubyWasp : CreatureBehaviorScript
     private float noiseOffset;
 
     private bool coroutineRunning = false;
+    bool stuckOnPlayer;
 
     public enum CreatureState
     {
@@ -287,6 +288,10 @@ public class RubyWasp : CreatureBehaviorScript
         unstickAttempts = 0;
         int attemptsNeeded = Random.Range(5, 12);
         anim.SetBool("Unstuck", false);
+
+        stuckOnPlayer = true;
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.9f));
+
         while(unstickAttempts < attemptsNeeded)
         {
             unstickAttempts++;
@@ -303,6 +308,9 @@ public class RubyWasp : CreatureBehaviorScript
         allColliders[0].isTrigger = false;
         anim.SetBool("Unstuck", true);
         currentState = CreatureState.Wander;
+
+        stuckOnPlayer = false;
+        PlayerMovement.Instance.RemoveSpeedMod(gameObject);
         yield return new WaitForSeconds(1f);
         coroutineRunning = false;
     }
@@ -386,5 +394,7 @@ public class RubyWasp : CreatureBehaviorScript
     {
         base.OnDestroy();
         if(homeSwarm) homeSwarm.wasps.Remove(gameObject);
+
+        if(stuckOnPlayer) PlayerMovement.Instance.RemoveSpeedMod(gameObject);
     }
 }
