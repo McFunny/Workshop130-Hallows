@@ -38,7 +38,7 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
     private Camera mainCam;
     public delegate void PetStatsShown();
     public event PetStatsShown OnPetStatsShown;
-    private int layerMask = (1 << 6 | 1 << 9);
+    private int layerMask = 1 << 6 | 1 << 9;
     // Start is called before the first frame update
     void Start()
     {
@@ -108,8 +108,8 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
                 critterHealthText.text = critter.health + "/" + critter.maxHealth;
                 critterHungerText.text = critter.hunger + "/" + critter.maxHunger;
                 critterThirstText.text = critter.thirst + "/" + critter.maxThirst;
-                petHungerSlider.value = critter.health / critter.maxHealth;
-                petHungerSlider.value = critter.hunger / critter.maxHunger;
+                critterHealthSlider.value = critter.health / critter.maxHealth;
+                critterHungerSlider.value = critter.hunger / critter.maxHunger;
                 critterThirstSlider.value = critter.thirst / critter.maxThirst;
                 critterFriendshipText.text = critter.friendshipLevel.ToString();
             }
