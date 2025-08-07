@@ -20,6 +20,8 @@ public class ItemPickup : MonoBehaviour
 
     Rigidbody rb;
 
+    public int stackSize = 1;
+
     [SerializeField] private ItemPickupSaveData itemSaveData;
     private string id;
 
@@ -37,13 +39,17 @@ public class ItemPickup : MonoBehaviour
         myCollider = GetComponent<SphereCollider>();
         myCollider.isTrigger = true;
         myCollider.radius = PickUpRadius;
+        stackSize = 1;
 
         if(!r) r = GetComponent<SpriteRenderer>();
 
         if(ItemData) RefreshItem(ItemData);
     }
 
-   
+    private void OnDisable()
+    {
+        stackSize = 1;
+    }
 
     private void Start()
     {
@@ -119,12 +125,19 @@ public class ItemPickup : MonoBehaviour
 
         if (!inventory || !canBeCollected) return;
 
-        if (inventory.AddToInventory(ItemData, 1))
+        int remaining = TryAddToInventoryManually(inventory, ItemData, stackSize);
+
+        if (remaining <= 0)
         {
-            //SaveGameManager.data.collectedItems.Add(id);
+            // Full pickup successful
             beingCollected = true;
             myCollider.enabled = false;
             StartCoroutine(PickupDelay());
+        }
+        else
+        {
+            // Partial pickup; update remaining amount
+            stackSize = remaining;
         }
     }
 
@@ -158,6 +171,72 @@ public class ItemPickup : MonoBehaviour
         
         gameObject.SetActive(false); // Make the item disappear
     }
+
+    private int TryAddToInventoryManually(PlayerInventoryHolder inventory, InventoryItemData item, int totalToAdd)
+    {
+        int remaining = totalToAdd;
+
+        // Fill existing in primary
+        if (inventory.PrimaryInventorySystem.ContainsItem(item, out List<InventorySlot> primarySlots))
+        {
+            foreach (var slot in primarySlots)
+            {
+                if (remaining <= 0) break;
+
+                int space = item.maxStackSize - slot.StackSize;
+                int toAdd = Mathf.Min(space, remaining);
+                if (toAdd > 0)
+                {
+                    slot.AddToStack(toAdd);
+                    remaining -= toAdd;
+                }
+            }
+        }
+
+        // Fill existing in seconday
+        if (inventory.secondaryInventorySystem.ContainsItem(item, out List<InventorySlot> secondarySlots))
+        {
+            foreach (var slot in secondarySlots)
+            {
+                if (remaining <= 0) break;
+
+                int space = item.maxStackSize - slot.StackSize;
+                int toAdd = Mathf.Min(space, remaining);
+                if (toAdd > 0)
+                {
+                    slot.AddToStack(toAdd);
+                    remaining -= toAdd;
+                }
+            }
+        }
+
+        // Find free slots
+        while (remaining > 0)
+        {
+            int toAdd = Mathf.Min(item.maxStackSize, remaining);
+
+            if (inventory.PrimaryInventorySystem.HasFreeSlot(out InventorySlot freePrimary))
+            {
+                freePrimary.UpdateInventorySlot(item, toAdd);
+                remaining -= toAdd;
+            }
+            else if (inventory.secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondary))
+            {
+                freeSecondary.UpdateInventorySlot(item, toAdd);
+                remaining -= toAdd;
+            }
+            else
+            {
+                break; // inventory full
+            }
+        }
+
+        PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventory.PrimaryInventorySystem);
+        PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventory.secondaryInventorySystem);
+
+        return remaining; // return leftover amount
+    }
+
 }
 
 [System.Serializable]

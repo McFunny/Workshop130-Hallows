@@ -3,15 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterPuzzleManager : MonoBehaviour
+public class WaterPuzzleManager : ImAPuzzleManager
 {
     public WaterPuzzleTile puzzle1;
     public WaterPuzzleTile puzzle2;
     public WaterPuzzleTile puzzle3;
 
-    public bool puzzleSolved = false;
 
     public static WaterPuzzleManager Instance;
+
+    [Header("Gachapon Stuff")]
+    public InventoryItemData gachaponReward;
+    public int gachaponRewardCount;
 
     private void Awake()
     {
@@ -44,11 +47,12 @@ public class WaterPuzzleManager : MonoBehaviour
             //SavePuzzleState();
             PuzzleManager.Instance.totalPuzzlesSolved++;
             PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
+            Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
         }
     }
 
 
-    public WaterPuzzleData GetPuzzleData()
+    public WaterPuzzleData ExportSaveData()
     {
         return new WaterPuzzleData
         {
@@ -60,7 +64,7 @@ public class WaterPuzzleManager : MonoBehaviour
     }
 
 
-    public void LoadFromData(WaterPuzzleData data)
+    public void ImportSaveData(WaterPuzzleData data)
     {
         puzzleSolved = data.waterPuzzleSolved;
 

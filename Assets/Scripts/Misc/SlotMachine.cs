@@ -21,11 +21,9 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
     public float speed, timePerSlot;
 
-    public InventoryItemData bullet, mints;
+    public InventoryItemData bullet, bugItem;
 
-    private List<InventoryItemData> randomPlant = new List<InventoryItemData>();
-    public List<InventoryItemData> bannedCrops = new List<InventoryItemData>();
-    public InventoryItemData carrotSeed;
+    public List<InventoryItemData> allowedCrops = new List<InventoryItemData>();
 
     public Transform itemCollection;
 
@@ -51,6 +49,8 @@ public class SlotMachine : MonoBehaviour,IInteractable
     public AudioClip mouthOpen, mouthClose, clickInPlace, win, brokenSound;
 
     public static SlotMachine Instance;
+
+    public int debugNumber;
 
 
     private void Awake()
@@ -111,17 +111,8 @@ public class SlotMachine : MonoBehaviour,IInteractable
     IEnumerator LetsGamble()
     {
         coroutineRunning = true;
-        if (!puzzleSolved && moneySpent >= 250)
-        {
-            SlotIndex1 = 1;
-            SlotIndex2 = 1;
-            SlotIndex3 = 1;
-            yield return StartCoroutine(RotateSlots());
-            yield return new WaitForSeconds(0.5f);
-            StartCoroutine(Reward());
-            coroutineRunning = false;
-        }
-        else if(CheckIfBreaks())
+        ToggleHighlight(false);
+        if (CheckIfBreaks())
         {
             SlotIndex1 = 4;
             SlotIndex2 = 4;
@@ -135,9 +126,9 @@ public class SlotMachine : MonoBehaviour,IInteractable
         }
         else if (DebugMode)
         {
-            SlotIndex1 = 2;
-            SlotIndex2 = 2;
-            SlotIndex3 = 2;
+            SlotIndex1 = debugNumber;
+            SlotIndex2 = debugNumber;
+            SlotIndex3 = debugNumber;
             yield return StartCoroutine(RotateSlots());
 
             yield return new WaitForSeconds(0.5f);
@@ -174,42 +165,15 @@ public class SlotMachine : MonoBehaviour,IInteractable
             switch (SlotIndex1)
             {
                 case 1:
-                    if (!puzzleSolved)
-                    {
-                        puzzleSolved = true;
-                        //play sound effect
-                        audiosource.clip = mouthOpen;
-                        audiosource.Play();
-                        animator.SetTrigger("OpenMouth");
-                        animLength = animator.GetCurrentAnimatorStateInfo(0).length;
-                        yield return new WaitForSeconds(animLength);
-                        mints.maxStackSize = (cost * 5);
-                        droppedItem = ItemPoolManager.Instance.GrabItem(mints);
-                        droppedItem.transform.position = itemCollection.position;
-                        stayWithItem = true;
-                        animator.SetTrigger("CloseMouth");
-                        audiosource.clip = mouthClose;
-                        audiosource.Play();
-                        animLength = animator.GetCurrentAnimatorStateInfo(0).length;
-                        while (stayWithItem)
-                        {
-                            droppedItem.transform.position = itemCollection.position;
-                            yield return null;
-                        }
-                        PuzzleManager.Instance.totalPuzzlesSolved++;
-                        PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
-                        yield return new WaitForSeconds(animLength);
-                    }
-                    else
-                    {
-                       
+                    
                         animator.SetTrigger("OpenMouth");
                         audiosource.clip = mouthOpen;
                         audiosource.Play();
                         animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                         yield return new WaitForSeconds(animLength);
-                        mints.maxStackSize = (cost * 2);
-                        droppedItem = ItemPoolManager.Instance.GrabItem(mints);
+                        droppedItem = ItemPoolManager.Instance.GrabItem(bugItem);
+                        ItemPickup itemPU = droppedItem.GetComponent<ItemPickup>();
+                        itemPU.stackSize = 10;
                         droppedItem.transform.position = itemCollection.position;
                         stayWithItem = true;
                         animator.SetTrigger("CloseMouth");
@@ -223,7 +187,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
                         }
                         yield return new WaitForSeconds(animLength);
 
-                    }
+                    
                     break;
                 case 2:
                    
@@ -232,8 +196,8 @@ public class SlotMachine : MonoBehaviour,IInteractable
                     audiosource.Play();
                     animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                     yield return new WaitForSeconds(animLength);
-                    mints.maxStackSize = (cost);
-                    droppedItem = ItemPoolManager.Instance.GrabItem(mints);
+                    //bugItem.maxStackSize = (cost);
+                    droppedItem = ItemPoolManager.Instance.GrabItem(bugItem);
                     droppedItem.transform.position = itemCollection.position;
                     stayWithItem = true;
                     animator.SetTrigger("CloseMouth");
@@ -270,37 +234,19 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
                     break;
                 case 4:
-                    if (puzzleSolved)
-                    {
-                       
                         yield return StartCoroutine(SummonPyreFly());
                         broken = true;
-                    }
-                    else 
-                    {
-                        
-                        yield return StartCoroutine(SummonPyreFly());
-
-                        //play broken sound effect
-                    }
                     break;
                 case 5:
                    
-                    List<InventoryItemData> randomPlant = Database.Instance.GetAllCrops().Cast<InventoryItemData>().ToList();
-                    int r = Random.Range(1, randomPlant.Count);
-                    for (int i = 0; i < bannedCrops.Count; i++)
-                    {
-                        if (randomPlant[r] == bannedCrops[i])
-                        {
-                            randomPlant[r] = carrotSeed;
-                        }
-                    }
+                   
+                    int r = Random.Range(1, allowedCrops.Count);
                     animator.SetTrigger("OpenMouth");
                     audiosource.clip = mouthOpen;
                     audiosource.Play();
                     animLength = animator.GetCurrentAnimatorStateInfo(0).length;
                     yield return new WaitForSeconds(animLength);
-                    droppedItem = ItemPoolManager.Instance.GrabItem(randomPlant[r]);
+                    droppedItem = ItemPoolManager.Instance.GrabItem(allowedCrops[r]);
                     droppedItem.transform.position = itemCollection.position;
                     stayWithItem = true;
                     animator.SetTrigger("CloseMouth");
@@ -412,26 +358,32 @@ public class SlotMachine : MonoBehaviour,IInteractable
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         interactSuccessful = false;
-        if (!broken)
-        {
-            if (!coroutineRunning)
-            {
-                timesSpun++;
-                moneySpent += cost;
-                StartCoroutine(LetsGamble());
-                interactSuccessful = true;
-            }
-        }
-        else if (broken)
-        {
-            animator.SetTrigger("Broken");
-            interactSuccessful = true;
-        }
+        
     }
 
         public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         interactSuccessful = false;
+        if (item == bugItem)
+        {
+            if (!broken)
+            {
+                if (!coroutineRunning)
+                {
+                    HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                    interactor.playerInventoryHolder.UpdateInventory();
+                    timesSpun++;
+                    moneySpent += cost;
+                    StartCoroutine(LetsGamble());
+                    interactSuccessful = true;
+                }
+            }
+            else if (broken)
+            {
+                animator.SetTrigger("Broken");
+                interactSuccessful = true;
+            }
+        }
     }
 
     public void EndInteraction()
@@ -441,6 +393,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
     public void ToggleHighlight(bool enable)
     {
+        if (coroutineRunning && enable == true) return;
         if (highlight.Count == 0) return;
         if (highlightMaterial.Count == 0)
         {

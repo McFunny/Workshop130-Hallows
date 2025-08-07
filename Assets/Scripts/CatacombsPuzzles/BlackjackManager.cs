@@ -12,7 +12,8 @@ public class BlackjackManager : MonoBehaviour
     public BlackjackBettingBox bettingBox;
     public BlackjackStartInteraction startInteraction;
 
-    private List<Card> deck;
+    private List<Card> deck = new List<Card>();
+    public int cardsLeftInDeck;
     private List<PlayingCard> playerHand = new List<PlayingCard>();
     private List<PlayingCard> dealerHand = new List<PlayingCard>();
 
@@ -44,7 +45,7 @@ public class BlackjackManager : MonoBehaviour
     {
         coroutineRunning = true;
         ResetGame();
-        GenerateDeck();
+        if (deck.Count == 0) GenerateDeck();
         playerHand = new List<PlayingCard>();
         dealerHand = new List<PlayingCard>();
         activeGame = true;
@@ -71,6 +72,7 @@ public class BlackjackManager : MonoBehaviour
         int value = GetHandValue(playerHand);
         if (value > 21)
         {
+            dealerHand[1].FlipDealerCard();
             EndGame(false);
         }
         else if (value == 21)
@@ -279,6 +281,10 @@ public class BlackjackManager : MonoBehaviour
         dealerCardIndex = 0;
     }
 
+    private void Update()
+    {
+        cardsLeftInDeck = deck.Count;
+    }
 
 }
 
