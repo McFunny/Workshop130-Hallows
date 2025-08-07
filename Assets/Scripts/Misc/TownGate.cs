@@ -74,7 +74,7 @@ public class TownGate : MonoBehaviour
             case PlayerLocation.InCrypt:
             townMist.gameObject.SetActive(false);
             farmMist.gameObject.SetActive(false);
-            RenderSettings.fogDensity = 0.035f;
+            RenderSettings.fogDensity = 0.02f;
             break;
             case PlayerLocation.InWilderness:
             townMist.gameObject.SetActive(false);

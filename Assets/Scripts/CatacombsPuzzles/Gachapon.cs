@@ -23,6 +23,8 @@ public class Gachapon : MonoBehaviour, IInteractable
 
     private bool coroutineRunning = false;
 
+    public InventoryItemData siegePaper;
+
 
 
     private void Awake()
@@ -40,9 +42,15 @@ public class Gachapon : MonoBehaviour, IInteractable
     {
         animator = GetComponent<Animator>();
 
+        if(!MainMenuScript.loadingData)
+        {
+            AddToBacklog(siegePaper, 1);
+        }
+
         if(!currentlyOfferingPrize) ballSprite.enabled = false;
         if (itemBacklog.Count > 0) PlayParticles(true);
         else PlayParticles(false);
+
     }
 
     public void EndInteraction()

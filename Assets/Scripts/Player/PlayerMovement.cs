@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     ControlManager controlManager;
     HeadBobController headBobController;
     public bool isSprinting;
+    bool isGrounded;
 
     private Coroutine fovCoroutine;
 
@@ -292,11 +293,13 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, 2f))
         {
-            // Grounded
+            isGrounded = true;
         }
         else
         {
-            rb.AddForce(-Vector3.up * 60, ForceMode.Force);
+            //print("Player fast falling");
+            isGrounded = false;
+            rb.AddForce(-Vector3.up * 120, ForceMode.Force);
         }
     }
 
