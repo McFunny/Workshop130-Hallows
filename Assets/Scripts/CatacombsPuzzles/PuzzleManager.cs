@@ -49,6 +49,14 @@ public class PuzzleManager : MonoBehaviour
         SaveLoad.OnSaveGame -= SaveData;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            StartCoroutine(MoveStatue());
+        }
+    }
+
     public void CheckToSeeIfPuzzlesAreComplete()
     {
        GetTotalSolved();
@@ -85,12 +93,23 @@ public class PuzzleManager : MonoBehaviour
     {
         allPuzzlesSolved = true;
         audioSource.Play();
-        puzzleBeforeMove.SetActive(false);
-        puzzleAfterMove.SetActive(true);
         PlayerMovement.restrictMovementTokens++;
         impulseSource = GetComponent<CinemachineImpulseSource>();
         impulseSource.GenerateImpulseWithForce(0.25f);
-        yield return new WaitForSeconds(5);
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSeconds(0.75f);
+        FadeScreen.coverScreen = false;
+        yield return new WaitForSeconds(1.5f);
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSeconds(0.75f);
+        FadeScreen.coverScreen = false;
+        yield return new WaitForSeconds(1.5f);
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSeconds(0.75f);
+        puzzleBeforeMove.SetActive(false);
+        puzzleAfterMove.SetActive(true);
+        FadeScreen.coverScreen = false;
+        yield return new WaitForSeconds(1f);
         PlayerMovement.restrictMovementTokens--;
     }
 
