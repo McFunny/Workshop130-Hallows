@@ -7,26 +7,28 @@ public class UILerp : MonoBehaviour
     public bool disableOnEnd = false;
     public bool startAtEnd = false;
     public bool ignoreTimeScale = true; // If true, lerp will ignore Time.timeScale
+    public bool isAtEnd;
     private float timeScale;
     [SerializeField] private RectTransform transformToLerp;
     [SerializeField] private float lerpMultiplier = 1f; // Multiplier to adjust the speed of the lerp
     [SerializeField] private RectTransform startPoint, endPoint;
 
 
-    private void Awake()
+    public void Awake()
     {
 
         if (transformToLerp == null) transformToLerp = GetComponent<RectTransform>();
 
         if (startAtEnd) transformToLerp.position = endPoint.position;
 
+    }
+
+    public void Update()
+    {
+        
         if (ignoreTimeScale) timeScale = Time.fixedDeltaTime;
         else timeScale = Time.deltaTime;
 
-    }
-
-    private void Update()
-    {
         if (lerpToStart)
         {
             transformToLerp.position = Vector2.Lerp(transformToLerp.position, startPoint.position, timeScale * lerpMultiplier);
@@ -34,19 +36,23 @@ public class UILerp : MonoBehaviour
             {
                 transformToLerp.position = startPoint.position;
             }
+            else isAtEnd = false;
         }
         else
         {
             transformToLerp.position = Vector2.Lerp(transformToLerp.position, endPoint.position, timeScale * lerpMultiplier);
-            if(Vector2.Distance(transformToLerp.position, endPoint.position) < 0.1f)
+            if (Vector2.Distance(transformToLerp.position, endPoint.position) < 0.1f)
             {
                 transformToLerp.position = endPoint.position;
+                isAtEnd = true;
             }
+            else isAtEnd = false;
         }
 
-        if(disableOnEnd && Vector2.Distance(transformToLerp.position, endPoint.position) < 0.1f)
+        if (disableOnEnd && Vector2.Distance(transformToLerp.position, endPoint.position) < 0.1f)
         {
             transformToLerp.gameObject.SetActive(false);
+            isAtEnd = true;
         }
     }
 }
