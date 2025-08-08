@@ -171,6 +171,8 @@ public class BugPuzzleManager : ImAPuzzleManager, IInteractable
 
     public void ImportSaveData(BugPuzzleSaveData data)
     {
+        if(data.itemsNeededData == 0) return;
+
         itemsNeeded = data.itemsNeededData;
         itemsDeposited = data.itemsDepositedData;
         wantedItem = Database.Instance.GetItem(data.itemID);

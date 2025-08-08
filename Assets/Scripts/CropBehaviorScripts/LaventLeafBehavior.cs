@@ -7,7 +7,7 @@ public class LaventLeafBehavior : CropBehavior
 {
     public override void BehaviorUpdate(FarmLand tile)
     {
-        float range = 1f;
+        float range = 1.5f;
         if(tile.growthStage > 4) range = 5f;
         else if(tile.growthStage > 2) range = 3.5f;
         else if(tile.growthStage == 1) return;

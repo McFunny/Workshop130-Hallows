@@ -102,6 +102,7 @@ public class FlowerPotManager : ImAPuzzleManager
 
         for (int i = 0; i < pots.Count; i++)
         {
+            if(data.pots == null || i >= data.pots.Count) continue;
             pots[i].ImportSaveData(data.pots[i]);
         }
     }

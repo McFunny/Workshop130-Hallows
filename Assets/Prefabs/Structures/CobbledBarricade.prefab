@@ -745,8 +745,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: d7b2bc56be6439d4983793299e5322a7, type: 2}
   itemForm: {fileID: 11400000, guid: 6048853c0bacbf44e81cf05e0f2d956e, type: 2}
-  health: 35
-  maxHealth: 35
+  health: 45
+  maxHealth: 45
   wealthValue: 1
   salvageChance: 80
   destructable: 1
@@ -754,6 +754,7 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 1
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 9119306571445653084}
   savedItems: []

@@ -195,6 +195,7 @@ public class Gachapon : MonoBehaviour, IInteractable
 
     public void ImportSaveData(GachaponSaveData data)
     {
+        if(data.backlogData == null) return;
         itemBacklog = data.backlogData;
         itemNumberBacklog = data.backlogNumberData;
         currentlyOfferingPrize = data.currentlyOfferingPrizeData;

@@ -155,6 +155,13 @@ public class RotatingPillarManager : ImAPuzzleManager
 
         for (int i = 0; i < puzzleSets.Count; i++)
         {
+            //The catch for old saves
+            if(i >= data.PuzzleSetEntries.Count)
+            {
+                puzzleSets[i].isSolved = false;
+                continue;
+            }
+
             puzzleSets[i].isSolved = data.PuzzleSetEntries[i].IsSolved;
             puzzleSets[i].cropKey.ImportSaveData(data.PuzzleSetEntries[i].CropKeyData,
                 Database.Instance.GetItem(data.PuzzleSetEntries[i].CropKeyData.CropYieldID));

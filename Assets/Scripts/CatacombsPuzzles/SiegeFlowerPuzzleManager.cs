@@ -61,6 +61,7 @@ public class SiegeFlowerPuzzleManager : ImAPuzzleManager
 
         for (int i = 0; i < pots.Count; i++)
         {
+            if(data.pots == null || i >= data.pots.Count) return;
             pots[i].ImportSaveData(data.pots[i]);
         }
 

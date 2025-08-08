@@ -51,6 +51,7 @@ public class ShrineBoxManager : ImAPuzzleManager
 
         for (int i = 0; i < boxes.Count; i++)
         {
+            if(data.shrines == null || i >= data.shrines.Count) continue;
             boxes[i].ImportSaveData(data.shrines[i]);
         }
     }

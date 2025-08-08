@@ -100,6 +100,7 @@ public class BrazierPuzzleManager : ImAPuzzleManager
 
         for (int i = 0; i < brazierList.Count; i++)
         {
+            if(i >= data.braziers.Count) continue;
             brazierList[i].ImportSaveData(data.braziers[i]);
         }
     }

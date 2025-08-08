@@ -103,21 +103,6 @@ public class CulinarianNPC : NPC, ITalkable
         {
             currentPath = 0;
             currentType = PathType.ItemRecieved;
-            /*
-            if(!NPCManager.Instance.lumberjackFed)
-            {
-                currentPath = 0;
-                currentType = PathType.ItemRecieved;
-                NPCManager.Instance.lumberjackFed = true;
-                anim.SetTrigger("TakeItem");
-            }
-            else
-            {
-                currentPath = 1;
-                currentType = PathType.ItemRecieved;
-            }
-            */
-            //Its consumable and giftable
         }
 
         else
@@ -132,69 +117,11 @@ public class CulinarianNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    /*public override void PurchaseAttempt(StoreItem item) //consider making this function in parent script to save on retyping
-    {
-        if (dialogueController.IsInterruptable() == false)
-        {
-            return;
-        }
-        if (lastInteractedStoreItem == item)
-        {
-            //Barter Price Check
-            if(item.barterCost.Count > 0)
-            {
-                if(item.CanAffordTrade())
-                {
-                    item.CompleteTrade();
-                    currentPath = 2; //item sold
-                    shopUI.shopImgObj.SetActive(false);
-                }
-                else currentPath = 6; //Not enough items to cover barter
-            }
-
-            //check price, then give item
-            else if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
-            {
-                currentPath = 3; //no money!?!?!?
-            }
-            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
-            {
-                currentPath = 4; //No space in inventory
-            }
-            else
-            {
-                currentPath = 2; //item sold
-                shopUI.shopImgObj.SetActive(false);
-            }
-            anim.SetTrigger("IsTalking");
-        }
-        else
-        {
-            dialogueController.restartDialogue = true;
-            if(item.cost > 0) currentPath = 1; //item selected
-            else currentPath = 5; //barter item selected
-            anim.SetTrigger("IsTalking");
-            if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-            lastInteractedStoreItem = item;
-            shopUI.shopTarget = item.arrowObject.transform;
-            shopUI.shopImgObj.SetActive(true);
-
-        }
-        currentType = PathType.Misc;
-        Talk();
-    } */
-
     public override void PlayerLeftRadius()
     {
         if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
     }
-
-    /*public override void EmptyShopItem()
-    {
-        lastInteractedStoreItem.Empty();
-        lastInteractedStoreItem = null;
-    }*/
 
     public override void RefreshStore()
     {
@@ -223,18 +150,6 @@ public class CulinarianNPC : NPC, ITalkable
             int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
             item.seller = this;
-            
-            //This is the old way to populate items to sell for money
-            /*do
-            {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f, 1f);
-                if (r < itemWeight[i]) newItem = possibleSoldItems[i];
-            }
-            while (!newItem);
-            int newCost = (int)(newItem.value * sellMultiplier);
-            item.RefreshItem(newItem, newCost);
-            item.seller = this;*/
         }
     }
 

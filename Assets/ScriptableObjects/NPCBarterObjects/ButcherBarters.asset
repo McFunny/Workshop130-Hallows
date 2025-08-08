@@ -23,15 +23,15 @@ MonoBehaviour:
   - name: DryingRack
     itemForSale: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
     useItemPrice: 1
-    mintCost: 110
-    amountForSale: 1
+    mintCost: 115
+    amountForSale: 3
     barterChance: 100
     itemsRequired: []
   - name: BearTrap
     itemForSale: {fileID: 11400000, guid: 1c6623afdf1e992468dd092ddbfe177d, type: 2}
     useItemPrice: 1
-    mintCost: 75
-    amountForSale: 1
+    mintCost: 65
+    amountForSale: 3
     barterChance: 100
     itemsRequired: []
   - name: Ammo
@@ -47,7 +47,7 @@ MonoBehaviour:
     itemForSale: {fileID: 11400000, guid: 1c6623afdf1e992468dd092ddbfe177d, type: 2}
     useItemPrice: 0
     mintCost: 0
-    amountForSale: 1
+    amountForSale: 3
     barterChance: 75
     itemsRequired:
     - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
@@ -60,5 +60,14 @@ MonoBehaviour:
     barterChance: 50
     itemsRequired:
     - item: {fileID: 11400000, guid: b7f3f9c4e43a981448c44672e7339abf, type: 2}
+      amount: 3
+  - name: Ammo
+    itemForSale: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 5
+    barterChance: 50
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
       amount: 3
   uniqueTransactions: []

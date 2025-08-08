@@ -49,7 +49,7 @@ public class BotanistNPC : NPC, ITalkable
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[0]); //Add the "Grow TimberEar Quest" quest
                 dailyQuest = null;
             }
-            else if(CompletedQuest()) //ADD UNIQUE FUNCTION TO GIVE UNIQUE DIALOGUE THAT IS QUEST DEPENDENT
+            else if(CompletedQuest())
             {
                 currentPath = QuestCompletedDialogue();
                 currentType = PathType.QuestComplete;
