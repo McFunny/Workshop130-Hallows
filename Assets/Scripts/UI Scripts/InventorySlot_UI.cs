@@ -278,6 +278,8 @@ public class InventorySlot_UI : MonoBehaviour
         itemCount.text = "";
         itemName.text = "";
         itemDesc = "";
+        foodCooldownSlider.gameObject.SetActive(false);
+        itemGrey.enabled = false;
         //itemName.gameObject.SetActive(false);
     }
 
