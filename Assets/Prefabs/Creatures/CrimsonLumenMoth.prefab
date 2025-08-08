@@ -25637,8 +25637,10 @@ MonoBehaviour:
   corpseType: 1
   rb: {fileID: 3916846582628337958}
   anim: {fileID: 1237335324042906677}
-  droppedItems: []
-  dropChance: []
+  droppedItems:
+  - {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
+  dropChance:
+  - 3
   sightRange: 15
   attackRange: 1.8
   playerInSightRange: 0
@@ -25657,8 +25659,8 @@ MonoBehaviour:
   homeSwarm: {fileID: 0}
   accelerationRate: 15
   maxVelocity: 10
-  attackMaxVelocity: 2
   targetPos: {x: 0, y: 0, z: 0}
+  targetMoth: {fileID: 0}
   fireSources: []
   fearObject: {fileID: 7032141710567700224}
   currentState: 0

@@ -19615,8 +19615,10 @@ MonoBehaviour:
   corpseType: 1
   rb: {fileID: 0}
   anim: {fileID: 0}
-  droppedItems: []
-  dropChance: []
+  droppedItems:
+  - {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
+  dropChance:
+  - 3
   sightRange: 0
   attackRange: 0
   playerInSightRange: 0
@@ -19624,6 +19626,7 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 0
   bearTrapVulnerable: 0
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
@@ -25172,6 +25175,9 @@ MonoBehaviour:
   miscSound: {fileID: 0}
   miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!4 &3013982741415003144 stripped
 Transform:

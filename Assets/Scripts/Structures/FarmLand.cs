@@ -970,7 +970,7 @@ public class FarmLand : StructureBehaviorScript
         {
             if(crop)
             {
-                PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.7f));
+                PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.9f));
             }
             if(isWeed)
             {
