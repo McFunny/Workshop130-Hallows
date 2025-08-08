@@ -842,7 +842,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     public void ToggleHighlight(bool enabled)
     {
-        showStats = enabled;
+        //showStats = enabled;
     }
 
     public void ReturnFocalPoint(out Transform point)
