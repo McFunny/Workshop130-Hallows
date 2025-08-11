@@ -14,7 +14,7 @@ public class ParticlePoolManager : MonoBehaviour
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
     frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles;
 
-    public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP;
+    public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
@@ -40,6 +40,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> metalPool = new List<GameObject>();
     List<GameObject> gloomPool = new List<GameObject>();
     List<GameObject> stonePool = new List<GameObject>();
+    List<GameObject> robotPool = new List<GameObject>();
 
     void Awake()
     {
@@ -185,6 +186,13 @@ public class ParticlePoolManager : MonoBehaviour
 
         for(int i = 0; i < 5; i++)
         {
+            newParticle = Instantiate(robotDestructionP);
+            robotPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
             newParticle = Instantiate(impactParticle);
             impactPool.Add(newParticle);
             newParticle.SetActive(false);
@@ -248,7 +256,19 @@ public class ParticlePoolManager : MonoBehaviour
         }
         else if(type == CorpseParticleType.Metal)
         {
-            return GrabDestructionParticle(StructureType.Metal);
+            foreach (GameObject particle in robotPool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(robotDestructionP);
+            robotPool.Add(newParticle);
+            return newParticle;
         }
         else return null;
     }
