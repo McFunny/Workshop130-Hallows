@@ -220,20 +220,20 @@ public class TinkererNPC : NPC, ITalkable
        
             for (int i = 0; i < storeItems.Count; i++)
             {
-                if (i == 0 && !GameSaveData.Instance.watergunObtained && timesSetUpShop > 0 && GameSaveData.Instance.tinkMet)
+                if (i == 0 && !GameSaveData.Instance.watergunObtained /*&& timesSetUpShop > 0 */&& GameSaveData.Instance.tinkMet)
                 {
                     newItem = watergun;
                     int newCost = (int)(newItem.value * sellMultiplier);
                     storeItems[0].RefreshItem(newItem, newCost);
                     storeItems[0].seller = this;
                 }
-                else if (i == 0 && !GameSaveData.Instance.scytheObtained && timesSetUpShop == 0)
+                /*else if (i == 0 && !GameSaveData.Instance.scytheObtained && timesSetUpShop == 0)
                 {
                     newItem = scythe;
                     int newCost = (int)(newItem.value * sellMultiplier);
                     storeItems[0].RefreshItem(newItem, newCost);
                     storeItems[0].seller = this;
-                }
+                }*/
                 else
                 {
                     newItem = null;

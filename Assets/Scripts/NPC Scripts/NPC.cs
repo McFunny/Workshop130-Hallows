@@ -312,7 +312,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             if(type.Equals(typeof(GrowQuest)))
             {
                 GrowQuest gQ = QuestManager.Instance.activeQuests[i] as GrowQuest;
-                if(gQ.amount == 0 && gQ.progress == gQ.maxProgress)
+                if(gQ.amount == 0 && gQ.progress == gQ.maxProgress) //Only accept quest if the player is not handing in any items
                 {
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                     PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);

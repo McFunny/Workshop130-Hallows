@@ -45,6 +45,8 @@ public class CropBehavior : ScriptableObject
 
     public virtual void OnHarvest(FarmLand tile, bool usedShovel, bool usedScythe){}
 
+    public virtual void OnPollinate(FarmLand tile){}
+
     public virtual bool IsFlammable()
     {
         return true;

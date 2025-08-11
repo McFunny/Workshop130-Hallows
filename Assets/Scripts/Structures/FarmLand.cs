@@ -197,7 +197,7 @@ public class FarmLand : StructureBehaviorScript
         else if(item == nectar && NeedsPollination())
         {
             consumeItem = true;
-            isPollinated = true;
+            Pollinate();
         }
         
         if(consumeItem)
@@ -366,10 +366,9 @@ public class FarmLand : StructureBehaviorScript
                 ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             } 
             harvestable = false;
-            if(forceDig || isWeed)
+            if((forceDig && !harvestedByScythe) || isWeed)
             {
                 if(currentUpgrade == FarmTileUpgrade.Trellis) ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-                //if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
                 Destroy(this.gameObject);
             }
@@ -746,7 +745,7 @@ public class FarmLand : StructureBehaviorScript
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
             if(currentUpgrade == FarmTileUpgrade.Trellis) ParticlePoolManager.Instance.GrabDestructionParticle(StructureType.Wood).transform.position = transform.position;
         }
-        else if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        //else if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         if(crop && !rotted) crop.amountKilled++;
 
         if(crop && crop.behavior)
@@ -769,6 +768,7 @@ public class FarmLand : StructureBehaviorScript
     public void WaterCrops()
     {
         //for sprinkler and gun
+        if(nutrients.waterLevel == 10) return;
         nutrients.waterLevel = 10;
         waterSplash.Play();
         if(splashObject && !splashObject.activeSelf) splashObject.SetActive(true);
@@ -839,7 +839,7 @@ public class FarmLand : StructureBehaviorScript
 
     public void TakeStressDamage(int amount)
     {
-        if(!crop) return;
+        if(!crop || rotted) return;
         plantStress += amount;
         growthImpeded.Play();
 
@@ -875,7 +875,7 @@ public class FarmLand : StructureBehaviorScript
         }
 
 
-        nutrients.waterLevel -= 5;
+        nutrients.waterLevel -= 2;
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
 
         nutrients.ichorLevel -= .5f;
@@ -984,6 +984,12 @@ public class FarmLand : StructureBehaviorScript
         }
 
         if(crop && crop.behavior) crop.behavior.OnContact(this, other.gameObject);
+    }
+
+    public void Pollinate()
+    {
+        isPollinated = true;
+        if(crop && crop.behavior) crop.behavior.OnPollinate(this);
     }
 
     void OnTriggerExit(Collider other)

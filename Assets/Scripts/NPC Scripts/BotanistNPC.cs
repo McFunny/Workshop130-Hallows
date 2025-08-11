@@ -13,6 +13,8 @@ public class BotanistNPC : NPC, ITalkable
     bool willExplainPollen = false;
     bool willExplainTrellis = false;
 
+    public CropData timberCrop;
+
 
     public List<InventoryItemData> questCrops = new List<InventoryItemData>();
 
@@ -47,6 +49,15 @@ public class BotanistNPC : NPC, ITalkable
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(s_timber, 10));
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[0]); //Add the "Grow TimberEar Quest" quest
+                dailyQuest = null;
+            }
+            else if(!GameSaveData.Instance.bot_giveScytheQuest && !PlayerInventoryHolder.Instance.IsInventoryFull() && timberCrop.amountHarvested > 3)
+            {
+                GameSaveData.Instance.bot_giveScytheQuest = true;
+                currentPath = 9;
+                currentType = PathType.Misc;
+                itemsToGive.Add(new ItemWithAmount(s_stalk, 10));
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[1]); //Add the "Grow Gloomstalk Quest" quest
                 dailyQuest = null;
             }
             else if(CompletedQuest())
@@ -92,6 +103,13 @@ public class BotanistNPC : NPC, ITalkable
 
         //Remark about completing the timber ear quest here
         if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[0])) return 2; //Unfort this means no random timber ear quests
+
+        //Remark about completing the Gloomstalk quest here
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[1])) //Unfort this means no random gloomstalk quests
+        {
+            GameSaveData.Instance.scytheObtained = true;
+            return 4;
+        } 
 
         //Remark about completing a grow quest here
         if(QuestManager.Instance.activeQuests[lastCompletedQuestIndex] as GrowQuest != null) return 1;
@@ -344,7 +362,7 @@ public class BotanistNPC : NPC, ITalkable
     {
         if(base.ExclamationCheck() == false)
         {
-            if(!GameSaveData.Instance.bot_giveSeeds)
+            if(!GameSaveData.Instance.bot_giveSeeds || (!GameSaveData.Instance.bot_giveScytheQuest && timberCrop.amountHarvested > 3))
             {
                 exclamationObject.SetActive(true);
                 return true;

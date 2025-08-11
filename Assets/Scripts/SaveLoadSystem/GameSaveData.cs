@@ -46,6 +46,7 @@ public class GameSaveData : MonoBehaviour
     public bool cm_giveChest; //Craftsman handed the player a chest at the start
     public bool mm_giveGun; //Merchant handed the gun after the first day, and gave the "Go to rascal" quest
     public bool bot_giveSeeds; //Botanist gave the player 10 timber ear seeds at the start
+    public bool bot_giveScytheQuest; //Botanist gave the player 10 Gloomstalk seeds after the timber quest
     public bool bot_explainedPollen; //Player bought a seed requiring pollination
     public bool ras_askedForNet; //Gave the find my net quest
     public bool bot_explainedTrellis; //Player bought a seed requiring a trellis
@@ -166,6 +167,7 @@ public class GameSaveData : MonoBehaviour
         cm_giveChest = data.allGameSaveData.cm_giveChest;
         mm_giveGun = data.allGameSaveData.mm_giveGun;
         bot_giveSeeds = data.allGameSaveData.bot_giveSeeds;
+        bot_giveScytheQuest = data.allGameSaveData.bot_giveScytheQuest;
         bot_explainedPollen = data.allGameSaveData.bot_explainedPollen;
         bot_explainedTrellis = data.allGameSaveData.bot_explainedTrellis;
         ras_askedForNet = data.allGameSaveData.ras_askedForNet;
@@ -257,6 +259,7 @@ public class GameSaveData : MonoBehaviour
         public bool cm_giveChest;
         public bool mm_giveGun;
         public bool bot_giveSeeds;
+        public bool bot_giveScytheQuest;
         public bool bot_explainedPollen;
         public bool ras_askedForNet;
         public bool bot_explainedTrellis;
@@ -327,6 +330,7 @@ public class GameSaveData : MonoBehaviour
         cm_giveChest = data.cm_giveChest;
         mm_giveGun = data.mm_giveGun;
         bot_giveSeeds = data.bot_giveSeeds;
+        bot_giveScytheQuest = data.bot_giveScytheQuest;
         bot_explainedPollen = data.bot_explainedPollen;
         bot_explainedTrellis = data.bot_explainedTrellis;
         ras_askedForNet = data.ras_askedForNet;
