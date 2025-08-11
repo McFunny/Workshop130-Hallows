@@ -16,24 +16,24 @@ public class PlantPage : CodexPage
     [SerializeField] private Image[] targetedByImages;
     private Color disabledColor = new Color(1f, 1f, 1f, 0f);
     private Color enabledColor = new Color(1f, 1f, 1f, 1f);
-    private TextMeshProUGUI[] targetedByText;
+    [SerializeField] private TextMeshProUGUI[] targetedByText;
     private RectTransform rightPageRectTransform, consumesRectTransform, producesRectTransform;
 
     private void Awake()
     {
         consumesSlider = new Slider[consumesObject.Length];
         producesSlider = new Slider[producesObject.Length];
-        targetedByText = new TextMeshProUGUI[targetedByImages.Length];
         for (int i = 0; i < consumesObject.Length; i++)
         {
             consumesSlider[i] = consumesObject[i].GetComponentInChildren<Slider>();
             producesSlider[i] = producesObject[i].GetComponentInChildren<Slider>();
         }
 
-        for (int i = 0; i < targetedByImages.Length; i++)
+        /*for (int i = 0; i < targetedByImages.Length; i++)
         {
             targetedByText[i] = targetedByImages[i].gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        }
+        }*/
+
         rightPageRectTransform = rightPageLayoutGroup.GetComponent<RectTransform>();
         consumesRectTransform = consumesLayoutGroup.GetComponent<RectTransform>();
         producesRectTransform = producesLayoutGroup.GetComponent<RectTransform>();
