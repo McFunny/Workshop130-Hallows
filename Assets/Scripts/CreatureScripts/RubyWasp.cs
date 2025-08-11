@@ -5,6 +5,7 @@ using UnityEngine;
 public class RubyWasp : CreatureBehaviorScript
 {
     public RubyWaspSwarm homeSwarm;
+    public CrimsonMothNest homeNest;
 
     public float accelerationRate, maxVelocity;
 
@@ -54,7 +55,7 @@ public class RubyWasp : CreatureBehaviorScript
     void LateUpdate()
     {
         base.Update();
-        if(!homeSwarm) Destroy(gameObject); //Should never happen unless morning hit
+        //if(!homeSwarm && !homeNest) Destroy(gameObject); //Should never happen unless morning hit
 
         float distance = Vector3.Distance(player.position, transform.position);
         playerInSightRange = distance <= sightRange;
@@ -237,6 +238,15 @@ public class RubyWasp : CreatureBehaviorScript
                 }
                 if(targetMoth) targetPos = targetMoth.transform.position;
                 else if(homeSwarm) targetPos = GetRandomPointNearby(homeSwarm.transform.position); //Follow the swarm
+                else if(homeNest)
+                {
+                    if(TimeManager.Instance.isDay && Vector3.Distance(homeNest.transform.position, transform.position) < 5)
+                    {
+                        Destroy(gameObject);
+                        homeNest.heldWasps++;
+                    }
+                    else targetPos = GetRandomPointNearby(homeNest.transform.position); //Stay by the nest
+                } 
                 else targetPos = StructureManager.Instance.GetRandomNearbyTile(GridType.Farm, 25, transform.position); //Random movement
             }
 
