@@ -12,7 +12,7 @@ public class NightSpawningManager : MonoBehaviour
     float highestDifficultyPoints = 0;
     float removedDifficultyPoints = 0; //accumulates when a structure is destroyed by any means
 
-    float difficultyMultiplier = 1; //Increases to 1.25 after 2000 mints are collected. Multiplies difficulty points of structures
+    float difficultyMultiplier = 1; // Multiplies difficulty points of structures
     public DifficultyLevel[] dLevels;
     DifficultyLevel currentDLevel;
 
@@ -354,11 +354,18 @@ public class NightSpawningManager : MonoBehaviour
 
         if(!overrideDifficulty)
         {
-            if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.6f;
+            if(MainMenuScript.currentFileMode == FileMode.Survival) difficultyMultiplier = 1;
+
+            else if(GameSaveData.Instance.siegesCleared == 0) difficultyMultiplier = .75f;
+            else if(GameSaveData.Instance.siegesCleared == 1) difficultyMultiplier = 1f;
+            else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.25f;
+            else if(GameSaveData.Instance.siegesCleared == 3) difficultyMultiplier = 1.50f;
+            
+            /*if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.6f;
             else if(PlayerInteraction.Instance.totalMoneyEarned > 6000) difficultyMultiplier = 1.4f;
             else if(PlayerInteraction.Instance.totalMoneyEarned > 3000) difficultyMultiplier = 1.25f;
-            else if(TimeManager.Instance.dayNum < 3 && MainMenuScript.currentFileMode != FileMode.Survival) difficultyMultiplier = 0.75f;
-            else difficultyMultiplier = 1;
+            else if(TimeManager.Instance.dayNum < 3) difficultyMultiplier = 0.75f;
+            else difficultyMultiplier = 1;*/ //The old way
 
             if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.25f;
 
