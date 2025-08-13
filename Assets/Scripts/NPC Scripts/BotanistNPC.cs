@@ -256,7 +256,7 @@ public class BotanistNPC : NPC, ITalkable
 
                 i = Random.Range(0, barterDatabase.transactions.Count);
                 r = Random.Range(0f, 100f);
-                if (r < barterDatabase.transactions[i].barterChance && !newItem)
+                if (r < barterDatabase.transactions[i].barterChance && !newItem && barterDatabase.transactions[i].siegesRequired <= GameSaveData.Instance.siegesCleared)
                 {
                     newItem = barterDatabase.transactions[i].itemForSale;
                 }

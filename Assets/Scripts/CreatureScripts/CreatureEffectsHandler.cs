@@ -127,4 +127,9 @@ public class CreatureEffectsHandler : MonoBehaviour
     {
         if(extraSounds.Length > i) source.PlayOneShot(extraSounds[i], volume);
     }
+
+    public void PlayExtraSound(int i, float _volume)
+    {
+        if(extraSounds.Length > i) source.PlayOneShot(extraSounds[i], _volume);
+    }
 }

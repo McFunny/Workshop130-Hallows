@@ -230,7 +230,7 @@ public class CarpenterNPC : NPC, ITalkable
             {
                 i = Random.Range(0, barterDatabase.transactions.Count);
                 r = Random.Range(0f, 100f);
-                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i))
+                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i) && barterDatabase.transactions[i].siegesRequired <= GameSaveData.Instance.siegesCleared)
                 {
                     newItem = barterDatabase.transactions[i].itemForSale;
                     selectedTrades.Add(i);
