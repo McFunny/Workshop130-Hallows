@@ -405,6 +405,10 @@ public class RubyWasp : CreatureBehaviorScript
         base.OnDestroy();
         if(homeSwarm) homeSwarm.wasps.Remove(gameObject);
 
-        if(stuckOnPlayer) PlayerMovement.Instance.RemoveSpeedMod(gameObject);
+        if(stuckOnPlayer)
+        {
+            PlayerMovement.limitMaxVelocity = true;
+            PlayerMovement.Instance.RemoveSpeedMod(gameObject);
+        }
     }
 }

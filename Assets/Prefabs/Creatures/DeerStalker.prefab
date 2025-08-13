@@ -5010,6 +5010,7 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 1
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 15
   damageToPlayer: -35
@@ -5019,7 +5020,7 @@ MonoBehaviour:
   currentEffects: []
   biteCheckMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1088
   variant: 0
   animTransformed: {fileID: 7233998061699986534}
   deer: {fileID: 176726581666077386}
@@ -19719,6 +19720,9 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 1162356bbd3d0fa4dbc0b60cbe984684, type: 3}
   miscSound2: {fileID: 8300000, guid: 915014071cfdd854fb2c6393943d5534, type: 3}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!114 &2657086824468724937
 MonoBehaviour:

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e14c53294b14d418d174be0feefd90, type: 3}
   m_Name: CombatConstruct
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 0}
+  objectPrefab: {fileID: 7218814252223017898, guid: ef0564d0a482c3242a515da5f6dc65ad,
+    type: 3}
   creatureVariants: []
   health: 0
   position:
@@ -22,13 +23,13 @@ MonoBehaviour:
   id: 18
   dangerCost: 6
   dangerThreshold: 0
-  spawnWeight: 10
+  spawnWeight: 15
   spawnCap: 5
   spawnCapPerHour: 3
   wealthPrerequisite: 0
   contribuiteToCreatureCap: 1
-  amountKilled: 0
-  hasSpawned: 0
+  amountKilled: 3
+  hasSpawned: 1
   excludeFromNormalNights: 1
   spawnType: 0
   spawnChance_w: 100

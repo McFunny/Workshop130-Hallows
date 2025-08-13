@@ -12,6 +12,8 @@ public class CrimsonMothNest : StructureBehaviorScript
 
     public int heldWasps = 3;
 
+    public InventoryItemData nectar;
+
     void Start()
     {
         OnDamage += HiveDrop;
@@ -22,6 +24,22 @@ public class CrimsonMothNest : StructureBehaviorScript
     void OnDestroy()
     {
         OnDamage -= HiveDrop;
+
+        if (!gameObject.scene.isLoaded) return; 
+        GameObject droppedItem;
+        Rigidbody itemRB;
+        int r = Random.Range(1,4);
+        for(int i = 0; i < r; i++)
+        {
+            droppedItem = ItemPoolManager.Instance.GrabItem(nectar);
+            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+            Vector3 dir3 = Random.onUnitSphere;
+            dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+            itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB.AddForce(dir3 * 20);
+            itemRB.AddForce(Vector3.up * 50);
+        }
     }
 
     IEnumerator ScanForPlayer()

@@ -33,7 +33,7 @@ public class ScytheAttack : MonoBehaviour
         collider.enabled = false;
         HitObjects();
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.25f);
         PlayerMovement.limitMaxVelocity = true;
         PlayerMovement.ignoreMovementInputs = false;
     }

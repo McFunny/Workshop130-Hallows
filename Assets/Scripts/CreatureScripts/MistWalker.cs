@@ -112,12 +112,6 @@ public class MistWalker : CreatureBehaviorScript
 
         if(MainMenuScript.currentFileMode == FileMode.Cozy) canLunge = false;
 
-        /*foreach(EquipEnemyArmor a in equippableArmor)
-        {
-            r = Random.Range(0,100);
-            if(a.chanceToEquip >= r) a.armorObject.SetActive(true);
-        }*/
-
         //if(!inWilderness && Random.Range(0,5) > 2) currentState = CreatureState.WalkTowardsClosestStructure; //causing issues I think
     }
 
@@ -760,39 +754,6 @@ public class MistWalker : CreatureBehaviorScript
         }
         currentState = CreatureState.Wander;
     }
-
-    /*public override bool OnStun(float duration)
-    {
-        if (currentState != CreatureState.Stun)
-        {
-            StopCoroutine(Stun(duration));
-            StartCoroutine(Stun(duration));
-            agent.destination = transform.position;
-            agent.ResetPath();
-            anim.SetBool("IsWalking", false);
-            anim.SetTrigger("IsRecoiling");
-            return true;
-        }
-        return false;
-    }
-
-    private IEnumerator Stun(float duration)
-    {
-        currentState = CreatureState.Stun;
-        coroutineRunning = false;
-        //StopAllCoroutines();
-        StopCoroutine(LungeAtPlayer());
-        StopCoroutine(SwipePlayer());
-        StopTrackingPlayer();
-        if(walkRoutine != null)
-        {
-            StopCoroutine(walkRoutine);
-            walkRoutine = null;
-        }
-        yield return new WaitForSeconds(duration);
-        //StartCoroutine(IdleSoundTimer());
-        currentState = CreatureState.Wander;
-    } */
 
     public override void OnDeath()
     {
