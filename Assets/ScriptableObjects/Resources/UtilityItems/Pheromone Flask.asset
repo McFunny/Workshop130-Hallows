@@ -9,23 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2edfa73c5b2ca624f88c7f0fb8be25d6, type: 3}
-  m_Name: TaroSeeds
+  m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
+  m_Name: Pheromone Flask
   m_EditorClassIdentifier: 
-  ID: 26
-  displayName: Taro Sprout
-  description: A sprouting portion of a cut taro root. While taro fetches a high
-    price, this crop is not very nutrient efficient when growing.
-  icon: {fileID: -1335724258, guid: 66f06eb655397394999a0bf471dae613, type: 3}
+  ID: 198
+  displayName: Pheromone Flask
+  description: This throwable flask contains concentrated pheromones. All nearby
+    Plant Mimics will attack anything coated in this scent.
+  icon: {fileID: -802297818, guid: 3bdea01d9cb3139499a8409036b283ed, type: 3}
   maxStackSize: 20
-  value: 12
-  sellValueMultiplier: 0
+  value: 56
+  sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
   animalHungerValue: 0
   bonusCompostValue: 0
-  useCooldown: 0
+  useCooldown: 2
   pickledForm: {fileID: 0}
   itemConversions: []
   itemInputsKBM: []
@@ -34,7 +34,3 @@ MonoBehaviour:
   itemBehavior: {fileID: 0}
   useSound: {fileID: 0}
   cannotEnterInventory: 0
-  plantable: 1
-  cropData: {fileID: 11400000, guid: 5a60016cc237cd846b888ac0d414fcb4, type: 2}
-  ableToBeShot: 0
-  requireTrellis: 0
