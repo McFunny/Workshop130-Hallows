@@ -354,7 +354,7 @@ public class NightSpawningManager : MonoBehaviour
 
         if(!overrideDifficulty)
         {
-            if(MainMenuScript.currentFileMode == FileMode.Survival) difficultyMultiplier = 1;
+            if(MainMenuScript.currentFileMode == FileMode.Survival || SiegeManager.Instance.siegeCropOnFarm) difficultyMultiplier = 1;
 
             else if(GameSaveData.Instance.siegesCleared == 0) difficultyMultiplier = .75f;
             else if(GameSaveData.Instance.siegesCleared == 1) difficultyMultiplier = 1f;

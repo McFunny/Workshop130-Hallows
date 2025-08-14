@@ -97,6 +97,8 @@ public class ApothNPC : NPC, ITalkable
             currentPath = 1;
             currentType = PathType.ItemSpecific;
             currentlyReadingScroll = true;
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
         }
 
         else if (item.staminaValue > 0)
