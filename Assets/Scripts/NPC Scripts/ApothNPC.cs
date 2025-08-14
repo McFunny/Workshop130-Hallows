@@ -171,7 +171,7 @@ public class ApothNPC : NPC, ITalkable
             {
                 i = Random.Range(0, barterDatabase.transactions.Count);
                 r = Random.Range(0f, 100f);
-                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i))
+                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i) && barterDatabase.transactions[i].siegesRequired <= GameSaveData.Instance.siegesCleared)
                 {
                     newItem = barterDatabase.transactions[i].itemForSale;
                     selectedTrades.Add(i);
@@ -180,6 +180,7 @@ public class ApothNPC : NPC, ITalkable
             while (!newItem);
             newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
+            item.ChangeAmountGiven(barterDatabase.transactions[i].amountGiven);
             item.seller = this;
 
             x++;

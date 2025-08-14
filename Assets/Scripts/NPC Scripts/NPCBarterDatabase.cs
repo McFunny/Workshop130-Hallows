@@ -43,4 +43,5 @@ public class Barter
     public float barterChance = 100; //Chance of this barter being available in store
     public List<ItemWithAmount> itemsRequired = new List<ItemWithAmount>();
     public int siegesRequired = 0; //Sieges required to have completed before being sold
+    public int amountGiven = 1; //How many does the player gain with each purchase
 }

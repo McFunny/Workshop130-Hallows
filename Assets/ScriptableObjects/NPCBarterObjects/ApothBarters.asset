@@ -24,6 +24,8 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
       amount: 3
+    siegesRequired: 0
+    amountGiven: 1
   - name: FloralBathBomb
     itemForSale: {fileID: 11400000, guid: f9d22d5f993f103409c44aacdd00c6a7, type: 2}
     useItemPrice: 0
@@ -35,6 +37,8 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
       amount: 6
+    siegesRequired: 0
+    amountGiven: 1
   - name: Lunorchid Seeds
     itemForSale: {fileID: 11400000, guid: ad748d007dc8baa42963f208130ad626, type: 2}
     useItemPrice: 0
@@ -46,6 +50,8 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
+    siegesRequired: 0
+    amountGiven: 1
   - name: HollionBerry
     itemForSale: {fileID: 11400000, guid: fd5df79885821954eaeb7cdb40432017, type: 2}
     useItemPrice: 0
@@ -57,6 +63,8 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
+    siegesRequired: 0
+    amountGiven: 1
   - name: InfernoNettleSeeds
     itemForSale: {fileID: 11400000, guid: 63683aabc9d720a4eacdb4d7c8877d2f, type: 2}
     useItemPrice: 0
@@ -68,6 +76,8 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
+    siegesRequired: 0
+    amountGiven: 1
   - name: CrabGrassSeeds
     itemForSale: {fileID: 11400000, guid: 4470dbc8b50650a4e845701bfa14bdd6, type: 2}
     useItemPrice: 0
@@ -77,14 +87,31 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 9a70b19ccd0b85f41b2dcd849c9d0584, type: 2}
       amount: 1
+    siegesRequired: 0
+    amountGiven: 1
+  - name: CorpsePowder
+    itemForSale: {fileID: 11400000, guid: 9d78fe6d2bb73a84a95ae131ae3cab1f, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 75
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 04236fdf99a1d0a44be48c5524def0ee, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 2
+    siegesRequired: 1
+    amountGiven: 5
   uniqueTransactions:
   - name: YellowMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: 747cebbd0cf1e854d84e73ad4d034f05, type: 2}
     useItemPrice: 1
-    mintCost: 8
+    mintCost: 12
     amountForSale: 10
     barterChance: 100
     itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
   - name: TitanYellowMarigleamSeed
     itemForSale: {fileID: 11400000, guid: 49bed0a6ab6e814429f20cc0bf7f9cf7, type: 2}
     useItemPrice: 0
@@ -94,15 +121,19 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
       amount: 25
+    siegesRequired: 0
+    amountGiven: 1
   - name: CyanMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: fec308c6a7c345441b58f0ccd9c51249, type: 2}
     useItemPrice: 1
-    mintCost: 10
+    mintCost: 14
     amountForSale: 10
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
       amount: 25
+    siegesRequired: 0
+    amountGiven: 1
   - name: TitanCyanMarigleamSeed
     itemForSale: {fileID: 11400000, guid: d66ed27d6902f1c4882381c124286ca4, type: 2}
     useItemPrice: 0
@@ -112,15 +143,19 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 955fac238d5677b40886f9ec7626d081, type: 2}
       amount: 25
+    siegesRequired: 0
+    amountGiven: 1
   - name: PinkMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: d461c5d515815844dbaa743766386a1d, type: 2}
     useItemPrice: 1
-    mintCost: 12
+    mintCost: 16
     amountForSale: 10
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
       amount: 25
+    siegesRequired: 0
+    amountGiven: 1
   - name: TitanPinkMarigleamSeed
     itemForSale: {fileID: 11400000, guid: 2f7f5a9aef68d4248967b825e3acf3f6, type: 2}
     useItemPrice: 0
@@ -130,15 +165,19 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 7250a5aa0c9fea44eb860ae937dc3d76, type: 2}
       amount: 25
+    siegesRequired: 0
+    amountGiven: 1
   - name: IndigoMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: 5b1571d80f24d964289f0fe232caed16, type: 2}
     useItemPrice: 1
-    mintCost: 15
+    mintCost: 18
     amountForSale: 10
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
       amount: 25
+    siegesRequired: 0
+    amountGiven: 1
   - name: TitanIndigoMarigleamSeed
     itemForSale: {fileID: 11400000, guid: df5b49ad6812ae543904975c3eacdd6d, type: 2}
     useItemPrice: 0
@@ -148,3 +187,5 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: a469d32a52505e0499f81a4ddb0bcf60, type: 2}
       amount: 25
+    siegesRequired: 0
+    amountGiven: 1

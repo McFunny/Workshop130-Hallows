@@ -330,7 +330,7 @@ public class DialogueController : MonoBehaviour
         }
 
         var inventory = PlayerInventoryHolder.Instance;
-        if (inventory.AddToInventory(item, 1))
+        if (inventory.AddToInventory(item, currentTalker.lastInteractedStoreItem.amountGiven))
         {
             PlayerInteraction.Instance.currentMoney -= currentTalker.lastInteractedStoreItem.cost;
             FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();

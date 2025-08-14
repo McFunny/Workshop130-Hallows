@@ -81,7 +81,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
     {
         if(!dialogueController.FreeToSpeak(this)) return;
         if(anim) anim.SetTrigger("IsTalking");
-        movementHandler.TalkToPlayer();
+        if(movementHandler) movementHandler.TalkToPlayer();
         dialogueController.currentTalker = this;
         dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
         startedDialogue = true;
@@ -107,7 +107,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
             //Barter Price Check
             if (item.barterCost.Count > 0)
             {
-                if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
+                if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, item.amountGiven))
                 {
                     currentPath = 4; //No space in inventory
                     toolTipScript.panel.SetActive(false);
@@ -138,7 +138,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 currentPath = 3; //no money!?!?!?
                 toolTipScript.panel.SetActive(false);
             }
-            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
+            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, item.amountGiven))
             {
                 currentPath = 4; //No space in inventory
                 toolTipScript.panel.SetActive(false);

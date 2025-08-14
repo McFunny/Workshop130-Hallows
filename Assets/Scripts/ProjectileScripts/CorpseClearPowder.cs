@@ -25,7 +25,7 @@ public class CorpseClearPowder : MonoBehaviour
                 var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
                 if (creature != null && (creature.health <= 0 || creature.creatureData == walkerData))
                 {
-                    creature.TakeDamage(10);
+                    creature.TakeDamage(5);
                     creature.PlayHitParticle(creature.transform.position);
                 }
             }
