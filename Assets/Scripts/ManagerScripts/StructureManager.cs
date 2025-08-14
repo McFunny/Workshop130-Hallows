@@ -126,7 +126,7 @@ public class StructureManager : MonoBehaviour
 
                 r = Random.Range(0, 10);
                 if(MainMenuScript.currentFileMode == FileMode.Cozy) r -= 2;
-                if(r >= 6.5f || allStructs[i].onFire) //Destroy structure.
+                if((r >= 6.5f || allStructs[i].onFire) && !allStructs[i].absentFromFarmGrid) //Destroy structure.
                 {
                     print("Deleting: " + allStructs[i]);
                     //Destroy(allStructs[i].gameObject);
@@ -333,7 +333,6 @@ public class StructureManager : MonoBehaviour
         switch(type)
         {
             case GridType.Barn:
-                //currently for farm tiles only
                 if(allBarnTiles.Count == 0)
                 {
                     print("No available tiles");
@@ -344,6 +343,44 @@ public class StructureManager : MonoBehaviour
                 break;
             default :
                 return GetRandomTile();
+                break;
+        }
+    }
+
+    public Vector3 GetRandomNearbyTile(GridType type, float range, Vector3 pos)
+    {
+        int i = 0;
+        switch(type)
+        {
+            case GridType.Barn:
+                if(allBarnTiles.Count == 0)
+                {
+                    print("No available tiles");
+                    return new Vector3 (0,0,0);
+                }
+                while(i < 30)
+                {
+                    int r = Random.Range(0, allBarnTiles.Count);
+                    if(Vector3.Distance(barnTileMap.GetCellCenterWorld(allBarnTiles[r]), pos) <= range) return barnTileMap.GetCellCenterWorld(allBarnTiles[r]);
+                    i++;
+                }
+                print("No nearby tiles");
+                return new Vector3 (0,0,0);
+                break;
+            default :
+                if(allFarmTiles.Count == 0)
+                {
+                    print("No available tiles");
+                    return new Vector3 (0,0,0);
+                }
+                while(i < 30)
+                {
+                    int r = Random.Range(0, allFarmTiles.Count);
+                    if(Vector3.Distance(farmTileMap.GetCellCenterWorld(allFarmTiles[r]), pos) <= range) return farmTileMap.GetCellCenterWorld(allFarmTiles[r]);
+                    i++;
+                }
+                print("No nearby tiles");
+                return new Vector3 (0,0,0);
                 break;
         }
     }

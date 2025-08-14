@@ -313,12 +313,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
   - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
   - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
-  - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+  - {fileID: 11400000, guid: 15b811d0b42fdf44e86c618d24730806, type: 2}
   dropChance:
   - 5
   - 5
   - 5
-  - 2.5
+  - 7
   sightRange: 20
   attackRange: 5
   playerInSightRange: 0
@@ -326,6 +326,7 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 1
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 3
   damageToPlayer: -15
@@ -877,6 +878,9 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 465679e429d042843aa25dfab93d355d, type: 3}
   miscSound2: {fileID: 8300000, guid: 38cf39667f6d38043ae1b9302518241e, type: 3}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!82 &6310417956280639659
 AudioSource:

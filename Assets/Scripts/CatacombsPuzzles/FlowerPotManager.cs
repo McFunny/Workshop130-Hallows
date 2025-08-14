@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class FlowerPotManager : MonoBehaviour
+public class FlowerPotManager : ImAPuzzleManager
 {
 
     public static FlowerPotManager Instance;
 
-    public bool puzzleSolved = false;
 
     public List<FlowerPotCatacombs> pots = new List<FlowerPotCatacombs> ();
 
@@ -18,6 +17,10 @@ public class FlowerPotManager : MonoBehaviour
     public List<FlowerAssignments> flowerAssignmentsReference = new List<FlowerAssignments>();
 
     public bool hasSetUpFlowers = false;
+
+    [Header("Gachapon Stuff")]
+    public InventoryItemData gachaponReward;
+    public int gachaponRewardCount;
 
     private void Awake()
     {
@@ -70,6 +73,7 @@ public class FlowerPotManager : MonoBehaviour
                 pots[i].LockPuzzle();
             }
             puzzleSolved = true;
+            Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
             PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
         }
      }
@@ -98,6 +102,7 @@ public class FlowerPotManager : MonoBehaviour
 
         for (int i = 0; i < pots.Count; i++)
         {
+            if(data.pots == null || i >= data.pots.Count) continue;
             pots[i].ImportSaveData(data.pots[i]);
         }
     }

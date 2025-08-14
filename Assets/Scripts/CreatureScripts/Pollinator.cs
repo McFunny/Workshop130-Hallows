@@ -235,7 +235,7 @@ public class Pollinator : CreatureBehaviorScript
         FarmLand tile = targetStructure as FarmLand;
         if(tile)
         {
-            tile.isPollinated = true;
+            tile.Pollinate();
             foreach(ParticleSystem p in pollenParticles) p.Play();
             QuestManager.Instance.AddQuestProgress(1, QuestDatabase.Instance.GetTutorialQuest(301)); //Complete the pollination quest
         }

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: Tumeric
+  m_EditorClassIdentifier: 
+  name: Tumeric
+  id: 34
+  growthStages: 6
+  hoursPerStage: 2
+  harvestableGrowthStages: 06000000
+  cropSprites:
+  - {fileID: 1518636289, guid: d23f8cfa810ed644db10548f70137b26, type: 3}
+  - {fileID: 1551279236, guid: d23f8cfa810ed644db10548f70137b26, type: 3}
+  - {fileID: -1227884109, guid: d23f8cfa810ed644db10548f70137b26, type: 3}
+  - {fileID: -1821943545, guid: d23f8cfa810ed644db10548f70137b26, type: 3}
+  - {fileID: 1121519395, guid: d23f8cfa810ed644db10548f70137b26, type: 3}
+  - {fileID: 611359683, guid: d23f8cfa810ed644db10548f70137b26, type: 3}
+  rottedImage: {fileID: -361221644, guid: d23f8cfa810ed644db10548f70137b26, type: 3}
+  cropYield: {fileID: 11400000, guid: da66d956024e55f43b16742c1c56ef23, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 11400000, guid: 14b0a585ff0457943a7d1b8d2bff8fbf, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  noStressSeedChance: 0
+  waterIntake: 8
+  ichorIntake: 0.75
+  terraIntake: 1
+  gloamIntake: -0.75
+  stressLimit: 1
+  wealthValue: 5
+  requireScythe: 0
+  requirePollination: 1
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 11400000, guid: 13ac398368a015746acab16ebfe79bc3, type: 2}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

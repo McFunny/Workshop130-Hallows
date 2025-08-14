@@ -189,7 +189,7 @@ MonoBehaviour:
   playerInAttackRange: 0
   shovelVulnerable: 1
   fireVulnerable: 0
-  bearTrapVulnerable: 0
+  bearTrapVulnerable: 1
   frostVulnerable: 1
   isDead: 0
   damageToStructure: 5
@@ -216,7 +216,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 0760c83ec1bfa0c408fe43d93a4f2129, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2ca857108e623044d81d790985fb0bd5, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.301
   m_Pitch: 0.91
@@ -327,7 +327,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c0adbf6c7093efc4598cabd862a75484, type: 3}
   footSteps: []
   deathSound: {fileID: 0}
-  miscSound: {fileID: 8300000, guid: c0adbf6c7093efc4598cabd862a75484, type: 3}
+  miscSound: {fileID: 8300000, guid: 10bfeae023191b747a2eaed706caa32e, type: 3}
   miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
   eatSound: {fileID: 0}

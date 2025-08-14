@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1056344402660918890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6803361770847429023}
+  - component: {fileID: 6100456087665033300}
+  m_Layer: 9
+  m_Name: WaspSwarm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6803361770847429023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056344402660918890}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -23.64, y: -0.05000305, z: -15.910004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6100456087665033300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056344402660918890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb9e73beb983b3643a808dc09d93c911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  maxHealth: 100
+  corpseHealth: -50
+  ichorWorth: 0
+  ichorDropRadius: 0
+  creatureData: {fileID: 11400000, guid: d1e9ed3bba157914ab10710a9503baf0, type: 2}
+  inWilderness: 0
+  patrolPoint: {fileID: 0}
+  structManager: {fileID: 0}
+  effectsHandler: {fileID: 0}
+  player: {fileID: 0}
+  allColliders: []
+  corpseParticleTransform: {fileID: 0}
+  corpseType: 2
+  rb: {fileID: 0}
+  anim: {fileID: 0}
+  droppedItems: []
+  dropChance: []
+  sightRange: 0
+  attackRange: 0
+  playerInSightRange: 0
+  playerInAttackRange: 0
+  shovelVulnerable: 0
+  fireVulnerable: 0
+  bearTrapVulnerable: 0
+  frostVulnerable: 0
+  isDead: 0
+  damageToStructure: 0
+  damageToPlayer: 0
+  canCorpseBreak: 0
+  actionSpeedMod: 1
+  hitColor: {r: 0, g: 0, b: 0, a: 0}
+  currentEffects: []
+  wasps: []
+  waspMin: 2
+  waspMax: 5
+  waspPrefab: {fileID: 6904110568419429941, guid: 5523e2307e0c2994daf440dd36d22d5a,
+    type: 3}

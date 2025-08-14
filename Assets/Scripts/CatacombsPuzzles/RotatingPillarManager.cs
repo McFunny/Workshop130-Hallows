@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Linq;
 using SaveLoadSystem;
 
-public class RotatingPillarManager : MonoBehaviour
+public class RotatingPillarManager : ImAPuzzleManager
 {
     [System.Serializable]
     public class PuzzleSetEntry
@@ -15,13 +15,16 @@ public class RotatingPillarManager : MonoBehaviour
 
     public List<PuzzleSetEntry> puzzleSets = new List<PuzzleSetEntry>();
     public List<CropData> cropData = new List<CropData>();
-    public bool puzzleSolved = false;
 
     [SerializeField] private Database _database;
     private AudioSource audioSource;
     private int puzzlesSolved = 0;
 
     public static RotatingPillarManager Instance;
+
+    [Header("Gachapon Stuff")]
+    public InventoryItemData gachaponReward;
+    public int gachaponRewardCount;
 
     private void Awake()
     {
@@ -120,6 +123,7 @@ public class RotatingPillarManager : MonoBehaviour
             puzzleSolved = true;
             PuzzleManager.Instance.totalPuzzlesSolved++;
             PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
+            Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
         }
     }
 
@@ -151,6 +155,13 @@ public class RotatingPillarManager : MonoBehaviour
 
         for (int i = 0; i < puzzleSets.Count; i++)
         {
+            //The catch for old saves
+            if(i >= data.PuzzleSetEntries.Count)
+            {
+                puzzleSets[i].isSolved = false;
+                continue;
+            }
+
             puzzleSets[i].isSolved = data.PuzzleSetEntries[i].IsSolved;
             puzzleSets[i].cropKey.ImportSaveData(data.PuzzleSetEntries[i].CropKeyData,
                 Database.Instance.GetItem(data.PuzzleSetEntries[i].CropKeyData.CropYieldID));

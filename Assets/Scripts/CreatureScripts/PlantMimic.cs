@@ -147,7 +147,7 @@ public class PlantMimic : CreatureBehaviorScript
             }
             int r = Random.Range(0, 10);
                
-            if (r > 5 || TimeManager.Instance.isDay) currentState = CreatureState.Rebury;
+            if (r > 7 || TimeManager.Instance.isDay) currentState = CreatureState.Rebury;
             else currentState = CreatureState.Wander;
         }
     }

@@ -35,14 +35,14 @@ public class TruffleHog : CritterBehaviorScript
     void Start()
     {
         base.Start();
-        CritterStart();
+        //CritterStart();
         StartCoroutine(IdleSoundTimer());
     }
 
     void OnDestroy()
     {
         base.OnDestroy();
-        OnCritterDestroy();
+        //OnCritterDestroy();
     }
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     public float GetCritterHealth(){ return health;}
@@ -77,6 +77,7 @@ public class TruffleHog : CritterBehaviorScript
     
     public void CheckState(CritterState currentState)
     {
+        if(behaviorDelay) return;
         switch (currentState)
         {
             case CritterState.Decide:
@@ -142,7 +143,7 @@ public class TruffleHog : CritterBehaviorScript
         base.OnHour();
         if(TimeManager.Instance.currentHour == 8)
         {
-            burrowsToDig = Random.Range(3, 8);
+            burrowsToDig = Random.Range(2, 5);
         }
     }
 
@@ -342,7 +343,7 @@ public class TruffleHog : CritterBehaviorScript
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         Burrow burrow = Instantiate(burrowPrefab, target, Quaternion.identity).GetComponent<Burrow>();
             //Code to add the item
-        float truffleChance = (friendshipLevel + 1) * 4;
+        float truffleChance = (friendshipLevel + 1) * 8;
         if(Random.Range(0,100) < truffleChance) burrow.InsertItem(truffleItem);
 
         FriendPointsChange(2, true);

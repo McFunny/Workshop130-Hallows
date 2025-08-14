@@ -14,7 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 7575999969673721782, guid: 33a4bd1b9d1f7434389e7fad8765e401,
     type: 3}
-  creatureVariants: []
+  creatureVariants:
+  - name: Crimson Lumen Moth
+    prefab: {fileID: 6904110568419429941, guid: 5523e2307e0c2994daf440dd36d22d5a,
+      type: 3}
+    probabilityInFarm: 5
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 500
   health: 0
   position:
   - 0

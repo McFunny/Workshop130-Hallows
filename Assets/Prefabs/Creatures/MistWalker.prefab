@@ -6492,6 +6492,9 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 9441cf2cc2c75a443969667adc5e38c7, type: 3}
   miscSound2: {fileID: 8300000, guid: b018cc12e2d5d9d4aa779034d41558ed, type: 3}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!82 &4955585291372474256
 AudioSource:
@@ -8689,10 +8692,10 @@ MonoBehaviour:
   dropChance:
   - 0.25
   - 0.25
-  - 1
+  - 0.5
   - 0.25
-  - 1
-  - 1
+  - 0.5
+  - 0.5
   sightRange: 20
   attackRange: 5
   playerInSightRange: 0
@@ -8700,6 +8703,7 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 1
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 4
   damageToPlayer: -25
@@ -8748,6 +8752,8 @@ MonoBehaviour:
     chanceToEquip: 5
   - armorObject: {fileID: 3313020554192288142}
     chanceToEquip: 5
+  foggedWalkers: []
+  foggedWalkerPrefab: {fileID: 0}
   currentState: 0
 --- !u!195 &4923551108285686843
 NavMeshAgent:

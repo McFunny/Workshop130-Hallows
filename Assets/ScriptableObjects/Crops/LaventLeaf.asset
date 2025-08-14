@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Lavent Leaf
   id: 24
   growthStages: 6
-  hoursPerStage: 2
+  hoursPerStage: 3
   harvestableGrowthStages: 06000000
   cropSprites:
   - {fileID: 2145284457, guid: 98adaa7fdfec46d4e932c58d569c9331, type: 3}
@@ -28,13 +28,13 @@ MonoBehaviour:
   cropYield: {fileID: 11400000, guid: 7768b12c99afd534b97a45295f745592, type: 2}
   cropSecondaryYield: {fileID: 0}
   cropSeed: {fileID: 11400000, guid: 6b308934c08f8fd4b9fd15683b71551a, type: 2}
-  cropYieldAmount: 1
+  cropYieldAmount: 2
   cropYieldVariance: 2
   seedYieldAmount: 0
   seedYieldVariance: 1
   noStressSeedChance: 0
   waterIntake: 5
-  ichorIntake: 0
+  ichorIntake: 0.25
   terraIntake: 0.75
   gloamIntake: -0.25
   stressLimit: 0

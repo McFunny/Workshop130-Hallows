@@ -105,7 +105,7 @@ public class InventorySlot_UI : MonoBehaviour
             return;
         }
 
-        if (assignedInventorySlot.ItemData.staminaValue > 0) FoodCooldownHandler();
+        if (assignedInventorySlot.ItemData.useCooldown > 0) FoodCooldownHandler();
     }
 
     public void TestPrint()
@@ -278,6 +278,8 @@ public class InventorySlot_UI : MonoBehaviour
         itemCount.text = "";
         itemName.text = "";
         itemDesc = "";
+        foodCooldownSlider.gameObject.SetActive(false);
+        itemGrey.enabled = false;
         //itemName.gameObject.SetActive(false);
     }
 

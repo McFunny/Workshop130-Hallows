@@ -15,10 +15,10 @@ public class Thurible : StructureBehaviorScript
     public TextMeshProUGUI leafText;
 
     public int leafCount = 0;
-    int maxLeafCount = 5; //Each count is worth 30 seconds
+    int maxLeafCount = 5; //Each count is worth max flame
 
     public float flameLeft; //if 0, fire is gone
-    float maxFlame = 50; //Max flame per level
+    float maxFlame = 60; //Max flame per level
 
     void Awake()
     {

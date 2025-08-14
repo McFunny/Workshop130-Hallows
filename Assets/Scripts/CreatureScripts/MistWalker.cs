@@ -41,6 +41,9 @@ public class MistWalker : CreatureBehaviorScript
 
     public EquipEnemyArmor[] equippableArmor;
 
+    public List<GameObject> foggedWalkers = new List<GameObject>();
+    public GameObject foggedWalkerPrefab;
+
     public enum CreatureState
     {
         SpawnIn,
@@ -59,7 +62,9 @@ public class MistWalker : CreatureBehaviorScript
     public enum Variant
     {
         Normal,
-        Strong
+        Strong,
+        Fogged,
+        FogMind
     }
 
     public CreatureState currentState;
@@ -88,6 +93,8 @@ public class MistWalker : CreatureBehaviorScript
         StartCoroutine(IdleSoundTimer());
 
         if(variant == Variant.Strong) canDoubleLunge = true;
+        if (variant == Variant.FogMind) SpawnFoggedWalkers();
+        if (variant == Variant.Fogged) canAttack = false;
 
         for(int i = 0; i < equippableArmor.Length; i++)
         {
@@ -105,14 +112,10 @@ public class MistWalker : CreatureBehaviorScript
 
         if(MainMenuScript.currentFileMode == FileMode.Cozy) canLunge = false;
 
-        /*foreach(EquipEnemyArmor a in equippableArmor)
-        {
-            r = Random.Range(0,100);
-            if(a.chanceToEquip >= r) a.armorObject.SetActive(true);
-        }*/
-
         //if(!inWilderness && Random.Range(0,5) > 2) currentState = CreatureState.WalkTowardsClosestStructure; //causing issues I think
     }
+
+   
 
     void OnDisable()
     {
@@ -187,7 +190,7 @@ public class MistWalker : CreatureBehaviorScript
             playerInSightRange = distance <= sightRange;
             playerInAttackRange = distance <= attackRange;
 
-            if (playerInSightRange && currentState != CreatureState.AttackPlayer && currentState != CreatureState.WalkTowardsPlayer && (currentState != CreatureState.AttackStructure || playerInAttackRange))
+            if (playerInSightRange && currentState != CreatureState.AttackPlayer && currentState != CreatureState.WalkTowardsPlayer && (currentState != CreatureState.AttackStructure || playerInAttackRange) && variant != Variant.Fogged)
             {
                 currentState = CreatureState.WalkTowardsPlayer;
             }
@@ -276,7 +279,7 @@ public class MistWalker : CreatureBehaviorScript
     #region WanderingFunctions
     public void Wander()
     {
-        if (playerInSightRange || (inWilderness && !patrolPoint))
+        if ((playerInSightRange && variant != Variant.Fogged) || (inWilderness && !patrolPoint))
         {
             currentState = CreatureState.WalkTowardsPlayer;
             return;
@@ -321,7 +324,7 @@ public class MistWalker : CreatureBehaviorScript
         while ((agent.pathPending || agent.remainingDistance > agent.stoppingDistance) && timeSpent < 20)
         {
             timeSpent += Time.deltaTime;
-            if (playerInSightRange)
+            if (playerInSightRange && variant != Variant.Fogged)
             {
                 currentState = CreatureState.WalkTowardsPlayer;
                 isMoving = false;
@@ -387,7 +390,8 @@ public class MistWalker : CreatureBehaviorScript
         else if (targetStructure && Vector3.Distance(transform.position, targetStructure.transform.position) < 4f)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
         {
             agent.ResetPath();
-            currentState = CreatureState.AttackStructure;
+            if (variant != Variant.Fogged) currentState = CreatureState.AttackStructure;
+            else currentState = CreatureState.Wander;
         }
         else if((target == null || agent.destination != target.position) && targetStructure)
         {
@@ -674,7 +678,7 @@ public class MistWalker : CreatureBehaviorScript
 
     private void Idle()
     {
-        if (playerInSightRange)
+        if (playerInSightRange && variant != Variant.Fogged)
         {
             currentState = CreatureState.WalkTowardsPlayer;
             return;
@@ -751,39 +755,6 @@ public class MistWalker : CreatureBehaviorScript
         currentState = CreatureState.Wander;
     }
 
-    /*public override bool OnStun(float duration)
-    {
-        if (currentState != CreatureState.Stun)
-        {
-            StopCoroutine(Stun(duration));
-            StartCoroutine(Stun(duration));
-            agent.destination = transform.position;
-            agent.ResetPath();
-            anim.SetBool("IsWalking", false);
-            anim.SetTrigger("IsRecoiling");
-            return true;
-        }
-        return false;
-    }
-
-    private IEnumerator Stun(float duration)
-    {
-        currentState = CreatureState.Stun;
-        coroutineRunning = false;
-        //StopAllCoroutines();
-        StopCoroutine(LungeAtPlayer());
-        StopCoroutine(SwipePlayer());
-        StopTrackingPlayer();
-        if(walkRoutine != null)
-        {
-            StopCoroutine(walkRoutine);
-            walkRoutine = null;
-        }
-        yield return new WaitForSeconds(duration);
-        //StartCoroutine(IdleSoundTimer());
-        currentState = CreatureState.Wander;
-    } */
-
     public override void OnDeath()
     {
         if (!isDead)
@@ -796,23 +767,71 @@ public class MistWalker : CreatureBehaviorScript
             rb.freezeRotation = true;
             StopAllCoroutines();
             fearParticle.SetActive(false);
+            if (variant == Variant.FogMind) { KillFogged(); }
         }
     }
 
+    private void KillFogged()
+    {
+        for (int i = 0; i < foggedWalkers.Count; i++)
+        {
+            MistWalker walker = foggedWalkers[i].GetComponent<MistWalker>();
+            walker.OnDeath();
+        }
+    }
+    private void DestroyFogged()
+    {
+        foreach (GameObject fogged in foggedWalkers)
+        {
+            if (fogged == null) continue;
+
+            MistWalker walker = fogged.GetComponent<MistWalker>();
+            if (walker == null) continue;
+
+            // Make sure the corpse breaks
+            walker.health = walker.corpseHealth - 1; // Ensure it's below corpseHealth
+            walker.OnCorpseDamage(); // Triggers corpse particle, item drops, etc.
+        }
+    }
+
+
+
     public override void OnDamage()
     {
+        if (variant == Variant.Fogged) return;
         if(!recoilCooldown && !attackingPlayer)
         {
             recoilCooldown = true;
             effectsHandler.OnHit();
             anim.SetTrigger("IsRecoiling");
             StartCoroutine(RecoilCooldown());
+            
         }
+        if (variant == Variant.FogMind && !isDead) { SwapPlacesWithFogged(); }
+    }
+
+    private void SwapPlacesWithFogged()
+    {
+        int r = Random.Range(0, foggedWalkers.Count);
+        Vector3 fogMindPosition = transform.position;
+        Quaternion fogMindRotation = transform.rotation;
+        Vector3 foggedPostion = foggedWalkers[r].transform.position;
+        Quaternion foggedRotation = foggedWalkers[r].transform.rotation;
+
+        transform.position = foggedPostion;
+        transform.rotation = foggedRotation;
+        foggedWalkers[r].transform.position = fogMindPosition;
+        foggedWalkers[r].transform.rotation = fogMindRotation;
     }
 
     public override void OnCorpseDamage()
     {
-        if(health <= 0 && canCorpseBreak)
+        if (health <= 0 && canCorpseBreak)
+        {
+            anim.Play("MistDeathInteract", -1, 0f);
+            if (variant == Variant.FogMind) { DestroyFogged(); }
+        }
+        else if (health <= 0 && !canCorpseBreak && variant == Variant.Fogged)
         {
             anim.Play("MistDeathInteract", -1, 0f);
         }
@@ -834,6 +853,15 @@ public class MistWalker : CreatureBehaviorScript
             int i = Random.Range(4,10);
             effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
+        }
+    }
+
+    private void SpawnFoggedWalkers()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject walker = Instantiate(foggedWalkerPrefab, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+            foggedWalkers.Add(walker);
         }
     }
 

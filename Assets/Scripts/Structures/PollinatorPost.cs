@@ -53,7 +53,8 @@ public class PollinatorPost : StructureBehaviorScript
         if(containsNectar)
         {
             int yield = 1;
-            if(Random.Range(0,10) > 6) yield += 1;
+            if(Random.Range(0,10) > 4) yield += 1;
+            if(Random.Range(0,10) > 4) yield += 1;
             addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(nectarItem, yield);
             if (!addedSuccessfully) return;
 

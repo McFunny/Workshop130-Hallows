@@ -235,8 +235,12 @@ MonoBehaviour:
   anim: {fileID: 2578899447384088564}
   droppedItems:
   - {fileID: 11400000, guid: 3b5afa9f577a91f4c84ad661e6f277cc, type: 2}
+  - {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+  - {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
   dropChance:
   - 10
+  - 5
+  - 5
   sightRange: 20
   attackRange: 6
   playerInSightRange: 0
@@ -244,6 +248,7 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 1
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
@@ -823,6 +828,9 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: fbee248d88697ea43a1c0b9fea2da840, type: 3}
   miscSound2: {fileID: 8300000, guid: 81e4efb8d152a354788c7c4eafb391a2, type: 3}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!82 &6391355105544839141
 AudioSource:

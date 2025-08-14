@@ -34,6 +34,8 @@ public class Codex3 : MonoBehaviour
     private Image bgPanelImage;
     [SerializeField] private GameObject codex;
     [SerializeField] private UILerp uiLerp;
+    [SerializeField] private AudioSource codexAudio;
+    [SerializeField] private AudioClip codexOpenSound, codexCloseSound;
     [SerializeField] private Button[] categoryButtons;
     [SerializeField] private GameObject[] containers;
     [SerializeField] private GameObject[] secondaryContainers;
@@ -222,8 +224,9 @@ public class Codex3 : MonoBehaviour
         PlayerMovement.isCodexOpen = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        codexAudio.PlayOneShot(codexOpenSound); // Play the codex open sound
 
-        if(Tutorial.Instance) Tutorial.Instance.OpenCodex();
+        if (Tutorial.Instance) Tutorial.Instance.OpenCodex();
     }
 
     public void CloseCodex()
@@ -239,6 +242,7 @@ public class Codex3 : MonoBehaviour
         PlayerMovement.isCodexOpen = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        codexAudio.PlayOneShot(codexCloseSound); // Play the codex open sound
     }
 
     public void Back()

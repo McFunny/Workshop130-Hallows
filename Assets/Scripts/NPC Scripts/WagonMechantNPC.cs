@@ -134,7 +134,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
         else if (item.ID == 163)
         {
-            currentPath = 1;
+            currentPath = 0;
             currentType = PathType.ItemSpecific;
             lastSeenItem = item;
             Talk();

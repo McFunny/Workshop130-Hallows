@@ -7,7 +7,7 @@ public class Trough : StructureBehaviorScript
 {
     public List<SpriteRenderer> itemSockets = new List<SpriteRenderer>();
 
-    public SpriteRenderer waterR;
+    public GameObject waterObject;
     public ParticleSystem splash;
 
     public int waterLevel = 0; //max is maxWaterLevel
@@ -19,7 +19,7 @@ public class Trough : StructureBehaviorScript
 
     public void Awake()
     {
-        waterR.enabled = false;
+        waterObject.SetActive(false);
         base.Awake();
         for(int i = 0; i < itemSockets.Count; i++)
         {
@@ -216,8 +216,8 @@ public class Trough : StructureBehaviorScript
     public void WaterLevelChange(int amount)
     {
         waterLevel += amount;
-        if(waterLevel > 0) waterR.enabled = true;
-        else waterR.enabled = false;
+        if(waterLevel > 0) waterObject.SetActive(true);
+        else waterObject.SetActive(false);
 
         splash.Play();
         audioHandler.PlaySound(audioHandler.interactSound);

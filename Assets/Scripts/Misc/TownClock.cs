@@ -24,11 +24,11 @@ public class TownClock : MonoBehaviour
         float zRot;
         if (TimeManager.Instance.isDay)
         {
-            zRot = TimeManager.Instance.currentMinute * 8;
+            zRot = TimeManager.Instance.currentMinute * 5.142f;
         }
         else
         {
-            zRot = TimeManager.Instance.currentMinute * 12;
+            zRot = TimeManager.Instance.currentMinute * 9;
         }
         minuteHand.transform.localRotation = Quaternion.Euler(0f, 0f, zRot);
         hourHand.transform.localRotation = Quaternion.Lerp(hourHand.transform.localRotation, targetHourRotation, Time.deltaTime * 10f);

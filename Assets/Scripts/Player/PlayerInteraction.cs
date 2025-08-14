@@ -324,7 +324,6 @@ public class PlayerInteraction : MonoBehaviour
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
             //eat it
-            onFoodConsumed?.Invoke(item);
             StaminaChange(item.staminaValue);
             itemUsed = true;
         }
@@ -354,9 +353,10 @@ public class PlayerInteraction : MonoBehaviour
         if(itemUsed)
         {
             if(item.useCooldown > 0) StartCoroutine(ItemUseCooldown(item.useCooldown));
+            onFoodConsumed?.Invoke(item);
 
-            if(item.useSound) playerEffects.PlayClip(item.useSound);
-            else if(item.staminaValue > 0) playerEffects.PlayClip(playerEffects.itemEat);
+            if (item.useSound) playerEffects.PlayClip(item.useSound);
+            else if (item.staminaValue > 0) playerEffects.PlayClip(playerEffects.itemEat);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             playerInventoryHolder.UpdateInventory();
         }
@@ -545,6 +545,7 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
+        PlayerMovement.ignoreMovementInputs = false;
         FadeScreen.coverScreen = false;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;

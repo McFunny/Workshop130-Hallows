@@ -37,14 +37,14 @@ public class ShrineBox : MonoBehaviour, IInteractable
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         interactSuccessful = false;
-        if (item == wantedItem)
+        if (item == wantedItem && !isSolved)
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             interactor.playerInventoryHolder.UpdateInventory();
             itemsDeposited++;
             audioSource.PlayOneShot(audioSource.clip);
-            GameObject particle = ParticlePoolManager.Instance.GrabExtinguishParticle();
-            particle.transform.position = particlePoint.position;
+            //GameObject particle = ParticlePoolManager.Instance.GrabExtinguishParticle();
+            //particle.transform.position = particlePoint.position;
             CheckToSeeIfSolved();
             interactSuccessful = true;
         }

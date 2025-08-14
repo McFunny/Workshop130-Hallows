@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShrineBoxManager : MonoBehaviour
+public class ShrineBoxManager : ImAPuzzleManager
 {
    public static ShrineBoxManager Instance;
 
    public List<ShrineBox> boxes = new List<ShrineBox>();
 
-    public bool puzzleSolved = false;
+
+    [Header("Gachapon Stuff")]
+    public InventoryItemData gachaponReward;
+    public int gachaponRewardCount;
 
     private void Awake()
     {
@@ -48,6 +51,7 @@ public class ShrineBoxManager : MonoBehaviour
 
         for (int i = 0; i < boxes.Count; i++)
         {
+            if(data.shrines == null || i >= data.shrines.Count) continue;
             boxes[i].ImportSaveData(data.shrines[i]);
         }
     }
@@ -66,6 +70,8 @@ public class ShrineBoxManager : MonoBehaviour
         if (puzzlesSolved == boxes.Count)
         {
             puzzleSolved = true;
+            Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
+            PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
         }
     }
 }

@@ -21,7 +21,7 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public NPC seller;
 
-    public int cost, amountLeft;
+    public int cost, amountLeft, amountGiven;
 
     public List<ItemWithAmount> barterCost = new List<ItemWithAmount>();
 
@@ -79,6 +79,7 @@ public class StoreItem : MonoBehaviour, IInteractable
         itemData = newItem;
         cost = _cost;
         amountLeft = 1;
+        amountGiven = 1;
         stockText.text = "";
         costText.text = cost.ToString();
         if(cost > 0) costObject.SetActive(true);
@@ -109,6 +110,11 @@ public class StoreItem : MonoBehaviour, IInteractable
         myCollider.enabled = true;
     }
 
+    public void ChangeAmountGiven(int num)
+    {
+        amountGiven = num;
+    }
+
     public void Empty()
     {
         r.sprite = null;
@@ -117,6 +123,7 @@ public class StoreItem : MonoBehaviour, IInteractable
         costText.text = "";
         costObject.SetActive(false);
         amountLeft = 0;
+        amountGiven = 1;
         stockText.text = "";
         myCollider.enabled = false;
         if(awakeOver) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;

@@ -13,6 +13,13 @@ public class FarmTree : StructureBehaviorScript
 
     public Transform itemDrop;
     public ParticleSystem leafBurst;
+
+    public GameObject mothHivePrefab;
+    public GameObject currentHive;
+
+    public bool forceHiveSpawn;
+
+    public Transform[] hiveSpawns;
     void Awake()
     {
         base.Awake();
@@ -23,6 +30,8 @@ public class FarmTree : StructureBehaviorScript
         base.Start();
         if(taggedForCutting) papers.SetActive(true);
         OnDamage += TreeHit;
+
+        if(forceHiveSpawn) SpawnHive();
     }
 
     public override void StructureInteraction()
@@ -55,6 +64,16 @@ public class FarmTree : StructureBehaviorScript
             Instantiate(logPile, StructureManager.Instance.GetTileCenter(transform.position), Quaternion.identity);
             Destroy(this.gameObject);
         }
+
+        if(Random.Range(0, 100f) > 99.85f && TimeManager.Instance.dayNum > 2) forceHiveSpawn = true;
+
+        if(forceHiveSpawn && Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) > 40) SpawnHive();
+    }
+
+    void SpawnHive()
+    {
+        forceHiveSpawn = false;
+        currentHive = Instantiate(mothHivePrefab, hiveSpawns[Random.Range(0, hiveSpawns.Length)].position, Quaternion.identity);
     }
 
     void OnDestroy()
@@ -66,6 +85,17 @@ public class FarmTree : StructureBehaviorScript
     void TreeHit()
     {
         leafBurst.Play();
+    }
+
+    public override void LoadVariables()
+    {
+        if(saveInt1 == 1) SpawnHive();
+    }
+
+    public override void SaveVariables()
+    {
+        if(currentHive) saveInt1 = 1;
+        else saveInt1 = 0;
     }
 
     /*public override object GetSaveData()

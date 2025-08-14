@@ -52,7 +52,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             case PetState.AwaitPlayer:
                 AwaitPlayer();
                 break;
-                
+
             case PetState.Idle:
                 Idle();
                 break;
@@ -827,7 +827,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             StartCoroutine(DripEffects());
             return;
         }
-        if(hunger < 100 && (item.animalHungerValue > 0 || foodDiet.Contains(item)))
+        if(hunger < 100 && (foodDiet.Contains(item)))
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
@@ -842,7 +842,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     public void ToggleHighlight(bool enabled)
     {
-        showStats = enabled;
+        //showStats = enabled;
     }
 
     public void ReturnFocalPoint(out Transform point)

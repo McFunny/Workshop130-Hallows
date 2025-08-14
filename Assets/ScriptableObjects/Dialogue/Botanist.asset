@@ -76,6 +76,14 @@ MonoBehaviour:
       producing even after they are harvested!
     - You can buy a trellis from me, or have the Craftsman make some for you.
     emotions: 050000000000000000000000
+  - pathName: Have some more Seeds
+    paragraphs:
+    - Now that you are getting the hang of it, try growing some of these GloomStalk
+      seeds!
+    - They grow much faster than Timber Ear, so growing these should be a breeze.
+      {givePlayerItems}
+    - Just be on the lookout for hogs and crows!
+    emotions: 010000000000000005000000
   fillerPaths:
   - pathName: Hard Work
     paragraphs:
@@ -230,6 +238,14 @@ MonoBehaviour:
     - Here, take this. With this post, you can start harvesting the nectar they produce!
     - Think of it like a cute little inn for the moths!
     emotions: 050000000000000001000000
+  - pathName: Gloomstalk Quest Completed
+    paragraphs:
+    - Great work as always farmer!
+    - Wait... Have you not been using a scythe this whole time?!
+    - No wonder you took so long! Here, have my spare!
+    - A scythe can make quick work of cutting down fields of crops! Once you get
+      use to its swing that is.
+    emotions: 01000000040000000500000000000000
   dailyQuestPaths:
   - pathName: Daily Quest
     paragraphs:
