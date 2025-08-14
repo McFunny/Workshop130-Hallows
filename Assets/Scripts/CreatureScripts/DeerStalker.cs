@@ -10,6 +10,7 @@ public class DeerStalker : CreatureBehaviorScript
     public Variant variant; // what variant of creature is this?
 
     bool hasTransformed = false;
+    bool waitUntilHit = false;
 
     public Animator animTransformed; //anim of the tainted deer
 
@@ -97,6 +98,8 @@ public class DeerStalker : CreatureBehaviorScript
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
         targetStructure = null;
+
+        if(variant == Variant.Normal && Random.Range(0,10) > 8) waitUntilHit = true;
 
         StartCoroutine(IdleSoundTimer());
     }
@@ -271,7 +274,7 @@ public class DeerStalker : CreatureBehaviorScript
                     coroutineRunning = false;
                     walkRoutine = null;
                 }
-                else
+                else if(!waitUntilHit)
                 {
                     currentState = CreatureState.Transformation;
                     isMoving = false;
@@ -365,7 +368,7 @@ public class DeerStalker : CreatureBehaviorScript
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (playerInSightRange && variant != Variant.Pure)
+        if (playerInSightRange && variant != Variant.Pure && (!waitUntilHit || inWilderness))
         {
             StopTrackingPlayer();
             currentState = CreatureState.Transformation;

@@ -22,8 +22,10 @@ public class NPCQuestObject : ScriptableObject
         int iterations = 0;
         int index = 0;
         Quest chosenQuest = null;
-        while(iterations < 10 && chosenQuest == null)
+        while(iterations < 20 && chosenQuest == null)
         {
+            iterations++;
+
             QuestTemplate selectedTemplate = null;
             if(uniqueQuestChance > Random.Range(0, 100))
             {
@@ -42,7 +44,11 @@ public class NPCQuestObject : ScriptableObject
                 else continue;
             }
             else if(selectedTemplate.item) chosenQuest = new FetchQuest(selectedTemplate);
-            else if(selectedTemplate.crop) chosenQuest = new GrowQuest(selectedTemplate);
+            else if(selectedTemplate.crop) 
+            {
+                if(selectedTemplate.crop.amountHarvested > 0 || selectedTemplate.crop.amountKilled > 0) chosenQuest = new GrowQuest(selectedTemplate);
+                else continue;
+            }
             else chosenQuest = new Quest(selectedTemplate); //Default Quest. Should have a behavior attached
 
             if(MainMenuScript.currentFileMode == FileMode.Cozy) chosenQuest.daysLeft *= 2;

@@ -40,8 +40,14 @@ public class CombatConstruct : CreatureBehaviorScript
     bool hitPlayer = false;
     public LayerMask attackCheckMask;
 
+    //ShortCurcuit
+    bool isWet;
+
     //Effects
     public GameObject scrapeParticles;
+    public GameObject shockedParticles;
+    public GameObject splashObject;
+    public List<GameObject> optionalMeshes = new List<GameObject>();
 
     public enum CreatureState
     {
@@ -57,6 +63,11 @@ public class CombatConstruct : CreatureBehaviorScript
     void Awake()
     {
         defaultTorsoRotation = torsoPivot.rotation;
+
+        foreach (GameObject mesh in optionalMeshes)
+        {
+            if(Random.Range(0,10) > 7) mesh.SetActive(false);
+        }
     }
 
     void Start()
@@ -68,6 +79,7 @@ public class CombatConstruct : CreatureBehaviorScript
         anim.applyRootMotion = false;
 
         StartCoroutine(RefreshWanderPoint());
+        StartCoroutine(IdleSoundTimer());
         targetRb = PlayerInteraction.Instance.GetComponent<Rigidbody>();
         ScheduleNextReaction();
     }
@@ -86,6 +98,18 @@ public class CombatConstruct : CreatureBehaviorScript
         RollWheel();
 
         CheckState(currentState);
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && !isWet && !isDead)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            splashObject.SetActive(true);
+            HitWithWater();
+            success = true;
+        }
+        else success = false;
     }
 
     private void CheckState(CreatureState state)
@@ -112,13 +136,13 @@ public class CombatConstruct : CreatureBehaviorScript
 
     void Wander()
     {
-        if(playerInAttackRange) currentState = CreatureState.Attacking;
+        if(playerInAttackRange || CheckForObstacle(transform) != null) currentState = CreatureState.Attacking;
         else if(playerInSightRange && movingToPlayer) MoveToPoint();
         else
         {
             Vector3 dir = (transform.position - targetPos).normalized;
             dir *= -1f;
-            rb.AddForce(dir * (acceleration * 2));
+            rb.AddForce(dir * (acceleration * 4));
         }
     }
 
@@ -136,6 +160,7 @@ public class CombatConstruct : CreatureBehaviorScript
 
     void MoveToPoint()
     {
+        float maxSpeed = moveSpeed / actionSpeedMod;
 
         float distanceToPlayer = Vector3.Distance(transform.position, targetPos);
         if (distanceToPlayer <= stoppingDistance)
@@ -148,7 +173,7 @@ public class CombatConstruct : CreatureBehaviorScript
         if (Time.time >= nextReactionTime)
         {
             float distance = Vector3.Distance(transform.position, targetPos);
-            float interceptTime = distance / Mathf.Max(moveSpeed, 0.01f);
+            float interceptTime = distance / Mathf.Max(maxSpeed, 0.01f);
             Vector3 predictedPosition = targetPos + targetRb.velocity * interceptTime;
 
             laggedTargetPosition = predictedPosition;
@@ -170,7 +195,7 @@ public class CombatConstruct : CreatureBehaviorScript
             speedMultiplier = Mathf.InverseLerp(stoppingDistance, slowDownDistance, distanceToPlayer);
         }
 
-        Vector3 desiredVelocity = direction * moveSpeed * speedMultiplier;
+        Vector3 desiredVelocity = direction * maxSpeed * speedMultiplier;
         Vector3 velocityDelta = desiredVelocity - rb.velocity;
         velocityDelta.y = 0;
 
@@ -223,8 +248,8 @@ public class CombatConstruct : CreatureBehaviorScript
 
     IEnumerator ScytheAttack()
     {
-        anim.Play("AutoAttack1");
-        StartCoroutine(AttackCooldown(1.2f));
+        anim.Play("AutoAttack1", -1, 0f);
+        StartCoroutine(AttackCooldown(1.6f));
         yield return new WaitForSeconds(0.35f);
         effectsHandler.MiscSound2(); 
         isAttacking = true;
@@ -237,8 +262,8 @@ public class CombatConstruct : CreatureBehaviorScript
 
     IEnumerator SlowScytheAttack()
     {
-        anim.Play("AutoAttack2");
-        StartCoroutine(AttackCooldown(1.6f));
+        anim.Play("AutoAttack2", -1, 0f);
+        StartCoroutine(AttackCooldown(2f));
         yield return new WaitForSeconds(0.6f);
         effectsHandler.MiscSound2(); 
         isAttacking = true;
@@ -254,7 +279,7 @@ public class CombatConstruct : CreatureBehaviorScript
     {
         attackCooldown = true;
         scrapeParticles.SetActive(false);
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(duration * actionSpeedMod);
         attackCooldown = false;
         scrapeParticles.SetActive(true);
     }
@@ -369,6 +394,7 @@ public class CombatConstruct : CreatureBehaviorScript
     {
         if (!isDead)
         {
+            effectsHandler.loopingSource.Stop();
             scrapeParticles.SetActive(false);
             anim.SetLayerWeight(0, 0);
             anim.SetLayerWeight(1, 1);
@@ -382,7 +408,7 @@ public class CombatConstruct : CreatureBehaviorScript
             torsoPivot.rotation = defaultTorsoRotation;
 
             transform.LookAt(new Vector3(targetPos.x, transform.position.y, targetPos.z));
-            if(Random.Range(0,10) > 6) StartCoroutine(Explode());
+            if(isWet || Random.Range(0,10) > 6) StartCoroutine(Explode());
         }
     }
 
@@ -421,5 +447,38 @@ public class CombatConstruct : CreatureBehaviorScript
     {
         ParticlePoolManager.Instance.GrabElecZapParticle().transform.position = transform.position;
         TakeDamage(25);
+        if(!isWet) StartCoroutine(ShortCircuiting());
+    }
+
+    IEnumerator ShortCircuiting()
+    {
+        isWet = true;
+        rb.velocity = Vector3.zero;
+        StartCoroutine(PlayShortCircuitAudio());
+        shockedParticles.SetActive(true);
+        actionSpeedMod += 0.4f;
+        yield return new WaitForSeconds(Random.Range(10, 20));
+        isWet = false;
+        shockedParticles.SetActive(false);
+        actionSpeedMod -= 0.4f;
+    }
+
+    IEnumerator PlayShortCircuitAudio()
+    {
+        while(isWet)
+        {
+            effectsHandler.PlayExtraSound(Random.Range(0, effectsHandler.extraSounds.Length), 0.2f);
+            yield return new WaitForSeconds(Random.Range(0.9f, 1.5f));
+        }
+    }
+
+    IEnumerator IdleSoundTimer()
+    {
+        while(health > 0)
+        {
+            int i = Random.Range(4,10);
+            effectsHandler.RandomIdle();
+            yield return new WaitForSeconds(i);
+        }
     }
 }

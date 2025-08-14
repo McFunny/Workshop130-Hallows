@@ -24,7 +24,7 @@ public class CrimsonMothNest : StructureBehaviorScript
     void OnDestroy()
     {
         OnDamage -= HiveDrop;
-
+        TimeManager.OnHourlyUpdate -= HourPassed;
         if (!gameObject.scene.isLoaded) return; 
         GameObject droppedItem;
         Rigidbody itemRB;
@@ -63,7 +63,7 @@ public class CrimsonMothNest : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(heldWasps < 3) heldWasps++;
+        if(heldWasps < 3 && Random.Range(0,10) > 6) heldWasps++;
 
         if(heldWasps == 3 && !TimeManager.Instance.isDay)
         {

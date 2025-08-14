@@ -22,6 +22,7 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
       amount: 2
+    siegesRequired: 0
   - name: CobbledBarricade
     itemForSale: {fileID: 11400000, guid: 6048853c0bacbf44e81cf05e0f2d956e, type: 2}
     useItemPrice: 0
@@ -30,9 +31,10 @@ MonoBehaviour:
     barterChance: 75
     itemsRequired:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 6
+      amount: 3
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
       amount: 1
+    siegesRequired: 1
   - name: Barrel
     itemForSale: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
     useItemPrice: 0
@@ -42,6 +44,7 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
       amount: 2
+    siegesRequired: 0
   - name: BirdBath
     itemForSale: {fileID: 11400000, guid: 0bc13d18c81019245bbbcfee4abbab8a, type: 2}
     useItemPrice: 0
@@ -51,6 +54,7 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 8
+    siegesRequired: 0
   - name: Brazier
     itemForSale: {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
     useItemPrice: 0
@@ -62,6 +66,7 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 15
+    siegesRequired: 0
   - name: ImbuedScarecrow
     itemForSale: {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
     useItemPrice: 0
@@ -73,6 +78,7 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
       amount: 1
+    siegesRequired: 0
   - name: DryingRack
     itemForSale: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
     useItemPrice: 0
@@ -84,6 +90,7 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
       amount: 1
+    siegesRequired: 0
   - name: Trellis
     itemForSale: {fileID: 11400000, guid: f6930f9b874c12f4b8aede53004a1c28, type: 2}
     useItemPrice: 0
@@ -93,6 +100,7 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
       amount: 1
+    siegesRequired: 0
   - name: PollinatorPost
     itemForSale: {fileID: 11400000, guid: 4186d0990441d9b40a416ac71bf280ff, type: 2}
     useItemPrice: 0
@@ -102,6 +110,7 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
       amount: 2
+    siegesRequired: 0
   - name: CuckooClock
     itemForSale: {fileID: 11400000, guid: a8c8b46260f19584b980114aa571a39b, type: 2}
     useItemPrice: 1
@@ -109,6 +118,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: DaysSinceDeathBoard
     itemForSale: {fileID: 11400000, guid: 7a6bd5d25c9c03c4cb8804343ba28d00, type: 2}
     useItemPrice: 1
@@ -116,6 +126,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: Dresser
     itemForSale: {fileID: 11400000, guid: ad37073589d54554d89546022e0615a3, type: 2}
     useItemPrice: 1
@@ -123,6 +134,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: End Table
     itemForSale: {fileID: 11400000, guid: 5375149f1f13e474cb8b2c78dfea41b9, type: 2}
     useItemPrice: 1
@@ -130,6 +142,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: FlowerPot
     itemForSale: {fileID: 11400000, guid: 54188ac1a4b706740871786d81dbffe8, type: 2}
     useItemPrice: 1
@@ -137,6 +150,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: FogchimeLamp
     itemForSale: {fileID: 11400000, guid: 838a21377194c7d48b58ac064f1fe9da, type: 2}
     useItemPrice: 1
@@ -144,6 +158,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: Gramophone
     itemForSale: {fileID: 11400000, guid: 655c104e3efa8bb4aab8dc4958ea4c83, type: 2}
     useItemPrice: 1
@@ -151,6 +166,7 @@ MonoBehaviour:
     amountForSale: 1
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: GrandfatherClock
     itemForSale: {fileID: 11400000, guid: b0d4c252df9cc154195eb652bb67476b, type: 2}
     useItemPrice: 1
@@ -158,6 +174,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: ItemCrate
     itemForSale: {fileID: 11400000, guid: 015b6ad30f765bd44b0521ce3c38d6dd, type: 2}
     useItemPrice: 1
@@ -165,6 +182,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: LargeTable
     itemForSale: {fileID: 11400000, guid: dc8109989d2a4824b8b8204c711699b2, type: 2}
     useItemPrice: 1
@@ -172,6 +190,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: PiggyBank
     itemForSale: {fileID: 11400000, guid: 34a49bec8bafae1498ea60b0c7779c96, type: 2}
     useItemPrice: 1
@@ -179,6 +198,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 50
     itemsRequired: []
+    siegesRequired: 0
   - name: RockingChair
     itemForSale: {fileID: 11400000, guid: f3bf6f35b4af8e14fa27e169736752bb, type: 2}
     useItemPrice: 1
@@ -186,6 +206,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: RoundTable
     itemForSale: {fileID: 11400000, guid: bdeba9a96d3a12447a87ae337c6f4b75, type: 2}
     useItemPrice: 1
@@ -193,6 +214,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   - name: RabbitRug
     itemForSale: {fileID: 11400000, guid: d0554b0d40ace204cbd02dfe2e674641, type: 2}
     useItemPrice: 0
@@ -202,6 +224,7 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 1dd6f9f1dcb60e74390c88d5df494ec7, type: 2}
       amount: 3
+    siegesRequired: 0
   - name: AlbinoHareRug
     itemForSale: {fileID: 11400000, guid: 8771b700a64b9ff4d808a8bd29122e7f, type: 2}
     useItemPrice: 0
@@ -211,6 +234,7 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 77cbb6db30ada5a4988f545585cd29c2, type: 2}
       amount: 3
+    siegesRequired: 0
   - name: Terrarium
     itemForSale: {fileID: 11400000, guid: 2dd73d313ffb55e4fa496b921e875275, type: 2}
     useItemPrice: 1
@@ -218,6 +242,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
+    siegesRequired: 0
   uniqueTransactions:
   - name: StorageChest
     itemForSale: {fileID: 11400000, guid: 08f2970a8455d9243b49e5d93f89e338, type: 2}
@@ -226,3 +251,4 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 100
     itemsRequired: []
+    siegesRequired: 0

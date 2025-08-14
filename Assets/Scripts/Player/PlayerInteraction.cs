@@ -545,6 +545,7 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(1f);
         print("GameOver Complete");
         PlayerMovement.restrictMovementTokens--;
+        PlayerMovement.ignoreMovementInputs = false;
         FadeScreen.coverScreen = false;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;

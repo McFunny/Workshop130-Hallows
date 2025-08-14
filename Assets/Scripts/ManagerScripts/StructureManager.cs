@@ -126,7 +126,7 @@ public class StructureManager : MonoBehaviour
 
                 r = Random.Range(0, 10);
                 if(MainMenuScript.currentFileMode == FileMode.Cozy) r -= 2;
-                if(r >= 6.5f || allStructs[i].onFire) //Destroy structure.
+                if((r >= 6.5f || allStructs[i].onFire) && !allStructs[i].absentFromFarmGrid) //Destroy structure.
                 {
                     print("Deleting: " + allStructs[i]);
                     //Destroy(allStructs[i].gameObject);
