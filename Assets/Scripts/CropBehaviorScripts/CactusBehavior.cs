@@ -36,7 +36,8 @@ public class CactusBehavior : CropBehavior
 
         if(!TimeManager.Instance.isDay && (tile.growthStage == 5 || tile.growthStage == 6))
         {
-            tile.GetCropStats().waterLevel -= 5;
+            tile.GetCropStats().waterLevel -= 2;
+            if(tile.GetCropStats().waterLevel < 0) tile.GetCropStats().waterLevel = 0;
         }
     }
 
@@ -53,7 +54,7 @@ public class CactusBehavior : CropBehavior
         CreatureBehaviorScript c = contactedObject.GetComponentInParent<CreatureBehaviorScript>();
         if(c && c.shovelVulnerable && (c as ICritter) == null)
         {
-            c.TakeDamage(10);
+            c.TakeDamage(15);
             AudioPoolManager.Instance.PlayClipAtPosition(contactSFX, tile.transform.position);
             ParticlePoolManager.Instance.MoveAndPlayParticle(tile.transform.position, ParticlePoolManager.Instance.dirtParticle);
             c.PlayHitParticle(Vector3.zero);
