@@ -256,7 +256,7 @@ public class PlantMimic : CreatureBehaviorScript
                 StartCoroutine(SwipeStructure());
                 hasTarget = false;
             }
-            else if(CheckForPlayer(transform))
+            else if((CheckForPlayer(corpseParticleTransform) || playerInAttackRange) && !attackCooldown)
             {
                 StartCoroutine(SwipeTarget());
                 hasTarget = false;
@@ -281,33 +281,20 @@ public class PlantMimic : CreatureBehaviorScript
                 StartCoroutine(SwipeStructure());
                 hasTarget = false;
             }
-            else if(CheckForPlayer(transform))
+            else if((CheckForPlayer(corpseParticleTransform) || playerInAttackRange))
             {
                 StartCoroutine(SwipeTarget());
                 hasTarget = false;
             }
-            else if(CheckForCreature(transform))
+            else if(targetCreature && Vector3.Distance(transform.position, targetCreature.transform.position) < attackRange)
             {
                 StartCoroutine(SwipeTarget());
                 hasTarget = false;
             }
         }
-        else
-        {
-            if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
 
-            else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
-        }
-    }
-
-    public bool CheckForCreature(Transform checkTransform)
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 8, 1 << 9))
-        {
-            return true;
-        }
-        else return false;
+        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
+        else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
     }
 
     IEnumerator EmergeCoroutine()
