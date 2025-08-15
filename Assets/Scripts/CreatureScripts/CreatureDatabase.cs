@@ -77,6 +77,11 @@ public class CreatureDatabase : ScriptableObject
         }
     }
 
+    public List<CreatureObject> GetCreatureDatabase()
+    {
+
+    return _creatureDatabase; }
+
 }
 
 [System.Serializable]
