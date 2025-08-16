@@ -58,7 +58,7 @@ public class StructureManager : MonoBehaviour
     {
         PopulateForageables(1, 4);
         PopulateDecorCrows(0, 2);
-        StartCoroutine(PopulateStructure(-2, 2, buriedItem, true, farmTileMap));
+        StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
 
         if(forceSellSiegeSeeds)
         {
