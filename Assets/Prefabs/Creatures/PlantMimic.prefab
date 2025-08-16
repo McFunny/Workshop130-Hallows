@@ -339,6 +339,7 @@ MonoBehaviour:
   burrow: {fileID: 7255452786975544648, guid: a7f024629f7649543ab098046aced1a2, type: 3}
   fakeCrop: {fileID: 1033588906638334954, guid: 672e75d27fe2e5b45a90265a6e549492,
     type: 3}
+  targetCreature: {fileID: 0}
   currentState: 0
 --- !u!136 &7701611766458343982
 CapsuleCollider:
@@ -895,7 +896,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.926
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -904,9 +905,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 3
-  MaxDistance: 10
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

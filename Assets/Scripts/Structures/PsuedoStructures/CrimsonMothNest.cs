@@ -25,7 +25,7 @@ public class CrimsonMothNest : StructureBehaviorScript
     {
         OnDamage -= HiveDrop;
         TimeManager.OnHourlyUpdate -= HourPassed;
-        if (!gameObject.scene.isLoaded) return; 
+        if (!gameObject.scene.isLoaded || !gameObject.activeSelf) return; 
         GameObject droppedItem;
         Rigidbody itemRB;
         int r = Random.Range(1,4);

@@ -343,6 +343,10 @@ public class FarmLand : StructureBehaviorScript
                 ReturnNutrientsFromDeadPlant();
                 ItemPoolManager.Instance.GrabItem(plantFiber).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
                 if(Random.Range(0,10) > 3) ItemPoolManager.Instance.GrabItem(dullSeeds).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                else if(MainMenuScript.currentFileMode == FileMode.Cozy && crop && crop.cropSeed) //drop a seed in cozy mode
+                {
+                    ItemPoolManager.Instance.GrabItem(crop.cropSeed).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                }
             }
 
             if(crop.behavior && crop.behavior.DestroyOnHarvest(this) == false && !rotted && harvestable)

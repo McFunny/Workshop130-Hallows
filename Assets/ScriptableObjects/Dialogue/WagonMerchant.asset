@@ -115,17 +115,43 @@ MonoBehaviour:
     - Boop. {givePlayerItems}
     emotions: 0300000002000000
   fillerPaths:
-  - pathName: Middleman
-    paragraphs:
-    - Consider me a neutral force.
-    - Just here to make coin.
-    emotions: 
   - pathName: I need your goods
     paragraphs:
     - Don't go dawdling on your farming duties.
     - Exported crops from VeilWood go for a hefty price. I don't need you to staunch
       my flow of riches.
-    emotions: 
+    emotions: 0300000000000000
+  - pathName: Allure Tip
+    paragraphs:
+    - You may have noticed by now that defending your farm becomes increasingly difficult
+      when you have many crops growing at once.
+    - Each plant you grow has its own "Allure" to it. Some attract more attention
+      than others.
+    - I believe that codex you tote around has some information pertaining to this
+      subject.
+    emotions: 050000000600000000000000
+  - pathName: Torch Tip
+    paragraphs:
+    - Have you been making good use of your torch?
+    - I always make sure to keep a steady fire near me. Keeps some of the creatures
+      at bay.
+    - If you notice some heavy smog above your fire, that is a good sign to attend
+      to it. An idle flame is prone to being snuffed out.
+    emotions: 040000000000000003000000
+  - pathName: Buried Items Tip
+    paragraphs:
+    - You may have noticed some dirt being kicked up from a few spots on your farm.
+    - This indicates some loose items underneathe the soil.
+    - Try tilling the land to see what you can fine. I could always use some buried
+      treasure.
+    emotions: 000000000600000001000000
+  - pathName: Barrel Tip
+    paragraphs:
+    - Do not underestimate the importance of having an abundance of water accessible
+      on your estate.
+    - Having a barrel or two could mean the difference between a thriving farm or
+      one burnt to the ground.
+    emotions: 0000000003000000
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks:

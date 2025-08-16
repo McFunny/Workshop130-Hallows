@@ -50,11 +50,10 @@ public class TruffleHog : CritterBehaviorScript
     public float GetCritterThirst(){ return thirst;}
     public string GetCritterName(){ return name;}
     public int GetCritterID(){ return creatureData.id;}
-    public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name);} //For saving purposes
+    public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, 0);} //For saving purposes
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        print(GetCritterHunger());
         if(!alreadyPet)
         {
             alreadyPet = true;
@@ -116,8 +115,6 @@ public class TruffleHog : CritterBehaviorScript
 
     void Update()
     {
-        base.Update();
-
         if(agent.velocity.magnitude < 0.2f)
         {
             anim.SetBool("IsWalking", false);
@@ -343,7 +340,7 @@ public class TruffleHog : CritterBehaviorScript
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         Burrow burrow = Instantiate(burrowPrefab, target, Quaternion.identity).GetComponent<Burrow>();
             //Code to add the item
-        float truffleChance = (friendshipLevel + 1) * 8;
+        float truffleChance = (friendshipLevel + 1) * 10;
         if(Random.Range(0,100) < truffleChance) burrow.InsertItem(truffleItem);
 
         FriendPointsChange(2, true);

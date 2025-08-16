@@ -7,7 +7,7 @@ public class ThrowableItemBehavior : ItemBehavior
 {
     public GameObject prefab;
 
-    public float force = 60;
+    public float force = 100;
 
     public override void UseItem(out bool consumeItem)
     {
@@ -28,6 +28,6 @@ public class ThrowableItemBehavior : ItemBehavior
         Vector3 dir = bulletStart.forward;
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.AddForce(dir * force);
-        rb.AddForce(Vector3.up * 60);
+        rb.AddForce(Vector3.up * 50);
     }
 }

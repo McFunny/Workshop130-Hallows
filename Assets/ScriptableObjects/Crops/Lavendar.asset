@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: Lavendar
+  m_EditorClassIdentifier: 
+  name: Lavendar
+  id: -1
+  growthStages: 6
+  hoursPerStage: 1
+  harvestableGrowthStages: 06000000
+  cropSprites:
+  - {fileID: -178046465, guid: e7e1c27e4448a364585c970156d76960, type: 3}
+  - {fileID: 532161443, guid: e7e1c27e4448a364585c970156d76960, type: 3}
+  - {fileID: 1084474371, guid: e7e1c27e4448a364585c970156d76960, type: 3}
+  - {fileID: -1533987327, guid: e7e1c27e4448a364585c970156d76960, type: 3}
+  - {fileID: -2009280138, guid: e7e1c27e4448a364585c970156d76960, type: 3}
+  - {fileID: 1972443649, guid: e7e1c27e4448a364585c970156d76960, type: 3}
+  rottedImage: {fileID: 949393210, guid: e7e1c27e4448a364585c970156d76960, type: 3}
+  cropYield: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 11400000, guid: ffc572397851eaa4bb996652631df959, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  noStressSeedChance: 25
+  waterIntake: 3
+  ichorIntake: 0
+  terraIntake: -1.25
+  gloamIntake: 0.5
+  stressLimit: 1
+  wealthValue: 2
+  requireScythe: 0
+  requirePollination: 1
+  creaturePrefab: {fileID: 0}
+  behavior: {fileID: 0}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

@@ -57,6 +57,7 @@ public class CritterData
     public float hunger;
     public float thirst;
     public string name;
+    public float extraVar;
 
     public CritterData()
     {
@@ -67,9 +68,10 @@ public class CritterData
         hunger = 100;
         thirst = 100;
         name = "";
+        extraVar = 0;
     }
 
-    public CritterData(int _id, int _friendLevel, float _friendPoints, float _health, float _hunger, float _thirst, string _name)
+    public CritterData(int _id, int _friendLevel, float _friendPoints, float _health, float _hunger, float _thirst, string _name, float _extraVar)
     {
         id = _id;
         friendshipLevel = _friendLevel;
@@ -78,6 +80,7 @@ public class CritterData
         hunger = _hunger;
         thirst = _thirst;
         name = _name;
+        extraVar = _extraVar;
     }
 }
 

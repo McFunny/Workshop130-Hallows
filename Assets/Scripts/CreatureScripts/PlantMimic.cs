@@ -76,12 +76,12 @@ public class PlantMimic : CreatureBehaviorScript
 
         if(speedCooldown)
         {
-            agent.speed = coolDownSpeed;
+            agent.speed = coolDownSpeed * actionSpeedMod;
         }
         else
         {
-            if(pacesUntilCalm > 0 && agent.speed != fleeSpeed) agent.speed = fleeSpeed;
-            if(pacesUntilCalm <= 0 && agent.speed != originalSpeed) agent.speed = originalSpeed;
+            if(pacesUntilCalm > 0 && agent.speed != fleeSpeed) agent.speed = fleeSpeed * actionSpeedMod;
+            if(pacesUntilCalm <= 0 && agent.speed != originalSpeed) agent.speed = originalSpeed * actionSpeedMod;
         }
 
     }
@@ -375,7 +375,12 @@ public class PlantMimic : CreatureBehaviorScript
         float p = 0;
         while(p < t)
         {
-            if(currentState == CreatureState.Wander) agent.SetDestination(player.position);
+            if(currentState == CreatureState.Wander)
+            {
+                if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
+                else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+                else agent.SetDestination(player.position);
+            }
             yield return new WaitForSeconds(0.2f);
             p += 0.2f;
         }
