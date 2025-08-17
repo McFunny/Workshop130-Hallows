@@ -375,6 +375,9 @@ public class TruffleHog : CritterBehaviorScript
             //chargeParticles.Stop();
             StopAllCoroutines();
             canCorpseBreak = true;
+
+            PopupHandler.Instance.names.Enqueue(name);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);
         }
     }
 }

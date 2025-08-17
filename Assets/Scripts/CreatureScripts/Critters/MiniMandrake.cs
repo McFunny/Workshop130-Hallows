@@ -7,14 +7,17 @@ public class MiniMandrake : CreatureBehaviorScript
 {
     [HideInInspector] public NavMeshAgent agent;
     private bool coroutineRunning = false;
+    float oldSpeed;
 
     Vector3 despawnPos;
 
     float waterLevel = 100; //Dies when reaches 0
-    float waterLossRate = 2f; //Amount per second
+    float waterLossRate = 1f; //Amount per second
     public GameObject waterIcon, splashObject;
 
     [HideInInspector] public CreatureBehaviorScript targetCreature;
+
+    public GameObject attackParticle;
 
 
     public enum CreatureState
@@ -43,6 +46,8 @@ public class MiniMandrake : CreatureBehaviorScript
         StartCoroutine(WaterDrain());
 
         PlayerInteraction.OnPlayerAttack += NewTarget;
+
+        oldSpeed = agent.speed;
 
     }
 
@@ -157,10 +162,14 @@ public class MiniMandrake : CreatureBehaviorScript
         }
         else if(Vector3.Distance(transform.position, targetCreature.transform.position) < attackRange)
         {
-            targetCreature.TakeDamage(3);
-            targetCreature.PlayHitParticle(targetCreature.transform.position);
+            attackParticle.SetActive(true);
+            targetCreature.TakeDamage(4);
+            if(targetCreature.corpseParticleTransform) targetCreature.PlayHitParticle(targetCreature.corpseParticleTransform.position);
+            else targetCreature.PlayHitParticle(targetCreature.transform.position);
         }
+        agent.speed = 1;
         yield return new WaitForSeconds(1.5f);
+        agent.speed = oldSpeed;
         coroutineRunning = false;
     }
 
@@ -224,7 +233,7 @@ public class MiniMandrake : CreatureBehaviorScript
             yield return null;
         }
 
-        if(!targetCreature) StartCoroutine(WaitAround());
+        if(!targetCreature && Vector3.Distance(transform.position, player.position) < 10) StartCoroutine(WaitAround());
 
         isMoving = false;
     }
@@ -236,7 +245,7 @@ public class MiniMandrake : CreatureBehaviorScript
             yield return new WaitForSeconds(1);
             waterLevel -= waterLossRate;
 
-            if(waterLevel < 33)
+            if(waterLevel < 25)
             {
                 waterIcon.SetActive(true);
             }

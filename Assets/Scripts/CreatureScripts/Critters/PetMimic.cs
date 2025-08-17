@@ -408,6 +408,9 @@ public class PetMimic : CritterBehaviorScript
             rb.isKinematic = true;
             rb.freezeRotation = true;
             StopAllCoroutines();
+
+            PopupHandler.Instance.names.Enqueue(name);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);
         }
     }
 

@@ -53,13 +53,17 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 
     protected virtual void OnHour()
     {
-        print("Ping");
         if(justSpawned)
         {
             justSpawned = false;
             return;
         }
-        else if(TimeManager.Instance.currentHour == 8) Destroy(gameObject);
+        else if(TimeManager.Instance.currentHour == 8 && !homePen)
+        {
+            PopupHandler.Instance.names.Enqueue(name);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterLeftPopup);
+            Destroy(gameObject);
+        }
     
         if(isDead)
         {

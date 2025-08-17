@@ -225,6 +225,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 1100f346622663643a32671aca44603b, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -1812,7 +1813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d8fe26444a2fa4a97a8666b1b9421b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatureScript: {fileID: 0}
+  creatureScript: {fileID: 2525765495578016567}
 --- !u!114 &3808627906263650435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1833,7 +1834,9 @@ MonoBehaviour:
   moveSound: {fileID: 0}
   idleSound1: {fileID: 8300000, guid: 3b5b01a8c894ac34887a136e8c07c96d, type: 3}
   idleSound2: {fileID: 8300000, guid: 13151c299a7f7984ab315235ccec2298, type: 3}
-  idleSounds: []
+  idleSounds:
+  - {fileID: 8300000, guid: f3b417efae1dfaa48b70fc66e3342a87, type: 3}
+  - {fileID: 8300000, guid: 936f9f25d484d4340955aef545a98baf, type: 3}
   hitSounds:
   - {fileID: 8300000, guid: 5b79d22c2d3ea274fbf7785656622958, type: 3}
   footSteps: []
