@@ -7,21 +7,21 @@ public class MiniMandrake : CreatureBehaviorScript
 {
     [HideInInspector] public NavMeshAgent agent;
     private bool coroutineRunning = false;
-    public float fleeDistance = 5f;
-
-    public float timeBeforeLeavingFarm;
-    //private float savedTime;
 
     Vector3 despawnPos;
+
+    float waterLevel = 100; //Dies when reaches 0
+    float waterLossRate = 2f; //Amount per second
+    public GameObject waterIcon, splashObject;
+
+    [HideInInspector] public CreatureBehaviorScript targetCreature;
 
 
     public enum CreatureState
     {
         WakeUp,
-        Run,
-        Wander,
-        Idle,
-        LeaveFarm,
+        Follow,
+        Attack,
         Die,
         Trapped
     }
@@ -40,6 +40,21 @@ public class MiniMandrake : CreatureBehaviorScript
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
 
+        StartCoroutine(WaterDrain());
+
+        PlayerInteraction.OnPlayerAttack += NewTarget;
+
+    }
+
+    void OnDestroy()
+    {
+        PlayerInteraction.OnPlayerAttack -= NewTarget;
+        base.OnDestroy();
+    }
+
+    void NewTarget(CreatureBehaviorScript c)
+    {
+        if(!targetCreature) targetCreature = c;
     }
 
     private void Update()
@@ -50,19 +65,23 @@ public class MiniMandrake : CreatureBehaviorScript
             CheckState(currentState);
             return;
         }
-        if (timeBeforeLeavingFarm < 0)
-        {
-            currentState = CreatureState.LeaveFarm;
-        }
-        else timeBeforeLeavingFarm -= Time.deltaTime;
 
-        float distance = Vector3.Distance(player.position, transform.position);
-        playerInSightRange = distance <= sightRange;
-        if (playerInSightRange && currentState != CreatureState.Trapped && !coroutineRunning && currentState != CreatureState.WakeUp) { currentState = CreatureState.Run; }
         CheckState(currentState);
 
         if(agent.velocity.sqrMagnitude > 0) anim.SetBool("IsRunning", true);
         else anim.SetBool("IsRunning", false);
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && waterLevel < 100)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            waterLevel = 100;
+            splashObject.SetActive(true);
+            success = true;
+        }
+        else success = false;
     }
 
     public void CheckState(CreatureState currentState)
@@ -73,24 +92,12 @@ public class MiniMandrake : CreatureBehaviorScript
                 WakeUp();
                 break;
 
-            case CreatureState.Run:
-                Run();
-                //anim.SetBool("IsRunning", true);
+            case CreatureState.Follow:
+                Follow();
                 break;
 
-            case CreatureState.Wander:
-                Wander();
-                //anim.SetBool("IsRunning", true);
-                break;
-
-            case CreatureState.Idle:
-                Idle();
-                //anim.SetBool("IsRunning", false);
-                break;
-
-            case CreatureState.LeaveFarm:
-                LeaveFarm();
-                //anim.SetBool("IsRunning", true);
+            case CreatureState.Attack:
+                Attack();
                 break;
 
             case CreatureState.Die:
@@ -103,22 +110,58 @@ public class MiniMandrake : CreatureBehaviorScript
         }
     }
 
-    private void Idle()
+    void Follow()
     {
-       
-            if (!coroutineRunning)
+        if(targetCreature)
+        {
+            currentState = CreatureState.Attack;
+            return;
+        }
+        if (!isMoving && !coroutineRunning)
+        {
+            Vector3 randomPoint = GetRandomPointAround(player.position, 7f); //gets a random point within a 5 unit radius of itself
+            StartCoroutine(MoveToPoint(randomPoint));
+        }
+    }
+
+    void Attack()
+    {
+        if(!targetCreature)
+        {
+            currentState = CreatureState.Follow;
+            return;
+        }
+
+        if(!coroutineRunning)
+        {
+            if(targetCreature && Vector3.Distance(transform.position, targetCreature.transform.position) < attackRange)
             {
-                if(playerInSightRange)
-                {
-                    currentState = CreatureState.Run;
-                    return;
-                }
-                int r = Random.Range(1, 7);
-               
-                if (r < 4) StartCoroutine(WaitAround());
-                else if (r < 6) currentState = CreatureState.Wander;
-                else StartCoroutine(Scream()); //scream
+                StartCoroutine(AttackTarget());
+                hasTarget = false;
             }
+        }
+
+        agent.SetDestination(targetCreature.transform.position);
+    }
+
+    IEnumerator AttackTarget()
+    {
+        coroutineRunning = true;
+        anim.Play("MandrakeAttack");
+
+        yield return new WaitForSeconds(0.3f);
+        effectsHandler.OnHit();
+        if(!targetCreature || targetCreature.health <= 0)
+        {
+            targetCreature = null;
+        }
+        else if(Vector3.Distance(transform.position, targetCreature.transform.position) < attackRange)
+        {
+            targetCreature.TakeDamage(3);
+            targetCreature.PlayHitParticle(targetCreature.transform.position);
+        }
+        yield return new WaitForSeconds(1.5f);
+        coroutineRunning = false;
     }
 
     private IEnumerator WaitAround()
@@ -152,56 +195,9 @@ public class MiniMandrake : CreatureBehaviorScript
         //Play freak out Animation
         effectsHandler.MiscSound2();
         coroutineRunning = true;
-        if (playerInSightRange)
-        {
-            transform.LookAt(player);
-        }
         yield return new WaitForSeconds(1.2f); //Adjust this based off of animation time
         coroutineRunning = false;
-        currentState = CreatureState.Run;
-    }
-
-    private void Run()
-    {
-        //timeBeforeLeavingFarm = savedTime;
-        //agent.speed = 10;
-        //agent.angularSpeed = 150;
-        if (playerInSightRange)
-        {
-            if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1.5f)
-            {
-                hasTarget = false;
-            }
-            else if (!hasTarget)
-            {
-                hasTarget = true;
-                Vector3 fleeDirection = (transform.position - player.position).normalized;
-
-               
-                float randomAngle = Random.Range(-45f, 45f); //random offset for random movement
-
-                fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
-
-                Vector3 newDestination = transform.position + fleeDirection * fleeDistance;
-
-           
-                agent.SetDestination(newDestination);
-            }
-
-        }
-        else { currentState = CreatureState.Wander; }
-    }
-
-    private void Wander()
-    {
-        //agent.speed = 2f;
-        //agent.angularSpeed = 80f;
-        if(playerInSightRange) currentState = CreatureState.Run;
-        else if (!isMoving)
-        {
-            Vector3 randomPoint = GetRandomPointAround(transform.position, 15f); //gets a random point within a 5 unit radius of itself
-            StartCoroutine(MoveToPoint(randomPoint));
-        }
+        currentState = CreatureState.Follow;
     }
 
     private Vector3 GetRandomPointAround(Vector3 origin, float radius)
@@ -223,16 +219,36 @@ public class MiniMandrake : CreatureBehaviorScript
         agent.destination = destination;
 
 
-        while (!agent.pathPending && agent.remainingDistance > agent.stoppingDistance + 0.1f && !playerInSightRange)
+        while ((!agent.pathPending && agent.remainingDistance > agent.stoppingDistance + 0.1f) || targetCreature)
         {
             yield return null;
         }
 
-        int r = Random.Range(0, 3);
-        if (r == 0) { currentState = CreatureState.Wander; }
-        else { currentState = CreatureState.Idle; }
+        if(!targetCreature) StartCoroutine(WaitAround());
 
         isMoving = false;
+    }
+
+    IEnumerator WaterDrain()
+    {
+        while(health > 0)
+        {
+            yield return new WaitForSeconds(1);
+            waterLevel -= waterLossRate;
+
+            if(waterLevel < 33)
+            {
+                waterIcon.SetActive(true);
+            }
+            else waterIcon.SetActive(false);
+
+            if(waterLevel <= 0)
+            {
+                TakeDamage(5);
+                waterLevel = 0;
+            }
+        }
+        waterIcon.SetActive(false);
     }
 
     public override bool OnBearTrapStun(StructureBehaviorScript b)
@@ -255,12 +271,7 @@ public class MiniMandrake : CreatureBehaviorScript
             yield return null;
         }
         agent.speed = oldSpeed;
-        currentState = CreatureState.Wander;
-    }
-
-    private void LeaveFarm()
-    {
-        agent.SetDestination(despawnPos);
+        currentState = CreatureState.Follow;
     }
 
     public override void OnDamage()
@@ -285,5 +296,10 @@ public class MiniMandrake : CreatureBehaviorScript
     public override void FogTeleport()
     {
         Destroy(this.gameObject);
+    }
+
+    public override void HitWithWater()
+    {
+        waterLevel = 100;
     }
 }

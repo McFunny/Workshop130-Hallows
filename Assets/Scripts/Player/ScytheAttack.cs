@@ -131,6 +131,8 @@ public class ScytheAttack : MonoBehaviour
 
             ParticlePoolManager.Instance.MoveAndPlayVFX(hitCreatures[i].GetComponent<Collider>().ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
             hitCreatures[i].PlayHitParticle(hitCreatures[i].GetComponent<Collider>().ClosestPoint(transform.position));
+
+            if(hitCreatures[i] && hitCreatures[i].health > 0) PlayerInteraction.Instance.InvokeEnemyHitEvent(hitCreatures[i]);
         }
 
         for(int i = 0; i < hitCrops.Count; i++)
