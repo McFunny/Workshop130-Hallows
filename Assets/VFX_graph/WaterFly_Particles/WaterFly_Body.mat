@@ -31,7 +31,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -56,7 +56,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Bits: 30
+    - _Bits: 54.06
     - _Blend: 0
     - _CastShadows: 1
     - _Cull: 2
@@ -69,19 +69,19 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RippleDissolve: 5
-    - _RippleScale: 5
+    - _RippleScale: 8.91
     - _RippleSpeed: 2
     - _Smoothness: 0
     - _SrcBlend: 5
     - _Surface: 1
     - _Transparency: 1
-    - _WiggleIntensity: 0.5
-    - _WiggleSpeed: 0.5
+    - _WiggleIntensity: 0.151
+    - _WiggleSpeed: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 0.1367925, g: 0.5011176, b: 1, a: 0}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 0}
+    - _FoamColor: {r: 0, g: 0, b: 0, a: 0}
     - _RippleColor: {r: 0.3537736, g: 0.9145856, b: 1, a: 0}
   m_BuildTextureStacks: []
