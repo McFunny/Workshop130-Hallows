@@ -102,6 +102,19 @@ MonoBehaviour:
       amount: 2
     siegesRequired: 1
     amountGiven: 5
+  - name: Pheromone Flask
+    itemForSale: {fileID: 11400000, guid: aa8320088dd258846a151d59ce481740, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 75
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 15b811d0b42fdf44e86c618d24730806, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
+      amount: 2
+    siegesRequired: 0
+    amountGiven: 5
   uniqueTransactions:
   - name: YellowMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: 747cebbd0cf1e854d84e73ad4d034f05, type: 2}

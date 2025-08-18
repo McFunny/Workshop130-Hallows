@@ -1969,28 +1969,28 @@ MonoBehaviour:
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
-      lookAtPoint: {fileID: 0}
+      lookAtPoint: {fileID: 8227063082736687984}
     - name: Bystander2
       transform: {fileID: 104601810883968463}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
-      lookAtPoint: {fileID: 0}
+      lookAtPoint: {fileID: 6076040909091661154}
     - name: Bystander3
       transform: {fileID: 9145626535043475319}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
-      lookAtPoint: {fileID: 0}
+      lookAtPoint: {fileID: 3450136745522509052}
     - name: Bystander4
       transform: {fileID: 3153782576978881051}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
-      lookAtPoint: {fileID: 0}
+      lookAtPoint: {fileID: 5732888445606052211}
     - name: Home
       transform: {fileID: 2537552256140655377}
       isForWorkers: 0
@@ -2102,13 +2102,6 @@ MonoBehaviour:
     destination: 5
     mainTransform: {fileID: 9091621616925762714}
     sublocations:
-    - name: Worker
-      transform: {fileID: 3786580444479302501}
-      isForWorkers: 1
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 2645200453645602296}
     - name: Home
       transform: {fileID: 360263377998450779}
       isForWorkers: 0
@@ -2130,6 +2123,13 @@ MonoBehaviour:
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 2894179551287940281}
+    - name: Worker
+      transform: {fileID: 3786580444479302501}
+      isForWorkers: 1
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 2645200453645602296}
   - name: BellTower
     destination: 6
     mainTransform: {fileID: 7376164536479260360}
@@ -2192,81 +2192,6 @@ MonoBehaviour:
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 0}
-  - name: Fountain
-    destination: 14
-    mainTransform: {fileID: 564916328386176895}
-    sublocations:
-    - name: Bystander
-      transform: {fileID: 7353537131842387438}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 3665941430988902823}
-    - name: Bystander
-      transform: {fileID: 9163357662458570872}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 3665941430988902823}
-    - name: Bystander
-      transform: {fileID: 9045388020784687642}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 3665941430988902823}
-    - name: Bystander
-      transform: {fileID: 8334785611005107727}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 3665941430988902823}
-    - name: Bystander
-      transform: {fileID: 1854707585430340838}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 3665941430988902823}
-    - name: Bystander
-      transform: {fileID: 1313900087592969470}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 3665941430988902823}
-    - name: Bystander
-      transform: {fileID: 203252495032315681}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 3665941430988902823}
-  - name: GravediggerHouse
-    destination: 13
-    mainTransform: {fileID: 8661613370349243988}
-    sublocations:
-    - name: Bystander
-      transform: {fileID: 8661613370349243988}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 8478902112858041859}
-  - name: RascalSpot
-    destination: 16
-    mainTransform: {fileID: 2734423261452282812}
-    sublocations:
-    - name: Bystander
-      transform: {fileID: 2734423261452282812}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 8478902112858041859}
   - name: CulinarianHouse
     destination: 17
     mainTransform: {fileID: 1207189002854949995}
@@ -2289,31 +2214,95 @@ MonoBehaviour:
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 8478902112858041859}
-  - name: ApothecaryHouse
-    destination: 12
-    mainTransform: {fileID: 2794440075271643951}
+  - name: Fountain
+    destination: 14
+    mainTransform: {fileID: 564916328386176895}
     sublocations:
-    - name: AtHome
-      transform: {fileID: 8984299401414232021}
+    - name: Bystander
+      transform: {fileID: 7353537131842387438}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 1054308349328965285}
+    - name: Bystander
+      transform: {fileID: 9163357662458570872}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 1054308349328965285}
+    - name: Bystander
+      transform: {fileID: 9045388020784687642}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 1054308349328965285}
+    - name: Bystander
+      transform: {fileID: 8334785611005107727}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 1054308349328965285}
+    - name: Bystander
+      transform: {fileID: 1854707585430340838}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 1054308349328965285}
+    - name: Bystander
+      transform: {fileID: 1313900087592969470}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 1054308349328965285}
+    - name: Bystander
+      transform: {fileID: 203252495032315681}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 1054308349328965285}
+  - name: GravediggerHouse
+    destination: 13
+    mainTransform: {fileID: 8661613370349243988}
+    sublocations:
+    - name: Home
+      transform: {fileID: 1389463999093816943}
       isForWorkers: 0
       isAtHome: 1
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 0}
-    - name: Hangout
-      transform: {fileID: 162988165806571821}
+    - name: Wife
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 1
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: Worker
+      transform: {fileID: 6547312633166314068}
+      isForWorkers: 1
+      isAtHome: 1
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 7535621293298416760}
+  - name: RascalSpot
+    destination: 16
+    mainTransform: {fileID: 2734423261452282812}
+    sublocations:
+    - name: Bystander
+      transform: {fileID: 2734423261452282812}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
-      lookAtPoint: {fileID: 7588880217219358071}
-    - name: Hangout
-      transform: {fileID: 4851630794369284984}
-      isForWorkers: 0
-      isAtHome: 0
-      isOccupied: 0
-      occupant: {fileID: 0}
-      lookAtPoint: {fileID: 7588880217219358071}
+      lookAtPoint: {fileID: 8478902112858041859}
   - name: Graveyard
     destination: 19
     mainTransform: {fileID: 3781084255436816083}
@@ -2325,38 +2314,192 @@ MonoBehaviour:
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 2584544504437985561}
-    - name: MourningSpot
+    - name: MourningSpot2
       transform: {fileID: 3454943026344877726}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 6603957894432708211}
-    - name: MourningSpot
+    - name: MourningSpot3
       transform: {fileID: 7679895750107485329}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 8297312778226674731}
-    - name: MourningSpot
+    - name: MourningSpot4
       transform: {fileID: 3651289319410105792}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 131306775414169814}
+  - name: ApothecaryHouse
+    destination: 12
+    mainTransform: {fileID: 2794440075271643951}
+    sublocations:
+    - name: AtHome
+      transform: {fileID: 8984299401414232021}
+      isForWorkers: 0
+      isAtHome: 1
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: HangoutSpot
+      transform: {fileID: 162988165806571821}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 7588880217219358071}
+    - name: HangoutSpot
+      transform: {fileID: 4851630794369284984}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 7588880217219358071}
   - name: TinkererWorkbench
     destination: 20
     mainTransform: {fileID: 7661946937384327007}
     sublocations:
-    - name: Workbench
+    - name: Workspace
       transform: {fileID: 7039297230457351503}
       isForWorkers: 0
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 2028403555804751831}
+  - name: CarpenterHouse
+    destination: 23
+    mainTransform: {fileID: 2703536470647186219}
+    sublocations:
+    - name: AtHome
+      transform: {fileID: 7464094877231065122}
+      isForWorkers: 0
+      isAtHome: 1
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: Working
+      transform: {fileID: 7535812797549234066}
+      isForWorkers: 1
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 5327241237803337814}
+  - name: TravelerHouse
+    destination: 21
+    mainTransform: {fileID: 6633125731737354670}
+    sublocations:
+    - name: AtHome
+      transform: {fileID: 6633125731737354670}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+  - name: MistMerchant
+    destination: 22
+    mainTransform: {fileID: 1935877119111887319}
+    sublocations:
+    - name: Bystander
+      transform: {fileID: 5528476447232063112}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 5168497924275358259}
+    - name: Bystander
+      transform: {fileID: 8144724373061244139}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 7870084406675637778}
+  - name: Spring
+    destination: 15
+    mainTransform: {fileID: 9047275664793855846}
+    sublocations:
+    - name: Bystander
+      transform: {fileID: 5950160429357777793}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 6888864144791631122}
+    - name: Bystander
+      transform: {fileID: 5569732465684713673}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 6888864144791631122}
+  - name: Inside Spring
+    destination: 25
+    mainTransform: {fileID: 1957389303356521951}
+    sublocations: []
+  - name: Random
+    destination: 24
+    mainTransform: {fileID: 7386611929994688810}
+    sublocations:
+    - name: FountainRandom
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: FountainRandom
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: Tavern
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: Belltower
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: Tavern
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: Tavern
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: CarpHouse
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: Graveyard
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
 --- !u!1 &1938166777746701224
 GameObject:
   m_ObjectHideFlags: 0
@@ -4137,6 +4280,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2051518580300837426}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3963962206093629198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1957389303356521951}
+  m_Layer: 0
+  m_Name: InsideSpring
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1957389303356521951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3963962206093629198}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.502, y: -2.714, z: 8.769}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9047275664793855846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3967658703832597366
 GameObject:
@@ -10774,6 +10948,8 @@ MonoBehaviour:
   barricade: {fileID: 7429279394833736076, guid: c3c490b5df32b9c4fb691d275bdc3d47,
     type: 3}
   trough: {fileID: 8684909107654101805, guid: a4ac41c7e0ee32149a9de1a6c60734ca, type: 3}
+  wBearTrap: {fileID: 7210125489205192339, guid: 46ee7ea9c05813544a37a43efebad774,
+    type: 3}
   fogChime: {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   ignoreCropGrowthTime: 0
   enableCheats: 0
@@ -58567,6 +58743,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 06fc0b3b180ea6d4eb2df71cb3876847, type: 2}
   - {fileID: 11400000, guid: 4357d23962aa5ad42ba23563e9fac2dd, type: 2}
   - {fileID: 11400000, guid: 0080ef044eb7da94d8c9e1e3f7fa5174, type: 2}
+  - {fileID: 11400000, guid: 88c7a631b6c3f164fadff223436437c4, type: 2}
   wildernessInteractables:
   - name: Foragable
     prefab: {fileID: 3672103349891704917, guid: f9c56390acf3b2248a1b1b77c4e30d4f,
@@ -58632,6 +58809,8 @@ MonoBehaviour:
   dareVFX: {fileID: 6623914604336417809, guid: 2aa2cdf235a68b34cbcc707b817e917b, type: 3}
   burnVFX: {fileID: 3693141861885239285, guid: 926140a26c097e340b91077774900138, type: 3}
   frostVFX: {fileID: 2811716324602631292, guid: 815b6a6d37ef405468861eb5f4b3a13b,
+    type: 3}
+  mimicScentVFX: {fileID: 4559461732243414215, guid: 18046da4bd0624446b9159ec0e7a5169,
     type: 3}
 --- !u!114 &6641095865559575426
 MonoBehaviour:
@@ -60794,6 +60973,7 @@ Transform:
   m_Children:
   - {fileID: 5950160429357777793}
   - {fileID: 5569732465684713673}
+  - {fileID: 1957389303356521951}
   - {fileID: 6888864144791631122}
   m_Father: {fileID: 7787821027441036890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

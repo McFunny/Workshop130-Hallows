@@ -136,6 +136,7 @@ public class FanaticNPC : NPC, ITalkable
 
     public override void BeginWorking()
     {
+        FindObjectOfType<Spa>().ActivateSpa();
         /*if (!assignedStall) return;
         storeItems = assignedStall.storeItems;
         RefreshStore();*/
@@ -153,5 +154,11 @@ public class FanaticNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+    }
+
+    public override bool ActionCheck1() //Spa Check
+    {
+        if(Random.Range(0,100) > 95) return true;
+        else return false;
     }
 }

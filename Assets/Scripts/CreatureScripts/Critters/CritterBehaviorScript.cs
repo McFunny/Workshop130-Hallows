@@ -53,13 +53,17 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 
     protected virtual void OnHour()
     {
-        print("Ping");
         if(justSpawned)
         {
             justSpawned = false;
             return;
         }
-        else if(TimeManager.Instance.currentHour == 8) Destroy(gameObject);
+        else if(TimeManager.Instance.currentHour == 8 && !homePen)
+        {
+            PopupHandler.Instance.names.Enqueue(name);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterLeftPopup);
+            Destroy(gameObject);
+        }
     
         if(isDead)
         {
@@ -223,9 +227,9 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         if(homePen) return false;
         else return true;
     }
-    public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name);} //For saving purposes
+    public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, 0);} //For saving purposes
 
-    public void LoadData(CritterData c)
+    public virtual void LoadData(CritterData c)
     {
         friendshipLevel = c.friendshipLevel;
         friendPoints = c.friendPoints;

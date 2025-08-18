@@ -333,7 +333,7 @@ public class MutatedCrow : CreatureBehaviorScript
             rotation.z = 0;
             transform.eulerAngles = rotation;
 
-            targetStructure.TakeDamage(2);
+            targetStructure.TakeDamage(0.5f);
             targetStructure = null;
             currentState = CreatureState.CirclePoint;
             Debug.Log("I attacked the scarecrow");

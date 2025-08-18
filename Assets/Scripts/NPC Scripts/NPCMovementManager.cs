@@ -29,6 +29,7 @@ public enum Destination
     MistMerchantWagon,
     CarpenterHouse,
     RandomLocation,
+    InsideSpring,
 
 }
 

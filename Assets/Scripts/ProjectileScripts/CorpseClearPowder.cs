@@ -18,6 +18,7 @@ public class CorpseClearPowder : MonoBehaviour
         float timeAlive = 0;
         while(timeAlive < duration)
         {
+            yield return new WaitForSeconds(1);
             timeAlive++;
             Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 20f, 1 << 9);
             foreach(Collider collider in hitEnemies)
@@ -26,10 +27,10 @@ public class CorpseClearPowder : MonoBehaviour
                 if (creature != null && (creature.health <= 0 || creature.creatureData == walkerData))
                 {
                     creature.TakeDamage(5);
-                    creature.PlayHitParticle(creature.transform.position);
+                    if(creature.corpseParticleTransform) creature.PlayHitParticle(creature.corpseParticleTransform.position);
+                    else creature.PlayHitParticle(creature.transform.position);
                 }
             }
-            yield return new WaitForSeconds(1);
         }
         effectParticles.Stop();
         yield return new WaitForSeconds(5);

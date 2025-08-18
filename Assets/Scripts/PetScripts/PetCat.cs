@@ -10,6 +10,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     public SpriteRenderer itemR;
     public List<ItemWithAmount> possibleGiftItems = new List<ItemWithAmount>();
     public List<CreatureObject> targettableCreatures = new List<CreatureObject>();
+    public List<CreatureObject> fearedCreatures = new List<CreatureObject>();
 
     public Transform headPivot;
     Vector3 starePoint;
@@ -701,7 +702,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                     CreatureBehaviorScript creature = hitTargets[i].gameObject.GetComponentInParent<CreatureBehaviorScript>();
                     if(creature && creature.health > 0)
                     {
-                        if(!targettableCreatures.Contains(creature.creatureData))
+                        if(fearedCreatures.Contains(creature.creatureData) && Random.Range(0,10) > 4)
                         {
                             target = creature.gameObject.transform.position;
                             StateSwitch(PetState.Flee);

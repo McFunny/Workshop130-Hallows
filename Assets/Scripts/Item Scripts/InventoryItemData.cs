@@ -55,8 +55,8 @@ public class InventoryItemData : ScriptableObject
     {
         if(pickledForm)
         {
-            pickledForm.value = value * 2f;
-            pickledForm.staminaValue = staminaValue * 1.25f;
+            pickledForm.value = value * 2.1f;
+            pickledForm.staminaValue = staminaValue * 1.4f;
         }
     }
     [ContextMenu("PrintSellValue")]

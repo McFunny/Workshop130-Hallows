@@ -730,6 +730,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: acd78d9f43e218b4ca15e1fe00296f8f, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -794,6 +795,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 21c21c4fbfa2f634db4664c8c84abe38, type: 2}
   - {fileID: 11400000, guid: 5d1b031ba347e6e4889b951e93ff29eb, type: 2}
   - {fileID: 11400000, guid: 995e68105f917cf43a48bd00d4fd1feb, type: 2}
+  - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
   hunger: 100
   maxHunger: 100
   hungerDecayRate: 5
@@ -1400,7 +1402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d8fe26444a2fa4a97a8666b1b9421b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatureScript: {fileID: 0}
+  creatureScript: {fileID: 2637793092302045940}
 --- !u!114 &2942227477229185521
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,11 +6,12 @@ public class StatusEffectManager : MonoBehaviour
 {
     public static StatusEffectManager Instance;
 
-    public GameObject dareVFX, burnVFX, frostVFX;
+    public GameObject dareVFX, burnVFX, frostVFX, mimicScentVFX;
 
     List<GameObject> darePool = new List<GameObject>();
     List<GameObject> burnPool = new List<GameObject>();
     List<GameObject> frostPool = new List<GameObject>();
+    List<GameObject> mimicScentPool = new List<GameObject>();
 
     void Awake()
     {
@@ -195,6 +196,13 @@ public class StatusEffectManager : MonoBehaviour
             frostPool.Add(newParticle);
             newParticle.SetActive(false);
         }
+
+        for(int i = 0; i < 5; i++)
+        {
+            newParticle = Instantiate(mimicScentVFX);
+            mimicScentPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
     }
 
     public GameObject GrabStatusVFX(StatusEffectName name)
@@ -250,6 +258,23 @@ public class StatusEffectManager : MonoBehaviour
             return newParticle;
         }
 
+        if(name == StatusEffectName.MimicScent)
+        {
+            foreach (GameObject particle in mimicScentPool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(mimicScentVFX);
+            mimicScentPool.Add(newParticle);
+            return newParticle;
+        }
+
         return null;
     }
 }
@@ -258,7 +283,8 @@ public enum StatusEffectName
 {
     Fire, //DOT
     Frost, //Slow movespeed, cannot use water
-    Dare //1.25 speed increase, 1.5 oncoming damage
+    Dare, //1.25 speed increase, 1.5 oncoming damage
+    MimicScent //Mimics attack the host
 }
 
 [System.Serializable]

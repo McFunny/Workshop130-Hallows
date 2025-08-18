@@ -44,7 +44,7 @@ public class FakeFarmLand : StructureBehaviorScript
     // Update is called once per frame
     void Update()
     {
-        if(health <= 0 && !destroyed)
+        if((health <= 0 || (mimic && mimic.targetCreature)) && !destroyed)
         {
             destroyed = true;
             Destroy(gameObject);

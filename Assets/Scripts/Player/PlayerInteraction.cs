@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    public delegate void AttackedCreature(CreatureBehaviorScript c);
+    public static event AttackedCreature OnPlayerAttack; //Unity Event that will listeners when the player physically attacks an enemy
+
     public Camera mainCam;
 
     public Transform playerFeet, cameraPos, trippedFocalPoint;
@@ -605,6 +609,11 @@ public class PlayerInteraction : MonoBehaviour
     public void InvokePlayerDeathEvent()
     {
         OnPlayerDeath?.Invoke();
+    }
+
+    public void InvokeEnemyHitEvent(CreatureBehaviorScript c)
+    {
+        OnPlayerAttack?.Invoke(c);
     }
 
     public void ShakeScreen(float intensity)

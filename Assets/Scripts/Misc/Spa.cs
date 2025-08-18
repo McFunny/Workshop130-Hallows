@@ -65,6 +65,15 @@ public class Spa : MonoBehaviour, IInteractable
         interactSuccessful = false;
         
     }
+
+    public void ActivateSpa()
+    {
+        activated = true;
+        activatedEffects.SetActive(true);
+        StartCoroutine(ActivationTimer());
+        splashVFX.Play();
+        source.Play();
+    }
     
     public void EndInteraction()
     {
