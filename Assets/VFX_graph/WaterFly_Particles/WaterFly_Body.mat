@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6751999868148011020
+--- !u!114 &-1582550681608496824
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,20 +20,22 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaterFly_Body2
+  m_Name: WaterFly_Body
   m_Shader: {fileID: -6465566751694194690, guid: 977043a9b9ba8b345b00645cb865b399,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap:
-    RenderType: Opaque
-  disabledShaderPasses: []
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -56,10 +58,9 @@ Material:
     - _AlphaToMask: 0
     - _Bits: 30
     - _Blend: 0
-    - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Cull: 2
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _FoamOffset: 0.5
     - _Metallic: 0
     - _Normal_Speed: 0.1
@@ -67,22 +68,20 @@ Material:
     - _Normal_Strength_2: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
     - _RippleDissolve: 5
     - _RippleScale: 5
     - _RippleSpeed: 2
     - _Smoothness: 0
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _SrcBlend: 5
+    - _Surface: 1
     - _Transparency: 1
-    - _WiggleIntensity: 0.154
-    - _WiggleSpeed: 1
-    - _WorkflowMode: 1
+    - _WiggleIntensity: 0.5
+    - _WiggleSpeed: 0.5
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.42272758, b: 1, a: 0}
-    - _FoamColor: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 0.1367925, g: 0.5011176, b: 1, a: 0}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 0}
     - _RippleColor: {r: 0.3537736, g: 0.9145856, b: 1, a: 0}
   m_BuildTextureStacks: []
