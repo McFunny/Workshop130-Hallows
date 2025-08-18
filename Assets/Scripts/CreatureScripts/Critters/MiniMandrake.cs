@@ -163,7 +163,7 @@ public class MiniMandrake : CreatureBehaviorScript
         else if(Vector3.Distance(transform.position, targetCreature.transform.position) < attackRange)
         {
             attackParticle.SetActive(true);
-            targetCreature.TakeDamage(4);
+            targetCreature.TakeDamage(5);
             if(targetCreature.corpseParticleTransform) targetCreature.PlayHitParticle(targetCreature.corpseParticleTransform.position);
             else targetCreature.PlayHitParticle(targetCreature.transform.position);
         }
