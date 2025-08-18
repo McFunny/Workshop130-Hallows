@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3438637213064963571}
   - component: {fileID: 2720333737781574112}
   m_Layer: 9
-  m_Name: Drakeling
+  m_Name: Manikkin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,8 +121,10 @@ MonoBehaviour:
   anim: {fileID: 3459320562344929524}
   droppedItems:
   - {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+  - {fileID: 11400000, guid: 003387081b07a0d40b8fc11186444232, type: 2}
   dropChance:
   - 5
+  - 9
   sightRange: 0
   attackRange: 2.5
   playerInSightRange: 0
@@ -136,7 +138,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 0
   actionSpeedMod: 1
-  hitColor: {r: 0, g: 0, b: 0, a: 0}
+  hitColor: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 0.25490198}
   currentEffects: []
   agent: {fileID: 0}
   waterIcon: {fileID: 4046423434269138431}

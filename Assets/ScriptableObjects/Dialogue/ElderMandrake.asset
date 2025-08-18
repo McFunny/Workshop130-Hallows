@@ -18,7 +18,7 @@ MonoBehaviour:
     paragraphs:
     - Me... Elder Mandrake...
     - You... Farmer...
-    - You... Make more of me..?
+    - You... Father..?
     emotions: 000000000000000004000000
   repeatedItemPath:
     pathName: 
@@ -31,9 +31,25 @@ MonoBehaviour:
     - Mandrakes... Short life span...
     - Turn to wood...
     emotions: 0200000000000000
-  questPaths: []
+  - pathName: Been here for awhile
+    paragraphs:
+    - Me in tree.... Many years....
+    - All others.... Run and scream...
+    - Turn to wood...
+    emotions: 000000000400000002000000
+  questPaths:
+  - pathName: I want friends
+    paragraphs:
+    - Home... So lonely....
+    - Elder... Want friends...
+    - Farmer.... Make friends?
+    emotions: 020000000000000004000000
   itemRecievedPaths: []
   itemSpecificRemarks:
+  - pathName: Random Item
+    paragraphs:
+    - AAAAAAAAAAAAAAH!!!!
+    emotions: 05000000
   - pathName: Mandrake
     paragraphs:
     - Friend..... Is sleeping..?
@@ -47,5 +63,14 @@ MonoBehaviour:
     - ...
     emotions: 06000000
   branchingPaths: []
-  questCompletePaths: []
-  dailyQuestPaths: []
+  questCompletePaths:
+  - pathName: Friends for Elder Given
+    paragraphs:
+    - So many friends....!
+    - You.... Good seed....
+    - Can trust.... with lineage...
+    emotions: 050000000100000000000000
+  dailyQuestPaths:
+  - pathName: 
+    paragraphs: []
+    emotions: 

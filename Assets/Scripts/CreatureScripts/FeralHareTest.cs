@@ -266,7 +266,12 @@ public class FeralHareTest : CreatureBehaviorScript
                 if(StructureManager.Instance.BurrowCount() < 2 || exitBurrow == null) targetBurrow = null;
 
                 if(targetBurrow) Hop(targetBurrow.position);
-                else Hop(jumpPos);
+                else
+                {
+                    SearchWanderPoint();
+                    Hop(jumpPos);
+                }
+
                 if(foundFarmTile) foundFarmTile = null;
             }
         }
@@ -444,7 +449,7 @@ public class FeralHareTest : CreatureBehaviorScript
         Vector3 jumpDirection = (transform.position - destination).normalized;
         jumpDirection *= -1f;
 
-        if (currentState == CreatureState.FleeFromPlayer && !obstructed && !targetBurrow) //will flee from player instead
+        if (currentState == CreatureState.FleeFromPlayer && !obstructed && !targetBurrow && Vector3.Distance(transform.position, player.position) < 40) //will flee from player instead
         {
             jumpDirection = (transform.position - player.position).normalized;
             destination = new Vector3(transform.position.x + jumpDirection.x, yOrigin, transform.position.z + jumpDirection.z);
