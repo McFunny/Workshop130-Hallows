@@ -28,6 +28,7 @@ public class Codex3 : MonoBehaviour
         Creatures,
         Bugs,
         Quests,
+        Critters
     }
     OpenCategory openCategory;
     [SerializeField] private UIAlphaController bgPanel;
@@ -276,6 +277,7 @@ public class Codex3 : MonoBehaviour
         {
             var Cat = TutorialEntries;
             var isQuest = false;
+            var isCritter = false;
             switch (i)
             {
                 case 0:
@@ -302,9 +304,12 @@ public class Codex3 : MonoBehaviour
                     BugList = new List<CodexEntries>();
                     Cat = BugEntries;
                     break;
-
                 case 6:
                     isQuest = true;
+                    Cat = null;
+                    break;
+                case 7:
+                    isCritter = true;
                     Cat = null;
                     break;
             }
@@ -383,6 +388,11 @@ public class Codex3 : MonoBehaviour
 
                     buttonScript.assignedQuest = activeQuests[e];
                 }
+            }
+
+            if (isCritter)
+            {
+                print("Attempting to load Critter Category");
             }
 
             if (Cat == null) continue;
@@ -614,6 +624,7 @@ public class Codex3 : MonoBehaviour
         // Change the open category based on the index of the button pressed
         openCategory = (OpenCategory)Enum.Parse(typeof(OpenCategory), categoryToOpen); //Wow
         var catInt = (int)openCategory;
+        print("Changing category to: " + openCategory.ToString());
 
         for (int i = 0; i < categoryButtons.Length; i++) //help
         {
