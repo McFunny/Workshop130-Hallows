@@ -46,6 +46,11 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private List<Quest> activeQuests = new List<Quest>();
     //[SerializeField] private GameObject tutorialPage, toolPage, plantPage;
 
+    [Header("Caps per Category")]
+    [SerializeField] private int maxStandardEntries = 16;
+    [SerializeField] private int maxQuestEntries = 10;
+    [SerializeField] private int maxCritterEntries = 10;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject entryButtonPrefab;
     [SerializeField] private GameObject entryButtonHorizontalPrefab;
@@ -327,7 +332,7 @@ public class Codex3 : MonoBehaviour
                 for (int e = 0; e < activeQuests.Count; e++)
                 {
                     var chosenContainer = containers[i];
-                    if (e < 10) chosenContainer = containers[i];
+                    if (e < maxQuestEntries) chosenContainer = containers[i];
                     else chosenContainer = secondaryContainers[i];
 
                     GameObject entryButton = Instantiate(entryButtonHorizontalPrefab, chosenContainer.transform);
@@ -392,6 +397,7 @@ public class Codex3 : MonoBehaviour
 
             if (isCritter)
             {
+                //if()
                 print("Attempting to load Critter Category");
             }
 
@@ -402,7 +408,7 @@ public class Codex3 : MonoBehaviour
             for (int e = 0; e < Cat.Length; e++)
             {
                 var chosenContainer = containers[i];
-                if (e < 16) chosenContainer = containers[i];
+                if (e < maxStandardEntries) chosenContainer = containers[i];
                 else chosenContainer = secondaryContainers[i];
 
 
