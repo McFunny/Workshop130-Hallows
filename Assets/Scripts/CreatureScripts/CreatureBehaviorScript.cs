@@ -15,6 +15,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     public CreatureObject creatureData;
     public bool inWilderness = false; //Creatures have dif behavior depending on where they are. This is changed by the Wilderness Manager
     public Transform patrolPoint; //Creature will patrol this area instead of their wander behavior
+    public bool persistAfterNewDay = false; //If true, will persist when the day transition occurs
 
     [HideInInspector] public StructureManager structManager;
     [HideInInspector] public CreatureEffectsHandler effectsHandler;
@@ -29,13 +30,14 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public InventoryItemData[] droppedItems;
     public float[] dropChance;
-
+    [Header("Sight Variables")]
     public float sightRange = 20; //how far can it see the player
     public float attackRange = 6;
     public bool playerInSightRange = false;
     public bool playerInAttackRange = false;
 
     //Vulnerabilities
+    [Header("Vulnerabilities")]
     public bool shovelVulnerable = true; //More like physical attack vulnerable
     public bool fireVulnerable = true;
     public bool bearTrapVulnerable = true;

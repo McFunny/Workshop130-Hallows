@@ -160,7 +160,7 @@ public class CombatConstruct : CreatureBehaviorScript
 
     void MoveToPoint()
     {
-        float maxSpeed = moveSpeed / actionSpeedMod;
+        float maxSpeed = moveSpeed * actionSpeedMod;
 
         float distanceToPlayer = Vector3.Distance(transform.position, targetPos);
         if (distanceToPlayer <= stoppingDistance)
@@ -279,7 +279,7 @@ public class CombatConstruct : CreatureBehaviorScript
     {
         attackCooldown = true;
         scrapeParticles.SetActive(false);
-        yield return new WaitForSeconds(duration * actionSpeedMod);
+        yield return new WaitForSeconds(duration / actionSpeedMod);
         attackCooldown = false;
         scrapeParticles.SetActive(true);
     }
@@ -456,11 +456,11 @@ public class CombatConstruct : CreatureBehaviorScript
         rb.velocity = Vector3.zero;
         StartCoroutine(PlayShortCircuitAudio());
         shockedParticles.SetActive(true);
-        actionSpeedMod += 0.4f;
+        actionSpeedMod -= 0.4f;
         yield return new WaitForSeconds(Random.Range(10, 20));
         isWet = false;
         shockedParticles.SetActive(false);
-        actionSpeedMod -= 0.4f;
+        actionSpeedMod += 0.4f;
     }
 
     IEnumerator PlayShortCircuitAudio()

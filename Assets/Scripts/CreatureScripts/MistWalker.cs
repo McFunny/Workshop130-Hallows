@@ -107,6 +107,12 @@ public class MistWalker : CreatureBehaviorScript
                     //its a barrel, disable lunge
                     canLunge = false;
                 }
+
+                if(i == 2)
+                {
+                    //its a hive, lower visability
+                    sightRange -= 5;
+                }
             }
         }
 

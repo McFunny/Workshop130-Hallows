@@ -107,6 +107,15 @@ public class NPCManager : MonoBehaviour
 
         //Add limit to how many quests, or make sure an npc cannot give multiple quests
 
+        //Guarantee the mandrake quest
+        foreach(NPC npc in townsPeople)
+        {
+            if(npc.character == Character.ElderMandrake && !QuestManager.Instance.DuplicateAssignees(npc.character))
+            {
+                npc.GiveDailyQuest(QuestDatabase.Instance.GetDailyQuest(npc.character));
+            }
+        }
+
         //Debug.Log ("Giving Daily");
 
         int recipients = Random.Range(2,5);

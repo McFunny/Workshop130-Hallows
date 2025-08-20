@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -58,7 +58,7 @@ public class StructureManager : MonoBehaviour
     {
         PopulateForageables(1, 4);
         PopulateDecorCrows(0, 2);
-        StartCoroutine(PopulateStructure(-2, 2, buriedItem, true, farmTileMap));
+        StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
 
         if(forceSellSiegeSeeds)
         {
@@ -758,6 +758,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 2, barricade, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
+        StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
     }
 
     IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)

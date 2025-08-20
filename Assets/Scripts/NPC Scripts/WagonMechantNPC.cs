@@ -20,6 +20,8 @@ public class WagonMerchantNPC : NPC, ITalkable
     int wildernessPrice = 50;
     int wildernessUnlockThreshold = 2000;
 
+    bool gaveFiller = false;
+
     //public Animator anim;
 
     public float sellMultiplier = 1;
@@ -86,6 +88,14 @@ public class WagonMerchantNPC : NPC, ITalkable
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(barricade, 4));
                 remembersGift = true;
+                gaveFiller = true;
+            }
+            else if(!gaveFiller)
+            {
+                int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                currentPath = i;
+                currentType = PathType.Filler;
+                gaveFiller = true;
             }
             else
             {
@@ -298,6 +308,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         {
             RefreshStore();
             remembersGift = false;
+            gaveFiller = false;
             //metPlayerAtEntrace = false;
         }
     }

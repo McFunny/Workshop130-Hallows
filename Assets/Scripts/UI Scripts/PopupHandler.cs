@@ -7,10 +7,11 @@ public class PopupHandler : MonoBehaviour
 {
     public static PopupHandler Instance;
     public Queue<PopupScript> popupQueue = new Queue<PopupScript>(); 
-    List<PopupScript> typesInQueue = new List<PopupScript>(); 
+    List<PopupScript> typesInQueue = new List<PopupScript>();  //To track repeats
     public PopupScript testPopup, testPopup2, testPopup3;
     public PopupScript nightWarningPopup, nightWildernessWarningPopup;
     public PopupScript gameSavePopup, wildernessUnlockedPopup, newQuestPopup, questCompletePopup, saveWarningPopup, bedTutorialPopup;
+    public PopupScript critterLeftPopup, critterDiedPopup;
     private PopupScript currentPopup;
     public GameObject popupContainer;
     public TMP_Text popupText;
@@ -22,6 +23,8 @@ public class PopupHandler : MonoBehaviour
 
     private Coroutine queueChecker;
     private bool isActive, conditionMet, offScreen;
+
+    public Queue<string> names = new Queue<string>(); 
 
     void Awake()
     {
@@ -69,19 +72,6 @@ public class PopupHandler : MonoBehaviour
 
     void Update()
     {
-        // Debug Inputs to force additions to the Queue
-        /*if (Input.GetKeyDown(KeyCode.B))
-        {
-            AddToQueue(testPopup);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            AddToQueue(testPopup2);
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            AddToQueue(testPopup3);
-        }*/
 
         if(isActive && moveProgress < maxMoveProgress)
         {
@@ -119,8 +109,8 @@ public class PopupHandler : MonoBehaviour
     {
         for(int i = 0; i < typesInQueue.Count; i++)
         {
-            print(typesInQueue[i].text);
-            print(popup.text);
+            //print(typesInQueue[i].text);
+            //print(popup.text);
             if(typesInQueue[i].text == popup.text)
             {
                 print("Deleting repeated popup");
@@ -144,7 +134,10 @@ public class PopupHandler : MonoBehaviour
     {
         isActive = true;
         //popupContainer.SetActive(true);
-        popupText.text = popup.text;
+        string textToShow = popup.text;
+        if(textToShow.Contains("{name}") && names.Count > 0) textToShow = textToShow.Replace("{name}", $"{names.Dequeue()}");
+
+        popupText.text = textToShow;
         currentPopup = popup;
     }
 
@@ -170,7 +163,7 @@ public class PopupHandler : MonoBehaviour
 
     IEnumerator CloseCondition(PopupScript popup)
     {
-        if (popup.endCondition == PopupScript.EndCondition.TimeBased)
+        if (popup.endCondition == PopupScript.EndCondition.TimeBased && (!popup.skippable || popupQueue.Count == 0))
         {
             // Wait for the specified time
             yield return new WaitForSeconds(popup.endTimeInSeconds);

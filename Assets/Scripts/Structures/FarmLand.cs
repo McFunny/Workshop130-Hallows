@@ -248,43 +248,21 @@ public class FarmLand : StructureBehaviorScript
 
             if((rotted == false && harvestable) || isWeed)
             {
-                if (crop && crop.creaturePrefab)
+                GameObject droppedItem;
+                Rigidbody itemRB;
+
+                int totalCropYield = 0;
+
+                if(crop.behavior)
                 {
-                    Instantiate(crop.creaturePrefab, transform.position, transform.rotation); //Outdated code
-                }
-                else
-                {
-                    GameObject droppedItem;
-                    Rigidbody itemRB;
+                    crop.behavior.CropBonusYield(this, out int bonusYield, out int secondaryBonusYield);
+                    totalCropYield += bonusYield;
+                    print(bonusYield);
 
-                    int totalCropYield = 0;
-
-                    if(crop.behavior)
+                    for (int i = 0; i < secondaryBonusYield; i++) //Secondary crop yield
                     {
-                        crop.behavior.CropBonusYield(this, out int bonusYield, out int secondaryBonusYield);
-                        totalCropYield += bonusYield;
-                        print(bonusYield);
-
-                        for (int i = 0; i < secondaryBonusYield; i++) //Secondary crop yield
-                        {
-                            if(!crop.cropSecondaryYield) continue;
-                            droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSecondaryYield);
-                            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-
-                            Vector3 dir3 = Random.onUnitSphere;
-                            dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
-                            itemRB = droppedItem.GetComponent<Rigidbody>();
-                            itemRB.AddForce(dir3 * 20);
-                            itemRB.AddForce(Vector3.up * 50);
-                        }
-                    }
-
-                    int r = Random.Range(1, crop.cropYieldAmount + crop.cropYieldVariance + 1); //Adding 1 due to it being non inclusive
-                    totalCropYield += r;
-                    //if (totalCropYield <= 0) totalCropYield = 1;
-                    for (int i = 0; i < totalCropYield; i++) //Primary crop yield
-                    {
-                        droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
+                        if(!crop.cropSecondaryYield) continue;
+                        droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSecondaryYield);
                         droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
                         Vector3 dir3 = Random.onUnitSphere;
@@ -292,29 +270,45 @@ public class FarmLand : StructureBehaviorScript
                         itemRB = droppedItem.GetComponent<Rigidbody>();
                         itemRB.AddForce(dir3 * 20);
                         itemRB.AddForce(Vector3.up * 50);
-
-                        QuestManager.Instance.CropHarvested(crop);//Increase progress per crop yield
-                    }
-
-
-                    r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
-                    if(isWeed && Random.Range(0, 100) > 97) r = 1; //For crabgrass seeds from weeds
-                    if(r == 0 && crop.noStressSeedChance > Random.Range(0, 100f)) r = 1;
-                    for (int i = 0; i < r; i++) //Seed yield
-                    {
-                        if(crop.cropSeed && plantStress == 0)
-                        {
-                            droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSeed);
-                            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-
-                            Vector3 dir3 = Random.onUnitSphere;
-                            dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
-                            itemRB = droppedItem.GetComponent<Rigidbody>();
-                            itemRB.AddForce(dir3 * 20);
-                            itemRB.AddForce(Vector3.up * 50);
-                        }
                     }
                 }
+
+                int r = Random.Range(1, crop.cropYieldAmount + crop.cropYieldVariance + 1); //Adding 1 due to it being non inclusive
+                totalCropYield += r;
+                //if (totalCropYield <= 0) totalCropYield = 1;
+                for (int i = 0; i < totalCropYield; i++) //Primary crop yield
+                {
+                    droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
+                    droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+                    Vector3 dir3 = Random.onUnitSphere;
+                    dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+                    itemRB = droppedItem.GetComponent<Rigidbody>();
+                    itemRB.AddForce(dir3 * 20);
+                    itemRB.AddForce(Vector3.up * 50);
+
+                    QuestManager.Instance.CropHarvested(crop);//Increase progress per crop yield
+                }
+
+
+                r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
+                if(isWeed && Random.Range(0, 100) > 97) r = 1; //For crabgrass seeds from weeds
+                if(r == 0 && crop.noStressSeedChance > Random.Range(0, 100f)) r = 1;
+                for (int i = 0; i < r; i++) //Seed yield
+                {
+                    if(crop.cropSeed && plantStress == 0)
+                    {
+                        droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropSeed);
+                        droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+                        Vector3 dir3 = Random.onUnitSphere;
+                        dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+                        itemRB = droppedItem.GetComponent<Rigidbody>();
+                        itemRB.AddForce(dir3 * 20);
+                        itemRB.AddForce(Vector3.up * 50);
+                    }
+                }
+                
                 crop.amountHarvested++;
 
                 if(crop && crop.behavior) crop.behavior.OnHarvest(this, forceDig, harvestedByScythe);
@@ -343,6 +337,10 @@ public class FarmLand : StructureBehaviorScript
                 ReturnNutrientsFromDeadPlant();
                 ItemPoolManager.Instance.GrabItem(plantFiber).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
                 if(Random.Range(0,10) > 3) ItemPoolManager.Instance.GrabItem(dullSeeds).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                else if(MainMenuScript.currentFileMode == FileMode.Cozy && crop && crop.cropSeed) //drop a seed in cozy mode
+                {
+                    ItemPoolManager.Instance.GrabItem(crop.cropSeed).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                }
             }
 
             if(crop.behavior && crop.behavior.DestroyOnHarvest(this) == false && !rotted && harvestable)

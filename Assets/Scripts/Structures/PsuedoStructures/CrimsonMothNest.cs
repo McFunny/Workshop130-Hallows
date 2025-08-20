@@ -25,7 +25,7 @@ public class CrimsonMothNest : StructureBehaviorScript
     {
         OnDamage -= HiveDrop;
         TimeManager.OnHourlyUpdate -= HourPassed;
-        if (!gameObject.scene.isLoaded) return; 
+        if (!gameObject.scene.isLoaded || !gameObject.activeSelf) return; 
         GameObject droppedItem;
         Rigidbody itemRB;
         int r = Random.Range(1,4);
@@ -55,6 +55,7 @@ public class CrimsonMothNest : StructureBehaviorScript
                     GameObject newMoth = Instantiate(mothData.objectPrefab, 
                     new Vector3(transform.position.x + Random.Range(-.5f, .5f), transform.position.y + Random.Range(-.5f, .5f), transform.position.z + Random.Range(-.5f, .5f)), Quaternion.identity);
                     newMoth.GetComponent<RubyWasp>().homeNest = this;
+                    if(i >= 3) i = heldWasps;
                 }
                 heldWasps = 0;
             }
@@ -102,6 +103,7 @@ public class CrimsonMothNest : StructureBehaviorScript
             for(int i = 0; i < heldWasps; i++)
             {
                 Instantiate(mothData.objectPrefab, transform.position, Quaternion.identity).GetComponent<RubyWasp>().homeNest = this;
+                if(i >= 3) i = heldWasps;
             }
 
             audioHandler.PlaySoundAtPoint(audioHandler.breakSound,transform.position);

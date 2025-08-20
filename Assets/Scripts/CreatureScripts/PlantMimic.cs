@@ -7,7 +7,7 @@ public class PlantMimic : CreatureBehaviorScript
 {
     [HideInInspector] public NavMeshAgent agent;
     private bool coroutineRunning = false;
-    bool hasTarget, attackingPlayer, attackCooldown, speedCooldown;
+    bool hasTarget, attacking, attackCooldown, speedCooldown;
 
     Vector3 newBurrowPos = new Vector3(0,0,0);
 
@@ -24,6 +24,8 @@ public class PlantMimic : CreatureBehaviorScript
 
     private StructureBehaviorScript targetStructure;
 
+    [HideInInspector] public CreatureBehaviorScript targetCreature; //Pheromone afflicted creature
+
     public enum CreatureState
     {
         InitialBury, //Spawned in
@@ -33,7 +35,8 @@ public class PlantMimic : CreatureBehaviorScript
         Rebury, //if ignored, will dig a hole and replant itself elsewhere, or despawn at day
         Die,
         Buried,
-        Stunned
+        Stunned,
+        ChaseTarget
     }
 
     public CreatureState currentState;
@@ -51,6 +54,8 @@ public class PlantMimic : CreatureBehaviorScript
 
         currentState = CreatureState.InitialBury;
         originalSpeed = agent.speed;
+
+        StartCoroutine(ScanForScentedTargets());
     }
 
     void Update()
@@ -71,12 +76,12 @@ public class PlantMimic : CreatureBehaviorScript
 
         if(speedCooldown)
         {
-            agent.speed = coolDownSpeed;
+            agent.speed = coolDownSpeed * actionSpeedMod;
         }
         else
         {
-            if(pacesUntilCalm > 0 && agent.speed != fleeSpeed) agent.speed = fleeSpeed;
-            if(pacesUntilCalm <= 0 && agent.speed != originalSpeed) agent.speed = originalSpeed;
+            if(pacesUntilCalm > 0 && agent.speed != fleeSpeed) agent.speed = fleeSpeed * actionSpeedMod;
+            if(pacesUntilCalm <= 0 && agent.speed != originalSpeed) agent.speed = originalSpeed * actionSpeedMod;
         }
 
     }
@@ -115,6 +120,10 @@ public class PlantMimic : CreatureBehaviorScript
 
             case CreatureState.Buried:
                 if(agent.enabled && !coroutineRunning) agent.enabled = false;
+                break;
+
+            case CreatureState.ChaseTarget:
+                ChaseTarget();
                 break;
 
             default:
@@ -164,6 +173,12 @@ public class PlantMimic : CreatureBehaviorScript
     {
         if(coroutineRunning || currentState == CreatureState.Stunned) return;
 
+        if(ScentedTargetExists())
+        {
+            currentState = CreatureState.ChaseTarget;
+            return;
+        }
+
         if (hasTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
         {
             hasTarget = false;
@@ -204,7 +219,7 @@ public class PlantMimic : CreatureBehaviorScript
         }
         else if((CheckForPlayer(corpseParticleTransform) || playerInAttackRange) && !attackCooldown)
         {
-            StartCoroutine(SwipePlayer());
+            StartCoroutine(SwipeTarget());
             agent.SetDestination(player.position);
             hasTarget = false;
         }
@@ -241,12 +256,45 @@ public class PlantMimic : CreatureBehaviorScript
                 StartCoroutine(SwipeStructure());
                 hasTarget = false;
             }
-            else if(CheckForPlayer(transform))
+            else if((CheckForPlayer(corpseParticleTransform) || playerInAttackRange) && !attackCooldown)
             {
-                StartCoroutine(SwipePlayer());
+                StartCoroutine(SwipeTarget());
                 hasTarget = false;
             }
         }
+    }
+
+    void ChaseTarget()
+    {
+        if(!ScentedTargetExists())
+        {
+            currentState = CreatureState.Wander;
+            return;
+        }
+
+        if(!coroutineRunning && !attackCooldown)
+        {
+            targetStructure = CheckForObstacle(transform);
+            if(targetStructure)
+            {
+                //attack the structure and stop moving
+                StartCoroutine(SwipeStructure());
+                hasTarget = false;
+            }
+            else if((CheckForPlayer(corpseParticleTransform) || playerInAttackRange))
+            {
+                StartCoroutine(SwipeTarget());
+                hasTarget = false;
+            }
+            else if(targetCreature && Vector3.Distance(transform.position, targetCreature.transform.position) < attackRange)
+            {
+                StartCoroutine(SwipeTarget());
+                hasTarget = false;
+            }
+        }
+
+        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
+        else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
     }
 
     IEnumerator EmergeCoroutine()
@@ -301,7 +349,7 @@ public class PlantMimic : CreatureBehaviorScript
         coroutineRunning = false;
     }
 
-    IEnumerator SwipePlayer()
+    IEnumerator SwipeTarget()
     {
         coroutineRunning = true;
         anim.SetTrigger("IsAttackingPlayer");
@@ -309,14 +357,14 @@ public class PlantMimic : CreatureBehaviorScript
         speedCooldown = true;
         yield return new WaitForSeconds(0.7f);
         effectsHandler.MiscSound();
-        attackingPlayer = true;
+        attacking = true;
         attackHitbox.enabled = true;
         yield return new WaitForSeconds(0.3f);
         attackHitbox.enabled = false;
         yield return new WaitForSeconds(1);
         speedCooldown = false;
 
-        attackingPlayer = false;
+        attacking = false;
         coroutineRunning = false;
     }
 
@@ -327,7 +375,12 @@ public class PlantMimic : CreatureBehaviorScript
         float p = 0;
         while(p < t)
         {
-            if(currentState == CreatureState.Wander) agent.SetDestination(player.position);
+            if(currentState == CreatureState.Wander)
+            {
+                if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
+                else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+                else agent.SetDestination(player.position);
+            }
             yield return new WaitForSeconds(0.2f);
             p += 0.2f;
         }
@@ -337,13 +390,19 @@ public class PlantMimic : CreatureBehaviorScript
 
     private void OnTriggerEnter(Collider other)
     {
-        if (attackingPlayer && other.CompareTag("Player") && !isDead)
+        if (attacking && !isDead)
         {
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
                 playerInteraction.StaminaChange(damageToPlayer);
                 attackHitbox.enabled = false;
+            }
+
+            if(targetCreature && other.GetComponentInParent<CreatureBehaviorScript>() == targetCreature)
+            {
+                targetCreature.TakeDamage(20);
+                targetCreature.PlayHitParticle(targetCreature.transform.position);
             }
         }
     }
@@ -375,31 +434,6 @@ public class PlantMimic : CreatureBehaviorScript
         
     }
 
-    /*public override bool OnStun(float duration)
-    {
-        if (currentState != CreatureState.Stunned)
-        {
-            StartCoroutine(Stun(duration));
-            agent.destination = transform.position;
-            agent.ResetPath();
-            newBurrowPos = new Vector3(0,0,0);
-            return true;
-        }
-        else return false;
-    }
-
-    private IEnumerator Stun(float duration)
-    {
-        
-        currentState = CreatureState.Stunned;
-        coroutineRunning = false;
-
-        yield return new WaitForSeconds(duration);
-        //StartCoroutine(IdleSoundTimer());
-        currentState = CreatureState.Wander;
-        
-    } */
-
     public override void OnDeath()
     {
         if (!isDead)
@@ -429,6 +463,35 @@ public class PlantMimic : CreatureBehaviorScript
         {
             anim.Play("DeathRecoil", -1, 0f);
         }
+    }
+
+    IEnumerator ScanForScentedTargets()
+    {
+        while(health > 0)
+        {
+            yield return new WaitForSeconds(3);
+            if(targetCreature) continue;
+
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 100f, 1 << 9); //Make radius much larger for critter variant
+            foreach(Collider collider in hitEnemies)
+            {
+                var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+                if (creature != null && StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.MimicScent, creature))
+                {
+                    targetCreature = creature;
+                    continue;
+                }
+            }
+        }
+    }
+
+    bool ScentedTargetExists()
+    {
+        if(targetCreature && StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.MimicScent, targetCreature)) return true; //Creature has it
+
+        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) return true; //Player has it
+
+        return false;
     }
 
 }

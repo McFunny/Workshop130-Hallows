@@ -10,7 +10,7 @@ public class PyreflyToolBehavior : ToolBehavior
     public AudioClip ignite, extinguish;
     public GameObject thrownPrefab;
 
-    float speed = 60;
+    float speed = 100;
 
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
@@ -121,6 +121,6 @@ public class PyreflyToolBehavior : ToolBehavior
         Vector3 dir = bulletStart.forward;
         Rigidbody rb = newBug.GetComponent<Rigidbody>();
         rb.AddForce(dir * speed);
-        rb.AddForce(Vector3.up * 60);
+        rb.AddForce(Vector3.up * 50);
     }
 }

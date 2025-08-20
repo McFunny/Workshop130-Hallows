@@ -119,6 +119,8 @@ public class ShovelAttack : MonoBehaviour
             //PlayHitParticle(c_Collision);
             ParticlePoolManager.Instance.MoveAndPlayVFX(c_Collision, ParticlePoolManager.Instance.hitEffect);
             hitCreature.PlayHitParticle(c_Collision);
+
+            if(hitCreature && hitCreature.health > 0) PlayerInteraction.Instance.InvokeEnemyHitEvent(hitCreature);
             return;
         }
 
