@@ -17,7 +17,7 @@ public class PyreFly : CreatureBehaviorScript
     private Vector3 despawnPos;
     [HideInInspector] public NavMeshAgent agent;
 
-    float igniteDistance = 3; //distance to ignite structures/be ignited/enter hive
+    float igniteDistance = 2.7f; //distance to ignite structures/be ignited/enter hive
 
     [HideInInspector]public bool ignited = true;
     public GameObject pyreFire, splashObject;

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class MiniSprinkler : StructureBehaviorScript
+public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
 {
+    [HideInInspector] public Transform ObjectTransform => transform; // For the Interface
+
     public int waterLevel = 0; 
     int maxWaterLevel = 3;
     public GameObject water;
@@ -222,6 +224,17 @@ public class MiniSprinkler : StructureBehaviorScript
         saveInt1 = waterLevel;
         if(mode == SprinklerMode.Stream) saveInt2 = 0;
         else saveInt2 = 1;
+    }
+
+    public bool CanBeWatered()
+    {
+        if(waterLevel < maxWaterLevel) return true;
+        else return false;
+    }
+
+    public void GivenWater()
+    {
+        HitWithWater();
     }
 
 }
