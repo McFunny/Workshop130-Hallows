@@ -18,6 +18,16 @@ public class Codex3 : MonoBehaviour
     private string defaultName = "???";
     private ControlManager controlManager;
     private QuestManager questManager;
+    private List<CodexCritter> critterObjects = new List<CodexCritter>();
+    private int currentScreenNum = 0;
+    private int tutorialScreenNum = 0;
+    private int toolsScreenNum = 0;
+    private int structuresScreenNum = 0;
+    private int plantsScreenNum = 0;
+    private int creaturesScreenNum = 0;
+    private int bugsScreenNum = 0;
+    private int questsScreenNum = 0;
+    private int crittersScreenNum = 0;
     [SerializeField] private ChildActivator childActivator;
     public enum OpenCategory
     {
@@ -53,6 +63,7 @@ public class Codex3 : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject entryButtonPrefab;
+    [SerializeField] private GameObject critterButtonPrefab;
     [SerializeField] private GameObject entryButtonHorizontalPrefab;
 
     [Header("Images")]
@@ -314,6 +325,7 @@ public class Codex3 : MonoBehaviour
                     Cat = null;
                     break;
                 case 7:
+                    critterObjects = new List<CodexCritter>();
                     isCritter = true;
                     Cat = null;
                     break;
@@ -397,8 +409,54 @@ public class Codex3 : MonoBehaviour
 
             if (isCritter)
             {
-                //if()
                 print("Attempting to load Critter Category");
+                int buttonsPlaced = 0;
+                //Pet
+                PetBehaviorScript pet = gameSaveData.currentPet;
+                if (pet != null)
+                {
+                    var petButton = Instantiate(critterButtonPrefab, containers[7].transform);
+                    var petVars = petButton.GetComponent<CodexCritter>();
+
+                    petVars.critterName.text = pet.name;
+                    petVars.homeIcon.gameObject.SetActive(false); // Hide home icon for pets
+                    petVars.friendshipText.text = pet.friendshipLevel.ToString();
+                    petVars.healthSlider.transform.parent.gameObject.SetActive(false); // Hide health slider for pets
+                    petVars.hungerSlider.value = pet.hunger / pet.maxHunger;
+                    petVars.thirstSlider.value = pet.thirst / pet.maxThirst;
+
+                    critterObjects.Add(petVars);
+                    buttonsPlaced++;
+                }           
+
+                //Critters
+                List<ICritter> critters = BarnManager.Instance.allCritters;
+                if (critters.Count == 0) return;
+                
+
+                for (int c = 0; c < critters.Count; c++)
+                {
+                    int batchIndex = i / maxCritterEntries;
+                    Transform currentParent = (batchIndex % 2 == 0) ? containers[7].transform : secondaryContainers[7].transform;
+
+                    var critter = critters[c];
+                    if (critter == null) continue;
+
+                    var critterButton = Instantiate(critterButtonPrefab, currentParent.transform);
+                    var critterVars = critterButton.GetComponent<CodexCritter>();
+                    var critterData = critter.GetCritterData();
+
+                    critterVars.critterName.text = critter.GetCritterName();
+                    critterVars.homeIcon.gameObject.SetActive(!critter.IsCritterHomeless());
+                    critterVars.friendshipText.text = critterData.friendshipLevel.ToString();
+                    //critterVars.healthSlider.value = critterData.health / critterData.maxHealth;
+                    //critterVars.hungerSlider.value = pet.hunger / pet.maxHunger;
+                    //critterVars.thirstSlider.value = pet.thirst / pet.maxThirst;  FIX THIS
+
+                    critterObjects.Add(critterVars);
+                    buttonsPlaced++;
+                }
+                
             }
 
             if (Cat == null) continue;
@@ -608,6 +666,7 @@ public class Codex3 : MonoBehaviour
         CreatureList.Clear();
         PlantList.Clear();
         BugList.Clear();
+        critterObjects.Clear();
     }
 
     private void ResetCodex(bool fullReset = false) //Sets the codex to its default state
