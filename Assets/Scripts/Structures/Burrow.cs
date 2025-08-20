@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Burrow : StructureBehaviorScript
+public class Burrow : StructureBehaviorScript, IWaterHolder
 {
+    [HideInInspector] public Transform ObjectTransform => transform; // For the Interface
+
     bool isDigging;
 
     public BugObject termite;
@@ -86,5 +88,16 @@ public class Burrow : StructureBehaviorScript
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         Destroy(gameObject);
+    }
+
+    public bool CanBeWatered()
+    {
+        if(savedItems.Count > 0) return false;
+        return true;
+    }
+
+    public void GivenWater()
+    {
+        HitWithWater();
     }
 }
