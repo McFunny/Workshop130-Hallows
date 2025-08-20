@@ -28,6 +28,8 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     protected Transform targetObject;
     public NavMeshAgent agent;
 
+    protected int playerFollowTokens = 0; //How many paces they will spend following the player
+
     bool justSpawned = true;
     protected bool behaviorDelay = true;
 
@@ -179,6 +181,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         }
 
         FinishedMoving();
+        if(playerFollowTokens > 0) playerFollowTokens--;
 
     }
 

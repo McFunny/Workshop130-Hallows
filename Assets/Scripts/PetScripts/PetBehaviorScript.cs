@@ -100,6 +100,10 @@ public class PetBehaviorScript : MonoBehaviour
     {
         if(showHearts) ParticlePoolManager.Instance.GrabHeartParticle().transform.position = focalPoint.position;
 
+        float xpModifier = 1.3f;
+
+        amount *= amount - (friendshipLevel * 0.1f);
+
         friendPoints += amount;
         if(friendPoints < 0) friendPoints = 0;
         if(friendPoints >= 100 && friendshipLevel < maxFriendshipLevel)
