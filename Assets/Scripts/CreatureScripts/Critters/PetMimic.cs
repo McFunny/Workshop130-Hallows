@@ -181,6 +181,11 @@ public class PetMimic : CritterBehaviorScript
         float r = Random.Range(6f, 18f);
         yield return new WaitForSeconds(r);
         coroutineRunning = false;
+
+        if(playerFollowTokens <= 0 && Vector3.Distance(player.position, transform.position) < 30 && Random.Range(0, 100) < friendshipLevel * 7)
+        {
+            playerFollowTokens = Random.Range(4, 8);
+        }
     }
 
     private void Wander()
@@ -197,6 +202,7 @@ public class PetMimic : CritterBehaviorScript
         {
             hasTarget = false;
             pacesUntilIdle--;
+            if(playerFollowTokens > 0) playerFollowTokens--;
             if(pacesUntilCalm > 0) pacesUntilCalm--;
                
             if (pacesUntilIdle <= 0)
@@ -221,6 +227,7 @@ public class PetMimic : CritterBehaviorScript
             Vector3 newDestination = transform.position + wanderDirection * 5;
 
             if(Vector3.Distance(BarnManager.Instance.barnSource.position, transform.position) > 30) newDestination = GetRandomPointAround(BarnManager.Instance.barnSource.position, 20);
+            else if(playerFollowTokens > 0) target = GetRandomPointAround(player.position, 20);
 
            
             agent.SetDestination(newDestination);

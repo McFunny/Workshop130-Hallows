@@ -203,6 +203,11 @@ public class TruffleHog : CritterBehaviorScript
         yield return new WaitForSeconds(r);
         currentState = CritterState.Decide;
         currentRoutine = null;
+
+        if(playerFollowTokens <= 0 && Vector3.Distance(player.position, transform.position) < 30 && Random.Range(0, 100) < friendshipLevel * 7)
+        {
+            playerFollowTokens = Random.Range(2, 6);
+        }
     }
 
     void Wander()
@@ -211,6 +216,7 @@ public class TruffleHog : CritterBehaviorScript
         {
             agent.speed = walkSpeed;
             if(BarnManager.Instance.WithinBarn(transform.position)) target = StructureManager.Instance.GetRandomTile(GridType.Barn);
+            else if(playerFollowTokens > 0) target = player.position;
             else target = StructureManager.Instance.GetRandomTile(GridType.Farm);
             target = GetRandomPointAround(transform.position, 10f);
             currentRoutine = StartCoroutine(MoveToPoint(target, 5));

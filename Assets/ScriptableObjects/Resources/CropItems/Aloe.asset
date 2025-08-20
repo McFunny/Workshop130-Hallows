@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 9
   displayName: Aloe
-  description: Very refreshing wild plant.
+  description: Very refreshing wild plant that can soothe burns.
   icon: {fileID: 481132665, guid: dde1cdb333d3ca5438a95b2bdfc2c39f, type: 3}
   maxStackSize: 20
   value: 26
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 38
+  staminaValue: 32
   animalHungerValue: 80
   bonusCompostValue: 30
   useCooldown: 5
@@ -34,6 +34,6 @@ MonoBehaviour:
   - LT - Show Item
   - RT - Consume
   gainedEffects: []
-  itemBehavior: {fileID: 0}
+  itemBehavior: {fileID: 11400000, guid: fef8d5c379aa4f745908a25f0b77457a, type: 2}
   useSound: {fileID: 0}
   cannotEnterInventory: 0

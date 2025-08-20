@@ -211,7 +211,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     {
         if(isMoving || currentRoutine != null || TimeManager.Instance.stopTime) return; //Wait until all coroutines are done to avoid overlap
 
-        if(forceState != PetState.Decide)
+        if(forceState != PetState.Decide) //For debugging and testing states
         {
             StateSwitch(forceState);
             return;
@@ -219,7 +219,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(TownGate.Instance.location != PlayerLocation.InFarm) //Make sure pet is following when not in farm
         {
-            if(TownGate.Instance.location != PlayerLocation.InTown) //Player is not within reach, so stay still
+            if(TownGate.Instance.location != PlayerLocation.InTown || friendshipLevel < 2) //Player is not within reach, so stay still
             {
                 //currentState = PetState.AwaitPlayer;
                 StateSwitch(PetState.AwaitPlayer);
@@ -252,16 +252,20 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(r < 80) StateSwitch(PetState.Idle);
         else if(r < 95 - (friendshipLevel * 0.5f)) StateSwitch(PetState.Sit);
-        else
+        else if(friendshipLevel >= 2)
         {
             StateSwitch(PetState.Follow);
-            forceFollows = 10;
+            forceFollows = Random.Range(5, 11);
         }
     }
 
     void AwaitPlayer()
     {
-        if(TownGate.Instance.location == PlayerLocation.InFarm || TownGate.Instance.location == PlayerLocation.InTown) StateSwitch(PetState.Follow);
+        if(TownGate.Instance.location == PlayerLocation.InFarm || TownGate.Instance.location == PlayerLocation.InTown)
+        {
+            if(friendshipLevel >= 2) StateSwitch(PetState.Follow);
+            else StateSwitch(PetState.Idle);
+        } 
     }
 
     void Idle()
@@ -269,7 +273,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         if(!isMoving)
         {
             float distance = Vector3.Distance(player.position, spawnOrigin);
-            if(distance > followDistance)
+            if(distance > followDistance && friendshipLevel >= 2)
             {
                 StateSwitch(PetState.Follow);
                 currentRoutine = null;
