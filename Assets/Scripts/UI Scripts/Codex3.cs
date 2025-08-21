@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 public class Codex3 : MonoBehaviour
 {
     public System.Action onCodexClosed;
+    public static bool isRenamingCritter = false;
     private GameSaveData gameSaveData;
     private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries, BugEntries; //Looks dumb but I need a reference to the SO's cached or else this gets really messy
     private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList, BugList;
@@ -133,6 +134,12 @@ public class Codex3 : MonoBehaviour
 
     private void InputOpen(InputAction.CallbackContext context)
     {
+        if (isRenamingCritter)
+        {
+            Debug.Log("Currently renaming a critter or pet. Open/Close input will be ignored.");
+            return;
+        }    
+
         if (menuIndex > 0 && !ControlManager.isController)
         {
             CloseCodex();
@@ -149,6 +156,11 @@ public class Codex3 : MonoBehaviour
 
     private void InputBack(InputAction.CallbackContext context)
     {
+        if (isRenamingCritter)
+        {
+            Debug.Log("Currently renaming a critter or pet. Input will be ignored.");
+            return;
+        } 
         Back();
     }
 
@@ -428,6 +440,7 @@ public class Codex3 : MonoBehaviour
                     petButton.name = pet.name + " Pet";
 
                     var petVars = petButton.GetComponent<CodexCritter>();
+                    petVars.assignedPet = pet;
 
                     petVars.critterName.text = pet.name;
                     petVars.homeIcon.gameObject.SetActive(false); // Hide home icon for pets
@@ -455,6 +468,7 @@ public class Codex3 : MonoBehaviour
                     var critterButton = Instantiate(critterButtonPrefab, currentParent.transform);
                     critterButton.name = critter.GetCritterName() + " " + c;
                     var critterVars = critterButton.GetComponent<CodexCritter>();
+                    critterVars.assignedCritter = critter;
 
 
                     critterVars.critterName.text = critter.GetCritterName();
