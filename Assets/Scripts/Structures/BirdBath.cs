@@ -113,6 +113,8 @@ public class BirdBath : StructureBehaviorScript
     public override void LoadVariables()
     {
         waterLevel = saveInt1;
+        if(waterLevel > 0) renderer.enabled = true;
+        else renderer.enabled = false;
     }
 
     public override void SaveVariables()

@@ -321,7 +321,7 @@ public class RubyWasp : CreatureBehaviorScript
 
         stuckOnPlayer = false;
         PlayerMovement.Instance.RemoveSpeedMod(gameObject);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         coroutineRunning = false;
     }
 

@@ -73,6 +73,7 @@ public class StructureBehaviorScript : MonoBehaviour
     //[HideInInspector] public AudioSource source;
 
     [HideInInspector] public bool clearTileOnDestroy = true;
+    bool forcePile = false;
 
     [Tooltip("Specific UI for this structure, if it has any")]
     public GameObject structureUI; 
@@ -131,14 +132,11 @@ public class StructureBehaviorScript : MonoBehaviour
             {
                 StructureManager.Instance.SetOneByTwoTile(transform.position);
             }
+            if(structData.gridSize == GridSize.ThreeByThree)
+            {
+                StructureManager.Instance.SetExtraLargeTile(transform.position);
+            }
         }
-
-        /*if(structData && structData.isLarge)
-        {
-            StructureManager.Instance.SetLargeTile(transform.position);
-            //print("Set Large Tiles");
-        }
-        else StructureManager.Instance.SetTile(transform.position);*/
     }
 
     public void Update()
@@ -200,27 +198,34 @@ public class StructureBehaviorScript : MonoBehaviour
             {
                 StructureManager.Instance.ClearOneByTwoTile(transform.position);
             }
+            if(structData.gridSize == GridSize.ThreeByThree)
+            {
+                StructureManager.Instance.ClearExtraLargeTile(transform.position);
+            }
 
-            //if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
-            //else StructureManager.Instance.ClearLargeTile(transform.position);
         } 
         StructureManager.Instance.allStructs.Remove(this);
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
         
-        if(health <= 0) //For when a structure is destroyed by removing all the hp
+        if(health <= 0 || forcePile) //For when a structure is destroyed by removing all the hp
         {
-            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
-            if(p)
+            if(health <= 0)
             {
-                if(particleCenter) p.transform.position = particleCenter.position;
-                else p.transform.position = transform.position;
-            }
+                GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
+                if(p)
+                {
+                    if(particleCenter) p.transform.position = particleCenter.position;
+                    else p.transform.position = transform.position;
+                }
 
-            if(gibs)
-            {
-                if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
-                else Instantiate(gibs, transform.position, Quaternion.identity);
+                if(gibs)
+                {
+                    if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
+                    else Instantiate(gibs, transform.position, Quaternion.identity);
+                }
+
+                if(structData) OnStructureDestroyed?.Invoke(structData, transform.position);
             }
 
             //logic for spawning the salvagable pile//
@@ -230,10 +235,8 @@ public class StructureBehaviorScript : MonoBehaviour
                 DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();
                 newPile.InsertStructure(structData);
                 newPile.transform.rotation = transform.rotation;
-                print("I spawned a pile");
             }
 
-            if(structData) OnStructureDestroyed?.Invoke(structData, transform.position);
         }
 
         if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
@@ -362,22 +365,12 @@ public class StructureBehaviorScript : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    /*public virtual IEnumerator DugUpForItem()
+    public void PlaceAsPile()
     {
-        yield return  new WaitForSeconds(1);
-        if(itemForm)
-        {
-            if(Random.Range(0, maxHealth) <= health)
-            {
-                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemForm);
-                droppedItem.transform.position = transform.position;
-            }
-            else health = -5;
-
-            AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
-        }
+        salvageChance = 101;
+        forcePile = true;
         Destroy(this.gameObject);
-    }*/
+    }
 
     public virtual void SaveVariables()
     {

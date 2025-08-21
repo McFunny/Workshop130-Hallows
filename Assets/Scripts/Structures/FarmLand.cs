@@ -440,7 +440,7 @@ public class FarmLand : StructureBehaviorScript
         {
             if(crop && crop.behavior && !crop.behavior.CanGrow(this)) return;
 
-            if(growthStage >= crop.growthStages && !isWeed || NeedsPollination())
+            if((growthStage >= crop.growthStages && !isWeed) || NeedsPollination())
             {
                 if(NeedsPollination()) return;
 

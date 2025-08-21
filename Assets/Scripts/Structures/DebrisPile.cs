@@ -108,6 +108,7 @@ public class DebrisPile : StructureBehaviorScript
         audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+
         Destroy(this.gameObject);
     }
 
