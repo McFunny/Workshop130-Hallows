@@ -43,10 +43,6 @@ public class PetBehaviorScript : MonoBehaviour
     protected Vector3 target, spawnOrigin;
     protected int forceFollows = 0;
 
-    protected bool showStats = false;
-    public GameObject statsUI;
-    public TextMeshProUGUI hungerText, friendshipText;
-
     public ParticleSystem dripParticles;
     
     protected void Start()
@@ -68,13 +64,7 @@ public class PetBehaviorScript : MonoBehaviour
 
     protected void Update()
     {
-        if(showStats)
-        {
-            if(!statsUI.activeSelf) statsUI.SetActive(true);
-            hungerText.text = "Hunger: " + hunger + "/" + maxHunger;
-            friendshipText.text = "Level: " + friendshipLevel;
-        }
-        else if(statsUI.activeSelf) statsUI.SetActive(false);
+        //
     }
 
     protected virtual void OnHour()

@@ -130,7 +130,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         CheckState(currentState);
     }
 
-    protected virtual void OnHour()
+    protected virtual void OnHour() //Shouldnt this be on override?
     {
         base.OnHour();
         if(TimeManager.Instance.currentHour == 8)

@@ -33,6 +33,7 @@ public class ApothNPC : NPC, ITalkable
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.apothMet = true;
+                dailyQuest = null;
             }
             else
             {

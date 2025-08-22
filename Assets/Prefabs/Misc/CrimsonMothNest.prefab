@@ -159,6 +159,7 @@ MonoBehaviour:
   mothData: {fileID: 11400000, guid: df1b8c3719cd05e4e81165e095075d35, type: 2}
   heldWasps: 3
   nectar: {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
+  comb: {fileID: 0}
 --- !u!82 &7211916567749777879
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181,7 +182,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 15
-  MaxDistance: 25
+  MaxDistance: 40
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0

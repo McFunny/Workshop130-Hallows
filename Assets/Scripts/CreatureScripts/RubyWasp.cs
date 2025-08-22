@@ -296,7 +296,7 @@ public class RubyWasp : CreatureBehaviorScript
     IEnumerator StuckRoutine()
     {
         unstickAttempts = 0;
-        int attemptsNeeded = Random.Range(5, 12);
+        int attemptsNeeded = Random.Range(2, 8);
         anim.SetBool("Unstuck", false);
 
         stuckOnPlayer = true;

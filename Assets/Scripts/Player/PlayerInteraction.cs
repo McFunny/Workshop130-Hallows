@@ -541,7 +541,7 @@ public class PlayerInteraction : MonoBehaviour
 
         TownGate.Instance.Transition(PlayerLocation.InFarm);
 
-        stamina = 100;
+        stamina = 150;
         if(currentMoney > 0 && MainMenuScript.currentFileMode != FileMode.Cozy) currentMoney = currentMoney - (currentMoney/5); //I have no idea if this will work
         TimeManager.Instance.GameOver(); //Has to be last, this is where it saves
         print("Time GameOver Complete");

@@ -722,6 +722,7 @@ public class MistWalker : CreatureBehaviorScript
             if (playerInteraction != null)
             {
                 playerInteraction.StaminaChange(damageToPlayer);
+                attackingPlayer = false;
                 //lungeAttackHitbox.enabled = false;
             }
         }
