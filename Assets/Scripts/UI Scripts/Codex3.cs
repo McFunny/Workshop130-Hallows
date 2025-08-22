@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 public class Codex3 : MonoBehaviour
 {
     public System.Action onCodexClosed;
+    public static bool isRenamingCritter = false;
     private GameSaveData gameSaveData;
     private CodexEntries[] TutorialEntries, ToolEntries, StructureEntries, PlantEntries, CreatureEntries, BugEntries; //Looks dumb but I need a reference to the SO's cached or else this gets really messy
     private List<CodexEntries> TutorialList, ToolList, StructureList, PlantList, CreatureList, BugList;
@@ -18,6 +19,16 @@ public class Codex3 : MonoBehaviour
     private string defaultName = "???";
     private ControlManager controlManager;
     private QuestManager questManager;
+    private List<GameObject> critterObjects = new List<GameObject>();
+    private int currentScreenNum = 0;
+    private int tutorialScreenNum = 0;
+    private int toolsScreenNum = 0;
+    private int structuresScreenNum = 0;
+    private int plantsScreenNum = 0;
+    private int creaturesScreenNum = 0;
+    private int bugsScreenNum = 0;
+    private int questsScreenNum = 0;
+    [SerializeField] private int crittersScreenNum = 0;
     [SerializeField] private ChildActivator childActivator;
     public enum OpenCategory
     {
@@ -28,6 +39,7 @@ public class Codex3 : MonoBehaviour
         Creatures,
         Bugs,
         Quests,
+        Critters
     }
     OpenCategory openCategory;
     [SerializeField] private UIAlphaController bgPanel;
@@ -45,8 +57,14 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private List<Quest> activeQuests = new List<Quest>();
     //[SerializeField] private GameObject tutorialPage, toolPage, plantPage;
 
+    [Header("Caps per Category")]
+    [SerializeField] private int maxStandardEntries = 16;
+    [SerializeField] private int maxQuestEntries = 10;
+    [SerializeField] private int maxCritterEntries = 10;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject entryButtonPrefab;
+    [SerializeField] private GameObject critterButtonPrefab;
     [SerializeField] private GameObject entryButtonHorizontalPrefab;
 
     [Header("Images")]
@@ -116,6 +134,12 @@ public class Codex3 : MonoBehaviour
 
     private void InputOpen(InputAction.CallbackContext context)
     {
+        if (isRenamingCritter)
+        {
+            Debug.Log("Currently renaming a critter or pet. Open/Close input will be ignored.");
+            return;
+        }    
+
         if (menuIndex > 0 && !ControlManager.isController)
         {
             CloseCodex();
@@ -132,6 +156,11 @@ public class Codex3 : MonoBehaviour
 
     private void InputBack(InputAction.CallbackContext context)
     {
+        if (isRenamingCritter)
+        {
+            Debug.Log("Currently renaming a critter or pet. Input will be ignored.");
+            return;
+        } 
         Back();
     }
 
@@ -179,6 +208,15 @@ public class Codex3 : MonoBehaviour
 
         if (menuIndex == 0 || menuIndex == 2) return;
         if (!PlayerMovement.isCodexOpen) return;
+
+        if(Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            UpdateSelectedOpenCategory(openCategory, 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            UpdateSelectedOpenCategory(openCategory, -1);
+        }
 
         if (ControlManager.isController)
         {
@@ -276,6 +314,7 @@ public class Codex3 : MonoBehaviour
         {
             var Cat = TutorialEntries;
             var isQuest = false;
+            var isCritter = false;
             switch (i)
             {
                 case 0:
@@ -302,9 +341,13 @@ public class Codex3 : MonoBehaviour
                     BugList = new List<CodexEntries>();
                     Cat = BugEntries;
                     break;
-
                 case 6:
                     isQuest = true;
+                    Cat = null;
+                    break;
+                case 7:
+                    critterObjects = new List<GameObject>();
+                    isCritter = true;
                     Cat = null;
                     break;
             }
@@ -322,7 +365,7 @@ public class Codex3 : MonoBehaviour
                 for (int e = 0; e < activeQuests.Count; e++)
                 {
                     var chosenContainer = containers[i];
-                    if (e < 10) chosenContainer = containers[i];
+                    if (e < maxQuestEntries) chosenContainer = containers[i];
                     else chosenContainer = secondaryContainers[i];
 
                     GameObject entryButton = Instantiate(entryButtonHorizontalPrefab, chosenContainer.transform);
@@ -385,6 +428,64 @@ public class Codex3 : MonoBehaviour
                 }
             }
 
+            if (isCritter)
+            {
+                print("Attempting to load Critter Category");
+                int buttonsPlaced = 0;
+                //Pet
+                PetBehaviorScript pet = gameSaveData.currentPet;
+                if (pet != null)
+                {
+                    var petButton = Instantiate(critterButtonPrefab, containers[7].transform);
+                    petButton.name = pet.name + " Pet";
+
+                    var petVars = petButton.GetComponent<CodexCritter>();
+                    petVars.assignedPet = pet;
+
+                    petVars.critterName.text = pet.name;
+                    petVars.homeIcon.gameObject.SetActive(false); // Hide home icon for pets
+                    petVars.friendshipText.text = pet.friendshipLevel.ToString();
+                    petVars.healthSlider.transform.parent.gameObject.SetActive(false); // Hide health slider for pets
+                    petVars.hungerSlider.value = pet.hunger / pet.maxHunger;
+                    petVars.thirstSlider.value = pet.thirst / pet.maxThirst;
+
+                    critterObjects.Add(petButton);
+                    buttonsPlaced++;
+                }
+
+                //Critters
+                List<CritterBehaviorScript> critters = BarnManager.Instance.allCritters;
+                if (critters.Count == 0) return;
+
+                for (int c = 0; c < critters.Count; c++)
+                {
+                    int batchIndex = buttonsPlaced / maxCritterEntries;
+                    Transform currentParent = (batchIndex % 2 == 0) ? containers[7].transform : secondaryContainers[7].transform;
+
+                    var critter = critters[c];
+                    if (critter == null) continue;
+
+                    var critterButton = Instantiate(critterButtonPrefab, currentParent.transform);
+                    critterButton.name = critter.GetCritterName() + " " + c;
+                    var critterVars = critterButton.GetComponent<CodexCritter>();
+                    critterVars.assignedCritter = critter;
+
+
+                    critterVars.critterName.text = critter.GetCritterName();
+                    critterVars.homeIcon.gameObject.SetActive(!critter.IsCritterHomeless());
+                    critterVars.friendshipText.text = critter.friendshipLevel.ToString();
+                    critterVars.healthSlider.value = critter.health / critter.maxHealth;
+                    critterVars.hungerSlider.value = critter.hunger / critter.maxHunger;
+                    critterVars.thirstSlider.value = critter.thirst / critter.maxThirst;
+
+                    critterObjects.Add(critterButton);
+                    buttonsPlaced++;
+                }
+                
+                crittersScreenNum = critterObjects.Count / (maxCritterEntries * 2); // Calculate the number of screens needed for critters
+                HideAndShowEntries(OpenCategory.Critters, maxCritterEntries);
+            }
+
             if (Cat == null) continue;
             // Attempt to load all other categories
 
@@ -392,7 +493,7 @@ public class Codex3 : MonoBehaviour
             for (int e = 0; e < Cat.Length; e++)
             {
                 var chosenContainer = containers[i];
-                if (e < 16) chosenContainer = containers[i];
+                if (e < maxStandardEntries) chosenContainer = containers[i];
                 else chosenContainer = secondaryContainers[i];
 
 
@@ -570,6 +671,81 @@ public class Codex3 : MonoBehaviour
         menuIndex = 2;
     }
 
+    private void UpdateSelectedOpenCategory(OpenCategory cat, int incrementDirection) //Page turning and such left and right
+    {
+        switch (cat)
+        {
+            case OpenCategory.Tutorial:
+                //tutorialScreenNum += incrementDirection;
+                break;
+
+            case OpenCategory.Tools:
+                //toolsScreenNum += incrementDirection;
+                break;
+
+            case OpenCategory.Structures:
+                //structuresScreenNum += incrementDirection;
+                break;
+
+            case OpenCategory.Plants:
+                //plantsScreenNum += incrementDirection;
+                break;
+
+            case OpenCategory.Creatures:
+                //creaturesScreenNum += incrementDirection;
+                break;
+
+            case OpenCategory.Bugs:
+                //bugsScreenNum += incrementDirection;
+                break;
+
+            case OpenCategory.Quests:
+                //questsScreenNum += incrementDirection;
+                break;
+
+            case OpenCategory.Critters:
+                if (!AreThereEnoughPages(crittersScreenNum, incrementDirection)) return;
+                currentScreenNum += incrementDirection;
+                HideAndShowEntries(cat, maxCritterEntries);
+                break;
+        }
+    }
+
+    private bool AreThereEnoughPages(int maxScreenNum, int incrementDirection)
+    {
+        // Check if there are enough pages to display
+        if (incrementDirection == 1)
+        {
+            if (currentScreenNum == maxScreenNum) return false;
+            else return true;
+        }
+        else if (incrementDirection == -1)
+        {
+            if (currentScreenNum == 0) return false;
+            else return true;
+        }
+        Debug.LogError("Invalid increment direction: " + incrementDirection);
+        return false; // If we get here there is a problem please help
+    }
+
+    private void HideAndShowEntries(OpenCategory cat, int maxPerScreen) // Currently only used for critters because this is a mess
+    {
+        var catInt = (int)cat;
+
+        for (int i = 0; i < critterObjects.Count; i++)
+        {
+            if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+            {
+                critterObjects[i].SetActive(true);
+            }
+            else
+            {
+                critterObjects[i].SetActive(false);
+            }
+        }
+    }
+    
+
     private void ClearCodex()
     {
         // Clear all the entries in the codex
@@ -586,12 +762,22 @@ public class Codex3 : MonoBehaviour
             }
         }
 
+        tutorialScreenNum = 0;
+        toolsScreenNum = 0;
+        structuresScreenNum = 0;
+        plantsScreenNum = 0;
+        creaturesScreenNum = 0;
+        bugsScreenNum = 0;
+        questsScreenNum = 0;
+        crittersScreenNum = 0;
+
         TutorialList.Clear();
         ToolList.Clear();
         StructureList.Clear();
         CreatureList.Clear();
         PlantList.Clear();
         BugList.Clear();
+        critterObjects.Clear();
     }
 
     private void ResetCodex(bool fullReset = false) //Sets the codex to its default state
@@ -614,6 +800,7 @@ public class Codex3 : MonoBehaviour
         // Change the open category based on the index of the button pressed
         openCategory = (OpenCategory)Enum.Parse(typeof(OpenCategory), categoryToOpen); //Wow
         var catInt = (int)openCategory;
+        print("Changing category to: " + openCategory.ToString());
 
         for (int i = 0; i < categoryButtons.Length; i++) //help
         {

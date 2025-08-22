@@ -160,7 +160,7 @@ public class DebugUI : MonoBehaviour
                         row.name = $"DebugCreatureButton_{c}_Variant_{v}";
 
                         var txt = row.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-                        string vLabel = $"{creature.name} – {(variant != null ? variant.name : "Variant")}";
+                        string vLabel = $"{creature.name} â€“ {(variant != null ? variant.name : "Variant")}";
                         if (variant == null || variant.prefab == null) vLabel += " (No Prefab)";
                         if (txt) txt.text = vLabel;
 
