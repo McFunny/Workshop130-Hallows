@@ -143,6 +143,8 @@ public class Tutorial : MonoBehaviour
             PopupHandler.Instance.AddToQueue(codexP);
             phase = TutorialPhase.Codex;
             PopupEvents.current.WeedDug();
+
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(13));
         }
     }
 

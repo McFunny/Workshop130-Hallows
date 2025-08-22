@@ -224,6 +224,8 @@ public class WagonMerchantNPC : NPC, ITalkable
                 {
                     displaySign.ResetDisplay();
                 }
+
+                QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(13));
             }
             anim.SetTrigger("Transaction");
         }

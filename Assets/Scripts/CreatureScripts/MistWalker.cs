@@ -27,6 +27,7 @@ public class MistWalker : CreatureBehaviorScript
     public float lungeRange = 9f; // Distance at which it will lunge
     private bool canLunge = true;
     bool canAttack = true;
+    bool fearCooldown;
     float attackCooldown = 0.7f; // Time between swipes
     bool canDoubleLunge = false;
     private bool recoilCooldown = false; //To prevent stunlocking
@@ -183,6 +184,7 @@ public class MistWalker : CreatureBehaviorScript
                 if(fireSource.gameObject.activeInHierarchy == false || distFromFire > fireSource.fleeRange)
                 {
                     fireSource = null;
+                    StartCoroutine(FearCooldown());
                     currentState = CreatureState.Wander;
                 }
                 if(fireSource)
@@ -516,7 +518,7 @@ public class MistWalker : CreatureBehaviorScript
     #region AttackingFunctions
     private void AttackPlayer()
     {
-        if (coroutineRunning || isRecoiling)
+        if (coroutineRunning || isRecoiling || fearCooldown)
             return;
 
         transform.LookAt(player.position);
@@ -894,5 +896,12 @@ public class MistWalker : CreatureBehaviorScript
     {
         print(enabled);
         lungeAttackHitbox.enabled = enabled;
+    }
+
+    IEnumerator FearCooldown()
+    {
+        fearCooldown = true;
+        yield return new WaitForSeconds(1);
+        if(currentState != CreatureState.FleeFromFire) fearCooldown = false;
     }
 }

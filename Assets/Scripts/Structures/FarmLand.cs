@@ -440,9 +440,9 @@ public class FarmLand : StructureBehaviorScript
         {
             if(crop && crop.behavior && !crop.behavior.CanGrow(this)) return;
 
-            if((growthStage >= crop.growthStages && !isWeed) || NeedsPollination())
+            if((growthStage >= crop.growthStages && !isWeed) || NeedsPollination() == true)
             {
-                if(NeedsPollination()) return;
+                /*if(NeedsPollination() == false) return;
 
                 //Reduce only water while fully grown
                 hoursSpent = 0;
@@ -450,7 +450,7 @@ public class FarmLand : StructureBehaviorScript
                 if(health > maxHealth) health = maxHealth;
                 DrainNutrients(out bool gainedStress, true);
                 if(gainedStress && growthImpeded) growthImpeded.Play();
-                return;
+                return;*/ //Idk why we are having crops drain water when grown
             }
             else
             {

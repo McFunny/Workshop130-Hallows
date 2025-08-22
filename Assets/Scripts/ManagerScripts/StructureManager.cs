@@ -819,7 +819,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 2, barricade, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
-        StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
+        StartCoroutine(PopulateStructure(2, 2, wBearTrap, true, farmTileMap));
     }
 
     IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
