@@ -184,7 +184,7 @@ public class StructureBehaviorScript : MonoBehaviour
         TimeManager.OnHourlyUpdate -= HourPassed;
         if(!gameObject.scene.isLoaded) return;
         //print("Destroyed");
-        if(clearTileOnDestroy && structData && !absentFromGrid)
+        if(clearTileOnDestroy && structData && !absentFromGrid && !forcePile)
         {
             if(structData.gridSize == GridSize.OneByOne)
             {
@@ -235,6 +235,7 @@ public class StructureBehaviorScript : MonoBehaviour
                 DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();
                 newPile.InsertStructure(structData);
                 newPile.transform.rotation = transform.rotation;
+                if(forcePile) newPile.giveItemBack = true;
             }
 
         }

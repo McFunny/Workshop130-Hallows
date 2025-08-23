@@ -11,6 +11,17 @@ public class CritterPen : StructureBehaviorScript
     public List<CreatureBehaviorScript> housedCritters;
     public int maxOccupency = 2;
 
+    public int durability = 100; //Max is 100; Drains by 13 per critter
+
+    public InventoryItemData combItem;
+
+    bool dropItems;
+
+    void Start()
+    {
+        StartCoroutine(DelayedStart());
+    }
+
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
@@ -20,10 +31,28 @@ public class CritterPen : StructureBehaviorScript
         }
     }
 
+    public override void ItemInteraction(InventoryItemData item)
+    {
+        //if comb, then repair durability
+        if(type == PenType.Hive && item == combItem)
+        {
+            durability += 30;
+            if(durability > 100) durability = 100;
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+        }
+    }
+
+    public override void HourPassed()
+    {
+        //if(type == PenType.Hive)
+        //If hive, lower durability. If durabiliy is 0, then Remove this home from the critters. Do not allow this to be found by critters looking for a home. Remove this home from the critters on a delay
+    }
+
     void OnDestroy()
     {
         base.OnDestroy();
-        if (!gameObject.scene.isLoaded) return; 
+        if (!gameObject.scene.isLoaded || !dropItems) return; 
         //drop items
         GameObject droppedItem;
         foreach(ItemWithAmount repairItem in structData.repairItems)
@@ -34,6 +63,22 @@ public class CritterPen : StructureBehaviorScript
                 droppedItem.transform.position = transform.position;
             }
         }
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(0.5f);
+        dropItems = true;
+    }
+
+    public override void SaveVariables()
+    {
+        saveInt1 = durability;
+    }
+
+    public override void LoadVariables()
+    {
+        durability = saveInt1;
     }
 }
 

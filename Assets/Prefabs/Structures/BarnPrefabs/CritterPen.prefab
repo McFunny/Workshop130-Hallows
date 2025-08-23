@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4608951118083893385}
   - component: {fileID: 4203271090842428672}
   - component: {fileID: 7753231317264613603}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HayBale
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 7730390602458469715}
   - component: {fileID: 1217330471139624511}
   - component: {fileID: 8515401975269556636}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BackWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6472411549852512568}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 1713649037366497439}
   - component: {fileID: 8968992901286507609}
   - component: {fileID: 4042373807261011002}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SideWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7301501224373324955}
   - component: {fileID: 2298203297880094872}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 1152940775957422843}
   - component: {fileID: 4687239932687910564}
   - component: {fileID: 2851126103414636500}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fence (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 2259754672897345097}
   - component: {fileID: 6485792728758486781}
   - component: {fileID: 4994268613206748674}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -454,7 +454,7 @@ GameObject:
   - component: {fileID: 1401789270669012258}
   - component: {fileID: 3473196897568153028}
   - component: {fileID: 7136681169579031665}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fence (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 2178347199878322870}
   - component: {fileID: 4212062845393224384}
   - component: {fileID: 2458640218309257343}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SideWall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -594,7 +594,7 @@ GameObject:
   - component: {fileID: 1392755620542331775}
   - component: {fileID: 4026008549301359844}
   - component: {fileID: 4480145674281888456}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fence (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -881,6 +881,8 @@ MonoBehaviour:
   type: 0
   housedCritters: []
   maxOccupency: 2
+  durability: 100
+  combItem: {fileID: 0}
 --- !u!1001 &2509346660452171928
 PrefabInstance:
   m_ObjectHideFlags: 0

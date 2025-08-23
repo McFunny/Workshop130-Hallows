@@ -25,7 +25,7 @@ public class StatusEffectManager : MonoBehaviour
             Instance = this;
         }
 
-        PopulateVFXPools();
+        //PopulateVFXPools();
 
     }
 
@@ -175,31 +175,32 @@ public class StatusEffectManager : MonoBehaviour
     void PopulateVFXPools()
     {
         GameObject newParticle;
+        Vector3 origin = new Vector3(500,500,500);
 
         for(int i = 0; i < 5; i++)
         {
-            newParticle = Instantiate(dareVFX);
+            newParticle = Instantiate(dareVFX, origin, Quaternion.identity);
             darePool.Add(newParticle);
             newParticle.SetActive(false);
         }
 
         for(int i = 0; i < 5; i++)
         {
-            newParticle = Instantiate(burnVFX);
+            newParticle = Instantiate(burnVFX, origin, Quaternion.identity);
             burnPool.Add(newParticle);
             newParticle.SetActive(false);
         }
 
         for(int i = 0; i < 5; i++)
         {
-            newParticle = Instantiate(frostVFX);
+            newParticle = Instantiate(frostVFX, origin, Quaternion.identity);
             frostPool.Add(newParticle);
             newParticle.SetActive(false);
         }
 
         for(int i = 0; i < 5; i++)
         {
-            newParticle = Instantiate(mimicScentVFX);
+            newParticle = Instantiate(mimicScentVFX, origin, Quaternion.identity);
             mimicScentPool.Add(newParticle);
             newParticle.SetActive(false);
         }

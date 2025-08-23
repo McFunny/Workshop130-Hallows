@@ -20,9 +20,7 @@ public class DebrisPile : StructureBehaviorScript
 
     public InventoryItemData repairKit;
 
-
-    //Do we prevent these being repaired at night? Or make it so u have to hold an interaction on them
-    //Use popup to tell player if resources are insufficient and if they cant repair at night
+    public bool giveItemBack = false;
 
     void Awake()
     {
@@ -109,6 +107,12 @@ public class DebrisPile : StructureBehaviorScript
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
 
+        if(giveItemBack)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(repairedStruct.objectPrefab.GetComponent<StructureBehaviorScript>().itemForm);
+            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        }
+
         Destroy(this.gameObject);
     }
 
@@ -181,6 +185,7 @@ public class DebrisPile : StructureBehaviorScript
         saveInt2 = repairsLeft;
         saveInt3 = missesLeft;
         saveBool1 = containsItems; 
+        saveString1 = giveItemBack.ToString();
     }
 
     public override void LoadVariables()
@@ -189,5 +194,6 @@ public class DebrisPile : StructureBehaviorScript
         containsItems = saveBool1;
         repairsLeft = saveInt2;
         missesLeft = saveInt3;
+        giveItemBack = bool.Parse(saveString1);
     }
 }
