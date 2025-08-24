@@ -278,6 +278,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CodexSelect"",
+                    ""type"": ""Button"",
+                    ""id"": ""2efcc91f-d72e-4221-8e34-ea26e1885af3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1125,6 +1134,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DeleteQuest"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39e86fa6-571e-4465-bb2b-75d26734ffa1"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CodexSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2137,6 +2157,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_HotbarSwitch = m_Gameplay.FindAction("HotbarSwitch", throwIfNotFound: true);
         m_Gameplay_OpenCodex = m_Gameplay.FindAction("OpenCodex", throwIfNotFound: true);
         m_Gameplay_DeleteQuest = m_Gameplay.FindAction("DeleteQuest", throwIfNotFound: true);
+        m_Gameplay_CodexSelect = m_Gameplay.FindAction("CodexSelect", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -2249,6 +2270,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_HotbarSwitch;
     private readonly InputAction m_Gameplay_OpenCodex;
     private readonly InputAction m_Gameplay_DeleteQuest;
+    private readonly InputAction m_Gameplay_CodexSelect;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -2281,6 +2303,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @HotbarSwitch => m_Wrapper.m_Gameplay_HotbarSwitch;
         public InputAction @OpenCodex => m_Wrapper.m_Gameplay_OpenCodex;
         public InputAction @DeleteQuest => m_Wrapper.m_Gameplay_DeleteQuest;
+        public InputAction @CodexSelect => m_Wrapper.m_Gameplay_CodexSelect;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2374,6 +2397,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DeleteQuest.started += instance.OnDeleteQuest;
             @DeleteQuest.performed += instance.OnDeleteQuest;
             @DeleteQuest.canceled += instance.OnDeleteQuest;
+            @CodexSelect.started += instance.OnCodexSelect;
+            @CodexSelect.performed += instance.OnCodexSelect;
+            @CodexSelect.canceled += instance.OnCodexSelect;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -2462,6 +2488,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DeleteQuest.started -= instance.OnDeleteQuest;
             @DeleteQuest.performed -= instance.OnDeleteQuest;
             @DeleteQuest.canceled -= instance.OnDeleteQuest;
+            @CodexSelect.started -= instance.OnCodexSelect;
+            @CodexSelect.performed -= instance.OnCodexSelect;
+            @CodexSelect.canceled -= instance.OnCodexSelect;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -2755,6 +2784,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnHotbarSwitch(InputAction.CallbackContext context);
         void OnOpenCodex(InputAction.CallbackContext context);
         void OnDeleteQuest(InputAction.CallbackContext context);
+        void OnCodexSelect(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

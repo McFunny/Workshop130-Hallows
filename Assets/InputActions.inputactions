@@ -256,6 +256,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CodexSelect",
+                    "type": "Button",
+                    "id": "2efcc91f-d72e-4221-8e34-ea26e1885af3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1103,6 +1112,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "DeleteQuest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39e86fa6-571e-4465-bb2b-75d26734ffa1",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CodexSelect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
