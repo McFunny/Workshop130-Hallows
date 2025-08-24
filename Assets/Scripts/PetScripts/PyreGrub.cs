@@ -6,14 +6,28 @@ using DG.Tweening;
 
 public class PyreGrub : PetBehaviorScript, IInteractable
 {
+    public Rigidbody rb;
+
     public Material ignitedMat, extinguishedMat;
+    public GameObject bugObject, ballObject;
+    public Transform ballPivot;
     public MeshRenderer ballMeshRenderer;
     public List<SkinnedMeshRenderer> skinnedMeshRenderers;
     float textureOffset = 0;
     public float offsetRate = .005f;
     public GameObject pyreFire;
 
+    bool ignited = false;
+
     bool inBall = false;
+    bool ballTransitioning; //Dont allow state switches like petting when transitioning ball
+    public ParticleSystem enterBallParticles;
+
+    //Homing Stats
+
+    float detectionRadius = 10f;   // how far the ball looks for targets
+    float homingStrength = 5f;     // how strongly it curves toward the target
+    public float minSpeedForHoming = 10f;
 
     public PetState currentState;
 
@@ -78,16 +92,19 @@ public class PyreGrub : PetBehaviorScript, IInteractable
     {
         base.Update();
 
-        if(agent.velocity.magnitude < 0.2f)
-        {
-            anim.SetBool("IsWalking", false);
-        }
-        else
-        {
-            anim.SetBool("IsWalking", true);
-        }
+        AnimateTexture();
 
         CheckState(currentState);
+    }
+
+    void LateUpdate()
+    {
+        RollBall();
+    }
+
+    void FixedUpdate()
+    {
+        HomingBall();
     }
 
     void StateSwitch(PetState newState)
@@ -97,8 +114,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         //Leaving Old State Effects
         if(currentState == PetState.Idle)
         {
-            anim.Play("CatIdle"); //Reset the anim
             anim.SetBool("IsSitting", false);
+            anim.Play("Idle"); //Reset the anim
             if(currentRoutine != null) StopCoroutine(currentRoutine);
             StopCoroutine(IdleRoutine());
             currentRoutine = null;
@@ -112,7 +129,14 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             currentRoutine = null;
             isMoving = false;
 
-            if(inBall) currentRoutine = StartCoroutine(LeaveBall());
+            if(inBall) currentRoutine = StartCoroutine(ExitBall());
+        }
+
+        if(currentState == PetState.Ball)
+        {
+            rb.isKinematic = true;
+            agent.enabled = true;
+            if(inBall) currentRoutine = StartCoroutine(ExitBall());
         }
 
         //Change the State
@@ -121,6 +145,14 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         currentState = newState;
 
         //Entering New State Effects
+        if(currentState == PetState.Ball)
+        {
+            rb.isKinematic = false;
+            agent.ResetPath();
+            agent.enabled = false;
+            if(!inBall) currentRoutine = StartCoroutine(EnterBall());
+            StartCoroutine(BallTimer());
+        }
     }
 
     void Decide()
@@ -203,12 +235,25 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             }
             float playerDistance = Vector3.Distance(player.position, transform.position);
             float pointRange = 5;
-            if(playerDistance > 15) //Pop out of ball if not already
+            if(playerDistance > 15) //Pop into of ball if not already
             {
                 pointRange = 1.5f;
                 agent.speed = runSpeed;
+                if(!inBall)
+                {
+                    currentRoutine = StartCoroutine(EnterBall());
+                    return;
+                }
             } 
-            else agent.speed = walkSpeed; //pop into ball if not already
+            else 
+            {
+                agent.speed = walkSpeed; //pop out of ball if not already
+                if(inBall)
+                {
+                    currentRoutine = StartCoroutine(ExitBall());
+                    return;
+                }
+            }
 
             target = GetRandomPointAround(player.position, pointRange);
             currentRoutine = StartCoroutine(MoveToPoint(target, 3));
@@ -250,7 +295,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             effectsHandler.PlaySound(effectsHandler.petSound);
             agent.ResetPath();
             currentRoutine = StartCoroutine(TimerRoutine(4));
-            //anim.Play("CatPet");
+            anim.Play("Pet");
         }
     }
 
@@ -313,7 +358,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             {
                 agent.velocity = Vector3.zero;
                 agent.ResetPath();
-                anim.Play("CatEat");
+                anim.Play("Eat");
                 if(isEating)
                 {
                     bowl.RemoveItem(out InventoryItemData itemEaten);
@@ -348,12 +393,53 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
     IEnumerator EnterBall()
     {
-        yield return new WaitForSeconds(0.5f);
+        ballTransitioning = true;
+        inBall = true;
+        anim.Play("Jump");
+        yield return new WaitForSeconds(0.7f);
+        enterBallParticles.Play();
+        ballObject.SetActive(true);
+        bugObject.SetActive(false);
+        if(currentState == PetState.Ball) ballObject.transform.position = new Vector3(ballObject.transform.position.x, ballObject.transform.position.y + 0.5f, ballObject.transform.position.z);
+        rb.useGravity = true;
+        currentRoutine = null;
+        ballTransitioning = false;
     }
 
-    IEnumerator LeaveBall()
+    IEnumerator ExitBall()
     {
-        yield return new WaitForSeconds(0.5f);
+        rb.useGravity = false;
+        ballTransitioning = true;
+        inBall = false;
+        yield return new WaitForSeconds(0.1f);
+        enterBallParticles.Play();
+        ballObject.SetActive(false);
+        bugObject.SetActive(true);
+        anim.Play("JumpReverse");
+        yield return new WaitForSeconds(1);
+        currentRoutine = null;
+        ballTransitioning = false;
+    }
+
+    IEnumerator BallTimer()
+    {
+        int checksPassed = 0;
+        yield return new WaitForSeconds(3);
+        while(currentState == PetState.Ball)
+        {
+            yield return new WaitForSeconds(3);
+            if(rb.velocity.magnitude < 0.1f && currentState == PetState.Ball)
+            {
+                if(checksPassed < 4)
+                {
+                    checksPassed++;
+                    continue;
+                }
+                rb.isKinematic = true;
+                StateSwitch(PetState.Idle);
+            }
+            else checksPassed = 0;
+        }
     }
     
 
@@ -361,11 +447,23 @@ public class PyreGrub : PetBehaviorScript, IInteractable
     {
         agent.ResetPath();
         float t = 0;
-        float time = Random.Range(5f, 15f);
+        float time = Random.Range(2f, 10f);
+        if(time > 8)
+        {
+            anim.SetBool("IsSitting", true);
+            time += 10;
+        }
         while(t < time)
         {
             yield return new WaitForSeconds(1);
             t++;
+        }
+        
+        if(time > 10)
+        {
+            anim.SetBool("IsSitting", false);
+            yield return new WaitForSeconds(1);
+
         }
         StateSwitch(PetState.Decide);
         currentRoutine = null;
@@ -383,33 +481,248 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         FinishedCoroutine();
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if(currentState == PetState.Ball && !ballTransitioning)
+        {
+            if(other.gameObject.layer == 10)
+            {
+                Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
+                rb.AddForce(150 * -dir, ForceMode.Impulse);
+                return;
+            }
+
+            if(other.gameObject.layer == 6 && rb.velocity.magnitude > 1)
+            {
+                StructureBehaviorScript structure = other.GetComponentInParent<StructureBehaviorScript>();
+                if(structure)
+                {
+                    if(ignited && structure.IsFlammable()) structure.LitOnFire();
+
+                    if(structure.isObstacle || !structure.destructable)
+                    {
+                        Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
+                        rb.AddForce(45 * -dir, ForceMode.Impulse);
+                    }
+                    return;
+                }
+            }
+
+            if(other.gameObject.layer == 9)
+            {
+                CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
+                if(creature && creature.shovelVulnerable)
+                {
+                    if(rb.velocity.magnitude > 1)
+                    {
+                        creature.TakeDamage(10);
+                        if(creature.fireVulnerable && ignited) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 9));
+                        creature.PlayHitParticle(creature.transform.position);
+
+                        if(ignited && Random.Range(0, 100) > (20 + friendshipLevel * 5)) IgnitionToggle(false);
+                    }
+
+                    Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
+                    rb.AddForce(45 * -dir, ForceMode.Impulse);
+                    return;
+                }
+            }
+        }
+    }
+
+    public void IgnitionToggle(bool IsIgnited)
+    {
+        if(ignited == IsIgnited) return;
+        ignited = IsIgnited;
+
+        if(ignited)
+        {
+            pyreFire.SetActive(true);
+            ballMeshRenderer.material = ignitedMat;
+            foreach(SkinnedMeshRenderer r in skinnedMeshRenderers)
+            {
+                //r.materials[0] = ignitedMat;
+
+                Material[] currentMaterials = r.materials; 
+                currentMaterials[0] = ignitedMat; 
+                r.materials = currentMaterials; 
+            }
+        }
+        else
+        {
+            pyreFire.SetActive(false);
+            ballMeshRenderer.material = extinguishedMat;
+            foreach(SkinnedMeshRenderer r in skinnedMeshRenderers)
+            {
+                Material[] currentMaterials = r.materials; 
+                currentMaterials[0] = extinguishedMat; 
+                r.materials = currentMaterials; 
+            }
+
+            if(effectsHandler)
+            {
+                ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = transform.position;
+                effectsHandler.MiscSound();
+            }
+        }
+
+    }
+
+    void AnimateTexture()
+    {
+        if(!ignited) return;
+
+        textureOffset = textureOffset + offsetRate;
+        ballMeshRenderer.material.mainTextureOffset = new Vector2(0, textureOffset);
+        if(textureOffset > 500) textureOffset = 0;
+        
+        if(inBall) return;
+
+        int i = 0;
+
+        foreach(SkinnedMeshRenderer r in skinnedMeshRenderers)
+        {
+            r.materials[0].mainTextureOffset = new Vector2(0, textureOffset); 
+            i++;
+            if(i == 2) break; //To not animate the eyes
+        }
+    }
+
+    void RollBall()
+    {
+        if(!inBall) return;
+
+        Vector3 velocity = rb.velocity;
+
+        if(agent.enabled) velocity = agent.velocity;
+
+        // Ignore very small movement (to prevent jitter)
+        if (velocity.magnitude > 0.01f)
+        {
+            // Movement direction (projected onto XZ plane)
+            Vector3 moveDir = velocity.normalized;
+            moveDir.y = 0;
+
+            // Rotation axis: perpendicular to movement direction
+            Vector3 rotationAxis = Vector3.Cross(moveDir, Vector3.up);
+
+            // Distance moved this frame = speed * deltaTime
+            float distance = velocity.magnitude * Time.deltaTime;
+
+            // Degrees to rotate the ball based on the distance and radius
+            float rotationDegrees = (distance / (2 * Mathf.PI * 1)) * 360f;
+
+            // Apply rotation
+            ballPivot.Rotate(rotationAxis, -rotationDegrees, Space.World);
+        }
+    }
+
+    void HomingBall()
+    {
+        if(!inBall) return;
+
+        if (rb.velocity.magnitude < minSpeedForHoming) return;
+
+        // Find targets within range
+        Collider[] targets = Physics.OverlapSphere(transform.position, detectionRadius, 1 << 9);
+        if (targets.Length == 0) return;
+
+        // Pick closest target in front of the ball
+        Transform bestTarget = null;
+        float bestDot = 0.5f; // ensures it's at least somewhat in front
+        float closestDist = Mathf.Infinity;
+
+        foreach (var t in targets)
+        {
+            Vector3 dirToTarget = (t.transform.position - transform.position);
+
+            // Flatten to XZ plane (ignore height difference)
+            dirToTarget.y = 0;
+            dirToTarget.Normalize();
+
+            float dot = Vector3.Dot(rb.velocity.normalized, dirToTarget);
+            float dist = Vector3.Distance(transform.position, t.transform.position);
+
+            if (dot > bestDot && dist < closestDist)
+            {
+                bestDot = dot;
+                closestDist = dist;
+                bestTarget = t.transform;
+            }
+        }
+
+        float currentHomingStrength = homingStrength + ((friendshipLevel * 0.5f) - 4.5f);
+
+        if (bestTarget != null)
+        {
+            // Desired direction toward the target, but only in XZ
+            Vector3 toTarget = (bestTarget.position - transform.position);
+            toTarget.y = 0; // lock vertical adjustment
+            Vector3 desiredDir = toTarget.normalized;
+
+            // Preserve current speed
+            Vector3 desiredVelocity = desiredDir * rb.velocity.magnitude;
+
+            // Steering force (horizontal only)
+            Vector3 steer = desiredVelocity - rb.velocity;
+            steer.y = 0; // make absolutely sure no vertical force is applied
+
+            rb.AddForce(steer * currentHomingStrength * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        }
+
+        //Limit Velocity
+
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        // Limit velocity if needed
+        if (flatVel.magnitude > 600)
+        {
+            Vector3 limitedVel = flatVel.normalized * 600;
+            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+        }
+    }
+
     /////IInteractable nonsense/////
 
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if(!alreadyPet)
+        if(!inBall && !ballTransitioning)
         {
-            //StateSwitch(PetState.Pet);
+            if(!alreadyPet) StateSwitch(PetState.Pet);
+            else StateSwitch(PetState.Ball);
         }
         interactSuccessful = true;
     }
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && (currentState == PetState.Idle || currentState == PetState.Follow))
+        if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && ignited) //Water
         {
             PlayerInteraction.Instance.waterHeld--;
             interactSuccessful = true;
-            target = player.position;
-            //StateSwitch(PetState.Flee);
             effectsHandler.MiscSound();
             StopCoroutine(DripEffects());
             StartCoroutine(DripEffects());
+            IgnitionToggle(false);
             return;
         }
-        if(hunger < 100 && (foodDiet.Contains(item)))
+        else if(item.ID == 92) //Torch
+        {
+            if(!PlayerInteraction.Instance.torchLit && ignited)
+            {
+                HandItemManager.Instance.TorchFlameToggle(true);
+                interactSuccessful = true;
+            }
+            else if(PlayerInteraction.Instance.torchLit && !ignited)
+            {
+                IgnitionToggle(true);
+                interactSuccessful = true;
+            }
+            else interactSuccessful = false;
+        }
+        else if(hunger < 100 && (foodDiet.Contains(item)) && !inBall && !ballTransitioning)
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
@@ -417,7 +730,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             interactSuccessful = true;
             return;
         }
-        interactSuccessful = false;
+        else interactSuccessful = false;
     }
     
     public void EndInteraction(){}

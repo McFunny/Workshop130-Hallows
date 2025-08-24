@@ -20,7 +20,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     public float maxThirst = 100;
     public float thirstDecayRate = 4;
     public PenType penType;
-    protected CritterPen homePen;
+    [HideInInspector] public CritterPen homePen;
     protected bool alreadyPet = false;
     protected Coroutine currentRoutine;
     protected bool isMoving, interruptAction;
@@ -199,6 +199,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             CritterPen pen = collider.gameObject.GetComponent<CritterPen>();
             if(pen && pen.type == penType && pen.housedCritters.Count < pen.maxOccupency)
             {
+                if(pen.type == PenType.Hive && pen.durability <= 0) continue;
                 homePen = pen;
                 pen.housedCritters.Add(this);
                 return;

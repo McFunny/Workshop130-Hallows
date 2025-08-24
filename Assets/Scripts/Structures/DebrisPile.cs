@@ -194,6 +194,6 @@ public class DebrisPile : StructureBehaviorScript
         containsItems = saveBool1;
         repairsLeft = saveInt2;
         missesLeft = saveInt3;
-        giveItemBack = bool.Parse(saveString1);
+        if(saveString1 != null && saveString1 != "") giveItemBack = bool.Parse(saveString1);
     }
 }

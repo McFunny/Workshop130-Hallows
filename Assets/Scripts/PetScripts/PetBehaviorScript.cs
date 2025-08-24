@@ -29,7 +29,6 @@ public class PetBehaviorScript : MonoBehaviour
     protected bool alreadyPet = false;
 
     public CreatureEffectsHandler effectsHandler;
-    //public Rigidbody rb;
     public Animator anim;
     public NavMeshAgent agent;
 

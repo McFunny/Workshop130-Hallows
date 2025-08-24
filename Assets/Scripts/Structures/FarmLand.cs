@@ -767,7 +767,7 @@ public class FarmLand : StructureBehaviorScript
     public void WaterCrops()
     {
         //for sprinkler and gun
-        if(nutrients.waterLevel == 10) return;
+        //if(nutrients.waterLevel == 10) return;
         nutrients.waterLevel = 10;
         waterSplash.Play();
         if(splashObject && !splashObject.activeSelf) splashObject.SetActive(true);
