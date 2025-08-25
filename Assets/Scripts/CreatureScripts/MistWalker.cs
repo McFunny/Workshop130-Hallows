@@ -416,6 +416,8 @@ public class MistWalker : CreatureBehaviorScript
         float distanceToStructure;
         float r;
 
+        bool foundCrop = false;
+
         foreach (var structure in availableStructure)
         {
             if (structure == null) continue;
@@ -426,35 +428,18 @@ public class MistWalker : CreatureBehaviorScript
 
             if(structure.wealthValue == 0) continue; //to prevent mistwalkers from targetting dirt without a crop
 
-            if (distanceToStructure < closestDistance && r > 1)
+            FarmLand foundTile = structure as FarmLand; //Mistwalkers will stop searching for non crops once they find one
+
+            if ((distanceToStructure < closestDistance && r > 3 && (!foundCrop || foundTile)) || (foundTile && closestStructure is FarmLand == false))
             {
                 closestDistance = distanceToStructure;
                 closestStructure = structure;
+
+                if(foundTile) foundCrop = true;
             }
         }
         return closestStructure;
     }
-
-    /*private void WalkTowardsPriorityStructure()
-    {
-        if (targetStructure == null)
-        {
-            currentState = CreatureState.Wander;
-            return;
-        }
-
-        if (target != targetStructure.transform)
-        {
-            target = targetStructure.transform;
-            agent.destination = target.position;
-        }
-
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 3f)
-        {
-            agent.ResetPath();
-            currentState = CreatureState.AttackStructure;
-        }
-    } */
 
     private void WalkTowardsPlayer()
     {

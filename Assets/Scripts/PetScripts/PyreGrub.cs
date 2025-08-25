@@ -29,6 +29,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
     float homingStrength = 5f;     // how strongly it curves toward the target
     public float minSpeedForHoming = 10f;
 
+    Vector3 origin;
+
     public PetState currentState;
 
     [Header("Debug tool to test out states")]
@@ -44,6 +46,11 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         Flee,
         Pet,
         Eat //Pet goes to bowl to eat
+    }
+
+    void Awake()
+    {
+        origin = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
     public void CheckState(PetState currentState)
@@ -221,6 +228,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
     void Follow()
     {
+        
         if(!isMoving && currentRoutine == null)
         {
             float distance = Vector3.Distance(player.position, spawnOrigin);
@@ -237,6 +245,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             float pointRange = 5;
             if(playerDistance > 15) //Pop into of ball if not already
             {
+                if(playerDistance > 200) transform.position = origin; //To make sure it doesnt get lost
                 pointRange = 1.5f;
                 agent.speed = runSpeed;
                 if(!inBall)
