@@ -24,7 +24,7 @@ public class StructureDatabase : ScriptableObject
     [Header("ALWAYS ADD NEW STRUCTURE OBJECTS AND UPDATE ID'S")]
     public List<StructureObject> Structures;
 
-    public StructureObject oneTilePile, twoTilePile, fourTilePile;
+    public StructureObject oneTilePile, twoTilePile, fourTilePile, nineTilePile;
     [ContextMenu("Update ID's")]
     public void UpdateID()
     {
@@ -47,6 +47,9 @@ public class StructureDatabase : ScriptableObject
                 break;
             case GridSize.TwoByTwo:
                 return fourTilePile;
+                break;
+            case GridSize.ThreeByThree:
+                return nineTilePile;
                 break;
             default:
                 return oneTilePile;

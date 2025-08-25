@@ -105,7 +105,7 @@ public class BearTrap : StructureBehaviorScript
 
     IEnumerator SpringTrap(Collider victim)
     {
-        animationTimeLeft = 0.2f;
+        animationTimeLeft = 0.2f; //old value was .2
         caughtSomething = true;
         yield return new WaitForSeconds(animationTimeLeft);
         topClamp.rotation = Quaternion.Euler(-161, 90, -90);

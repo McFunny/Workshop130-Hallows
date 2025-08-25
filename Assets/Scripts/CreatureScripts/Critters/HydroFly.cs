@@ -387,4 +387,17 @@ public class HydroFly : CritterBehaviorScript
         fearObject.SetActive(true);
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && !hydrated && currentState == CritterState.CollectWater)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            splashObject.SetActive(true);
+            HydrationToggle(true);
+            success = true;
+            currentState = CritterState.Decide;
+        }
+        else success = false;
+    }
+
 }

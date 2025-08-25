@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap;
     public CropData fogChime;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -125,6 +125,7 @@ public class StructureManager : MonoBehaviour
                 if(potentialWeed && potentialWeed.isWeed) continue;
 
                 r = Random.Range(0, 10);
+                if(potentialWeed) r += 2;
                 if(MainMenuScript.currentFileMode == FileMode.Cozy) r -= 2;
                 if((r >= 6.5f || allStructs[i].onFire) && !allStructs[i].absentFromFarmGrid) //Destroy structure.
                 {
@@ -224,7 +225,7 @@ public class StructureManager : MonoBehaviour
         return false;
     }
 
-    public Vector3 CheckTile(Vector3 pos)
+    public Vector3 CheckTile(Vector3 pos) //1x1
     {
         Tilemap currentMap = CurrentTileMap(pos);
         if(currentMap == null) return new Vector3 (0,0,0);
@@ -243,7 +244,7 @@ public class StructureManager : MonoBehaviour
         else return new Vector3 (0,0,0); //Will not spawn
     }
 
-    public Vector3 CheckLargeTile(Vector3 pos)
+    public Vector3 CheckLargeTile(Vector3 pos) //2x2
     {
         Tilemap currentMap = CurrentTileMap(pos);
         if(currentMap == null) return new Vector3 (0,0,0);
@@ -269,7 +270,34 @@ public class StructureManager : MonoBehaviour
         return center;
     }
 
-    public Vector3 CheckOneByTwoTile(Vector3 pos, Quaternion rot)
+    public Vector3 CheckExtraLargeTile(Vector3 pos) //3x3
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return new Vector3 (0,0,0);
+
+        List<Vector3Int> selectedTiles = new List<Vector3Int>();
+        Vector3Int gridPos = currentMap.WorldToCell(pos);
+        selectedTiles.Add(gridPos); //Middle Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y + 1)); //Top Right Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y)); //Right Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y - 1)); //Bottom Right Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y + 1)); //Top Middle Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y - 1)); //Bottom Middle Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x - 1, gridPos.y - 1)); //Bottom Left Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x - 1, gridPos.y)); //Left Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x - 1, gridPos.y + 1)); //Top Left Tile
+
+        foreach(Vector3Int _pos in selectedTiles)
+        {
+            TileBase currentTile = currentMap.GetTile(_pos); //Is the tile free?
+            if(currentTile == null || currentTile != freeTile) return new Vector3 (0,0,0);
+        }
+
+        Vector3 spawnPos = currentMap.GetCellCenterWorld(gridPos); //Return the position of the open tile
+        return spawnPos;
+    }
+
+    public Vector3 CheckOneByTwoTile(Vector3 pos, Quaternion rot) //1x2
     {
         Tilemap currentMap = CurrentTileMap(pos);
         if(currentMap == null) return new Vector3 (0,0,0);
@@ -509,6 +537,22 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void SetExtraLargeTile(Vector3 pos)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
+
+        foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 4.5f)
+            {
+                if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, occupiedTile);
+                //print("FoundTile");
+            }
+        }
+    }
+
     public void SetOneByTwoTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
@@ -545,6 +589,24 @@ public class StructureManager : MonoBehaviour
         {
             Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
             if(Vector3.Distance(tilePosition, pos) <= 3f)
+            {
+                if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, freeTile);
+                //print("FoundTile");
+            }
+            
+        }
+    }
+
+    public void ClearExtraLargeTile(Vector3 pos)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
+        //fetch tiles within a small radius, should return the 4 its occupying
+        //print("Clearing");
+        foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 4.5f)
             {
                 if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, freeTile);
                 //print("FoundTile");
@@ -759,6 +821,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(1, 2, barricade, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
+        StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
     }
 
     IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)

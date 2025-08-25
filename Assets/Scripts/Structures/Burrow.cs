@@ -50,7 +50,7 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
 
     public override void HourPassed()
     {
-        if(Random.Range(0,20) > 18) StartCoroutine(SpawnBug());
+        if(Random.Range(0,30) > 29) StartCoroutine(SpawnBug());
     }
 
     public void InsertItem(InventoryItemData item)

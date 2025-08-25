@@ -29,7 +29,6 @@ public class PetBehaviorScript : MonoBehaviour
     protected bool alreadyPet = false;
 
     public CreatureEffectsHandler effectsHandler;
-    //public Rigidbody rb;
     public Animator anim;
     public NavMeshAgent agent;
 
@@ -42,10 +41,6 @@ public class PetBehaviorScript : MonoBehaviour
     protected Transform player;
     protected Vector3 target, spawnOrigin;
     protected int forceFollows = 0;
-
-    protected bool showStats = false;
-    public GameObject statsUI;
-    public TextMeshProUGUI hungerText, friendshipText;
 
     public ParticleSystem dripParticles;
     
@@ -68,13 +63,7 @@ public class PetBehaviorScript : MonoBehaviour
 
     protected void Update()
     {
-        if(showStats)
-        {
-            if(!statsUI.activeSelf) statsUI.SetActive(true);
-            hungerText.text = "Hunger: " + hunger + "/" + maxHunger;
-            friendshipText.text = "Level: " + friendshipLevel;
-        }
-        else if(statsUI.activeSelf) statsUI.SetActive(false);
+        //
     }
 
     protected virtual void OnHour()

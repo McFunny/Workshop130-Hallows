@@ -21,13 +21,14 @@ MonoBehaviour:
   creatureData: {fileID: 0}
   structureData: {fileID: 0}
   bugData: {fileID: 0}
+  targetedBy: []
   description:
   - Performing actions and recieving strikes from enemies depletes your stamina.
     You can restore it by eating food or by resting in the town spring.
   - When below 1/4th of max stamina, you may no longer sprint, and any actions the
     player makes will take longer to perform.
-  leftText: 
-  rightText: Performing actions and recieving strikes from enemies depletes your
-    stamina. You can restore it by eating food or by resting in the town spring.
+  leftText: Performing actions and recieving strikes from enemies depletes your stamina. 
     When below 1/4th of max stamina, you may no longer sprint, and any actions the
     player makes will take longer to perform.
+  rightText: You can restore it by eating plants foraged around the town, food prepped
+    by the Culinarion, your own crops, or by using a bath bomb in the town spring.

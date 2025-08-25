@@ -151,7 +151,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             anim.SetTrigger("IsTalking");
         }
 
-        if(item.sellValueMultiplier == 0 || item.value == 0)
+        else if(item.sellValueMultiplier == 0 || item.value == 0)
         {
             //Cannot Buy
             lastSeenItem = item;
@@ -192,6 +192,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                 currentType = PathType.Misc;
 
                 anim.SetTrigger("Transaction");
+                QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(13));
             }
             Talk();
         }
