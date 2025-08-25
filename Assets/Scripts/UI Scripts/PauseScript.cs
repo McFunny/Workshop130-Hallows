@@ -239,7 +239,7 @@ public class PauseScript : MonoBehaviour
         operation = SceneManager.LoadSceneAsync(0); //Main Menu
         loadingScreen.SetActive(true);
         var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
-        var loadAnims = FindFirstObjectByType<EnableRandomObject>();
+        var loadAnims = FindFirstObjectByType<EnableRandomLoadingObject>();
         if (loadAnims != null) loadAnims.camera.enabled = true;
 
         var load1 = "Loading";

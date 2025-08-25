@@ -400,7 +400,7 @@ public class MainMenuScript : MonoBehaviour
         operation = SceneManager.LoadSceneAsync(1); //game
         loadingScreen.SetActive(true);
         var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
-        var loadAnims = FindFirstObjectByType<EnableRandomObject>();
+        var loadAnims = FindFirstObjectByType<EnableRandomLoadingObject>();
         if (loadAnims != null) loadAnims.camera.enabled = true;
 
         var load1 = "Loading";
