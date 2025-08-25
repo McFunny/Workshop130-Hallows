@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class FadeScreen : MonoBehaviour
 {
     public Image image;
-    Color imageColor;
+    [HideInInspector] public Color imageColor;
     public static bool coverScreen = false;
 
     public bool delay = true;

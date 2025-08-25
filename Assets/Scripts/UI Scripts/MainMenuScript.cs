@@ -50,6 +50,8 @@ public class MainMenuScript : MonoBehaviour
     //public string cozyDesc, normalDesc;
     public Button[] fileModeButtons;
     private int tempPathNum;
+    private bool isScreenBlack;
+    private FadeScreen fadeScreen;
 
     // Start is called before the first frame update
     void Awake()
@@ -60,6 +62,7 @@ public class MainMenuScript : MonoBehaviour
         Cursor.visible = true;
         webObject = FindFirstObjectByType<OpenWebsite>();
         settingsValueManager = settingsCanvas.GetComponent<SettingsValueManager>();
+        fadeScreen = FindFirstObjectByType<FadeScreen>();
         //source.GetComponent<AudioSource>();
         controlManager.playerInput.SwitchCurrentActionMap("UI");
         int r = Random.Range(0, 3);
@@ -125,10 +128,10 @@ public class MainMenuScript : MonoBehaviour
         }
 
         /*for(int i = 0; i < loadText.Length; i++)
-        {
-            if(isNewGame) loadText[i].text = "New Game";
-            else loadText[i].text = "Load Game";
-        }*/
+            {
+                if(isNewGame) loadText[i].text = "New Game";
+                else loadText[i].text = "Load Game";
+            }*/
 
         /*if(hideUI.action.WasPressedThisFrame())
         {
@@ -168,6 +171,12 @@ public class MainMenuScript : MonoBehaviour
 
         if (settingsCanvas.activeSelf || controlsCanvas.activeSelf || confirmationBox.gameObject.activeSelf || loadCanvas.activeSelf) webObject.canOpen = false;
         else webObject.canOpen = true;
+
+        if (FadeScreen.coverScreen == true)
+        {
+            isScreenBlack = fadeScreen.imageColor.a >= 1.0f;
+            //print("Is screen black? " + isScreenBlack + ", image alpha: " + fadeScreen.imageColor.a);
+        }
     }
     void HideUI()
     {
@@ -380,7 +389,8 @@ public class MainMenuScript : MonoBehaviour
     IEnumerator StartGame()
     {
         FadeScreen.coverScreen = true;
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitUntil(() => isScreenBlack); // Waits until the bool is true!!! AWESOME!!!
+        yield return new WaitForSecondsRealtime(1f);
 
         AsyncOperation operation;
 
@@ -390,6 +400,8 @@ public class MainMenuScript : MonoBehaviour
         operation = SceneManager.LoadSceneAsync(1); //game
         loadingScreen.SetActive(true);
         var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
+        var loadAnims = FindFirstObjectByType<EnableRandomObject>();
+        if (loadAnims != null) loadAnims.camera.enabled = true;
 
         var load1 = "Loading";
         var load2 = "Loading.";
