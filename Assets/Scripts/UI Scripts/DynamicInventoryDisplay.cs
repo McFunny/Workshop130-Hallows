@@ -23,6 +23,10 @@ public class DynamicInventoryDisplay : InventoryDisplay
         {
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested += RefreshDynamicInventory;
         }
+       /* else if (gameObject.name == "ArmorSlots") // Example name for the Armor
+        {
+            PlayerInventoryHolder.OnPlayerBackpackDisplayRequested += RefreshDynamicInventory;
+        }*/
     }
 
     private void OnDisable()
@@ -35,6 +39,10 @@ public class DynamicInventoryDisplay : InventoryDisplay
         {
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested -= RefreshDynamicInventory;
         }
+       /* else if (gameObject.name == "ArmorSlots")
+        {
+            PlayerInventoryHolder.OnPlayerBackpackDisplayRequested -= RefreshDynamicInventory;
+        }*/
 
         if (inventorySystem != null) inventorySystem.OnInventorySlotChanged -= UpdateSlot;
     }

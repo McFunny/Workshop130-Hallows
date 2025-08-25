@@ -1,4 +1,5 @@
- using SaveLoadSystem;
+﻿ using SaveLoadSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,10 +15,12 @@ public class PlayerInventoryHolder : InventoryHolder
     [SerializeField] protected int secondaryInventorySize;
     [SerializeField] public InventorySystem secondaryInventorySystem;
     [SerializeField] private Database _database;
+    [SerializeField] public InventorySystem armorInventory;
 
     public static UnityAction<InventorySystem> OnPlayerHotbarDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerBackpackDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
+    public static UnityAction<InventorySystem> OnPlayerArmorDisplayRequested;
     public delegate void ItemAddedToInventory(InventorySlot slot);
     public static event ItemAddedToInventory onItemAddedToInventory;
 
@@ -76,6 +79,9 @@ public class PlayerInventoryHolder : InventoryHolder
         secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
         SaveLoad.OnSaveGame += SaveInventory;
         SaveLoad.OnLoadGame += LoadInventory;
+
+        if (armorInventory == null)
+            armorInventory = new InventorySystem(4);
 
         if (Instance != null && Instance != this)
         {
@@ -347,7 +353,15 @@ public class PlayerInventoryHolder : InventoryHolder
         }
         else
         {
-            if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot) || secondaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
+            if (itemToAdd is ArmorItem armor && CheckForFreeArmorSlot(armor))
+            {
+                OnPlayerArmorDisplayRequested?.Invoke(armorInventory);   
+                OnPlayerInventoryChanged?.Invoke(armorInventory);
+                UpdateOpenInventory();
+
+                return true; 
+            }
+            else if (secondaryInventorySystem.HasFreeSlot(out InventorySlot freeSecondarySlot) || secondaryInventorySystem.CanAddToInventory(itemToAdd, amountToAdd))
             {
                 if (secondaryInventorySystem.ContainsItem(itemToAdd, out List<InventorySlot> primarySlots))
                 {
@@ -356,7 +370,7 @@ public class PlayerInventoryHolder : InventoryHolder
                         if (slot.EnoughRoomLeftInStack(amountToAdd))
                         {
                             slot.AddToStack(amountToAdd);
-                            OnPlayerHotbarDisplayRequested?.Invoke(secondaryInventorySystem);
+                            OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
                             OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
                             _slot = slot;
                             return true;
@@ -369,7 +383,7 @@ public class PlayerInventoryHolder : InventoryHolder
                     if (freeSecondarySlot.EnoughRoomLeftInStack(amountToAdd))
                     {
                         freeSecondarySlot.UpdateInventorySlot(itemToAdd, amountToAdd);
-                        OnPlayerHotbarDisplayRequested?.Invoke(secondaryInventorySystem);
+                        OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
                         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
                         _slot = freeSecondarySlot;
                         return true;
@@ -378,6 +392,45 @@ public class PlayerInventoryHolder : InventoryHolder
                 return false;
             }
             return false;
+        }
+    }
+
+    private bool CheckForFreeArmorSlot(ArmorItem armor)
+    {
+        switch (armor.armorType)
+        {
+            case ArmorType.Head:
+                if (!armorInventory.InventorySlots[0].ItemData)
+                {
+                    armorInventory.InventorySlots[0].UpdateInventorySlot(armor, 1);
+                    return true;
+                }
+                    
+                else return false;
+            case ArmorType.Chest:
+                if (!armorInventory.InventorySlots[1].ItemData)
+                {
+                    armorInventory.InventorySlots[1].UpdateInventorySlot(armor, 1);
+                    return true;
+                }
+                else return false;
+            case ArmorType.Legs:
+                if (!armorInventory.InventorySlots[2].ItemData)
+                {
+                    armorInventory.InventorySlots[2].UpdateInventorySlot(armor, 1);
+                    return true;
+                }
+                else return false;
+            case ArmorType.Boots:
+                if (!armorInventory.InventorySlots[3].ItemData)
+                {
+                    armorInventory.InventorySlots[3].UpdateInventorySlot(armor, 1);
+                    return true;
+                }
+                else return false;
+
+            default: return false;
+
         }
     }
 
@@ -460,7 +513,7 @@ public class PlayerInventoryHolder : InventoryHolder
                     if (slot.EnoughRoomLeftInStack(amountToAdd))
                     {
                         slot.AddToStack(amountToAdd);
-                        OnPlayerHotbarDisplayRequested?.Invoke(secondaryInventorySystem);
+                        OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
                         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
                         _slot = slot;
                         return true;
@@ -548,17 +601,27 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
-       
+        OnPlayerInventoryChanged?.Invoke(armorInventory);
+
+        OnPlayerArmorDisplayRequested?.Invoke(armorInventory);
     }
 
     public void UpdateOpenInventory()
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+        OnPlayerInventoryChanged?.Invoke(armorInventory);
+
+        // ⬇️ these are what your displays actually listen to
+        OnPlayerHotbarDisplayRequested?.Invoke(primaryInventorySystem);
         OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
-        if(InventoryUIController.Instance.chestPanel.gameObject.activeSelf) InventoryUIController.Instance.chestPanel.UpdateSlots();
+        OnPlayerArmorDisplayRequested?.Invoke(armorInventory);
+
+        if (InventoryUIController.Instance.chestPanel.gameObject.activeSelf)
+            InventoryUIController.Instance.chestPanel.UpdateSlots();
     }
-   
+
+
 
 }
 

@@ -60,6 +60,7 @@ public class InventorySlot
     {
         itemData = data;
         stackSize = amount;
+
     }
 
     public bool RoomLeftInStack(int amountToAdd, out int amountRemaining) // Would there be enough room in stack for what we are trying to add

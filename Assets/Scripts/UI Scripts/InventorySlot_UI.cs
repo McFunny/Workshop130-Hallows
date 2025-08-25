@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System;
 
 public class InventorySlot_UI : MonoBehaviour
 {
@@ -20,7 +21,8 @@ public class InventorySlot_UI : MonoBehaviour
     bool isSelected;
     ToolTipScript toolTip; //Handles hovering item in inventory
     private InventoryAnims inventoryAnims;
-
+    public bool isArmorSlot = false;
+    public ArmorType armorType;
 
     string itemDesc;
     Button button;
@@ -241,14 +243,21 @@ public class InventorySlot_UI : MonoBehaviour
     {
         if (slot.ItemData != null)
         {
+
             itemSprite.sprite = slot.ItemData.icon;
             itemSprite.color = Color.white;
             itemName.text = slot.ItemData.displayName;
             itemDesc = slot.ItemData.description;
+            if (isArmorSlot && slot.ItemData is ArmorItem armor)
+            {
+               
+               armor.behavior.OnEquip();
+            }
             if (slot.StackSize > 1)
                 itemCount.text = slot.StackSize.ToString();
             else
                 itemCount.text = "";
+
         }
         else
         {
@@ -272,6 +281,10 @@ public class InventorySlot_UI : MonoBehaviour
 
     public void ClearSlot()
     {
+        if (isArmorSlot && assignedInventorySlot.ItemData is ArmorItem armor)
+        {
+            armor.behavior.OnUnequip();
+        }
         assignedInventorySlot?.ClearSlot();
         itemSprite.sprite = null;
         itemSprite.color = Color.clear;
@@ -280,6 +293,7 @@ public class InventorySlot_UI : MonoBehaviour
         itemDesc = "";
         foodCooldownSlider.gameObject.SetActive(false);
         itemGrey.enabled = false;
+        
         //itemName.gameObject.SetActive(false);
     }
 
@@ -304,5 +318,11 @@ public class InventorySlot_UI : MonoBehaviour
 
         pickupAnim.Play("ItemPickup");
         print("slot animated");
+       
+    }
+
+        internal void SetArmorSlot()
+    {
+        isArmorSlot = true;
     }
 }

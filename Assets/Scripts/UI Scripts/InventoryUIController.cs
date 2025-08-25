@@ -9,6 +9,7 @@ public class InventoryUIController : MonoBehaviour
 {
     public DynamicInventoryDisplay chestPanel;
     public DynamicInventoryDisplay playerBackpackPanel;
+    public ArmorInventoryDisplay armorInventoryPanel;
 
     public static InventoryUIController Instance;
 
@@ -179,6 +180,7 @@ public class InventoryUIController : MonoBehaviour
         PlayerMovement.accessingInventory = true;
         chestPanel.gameObject.SetActive(true);
         playerBackpackPanel.gameObject.SetActive(true);
+        armorInventoryPanel.gameObject.SetActive(true);
         chestPanel.RefreshDynamicInventory(invToDisplay);
        
         isBackpackOpen = true;
@@ -192,7 +194,9 @@ public class InventoryUIController : MonoBehaviour
             //print("Opening");
             PlayerMovement.accessingInventory = true;
             playerBackpackPanel.gameObject.SetActive(true);
+            armorInventoryPanel.gameObject.SetActive(true);
             playerBackpackPanel.RefreshDynamicInventory(invToDisplay);
+            armorInventoryPanel.RefreshDynamicInventory(PlayerInventoryHolder.Instance.armorInventory);
             isBackpackOpen = true; 
             readyToPress = false;
         }
@@ -204,6 +208,7 @@ public class InventoryUIController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         chestPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
+        armorInventoryPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
         isBackpackOpen = false;
         tooltipControlsScript.ShowDefaultControls(); 
@@ -215,6 +220,7 @@ public class InventoryUIController : MonoBehaviour
         //print("Closing");
         //HandItemManager.Instance.CheckSlotForTool();
         playerBackpackPanel.gameObject.SetActive(false);
+        armorInventoryPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
         isBackpackOpen = false; 
         tooltipControlsScript.ShowDefaultControls(); 
