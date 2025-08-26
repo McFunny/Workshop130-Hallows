@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
-    public PopupScript tillP, plantP, waterP, killP, weedP, completeP, dontDestroySeedsP, creatureP, corpseP, codexP;
+    public PopupScript tillP, plantP, waterP, killP, weedP, completeP, dontDestroySeedsP, creatureP, corpseP, codexP, structureP;
 
     public static Tutorial Instance;
 
@@ -24,7 +24,8 @@ public class Tutorial : MonoBehaviour
         Kill,
         Weed,
         Complete,
-        Codex
+        Codex,
+        StructurePlace
     }
 
     void Awake()
@@ -67,16 +68,9 @@ public class Tutorial : MonoBehaviour
             }
             else
             {
-                PopupHandler.Instance.AddToQueue(creatureP);
-                phase = TutorialPhase.Kill;
-
-                //StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();
-                //guy.health = 4;
-
-
-                Instantiate(hog, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+                PopupHandler.Instance.AddToQueue(structureP);
+                phase = TutorialPhase.StructurePlace;
             }
-            //PopupEvents.current.PlantSeed();
         }
         PopupEvents.current.PlantSeed();
     }
@@ -86,14 +80,8 @@ public class Tutorial : MonoBehaviour
         if(phase == TutorialPhase.Water)
         {
             PopupHandler.Instance.AddToQueue(dontDestroySeedsP);
-            PopupHandler.Instance.AddToQueue(creatureP);
-            phase = TutorialPhase.Kill;
-            PopupEvents.current.WateredCrop();
-
-            //StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();;
-            //guy.health = 4;
-
-            Instantiate(hog, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+            PopupHandler.Instance.AddToQueue(structureP);
+            phase = TutorialPhase.StructurePlace;
         }
     }
 
@@ -102,17 +90,11 @@ public class Tutorial : MonoBehaviour
         if(phase == TutorialPhase.Water)
         {
             PopupHandler.Instance.ClearQueue();
-            PopupHandler.Instance.AddToQueue(creatureP);
-            phase = TutorialPhase.Kill;
-
-            //StructureBehaviorScript guy = Instantiate(scarecrow, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity).GetComponentInParent<StructureBehaviorScript>();
-            //guy.health = 4;
-
-            Instantiate(hog, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+            PopupHandler.Instance.AddToQueue(structureP);
+            phase = TutorialPhase.StructurePlace;
         }
         PopupEvents.current.WateredCrop();
         hasWatered = true;
-        //hasWatered = true;
     }
 
     public void KillScarecrow() //Unused
@@ -187,6 +169,18 @@ public class Tutorial : MonoBehaviour
             phase = TutorialPhase.Complete;
             PopupEvents.current.OpenCodex();
             Destroy(gameObject);
+        }
+    }
+
+    public void PlaceStructure()
+    {
+        if(phase == TutorialPhase.StructurePlace)
+        {
+            PopupHandler.Instance.ClearQueue();
+            PopupHandler.Instance.AddToQueue(creatureP);
+            phase = TutorialPhase.Kill;
+
+            Instantiate(hog, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
     }
 

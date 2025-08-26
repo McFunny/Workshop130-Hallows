@@ -51,10 +51,10 @@ public class PuzzleManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.K))
+        /*if (Input.GetKeyUp(KeyCode.K))
         {
             StartCoroutine(MoveStatue());
-        }
+        }*/
     }
 
     public void CheckToSeeIfPuzzlesAreComplete()

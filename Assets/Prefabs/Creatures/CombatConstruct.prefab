@@ -40097,7 +40097,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &8341549492237738845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40118,6 +40118,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 88c7a631b6c3f164fadff223436437c4, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}

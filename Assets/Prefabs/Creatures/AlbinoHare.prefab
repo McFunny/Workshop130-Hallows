@@ -92,6 +92,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -179,7 +180,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &8093463016548011433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +210,8 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 4b87ed1ad983d044c883859f18e18d15, type: 3}
   miscSound2: {fileID: 8300000, guid: 89d4c6fca6a26464f87e65f2ebf86b75, type: 3}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
 --- !u!82 &4019066914342258152

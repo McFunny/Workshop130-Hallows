@@ -50,6 +50,7 @@ public class PopupHandler : MonoBehaviour
         PopupEvents.current.OnKillCreature += OnKillCreature;
         PopupEvents.current.OnClearCorpse += OnClearCorpse;
         PopupEvents.current.OnOpenCodex += OnOpenCodex;
+        PopupEvents.current.OnStructurePlaced += OnStructurePlaced;
         //popupContainer.SetActive(false);
         conditionMet = false;
         popupTransform.position = lerpStart.position;
@@ -68,6 +69,7 @@ public class PopupHandler : MonoBehaviour
         PopupEvents.current.OnClearCorpse -= OnClearCorpse;
         TimeManager.OnHourlyUpdate -= NightWarning;
         PopupEvents.current.OnOpenCodex -= OnOpenCodex;
+        PopupEvents.current.OnStructurePlaced -= OnStructurePlaced;
     }
 
     void Update()
@@ -223,6 +225,12 @@ public class PopupHandler : MonoBehaviour
             print("Codex!!!");
             conditionMet = false; // Reset
         }
+        else if (popup.endCondition == PopupScript.EndCondition.PlaceStructure)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Structure!!!");
+            conditionMet = false; // Reset
+        }
         //print("HI!!!");
         isActive = false;
         yield return new WaitUntil(() => offScreen);
@@ -298,6 +306,14 @@ public class PopupHandler : MonoBehaviour
     private void OnOpenCodex()
     {
         if (isActive && currentPopup.endCondition == PopupScript.EndCondition.OpenCodex)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnStructurePlaced()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.PlaceStructure)
         {
             conditionMet = true;
         }

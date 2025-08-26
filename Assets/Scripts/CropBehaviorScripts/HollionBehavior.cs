@@ -26,8 +26,9 @@ public class HollionBehavior : CropBehavior
         }
     }
 
-    public override bool DestroyOnHarvest(FarmLand tile)
+    public override bool DestroyOnHarvest(FarmLand tile, out int stagesReduced)
     {
+        stagesReduced = 3;
         return false;
     }
 

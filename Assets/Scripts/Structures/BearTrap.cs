@@ -52,6 +52,8 @@ public class BearTrap : StructureBehaviorScript
     // Update is called once per frame
     void Update()
     {
+        if(Tutorial.Instance) health = maxHealth;
+
         if(!caughtSomething) base.Update();
 
         if(animationTimeLeft > 0)
@@ -105,7 +107,7 @@ public class BearTrap : StructureBehaviorScript
 
     IEnumerator SpringTrap(Collider victim)
     {
-        animationTimeLeft = 0.2f; //old value was .2
+        animationTimeLeft = 0.01f; //old value was .2
         caughtSomething = true;
         yield return new WaitForSeconds(animationTimeLeft);
         topClamp.rotation = Quaternion.Euler(-161, 90, -90);
@@ -124,6 +126,7 @@ public class BearTrap : StructureBehaviorScript
             if(victim.GetComponent<PlayerInteraction>() && distance < 1.5f)
             {
                 PlayerInteraction player = victim.GetComponent<PlayerInteraction>();
+                player.rb.velocity = Vector3.zero;
                 player.StaminaChange(-25);
 
                 //restrictplayermovement

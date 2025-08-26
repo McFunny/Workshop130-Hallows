@@ -12,7 +12,7 @@ public class PopupEvents : MonoBehaviour
         current = this;
     }
 
-    public event System.Action OnTillGround, OnShovelSwing, OnPlant, OnKill, OnWeedDug, OnWateredCrop, OnKillCreature, OnClearCorpse, OnOpenCodex; 
+    public event System.Action OnTillGround, OnShovelSwing, OnPlant, OnKill, OnWeedDug, OnWateredCrop, OnKillCreature, OnClearCorpse, OnOpenCodex, OnStructurePlaced; 
 
     public void TillGround()
     {
@@ -57,5 +57,10 @@ public class PopupEvents : MonoBehaviour
     public void OpenCodex()
     {
         if (OnOpenCodex != null) OnOpenCodex(); 
+    }
+
+    public void PlaceStructure()
+    {
+        if (OnStructurePlaced != null) OnStructurePlaced(); 
     }
 }

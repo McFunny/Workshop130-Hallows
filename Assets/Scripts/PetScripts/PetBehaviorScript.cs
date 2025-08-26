@@ -91,7 +91,7 @@ public class PetBehaviorScript : MonoBehaviour
 
         float xpModifier = 1.3f;
 
-        amount *= amount - (friendshipLevel * 0.1f);
+        amount *= xpModifier - (friendshipLevel * 0.1f);
 
         friendPoints += amount;
         if(friendPoints < 0) friendPoints = 0;

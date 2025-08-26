@@ -19,7 +19,10 @@ public class FogTeleporter : MonoBehaviour
             if(otherEnd) 
             {
                 other.transform.position = new Vector3(otherEnd.position.x, otherEnd.position.y + 1.23f, otherEnd.position.z); //To account for misalignment of player (thx Abner)
-                if(overrideRotation) other.transform.rotation = otherEnd.parent.transform.rotation;
+                if(overrideRotation)
+                {
+                    PlayerCam.Instance.ForceChangeRotation(otherEnd.parent.eulerAngles.y);
+                }
             }
         }
         else if(other.gameObject.layer == 9) //creature
@@ -64,4 +67,5 @@ public class FogTeleporter : MonoBehaviour
 
 
     }
+
 }

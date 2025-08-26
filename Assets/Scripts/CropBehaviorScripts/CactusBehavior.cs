@@ -41,8 +41,9 @@ public class CactusBehavior : CropBehavior
         }
     }
 
-    public override bool DestroyOnHarvest(FarmLand tile)
+    public override bool DestroyOnHarvest(FarmLand tile, out int stagesReduced)
     {
+        stagesReduced = 3;
         if(tile.growthStage == 7) return false;
         return true;
     }

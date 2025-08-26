@@ -222,7 +222,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
+  m_Radius: 0.7
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &253517428356473125
 MonoBehaviour:
@@ -247,6 +247,7 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 0
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -273,7 +274,7 @@ MonoBehaviour:
   structureUI: {fileID: 0}
   topClamp: {fileID: 7118545593169415662}
   bottomClamp: {fileID: 26154679216094702}
-  triggeredSFX: {fileID: 8300000, guid: 40db3a189a805c94d88edbe083e182f8, type: 3}
+  triggeredSFX: {fileID: 8300000, guid: aa9c348d3787238419ebe8bb92fe535b, type: 3}
 --- !u!82 &2079226683980650209
 AudioSource:
   m_ObjectHideFlags: 0
@@ -287,7 +288,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: d8aaed70af5ec984bbcf5377c35451b9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.228
+  m_Volume: 0.476
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -295,10 +296,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 2
+  MinDistance: 25
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -306,23 +307,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.5
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -2.0008
+      outSlope: -2.0008
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.5002
+      outSlope: -0.5002
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

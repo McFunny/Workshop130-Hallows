@@ -5259,12 +5259,13 @@ MonoBehaviour:
   health: 30
   maxHealth: 30
   wealthValue: 5
-  salvageChance: 80
+  salvageChance: 90
   destructable: 1
   flammable: 1
   onFire: 0
   isObstacle: 1
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -5294,6 +5295,8 @@ MonoBehaviour:
   progress: 0
   isFunctioning: 0
   chargingPopup: {fileID: 11400000, guid: 22aeaa8c9bb61a7489f93448cf4a2f39, type: 2}
+  loopingSource1: {fileID: 0}
+  loopingSource2: {fileID: 0}
 --- !u!82 &416610135193410352
 AudioSource:
   m_ObjectHideFlags: 0

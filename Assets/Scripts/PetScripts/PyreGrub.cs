@@ -102,6 +102,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         AnimateTexture();
 
         CheckState(currentState);
+
+        //print(rb.velocity.magnitude);
     }
 
     void LateUpdate()
@@ -497,11 +499,11 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             if(other.gameObject.layer == 10)
             {
                 Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
-                rb.AddForce(150 * -dir, ForceMode.Impulse);
+                rb.AddForce(170 * -dir, ForceMode.Impulse);
                 return;
             }
 
-            if(other.gameObject.layer == 6 && rb.velocity.magnitude > 1)
+            if(other.gameObject.layer == 6 && rb.velocity.magnitude > 10f)
             {
                 StructureBehaviorScript structure = other.GetComponentInParent<StructureBehaviorScript>();
                 if(structure)
@@ -522,10 +524,10 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                 CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
                 if(creature && creature.shovelVulnerable)
                 {
-                    if(rb.velocity.magnitude > 1)
+                    if(rb.velocity.magnitude > 10f)
                     {
                         creature.TakeDamage(10);
-                        if(creature.fireVulnerable && ignited) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 9));
+                        if(creature.fireVulnerable && ignited) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(7, 12));
                         creature.PlayHitParticle(creature.transform.position);
 
                         if(ignited && Random.Range(0, 100) > (20 + friendshipLevel * 5)) IgnitionToggle(false);

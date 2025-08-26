@@ -138,7 +138,7 @@ public class RubyWasp : CreatureBehaviorScript
     void Wander()
     {
         if(coroutineRunning) return;
-        if(playerInSightRange && (MainMenuScript.currentFileMode != FileMode.Cozy || fireSources.Count == 0)) currentState = CreatureState.Chase;
+        if(playerInSightRange && (/*MainMenuScript.currentFileMode != FileMode.Cozy ||*/ fireSources.Count == 0)) currentState = CreatureState.Chase;
 
         AddForceToBug(targetPos, true);
 
@@ -151,7 +151,7 @@ public class RubyWasp : CreatureBehaviorScript
 
     void Chase()
     {
-        if(!playerInSightRange) currentState = CreatureState.Wander;
+        if(!playerInSightRange || fireSources.Count > 0) currentState = CreatureState.Wander;
         else if(playerInAttackRange) currentState = CreatureState.Attack;
 
         AddForceToBug(player.position, false);
@@ -313,6 +313,8 @@ public class RubyWasp : CreatureBehaviorScript
             if(PlayerMovement.restrictMovementTokens == 0) PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(800, dir);
             yield return new WaitForSeconds(0.2f);
             PlayerMovement.limitMaxVelocity = true;
+
+            if(fireSources.Count > 0) unstickAttempts += 30;
         }
         rb.isKinematic = false;
         allColliders[0].isTrigger = false;
