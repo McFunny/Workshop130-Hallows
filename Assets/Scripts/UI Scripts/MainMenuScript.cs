@@ -533,6 +533,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(false);
                 fileDatas[i].mintsTotalText.gameObject.SetActive(false);
                 fileDatas[i].difficultyText.gameObject.SetActive(false);
+                fileDatas[i].siegesClearedText.gameObject.SetActive(false);
                 fileDatas[i].emptySlot.gameObject.SetActive(true);
                 loadButtons[i].interactable = false;
                 deleteButtons[i].interactable = false;
@@ -548,6 +549,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].dayNum = tempData.allGameSaveData.pDayNumber;
                 fileDatas[i].mintsCurrent = tempData.allGameSaveData.pCurrentMoney;
                 fileDatas[i].mintsTotal = tempData.allGameSaveData.pTotalMoneyEarned;
+                fileDatas[i].completedSieges = tempData.allGameSaveData.siegesCleared;
                 if (tempData.allGameSaveData.gameMode != null) // Edge case scenario for saves made before difficulties were added :/
                 {
                     if (tempData.allGameSaveData.gameMode == "Cozy")
@@ -555,7 +557,7 @@ public class MainMenuScript : MonoBehaviour
                         fileDatas[i].difficulty = "Relaxed";
                     }
                     else fileDatas[i].difficulty = tempData.allGameSaveData.gameMode;
-                    
+
                 }
                 else
                 {
@@ -567,11 +569,13 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsCurrentText.text = "Current Mints: " + fileDatas[i].mintsCurrent;
                 fileDatas[i].mintsTotalText.text = "Total Mints: " + fileDatas[i].mintsTotal;
                 fileDatas[i].difficultyText.text = "Difficulty: " + fileDatas[i].difficulty.ToString();
+                fileDatas[i].siegesClearedText.text = "Sieges Cleared: " + fileDatas[i].completedSieges;
 
                 fileDatas[i].dayNumText.gameObject.SetActive(true);
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(true);
                 fileDatas[i].mintsTotalText.gameObject.SetActive(true);
                 fileDatas[i].difficultyText.gameObject.SetActive(true);
+                fileDatas[i].siegesClearedText.gameObject.SetActive(true);
                 fileDatas[i].emptySlot.gameObject.SetActive(false);
                 saveCount++;
                 //print(tempData.fileMode);
@@ -652,13 +656,14 @@ public class MainMenuScript : MonoBehaviour
 public class FileData
 {
     public Button slotButton;
-    public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText, emptySlot, difficultyText;
+    public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText, emptySlot, difficultyText, siegesClearedText;
     public string difficulty;
     public bool saveDataPresent = false;
 
     public int dayNum;
     public int mintsCurrent;
     public int mintsTotal;
+    public int completedSieges;
 }
 
 public enum FileMode
