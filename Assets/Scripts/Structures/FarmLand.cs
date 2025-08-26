@@ -343,9 +343,9 @@ public class FarmLand : StructureBehaviorScript
                 }
             }
 
-            if(crop.behavior && crop.behavior.DestroyOnHarvest(this) == false && !rotted && harvestable)
+            if(crop.behavior && crop.behavior.DestroyOnHarvest(this, out int stagesReduced) == false && !rotted && harvestable)
             {
-                growthStage -= 3;
+                growthStage -= stagesReduced;
             }
             else
             {
