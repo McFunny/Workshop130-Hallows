@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HandItemManager : MonoBehaviour
 {
-    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly;
+    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly, hydrofly;
     public GameObject torchFlame, pyreflyFlame;
 
     Vector3 hoePos, shovelPos, wateringCanPos, shotGunPos, waterGunPos, torchPos, bugNetPos, scythePos, pyreflyPos; //starting positions
@@ -112,6 +112,10 @@ public class HandItemManager : MonoBehaviour
                 currentHandObject = pyrefly;
                 //pyrefly.transform.position = pyreflyPos;
                 //pyrefly.transform.rotation = pyreflyRot;
+                break;
+            case ToolType.Hydrofly:
+                hydrofly.SetActive(true);
+                currentHandObject = hydrofly;
                 break;
             default:
                 currentHandObject = null;

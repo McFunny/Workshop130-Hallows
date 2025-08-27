@@ -66,6 +66,7 @@ public class GameSaveData : MonoBehaviour
 
     [Header("Critter Save Array")]
     public List<CritterData> critterData = new List<CritterData>();
+    public int manikkinsAlive = 0;
 
     void Awake()
     {
@@ -201,6 +202,13 @@ public class GameSaveData : MonoBehaviour
             currentPet.friendshipLevel = data.allGameSaveData.petLevel;
             currentPet.gameObject.SetActive(true);
         }
+
+        //Spawn Manikkins
+        GameObject manikkinPrefab = CreatureDatabase.Instance.GetCreature(20).objectPrefab;
+        for(int i = 0; i < manikkinsAlive; i++)
+        {
+            Instantiate(manikkinPrefab, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+        }
     }
 }
     [System.Serializable]
@@ -273,6 +281,8 @@ public class GameSaveData : MonoBehaviour
         public float petHunger, petProgress;
         public int petLevel;
         public string petType, petName;
+
+        public int manikkinsAlive;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -364,6 +374,8 @@ public class GameSaveData : MonoBehaviour
             petType = "";
             petName = "Kevin";
         }
+
+        manikkinsAlive = data.manikkinsAlive;
 
 
 //Debug.Log("Saving stamina. Result: " + pStamina);

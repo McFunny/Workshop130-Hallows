@@ -49,6 +49,8 @@ public class MiniMandrake : CreatureBehaviorScript
 
         oldSpeed = agent.speed;
 
+        GameSaveData.Instance.manikkinsAlive++;
+
     }
 
     void OnDestroy()
@@ -295,6 +297,12 @@ public class MiniMandrake : CreatureBehaviorScript
         anim.SetTrigger("IsDead");
         agent.enabled = false;
         base.OnDeath();
+        GameSaveData.Instance.manikkinsAlive--;
+    }
+
+    void OnDisable()
+    {
+        if(!isDead) GameSaveData.Instance.manikkinsAlive--;
     }
 
     private void Trapped()
