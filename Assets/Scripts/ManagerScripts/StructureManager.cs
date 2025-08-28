@@ -93,7 +93,7 @@ public class StructureManager : MonoBehaviour
             StartCoroutine(PopulateStructure(-3, 5, weedTile, false, farmTileMap));
             PopulateDecorCrows(0, 2);
             StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
-            PopulateBerryBushes(-6, 2, false);
+            PopulateBerryBushes(-5, 2, false);
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -1044,8 +1044,12 @@ public class StructureManager : MonoBehaviour
                     SetTile(spawnPos);
                     if(harvestable)
                     {
-                        script.growthStage = berryBush.harvestableGrowthStages[0];
-                        script.harvestable = true;
+                        if(Random.Range(0,10) <= 2) script.growthStage = 4;
+                        else
+                        {
+                            script.growthStage = berryBush.harvestableGrowthStages[0];
+                            script.harvestable = true;
+                        }
                         script.SpriteChange();
                     }
                 }

@@ -125,7 +125,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         {
             anim.SetBool("IsSitting", false);
             anim.Play("Idle"); //Reset the anim
-            if(currentRoutine != null) StopCoroutine(currentRoutine);
+            if(currentRoutine != null && !ballTransitioning) StopCoroutine(currentRoutine);
             StopCoroutine(IdleRoutine());
             currentRoutine = null;
             isMoving = false;
@@ -133,7 +133,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
         if(currentState == PetState.Follow)
         {
-            if(currentRoutine != null) StopCoroutine(currentRoutine);
+            if(currentRoutine != null && !ballTransitioning) StopCoroutine(currentRoutine);
             StopCoroutine(FollowRoutine());
             currentRoutine = null;
             isMoving = false;
@@ -411,7 +411,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         enterBallParticles.Play();
         ballObject.SetActive(true);
         bugObject.SetActive(false);
-        if(currentState == PetState.Ball) ballObject.transform.position = new Vector3(ballObject.transform.position.x, ballObject.transform.position.y + 0.5f, ballObject.transform.position.z);
+        //if(currentState == PetState.Ball) ballObject.transform.position = new Vector3(ballObject.transform.position.x, ballObject.transform.position.y + 0.5f, ballObject.transform.position.z);
         rb.useGravity = true;
         currentRoutine = null;
         ballTransitioning = false;
@@ -499,7 +499,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             if(other.gameObject.layer == 10)
             {
                 Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
-                rb.AddForce(170 * -dir, ForceMode.Impulse);
+                rb.AddForce(140 * -dir, ForceMode.Impulse);
                 return;
             }
 
