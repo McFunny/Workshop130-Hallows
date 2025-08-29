@@ -218,6 +218,12 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         TimeManager.OnHourlyUpdate -= OnHour;
         BarnManager.Instance.allCritters.Remove(this);
         if(homePen) homePen.housedCritters.Remove(this);
+
+        if(health <= 0)
+        {
+            PopupHandler.Instance.names.Enqueue(name);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);
+        }
     }
 
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HydroFly : CritterBehaviorScript
 {
+    public InventoryItemData bugItem;
+
     private bool coroutineRunning = false;
     //public List<StructureObject> targettableStructures; //Call the HitWithWater Function
 
@@ -398,6 +400,13 @@ public class HydroFly : CritterBehaviorScript
             currentState = CritterState.Decide;
         }
         else success = false;
+    }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = bugItem;
+        
+        return true;
     }
 
 }

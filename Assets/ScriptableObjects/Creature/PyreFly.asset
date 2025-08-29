@@ -15,6 +15,14 @@ MonoBehaviour:
   objectPrefab: {fileID: 4938036239894532787, guid: 4f2ba8cc7e5521642b04236b7b908af1,
     type: 3}
   creatureVariants:
+  - name: HydroFly
+    prefab: {fileID: 2998068688611110752, guid: a13d5a8fb131c7842a30661f5527ecd4,
+      type: 3}
+    probabilityInFarm: 0
+    probabilityInWilderness: 20
+    canSpawnInWilderness: 1
+    wealthPrerequisite: 0
+    variantChanceInFarm: []
   - name: NapalmFly
     prefab: {fileID: 8047774157542622550, guid: bd649138bb8c55246bdbe979d3e55830,
       type: 3}
@@ -22,6 +30,11 @@ MonoBehaviour:
     probabilityInWilderness: 100
     canSpawnInWilderness: 1
     wealthPrerequisite: 2000
+    variantChanceInFarm:
+    - _int: 1
+      _probability: 5
+    - _int: 3
+      _probability: 10
   health: 0
   position:
   - 0

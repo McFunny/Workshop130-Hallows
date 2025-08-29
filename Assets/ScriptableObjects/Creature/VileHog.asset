@@ -19,9 +19,14 @@ MonoBehaviour:
     prefab: {fileID: 3950954694662362984, guid: 5c35fc27737ad2d4abf354a4b3721304,
       type: 3}
     probabilityInFarm: 5
-    probabilityInWilderness: 7
+    probabilityInWilderness: 15
     canSpawnInWilderness: 1
     wealthPrerequisite: 2000
+    variantChanceInFarm:
+    - _int: 1
+      _probability: 5
+    - _int: 3
+      _probability: 10
   health: 0
   position:
   - 0

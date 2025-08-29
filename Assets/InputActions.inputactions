@@ -265,6 +265,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "WaterJet",
+                    "type": "Button",
+                    "id": "97d64d37-6c47-49c9-ad16-2dca5878120a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1123,6 +1132,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "CodexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c788881f-ceae-4a4e-b4d7-3c6640c6b191",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "WaterJet",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3b92879a-2f3b-4fac-9bcd-505d2485ee79",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "WaterJet",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

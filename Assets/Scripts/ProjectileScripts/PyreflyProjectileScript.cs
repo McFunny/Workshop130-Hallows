@@ -22,6 +22,7 @@ public class PyreflyProjectileScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        print("Collided with: " + other.gameObject + ". Am I already exploding? " + exploding);
         if(exploding) return;
         exploding = true;
         Explode();

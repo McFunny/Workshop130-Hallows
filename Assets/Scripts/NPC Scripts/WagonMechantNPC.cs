@@ -142,9 +142,18 @@ public class WagonMerchantNPC : NPC, ITalkable
             return;
         }
 
-        else if (item.ID == 163)
+        else if (item.ID == 163) //Scroll
         {
             currentPath = 0;
+            currentType = PathType.ItemSpecific;
+            lastSeenItem = item;
+            Talk();
+            anim.SetTrigger("IsTalking");
+        }
+
+        else if (item as CropItem != null) //Seeds
+        {
+            currentPath = Random.Range(1,3);
             currentType = PathType.ItemSpecific;
             lastSeenItem = item;
             Talk();
@@ -171,10 +180,8 @@ public class WagonMerchantNPC : NPC, ITalkable
         else
         {
             //Can Buy
-            print("I Ran");
             if(lastSeenItem != item)
             {
-                print("I have not seen this item yet");
                 //Are you sure?
                 lastSeenItem = item;
                 dialogueController.restartDialogue = true;
@@ -186,7 +193,6 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             else
             {
-                print("Repeated item");
                 //Sold, remove item and gain money
                 currentPath = 2;
                 currentType = PathType.Misc;

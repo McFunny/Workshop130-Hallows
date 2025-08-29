@@ -19824,6 +19824,7 @@ MonoBehaviour:
   penType: 2
   homePen: {fileID: 0}
   agent: {fileID: 492783162928118377}
+  bugItem: {fileID: 11400000, guid: fcd46c41caf0bf142b61ce7ca0b98531, type: 2}
   hydrated: 1
   bubbleObject: {fileID: 7204029011523475630}
   splashObject: {fileID: 6142194313336952059}
@@ -34603,6 +34604,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 10115a0d32b47c24a8fbf6841eff4ffb,
         type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 10115a0d32b47c24a8fbf6841eff4ffb,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -34843,7 +34849,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 9ad4f904381fe9940a8907b0944265f5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.461
+  m_Volume: 0.106
   m_Pitch: 1
   Loop: 1
   Mute: 0

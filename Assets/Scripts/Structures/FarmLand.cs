@@ -764,6 +764,11 @@ public class FarmLand : StructureBehaviorScript
         }
     }
 
+    public override void HitWithWater()
+    {
+        WaterCrops();
+    }
+
     public void WaterCrops()
     {
         //for sprinkler and gun

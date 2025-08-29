@@ -66,23 +66,6 @@ public class NightSpawningManager : MonoBehaviour
 
     void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.I) && !TimeManager.Instance.isDay)
-        {
-            SpawnCreature(creatures[6]);
-        }
-        if (Input.GetKeyDown(KeyCode.O) && !TimeManager.Instance.isDay)
-        {
-            SpawnCreature(creatures[7]);
-        }
-        if (Input.GetKeyDown(KeyCode.P) && !TimeManager.Instance.isDay)
-        {
-            SpawnCreature(creatures[0]);
-        }*/
-
-        /*if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            StartCoroutine(GameCompleted());
-        }*/
     }
 
     void OnDestroy()
@@ -228,7 +211,20 @@ public class NightSpawningManager : MonoBehaviour
             int r = Random.Range(0, c.creatureVariants.Count);
             int p = Random.Range(0,100);
             //if(c.forceSpawnVariant) p = 0;
-            if(c.creatureVariants[r].probabilityInFarm > p && c.creatureVariants[r].wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) prefab = c.creatureVariants[r].prefab;
+
+            //New Logic
+            if(c.creatureVariants[r].variantChanceInFarm.Count > 0)
+            {
+                float currentChance = c.creatureVariants[r].variantChanceInFarm[(c.creatureVariants[r].variantChanceInFarm.Count) - 1]._probability;
+                foreach (IntWithProbability chance in c.creatureVariants[r].variantChanceInFarm)
+                {
+                    if(GameSaveData.Instance.siegesCleared >= chance._int) currentChance = chance._probability;
+                }
+                if(currentChance > p) prefab = c.creatureVariants[r].prefab;
+            }
+            else if(c.creatureVariants[r].probabilityInFarm > p) prefab = c.creatureVariants[r].prefab; //If the siege variant list isnt setup
+
+            if(c.creatureVariants[r].wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
         }
         if(prefab == null) prefab = c.objectPrefab;
 

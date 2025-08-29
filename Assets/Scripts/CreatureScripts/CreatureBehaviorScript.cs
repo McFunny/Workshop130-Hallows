@@ -313,6 +313,12 @@ public class CreatureBehaviorScript : MonoBehaviour
         }
     }
 
+    public virtual bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = null;
+        return false;
+    }
+
 
     
 }

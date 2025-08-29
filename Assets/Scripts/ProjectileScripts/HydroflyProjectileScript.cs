@@ -22,6 +22,8 @@ public class HydroflyProjectileScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        print("Collided with: " + other.gameObject + ". Am I already exploding? " + exploding);
+
         if(exploding) return;
         exploding = true;
         Explode();
@@ -31,6 +33,7 @@ public class HydroflyProjectileScript : MonoBehaviour
     void Explode()
     {
         bigSplashEffect.transform.position = transform.position;
+        bigSplashEffect.SetActive(false);
         bigSplashEffect.SetActive(true);
         bigSplashEffect.transform.parent = null;
         AudioPoolManager.Instance.PlayClipAtPosition(explodeSFX, transform.position);
@@ -38,7 +41,7 @@ public class HydroflyProjectileScript : MonoBehaviour
         {
             StatusEffectManager.Instance.RemoveStatusOnPlayer(StatusEffectName.Fire);
         }
-        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 4f, 1 << 6);
+        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 6f, 1 << 6);
         foreach(Collider collider in hitStructures)
         {
             StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
