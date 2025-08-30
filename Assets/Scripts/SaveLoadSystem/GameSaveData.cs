@@ -198,6 +198,8 @@ public class GameSaveData : MonoBehaviour
         if(currentPet)
         {
             currentPet.hunger = data.allGameSaveData.petHunger;
+            currentPet.thirst = data.allGameSaveData.petThirst;
+            currentPet.name = data.allGameSaveData.petName;
             currentPet.friendPoints = data.allGameSaveData.petProgress;
             currentPet.friendshipLevel = data.allGameSaveData.petLevel;
             currentPet.gameObject.SetActive(true);
@@ -278,7 +280,7 @@ public class GameSaveData : MonoBehaviour
         public int siegesCleared;
         public bool siegeCropInHand; //
 
-        public float petHunger, petProgress;
+        public float petHunger, petProgress, petThirst;
         public int petLevel;
         public string petType, petName;
 
@@ -361,6 +363,7 @@ public class GameSaveData : MonoBehaviour
         if(data.currentPet)
         {
             petHunger = data.currentPet.hunger;
+            petThirst = data.currentPet.thirst;
             petProgress = data.currentPet.friendPoints;
             petLevel = data.currentPet.friendshipLevel;
             petType = data.currentPet.petType.ToString();
@@ -369,6 +372,7 @@ public class GameSaveData : MonoBehaviour
         else
         {
             petHunger = 100;
+            petThirst = 100;
             petProgress = 0;
             petLevel = 0;
             petType = "";
