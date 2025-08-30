@@ -84,7 +84,7 @@ public class CodexCritter : MonoBehaviour
 
     private void InvokeButtonPress(InputAction.CallbackContext context)
     {
-        if (EventSystem.current.currentSelectedGameObject == button.gameObject)
+        if (EventSystem.current.currentSelectedGameObject == button.gameObject && PlayerMovement.isCodexOpen)
         {
             print("Controller Rename Started");
             button.onClick.Invoke();
