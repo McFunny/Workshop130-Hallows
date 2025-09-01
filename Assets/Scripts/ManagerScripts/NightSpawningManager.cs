@@ -215,16 +215,16 @@ public class NightSpawningManager : MonoBehaviour
             //New Logic
             if(c.creatureVariants[r].variantChanceInFarm.Count > 0)
             {
-                float currentChance = c.creatureVariants[r].variantChanceInFarm[(c.creatureVariants[r].variantChanceInFarm.Count) - 1]._probability;
+                float currentChance = 0;
                 foreach (IntWithProbability chance in c.creatureVariants[r].variantChanceInFarm)
                 {
-                    if(GameSaveData.Instance.siegesCleared >= chance._int) currentChance = chance._probability;
+                    if(GameSaveData.Instance.siegesCleared >= chance._int) currentChance = chance._probability; //Make sure they are ordered in the list
                 }
                 if(currentChance > p) prefab = c.creatureVariants[r].prefab;
             }
             else if(c.creatureVariants[r].probabilityInFarm > p) prefab = c.creatureVariants[r].prefab; //If the siege variant list isnt setup
 
-            if(c.creatureVariants[r].wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
+            if(c.creatureVariants[r].wealthPrerequisite > PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
         }
         if(prefab == null) prefab = c.objectPrefab;
 
