@@ -434,64 +434,62 @@ public class FarmLand : StructureBehaviorScript
             return;
         }
         hoursSpent++;
-        if(crop && crop.behavior) crop.behavior.OnHour(this);
 
-        if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
+        if(!crop) return; //No crop
+
+        if(crop.behavior) crop.behavior.OnHour(this);
+
+        if((hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
-            if(crop && crop.behavior && !crop.behavior.CanGrow(this)) return;
+            if(crop.behavior && !crop.behavior.CanGrow(this)) return;
 
             if((growthStage >= crop.growthStages && !isWeed) || NeedsPollination() == true)
             {
-                /*if(NeedsPollination() == false) return;
-
-                //Reduce only water while fully grown
-                hoursSpent = 0;
-                health += 5;
-                if(health > maxHealth) health = maxHealth;
-                DrainNutrients(out bool gainedStress, true);
-                if(gainedStress && growthImpeded) growthImpeded.Play();
-                return;*/ //Idk why we are having crops drain water when grown
+                return;
             }
-            else
+
+            hoursSpent = 0;
+            DrainNutrients(out bool gainedStress, false);
+            if(!isWeed)
             {
-                hoursSpent = 0;
-                DrainNutrients(out bool gainedStress, false);
-                if(!isWeed)
+                if(gainedStress)
                 {
-                    if(gainedStress)
-                    {
-                        if(growthImpeded) growthImpeded.Play();
-                    } 
-                    else
-                    {
-                        growthStage++;
-                        if(growth) growth.Play();
-                        health += 5;
-                        if(health > maxHealth) health = maxHealth;
-                    }
-                }
-                if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
+                    if(growthImpeded) growthImpeded.Play();
+                } 
+                else
                 {
-                    harvestable = true;
-                    if(growth) growth.Stop();
-                    if(growthComplete)
-                    {
-                        growthComplete.Stop();
-                        growthComplete.Play();
-                    }
-
-                    if(crop.behavior)
-                    {
-                        print("Call Behavior");
-                        crop.behavior.OnFullyGrown(this);
-                    } 
+                    growthStage++;
+                    if(growth) growth.Play();
+                    health += 5;
+                    if(health > maxHealth) health = maxHealth;
                 }
-                else harvestable = false;
-                SpriteChange();
             }
+            if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
+            {
+                harvestable = true;
+                if(growth) growth.Stop();
+                if(growthComplete)
+                {
+                    growthComplete.Stop();
+                    growthComplete.Play();
+                }
+
+                if(crop.behavior)
+                {
+                    print("Call Behavior");
+                    crop.behavior.OnFullyGrown(this);
+                } 
+            }
+            else harvestable = false;
+            SpriteChange();
             
         }
-        else return;
+        /*else if(growthStage < crop.growthStages)
+        {
+            //Drain Water every hour
+            DrainNutrients(out bool gainedStress, false);
+            if(gainedStress && growthImpeded) growthImpeded.Play();
+        }*/ //NVM on crops needing water every hour lol
     }
 
     public void InsertCrop(CropData _crop)
