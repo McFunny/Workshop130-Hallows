@@ -7,6 +7,8 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
 {
     [HideInInspector] public Transform ObjectTransform => transform; // For the Interface
 
+    public bool smartSprinkler;
+
     public int waterLevel = 0; 
     int maxWaterLevel = 3;
     public GameObject water;
@@ -42,6 +44,7 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
     void Start()
     {
         base.Start();
+        if(smartSprinkler) StartCoroutine(ScanTiles());
     }
 
     // Update is called once per frame
@@ -65,6 +68,8 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
 
     public override void HourPassed()
     {
+        if(smartSprinkler) return;
+
         if(waterLevel > 0 && !TimeManager.Instance.isDay && !watering)
         {
             waterLevel--;
@@ -94,7 +99,7 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
         {
             PlayerInteraction.Instance.waterHeld -= maxWaterLevel - waterLevel;
             waterLevel = maxWaterLevel;
-            if(!wateredThisHour) 
+            if(!wateredThisHour && !smartSprinkler) 
             {
                 StartCoroutine(WaterTiles());
                 waterLevel--;
@@ -235,6 +240,50 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
     public void GivenWater()
     {
         HitWithWater();
+    }
+
+    IEnumerator ScanTiles()
+    {
+        while(health > 0)
+        {
+            yield return new WaitForSeconds(3);
+
+            if(waterLevel == 0) continue;
+
+            if(mode == SprinklerMode.Stream) c_stream.enabled = true;
+            else c_cone.enabled = true;
+
+            yield return new WaitForSeconds(0.5f);
+
+            c_stream.enabled = false;
+            c_cone.enabled = false;
+
+            bool activate = false;
+
+            for(int i = 0; i < structsInRange.Count; i++)
+            {
+                if(structsInRange[i].onFire)
+                {
+                    activate = true;
+                    break;
+                }
+
+                FarmLand tile = structsInRange[i] as FarmLand;
+                if(tile && tile.crop && tile.GetCropStats().waterLevel < tile.crop.waterIntake)
+                {
+                    activate = true;
+                    break;
+                }
+            }
+
+            if(activate)
+            {
+                structsInRange.Clear();
+                waterLevel--;
+                StartCoroutine(WaterTiles());
+                yield return new WaitForSeconds(10);
+            }
+        }
     }
 
 }
