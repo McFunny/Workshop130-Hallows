@@ -133,9 +133,13 @@ public class BearTrap : StructureBehaviorScript
                 player.transform.position = new Vector3(transform.position.x, victim.transform.position.y, transform.position.z);
                 PlayerMovement.restrictMovementTokens += 1;
                 //yield return new WaitForSeconds(0.2f);
+
+                PlayerCam.Instance.NewObjectOfInterest(transform.position);
                 
                 yield return new WaitForSeconds(1);
                 StartCoroutine(Rearm());
+
+                PlayerCam.Instance.ClearObjectOfInterest();
 
                 yield return new WaitForSeconds(0.5f);
                 PlayerMovement.restrictMovementTokens -= 1;

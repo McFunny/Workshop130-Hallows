@@ -430,6 +430,21 @@ public class StructureManager : MonoBehaviour
         return tilePos;
     }
 
+    public List<Vector3> GetNearbyClearTiles(Vector3 pos, float range) //For farm only
+    {
+        List<Vector3> nearbyTiles = new List<Vector3>();
+        foreach (var gridPosition in allFarmTiles)
+        {
+            Vector3 tilePosition = farmTileMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= range && CheckTile(tilePosition) != Vector3.zero)
+            {
+                nearbyTiles.Add(tilePosition);
+            }
+        }
+        //print(nearbyTiles.Count);
+        return nearbyTiles;
+    }
+
     public List<Vector3> GetAdjacentClearTiles(Vector3 pos)
     {
         List<Vector3> adjacentTiles = new List<Vector3>();

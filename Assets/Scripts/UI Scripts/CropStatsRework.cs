@@ -251,7 +251,7 @@ public class CropStatsRework : MonoBehaviour
                     bool hasTerra = false;
                     bool hasIchor = false;
                 
-                    print(itemType);
+                    //print(itemType);
 
                     if(itemType.Equals(typeof(CropItem)))
                     {

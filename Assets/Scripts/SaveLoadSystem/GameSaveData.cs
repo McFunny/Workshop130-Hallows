@@ -9,6 +9,7 @@ public class GameSaveData : MonoBehaviour
 
     [Header("References to pets in scene. These must be filled manually")]
     public PetBehaviorScript catRef;
+    public PetBehaviorScript grubRef;
     [HideInInspector] public PetBehaviorScript currentPet;
 
 
@@ -138,6 +139,7 @@ public class GameSaveData : MonoBehaviour
         CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.bugStats != null) BugDatabase.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.critterStats != null) BarnManager.Instance.LoadStats(data.allGameSaveData);
+        if(data.allGameSaveData.structStats != null) StructureDatabase.Instance.LoadStats(data.allGameSaveData);
 
         tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
         rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -191,6 +193,9 @@ public class GameSaveData : MonoBehaviour
             case "Cat":
                 currentPet = catRef;
                 break;
+            case "Grub":
+                currentPet = grubRef;
+                break;
             default:
                 break;
         }
@@ -239,6 +244,7 @@ public class GameSaveData : MonoBehaviour
         public CreaturePlayerStats[] creatureStats;
         public int[] bugStats;
         public CritterData[] critterStats;
+        public bool[] structStats;
 
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
@@ -311,6 +317,7 @@ public class GameSaveData : MonoBehaviour
         CreatureDatabase.Instance.SaveStats(out creatureStats);
         BugDatabase.Instance.SaveStats(out bugStats);
         BarnManager.Instance.SaveStats(out critterStats);
+        StructureDatabase.Instance.SaveStats(out structStats);
 
 
         tutorialMerchantSpoke = data.tutorialMerchantSpoke;
