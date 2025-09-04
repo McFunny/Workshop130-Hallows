@@ -225,7 +225,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 1100f346622663643a32671aca44603b, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
-  persistAfterNewDay: 0
+  persistAfterNewDay: 1
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -299,6 +299,7 @@ MonoBehaviour:
   maxThirst: 100
   thirstDecayRate: 4
   penType: 0
+  homePen: {fileID: 0}
   agent: {fileID: 42516955606749678}
   attackHitbox: {fileID: 2481171313665102315}
   fiberItem: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}

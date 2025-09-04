@@ -409,4 +409,15 @@ public class HydroFly : CritterBehaviorScript
         return true;
     }
 
+    public override void OnDeath()
+    {
+        if (!isDead)
+        {
+            isDead = true;
+
+            PopupHandler.Instance.names.Enqueue(name);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);
+        }
+    }
+
 }

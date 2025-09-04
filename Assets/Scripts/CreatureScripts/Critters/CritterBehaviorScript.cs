@@ -207,6 +207,11 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         }
     }
 
+    public override void OnDamage()
+    {
+        if(health > 0 && effectsHandler.hitSounds.Length > 0) effectsHandler.OnHit();
+    }
+
     protected void OnDestroy() //Have all critters call these 2 functions in their Destroy method (Nvm?)
     {
         base.OnDestroy();
@@ -219,11 +224,11 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         BarnManager.Instance.allCritters.Remove(this);
         if(homePen) homePen.housedCritters.Remove(this);
 
-        if(health <= 0)
+        /*if(health <= 0)
         {
             PopupHandler.Instance.names.Enqueue(name);
             PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);
-        }
+        }*/
     }
 
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

@@ -44,7 +44,7 @@ public class CrimsonMothNest : StructureBehaviorScript
             itemRB.AddForce(Vector3.up * 50);
         }
 
-        r = Random.Range(3,7);
+        r = Random.Range(3,6);
         for(int i = 0; i < r; i++)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(comb);
