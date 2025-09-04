@@ -174,6 +174,12 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             return;
         }
 
+        if((hunger <= 25 && EatCheck(false)) || (thirst <= 25 && EatCheck(true)))
+        {
+            StateSwitch(PetState.Eat);
+            return;
+        }
+
         if(TownGate.Instance.location != PlayerLocation.InFarm) //Make sure pet is following when not in farm
         {
             if(TownGate.Instance.location != PlayerLocation.InTown || friendshipLevel < 2) //Player is not within reach, so stay still
@@ -185,12 +191,6 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             //currentState = PetState.Follow;
             StateSwitch(PetState.Follow);
             forceFollows = 5;
-            return;
-        }
-
-        if((hunger <= 25 && EatCheck(false)) || (thirst <= 25 && EatCheck(true)))
-        {
-            StateSwitch(PetState.Eat);
             return;
         }
 

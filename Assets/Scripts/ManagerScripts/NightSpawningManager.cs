@@ -162,9 +162,11 @@ public class NightSpawningManager : MonoBehaviour
         {
             r = Random.Range(0, weightArray.Count);
             CreatureObject attemptedCreature = selectedCreatures[weightArray[r]];
+
             //If there is enough points to afford the creature and it hasnt reached it's spawn cap, spawn it
+
             if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreaturesThisHour[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold
-                && attemptedCreature.spawnCap > creatureTallyDict[attemptedCreature] && totalCreatures < maxCreatures)
+                && attemptedCreature.spawnCap > creatureTallyDict[attemptedCreature] && (totalCreatures < maxCreatures || !attemptedCreature.contribuiteToCreatureCap))
             {
                 spawnedCreaturesThisHour[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;

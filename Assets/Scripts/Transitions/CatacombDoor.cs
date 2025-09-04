@@ -18,10 +18,14 @@ public class CatacombDoor : MonoBehaviour, IInteractable
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
 
+    public AudioSource source;
+    public AudioClip unlock, open;
+
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(GameSaveData.Instance.catacombUnlocked || debugMode)
         {
+            source.PlayOneShot(open);
             if(!isExit)
             {
                 StartCoroutine(Transition(true));
@@ -65,6 +69,7 @@ public class CatacombDoor : MonoBehaviour, IInteractable
             PlayerInventoryHolder.Instance.UpdateInventory();
             QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(5));
             QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(6));
+            source.PlayOneShot(unlock);
             return;
         }
         interactSuccessful = false;
