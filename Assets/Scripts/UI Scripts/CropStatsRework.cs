@@ -27,10 +27,12 @@ public class CropStatsRework : MonoBehaviour
     [SerializeField] private PetStatsUI petStatsUI;
     public delegate void CropStatsShown();
     public event CropStatsShown OnCropStatsShown;
+    private bool alwaysShowDetailedStats;
 
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        OnSettingsChanged();
     }
     void Start()
     {
@@ -42,9 +44,27 @@ public class CropStatsRework : MonoBehaviour
         StartCoroutine(CheckTimer());
     }
 
+    private void OnEnable()
+    {
+        SettingsValueManager.OnSettingsChanged += OnSettingsChanged;
+    }
+    private void OnDisable()
+    {
+        SettingsValueManager.OnSettingsChanged -= OnSettingsChanged;
+    }
+
+    private void OnSettingsChanged()
+    {
+        if (PlayerPrefs.GetInt("DetailedUI", 0) == 0)
+        {
+            alwaysShowDetailedStats = false;
+        }
+        else alwaysShowDetailedStats = true;
+    }
+
     void Update()
     {
-        if (controlManager.moreInfo.action.IsPressed())
+        if (controlManager.moreInfo.action.IsPressed() || alwaysShowDetailedStats)
         {
             cropStats.SetActive(false);
             cropStatsDetailed.SetActive(true);

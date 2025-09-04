@@ -83,7 +83,7 @@ public class PauseScript : MonoBehaviour
             if (confirmationBox.gameObject.activeSelf) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             else if (controlsObject.activeSelf) EventSystem.current.SetSelectedGameObject(controlsDefault);
             else if (resolutionBox.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
-            else if (settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsDefault);
+            else if (settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.defaultMenuObject);
             else { EventSystem.current.SetSelectedGameObject(defaultObject); }
             print("Default Menu Object Selected");
         } 
@@ -264,7 +264,7 @@ public class PauseScript : MonoBehaviour
     {
         print("Settings Pressed");
         settingsCanvas.SetActive(true);
-        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsDefault);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsValueManager.defaultMenuObject);
     }
 
     public void OpenControlsScreen()

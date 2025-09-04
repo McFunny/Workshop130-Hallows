@@ -39,6 +39,7 @@ public class UICropStats : MonoBehaviour
     void Awake()
     {
         controlManager = FindFirstObjectByType<ControlManager>();
+        
     }
     void Start()
     {
@@ -53,18 +54,18 @@ public class UICropStats : MonoBehaviour
     private void OnEnable()
     {
         controlManager.moreInfo.action.started += MoreInfo;
-        controlManager.moreInfo.action.canceled += LessInfo;  
+        controlManager.moreInfo.action.canceled += LessInfo;
     }
     private void OnDisable()
     {
-        controlManager.moreInfo.action.started -= MoreInfo; 
-        controlManager.moreInfo.action.canceled -= LessInfo;  
+        controlManager.moreInfo.action.started -= MoreInfo;
+        controlManager.moreInfo.action.canceled -= LessInfo;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isDetailed && isActive)
+        if (isDetailed && isActive)
         {
             cropStatsObjectD.SetActive(true);
             cropStatsObject.SetActive(false);
