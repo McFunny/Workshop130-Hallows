@@ -39,6 +39,11 @@ public interface ICritter
         return new CritterData();
     }
 
+    public CritterBehaviorScript GetCritterScript()
+    {
+        return null;
+    }
+
     public void LoadData(CritterData c){}
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful);

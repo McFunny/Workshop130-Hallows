@@ -45,7 +45,7 @@ public class StructureManager : MonoBehaviour
         {
             Instance = this;
         }
-        InstantiateNutrientStorage();
+        InstantiateTileMaps();
         //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
         if(!MainMenuScript.loadingData)
         {
@@ -780,7 +780,7 @@ public class StructureManager : MonoBehaviour
         return null;
     } //used to play ichor particle
 
-    void InstantiateNutrientStorage()
+    void InstantiateTileMaps()
     {
         foreach (var gridPosition in farmTileMap.cellBounds.allPositionsWithin)
         {
@@ -789,6 +789,14 @@ public class StructureManager : MonoBehaviour
                 allFarmTiles.Add(gridPosition);
                 NutrientStorage newStorage = new NutrientStorage();
                 storage.Add(newStorage);
+            }
+        }
+
+        foreach (var gridPosition in barnTileMap.cellBounds.allPositionsWithin)
+        {
+            if(barnTileMap.GetTile(gridPosition) != null)
+            {
+                allBarnTiles.Add(gridPosition);
             }
         }
     }

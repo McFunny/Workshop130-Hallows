@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a32fc360a3fcc94e90a583305d10ce8, type: 3}
+  m_Name: CritterCoop
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 2547356748998068230, guid: e5ee233d83c2fd145bb68f82ae46faaf,
+    type: 3}
+  id: 60
+  health: 0
+  position:
+  - 0
+  - 0
+  - 0
+  rotation:
+  - 0
+  - 0
+  - 0
+  data:
+    Name: 
+    Id: 60
+    health: 0
+    position:
+    - 0
+    - 0
+    - 0
+    rotation:
+    - 0
+    - 0
+    - 0
+    savedItemList1: []
+    savedItemIDList1: 
+    savedInt1: 0
+    savedInt2: 0
+    savedInt3: 0
+    savedFloat1: 0
+    savedFloat2: 0
+    savedFloat3: 0
+    savedString1: 
+    savedString2: 
+    savedString3: 
+    savedBool1: 0
+  gridSize: 2
+  structureType: 1
+  mintRepairCost: 0
+  repairItems:
+  - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+    amount: 3
+  - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+    amount: 3
+  requiredRepairs: 6
+  maxMisses: 4
+  bugSpawnChance: 0
+  hasBeenPlaced: 0

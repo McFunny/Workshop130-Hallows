@@ -12,12 +12,9 @@ public class TinkererNPC : NPC, ITalkable
   
 
     public float sellMultiplier = 1;
-    public InventoryItemData watergun, scythe;
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    //WaypointScript shopUI;
-    private int timesSetUpShop = 0;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -135,56 +132,14 @@ public class TinkererNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
     {
-        if (dialogueController.IsInterruptable() == false)
+        uniqueDialogue = false;
+        if(item == barterDatabase.uniqueTransactions[0].itemForSale)
         {
-            return;
+            GameSaveData.Instance.watergunObtained = true;
+            QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(7));
         }
-        if (lastInteractedStoreItem == item)
-        {
-            //check price, then give item
-            if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
-            {
-                currentPath = 3; //no money!?!?!?
-            }
-            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
-            {
-                currentPath = 4; //No space in inventory
-            }
-            else
-            {
-                currentPath = 2; //item sold
-                if (item.itemData == watergun) 
-                {
-                    GameSaveData.Instance.watergunObtained = true;
-                    QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(7));
-                }
-                if (item.itemData == scythe) 
-                {
-                    GameSaveData.Instance.scytheObtained = true;
-                }
-                shopUI.shopImgObj.SetActive(false);
-            }
-            anim.SetTrigger("IsTalking");
-        }
-        else
-        {
-            dialogueController.restartDialogue = true;
-            currentPath = 1; //item selected
-            anim.SetTrigger("IsTalking");
-            if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-            lastInteractedStoreItem = item;
-            shopUI.shopTarget = item.arrowObject.transform;
-            shopUI.shopImgObj.SetActive(true);
-            if (assignedStall.displaySign)
-            {
-                assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
-            }
-
-        }
-        currentType = PathType.Misc;
-        Talk();
     }
 
     public override void PlayerLeftRadius()
@@ -212,54 +167,45 @@ public class TinkererNPC : NPC, ITalkable
         //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
         if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
         lastInteractedStoreItem = null;
-        int t;
+        int newCost = 0;
         float r;
+        int b;
         InventoryItemData newItem;
 
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
 
        
-            for (int i = 0; i < storeItems.Count; i++)
+        for (int i = 0; i < storeItems.Count; i++)
+        {
+            //////
+
+            newItem = null;
+
+            if (i == 0 && !GameSaveData.Instance.watergunObtained && GameSaveData.Instance.tinkMet)
             {
-                if (i == 0 && !GameSaveData.Instance.watergunObtained /*&& timesSetUpShop > 0 */&& GameSaveData.Instance.tinkMet)
-                {
-                    newItem = watergun;
-                    int newCost = (int)(newItem.value * sellMultiplier);
-                    storeItems[0].RefreshItem(newItem, newCost);
-                    storeItems[0].seller = this;
-                }
-                /*else if (i == 0 && !GameSaveData.Instance.scytheObtained && timesSetUpShop == 0)
-                {
-                    newItem = scythe;
-                    int newCost = (int)(newItem.value * sellMultiplier);
-                    storeItems[0].RefreshItem(newItem, newCost);
-                    storeItems[0].seller = this;
-                }*/
-                else
-                {
-                    newItem = null;
-                    do
-                    {
-                        t = Random.Range(0, possibleSoldItems.Length);
-                        r = Random.Range(0f, 1f);
-                        if (r < itemWeight[t]) newItem = possibleSoldItems[t];
-                    }
-                    while (!newItem);
-                    int newCost = (int)(newItem.value * sellMultiplier);
-                    storeItems[i].RefreshItem(newItem, newCost);
-                    storeItems[i].seller = this;
-                }
+                newItem = barterDatabase.uniqueTransactions[0].itemForSale;
+                newCost = (int)(barterDatabase.uniqueTransactions[0].mintCost * sellMultiplier);
+                storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
+                storeItems[0].seller = this;
+                continue;
             }
 
-        if (timesSetUpShop == 0) { timesSetUpShop++; }
-        else if (timesSetUpShop > 0) { timesSetUpShop = 0; }
-    }
-
-    protected override void HourUpdate()
-    {
-        base.HourUpdate();
-        if(TimeManager.Instance.currentHour == 8)
-        {
-            timesSetUpShop = 0;
+            do
+            {
+                b = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[b].barterChance && barterDatabase.transactions[b].siegesRequired <= GameSaveData.Instance.siegesCleared)
+                {
+                    if(selectedTrades.Contains(b) && Random.Range(0, 10) > 4) continue; //Repeats are less likely but not impossible
+                    newItem = barterDatabase.transactions[b].itemForSale;
+                    selectedTrades.Add(b);
+                }
+            }
+            while (!newItem);
+            newCost = (int)(barterDatabase.transactions[b].mintCost * sellMultiplier);
+            storeItems[i].RefreshItem(newItem, newCost, barterDatabase.transactions[b].itemsRequired, barterDatabase.transactions[b].amountForSale);
+            storeItems[i].ChangeAmountGiven(barterDatabase.transactions[b].amountGiven);
+            storeItems[i].seller = this;
         }
     }
     

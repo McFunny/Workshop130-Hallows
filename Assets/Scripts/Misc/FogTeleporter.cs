@@ -31,7 +31,7 @@ public class FogTeleporter : MonoBehaviour
             if(TimeManager.Instance.isDay)
             {
                 var creature = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
-                Destroy(creature.gameObject);
+                if(creature && !creature.persistAfterNewDay) Destroy(creature.gameObject);
             }
             else if(enemyTeleport)
             {

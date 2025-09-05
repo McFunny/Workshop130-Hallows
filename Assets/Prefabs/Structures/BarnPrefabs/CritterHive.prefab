@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6899163685759734588}
   - component: {fileID: 6360012541478399329}
   - component: {fileID: 308646400018926021}
+  - component: {fileID: 2136146847439335747}
   m_Layer: 6
   m_Name: CritterHive
   m_TagString: Untagged
@@ -193,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: a5438da2a839b4147bdf5d06bf1b3404, type: 2}
-  itemForm: {fileID: 11400000, guid: 8b07525fe0c7bc2469db97d107a8913d, type: 2}
+  itemForm: {fileID: 11400000, guid: 3fbbaba87fe0f3d43b54f11dfd1cd0b7, type: 2}
   health: 999
   maxHealth: 999
   wealthValue: 0
@@ -255,6 +256,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.29, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!208 &2136146847439335747
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6041368247990737500}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &5414635548976707469
 PrefabInstance:
   m_ObjectHideFlags: 0

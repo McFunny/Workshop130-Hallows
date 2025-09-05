@@ -313,7 +313,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         anim.SetBool("IsDigging", true);
         effectsHandler.MiscSound();
-        diggingTimeLeft = 3;
+        diggingTimeLeft = 4;
         yield return new WaitUntil(() => diggingTimeLeft <= 0 || playerInSightRange);
         if (!playerInSightRange && StructureManager.Instance.CheckTile(newBurrowPos) != new Vector3(0,0,0))
         {
@@ -337,7 +337,7 @@ public class FeralHareTest : CreatureBehaviorScript
         if(variant == Variant.Tunneler) burrowChance += 5;
 
         if(structManager.CheckTile(transform.position) == Vector3.zero) return false;
-        if(burrowChance > 7 && structManager.BurrowCount() < 10 && currentState == CreatureState.Wander && structManager.ValidateGridType(transform.position, GridType.Farm))
+        if(burrowChance >= 6 && structManager.BurrowCount() < 15 && currentState == CreatureState.Wander && structManager.ValidateGridType(transform.position, GridType.Farm))
         {
             if(variant == Variant.Tunneler) return true;
 
@@ -636,7 +636,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         burrowCooldown = true;
         
-
+        if(targetBurrow) targetBurrow.GetComponent<Burrow>().UseBurrow();
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
 
         fleeTimeLeft = 0;
@@ -644,6 +644,8 @@ public class FeralHareTest : CreatureBehaviorScript
 
         transform.position = exitBurrow.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+        if(exitBurrow) exitBurrow.GetComponent<Burrow>().UseBurrow();
+
         targetBurrow = null;
         exitBurrow = null;
 

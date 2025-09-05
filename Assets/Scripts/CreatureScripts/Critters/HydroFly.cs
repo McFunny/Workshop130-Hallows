@@ -81,11 +81,6 @@ public class HydroFly : CritterBehaviorScript
         }
     }
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    public float GetCritterHealth(){ return health;}
-    public float GetCritterHunger(){ return hunger;}
-    public float GetCritterThirst(){ return thirst;}
-    public string GetCritterName(){ return name;}
-    public int GetCritterID(){ return creatureData.id;}
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, 0);} //For saving purposes
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -407,6 +402,17 @@ public class HydroFly : CritterBehaviorScript
         item = bugItem;
         
         return true;
+    }
+
+    public override void OnDeath()
+    {
+        if (!isDead)
+        {
+            isDead = true;
+
+            PopupHandler.Instance.names.Enqueue(name);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);
+        }
     }
 
 }
