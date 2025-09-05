@@ -21,6 +21,7 @@ public class UIMenuButton : MonoBehaviour
     public bool isDisabled = false;
     public bool ignoreColor = false;
     public bool isWithinScrollRect = false;
+    public bool doNotUpdate = false;
     bool hasSnapped = false;
 
     void Awake()
@@ -59,9 +60,23 @@ public class UIMenuButton : MonoBehaviour
     
     void Update()
     {
-        if(r != null)
+        if (doNotUpdate)
         {
-            if(EventSystem.current.currentSelectedGameObject == this.gameObject) isSelected = true;
+            if(EventSystem.current.currentSelectedGameObject == this.gameObject)
+            {
+                isSelected = true;
+            }
+            else
+            {
+                isSelected = false;
+            }
+            return;
+        }    
+
+
+        if (r != null)
+        {
+            if (EventSystem.current.currentSelectedGameObject == this.gameObject) isSelected = true;
             else isSelected = false;
             return;
         } 
@@ -125,14 +140,15 @@ public class UIMenuButton : MonoBehaviour
     {
         if(isSelected && controlManager.select.action.ReadValue<float>() == 0) 
         {
-            //print("Onlcick Attempted");
+            print("Onclick Attempted");
             if(button.interactable == false) return;
             button.onClick.Invoke();
             if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
         }
         else if(isSelected && ControlManager.isController)
         {
-            if(button.interactable == false) return;
+            print("Onclick Attempted");
+            if (button.interactable == false) return;
             button.onClick.Invoke();
             if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
         }

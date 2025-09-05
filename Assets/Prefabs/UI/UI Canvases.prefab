@@ -996,6 +996,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &2510684590714358804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2379,6 +2380,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &6769041562474193783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5587,6 +5589,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &5315389899011157007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19183,6 +19186,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 0
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &1643880087122783425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23744,6 +23748,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &9127632979637729557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26764,6 +26769,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 0
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &8567699613513048797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29435,7 +29441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lerpToStart: 1
   disableOnEnd: 0
-  startAtEnd: 0
+  startAtEnd: 1
   ignoreTimeScale: 0
   isAtEnd: 0
   doLerpX: 1
@@ -33360,6 +33366,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 0
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &3678603809391566245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43819,6 +43826,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 1
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &3159036301023220305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73239,6 +73247,11 @@ PrefabInstance:
       propertyPath: previousMenuObject
       value: 
       objectReference: {fileID: 4939976778734831891}
+    - target: {fileID: 5567865958274049442, guid: c002696cea105234ab7585a760481716,
+        type: 3}
+      propertyPath: previousMenuButtons.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5864058242477826770, guid: c002696cea105234ab7585a760481716,
         type: 3}
       propertyPath: m_AnchorMax.y
