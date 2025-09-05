@@ -84,7 +84,7 @@ NavMeshAgent:
   m_AngularSpeed: 280
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0.14
@@ -170,7 +170,7 @@ MonoBehaviour:
   anim: {fileID: 6036635885472992820}
   droppedItems: []
   dropChance: []
-  sightRange: 7
+  sightRange: 10
   attackRange: 0
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -185,6 +185,7 @@ MonoBehaviour:
   actionSpeedMod: 1
   hitColor: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 0.25490198}
   currentEffects: []
+  critterType: 3
   name: Ricky
   friendshipLevel: 0
   friendPoints: 0
@@ -229,6 +230,9 @@ MonoBehaviour:
   homePen: {fileID: 0}
   agent: {fileID: 7144346955127176144}
   eggProgress: 0
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 524352
   currentState: 0
 --- !u!1001 &296880795631739309
 PrefabInstance:

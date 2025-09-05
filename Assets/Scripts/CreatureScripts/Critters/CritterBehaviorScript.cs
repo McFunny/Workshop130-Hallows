@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 {
     [Header("Pet Variables")]
+    public CritterType critterType;
     public string name = "Dave";
     public int friendshipLevel = 0;
     protected int maxFriendshipLevel = 5; //Increases frequency of actions
@@ -243,6 +244,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         else return true;
     }
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, 0);} //For saving purposes
+    public CritterBehaviorScript GetCritterScript(){ return this;}
 
     public virtual void LoadData(CritterData c)
     {
@@ -272,4 +274,13 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     {
         interactSuccessful = true;
     }
+}
+[System.Serializable]
+public enum CritterType
+{
+    Hog,
+    Mimic,
+    Fly,
+    Hen,
+    Hare
 }

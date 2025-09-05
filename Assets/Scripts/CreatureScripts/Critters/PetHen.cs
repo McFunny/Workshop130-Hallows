@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class PetHen : CritterBehaviorScript
 {
@@ -11,6 +12,10 @@ public class PetHen : CritterBehaviorScript
     private bool hasTarget = false; //For fleeing
 
     public float eggProgress = 0; //max is 2
+
+    HenNest targetNest;
+
+    public LayerMask obstacleMask;
 
     public enum CritterState
     {
@@ -38,11 +43,6 @@ public class PetHen : CritterBehaviorScript
         //OnCritterDestroy();
     }
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    public float GetCritterHealth(){ return health;}
-    public float GetCritterHunger(){ return hunger;}
-    public float GetCritterThirst(){ return thirst;}
-    public string GetCritterName(){ return name;}
-    public int GetCritterID(){ return creatureData.id;}
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, eggProgress);} //For saving purposes
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -156,7 +156,7 @@ public class PetHen : CritterBehaviorScript
         {
             eggProgress++;
             if(friendshipLevel == maxFriendshipLevel) eggProgress++;
-            //if(eggProgress >= 2) MakeEggs(); //More friendly the hen, the more likely it is to lay an egg in a nest instead of random. Hens lay an egg every other day, and maxed out friend hens lay 2 eggs
+            //if(eggProgress >= 2) StartCoroutine(MakeEggs());
         }
     }
 
@@ -174,6 +174,16 @@ public class PetHen : CritterBehaviorScript
         {
             currentState = CritterState.Flee;
             return;
+        }
+
+        if(Random.Range(0, 10f) > 9.4f || eggProgress >= 2) //sit in nest
+        {
+            FindNearbyNest();
+            if(targetObject)
+            {
+                currentState = CritterState.Wander;
+                return;
+            }
         }
 
         r = Random.Range(0, 13);
@@ -197,8 +207,15 @@ public class PetHen : CritterBehaviorScript
 
     protected IEnumerator WaitAround()
     {
-        float time = Random.Range(2f, 12f);
-        if(time > 8)
+        agent.ResetPath();
+        float time = Random.Range(1f, 9f);
+        if(targetNest && Vector3.Distance(transform.position, targetObject.position) < 3)
+        {
+            targetObject = null;
+            time = 30;
+            FriendPointsChange(10, true);
+        }
+        if(time > 5)
         {
             anim.SetBool("IsSitting", true);
             anim.Play("HenSit");
@@ -211,8 +228,16 @@ public class PetHen : CritterBehaviorScript
             else if(r > 5) anim.Play("HenIdle2");
         }
         yield return new WaitForSeconds(time);
+
+        if(targetNest && eggProgress >= 2)
+        {
+            targetNest.EggChange(true);
+            targetNest.containsHen = false;
+            eggProgress = 0;
+            targetNest = null;
+        }
         
-        if(time > 10)
+        if(time > 8)
         {
             anim.SetBool("IsSitting", false);
             yield return new WaitForSeconds(1);
@@ -229,12 +254,18 @@ public class PetHen : CritterBehaviorScript
         {
 
             agent.speed = walkSpeed;
-            target = StructureManager.Instance.GetRandomTile(GridType.Barn);
-            target = GetRandomPointAround(target, 7f);
-            currentRoutine = StartCoroutine(MoveToPoint(target, 5));
+            if(targetObject) target = targetObject.position;
+            else
+            {
+                target = StructureManager.Instance.GetRandomTile(GridType.Barn);
+                target = GetRandomPointAround(target, 7f);
+            }
+
+            if(/*Random.Range(0, 10) == 9 && */CanFlyToPoint(target)) currentRoutine = StartCoroutine(FlyToPoint(target));
+            else currentRoutine = StartCoroutine(MoveToPoint(target, 7));
         }
 
-        if(playerInSightRange && currentRoutine != null)
+        if(playerInSightRange && currentRoutine != null && agent.enabled)
         {
             currentState = CritterState.Flee;
             if(currentRoutine != null) StopCoroutine(currentRoutine);
@@ -351,6 +382,55 @@ public class PetHen : CritterBehaviorScript
         currentRoutine = null;
     }
 
+    void FindNearbyNest()
+    {
+        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 80f, 1 << 6);
+        foreach(Collider collider in hitStructures)
+        {
+            HenNest nest = collider.GetComponent<HenNest>();
+            targetNest = nest;
+            if(nest && !nest.containsEgg && !nest.containsHen && Random.Range(0,10) != 1)
+            {
+                nest.containsHen = true;
+                targetObject = nest.transform;
+                return;
+            }
+        }
+    }
+
+    bool CanFlyToPoint(Vector3 pos)
+    {
+        float reach = Vector3.Distance(transform.position, pos);
+        if(reach > 12 || reach < 2)
+        {
+            //print("Cant Fly, target too far");
+            return false;
+        }
+        Vector3 dir = (pos - transform.position).normalized;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, dir, out hit, reach, obstacleMask))
+        {
+            //print("Cant Fly");
+            return false;
+        }
+        //print("Can Fly");
+        return true;
+    }
+
+    IEnumerator FlyToPoint(Vector3 pos)
+    {
+        agent.ResetPath();
+        agent.enabled = false;
+        Vector3 targetPostition = new Vector3( pos.x, transform.position.y, pos.z );
+        transform.LookAt(targetPostition);
+        anim.Play("HenJump");
+
+        yield return new WaitForSeconds(0.2f);
+        transform.DOJump(pos, 0.7f, 1, 1f);
+        yield return new WaitForSeconds(1.4f);
+        agent.enabled = true;
+        FinishedMoving();
+    }
 
     IEnumerator EatRoutine()
     {
@@ -379,6 +459,8 @@ public class PetHen : CritterBehaviorScript
             rb.freezeRotation = true;
             StopAllCoroutines();
             canCorpseBreak = true;
+
+            if(targetNest) targetNest.containsHen = false;
 
             PopupHandler.Instance.names.Enqueue(name);
             PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);

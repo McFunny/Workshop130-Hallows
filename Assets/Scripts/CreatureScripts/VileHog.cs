@@ -642,7 +642,9 @@ public class VileHog : CreatureBehaviorScript
                     isCharging = false;
                 }
                 return;
-            }           
+            }    
+
+            if(other.TryGetComponent<Burrow>(out Burrow burrow)) burrow.TakeDamage(20);      
         }
 
         if(other.gameObject.layer == 9)
