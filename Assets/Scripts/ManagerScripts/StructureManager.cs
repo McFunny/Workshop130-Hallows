@@ -45,7 +45,7 @@ public class StructureManager : MonoBehaviour
         {
             Instance = this;
         }
-        InstantiateNutrientStorage();
+        InstantiateTileMaps();
         //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
         if(!MainMenuScript.loadingData)
         {
@@ -430,6 +430,21 @@ public class StructureManager : MonoBehaviour
         return tilePos;
     }
 
+    public List<Vector3> GetNearbyClearTiles(Vector3 pos, float range) //For farm only
+    {
+        List<Vector3> nearbyTiles = new List<Vector3>();
+        foreach (var gridPosition in allFarmTiles)
+        {
+            Vector3 tilePosition = farmTileMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= range && CheckTile(tilePosition) != Vector3.zero)
+            {
+                nearbyTiles.Add(tilePosition);
+            }
+        }
+        //print(nearbyTiles.Count);
+        return nearbyTiles;
+    }
+
     public List<Vector3> GetAdjacentClearTiles(Vector3 pos)
     {
         List<Vector3> adjacentTiles = new List<Vector3>();
@@ -765,7 +780,7 @@ public class StructureManager : MonoBehaviour
         return null;
     } //used to play ichor particle
 
-    void InstantiateNutrientStorage()
+    void InstantiateTileMaps()
     {
         foreach (var gridPosition in farmTileMap.cellBounds.allPositionsWithin)
         {
@@ -774,6 +789,14 @@ public class StructureManager : MonoBehaviour
                 allFarmTiles.Add(gridPosition);
                 NutrientStorage newStorage = new NutrientStorage();
                 storage.Add(newStorage);
+            }
+        }
+
+        foreach (var gridPosition in barnTileMap.cellBounds.allPositionsWithin)
+        {
+            if(barnTileMap.GetTile(gridPosition) != null)
+            {
+                allBarnTiles.Add(gridPosition);
             }
         }
     }

@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
 
-[RequireComponent(typeof(SphereCollider))]
+//[RequireComponent(typeof(SphereCollider))]
 public class StoreItem : MonoBehaviour, IInteractable
 {
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
     public InventoryItemData itemData;
 
-    private SphereCollider myCollider;
+    private Collider myCollider;
 
     public SpriteRenderer r;
     public Color original, highlighted;
@@ -30,9 +30,14 @@ public class StoreItem : MonoBehaviour, IInteractable
     bool awakeOver = false;
     private ToolTipScript toolTipScript;
 
+    public bool isAnimalCrate = false;
+
+    StorePetCage cageScript;
+
     private void Awake()
     {
-        myCollider = GetComponent<SphereCollider>();
+        myCollider = GetComponent<Collider>();
+        cageScript = GetComponent<StorePetCage>();
         if (!itemData || !seller) Empty();
         toolTipScript = GameObject.Find("BarterCanvas").GetComponent<ToolTipScript>();
     }
@@ -44,7 +49,7 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
-        if (cost > 0 || barterCost.Count > 0)
+        if (itemData && (cost > 0 || barterCost.Count > 0))
         {
             seller.PurchaseAttempt(this);
             toolTipScript.panel.SetActive(true);
@@ -75,16 +80,28 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public void RefreshItem(InventoryItemData newItem, int _cost)
     {
-        r.sprite = newItem.icon;
+        CritterItem c = newItem as CritterItem;
+        if(c)
+        {
+            if(cageScript)
+            {
+                if(c.petOverride) cageScript.RefreshCage(c.petType);
+                else cageScript.RefreshCage(c.critterRef.critterType);
+            }
+        }
+        else 
+        {
+            r.sprite = newItem.icon;
+            stockText.text = "";
+            barterObject.SetActive(false);
+        }
         itemData = newItem;
         cost = _cost;
         amountLeft = 1;
         amountGiven = 1;
-        stockText.text = "";
         costText.text = cost.ToString();
         if(cost > 0) costObject.SetActive(true);
         myCollider.enabled = true;
-        barterObject.SetActive(false);
     }
 
     public void RefreshItem(InventoryItemData newItem, int _cost, List<ItemWithAmount> newCost, int _amount)
@@ -117,18 +134,22 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public void Empty()
     {
-        r.sprite = null;
+        if(cageScript) cageScript.ClearCage();
+        else 
+        {
+            r.sprite = null;
+            barterObject.SetActive(false);
+            barterCost.Clear();
+            stockText.text = "";
+        }
         itemData = null;
         cost = 0;
         costText.text = "";
         costObject.SetActive(false);
         amountLeft = 0;
         amountGiven = 1;
-        stockText.text = "";
         myCollider.enabled = false;
         if(awakeOver) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
-        barterObject.SetActive(false);
-        barterCost.Clear();
         clearUponPurchase = true;
     }
 
@@ -183,6 +204,7 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public void ToggleHighlight(bool enable)
     {
+        if(!r) return;
         if(enable)
         {
             r.color = highlighted;

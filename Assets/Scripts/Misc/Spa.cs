@@ -128,6 +128,7 @@ public class Spa : MonoBehaviour, IInteractable
             {
                 if(PlayerInteraction.Instance.stamina < PlayerInteraction.Instance.maxStamina) PlayerInteraction.Instance.stamina += 10;
                 if(PlayerInteraction.Instance.fatigue > 0)  PlayerInteraction.Instance.fatigue -= 5;
+                StatusEffectManager.Instance.RemoveStatusOnPlayer(StatusEffectName.Fire);
             }
         }
         while(gameObject.activeSelf);

@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 {
     [Header("Pet Variables")]
+    public CritterType critterType;
     public string name = "Dave";
     public int friendshipLevel = 0;
     protected int maxFriendshipLevel = 5; //Increases frequency of actions
@@ -152,8 +153,8 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         while(health > 0)
         {
             int i = Random.Range(8,18);
-            effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
+            effectsHandler.RandomIdle();
         }
     }
 
@@ -207,6 +208,11 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         }
     }
 
+    public override void OnDamage()
+    {
+        if(health > 0 && effectsHandler.hitSounds.Length > 0) effectsHandler.OnHit();
+    }
+
     protected void OnDestroy() //Have all critters call these 2 functions in their Destroy method (Nvm?)
     {
         base.OnDestroy();
@@ -219,11 +225,11 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         BarnManager.Instance.allCritters.Remove(this);
         if(homePen) homePen.housedCritters.Remove(this);
 
-        if(health <= 0)
+        /*if(health <= 0)
         {
             PopupHandler.Instance.names.Enqueue(name);
             PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);
-        }
+        }*/
     }
 
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -238,6 +244,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         else return true;
     }
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, 0);} //For saving purposes
+    public CritterBehaviorScript GetCritterScript(){ return this;}
 
     public virtual void LoadData(CritterData c)
     {
@@ -267,4 +274,13 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     {
         interactSuccessful = true;
     }
+}
+[System.Serializable]
+public enum CritterType
+{
+    Hog,
+    Mimic,
+    Fly,
+    Hen,
+    Hare
 }

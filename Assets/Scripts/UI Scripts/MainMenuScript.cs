@@ -107,7 +107,7 @@ public class MainMenuScript : MonoBehaviour
             if (confirmationBox.gameObject.activeSelf) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             else if (controlsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(controlsDefault);
             else if (resolutionBox.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
-            else if (settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsDefault);
+            else if (settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.defaultMenuObject);
             else if (difficultyOptions.activeSelf) EventSystem.current.SetSelectedGameObject(difficultyDefault);
             else if (menuObject.activeSelf) EventSystem.current.SetSelectedGameObject(defaultObject);
             else if (loadCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(loadDefault);
@@ -441,7 +441,7 @@ public class MainMenuScript : MonoBehaviour
     {
         if (isTransitioning) return;
         settingsCanvas.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(settingsDefault);
+        EventSystem.current.SetSelectedGameObject(settingsValueManager.defaultMenuObject);
     }
 
     public void OpenControlsScreen()

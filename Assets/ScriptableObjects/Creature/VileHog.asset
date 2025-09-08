@@ -27,6 +27,20 @@ MonoBehaviour:
       _probability: 5
     - _int: 3
       _probability: 10
+  - name: Dark Hog
+    prefab: {fileID: 1793013750846052346, guid: 7bd87286ae9e5154b956e832100410bc,
+      type: 3}
+    probabilityInFarm: 0
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 3000
+    variantChanceInFarm:
+    - _int: 2
+      _probability: 15
+    - _int: 3
+      _probability: 20
+    - _int: 4
+      _probability: 35
   health: 0
   position:
   - 0

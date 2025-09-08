@@ -168,7 +168,13 @@ public class PopupHandler : MonoBehaviour
         if (popup.endCondition == PopupScript.EndCondition.TimeBased && (!popup.skippable || popupQueue.Count == 0))
         {
             // Wait for the specified time
-            yield return new WaitForSeconds(popup.endTimeInSeconds);
+            float t = 0;
+            while(t < popup.endTimeInSeconds)
+            {
+                yield return new WaitForSeconds(0.5f);
+                t += 0.5f;
+                if((popup.skippable && popupQueue.Count > 0)) t = popup.endTimeInSeconds;
+            }
             print("Popup Timer Ended");
         }
         else if (popup.endCondition == PopupScript.EndCondition.TillGround)
@@ -231,12 +237,16 @@ public class PopupHandler : MonoBehaviour
             print("Structure!!!");
             conditionMet = false; // Reset
         }
-        //print("HI!!!");
+        else //Should work with any other popup
+        {
+            yield return new WaitUntil(() => conditionMet);
+            conditionMet = false; // Reset
+        }
         isActive = false;
         yield return new WaitUntil(() => offScreen);
         yield return new WaitForSeconds(0.5f);
         isActive = true;
-        //print("off");
+
     }
 
     private void OnTillGround()

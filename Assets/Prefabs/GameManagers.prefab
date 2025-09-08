@@ -10957,7 +10957,6 @@ MonoBehaviour:
     type: 3}
   critterHive: {fileID: 6041368247990737500, guid: a637e677f7c866646b989adf0601e8e1,
     type: 3}
-  petBowl: {fileID: 8239292153294230433, guid: 3a8b70a398fa4bd4c909008985938c3d, type: 3}
   fogChime: {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   berryBush: {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
   ignoreCropGrowthTime: 0
@@ -11056,6 +11055,9 @@ MonoBehaviour:
   hydrofly: {fileID: 0}
   torchFlame: {fileID: 0}
   pyreflyFlame: {fileID: 0}
+  pyreflyMat: {fileID: 0}
+  pyreflyLit: {fileID: 2100000, guid: 8470e1ec53530ae439f837b725de6731, type: 2}
+  pyreflyUnlit: {fileID: 2100000, guid: 9b08859ccf23f4f45a1ba5415972eebd, type: 2}
   handSpriteTransform: {fileID: 0}
   toolSource: {fileID: 2845003546474641417}
   extinguish: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
@@ -11232,6 +11234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   catRef: {fileID: 7724304851125435548}
+  grubRef: {fileID: 2625665073206265240}
   currentPet: {fileID: 0}
   pStamina: 0
   pFatigue: 0
@@ -61509,6 +61512,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6411222687303249008}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2625665073206265240 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8973705286875261416, guid: 36ebaa30bc7b0d8488cbf9039f2e45d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6411222687303249008}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 767068edb4532ee4a8c9662ed662ad19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8259324778047792705
 PrefabInstance:
   m_ObjectHideFlags: 0
