@@ -337,7 +337,7 @@ public class FeralHareTest : CreatureBehaviorScript
         if(variant == Variant.Tunneler) burrowChance += 5;
 
         if(structManager.CheckTile(transform.position) == Vector3.zero) return false;
-        if(burrowChance >= 6 && structManager.BurrowCount() < 15 && currentState == CreatureState.Wander && structManager.ValidateGridType(transform.position, GridType.Farm))
+        if(burrowChance >= 7 && structManager.BurrowCount() < 15 && currentState == CreatureState.Wander && structManager.ValidateGridType(transform.position, GridType.Farm))
         {
             if(variant == Variant.Tunneler) return true;
 

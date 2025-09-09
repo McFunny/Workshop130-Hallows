@@ -138,7 +138,7 @@ public class RubyWasp : CreatureBehaviorScript
     void Wander()
     {
         if(coroutineRunning) return;
-        if(playerInSightRange && (/*MainMenuScript.currentFileMode != FileMode.Cozy ||*/ fireSources.Count == 0)) currentState = CreatureState.Chase;
+        if(playerInSightRange && (MainMenuScript.currentFileMode != FileMode.Cozy || fireSources.Count == 0)) currentState = CreatureState.Chase;
 
         AddForceToBug(targetPos, true);
 

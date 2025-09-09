@@ -195,7 +195,7 @@ public class GameSaveData : MonoBehaviour
 
         switch(data.allGameSaveData.petType)
         {
-            case "Pet":
+            case "Cat":
                 currentPet = catRef;
                 break;
             case "Grub":
