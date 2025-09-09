@@ -325,7 +325,7 @@ public class TownHen : CreatureBehaviorScript
     {
         while(health > 0)
         {
-            int i = Random.Range(8,18);
+            int i = Random.Range(3,8);
             yield return new WaitForSeconds(i);
             effectsHandler.RandomIdle();
             if(health > 0) health += 5;
