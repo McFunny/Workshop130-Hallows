@@ -89,6 +89,7 @@ MonoBehaviour:
   ItemData: {fileID: 0}
   mintItem: {fileID: 11400000, guid: 708696db43bc2ac41a0ea08fbfa5213d, type: 2}
   r: {fileID: 1971439876103137765}
+  stackSize: 1
   itemSaveData:
     itemData: {fileID: 0}
     position: {x: 0, y: 0, z: 0}
@@ -106,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  objectActive: 0
 --- !u!54 &-5020432184812575716
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -144,7 +146,7 @@ GameObject:
   - component: {fileID: 6931381968434263963}
   - component: {fileID: 3321046734638525227}
   - component: {fileID: 6163940284695574535}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ItemGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +341,7 @@ GameObject:
   - component: {fileID: 7553413822684756715}
   - component: {fileID: 7215176932433634262}
   - component: {fileID: 3531204635301580289}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FlashingStars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
