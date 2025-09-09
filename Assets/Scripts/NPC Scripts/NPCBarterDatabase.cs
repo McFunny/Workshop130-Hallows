@@ -8,6 +8,7 @@ public class NPCBarterDatabase : ScriptableObject
     public List<Barter> transactions = new List<Barter>();
 
     public List<Barter> uniqueTransactions = new List<Barter>(); //To not be included in pool and instead specifically referenced
+    public List<Barter> uniqueTransactions2 = new List<Barter>(); //To not be included in pool and instead specifically referenced
 
     [ContextMenu("Name Entries")]
     void RefreshEntries()
@@ -27,6 +28,15 @@ public class NPCBarterDatabase : ScriptableObject
             {
                 uniqueTransactions[i].name = uniqueTransactions[i].itemForSale.name;
                 if(uniqueTransactions[i].useItemPrice) uniqueTransactions[i].mintCost = (int)uniqueTransactions[i].itemForSale.value;
+            }
+        }
+
+        for(int i = 0; i < uniqueTransactions2.Count; i++)
+        {
+            if(uniqueTransactions2[i].itemForSale)
+            {
+                uniqueTransactions2[i].name = uniqueTransactions2[i].itemForSale.name;
+                if(uniqueTransactions2[i].useItemPrice) uniqueTransactions2[i].mintCost = (int)uniqueTransactions2[i].itemForSale.value;
             }
         }
     }

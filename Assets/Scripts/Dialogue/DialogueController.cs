@@ -321,7 +321,7 @@ public class DialogueController : MonoBehaviour
         InventoryItemData item = currentTalker.lastInteractedStoreItem.itemData;
         if(item.cannotEnterInventory)
         {
-            if(item.itemBehavior) item.itemBehavior.OnRecieve();
+            if(item.itemBehavior) item.itemBehavior.OnRecieve(item);
             PlayerInteraction.Instance.currentMoney -= currentTalker.lastInteractedStoreItem.cost;
             FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
 

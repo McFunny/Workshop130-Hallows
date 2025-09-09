@@ -450,7 +450,7 @@ public class MistWalker : CreatureBehaviorScript
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if ((distanceToPlayer <= 3 || (distanceToPlayer <= lungeRange && canLunge)) && canAttack)
+        if ((distanceToPlayer <= 4 || (distanceToPlayer <= lungeRange && canLunge)) && canAttack)
         {
             StopTrackingPlayer();
             currentState = CreatureState.AttackPlayer;

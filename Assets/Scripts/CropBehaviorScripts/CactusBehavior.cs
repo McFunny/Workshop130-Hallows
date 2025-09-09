@@ -36,7 +36,7 @@ public class CactusBehavior : CropBehavior
 
         if(!TimeManager.Instance.isDay && (tile.growthStage == 5 || tile.growthStage == 6))
         {
-            tile.GetCropStats().waterLevel -= 2;
+            tile.GetCropStats().waterLevel -= 1.5f;
             if(tile.GetCropStats().waterLevel < 0) tile.GetCropStats().waterLevel = 0;
         }
     }

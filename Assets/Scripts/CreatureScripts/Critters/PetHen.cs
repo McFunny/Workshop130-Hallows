@@ -155,7 +155,7 @@ public class PetHen : CritterBehaviorScript
         if(TimeManager.Instance.currentHour == 8)
         {
             eggProgress++;
-            if(friendshipLevel == maxFriendshipLevel) eggProgress++;
+            if(Random.Range(0,6) <= friendshipLevel) eggProgress++;
             //if(eggProgress >= 2) StartCoroutine(MakeEggs());
         }
     }

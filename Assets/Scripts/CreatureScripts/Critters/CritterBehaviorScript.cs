@@ -153,8 +153,8 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         while(health > 0)
         {
             int i = Random.Range(8,18);
-            effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
+            effectsHandler.RandomIdle();
         }
     }
 

@@ -74,6 +74,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     [HideInInspector] public bool clearTileOnDestroy = true;
     bool forcePile = false;
+    [HideInInspector] public bool muteSound = false;
 
     [Tooltip("Specific UI for this structure, if it has any")]
     public GameObject structureUI; 
@@ -240,7 +241,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
         }
 
-        if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
+        if(audioHandler && audioHandler.breakSound && !muteSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
 
     }
 

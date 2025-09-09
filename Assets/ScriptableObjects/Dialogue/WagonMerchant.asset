@@ -114,6 +114,24 @@ MonoBehaviour:
     - BlahBlahBlahShotgun {freezePlayer}
     - Boop. {givePlayerItems}
     emotions: 0300000002000000
+  - pathName: Take Care of Pet
+    paragraphs:
+    - Done. You will find your new friend on your land. {itemBought}
+    - if you want to gain it's trust, do not forget to take care of it.
+    - The more it trusts you, the stronger it will become.
+    emotions: 000000000000000005000000
+  - pathName: No More pets
+    paragraphs:
+    - One is enough.
+    emotions: 03000000
+  - pathName: I am selling pets
+    paragraphs:
+    - You are just in time.
+    - I recently got a hold of some unique specimens, but I have one too many.
+    - I will cut you this very special limited time deal. Feel free to chose your
+      favorite.
+    - No refunds.
+    emotions: 00000000020000000100000000000000
   fillerPaths:
   - pathName: I need your goods
     paragraphs:

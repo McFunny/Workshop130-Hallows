@@ -10,7 +10,7 @@ public class FermentationVat : StructureBehaviorScript
     public ParticleSystem activatedParticles, completedParticles;
 
     public int progress = 0;
-    int maxProgress = 8;
+    int maxProgress = 10;
     int maxContainedItems = 1;
 
     bool ignoreNextHour = false;
@@ -101,6 +101,8 @@ public class FermentationVat : StructureBehaviorScript
             LoopingSourceToggle(true);
 
             ignoreNextHour = true;
+
+            audioHandler.PlaySound(audioHandler.interactSound);
 
         }
     }

@@ -10,7 +10,7 @@ public class TimeManager : MonoBehaviour
 
     public int currentMinute = 0; 
     int minPerDayHour = 75; //how long an hour lasts at day
-    int minPerNightHour = 40; //how long an hour lasts at night
+    int minPerNightHour = 35; //how long an hour lasts at night
     public int currentHour = 6; //caps at 24, day is from 6-20. Military time. Night begins at 8PM,(20) and ends at 6AM, lasting 10 hours.
                                         /// <summary>
                                         /// /Day lasts 14 hours. Morning starts at 6, town opens at 8
@@ -413,7 +413,7 @@ public class TimeManager : MonoBehaviour
             {
                 currentHour++;
                 print(currentHour);
-                PlayerInteraction.Instance.StaminaChange(10);
+                PlayerInteraction.Instance.StaminaChange(5);
                 OnHourlyUpdate?.Invoke();
             }
         }
