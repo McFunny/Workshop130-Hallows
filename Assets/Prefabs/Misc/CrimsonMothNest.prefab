@@ -155,6 +155,7 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
   rb: {fileID: 2748907494035620814}
   mothData: {fileID: 11400000, guid: df1b8c3719cd05e4e81165e095075d35, type: 2}
@@ -552,6 +553,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: crimsonmothnest
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c22467669ae643541953fcef9a6434e0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
