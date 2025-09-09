@@ -69,6 +69,7 @@ public class Codex3 : MonoBehaviour
 
     [Header("Images")]
     [SerializeField] private List<Image> controllerImages = new List<Image>();
+    [SerializeField] private List<Sprite> petImages = new List<Sprite>();
     [SerializeField] private List<Sprite> critterImages = new List<Sprite>();
     [SerializeField] private GameObject backControllerObject;
     [SerializeField] private GameObject backKBMObject;
@@ -444,6 +445,7 @@ public class Codex3 : MonoBehaviour
                     petVars.assignedPet = pet;
 
                     petVars.critterName.text = pet.name;
+                    petVars.critterIcon.sprite = petImages[(int)pet.petType];
                     petVars.homeIcon.gameObject.SetActive(false); // Hide home icon for pets
                     petVars.friendshipText.text = pet.friendshipLevel.ToString();
                     petVars.healthSlider.transform.parent.gameObject.SetActive(false); // Hide health slider for pets
