@@ -9977,6 +9977,8 @@ MonoBehaviour:
     type: 3}
   pyreflyPrefab: {fileID: 3441254915343146826, guid: b6cce922674696f44b3d280a5f5e2660,
     type: 3}
+  hydroflyPrefab: {fileID: 4303541379538398381, guid: d6e3d90b9dc22934e9eb40cb3c173f04,
+    type: 3}
 --- !u!114 &1087822415833838726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10953,7 +10955,10 @@ MonoBehaviour:
     type: 3}
   bearTrap: {fileID: 7908821675133766751, guid: e8cbb6b694c46264aac1da525c3ffe2e,
     type: 3}
+  critterHive: {fileID: 6041368247990737500, guid: a637e677f7c866646b989adf0601e8e1,
+    type: 3}
   fogChime: {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
+  berryBush: {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
   ignoreCropGrowthTime: 0
   enableCheats: 0
   forceSurvivalMode: 0
@@ -11047,8 +11052,12 @@ MonoBehaviour:
   bugNet: {fileID: 0}
   scythe: {fileID: 0}
   pyrefly: {fileID: 0}
+  hydrofly: {fileID: 0}
   torchFlame: {fileID: 0}
   pyreflyFlame: {fileID: 0}
+  pyreflyMat: {fileID: 0}
+  pyreflyLit: {fileID: 2100000, guid: 8470e1ec53530ae439f837b725de6731, type: 2}
+  pyreflyUnlit: {fileID: 2100000, guid: 9b08859ccf23f4f45a1ba5415972eebd, type: 2}
   handSpriteTransform: {fileID: 0}
   toolSource: {fileID: 2845003546474641417}
   extinguish: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
@@ -11111,26 +11120,26 @@ MonoBehaviour:
     r_varietyMax: 5
     s_varietyMin: 2
     s_varietyMax: 4
-    hourlySpawnAttempts: 7
-    maxCreatures: 10
+    hourlySpawnAttempts: 10
+    maxCreatures: 12
   - difficultyPointThreshold: 300
     c_varietyMin: 3
     c_varietyMax: 6
     r_varietyMin: 2
     r_varietyMax: 5
-    s_varietyMin: 1
+    s_varietyMin: 3
     s_varietyMax: 4
     hourlySpawnAttempts: 10
-    maxCreatures: 14
+    maxCreatures: 15
   - difficultyPointThreshold: 450
     c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 3
     r_varietyMax: 5
-    s_varietyMin: 1
+    s_varietyMin: 3
     s_varietyMax: 4
     hourlySpawnAttempts: 12
-    maxCreatures: 16
+    maxCreatures: 20
   creatures:
   - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
@@ -11225,6 +11234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   catRef: {fileID: 7724304851125435548}
+  grubRef: {fileID: 2625665073206265240}
   currentPet: {fileID: 0}
   pStamina: 0
   pFatigue: 0
@@ -11279,6 +11289,7 @@ MonoBehaviour:
   carpMet: 0
   mandrakeMet: 0
   critterData: []
+  manikkinsAlive: 0
 --- !u!114 &1864734984650053270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58816,6 +58827,8 @@ MonoBehaviour:
     type: 3}
   mimicScentVFX: {fileID: 4559461732243414215, guid: 18046da4bd0624446b9159ec0e7a5169,
     type: 3}
+  blindnessVFX: {fileID: 7703600151582963987, guid: 2fa32a535223313499e0db109493d2a5,
+    type: 3}
 --- !u!114 &6641095865559575426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61499,6 +61512,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6411222687303249008}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2625665073206265240 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8973705286875261416, guid: 36ebaa30bc7b0d8488cbf9039f2e45d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6411222687303249008}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 767068edb4532ee4a8c9662ed662ad19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8259324778047792705
 PrefabInstance:
   m_ObjectHideFlags: 0

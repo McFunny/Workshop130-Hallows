@@ -9,6 +9,7 @@ public class GameSaveData : MonoBehaviour
 
     [Header("References to pets in scene. These must be filled manually")]
     public PetBehaviorScript catRef;
+    public PetBehaviorScript grubRef;
     [HideInInspector] public PetBehaviorScript currentPet;
 
 
@@ -53,6 +54,8 @@ public class GameSaveData : MonoBehaviour
     public bool fan_giveBombs; //Fanatic gave player bathbombs at the start
     public bool apo_readScroll; //Apoth has recieved the scroll and will start selling the seeds
     public bool apo_explainedSiege; //Apoth has explained they read the scroll and have explained the seeds
+    public bool mm_introducedPets; //Merchant explained pets
+    public bool mm_soldPet; //Player got their first pet from the merchant
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
@@ -66,6 +69,8 @@ public class GameSaveData : MonoBehaviour
 
     [Header("Critter Save Array")]
     public List<CritterData> critterData = new List<CritterData>();
+    public int manikkinsAlive = 0;
+    public List<int> deadHenIDs = new List<int>();
 
     void Awake()
     {
@@ -137,6 +142,7 @@ public class GameSaveData : MonoBehaviour
         CreatureDatabase.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.bugStats != null) BugDatabase.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.critterStats != null) BarnManager.Instance.LoadStats(data.allGameSaveData);
+        if(data.allGameSaveData.structStats != null) StructureDatabase.Instance.LoadStats(data.allGameSaveData);
 
         tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
         rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -174,6 +180,8 @@ public class GameSaveData : MonoBehaviour
         fan_giveBombs = data.allGameSaveData.fan_giveBombs;
         apo_readScroll = data.allGameSaveData.apo_readScroll;
         apo_explainedSiege = data.allGameSaveData.apo_explainedSiege;
+        mm_soldPet = data.allGameSaveData.mm_soldPet;
+        mm_introducedPets = data.allGameSaveData.mm_introducedPets;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -187,8 +195,11 @@ public class GameSaveData : MonoBehaviour
 
         switch(data.allGameSaveData.petType)
         {
-            case "Cat":
+            case "Pet":
                 currentPet = catRef;
+                break;
+            case "Grub":
+                currentPet = grubRef;
                 break;
             default:
                 break;
@@ -197,10 +208,21 @@ public class GameSaveData : MonoBehaviour
         if(currentPet)
         {
             currentPet.hunger = data.allGameSaveData.petHunger;
+            currentPet.thirst = data.allGameSaveData.petThirst;
+            currentPet.name = data.allGameSaveData.petName;
             currentPet.friendPoints = data.allGameSaveData.petProgress;
             currentPet.friendshipLevel = data.allGameSaveData.petLevel;
             currentPet.gameObject.SetActive(true);
         }
+
+        //Spawn Manikkins
+        GameObject manikkinPrefab = CreatureDatabase.Instance.GetCreature(20).objectPrefab;
+        for(int i = 0; i < manikkinsAlive; i++)
+        {
+            Instantiate(manikkinPrefab, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
+        }
+
+        deadHenIDs = new List<int>(data.allGameSaveData.deadHenIDs);
     }
 }
     [System.Serializable]
@@ -229,6 +251,7 @@ public class GameSaveData : MonoBehaviour
         public CreaturePlayerStats[] creatureStats;
         public int[] bugStats;
         public CritterData[] critterStats;
+        public bool[] structStats;
 
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
@@ -266,13 +289,18 @@ public class GameSaveData : MonoBehaviour
         public bool fan_giveBombs;
         public bool apo_readScroll;
         public bool apo_explainedSiege;
+        public bool mm_soldPet;
+        public bool mm_introducedPets;
 
         public int siegesCleared;
         public bool siegeCropInHand; //
 
-        public float petHunger, petProgress;
+        public float petHunger, petProgress, petThirst;
         public int petLevel;
         public string petType, petName;
+
+        public int manikkinsAlive;
+        public int[] deadHenIDs;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -299,6 +327,7 @@ public class GameSaveData : MonoBehaviour
         CreatureDatabase.Instance.SaveStats(out creatureStats);
         BugDatabase.Instance.SaveStats(out bugStats);
         BarnManager.Instance.SaveStats(out critterStats);
+        StructureDatabase.Instance.SaveStats(out structStats);
 
 
         tutorialMerchantSpoke = data.tutorialMerchantSpoke;
@@ -337,6 +366,8 @@ public class GameSaveData : MonoBehaviour
         fan_giveBombs = data.fan_giveBombs;
         apo_readScroll = data.apo_readScroll;
         apo_explainedSiege = data.apo_explainedSiege;
+        mm_soldPet = data.mm_soldPet;
+        mm_introducedPets = data.mm_introducedPets;
 
         travMet = data.travMet;
         graveMet = data.graveMet;
@@ -351,6 +382,7 @@ public class GameSaveData : MonoBehaviour
         if(data.currentPet)
         {
             petHunger = data.currentPet.hunger;
+            petThirst = data.currentPet.thirst;
             petProgress = data.currentPet.friendPoints;
             petLevel = data.currentPet.friendshipLevel;
             petType = data.currentPet.petType.ToString();
@@ -359,11 +391,15 @@ public class GameSaveData : MonoBehaviour
         else
         {
             petHunger = 100;
+            petThirst = 100;
             petProgress = 0;
             petLevel = 0;
             petType = "";
             petName = "Kevin";
         }
+
+        manikkinsAlive = data.manikkinsAlive;
+        deadHenIDs = data.deadHenIDs.ToArray();
 
 
 //Debug.Log("Saving stamina. Result: " + pStamina);

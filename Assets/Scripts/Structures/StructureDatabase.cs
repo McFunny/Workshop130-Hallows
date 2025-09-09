@@ -82,6 +82,36 @@ public class StructureDatabase : ScriptableObject
     {
         return prefabLookup.ContainsKey(structureName) ? prefabLookup[structureName] : null;
     }*/
+
+    public void ResetStats()
+    {
+        for(int i = 0; i < Structures.Count; i++)
+        {
+            Structures[i].hasBeenPlaced = false;
+        }
+    }
+
+    public void SaveStats(out bool[] structStats)
+    {
+        List<bool> temp = new List<bool>();
+
+        foreach(StructureObject s in Structures)
+        {
+            temp.Add(s.hasBeenPlaced);
+        }
+        structStats = temp.ToArray();
+    }
+
+    public void LoadStats(AllGameSaveData data)
+    {
+        int i = 0;
+        foreach(StructureObject s in Structures)
+        {
+            if(data.structStats != null || i >= data.structStats.Length || data.structStats.Length == 0) return;
+            s.hasBeenPlaced = data.structStats[i];
+            i++;
+        }
+    }
 }
 
 [System.Serializable]

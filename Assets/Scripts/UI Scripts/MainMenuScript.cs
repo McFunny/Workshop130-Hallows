@@ -50,6 +50,8 @@ public class MainMenuScript : MonoBehaviour
     //public string cozyDesc, normalDesc;
     public Button[] fileModeButtons;
     private int tempPathNum;
+    private bool isScreenBlack;
+    private FadeScreen fadeScreen;
 
     // Start is called before the first frame update
     void Awake()
@@ -60,6 +62,7 @@ public class MainMenuScript : MonoBehaviour
         Cursor.visible = true;
         webObject = FindFirstObjectByType<OpenWebsite>();
         settingsValueManager = settingsCanvas.GetComponent<SettingsValueManager>();
+        fadeScreen = FindFirstObjectByType<FadeScreen>();
         //source.GetComponent<AudioSource>();
         controlManager.playerInput.SwitchCurrentActionMap("UI");
         int r = Random.Range(0, 3);
@@ -104,7 +107,7 @@ public class MainMenuScript : MonoBehaviour
             if (confirmationBox.gameObject.activeSelf) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
             else if (controlsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(controlsDefault);
             else if (resolutionBox.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
-            else if (settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsDefault);
+            else if (settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.defaultMenuObject);
             else if (difficultyOptions.activeSelf) EventSystem.current.SetSelectedGameObject(difficultyDefault);
             else if (menuObject.activeSelf) EventSystem.current.SetSelectedGameObject(defaultObject);
             else if (loadCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(loadDefault);
@@ -125,10 +128,10 @@ public class MainMenuScript : MonoBehaviour
         }
 
         /*for(int i = 0; i < loadText.Length; i++)
-        {
-            if(isNewGame) loadText[i].text = "New Game";
-            else loadText[i].text = "Load Game";
-        }*/
+            {
+                if(isNewGame) loadText[i].text = "New Game";
+                else loadText[i].text = "Load Game";
+            }*/
 
         /*if(hideUI.action.WasPressedThisFrame())
         {
@@ -168,6 +171,12 @@ public class MainMenuScript : MonoBehaviour
 
         if (settingsCanvas.activeSelf || controlsCanvas.activeSelf || confirmationBox.gameObject.activeSelf || loadCanvas.activeSelf) webObject.canOpen = false;
         else webObject.canOpen = true;
+
+        if (FadeScreen.coverScreen == true)
+        {
+            isScreenBlack = fadeScreen.imageColor.a >= 1.0f;
+            //print("Is screen black? " + isScreenBlack + ", image alpha: " + fadeScreen.imageColor.a);
+        }
     }
     void HideUI()
     {
@@ -380,7 +389,8 @@ public class MainMenuScript : MonoBehaviour
     IEnumerator StartGame()
     {
         FadeScreen.coverScreen = true;
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitUntil(() => isScreenBlack); // Waits until the bool is true!!! AWESOME!!!
+        yield return new WaitForSecondsRealtime(1f);
 
         AsyncOperation operation;
 
@@ -390,6 +400,8 @@ public class MainMenuScript : MonoBehaviour
         operation = SceneManager.LoadSceneAsync(1); //game
         loadingScreen.SetActive(true);
         var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
+        var loadAnims = FindFirstObjectByType<EnableRandomLoadingObject>();
+        if (loadAnims != null) loadAnims.camera.enabled = true;
 
         var load1 = "Loading";
         var load2 = "Loading.";
@@ -429,7 +441,7 @@ public class MainMenuScript : MonoBehaviour
     {
         if (isTransitioning) return;
         settingsCanvas.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(settingsDefault);
+        EventSystem.current.SetSelectedGameObject(settingsValueManager.defaultMenuObject);
     }
 
     public void OpenControlsScreen()
@@ -521,6 +533,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(false);
                 fileDatas[i].mintsTotalText.gameObject.SetActive(false);
                 fileDatas[i].difficultyText.gameObject.SetActive(false);
+                fileDatas[i].siegesClearedText.gameObject.SetActive(false);
                 fileDatas[i].emptySlot.gameObject.SetActive(true);
                 loadButtons[i].interactable = false;
                 deleteButtons[i].interactable = false;
@@ -536,6 +549,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].dayNum = tempData.allGameSaveData.pDayNumber;
                 fileDatas[i].mintsCurrent = tempData.allGameSaveData.pCurrentMoney;
                 fileDatas[i].mintsTotal = tempData.allGameSaveData.pTotalMoneyEarned;
+                fileDatas[i].completedSieges = tempData.allGameSaveData.siegesCleared;
                 if (tempData.allGameSaveData.gameMode != null) // Edge case scenario for saves made before difficulties were added :/
                 {
                     if (tempData.allGameSaveData.gameMode == "Cozy")
@@ -543,7 +557,7 @@ public class MainMenuScript : MonoBehaviour
                         fileDatas[i].difficulty = "Relaxed";
                     }
                     else fileDatas[i].difficulty = tempData.allGameSaveData.gameMode;
-                    
+
                 }
                 else
                 {
@@ -555,11 +569,13 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsCurrentText.text = "Current Mints: " + fileDatas[i].mintsCurrent;
                 fileDatas[i].mintsTotalText.text = "Total Mints: " + fileDatas[i].mintsTotal;
                 fileDatas[i].difficultyText.text = "Difficulty: " + fileDatas[i].difficulty.ToString();
+                fileDatas[i].siegesClearedText.text = "Sieges Cleared: " + fileDatas[i].completedSieges;
 
                 fileDatas[i].dayNumText.gameObject.SetActive(true);
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(true);
                 fileDatas[i].mintsTotalText.gameObject.SetActive(true);
                 fileDatas[i].difficultyText.gameObject.SetActive(true);
+                fileDatas[i].siegesClearedText.gameObject.SetActive(true);
                 fileDatas[i].emptySlot.gameObject.SetActive(false);
                 saveCount++;
                 //print(tempData.fileMode);
@@ -640,13 +656,14 @@ public class MainMenuScript : MonoBehaviour
 public class FileData
 {
     public Button slotButton;
-    public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText, emptySlot, difficultyText;
+    public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText, emptySlot, difficultyText, siegesClearedText;
     public string difficulty;
     public bool saveDataPresent = false;
 
     public int dayNum;
     public int mintsCurrent;
     public int mintsTotal;
+    public int completedSieges;
 }
 
 public enum FileMode

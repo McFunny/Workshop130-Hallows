@@ -1,5 +1,8 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class CodexCritter : MonoBehaviour
@@ -13,27 +16,42 @@ public class CodexCritter : MonoBehaviour
     public TextMeshProUGUI friendshipText;
     public CritterBehaviorScript assignedCritter;
     public PetBehaviorScript assignedPet;
+    private ControlManager controlManager;
+    public Button button;
 
-    public void UpdateCritterName(TMP_InputField name)
+    private void OnEnable()
     {
-        var newName = name.text;
+        if (controlManager == null) controlManager = FindFirstObjectByType<ControlManager>();
+        controlManager.codexSelect.action.started += InvokeButtonPress;
+        controlManager.backCodex.action.started += CancelRename;
+    }
+
+    private void OnDisable()
+    {
+        controlManager.codexSelect.action.started -= InvokeButtonPress;
+        controlManager.backCodex.action.started -= CancelRename;
+    }
+
+    public void UpdateCritterName(bool wasCancelled = false)
+    {
+        var newName = critterName.text;
         print("New Name Length = " + newName.Length);
-        if (newName.Length == 0)
+        if (newName.Length == 0 || wasCancelled)
         {
             Debug.LogWarning("Critter or Pet name cannot be empty.");
-            
+
             if (assignedCritter != null)
             {
-                name.text = assignedCritter.name;
+                critterName.text = assignedCritter.name;
                 print("Resetting to critter name: " + assignedCritter.name);
             }
 
             else if (assignedPet != null)
             {
-                name.text = assignedPet.name;
+                critterName.text = assignedPet.name;
                 print("Resetting to pet name: " + assignedPet.name);
-            } 
-            
+            }
+
             return;
         }
 
@@ -62,5 +80,23 @@ public class CodexCritter : MonoBehaviour
     public void OnDeselect()
     {
         Codex3.isRenamingCritter = false;
+    }
+
+    private void InvokeButtonPress(InputAction.CallbackContext context)
+    {
+        if (EventSystem.current.currentSelectedGameObject == button.gameObject && PlayerMovement.isCodexOpen)
+        {
+            print("Controller Rename Started");
+            button.onClick.Invoke();
+        }
+    }
+
+    private void CancelRename(InputAction.CallbackContext context)
+    {
+        if (EventSystem.current.currentSelectedGameObject == critterName.gameObject)
+        {
+            UpdateCritterName(true);
+            EventSystem.current.SetSelectedGameObject(button.gameObject); // fix this
+        }
     }
 }

@@ -91,7 +91,7 @@ public class PetBehaviorScript : MonoBehaviour
 
         float xpModifier = 1.3f;
 
-        amount *= amount - (friendshipLevel * 0.1f);
+        amount *= xpModifier - (friendshipLevel * 0.1f);
 
         friendPoints += amount;
         if(friendPoints < 0) friendPoints = 0;
@@ -199,7 +199,8 @@ public class PetBehaviorScript : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(Random.Range(9, 16));
-            effectsHandler.RandomIdle();
+            if(effectsHandler.miscSound2 && Random.Range(0, 500) == 30) effectsHandler.MiscSound2();
+            else effectsHandler.RandomIdle();
         }
 
     }

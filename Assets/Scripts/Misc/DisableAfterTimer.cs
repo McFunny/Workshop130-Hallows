@@ -20,4 +20,9 @@ public class DisableAfterTimer : MonoBehaviour
         if(destroyOnCompletion) Destroy(this.gameObject);
         gameObject.SetActive(false);
     }
+
+    void OnDisable()
+    {
+        StopCoroutine(LifeTime());
+    }
 }

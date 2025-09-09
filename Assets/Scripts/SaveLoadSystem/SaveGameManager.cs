@@ -42,7 +42,7 @@ public class SaveGameManager : MonoBehaviour
 
     private void Update()
     {
-       if (Input.GetKeyDown(KeyCode.V) && StructureManager.Instance.enableCheats) //IF YOU ARE GONNA UNCOMMENT THIS OUT, MAKE SURE THERE ISNT ANOTHER FUNCTION ALREADY DOING THIS. IF THERE IS NOT, ADD THE DEBUGBOOL CHECK OR ASK ME //CAM
+       /*if (Input.GetKeyDown(KeyCode.V) && StructureManager.Instance.enableCheats) //IF YOU ARE GONNA UNCOMMENT THIS OUT, MAKE SURE THERE ISNT ANOTHER FUNCTION ALREADY DOING THIS. IF THERE IS NOT, ADD THE DEBUGBOOL CHECK OR ASK ME //CAM
         {
             SaveData();
         }
@@ -50,7 +50,7 @@ public class SaveGameManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.B) && StructureManager.Instance.enableCheats)
         {
             TryLoadData();
-        }
+        }*/
     }
 
     public static void SaveData()

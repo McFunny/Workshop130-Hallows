@@ -74,10 +74,12 @@ public class CreatureVariant
 {
     public string name;
     public GameObject prefab;
-    public float probabilityInFarm = 100; //Probability of spawning
+    public float probabilityInFarm = 100; //Probability of spawning. Obsolete if using the List below
     public float probabilityInWilderness = 100;
     public bool canSpawnInWilderness;
     public int wealthPrerequisite = 0;
+
+    public List<IntWithProbability> variantChanceInFarm = new List<IntWithProbability>(); //int is the siege num, float is the chance of spawning
 }
 public enum SpawnType
 {

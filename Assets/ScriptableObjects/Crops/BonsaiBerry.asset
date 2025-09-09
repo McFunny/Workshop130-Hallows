@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: BonsaiBerry
+  m_EditorClassIdentifier: 
+  name: Bonsai Berry
+  id: 37
+  growthStages: 6
+  hoursPerStage: 4
+  harvestableGrowthStages: 06000000
+  cropSprites:
+  - {fileID: 1527029520, guid: 4be4ba892e4f2334aa2995740e2caca1, type: 3}
+  - {fileID: 235252084, guid: 4be4ba892e4f2334aa2995740e2caca1, type: 3}
+  - {fileID: 1996364602, guid: 4be4ba892e4f2334aa2995740e2caca1, type: 3}
+  - {fileID: 1996364602, guid: 4be4ba892e4f2334aa2995740e2caca1, type: 3}
+  - {fileID: 1996364602, guid: 4be4ba892e4f2334aa2995740e2caca1, type: 3}
+  - {fileID: 1742881173, guid: 4be4ba892e4f2334aa2995740e2caca1, type: 3}
+  rottedImage: {fileID: -678520560, guid: 449124c102f530d48a57d7a6ebc30606, type: 3}
+  cropYield: {fileID: 11400000, guid: 79790c84e5887a946adc6dac3fac60cc, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 0}
+  cropYieldAmount: 1
+  cropYieldVariance: 1
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  noStressSeedChance: 0
+  waterIntake: 5
+  ichorIntake: 0
+  terraIntake: -1
+  gloamIntake: 0.5
+  stressLimit: 3
+  wealthValue: 2
+  requireScythe: 0
+  requirePollination: 0
+  behavior: {fileID: 11400000, guid: ad47372ca16529445a89ade205c782ba, type: 2}
+  emitsGlow: 0
+  amountHarvested: 1
+  amountKilled: 0

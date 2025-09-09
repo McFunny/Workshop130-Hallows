@@ -22,6 +22,8 @@ public class PauseScript : MonoBehaviour
     
     //private CodexRework codex;
     private Codex3 codex3;
+    private FadeScreen fadeScreen;
+    private bool isScreenBlack;
     // Start is called before the first frame update
     void Awake()
     {
@@ -29,6 +31,7 @@ public class PauseScript : MonoBehaviour
         controlManager = FindFirstObjectByType<ControlManager>();
         settingsValueManager = settingsCanvas.GetComponent<SettingsValueManager>();
         codex3 = FindFirstObjectByType<Codex3>();
+        fadeScreen = FindFirstObjectByType<FadeScreen>();
     }
 
     private void OnEnable()
@@ -45,9 +48,9 @@ public class PauseScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(pauseObject.activeSelf)
+        if (pauseObject.activeSelf)
         {
-            if(ControlManager.isGamepad)
+            if (ControlManager.isGamepad)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
@@ -58,7 +61,7 @@ public class PauseScript : MonoBehaviour
                 Cursor.visible = true;
             }
 
-            if(settingsCanvas.activeSelf || controlsObject.activeSelf || confirmationBox.gameObject.activeSelf)
+            if (settingsCanvas.activeSelf || controlsObject.activeSelf || confirmationBox.gameObject.activeSelf)
             {
                 openWebsite.canOpen = false;
             }
@@ -72,18 +75,24 @@ public class PauseScript : MonoBehaviour
             ResumeGame();
             //StartCoroutine(CodexCheck());
         }
-        
-        
 
-        if(EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused && !PlayerMovement.isCodexOpen)
+
+
+        if (EventSystem.current.currentSelectedGameObject == null && ControlManager.isGamepad && isPaused && !PlayerMovement.isCodexOpen)
         {
-            if(confirmationBox.gameObject.activeSelf)EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
-            else if(controlsObject.activeSelf)EventSystem.current.SetSelectedGameObject(controlsDefault);
-            else if(resolutionBox.activeSelf)EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
-            else if(settingsCanvas.activeSelf)EventSystem.current.SetSelectedGameObject(settingsDefault);
-            else{EventSystem.current.SetSelectedGameObject(defaultObject);}
+            if (confirmationBox.gameObject.activeSelf) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+            else if (controlsObject.activeSelf) EventSystem.current.SetSelectedGameObject(controlsDefault);
+            else if (resolutionBox.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
+            else if (settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.defaultMenuObject);
+            else { EventSystem.current.SetSelectedGameObject(defaultObject); }
             print("Default Menu Object Selected");
         } 
+        
+        if (FadeScreen.coverScreen == true)
+        {
+            isScreenBlack = fadeScreen.imageColor.a >= 1.0f;
+            //print("Is screen black? " + isScreenBlack + ", image alpha: " + fadeScreen.imageColor.a);
+        }
     }
 
     IEnumerator CodexCheck()
@@ -222,19 +231,23 @@ public class PauseScript : MonoBehaviour
     {
         pauseObject.SetActive(false);
         FadeScreen.coverScreen = true;
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitUntil(() => isScreenBlack); // Waits until the bool is true!!! AWESOME!!!
+        yield return new WaitForSecondsRealtime(1f);
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync(0);
+        AsyncOperation operation;
 
+        operation = SceneManager.LoadSceneAsync(0); //Main Menu
         loadingScreen.SetActive(true);
         var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
+        var loadAnims = FindFirstObjectByType<EnableRandomLoadingObject>();
+        if (loadAnims != null) loadAnims.camera.enabled = true;
 
         var load1 = "Loading";
         var load2 = "Loading.";
         var load3 = "Loading..";
         var load4 = "Loading...";
 
-        while(!operation.isDone)
+        while (!operation.isDone)
         {
             loadText.text = load1;
             yield return new WaitForSecondsRealtime(.2f);
@@ -251,7 +264,7 @@ public class PauseScript : MonoBehaviour
     {
         print("Settings Pressed");
         settingsCanvas.SetActive(true);
-        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsDefault);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(settingsValueManager.defaultMenuObject);
     }
 
     public void OpenControlsScreen()

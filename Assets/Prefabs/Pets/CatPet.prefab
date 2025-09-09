@@ -5930,6 +5930,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5d1b031ba347e6e4889b951e93ff29eb, type: 2}
   - {fileID: 11400000, guid: 995e68105f917cf43a48bd00d4fd1feb, type: 2}
   - {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
+  - {fileID: 11400000, guid: 79790c84e5887a946adc6dac3fac60cc, type: 2}
   hunger: 100
   maxHunger: 100
   hungerDecayRate: 6
@@ -5977,12 +5978,15 @@ MonoBehaviour:
     amount: 40
   - item: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
     amount: 100
+  - item: {fileID: 11400000, guid: 79790c84e5887a946adc6dac3fac60cc, type: 2}
+    amount: 100
   targettableCreatures:
   - {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   - {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
   - {fileID: 11400000, guid: df1b8c3719cd05e4e81165e095075d35, type: 2}
   - {fileID: 11400000, guid: 0ca9e65aed1b98340a1d0601fc4e8c07, type: 2}
   - {fileID: 11400000, guid: 947e9493fabfc20459883c696723fe9d, type: 2}
+  - {fileID: 11400000, guid: 4357d23962aa5ad42ba23563e9fac2dd, type: 2}
   fearedCreatures:
   - {fileID: 11400000, guid: 4357d23962aa5ad42ba23563e9fac2dd, type: 2}
   - {fileID: 11400000, guid: 88c7a631b6c3f164fadff223436437c4, type: 2}
@@ -6054,7 +6058,7 @@ MonoBehaviour:
   footSteps: []
   deathSound: {fileID: 0}
   miscSound: {fileID: 8300000, guid: 785a198104aa10441a00e4cc224774f4, type: 3}
-  miscSound2: {fileID: 0}
+  miscSound2: {fileID: 8300000, guid: 327ba3ca496a4e2468f5b2db8b034c45, type: 3}
   miscSound3: {fileID: 0}
   eatSound: {fileID: 8300000, guid: 4df0fb46c5696c245ade7b68802aa21d, type: 3}
   petSound: {fileID: 8300000, guid: 4ff10b24e17f6ee479178fc165b80a62, type: 3}

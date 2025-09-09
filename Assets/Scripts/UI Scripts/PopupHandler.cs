@@ -50,6 +50,7 @@ public class PopupHandler : MonoBehaviour
         PopupEvents.current.OnKillCreature += OnKillCreature;
         PopupEvents.current.OnClearCorpse += OnClearCorpse;
         PopupEvents.current.OnOpenCodex += OnOpenCodex;
+        PopupEvents.current.OnStructurePlaced += OnStructurePlaced;
         //popupContainer.SetActive(false);
         conditionMet = false;
         popupTransform.position = lerpStart.position;
@@ -68,6 +69,7 @@ public class PopupHandler : MonoBehaviour
         PopupEvents.current.OnClearCorpse -= OnClearCorpse;
         TimeManager.OnHourlyUpdate -= NightWarning;
         PopupEvents.current.OnOpenCodex -= OnOpenCodex;
+        PopupEvents.current.OnStructurePlaced -= OnStructurePlaced;
     }
 
     void Update()
@@ -166,7 +168,13 @@ public class PopupHandler : MonoBehaviour
         if (popup.endCondition == PopupScript.EndCondition.TimeBased && (!popup.skippable || popupQueue.Count == 0))
         {
             // Wait for the specified time
-            yield return new WaitForSeconds(popup.endTimeInSeconds);
+            float t = 0;
+            while(t < popup.endTimeInSeconds)
+            {
+                yield return new WaitForSeconds(0.5f);
+                t += 0.5f;
+                if((popup.skippable && popupQueue.Count > 0)) t = popup.endTimeInSeconds;
+            }
             print("Popup Timer Ended");
         }
         else if (popup.endCondition == PopupScript.EndCondition.TillGround)
@@ -223,12 +231,22 @@ public class PopupHandler : MonoBehaviour
             print("Codex!!!");
             conditionMet = false; // Reset
         }
-        //print("HI!!!");
+        else if (popup.endCondition == PopupScript.EndCondition.PlaceStructure)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Structure!!!");
+            conditionMet = false; // Reset
+        }
+        else //Should work with any other popup
+        {
+            yield return new WaitUntil(() => conditionMet);
+            conditionMet = false; // Reset
+        }
         isActive = false;
         yield return new WaitUntil(() => offScreen);
         yield return new WaitForSeconds(0.5f);
         isActive = true;
-        //print("off");
+
     }
 
     private void OnTillGround()
@@ -298,6 +316,14 @@ public class PopupHandler : MonoBehaviour
     private void OnOpenCodex()
     {
         if (isActive && currentPopup.endCondition == PopupScript.EndCondition.OpenCodex)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnStructurePlaced()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.PlaceStructure)
         {
             conditionMet = true;
         }

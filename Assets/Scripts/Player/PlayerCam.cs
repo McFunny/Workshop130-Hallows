@@ -167,4 +167,9 @@ public class PlayerCam : MonoBehaviour
         //posOfInterest = new Vector3(0,0,0);
         //allowCameraInfluence = false;
     }
+
+    public void ForceChangeRotation(float rotY)
+    {
+        yRotation = rotY;
+    }
 }

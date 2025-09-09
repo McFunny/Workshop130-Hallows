@@ -8744,6 +8744,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a501ca9b19d35a648a26a5b5683a9a07, type: 2}
   - {fileID: 11400000, guid: 472d8d69d5ad5b046b724150f19e191b, type: 2}
   - {fileID: 11400000, guid: 7c88cdeb4ede7984fa2d456e64a08a06, type: 2}
+  - {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
   agent: {fileID: 0}
   animEvents: {fileID: 1571331616092395312}
   lungeAttackHitbox: {fileID: 9090513854541498605}
@@ -8808,7 +8809,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &9090513854541498605
 CapsuleCollider:
   m_ObjectHideFlags: 0

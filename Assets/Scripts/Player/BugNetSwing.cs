@@ -58,24 +58,12 @@ public class BugNetSwing : MonoBehaviour
         }
 
         var enemy = other.GetComponentInParent<CreatureBehaviorScript>();
-        if (enemy != null)
+        if (enemy != null && enemy.CaughtByBugNet(out caughtBug) == true && caughtBug != null)
         {
-            PyreFly fly = enemy as PyreFly;
-            if(fly)
-            {
-                if(fly.ignited)
-                {
-                    fly.TakeDamage(999);
-                }
-                else
-                {
-                    caughtBug = fly.bugItem;
-                    HandItemManager.Instance.toolSource.PlayOneShot(caught);
-                    bugRenderer.sprite = caughtBug.icon;
-                    Destroy(fly.gameObject);
-                }
-                return;
-            } 
+            HandItemManager.Instance.toolSource.PlayOneShot(caught);
+            bugRenderer.sprite = caughtBug.icon;
+            Destroy(enemy.gameObject);
+            return;
         }
         
     }

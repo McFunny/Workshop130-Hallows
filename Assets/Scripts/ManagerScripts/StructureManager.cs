@@ -14,8 +14,8 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap;
-    public CropData fogChime;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive;
+    public CropData fogChime, berryBush;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allFarmTiles = new List<Vector3Int>();
@@ -45,7 +45,7 @@ public class StructureManager : MonoBehaviour
         {
             Instance = this;
         }
-        InstantiateNutrientStorage();
+        InstantiateTileMaps();
         //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
         if(!MainMenuScript.loadingData)
         {
@@ -93,10 +93,11 @@ public class StructureManager : MonoBehaviour
             StartCoroutine(PopulateStructure(-3, 5, weedTile, false, farmTileMap));
             PopulateDecorCrows(0, 2);
             StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
+            PopulateBerryBushes(-5, 2, false);
         }
         if(TimeManager.Instance.currentHour == 6)
         {
-            PopulateForageables(-2, 3);
+            PopulateForageables(-1, 3);
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
 
@@ -427,6 +428,21 @@ public class StructureManager : MonoBehaviour
         }
         while(t < 15 && tilePos == new Vector3 (0,0,0));
         return tilePos;
+    }
+
+    public List<Vector3> GetNearbyClearTiles(Vector3 pos, float range) //For farm only
+    {
+        List<Vector3> nearbyTiles = new List<Vector3>();
+        foreach (var gridPosition in allFarmTiles)
+        {
+            Vector3 tilePosition = farmTileMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= range && CheckTile(tilePosition) != Vector3.zero)
+            {
+                nearbyTiles.Add(tilePosition);
+            }
+        }
+        //print(nearbyTiles.Count);
+        return nearbyTiles;
     }
 
     public List<Vector3> GetAdjacentClearTiles(Vector3 pos)
@@ -764,7 +780,7 @@ public class StructureManager : MonoBehaviour
         return null;
     } //used to play ichor particle
 
-    void InstantiateNutrientStorage()
+    void InstantiateTileMaps()
     {
         foreach (var gridPosition in farmTileMap.cellBounds.allPositionsWithin)
         {
@@ -773,6 +789,14 @@ public class StructureManager : MonoBehaviour
                 allFarmTiles.Add(gridPosition);
                 NutrientStorage newStorage = new NutrientStorage();
                 storage.Add(newStorage);
+            }
+        }
+
+        foreach (var gridPosition in barnTileMap.cellBounds.allPositionsWithin)
+        {
+            if(barnTileMap.GetTile(gridPosition) != null)
+            {
+                allBarnTiles.Add(gridPosition);
             }
         }
     }
@@ -815,13 +839,15 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateTrees(1, 2, barnTileMap)); //This will surely clip inside of the barn
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(15, 25, weedTile, false, farmTileMap));
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         StartCoroutine(PopulateStructure(15, 25, boulder, true, farmTileMap));
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 2, barricade, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
+        StartCoroutine(PopulateStructure(1, 2, critterHive, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
+        PopulateBerryBushes(2, 3, true);
     }
 
     IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
@@ -1006,6 +1032,50 @@ public class StructureManager : MonoBehaviour
                     FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
                     script.InsertCrop(fogChime);
                     SetTile(spawnPos);
+                }
+                spawnablePositions.RemoveAt(randomIndex);
+            }
+        }
+    }
+
+    void PopulateBerryBushes(int min, int max, bool harvestable)
+    {
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        foreach (Vector3Int position in farmTileMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePos = farmTileMap.GetCellCenterWorld(position);
+            if(farmTileMap.GetTile(position) == freeTile && FetchNutrient(tilePos).gloamLevel >= 6)
+            {
+                spawnablePositions.Add(position);
+            }
+        }
+
+        int r = Random.Range(min,max + 1);
+        if (r <= 0) return;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = farmTileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(farmTileMap.GetTile(spawnablePositions[randomIndex]) != null && farmTileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
+                {
+                    FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
+                    script.InsertCrop(berryBush);
+                    SetTile(spawnPos);
+                    if(harvestable)
+                    {
+                        if(Random.Range(0,10) <= 2) script.growthStage = 4;
+                        else
+                        {
+                            script.growthStage = berryBush.harvestableGrowthStages[0];
+                            script.harvestable = true;
+                        }
+                        script.SpriteChange();
+                    }
                 }
                 spawnablePositions.RemoveAt(randomIndex);
             }

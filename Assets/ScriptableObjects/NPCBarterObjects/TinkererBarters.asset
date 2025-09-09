@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf23a036745f5442b0dadf03d8707e9, type: 3}
+  m_Name: TinkererBarters
+  m_EditorClassIdentifier: 
+  transactions:
+  - name: SeedShooter
+    itemForSale: {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
+    useItemPrice: 1
+    mintCost: 370
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: FermentationVat
+    itemForSale: {fileID: 11400000, guid: 0c50193a4742c3044abfde0a68396c25, type: 2}
+    useItemPrice: 1
+    mintCost: 145
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: CompostBin
+    itemForSale: {fileID: 11400000, guid: 1c3c20e899a81124d9d03ffd3cd1ad3b, type: 2}
+    useItemPrice: 1
+    mintCost: 265
+    amountForSale: 1
+    barterChance: 80
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: Gear Scraps
+    itemForSale: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+    useItemPrice: 1
+    mintCost: 75
+    amountForSale: 1
+    barterChance: 75
+    itemsRequired: []
+    siegesRequired: 1
+    amountGiven: 1
+  - name: LandMine
+    itemForSale: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
+    useItemPrice: 1
+    mintCost: 155
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: Refinery
+    itemForSale: {fileID: 11400000, guid: 9f529fa0497a5e348890c35cfc771ee6, type: 2}
+    useItemPrice: 1
+    mintCost: 445
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 1
+    amountGiven: 1
+  - name: Thurible
+    itemForSale: {fileID: 11400000, guid: a7ccfd2851b613d4c8c1dfdbd9c9f4b1, type: 2}
+    useItemPrice: 1
+    mintCost: 220
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 1
+    amountGiven: 1
+  - name: MiniSprinkler
+    itemForSale: {fileID: 11400000, guid: e553ea351cd05d14987bbad5d9661a3c, type: 2}
+    useItemPrice: 1
+    mintCost: 245
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: SmartSprinkler
+    itemForSale: {fileID: 11400000, guid: 860f7419dcf07274abe38328d16ae46b, type: 2}
+    useItemPrice: 1
+    mintCost: 515
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 2
+    amountGiven: 1
+  - name: Sprinkler
+    itemForSale: {fileID: 11400000, guid: 55eb42636a4d2534dae716e7da5b6d45, type: 2}
+    useItemPrice: 1
+    mintCost: 340
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  uniqueTransactions:
+  - name: WaterGun
+    itemForSale: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
+    useItemPrice: 1
+    mintCost: 1400
+    amountForSale: 1
+    barterChance: 0
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1

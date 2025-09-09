@@ -501,7 +501,7 @@ public class VileHog : CreatureBehaviorScript
         agent.ResetPath();
         faceTarget = true;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
-        bearTrapVulnerable = false;
+        //bearTrapVulnerable = false;
         if(usingThrusters)
         {
             yield return new WaitForSeconds(0.4f/actionSpeedMod);
@@ -551,7 +551,7 @@ public class VileHog : CreatureBehaviorScript
         chargeParticles.Stop();
         yield return new WaitForSeconds(recoilTime); //Charge Cooldown
         allColliders[0].enabled = false; //Untested method of catching them in beartraps post charge
-        bearTrapVulnerable = true;
+        //bearTrapVulnerable = true;
         allColliders[0].enabled = true;
 
         agent.speed = runSpeed;
@@ -642,7 +642,9 @@ public class VileHog : CreatureBehaviorScript
                     isCharging = false;
                 }
                 return;
-            }           
+            }    
+
+            if(other.TryGetComponent<Burrow>(out Burrow burrow)) burrow.TakeDamage(20);      
         }
 
         if(other.gameObject.layer == 9)
@@ -679,10 +681,8 @@ public class VileHog : CreatureBehaviorScript
     {
         if (currentState != CreatureState.Stun)
         {
+            ResetCharging();
             StartCoroutine(BearTrapHold(b));
-            faceTarget = false;
-            agent.destination = transform.position;
-            agent.ResetPath();
             return true;
         }
         return false;
@@ -690,17 +690,6 @@ public class VileHog : CreatureBehaviorScript
 
     private IEnumerator BearTrapHold(StructureBehaviorScript b)
     {
-        currentState = CreatureState.Stun;
-        coroutineRunning = false;
-        StopTrackingPlayer();
-        if(walkRoutine != null)
-        {
-            StopCoroutine(walkRoutine);
-            walkRoutine = null;
-        }
-        agent.ResetPath();
-        anim.SetBool("IsWalking", false);
-        anim.SetBool("IsRunning", false);
         while (b && b.health > 0)
         {
             yield return null;
@@ -711,23 +700,10 @@ public class VileHog : CreatureBehaviorScript
         
     }
 
-    /*public override bool OnStun(float duration)
-    {
-        if (currentState != CreatureState.Stun)
-        {
-            StartCoroutine(Stun(duration));
-            StopCoroutine(ChargeRoutine());
-            faceTarget = false;
-            agent.destination = transform.position;
-            agent.ResetPath();
-            return true;
-        }
-        return false;
-    }
-
-    private IEnumerator Stun(float duration)
+    void ResetCharging() //For when its charge is interrupted
     {
         currentState = CreatureState.Stun;
+        faceTarget = false;
         coroutineRunning = false;
         StopTrackingPlayer();
         if(walkRoutine != null)
@@ -736,13 +712,20 @@ public class VileHog : CreatureBehaviorScript
             walkRoutine = null;
         }
         agent.ResetPath();
+        agent.velocity = Vector3.zero;
         anim.SetBool("IsWalking", false);
         anim.SetBool("IsRunning", false);
-        yield return new WaitForSeconds(duration);
-        //StartCoroutine(IdleSoundTimer());
-        currentState = CreatureState.Wander;
-        bearTrapVulnerable = true;
-    }*/
+        anim.SetBool("ChargePrep", false);
+
+        if(usingThrusters) thrusterParticles.SetActive(false);
+        usingThrusters = false;
+        isCharging = false;
+        attackHitbox.enabled = false;
+        dashParticles.Stop();
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+        chargeParticles.Stop();
+        agent.speed = runSpeed;
+    }
 
     public override void OnDamage()
     {

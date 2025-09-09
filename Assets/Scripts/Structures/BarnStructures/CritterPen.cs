@@ -17,6 +17,8 @@ public class CritterPen : StructureBehaviorScript
 
     bool dropItems;
 
+    public List<ItemWithPrefab> critterItemPairs;
+
     void Start()
     {
         StartCoroutine(DelayedStart());
@@ -40,6 +42,19 @@ public class CritterPen : StructureBehaviorScript
             if(durability > 100) durability = 100;
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
+        }
+
+        foreach (ItemWithPrefab pair in critterItemPairs)
+        {
+            if(item == pair.item && housedCritters.Count < maxOccupency)
+            {
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                PlayerInventoryHolder.Instance.UpdateInventory();
+                CritterBehaviorScript newCritter = Instantiate(pair.prefab, transform.position, Quaternion.identity).GetComponent<CritterBehaviorScript>();
+                newCritter.homePen = this;
+                housedCritters.Add(newCritter);
+                return;
+            }
         }
     }
 
@@ -105,4 +120,11 @@ public enum PenType
     Pen,
     Coop,
     Hive
+}
+
+[System.Serializable]
+public class ItemWithPrefab
+{
+    public InventoryItemData item;
+    public GameObject prefab;
 }

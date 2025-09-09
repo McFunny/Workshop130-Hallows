@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
-  enabled: 0
+  objectActive: 0
 --- !u!1 &1790378606522118055
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,12 +348,13 @@ MonoBehaviour:
   health: 50
   maxHealth: 50
   wealthValue: 5
-  salvageChance: 80
+  salvageChance: 90
   destructable: 1
   flammable: 0
   onFire: 0
   isObstacle: 1
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 6337819755538764103}
   savedItems: []

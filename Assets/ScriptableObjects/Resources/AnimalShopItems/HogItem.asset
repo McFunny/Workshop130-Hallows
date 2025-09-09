@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d4b98e8bc32e2241a1e90449eba6868, type: 3}
+  m_Name: HogItem
+  m_EditorClassIdentifier: 
+  ID: -1
+  displayName: Truffle Hog
+  description: A domesticated Truffle Hog will dig burrows, occasionally unearthing
+    a valuable mushroom. Resides in a pen.
+  icon: {fileID: 21300000, guid: 4f25a9fe5496389489cfc4f13392c4c3, type: 3}
+  maxStackSize: 1
+  value: 200
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 11400000, guid: f415f64ca0ff20448a784b99136ae23f, type: 2}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 1
+  critterRef:
+    critterType: 0
+    critterData: {fileID: 11400000, guid: acd78d9f43e218b4ca15e1fe00296f8f, type: 2}
+  petType: 2
+  petOverride: 0

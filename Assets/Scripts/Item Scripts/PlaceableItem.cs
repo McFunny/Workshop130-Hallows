@@ -47,7 +47,7 @@ public class PlaceableItem : InventoryItemData
                 pos = StructureManager.Instance.CheckExtraLargeTile(hit.point);
             }
 
-            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridTypes)) 
+            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridTypes))  //Placement success
             {
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
                 if(gridSize == GridSize.TwoByTwo) StructureManager.Instance.SetLargeTile(pos);
@@ -69,6 +69,8 @@ public class PlaceableItem : InventoryItemData
                 StructureBehaviorScript placedStruct = newStruct.GetComponentInChildren<StructureBehaviorScript>();
                 placedStruct.structData.hasBeenPlaced = true;
                 if(placeAsPile) placedStruct.PlaceAsPile();
+
+                if(Tutorial.Instance) Tutorial.Instance.PlaceStructure();
             }
 
         }

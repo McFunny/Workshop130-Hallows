@@ -22,17 +22,18 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     bool gaveFiller = false;
 
-    //public Animator anim;
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     public StoreItem[] storeItems;
-    //WaypointScript shopUI;
-    public ItemDisplaySign displaySign;
 
-    [TextArea(5,10)]
-    public string[] carrotComments;
+    public InventoryItemData[] soldPetItems;
+    public InventoryItemData[] possibleSoldCritterItems;
+    public float[] critterItemWeight; //likelyness of being sold, from 0 - 1
+    public StoreItem[] storeCritterItems;
+
+    public ItemDisplaySign displaySign;
 
     void Start()
     {
@@ -42,6 +43,11 @@ public class WagonMerchantNPC : NPC, ITalkable
         for(int i = 0; i < storeItems.Length; i++)
         {
             storeItems[i].seller = this;
+        }
+
+        for(int i = 0; i < storeCritterItems.Length; i++)
+        {
+            storeCritterItems[i].seller = this;
         }
 
         if(lantern)
@@ -142,9 +148,18 @@ public class WagonMerchantNPC : NPC, ITalkable
             return;
         }
 
-        else if (item.ID == 163)
+        else if (item.ID == 163) //Scroll
         {
             currentPath = 0;
+            currentType = PathType.ItemSpecific;
+            lastSeenItem = item;
+            Talk();
+            anim.SetTrigger("IsTalking");
+        }
+
+        else if (item as CropItem != null) //Seeds
+        {
+            currentPath = Random.Range(1,3);
             currentType = PathType.ItemSpecific;
             lastSeenItem = item;
             Talk();
@@ -171,10 +186,8 @@ public class WagonMerchantNPC : NPC, ITalkable
         else
         {
             //Can Buy
-            print("I Ran");
             if(lastSeenItem != item)
             {
-                print("I have not seen this item yet");
                 //Are you sure?
                 lastSeenItem = item;
                 dialogueController.restartDialogue = true;
@@ -186,7 +199,6 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             else
             {
-                print("Repeated item");
                 //Sold, remove item and gain money
                 currentPath = 2;
                 currentType = PathType.Misc;
@@ -205,8 +217,15 @@ public class WagonMerchantNPC : NPC, ITalkable
         {
             Talk();
             return;
-        } 
-        if(lastInteractedStoreItem == item)
+        }
+
+        if(TimeManager.Instance.dayNum >= 3 && !GameSaveData.Instance.mm_introducedPets)
+        {
+            GameSaveData.Instance.mm_introducedPets = true;
+            currentPath = 17;
+        }
+
+        else if(lastInteractedStoreItem == item)
         {
             //check price, then give item
             if(PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
@@ -217,9 +236,23 @@ public class WagonMerchantNPC : NPC, ITalkable
             {
                 currentPath = 7; //No space in inventory
             }
-            else
+            else //Item was sold
             {
-                currentPath = 5; //item sold
+                CritterItem c = item.itemData as CritterItem;
+                if(c && c.petOverride)
+                {
+                    if(GameSaveData.Instance.mm_soldPet)
+                    {
+                        currentPath = 16; //Not selling multiple pets
+                        return;
+                    }
+                    else
+                    {
+                        currentPath = 15; //Pet sold
+                        EmptyPetShop();
+                    }
+                }
+                else currentPath = 5; //item sold
                 shopUI.shopImgObj.SetActive(false);
                 if(displaySign)
                 {
@@ -278,12 +311,46 @@ public class WagonMerchantNPC : NPC, ITalkable
             item.seller = this;
             x++;
         }
+        //For selling pets and critters
+        if(TimeManager.Instance.dayNum < 3) return; //Wont give pets until third day
+        x = 0;
+        foreach (StoreItem item in storeCritterItems)
+        {
+            newItem = null;
+            do
+            {
+                if(GameSaveData.Instance.mm_soldPet == false)
+                {
+                    if(x >= soldPetItems.Length) return;
+                    newItem = soldPetItems[x];
+                    continue;
+                }
+                else if(GameSaveData.Instance.townTreeCleared2 == false) return; //Wont sell if the barn is not unlocked
+
+                i = Random.Range(0, possibleSoldCritterItems.Length);
+                r = Random.Range(0f,1f);
+                if(r < critterItemWeight[i]) newItem = possibleSoldCritterItems[i];
+            }
+            while(!newItem);
+            int newCost = (int) (newItem.value * sellMultiplier);
+            item.RefreshItem(newItem, newCost);
+            item.seller = this;
+            x++;
+        }
     }
 
     public override void EmptyShopItem()
     {
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
+    }
+
+    void EmptyPetShop()
+    {
+        foreach (StoreItem item in storeCritterItems)
+        {
+            item.Empty();
+        }
     }
 
     public override void PlayerLeftRadius()

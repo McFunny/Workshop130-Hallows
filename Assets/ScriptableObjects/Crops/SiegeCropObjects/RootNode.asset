@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  name: Root Node
+  id: 38
+  growthStages: 1
+  hoursPerStage: 1
+  harvestableGrowthStages: 
+  cropSprites:
+  - {fileID: -1324787736, guid: c0ad505466c62d642bef0dd73c046812, type: 3}
+  rottedImage: {fileID: -1201034538, guid: c0ad505466c62d642bef0dd73c046812, type: 3}
+  cropYield: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 0}
+  cropYieldAmount: 0
+  cropYieldVariance: 0
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  noStressSeedChance: 0
+  waterIntake: 8
+  ichorIntake: 0
+  terraIntake: 0
+  gloamIntake: 0
+  stressLimit: 1
+  wealthValue: 0
+  requireScythe: 0
+  requirePollination: 0
+  behavior: {fileID: 11400000, guid: 13e6fb3be2b25724388411147610592b, type: 2}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

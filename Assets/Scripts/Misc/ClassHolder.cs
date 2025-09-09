@@ -13,6 +13,12 @@ public class ObjectWithProbability
     public float _probability = 0;
 }
 [System.Serializable]
+public class IntWithProbability
+{
+    public int _int;
+    public float _probability = 0;
+}
+[System.Serializable]
 public class ItemWithAmount
 {
     public InventoryItemData item;

@@ -31,5 +31,6 @@ public enum ToolType
     WaterGun,
     BugNet,
     Scythe,
-    Pyrefly
+    Pyrefly,
+    Hydrofly
 }

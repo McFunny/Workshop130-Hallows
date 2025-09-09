@@ -22,9 +22,10 @@ MonoBehaviour:
     - On the bright side, I just finished some new schematics for a variety of new
       gadgets.
     - You took up the farming task for the town, correct? Well, I just so happen
-      to have some new tech that may interest you.
-    - Meet me at my workshop near the evening.
-    emotions: 05000000010000000400000000000000
+      to have some new tech that needs some field testing.
+    - Meet me at my workshop later and I will have it ready on the table.
+    - And don't forget your mints!
+    emotions: 0500000001000000040000000000000003000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -51,6 +52,14 @@ MonoBehaviour:
     paragraphs:
     - I don't think you would be able to carry this.
     emotions: 05000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - I can make a {storeItemName} if you have the stuff for one. {dontfreezePlayer}
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - I can't build out of nothing!... At least, not yet!
+    emotions: 03000000
   fillerPaths:
   - pathName: Seed Shooter
     paragraphs:

@@ -29,6 +29,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
     float homingStrength = 5f;     // how strongly it curves toward the target
     public float minSpeedForHoming = 10f;
 
+    Vector3 origin;
+
     public PetState currentState;
 
     [Header("Debug tool to test out states")]
@@ -44,6 +46,11 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         Flee,
         Pet,
         Eat //Pet goes to bowl to eat
+    }
+
+    void Awake()
+    {
+        origin = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
     public void CheckState(PetState currentState)
@@ -95,6 +102,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         AnimateTexture();
 
         CheckState(currentState);
+
+        //print(rb.velocity.magnitude);
     }
 
     void LateUpdate()
@@ -116,7 +125,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         {
             anim.SetBool("IsSitting", false);
             anim.Play("Idle"); //Reset the anim
-            if(currentRoutine != null) StopCoroutine(currentRoutine);
+            if(currentRoutine != null && !ballTransitioning) StopCoroutine(currentRoutine);
             StopCoroutine(IdleRoutine());
             currentRoutine = null;
             isMoving = false;
@@ -124,7 +133,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
         if(currentState == PetState.Follow)
         {
-            if(currentRoutine != null) StopCoroutine(currentRoutine);
+            if(currentRoutine != null && !ballTransitioning) StopCoroutine(currentRoutine);
             StopCoroutine(FollowRoutine());
             currentRoutine = null;
             isMoving = false;
@@ -165,6 +174,12 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             return;
         }
 
+        if((hunger <= 25 && EatCheck(false)) || (thirst <= 25 && EatCheck(true)))
+        {
+            StateSwitch(PetState.Eat);
+            return;
+        }
+
         if(TownGate.Instance.location != PlayerLocation.InFarm) //Make sure pet is following when not in farm
         {
             if(TownGate.Instance.location != PlayerLocation.InTown || friendshipLevel < 2) //Player is not within reach, so stay still
@@ -176,12 +191,6 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             //currentState = PetState.Follow;
             StateSwitch(PetState.Follow);
             forceFollows = 5;
-            return;
-        }
-
-        if((hunger <= 25 && EatCheck(false)) || (thirst <= 25 && EatCheck(true)))
-        {
-            StateSwitch(PetState.Eat);
             return;
         }
 
@@ -221,6 +230,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
     void Follow()
     {
+        
         if(!isMoving && currentRoutine == null)
         {
             float distance = Vector3.Distance(player.position, spawnOrigin);
@@ -237,6 +247,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             float pointRange = 5;
             if(playerDistance > 15) //Pop into of ball if not already
             {
+                if(playerDistance > 200) transform.position = origin; //To make sure it doesnt get lost
                 pointRange = 1.5f;
                 agent.speed = runSpeed;
                 if(!inBall)
@@ -400,7 +411,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         enterBallParticles.Play();
         ballObject.SetActive(true);
         bugObject.SetActive(false);
-        if(currentState == PetState.Ball) ballObject.transform.position = new Vector3(ballObject.transform.position.x, ballObject.transform.position.y + 0.5f, ballObject.transform.position.z);
+        //if(currentState == PetState.Ball) ballObject.transform.position = new Vector3(ballObject.transform.position.x, ballObject.transform.position.y + 0.5f, ballObject.transform.position.z);
         rb.useGravity = true;
         currentRoutine = null;
         ballTransitioning = false;
@@ -488,11 +499,11 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             if(other.gameObject.layer == 10)
             {
                 Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
-                rb.AddForce(150 * -dir, ForceMode.Impulse);
+                rb.AddForce(140 * -dir, ForceMode.Impulse);
                 return;
             }
 
-            if(other.gameObject.layer == 6 && rb.velocity.magnitude > 1)
+            if(other.gameObject.layer == 6 && rb.velocity.magnitude > 10f)
             {
                 StructureBehaviorScript structure = other.GetComponentInParent<StructureBehaviorScript>();
                 if(structure)
@@ -513,10 +524,10 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                 CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
                 if(creature && creature.shovelVulnerable)
                 {
-                    if(rb.velocity.magnitude > 1)
+                    if(rb.velocity.magnitude > 10f)
                     {
                         creature.TakeDamage(10);
-                        if(creature.fireVulnerable && ignited) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 9));
+                        if(creature.fireVulnerable && ignited) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(7, 12));
                         creature.PlayHitParticle(creature.transform.position);
 
                         if(ignited && Random.Range(0, 100) > (20 + friendshipLevel * 5)) IgnitionToggle(false);

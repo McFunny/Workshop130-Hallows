@@ -74,6 +74,10 @@ public class FarmTree : StructureBehaviorScript
     {
         forceHiveSpawn = false;
         currentHive = Instantiate(mothHivePrefab, hiveSpawns[Random.Range(0, hiveSpawns.Length)].position, Quaternion.identity);
+
+        Vector3 directionAway = currentHive.transform.position - transform.position;
+        directionAway.y = 0;
+        currentHive.transform.rotation = Quaternion.LookRotation(directionAway);
     }
 
     void OnDestroy()
