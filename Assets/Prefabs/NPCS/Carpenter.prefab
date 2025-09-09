@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  objectActive: 0
 --- !u!1 &723630831845939188
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +234,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.55
+  m_Radius: 2.3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7483426103522703172
 MonoBehaviour:
@@ -398,6 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 1
+  objectActive: 0
 --- !u!114 &7011066292732956472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,6 +532,8 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
       amount: 8
+    siegesRequired: 0
+    amountGiven: 1
   gloomStalkBarter:
     name: 
     itemForSale: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
@@ -540,6 +544,8 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
       amount: 8
+    siegesRequired: 0
+    amountGiven: 1
   timberEar: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
   stalk: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
   bundle: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}

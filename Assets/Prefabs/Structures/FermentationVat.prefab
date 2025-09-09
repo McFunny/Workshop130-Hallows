@@ -5143,7 +5143,7 @@ MonoBehaviour:
   miscSounds1: []
   miscSounds2: []
   interactSound: {fileID: 0}
-  itemInteractSound: {fileID: 0}
+  itemInteractSound: {fileID: 8300000, guid: 3e18de8b56f944948a6aeba020009413, type: 3}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 0}
 --- !u!82 &3034286062255977709
@@ -5289,6 +5289,7 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
   itemDropTransform: {fileID: 7011505979573606073}
   activatedParticles: {fileID: 7916119786507554012}
@@ -5296,8 +5297,8 @@ MonoBehaviour:
   progress: 0
   isFunctioning: 0
   chargingPopup: {fileID: 11400000, guid: 22aeaa8c9bb61a7489f93448cf4a2f39, type: 2}
-  loopingSource1: {fileID: 0}
-  loopingSource2: {fileID: 0}
+  loopingSource1: {fileID: 416610135193410352}
+  loopingSource2: {fileID: 721796594611292143}
 --- !u!82 &416610135193410352
 AudioSource:
   m_ObjectHideFlags: 0

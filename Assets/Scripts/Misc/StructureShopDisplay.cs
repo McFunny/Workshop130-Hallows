@@ -16,9 +16,13 @@ public class StructureShopDisplay : MonoBehaviour
         {
             spawnedStructure = Instantiate(pItem.placedPrefab, structureSpawnLocation.position, structureSpawnLocation.rotation);
             StructureBehaviorScript structureScript = spawnedStructure.GetComponent<StructureBehaviorScript>();
-            if (structureScript != null ) { structureScript.absentFromGrid = true; }
+            if (structureScript != null ) 
+            {
+                structureScript.absentFromGrid = true; 
+                structureScript.muteSound = true;
+            }
             Destroy(structureScript);
-            AudioPoolManager.Instance.PlayClipAtPosition(pItem.placeSound, structureSpawnLocation.position);
+            //AudioPoolManager.Instance.PlayClipAtPosition(pItem.placeSound, structureSpawnLocation.position);
         }
     }
 

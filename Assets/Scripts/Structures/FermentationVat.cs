@@ -102,6 +102,8 @@ public class FermentationVat : StructureBehaviorScript
 
             ignoreNextHour = true;
 
+            audioHandler.PlaySound(audioHandler.interactSound);
+
         }
     }
 
