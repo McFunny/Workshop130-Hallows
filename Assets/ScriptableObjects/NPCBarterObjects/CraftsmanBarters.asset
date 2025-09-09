@@ -326,6 +326,17 @@ MonoBehaviour:
       amount: 1
     siegesRequired: 1
     amountGiven: 1
+  - name: PetBowl
+    itemForSale: {fileID: 11400000, guid: cb402422679b86b4ea728b41f4c6c767, type: 2}
+    useItemPrice: 1
+    mintCost: 55
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+      amount: 1
+    siegesRequired: 0
+    amountGiven: 1
   uniqueTransactions:
   - name: StorageChest
     itemForSale: {fileID: 11400000, guid: 08f2970a8455d9243b49e5d93f89e338, type: 2}

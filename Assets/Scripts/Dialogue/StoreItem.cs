@@ -141,6 +141,7 @@ public class StoreItem : MonoBehaviour, IInteractable
             barterObject.SetActive(false);
             barterCost.Clear();
             stockText.text = "";
+            myCollider.enabled = false;
         }
         itemData = null;
         cost = 0;
@@ -148,7 +149,6 @@ public class StoreItem : MonoBehaviour, IInteractable
         costObject.SetActive(false);
         amountLeft = 0;
         amountGiven = 1;
-        myCollider.enabled = false;
         if(awakeOver) ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
         clearUponPurchase = true;
     }

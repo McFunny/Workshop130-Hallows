@@ -246,7 +246,11 @@ public class WagonMerchantNPC : NPC, ITalkable
                         currentPath = 16; //Not selling multiple pets
                         return;
                     }
-                    else currentPath = 15; //Pet sold
+                    else
+                    {
+                        currentPath = 15; //Pet sold
+                        EmptyPetShop();
+                    }
                 }
                 else currentPath = 5; //item sold
                 shopUI.shopImgObj.SetActive(false);
@@ -339,6 +343,14 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
+    }
+
+    void EmptyPetShop()
+    {
+        foreach (StoreItem item in storeCritterItems)
+        {
+            item.Empty();
+        }
     }
 
     public override void PlayerLeftRadius()

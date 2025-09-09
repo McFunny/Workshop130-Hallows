@@ -198,6 +198,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         //agent.Stop();
         headPivot.rotation = transform.rotation;
         targetStructure = null;
+        targetTable = null;
         currentState = newState;
 
         //Entering New State Effects
@@ -481,7 +482,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 Transform sitPos = targetTable.GrabOpenSocketTransform();
                 if(sitPos)
                 {
-                    if(Vector3.Distance(targetTable.transform.position, transform.position) < 4f)
+                    if(Vector3.Distance(targetTable.transform.position, transform.position) < 4.5f)
                     {
                         agent.Stop();
                         oldJumpPos = transform.position;
@@ -497,7 +498,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 Barricade bar = targetStructure as Barricade;
                 if(bar && !bar.absentFromGrid)
                 {
-                    if(Vector3.Distance(bar.transform.position, transform.position) < 3f)
+                    if(Vector3.Distance(bar.transform.position, transform.position) < 3.5f)
                     {
                         agent.Stop();
                         oldJumpPos = transform.position;
