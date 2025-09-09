@@ -222,7 +222,7 @@ public class GameSaveData : MonoBehaviour
             Instantiate(manikkinPrefab, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
 
-        deadHenIDs = new List<int>(data.allGameSaveData.deadHenIDs);
+        if(data.allGameSaveData.deadHenIDs != null && data.allGameSaveData.deadHenIDs.Length > 0) deadHenIDs = new List<int>(data.allGameSaveData.deadHenIDs);
     }
 }
     [System.Serializable]
