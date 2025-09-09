@@ -392,16 +392,20 @@ public class MainMenuScript : MonoBehaviour
         yield return new WaitUntil(() => isScreenBlack); // Waits until the bool is true!!! AWESOME!!!
         yield return new WaitForSecondsRealtime(1f);
 
-        AsyncOperation operation;
+        
 
         /*if (!loadingData) operation = SceneManager.LoadSceneAsync(3); //cutscene
         else operation = SceneManager.LoadSceneAsync(1); //game*/
-
-        operation = SceneManager.LoadSceneAsync(1); //game
+        
         loadingScreen.SetActive(true);
         var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
         var loadAnims = FindFirstObjectByType<EnableRandomLoadingObject>();
         if (loadAnims != null) loadAnims.camera.enabled = true;
+
+        yield return new WaitForSecondsRealtime(2f);
+        
+        AsyncOperation operation;
+        operation = SceneManager.LoadSceneAsync(1); //game
 
         var load1 = "Loading";
         var load2 = "Loading.";

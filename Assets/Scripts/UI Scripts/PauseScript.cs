@@ -234,13 +234,15 @@ public class PauseScript : MonoBehaviour
         yield return new WaitUntil(() => isScreenBlack); // Waits until the bool is true!!! AWESOME!!!
         yield return new WaitForSecondsRealtime(1f);
 
-        AsyncOperation operation;
-
-        operation = SceneManager.LoadSceneAsync(0); //Main Menu
         loadingScreen.SetActive(true);
         var loadText = loadingScreen.GetComponentInChildren<TextMeshProUGUI>();
         var loadAnims = FindFirstObjectByType<EnableRandomLoadingObject>();
         if (loadAnims != null) loadAnims.camera.enabled = true;
+
+        yield return new WaitForSecondsRealtime(2f);
+        
+        AsyncOperation operation;
+        operation = SceneManager.LoadSceneAsync(0); //Main Menu
 
         var load1 = "Loading";
         var load2 = "Loading.";
