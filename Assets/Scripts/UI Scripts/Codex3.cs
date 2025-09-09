@@ -69,6 +69,8 @@ public class Codex3 : MonoBehaviour
 
     [Header("Images")]
     [SerializeField] private List<Image> controllerImages = new List<Image>();
+    [SerializeField] private List<Sprite> petImages = new List<Sprite>();
+    [SerializeField] private List<Sprite> critterImages = new List<Sprite>();
     [SerializeField] private GameObject backControllerObject;
     [SerializeField] private GameObject backKBMObject;
 
@@ -443,6 +445,7 @@ public class Codex3 : MonoBehaviour
                     petVars.assignedPet = pet;
 
                     petVars.critterName.text = pet.name;
+                    petVars.critterIcon.sprite = petImages[(int)pet.petType];
                     petVars.homeIcon.gameObject.SetActive(false); // Hide home icon for pets
                     petVars.friendshipText.text = pet.friendshipLevel.ToString();
                     petVars.healthSlider.transform.parent.gameObject.SetActive(false); // Hide health slider for pets
@@ -461,6 +464,8 @@ public class Codex3 : MonoBehaviour
                 {
                     int batchIndex = buttonsPlaced / maxCritterEntries;
                     Transform currentParent = (batchIndex % 2 == 0) ? containers[7].transform : secondaryContainers[7].transform;
+                    Color homelessColor = new Color(1.0f, 1.0f, 1.0f, 0.75f);
+                    Color hasHomeColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
                     var critter = critters[c];
                     if (critter == null) continue;
@@ -470,9 +475,10 @@ public class Codex3 : MonoBehaviour
                     var critterVars = critterButton.GetComponent<CodexCritter>();
                     critterVars.assignedCritter = critter;
 
-
                     critterVars.critterName.text = critter.GetCritterName();
-                    critterVars.homeIcon.gameObject.SetActive(!critter.IsCritterHomeless());
+                    critterVars.critterIcon.sprite = critterImages[(int)critter.critterType];
+                    critterVars.homeIcon.color = critter.IsCritterHomeless() ? homelessColor : hasHomeColor;
+                    critterVars.homeIcon.gameObject.SetActive(true);
                     critterVars.friendshipText.text = critter.friendshipLevel.ToString();
                     critterVars.healthSlider.value = critter.health / critter.maxHealth;
                     critterVars.hungerSlider.value = critter.hunger / critter.maxHunger;
