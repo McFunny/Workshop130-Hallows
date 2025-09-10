@@ -226,7 +226,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(TownGate.Instance.location != PlayerLocation.InFarm) //Make sure pet is following when not in farm
         {
-            if(TownGate.Instance.location != PlayerLocation.InTown || friendshipLevel < 2) //Player is not within reach, so stay still
+            if(TownGate.Instance.location != PlayerLocation.InTown || friendshipLevel < 1) //Player is not within reach, so stay still
             {
                 //currentState = PetState.AwaitPlayer;
                 StateSwitch(PetState.AwaitPlayer);
@@ -264,7 +264,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     {
         if(TownGate.Instance.location == PlayerLocation.InFarm || TownGate.Instance.location == PlayerLocation.InTown)
         {
-            if(friendshipLevel >= 2) StateSwitch(PetState.Follow);
+            if(friendshipLevel >= 1) StateSwitch(PetState.Follow);
             else StateSwitch(PetState.Idle);
         } 
     }
@@ -274,7 +274,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         if(!isMoving)
         {
             float distance = Vector3.Distance(player.position, spawnOrigin);
-            if(distance > followDistance && friendshipLevel >= 2)
+            if(distance > followDistance && friendshipLevel >= 1)
             {
                 StateSwitch(PetState.Follow);
                 currentRoutine = null;
@@ -474,7 +474,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             return;
         }
 
-        if(currentState == PetState.Sit && targetStructure)
+        if(currentState == PetState.Sit)
         {
             bool resetToIdle = false;
             if(targetTable)

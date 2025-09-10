@@ -611,7 +611,7 @@ public class MistWalker : CreatureBehaviorScript
         }
         else
         {
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(0.5f);
             if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsPlayer;
             coroutineRunning = false;
             recoilCooldown = false;
@@ -636,7 +636,7 @@ public class MistWalker : CreatureBehaviorScript
         if(currentState != CreatureState.Stun)
         {
             Vector3 lungeDirection = (player.position - transform.position).normalized;
-            agent.velocity = lungeDirection * 10; 
+            agent.velocity = lungeDirection * 12; 
         }
 
         yield return new WaitForSeconds(0.8f);

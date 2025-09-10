@@ -249,7 +249,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                     else
                     {
                         currentPath = 15; //Pet sold
-                        EmptyPetShop();
+                        //EmptyPetShop();
                     }
                 }
                 else currentPath = 5; //item sold
