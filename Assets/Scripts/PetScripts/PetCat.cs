@@ -197,7 +197,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         agent.velocity = Vector3.zero;
         //agent.Stop();
         headPivot.rotation = transform.rotation;
-        targetStructure = null;
+        //targetStructure = null;
         targetTable = null;
         currentState = newState;
 
@@ -389,7 +389,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         }
 
 
-        if(!interruptAction && targetStructure && Vector3.Distance(targetStructure.transform.position, transform.position) < 3.5f && isMoving)
+        if(!interruptAction && targetStructure && Vector3.Distance(targetStructure.transform.position, transform.position) < 4f && isMoving)
         {
             //print("Cat close enough to table");
             if(currentRoutine == null) FinishedMoving();
@@ -399,7 +399,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(currentRoutine == null && !isMoving && targetStructure)
         {
-            currentRoutine = StartCoroutine(MoveToPoint(targetStructure.transform.position, 10));
+            currentRoutine = StartCoroutine(MoveToPoint(targetStructure.transform.position, 30));
         }
     }
 
@@ -498,7 +498,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 Barricade bar = targetStructure as Barricade;
                 if(bar && !bar.absentFromGrid)
                 {
-                    if(Vector3.Distance(bar.transform.position, transform.position) < 3.5f)
+                    if(Vector3.Distance(bar.transform.position, transform.position) < 4f)
                     {
                         agent.Stop();
                         oldJumpPos = transform.position;
@@ -679,6 +679,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         else (targetStructure as Barricade).catOnStruct = false;
         targetTable = null;
         agent.enabled = true;
+        agent.Resume();
         StateSwitch(PetState.Decide);
         currentRoutine = null;
 

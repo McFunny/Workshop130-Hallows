@@ -508,6 +508,7 @@ public class WagonMerchantNPC : NPC, ITalkable
            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(300)); //Add the "go buy seeds" quest
            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(302)); //Add the "go barter" quest
         }
+        if(currentPath == 15) EmptyPetShop();
 
         if(!talkingOutsideWagon) return;
         QuestManager qm = QuestManager.Instance;

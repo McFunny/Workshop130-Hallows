@@ -25,7 +25,7 @@ public class CactusBehavior : CropBehavior
 
         if((tile.growthStage == 5 || tile.growthStage == 6))
         {
-            if(Random.Range(0, 100) >= 97)
+            if(Random.Range(0, 150) >= 149)
             {
                 tile.growthStage = 7;
                 tile.SpriteChange();
@@ -36,7 +36,7 @@ public class CactusBehavior : CropBehavior
 
         if(!TimeManager.Instance.isDay && (tile.growthStage == 5 || tile.growthStage == 6))
         {
-            tile.GetCropStats().waterLevel -= 1.5f;
+            tile.GetCropStats().waterLevel -= 1;
             if(tile.GetCropStats().waterLevel < 0) tile.GetCropStats().waterLevel = 0;
         }
     }
