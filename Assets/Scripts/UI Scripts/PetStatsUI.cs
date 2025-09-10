@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class PetStatsUI : MonoBehaviour //Not finished yet lmao
 {
@@ -25,6 +26,7 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
     [SerializeField] private TextMeshProUGUI petFriendshipText;
     [SerializeField] private Image petHeartIcon;
     [SerializeField] private Slider petHungerSlider, petThirstSlider;
+    [SerializeField] private List<Sprite> petImages = new List<Sprite>();
     [Header("Critter Stats References")]
     [SerializeField] private Image critterIcon;
     [SerializeField] private TextMeshProUGUI critterNameText;
@@ -35,6 +37,7 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
     [SerializeField] private TextMeshProUGUI critterFriendshipText;
     [SerializeField] private Image critterHomeIcon, critterHeartIcon;
     [SerializeField] private Slider critterHealthSlider, critterHungerSlider, critterThirstSlider;
+    [SerializeField] private List<Sprite> critterImages = new List<Sprite>();
     private Camera mainCam;
     public delegate void PetStatsShown();
     public event PetStatsShown OnPetStatsShown;
@@ -91,6 +94,7 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
                 OnPetStatsShown?.Invoke();
                 petNameText.text = pet.name;
                 petTypeText.text = pet.petType.ToString();
+                petIcon.sprite = petImages[(int)pet.petType];
                 petHungerText.text = (int)pet.hunger + "/" + (int)pet.maxHunger;
                 petThirstText.text = (int)pet.thirst + "/" + (int)pet.maxThirst;
                 petHungerSlider.value = pet.hunger / pet.maxHunger;
@@ -103,6 +107,7 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
                 creatureType = CreatureType.Critter;
                 OnPetStatsShown?.Invoke();
                 critterNameText.text = critter.name;
+                critterIcon.sprite = critterImages[(int)critter.critterType];
                 critterHomeIcon.gameObject.SetActive(!critter.IsCritterHomeless());
                 critterTypeText.text = critter.creatureData.name.ToString();
                 critterHealthText.text = (int)critter.health + "/" + (int)critter.maxHealth;
