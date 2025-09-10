@@ -29427,6 +29427,12 @@ MonoBehaviour:
   petHeartIcon: {fileID: 3661737273073925603}
   petHungerSlider: {fileID: 5555364949348455753}
   petThirstSlider: {fileID: 5815929589436414083}
+  petImages:
+  - {fileID: 1654461850, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+  - {fileID: -708849745, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+  - {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+  - {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+  - {fileID: -1613304560, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
   critterIcon: {fileID: 7671291180329471416}
   critterNameText: {fileID: 2217536845761776414}
   critterTypeText: {fileID: 498072354443546163}
@@ -29439,6 +29445,12 @@ MonoBehaviour:
   critterHealthSlider: {fileID: 7009908977801880266}
   critterHungerSlider: {fileID: 3061706111344369509}
   critterThirstSlider: {fileID: 7429892470804785054}
+  critterImages:
+  - {fileID: -635309068, guid: c972a543a77d4d749905fe5bdb03ee08, type: 3}
+  - {fileID: 1645589015, guid: 3fdb0717fca92d74e812a1315f0f252f, type: 3}
+  - {fileID: -795489754, guid: c972a543a77d4d749905fe5bdb03ee08, type: 3}
+  - {fileID: -1321150611, guid: c972a543a77d4d749905fe5bdb03ee08, type: 3}
+  - {fileID: 1490168633, guid: c972a543a77d4d749905fe5bdb03ee08, type: 3}
 --- !u!114 &5977165329021300563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71495,6 +71507,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6986550136871157786}
     m_Modifications:
+    - target: {fileID: 329524147159034828, guid: 9608a928c8863f74d9e96d8e5e1ed25f,
+        type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2471484098623183912, guid: 9608a928c8863f74d9e96d8e5e1ed25f,
         type: 3}
       propertyPath: loadingScreenCanvas
@@ -71504,6 +71521,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoadingAnimCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6695033075738878461, guid: 9608a928c8863f74d9e96d8e5e1ed25f,
+        type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9023642694533588299, guid: 9608a928c8863f74d9e96d8e5e1ed25f,
         type: 3}
