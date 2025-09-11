@@ -78,6 +78,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     [Tooltip("Specific UI for this structure, if it has any")]
     public GameObject structureUI; 
+    public StructureUIValues structureUIVariables;
 
     Coroutine highlightCoroutine;
 
@@ -389,6 +390,16 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         //
     }
+
+    public virtual List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].name = "Integrity";
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+        structureUIVariables.valueGroups[0].barColor = Color.red;
+        return structureUIVariables.valueGroups;
+    }
 }
 
 [System.Serializable]
@@ -396,6 +407,23 @@ public class RepairItem
 {
     public InventoryItemData item;
     public int repairAmount;
+}
+
+[System.Serializable]
+public class StructureUIValues
+{
+    public bool enableUI = false;
+    public List<StructureUIValueGroup> valueGroups = new List<StructureUIValueGroup>();
+}
+
+[System.Serializable]
+public class StructureUIValueGroup
+{
+    public string name;
+    public Sprite icon;
+    [HideInInspector] public float value;
+    public float maxValue;
+    public Color barColor;
 }
 
 

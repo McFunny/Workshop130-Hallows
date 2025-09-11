@@ -5690,6 +5690,7 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 5670479295969307255}
   cropDatabase: {fileID: 11400000, guid: 661de7c1217d14a4895b00a01fecacbe, type: 2}
   crop: {fileID: 0}
@@ -24741,6 +24742,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1bfdd91bde26e7049b4e954a3451ff67,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1bfdd91bde26e7049b4e954a3451ff67,
         type: 3}

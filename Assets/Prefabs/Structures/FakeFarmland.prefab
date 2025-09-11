@@ -266,6 +266,7 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 0
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -287,6 +288,7 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
   mimic: {fileID: 0}
   crop: {fileID: 11400000, guid: 327028795e7109e4085a7de271dd17a8, type: 2}
@@ -5391,6 +5393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  objectActive: 0
 --- !u!1 &3723480852868657601
 GameObject:
   m_ObjectHideFlags: 0
@@ -5734,6 +5737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1dcc4d190c25ae4584687149da7ad29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enabled: 0
 --- !u!1 &5885381647459943154
 GameObject:
   m_ObjectHideFlags: 0
@@ -6408,6 +6412,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1bfdd91bde26e7049b4e954a3451ff67,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 1bfdd91bde26e7049b4e954a3451ff67,
         type: 3}

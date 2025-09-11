@@ -5337,6 +5337,7 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 1
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 1132289899299348751}
   particleCenter: {fileID: 1132289899299348751}
   savedItems: []
@@ -5358,7 +5359,15 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 6943824199621019165}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
   fire: {fileID: 34416509697588409}
   leafObject: {fileID: 6224392329194739564}
   leafParticles: {fileID: 5589191297936008109}

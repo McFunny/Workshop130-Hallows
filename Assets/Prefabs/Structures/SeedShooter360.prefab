@@ -556,7 +556,15 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 1696547498468872269}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
   townOwned: 0
   turretHead: {fileID: 5197192804061470831}
   bulletOrigin: {fileID: 7144713208050597919}

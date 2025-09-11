@@ -271,7 +271,16 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - name: Health
+      icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
   topClamp: {fileID: 7118545593169415662}
   bottomClamp: {fileID: 26154679216094702}
   triggeredSFX: {fileID: 8300000, guid: aa9c348d3787238419ebe8bb92fe535b, type: 3}

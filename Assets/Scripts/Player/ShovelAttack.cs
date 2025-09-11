@@ -132,6 +132,7 @@ public class ShovelAttack : MonoBehaviour
             if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             PlayHitParticle(s_Collision);
+
         }
 
         if(hitBug)
@@ -166,6 +167,7 @@ public class ShovelAttack : MonoBehaviour
     {
         print("Played");
         ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
+        ParticlePoolManager.Instance.MoveAndPlayVFX(hitPoint, ParticlePoolManager.Instance.hitEffect);
         return;
         /*
         Vector3 direction = (transform.position - hitPoint).normalized;
