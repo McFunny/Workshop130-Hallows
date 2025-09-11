@@ -38,7 +38,8 @@ public class ShovelBehavior : ToolBehavior
         }
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, 0.9f * coolDownMod));
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.42f * coolDownMod, 0.9f * coolDownMod));
+        //PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.35f * coolDownMod, 0.9f * coolDownMod)); //New anim values
 
         /*if(PlayerInteraction.Instance.stamina > 50)
         {

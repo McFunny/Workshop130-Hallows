@@ -352,4 +352,11 @@ public class Pollinator : CreatureBehaviorScript
         float newY = Mathf.Sin(Time.time * 3) * 0.2f; //Last number is the height
         bugModel.transform.position = new Vector3(transform.position.x, startPos.y + newY, transform.position.z);
     }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = null;
+        TakeDamage(999);
+        return false;
+    }
 }

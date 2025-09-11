@@ -636,7 +636,7 @@ public class MistWalker : CreatureBehaviorScript
         if(currentState != CreatureState.Stun)
         {
             Vector3 lungeDirection = (player.position - transform.position).normalized;
-            agent.velocity = lungeDirection * 12; 
+            agent.velocity = lungeDirection * 10; 
         }
 
         yield return new WaitForSeconds(0.8f);

@@ -86,7 +86,7 @@ public class PiggyBank : FurnitureBehaviorScript
         OnDamage -= Break;
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
-        Instantiate(destructionParticles, particleCenter.position, Quaternion.identity);
+        if(!muteSound) Instantiate(destructionParticles, particleCenter.position, Quaternion.identity);
     }
 
     public override void SaveVariables()

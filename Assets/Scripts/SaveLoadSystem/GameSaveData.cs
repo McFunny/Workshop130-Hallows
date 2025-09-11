@@ -63,6 +63,7 @@ public class GameSaveData : MonoBehaviour
     [Header("Siege Progression Bools. All must be false when building")]
     public int siegesCleared = 0;
     public bool siegeCropInHand; //The Player is holding the seed but hasnt planted it
+    public int siegesLost = 0; //Tracks how many times this CURRENT siege was failed. Resets after a siege is completed
 
     [Header("NPC Bools. All must be false when building")]
     public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet;
@@ -192,6 +193,7 @@ public class GameSaveData : MonoBehaviour
 
         siegesCleared = data.allGameSaveData.siegesCleared;
         siegeCropInHand = data.allGameSaveData.siegeCropInHand;
+        siegesLost = data.allGameSaveData.siegesLost;
 
         switch(data.allGameSaveData.petType)
         {
@@ -294,6 +296,7 @@ public class GameSaveData : MonoBehaviour
 
         public int siegesCleared;
         public bool siegeCropInHand; //
+        public int siegesLost;
 
         public float petHunger, petProgress, petThirst;
         public int petLevel;
@@ -378,6 +381,7 @@ public class GameSaveData : MonoBehaviour
 
         siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;
+        siegesLost = data.siegesLost;
 
         if(data.currentPet)
         {

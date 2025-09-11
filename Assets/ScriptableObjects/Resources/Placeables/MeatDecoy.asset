@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: MeatDecoy
+  m_EditorClassIdentifier: 
+  ID: 216
+  displayName: Meat Decoy
+  description: A pile of meat that draws the attention of carnivorous creatures.
+    More meat can be added to increase it's durability.
+  icon: {fileID: 21300000, guid: 4f25a9fe5496389489cfc4f13392c4c3, type: 3}
+  maxStackSize: 20
+  value: 27
+  sellValueMultiplier: 0.5
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 7430462193785015095, guid: 114d2fcb39380bf45a1e389589db4400,
+    type: 3}
+  hologramPrefab: {fileID: 3845484718596167787, guid: 2f550de1419fa034b85f20554477bde7,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: f9820358dde74d043a7dc96a33ac714b, type: 3}
+  gridTypes: 01000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

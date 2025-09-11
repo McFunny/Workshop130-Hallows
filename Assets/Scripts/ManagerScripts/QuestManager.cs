@@ -300,7 +300,7 @@ public class QuestManager : MonoBehaviour
         int i = 0;
         foreach(Quest q in activeQuests)
         {
-            if(q.alreadyCompleted && !q.isMajorQuest) //Removes all non main quests that are completed
+            if(q.alreadyCompleted /*&& !q.isMajorQuest*/) //Removes all non main quests that are completed (now it deleted everything thats done)
             {
                 i++;
                 continue;

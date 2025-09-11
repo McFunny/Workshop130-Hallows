@@ -14,6 +14,7 @@ public class TitanMarigleamBehavior : CropBehavior
         if(TimeManager.Instance.isDay == true && TimeManager.Instance.currentHour != 6 && tile.growthStage != 1) //Dies at morning, but not when its just planted
         {
             tile.CropDied();
+            GameSaveData.Instance.siegesLost++;
         }
     }
 
@@ -23,6 +24,7 @@ public class TitanMarigleamBehavior : CropBehavior
         if(!TimeManager.Instance.isDay)
         {
             tile.CropDied();
+            GameSaveData.Instance.siegesLost++;
             return;
         }
         if(SiegeManager.Instance) SiegeManager.Instance.siegeCropOnFarm = true;
@@ -51,6 +53,8 @@ public class TitanMarigleamBehavior : CropBehavior
 
         KillNodes(tile.transform.position);
         //Maybe redrop the seed if it wasnt harvested?
+
+        GameSaveData.Instance.siegesLost++;
     }
 
     public override void OnHarvest(FarmLand tile, bool usedShovel, bool usedScythe)
@@ -58,6 +62,8 @@ public class TitanMarigleamBehavior : CropBehavior
         SiegeManager.Instance.siegeCropOnFarm = false;
 
         KillNodes(tile.transform.position);
+
+        GameSaveData.Instance.siegesLost = 0;
 
         ///////MOVE THIS CODE TO THE PEDASTAL SCRIPT SO ITS WHEN THE ITEM IS SOCKETED, THEN THIS HAPPENS. ALSO MAKE THESE NO LONGER A KEY ITEM SINCE MORE CAN BE GAINED
         /*GameSaveData.Instance.siegesCleared++;

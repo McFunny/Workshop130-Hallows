@@ -844,7 +844,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 2, barricade, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
-        StartCoroutine(PopulateStructure(1, 2, critterHive, true, barnTileMap));
+        //StartCoroutine(PopulateStructure(1, 2, critterHive, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
         PopulateBerryBushes(2, 3, true);

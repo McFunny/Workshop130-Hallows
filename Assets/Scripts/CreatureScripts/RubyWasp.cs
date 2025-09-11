@@ -413,4 +413,11 @@ public class RubyWasp : CreatureBehaviorScript
             PlayerMovement.Instance.RemoveSpeedMod(gameObject);
         }
     }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = null;
+        TakeDamage(999);
+        return false;
+    }
 }

@@ -166,10 +166,11 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        float finalDamage = ApplyDamageModifier(damage);
         OnDamage?.Invoke();
-        OnDamageWithValue?.Invoke(damage);
+        OnDamageWithValue?.Invoke(finalDamage);
         if(!destructable || health <= 0) return;
-        health -= damage;
+        health -= finalDamage;
         //if(damageParticles) damageParticles.Play();
         for(int i = 0; i < damageParticles.Count; i++)
         {
@@ -177,6 +178,11 @@ public class StructureBehaviorScript : MonoBehaviour
         }
 
         if(audioHandler && audioHandler.hitSounds.Length > 0) audioHandler.PlayRandomSound(audioHandler.hitSounds);
+    }
+
+    protected virtual float ApplyDamageModifier(float damage)
+    {
+        return damage;
     }
 
     //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
@@ -383,6 +389,13 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         //
     }
+}
+
+[System.Serializable]
+public class RepairItem
+{
+    public InventoryItemData item;
+    public int repairAmount;
 }
 
 

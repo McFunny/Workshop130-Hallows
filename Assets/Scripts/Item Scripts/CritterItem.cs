@@ -10,6 +10,7 @@ public class CritterItem : InventoryItemData
     public CritterTypeDataPair critterRef;
     public PetType petType;
     public bool petOverride = false; //if true, use pettype. otherwise, use crittertype
+    public PenType homeType;
 }
 [System.Serializable]
 public class CritterTypeDataPair

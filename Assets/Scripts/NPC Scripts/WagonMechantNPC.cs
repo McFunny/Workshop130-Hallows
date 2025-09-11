@@ -239,18 +239,37 @@ public class WagonMerchantNPC : NPC, ITalkable
             else //Item was sold
             {
                 CritterItem c = item.itemData as CritterItem;
-                if(c && c.petOverride)
+                if(c)
                 {
-                    if(GameSaveData.Instance.mm_soldPet)
+                    if(c.petOverride) //item was a pet
                     {
-                        currentPath = 16; //Not selling multiple pets
-                        return;
+                        if(GameSaveData.Instance.mm_soldPet)
+                        {
+                            currentPath = 16; //Not selling multiple pets
+                            return;
+                        }
+                        else
+                        {
+                            currentPath = 15; //Pet sold
+                            //EmptyPetShop();
+                        }
                     }
-                    else
+                    else //item was a critter
                     {
-                        currentPath = 15; //Pet sold
-                        //EmptyPetShop();
+                        foreach (StructureBehaviorScript structure in StructureManager.Instance.allStructs)
+                        {
+                            CritterPen pen = structure as CritterPen;
+                            if(!pen) continue;
+                            if(pen.type == c.homeType)
+                            {
+                                currentPath = 5; //item sold
+                                break;
+                            }
+
+                            currentPath = 18; //critter has no home
+                        }
                     }
+                    
                 }
                 else currentPath = 5; //item sold
                 shopUI.shopImgObj.SetActive(false);
