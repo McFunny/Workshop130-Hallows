@@ -78,23 +78,6 @@ public class CropStatsRework : MonoBehaviour
         }
 
         lerpHandler.lerpToStartArray[0] = isActive; //This is stupid but it works
-       
-
-        /*
-        if (isActive && moveProgress < maxMoveProgress)
-        {
-            moveProgress += Time.deltaTime;
-            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress / maxMoveProgress);
-            cropUITransformD.position = Vector3.Lerp(lerpStart.position, lerpEndD.position, moveProgress / maxMoveProgress);
-        }
-
-        if(!isActive && moveProgress > 0)
-        {
-            moveProgress -= Time.deltaTime;
-            cropUITransform.position = Vector3.Lerp(lerpStart.position, lerpEnd.position, moveProgress/maxMoveProgress);
-            cropUITransformD.position = Vector3.Lerp(lerpStart.position, lerpEndD.position, moveProgress/maxMoveProgress);
-        }
-        */
     }
 
     IEnumerator CheckTimer()
