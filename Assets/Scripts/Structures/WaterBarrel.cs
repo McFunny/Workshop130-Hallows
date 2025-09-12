@@ -39,7 +39,7 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
     {
         base.Update();
 
-        waterText.text = waterLevel + "/" + maxWaterLevel;
+        //waterText.text = waterLevel + "/" + maxWaterLevel;
 
         if(oldLevel != waterLevel)
         {
@@ -198,6 +198,7 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
     {
         if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
         structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
 
         structureUIVariables.valueGroups[1].value = waterLevel;
         structureUIVariables.valueGroups[1].maxValue = maxWaterLevel;

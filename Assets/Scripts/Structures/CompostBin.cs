@@ -26,7 +26,7 @@ public class CompostBin : StructureBehaviorScript
     bool ignoreNextHour = false;
     bool isSpinning = false;
 
-    public TextMeshProUGUI itemText;
+    //public TextMeshProUGUI itemText;
 
     public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
     public PopupScript chargingPopup;
@@ -34,7 +34,7 @@ public class CompostBin : StructureBehaviorScript
     void Awake()
     {
         base.Awake();
-        itemText.text = currentCompostValue + "/" + maxCompostValue;
+        //itemText.text = currentCompostValue + "/" + maxCompostValue;
     }
 
     void Start()
@@ -140,7 +140,7 @@ public class CompostBin : StructureBehaviorScript
         isSpinning = false;
         fillPlane.SetActive(false);
         currentCompostValue = 0;
-        itemText.text = currentCompostValue + "/" + maxCompostValue;
+        //itemText.text = currentCompostValue + "/" + maxCompostValue;
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -177,7 +177,7 @@ public class CompostBin : StructureBehaviorScript
                 anim.SetBool("Spinning", true);
                 anim.SetBool("IsFull", true);
             }
-            itemText.text = currentCompostValue + "/" + maxCompostValue;
+            //itemText.text = currentCompostValue + "/" + maxCompostValue;
         }
     }
 
@@ -242,7 +242,7 @@ public class CompostBin : StructureBehaviorScript
             anim.SetBool("Spinning", false);
         }
 
-        itemText.text = currentCompostValue + "/" + maxCompostValue;
+        //itemText.text = currentCompostValue + "/" + maxCompostValue;
 
         isFunctioning = true;
     }
@@ -257,6 +257,7 @@ public class CompostBin : StructureBehaviorScript
     {
         if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
         structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
 
         structureUIVariables.valueGroups[1].value = progress;
         structureUIVariables.valueGroups[1].maxValue = maxProgress;

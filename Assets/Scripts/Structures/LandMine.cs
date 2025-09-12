@@ -319,14 +319,13 @@ public class LandMine : StructureBehaviorScript
     public override List<StructureUIValueGroup> GetStructureUIValues()
     {
         if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
-        structureUIVariables.valueGroups[0].value = health;
 
-        structureUIVariables.valueGroups[1].value = nutrients.gloamLevel;
+        structureUIVariables.valueGroups[0].value = nutrients.gloamLevel;
+        structureUIVariables.valueGroups[0].maxValue = 10;
+        structureUIVariables.valueGroups[1].value = nutrients.terraLevel;
         structureUIVariables.valueGroups[1].maxValue = 10;
-        structureUIVariables.valueGroups[2].value = nutrients.terraLevel;
+        structureUIVariables.valueGroups[2].value = nutrients.ichorLevel;
         structureUIVariables.valueGroups[2].maxValue = 10;
-        structureUIVariables.valueGroups[3].value = nutrients.ichorLevel;
-        structureUIVariables.valueGroups[3].maxValue = 10;
         return structureUIVariables.valueGroups;
     }
 }
