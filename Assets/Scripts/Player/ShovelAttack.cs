@@ -17,6 +17,8 @@ public class ShovelAttack : MonoBehaviour
     Vector3 c_Collision, s_Collision, d_Collision;
     GroundType type;
 
+    [HideInInspector] public bool chargedSwing = false;
+
     void Start()
     {
         collider.enabled = false;
@@ -110,7 +112,9 @@ public class ShovelAttack : MonoBehaviour
 
         if(hitCreature)
         {
-            hitCreature.TakeDamage(25, PlayerInteraction.Instance.transform.position);
+            float damage = 25;
+            if(chargedSwing) damage = 40;
+            hitCreature.TakeDamage(damage, PlayerInteraction.Instance.transform.position);
             //playsound
             if(hitCreature.corpseType != CorpseParticleType.Metal) HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
             print("Hit Creature");

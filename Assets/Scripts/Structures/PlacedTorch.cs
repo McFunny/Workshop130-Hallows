@@ -14,6 +14,9 @@ public class PlacedTorch : StructureBehaviorScript
 
     public ParticleSystem lowFireParticle;
 
+    int flameLeft = 0;
+    int maxFlame = 1;
+
     void Awake()
     {
         base.Awake();
@@ -65,14 +68,25 @@ public class PlacedTorch : StructureBehaviorScript
     IEnumerator FireDrain()
     {
         currentlyLit = true;
-        float r = Random.Range(110, 140);
+        maxFlame = Random.Range(110, 140);
+        flameLeft = maxFlame;
         lightScript.flickerSpeed = 0.1f;
         lightScript.intensityVariation = 0.2f;
-        yield return new WaitForSeconds(r * 0.7f);
+        while(flameLeft > maxFlame * 0.3f)
+        {
+            flameLeft--;
+            yield return new WaitForSeconds(1);
+        }
+        //yield return new WaitForSeconds(r * 0.7f);
         lowFireParticle.Play();
         lightScript.flickerSpeed = 0.9f;
         lightScript.intensityVariation = 1f;
-        yield return new WaitForSeconds(r * 0.3f);
+        //yield return new WaitForSeconds(r * 0.3f);
+        while(flameLeft > 0)
+        {
+            flameLeft--;
+            yield return new WaitForSeconds(1);
+        }
         ExtinguishFlame();
     }
 
@@ -97,5 +111,15 @@ public class PlacedTorch : StructureBehaviorScript
     {
         base.OnDestroy();
         //if (!gameObject.scene.isLoaded) return; 
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+
+        structureUIVariables.valueGroups[1].value = flameLeft;
+        structureUIVariables.valueGroups[1].maxValue = maxFlame;
+        return structureUIVariables.valueGroups;
     }
 }

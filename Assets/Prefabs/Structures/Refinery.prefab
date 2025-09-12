@@ -381,10 +381,21 @@ MonoBehaviour:
   structureUIVariables:
     enableUI: 1
     valueGroups:
-    - icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+    - name: Integrity
+      icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
       value: 0
       maxValue: 0
       barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
+    - name: Progress
+      icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.6020381, g: 0.7830189, b: 0.6252466, a: 1}
+    - name: Items
+      icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.2924528, g: 0.20547992, b: 0.026210386, a: 1}
   itemWarning: {fileID: 11400000, guid: 4d4a7ab94ffa468498f41867008aaa89, type: 2}
   itemDropTransform: {fileID: 6401162201091657775}
   itemInsertPos: {fileID: 7088397759877457573}

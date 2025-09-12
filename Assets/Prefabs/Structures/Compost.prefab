@@ -347,10 +347,21 @@ MonoBehaviour:
   structureUIVariables:
     enableUI: 1
     valueGroups:
-    - icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+    - name: Integrity
+      icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
       value: 0
       maxValue: 0
       barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
+    - name: Progress
+      icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.6020381, g: 0.7830189, b: 0.6252466, a: 1}
+    - name: Compost
+      icon: {fileID: -10448726, guid: cf71171631fb00b489785d002605c8c4, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.08399114, g: 0.3490566, b: 0.08067818, a: 1}
   compost: {fileID: 11400000, guid: ea07bb057af3e1e48b815126a425d0d0, type: 2}
   meat: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
   meatSmall: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}

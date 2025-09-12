@@ -259,4 +259,14 @@ public class SeedShooter360 : StructureBehaviorScript
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(turretHead.transform.position, minimumDistance);
     }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+
+        structureUIVariables.valueGroups[1].value = savedItems.Count;
+        structureUIVariables.valueGroups[1].maxValue = maxAmmo;
+        return structureUIVariables.valueGroups;
+    }
 }

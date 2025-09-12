@@ -13,6 +13,8 @@ public class MeatPile : StructureBehaviorScript
 
     float range;
 
+    public InventoryItemData morsel;
+
     //public ParticleSystem meatDamageParticle;
 
     // Start is called before the first frame update
@@ -39,6 +41,16 @@ public class MeatPile : StructureBehaviorScript
                 audioHandler.PlaySound(audioHandler.interactSound);
                 return;
             }
+        }
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+        if(type == ToolType.Shovel)
+        {
+            //StartCoroutine(DugUpForItem());
+            success = true;
         }
     }
 
@@ -80,9 +92,9 @@ public class MeatPile : StructureBehaviorScript
 
         if(stage > newStage)
         {
-            stage = newStage;
             audioHandler.PlaySound(audioHandler.breakSound);
         }
+        stage = newStage;
 
     }
 
@@ -114,5 +126,16 @@ public class MeatPile : StructureBehaviorScript
         OnDamage -= PileHit;
         //if(health)
         base.OnDestroy();
+        if (!gameObject.scene.isLoaded) return; 
+
+        if(health > 5)
+        {
+            health -= 5;
+            while(health > 0)
+            {
+                health -= 5;
+                ItemPoolManager.Instance.GrabItem(morsel).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+            }
+        }
     }
 }

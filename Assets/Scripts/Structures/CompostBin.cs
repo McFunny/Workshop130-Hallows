@@ -252,4 +252,17 @@ public class CompostBin : StructureBehaviorScript
         saveInt1 = progress;
         saveFloat1 = currentCompostValue;
     }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+
+        structureUIVariables.valueGroups[1].value = progress;
+        structureUIVariables.valueGroups[1].maxValue = maxProgress;
+
+        structureUIVariables.valueGroups[1].value = currentCompostValue;
+        structureUIVariables.valueGroups[1].maxValue = maxCompostValue;
+        return structureUIVariables.valueGroups;
+    }
 }

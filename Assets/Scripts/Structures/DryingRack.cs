@@ -182,4 +182,14 @@ public class DryingRack : StructureBehaviorScript
     {
         saveInt1 = progress;
     }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+
+        structureUIVariables.valueGroups[1].value = progress;
+        structureUIVariables.valueGroups[1].maxValue = maxProgress;
+        return structureUIVariables.valueGroups;
+    }
 }

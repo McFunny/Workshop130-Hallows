@@ -113,6 +113,21 @@ public class CritterPen : StructureBehaviorScript
     {
         durability = saveInt1;
     }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+
+        structureUIVariables.valueGroups[0].value = housedCritters.Count;
+        structureUIVariables.valueGroups[0].maxValue = maxOccupency;
+
+        if(type == PenType.Hive)
+        {
+            structureUIVariables.valueGroups[1].value = durability;
+            structureUIVariables.valueGroups[1].maxValue = 100;
+        }
+        return structureUIVariables.valueGroups;
+    }
 }
 
 public enum PenType

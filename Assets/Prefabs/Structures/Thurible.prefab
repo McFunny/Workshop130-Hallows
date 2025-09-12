@@ -5364,10 +5364,21 @@ MonoBehaviour:
   structureUIVariables:
     enableUI: 1
     valueGroups:
-    - icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
+    - name: Integrity
+      icon: {fileID: 806086394, guid: 2db25bf9f40b8914085dd1506f7ef381, type: 3}
       value: 0
       maxValue: 0
       barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
+    - name: Flame
+      icon: {fileID: 1404191631, guid: 23af126588ebb594096936c5e12a8ef5, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.59607846, g: 0.32328779, b: 0.01960784, a: 1}
+    - name: Leaves
+      icon: {fileID: -1589375250, guid: 202e27f3a04868d44b6514665092202e, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.01960784, g: 0.59607846, b: 0.5558002, a: 1}
   fire: {fileID: 34416509697588409}
   leafObject: {fileID: 6224392329194739564}
   leafParticles: {fileID: 5589191297936008109}

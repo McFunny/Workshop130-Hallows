@@ -273,7 +273,7 @@ Transform:
   m_GameObject: {fileID: 1180574252054118892}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.924, z: 0}
+  m_LocalPosition: {x: 0, y: 1.079, z: 0}
   m_LocalScale: {x: 6.0000005, y: 6.0000005, z: 6.0000005}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -5692,6 +5692,9 @@ MonoBehaviour:
   clearTileOnDestroy: 1
   muteSound: 0
   structureUI: {fileID: 5670479295969307255}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   cropDatabase: {fileID: 11400000, guid: 661de7c1217d14a4895b00a01fecacbe, type: 2}
   crop: {fileID: 0}
   terraFert: {fileID: 11400000, guid: 0f0b9f1e36d584e46aefb25e70d4f50b, type: 2}
@@ -11758,7 +11761,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.13}
+  m_AnchoredPosition: {x: 0, y: 0.34}
   m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5571868695234542657
@@ -22468,7 +22471,7 @@ Transform:
   m_GameObject: {fileID: 8414150395789795682}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.18, z: 0}
+  m_LocalPosition: {x: 0, y: 0.21900001, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -22551,7 +22554,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
 --- !u!1 &8798039152665847422
 GameObject:
   m_ObjectHideFlags: 0
@@ -23494,6 +23497,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plant_Grow
       objectReference: {fileID: 0}
+    - target: {fileID: 6948538131333757074, guid: bfaeb64136e311b4e96db96440e5ae8e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 9152168427540205047, guid: bfaeb64136e311b4e96db96440e5ae8e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -23502,7 +23510,7 @@ PrefabInstance:
     - target: {fileID: 9152168427540205047, guid: bfaeb64136e311b4e96db96440e5ae8e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.18
+      value: 0.21900001
       objectReference: {fileID: 0}
     - target: {fileID: 9152168427540205047, guid: bfaeb64136e311b4e96db96440e5ae8e,
         type: 3}
@@ -24791,7 +24799,7 @@ PrefabInstance:
     - target: {fileID: 5675223309057338894, guid: 467f6d0601a909e40b5db124099e321b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.07
+      value: 0.299
       objectReference: {fileID: 0}
     - target: {fileID: 5675223309057338894, guid: 467f6d0601a909e40b5db124099e321b,
         type: 3}
@@ -24832,6 +24840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897408264708071826, guid: 467f6d0601a909e40b5db124099e321b,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
