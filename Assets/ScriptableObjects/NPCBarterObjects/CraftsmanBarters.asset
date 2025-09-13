@@ -191,6 +191,19 @@ MonoBehaviour:
       amount: 3
     siegesRequired: 0
     amountGiven: 1
+  - name: BrambleHeart
+    itemForSale: {fileID: 11400000, guid: d834eadfb634c7c42b51aadf6503fab4, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+      amount: 10
+    siegesRequired: 0
+    amountGiven: 1
   uniqueTransactions:
   - name: StorageChest
     itemForSale: {fileID: 11400000, guid: 08f2970a8455d9243b49e5d93f89e338, type: 2}

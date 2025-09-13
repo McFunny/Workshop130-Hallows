@@ -25,7 +25,7 @@ public class CactusBehavior : CropBehavior
 
         if((tile.growthStage == 5 || tile.growthStage == 6))
         {
-            if(Random.Range(0, 150) >= 149)
+            if(Random.Range(0, 400) >= 399)
             {
                 tile.growthStage = 7;
                 tile.SpriteChange();

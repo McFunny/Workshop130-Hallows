@@ -1,0 +1,73 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using DG.Tweening;
+
+public class BrambleHeart : StructureBehaviorScript
+{
+    public StructureObject woodBarricade;
+
+    float range = 25;
+
+    public Transform heart;
+
+    void HourPassed()
+    {
+        if(TimeManager.Instance.isDay) return;
+
+        Collider[] nearbyWeeds = Physics.OverlapSphere(transform.position, range, 1 << 6);
+        foreach(Collider collider in nearbyWeeds)
+        {
+            FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
+
+            if(tile && tile.isWeed && tile.growthStage != 7 && Random.Range(0f, 10f) >= 9.9f)
+            {
+                if(Random.Range(0,10) == 11)
+                {
+                    //kill the weed and spawn the barrier
+                    tile.clearTileOnDestroy = false;
+                    Vector3 spawnPos = tile.transform.position;
+                    Destroy(tile.gameObject);
+                    Instantiate(woodBarricade.objectPrefab, spawnPos, Quaternion.identity);
+                }
+                else
+                {
+                    //convert the weed
+                    tile.growthStage = 7;
+                    tile.SpriteChange();
+                }
+            }
+        }
+    }
+
+    IEnumerator HeartBeat()
+    {
+        //Vector3 originalScale = heart.localScale;
+        Vector3 newScale = new Vector3(1,1,1);
+        while(health > 0)
+        {
+            heart.DOPunchScale(newScale, 1f, 0, 0.3f);
+            yield return new WaitForSeconds(1.2f);
+
+            //heart.localScale = originalScale;
+        }
+    }
+
+    void OnDestroy()
+    {
+        base.OnDestroy();
+        if(!gameObject.scene.isLoaded) return;
+
+        Collider[] nearbyWeeds = Physics.OverlapSphere(transform.position, range, 1 << 6);
+        foreach(Collider collider in nearbyWeeds)
+        {
+            FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
+
+            if(tile && tile.isWeed && tile.growthStage == 7)
+            {
+                tile.growthStage = 5;
+                tile.SpriteChange();
+            }
+        }
+    }
+}

@@ -11,6 +11,11 @@ public class InventoryAnims : MonoBehaviour
     private void Awake()
     {
         foodCooldown = cooldownStart; // Initialize cooldown
+        //PlayerInteraction.onFoodConsumed += SetFoodCooldown;
+    }
+
+    void OnEnable()
+    {
         PlayerInteraction.onFoodConsumed += SetFoodCooldown;
     }
 
@@ -31,6 +36,11 @@ public class InventoryAnims : MonoBehaviour
         }
         foodCooldown = cooldownStart;
         StopCoroutine(InitiateFoodCooldown());
+    }
+
+    void OnDisable()
+    {
+        PlayerInteraction.onFoodConsumed -= SetFoodCooldown;
     }
 
 

@@ -1110,14 +1110,15 @@ public class StructureManager : MonoBehaviour
             FarmLand weedScript = allStructs[i] as FarmLand;
             if(weedScript && weedScript.isWeed) weedTotal++;
         }
-        if(weedTotal > 80) return;
 
-        List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
-        if(weedSpots.Count == 0)
+        List<Vector3> weedSpots = GetAdjacentClearTiles(pos); 
+        if(weedSpots.Count == 0) //Code to see if this weed should become a thorn
         {
             if(Random.Range(0f, 10f) > 9.5f) becomeThorn = true;
             return;
         } 
+
+        if(weedTotal > 80) return;
         foreach(Vector3 weedPos in weedSpots)
         {
             if(Random.Range(0f,10f) > 9.7f)

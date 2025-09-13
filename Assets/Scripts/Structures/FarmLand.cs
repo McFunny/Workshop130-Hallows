@@ -102,7 +102,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(isWeed)
         {
-            growthStage = Random.Range(0, crop.growthStages);
+            growthStage = Random.Range(0, crop.growthStages - 1);
             growthStage++;
         }
 
@@ -954,20 +954,6 @@ public class FarmLand : StructureBehaviorScript
 
     void OnTriggerEnter(Collider other)
     {
-        if(isFrosted)
-        {
-            if(other.gameObject.layer == 10)
-            {
-                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 4);
-            }
-
-            else if(other.gameObject.layer == 9) 
-            {
-                CreatureBehaviorScript c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
-                if(c && c.frostVulnerable) c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 6);
-            }
-        }
-
         if(other.gameObject.layer == 10)
         {
             if(crop)
@@ -976,12 +962,29 @@ public class FarmLand : StructureBehaviorScript
             }
             if(isWeed)
             {
-                if(growthStage == 5) 
+                if(growthStage == 5 || growthStage == 7) 
                 {
                     PlayerInteraction.Instance.StaminaChange(-5); //Hit by a thorn
                     StructureManager.Instance.IchorRefill(transform.position, 1, 1);
                 }
                 if(growthStage == 6) PlayerInteraction.Instance.PlayerTripNoKnockback(); //Tripped by weed
+            }
+
+            if(isFrosted) PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 4);
+        }
+
+        if(other.gameObject.layer == 9) 
+        {
+            CreatureBehaviorScript c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+            if(c)
+            {
+                if(c.frostVulnerable && isFrosted) c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 6);
+
+                if(isWeed && growthStage == 7) 
+                {
+                    c.TakeDamage(15);
+                    c.PlayHitParticle(Vector3.zero);
+                }
             }
         }
 

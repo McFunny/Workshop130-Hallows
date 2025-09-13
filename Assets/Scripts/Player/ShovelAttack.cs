@@ -113,7 +113,7 @@ public class ShovelAttack : MonoBehaviour
         if(hitCreature)
         {
             float damage = 25;
-            if(chargedSwing) damage = 40;
+            if(chargedSwing) damage = 50;
             hitCreature.TakeDamage(damage, PlayerInteraction.Instance.transform.position);
             //playsound
             if(hitCreature.corpseType != CorpseParticleType.Metal) HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
