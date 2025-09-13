@@ -11,7 +11,7 @@ public class Gachapon : MonoBehaviour, IInteractable
     bool highlightEnabled;
 
 
-
+    public GameObject gachaponFire;
     public bool currentlyOfferingPrize = false;
     public static Gachapon Instance;
     public SpriteRenderer ballSprite;
@@ -110,6 +110,7 @@ public class Gachapon : MonoBehaviour, IInteractable
             AudioSource pAudio = p.gameObject.GetComponent<AudioSource>();
             pAudio.enabled = enable;
         }
+        gachaponFire.SetActive(enable);
     }
 
     public void AddToBacklog(InventoryItemData item, int numberOfItems)

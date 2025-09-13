@@ -71,6 +71,7 @@ public class BrazierPuzzleManager : ImAPuzzleManager
         }
 
         puzzleSolved = true;
+        fireObject.SetActive(puzzleSolved);
         PuzzleManager.Instance.totalPuzzlesSolved++;
         Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
         PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
@@ -94,6 +95,7 @@ public class BrazierPuzzleManager : ImAPuzzleManager
     public void ImportSaveData(BrazierPuzzleSaveData data)
     {
         puzzleSolved = data.brazierPuzzleSolved;
+        fireObject.SetActive(puzzleSolved);
 
         if (puzzleSolved) { totalPuzzleWin.color = gold; }
         else if (!puzzleSolved) { totalPuzzleWin.color = gray; }
