@@ -134,7 +134,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         return false;
     }
 
-    protected void FriendPointsChange(float amount, bool showHearts)
+    public void FriendPointsChange(float amount, bool showHearts)
     {
         if(showHearts) ParticlePoolManager.Instance.GrabHeartParticle().transform.position = 
             new Vector3(corpseParticleTransform.position.x, corpseParticleTransform.position.y + 1, corpseParticleTransform.position.z);
@@ -230,6 +230,14 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             PopupHandler.Instance.names.Enqueue(name);
             PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);
         }*/
+    }
+
+    public int MaxLevel
+    {
+        get
+        {
+            return maxFriendshipLevel;
+        }
     }
 
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

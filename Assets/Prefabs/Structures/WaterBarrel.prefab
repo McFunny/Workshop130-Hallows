@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 6515968016891488178}
   - component: {fileID: 6021100722063247470}
   - component: {fileID: -4675091814539874308}
+  - component: {fileID: 3113626224101928820}
   m_Layer: 6
   m_Name: WaterBarrel
   m_TagString: Untagged
@@ -455,6 +456,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!208 &3113626224101928820
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3161338315516755844}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.4, y: 0.4, z: 0.4}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.39, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3195309209059739970
 GameObject:
   m_ObjectHideFlags: 0

@@ -300,6 +300,7 @@ GameObject:
   - component: {fileID: 331877742204192908}
   - component: {fileID: 1727922733811546655}
   - component: {fileID: 1182144220497153935}
+  - component: {fileID: 495049503020775682}
   m_Layer: 6
   m_Name: Refinery
   m_TagString: Untagged
@@ -571,6 +572,22 @@ MonoBehaviour:
   itemInteractSound: {fileID: 8300000, guid: 50984d86635b5aa40a537cf28b97a9f4, type: 3}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 0}
+--- !u!208 &495049503020775682
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044800526403070472}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.475, y: 0.5, z: 0.815}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.12, y: 0, z: -0.28}
+  m_TimeToStationary: 0.5
 --- !u!1 &6218483301657520228
 GameObject:
   m_ObjectHideFlags: 0
