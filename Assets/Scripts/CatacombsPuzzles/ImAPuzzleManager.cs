@@ -5,4 +5,5 @@ using UnityEngine;
 public class ImAPuzzleManager : MonoBehaviour
 {
     public bool puzzleSolved;
+    public GameObject fireObject;
 }

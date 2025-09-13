@@ -43,6 +43,7 @@ public class WaterPuzzleManager : ImAPuzzleManager
             puzzle2.isLocked = true;
             puzzle3.isLocked = true;
             puzzleSolved = true;
+            fireObject.SetActive(puzzleSolved);
 
             //SavePuzzleState();
             PuzzleManager.Instance.totalPuzzlesSolved++;
@@ -67,7 +68,7 @@ public class WaterPuzzleManager : ImAPuzzleManager
     public void ImportSaveData(WaterPuzzleData data)
     {
         puzzleSolved = data.waterPuzzleSolved;
-
+        fireObject.SetActive(puzzleSolved);
         puzzle1.SetSolvedState(data.puzzle1Solved);
         puzzle2.SetSolvedState(data.puzzle2Solved);
         puzzle3.SetSolvedState(data.puzzle3Solved);

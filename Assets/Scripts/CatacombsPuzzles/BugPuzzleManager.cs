@@ -88,6 +88,7 @@ public class BugPuzzleManager : ImAPuzzleManager, IInteractable
         if (itemsDeposited >= itemsNeeded)
         {
             puzzleSolved = true;
+            fireObject.SetActive(puzzleSolved);
             ToggleHighlight(false);
             itemWantedSprite.color = Color.white;
             Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
@@ -177,6 +178,7 @@ public class BugPuzzleManager : ImAPuzzleManager, IInteractable
         itemsDeposited = data.itemsDepositedData;
         wantedItem = Database.Instance.GetItem(data.itemID);
         puzzleSolved = data.isSolvedData;
+        fireObject.SetActive(puzzleSolved);
 
         itemWantedSprite.sprite = wantedItem.icon;
         itemWantedSprite.color = puzzleSolved ? Color.white : Color.black;

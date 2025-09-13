@@ -73,6 +73,7 @@ public class FlowerPotManager : ImAPuzzleManager
                 pots[i].LockPuzzle();
             }
             puzzleSolved = true;
+            fireObject.SetActive(puzzleSolved);
             Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
             PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
         }
@@ -99,7 +100,7 @@ public class FlowerPotManager : ImAPuzzleManager
     {
         puzzleSolved = data.flowerPuzzleSolved;
         hasSetUpFlowers = data.hasSetUpFlowersdata;
-
+        fireObject.SetActive(puzzleSolved);
         for (int i = 0; i < pots.Count; i++)
         {
             if(data.pots == null || i >= data.pots.Count) continue;
