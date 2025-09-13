@@ -84,12 +84,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 1536
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 1, z: 2}
-  m_Center: {x: 0.1, y: 0.21, z: 0}
+  m_Size: {x: 2, y: 2.98, z: 2}
+  m_Center: {x: 0.1, y: 1.28, z: 0}
 --- !u!114 &4338242790533615438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4df0fb46c5696c245ade7b68802aa21d, type: 3}
   miscSounds1: []
   miscSounds2: []
-  interactSound: {fileID: 0}
+  interactSound: {fileID: 8300000, guid: 7bb0d3d5cd6f82148a34e24fb185559a, type: 3}
   itemInteractSound: {fileID: 8300000, guid: 4df0fb46c5696c245ade7b68802aa21d, type: 3}
   breakSound: {fileID: 8300000, guid: 1162356bbd3d0fa4dbc0b60cbe984684, type: 3}
   activatedSound: {fileID: 0}

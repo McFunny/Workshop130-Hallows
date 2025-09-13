@@ -982,7 +982,7 @@ public class FarmLand : StructureBehaviorScript
 
                 if(isWeed && growthStage == 7) 
                 {
-                    c.TakeDamage(15);
+                    c.TakeDamage(10);
                     c.PlayHitParticle(Vector3.zero);
                 }
             }

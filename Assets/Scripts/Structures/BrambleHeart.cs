@@ -11,16 +11,22 @@ public class BrambleHeart : StructureBehaviorScript
 
     public Transform heart;
 
+    void Start()
+    {
+        base.Start();
+        StartCoroutine(HeartBeat());
+    }
+
     void HourPassed()
     {
-        if(TimeManager.Instance.isDay) return;
+        //if(TimeManager.Instance.isDay) return;
 
         Collider[] nearbyWeeds = Physics.OverlapSphere(transform.position, range, 1 << 6);
         foreach(Collider collider in nearbyWeeds)
         {
             FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
 
-            if(tile && tile.isWeed && tile.growthStage != 7 && Random.Range(0f, 10f) >= 9.9f)
+            if(tile && tile.isWeed && tile.growthStage != 7 && Random.Range(0f, 10f) >= 9.5f)
             {
                 if(Random.Range(0,10) == 11)
                 {
@@ -43,10 +49,11 @@ public class BrambleHeart : StructureBehaviorScript
     IEnumerator HeartBeat()
     {
         //Vector3 originalScale = heart.localScale;
-        Vector3 newScale = new Vector3(1,1,1);
+        Vector3 newScale = new Vector3(0.4f,0.4f,0.4f);
         while(health > 0)
         {
-            heart.DOPunchScale(newScale, 1f, 0, 0.3f);
+            heart.DOPunchScale(newScale, 1f, 0, 0.5f);
+            audioHandler.PlaySound(audioHandler.interactSound);
             yield return new WaitForSeconds(1.2f);
 
             //heart.localScale = originalScale;
