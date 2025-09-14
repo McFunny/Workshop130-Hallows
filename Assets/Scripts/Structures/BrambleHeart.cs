@@ -28,13 +28,14 @@ public class BrambleHeart : StructureBehaviorScript
 
             if(tile && tile.isWeed && tile.growthStage != 7 && Random.Range(0f, 10f) >= 9.5f)
             {
-                if(Random.Range(0,10) == 11)
+                if(Random.Range(0,10) == 9)
                 {
                     //kill the weed and spawn the barrier
                     tile.clearTileOnDestroy = false;
                     Vector3 spawnPos = tile.transform.position;
                     Destroy(tile.gameObject);
-                    Instantiate(woodBarricade.objectPrefab, spawnPos, Quaternion.identity);
+                    GameObject newObject = Instantiate(woodBarricade.objectPrefab, spawnPos, Quaternion.identity);
+                    newObject.transform.localEulerAngles = new Vector3(0, Random.Range(0,360), 0);
                 }
                 else
                 {
