@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7680159229334011530}
   - component: {fileID: 3089290649197296925}
+  - component: {fileID: 931159347161758551}
   - component: {fileID: 595188180140550035}
   - component: {fileID: 4840626454979030704}
-  - component: {fileID: 3458581805699352256}
   - component: {fileID: 6499434248519750491}
   - component: {fileID: 3270717554427318243}
   m_Layer: 6
@@ -51,13 +51,34 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 4194166
+    m_Bits: 4194102
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.44
+  m_Radius: 0.07
+  m_Center: {x: 0, y: -0.17, z: 0}
+--- !u!135 &931159347161758551
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337647651044073138}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.45
   m_Center: {x: 0, y: 0.36, z: 0}
 --- !u!54 &595188180140550035
 Rigidbody:
@@ -136,60 +157,6 @@ MonoBehaviour:
     enableUI: 0
     valueGroups: []
   krakhen: {fileID: 11400000, guid: 2836db77fdc01174dbdaf3addf675d5f, type: 2}
---- !u!114 &3458581805699352256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337647651044073138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62e6d769220c5d34fac02b0c850016f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  structData: {fileID: 0}
-  itemForm: {fileID: 0}
-  health: 5
-  maxHealth: 5
-  wealthValue: 0
-  salvageChance: 0
-  destructable: 0
-  flammable: 0
-  onFire: 0
-  isObstacle: 0
-  absentFromGrid: 1
-  absentFromFarmGrid: 0
-  focalPoint: {fileID: 0}
-  particleCenter: {fileID: 0}
-  savedItems: []
-  saveInt1: 0
-  saveInt2: 0
-  saveInt3: 0
-  saveFloat1: 0
-  saveFloat2: 0
-  saveFloat3: 0
-  saveString1: 
-  saveString2: 
-  saveString3: 
-  saveBool1: 0
-  damageParticlesObject: {fileID: 0}
-  gibs: {fileID: 0}
-  nearbyFires: []
-  highlight: []
-  canShowHighlight: 1
-  audioHandler: {fileID: 0}
-  clearTileOnDestroy: 1
-  muteSound: 0
-  structureUI: {fileID: 0}
-  structureUIVariables:
-    enableUI: 0
-    valueGroups: []
-  rb: {fileID: 595188180140550035}
-  mothData: {fileID: 11400000, guid: df1b8c3719cd05e4e81165e095075d35, type: 2}
-  heldWasps: 3
-  nectar: {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
-  comb: {fileID: 11400000, guid: 407379bc0d8d7074488a51c551db0c77, type: 2}
 --- !u!82 &6499434248519750491
 AudioSource:
   m_ObjectHideFlags: 0

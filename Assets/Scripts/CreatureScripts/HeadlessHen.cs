@@ -343,6 +343,7 @@ public class HeadlessHen : CreatureBehaviorScript
                 hen.AggroToPlayer();
             }
         }
+        AggroToPlayer();
 
     }
 
@@ -359,7 +360,7 @@ public class HeadlessHen : CreatureBehaviorScript
 
     void OnTriggerEnter(Collider other)
     {
-        if(isAttacking)
+        if(isAttacking && !isDead)
         {
             if(other.gameObject.layer == 10) PlayerInteraction.Instance.StaminaChange(damageToPlayer);
 
@@ -399,10 +400,12 @@ public class HeadlessHen : CreatureBehaviorScript
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, 0.4f, groundMask))
         {
+            print("Grounded");
             return true;
         }
         else
         {
+            print("Flying");
             return false;
         }
     }
@@ -444,7 +447,7 @@ public class HeadlessHen : CreatureBehaviorScript
         {
             yield return new WaitForSeconds(Random.Range(7f, 18f));
             idling = true;
-            if(Random.Range(0,10) > 8) Instantiate(egg, corpseParticleTransform.position, Quaternion.identity);
+            if(Random.Range(0,10) > 8 && !inWilderness) Instantiate(egg, corpseParticleTransform.position, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(1f, 3f));
             idling = false;
         }
