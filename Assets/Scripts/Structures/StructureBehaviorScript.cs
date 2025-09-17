@@ -342,7 +342,7 @@ public class StructureBehaviorScript : MonoBehaviour
         if(flammable)
         {
             flammable = false;
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(10);
             flammable = true;
         }
     }
@@ -351,7 +351,7 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         while(onFire)
         {
-            if(health > 10) TakeDamage(Mathf.Round(health / 5));
+            if(health > 20) TakeDamage(Mathf.Round(health / 10));
             else TakeDamage(2);
             yield return new WaitForSeconds(2f);
             if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);

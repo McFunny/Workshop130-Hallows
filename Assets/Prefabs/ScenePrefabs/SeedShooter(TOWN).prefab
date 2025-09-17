@@ -358,7 +358,11 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 8596476766630161746}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   townOwned: 1
   turretHead: {fileID: 7660191539564971582}
   bulletOrigin: {fileID: 1265256872596468535}
@@ -378,6 +382,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 88c7a631b6c3f164fadff223436437c4, type: 2}
   - {fileID: 11400000, guid: df1b8c3719cd05e4e81165e095075d35, type: 2}
   - {fileID: 11400000, guid: 450d390202a597d4b8eac734eef80593, type: 2}
+  - {fileID: 11400000, guid: 2836db77fdc01174dbdaf3addf675d5f, type: 2}
 --- !u!1 &3189243266572931247
 GameObject:
   m_ObjectHideFlags: 0

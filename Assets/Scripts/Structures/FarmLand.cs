@@ -984,6 +984,7 @@ public class FarmLand : StructureBehaviorScript
                 {
                     c.TakeDamage(10);
                     c.PlayHitParticle(Vector3.zero);
+                    if(Random.Range(0,10) >= 6) Destroy(gameObject);
                 }
             }
         }

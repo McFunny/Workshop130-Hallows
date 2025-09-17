@@ -521,6 +521,15 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void OnConvoEnd()
     {
+        ////////////// Clear last seen item to stop player frustration at accidental purchasing
+        if(lastInteractedStoreItem)
+        {
+            lastInteractedStoreItem = null;
+        }
+        if(lastSeenItem) lastSeenItem = null; 
+        shopUI.shopImgObj.SetActive(false);
+        //////////////
+
         if(currentPath == 11) //Finished store introduction
         {
            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.bedTutorialPopup); 

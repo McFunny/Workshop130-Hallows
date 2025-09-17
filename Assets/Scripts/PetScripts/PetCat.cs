@@ -239,6 +239,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         }
 
         float positiveActionChance = (friendshipLevel + 1) * .75f;
+        if(hunger == 0) positiveActionChance = 0;
         if(!TimeManager.Instance.isDay) positiveActionChance *= 2;
         float r = Random.Range(0, 100f);
 
@@ -253,7 +254,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(r < 80) StateSwitch(PetState.Idle);
         else if(r < 95 - (friendshipLevel * 0.5f)) StateSwitch(PetState.Sit);
-        else if(friendshipLevel >= 2)
+        else if(friendshipLevel >= 1)
         {
             StateSwitch(PetState.Follow);
             forceFollows = Random.Range(5, 11);
@@ -285,8 +286,16 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         if(currentRoutine == null)
         {
-            target = StructureManager.Instance.GetRandomTile();
-            target = GetRandomPointAround(target, 3);
+            if(hunger == 0)
+            {
+                target = FindPetBowl();
+                if(target == Vector3.zero) target = StructureManager.Instance.GetRandomTile();
+            }
+            else
+            {
+                target = StructureManager.Instance.GetRandomTile();
+                target = GetRandomPointAround(target, 3);
+            }
             currentRoutine = StartCoroutine(MoveToPoint(target, 5));
         }
     }
@@ -717,6 +726,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                         else
                         {
                             float positiveActionChance = (friendshipLevel + 1) * .75f;
+                            if(hunger == 0) positiveActionChance = 0;
                             if(!TimeManager.Instance.isDay) positiveActionChance *= 2;
 
                             if(Random.Range(0, 20f) < positiveActionChance)
