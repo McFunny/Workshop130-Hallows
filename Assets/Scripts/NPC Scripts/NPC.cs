@@ -223,7 +223,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
         {
             lastInteractedStoreItem = null;
         }
-        shopUI.shopImgObj.SetActive(false);
+        if(shopUI) shopUI.shopImgObj.SetActive(false);
     }
 
     public void GiveDailyQuest(Quest q)

@@ -320,7 +320,8 @@ public class NightSpawningManager : MonoBehaviour
                 Destroy(creature.gameObject);
             }
         }
-        allCreatures.Clear();
+        allCreatures.RemoveAll(item => item == null);
+        //allCreatures.Clear();
     }
 
     public void RemoveDifficultyPoints(float amount)

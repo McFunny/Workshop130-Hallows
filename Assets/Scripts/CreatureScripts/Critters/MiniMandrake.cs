@@ -119,6 +119,7 @@ public class MiniMandrake : CreatureBehaviorScript
 
     void Follow()
     {
+        if(TownGate.Instance.location != PlayerLocation.InFarm && TownGate.Instance.location != PlayerLocation.InTown) return;
         if(targetCreature)
         {
             currentState = CreatureState.Attack;
