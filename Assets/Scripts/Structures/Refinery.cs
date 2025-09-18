@@ -15,7 +15,7 @@ public class Refinery : StructureBehaviorScript
     public Animator anim;
 
     public int progress = 0;
-    int maxProgress = 3;
+    int maxProgress = 2;
     int maxContainedItems = 25;
     int itemsFinished = 0;
 
@@ -92,7 +92,7 @@ public class Refinery : StructureBehaviorScript
             PopupHandler.Instance.AddToQueue(chargingPopup);
             return;
         }
-        ItemConversion ic = savedItems[0].FetchConversion(ItemConversionMethod.Refining);
+        ItemConversion ic = item.FetchConversion(ItemConversionMethod.Refining);
         if(ic != null && (ic.itemsNeeded + savedItems.Count) <= maxContainedItems /*&& savedItems.Count < maxContainedItems*/)
         {
 
@@ -130,6 +130,7 @@ public class Refinery : StructureBehaviorScript
 
     public override void HourPassed()
     {
+        if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
         if(progress < maxProgress && savedItems.Count > itemsFinished * 5)
         {
             anim.SetBool("IsRunning", true);

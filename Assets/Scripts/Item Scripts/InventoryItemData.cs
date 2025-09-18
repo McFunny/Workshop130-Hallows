@@ -97,5 +97,6 @@ public enum ItemConversionMethod
 {
     Null,
     Drying,
-    Refining
+    Refining,
+    SeedExtract
 }

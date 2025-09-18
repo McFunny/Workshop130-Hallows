@@ -50,7 +50,7 @@ public class StructureBehaviorScript : MonoBehaviour
     //Save Data
     //[HideInInspector] public List<Item> itemList1;
     //[HideInInspector] public List<Item> itemList2;
-    [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
+    [HideInInspector] public List<InventoryItemData> savedItems = new List<InventoryItemData>(); //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
     [HideInInspector] public int saveInt1, saveInt2, saveInt3;
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
     [HideInInspector] public string saveString1, saveString2, saveString3;
