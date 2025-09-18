@@ -384,6 +384,7 @@ public class HeadlessHen : CreatureBehaviorScript
             rb.freezeRotation = true;
             StopAllCoroutines();
             canCorpseBreak = true;
+            effectsHandler.loopingSource.Stop();
         }
     }
 
@@ -398,7 +399,7 @@ public class HeadlessHen : CreatureBehaviorScript
     private bool GroundedCheck()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 0.4f, groundMask))
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 0.5f, groundMask))
         {
             print("Grounded");
             return true;
