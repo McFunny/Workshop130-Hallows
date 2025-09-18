@@ -83,7 +83,7 @@ public class SeedExtractor : StructureBehaviorScript
 
             audioHandler.PlaySound(audioHandler.itemInteractSound);
 
-            ParticlePoolManager.Instance.GrabCloudParticle().transform.position = itemDropTransform.position;
+            ParticlePoolManager.Instance.GrabCloudParticle().transform.position = itemInsertPos.position;
             fumes.Play();
         }
     }
