@@ -7,8 +7,9 @@ public class BulletScript : MonoBehaviour
     public AudioClip hitStruct, hitEnemy, hitGround;
 
     public float structureDamage, creatureDamage, playerDamage;
+    public float armorDamage = 2;
 
-    public bool fireBullet;
+    public bool fireBullet, piercing;
     public float bulletLifetime = 3;
 
     private Rigidbody bulletRigidbody;
@@ -26,7 +27,7 @@ public class BulletScript : MonoBehaviour
             var armor = other.GetComponent<CreatureArmor>();
             if(armor)
             {
-                armor.TakeDamage(2);
+                armor.TakeDamage(armorDamage);
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Armor");
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
@@ -100,7 +101,7 @@ public class BulletScript : MonoBehaviour
                 print("Hit Creature");
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
-                if(creature.health + creatureDamage > 0) gameObject.SetActive(false);
+                if(creature.health + creatureDamage > 0 && !piercing) gameObject.SetActive(false);
                 return;
             }
         }
@@ -146,4 +147,10 @@ public class BulletScript : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+}
+
+public enum BulletType
+{
+    Bullet,
+    TimberEar
 }

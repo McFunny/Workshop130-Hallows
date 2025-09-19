@@ -27,6 +27,7 @@ public class CreatureObject : ScriptableObject
 
     public bool hasSpawned = false;
     public bool excludeFromNormalNights = false; //If true, the creature will not be picked to be part of the regular nighttime enemies
+    public bool canSpawnBehindCabin = true; //If false, enemies cannot spawn at the mist section behind the cabin
 
     //[HideInInspector] public bool forceSpawnVariant = false;
 

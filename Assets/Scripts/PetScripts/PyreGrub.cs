@@ -222,8 +222,16 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
         if(currentRoutine == null)
         {
-            target = StructureManager.Instance.GetRandomTile();
-            target = GetRandomPointAround(target, 3);
+            if(hunger == 0)
+            {
+                target = FindPetBowl();
+                if(target == Vector3.zero) target = StructureManager.Instance.GetRandomTile();
+            }
+            else
+            {
+                target = StructureManager.Instance.GetRandomTile();
+                target = GetRandomPointAround(target, 3);
+            }
             currentRoutine = StartCoroutine(MoveToPoint(target, 5));
         }
     }
@@ -702,7 +710,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         if(!inBall && !ballTransitioning)
         {
             if(!alreadyPet) StateSwitch(PetState.Pet);
-            else StateSwitch(PetState.Ball);
+            else if(hunger > 0) StateSwitch(PetState.Ball);
         }
         interactSuccessful = true;
     }

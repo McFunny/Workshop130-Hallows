@@ -36,7 +36,7 @@ public class PlayerEffectsHandler : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         StartCoroutine("FootStepsPitchChanger");
 
-        globalVolume = FindObjectOfType<Volume>();
+        globalVolume = GameObject.Find("Global Volume").GetComponent<Volume>();
 
         PlayerInteraction p = PlayerInteraction.Instance;
 
@@ -82,6 +82,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     public void PlayerDamage()
     {
         StopCoroutine(DamageFlash());
+        ResetVignette();
         StartCoroutine(DamageFlash());
         damageImpulse.GenerateImpulseWithForce(shakeIntensity);
         if(playerDamage)

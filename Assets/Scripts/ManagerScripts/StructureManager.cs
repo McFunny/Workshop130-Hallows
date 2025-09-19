@@ -226,6 +226,18 @@ public class StructureManager : MonoBehaviour
         return false;
     }
 
+    public StructureBehaviorScript GetStructureOnPosition(Vector3 pos)
+    {
+        Collider[] nearbyColliders = Physics.OverlapSphere(pos, 1, 1 << 6);
+        foreach(Collider collider in nearbyColliders)
+        {
+            StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+
+            if(structure) return structure;
+        }
+        return null;
+    }
+
     public Vector3 CheckTile(Vector3 pos) //1x1
     {
         Tilemap currentMap = CurrentTileMap(pos);

@@ -11,6 +11,7 @@ public class GeneralCropBehavior : CropBehavior
     public override bool DestroyOnHarvest(FarmLand tile, out int stagesReduced)
     {
         stagesReduced = stagesReverted;
+        if(!multipleHarvests) return true;
         return false;
     }
 }

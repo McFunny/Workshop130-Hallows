@@ -27,7 +27,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public List<CreatureBehaviorScript> allCreatures; //all creatures spawned by this manager
 
-    public List<Transform> testSpawns;
+    public List<Transform> mistSpawns, behindCabinSpawns;
     public Transform[] despawnPositions;
 
     Dictionary<CreatureObject, int> creatureTallyDict = new Dictionary<CreatureObject, int>();
@@ -230,7 +230,10 @@ public class NightSpawningManager : MonoBehaviour
         }
         if(prefab == null) prefab = c.objectPrefab;
 
-        GameObject newCreature = Instantiate(prefab, RandomMistPosition(), Quaternion.identity);
+        GameObject newCreature; 
+        if(c.canSpawnBehindCabin) newCreature = Instantiate(prefab, RandomMistPosition(), Quaternion.identity);
+        else newCreature = Instantiate(prefab, RandomMistPositionFrontCabin(), Quaternion.identity);
+
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
             enemy.OnSpawn(); 
@@ -283,11 +286,21 @@ public class NightSpawningManager : MonoBehaviour
 
     public Vector3 RandomMistPosition()
     {
-        int r = Random.Range(0, testSpawns.Count);
+        List<Transform> possibleSpawns = mistSpawns;
+        possibleSpawns.AddRange(behindCabinSpawns);
+        int r = Random.Range(0, possibleSpawns.Count);
         float x = Random.Range(-2, 2);
-        return testSpawns[r].position + (x * testSpawns[r].transform.right); 
-        //Debug.Log(testSpawns[r]);
-        //return testSpawns[r].position;
+        return possibleSpawns[r].position + (x * possibleSpawns[r].transform.right); 
+        //Debug.Log(mistSpawns, mistSpawns[r]);
+        //return mistSpawns, mistSpawns[r].position;
+    }
+
+    public Vector3 RandomMistPositionFrontCabin() //Does not include the positions behind the cabin
+    {
+        List<Transform> possibleSpawns = mistSpawns;
+        int r = Random.Range(0, possibleSpawns.Count);
+        float x = Random.Range(-2, 2);
+        return possibleSpawns[r].position + (x * possibleSpawns[r].transform.right); 
     }
 
     public void GameOver()
@@ -307,7 +320,8 @@ public class NightSpawningManager : MonoBehaviour
                 Destroy(creature.gameObject);
             }
         }
-        allCreatures.Clear();
+        allCreatures.RemoveAll(item => item == null);
+        //allCreatures.Clear();
     }
 
     public void RemoveDifficultyPoints(float amount)

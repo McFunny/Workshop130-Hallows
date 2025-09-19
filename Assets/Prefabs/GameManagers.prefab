@@ -3080,14 +3080,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 381b9871f983c5643a2216d6a3b8eddc, type: 3}
   - {fileID: 8300000, guid: 6242ef1aebd52cb44b704598b72e186e, type: 3}
   musicAmbience:
-  - {fileID: 8300000, guid: abb5ddee764f7a040a7c39127da410bb, type: 3}
   - {fileID: 8300000, guid: f605af913a2a2304a81c380855fe9917, type: 3}
+  - {fileID: 8300000, guid: abb5ddee764f7a040a7c39127da410bb, type: 3}
   - {fileID: 8300000, guid: 8694c862f59fcc8478abc37cfd3a2983, type: 3}
   - {fileID: 8300000, guid: a50b2cb5374589e4294787db8799f496, type: 3}
+  - {fileID: 8300000, guid: 64781d84adccb544cbef2e43c39e4e2c, type: 3}
   musicNightAmbience:
   - {fileID: 8300000, guid: f7c3a44a2fbb5ef438c6b2ffdfe24176, type: 3}
   - {fileID: 8300000, guid: 64aeac4a7083231439a32d713993f958, type: 3}
   - {fileID: 8300000, guid: 62a64a3a0bd55354ea2879b8ec6cf2b4, type: 3}
+  - {fileID: 8300000, guid: 82f4986f6a135be44944dbf06a1ae139, type: 3}
   wildernessMusicAmbience:
   - {fileID: 8300000, guid: dbc3ebbc41c88ff4d98946b385b3d81c, type: 3}
   - {fileID: 8300000, guid: eeb8fc2d4c0fdb54f8f9a6b0d2150ce7, type: 3}
@@ -11105,7 +11107,7 @@ MonoBehaviour:
     hourlySpawnAttempts: 6
     maxCreatures: 8
   - difficultyPointThreshold: 150
-    c_varietyMin: 2
+    c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 2
     r_varietyMax: 5
@@ -11114,7 +11116,7 @@ MonoBehaviour:
     hourlySpawnAttempts: 8
     maxCreatures: 10
   - difficultyPointThreshold: 225
-    c_varietyMin: 2
+    c_varietyMin: 3
     c_varietyMax: 6
     r_varietyMin: 2
     r_varietyMax: 5
@@ -11158,18 +11160,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d1e9ed3bba157914ab10710a9503baf0, type: 2}
   - {fileID: 11400000, guid: 88c7a631b6c3f164fadff223436437c4, type: 2}
   - {fileID: 11400000, guid: 450d390202a597d4b8eac734eef80593, type: 2}
+  - {fileID: 11400000, guid: 2836db77fdc01174dbdaf3addf675d5f, type: 2}
   allCreatures: []
-  testSpawns:
+  mistSpawns:
   - {fileID: 7187795816526134101}
   - {fileID: 8728786854694335367}
+  - {fileID: 5905432174248883599}
+  - {fileID: 2352191092968933568}
   - {fileID: 5275669529563945046}
   - {fileID: 3779783968378303726}
   - {fileID: 3216889733315768725}
+  - {fileID: 2016491063975046592}
+  behindCabinSpawns:
   - {fileID: 5314872771095763302}
   - {fileID: 6664686014214201321}
-  - {fileID: 2016491063975046592}
-  - {fileID: 5905432174248883599}
-  - {fileID: 2352191092968933568}
   despawnPositions:
   - {fileID: 1731178260283816800}
   - {fileID: 7121509994226977754}
@@ -11277,6 +11281,7 @@ MonoBehaviour:
   townTreeCleared2: 0
   siegesCleared: 0
   siegeCropInHand: 0
+  siegesLost: 0
   rascalMet: 0
   botMet: 0
   lumberMet: 0

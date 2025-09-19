@@ -61,6 +61,16 @@ public class BrambleHeart : StructureBehaviorScript
         }
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+        if(type == ToolType.Shovel)
+        {
+            //StartCoroutine(DugUp());
+            success = true;
+        }
+    }
+
     void OnDestroy()
     {
         base.OnDestroy();

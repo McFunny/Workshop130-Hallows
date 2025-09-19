@@ -218,6 +218,12 @@ public abstract class NPC : MonoBehaviour, IInteractable
     {
         currentPath = -1;
         ExclamationCheck();
+
+        if(lastInteractedStoreItem)
+        {
+            lastInteractedStoreItem = null;
+        }
+        if(shopUI) shopUI.shopImgObj.SetActive(false);
     }
 
     public void GiveDailyQuest(Quest q)

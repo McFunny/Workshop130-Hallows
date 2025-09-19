@@ -50,7 +50,7 @@ public class StructureBehaviorScript : MonoBehaviour
     //Save Data
     //[HideInInspector] public List<Item> itemList1;
     //[HideInInspector] public List<Item> itemList2;
-    [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
+    [HideInInspector] public List<InventoryItemData> savedItems = new List<InventoryItemData>(); //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
     [HideInInspector] public int saveInt1, saveInt2, saveInt3;
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
     [HideInInspector] public string saveString1, saveString2, saveString3;
@@ -342,7 +342,7 @@ public class StructureBehaviorScript : MonoBehaviour
         if(flammable)
         {
             flammable = false;
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(10);
             flammable = true;
         }
     }
@@ -351,7 +351,7 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         while(onFire)
         {
-            if(health > 10) TakeDamage(Mathf.Round(health / 5));
+            if(health > 20) TakeDamage(Mathf.Round(health / 10));
             else TakeDamage(2);
             yield return new WaitForSeconds(2f);
             if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);

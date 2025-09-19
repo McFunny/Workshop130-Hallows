@@ -27,7 +27,11 @@ MonoBehaviour:
   bonusCompostValue: 55
   useCooldown: 5
   pickledForm: {fileID: 11400000, guid: b82582071f3d9b14abd8cbd623fe30aa, type: 2}
-  itemConversions: []
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: e32ed33e3f66537479427ee3cb55dba3, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects:

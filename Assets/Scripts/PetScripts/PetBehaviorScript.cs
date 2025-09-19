@@ -71,14 +71,14 @@ public class PetBehaviorScript : MonoBehaviour
         hunger -= hungerDecayRate;
         if(hunger <= 0)
         {
-            FriendPointsChange(-2.5f, false);
+            FriendPointsChange(-1f, false);
             hunger = 0;
         }
 
         thirst -= thirstDecayRate;
         if(thirst <= 0)
         {
-            FriendPointsChange(-2.5f, false);
+            FriendPointsChange(-1f, false);
             thirst = 0;
         }
 
@@ -191,6 +191,13 @@ public class PetBehaviorScript : MonoBehaviour
             }
         }
         return false;
+    }
+
+    protected Vector3 FindPetBowl()
+    {
+        var foundBowls = FindObjectsByType<PetBowl>(FindObjectsSortMode.None);
+        if(foundBowls.Length == 0) return Vector3.zero;
+        return foundBowls[Random.Range(0, foundBowls.Length)].transform.position;
     }
 
 

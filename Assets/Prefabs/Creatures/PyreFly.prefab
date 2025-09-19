@@ -4942,6 +4942,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -4974,14 +4975,7 @@ MonoBehaviour:
   variant: 0
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
-  - {fileID: 11400000, guid: b1b94011ab4c8ce449eeef3b1c2f3c44, type: 2}
-  - {fileID: 11400000, guid: 620c1993c0c5dc04a8cdcaa2f15ac224, type: 2}
-  - {fileID: 11400000, guid: 0df10b19e29cb1c48940ea9ef2efcc81, type: 2}
-  - {fileID: 11400000, guid: 32d9717879d059d49be29891222e32a1, type: 2}
-  - {fileID: 11400000, guid: 045a35b3e3380ed41848d0d35a370181, type: 2}
-  - {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
-  - {fileID: 11400000, guid: 7a3993b97315b594b9ce3f005593c5bc, type: 2}
-  - {fileID: 11400000, guid: f53bb30f1600cb84fa76b1fbdd5fbf69, type: 2}
+  - {fileID: 11400000, guid: 6718ac27de477bc458a00f38f26d048b, type: 2}
   agent: {fileID: 0}
   ignited: 1
   pyreFire: {fileID: 9061156446741105128}
@@ -15258,6 +15252,9 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!82 &2462495302870994233
 AudioSource:
