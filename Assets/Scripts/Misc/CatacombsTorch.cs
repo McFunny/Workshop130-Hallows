@@ -1,33 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class CatacombsTorch : StructureBehaviorScript
 {
     public GameObject fire;
+    public int ID = -1;
     public bool startActive;
     public bool fireAlwaysActive;
     public bool disableHighlight;
     public AudioSource source;
+
+    public bool IsLit => fireAlwaysActive || (fire != null && fire.activeInHierarchy);
+
     void Start()
     {
-        if (!startActive) { fire.SetActive(false); }
+        if (fire == null)
+        {
+            return;
+        }
+
+        if (fireAlwaysActive) fire.SetActive(true);
+        else fire.SetActive(startActive);
     }
 
+    public void SetLitFromLoad(bool lit)
+    {
+        if (fire == null) return;
+        if (fireAlwaysActive) lit = true;
+        fire.SetActive(lit);
+    }
 
     public override void ToolInteraction(ToolType type, out bool success)
     {
-        print("Interacted");
+        //print("Interacted");
         if (type == ToolType.Torch)
         {
-            print("Torch");
-            if (PlayerInteraction.Instance.torchLit && fire.activeInHierarchy == false)
+            //print("Torch");
+            if (PlayerInteraction.Instance.torchLit && fire != null && !fire.activeInHierarchy)
             {
                 fire.SetActive(true);
-                source.Play();
+                if (source != null) source.Play();
                 success = true;
             }
-            else if ((fire.activeInHierarchy == true || fireAlwaysActive) && !PlayerInteraction.Instance.torchLit)
+            else if (((fire != null && fire.activeInHierarchy) || fireAlwaysActive) && !PlayerInteraction.Instance.torchLit)
             {
                 HandItemManager.Instance.TorchFlameToggle(true);
                 success = true;
@@ -35,12 +50,28 @@ public class CatacombsTorch : StructureBehaviorScript
             else success = false;
             return;
         }
-        else if (type == ToolType.Pyrefly && (fire.activeInHierarchy == true || fireAlwaysActive) && !PlayerInteraction.Instance.pyreflyLit)
+        else if (type == ToolType.Pyrefly && ((fire != null && fire.activeInHierarchy) || fireAlwaysActive) && !PlayerInteraction.Instance.pyreflyLit)
         {
             HandItemManager.Instance.PyreflyFlameToggle(true);
             success = true;
         }
         else success = false;
+    }
 
+
+
+    public TorchEntry ExportTorchData()
+    {
+        return new TorchEntry
+        {
+            savedID = ID,
+            savedIsLit = IsLit
+        };
+    }
+
+    public void ImportTorchData(TorchEntry entry)
+    {
+        if (entry.savedID != ID) return;
+        SetLitFromLoad(entry.savedIsLit);
     }
 }
