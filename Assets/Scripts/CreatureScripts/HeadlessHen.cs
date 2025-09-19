@@ -15,6 +15,9 @@ public class HeadlessHen : CreatureBehaviorScript
     public float maxDistanceFromHome = 30f;
     public float turnSpeed = 360f;
 
+    float wanderStrength = 1.5f;   // how much randomness while chasing
+    float wanderFrequency = 1.2f;  // how fast the randomness changes
+
     private Vector3 moveDirection;
     private Vector3 targetDirection;
     private float nextDirectionChangeTime;
@@ -61,6 +64,9 @@ public class HeadlessHen : CreatureBehaviorScript
         StartCoroutine(RefreshWanderPoint());
         StartCoroutine(IdleTimer());
         StartCoroutine(IdleSoundTimer());
+
+        wanderFrequency = Random.Range(1f, 2f);
+        wanderStrength = Random.Range(1f, 2.5f);
     }
 
     void FixedUpdate()
@@ -448,7 +454,8 @@ public class HeadlessHen : CreatureBehaviorScript
         {
             yield return new WaitForSeconds(Random.Range(7f, 18f));
             idling = true;
-            if(Random.Range(0,10) > 8 && !inWilderness) Instantiate(egg, corpseParticleTransform.position, Quaternion.identity);
+            if(Random.Range(0,10) > 8 && !inWilderness && NightSpawningManager.Instance.ReportTotalOfCreature(creatureData) < creatureData.spawnCap) 
+                Instantiate(egg, corpseParticleTransform.position, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(1f, 3f));
             idling = false;
         }
