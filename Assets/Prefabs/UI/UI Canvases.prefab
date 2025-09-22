@@ -961,6 +961,8 @@ MonoBehaviour:
   c_placeable: {r: 0, g: 0.7431438, b: 1, a: 1}
   c_crop: {r: 1, g: 0.7058534, b: 0, a: 1}
   c_consumable: {r: 0, g: 1, b: 0, a: 1}
+  c_ammo: {r: 0, g: 0, b: 0, a: 0}
+  c_bug: {r: 0, g: 0, b: 0, a: 0}
   intakeParent: {fileID: 1158989941434264546}
   outputParent: {fileID: 4702696684236148833}
   input: []
@@ -4816,9 +4818,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7005020391471215019}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -86.074, y: 0.000017405}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 113.9265, y: -30.734}
   m_SizeDelta: {x: 227.853, y: 56.482}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8512659004580407577
@@ -15890,12 +15892,14 @@ MonoBehaviour:
   c_placeable: {r: 0, g: 0.7431438, b: 1, a: 1}
   c_crop: {r: 1, g: 0.7058534, b: 0, a: 1}
   c_consumable: {r: 0, g: 1, b: 0, a: 1}
+  c_ammo: {r: 1, g: 0.1273585, b: 0.1273585, a: 1}
+  c_bug: {r: 0.68486947, g: 0.08962262, b: 1, a: 1}
   intakeParent: {fileID: 7473232575374932986}
   outputParent: {fileID: 7083402857140241813}
   input: []
   output: []
   barterIcons: []
-  mintImage: {fileID: 0}
+  mintImage: {fileID: 21300000, guid: cb7fcd2358118a5468d555abcde7a2cb, type: 3}
   barterIconImages: []
   barterIconTexts: []
   verticalLayoutGroups: []
@@ -23988,7 +23992,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400.001, y: 61.468}
+  m_SizeDelta: {x: 414.0495, y: 61.468}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3205248846985806804
 GameObject:
@@ -51539,10 +51543,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7005020391471215019}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 133.74, y: 0.000017405}
-  m_SizeDelta: {x: 132.5287, y: 56.482}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 332.33667, y: -30.734}
+  m_SizeDelta: {x: 163.4354, y: 56.482}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2428121931359442438
 CanvasRenderer:
@@ -51636,7 +51640,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -29.648407, y: 0, z: 0, w: 0}
+  m_margin: {x: -0.14656065, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
