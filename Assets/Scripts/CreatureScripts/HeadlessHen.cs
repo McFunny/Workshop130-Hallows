@@ -15,6 +15,9 @@ public class HeadlessHen : CreatureBehaviorScript
     public float maxDistanceFromHome = 30f;
     public float turnSpeed = 360f;
 
+    float wanderStrength = 1.5f;   // how much randomness while chasing
+    float wanderFrequency = 1.2f;  // how fast the randomness changes
+
     private Vector3 moveDirection;
     private Vector3 targetDirection;
     private float nextDirectionChangeTime;
@@ -61,6 +64,9 @@ public class HeadlessHen : CreatureBehaviorScript
         StartCoroutine(RefreshWanderPoint());
         StartCoroutine(IdleTimer());
         StartCoroutine(IdleSoundTimer());
+
+        wanderFrequency = Random.Range(1f, 2f);
+        wanderStrength = Random.Range(1f, 2.5f);
     }
 
     void FixedUpdate()
@@ -334,17 +340,23 @@ public class HeadlessHen : CreatureBehaviorScript
         //play aggro sound
         //Tell all other hens to fly to this spot
         effectsHandler.OnHit();
-        if(Vector3.Distance(player.position, transform.position) > 15) return;
+        StartCoroutine(AlertHens());
+
+    }
+
+    IEnumerator AlertHens()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if(Vector3.Distance(player.position, transform.position) > 15 || health <= 0) yield break;
         foreach( CreatureBehaviorScript creature in NightSpawningManager.Instance.allCreatures)
         {
             HeadlessHen hen = creature as HeadlessHen;
-            if(hen && Random.Range(0,4) != 0)
+            if(hen && Random.Range(0,5) != 0)
             {
                 hen.AggroToPlayer();
             }
         }
         AggroToPlayer();
-
     }
 
     public void AggroToPlayer()
@@ -448,7 +460,8 @@ public class HeadlessHen : CreatureBehaviorScript
         {
             yield return new WaitForSeconds(Random.Range(7f, 18f));
             idling = true;
-            if(Random.Range(0,10) > 8 && !inWilderness) Instantiate(egg, corpseParticleTransform.position, Quaternion.identity);
+            if(Random.Range(0,10) > 8 && !inWilderness && NightSpawningManager.Instance.ReportTotalOfCreature(creatureData) < creatureData.spawnCap) 
+                Instantiate(egg, corpseParticleTransform.position, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(1f, 3f));
             idling = false;
         }

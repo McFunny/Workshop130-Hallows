@@ -6,7 +6,7 @@ public class ProjectilePoolManager : MonoBehaviour
 {
     public static ProjectilePoolManager Instance;
 
-    public GameObject bulletPrefab, largeWaterPrefab, seedBulletPrefab, fireBallPrefab, pyreflyPrefab, hydroflyPrefab;
+    public GameObject bulletPrefab, largeWaterPrefab, seedBulletPrefab, fireBallPrefab, pyreflyPrefab, hydroflyPrefab, timberEarPrefab;
 
     List<GameObject> bulletPool = new List<GameObject>();
     List<GameObject> largeWaterPool = new List<GameObject>();
@@ -14,6 +14,7 @@ public class ProjectilePoolManager : MonoBehaviour
     List<GameObject> fireBallPool = new List<GameObject>();
     List<GameObject> pyreflyPool = new List<GameObject>();
     List<GameObject> hydroflyPool = new List<GameObject>();
+    List<GameObject> timberEarPool = new List<GameObject>();
 
     void Awake()
     {
@@ -73,6 +74,13 @@ public class ProjectilePoolManager : MonoBehaviour
         {
             GameObject newBullet = Instantiate(hydroflyPrefab);
             hydroflyPool.Add(newBullet);
+            newBullet.SetActive(false);
+        }
+
+        for(int i = 0; i < 2; i++)
+        {
+            GameObject newBullet = Instantiate(timberEarPrefab);
+            timberEarPool.Add(newBullet);
             newBullet.SetActive(false);
         }
     }
@@ -187,6 +195,25 @@ public class ProjectilePoolManager : MonoBehaviour
         //No available projectiles, must make a new one
         GameObject newBullet = Instantiate(hydroflyPrefab);
         hydroflyPool.Add(newBullet);
+        newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+        return newBullet;
+    }
+
+    public GameObject GrabTimberEarBullet()
+    {
+        foreach (GameObject bullet in timberEarPool)
+        {
+            if(!bullet.activeSelf)
+            {
+                bullet.SetActive(true);
+                bullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+                return bullet;
+            }
+        }
+
+        //No available projectiles, must make a new one
+        GameObject newBullet = Instantiate(timberEarPrefab);
+        timberEarPool.Add(newBullet);
         newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
         return newBullet;
     }
