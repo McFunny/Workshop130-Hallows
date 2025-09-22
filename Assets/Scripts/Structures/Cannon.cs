@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Cannon : StructureBehaviorScript
 {
@@ -8,7 +9,12 @@ public class Cannon : StructureBehaviorScript
 
     public List<GameObject> loadedAmmo;
 
-    float range = 60; //Get a debug sphere to show the range
+    public GameObject primedEffect;
+    public ParticleSystem firedEffect, smokeEffect;
+
+    bool isPrimed, forceFire;
+
+    float range = 70; //Get a debug sphere to show the range
     //bool targetInSight = false;
     bool shotCooldown;
     float projectileSpeed = 230;
@@ -21,6 +27,9 @@ public class Cannon : StructureBehaviorScript
     void Start()
     {
         base.Start();
+
+        if(savedItems.Count > 0 && savedItems[0] != null) UpdateModel(savedItems[0].ID, out bool success);
+        else UpdateModel(-1, out bool success);
 
         StartCoroutine(TargetRefreshCooldown());
     }
@@ -35,7 +44,7 @@ public class Cannon : StructureBehaviorScript
 
         //TargetIsVisible();
 
-        if(currentTarget && savedItems.Count >= 0)
+        if(savedItems.Count > 0 && isPrimed && (currentTarget || forceFire))
         {
             shotCooldown = true;
             StartCoroutine(Shoot());
@@ -88,27 +97,44 @@ public class Cannon : StructureBehaviorScript
     IEnumerator Shoot()
     {
 
-        Vector3 targetPosition = currentTarget.transform.position;
+        Vector3 targetPosition;
+        if(currentTarget) targetPosition = currentTarget.transform.position;
+        else targetPosition = transform.forward;
 
         shotCooldown = true;
-        //targetInSight = false;
+        isPrimed = false;
+        forceFire = false;
+        primedEffect.SetActive(false);
+        StopCoroutine(PrimedRoutine());
 
         currentTarget.NewPriorityTarget(this);
-        //fire
-        if(!currentTarget) //No Target
+
+        if(currentTarget)
         {
-            shotCooldown = false;
-            yield break;
+            currentTarget.NewPriorityTarget(this);
         }
         audioHandler.PlaySound(audioHandler.activatedSound);
         GameObject newBullet;
 
         switch(savedItems[0].ID)
         {
+            case 116:
+                newBullet = ProjectilePoolManager.Instance.GrabTimberEarBullet();
+                break;
+            case 115:
+                newBullet = ProjectilePoolManager.Instance.GrabCannonRockBullet();
+                break;
+            case 142:
+                newBullet = ProjectilePoolManager.Instance.GrabPyreflyBullet();
+                break;
             default:
             newBullet = ProjectilePoolManager.Instance.GrabTimberEarBullet();
             break;
         }
+        audioHandler.PlaySound(audioHandler.interactSound);
+        firedEffect.Play();
+        smokeEffect.Play();
+        UpdateModel(-1, out bool success);
 
         Vector3 dir = (targetPosition - cannonHead.position).normalized;
 
@@ -121,6 +147,8 @@ public class Cannon : StructureBehaviorScript
 
         ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
         ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
+
+        cannonHead.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.5f, 0, 0.2f);
         yield return new WaitForSeconds(0.2f);
         savedItems.Clear();
         
@@ -140,20 +168,45 @@ public class Cannon : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        bool itemInserted = false;
-        switch(item.ID) //This is where we enable objects in the cannon
+        if(savedItems.Count == 0)
         {
-            default:
-            return;
-            break;
-        }
-        if(itemInserted && savedItems.Count < 1)
-        {
+            UpdateModel(item.ID, out bool success);
+            if(!success) return;
+
             savedItems.Add(item);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
 
             audioHandler.PlaySound(audioHandler.itemInteractSound);
+        }
+    }
+
+    void UpdateModel(int itemID, out bool success)
+    {
+        foreach(GameObject obj in loadedAmmo) obj.SetActive(false);
+        if(itemID <= -1)
+        {
+            success = false;
+            return;
+        }
+        switch(itemID) //This is where we enable objects in the cannon
+        {
+            case 116:
+                loadedAmmo[0].SetActive(true);
+                success = true;
+                break;
+            case 115:
+                loadedAmmo[1].SetActive(true);
+                success = true;
+                break;
+            case 142:
+                loadedAmmo[2].SetActive(true);
+                success = true;
+                break;
+
+            default:
+                success = false;
+                break;
         }
     }
 
@@ -166,10 +219,15 @@ public class Cannon : StructureBehaviorScript
             //StartCoroutine(DugUpForItem());
             success = true;
         }
-        if(type == ToolType.Torch && PlayerInteraction.Instance.torchLit)
+        if(type == ToolType.Torch && PlayerInteraction.Instance.torchLit && !isPrimed && savedItems.Count > 0)
         {
-            //
+            StartCoroutine(PrimedRoutine());
             success = true;
+        }
+        if(type == ToolType.Pyrefly && savedItems.Count == 0)
+        {
+            ItemInteraction(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
+            success = false;
         }
     }
 
@@ -184,6 +242,17 @@ public class Cannon : StructureBehaviorScript
             droppedItem = ItemPoolManager.Instance.GrabItem(item);
             droppedItem.transform.position = bulletOrigin.position;
         }
+    }
+
+    IEnumerator PrimedRoutine()
+    {
+        shotCooldown = true;
+        primedEffect.SetActive(true);
+        yield return new WaitForSeconds(1);
+        shotCooldown = false;
+        isPrimed = true;
+        yield return new WaitForSeconds(30);
+        forceFire = true;
     }
 
     public override List<StructureUIValueGroup> GetStructureUIValues()

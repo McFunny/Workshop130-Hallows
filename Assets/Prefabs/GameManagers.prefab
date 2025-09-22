@@ -9981,6 +9981,10 @@ MonoBehaviour:
     type: 3}
   hydroflyPrefab: {fileID: 4303541379538398381, guid: d6e3d90b9dc22934e9eb40cb3c173f04,
     type: 3}
+  timberEarPrefab: {fileID: 6169963318677487749, guid: 961db7e52156e4041b2f883d94639cf5,
+    type: 3}
+  cannonRockPrefab: {fileID: 5966243135524026172, guid: 56e0e3af49d59ee48942c097403171fd,
+    type: 3}
 --- !u!114 &1087822415833838726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11080,65 +11084,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dLevels:
   - difficultyPointThreshold: -1
-    c_varietyMin: 1
+    c_varietyMin: 2
     c_varietyMax: 2
     r_varietyMin: 1
     r_varietyMax: 2
     s_varietyMin: 0
-    s_varietyMax: 2
+    s_varietyMax: 1
     hourlySpawnAttempts: 5
     maxCreatures: 6
   - difficultyPointThreshold: 25
     c_varietyMin: 2
-    c_varietyMax: 5
+    c_varietyMax: 4
     r_varietyMin: 1
-    r_varietyMax: 3
+    r_varietyMax: 2
     s_varietyMin: 1
-    s_varietyMax: 3
+    s_varietyMax: 2
     hourlySpawnAttempts: 5
     maxCreatures: 6
   - difficultyPointThreshold: 75
     c_varietyMin: 2
     c_varietyMax: 5
-    r_varietyMin: 2
-    r_varietyMax: 4
+    r_varietyMin: 1
+    r_varietyMax: 3
     s_varietyMin: 1
-    s_varietyMax: 3
+    s_varietyMax: 2
     hourlySpawnAttempts: 6
     maxCreatures: 8
   - difficultyPointThreshold: 150
     c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 2
-    r_varietyMax: 5
+    r_varietyMax: 3
     s_varietyMin: 2
-    s_varietyMax: 4
+    s_varietyMax: 3
     hourlySpawnAttempts: 8
     maxCreatures: 10
   - difficultyPointThreshold: 225
     c_varietyMin: 3
-    c_varietyMax: 6
+    c_varietyMax: 5
     r_varietyMin: 2
-    r_varietyMax: 5
+    r_varietyMax: 4
     s_varietyMin: 2
-    s_varietyMax: 4
+    s_varietyMax: 3
     hourlySpawnAttempts: 10
     maxCreatures: 12
   - difficultyPointThreshold: 300
     c_varietyMin: 3
     c_varietyMax: 6
-    r_varietyMin: 2
-    r_varietyMax: 5
-    s_varietyMin: 3
-    s_varietyMax: 4
+    r_varietyMin: 3
+    r_varietyMax: 4
+    s_varietyMin: 2
+    s_varietyMax: 3
     hourlySpawnAttempts: 10
     maxCreatures: 15
   - difficultyPointThreshold: 450
     c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 3
-    r_varietyMax: 5
-    s_varietyMin: 3
+    r_varietyMax: 4
+    s_varietyMin: 2
     s_varietyMax: 4
     hourlySpawnAttempts: 12
     maxCreatures: 20

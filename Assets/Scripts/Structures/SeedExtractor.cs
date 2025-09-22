@@ -13,18 +13,16 @@ public class SeedExtractor : StructureBehaviorScript
 
     bool ignoreNextHour = false;
 
-    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
-    public PopupScript chargingPopup;
-
     public ParticleSystem fumes;
+
+    void Start()
+    {
+        base.Start();
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) maxProgress *= 3; //Takes longer when not on the farm
+    }
 
     public override void StructureInteraction()
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
 
         if(progress >= maxProgress || savedItems[0] == null) return;
 
@@ -60,24 +58,11 @@ public class SeedExtractor : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
         ItemConversion ic = item.FetchConversion(ItemConversionMethod.SeedExtract);
         if(ic != null && savedItems.Count == 0)
         {
 
-            if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize < ic.itemsNeeded) //Not enough items
-            {
-                PopupHandler.Instance.AddToQueue(chargingPopup);
-                return;
-            }
-            for(int i = 0; i < ic.itemsNeeded; i++)
-            {
-                savedItems.Add(item);
-            }
+            savedItems.Add(item);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(ic.itemsNeeded);
             PlayerInventoryHolder.Instance.UpdateInventory();
 
@@ -137,8 +122,6 @@ public class SeedExtractor : StructureBehaviorScript
     public override void LoadVariables()
     {
         progress = saveInt1;
-
-        isFunctioning = true;
 
         if(progress < maxProgress && savedItems.Count > 0) fumes.Play();
     }

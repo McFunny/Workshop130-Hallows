@@ -21,8 +21,6 @@ public class Refinery : StructureBehaviorScript
 
     bool ignoreNextHour = false;
 
-    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
-    public PopupScript chargingPopup;
 
     public TextMeshProUGUI storedText, finishedText;
 
@@ -36,6 +34,8 @@ public class Refinery : StructureBehaviorScript
     void Start()
     {
         base.Start();
+        
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) maxProgress *= 3; //Takes longer when not on the farm
     }
 
 
@@ -48,11 +48,6 @@ public class Refinery : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
 
         if(itemsFinished < 1 || savedItems.Count == 0 || savedItems[0] == null) return;
 
@@ -87,18 +82,13 @@ public class Refinery : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
         ItemConversion ic = item.FetchConversion(ItemConversionMethod.Refining);
         if(ic != null && (ic.itemsNeeded + savedItems.Count) <= maxContainedItems /*&& savedItems.Count < maxContainedItems*/)
         {
 
             if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize < ic.itemsNeeded) //Not enough items
             {
-                PopupHandler.Instance.AddToQueue(chargingPopup);
+                PopupHandler.Instance.AddToQueue(itemWarning);
                 return;
             }
             for(int i = 0; i < ic.itemsNeeded; i++)
@@ -130,7 +120,6 @@ public class Refinery : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
         if(progress < maxProgress && savedItems.Count > itemsFinished * 5)
         {
             anim.SetBool("IsRunning", true);
@@ -180,8 +169,6 @@ public class Refinery : StructureBehaviorScript
     {
         progress = saveInt1;
         itemsFinished = saveInt2;
-
-        isFunctioning = true;
 
         if(progress < maxProgress && savedItems.Count > itemsFinished * 5) fumes.Play();
     }
