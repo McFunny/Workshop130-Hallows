@@ -28,8 +28,8 @@ public class CompostBin : StructureBehaviorScript
 
     //public TextMeshProUGUI itemText;
 
-    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
-    public PopupScript chargingPopup;
+    //public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    //public PopupScript chargingPopup;
 
     void Awake()
     {
@@ -40,6 +40,10 @@ public class CompostBin : StructureBehaviorScript
     void Start()
     {
         base.Start();
+
+        
+
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) maxProgress *= 3; //Takes longer when not on the farm
     }
 
 
@@ -50,11 +54,6 @@ public class CompostBin : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
 
         if(isSpinning) return;
 
@@ -145,11 +144,6 @@ public class CompostBin : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
 
         if(item.bonusCompostValue > 0 && currentCompostValue < maxCompostValue)
         {
@@ -193,7 +187,6 @@ public class CompostBin : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
         
         if(progress < maxProgress && currentCompostValue >= maxCompostValue)
         {
@@ -243,8 +236,6 @@ public class CompostBin : StructureBehaviorScript
         }
 
         //itemText.text = currentCompostValue + "/" + maxCompostValue;
-
-        isFunctioning = true;
     }
 
     public override void SaveVariables()

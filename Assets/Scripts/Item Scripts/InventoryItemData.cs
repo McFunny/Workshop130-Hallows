@@ -17,6 +17,7 @@ public class InventoryItemData : ScriptableObject
     [TextArea(4,4)]
     public string description;
     public Sprite icon;
+    public ItemType type;
     public int maxStackSize = 20; //used also for the mint item pickup for determining value (sorry cameron)
     public float value = 0;
     public float sellValueMultiplier = 1; //if value or sellValueMultiplier == 0, cannot be sold
@@ -99,4 +100,19 @@ public enum ItemConversionMethod
     Drying,
     Refining,
     SeedExtract
+}
+[System.Serializable]
+public enum ItemType
+{
+    //
+    Misc,
+    Consumable, 
+    Tool, 
+    Structure, 
+    BarnStructure, 
+    CabinDecor,
+    Seed, 
+    Ammo,
+    Creature,
+    Bug
 }

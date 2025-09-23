@@ -449,7 +449,7 @@ public class NightSpawningManager : MonoBehaviour
         List<CreatureObject> temp = new List<CreatureObject>();
         //Common creatures to spawn
         //2,5
-        a = Random.Range(currentDLevel.c_varietyMin, currentDLevel.c_varietyMin);
+        a = Random.Range(currentDLevel.c_varietyMin, currentDLevel.c_varietyMax + 1);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Common && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
@@ -468,7 +468,7 @@ public class NightSpawningManager : MonoBehaviour
 
         //Rare creatures to spawn
         //1,5
-        a = Random.Range(currentDLevel.r_varietyMin, currentDLevel.r_varietyMin);
+        a = Random.Range(currentDLevel.r_varietyMin, currentDLevel.r_varietyMax + 1);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
@@ -485,7 +485,7 @@ public class NightSpawningManager : MonoBehaviour
 
         //Support creatures to spawn
         //0,4
-        a = Random.Range(currentDLevel.s_varietyMin, currentDLevel.s_varietyMin);
+        a = Random.Range(currentDLevel.s_varietyMin, currentDLevel.s_varietyMax + 1);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Support && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);

@@ -15,10 +15,11 @@ MonoBehaviour:
   ID: 73
   displayName: Compost Bin
   description: Insert 5 items such as plants or bugs to generate compost that replenishes
-    nutrients. Different items increase the quantity of compost.
+    nutrients. More efficient when placed in the farm.
   icon: {fileID: 21300000, guid: c4a79d7c81d66054389ae6d5b2703178, type: 3}
+  type: 3
   maxStackSize: 5
-  value: 265
+  value: 295
   sellValueMultiplier: 0.25
   isKeyItem: 0
   hasModel: 0
@@ -40,7 +41,7 @@ MonoBehaviour:
     type: 3}
   removeAfterUse: 1
   placeSound: {fileID: 8300000, guid: 9147c3d7fc55c83468a4ef49b4bd4c02, type: 3}
-  gridTypes: 01000000
+  gridTypes: 0100000004000000
   gridSize: 0
   placeAsPile: 0
   canPlaceOnFloor: 1

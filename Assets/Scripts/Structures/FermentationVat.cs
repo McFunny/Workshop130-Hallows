@@ -16,8 +16,8 @@ public class FermentationVat : StructureBehaviorScript
     bool ignoreNextHour = false;
     bool playingActiveParticles = false;
 
-    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
-    public PopupScript chargingPopup;
+    //public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    //public PopupScript chargingPopup;
 
     public AudioSource loopingSource1, loopingSource2;
 
@@ -30,6 +30,8 @@ public class FermentationVat : StructureBehaviorScript
     {
         base.Start();
         ParticleToggle();
+
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) maxProgress *= 3; //Takes longer when not on the farm
     }
 
 
@@ -40,11 +42,11 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(!isFunctioning)
+        /*if(!isFunctioning)
         {
             PopupHandler.Instance.AddToQueue(chargingPopup);
             return;
-        }
+        }*/
 
         if(progress < maxProgress && savedItems.Count > 0) return; //smth is hangin
 
@@ -78,11 +80,11 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(!isFunctioning)
+        /*if(!isFunctioning)
         {
             PopupHandler.Instance.AddToQueue(chargingPopup);
             return;
-        }
+        }*/
 
         if(item.pickledForm && savedItems.Count == 0)
         {
@@ -119,7 +121,7 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
+        //if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
 
         if(progress < maxProgress && (savedItems.Count > 0 && savedItems[0] != null))
         {
@@ -191,7 +193,7 @@ public class FermentationVat : StructureBehaviorScript
         progress = saveInt1;
         if(progress > 0) LoopingSourceToggle(true);
         ParticleToggle();
-        isFunctioning = true;
+        //isFunctioning = true;
     }
 
     public override void SaveVariables()

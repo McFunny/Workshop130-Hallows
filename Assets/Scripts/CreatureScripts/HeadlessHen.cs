@@ -340,17 +340,23 @@ public class HeadlessHen : CreatureBehaviorScript
         //play aggro sound
         //Tell all other hens to fly to this spot
         effectsHandler.OnHit();
-        if(Vector3.Distance(player.position, transform.position) > 15) return;
+        StartCoroutine(AlertHens());
+
+    }
+
+    IEnumerator AlertHens()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if(Vector3.Distance(player.position, transform.position) > 15 || health <= 0) yield break;
         foreach( CreatureBehaviorScript creature in NightSpawningManager.Instance.allCreatures)
         {
             HeadlessHen hen = creature as HeadlessHen;
-            if(hen && Random.Range(0,4) != 0)
+            if(hen && Random.Range(0,5) != 0)
             {
                 hen.AggroToPlayer();
             }
         }
         AggroToPlayer();
-
     }
 
     public void AggroToPlayer()
