@@ -880,7 +880,7 @@ public class MistWalker : CreatureBehaviorScript
 
     public void ColliderChange(bool enabled)
     {
-        print(enabled);
+        //print(enabled);
         lungeAttackHitbox.enabled = enabled;
     }
 

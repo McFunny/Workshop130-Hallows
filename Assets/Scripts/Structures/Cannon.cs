@@ -14,7 +14,7 @@ public class Cannon : StructureBehaviorScript
 
     bool isPrimed, forceFire;
 
-    float range = 70; //Get a debug sphere to show the range
+    float range = 50; //Get a debug sphere to show the range
     //bool targetInSight = false;
     bool shotCooldown;
     float projectileSpeed = 230;
@@ -22,6 +22,8 @@ public class Cannon : StructureBehaviorScript
     public List<CreatureObject> targettableCreatures; //No crows, no wraiths, no murdermancers
 
     CreatureBehaviorScript currentTarget;
+
+    Coroutine primeRoutine;
 
 
     void Start()
@@ -67,15 +69,15 @@ public class Cannon : StructureBehaviorScript
                 currentTarget = newCreature;
             }
         }
-        if (currentTarget && oldTarget != currentTarget) audioHandler.PlaySound(audioHandler.miscSounds1[0]);
+        //if (currentTarget && oldTarget != currentTarget) audioHandler.PlaySound(audioHandler.miscSounds1[0]);
     }
 
     bool TargetIsVisible(Transform target)
     {
         if(target == null) return false;
 
-        Vector3 direction = target.position - cannonHead.position;
-        direction.y = 0;
+        Vector3 direction = target.position - transform.position;
+        direction.y = cannonHead.position.y;
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         //Vector3 toTarget = Vector3.Normalize(currentTarget.transform.position - cannonHead.position);
@@ -88,7 +90,7 @@ public class Cannon : StructureBehaviorScript
             //structure in the way
         }
 
-        if (Vector3.Dot(forward, direction) > .7f)
+        if (Vector3.Dot(forward, direction) > .95f)
         {
             return true;        }
         else return false;
@@ -99,22 +101,28 @@ public class Cannon : StructureBehaviorScript
 
         Vector3 targetPosition;
         if(currentTarget) targetPosition = currentTarget.transform.position;
-        else targetPosition = transform.forward;
+        else targetPosition = bulletOrigin.position;
+
+        targetPosition.y = cannonHead.position.y;
 
         shotCooldown = true;
         isPrimed = false;
         forceFire = false;
         primedEffect.SetActive(false);
-        StopCoroutine(PrimedRoutine());
+        if(primeRoutine != null )
+        {
+            StopCoroutine(primeRoutine);
+            primeRoutine = null;
+        }
 
-        currentTarget.NewPriorityTarget(this);
-
-        if(currentTarget)
+        if(currentTarget && Vector3.Distance(currentTarget.transform.position, transform.position) < 20)
         {
             currentTarget.NewPriorityTarget(this);
         }
         audioHandler.PlaySound(audioHandler.activatedSound);
         GameObject newBullet;
+
+        float extraUpVelocity = 1;
 
         switch(savedItems[0].ID)
         {
@@ -126,6 +134,10 @@ public class Cannon : StructureBehaviorScript
                 break;
             case 142:
                 newBullet = ProjectilePoolManager.Instance.GrabPyreflyBullet();
+                extraUpVelocity = 10;
+                break;
+            case 209:
+                newBullet = ProjectilePoolManager.Instance.GrabEggBullet();
                 break;
             default:
             newBullet = ProjectilePoolManager.Instance.GrabTimberEarBullet();
@@ -136,12 +148,15 @@ public class Cannon : StructureBehaviorScript
         smokeEffect.Play();
         UpdateModel(-1, out bool success);
 
+        cannonHead.LookAt(targetPosition);
+
         Vector3 dir = (targetPosition - cannonHead.position).normalized;
+        //dir.y = 0;
 
         newBullet.transform.position = bulletOrigin.position;
         newBullet.transform.rotation = Quaternion.identity;
 
-        newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 5);
+        newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * extraUpVelocity);
         newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
         //print("PEW");
 
@@ -161,7 +176,7 @@ public class Cannon : StructureBehaviorScript
     {
         while(health > 0)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
             CheckForTargets();
         }
     }
@@ -178,6 +193,8 @@ public class Cannon : StructureBehaviorScript
             PlayerInventoryHolder.Instance.UpdateInventory();
 
             audioHandler.PlaySound(audioHandler.itemInteractSound);
+
+            ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
         }
     }
 
@@ -203,6 +220,10 @@ public class Cannon : StructureBehaviorScript
                 loadedAmmo[2].SetActive(true);
                 success = true;
                 break;
+            case 209:
+                loadedAmmo[3].SetActive(true);
+                success = true;
+                break;
 
             default:
                 success = false;
@@ -221,7 +242,7 @@ public class Cannon : StructureBehaviorScript
         }
         if(type == ToolType.Torch && PlayerInteraction.Instance.torchLit && !isPrimed && savedItems.Count > 0)
         {
-            StartCoroutine(PrimedRoutine());
+            primeRoutine = StartCoroutine(PrimedRoutine());
             success = true;
         }
         if(type == ToolType.Pyrefly && savedItems.Count == 0)
@@ -248,11 +269,13 @@ public class Cannon : StructureBehaviorScript
     {
         shotCooldown = true;
         primedEffect.SetActive(true);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         shotCooldown = false;
         isPrimed = true;
         yield return new WaitForSeconds(30);
+        print("Firing after 30 seconds");
         forceFire = true;
+        primeRoutine = null;
     }
 
     public override List<StructureUIValueGroup> GetStructureUIValues()
