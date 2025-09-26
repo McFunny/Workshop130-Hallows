@@ -1052,6 +1052,15 @@ public class StructureManager : MonoBehaviour
 
     void PopulateBerryBushes(int min, int max, bool harvestable)
     {
+        //Check how many already exist
+        int berryTotal = 0;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand berryScript = allStructs[i] as FarmLand;
+            if(berryScript && berryScript.crop && berryScript.crop == berryBush) berryTotal++;
+        }
+        if(berryTotal > 6) return;
+
         List<Vector3Int> spawnablePositions = new List<Vector3Int>();
 
         Vector3 spawnPos = new Vector3 (0,0,0);

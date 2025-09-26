@@ -19,6 +19,8 @@ public class Cannon : StructureBehaviorScript
     bool shotCooldown;
     float projectileSpeed = 230;
 
+    int maxAmmo = 3;
+
     public List<CreatureObject> targettableCreatures; //No crows, no wraiths, no murdermancers
 
     CreatureBehaviorScript currentTarget;
@@ -46,7 +48,7 @@ public class Cannon : StructureBehaviorScript
 
         //TargetIsVisible();
 
-        if(savedItems.Count > 0 && isPrimed && (currentTarget || forceFire))
+        if(savedItems.Count > 0 && isPrimed && (forceFire || (currentTarget && TargetIsVisible(currentTarget.transform))))
         {
             shotCooldown = true;
             StartCoroutine(Shoot());
@@ -134,7 +136,7 @@ public class Cannon : StructureBehaviorScript
                 break;
             case 142:
                 newBullet = ProjectilePoolManager.Instance.GrabPyreflyBullet();
-                extraUpVelocity = 10;
+                extraUpVelocity = 30;
                 break;
             case 209:
                 newBullet = ProjectilePoolManager.Instance.GrabEggBullet();
@@ -165,7 +167,8 @@ public class Cannon : StructureBehaviorScript
 
         cannonHead.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.5f, 0, 0.2f);
         yield return new WaitForSeconds(0.2f);
-        savedItems.Clear();
+        savedItems.RemoveAt(0);
+        if(savedItems.Count > 0) UpdateModel(savedItems[0].ID, out bool success2);
         
         yield return new WaitForSeconds(1.5f);
 
@@ -183,11 +186,12 @@ public class Cannon : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(savedItems.Count == 0)
+        if(savedItems.Count < maxAmmo)
         {
             UpdateModel(item.ID, out bool success);
             if(!success) return;
 
+            if(savedItems.Count > 1) UpdateModel(savedItems[0].ID, out bool success2);
             savedItems.Add(item);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
@@ -245,7 +249,7 @@ public class Cannon : StructureBehaviorScript
             primeRoutine = StartCoroutine(PrimedRoutine());
             success = true;
         }
-        if(type == ToolType.Pyrefly && savedItems.Count == 0)
+        if(type == ToolType.Pyrefly && savedItems.Count < maxAmmo)
         {
             ItemInteraction(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
             success = false;
@@ -284,8 +288,8 @@ public class Cannon : StructureBehaviorScript
         structureUIVariables.valueGroups[0].value = health;
         structureUIVariables.valueGroups[0].maxValue = maxHealth;
 
-        //structureUIVariables.valueGroups[1].value = savedItems.Count;
-        //structureUIVariables.valueGroups[1].maxValue = maxAmmo;
+        structureUIVariables.valueGroups[1].value = savedItems.Count;
+        structureUIVariables.valueGroups[1].maxValue = maxAmmo;
         return structureUIVariables.valueGroups;
     }
 }

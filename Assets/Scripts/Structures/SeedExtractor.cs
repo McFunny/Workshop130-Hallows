@@ -85,7 +85,7 @@ public class SeedExtractor : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(progress < maxProgress)
+        if(progress < maxProgress && savedItems.Count > 0)
         {
             if(ignoreNextHour)
             {

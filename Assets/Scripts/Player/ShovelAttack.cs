@@ -101,7 +101,9 @@ public class ShovelAttack : MonoBehaviour
     {
         if(hitArmor)
         {
-            hitArmor.TakeDamage(2);
+            float damage = 2;
+            if(chargedSwing) damage = 5;
+            hitArmor.TakeDamage(damage);
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             print("Hit Armor");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);

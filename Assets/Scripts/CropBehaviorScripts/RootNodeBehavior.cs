@@ -22,7 +22,19 @@ public class RootNodeBehavior : CropBehavior
 
     public override void OnHour(FarmLand tile)
     {
-        tile.DrainNutrients(out bool gainedStress, false);
-        if(gainedStress && tile.growthImpeded) tile.growthImpeded.Play();
+        if(TimeManager.Instance.isDay) return;
+        tile.DrainNutrients(out bool gainedStress, true);
+        if(gainedStress == true && tile.growthImpeded) tile.growthImpeded.Play();
+    }
+
+    public override bool CanGrow(FarmLand tile)
+    {
+        return false;
+    }
+
+    public override bool OverrideWaterNeed(FarmLand tile)
+    {
+        if(tile.GetCropStats().waterLevel < tile.crop.waterIntake) return true;
+        return false;
     }
 }
