@@ -13,13 +13,16 @@ public class ToolTipScript : MonoBehaviour
     public GameObject intakeParent, outputParent;
     public GameObject[] input, output;
     [SerializeField] private GameObject[] barterIcons;
+    [SerializeField] private Sprite mintImage;
 
     [Header("Only needed for barter tooltips")]
-    [SerializeField] private Sprite mintImage;
     [SerializeField] private Image[] barterIconImages;
     [SerializeField] private TextMeshProUGUI[] barterIconTexts;
     private WaypointScript shopUI;
     [SerializeField] private List<VerticalLayoutGroup> verticalLayoutGroups = new List<VerticalLayoutGroup>();
+
+    //[Header("Only needed for crafting tooltips")]
+
     //protected Vector3[] corners;
 
     public void Awake()
@@ -217,7 +220,7 @@ public class ToolTipScript : MonoBehaviour
                 itemStamina.gameObject.SetActive(false);
                 itemType.color = c_bug;
                 break;
-            
+
             case ItemType.Throwable:
                 itemType.text = "Throwable";
                 intakeParent.SetActive(false);
@@ -278,7 +281,34 @@ public class ToolTipScript : MonoBehaviour
                 barterIconTexts[i].text = "x" + barterCost[i - 1].amount.ToString();
             }
         }
+    }
 
-        
+    public void UpdateTooltipCraft(CraftingEntry entry)
+    {
+        for (int i = 0; i < barterIconImages.Length; i++)
+        {
+            barterIconImages[i].gameObject.SetActive(false);
+            barterIconTexts[i].gameObject.SetActive(false);
+        }
+
+        int count = 0;
+
+        if (entry.mintCost > 0)
+        {
+            barterIconImages[count].sprite = mintImage;
+            barterIconTexts[count].text = "x" + entry.mintCost + " (" + PlayerInteraction.Instance.currentMoney + ")";
+            barterIconImages[count].gameObject.SetActive(true);
+            barterIconTexts[count].gameObject.SetActive(true);
+            count++;
+        }
+
+        foreach (CraftingRequirement requirement in entry.craftingRequirements)
+            {
+                barterIconImages[count].sprite = requirement.requiredItem.icon;
+                barterIconTexts[count].text = "x" + requirement.requiredAmount + " (" + PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(requirement.requiredItem) + ")";
+                barterIconImages[count].gameObject.SetActive(true);
+                barterIconTexts[count].gameObject.SetActive(true);
+                count++;
+            }
     }
 }

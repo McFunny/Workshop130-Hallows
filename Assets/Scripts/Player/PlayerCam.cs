@@ -52,7 +52,7 @@ public class PlayerCam : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen || DebugUI.isDebugMenuOpen)
+        if (PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen || DebugUI.isDebugMenuOpen || CraftingSystem.isCraftingMenuOpen)
         {
             if(!ControlManager.isController)
             {
