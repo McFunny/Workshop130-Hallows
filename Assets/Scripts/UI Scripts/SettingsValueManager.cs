@@ -5,37 +5,43 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using System.Linq;
 
 public class SettingsValueManager : MonoBehaviour
 {
     public ConfirmationBox confirmationBox;
-    [SerializeField] GameObject containerObject, previousMenuObject, defaultMenuObject;
+    [SerializeField] GameObject containerObject, previousMenuObject;
+    public GameObject defaultMenuObject;
     [SerializeField] private Button applyButton, defaultButton, backButton, resolutionButton;
-    [SerializeField] private TextMeshProUGUI brightnessDisplay, sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay;
+    [SerializeField] private TextMeshProUGUI title, brightnessDisplay, sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay, resolutionDisplay;
     [SerializeField] private Slider brightnessSlider, sensitivitySlider, masterVolSlider, musicSlider, sfxSlider;
-    [SerializeField] private Toggle sprint;
+    [SerializeField] private Toggle sprint, detailedUI;
     //[SerializeField] private TMP_Dropdown resolutionDropDown;
     [SerializeField] private GameObject horizontalMenuButton, resolutionBox, resolutionContent;
     public GameObject resolutionDefault;
+    [SerializeField] private List<Button> previousMenuButtons;
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
     [SerializeField] private List<GameObject> resolutionButtons;
+    [SerializeField] private List<SettingsPage> settingsPages;
     private float currentRefreshRate;
     private int currentResolutionIndex;
     private int tempResolutionIndex;
-    private int sprintValue;
+    private int sprintValue, detailedUIValue;
     private float brightnessValue;
     private float defaultSensitivity, defaultVolume; // Default values
     private float sensitivity, masterVolume, musicVolume, sfxVolume; // Current Values
+    private int currentPage;
     private VolumeManager volumeManager;
     private ApplySettings applySettings;
-    
+    public delegate void SettingsChanged();
+    public static event SettingsChanged OnSettingsChanged;
+
 
     private InputSystemUIInputModule inputSystem;
 
     void Awake()
     {
-
         defaultSensitivity = 1.0f;
         defaultVolume = 1.0f;
         sensitivity = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
@@ -44,6 +50,7 @@ public class SettingsValueManager : MonoBehaviour
         sfxVolume = PlayerPrefs.GetFloat("SFXVolume", defaultVolume);
         brightnessValue = PlayerPrefs.GetFloat("Brightness", 0);
         sprintValue = PlayerPrefs.GetInt("ToggleSprint", 0);
+        detailedUIValue = PlayerPrefs.GetInt("DetailedUI", 0);
         volumeManager = FindFirstObjectByType<VolumeManager>();
         applySettings = FindFirstObjectByType<ApplySettings>();
 
@@ -52,9 +59,9 @@ public class SettingsValueManager : MonoBehaviour
 
         currentRefreshRate = (float)Screen.currentResolution.refreshRateRatio.value;
 
-        for(int i = 0; i < resolutions.Length; i++)
+        for (int i = 0; i < resolutions.Length; i++)
         {
-            if((float)resolutions[i].refreshRateRatio.value == currentRefreshRate)
+            if ((float)resolutions[i].refreshRateRatio.value == currentRefreshRate)
             {
                 filteredResolutions.Add(resolutions[i]);
             }
@@ -73,21 +80,21 @@ public class SettingsValueManager : MonoBehaviour
             buttonID.settingsValueManager = this;
 
             buttonObj.name = resolutionOption;
-            if(filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height)
+            if (filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height)
             {
                 currentResolutionIndex = i;
             }
 
-            if(i == 0) resolutionDefault = buttonObj;
+            if (i == 0) resolutionDefault = buttonObj;
 
             resolutionButtons.Add(buttonObj);
         }
         tempResolutionIndex = currentResolutionIndex;
 
-        for(int i = 0; i < resolutionButtons.Count; i++)
+        for (int i = 0; i < resolutionButtons.Count; i++)
         {
-            if(i == 0) continue;
-            if(i == resolutionButtons.Count - 1) continue;
+            if (i == 0) continue;
+            if (i == resolutionButtons.Count - 1) continue;
 
             Navigation Nav = new Navigation();
             Nav.mode = Navigation.Mode.Explicit;
@@ -109,6 +116,82 @@ public class SettingsValueManager : MonoBehaviour
         resolutionButtons[0].GetComponent<Button>().navigation = TopNav;
         resolutionButtons[resolutionButtons.Count - 1].GetComponent<Button>().navigation = BottomNav;
 
+        for (int i = 0; i < settingsPages.Count; i++)
+        {
+            settingsPages[i].categoryButton.GetComponentInChildren<TextMeshProUGUI>().text = settingsPages[i].pageName;
+        }
+
+        for (int i = 0; i < settingsPages.Count; i++) //This actually works really well save ts
+        {
+            List<List<Selectable>> groupedSelectables = new List<List<Selectable>>(); //I did not know I could make a list within a list wow thanks chatgpt very cool very swag
+
+            // 1. Gather all children per setting group
+            for (int o = 0; o < settingsPages[i].settingsToDisplay.Count; o++)
+            {
+                GameObject groupObj = settingsPages[i].settingsToDisplay[o].gameObject;
+                var childSelectables = GetAllSelectablesInChildren(groupObj);
+
+                if (childSelectables.Count == 0)
+                {
+                    Debug.LogWarning($"No selectables found in {groupObj.name}", groupObj);
+                    continue;
+                }
+
+                groupedSelectables.Add(childSelectables);
+            }
+
+            // 2. Horizontal navigation within each group
+            foreach (var group in groupedSelectables)
+            {
+                for (int j = 0; j < group.Count; j++)
+                {
+                    Navigation nav = group[j].navigation;
+                    nav.mode = Navigation.Mode.Explicit;
+
+                    if (j > 0)
+                        nav.selectOnLeft = group[j - 1];
+                    if (j < group.Count - 1)
+                        nav.selectOnRight = group[j + 1];
+
+                    group[j].navigation = nav;
+                }
+            }
+
+            // 3. Vertical navigation between groups (using first item in each group)
+            for (int g = 0; g < groupedSelectables.Count; g++)
+            {
+                var currentGroup = groupedSelectables[g];
+                var firstItem = currentGroup[0];
+
+                Navigation nav = firstItem.navigation;
+                nav.mode = Navigation.Mode.Explicit;
+
+                if (g == 0)
+                {
+                    nav.selectOnUp = settingsPages[i].categoryButton;
+                    settingsPages[i].firstOnList = firstItem;
+                }
+                    
+                if (g > 0)
+                    nav.selectOnUp = groupedSelectables[g - 1][0];
+                if (g < groupedSelectables.Count - 1)
+                    nav.selectOnDown = groupedSelectables[g + 1][0];
+
+                if (g == groupedSelectables.Count - 1)
+                {
+                    nav.selectOnDown = backButton;
+                    settingsPages[i].lastOnList = firstItem;
+                }
+
+                firstItem.navigation = nav;
+            }
+        }
+
+        
+
+
+        currentPage = 0;
+        ChangeSettingsPage(currentPage);
     }
 
     void Start()
@@ -119,6 +202,8 @@ public class SettingsValueManager : MonoBehaviour
 
     void OnEnable()
     {
+        EnableDisablePreviousMenuButtons(false);
+        ChangeSettingsPage(0);
         EventSystem.current.SetSelectedGameObject(defaultMenuObject);
         //inputSystem.leftClick = null;
         sensitivitySlider.value = sensitivity;
@@ -138,7 +223,12 @@ public class SettingsValueManager : MonoBehaviour
 
         if (sprintValue == 0) sprint.isOn = false;
         else sprint.isOn = true;
-        
+
+        if (detailedUIValue == 0) detailedUI.isOn = false;
+        else detailedUI.isOn = true;
+
+        resolutionDisplay.text = $"{filteredResolutions[currentResolutionIndex].width} x {filteredResolutions[currentResolutionIndex].height}";
+
 
         //print("Sensitivity Multiplier: " + sensitivity);
         applyButton.interactable = false;
@@ -146,23 +236,37 @@ public class SettingsValueManager : MonoBehaviour
 
     void OnDisable()
     {
+        EnableDisablePreviousMenuButtons(true);
         sensitivity = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
+    }
+
+    private void EnableDisablePreviousMenuButtons(bool b)
+    {
+        if (previousMenuButtons == null) return;
+        for (int i = 0; i < previousMenuButtons.Count; i++)
+        {
+            previousMenuButtons[i].enabled = b;
+        }
     }
 
     void Update()
     {
-        if(Input.GetKeyDown("1"))
+        if (Input.GetKeyDown("1"))
         {
-            print(PlayerPrefs.GetFloat("Sensitivity", sensitivity));
+            //print(PlayerPrefs.GetFloat("Sensitivity", sensitivity));
+            ChangeSettingsPage(0);
         }
-        if(Input.GetKeyDown("2"))
+        if (Input.GetKeyDown("2"))
         {
-            print(PlayerPrefs.GetFloat("MusicVolume", musicVolume));
+            //print(PlayerPrefs.GetFloat("MusicVolume", musicVolume));
+            ChangeSettingsPage(1);
         }
-        if(Input.GetKeyDown("3"))
+        if (Input.GetKeyDown("3"))
         {
-            print(PlayerPrefs.GetFloat("SFXVolume", sfxVolume));
+            //print(PlayerPrefs.GetFloat("SFXVolume", sfxVolume));
+            ChangeSettingsPage(2);
         }
+
 
         /*if(Input.GetKeyDown("0"))
         {
@@ -177,7 +281,7 @@ public class SettingsValueManager : MonoBehaviour
     public void OpenConfirmationBox(string message, Button b)
     {
         confirmationBox.messageText.text = message;
-        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
+        if (ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(confirmationBox.noButton.gameObject);
         confirmationBox.gameObject.SetActive(true);
         confirmationBox.calledBy = b;
         confirmationBox.yesButton.onClick.AddListener(YesPressed);
@@ -186,7 +290,7 @@ public class SettingsValueManager : MonoBehaviour
 
     private void YesPressed()
     {
-        if(confirmationBox.calledBy == applyButton) 
+        if (confirmationBox.calledBy == applyButton)
         {
             PlayerPrefs.SetFloat("Sensitivity", sensitivity);
             PlayerPrefs.SetFloat("MasterVolume", masterVolume);
@@ -194,19 +298,21 @@ public class SettingsValueManager : MonoBehaviour
             PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
             PlayerPrefs.SetFloat("Brightness", brightnessValue);
             PlayerPrefs.SetInt("ToggleSprint", sprintValue);
+            PlayerPrefs.SetInt("DetailedUI", detailedUIValue);
 
             Resolution resolution = filteredResolutions[tempResolutionIndex];
-            Screen.SetResolution(resolution.width, resolution.height, true); 
+            Screen.SetResolution(resolution.width, resolution.height, true);
             //print("Sensitivity Multiplier: " + PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity));
 
-            if(applyButton.interactable == true)
+            if (applyButton.interactable == true)
             {
                 applyButton.interactable = false;
                 EventSystem.current.SetSelectedGameObject(applyButton.gameObject);
             }
 
             PlayerPrefs.Save();
-            volumeManager.SettingsChanged(); 
+            OnSettingsChanged.Invoke();
+            volumeManager.SettingsChanged();
             applySettings.UpdateSettings();
         }
         else if (confirmationBox.calledBy == backButton)
@@ -249,7 +355,13 @@ public class SettingsValueManager : MonoBehaviour
         brightnessValue = 0;
         brightnessSlider.value = brightnessValue;
         brightnessDisplay.SetText($"{(brightnessSlider.value * 100).ToString("N1")}" + "%");
-        
+
+        sprintValue = 0;
+        sprint.isOn = false;
+
+        detailedUIValue = 0;
+        detailedUI.isOn = false;
+
         //print("Sensitivity Multiplier: " + PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity));
 
         applyButton.interactable = true;
@@ -261,7 +373,7 @@ public class SettingsValueManager : MonoBehaviour
         sensitivityDisplay.SetText($"{sensitivity.ToString("N2")}");
 
         applyButton.interactable = true;
-    } 
+    }
 
     public void UpdateMasterVol(float vol)
     {
@@ -277,7 +389,7 @@ public class SettingsValueManager : MonoBehaviour
         musicDisplay.SetText($"{(musicSlider.value * 100).ToString("N1")}" + "%");
 
         applyButton.interactable = true;
-    } 
+    }
 
     public void UpdateSFXVol(float vol)
     {
@@ -289,8 +401,15 @@ public class SettingsValueManager : MonoBehaviour
 
     public void UpdateSprintToggle(bool s)
     {
-        if(s == false) sprintValue = 0;
+        if (s == false) sprintValue = 0;
         else sprintValue = 1;
+        applyButton.interactable = true;
+    }
+
+    public void UpdateDetailedUIToggle(bool u)
+    {
+        if (u == false) detailedUIValue = 0;
+        else detailedUIValue = 1;
         applyButton.interactable = true;
     }
 
@@ -307,24 +426,96 @@ public class SettingsValueManager : MonoBehaviour
         resolutionBox.SetActive(false);
         EventSystem.current.SetSelectedGameObject(resolutionButton.gameObject);
         applyButton.interactable = true;
-    } 
+    }
 
     public void Back()
     {
-        if(resolutionBox.activeSelf)
+        if (resolutionBox.activeSelf)
         {
             resolutionBox.SetActive(false);
             EventSystem.current.SetSelectedGameObject(resolutionButton.gameObject);
             return;
-        } 
+        }
 
-        if(applyButton.interactable == true && !confirmationBox.gameObject.activeSelf) OpenConfirmationBox("Changed settings will not be applied. Continue?", backButton);
-        else if(confirmationBox.gameObject.activeSelf) confirmationBox.noButton.onClick.Invoke();
+        if (applyButton.interactable == true && !confirmationBox.gameObject.activeSelf) OpenConfirmationBox("Changed settings will not be applied. Continue?", backButton);
+        else if (confirmationBox.gameObject.activeSelf) confirmationBox.noButton.onClick.Invoke();
         else
         {
             EventSystem.current.SetSelectedGameObject(previousMenuObject);
             containerObject.SetActive(false);
         }
-        
     }
+
+    public void UpdateTempResolution(int r)
+    {
+        var tr = tempResolutionIndex + r;
+
+        if (tr < 0 || tr > filteredResolutions.Count - 1) return;
+
+        tempResolutionIndex += r;
+        resolutionDisplay.text = $"{filteredResolutions[tempResolutionIndex].width} x {filteredResolutions[tempResolutionIndex].height}";
+
+        applyButton.interactable = true;
+    }
+    
+    List<Selectable> GetAllSelectablesInChildren(GameObject obj)
+    {
+        return obj.GetComponentsInChildren<Selectable>(true).ToList();
+    }
+
+    public void ChangeSettingsPage(int page)
+    {
+        currentPage = page;
+        title.text = "Settings - " + settingsPages[currentPage].pageName;
+        defaultMenuObject = settingsPages[currentPage].settingsToDisplay[0].GetComponentInChildren<Selectable>().gameObject;
+
+        Navigation nav = new Navigation();
+        nav.mode = Navigation.Mode.Explicit;
+        //nav.selectOnDown = settingsPages[currentPage].settingsToDisplay[0].GetComponentInChildren<Selectable>();
+
+        for (int i = 0; i < settingsPages.Count; i++)
+        {
+            for (int o = 0; o < settingsPages[i].settingsToDisplay.Count; o++)
+            {
+                if (i == currentPage)
+                {
+                    settingsPages[i].settingsToDisplay[o].SetActive(true);
+                    settingsPages[i].settingsToDisplay[o].gameObject.transform.SetAsLastSibling();
+                }
+                else settingsPages[i].settingsToDisplay[o].SetActive(false);
+            }
+
+            Navigation categoryNav = settingsPages[i].categoryButton.navigation;
+            categoryNav.selectOnDown = settingsPages[currentPage].firstOnList;
+
+            settingsPages[i].categoryButton.navigation = categoryNav;
+        }
+
+        
+
+        nav.selectOnUp = settingsPages[currentPage].lastOnList;
+
+        nav.selectOnLeft = null;
+        nav.selectOnRight = defaultButton;
+        backButton.navigation = nav;
+
+        nav.selectOnLeft = backButton;
+        nav.selectOnRight = applyButton;
+        defaultButton.navigation = nav;
+
+        nav.selectOnLeft = defaultButton;
+        nav.selectOnRight = null;
+        applyButton.navigation = nav;
+
+    }
+}
+
+[System.Serializable]
+public class SettingsPage
+{
+    public string pageName;
+    public Button categoryButton;
+    public List<GameObject> settingsToDisplay;
+    public Selectable firstOnList;
+    public Selectable lastOnList;
 }

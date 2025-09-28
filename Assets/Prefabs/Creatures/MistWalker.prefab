@@ -8674,6 +8674,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -8706,8 +8707,8 @@ MonoBehaviour:
   bearTrapVulnerable: 1
   frostVulnerable: 1
   isDead: 0
-  damageToStructure: 4
-  damageToPlayer: -25
+  damageToStructure: 3
+  damageToPlayer: -18
   canCorpseBreak: 0
   actionSpeedMod: 1
   hitColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.7176471}
@@ -8732,6 +8733,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ccace601562a94948a9496d8f810edb5, type: 2}
   - {fileID: 11400000, guid: 8cbbb682beb3f114bbfd97e669cec311, type: 2}
   - {fileID: 11400000, guid: 0d9e160dfea2757488786635a56c3fbe, type: 2}
+  - {fileID: 11400000, guid: 54421bcdb8d05874db13fad573ba2acc, type: 2}
+  - {fileID: 11400000, guid: de0fd22b4d293114397868fe16a45b97, type: 2}
+  - {fileID: 11400000, guid: 847f3a821a9983543bc7d260660d83f0, type: 2}
+  - {fileID: 11400000, guid: f871ea17940bc804d8f16f80d166579f, type: 2}
   availableStructure: []
   undesiredCrops:
   - {fileID: 11400000, guid: ffaeec3c5ea95d344a3d93e3570a8579, type: 2}
@@ -8743,6 +8748,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a501ca9b19d35a648a26a5b5683a9a07, type: 2}
   - {fileID: 11400000, guid: 472d8d69d5ad5b046b724150f19e191b, type: 2}
   - {fileID: 11400000, guid: 7c88cdeb4ede7984fa2d456e64a08a06, type: 2}
+  - {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
   agent: {fileID: 0}
   animEvents: {fileID: 1571331616092395312}
   lungeAttackHitbox: {fileID: 9090513854541498605}
@@ -8755,7 +8761,7 @@ MonoBehaviour:
   - armorObject: {fileID: 3313020554192288142}
     chanceToEquip: 5
   - armorObject: {fileID: 7151888973719042737}
-    chanceToEquip: 3
+    chanceToEquip: 1
   foggedWalkers: []
   foggedWalkerPrefab: {fileID: 0}
   currentState: 0
@@ -8807,7 +8813,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &9090513854541498605
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10598,6 +10604,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7920057399549375956, guid: 8aa792d5faeb7c04fb3700c4da77bbe1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8879768978372999467, guid: 8aa792d5faeb7c04fb3700c4da77bbe1,
         type: 3}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3b4c4f202173f4c8b374726138955a, type: 3}
   m_Name: Stamina
   m_EditorClassIdentifier: 
-  buttonIcon: {fileID: 481132665, guid: dde1cdb333d3ca5438a95b2bdfc2c39f, type: 3}
+  buttonIcon: {fileID: 166032490, guid: 861aa1416a493fa498f434caaa9c9e8c, type: 3}
   unlocked: 1
   mainImage: {fileID: 21300000, guid: c1f0115413e02f64db31b00129bbb66c, type: 3}
   entryName: Stamina
@@ -21,13 +21,14 @@ MonoBehaviour:
   creatureData: {fileID: 0}
   structureData: {fileID: 0}
   bugData: {fileID: 0}
+  targetedBy: []
   description:
   - Performing actions and recieving strikes from enemies depletes your stamina.
     You can restore it by eating food or by resting in the town spring.
   - When below 1/4th of max stamina, you may no longer sprint, and any actions the
     player makes will take longer to perform.
-  leftText: 
-  rightText: Performing actions and recieving strikes from enemies depletes your
-    stamina. You can restore it by eating food or by resting in the town spring.
+  leftText: Performing actions and recieving strikes from enemies depletes your stamina. 
     When below 1/4th of max stamina, you may no longer sprint, and any actions the
     player makes will take longer to perform.
+  rightText: You can restore it by eating plants foraged around the town, food prepped
+    by the Culinarion, your own crops, or by using a bath bomb in the town spring.

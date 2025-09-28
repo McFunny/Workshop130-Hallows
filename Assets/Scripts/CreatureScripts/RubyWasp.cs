@@ -34,7 +34,8 @@ public class RubyWasp : CreatureBehaviorScript
         Chase,
         Attack,
         Stuck,
-        Flee
+        Flee,
+        Dead
     }
 
     public CreatureState currentState;
@@ -82,6 +83,9 @@ public class RubyWasp : CreatureBehaviorScript
                 break;
             case CreatureState.Flee:
                 Flee();
+                break;
+            case CreatureState.Dead:
+                //Dead();
                 break;
 
             default:
@@ -151,7 +155,7 @@ public class RubyWasp : CreatureBehaviorScript
 
     void Chase()
     {
-        if(!playerInSightRange) currentState = CreatureState.Wander;
+        if(!playerInSightRange /*|| fireSources.Count > 0*/) currentState = CreatureState.Wander;
         else if(playerInAttackRange) currentState = CreatureState.Attack;
 
         AddForceToBug(player.position, false);
@@ -296,7 +300,7 @@ public class RubyWasp : CreatureBehaviorScript
     IEnumerator StuckRoutine()
     {
         unstickAttempts = 0;
-        int attemptsNeeded = Random.Range(5, 12);
+        int attemptsNeeded = Random.Range(2, 8);
         anim.SetBool("Unstuck", false);
 
         stuckOnPlayer = true;
@@ -313,6 +317,8 @@ public class RubyWasp : CreatureBehaviorScript
             if(PlayerMovement.restrictMovementTokens == 0) PlayerInteraction.Instance.GetComponent<PlayerMovement>().ApplyForceToPlayer(800, dir);
             yield return new WaitForSeconds(0.2f);
             PlayerMovement.limitMaxVelocity = true;
+
+            //if(fireSources.Count > 0) unstickAttempts += 30;
         }
         rb.isKinematic = false;
         allColliders[0].isTrigger = false;
@@ -321,7 +327,7 @@ public class RubyWasp : CreatureBehaviorScript
 
         stuckOnPlayer = false;
         PlayerMovement.Instance.RemoveSpeedMod(gameObject);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         coroutineRunning = false;
     }
 
@@ -410,5 +416,53 @@ public class RubyWasp : CreatureBehaviorScript
             PlayerMovement.limitMaxVelocity = true;
             PlayerMovement.Instance.RemoveSpeedMod(gameObject);
         }
+    }
+
+    public override void OnDeath()
+    {
+        base.OnDeath();
+        currentState = CreatureState.Dead;
+        if (!isDead)
+        {
+            anim.SetBool("Unstuck", false);
+            anim.Play("StuckIdle");
+            rb.velocity = Vector3.zero;
+            rb.useGravity = true;
+            rb.isKinematic = false;
+            rb.AddForce(-transform.forward * 70, ForceMode.Impulse);
+            rb.AddForce(-Vector3.up * 20);
+            isDead = true;
+            StopAllCoroutines();
+            StartCoroutine(DeathTimer());
+            if(health < -20)
+            {
+                canCorpseBreak = true;
+                TakeDamage(100);
+            }
+            else canCorpseBreak = true;
+        }
+    }
+
+    IEnumerator DeathTimer()
+    {
+        yield return new WaitForSeconds(3);
+        canCorpseBreak = true;
+        TakeDamage(100);
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if((other.gameObject.layer == 7 || other.gameObject.layer == 6) && health <= 0)
+        {
+            canCorpseBreak = true;
+            TakeDamage(100);
+        }
+    }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = null;
+        TakeDamage(999);
+        return false;
     }
 }

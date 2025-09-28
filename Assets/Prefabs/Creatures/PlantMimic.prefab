@@ -279,7 +279,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &6411311941882197973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +300,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 4a3f2bb9ea16f5242b1fc5432a77b36c, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -868,12 +869,12 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 6530363596841781460}
-  moveSound: {fileID: 0}
+  moveSound: {fileID: 8300000, guid: ff0eac1c375d84340835a4aa692da2ea, type: 3}
   idleSound1: {fileID: 8300000, guid: 3b5b01a8c894ac34887a136e8c07c96d, type: 3}
   idleSound2: {fileID: 8300000, guid: 13151c299a7f7984ab315235ccec2298, type: 3}
   idleSounds: []
   hitSounds:
-  - {fileID: 8300000, guid: 5b79d22c2d3ea274fbf7785656622958, type: 3}
+  - {fileID: 8300000, guid: 20c8a54f1a0f45f4996c0d672504ac9a, type: 3}
   footSteps: []
   deathSound: {fileID: 8300000, guid: b0dcf57c91effc04ca94da9a85816da4, type: 3}
   miscSound: {fileID: 8300000, guid: 465679e429d042843aa25dfab93d355d, type: 3}
@@ -990,9 +991,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ff0eac1c375d84340835a4aa692da2ea, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.677
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1000,10 +1001,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 20
+  MaxDistance: 40
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1011,23 +1012,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.5
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -2.0008
+      outSlope: -2.0008
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
-      time: 1
+      time: 0.9668579
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.5002
+      outSlope: -0.5002
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -1036,7 +1037,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

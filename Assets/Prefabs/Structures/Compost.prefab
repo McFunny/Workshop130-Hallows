@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7944094840962090562
 RectTransform:
   m_ObjectHideFlags: 0
@@ -308,8 +308,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 620c1993c0c5dc04a8cdcaa2f15ac224, type: 2}
   itemForm: {fileID: 11400000, guid: 1c3c20e899a81124d9d03ffd3cd1ad3b, type: 2}
-  health: 15
-  maxHealth: 15
+  health: 30
+  maxHealth: 30
   wealthValue: 5
   salvageChance: 85
   destructable: 1
@@ -317,6 +317,7 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 1
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 7820160524057886014}
   savedItems: []
@@ -341,7 +342,26 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
-  structureUI: {fileID: 467427055625009816}
+  muteSound: 0
+  structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - name: Integrity
+      icon: {fileID: 623503494, guid: c5726e73747c2a84ba50cad62a1889b7, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
+    - name: Progress
+      icon: {fileID: -793094533, guid: e00517f59633a6e408f8787597d12951, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
+    - name: Compost
+      icon: {fileID: 596065176, guid: e00517f59633a6e408f8787597d12951, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.08399114, g: 0.3490566, b: 0.08067818, a: 1}
   compost: {fileID: 11400000, guid: ea07bb057af3e1e48b815126a425d0d0, type: 2}
   meat: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
   meatSmall: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
@@ -351,7 +371,7 @@ MonoBehaviour:
   fillPlane: {fileID: 5762301570131631384}
   anim: {fileID: 3180251888463781421}
   progress: 0
-  itemText: {fileID: 1936431333641104509}
+  isFunctioning: 0
   chargingPopup: {fileID: 11400000, guid: 22aeaa8c9bb61a7489f93448cf4a2f39, type: 2}
 --- !u!136 &7810400599221991258
 CapsuleCollider:

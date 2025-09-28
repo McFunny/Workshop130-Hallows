@@ -27,7 +27,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public List<CreatureBehaviorScript> allCreatures; //all creatures spawned by this manager
 
-    public List<Transform> testSpawns;
+    public List<Transform> mistSpawns, behindCabinSpawns;
     public Transform[] despawnPositions;
 
     Dictionary<CreatureObject, int> creatureTallyDict = new Dictionary<CreatureObject, int>();
@@ -66,23 +66,6 @@ public class NightSpawningManager : MonoBehaviour
 
     void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.I) && !TimeManager.Instance.isDay)
-        {
-            SpawnCreature(creatures[6]);
-        }
-        if (Input.GetKeyDown(KeyCode.O) && !TimeManager.Instance.isDay)
-        {
-            SpawnCreature(creatures[7]);
-        }
-        if (Input.GetKeyDown(KeyCode.P) && !TimeManager.Instance.isDay)
-        {
-            SpawnCreature(creatures[0]);
-        }*/
-
-        /*if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            StartCoroutine(GameCompleted());
-        }*/
     }
 
     void OnDestroy()
@@ -179,9 +162,11 @@ public class NightSpawningManager : MonoBehaviour
         {
             r = Random.Range(0, weightArray.Count);
             CreatureObject attemptedCreature = selectedCreatures[weightArray[r]];
+
             //If there is enough points to afford the creature and it hasnt reached it's spawn cap, spawn it
+
             if(attemptedCreature.dangerCost <= difficultyPoints && spawnedCreaturesThisHour[weightArray[r]] < attemptedCreature.spawnCapPerHour && difficultyPoints > threshhold
-                && attemptedCreature.spawnCap > creatureTallyDict[attemptedCreature] && totalCreatures < maxCreatures)
+                && attemptedCreature.spawnCap > creatureTallyDict[attemptedCreature] && (totalCreatures < maxCreatures || !attemptedCreature.contribuiteToCreatureCap))
             {
                 spawnedCreaturesThisHour[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
@@ -228,11 +213,27 @@ public class NightSpawningManager : MonoBehaviour
             int r = Random.Range(0, c.creatureVariants.Count);
             int p = Random.Range(0,100);
             //if(c.forceSpawnVariant) p = 0;
-            if(c.creatureVariants[r].probabilityInFarm > p && c.creatureVariants[r].wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned) prefab = c.creatureVariants[r].prefab;
+
+            //New Logic
+            if(c.creatureVariants[r].variantChanceInFarm.Count > 0)
+            {
+                float currentChance = 0;
+                foreach (IntWithProbability chance in c.creatureVariants[r].variantChanceInFarm)
+                {
+                    if(GameSaveData.Instance.siegesCleared >= chance._int) currentChance = chance._probability; //Make sure they are ordered in the list
+                }
+                if(currentChance > p) prefab = c.creatureVariants[r].prefab;
+            }
+            else if(c.creatureVariants[r].probabilityInFarm > p) prefab = c.creatureVariants[r].prefab; //If the siege variant list isnt setup
+
+            if(c.creatureVariants[r].wealthPrerequisite > PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
         }
         if(prefab == null) prefab = c.objectPrefab;
 
-        GameObject newCreature = Instantiate(prefab, RandomMistPosition(), Quaternion.identity);
+        GameObject newCreature; 
+        if(c.canSpawnBehindCabin) newCreature = Instantiate(prefab, RandomMistPosition(), Quaternion.identity);
+        else newCreature = Instantiate(prefab, RandomMistPositionFrontCabin(), Quaternion.identity);
+
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
             enemy.OnSpawn(); 
@@ -285,11 +286,21 @@ public class NightSpawningManager : MonoBehaviour
 
     public Vector3 RandomMistPosition()
     {
-        int r = Random.Range(0, testSpawns.Count);
+        List<Transform> possibleSpawns = mistSpawns;
+        possibleSpawns.AddRange(behindCabinSpawns);
+        int r = Random.Range(0, possibleSpawns.Count);
         float x = Random.Range(-2, 2);
-        return testSpawns[r].position + (x * testSpawns[r].transform.right); 
-        //Debug.Log(testSpawns[r]);
-        //return testSpawns[r].position;
+        return possibleSpawns[r].position + (x * possibleSpawns[r].transform.right); 
+        //Debug.Log(mistSpawns, mistSpawns[r]);
+        //return mistSpawns, mistSpawns[r].position;
+    }
+
+    public Vector3 RandomMistPositionFrontCabin() //Does not include the positions behind the cabin
+    {
+        List<Transform> possibleSpawns = mistSpawns;
+        int r = Random.Range(0, possibleSpawns.Count);
+        float x = Random.Range(-2, 2);
+        return possibleSpawns[r].position + (x * possibleSpawns[r].transform.right); 
     }
 
     public void GameOver()
@@ -309,7 +320,8 @@ public class NightSpawningManager : MonoBehaviour
                 Destroy(creature.gameObject);
             }
         }
-        allCreatures.Clear();
+        allCreatures.RemoveAll(item => item == null);
+        //allCreatures.Clear();
     }
 
     public void RemoveDifficultyPoints(float amount)
@@ -437,7 +449,7 @@ public class NightSpawningManager : MonoBehaviour
         List<CreatureObject> temp = new List<CreatureObject>();
         //Common creatures to spawn
         //2,5
-        a = Random.Range(currentDLevel.c_varietyMin, currentDLevel.c_varietyMin);
+        a = Random.Range(currentDLevel.c_varietyMin, currentDLevel.c_varietyMax + 1);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Common && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
@@ -456,7 +468,7 @@ public class NightSpawningManager : MonoBehaviour
 
         //Rare creatures to spawn
         //1,5
-        a = Random.Range(currentDLevel.r_varietyMin, currentDLevel.r_varietyMin);
+        a = Random.Range(currentDLevel.r_varietyMin, currentDLevel.r_varietyMax + 1);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
@@ -473,7 +485,7 @@ public class NightSpawningManager : MonoBehaviour
 
         //Support creatures to spawn
         //0,4
-        a = Random.Range(currentDLevel.s_varietyMin, currentDLevel.s_varietyMin);
+        a = Random.Range(currentDLevel.s_varietyMin, currentDLevel.s_varietyMax + 1);
         foreach(CreatureObject c in creatures)
         {
             if(c.spawnType == SpawnType.Support && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);

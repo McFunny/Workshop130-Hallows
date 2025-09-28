@@ -5717,7 +5717,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &4821817011044093568
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5761,6 +5761,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -5773,7 +5774,7 @@ MonoBehaviour:
   droppedItems:
   - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
   dropChance:
-  - 2
+  - 3
   sightRange: 25
   attackRange: 15
   playerInSightRange: 0
@@ -5784,7 +5785,7 @@ MonoBehaviour:
   frostVulnerable: 1
   isDead: 0
   damageToStructure: 15
-  damageToPlayer: -35
+  damageToPlayer: -30
   canCorpseBreak: 0
   actionSpeedMod: 1
   hitColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0.25490198}

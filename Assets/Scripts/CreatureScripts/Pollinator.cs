@@ -111,7 +111,18 @@ public class Pollinator : CreatureBehaviorScript
     {
         if (!isMoving)
         {
-            StartCoroutine(MoveToPoint(StructureManager.Instance.GetRandomTile()));
+            List<Vector3> flowerPos = new List<Vector3>();
+            foreach(StructureBehaviorScript s in StructureManager.Instance.allStructs)
+            {
+                FarmLand tile = s as FarmLand;
+                if(tile && tile.crop && tile.crop.id == 20)
+                {
+                    flowerPos.Add(tile.transform.position);
+                }
+            }
+
+            if(flowerPos.Count > 0) StartCoroutine(MoveToPoint(flowerPos[Random.Range(0, flowerPos.Count)]));
+            else StartCoroutine(MoveToPoint(StructureManager.Instance.GetRandomTile()));
         }
     }
 
@@ -351,5 +362,12 @@ public class Pollinator : CreatureBehaviorScript
     {
         float newY = Mathf.Sin(Time.time * 3) * 0.2f; //Last number is the height
         bugModel.transform.position = new Vector3(transform.position.x, startPos.y + newY, transform.position.z);
+    }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = null;
+        TakeDamage(999);
+        return false;
     }
 }

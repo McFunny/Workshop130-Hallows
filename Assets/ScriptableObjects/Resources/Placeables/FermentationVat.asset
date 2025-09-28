@@ -15,10 +15,11 @@ MonoBehaviour:
   ID: 76
   displayName: Fermentation Vat
   description: Some crops can be inserted inside to produce pickled variants, increasing
-    their value.
+    their value. More efficient when placed in the farm.
   icon: {fileID: 21300000, guid: 4e1b84760ff540041aa731e13141daf3, type: 3}
+  type: 3
   maxStackSize: 5
-  value: 285
+  value: 235
   sellValueMultiplier: 0.25
   isKeyItem: 0
   hasModel: 0
@@ -41,7 +42,8 @@ MonoBehaviour:
     type: 3}
   removeAfterUse: 1
   placeSound: {fileID: 8300000, guid: 9147c3d7fc55c83468a4ef49b4bd4c02, type: 3}
-  gridTypes: 01000000
+  gridTypes: 0100000004000000
   gridSize: 0
+  placeAsPile: 0
   canPlaceOnFloor: 1
   canPlaceOnTable: 0

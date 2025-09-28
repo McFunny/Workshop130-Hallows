@@ -17,8 +17,9 @@ MonoBehaviour:
   description: Resilient spud that can grow in many places. Has chance to yield multiple
     harvests.
   icon: {fileID: 21300000, guid: f8681d3adf8699f44ae11ca52514822b, type: 3}
+  type: 0
   maxStackSize: 20
-  value: 28
+  value: 24
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
@@ -27,7 +28,11 @@ MonoBehaviour:
   bonusCompostValue: 35
   useCooldown: 5
   pickledForm: {fileID: 11400000, guid: b0ccef0a77d437a45937a8a450d894a8, type: 2}
-  itemConversions: []
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
   itemInputsKBM:
   - LMB - Consume
   - RMB - Show Item

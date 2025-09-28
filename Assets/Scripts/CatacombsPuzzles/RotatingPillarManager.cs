@@ -18,7 +18,7 @@ public class RotatingPillarManager : ImAPuzzleManager
 
     [SerializeField] private Database _database;
     private AudioSource audioSource;
-    private int puzzlesSolved = 0;
+    private int numberOfPuzzlesSolved = 0;
 
     public static RotatingPillarManager Instance;
 
@@ -114,13 +114,14 @@ public class RotatingPillarManager : ImAPuzzleManager
             pillar.LockPuzzle();
         }
 
-        puzzlesSolved++;
+        numberOfPuzzlesSolved++;
         audioSource.Play();
 
         if (puzzleSets.All(e => e.isSolved))
         {
             Debug.Log("All puzzles solved! Great job!");
             puzzleSolved = true;
+            fireObject.SetActive(puzzleSolved);
             PuzzleManager.Instance.totalPuzzlesSolved++;
             PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
             Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
@@ -144,15 +145,15 @@ public class RotatingPillarManager : ImAPuzzleManager
         return new RotatingPuzzleSaveData
         {
             PuzzleSetEntries = saveEntries,
-            PuzzlesSolved = puzzlesSolved
+            PuzzlesSolved = numberOfPuzzlesSolved
         };
     }
 
     public void ImportSaveData(RotatingPuzzleSaveData data)
     {
-        puzzlesSolved = data.PuzzlesSolved;
-        puzzleSolved = (puzzlesSolved == puzzleSets.Count);
-
+        numberOfPuzzlesSolved = data.PuzzlesSolved;
+        puzzleSolved = (numberOfPuzzlesSolved == puzzleSets.Count);
+        fireObject.SetActive(puzzleSolved);
         for (int i = 0; i < puzzleSets.Count; i++)
         {
             //The catch for old saves

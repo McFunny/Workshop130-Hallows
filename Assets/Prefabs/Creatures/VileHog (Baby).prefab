@@ -5555,7 +5555,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &7901703077215774893
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5599,6 +5599,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -5619,9 +5620,10 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 1
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 3
-  damageToPlayer: -15
+  damageToPlayer: -7
   canCorpseBreak: 0
   actionSpeedMod: 1
   hitColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0.25490198}
@@ -5638,6 +5640,10 @@ MonoBehaviour:
   r: {fileID: 4953801170342099399}
   chargeParticles: {fileID: 6756881369096987546}
   dashParticles: {fileID: 4743426730297066431}
+  exhaustL: {fileID: 0}
+  exhaustR: {fileID: 0}
+  thrusterParticles: {fileID: 0}
+  armor: {fileID: 0}
   currentState: 9
 --- !u!1 &1574669191862163330
 GameObject:
@@ -11325,6 +11331,9 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 1ea8d59dbc57d394db95467523c4c267, type: 3}
   miscSound2: {fileID: 8300000, guid: df47dbe5320cf7d4f99db3a106bfab9f, type: 3}
   miscSound3: {fileID: 8300000, guid: 12e8e482b09f9134ebcc1ab0cb7c4610, type: 3}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 6431453942363862443}
 --- !u!82 &4017188231704621579
 AudioSource:

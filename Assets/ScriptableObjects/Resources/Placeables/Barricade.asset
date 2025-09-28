@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 70
   displayName: Barricade
-  description: A fortified bale of tightly packed Gloomstalk that can take a beating.
-    Can be repaired with Gloomstalk.
+  description: A fortified bale of tightly packed Gloomstalk. Useful for blocking
+    creatures from their targets. Can be repaired with Gloomstalk.
   icon: {fileID: 21300000, guid: 24e539a8f262b62478b035a78256e9ae, type: 3}
+  type: 3
   maxStackSize: 5
   value: 40
   sellValueMultiplier: 0.25
@@ -43,5 +44,6 @@ MonoBehaviour:
   placeSound: {fileID: 8300000, guid: 86b20be506b70c24fb98942f150e692b, type: 3}
   gridTypes: 0100000004000000
   gridSize: 0
+  placeAsPile: 0
   canPlaceOnFloor: 1
   canPlaceOnTable: 0

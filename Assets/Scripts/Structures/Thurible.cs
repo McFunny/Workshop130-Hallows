@@ -37,7 +37,7 @@ public class Thurible : StructureBehaviorScript
     {
         base.Update();
 
-        leafText.text = leafCount + "/" + maxLeafCount;
+        //leafText.text = leafCount + "/" + maxLeafCount;
     }
 
     public override void ToolInteraction(ToolType type, out bool success)
@@ -149,5 +149,19 @@ public class Thurible : StructureBehaviorScript
             droppedItem = ItemPoolManager.Instance.GrabItem(leafItem);
             droppedItem.transform.position = focalPoint.position;
         }
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = flameLeft;
+        structureUIVariables.valueGroups[1].maxValue = maxFlame;
+
+        structureUIVariables.valueGroups[1].value = leafCount;
+        structureUIVariables.valueGroups[1].maxValue = maxLeafCount;
+        return structureUIVariables.valueGroups;
     }
 }

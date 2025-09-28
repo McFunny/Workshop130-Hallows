@@ -47,7 +47,7 @@ public class CreatureEffectsHandler : MonoBehaviour
     public void OnMove(float _volume)
     {
         r = Random.Range(pitchMin,pitchMax);
-        source.PlayOneShot(moveSound, volume);
+        source.PlayOneShot(moveSound, _volume);
     }
 
     public void Idle1()

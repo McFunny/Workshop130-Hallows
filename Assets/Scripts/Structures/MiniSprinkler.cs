@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class MiniSprinkler : StructureBehaviorScript
+public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
 {
+    [HideInInspector] public Transform ObjectTransform => transform; // For the Interface
+
+    public bool smartSprinkler;
+
     public int waterLevel = 0; 
     int maxWaterLevel = 3;
     public GameObject water;
@@ -40,6 +44,7 @@ public class MiniSprinkler : StructureBehaviorScript
     void Start()
     {
         base.Start();
+        if(smartSprinkler) StartCoroutine(ScanTiles());
     }
 
     // Update is called once per frame
@@ -56,13 +61,15 @@ public class MiniSprinkler : StructureBehaviorScript
             water.SetActive(true);
         }
 
-        waterText.text = waterLevel + "/" + maxWaterLevel;
+        //waterText.text = waterLevel + "/" + maxWaterLevel;
         modeText.text = mode.ToString();
 
     }
 
     public override void HourPassed()
     {
+        if(smartSprinkler) return;
+
         if(waterLevel > 0 && !TimeManager.Instance.isDay && !watering)
         {
             waterLevel--;
@@ -92,7 +99,7 @@ public class MiniSprinkler : StructureBehaviorScript
         {
             PlayerInteraction.Instance.waterHeld -= maxWaterLevel - waterLevel;
             waterLevel = maxWaterLevel;
-            if(!wateredThisHour) 
+            if(!wateredThisHour && !smartSprinkler) 
             {
                 StartCoroutine(WaterTiles());
                 waterLevel--;
@@ -222,6 +229,72 @@ public class MiniSprinkler : StructureBehaviorScript
         saveInt1 = waterLevel;
         if(mode == SprinklerMode.Stream) saveInt2 = 0;
         else saveInt2 = 1;
+    }
+
+    public bool CanBeWatered()
+    {
+        if(waterLevel < maxWaterLevel) return true;
+        else return false;
+    }
+
+    public void GivenWater()
+    {
+        HitWithWater();
+    }
+
+    IEnumerator ScanTiles()
+    {
+        while(health > 0)
+        {
+            yield return new WaitForSeconds(3);
+
+            if(waterLevel == 0) continue;
+
+            if(mode == SprinklerMode.Stream) c_stream.enabled = true;
+            else c_cone.enabled = true;
+
+            yield return new WaitForSeconds(0.5f);
+
+            c_stream.enabled = false;
+            c_cone.enabled = false;
+
+            bool activate = false;
+
+            for(int i = 0; i < structsInRange.Count; i++)
+            {
+                if(structsInRange[i].onFire)
+                {
+                    activate = true;
+                    break;
+                }
+
+                FarmLand tile = structsInRange[i] as FarmLand;
+                if(tile && tile.crop && tile.GetCropStats().waterLevel < tile.crop.waterIntake)
+                {
+                    activate = true;
+                    break;
+                }
+            }
+
+            if(activate)
+            {
+                structsInRange.Clear();
+                waterLevel--;
+                StartCoroutine(WaterTiles());
+                yield return new WaitForSeconds(10);
+            }
+        }
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = waterLevel;
+        structureUIVariables.valueGroups[1].maxValue = maxWaterLevel;
+        return structureUIVariables.valueGroups;
     }
 
 }

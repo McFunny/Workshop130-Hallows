@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 179
   displayName: Ginkgo
-  description: Cuttings from the sapling of a Ginkgo tree that can repair vision.
-    These are frequently foraged by animals and people, and thus rarely grows into
-    a mature tree.
+  description: Cuttings from a Ginkgo tree sapling that can repair vision. These
+    are frequently foraged by animals and people, and thus rarely grows into a mature
+    tree.
   icon: {fileID: 2131095773, guid: 539a8d6022dfa864f900b83fbaae38d9, type: 3}
+  type: 1
   maxStackSize: 20
-  value: 22
+  value: 16
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
@@ -32,6 +33,6 @@ MonoBehaviour:
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []
-  itemBehavior: {fileID: 0}
+  itemBehavior: {fileID: 11400000, guid: c2a8fa346dbd0924096f2116dca551e7, type: 2}
   useSound: {fileID: 0}
   cannotEnterInventory: 0

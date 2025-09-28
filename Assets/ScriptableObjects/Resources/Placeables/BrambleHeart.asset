@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: BrambleHeart
+  m_EditorClassIdentifier: 
+  ID: 218
+  displayName: Bramble Heart
+  description: Converts nearby weeds into thorns that can damage creatures. Best
+    placed inside of a cluster of weeds.
+  icon: {fileID: 21300000, guid: f01c7672962bc3144adbca1703c2d998, type: 3}
+  type: 3
+  maxStackSize: 5
+  value: 180
+  sellValueMultiplier: 0.2
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 2441390868733128546, guid: 07467a288549b3d4aa95ce646455bbdf,
+    type: 3}
+  hologramPrefab: {fileID: 7542366850844991845, guid: 8e140044842e4d748906891ce815fcdb,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 86b20be506b70c24fb98942f150e692b, type: 3}
+  gridTypes: 01000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: SmartSprinkler
+  m_EditorClassIdentifier: 
+  ID: 207
+  displayName: Smart Sprinkler
+  description: An improved model of the Mini Sprinkler that can detect when crops
+    need water or if they are on fire.
+  icon: {fileID: 21300000, guid: 682a1db4d5ad8414ea739a6ba7ffb22e, type: 3}
+  type: 3
+  maxStackSize: 5
+  value: 515
+  sellValueMultiplier: 0.25
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 3492835011250344632, guid: a47b9ac023a107445a2553711e7a95d0,
+    type: 3}
+  hologramPrefab: {fileID: 4523690528704432669, guid: f0fde63579aa6e24fab9a5e15c9f6c93,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 65f88b6da79e9d548906f86cb540e72f, type: 3}
+  gridTypes: 01000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

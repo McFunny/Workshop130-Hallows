@@ -17,6 +17,7 @@ MonoBehaviour:
   description: A place to store food and water for your farm critters. A scarecrow
     will prevent crows from stealing leftover food.
   icon: {fileID: 21300000, guid: 4f25a9fe5496389489cfc4f13392c4c3, type: 3}
+  type: 4
   maxStackSize: 20
   value: 125
   sellValueMultiplier: 0.5
@@ -42,5 +43,6 @@ MonoBehaviour:
   placeSound: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
   gridTypes: 04000000
   gridSize: 1
+  placeAsPile: 0
   canPlaceOnFloor: 1
   canPlaceOnTable: 0

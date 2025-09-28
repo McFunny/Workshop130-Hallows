@@ -94,8 +94,12 @@ public class TownCat : MonoBehaviour, IInteractable
 
     IEnumerator PetRoutine()
     {
+        agent.ResetPath();
         yield return new WaitForSeconds(4);
+        isMoving = false;
+        interruptAction = false;
         currentRoutine = null;
+        alreadyPet = false;
     }
 
     IEnumerator CheckSurroundings()
@@ -200,7 +204,7 @@ public class TownCat : MonoBehaviour, IInteractable
         {
             yield return new WaitForSeconds(Random.Range(9, 16));
             effectsHandler.RandomIdle();
-            alreadyPet = false;
+            //alreadyPet = false;
         }
 
     }
@@ -222,10 +226,13 @@ public class TownCat : MonoBehaviour, IInteractable
             ParticlePoolManager.Instance.GrabHeartParticle().transform.position = focalPoint.position;
             if(!isMoving) 
             {
-                currentRoutine = StartCoroutine(PetRoutine());
                 StopCoroutine(IdleRoutine());
             }
-            else interruptAction = true;
+            else
+            {
+                if(currentRoutine != null) StopCoroutine(currentRoutine);
+            }
+            currentRoutine = StartCoroutine(PetRoutine());
         }
         interactSuccessful = true;
     }

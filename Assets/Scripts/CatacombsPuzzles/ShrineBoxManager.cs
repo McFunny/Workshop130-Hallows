@@ -48,6 +48,7 @@ public class ShrineBoxManager : ImAPuzzleManager
     public void ImportSaveData(ShrinePuzzleSaveData data)
     {
         puzzleSolved = data.shrinePuzzleSolved;
+        fireObject.SetActive(puzzleSolved);
 
         for (int i = 0; i < boxes.Count; i++)
         {
@@ -70,6 +71,7 @@ public class ShrineBoxManager : ImAPuzzleManager
         if (puzzlesSolved == boxes.Count)
         {
             puzzleSolved = true;
+            fireObject.SetActive(puzzleSolved);
             Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
             PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
         }

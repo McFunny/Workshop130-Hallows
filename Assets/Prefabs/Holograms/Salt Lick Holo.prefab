@@ -1,0 +1,203 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2879527498982296212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4147959087552109979}
+  m_Layer: 12
+  m_Name: Salt Lick Holo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4147959087552109979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2879527498982296212}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 70.08, y: 0, z: 160.86}
+  m_LocalScale: {x: 2.2350094, y: 2.2350094, z: 2.2350094}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 739104703770449255}
+  - {fileID: 4362405059244268967}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &994005458030408332
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4147959087552109979}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.69000006
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ece612296f839864b92bcfc5c865cf64, type: 2}
+    - target: {fileID: 919132149155446097, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_Name
+      value: SaltLick
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 83a29039193d8fb4b927011e77b66b53,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 83a29039193d8fb4b927011e77b66b53, type: 3}
+--- !u!4 &739104703770449255 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 83a29039193d8fb4b927011e77b66b53,
+    type: 3}
+  m_PrefabInstance: {fileID: 994005458030408332}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4251636868487215692
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4147959087552109979}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.9500007
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ece612296f839864b92bcfc5c865cf64, type: 2}
+    - target: {fileID: 919132149155446097, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_Name
+      value: SaltLick_Large
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b718f82d9bb950845b4f75655d0e714e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b718f82d9bb950845b4f75655d0e714e, type: 3}
+--- !u!4 &4362405059244268967 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b718f82d9bb950845b4f75655d0e714e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4251636868487215692}
+  m_PrefabAsset: {fileID: 0}

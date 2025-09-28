@@ -430,8 +430,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: f53bb30f1600cb84fa76b1fbdd5fbf69, type: 2}
   itemForm: {fileID: 11400000, guid: 4186d0990441d9b40a416ac71bf280ff, type: 2}
-  health: 20
-  maxHealth: 20
+  health: 30
+  maxHealth: 30
   wealthValue: 5
   salvageChance: 85
   destructable: 1
@@ -461,7 +461,16 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - name: Integrity
+      icon: {fileID: 623503494, guid: c5726e73747c2a84ba50cad62a1889b7, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
   r: {fileID: 4538867263545920415}
   potItems:
   - item: {fileID: 11400000, guid: 6f316f85a007ad645b60a914fa4f0367, type: 2}

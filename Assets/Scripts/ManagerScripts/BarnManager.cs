@@ -8,9 +8,9 @@ public class BarnManager : MonoBehaviour
     /// 
     public static BarnManager Instance;
 
-    public List<ICritter> allCritters = new List<ICritter>();
+    public List<CritterBehaviorScript> allCritters = new List<CritterBehaviorScript>();
 
-    public Transform barnSource; //The point used to identify distance
+    public Transform barnSource, barnWell; //The point used to identify distance and the well for hydroflies
 
     void Awake()
     {
@@ -35,9 +35,10 @@ public class BarnManager : MonoBehaviour
     {
         List<CritterData> temp = new List<CritterData>();
 
-        foreach(ICritter c in allCritters)
+        foreach(CritterBehaviorScript c in allCritters)
         {
-            temp.Add(c.GetCritterData());
+            ICritter critter = c as ICritter;
+            temp.Add(critter.GetCritterData());
         }
         critterStats = temp.ToArray();
     }

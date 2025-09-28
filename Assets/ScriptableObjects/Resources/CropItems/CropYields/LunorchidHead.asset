@@ -17,6 +17,7 @@ MonoBehaviour:
   description: The large blossom of a Lunorchid. The seeds are often used in various
     oils and dishes.
   icon: {fileID: -1349163995, guid: 25abe2b5e8da8ea4fac8e8260ae85f51, type: 3}
+  type: 1
   maxStackSize: 20
   value: 66
   sellValueMultiplier: 1
@@ -27,7 +28,11 @@ MonoBehaviour:
   bonusCompostValue: 45
   useCooldown: 5
   pickledForm: {fileID: 0}
-  itemConversions: []
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: ad748d007dc8baa42963f208130ad626, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

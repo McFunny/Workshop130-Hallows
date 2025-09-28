@@ -26,20 +26,24 @@ public class CompostBin : StructureBehaviorScript
     bool ignoreNextHour = false;
     bool isSpinning = false;
 
-    public TextMeshProUGUI itemText;
+    //public TextMeshProUGUI itemText;
 
-    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
-    public PopupScript chargingPopup;
+    //public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    //public PopupScript chargingPopup;
 
     void Awake()
     {
         base.Awake();
-        itemText.text = currentCompostValue + "/" + maxCompostValue;
+        //itemText.text = currentCompostValue + "/" + maxCompostValue;
     }
 
     void Start()
     {
         base.Start();
+
+        
+
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) maxProgress *= 3; //Takes longer when not on the farm
     }
 
 
@@ -50,11 +54,6 @@ public class CompostBin : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
 
         if(isSpinning) return;
 
@@ -140,16 +139,11 @@ public class CompostBin : StructureBehaviorScript
         isSpinning = false;
         fillPlane.SetActive(false);
         currentCompostValue = 0;
-        itemText.text = currentCompostValue + "/" + maxCompostValue;
+        //itemText.text = currentCompostValue + "/" + maxCompostValue;
     }
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
 
         if(item.bonusCompostValue > 0 && currentCompostValue < maxCompostValue)
         {
@@ -177,7 +171,7 @@ public class CompostBin : StructureBehaviorScript
                 anim.SetBool("Spinning", true);
                 anim.SetBool("IsFull", true);
             }
-            itemText.text = currentCompostValue + "/" + maxCompostValue;
+            //itemText.text = currentCompostValue + "/" + maxCompostValue;
         }
     }
 
@@ -193,7 +187,6 @@ public class CompostBin : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
         
         if(progress < maxProgress && currentCompostValue >= maxCompostValue)
         {
@@ -242,14 +235,26 @@ public class CompostBin : StructureBehaviorScript
             anim.SetBool("Spinning", false);
         }
 
-        itemText.text = currentCompostValue + "/" + maxCompostValue;
-
-        isFunctioning = true;
+        //itemText.text = currentCompostValue + "/" + maxCompostValue;
     }
 
     public override void SaveVariables()
     {
         saveInt1 = progress;
         saveFloat1 = currentCompostValue;
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = progress;
+        structureUIVariables.valueGroups[1].maxValue = maxProgress;
+
+        structureUIVariables.valueGroups[1].value = currentCompostValue;
+        structureUIVariables.valueGroups[1].maxValue = maxCompostValue;
+        return structureUIVariables.valueGroups;
     }
 }

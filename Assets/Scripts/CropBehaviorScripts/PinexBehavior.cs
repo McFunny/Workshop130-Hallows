@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Crop Behavior", menuName = "Crop Behavior/Pinex")]
 public class PinexBehavior : CropBehavior
 {
-    public override bool DestroyOnHarvest(FarmLand tile)
+    public override bool DestroyOnHarvest(FarmLand tile, out int stagesReduced)
     {
+        stagesReduced = 3;
         return false;
     }
 

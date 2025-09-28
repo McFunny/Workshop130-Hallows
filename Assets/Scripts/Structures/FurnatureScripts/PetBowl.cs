@@ -138,19 +138,19 @@ public class PetBowl : FurnitureBehaviorScript
             r.sprite = null;
             savedItems.Clear();
             //savedItems.Add(null);
-            return;
         }
-
-        if(saveInt3 >= 0) savedItems[0] = Database.Instance.GetItem(saveInt3);
-
-        containsWater = saveBool1;
-        WaterChange(containsWater);
+        else r.sprite = savedItems[0].icon;
+        /*if(saveInt3 >= 0)
+        {
+            savedItems[0] = Database.Instance.GetItem(saveInt3);
+        }*/
+        WaterChange(saveBool1);
     }
 
     public override void SaveVariables()
     {
-        if (savedItems.Count > 0 && savedItems[0] != null)
-            saveInt3 = savedItems[0].ID;
+        /*if (savedItems.Count > 0 && savedItems[0] != null)
+            saveInt3 = savedItems[0].ID;*/
 
         saveBool1 = containsWater;
     }

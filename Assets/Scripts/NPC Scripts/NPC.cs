@@ -218,6 +218,12 @@ public abstract class NPC : MonoBehaviour, IInteractable
     {
         currentPath = -1;
         ExclamationCheck();
+
+        if(lastInteractedStoreItem)
+        {
+            lastInteractedStoreItem = null;
+        }
+        if(shopUI) shopUI.shopImgObj.SetActive(false);
     }
 
     public void GiveDailyQuest(Quest q)
@@ -314,10 +320,11 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 GrowQuest gQ = QuestManager.Instance.activeQuests[i] as GrowQuest;
                 if(gQ.amount == 0 && gQ.progress == gQ.maxProgress) //Only accept quest if the player is not handing in any items
                 {
+                    if(GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards) == false) return false; //Unable to give cuz no space n giving key item
+
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                     PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
                     //Spawn Items
-                    GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                     lastCompletedQuestIndex = i;
                     return true;
@@ -327,10 +334,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
             if(QuestManager.Instance.activeQuests[i].progress == QuestManager.Instance.activeQuests[i].maxProgress)
             {
+                if(GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards) == false) return false; //Unable to give cuz no space n giving key item
+
                 QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                 PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
-                //Spawn Items
-                GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                 lastCompletedQuestIndex = i;
                 return true;
@@ -353,10 +360,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 FetchQuest fq = QuestManager.Instance.activeQuests[i] as FetchQuest;
                 if(fq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == fq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= fq.amount)
                 {
+                    if(GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards) == false) return false; //Unable to give cuz no space n giving key item
+
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                     PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
-                    //Spawn Items
-                    GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(fq.amount); //Remember this only works with quests that need items less than their stack size
                     PlayerInventoryHolder.Instance.UpdateInventory();
@@ -368,10 +375,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 GrowQuest gq = QuestManager.Instance.activeQuests[i] as GrowQuest;
                 if(gq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == gq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= gq.amount && gq.progress == gq.maxProgress)
                 {
+                    if(GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards) == false) return false; //Unable to give cuz no space n giving key item
+
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                     PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);
-                    //Spawn Items
-                    GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards);
 
                     HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(gq.amount); //Remember this only works with quests that need items less than their stack size
                     PlayerInventoryHolder.Instance.UpdateInventory();
@@ -385,11 +392,16 @@ public abstract class NPC : MonoBehaviour, IInteractable
         return false;
     }
 
-    void GiveRewards(List<InventoryItemData> rewards)
+    bool GiveRewards(List<InventoryItemData> rewards)
     {
-        if(rewards.Count == 0 || rewards[0] == null) return;
+        if(rewards.Count == 0 || rewards[0] == null) return true;
 
-        if(PlayerInventoryHolder.Instance.AddToInventory(rewards[0], rewards.Count)) return; //Gave all the rewards. Only does first item cuz quests should only give 1 type
+        if(PlayerInventoryHolder.Instance.AddToInventory(rewards[0], rewards.Count))
+        {
+            return true; //Gave all the rewards. Only does first item cuz quests should only give 1 type
+        }
+
+        if(rewards[0].isKeyItem) return false;
 
         Vector3 itemPos = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
         for(int i = 0; i < rewards.Count; i++)
@@ -401,6 +413,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
             itemRB.AddForce(Vector3.up * 25);
             itemRB.AddForce(transform.forward * 50);
         }
+
+        return true;
     }
 
     public void ReturnFocalPoint(out Transform focalPoint)

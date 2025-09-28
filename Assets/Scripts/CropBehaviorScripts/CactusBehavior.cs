@@ -25,7 +25,7 @@ public class CactusBehavior : CropBehavior
 
         if((tile.growthStage == 5 || tile.growthStage == 6))
         {
-            if(Random.Range(0, 100) >= 97)
+            if(Random.Range(0, 400) >= 399)
             {
                 tile.growthStage = 7;
                 tile.SpriteChange();
@@ -36,13 +36,14 @@ public class CactusBehavior : CropBehavior
 
         if(!TimeManager.Instance.isDay && (tile.growthStage == 5 || tile.growthStage == 6))
         {
-            tile.GetCropStats().waterLevel -= 2;
+            tile.GetCropStats().waterLevel -= 1;
             if(tile.GetCropStats().waterLevel < 0) tile.GetCropStats().waterLevel = 0;
         }
     }
 
-    public override bool DestroyOnHarvest(FarmLand tile)
+    public override bool DestroyOnHarvest(FarmLand tile, out int stagesReduced)
     {
+        stagesReduced = 3;
         if(tile.growthStage == 7) return false;
         return true;
     }

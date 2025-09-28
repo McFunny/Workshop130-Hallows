@@ -16,8 +16,9 @@ MonoBehaviour:
   displayName: Pet Bowl
   description: Your pet will eat whatever is inside when they become hungry.
   icon: {fileID: -226975424, guid: fdd57ea648c53fb4981e99a7379d97fd, type: 3}
+  type: 5
   maxStackSize: 5
-  value: 0
+  value: 55
   sellValueMultiplier: 0.5
   isKeyItem: 1
   hasModel: 0
@@ -41,5 +42,6 @@ MonoBehaviour:
   placeSound: {fileID: 8300000, guid: c273154dcd53b0b4d9e35cc5ba6e4ccd, type: 3}
   gridTypes: 02000000
   gridSize: 0
+  placeAsPile: 0
   canPlaceOnFloor: 1
   canPlaceOnTable: 0

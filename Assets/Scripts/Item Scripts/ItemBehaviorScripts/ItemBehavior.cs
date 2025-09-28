@@ -9,7 +9,7 @@ public class ItemBehavior : ScriptableObject
         consumeItem = false;
     }
 
-    public virtual void OnRecieve()
+    public virtual void OnRecieve(InventoryItemData recievedItem)
     {
         //
     }

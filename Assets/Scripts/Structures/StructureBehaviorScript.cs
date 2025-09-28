@@ -50,7 +50,7 @@ public class StructureBehaviorScript : MonoBehaviour
     //Save Data
     //[HideInInspector] public List<Item> itemList1;
     //[HideInInspector] public List<Item> itemList2;
-    [HideInInspector] public List<InventoryItemData> savedItems; //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
+    [HideInInspector] public List<InventoryItemData> savedItems = new List<InventoryItemData>(); //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
     [HideInInspector] public int saveInt1, saveInt2, saveInt3;
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
     [HideInInspector] public string saveString1, saveString2, saveString3;
@@ -73,9 +73,12 @@ public class StructureBehaviorScript : MonoBehaviour
     //[HideInInspector] public AudioSource source;
 
     [HideInInspector] public bool clearTileOnDestroy = true;
+    bool forcePile = false;
+    [HideInInspector] public bool muteSound = false;
 
     [Tooltip("Specific UI for this structure, if it has any")]
     public GameObject structureUI; 
+    public StructureUIValues structureUIVariables;
 
     Coroutine highlightCoroutine;
 
@@ -131,14 +134,11 @@ public class StructureBehaviorScript : MonoBehaviour
             {
                 StructureManager.Instance.SetOneByTwoTile(transform.position);
             }
+            if(structData.gridSize == GridSize.ThreeByThree)
+            {
+                StructureManager.Instance.SetExtraLargeTile(transform.position);
+            }
         }
-
-        /*if(structData && structData.isLarge)
-        {
-            StructureManager.Instance.SetLargeTile(transform.position);
-            //print("Set Large Tiles");
-        }
-        else StructureManager.Instance.SetTile(transform.position);*/
     }
 
     public void Update()
@@ -167,10 +167,11 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        float finalDamage = ApplyDamageModifier(damage);
         OnDamage?.Invoke();
-        OnDamageWithValue?.Invoke(damage);
+        OnDamageWithValue?.Invoke(finalDamage);
         if(!destructable || health <= 0) return;
-        health -= damage;
+        health -= finalDamage;
         //if(damageParticles) damageParticles.Play();
         for(int i = 0; i < damageParticles.Count; i++)
         {
@@ -180,13 +181,18 @@ public class StructureBehaviorScript : MonoBehaviour
         if(audioHandler && audioHandler.hitSounds.Length > 0) audioHandler.PlayRandomSound(audioHandler.hitSounds);
     }
 
+    protected virtual float ApplyDamageModifier(float damage)
+    {
+        return damage;
+    }
+
     //ALWAYS CALL BASE.ONDESTROY IF RUNNING ONDESTROY ON ANOTHER STRUCT
     public void OnDestroy()
     {
         TimeManager.OnHourlyUpdate -= HourPassed;
         if(!gameObject.scene.isLoaded) return;
         //print("Destroyed");
-        if(clearTileOnDestroy && structData && !absentFromGrid)
+        if(clearTileOnDestroy && structData && !absentFromGrid && !forcePile)
         {
             if(structData.gridSize == GridSize.OneByOne)
             {
@@ -200,27 +206,34 @@ public class StructureBehaviorScript : MonoBehaviour
             {
                 StructureManager.Instance.ClearOneByTwoTile(transform.position);
             }
+            if(structData.gridSize == GridSize.ThreeByThree)
+            {
+                StructureManager.Instance.ClearExtraLargeTile(transform.position);
+            }
 
-            //if(!structData.isLarge) StructureManager.Instance.ClearTile(transform.position);
-            //else StructureManager.Instance.ClearLargeTile(transform.position);
         } 
         StructureManager.Instance.allStructs.Remove(this);
         NightSpawningManager.Instance.RemoveDifficultyPoints(wealthValue);
         OnStructuresUpdated?.Invoke();
         
-        if(health <= 0) //For when a structure is destroyed by removing all the hp
+        if(health <= 0 || forcePile) //For when a structure is destroyed by removing all the hp
         {
-            GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
-            if(p)
+            if(health <= 0)
             {
-                if(particleCenter) p.transform.position = particleCenter.position;
-                else p.transform.position = transform.position;
-            }
+                GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
+                if(p)
+                {
+                    if(particleCenter) p.transform.position = particleCenter.position;
+                    else p.transform.position = transform.position;
+                }
 
-            if(gibs)
-            {
-                if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
-                else Instantiate(gibs, transform.position, Quaternion.identity);
+                if(gibs)
+                {
+                    if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
+                    else Instantiate(gibs, transform.position, Quaternion.identity);
+                }
+
+                if(structData) OnStructureDestroyed?.Invoke(structData, transform.position);
             }
 
             //logic for spawning the salvagable pile//
@@ -230,13 +243,12 @@ public class StructureBehaviorScript : MonoBehaviour
                 DebrisPile newPile = StructureManager.Instance.SpawnStructureWithInstance(StructureDatabase.Instance.GetPile(structData).objectPrefab, transform.position).GetComponent<DebrisPile>();
                 newPile.InsertStructure(structData);
                 newPile.transform.rotation = transform.rotation;
-                print("I spawned a pile");
+                if(forcePile) newPile.giveItemBack = true;
             }
 
-            if(structData) OnStructureDestroyed?.Invoke(structData, transform.position);
         }
 
-        if(audioHandler && audioHandler.breakSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
+        if(audioHandler && audioHandler.breakSound && !muteSound) audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
 
     }
 
@@ -330,7 +342,7 @@ public class StructureBehaviorScript : MonoBehaviour
         if(flammable)
         {
             flammable = false;
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(10);
             flammable = true;
         }
     }
@@ -339,7 +351,7 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         while(onFire)
         {
-            if(health > 10) TakeDamage(Mathf.Round(health / 5));
+            if(health > 20) TakeDamage(Mathf.Round(health / 10));
             else TakeDamage(2);
             yield return new WaitForSeconds(2f);
             if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
@@ -362,22 +374,12 @@ public class StructureBehaviorScript : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    /*public virtual IEnumerator DugUpForItem()
+    public void PlaceAsPile()
     {
-        yield return  new WaitForSeconds(1);
-        if(itemForm)
-        {
-            if(Random.Range(0, maxHealth) <= health)
-            {
-                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemForm);
-                droppedItem.transform.position = transform.position;
-            }
-            else health = -5;
-
-            AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
-        }
+        salvageChance = 101;
+        forcePile = true;
         Destroy(this.gameObject);
-    }*/
+    }
 
     public virtual void SaveVariables()
     {
@@ -388,6 +390,40 @@ public class StructureBehaviorScript : MonoBehaviour
     {
         //
     }
+
+    public virtual List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].name = "Integrity";
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+        structureUIVariables.valueGroups[0].barColor = Color.red;
+        return structureUIVariables.valueGroups;
+    }
+}
+
+[System.Serializable]
+public class RepairItem
+{
+    public InventoryItemData item;
+    public int repairAmount;
+}
+
+[System.Serializable]
+public class StructureUIValues
+{
+    public bool enableUI = false;
+    public List<StructureUIValueGroup> valueGroups = new List<StructureUIValueGroup>();
+}
+
+[System.Serializable]
+public class StructureUIValueGroup
+{
+    public string name;
+    public Sprite icon;
+    [HideInInspector] public float value;
+    public float maxValue;
+    public Color barColor;
 }
 
 

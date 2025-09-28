@@ -20449,6 +20449,7 @@ GameObject:
   - component: {fileID: 2822841118067903609}
   - component: {fileID: 6949573327627382381}
   - component: {fileID: 8906263300902157651}
+  - component: {fileID: 1304263639035867244}
   m_Layer: 9
   m_Name: evilpollinator
   m_TagString: Untagged
@@ -20648,6 +20649,27 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+--- !u!135 &1304263639035867244
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6163568478085046355}
+  m_Material: {fileID: 13400000, guid: 6ea2f23981b553b4a82276b84b0dac3d, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 8388407
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.32
+  m_Center: {x: 0, y: -0.36, z: 0}
 --- !u!1 &6268117794721464730
 GameObject:
   m_ObjectHideFlags: 0
@@ -25628,6 +25650,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: df1b8c3719cd05e4e81165e095075d35, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -25651,8 +25674,8 @@ MonoBehaviour:
   frostVulnerable: 1
   isDead: 0
   damageToStructure: 0
-  damageToPlayer: 8
-  canCorpseBreak: 1
+  damageToPlayer: 6
+  canCorpseBreak: 0
   actionSpeedMod: 1
   hitColor: {r: 0, g: 0, b: 0, a: 0}
   currentEffects: []

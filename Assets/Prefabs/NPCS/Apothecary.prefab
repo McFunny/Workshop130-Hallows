@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  objectActive: 0
 --- !u!1 &6211916860540209551
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,14 +234,14 @@ MonoBehaviour:
     Action: 0
     actionCheck: 1
     actionAnim: 0
-  - time: 12
+  - time: 13
     Destination: 0
     Action: 2
     actionCheck: 1
     actionAnim: 0
-  - time: 13
-    Destination: 12
-    Action: 3
+  - time: 15
+    Destination: 7
+    Action: 2
     actionCheck: 0
     actionAnim: 0
   - time: 17
@@ -294,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 1
+  objectActive: 0
 --- !u!114 &7664331250319538046
 MonoBehaviour:
   m_ObjectHideFlags: 0

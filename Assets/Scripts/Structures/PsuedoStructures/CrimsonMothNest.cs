@@ -12,26 +12,42 @@ public class CrimsonMothNest : StructureBehaviorScript
 
     public int heldWasps = 3;
 
-    public InventoryItemData nectar;
+    public InventoryItemData nectar, comb;
+
+    bool yielditems = false;
 
     void Start()
     {
         OnDamage += HiveDrop;
         audioHandler = GetComponent<StructureAudioHandler>();
         StartCoroutine(ScanForPlayer());
+        yielditems = true;
     }
 
     void OnDestroy()
     {
         OnDamage -= HiveDrop;
         TimeManager.OnHourlyUpdate -= HourPassed;
-        if (!gameObject.scene.isLoaded || !gameObject.activeSelf) return; 
+        if (!gameObject.scene.isLoaded || !yielditems) return; 
         GameObject droppedItem;
         Rigidbody itemRB;
-        int r = Random.Range(1,4);
+        int r = Random.Range(1,3);
         for(int i = 0; i < r; i++)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(nectar);
+            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+            Vector3 dir3 = Random.onUnitSphere;
+            dir3 = new Vector3(dir3.x, droppedItem.transform.position.y, dir3.z);
+            itemRB = droppedItem.GetComponent<Rigidbody>();
+            itemRB.AddForce(dir3 * 20);
+            itemRB.AddForce(Vector3.up * 50);
+        }
+
+        r = Random.Range(3,6);
+        for(int i = 0; i < r; i++)
+        {
+            droppedItem = ItemPoolManager.Instance.GrabItem(comb);
             droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
             Vector3 dir3 = Random.onUnitSphere;

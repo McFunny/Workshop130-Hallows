@@ -14,8 +14,8 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap;
-    public CropData fogChime;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive;
+    public CropData fogChime, berryBush;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allFarmTiles = new List<Vector3Int>();
@@ -45,7 +45,7 @@ public class StructureManager : MonoBehaviour
         {
             Instance = this;
         }
-        InstantiateNutrientStorage();
+        InstantiateTileMaps();
         //load in all the saved data, such as the nutrient storages and alltiles list. If Main Menu doesnt start a new game, then dont populate this stuff below
         if(!MainMenuScript.loadingData)
         {
@@ -93,10 +93,11 @@ public class StructureManager : MonoBehaviour
             StartCoroutine(PopulateStructure(-3, 5, weedTile, false, farmTileMap));
             PopulateDecorCrows(0, 2);
             StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
+            PopulateBerryBushes(-5, 2, false);
         }
         if(TimeManager.Instance.currentHour == 6)
         {
-            PopulateForageables(-2, 3);
+            PopulateForageables(-1, 3);
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
 
@@ -125,6 +126,7 @@ public class StructureManager : MonoBehaviour
                 if(potentialWeed && potentialWeed.isWeed) continue;
 
                 r = Random.Range(0, 10);
+                if(potentialWeed) r += 2;
                 if(MainMenuScript.currentFileMode == FileMode.Cozy) r -= 2;
                 if((r >= 6.5f || allStructs[i].onFire) && !allStructs[i].absentFromFarmGrid) //Destroy structure.
                 {
@@ -224,7 +226,19 @@ public class StructureManager : MonoBehaviour
         return false;
     }
 
-    public Vector3 CheckTile(Vector3 pos)
+    public StructureBehaviorScript GetStructureOnPosition(Vector3 pos)
+    {
+        Collider[] nearbyColliders = Physics.OverlapSphere(pos, 1, 1 << 6);
+        foreach(Collider collider in nearbyColliders)
+        {
+            StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+
+            if(structure) return structure;
+        }
+        return null;
+    }
+
+    public Vector3 CheckTile(Vector3 pos) //1x1
     {
         Tilemap currentMap = CurrentTileMap(pos);
         if(currentMap == null) return new Vector3 (0,0,0);
@@ -243,7 +257,7 @@ public class StructureManager : MonoBehaviour
         else return new Vector3 (0,0,0); //Will not spawn
     }
 
-    public Vector3 CheckLargeTile(Vector3 pos)
+    public Vector3 CheckLargeTile(Vector3 pos) //2x2
     {
         Tilemap currentMap = CurrentTileMap(pos);
         if(currentMap == null) return new Vector3 (0,0,0);
@@ -269,7 +283,34 @@ public class StructureManager : MonoBehaviour
         return center;
     }
 
-    public Vector3 CheckOneByTwoTile(Vector3 pos, Quaternion rot)
+    public Vector3 CheckExtraLargeTile(Vector3 pos) //3x3
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return new Vector3 (0,0,0);
+
+        List<Vector3Int> selectedTiles = new List<Vector3Int>();
+        Vector3Int gridPos = currentMap.WorldToCell(pos);
+        selectedTiles.Add(gridPos); //Middle Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y + 1)); //Top Right Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y)); //Right Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x + 1, gridPos.y - 1)); //Bottom Right Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y + 1)); //Top Middle Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x, gridPos.y - 1)); //Bottom Middle Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x - 1, gridPos.y - 1)); //Bottom Left Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x - 1, gridPos.y)); //Left Tile
+        selectedTiles.Add(new Vector3Int(gridPos.x - 1, gridPos.y + 1)); //Top Left Tile
+
+        foreach(Vector3Int _pos in selectedTiles)
+        {
+            TileBase currentTile = currentMap.GetTile(_pos); //Is the tile free?
+            if(currentTile == null || currentTile != freeTile) return new Vector3 (0,0,0);
+        }
+
+        Vector3 spawnPos = currentMap.GetCellCenterWorld(gridPos); //Return the position of the open tile
+        return spawnPos;
+    }
+
+    public Vector3 CheckOneByTwoTile(Vector3 pos, Quaternion rot) //1x2
     {
         Tilemap currentMap = CurrentTileMap(pos);
         if(currentMap == null) return new Vector3 (0,0,0);
@@ -401,6 +442,21 @@ public class StructureManager : MonoBehaviour
         return tilePos;
     }
 
+    public List<Vector3> GetNearbyClearTiles(Vector3 pos, float range) //For farm only
+    {
+        List<Vector3> nearbyTiles = new List<Vector3>();
+        foreach (var gridPosition in allFarmTiles)
+        {
+            Vector3 tilePosition = farmTileMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= range && CheckTile(tilePosition) != Vector3.zero)
+            {
+                nearbyTiles.Add(tilePosition);
+            }
+        }
+        //print(nearbyTiles.Count);
+        return nearbyTiles;
+    }
+
     public List<Vector3> GetAdjacentClearTiles(Vector3 pos)
     {
         List<Vector3> adjacentTiles = new List<Vector3>();
@@ -509,6 +565,22 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void SetExtraLargeTile(Vector3 pos)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
+
+        foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 4.5f)
+            {
+                if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, occupiedTile);
+                //print("FoundTile");
+            }
+        }
+    }
+
     public void SetOneByTwoTile(Vector3 pos)
     {
         Tilemap currentMap = CurrentTileMap(pos);
@@ -545,6 +617,24 @@ public class StructureManager : MonoBehaviour
         {
             Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
             if(Vector3.Distance(tilePosition, pos) <= 3f)
+            {
+                if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, freeTile);
+                //print("FoundTile");
+            }
+            
+        }
+    }
+
+    public void ClearExtraLargeTile(Vector3 pos)
+    {
+        Tilemap currentMap = CurrentTileMap(pos);
+        if(currentMap == null) return;
+        //fetch tiles within a small radius, should return the 4 its occupying
+        //print("Clearing");
+        foreach (var gridPosition in currentMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePosition = currentMap.GetCellCenterWorld(gridPosition);
+            if(Vector3.Distance(tilePosition, pos) <= 4.5f)
             {
                 if(currentMap.GetTile(gridPosition) != null) currentMap.SetTile(gridPosition, freeTile);
                 //print("FoundTile");
@@ -702,7 +792,7 @@ public class StructureManager : MonoBehaviour
         return null;
     } //used to play ichor particle
 
-    void InstantiateNutrientStorage()
+    void InstantiateTileMaps()
     {
         foreach (var gridPosition in farmTileMap.cellBounds.allPositionsWithin)
         {
@@ -711,6 +801,14 @@ public class StructureManager : MonoBehaviour
                 allFarmTiles.Add(gridPosition);
                 NutrientStorage newStorage = new NutrientStorage();
                 storage.Add(newStorage);
+            }
+        }
+
+        foreach (var gridPosition in barnTileMap.cellBounds.allPositionsWithin)
+        {
+            if(barnTileMap.GetTile(gridPosition) != null)
+            {
+                allBarnTiles.Add(gridPosition);
             }
         }
     }
@@ -753,12 +851,15 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateTrees(1, 2, barnTileMap)); //This will surely clip inside of the barn
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(15, 25, weedTile, false, farmTileMap));
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         StartCoroutine(PopulateStructure(15, 25, boulder, true, farmTileMap));
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 2, barricade, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
+        //StartCoroutine(PopulateStructure(1, 2, critterHive, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
+        StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
+        PopulateBerryBushes(2, 3, true);
     }
 
     IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
@@ -949,6 +1050,59 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    void PopulateBerryBushes(int min, int max, bool harvestable)
+    {
+        //Check how many already exist
+        int berryTotal = 0;
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand berryScript = allStructs[i] as FarmLand;
+            if(berryScript && berryScript.crop && berryScript.crop == berryBush) berryTotal++;
+        }
+        if(berryTotal > 6) return;
+
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        foreach (Vector3Int position in farmTileMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePos = farmTileMap.GetCellCenterWorld(position);
+            if(farmTileMap.GetTile(position) == freeTile && FetchNutrient(tilePos).gloamLevel >= 6)
+            {
+                spawnablePositions.Add(position);
+            }
+        }
+
+        int r = Random.Range(min,max + 1);
+        if (r <= 0) return;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = farmTileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(farmTileMap.GetTile(spawnablePositions[randomIndex]) != null && farmTileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
+                {
+                    FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
+                    script.InsertCrop(berryBush);
+                    SetTile(spawnPos);
+                    if(harvestable)
+                    {
+                        if(Random.Range(0,10) <= 2) script.growthStage = 4;
+                        else
+                        {
+                            script.growthStage = berryBush.harvestableGrowthStages[0];
+                            script.harvestable = true;
+                        }
+                        script.SpriteChange();
+                    }
+                }
+                spawnablePositions.RemoveAt(randomIndex);
+            }
+        }
+    }
+
     void PopulateDecorCrows(int min, int max)
     {
         int r = Random.Range(min,max + 1);
@@ -977,14 +1131,15 @@ public class StructureManager : MonoBehaviour
             FarmLand weedScript = allStructs[i] as FarmLand;
             if(weedScript && weedScript.isWeed) weedTotal++;
         }
-        if(weedTotal > 80) return;
 
-        List<Vector3> weedSpots = GetAdjacentClearTiles(pos);
-        if(weedSpots.Count == 0)
+        List<Vector3> weedSpots = GetAdjacentClearTiles(pos); 
+        if(weedSpots.Count == 0) //Code to see if this weed should become a thorn
         {
             if(Random.Range(0f, 10f) > 9.5f) becomeThorn = true;
             return;
         } 
+
+        if(weedTotal > 80) return;
         foreach(Vector3 weedPos in weedSpots)
         {
             if(Random.Range(0f,10f) > 9.7f)

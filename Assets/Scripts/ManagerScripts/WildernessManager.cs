@@ -157,11 +157,10 @@ public class WildernessManager : MonoBehaviour
         //Only spawn wilderness variants here
         GameObject prefab = null;
         int t = 0;
-        while(c.creatureVariants.Count > 0 && t < 5 && prefab == null)
+        while(c.creatureVariants.Count > 0 && t < c.creatureVariants.Count && prefab == null) //This method makes the first in the variant list more likely to be chosen
         {
-            int r = Random.Range(0, c.creatureVariants.Count);
             int p = Random.Range(0,100);
-            if(c.creatureVariants[r].probabilityInWilderness > p) prefab = c.creatureVariants[r].prefab;
+            if(c.creatureVariants[t].probabilityInWilderness > p) prefab = c.creatureVariants[t].prefab;
             t++;
         }
         if(prefab == null) prefab = c.objectPrefab;

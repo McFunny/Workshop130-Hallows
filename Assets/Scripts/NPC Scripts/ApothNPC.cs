@@ -11,6 +11,8 @@ public class ApothNPC : NPC, ITalkable
 
     bool currentlyReadingScroll = false;
 
+    Barter siegeSeedBarter;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -33,6 +35,7 @@ public class ApothNPC : NPC, ITalkable
                 currentPath = -1;
                 currentType = PathType.Default;
                 GameSaveData.Instance.apothMet = true;
+                dailyQuest = null;
             }
             else
             {
@@ -148,17 +151,25 @@ public class ApothNPC : NPC, ITalkable
             if(x < 2 && CanSellSiegeSeeds())
             {
                 int index = GameSaveData.Instance.siegesCleared * 2;
-                if(x == 0)
+                if(x == 0) //Small siege seeds
                 {
                     newItem = barterDatabase.uniqueTransactions[index].itemForSale;
                     newCost = (int)(barterDatabase.uniqueTransactions[index].mintCost * sellMultiplier);
                     item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[index].itemsRequired, barterDatabase.uniqueTransactions[index].amountForSale);
                 } 
-                if(x == 1)
+                if(x == 1) //Titan seeds
                 {
-                    newItem = barterDatabase.uniqueTransactions[index + 1].itemForSale;
-                    newCost = (int)(barterDatabase.uniqueTransactions[index + 1].mintCost * sellMultiplier);
-                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[index + 1].itemsRequired, barterDatabase.uniqueTransactions[index + 1].amountForSale);
+                    siegeSeedBarter = barterDatabase.uniqueTransactions[index + 1];
+
+                    newItem = siegeSeedBarter.itemForSale;
+                    newCost = (int)(siegeSeedBarter.mintCost * sellMultiplier);
+
+                    int seedsNeededMod = GameSaveData.Instance.siegesLost + 1;
+                    if(seedsNeededMod > 4) seedsNeededMod = 4; //Discount wont be less than 1/4th of base price
+
+                    siegeSeedBarter.itemsRequired[0].amount = siegeSeedBarter.itemsRequired[0].amount/seedsNeededMod; //Have the cost be less depending on how many times the player failed the siege
+
+                    item.RefreshItem(newItem, newCost, siegeSeedBarter.itemsRequired, siegeSeedBarter.amountForSale);
                 }
                 item.seller = this;
                 //item.clearUponPurchase = false;

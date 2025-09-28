@@ -21,11 +21,11 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 573cd785fcc35aa4297d6cbb67192d97, type: 2}
-      amount: 1
+      amount: 2
     - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
       amount: 3
     siegesRequired: 0
-    amountGiven: 1
+    amountGiven: 5
   - name: FloralBathBomb
     itemForSale: {fileID: 11400000, guid: f9d22d5f993f103409c44aacdd00c6a7, type: 2}
     useItemPrice: 0
@@ -59,7 +59,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 75
     itemsRequired:
-    - item: {fileID: 11400000, guid: db3eedd8c1bfeb449a96c46609a10d63, type: 2}
+    - item: {fileID: 11400000, guid: ef05c14840f851f4582659aa2d5fa290, type: 2}
       amount: 2
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
@@ -110,9 +110,9 @@ MonoBehaviour:
     barterChance: 75
     itemsRequired:
     - item: {fileID: 11400000, guid: 15b811d0b42fdf44e86c618d24730806, type: 2}
-      amount: 1
-    - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
       amount: 2
+    - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
+      amount: 3
     siegesRequired: 0
     amountGiven: 5
   uniqueTransactions:
@@ -139,8 +139,8 @@ MonoBehaviour:
   - name: CyanMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: fec308c6a7c345441b58f0ccd9c51249, type: 2}
     useItemPrice: 1
-    mintCost: 14
-    amountForSale: 10
+    mintCost: 16
+    amountForSale: 15
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
@@ -155,14 +155,14 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 955fac238d5677b40886f9ec7626d081, type: 2}
-      amount: 25
+      amount: 30
     siegesRequired: 0
     amountGiven: 1
   - name: PinkMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: d461c5d515815844dbaa743766386a1d, type: 2}
     useItemPrice: 1
-    mintCost: 16
-    amountForSale: 10
+    mintCost: 22
+    amountForSale: 20
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
@@ -177,14 +177,14 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 7250a5aa0c9fea44eb860ae937dc3d76, type: 2}
-      amount: 25
+      amount: 40
     siegesRequired: 0
     amountGiven: 1
   - name: IndigoMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: 5b1571d80f24d964289f0fe232caed16, type: 2}
     useItemPrice: 1
-    mintCost: 18
-    amountForSale: 10
+    mintCost: 25
+    amountForSale: 25
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 0a65769bac080bc41940e19af38c177e, type: 2}
@@ -199,6 +199,7 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: a469d32a52505e0499f81a4ddb0bcf60, type: 2}
-      amount: 25
+      amount: 50
     siegesRequired: 0
     amountGiven: 1
+  uniqueTransactions2: []

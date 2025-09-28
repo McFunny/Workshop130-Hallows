@@ -16,7 +16,7 @@ public class SeedShooter360 : StructureBehaviorScript
     bool targetInSight = false;
     bool shotCooldown;
     bool returningToCenter;
-    float projectileSpeed = 200;
+    float projectileSpeed = 250;
     float minimumDistance = 3;
 
     //Maybe add a large button on the back, where when the player interacts with this, it can be turned on and off
@@ -83,7 +83,7 @@ public class SeedShooter360 : StructureBehaviorScript
             StartCoroutine(Shoot());
         }
 
-        ammoText.text = savedItems.Count + "/" + maxAmmo;
+        //ammoText.text = savedItems.Count + "/" + maxAmmo;
 
     }
 
@@ -177,7 +177,7 @@ public class SeedShooter360 : StructureBehaviorScript
             if(r > 7f)
             {
                 dir = dir + new Vector3(Random.Range(-0.5f,0.5f), 0, Random.Range(-0.5f,0.5f));
-                print("MISSFIRE");
+                //print("MISSFIRE");
                 //play misfire sound
             }
             newBullet.transform.position = bulletOrigin.position;
@@ -185,7 +185,7 @@ public class SeedShooter360 : StructureBehaviorScript
 
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 5);
             newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
-            print("PEW");
+            //print("PEW");
 
             ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
             ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
@@ -258,5 +258,16 @@ public class SeedShooter360 : StructureBehaviorScript
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(turretHead.transform.position, minimumDistance);
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = savedItems.Count;
+        structureUIVariables.valueGroups[1].maxValue = maxAmmo;
+        return structureUIVariables.valueGroups;
     }
 }

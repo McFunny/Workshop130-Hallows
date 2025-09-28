@@ -1219,12 +1219,13 @@ MonoBehaviour:
   health: 25
   maxHealth: 25
   wealthValue: 1
-  salvageChance: 75
+  salvageChance: 85
   destructable: 1
   flammable: 1
   onFire: 0
   isObstacle: 1
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 3089805902799432254}
   savedItems: []
@@ -1245,7 +1246,16 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - name: Integrity
+      icon: {fileID: 623503494, guid: c5726e73747c2a84ba50cad62a1889b7, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
 --- !u!54 &7584269509216928723
 Rigidbody:
   m_ObjectHideFlags: 0

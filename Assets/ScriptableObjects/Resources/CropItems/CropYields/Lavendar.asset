@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 200
   displayName: Lavendar
-  description: A sweet purple flower. Not exactly the best tasting, but it has its
-    uses.
+  description: A sweet purple flower. Better for smelling rather than eating.
   icon: {fileID: -965761055, guid: e7e1c27e4448a364585c970156d76960, type: 3}
+  type: 0
   maxStackSize: 20
   value: 21
   sellValueMultiplier: 1
@@ -27,7 +27,11 @@ MonoBehaviour:
   bonusCompostValue: 20
   useCooldown: 1
   pickledForm: {fileID: 0}
-  itemConversions: []
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: ffc572397851eaa4bb996652631df959, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

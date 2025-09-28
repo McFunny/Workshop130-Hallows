@@ -160,6 +160,7 @@ public class NPCMovement : MonoBehaviour
 
     IEnumerator MoveToDestination(Transform destination)
     {
+        if(destination == null) yield break;
         npcScript.anim.SetBool("IsLeaning", false);
         yield return new WaitForSeconds(1.5f);
 

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class PetStatsUI : MonoBehaviour //Not finished yet lmao
 {
@@ -25,6 +26,7 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
     [SerializeField] private TextMeshProUGUI petFriendshipText;
     [SerializeField] private Image petHeartIcon;
     [SerializeField] private Slider petHungerSlider, petThirstSlider;
+    [SerializeField] private List<Sprite> petImages = new List<Sprite>();
     [Header("Critter Stats References")]
     [SerializeField] private Image critterIcon;
     [SerializeField] private TextMeshProUGUI critterNameText;
@@ -35,6 +37,7 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
     [SerializeField] private TextMeshProUGUI critterFriendshipText;
     [SerializeField] private Image critterHomeIcon, critterHeartIcon;
     [SerializeField] private Slider critterHealthSlider, critterHungerSlider, critterThirstSlider;
+    [SerializeField] private List<Sprite> critterImages = new List<Sprite>();
     private Camera mainCam;
     public delegate void PetStatsShown();
     public event PetStatsShown OnPetStatsShown;
@@ -91,8 +94,9 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
                 OnPetStatsShown?.Invoke();
                 petNameText.text = pet.name;
                 petTypeText.text = pet.petType.ToString();
-                petHungerText.text = pet.hunger + "/" + pet.maxHunger;
-                petThirstText.text = pet.thirst + "/" + pet.maxThirst;
+                petIcon.sprite = petImages[(int)pet.petType];
+                petHungerText.text = (int)pet.hunger + "/" + (int)pet.maxHunger;
+                petThirstText.text = (int)pet.thirst + "/" + (int)pet.maxThirst;
                 petHungerSlider.value = pet.hunger / pet.maxHunger;
                 petThirstSlider.value = pet.thirst / pet.maxThirst;
                 petFriendshipText.text = pet.friendshipLevel.ToString();
@@ -103,11 +107,12 @@ public class PetStatsUI : MonoBehaviour //Not finished yet lmao
                 creatureType = CreatureType.Critter;
                 OnPetStatsShown?.Invoke();
                 critterNameText.text = critter.name;
+                critterIcon.sprite = critterImages[(int)critter.critterType];
                 critterHomeIcon.gameObject.SetActive(!critter.IsCritterHomeless());
                 critterTypeText.text = critter.creatureData.name.ToString();
-                critterHealthText.text = critter.health + "/" + critter.maxHealth;
-                critterHungerText.text = critter.hunger + "/" + critter.maxHunger;
-                critterThirstText.text = critter.thirst + "/" + critter.maxThirst;
+                critterHealthText.text = (int)critter.health + "/" + (int)critter.maxHealth;
+                critterHungerText.text = (int)critter.hunger + "/" + (int)critter.maxHunger;
+                critterThirstText.text = (int)critter.thirst + "/" + (int)critter.maxThirst;
                 critterHealthSlider.value = critter.health / critter.maxHealth;
                 critterHungerSlider.value = critter.hunger / critter.maxHunger;
                 critterThirstSlider.value = critter.thirst / critter.maxThirst;

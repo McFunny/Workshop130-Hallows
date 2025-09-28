@@ -16,6 +16,7 @@ MonoBehaviour:
   displayName: Inferno Nettles
   description: Fronds that are warm to the touch. Handle with care.
   icon: {fileID: 82665832, guid: 67e3a288c79d32d4d84ab62e1e844f30, type: 3}
+  type: 1
   maxStackSize: 20
   value: 16
   sellValueMultiplier: 1
@@ -26,7 +27,11 @@ MonoBehaviour:
   bonusCompostValue: 10
   useCooldown: 5
   pickledForm: {fileID: 0}
-  itemConversions: []
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: 63683aabc9d720a4eacdb4d7c8877d2f, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

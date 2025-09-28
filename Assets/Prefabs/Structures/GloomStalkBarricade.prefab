@@ -2193,10 +2193,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: b1b94011ab4c8ce449eeef3b1c2f3c44, type: 2}
   itemForm: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
-  health: 30
-  maxHealth: 30
+  health: 35
+  maxHealth: 35
   wealthValue: 0
-  salvageChance: 80
+  salvageChance: 90
   destructable: 1
   flammable: 1
   onFire: 0
@@ -2224,7 +2224,16 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - name: Integrity
+      icon: {fileID: 623503494, guid: c5726e73747c2a84ba50cad62a1889b7, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
   gloomStalk: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
   brokenBox: {fileID: 4722383386622465818}
   clearM: {fileID: 2100000, guid: 9d7df750b62889e4ca9276c18dde8004, type: 2}
@@ -2232,7 +2241,7 @@ MonoBehaviour:
   veryBrokenM: {fileID: 2100000, guid: 1a9226c67418dbd4d90d925cac84e838, type: 2}
   repairItems:
   - item: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
-    repairAmount: 5
+    repairAmount: 6
   - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
     repairAmount: 70
   mount: {fileID: 6467393674243787289}

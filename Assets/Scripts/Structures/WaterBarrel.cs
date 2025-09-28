@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class WaterBarrel : StructureBehaviorScript
+public class WaterBarrel : StructureBehaviorScript, IWaterHolder
 {
+    [HideInInspector] public Transform ObjectTransform => transform; // For the Interface
+
     public int waterLevel = 0; //max is maxWaterLevel
     int maxWaterLevel = 10;
     int oldLevel;
@@ -37,7 +39,7 @@ public class WaterBarrel : StructureBehaviorScript
     {
         base.Update();
 
-        waterText.text = waterLevel + "/" + maxWaterLevel;
+        //waterText.text = waterLevel + "/" + maxWaterLevel;
 
         if(oldLevel != waterLevel)
         {
@@ -179,5 +181,27 @@ public class WaterBarrel : StructureBehaviorScript
     public override void SaveVariables()
     {
         saveInt1 = waterLevel;
+    }
+
+    public bool CanBeWatered()
+    {
+        if(waterLevel < maxWaterLevel) return true;
+        else return false;
+    }
+
+    public void GivenWater()
+    {
+        HitWithWater();
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = waterLevel;
+        structureUIVariables.valueGroups[1].maxValue = maxWaterLevel;
+        return structureUIVariables.valueGroups;
     }
 }

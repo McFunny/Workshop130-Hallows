@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: Cannon
+  m_EditorClassIdentifier: 
+  ID: 222
+  displayName: Lobber Cannon
+  description: Can be loaded with various round objects to be fired at a target in
+    front. Must first be loaded, then primed with a torch. Cannot target small creatures.
+  icon: {fileID: 288483800, guid: af054e9120719ca48bf22a391e6a396e, type: 3}
+  type: 3
+  maxStackSize: 20
+  value: 220
+  sellValueMultiplier: 0.2
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 497908698239102274, guid: 3782ba2f38bb5ee47b78410eb721cd24,
+    type: 3}
+  hologramPrefab: {fileID: 5175082064028191612, guid: 19e24471ba3173e4dbad8a565cc8fffd,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 9147c3d7fc55c83468a4ef49b4bd4c02, type: 3}
+  gridTypes: 01000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

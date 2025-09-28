@@ -27,6 +27,7 @@ public class CreatureObject : ScriptableObject
 
     public bool hasSpawned = false;
     public bool excludeFromNormalNights = false; //If true, the creature will not be picked to be part of the regular nighttime enemies
+    public bool canSpawnBehindCabin = true; //If false, enemies cannot spawn at the mist section behind the cabin
 
     //[HideInInspector] public bool forceSpawnVariant = false;
 
@@ -74,10 +75,12 @@ public class CreatureVariant
 {
     public string name;
     public GameObject prefab;
-    public float probabilityInFarm = 100; //Probability of spawning
+    public float probabilityInFarm = 100; //Probability of spawning. Obsolete if using the List below
     public float probabilityInWilderness = 100;
     public bool canSpawnInWilderness;
     public int wealthPrerequisite = 0;
+
+    public List<IntWithProbability> variantChanceInFarm = new List<IntWithProbability>(); //int is the siege num, float is the chance of spawning
 }
 public enum SpawnType
 {

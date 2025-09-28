@@ -65,15 +65,19 @@ public class FarmTree : StructureBehaviorScript
             Destroy(this.gameObject);
         }
 
-        if(Random.Range(0, 100f) > 99.85f && TimeManager.Instance.dayNum > 2) forceHiveSpawn = true;
+        if(Random.Range(0, 500) >= 499 && TimeManager.Instance.dayNum > 3) forceHiveSpawn = true;
 
-        if(forceHiveSpawn && Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) > 40) SpawnHive();
+        if(forceHiveSpawn && Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) > 80) SpawnHive();
     }
 
     void SpawnHive()
     {
         forceHiveSpawn = false;
         currentHive = Instantiate(mothHivePrefab, hiveSpawns[Random.Range(0, hiveSpawns.Length)].position, Quaternion.identity);
+
+        Vector3 directionAway = currentHive.transform.position - transform.position;
+        directionAway.y = 0;
+        currentHive.transform.rotation = Quaternion.LookRotation(directionAway);
     }
 
     void OnDestroy()

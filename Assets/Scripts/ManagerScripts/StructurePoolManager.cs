@@ -55,4 +55,23 @@ public class StructurePoolManager : MonoBehaviour
         forageablePool[r].GetComponent<Forgeable>().Refresh(inWilderness);
         return forageablePool[r];
     }
+
+    /*public void SpawnEgg()
+    {
+        GameObject chosenEgg;
+        foreach (GameObject structure in forageablePool)
+        {
+            if(!structure.activeSelf)
+            {
+                chosenEgg = structure;
+                break;
+            }
+        }
+        
+        int r = Random.Range(0, forageablePool.Count);
+        chosenEgg = forageablePool[r];
+
+        chosenEgg.SetActive(true);
+        //Place the egg somewhere
+    }*/
 }

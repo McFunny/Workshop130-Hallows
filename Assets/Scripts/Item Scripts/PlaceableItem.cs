@@ -16,6 +16,8 @@ public class PlaceableItem : InventoryItemData
     
     [SerializeField] public List<GridType> gridTypes;
     public GridSize gridSize;
+
+    public bool placeAsPile = false; //If true, places a pile that must be repaired
     [Header("Furnature Variables")]
     public bool canPlaceOnFloor = true;
     public bool canPlaceOnTable = false;
@@ -40,12 +42,17 @@ public class PlaceableItem : InventoryItemData
             {
                 pos = StructureManager.Instance.CheckOneByTwoTile(hit.point, currentHologram.transform.rotation);
             }
+            if(gridSize == GridSize.ThreeByThree)
+            {
+                pos = StructureManager.Instance.CheckExtraLargeTile(hit.point);
+            }
 
-            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridTypes)) 
+            if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, gridTypes))  //Placement success
             {
                 GameObject newStruct = StructureManager.Instance.SpawnStructureWithInstance(placedPrefab, pos);
                 if(gridSize == GridSize.TwoByTwo) StructureManager.Instance.SetLargeTile(pos);
                 if(gridSize == GridSize.OneByTwo) StructureManager.Instance.SetOneByTwoTile(pos);
+                if(gridSize == GridSize.ThreeByThree) StructureManager.Instance.SetExtraLargeTile(pos);
                 if(currentHologram)
                 {
                     Quaternion rotate = currentHologram.transform.rotation;
@@ -59,7 +66,11 @@ public class PlaceableItem : InventoryItemData
                 }
                 if(placeSound) HandItemManager.Instance.toolSource.PlayOneShot(placeSound);
 
-                newStruct.GetComponentInChildren<StructureBehaviorScript>().structData.hasBeenPlaced = true;
+                StructureBehaviorScript placedStruct = newStruct.GetComponentInChildren<StructureBehaviorScript>();
+                placedStruct.structData.hasBeenPlaced = true;
+                if(placeAsPile) placedStruct.PlaceAsPile();
+
+                if(Tutorial.Instance) Tutorial.Instance.PlaceStructure();
             }
 
         }
@@ -104,6 +115,10 @@ public class PlaceableItem : InventoryItemData
             if(gridSize == GridSize.OneByTwo)
             {
                 pos = StructureManager.Instance.CheckOneByTwoTile(hit.point, currentHologram.transform.rotation);
+            }
+            if(gridSize == GridSize.ThreeByThree)
+            {
+                pos = StructureManager.Instance.CheckExtraLargeTile(hit.point);
             }
 
             if(pos == new Vector3(0,0,0) || !StructureManager.Instance.ValidateGridType(pos, gridTypes)) 
@@ -150,5 +165,6 @@ public enum GridSize
 {
     OneByOne,
     OneByTwo,
-    TwoByTwo
+    TwoByTwo,
+    ThreeByThree
 }

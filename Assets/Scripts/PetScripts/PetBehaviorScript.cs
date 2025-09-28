@@ -29,7 +29,6 @@ public class PetBehaviorScript : MonoBehaviour
     protected bool alreadyPet = false;
 
     public CreatureEffectsHandler effectsHandler;
-    //public Rigidbody rb;
     public Animator anim;
     public NavMeshAgent agent;
 
@@ -42,10 +41,6 @@ public class PetBehaviorScript : MonoBehaviour
     protected Transform player;
     protected Vector3 target, spawnOrigin;
     protected int forceFollows = 0;
-
-    protected bool showStats = false;
-    public GameObject statsUI;
-    public TextMeshProUGUI hungerText, friendshipText;
 
     public ParticleSystem dripParticles;
     
@@ -68,13 +63,7 @@ public class PetBehaviorScript : MonoBehaviour
 
     protected void Update()
     {
-        if(showStats)
-        {
-            if(!statsUI.activeSelf) statsUI.SetActive(true);
-            hungerText.text = "Hunger: " + hunger + "/" + maxHunger;
-            friendshipText.text = "Level: " + friendshipLevel;
-        }
-        else if(statsUI.activeSelf) statsUI.SetActive(false);
+        //
     }
 
     protected virtual void OnHour()
@@ -82,14 +71,14 @@ public class PetBehaviorScript : MonoBehaviour
         hunger -= hungerDecayRate;
         if(hunger <= 0)
         {
-            FriendPointsChange(-2.5f, false);
+            FriendPointsChange(-1f, false);
             hunger = 0;
         }
 
         thirst -= thirstDecayRate;
         if(thirst <= 0)
         {
-            FriendPointsChange(-2.5f, false);
+            FriendPointsChange(-1f, false);
             thirst = 0;
         }
 
@@ -99,6 +88,10 @@ public class PetBehaviorScript : MonoBehaviour
     public void FriendPointsChange(float amount, bool showHearts)
     {
         if(showHearts) ParticlePoolManager.Instance.GrabHeartParticle().transform.position = focalPoint.position;
+
+        float xpModifier = 1.3f;
+
+        amount *= xpModifier - (friendshipLevel * 0.1f);
 
         friendPoints += amount;
         if(friendPoints < 0) friendPoints = 0;
@@ -200,13 +193,21 @@ public class PetBehaviorScript : MonoBehaviour
         return false;
     }
 
+    protected Vector3 FindPetBowl()
+    {
+        var foundBowls = FindObjectsByType<PetBowl>(FindObjectsSortMode.None);
+        if(foundBowls.Length == 0) return Vector3.zero;
+        return foundBowls[Random.Range(0, foundBowls.Length)].transform.position;
+    }
+
 
     IEnumerator IdleSoundTimer()
     {
         while(true)
         {
             yield return new WaitForSeconds(Random.Range(9, 16));
-            effectsHandler.RandomIdle();
+            if(effectsHandler.miscSound2 && Random.Range(0, 500) == 30) effectsHandler.MiscSound2();
+            else effectsHandler.RandomIdle();
         }
 
     }

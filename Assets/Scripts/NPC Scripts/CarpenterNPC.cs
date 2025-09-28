@@ -200,8 +200,9 @@ public class CarpenterNPC : NPC, ITalkable
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+            item.seller = this;
 
-            if(x < 3)
+            if(x < 2) //Sell resources
             {
                 if(x == 0)
                 {
@@ -213,48 +214,47 @@ public class CarpenterNPC : NPC, ITalkable
                     newItem = gloomStalkBarter.itemForSale;
                     item.RefreshItem(newItem, 0, gloomStalkBarter.itemsRequired, 99);
                 }
-                if(x == 2)
-                {
-                    newItem = barterDatabase.uniqueTransactions[0].itemForSale;
-                    newCost = (int)(barterDatabase.uniqueTransactions[0].mintCost * sellMultiplier);
-                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
-                }
-                item.seller = this;
-                //item.clearUponPurchase = false;
-
-                x++;
-                continue;
             }
-
-            do
+            else if(x < 9)//Sell structures
             {
-                i = Random.Range(0, barterDatabase.transactions.Count);
-                r = Random.Range(0f, 100f);
-                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i) && barterDatabase.transactions[i].siegesRequired <= GameSaveData.Instance.siegesCleared)
+                do
                 {
-                    newItem = barterDatabase.transactions[i].itemForSale;
-                    selectedTrades.Add(i);
+                    i = Random.Range(0, barterDatabase.transactions.Count);
+                    r = Random.Range(0f, 100f);
+                    if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i) && barterDatabase.transactions[i].siegesRequired <= GameSaveData.Instance.siegesCleared)
+                    {
+                        newItem = barterDatabase.transactions[i].itemForSale;
+                        selectedTrades.Add(i);
+                    }
                 }
+                while (!newItem);
+                newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+                item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
             }
-            while (!newItem);
-            newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
-            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
-            item.seller = this;
+            else if(x == 9) //Sell chest
+            {
+                newItem = barterDatabase.uniqueTransactions[0].itemForSale;
+                newCost = (int)(barterDatabase.uniqueTransactions[0].mintCost * sellMultiplier);
+                item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
+            }
+            else //Sell furnature
+            {
+                do
+                {
+                    i = Random.Range(0, barterDatabase.uniqueTransactions2.Count);
+                    r = Random.Range(0f, 100f);
+                    if (r < barterDatabase.uniqueTransactions2[i].barterChance && !selectedTrades.Contains(i) && barterDatabase.uniqueTransactions2[i].siegesRequired <= GameSaveData.Instance.siegesCleared)
+                    {
+                        newItem = barterDatabase.uniqueTransactions2[i].itemForSale;
+                        selectedTrades.Add(i);
+                    }
+                }
+                while (!newItem);
+                newCost = (int)(barterDatabase.uniqueTransactions2[i].mintCost * sellMultiplier);
+                item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions2[i].itemsRequired, barterDatabase.uniqueTransactions2[i].amountForSale);
+            }
 
             x++;
-
-            /*
-            do
-            {
-                i = Random.Range(0, possibleSoldItems.Length);
-                r = Random.Range(0f, 1f);
-                if (r < itemWeight[i]) newItem = possibleSoldItems[i];
-            }
-            while (!newItem);
-            int newCost = (int)(newItem.value * sellMultiplier);
-            item.RefreshItem(newItem, newCost);
-            item.seller = this;
-            */
         }
     }
 

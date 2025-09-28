@@ -5050,6 +5050,7 @@ GameObject:
   - component: {fileID: 8483886358998996234}
   - component: {fileID: 416610135193410352}
   - component: {fileID: 721796594611292143}
+  - component: {fileID: 1454468627488600256}
   m_Layer: 6
   m_Name: FermentationVat
   m_TagString: Untagged
@@ -5142,7 +5143,7 @@ MonoBehaviour:
   miscSounds1: []
   miscSounds2: []
   interactSound: {fileID: 0}
-  itemInteractSound: {fileID: 0}
+  itemInteractSound: {fileID: 8300000, guid: bf85cf7b8b5509a4a92af01e083d5abe, type: 3}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 0}
 --- !u!82 &3034286062255977709
@@ -5158,7 +5159,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.778
+  m_Volume: 0.459
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5166,10 +5167,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 8
+  MinDistance: 5
+  MaxDistance: 15
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -5177,23 +5178,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.33333334
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.0011995
+      outSlope: -3.0011995
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.6666667
+      value: 0.5
+      inSlope: -0.7502999
+      outSlope: -0.7502999
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.33346638
+      outSlope: -0.33346638
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -5259,12 +5269,13 @@ MonoBehaviour:
   health: 30
   maxHealth: 30
   wealthValue: 5
-  salvageChance: 80
+  salvageChance: 90
   destructable: 1
   flammable: 1
   onFire: 0
   isObstacle: 1
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -5287,13 +5298,29 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - name: Integrity
+      icon: {fileID: 623503494, guid: c5726e73747c2a84ba50cad62a1889b7, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
+    - name: Progress
+      icon: {fileID: -793094533, guid: e00517f59633a6e408f8787597d12951, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
   itemDropTransform: {fileID: 7011505979573606073}
   activatedParticles: {fileID: 7916119786507554012}
   completedParticles: {fileID: 4136614946388746678}
   progress: 0
   isFunctioning: 0
   chargingPopup: {fileID: 11400000, guid: 22aeaa8c9bb61a7489f93448cf4a2f39, type: 2}
+  loopingSource1: {fileID: 416610135193410352}
+  loopingSource2: {fileID: 721796594611292143}
 --- !u!82 &416610135193410352
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5309,16 +5336,16 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 0.778
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 8
+  MinDistance: 10
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -5326,23 +5353,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.5
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -2.0008
+      outSlope: -2.0008
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.5002
+      outSlope: -0.5002
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -5404,18 +5431,18 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: cb5a36a6ad2a40648b33bcd6e2d2b28f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.778
+  m_Volume: 0.374
   m_Pitch: 0.74
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 8
+  MinDistance: 10
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -5423,23 +5450,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.5
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -2.0008
+      outSlope: -2.0008
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 0.00036621094
+      inSlope: -0.5002
+      outSlope: -0.5002
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -5488,6 +5515,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!208 &1454468627488600256
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3934184174115078349}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.9, y: 0.5, z: 0.77}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &4748992566580145437
 GameObject:
   m_ObjectHideFlags: 0

@@ -15068,8 +15068,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20976bf035ce7140ad9b588dd5a379c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  maxHealth: 10
+  health: 6
+  maxHealth: 6
   armorObject: {fileID: 6494244727864269598}
   damageParticlesObject: {fileID: 6878426509974827772}
   structureType: 2
@@ -25074,7 +25074,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &6256665496532302236
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -25118,6 +25118,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 0080ef044eb7da94d8c9e1e3f7fa5174, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -25951,6 +25952,8 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 1ea8d59dbc57d394db95467523c4c267, type: 3}
   miscSound2: {fileID: 8300000, guid: df47dbe5320cf7d4f99db3a106bfab9f, type: 3}
   miscSound3: {fileID: 8300000, guid: 12e8e482b09f9134ebcc1ab0cb7c4610, type: 3}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
   extraSounds:
   - {fileID: 8300000, guid: ea55634a2c25475478ace194eb30558f, type: 3}
   particle1: {fileID: 4921047718513155500}

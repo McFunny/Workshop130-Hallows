@@ -15,14 +15,12 @@ public class Refinery : StructureBehaviorScript
     public Animator anim;
 
     public int progress = 0;
-    int maxProgress = 3;
+    int maxProgress = 2;
     int maxContainedItems = 25;
     int itemsFinished = 0;
 
     bool ignoreNextHour = false;
 
-    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
-    public PopupScript chargingPopup;
 
     public TextMeshProUGUI storedText, finishedText;
 
@@ -36,6 +34,8 @@ public class Refinery : StructureBehaviorScript
     void Start()
     {
         base.Start();
+        
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) maxProgress *= 3; //Takes longer when not on the farm
     }
 
 
@@ -43,16 +43,11 @@ public class Refinery : StructureBehaviorScript
     {
         base.Update();
 
-        UpdateText();
+        //UpdateText();
     }
 
     public override void StructureInteraction()
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
 
         if(itemsFinished < 1 || savedItems.Count == 0 || savedItems[0] == null) return;
 
@@ -87,18 +82,13 @@ public class Refinery : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(!isFunctioning)
-        {
-            PopupHandler.Instance.AddToQueue(chargingPopup);
-            return;
-        }
-        ItemConversion ic = savedItems[0].FetchConversion(ItemConversionMethod.Refining);
+        ItemConversion ic = item.FetchConversion(ItemConversionMethod.Refining);
         if(ic != null && (ic.itemsNeeded + savedItems.Count) <= maxContainedItems /*&& savedItems.Count < maxContainedItems*/)
         {
 
             if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize < ic.itemsNeeded) //Not enough items
             {
-                PopupHandler.Instance.AddToQueue(chargingPopup);
+                PopupHandler.Instance.AddToQueue(itemWarning);
                 return;
             }
             for(int i = 0; i < ic.itemsNeeded; i++)
@@ -180,8 +170,6 @@ public class Refinery : StructureBehaviorScript
         progress = saveInt1;
         itemsFinished = saveInt2;
 
-        isFunctioning = true;
-
         if(progress < maxProgress && savedItems.Count > itemsFinished * 5) fumes.Play();
     }
 
@@ -189,5 +177,19 @@ public class Refinery : StructureBehaviorScript
     {
         saveInt1 = progress;
         saveInt2 = itemsFinished;
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = progress;
+        structureUIVariables.valueGroups[1].maxValue = maxProgress;
+
+        structureUIVariables.valueGroups[2].value = savedItems.Count/5;
+        structureUIVariables.valueGroups[2].maxValue = maxContainedItems/5;
+        return structureUIVariables.valueGroups;
     }
 }

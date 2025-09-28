@@ -30,6 +30,8 @@ public class DryingRack : StructureBehaviorScript
     {
         base.Start();
         SpriteChange();
+
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) maxProgress *= 3; //Takes longer when not on the farm
     }
 
 
@@ -181,5 +183,16 @@ public class DryingRack : StructureBehaviorScript
     public override void SaveVariables()
     {
         saveInt1 = progress;
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = progress;
+        structureUIVariables.valueGroups[1].maxValue = maxProgress;
+        return structureUIVariables.valueGroups;
     }
 }

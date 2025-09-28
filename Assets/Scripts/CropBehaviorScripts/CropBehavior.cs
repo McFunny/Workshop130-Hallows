@@ -14,8 +14,9 @@ public class CropBehavior : ScriptableObject
     }
     public virtual void OnHour(FarmLand tile){}
     public virtual void OnFullyGrown(FarmLand tile){}
-    public virtual bool DestroyOnHarvest(FarmLand tile)
+    public virtual bool DestroyOnHarvest(FarmLand tile, out int stagesReduced)
     {
+        stagesReduced = 0;
         return true;
     }
     public virtual void OnIchorRefill(FarmLand tile){}
@@ -63,4 +64,9 @@ public class CropBehavior : ScriptableObject
     }
 
     public virtual void BehaviorUpdate(FarmLand tile){}
+
+    public virtual bool OverrideWaterNeed(FarmLand tile) //Forces the ui to display it needs water
+    {
+        return false;
+    }
 }

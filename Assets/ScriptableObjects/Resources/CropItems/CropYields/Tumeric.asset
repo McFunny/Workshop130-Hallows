@@ -17,6 +17,7 @@ MonoBehaviour:
   description: Once used solely for seasoning, Tumeric's flavor has developed over
     the years, solidifying its place as a mainstay to a variety of dishes.
   icon: {fileID: 36236696, guid: d23f8cfa810ed644db10548f70137b26, type: 3}
+  type: 0
   maxStackSize: 20
   value: 53
   sellValueMultiplier: 1
@@ -27,7 +28,11 @@ MonoBehaviour:
   bonusCompostValue: 55
   useCooldown: 5
   pickledForm: {fileID: 11400000, guid: 450ae551b5cd6664f97ecb09058f766a, type: 2}
-  itemConversions: []
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: 14b0a585ff0457943a7d1b8d2bff8fbf, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

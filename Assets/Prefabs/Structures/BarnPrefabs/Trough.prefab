@@ -10936,7 +10936,16 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 6487808868856221889}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - name: Water
+      icon: {fileID: -80471097, guid: 7a24ed68f7c311f4d8f9f0404690ac97, type: 3}
+      value: 0
+      maxValue: 3
+      barColor: {r: 0.01960784, g: 0.38973302, b: 0.59607846, a: 1}
   itemSockets:
   - {fileID: 6462367849012962778}
   - {fileID: 4440996124129514535}

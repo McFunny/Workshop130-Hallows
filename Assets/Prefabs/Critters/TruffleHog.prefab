@@ -730,7 +730,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: acd78d9f43e218b4ca15e1fe00296f8f, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
-  persistAfterNewDay: 0
+  persistAfterNewDay: 1
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -803,6 +803,7 @@ MonoBehaviour:
   maxThirst: 100
   thirstDecayRate: 4
   penType: 0
+  homePen: {fileID: 0}
   agent: {fileID: 9190597950241346522}
   attackHitbox: {fileID: 0}
   chargePosition: {fileID: 0}
@@ -811,6 +812,8 @@ MonoBehaviour:
   burrowPrefab: {fileID: 7255452786975544648, guid: a7f024629f7649543ab098046aced1a2,
     type: 3}
   truffleItem: {fileID: 11400000, guid: a9ac9ed5e6f5a55438ce0c1f3bdd4adf, type: 2}
+  chaseTarget: {fileID: 0}
+  hogChaseTokens: 0
   currentState: 0
 --- !u!1 &2885064931461568405
 GameObject:

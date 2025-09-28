@@ -17,7 +17,7 @@ public class PyreFly : CreatureBehaviorScript
     private Vector3 despawnPos;
     [HideInInspector] public NavMeshAgent agent;
 
-    float igniteDistance = 3; //distance to ignite structures/be ignited/enter hive
+    float igniteDistance = 2.7f; //distance to ignite structures/be ignited/enter hive
 
     [HideInInspector]public bool ignited = true;
     public GameObject pyreFire, splashObject;
@@ -60,7 +60,8 @@ public class PyreFly : CreatureBehaviorScript
     public enum Variant
     {
         Normal,
-        Napalm
+        Napalm,
+        Hydro
     }
 
     public CreatureState currentState;
@@ -91,6 +92,8 @@ public class PyreFly : CreatureBehaviorScript
                 transform.position = burrowPos.position;
             }
         }
+
+        if(variant == Variant.Hydro) ignited = false;
     }
 
     // Update is called once per frame
@@ -187,8 +190,10 @@ public class PyreFly : CreatureBehaviorScript
                 else if(variant == Variant.Napalm) StartCoroutine(MoveToPoint(player.position)); //move to player
                 else
                 {
+                    float wanderDistance = 5;
+                    if(variant == Variant.Hydro) wanderDistance = 30;
                     //randomly wander
-                    Vector3 randomPoint = GetRandomPointAround(transform.position, 5f);
+                    Vector3 randomPoint = GetRandomPointAround(transform.position, wanderDistance);
                     StartCoroutine(MoveToPoint(randomPoint));
                 }
             }
@@ -237,7 +242,7 @@ public class PyreFly : CreatureBehaviorScript
         {
             currentState = CreatureState.StrafePlayer;
         }
-        else if(r < 7 && !inWilderness && variant != Variant.Napalm) //otherwise wander
+        else if(r < 7 && !inWilderness && variant == Variant.Normal) //otherwise wander
         {
             if(ignited)
             {
@@ -594,7 +599,7 @@ public class PyreFly : CreatureBehaviorScript
         if(!gameObject.scene.isLoaded) return;
         if(homeHive) homeHive.FlyLost();
 
-        if(ignited && health <= 0)
+        if(ignited && health <= 0 && variant != Variant.Hydro)
         {
             ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
             if(PlayerInteraction.Instance.stamina > 0) effectsHandler.ThrowSound(effectsHandler.deathSound);
@@ -631,6 +636,12 @@ public class PyreFly : CreatureBehaviorScript
 
     public override void ToolInteraction(ToolType type, out bool success)
     {
+        if(variant == Variant.Hydro)
+        {
+            success = false;
+            return;
+        }
+
         if(type == ToolType.Torch)
         {
             if(!PlayerInteraction.Instance.torchLit && ignited)
@@ -659,6 +670,18 @@ public class PyreFly : CreatureBehaviorScript
             success = true;
         }
         else success = false;
+    }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = bugItem;
+        if(ignited)
+        {
+            TakeDamage(999);
+            return false;
+        }
+
+        return true;
     }
 
     //

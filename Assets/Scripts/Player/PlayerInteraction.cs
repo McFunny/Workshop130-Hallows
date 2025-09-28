@@ -151,7 +151,7 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        if (StructureManager.Instance.enableCheats && Input.GetKeyDown(KeyCode.Y) && !toolCooldown && PlayerMovement.restrictMovementTokens == 0) StartCoroutine(WaterPropulsion());
+        if (StructureManager.Instance.enableCheats && controlManager.waterJet.action.WasPressedThisFrame() && !toolCooldown && PlayerMovement.restrictMovementTokens == 0) StartCoroutine(WaterPropulsion());
 
         //if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
@@ -541,8 +541,8 @@ public class PlayerInteraction : MonoBehaviour
 
         TownGate.Instance.Transition(PlayerLocation.InFarm);
 
-        stamina = 100;
-        if(currentMoney > 0 && MainMenuScript.currentFileMode != FileMode.Cozy) currentMoney = (currentMoney/5) * 4; //I have no idea if this will work
+        stamina = 150;
+        if(currentMoney > 0 && MainMenuScript.currentFileMode != FileMode.Cozy) currentMoney = currentMoney - (currentMoney/5); //I have no idea if this will work
         TimeManager.Instance.GameOver(); //Has to be last, this is where it saves
         print("Time GameOver Complete");
 

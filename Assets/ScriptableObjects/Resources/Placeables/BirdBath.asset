@@ -16,6 +16,7 @@ MonoBehaviour:
   displayName: Bird Bath
   description: Holds a small unit of water that will occasionally refill over time.
   icon: {fileID: 21300000, guid: c4359714926da584eba49856c2a4a7bf, type: 3}
+  type: 3
   maxStackSize: 5
   value: 140
   sellValueMultiplier: 0.25
@@ -42,5 +43,6 @@ MonoBehaviour:
   placeSound: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
   gridTypes: 0100000004000000
   gridSize: 0
+  placeAsPile: 0
   canPlaceOnFloor: 1
   canPlaceOnTable: 0

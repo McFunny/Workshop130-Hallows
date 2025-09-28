@@ -102,7 +102,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(isWeed)
         {
-            growthStage = Random.Range(0, crop.growthStages);
+            growthStage = Random.Range(0, crop.growthStages - 1);
             growthStage++;
         }
 
@@ -343,9 +343,9 @@ public class FarmLand : StructureBehaviorScript
                 }
             }
 
-            if(crop.behavior && crop.behavior.DestroyOnHarvest(this) == false && !rotted && harvestable)
+            if(crop.behavior && crop.behavior.DestroyOnHarvest(this, out int stagesReduced) == false && !rotted && harvestable)
             {
-                growthStage -= 3;
+                growthStage -= stagesReduced;
             }
             else
             {
@@ -434,64 +434,62 @@ public class FarmLand : StructureBehaviorScript
             return;
         }
         hoursSpent++;
-        if(crop && crop.behavior) crop.behavior.OnHour(this);
 
-        if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
+        if(!crop) return; //No crop
+
+        if(crop.behavior) crop.behavior.OnHour(this);
+
+        if((hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
-            if(crop && crop.behavior && !crop.behavior.CanGrow(this)) return;
+            if(crop.behavior && !crop.behavior.CanGrow(this)) return;
 
-            if(growthStage >= crop.growthStages && !isWeed || NeedsPollination())
+            if((growthStage >= crop.growthStages && !isWeed) || NeedsPollination() == true)
             {
-                if(NeedsPollination()) return;
-
-                //Reduce only water while fully grown
-                hoursSpent = 0;
-                health += 5;
-                if(health > maxHealth) health = maxHealth;
-                DrainNutrients(out bool gainedStress, true);
-                if(gainedStress && growthImpeded) growthImpeded.Play();
                 return;
             }
-            else
-            {
-                hoursSpent = 0;
-                DrainNutrients(out bool gainedStress, false);
-                if(!isWeed)
-                {
-                    if(gainedStress)
-                    {
-                        if(growthImpeded) growthImpeded.Play();
-                    } 
-                    else
-                    {
-                        growthStage++;
-                        if(growth) growth.Play();
-                        health += 5;
-                        if(health > maxHealth) health = maxHealth;
-                    }
-                }
-                if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
-                {
-                    harvestable = true;
-                    if(growth) growth.Stop();
-                    if(growthComplete)
-                    {
-                        growthComplete.Stop();
-                        growthComplete.Play();
-                    }
 
-                    if(crop.behavior)
-                    {
-                        print("Call Behavior");
-                        crop.behavior.OnFullyGrown(this);
-                    } 
+            hoursSpent = 0;
+            DrainNutrients(out bool gainedStress, false);
+            if(!isWeed)
+            {
+                if(gainedStress)
+                {
+                    if(growthImpeded) growthImpeded.Play();
+                } 
+                else
+                {
+                    growthStage++;
+                    if(growth) growth.Play();
+                    health += 5;
+                    if(health > maxHealth) health = maxHealth;
                 }
-                else harvestable = false;
-                SpriteChange();
             }
+            if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
+            {
+                harvestable = true;
+                if(growth) growth.Stop();
+                if(growthComplete)
+                {
+                    growthComplete.Stop();
+                    growthComplete.Play();
+                }
+
+                if(crop.behavior)
+                {
+                    print("Call Behavior");
+                    crop.behavior.OnFullyGrown(this);
+                } 
+            }
+            else harvestable = false;
+            SpriteChange();
             
         }
-        else return;
+        /*else if(growthStage < crop.growthStages)
+        {
+            //Drain Water every hour
+            DrainNutrients(out bool gainedStress, false);
+            if(gainedStress && growthImpeded) growthImpeded.Play();
+        }*/ //NVM on crops needing water every hour lol
     }
 
     public void InsertCrop(CropData _crop)
@@ -764,10 +762,15 @@ public class FarmLand : StructureBehaviorScript
         }
     }
 
+    public override void HitWithWater()
+    {
+        WaterCrops();
+    }
+
     public void WaterCrops()
     {
         //for sprinkler and gun
-        if(nutrients.waterLevel == 10) return;
+        //if(nutrients.waterLevel == 10) return;
         nutrients.waterLevel = 10;
         waterSplash.Play();
         if(splashObject && !splashObject.activeSelf) splashObject.SetActive(true);
@@ -951,20 +954,6 @@ public class FarmLand : StructureBehaviorScript
 
     void OnTriggerEnter(Collider other)
     {
-        if(isFrosted)
-        {
-            if(other.gameObject.layer == 10)
-            {
-                PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 4);
-            }
-
-            else if(other.gameObject.layer == 9) 
-            {
-                CreatureBehaviorScript c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
-                if(c && c.frostVulnerable) c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 6);
-            }
-        }
-
         if(other.gameObject.layer == 10)
         {
             if(crop)
@@ -973,12 +962,30 @@ public class FarmLand : StructureBehaviorScript
             }
             if(isWeed)
             {
-                if(growthStage == 5) 
+                if(growthStage == 5 || growthStage == 7) 
                 {
                     PlayerInteraction.Instance.StaminaChange(-5); //Hit by a thorn
                     StructureManager.Instance.IchorRefill(transform.position, 1, 1);
                 }
                 if(growthStage == 6) PlayerInteraction.Instance.PlayerTripNoKnockback(); //Tripped by weed
+            }
+
+            if(isFrosted) PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 4);
+        }
+
+        if(other.gameObject.layer == 9) 
+        {
+            CreatureBehaviorScript c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+            if(c)
+            {
+                if(c.frostVulnerable && isFrosted) c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 6);
+
+                if(isWeed && growthStage == 7) 
+                {
+                    c.TakeDamage(10);
+                    c.PlayHitParticle(Vector3.zero);
+                    if(Random.Range(0,10) >= 6) Destroy(gameObject);
+                }
             }
         }
 

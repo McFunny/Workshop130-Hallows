@@ -279,4 +279,13 @@ public class Trough : StructureBehaviorScript
     {
         saveInt1 = waterLevel;
     }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+
+        structureUIVariables.valueGroups[0].value = waterLevel;
+        structureUIVariables.valueGroups[0].maxValue = maxWaterLevel;
+        return structureUIVariables.valueGroups;
+    }
 }

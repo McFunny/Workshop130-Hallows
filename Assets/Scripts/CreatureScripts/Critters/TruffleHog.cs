@@ -16,6 +16,12 @@ public class TruffleHog : CritterBehaviorScript
 
     public GameObject burrowPrefab;
     public InventoryItemData truffleItem;
+
+    //Sometimes a hog will call nearby hogs to chase him, forcing him to be their chase target
+    //hogs will chase the target until the target's chase tokens are 0
+    [HideInInspector] public TruffleHog chaseTarget;
+    [HideInInspector] public int hogChaseTokens = 0;
+
     
 
     public enum CritterState
@@ -45,11 +51,6 @@ public class TruffleHog : CritterBehaviorScript
         //OnCritterDestroy();
     }
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    public float GetCritterHealth(){ return health;}
-    public float GetCritterHunger(){ return hunger;}
-    public float GetCritterThirst(){ return thirst;}
-    public string GetCritterName(){ return name;}
-    public int GetCritterID(){ return creatureData.id;}
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, 0);} //For saving purposes
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -67,6 +68,14 @@ public class TruffleHog : CritterBehaviorScript
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
+        if(hunger < 100 && (foodDiet.Contains(item)))
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            EatFood(item);
+            interactSuccessful = true;
+            return;
+        }
         interactSuccessful = true;
     }
 
@@ -140,7 +149,7 @@ public class TruffleHog : CritterBehaviorScript
         base.OnHour();
         if(TimeManager.Instance.currentHour == 8)
         {
-            burrowsToDig = Random.Range(2, 5);
+            burrowsToDig = Random.Range(2, 4);
         }
     }
 
@@ -200,19 +209,57 @@ public class TruffleHog : CritterBehaviorScript
     protected IEnumerator WaitAround()
     {
         float r = Random.Range(1f, 5f);
+        if(chaseTarget || hogChaseTokens > 0) r = 0.01f;
         yield return new WaitForSeconds(r);
-        currentState = CritterState.Decide;
+        if(hogChaseTokens > 0 || chaseTarget || playerFollowTokens > 0) currentState = CritterState.Wander;
+        else currentState = CritterState.Decide;
         currentRoutine = null;
+
+        if(playerFollowTokens <= 0 && Vector3.Distance(player.position, transform.position) < 30 && Random.Range(0, 100) < friendshipLevel * 7) //Follow the player
+        {
+            playerFollowTokens = Random.Range(2, 6);
+        }
+        else if(hogChaseTokens <= 0 && Random.Range(0, 100) > 95) //Have hogs chase this hog
+        {
+            StartHogChase();
+        }
     }
 
     void Wander()
     {
         if (!isMoving && currentRoutine == null)
         {
-            agent.speed = walkSpeed;
-            if(BarnManager.Instance.WithinBarn(transform.position)) target = StructureManager.Instance.GetRandomTile(GridType.Barn);
-            else target = StructureManager.Instance.GetRandomTile(GridType.Farm);
-            target = GetRandomPointAround(transform.position, 10f);
+            if(chaseTarget)
+            {
+                if(chaseTarget.hogChaseTokens <= 0) chaseTarget = null;
+                else
+                {
+                    agent.speed = runSpeed;
+                    target = GetRandomPointAround(chaseTarget.transform.position, 2f);
+                    currentRoutine = StartCoroutine(MoveToPoint(target, 5));
+                    //print("Chasing hog");
+                    return;
+                }
+            }
+
+            if(hogChaseTokens > 0) agent.speed = runSpeed;
+            else agent.speed = walkSpeed;
+            if(BarnManager.Instance.WithinBarn(transform.position))
+            {
+                target = StructureManager.Instance.GetRandomTile(GridType.Barn);
+                //print("Wandering to tile in barn");
+            }
+            else if(playerFollowTokens > 0)
+            {
+                target = player.position;
+                //print("Wandering to player");
+            }
+            else
+            {
+                target = StructureManager.Instance.GetRandomTile(GridType.Farm);
+                //print("Wandering to tile in farm");
+            }
+            target = GetRandomPointAround(target, 7f);
             currentRoutine = StartCoroutine(MoveToPoint(target, 5));
         }
     }
@@ -266,6 +313,8 @@ public class TruffleHog : CritterBehaviorScript
 
     protected override void FinishedMoving()
     {
+        if(hogChaseTokens > 0) hogChaseTokens--;
+
         if(currentState == CritterState.Wander)
         {
             currentState = CritterState.Idle;
@@ -290,7 +339,7 @@ public class TruffleHog : CritterBehaviorScript
             }
         }
 
-        if(currentState == CritterState.Eat && targetObject) //Cat Reached the Bowl
+        if(currentState == CritterState.Eat && targetObject) //Critter Reached the Bowl
         {
             Trough trough = targetObject.GetComponent<Trough>();
             if(!trough) //Trough is gone
@@ -340,7 +389,7 @@ public class TruffleHog : CritterBehaviorScript
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         Burrow burrow = Instantiate(burrowPrefab, target, Quaternion.identity).GetComponent<Burrow>();
             //Code to add the item
-        float truffleChance = (friendshipLevel + 1) * 10;
+        float truffleChance = (friendshipLevel + 1) * 8;
         if(Random.Range(0,100) < truffleChance) burrow.InsertItem(truffleItem);
 
         FriendPointsChange(2, true);
@@ -358,6 +407,24 @@ public class TruffleHog : CritterBehaviorScript
         yield return new WaitForSeconds(5);
         currentState = CritterState.Wander;
         currentRoutine = null;
+    }
+
+    void StartHogChase()
+    {
+        Collider[] nearbyHogs = Physics.OverlapSphere(transform.position, 30f, 1 << 9);
+        bool foundHog = false;
+        hogChaseTokens = Random.Range(2, 7);
+        foreach(Collider collider in nearbyHogs)
+        {
+            TruffleHog hog = collider.GetComponentInParent<TruffleHog>();
+            if(hog && hog != this && hog.hogChaseTokens <= 0 && Random.Range(0,10) > 3)
+            {
+                foundHog = true;
+                hog.chaseTarget = this;
+            }
+        }
+
+        if(!foundHog) hogChaseTokens = 0;
     }
 
 

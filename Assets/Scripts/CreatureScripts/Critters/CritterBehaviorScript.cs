@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 {
     [Header("Pet Variables")]
+    public CritterType critterType;
     public string name = "Dave";
     public int friendshipLevel = 0;
     protected int maxFriendshipLevel = 5; //Increases frequency of actions
@@ -20,13 +21,15 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     public float maxThirst = 100;
     public float thirstDecayRate = 4;
     public PenType penType;
-    protected CritterPen homePen;
+    [HideInInspector] public CritterPen homePen;
     protected bool alreadyPet = false;
     protected Coroutine currentRoutine;
     protected bool isMoving, interruptAction;
     protected Vector3 target;
     protected Transform targetObject;
     public NavMeshAgent agent;
+
+    protected int playerFollowTokens = 0; //How many paces they will spend following the player
 
     bool justSpawned = true;
     protected bool behaviorDelay = true;
@@ -131,7 +134,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         return false;
     }
 
-    protected void FriendPointsChange(float amount, bool showHearts)
+    public void FriendPointsChange(float amount, bool showHearts)
     {
         if(showHearts) ParticlePoolManager.Instance.GrabHeartParticle().transform.position = 
             new Vector3(corpseParticleTransform.position.x, corpseParticleTransform.position.y + 1, corpseParticleTransform.position.z);
@@ -150,8 +153,8 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         while(health > 0)
         {
             int i = Random.Range(8,18);
-            effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
+            effectsHandler.RandomIdle();
         }
     }
 
@@ -179,6 +182,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         }
 
         FinishedMoving();
+        if(playerFollowTokens > 0) playerFollowTokens--;
 
     }
 
@@ -196,11 +200,17 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             CritterPen pen = collider.gameObject.GetComponent<CritterPen>();
             if(pen && pen.type == penType && pen.housedCritters.Count < pen.maxOccupency)
             {
+                if(pen.type == PenType.Hive && pen.durability <= 0) continue;
                 homePen = pen;
                 pen.housedCritters.Add(this);
                 return;
             }
         }
+    }
+
+    public override void OnDamage()
+    {
+        if(health > 0 && effectsHandler.hitSounds.Length > 0) effectsHandler.OnHit();
     }
 
     protected void OnDestroy() //Have all critters call these 2 functions in their Destroy method (Nvm?)
@@ -214,6 +224,20 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         TimeManager.OnHourlyUpdate -= OnHour;
         BarnManager.Instance.allCritters.Remove(this);
         if(homePen) homePen.housedCritters.Remove(this);
+
+        /*if(health <= 0)
+        {
+            PopupHandler.Instance.names.Enqueue(name);
+            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterDiedPopup);
+        }*/
+    }
+
+    public int MaxLevel
+    {
+        get
+        {
+            return maxFriendshipLevel;
+        }
     }
 
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -228,6 +252,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         else return true;
     }
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, 0);} //For saving purposes
+    public CritterBehaviorScript GetCritterScript(){ return this;}
 
     public virtual void LoadData(CritterData c)
     {
@@ -257,4 +282,13 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     {
         interactSuccessful = true;
     }
+}
+[System.Serializable]
+public enum CritterType
+{
+    Hog,
+    Mimic,
+    Fly,
+    Hen,
+    Hare
 }

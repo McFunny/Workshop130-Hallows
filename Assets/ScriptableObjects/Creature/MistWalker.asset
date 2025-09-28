@@ -19,9 +19,16 @@ MonoBehaviour:
     prefab: {fileID: 9182699557056190295, guid: ca18cbf2d6513bd48b28d588bd39fa95,
       type: 3}
     probabilityInFarm: 5
-    probabilityInWilderness: 20
+    probabilityInWilderness: 75
     canSpawnInWilderness: 1
     wealthPrerequisite: 1500
+    variantChanceInFarm:
+    - _int: 1
+      _probability: 5
+    - _int: 2
+      _probability: 15
+    - _int: 3
+      _probability: 25
   - name: PissWalker
     prefab: {fileID: 5556471907326941768, guid: e8db8512442349e4892db7b2a20f49ff,
       type: 3}
@@ -29,6 +36,7 @@ MonoBehaviour:
     probabilityInWilderness: 0
     canSpawnInWilderness: 0
     wealthPrerequisite: 300
+    variantChanceInFarm: []
   health: 100
   position:
   - 0
@@ -40,11 +48,12 @@ MonoBehaviour:
   spawnWeight: 9
   spawnCap: 8
   spawnCapPerHour: 4
-  wealthPrerequisite: 0
+  wealthPrerequisite: 300
   contribuiteToCreatureCap: 1
   amountKilled: 0
   hasSpawned: 0
   excludeFromNormalNights: 0
+  canSpawnBehindCabin: 1
   spawnType: 0
   spawnChance_w: 80
   mintWorth: 22

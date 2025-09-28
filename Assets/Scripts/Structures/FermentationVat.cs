@@ -16,8 +16,8 @@ public class FermentationVat : StructureBehaviorScript
     bool ignoreNextHour = false;
     bool playingActiveParticles = false;
 
-    public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
-    public PopupScript chargingPopup;
+    //public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
+    //public PopupScript chargingPopup;
 
     public AudioSource loopingSource1, loopingSource2;
 
@@ -30,6 +30,8 @@ public class FermentationVat : StructureBehaviorScript
     {
         base.Start();
         ParticleToggle();
+
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) maxProgress *= 3; //Takes longer when not on the farm
     }
 
 
@@ -40,11 +42,11 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(!isFunctioning)
+        /*if(!isFunctioning)
         {
             PopupHandler.Instance.AddToQueue(chargingPopup);
             return;
-        }
+        }*/
 
         if(progress < maxProgress && savedItems.Count > 0) return; //smth is hangin
 
@@ -78,11 +80,11 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(!isFunctioning)
+        /*if(!isFunctioning)
         {
             PopupHandler.Instance.AddToQueue(chargingPopup);
             return;
-        }
+        }*/
 
         if(item.pickledForm && savedItems.Count == 0)
         {
@@ -102,6 +104,8 @@ public class FermentationVat : StructureBehaviorScript
 
             ignoreNextHour = true;
 
+            audioHandler.PlaySound(audioHandler.interactSound);
+
         }
     }
 
@@ -117,7 +121,7 @@ public class FermentationVat : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
+        //if(!TimeManager.Instance.isDay && !isFunctioning) isFunctioning = true;
 
         if(progress < maxProgress && (savedItems.Count > 0 && savedItems[0] != null))
         {
@@ -189,11 +193,22 @@ public class FermentationVat : StructureBehaviorScript
         progress = saveInt1;
         if(progress > 0) LoopingSourceToggle(true);
         ParticleToggle();
-        isFunctioning = true;
+        //isFunctioning = true;
     }
 
     public override void SaveVariables()
     {
         saveInt1 = progress;
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = progress;
+        structureUIVariables.valueGroups[1].maxValue = maxProgress;
+        return structureUIVariables.valueGroups;
     }
 }

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70dbf8d30e14dbf4a99b211eb63c25fb, type: 3}
+  m_Name: HydroFlyItem
+  m_EditorClassIdentifier: 
+  ID: 206
+  displayName: HydroFly
+  description: A variant of Pyrefly that specializes in carrying water. Can be tamed
+    with a Critter Hive.
+  icon: {fileID: 21300000, guid: 6b9ef9cb26952244c8d003400a8fd10c, type: 3}
+  type: 1
+  maxStackSize: 5
+  value: 0
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 1
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  durability: 0
+  behavior: {fileID: 11400000, guid: d630b63763938f14abced4fed2ac70a7, type: 2}
+  tool: 10

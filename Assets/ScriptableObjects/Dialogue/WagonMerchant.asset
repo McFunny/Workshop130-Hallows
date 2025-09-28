@@ -114,6 +114,29 @@ MonoBehaviour:
     - BlahBlahBlahShotgun {freezePlayer}
     - Boop. {givePlayerItems}
     emotions: 0300000002000000
+  - pathName: Take Care of Pet
+    paragraphs:
+    - Done. You will find your new friend on your land. {itemBought}
+    - if you want to gain it's trust, do not forget to take care of it.
+    - The more it trusts you, the stronger it will become.
+    emotions: 000000000000000005000000
+  - pathName: No More pets
+    paragraphs:
+    - One is enough.
+    emotions: 03000000
+  - pathName: I am selling pets
+    paragraphs:
+    - You are just in time.
+    - I recently got a hold of some unique specimens, but I have one too many.
+    - I will cut you this very special limited time deal. Feel free to chose your
+      favorite.
+    - No refunds.
+    emotions: 00000000020000000100000000000000
+  - pathName: Critter needs a home
+    paragraphs:
+    - And where do you plan on housing this creature?
+    - You will need to procure a suitable enclosure for this creature first.
+    emotions: 0400000000000000
   fillerPaths:
   - pathName: I need your goods
     paragraphs:
@@ -152,6 +175,11 @@ MonoBehaviour:
     - Having a barrel or two could mean the difference between a thriving farm or
       one burnt to the ground.
     emotions: 0000000003000000
+  - pathName: Pickled Tip
+    paragraphs:
+    - Pickled crops fetch a very high price.
+    - You should consider making use of the Fermentation Vat.
+    emotions: 0100000000000000
   questPaths: []
   itemRecievedPaths: []
   itemSpecificRemarks:
@@ -160,6 +188,14 @@ MonoBehaviour:
     - Interesting.
     - I suppose they were never the best at tying up all their loose ends...
     emotions: 0000000002000000
+  - pathName: Seeds
+    paragraphs:
+    - I believe farming is YOUR job.
+    emotions: 03000000
+  - pathName: Seeds 2
+    paragraphs:
+    - Your supposed to grow the seed before selling it.
+    emotions: 03000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []

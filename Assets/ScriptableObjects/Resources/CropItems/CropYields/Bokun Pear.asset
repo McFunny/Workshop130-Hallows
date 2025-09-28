@@ -16,6 +16,7 @@ MonoBehaviour:
   displayName: Bokun Pear
   description: The rare and delicate fruit of the Bokun Cactus.
   icon: {fileID: -1136813779, guid: eba09bc6d2bfaa54a84310ce743d87d7, type: 3}
+  type: 0
   maxStackSize: 20
   value: 49
   sellValueMultiplier: 1
@@ -26,7 +27,11 @@ MonoBehaviour:
   bonusCompostValue: 40
   useCooldown: 5
   pickledForm: {fileID: 0}
-  itemConversions: []
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: 51b3a624402fb4e40ad32fcd100d8c15, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

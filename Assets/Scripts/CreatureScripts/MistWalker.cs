@@ -27,6 +27,7 @@ public class MistWalker : CreatureBehaviorScript
     public float lungeRange = 9f; // Distance at which it will lunge
     private bool canLunge = true;
     bool canAttack = true;
+    bool fearCooldown;
     float attackCooldown = 0.7f; // Time between swipes
     bool canDoubleLunge = false;
     private bool recoilCooldown = false; //To prevent stunlocking
@@ -183,6 +184,7 @@ public class MistWalker : CreatureBehaviorScript
                 if(fireSource.gameObject.activeInHierarchy == false || distFromFire > fireSource.fleeRange)
                 {
                     fireSource = null;
+                    StartCoroutine(FearCooldown());
                     currentState = CreatureState.Wander;
                 }
                 if(fireSource)
@@ -414,6 +416,8 @@ public class MistWalker : CreatureBehaviorScript
         float distanceToStructure;
         float r;
 
+        bool foundCrop = false;
+
         foreach (var structure in availableStructure)
         {
             if (structure == null) continue;
@@ -424,35 +428,18 @@ public class MistWalker : CreatureBehaviorScript
 
             if(structure.wealthValue == 0) continue; //to prevent mistwalkers from targetting dirt without a crop
 
-            if (distanceToStructure < closestDistance && r > 1)
+            FarmLand foundTile = structure as FarmLand; //Mistwalkers will stop searching for non crops once they find one
+
+            if ((distanceToStructure < closestDistance && r > 3 && (!foundCrop || foundTile)) || (foundTile && closestStructure is FarmLand == false))
             {
                 closestDistance = distanceToStructure;
                 closestStructure = structure;
+
+                if(foundTile) foundCrop = true;
             }
         }
         return closestStructure;
     }
-
-    /*private void WalkTowardsPriorityStructure()
-    {
-        if (targetStructure == null)
-        {
-            currentState = CreatureState.Wander;
-            return;
-        }
-
-        if (target != targetStructure.transform)
-        {
-            target = targetStructure.transform;
-            agent.destination = target.position;
-        }
-
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 3f)
-        {
-            agent.ResetPath();
-            currentState = CreatureState.AttackStructure;
-        }
-    } */
 
     private void WalkTowardsPlayer()
     {
@@ -463,7 +450,7 @@ public class MistWalker : CreatureBehaviorScript
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if ((distanceToPlayer <= 3 || (distanceToPlayer <= lungeRange && canLunge)) && canAttack)
+        if ((distanceToPlayer <= 3.3f || (distanceToPlayer <= lungeRange && canLunge)) && canAttack)
         {
             StopTrackingPlayer();
             currentState = CreatureState.AttackPlayer;
@@ -516,7 +503,7 @@ public class MistWalker : CreatureBehaviorScript
     #region AttackingFunctions
     private void AttackPlayer()
     {
-        if (coroutineRunning || isRecoiling)
+        if (coroutineRunning || isRecoiling || fearCooldown)
             return;
 
         transform.LookAt(player.position);
@@ -624,7 +611,7 @@ public class MistWalker : CreatureBehaviorScript
         }
         else
         {
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(0.5f);
             if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsPlayer;
             coroutineRunning = false;
             recoilCooldown = false;
@@ -649,7 +636,7 @@ public class MistWalker : CreatureBehaviorScript
         if(currentState != CreatureState.Stun)
         {
             Vector3 lungeDirection = (player.position - transform.position).normalized;
-            agent.velocity = lungeDirection * 8; 
+            agent.velocity = lungeDirection * 7; 
         }
 
         yield return new WaitForSeconds(0.8f);
@@ -720,6 +707,7 @@ public class MistWalker : CreatureBehaviorScript
             if (playerInteraction != null)
             {
                 playerInteraction.StaminaChange(damageToPlayer);
+                attackingPlayer = false;
                 //lungeAttackHitbox.enabled = false;
             }
         }
@@ -892,7 +880,14 @@ public class MistWalker : CreatureBehaviorScript
 
     public void ColliderChange(bool enabled)
     {
-        print(enabled);
+        //print(enabled);
         lungeAttackHitbox.enabled = enabled;
+    }
+
+    IEnumerator FearCooldown()
+    {
+        fearCooldown = true;
+        yield return new WaitForSeconds(1);
+        if(currentState != CreatureState.FleeFromFire) fearCooldown = false;
     }
 }

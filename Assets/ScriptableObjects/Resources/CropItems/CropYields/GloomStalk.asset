@@ -17,8 +17,9 @@ MonoBehaviour:
   description: Strands of the multipurpose GloomStalk plant. Can be refined by the
     Craftsman or a Refinery.
   icon: {fileID: -296269699, guid: 57d1ae6806ad96449a64970dda183014, type: 3}
+  type: 1
   maxStackSize: 99
-  value: 6
+  value: 1
   sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
@@ -31,6 +32,10 @@ MonoBehaviour:
   - method: 2
     newItem: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
     itemsNeeded: 5
+    itemsGained: 1
+  - method: 3
+    newItem: {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
+    itemsNeeded: 1
     itemsGained: 1
   itemInputsKBM: []
   itemInputsController: []

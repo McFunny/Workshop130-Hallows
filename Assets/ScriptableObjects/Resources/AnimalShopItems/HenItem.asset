@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d4b98e8bc32e2241a1e90449eba6868, type: 3}
+  m_Name: HenItem
+  m_EditorClassIdentifier: 
+  ID: 212
+  displayName: Firecracker Hen
+  description: This timid bird lays explosive eggs, provided an open nest is nearby.
+    Resides in a coop.
+  icon: {fileID: 21300000, guid: 4f25a9fe5496389489cfc4f13392c4c3, type: 3}
+  type: 8
+  maxStackSize: 1
+  value: 125
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 11400000, guid: f415f64ca0ff20448a784b99136ae23f, type: 2}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 1
+  critterRef:
+    critterType: 3
+    critterData: {fileID: 11400000, guid: 269f7db43f5ab1343bd33df8d369d683, type: 2}
+  petType: 2
+  petOverride: 0
+  homeType: 1

@@ -37,7 +37,7 @@ public class FaceCamera : MonoBehaviour
             fwd.y = 0; 
             if(invert) fwd = -fwd;
             if (fwd != Vector3.zero) transform.rotation = Quaternion.LookRotation(fwd);
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

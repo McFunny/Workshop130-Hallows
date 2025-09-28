@@ -81,7 +81,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &965554547292091730
 RectTransform:
   m_ObjectHideFlags: 0
@@ -527,7 +527,7 @@ MonoBehaviour:
   health: 20
   maxHealth: 20
   wealthValue: 1
-  salvageChance: 80
+  salvageChance: 90
   destructable: 1
   flammable: 1
   onFire: 0
@@ -556,7 +556,21 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
-  structureUI: {fileID: 1696547498468872269}
+  muteSound: 0
+  structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - name: Integrity
+      icon: {fileID: 623503494, guid: c5726e73747c2a84ba50cad62a1889b7, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
+    - name: Ammo
+      icon: {fileID: 101644023, guid: e00517f59633a6e408f8787597d12951, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.41509432, g: 0.22511514, b: 0, a: 1}
   townOwned: 0
   turretHead: {fileID: 5197192804061470831}
   bulletOrigin: {fileID: 7144713208050597919}
@@ -575,6 +589,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0080ef044eb7da94d8c9e1e3f7fa5174, type: 2}
   - {fileID: 11400000, guid: 88c7a631b6c3f164fadff223436437c4, type: 2}
   - {fileID: 11400000, guid: df1b8c3719cd05e4e81165e095075d35, type: 2}
+  - {fileID: 11400000, guid: 2836db77fdc01174dbdaf3addf675d5f, type: 2}
 --- !u!208 &5988286614880165079
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -919,7 +934,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 2bf206c85f97e2d42828a2c353c76f89, type: 2}
-  - {fileID: 2100000, guid: 956a7b129626fcc42b36e53dbb65e76d, type: 2}
+  - {fileID: 2100000, guid: 59542477956e8344882edc68495dcb31, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

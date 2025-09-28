@@ -119,7 +119,7 @@ BoxCollider:
   m_LayerOverridePriority: 3
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 2.66, y: 1, z: 2.66}
   m_Center: {x: 0, y: 0.09, z: 0}
@@ -258,7 +258,7 @@ BoxCollider:
   m_LayerOverridePriority: 5
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 2.66, y: 1.8, z: 2.66}
   m_Center: {x: 0, y: 0.09, z: 0}
@@ -285,6 +285,7 @@ MonoBehaviour:
   onFire: 0
   isObstacle: 0
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -305,7 +306,11 @@ MonoBehaviour:
   canShowHighlight: 0
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   repairedStruct: {fileID: 0}
   wood_debris: {fileID: 8092787129681788589}
   hay_debris: {fileID: 5604972438910276181}
@@ -315,6 +320,7 @@ MonoBehaviour:
   missesLeft: 1
   popup: {fileID: 11400000, guid: db84458b8c7581246bcdf40941db3482, type: 2}
   repairKit: {fileID: 11400000, guid: 47382b2ad18cb524ca356db160e7f67a, type: 2}
+  giveItemBack: 0
 --- !u!114 &2480248165123578783
 MonoBehaviour:
   m_ObjectHideFlags: 0

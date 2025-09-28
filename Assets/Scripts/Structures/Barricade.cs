@@ -15,13 +15,6 @@ public class Barricade : StructureBehaviorScript
     public Transform mount;
     [HideInInspector] public bool catOnStruct;
 
-    [System.Serializable]
-    public class RepairItem
-    {
-        public InventoryItemData item;
-        public int repairAmount;
-    }
-
 
     void Awake()
     {

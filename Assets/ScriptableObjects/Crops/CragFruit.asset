@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: CragFruit
+  m_EditorClassIdentifier: 
+  name: Crag Fruit
+  id: 39
+  growthStages: 6
+  hoursPerStage: 5
+  harvestableGrowthStages: 06000000
+  cropSprites:
+  - {fileID: -2028187072, guid: 80dfc7994a8d9e74b9331091b49dafdb, type: 3}
+  - {fileID: -279171642, guid: 80dfc7994a8d9e74b9331091b49dafdb, type: 3}
+  - {fileID: -1414843206, guid: 80dfc7994a8d9e74b9331091b49dafdb, type: 3}
+  - {fileID: -1249811736, guid: 80dfc7994a8d9e74b9331091b49dafdb, type: 3}
+  - {fileID: -1827927338, guid: 80dfc7994a8d9e74b9331091b49dafdb, type: 3}
+  - {fileID: 1961402939, guid: 80dfc7994a8d9e74b9331091b49dafdb, type: 3}
+  rottedImage: {fileID: 963119946, guid: 80dfc7994a8d9e74b9331091b49dafdb, type: 3}
+  cropYield: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 11400000, guid: 45929bcda670cad41b97c3351616adc7, type: 2}
+  cropYieldAmount: 3
+  cropYieldVariance: 1
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  noStressSeedChance: 0
+  waterIntake: 10
+  ichorIntake: 0
+  terraIntake: 0.75
+  gloamIntake: -0.25
+  stressLimit: 5
+  wealthValue: 2
+  requireScythe: 0
+  requirePollination: 0
+  behavior: {fileID: 11400000, guid: ad47372ca16529445a89ade205c782ba, type: 2}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

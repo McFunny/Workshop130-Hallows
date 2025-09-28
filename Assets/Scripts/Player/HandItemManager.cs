@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class HandItemManager : MonoBehaviour
 {
-    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly;
+    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly, hydrofly;
     public GameObject torchFlame, pyreflyFlame;
+    public MeshRenderer pyreflyMat;
+    public Material pyreflyLit, pyreflyUnlit;
 
     Vector3 hoePos, shovelPos, wateringCanPos, shotGunPos, waterGunPos, torchPos, bugNetPos, scythePos, pyreflyPos; //starting positions
     Quaternion hoeRot, shovelRot, wateringCanRot, shotGunRot, waterGunRot, torchRot, bugNetRot, scytheRot, pyreflyRot; //starting rotations
@@ -112,6 +114,10 @@ public class HandItemManager : MonoBehaviour
                 currentHandObject = pyrefly;
                 //pyrefly.transform.position = pyreflyPos;
                 //pyrefly.transform.rotation = pyreflyRot;
+                break;
+            case ToolType.Hydrofly:
+                hydrofly.SetActive(true);
+                currentHandObject = hydrofly;
                 break;
             default:
                 currentHandObject = null;
@@ -230,11 +236,13 @@ public class HandItemManager : MonoBehaviour
         {
             PlayerInteraction.Instance.pyreflyLit = true;
             pyreflyFlame.SetActive(true);
+            if(pyreflyMat) pyreflyMat.material = pyreflyLit;
         }
         else
         {
             PlayerInteraction.Instance.pyreflyLit = false;
             pyreflyFlame.SetActive(false);
+            if(pyreflyMat) pyreflyMat.material = pyreflyUnlit;
         }
     }
 

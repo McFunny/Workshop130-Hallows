@@ -51,12 +51,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 40
   maxHealth: 40
-  corpseHealth: -25
+  corpseHealth: -5
   ichorWorth: 3
   ichorDropRadius: 4
   creatureData: {fileID: 11400000, guid: e0968bca43961df47acbb99ff467f826, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -99,6 +100,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a501ca9b19d35a648a26a5b5683a9a07, type: 2}
   - {fileID: 11400000, guid: 472d8d69d5ad5b046b724150f19e191b, type: 2}
   - {fileID: 11400000, guid: 7c88cdeb4ede7984fa2d456e64a08a06, type: 2}
+  - {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
   carrotCrop: {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
   burrow: {fileID: 7255452786975544648, guid: a7f024629f7649543ab098046aced1a2, type: 3}
   cooldownEffect: {fileID: 0}
@@ -154,7 +156,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &1815882824881971128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,6 +186,8 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 4b87ed1ad983d044c883859f18e18d15, type: 3}
   miscSound2: {fileID: 8300000, guid: 89d4c6fca6a26464f87e65f2ebf86b75, type: 3}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
 --- !u!82 &2356868837952961763

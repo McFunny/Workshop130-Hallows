@@ -17,6 +17,7 @@ MonoBehaviour:
   description: A vibrant bloom that radiates a soothing pulse. Enough of these can
     be combined to create a Titan Marigleam.
   icon: {fileID: 884115528, guid: 10daa9bcd7e4b3041a58ae40d56c34c6, type: 3}
+  type: 0
   maxStackSize: 20
   value: 47
   sellValueMultiplier: 1
@@ -27,7 +28,11 @@ MonoBehaviour:
   bonusCompostValue: 45
   useCooldown: 0
   pickledForm: {fileID: 0}
-  itemConversions: []
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: 5b1571d80f24d964289f0fe232caed16, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

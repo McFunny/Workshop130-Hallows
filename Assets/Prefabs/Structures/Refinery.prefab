@@ -157,7 +157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &711286505254330676
 RectTransform:
   m_ObjectHideFlags: 0
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
-  enabled: 0
+  objectActive: 0
 --- !u!1 &1790378606522118055
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,6 +300,7 @@ GameObject:
   - component: {fileID: 331877742204192908}
   - component: {fileID: 1727922733811546655}
   - component: {fileID: 1182144220497153935}
+  - component: {fileID: 495049503020775682}
   m_Layer: 6
   m_Name: Refinery
   m_TagString: Untagged
@@ -345,15 +346,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 7b24f9b8375dbf545ace3adbd66c6898, type: 2}
   itemForm: {fileID: 11400000, guid: 9f529fa0497a5e348890c35cfc771ee6, type: 2}
-  health: 50
-  maxHealth: 50
+  health: 70
+  maxHealth: 70
   wealthValue: 5
-  salvageChance: 80
+  salvageChance: 90
   destructable: 1
   flammable: 0
   onFire: 0
   isObstacle: 1
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 6337819755538764103}
   savedItems: []
@@ -375,7 +377,26 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
-  structureUI: {fileID: 761225982486804242}
+  muteSound: 0
+  structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 1
+    valueGroups:
+    - name: Integrity
+      icon: {fileID: 623503494, guid: c5726e73747c2a84ba50cad62a1889b7, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
+    - name: Progress
+      icon: {fileID: -793094533, guid: e00517f59633a6e408f8787597d12951, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
+    - name: Items
+      icon: {fileID: -1852034612, guid: e00517f59633a6e408f8787597d12951, type: 3}
+      value: 0
+      maxValue: 0
+      barColor: {r: 0.2924528, g: 0.20547992, b: 0.026210386, a: 1}
   itemWarning: {fileID: 11400000, guid: 4d4a7ab94ffa468498f41867008aaa89, type: 2}
   itemDropTransform: {fileID: 6401162201091657775}
   itemInsertPos: {fileID: 7088397759877457573}
@@ -551,6 +572,22 @@ MonoBehaviour:
   itemInteractSound: {fileID: 8300000, guid: 50984d86635b5aa40a537cf28b97a9f4, type: 3}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 0}
+--- !u!208 &495049503020775682
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044800526403070472}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.475, y: 0.5, z: 0.815}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.12, y: 0, z: -0.28}
+  m_TimeToStationary: 0.5
 --- !u!1 &6218483301657520228
 GameObject:
   m_ObjectHideFlags: 0
