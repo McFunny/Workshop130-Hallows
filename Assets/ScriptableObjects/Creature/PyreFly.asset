@@ -29,8 +29,10 @@ MonoBehaviour:
     probabilityInFarm: 5
     probabilityInWilderness: 100
     canSpawnInWilderness: 1
-    wealthPrerequisite: 2000
+    wealthPrerequisite: 3000
     variantChanceInFarm:
+    - _int: 0
+      _probability: 2
     - _int: 1
       _probability: 5
     - _int: 3
@@ -41,7 +43,7 @@ MonoBehaviour:
   - 0
   - 0
   id: 7
-  dangerCost: 5
+  dangerCost: 3
   dangerThreshold: 0
   spawnWeight: 4
   spawnCap: 12

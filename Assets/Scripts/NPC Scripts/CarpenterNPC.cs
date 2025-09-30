@@ -230,6 +230,7 @@ public class CarpenterNPC : NPC, ITalkable
                 while (!newItem);
                 newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
                 item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
+                item.ChangeAmountGiven(barterDatabase.transactions[i].amountGiven);
             }
             else if(x == 9) //Sell chest
             {
