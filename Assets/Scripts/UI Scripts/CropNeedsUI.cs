@@ -55,7 +55,7 @@ public class CropNeedsUI : MonoBehaviour
             return;
         }
 
-        if(farmLand.growthStage == farmLand.crop.growthStages)
+        if(farmLand.growthStage == farmLand.crop.growthStages && (!farmLand.crop.behavior || !farmLand.crop.behavior.OverrideWaterNeed(farmLand)))
         {
             DisableStats();
             return;
@@ -86,7 +86,7 @@ public class CropNeedsUI : MonoBehaviour
         if(nutrients.ichorLevel < cropData.ichorIntake) ichor.SetActive(true);
         else ichor.SetActive(false);
 
-        if(nutrients.waterLevel < cropData.waterIntake) water.SetActive(true);
+        if(nutrients.waterLevel < cropData.waterIntake || (cropData.behavior && cropData.behavior.OverrideWaterNeed(farmLand))) water.SetActive(true);
         else water.SetActive(false);
 
         if(farmLand.NeedsPollination()) pollen.SetActive(true);

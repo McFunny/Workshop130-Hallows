@@ -34,7 +34,8 @@ public class RubyWasp : CreatureBehaviorScript
         Chase,
         Attack,
         Stuck,
-        Flee
+        Flee,
+        Dead
     }
 
     public CreatureState currentState;
@@ -82,6 +83,9 @@ public class RubyWasp : CreatureBehaviorScript
                 break;
             case CreatureState.Flee:
                 Flee();
+                break;
+            case CreatureState.Dead:
+                //Dead();
                 break;
 
             default:
@@ -411,6 +415,47 @@ public class RubyWasp : CreatureBehaviorScript
         {
             PlayerMovement.limitMaxVelocity = true;
             PlayerMovement.Instance.RemoveSpeedMod(gameObject);
+        }
+    }
+
+    public override void OnDeath()
+    {
+        base.OnDeath();
+        currentState = CreatureState.Dead;
+        if (!isDead)
+        {
+            anim.SetBool("Unstuck", false);
+            anim.Play("StuckIdle");
+            rb.velocity = Vector3.zero;
+            rb.useGravity = true;
+            rb.isKinematic = false;
+            rb.AddForce(-transform.forward * 70, ForceMode.Impulse);
+            rb.AddForce(-Vector3.up * 20);
+            isDead = true;
+            StopAllCoroutines();
+            StartCoroutine(DeathTimer());
+            if(health < -20)
+            {
+                canCorpseBreak = true;
+                TakeDamage(100);
+            }
+            else canCorpseBreak = true;
+        }
+    }
+
+    IEnumerator DeathTimer()
+    {
+        yield return new WaitForSeconds(3);
+        canCorpseBreak = true;
+        TakeDamage(100);
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if((other.gameObject.layer == 7 || other.gameObject.layer == 6) && health <= 0)
+        {
+            canCorpseBreak = true;
+            TakeDamage(100);
         }
     }
 

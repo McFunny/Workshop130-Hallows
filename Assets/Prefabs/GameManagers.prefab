@@ -3085,6 +3085,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8694c862f59fcc8478abc37cfd3a2983, type: 3}
   - {fileID: 8300000, guid: a50b2cb5374589e4294787db8799f496, type: 3}
   - {fileID: 8300000, guid: 64781d84adccb544cbef2e43c39e4e2c, type: 3}
+  - {fileID: 8300000, guid: 730244dfe6f61b2499ae7238e0b3fbb1, type: 3}
   musicNightAmbience:
   - {fileID: 8300000, guid: f7c3a44a2fbb5ef438c6b2ffdfe24176, type: 3}
   - {fileID: 8300000, guid: 64aeac4a7083231439a32d713993f958, type: 3}
@@ -4795,6 +4796,10 @@ MonoBehaviour:
   elecZapParticle: {fileID: 6822475315934527424, guid: 5d0632d3ae5fddc4fbc7fb41367838b6,
     type: 3}
   heartParticles: {fileID: 1199309386321143821, guid: dc7edd270929a0449beb4b1227ccdd33,
+    type: 3}
+  slimeSplash: {fileID: 7637895177972967617, guid: 69bc0df66ebefd845b3980e8afeebcd1,
+    type: 3}
+  slimeSplashLarge: {fileID: 6717718506617718510, guid: 4ad992d8b4518a642b66f6d14c56651d,
     type: 3}
   woodDestructionP: {fileID: 2191918286048292972, guid: 3e60246a56a3a424496e8ccba69e560a,
     type: 3}
@@ -9981,6 +9986,12 @@ MonoBehaviour:
     type: 3}
   hydroflyPrefab: {fileID: 4303541379538398381, guid: d6e3d90b9dc22934e9eb40cb3c173f04,
     type: 3}
+  timberEarPrefab: {fileID: 6169963318677487749, guid: 961db7e52156e4041b2f883d94639cf5,
+    type: 3}
+  cannonRockPrefab: {fileID: 5966243135524026172, guid: 56e0e3af49d59ee48942c097403171fd,
+    type: 3}
+  eggPrefab: {fileID: 6176961061427224572, guid: 70dbbb7d1f82420479c503f434003709,
+    type: 3}
 --- !u!114 &1087822415833838726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11080,65 +11091,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dLevels:
   - difficultyPointThreshold: -1
-    c_varietyMin: 1
+    c_varietyMin: 2
     c_varietyMax: 2
     r_varietyMin: 1
     r_varietyMax: 2
     s_varietyMin: 0
-    s_varietyMax: 2
+    s_varietyMax: 1
     hourlySpawnAttempts: 5
     maxCreatures: 6
   - difficultyPointThreshold: 25
     c_varietyMin: 2
-    c_varietyMax: 5
+    c_varietyMax: 4
     r_varietyMin: 1
-    r_varietyMax: 3
+    r_varietyMax: 2
     s_varietyMin: 1
-    s_varietyMax: 3
+    s_varietyMax: 2
     hourlySpawnAttempts: 5
     maxCreatures: 6
   - difficultyPointThreshold: 75
     c_varietyMin: 2
     c_varietyMax: 5
-    r_varietyMin: 2
-    r_varietyMax: 4
+    r_varietyMin: 1
+    r_varietyMax: 3
     s_varietyMin: 1
-    s_varietyMax: 3
+    s_varietyMax: 2
     hourlySpawnAttempts: 6
     maxCreatures: 8
   - difficultyPointThreshold: 150
     c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 2
-    r_varietyMax: 5
+    r_varietyMax: 3
     s_varietyMin: 2
-    s_varietyMax: 4
+    s_varietyMax: 3
     hourlySpawnAttempts: 8
     maxCreatures: 10
   - difficultyPointThreshold: 225
     c_varietyMin: 3
-    c_varietyMax: 6
+    c_varietyMax: 5
     r_varietyMin: 2
-    r_varietyMax: 5
+    r_varietyMax: 4
     s_varietyMin: 2
-    s_varietyMax: 4
+    s_varietyMax: 3
     hourlySpawnAttempts: 10
     maxCreatures: 12
   - difficultyPointThreshold: 300
     c_varietyMin: 3
     c_varietyMax: 6
-    r_varietyMin: 2
-    r_varietyMax: 5
-    s_varietyMin: 3
-    s_varietyMax: 4
+    r_varietyMin: 3
+    r_varietyMax: 4
+    s_varietyMin: 2
+    s_varietyMax: 3
     hourlySpawnAttempts: 10
     maxCreatures: 15
   - difficultyPointThreshold: 450
     c_varietyMin: 3
     c_varietyMax: 5
     r_varietyMin: 3
-    r_varietyMax: 5
-    s_varietyMin: 3
+    r_varietyMax: 4
+    s_varietyMin: 2
     s_varietyMax: 4
     hourlySpawnAttempts: 12
     maxCreatures: 20

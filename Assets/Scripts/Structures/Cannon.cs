@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Cannon : StructureBehaviorScript
 {
@@ -8,19 +9,31 @@ public class Cannon : StructureBehaviorScript
 
     public List<GameObject> loadedAmmo;
 
-    float range = 60; //Get a debug sphere to show the range
+    public GameObject primedEffect;
+    public ParticleSystem firedEffect, smokeEffect;
+
+    bool isPrimed, forceFire;
+
+    float range = 50; //Get a debug sphere to show the range
     //bool targetInSight = false;
     bool shotCooldown;
     float projectileSpeed = 230;
+
+    int maxAmmo = 3;
 
     public List<CreatureObject> targettableCreatures; //No crows, no wraiths, no murdermancers
 
     CreatureBehaviorScript currentTarget;
 
+    Coroutine primeRoutine;
+
 
     void Start()
     {
         base.Start();
+
+        if(savedItems.Count > 0 && savedItems[0] != null) UpdateModel(savedItems[0].ID, out bool success);
+        else UpdateModel(-1, out bool success);
 
         StartCoroutine(TargetRefreshCooldown());
     }
@@ -35,7 +48,7 @@ public class Cannon : StructureBehaviorScript
 
         //TargetIsVisible();
 
-        if(currentTarget && savedItems.Count >= 0)
+        if(savedItems.Count > 0 && isPrimed && (forceFire || (currentTarget && TargetIsVisible(currentTarget.transform))))
         {
             shotCooldown = true;
             StartCoroutine(Shoot());
@@ -58,15 +71,15 @@ public class Cannon : StructureBehaviorScript
                 currentTarget = newCreature;
             }
         }
-        if (currentTarget && oldTarget != currentTarget) audioHandler.PlaySound(audioHandler.miscSounds1[0]);
+        //if (currentTarget && oldTarget != currentTarget) audioHandler.PlaySound(audioHandler.miscSounds1[0]);
     }
 
     bool TargetIsVisible(Transform target)
     {
         if(target == null) return false;
 
-        Vector3 direction = target.position - cannonHead.position;
-        direction.y = 0;
+        Vector3 direction = target.position - transform.position;
+        direction.y = cannonHead.position.y;
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         //Vector3 toTarget = Vector3.Normalize(currentTarget.transform.position - cannonHead.position);
@@ -79,7 +92,7 @@ public class Cannon : StructureBehaviorScript
             //structure in the way
         }
 
-        if (Vector3.Dot(forward, direction) > .7f)
+        if (Vector3.Dot(forward, direction) > .95f)
         {
             return true;        }
         else return false;
@@ -88,41 +101,74 @@ public class Cannon : StructureBehaviorScript
     IEnumerator Shoot()
     {
 
-        Vector3 targetPosition = currentTarget.transform.position;
+        Vector3 targetPosition;
+        if(currentTarget) targetPosition = currentTarget.transform.position;
+        else targetPosition = bulletOrigin.position;
+
+        targetPosition.y = cannonHead.position.y;
 
         shotCooldown = true;
-        //targetInSight = false;
-
-        currentTarget.NewPriorityTarget(this);
-        //fire
-        if(!currentTarget) //No Target
+        isPrimed = false;
+        forceFire = false;
+        primedEffect.SetActive(false);
+        if(primeRoutine != null )
         {
-            shotCooldown = false;
-            yield break;
+            StopCoroutine(primeRoutine);
+            primeRoutine = null;
+        }
+
+        if(currentTarget && Vector3.Distance(currentTarget.transform.position, transform.position) < 20)
+        {
+            currentTarget.NewPriorityTarget(this);
         }
         audioHandler.PlaySound(audioHandler.activatedSound);
         GameObject newBullet;
 
+        float extraUpVelocity = 1;
+
         switch(savedItems[0].ID)
         {
+            case 116:
+                newBullet = ProjectilePoolManager.Instance.GrabTimberEarBullet();
+                break;
+            case 115:
+                newBullet = ProjectilePoolManager.Instance.GrabCannonRockBullet();
+                break;
+            case 142:
+                newBullet = ProjectilePoolManager.Instance.GrabPyreflyBullet();
+                extraUpVelocity = 30;
+                break;
+            case 209:
+                newBullet = ProjectilePoolManager.Instance.GrabEggBullet();
+                break;
             default:
             newBullet = ProjectilePoolManager.Instance.GrabTimberEarBullet();
             break;
         }
+        audioHandler.PlaySound(audioHandler.interactSound);
+        firedEffect.Play();
+        smokeEffect.Play();
+        UpdateModel(-1, out bool success);
+
+        cannonHead.LookAt(targetPosition);
 
         Vector3 dir = (targetPosition - cannonHead.position).normalized;
+        //dir.y = 0;
 
         newBullet.transform.position = bulletOrigin.position;
         newBullet.transform.rotation = Quaternion.identity;
 
-        newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 5);
+        newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * extraUpVelocity);
         newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
         //print("PEW");
 
         ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
         ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
+
+        cannonHead.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.5f, 0, 0.2f);
         yield return new WaitForSeconds(0.2f);
-        savedItems.Clear();
+        savedItems.RemoveAt(0);
+        if(savedItems.Count > 0) UpdateModel(savedItems[0].ID, out bool success2);
         
         yield return new WaitForSeconds(1.5f);
 
@@ -133,27 +179,59 @@ public class Cannon : StructureBehaviorScript
     {
         while(health > 0)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
             CheckForTargets();
         }
     }
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        bool itemInserted = false;
-        switch(item.ID) //This is where we enable objects in the cannon
+        if(savedItems.Count < maxAmmo)
         {
-            default:
-            return;
-            break;
-        }
-        if(itemInserted && savedItems.Count < 1)
-        {
+            UpdateModel(item.ID, out bool success);
+            if(!success) return;
+
+            if(savedItems.Count > 1) UpdateModel(savedItems[0].ID, out bool success2);
             savedItems.Add(item);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
 
             audioHandler.PlaySound(audioHandler.itemInteractSound);
+
+            ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
+        }
+    }
+
+    void UpdateModel(int itemID, out bool success)
+    {
+        foreach(GameObject obj in loadedAmmo) obj.SetActive(false);
+        if(itemID <= -1)
+        {
+            success = false;
+            return;
+        }
+        switch(itemID) //This is where we enable objects in the cannon
+        {
+            case 116:
+                loadedAmmo[0].SetActive(true);
+                success = true;
+                break;
+            case 115:
+                loadedAmmo[1].SetActive(true);
+                success = true;
+                break;
+            case 142:
+                loadedAmmo[2].SetActive(true);
+                success = true;
+                break;
+            case 209:
+                loadedAmmo[3].SetActive(true);
+                success = true;
+                break;
+
+            default:
+                success = false;
+                break;
         }
     }
 
@@ -166,10 +244,15 @@ public class Cannon : StructureBehaviorScript
             //StartCoroutine(DugUpForItem());
             success = true;
         }
-        if(type == ToolType.Torch && PlayerInteraction.Instance.torchLit)
+        if(type == ToolType.Torch && PlayerInteraction.Instance.torchLit && !isPrimed && savedItems.Count > 0)
         {
-            //
+            primeRoutine = StartCoroutine(PrimedRoutine());
             success = true;
+        }
+        if(type == ToolType.Pyrefly && savedItems.Count < maxAmmo)
+        {
+            ItemInteraction(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
+            success = false;
         }
     }
 
@@ -186,14 +269,27 @@ public class Cannon : StructureBehaviorScript
         }
     }
 
+    IEnumerator PrimedRoutine()
+    {
+        shotCooldown = true;
+        primedEffect.SetActive(true);
+        yield return new WaitForSeconds(2);
+        shotCooldown = false;
+        isPrimed = true;
+        yield return new WaitForSeconds(30);
+        print("Firing after 30 seconds");
+        forceFire = true;
+        primeRoutine = null;
+    }
+
     public override List<StructureUIValueGroup> GetStructureUIValues()
     {
         if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
         structureUIVariables.valueGroups[0].value = health;
         structureUIVariables.valueGroups[0].maxValue = maxHealth;
 
-        //structureUIVariables.valueGroups[1].value = savedItems.Count;
-        //structureUIVariables.valueGroups[1].maxValue = maxAmmo;
+        structureUIVariables.valueGroups[1].value = savedItems.Count;
+        structureUIVariables.valueGroups[1].maxValue = maxAmmo;
         return structureUIVariables.valueGroups;
     }
 }

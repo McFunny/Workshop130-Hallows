@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 221
   displayName: Seed Extractor
-  description: Place crops inside to produce a few seeds.
+  description: Place crops inside to produce a few seeds. More efficient when placed
+    in the farm.
   icon: {fileID: -79750061, guid: 0e7a683114706534bbe876a3815ecd2d, type: 3}
   type: 3
   maxStackSize: 5
@@ -40,7 +41,7 @@ MonoBehaviour:
     type: 3}
   removeAfterUse: 1
   placeSound: {fileID: 8300000, guid: 65f88b6da79e9d548906f86cb540e72f, type: 3}
-  gridTypes: 01000000
+  gridTypes: 0100000004000000
   gridSize: 0
   placeAsPile: 0
   canPlaceOnFloor: 1

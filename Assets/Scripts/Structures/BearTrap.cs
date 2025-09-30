@@ -30,6 +30,12 @@ public class BearTrap : StructureBehaviorScript
     void Awake()
     {
         base.Awake();
+
+        collider = GetComponent<Collider>();
+    }
+
+    void Start()
+    {
         currentAngleTop = topClamp.eulerAngles;
         currentAngleBottom = bottomClamp.eulerAngles;
         startingAngleTop = topClamp.eulerAngles;
@@ -39,12 +45,7 @@ public class BearTrap : StructureBehaviorScript
             topClamp.rotation = Quaternion.Euler(-161, 90, -90);
             bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
         }
-
-        collider = GetComponent<Collider>();
-    }
-
-    void Start()
-    {
+        
         if(TownGate.Instance.location == PlayerLocation.InWilderness) absentFromGrid = true;
         base.Start();
     }

@@ -12,7 +12,7 @@ public class ParticlePoolManager : MonoBehaviour
     public VisualEffect hitEffect;
 
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
-    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles;
+    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, slimeSplashLarge;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP;
 
@@ -34,6 +34,8 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> bugSplatPool = new List<GameObject>();
     List<GameObject> elecZapPool = new List<GameObject>();
     List<GameObject> heartPool = new List<GameObject>();
+    List<GameObject> slimeSplashPool = new List<GameObject>();
+    List<GameObject> slimeSplashLargePool = new List<GameObject>();
 
     //Destruction
     List<GameObject> woodPool = new List<GameObject>();
@@ -268,6 +270,22 @@ public class ParticlePoolManager : MonoBehaviour
             //No available particles, must make a new one
             GameObject newParticle = Instantiate(robotDestructionP);
             robotPool.Add(newParticle);
+            return newParticle;
+        }
+        else if(type == CorpseParticleType.Slime)
+        {
+            foreach (GameObject particle in slimeSplashLargePool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(slimeSplashLarge);
+            slimeSplashLargePool.Add(newParticle);
             return newParticle;
         }
         else return null;
@@ -614,6 +632,23 @@ public class ParticlePoolManager : MonoBehaviour
         return newParticle;
     }
 
+    public GameObject GrabSlimeSplashParticle()
+    {
+        foreach (GameObject particle in slimeSplashPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(slimeSplash);
+        slimeSplashPool.Add(newParticle);
+        return newParticle;
+    }
+
     public void MoveAndPlayParticle(Vector3 pos, ParticleSystem p)
     {
         p.transform.position = pos;
@@ -632,7 +667,8 @@ public enum CorpseParticleType
     Red,
     Yellow,
     Null,
-    Metal
+    Metal,
+    Slime
 }
 
 public enum StructureType

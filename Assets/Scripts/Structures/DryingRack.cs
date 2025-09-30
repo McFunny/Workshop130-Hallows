@@ -30,6 +30,8 @@ public class DryingRack : StructureBehaviorScript
     {
         base.Start();
         SpriteChange();
+
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) == false) maxProgress *= 3; //Takes longer when not on the farm
     }
 
 

@@ -33,7 +33,7 @@ public class TitanMarigleamBehavior : CropBehavior
     public override void OnPlanted(FarmLand tile)
     {
         //Plant the nodes
-        List<Vector3> openTiles = StructureManager.Instance.GetNearbyClearTiles(tile.transform.position, 25);
+        List<Vector3> openTiles = StructureManager.Instance.GetNearbyClearTiles(tile.transform.position, 20);
         int nodesPlanted = 0;
 
         while(nodesPlanted < nodesToPlant && openTiles.Count > 0)
