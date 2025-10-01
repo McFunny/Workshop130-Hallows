@@ -162,8 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0249707860ce3e0459463c67cbc08169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 70
-  maxHealth: 70
+  health: 50
+  maxHealth: 50
   corpseHealth: 0
   ichorWorth: 0
   ichorDropRadius: 0
@@ -219,7 +219,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 2ca857108e623044d81d790985fb0bd5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.301
+  m_Volume: 0.519
   m_Pitch: 0.91
   Loop: 1
   Mute: 0
@@ -228,7 +228,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 3
-  MaxDistance: 10
+  MaxDistance: 15
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0

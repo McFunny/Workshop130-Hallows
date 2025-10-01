@@ -199,7 +199,7 @@ public class ShovelBehavior : ToolBehavior
         yield return new WaitForSeconds(0.2f * coolDownMod);
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f));
 
-        yield return new WaitForSeconds(0.9f * coolDownMod);
+        yield return new WaitForSeconds(0.6f * coolDownMod);
         if(InputManager.isCharging /*&& PlayerInteraction.Instance.waterHeld >= 3*/)
         {
             HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);

@@ -439,7 +439,7 @@ public class RubyWasp : CreatureBehaviorScript
                 canCorpseBreak = true;
                 TakeDamage(100);
             }
-            else canCorpseBreak = true;
+            else canCorpseBreak = false;
         }
     }
 

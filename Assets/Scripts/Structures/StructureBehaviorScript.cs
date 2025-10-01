@@ -40,6 +40,7 @@ public class StructureBehaviorScript : MonoBehaviour
     public bool onFire = false;
     [Tooltip("Does this structure impede movement? If yes, creatures will attack this if nearby and facing it")]
     public bool isObstacle = true;
+    public bool repairableWithGlue;
 
     public bool absentFromGrid = false; //if true, this object wont count as all structs, nor will it interact with tiles, allowing free placement.
     [HideInInspector] public bool absentFromFarmGrid = false; //if true, this object should be ignored by creatures that target structures
@@ -379,6 +380,14 @@ public class StructureBehaviorScript : MonoBehaviour
         salvageChance = 101;
         forcePile = true;
         Destroy(this.gameObject);
+    }
+
+    public virtual bool RepairWithSealant(int amount)
+    {
+        if(!repairableWithGlue || health == maxHealth) return false;
+        health += amount;
+        if(health > maxHealth) health = maxHealth;
+        return true;
     }
 
     public virtual void SaveVariables()

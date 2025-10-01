@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: BoneBlender
+  m_EditorClassIdentifier: 
+  ID: 226
+  displayName: Bone Blender
+  description: Grinds bones into a sticky paste.
+  icon: {fileID: -1875411505, guid: 5bc2229503a7ba94ca998de038fae1a2, type: 3}
+  type: 3
+  maxStackSize: 5
+  value: 65
+  sellValueMultiplier: 0.25
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 0}
+  hologramPrefab: {fileID: 0}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 65f88b6da79e9d548906f86cb540e72f, type: 3}
+  gridTypes: 0100000004000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

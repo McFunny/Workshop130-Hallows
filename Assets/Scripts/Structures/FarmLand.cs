@@ -924,7 +924,7 @@ public class FarmLand : StructureBehaviorScript
             maxHealth -= 10;
             break;
             case FarmTileUpgrade.Trellis:
-            maxHealth -= 5;
+            maxHealth -= 10;
             isObstacle = false;
             break;
             default:
@@ -941,8 +941,8 @@ public class FarmLand : StructureBehaviorScript
             health += 10;
             break;
             case FarmTileUpgrade.Trellis:
-            maxHealth += 5;
-            health += 5;
+            maxHealth += 10;
+            health += 10;
             isObstacle = true;
             break;
             default:
