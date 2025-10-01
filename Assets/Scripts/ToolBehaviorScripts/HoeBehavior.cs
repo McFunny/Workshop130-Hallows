@@ -33,19 +33,6 @@ public class HoeBehavior : ToolBehavior
         if(Physics.Raycast(player.position, fwd, out hit, 7f, mask))
         {
 
-            //tile = hit.collider.GetComponent<UntilledTile>();
-            //if (tile != null)
-            //{
-                //play hoe anim
-            //    HandItemManager.Instance.PlayPrimaryAnimation();
-                //HandItemManager.Instance.toolSource.PlayOneShot(swing);
-            //    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 1.5f, 0f));
-            //    PlayerMovement.restrictMovementTokens++;
-
-            //    return;
-            //}
-
-
             pos = StructureManager.Instance.CheckTile(hit.point);
             if(pos != new Vector3(0,0,0) && StructureManager.Instance.ValidateGridType(pos, GridType.Farm)) 
             {
