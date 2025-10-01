@@ -7744,6 +7744,7 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
@@ -7756,8 +7757,12 @@ MonoBehaviour:
   droppedItems:
   - {fileID: 11400000, guid: d25a0f4a47914b54a90b7ba093cdd6ee, type: 2}
   - {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   dropChance:
   - 5
+  - 5
+  - 10
+  - 10
   - 5
   sightRange: 20
   attackRange: 5
@@ -7766,6 +7771,7 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 1
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 5
   damageToPlayer: -25
@@ -7809,6 +7815,8 @@ MonoBehaviour:
   lungeRange: 9
   fearParticle: {fileID: 7651346708204328097}
   equippableArmor: []
+  foggedWalkers: []
+  foggedWalkerPrefab: {fileID: 0}
   currentState: 2
 --- !u!195 &22023094558129277
 NavMeshAgent:
@@ -8497,6 +8505,9 @@ MonoBehaviour:
   miscSound: {fileID: 8300000, guid: 9441cf2cc2c75a443969667adc5e38c7, type: 3}
   miscSound2: {fileID: 8300000, guid: b018cc12e2d5d9d4aa779034d41558ed, type: 3}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!82 &7686426451273324707
 AudioSource:

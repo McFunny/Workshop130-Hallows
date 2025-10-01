@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f31e583782e00b34eb2c6ddc944f6c05, type: 3}
+  m_Name: SealantBehavior
+  m_EditorClassIdentifier: 
+  usingPrimary: 0
+  usingSecondary: 0
+  player: {fileID: 0}
+  tool: 0
+  toolAnim: {fileID: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
+  trapPrefab: {fileID: 0}
+  applySFX: {fileID: 8300000, guid: 861f07e7d2c3db845b3b9d9165aeb8c4, type: 3}
+  placeSFX: {fileID: 8300000, guid: e7e898f86e58676418a114b5e9da4dce, type: 3}
+  healthRestored: 10
