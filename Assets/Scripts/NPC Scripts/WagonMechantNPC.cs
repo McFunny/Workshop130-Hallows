@@ -127,13 +127,6 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        ToolItem tItem = item as ToolItem;
-        if(dialogueController.IsInterruptable() == false || tItem)
-        {
-            interactSuccessful = false;
-            //if(dialogueController.FreeToSpeak(this))Talk();
-            return;
-        } 
 
         if(!GameSaveData.Instance.mm_giveBarricade && !PlayerInventoryHolder.Instance.IsInventoryFull()) //Make sure he gives the intro to the store before player can start selling
         {
@@ -208,6 +201,13 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             Talk();
         }
+
+        ToolItem tItem = item as ToolItem;
+        if(dialogueController.IsInterruptable() == false || tItem)
+        {
+            interactSuccessful = false;
+            return;
+        } 
         interactSuccessful = true;
     }
 

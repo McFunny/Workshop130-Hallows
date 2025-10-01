@@ -24,6 +24,8 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     public LayerMask BugCreatureMask, PlayerStructureMask;
 
+    float chanceToAttackAgain = 100;
+
     public PetState currentState;
 
     [Header("Debug tool to test out states")]
@@ -553,8 +555,18 @@ public class PetCat : PetBehaviorScript, IInteractable
                 }
                 if(targetCreature)
                 {
-                    targetCreature.TakeDamage(25);
+                    targetCreature.TakeDamage(10);
                     targetCreature.PlayHitParticle(targetCreature.transform.position);
+                }
+                if(targetCreature && targetCreature.health > 0)
+                {
+                    if(chanceToAttackAgain > Random.Range(0, 100))
+                    {
+                        StartCoroutine(AttackCooldown());
+                        chanceToAttackAgain -= 30 - (friendshipLevel * 2);
+                        return;
+                    }
+                    else chanceToAttackAgain = 100;
                 }
                 targetBug = null;
                 targetCreature = null;
@@ -701,6 +713,12 @@ public class PetCat : PetBehaviorScript, IInteractable
         FinishedCoroutine();
     }
 
+    IEnumerator AttackCooldown()
+    {
+        yield return new WaitForSeconds(1.5f);
+        isMoving = false;
+    }
+
     IEnumerator CheckSurroundings()
     {
         Collider[] hitTargets = new Collider[10];
@@ -725,9 +743,8 @@ public class PetCat : PetBehaviorScript, IInteractable
                         }
                         else
                         {
-                            float positiveActionChance = (friendshipLevel + 1) * .75f;
+                            float positiveActionChance = (friendshipLevel + 1) * 2.75f;
                             if(hunger == 0) positiveActionChance = 0;
-                            if(!TimeManager.Instance.isDay) positiveActionChance *= 2;
 
                             if(Random.Range(0, 20f) < positiveActionChance)
                             {

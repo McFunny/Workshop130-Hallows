@@ -52,6 +52,8 @@ public class SlotMachine : MonoBehaviour,IInteractable
 
     public int debugNumber;
 
+    public GameObject structureUI;
+
 
     private void Awake()
     {
@@ -402,6 +404,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
         }
         if (enable && !highlightEnabled)
         {
+            structureUI.SetActive(true);
             highlightEnabled = true;
             foreach (GameObject thing in highlight) thing.SetActive(true);
             StartCoroutine(HightlightFlash());
@@ -410,6 +413,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
         if (!enable && highlightEnabled)
         {
             highlightEnabled = false;
+            structureUI.SetActive(false);
             foreach (GameObject thing in highlight) thing.SetActive(false);
         }
     }

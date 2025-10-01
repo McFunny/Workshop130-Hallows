@@ -24,7 +24,7 @@ public class SeedExtractor : StructureBehaviorScript
     public override void StructureInteraction()
     {
 
-        if(progress >= maxProgress || savedItems[0] == null) return;
+        if(progress < maxProgress || savedItems.Count == 0) return;
 
         InventoryItemData itemToSpawn = savedItems[0].FetchConversion(ItemConversionMethod.SeedExtract).newItem;
 
@@ -48,8 +48,8 @@ public class SeedExtractor : StructureBehaviorScript
 
             ParticlePoolManager.Instance.GrabCloudParticle().transform.position = itemDropTransform.position;
 
-            savedItems.Clear();
         }
+        savedItems.Clear();
         audioHandler.PlaySound(audioHandler.activatedSound);
 
         fumes.Stop();

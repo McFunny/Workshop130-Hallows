@@ -316,6 +316,7 @@ MonoBehaviour:
   flammable: 1
   onFire: 0
   isObstacle: 1
+  repairableWithGlue: 1
   absentFromGrid: 0
   absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
@@ -371,8 +372,6 @@ MonoBehaviour:
   fillPlane: {fileID: 5762301570131631384}
   anim: {fileID: 3180251888463781421}
   progress: 0
-  isFunctioning: 0
-  chargingPopup: {fileID: 11400000, guid: 22aeaa8c9bb61a7489f93448cf4a2f39, type: 2}
 --- !u!136 &7810400599221991258
 CapsuleCollider:
   m_ObjectHideFlags: 0
