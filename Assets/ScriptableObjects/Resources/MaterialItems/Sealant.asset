@@ -15,9 +15,9 @@ MonoBehaviour:
   ID: 225
   displayName: Sealant
   description: Sticky paste made from processed bone resin. Can be used to repair
-    some structures, placed as a sticky trap, or sold.
+    some structures or sold.
   icon: {fileID: 793260765, guid: 0555e3e6e2cc5054081ac134309777fd, type: 3}
-  type: 0
+  type: 1
   maxStackSize: 20
   value: 30
   sellValueMultiplier: 0.3
@@ -36,5 +36,5 @@ MonoBehaviour:
   useSound: {fileID: 0}
   cannotEnterInventory: 0
   durability: 0
-  behavior: {fileID: 0}
-  tool: 0
+  behavior: {fileID: 11400000, guid: 9d926a6386caa9a439c4069db74692d4, type: 2}
+  tool: 11

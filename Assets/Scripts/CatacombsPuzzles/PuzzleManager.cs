@@ -146,6 +146,7 @@ public class PuzzleManager : MonoBehaviour
             bugPuzzleSaveData = BugPuzzleManager.Instance.ExportSaveData(),
             siegeFlowerSaveData = SiegeFlowerPuzzleManager.Instance.ExportSaveData(),
             gachaponSaveData = Gachapon.Instance.ExportSaveData(),
+            torchSaveData = CatacombsTorchManager.Instance.ExportSaveData(),
             totalPuzzlesSolved = totalPuzzlesSolved,
             allPuzzlesSolved = allPuzzlesSolved
         };
@@ -162,6 +163,7 @@ public class PuzzleManager : MonoBehaviour
         BugPuzzleManager.Instance.ImportSaveData(data.bugPuzzleSaveData);
         SiegeFlowerPuzzleManager.Instance.ImportSaveData(data.siegeFlowerSaveData);
         Gachapon.Instance.ImportSaveData(data.gachaponSaveData);
+        CatacombsTorchManager.Instance.ImportSaveData(data.torchSaveData);
         totalPuzzlesSolved = data.totalPuzzlesSolved;
         allPuzzlesSolved = data.allPuzzlesSolved;
         if (allPuzzlesSolved)
@@ -186,6 +188,7 @@ public struct PuzzleManagerSaveData
     public BugPuzzleSaveData bugPuzzleSaveData;
     public SiegeFlowerPuzzleSaveData siegeFlowerSaveData;
     public GachaponSaveData gachaponSaveData;
+    public TorchSaveData torchSaveData;
     public int totalPuzzlesSolved;
     public bool allPuzzlesSolved;
 }
