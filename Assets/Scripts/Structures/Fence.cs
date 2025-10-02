@@ -27,6 +27,13 @@ public class Fence : StructureBehaviorScript
         UpdateModel();
 
         StructureBehaviorScript.OnStructuresUpdated += UpdateModel;
+        StartCoroutine(LateStart());
+    }
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(1);
+        UpdateModel();
     }
 
     public override void ToolInteraction(ToolType type, out bool success)

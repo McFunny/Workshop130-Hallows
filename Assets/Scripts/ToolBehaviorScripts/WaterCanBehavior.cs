@@ -407,11 +407,8 @@ public class WaterCanBehavior : ToolBehavior
             var enemy = hit.collider.GetComponentInParent<CreatureBehaviorScript>();
             if (enemy != null)
             {
-                enemy.ToolInteraction(tool, out bool success);
-                if(success)
-                {
-                    consumeWater = true;
-                } 
+                enemy.HitWithWater();
+                consumeWater = true;
             }
         }
         if(consumeWater)
