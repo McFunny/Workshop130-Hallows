@@ -162,7 +162,7 @@ public class InputManager : MonoBehaviour
 
         InventoryItemData heldItem = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
 
-        if(chargeButtonHeld == false || PlayerMovement.restrictMovementTokens > 0 || (heldItem == null || (heldItem != waterGun && heldItem.ID != 1)))
+        if(chargeButtonHeld == false || PlayerMovement.restrictMovementTokens > 0 || (heldItem == null || (heldItem != waterGun && heldItem.ID != 1 && heldItem.ID != 0 && heldItem.ID != 2)))
         {
             isCharging = false;
             //return;
