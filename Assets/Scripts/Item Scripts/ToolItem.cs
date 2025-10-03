@@ -33,5 +33,7 @@ public enum ToolType
     Scythe,
     Pyrefly,
     Hydrofly,
-    Sealant
+    Sealant,
+    Kukri,
+    Pistol
 }

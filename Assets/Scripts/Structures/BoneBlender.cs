@@ -65,8 +65,6 @@ public class BoneBlender : StructureBehaviorScript
             {
                 savedItems.Add(item);
             }
-
-            savedItems.Add(item);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(itemsNeeded);
             PlayerInventoryHolder.Instance.UpdateInventory();
 

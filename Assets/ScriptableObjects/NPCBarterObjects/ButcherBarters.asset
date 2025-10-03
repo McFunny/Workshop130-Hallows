@@ -25,7 +25,7 @@ MonoBehaviour:
   - name: DryingRack
     itemForSale: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
     useItemPrice: 1
-    mintCost: 115
+    mintCost: 105
     amountForSale: 3
     barterChance: 100
     itemsRequired: []
@@ -106,6 +106,15 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
       amount: 3
+    siegesRequired: 0
+    amountGiven: 1
+  - name: BoneBlender
+    itemForSale: {fileID: 11400000, guid: c01dc5febc780da41aa2782a05c1c5aa, type: 2}
+    useItemPrice: 1
+    mintCost: 55
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
   uniqueTransactions: []
