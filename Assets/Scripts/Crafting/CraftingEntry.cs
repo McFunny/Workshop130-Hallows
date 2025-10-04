@@ -11,6 +11,7 @@ public class CraftingEntry : ScriptableObject
     [Header("Output Data")]
     public InventoryItemData output;
     public int outputAmount = 1;
+    public float craftTimeInSeconds;
     [Header("Requirement cap is 5. This includes mints.")]
     [Header("If you want a craft to have a mint cost, then do not have more than 4 other crafting requirements.")]
     public int mintCost = 0;
