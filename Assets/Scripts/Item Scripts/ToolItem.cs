@@ -35,5 +35,5 @@ public enum ToolType
     Hydrofly,
     Sealant,
     Kukri,
-    Pistol
+    Flintlock
 }

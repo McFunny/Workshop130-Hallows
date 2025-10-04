@@ -99,7 +99,7 @@ public class BoneBlender : StructureBehaviorScript
 
             if(progress >= maxProgress)
             {
-                progress = 0;
+                progress = maxProgress;
                 fumes.Stop();
                 anim.SetBool("IsFinished", true);
             }

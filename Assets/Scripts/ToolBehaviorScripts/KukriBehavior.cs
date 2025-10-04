@@ -6,7 +6,7 @@ using UnityEngine;
 public class KukriBehavior : ToolBehavior
 {
     //public InventoryItemData thisItem;
-    //ShovelAttack shovelAttack;
+    KukriAttack kukriAttack;
     public AudioClip swing, throwSFX, chargeReady;
 
     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -21,7 +21,7 @@ public class KukriBehavior : ToolBehavior
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
-        //if(!shovelAttack) shovelAttack = FindObjectOfType<ShovelAttack>();
+        if(!kukriAttack) kukriAttack = FindObjectOfType<KukriAttack>();
         usingPrimary = true;
 
         coolDownMod = 1; //Multiplied to the tool use cooldown

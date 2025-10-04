@@ -137,6 +137,7 @@ public class TownHen : CreatureBehaviorScript
     {
         agent.ResetPath();
         float time = Random.Range(1f, 9f);
+        float currentTime = 0;
         if(time > 5)
         {
             anim.SetBool("IsSitting", true);
@@ -149,7 +150,11 @@ public class TownHen : CreatureBehaviorScript
             if(r > 7) anim.Play("HenIdle1");
             else if(r > 5) anim.Play("HenIdle2");
         }
-        yield return new WaitForSeconds(time);
+        while(currentTime < time || (playerInSightRange && currentTime > 1))
+        {
+            yield return new WaitForSeconds(1);
+            currentTime++;
+        }
         
         if(time > 8)
         {

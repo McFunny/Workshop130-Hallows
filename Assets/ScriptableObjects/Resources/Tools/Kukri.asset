@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70dbf8d30e14dbf4a99b211eb63c25fb, type: 3}
   m_Name: Kukri
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 228
   displayName: Kukri
-  description: 
+  description: A short blade that swings fast and can be thrown.
   icon: {fileID: 640271242, guid: 4ed607aa848ad684bae4481896a8ded5, type: 3}
   type: 2
-  maxStackSize: 20
+  maxStackSize: 1
   value: 0
-  sellValueMultiplier: 1
-  isKeyItem: 0
-  hasModel: 0
+  sellValueMultiplier: 0
+  isKeyItem: 1
+  hasModel: 1
   staminaValue: 0
   animalHungerValue: 0
   bonusCompostValue: 0
@@ -35,5 +35,5 @@ MonoBehaviour:
   useSound: {fileID: 0}
   cannotEnterInventory: 0
   durability: 0
-  behavior: {fileID: 0}
-  tool: 0
+  behavior: {fileID: 11400000, guid: 9af1a2a7d42d683439b34e0eacb67ff8, type: 2}
+  tool: 12

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class HandItemManager : MonoBehaviour
 {
-    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly, hydrofly;
+    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly, hydrofly, kukri, flintlock;
     public GameObject torchFlame, pyreflyFlame;
     public MeshRenderer pyreflyMat;
     public Material pyreflyLit, pyreflyUnlit;
 
-    Vector3 hoePos, shovelPos, wateringCanPos, shotGunPos, waterGunPos, torchPos, bugNetPos, scythePos, pyreflyPos; //starting positions
-    Quaternion hoeRot, shovelRot, wateringCanRot, shotGunRot, waterGunRot, torchRot, bugNetRot, scytheRot, pyreflyRot; //starting rotations
+    Vector3 hoePos, shovelPos, wateringCanPos, shotGunPos, waterGunPos, torchPos, bugNetPos, scythePos, pyreflyPos; //starting positions, unused
+    Quaternion hoeRot, shovelRot, wateringCanRot, shotGunRot, waterGunRot, torchRot, bugNetRot, scytheRot, pyreflyRot; //starting rotations, unused
 
     ToolType currentType = ToolType.Null;
 
@@ -120,6 +120,14 @@ public class HandItemManager : MonoBehaviour
             case ToolType.Hydrofly:
                 hydrofly.SetActive(true);
                 currentHandObject = hydrofly;
+                break;
+            case ToolType.Kukri:
+                kukri.SetActive(true);
+                currentHandObject = kukri;
+                break;
+            case ToolType.Flintlock:
+                flintlock.SetActive(true);
+                currentHandObject = flintlock;
                 break;
             default:
                 currentHandObject = null;
