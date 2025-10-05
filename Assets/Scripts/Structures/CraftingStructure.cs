@@ -1,23 +1,142 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class CraftingStructure : StructureBehaviorScript
 {
-    public List<CraftingEntry> assignedCrafts = new List<CraftingEntry>();
+    public List<CraftSlotData> craftSlots = new List<CraftSlotData>();
     private CraftingSystem craftingSystem;
+    public int currentSlot;
+    private const int CRAFTCAP = 5;
+    public bool isCrafting = false;
+    public Coroutine craftCoroutine;
 
     public void Start()
     {
         base.Start();
-        craftingSystem = FindObjectOfType<CraftingSystem>();   
+        craftingSystem = FindObjectOfType<CraftingSystem>();
+
     }
     public override void StructureInteraction()
     {
-        //THIS IS WHERE U DO THE CODE TO BRING UP THE MENU Thank cam
-
-        craftingSystem.OpenCraftingInterface();
+        //THIS IS WHERE U DO THE CODE TO BRING UP THE MENU Thank you cam very cool
+        craftingSystem.SetCurrentStructure(this);
+        StartCoroutine(WaitToOpenCraftingInterface());
 
     }
+
+    private IEnumerator WaitToOpenCraftingInterface()
+    {
+        yield return new WaitForSeconds(0.1f);
+        craftingSystem.OpenCraftingInterface();
+    }
+
+    public void AddCraft(CraftingEntry craft)
+    {
+        if (CanAddCraft())
+        {
+            CraftSlotData newSlot = new CraftSlotData();
+            newSlot.assignedCraft = craft;
+            newSlot.timeRemaining = craft.craftTimeInSeconds;
+            craftSlots.Add(newSlot);
+            if (!isCrafting)
+            {
+                craftCoroutine = StartCoroutine(PerformCraft());
+            }
+        }
+    }
+
+    public IEnumerator PerformCraft()
+    {
+        isCrafting = true;
+        currentSlot = 0;
+
+        for (int i = 0; i < craftSlots.Count; i++)
+        {
+            if (craftSlots[i].isComplete == false)
+            {
+                currentSlot = i;
+                break;
+            }
+        }
+
+        if (craftingSystem.currentStructure == this)
+        {
+            craftingSystem.UpdateTimerText(craftSlots[currentSlot].timeRemaining);
+        }
+        StartCoroutine(CraftTimer());
+
+        while (craftSlots[currentSlot].timeRemaining > 0)
+        {
+            yield return null;
+        }
+        print("Craft Complete");
+        //craftSlots.RemoveAt(0);
+        craftSlots[currentSlot].isComplete = true;
+
+        isCrafting = false;
+
+        for (int i = 0; i < craftSlots.Count; i++)
+        {
+            if (craftSlots[i].isComplete == false)
+            {
+                craftCoroutine = StartCoroutine(PerformCraft());
+                break;
+            }
+        }
+
+        if (craftingSystem.currentStructure == this)
+        {
+            craftingSystem.UpdateActiveCrafts();
+        }
+    }
+
+    private IEnumerator CraftTimer()
+    {
+        while (craftSlots[currentSlot].timeRemaining > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            craftSlots[currentSlot].timeRemaining--;
+            //Debug.Log("Time Remaining: " + craftSlots[currentSlot].timeRemaining);
+            if (craftingSystem.currentStructure == this)
+            {
+                craftingSystem.UpdateTimerText(craftSlots[currentSlot].timeRemaining);
+            }
+        }
+    }
+
+    public bool CanAddCraft()
+    {
+        if (craftSlots.Count < CRAFTCAP)
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    public void StopCrafting()
+    {
+        if (isCrafting)
+        {
+            StopAllCoroutines();
+            isCrafting = false;
+        }
+    }
+
+    public void StartCrafting()
+    {
+        if (!isCrafting && craftSlots.Count > 0)
+        {
+            craftCoroutine = StartCoroutine(PerformCraft());
+        }
+    }
+}
+
+public class CraftSlotData
+{
+    public CraftingEntry assignedCraft;
+    public int timeRemaining;
+    public bool isComplete = false;
 }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CraftingSystem : MonoBehaviour
@@ -9,44 +10,58 @@ public class CraftingSystem : MonoBehaviour
     public static bool isCraftingMenuOpen;
     public CraftingEntry selectedEntry;
     public Button craftButton;
+    public Button collectButton;
     [SerializeField] private GameObject craftingMenu;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private GameObject container;
+    [SerializeField] private GameObject outputContainer;
     [SerializeField] private ToolTipScript descriptionBox;
     [SerializeField] private GameObject descriptionBoxVisuals;
+    [SerializeField] private TextMeshProUGUI timerText;
     [HideInInspector] public TextMeshProUGUI craftButtonText;
+    [SerializeField] private List<Image> outputImages;
+    [SerializeField] private List<TextMeshProUGUI> outputText;
+    [SerializeField] private List<CanvasGroup> canvasGroups = new List<CanvasGroup>();
     private CraftingEntry[] craftingEntries;
     private GameObject descriptionBoxContainer;
+    private CanvasGroup thisCanvasGroup;
+    private TextMeshProUGUI collectButtonText;
+
+    [HideInInspector] public CraftingStructure currentStructure;
+    private const int CRAFTCAP = 5;
+
 
     private void Start()
     {
         craftButtonText = craftButton.GetComponentInChildren<TextMeshProUGUI>();
+        collectButtonText = collectButton.GetComponentInChildren<TextMeshProUGUI>();
+        thisCanvasGroup = GetComponent<CanvasGroup>();
         craftingMenu.SetActive(false);
         isCraftingMenuOpen = false;
         craftingEntries = Resources.LoadAll<CraftingEntry>("Crafting");
         descriptionBoxContainer = descriptionBox.gameObject.transform.GetChild(0).gameObject;
         descriptionBoxVisuals.SetActive(false);
+
         Reset();
-        PopulateCraftingInterface();
+        //PopulateCraftingInterface();
     }
 
     private void Update()
     {
-        DebugOpenInventory();
-    }
-
-    private void DebugOpenInventory()
-    {
-        if (!StructureManager.Instance.enableCheats) return;
-
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        if (ControlManager.isController)
         {
-            OpenCraftingInterface();
+            if (EventSystem.current.currentSelectedGameObject == null && isCraftingMenuOpen)
+            {
+                if (container.transform.childCount > 0)
+                {
+                    EventSystem.current.SetSelectedGameObject(container.transform.GetChild(0).gameObject);
+                }
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && isCraftingMenuOpen)
         {
-            if (isCraftingMenuOpen) OpenCraftingInterface();
+            OpenCraftingInterface();
         }
     }
 
@@ -63,10 +78,28 @@ public class CraftingSystem : MonoBehaviour
             PlayerMovement.restrictMovementTokens++;
             Reset();
             PopulateCraftingInterface();
+            EnableDisableAllCanvasGroups(false);
+            if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(container.transform.GetChild(0).gameObject);
+
+            if (currentStructure.craftSlots.Count > 0)
+            {
+                UpdateTimerText(currentStructure.craftSlots[currentStructure.currentSlot].timeRemaining);
+                UpdateCraftButton();
+            }
+            else
+            {
+                UpdateTimerText(0);
+                collectButton.interactable = false;
+                collectButtonText.text = "Nothing to Collect";
+            }
         }
         else
         {
             PlayerMovement.restrictMovementTokens--;
+            currentStructure = null;
+            selectedEntry = null;
+            UpdateTimerText(0);
+            EnableDisableAllCanvasGroups(true);
         }
     }
 
@@ -76,6 +109,12 @@ public class CraftingSystem : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
+        for (int i = 0; i < outputImages.Count; i++)
+        {
+            outputImages[i].enabled = false;
+        }
+
         descriptionBoxContainer.SetActive(false);
         descriptionBoxVisuals.SetActive(false);
     }
@@ -109,6 +148,39 @@ public class CraftingSystem : MonoBehaviour
             }
 
         }
+        //print(currentStructure.assignedCrafts.Capacity);
+        UpdateActiveCrafts();
+
+    }
+
+    public void UpdateActiveCrafts()
+    {
+        for (int i = 0; i < CRAFTCAP; i++)
+        {
+            if (i < currentStructure.craftSlots.Count && currentStructure.craftSlots[i].assignedCraft != null)
+            {
+                outputImages[i].sprite = currentStructure.craftSlots[i].assignedCraft.output.icon;
+                outputImages[i].enabled = true;
+
+                if (currentStructure.craftSlots[i].isComplete)
+                {
+                    outputImages[i].color = Color.green;
+                    outputText[i].text = "x" + currentStructure.craftSlots[i].assignedCraft.outputAmount;
+                }
+                else
+                {
+                    outputImages[i].color = Color.red;
+                    outputText[i].text = "x" + currentStructure.craftSlots[i].assignedCraft.outputAmount;
+                }
+
+            }
+            else
+            {
+                outputImages[i].enabled = false;
+                outputText[i].text = "";
+            }
+        }
+        UpdateCraftButton();
     }
 
     public void UpdateAssignedEntry(CraftingEntry entry)
@@ -153,6 +225,11 @@ public class CraftingSystem : MonoBehaviour
         else return false;
     }
 
+    public bool IsCraftingInterfaceFull()
+    {
+        return !currentStructure.CanAddCraft();
+    }
+
     public CraftReason IsAbleToCraft()
     {
         if (selectedEntry == null)
@@ -167,10 +244,16 @@ public class CraftingSystem : MonoBehaviour
             return new CraftReason(false, "Can't Afford");
         }
 
-        if (IsInventoryFull())
+        //if (IsInventoryFull())
+        //{
+        //    Debug.Log("Inventory full. Craft aborted. Put something on screen for this.");
+        //    return new CraftReason(false, "Inventory Full");
+        //}
+
+        if (IsCraftingInterfaceFull())
         {
-            Debug.Log("Inventory full. Craft aborted. Put something on screen for this.");
-            return new CraftReason(false, "Inventory Full");
+            Debug.Log("Workbench Interface full full. Craft aborted. Put something on screen for this.");
+            return new CraftReason(false, "Workbench Full");
         }
 
         return new CraftReason(true, "");
@@ -194,8 +277,99 @@ public class CraftingSystem : MonoBehaviour
 
         PlayerInteraction.Instance.currentMoney -= selectedEntry.mintCost;
         PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(classConv);
-        PlayerInventoryHolder.Instance.AddToInventory(selectedEntry.output, selectedEntry.outputAmount);
+        currentStructure.AddCraft(selectedEntry);
+        //PlayerInventoryHolder.Instance.AddToInventory(selectedEntry.output, selectedEntry.outputAmount);
         UpdateAssignedEntry(selectedEntry);
+        UpdateActiveCrafts();
+    }
+
+    public void SetCurrentStructure(CraftingStructure s)
+    {
+        currentStructure = s;
+    }
+
+    public void CollectCrafts()
+    {
+        currentStructure.StopCrafting();
+        for (int i = 0; i < currentStructure.craftSlots.Count; i++)
+        {
+            if (currentStructure.craftSlots[i].isComplete)
+            {
+                if (PlayerInventoryHolder.Instance.IsInventoryFull(currentStructure.craftSlots[i].assignedCraft.output, currentStructure.craftSlots[i].assignedCraft.outputAmount))
+                {
+                    Debug.Log("Inventory Full");
+                    collectButtonText.text = "Inventory Full";
+                    collectButton.interactable = false;
+                    break;
+                }
+                //give player item
+                PlayerInventoryHolder.Instance.AddToInventory(currentStructure.craftSlots[i].assignedCraft.output, currentStructure.craftSlots[i].assignedCraft.outputAmount);
+                currentStructure.craftSlots[i].assignedCraft = null;
+            }
+        }
+        currentStructure.craftSlots.RemoveAll(item => item.assignedCraft == null);
+
+        if (currentStructure.craftSlots.Count > 0)
+        {
+            currentStructure.StartCrafting();
+        }
+        UpdateActiveCrafts();
+        if (selectedEntry != null) UpdateAssignedEntry(selectedEntry);
+        
+    }
+
+    public void UpdateTimerText(int timeRemaining)
+    {
+        if (timeRemaining <= 0)
+        {
+            timerText.text = "";
+            return;
+        }
+
+        int minutes = timeRemaining / 60;
+        int seconds = timeRemaining % 60;
+
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    private void UpdateCraftButton()
+    {
+        if (currentStructure.craftSlots.Count > 0)
+        {
+            bool inventoryFull = PlayerInventoryHolder.Instance.IsInventoryFull(currentStructure.craftSlots[0].assignedCraft.output, currentStructure.craftSlots[0].assignedCraft.outputAmount);
+            if (currentStructure.craftSlots[0].isComplete && !inventoryFull)
+            {
+                collectButton.interactable = true;
+                collectButtonText.text = "Collect";
+            }
+            else if (inventoryFull)
+            {
+                collectButton.interactable = false;
+                collectButtonText.text = "Inventory Full";
+            }
+            else
+            {
+                collectButton.interactable = false;
+                collectButtonText.text = "Nothing to Collect";
+            }
+        }
+        else
+        {
+            collectButton.interactable = false;
+            collectButtonText.text = "Nothing to Collect";
+        }
+        
+    }
+
+    private void EnableDisableAllCanvasGroups(bool val)
+    {
+        thisCanvasGroup.interactable = !val;
+        thisCanvasGroup.blocksRaycasts = !val;
+        foreach (CanvasGroup cg in canvasGroups)
+        {
+            cg.interactable = val;
+            cg.blocksRaycasts = val;
+        }
     }
 }
 
