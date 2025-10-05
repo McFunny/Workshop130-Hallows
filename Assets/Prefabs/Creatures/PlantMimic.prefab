@@ -570,9 +570,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2443200249570932194}
-  m_Layer: 0
+  - component: {fileID: 4509242140456354418}
+  m_Layer: 9
   m_Name: Tooth_Base_JNT
-  m_TagString: Untagged
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -593,6 +594,27 @@ Transform:
   - {fileID: 4113548152401042853}
   m_Father: {fileID: 8517688401802875395}
   m_LocalEulerAnglesHint: {x: 0.4587683, y: 3.8272223, z: -64.648895}
+--- !u!65 &4509242140456354418
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4330642355378852736}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 35, y: 35, z: 35}
+  m_Center: {x: 3.76, y: 13.94, z: 0}
 --- !u!1 &4419824370217111653
 GameObject:
   m_ObjectHideFlags: 0

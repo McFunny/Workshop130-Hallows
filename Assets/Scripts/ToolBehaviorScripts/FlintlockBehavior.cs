@@ -10,15 +10,22 @@ public class FlintlockBehavior : ToolBehavior
 
     InventoryItemData bulletFired;
 
-    public AudioClip shoot, reload;
-    int bulletCount = 6;
-    int pinexBulletCount = 10;
+    public AudioClip shoot, hit_Dirt, hit_Creature, hit_Structure, headShot;
+    int bulletCount = 1;
+    int shrapnelCount = 8;
 
     Transform bulletStart;
 
-    float speed = 240;
-    float bulletSpread = 0.07f;
-    float pinexBulletSpread = 0.075f;
+    float speed = 400;
+    float bulletSpread = 0.0001f;
+    float shrapnelSpread = 0.075f;
+
+    float currentBulletDamage = 20;
+    float currentBulletStructureDamage = 2;
+    float headShotMult = 3f;
+
+    Vector3 origin;
+    Vector3 direction;
 
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
@@ -67,18 +74,12 @@ public class FlintlockBehavior : ToolBehavior
         tool = _tool;
         usingPrimary = true;
         //Shoot
+        HandItemManager.Instance.pistolParticles.Play();
 
-        bool isReloading = ShotgunAmmoCheck(bulletFired);
-        HandItemManager.Instance.DoesShotgunReload(isReloading);
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(shoot);
-        float cooldown = isReloading ? 2.5f : 0.3f;
+        float cooldown = 0.25f;
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, cooldown));
-    }
-
-    private bool ShotgunAmmoCheck(InventoryItemData bullet)
-    {
-        return PlayerInventoryHolder.Instance.FindItemInBothInventories(bullet);
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -102,22 +103,34 @@ public class FlintlockBehavior : ToolBehavior
 
     public IEnumerator ShootGun()
     {
-        PlayerInteraction.Instance.ShakeScreen(0.5f);
+        PlayerInteraction.Instance.ShakeScreen(0.2f);
         if(!bulletStart)
         {
             bulletStart = HandItemManager.Instance.bulletStart;
         }
-        if(bulletFired == bulletItem) ShootBullets();
-        else if(bulletFired == bulletItem2) ShootSeedBullets();
-        yield return new WaitForSeconds(1.2f);
+        ShootBullets();
+        //ShootShrapnel();
+        yield return new WaitForSeconds(0.65f);
         usingPrimary = false;
     }
 
     void ShootBullets()
     {
+        ///hitscan bullets
+        Ray camRay = PlayerInteraction.Instance.mainCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        origin = camRay.origin;
+        direction = camRay.direction;
+        RaycastHit hit;
+
+        if (Physics.Raycast(origin, direction, out hit, 200, mask))
+        {
+            RaycastBulletHit(hit.collider.gameObject, hit.point);
+        }
+
+        /*
         for (int i = 0; i < bulletCount; i++)
         {
-            GameObject newBullet = ProjectilePoolManager.Instance.GrabBullet();
+            GameObject newBullet = ProjectilePoolManager.Instance.GrabFlintBulletRock();
             newBullet.transform.position = bulletStart.position;
             newBullet.transform.rotation = Quaternion.identity;
             Vector3 dir;
@@ -126,18 +139,108 @@ public class FlintlockBehavior : ToolBehavior
             newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
  
         }
+        */
     }
 
-    void ShootSeedBullets()
+    void ShootShrapnel()
     {
-        for (int i = 0; i < pinexBulletCount; i++)
+        for (int i = 0; i < shrapnelCount; i++)
         {
-            GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
+            GameObject newBullet = ProjectilePoolManager.Instance.GrabFlintBulletShrapnel();
             newBullet.transform.position = bulletStart.position;
             newBullet.transform.rotation = Quaternion.identity;
-            Vector3 dir = bulletStart.forward + new Vector3(Random.Range(-pinexBulletSpread,pinexBulletSpread), Random.Range(-pinexBulletSpread,pinexBulletSpread), Random.Range(-pinexBulletSpread,pinexBulletSpread));
+            Vector3 dir = bulletStart.forward + new Vector3(Random.Range(-shrapnelSpread,shrapnelSpread), Random.Range(-shrapnelSpread,shrapnelSpread), Random.Range(-shrapnelSpread,shrapnelSpread));
             newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
  
         }
+    }
+
+    void RaycastBulletHit(GameObject other, Vector3 hitPos)
+    {
+        if(other.gameObject.layer == 18)
+        {
+            var armor = other.GetComponent<CreatureArmor>();
+            if(armor)
+            {
+                armor.TakeDamage(2);
+                HandItemManager.Instance.toolSource.PlayOneShot(hit_Structure);
+                ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+
+                //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
+                //if(particles) particles.transform.position = transform.position;
+                return;
+            }
+        }
+
+        if(other.gameObject.layer == 6)
+        {
+            //break
+            var structure = other.GetComponent<StructureBehaviorScript>();
+            if (structure != null)
+            {
+                if(currentBulletStructureDamage > 0)
+                {
+                    structure.TakeDamage(currentBulletStructureDamage);
+                    HandItemManager.Instance.toolSource.PlayOneShot(hit_Structure);
+                    ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+                    ParticlePoolManager.Instance.MoveAndPlayParticle(hitPos, ParticlePoolManager.Instance.dirtParticle);
+
+                    //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
+                    //if(particles) particles.transform.position = transform.position;
+                    return;
+                }
+                
+            }    
+        }
+
+        if (other.gameObject.layer == 17)
+        {
+            Rigidbody rb = other.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                float bulletSpeed = 200;
+                float forceMultiplier = 0.1f;
+                rb.AddForce(direction * bulletSpeed * forceMultiplier, ForceMode.Impulse);
+            }
+        }
+
+        if (other.gameObject.layer == 9)
+        {
+            var creature = other.GetComponentInParent<CreatureBehaviorScript>();
+            if (creature != null && creature.shovelVulnerable)
+            {
+                if(other.tag == "Head")
+                {
+                    creature.TakeDamage(headShotMult * currentBulletDamage);
+                    ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+                    ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+                    HandItemManager.Instance.toolSource.PlayOneShot(headShot);
+                }
+                else creature.TakeDamage(currentBulletDamage);
+                //playsound
+                HandItemManager.Instance.toolSource.PlayOneShot(hit_Creature);
+
+                //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
+                //if(particles) particles.transform.position = transform.position;
+                ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+                creature.PlayHitParticle(hitPos);
+                return;
+            }
+        }
+
+        if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
+        {
+            HandItemManager.Instance.toolSource.PlayOneShot(hit_Dirt);
+            ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+            ParticlePoolManager.Instance.MoveAndPlayParticle(hitPos, ParticlePoolManager.Instance.dirtParticle);
+
+            //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
+            //if(particles) particles.transform.position = transform.position;
+            return;
+        }
+
+        var bug = other.GetComponent<BugBehaviorScript>();
+        if(bug) bug.Struck();
+
     }
 }

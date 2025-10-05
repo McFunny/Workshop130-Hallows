@@ -397,7 +397,12 @@ public class WaterCanBehavior : ToolBehavior
             {
                 if(structure.onFire || !wateredStructures.Contains(structure))
                 {
-                    if(structure as FarmLand) wateredStructures.Add(structure);
+                    FarmLand tile = structure as FarmLand;
+                    if(tile)
+                    {
+                        wateredStructures.Add(structure);
+                        if(tile.GetCropStats().waterLevel == 10) return;
+                    }
                     structure.HitWithWater();
                     consumeWater = true;
                 }

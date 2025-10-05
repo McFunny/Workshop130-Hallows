@@ -27,7 +27,7 @@ public class HandItemManager : MonoBehaviour
 
     public Transform bulletStart, waterBulletStart, waterBulletCloseStart;
 
-    public ParticleSystem waterCanParticles;
+    public ParticleSystem waterCanParticles, pistolParticles;
 
     void Awake()
     {
