@@ -10238,6 +10238,7 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 0
   absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
@@ -10292,6 +10293,8 @@ MonoBehaviour:
   - {fileID: 6066298899348246114}
   stage: 0
   repairItems:
+  - item: {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
+    repairAmount: 5
   - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
     repairAmount: 5
   - item: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}

@@ -32,5 +32,8 @@ public enum ToolType
     BugNet,
     Scythe,
     Pyrefly,
-    Hydrofly
+    Hydrofly,
+    Sealant,
+    Kukri,
+    Flintlock
 }

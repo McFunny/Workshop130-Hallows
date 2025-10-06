@@ -188,6 +188,7 @@ public class ButcherNPC : NPC, ITalkable
             while (!newItem);
             int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
+            item.ChangeAmountGiven(barterDatabase.transactions[i].amountGiven);
             item.seller = this;
             itemsDisplayed++;
         }

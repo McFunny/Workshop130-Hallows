@@ -5012,8 +5012,12 @@ MonoBehaviour:
   corpseType: 0
   rb: {fileID: 4481501519959371730}
   anim: {fileID: 6656053037522469647}
-  droppedItems: []
-  dropChance: []
+  droppedItems:
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  dropChance:
+  - 10
+  - 5
   sightRange: 0
   attackRange: 4
   playerInSightRange: 0

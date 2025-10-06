@@ -159,14 +159,14 @@ public class WaterGunBehavior : ToolBehavior
         while(InputManager.isCharging && usingPrimary)
         {
             newPos = StructureManager.Instance.GetTileCenter(player.position);
-            newDirection = GetDirection();
+            newDirection = StructureManager.Instance.GetDirection(player);
             //Debug.Log(player.eulerAngles.x);
             if((currentPos != newPos || currentDirection != newDirection) && newPos != new Vector3(0,0,0) && (player.eulerAngles.x <= 45 && player.eulerAngles.x >= 10))
             {
                 currentPos = newPos;
                 currentDirection = newDirection;
                 //Debug.Log(currentDirection);
-                targets = StructureManager.Instance.WaterGunTargets(currentPos, currentDirection, range);
+                targets = StructureManager.Instance.ShowTargets(currentPos, currentDirection, range, true);
                 if(targets.Count > 0)
                 {
                     for(int i = 0; i < targets.Count; i++)
@@ -293,7 +293,7 @@ public class WaterGunBehavior : ToolBehavior
         PlayerInteraction.Instance.ToolUseToggle(false);
     }
 
-    public Direction GetDirection()
+    /*public Direction GetDirection()
     {
         Direction newDirection;
 
@@ -310,7 +310,7 @@ public class WaterGunBehavior : ToolBehavior
         else newDirection = Direction.West; 
 
         return newDirection;
-    }
+    }*/
 
   
 }

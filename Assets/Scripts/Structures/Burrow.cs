@@ -14,7 +14,7 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
 
     public bool containsEgg;
 
-    public InventoryItemData eggItem;
+    public InventoryItemData eggItem, rockItem;
     
     void Awake()
     {
@@ -27,6 +27,11 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
 
         OnDamage += Damaged;
+
+        if(!TimeManager.Instance.isDay && Random.Range(0,10) > 7)
+        {
+            InsertItem(rockItem);
+        }
     }
 
     public override void ToolInteraction(ToolType type, out bool success)

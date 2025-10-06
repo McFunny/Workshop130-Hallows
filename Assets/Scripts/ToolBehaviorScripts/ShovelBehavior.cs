@@ -93,7 +93,7 @@ public class ShovelBehavior : ToolBehavior
                         coolDownMod += .25f;
                         animSpeedMod -= .15f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
+                    //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.9f * coolDownMod));
@@ -199,8 +199,8 @@ public class ShovelBehavior : ToolBehavior
         yield return new WaitForSeconds(0.2f * coolDownMod);
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f));
 
-        yield return new WaitForSeconds(0.9f * coolDownMod);
-        if(InputManager.isCharging /*&& PlayerInteraction.Instance.waterHeld >= 3*/)
+        yield return new WaitForSeconds(0.6f * coolDownMod);
+        if(InputManager.isCharging)
         {
             HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
             maxCharge = true;
