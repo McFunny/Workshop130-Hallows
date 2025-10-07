@@ -24,6 +24,7 @@ public class WaterCanBehavior : ToolBehavior
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         if(!pourParticles) pourParticles = HandItemManager.Instance.waterCanParticles;
+        if(pourParticles) pourParticles.Stop();
         //water
         //PrimaryUse();
         BeginCharge();
@@ -329,6 +330,7 @@ public class WaterCanBehavior : ToolBehavior
         }
 
         yield return new WaitForSeconds(0.7f);
+        if(pourParticles) pourParticles.Stop();
         PlayerInteraction.Instance.ToolUseToggle(false);
 
     }
@@ -403,6 +405,7 @@ public class WaterCanBehavior : ToolBehavior
                         wateredStructures.Add(structure);
                         if(tile.GetCropStats().waterLevel == 10) return;
                     }
+                    else if(structure as IWaterHolder == null) wateredStructures.Add(structure);
                     structure.HitWithWater();
                     consumeWater = true;
                 }

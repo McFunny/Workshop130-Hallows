@@ -150,7 +150,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
         //Change the State
         agent.velocity = Vector3.zero;
-        targetStructure = null;
+        if(newState != PetState.Eat) targetStructure = null;
         currentState = newState;
 
         //Entering New State Effects
@@ -322,6 +322,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
     {
         if(!targetStructure && currentRoutine == null) //If there is no bowl, then they should not be in this state
         {
+            print("No Bowl");
             StateSwitch(PetState.Decide);
             return;
         }

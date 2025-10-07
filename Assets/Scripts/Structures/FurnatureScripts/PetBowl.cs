@@ -131,6 +131,11 @@ public class PetBowl : FurnitureBehaviorScript
         while(gameObject.activeSelf);
     }
 
+    public override void HitWithWater()
+    {
+        if(savedItems.Count == 0) WaterChange(true);
+    }
+
     public override void LoadVariables()
     {
         if(savedItems.Count == 0 || savedItems[0] == null)

@@ -103,7 +103,7 @@ public class FlintlockBehavior : ToolBehavior
 
     public IEnumerator ShootGun()
     {
-        PlayerInteraction.Instance.ShakeScreen(0.2f);
+        PlayerInteraction.Instance.ShakeScreen(0.4f);
         if(!bulletStart)
         {
             bulletStart = HandItemManager.Instance.bulletStart;
@@ -228,7 +228,7 @@ public class FlintlockBehavior : ToolBehavior
             }
         }
 
-        if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
+        if(other.gameObject.layer == 0 || other.gameObject.layer == 7 || other.gameObject.layer == 19)
         {
             HandItemManager.Instance.toolSource.PlayOneShot(hit_Dirt);
             ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
