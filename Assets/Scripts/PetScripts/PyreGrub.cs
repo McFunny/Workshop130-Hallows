@@ -374,6 +374,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             if(hunger <= 25 && bowl.ContainsEdibleItem(foodDiet)) isEating = true;
             if(thirst <= 25 && bowl.containsWater) isDrinking = true;
 
+            if(Vector3.Distance(player.position, transform.position) > 70f) transform.position = targetStructure.transform.position; // To get pet unstuck if they get stuck
+
             if(Vector3.Distance(targetStructure.transform.position, transform.position) < 1.5f && (isEating || isDrinking))
             {
                 agent.velocity = Vector3.zero;
