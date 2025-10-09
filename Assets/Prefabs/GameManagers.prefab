@@ -2501,6 +2501,24 @@ MonoBehaviour:
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 0}
+  - name: Miller
+    destination: 26
+    mainTransform: {fileID: 0}
+    sublocations:
+    - name: MillerHome
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 1
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: MillerWork
+      transform: {fileID: 0}
+      isForWorkers: 1
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
 --- !u!1 &1938166777746701224
 GameObject:
   m_ObjectHideFlags: 0
@@ -11088,6 +11106,7 @@ MonoBehaviour:
   waterBulletStart: {fileID: 0}
   waterBulletCloseStart: {fileID: 0}
   waterCanParticles: {fileID: 0}
+  pistolParticles: {fileID: 0}
 --- !u!114 &3952483593475695091
 MonoBehaviour:
   m_ObjectHideFlags: 0
