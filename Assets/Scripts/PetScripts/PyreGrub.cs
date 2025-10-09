@@ -150,7 +150,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
         //Change the State
         agent.velocity = Vector3.zero;
-        targetStructure = null;
+        if(newState != PetState.Eat) targetStructure = null;
         currentState = newState;
 
         //Entering New State Effects
@@ -322,6 +322,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
     {
         if(!targetStructure && currentRoutine == null) //If there is no bowl, then they should not be in this state
         {
+            print("No Bowl");
             StateSwitch(PetState.Decide);
             return;
         }
@@ -372,6 +373,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             bool isEating = false, isDrinking = false;
             if(hunger <= 25 && bowl.ContainsEdibleItem(foodDiet)) isEating = true;
             if(thirst <= 25 && bowl.containsWater) isDrinking = true;
+
+            if(Vector3.Distance(player.position, transform.position) > 70f) transform.position = targetStructure.transform.position; // To get pet unstuck if they get stuck
 
             if(Vector3.Distance(targetStructure.transform.position, transform.position) < 1.5f && (isEating || isDrinking))
             {
@@ -507,7 +510,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             if(other.gameObject.layer == 10)
             {
                 Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
-                rb.AddForce(140 * -dir, ForceMode.Impulse);
+                rb.AddForce(110 * -dir, ForceMode.Impulse);
                 return;
             }
 
@@ -521,7 +524,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                     if(structure.isObstacle || !structure.destructable)
                     {
                         Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
-                        rb.AddForce(45 * -dir, ForceMode.Impulse);
+                        rb.AddForce(25 * -dir, ForceMode.Impulse);
                     }
                     return;
                 }
@@ -542,7 +545,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                     }
 
                     Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
-                    rb.AddForce(45 * -dir, ForceMode.Impulse);
+                    rb.AddForce(25 * -dir, ForceMode.Impulse);
                     return;
                 }
             }
@@ -694,9 +697,9 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         // Limit velocity if needed
-        if (flatVel.magnitude > 600)
+        if (flatVel.magnitude > 500)
         {
-            Vector3 limitedVel = flatVel.normalized * 600;
+            Vector3 limitedVel = flatVel.normalized * 500;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }

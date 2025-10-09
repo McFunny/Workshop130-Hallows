@@ -17,7 +17,7 @@ public class BrambleHeart : StructureBehaviorScript
         StartCoroutine(HeartBeat());
     }
 
-    void HourPassed()
+    public override void HourPassed()
     {
         //if(TimeManager.Instance.isDay) return;
 
@@ -26,7 +26,7 @@ public class BrambleHeart : StructureBehaviorScript
         {
             FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
 
-            if(tile && tile.isWeed && tile.growthStage != 7 && Random.Range(0f, 10f) >= 9.5f)
+            if(tile && tile.isWeed && tile.growthStage != 7 && Random.Range(0f, 10f) >= 9.4f)
             {
                 if(Random.Range(0,10) == 9)
                 {

@@ -726,7 +726,7 @@ public class StructureManager : MonoBehaviour
         }
     }
 
-    public List<Vector3> WaterGunTargets(Vector3 pos, Direction dir, int range)
+    public List<Vector3> ShowTargets(Vector3 pos, Direction dir, int range, bool addTileOffset)
     {
         Tilemap currentMap = CurrentTileMap(pos);
         if(currentMap == null) return new List<Vector3>();
@@ -735,22 +735,26 @@ public class StructureManager : MonoBehaviour
         Vector3Int currentPos = currentMap.WorldToCell(pos);
 
         //for 1 tile offset
-        if(dir == Direction.North)
+        if(addTileOffset)
         {
-            currentPos = new Vector3Int(currentPos.x, currentPos.y + 1);
+            if(dir == Direction.North)
+            {
+                currentPos = new Vector3Int(currentPos.x, currentPos.y + 1);
+            }
+            if(dir == Direction.East)
+            {
+                currentPos = new Vector3Int(currentPos.x + 1, currentPos.y);
+            }
+            if(dir == Direction.South)
+            {
+                currentPos = new Vector3Int(currentPos.x, currentPos.y - 1);
+            }
+            if(dir == Direction.West)
+            {
+                currentPos = new Vector3Int(currentPos.x - 1, currentPos.y);
+            }
         }
-        if(dir == Direction.East)
-        {
-            currentPos = new Vector3Int(currentPos.x + 1, currentPos.y);
-        }
-        if(dir == Direction.South)
-        {
-            currentPos = new Vector3Int(currentPos.x, currentPos.y - 1);
-        }
-        if(dir == Direction.West)
-        {
-            currentPos = new Vector3Int(currentPos.x - 1, currentPos.y);
-        }
+        
 
         for(int i = 0; i < range; i++)
         {
@@ -1266,6 +1270,25 @@ public class StructureManager : MonoBehaviour
             if(allStructs[i].structData && allStructs[i].structData == data) temp.Add(allStructs[i].gameObject);
         }
         return temp;
+    }
+
+    public Direction GetDirection(Transform origin)
+    {
+        Direction newDirection;
+
+        float rotation = origin.eulerAngles.y; 
+
+        //Debug.Log(rotation);
+
+        if(rotation <= 45 || rotation >= 315) newDirection = Direction.South;
+
+        else if(rotation >= 45 && rotation <= 135) newDirection = Direction.East;
+
+        else if(rotation >= 135 && rotation <= 225) newDirection = Direction.North;
+
+        else newDirection = Direction.West; 
+
+        return newDirection;
     }
 }
 
