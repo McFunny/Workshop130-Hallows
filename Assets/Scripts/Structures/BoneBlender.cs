@@ -48,6 +48,7 @@ public class BoneBlender : StructureBehaviorScript
         fumes.Stop();
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsFinished", false);
+        progress = 0;
 
     }
 
@@ -65,8 +66,6 @@ public class BoneBlender : StructureBehaviorScript
             {
                 savedItems.Add(item);
             }
-
-            savedItems.Add(item);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(itemsNeeded);
             PlayerInventoryHolder.Instance.UpdateInventory();
 
@@ -101,7 +100,7 @@ public class BoneBlender : StructureBehaviorScript
 
             if(progress >= maxProgress)
             {
-                progress = 0;
+                progress = maxProgress;
                 fumes.Stop();
                 anim.SetBool("IsFinished", true);
             }

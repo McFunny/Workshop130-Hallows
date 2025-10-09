@@ -5938,9 +5938,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1167732352793942178}
+  - component: {fileID: 1031962170565450367}
   m_Layer: 9
   m_Name: Character1_Head
-  m_TagString: Untagged
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5960,6 +5961,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1195392954427492901}
   m_LocalEulerAnglesHint: {x: -7.2568617, y: 17.168589, z: -15.023207}
+--- !u!65 &1031962170565450367
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2500412246347846029}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.26, y: 0.25, z: 0.26}
+  m_Center: {x: 0, y: 0.09, z: 0}
 --- !u!1 &2662103240006954000
 GameObject:
   m_ObjectHideFlags: 0
@@ -12339,9 +12361,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.31
-  m_Height: 1.69
+  m_Height: 1.41
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.12, z: 0}
 --- !u!54 &1081202119367247721
 Rigidbody:
   m_ObjectHideFlags: 0

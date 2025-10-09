@@ -10205,6 +10205,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e273b9cc9a2293b4ea0dc91b7ef932a6, type: 2}
+    - target: {fileID: -5044886672156761611, guid: 3941b5bab5970094f838f8783dbeffeb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -5044886672156761611, guid: 3941b5bab5970094f838f8783dbeffeb,
+        type: 3}
+      propertyPath: m_TagString
+      value: Head
+      objectReference: {fileID: 0}
     - target: {fileID: -4823321490146787183, guid: 3941b5bab5970094f838f8783dbeffeb,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -10272,6 +10282,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 9076441012863110391}
+    - targetCorrespondingSourceObject: {fileID: -5044886672156761611, guid: 3941b5bab5970094f838f8783dbeffeb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7523995039637585479}
   m_SourcePrefab: {fileID: 100100000, guid: 3941b5bab5970094f838f8783dbeffeb, type: 3}
 --- !u!4 &1320709902885781846 stripped
 Transform:
@@ -10319,3 +10333,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 8635440102052319011}
+--- !u!1 &3180198403830843208 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5044886672156761611, guid: 3941b5bab5970094f838f8783dbeffeb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1575877057976755901}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &7523995039637585479
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3180198403830843208}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8, y: 8, z: 8}
+  m_Center: {x: 7.0451107, y: 34.87915, z: -6.482831}

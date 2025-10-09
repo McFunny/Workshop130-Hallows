@@ -24,6 +24,7 @@ public class WaterCanBehavior : ToolBehavior
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         if(!pourParticles) pourParticles = HandItemManager.Instance.waterCanParticles;
+        if(pourParticles) pourParticles.Stop();
         //water
         //PrimaryUse();
         BeginCharge();
@@ -179,7 +180,7 @@ public class WaterCanBehavior : ToolBehavior
                 else structure.ToolInteraction(tool, out playAnim);
                 if(playAnim)
                 {
-                    HandItemManager.Instance.PlayPrimaryAnimation();
+                    //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
                     PlayerMovement.restrictMovementTokens++;
 
@@ -214,7 +215,7 @@ public class WaterCanBehavior : ToolBehavior
                 interactable.InteractWithItem(PlayerInteraction.Instance, out bool interactSuccessful, HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
                 if(interactSuccessful)
                 {
-                    HandItemManager.Instance.PlayPrimaryAnimation();
+                    //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
                     PlayerMovement.restrictMovementTokens++;
 
@@ -252,7 +253,7 @@ public class WaterCanBehavior : ToolBehavior
                 enemy.ToolInteraction(tool, out bool success);
                 if(success)
                 {
-                    HandItemManager.Instance.PlayPrimaryAnimation();
+                    //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
                     PlayerMovement.restrictMovementTokens++;
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -329,6 +330,7 @@ public class WaterCanBehavior : ToolBehavior
         }
 
         yield return new WaitForSeconds(0.7f);
+        if(pourParticles) pourParticles.Stop();
         PlayerInteraction.Instance.ToolUseToggle(false);
 
     }
@@ -371,7 +373,8 @@ public class WaterCanBehavior : ToolBehavior
 
     bool CanPour() //Checks player eyeline
     {
-        if(player.eulerAngles.x <= 35 && player.eulerAngles.x >= 0) 
+        Debug.Log(player.eulerAngles.x);
+        if((player.eulerAngles.x >= 35 && player.eulerAngles.x <= 90) || player.eulerAngles.x == 0) 
         {
             if(pourParticles) pourParticles.Play();
             return true;
@@ -396,7 +399,13 @@ public class WaterCanBehavior : ToolBehavior
             {
                 if(structure.onFire || !wateredStructures.Contains(structure))
                 {
-                    if(structure as FarmLand) wateredStructures.Add(structure);
+                    FarmLand tile = structure as FarmLand;
+                    if(tile)
+                    {
+                        wateredStructures.Add(structure);
+                        if(tile.GetCropStats().waterLevel == 10) return;
+                    }
+                    else if(structure as IWaterHolder == null) wateredStructures.Add(structure);
                     structure.HitWithWater();
                     consumeWater = true;
                 }
