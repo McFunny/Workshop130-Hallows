@@ -12,7 +12,7 @@ public class ParticlePoolManager : MonoBehaviour
     public VisualEffect hitEffect;
 
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
-    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, slimeSplashLarge;
+    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, slimeSplashLarge, orangeHitParticle;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP;
 
@@ -36,6 +36,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> heartPool = new List<GameObject>();
     List<GameObject> slimeSplashPool = new List<GameObject>();
     List<GameObject> slimeSplashLargePool = new List<GameObject>();
+    List<GameObject> orangeHitPool = new List<GameObject>();
 
     //Destruction
     List<GameObject> woodPool = new List<GameObject>();
@@ -646,6 +647,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(slimeSplash);
         slimeSplashPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabOrangeHitParticle()
+    {
+        foreach (GameObject particle in orangeHitPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(orangeHitParticle);
+        orangeHitPool.Add(newParticle);
         return newParticle;
     }
 

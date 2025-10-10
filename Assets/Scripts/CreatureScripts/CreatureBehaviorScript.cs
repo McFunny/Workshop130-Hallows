@@ -326,6 +326,20 @@ public class CreatureBehaviorScript : MonoBehaviour
         return false;
     }
 
+    public void HitStructureParticle(Vector3 hitPoint)
+    {
+        Vector3 origin;
+        if(corpseParticleTransform) origin = corpseParticleTransform.position;
+        else origin = transform.position;
+        Vector3 direction = (hitPoint - origin).normalized;
+        RaycastHit hit;
+        if (Physics.Raycast(origin, direction, out hit, 20, 1 << 6))
+        {
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hit.point;
+            print("Played");
+        }
+    }
+
 
     
 }

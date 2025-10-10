@@ -1239,7 +1239,6 @@ GameObject:
   - component: {fileID: 3206851871481754621}
   - component: {fileID: 6229748458418044384}
   - component: {fileID: 4906821766386377603}
-  - component: {fileID: 6557857595189473857}
   m_Layer: 2
   m_Name: KukriAttackCollider
   m_TagString: Untagged
@@ -1312,23 +1311,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6557857595189473857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4613956978402958756}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68dadb45cdf7a7149876e646b17cd88d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collider: {fileID: 6229748458418044384}
-  hitStruct: {fileID: 8300000, guid: 32902731c1131564a95c8392f4d81620, type: 3}
-  hitFlesh: {fileID: 8300000, guid: 4d7da1a9abc17b84b89870c0cbf80d7b, type: 3}
-  hitDirt: {fileID: 8300000, guid: 1a51bf8f5a7c1c144a9b44c993eefb63, type: 3}
-  chargedSwing: 0
 --- !u!1 &4710172168767217788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,6 +1556,7 @@ MonoBehaviour:
   sensX: 5
   sensY: 5
   orientation: {fileID: 2948405178405840430}
+  overrideCamera: 0
 --- !u!114 &6341220369791892867
 MonoBehaviour:
   m_ObjectHideFlags: 0

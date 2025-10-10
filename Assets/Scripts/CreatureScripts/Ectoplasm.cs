@@ -284,6 +284,7 @@ public class Ectoplasm : CreatureBehaviorScript
         {
             if(Vector3.Distance(targetStructure.transform.position, transform.position) < 2f)
             {
+                HitStructureParticle(targetStructure.transform.position);
                 targetStructure.TakeDamage(damageToStructure);
                 effectsHandler.MiscSound();
                 if(!isTweening)
