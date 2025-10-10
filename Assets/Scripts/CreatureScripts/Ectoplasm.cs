@@ -58,6 +58,7 @@ public class Ectoplasm : CreatureBehaviorScript
         StartCoroutine(IdleSoundTimer());
 
         StartCoroutine(MovingJiggle());
+        StartCoroutine(ScanForTargets());
     }
 
     void Update()
@@ -96,7 +97,7 @@ public class Ectoplasm : CreatureBehaviorScript
                 break;
 
             case CreatureState.AttackStructure:
-                //AttackStructure();
+                Wander();
                 break;
 
             case CreatureState.AttackPlayer:
@@ -134,12 +135,31 @@ public class Ectoplasm : CreatureBehaviorScript
             return;
         }*/
 
-        if (!isMoving && !coroutineRunning && currentState == CreatureState.Wander)
+        if(currentState == CreatureState.Wander && targetStructure)
         {
-            Vector3 randomPoint;
-            if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
-            else randomPoint = PointAroundPatrolPoint(7);
-            StartCoroutine(MoveToPoint(randomPoint, 6));
+            currentState = CreatureState.AttackStructure;
+        }
+
+        if (!isMoving && !coroutineRunning)
+        {
+            if(currentState == CreatureState.Wander)
+            {
+                Vector3 randomPoint;
+                if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
+                else randomPoint = PointAroundPatrolPoint(7);
+                StartCoroutine(MoveToPoint(randomPoint, 6));
+            }
+            else if(currentState == CreatureState.AttackStructure)
+            {
+                if(!targetStructure)
+                {
+                    targetStructure = null;
+                    currentState = CreatureState.Wander;
+                    return;
+                }
+                StartCoroutine(MoveToPoint(targetStructure.transform.position, 6));
+            }
+            
         }
     }
 
@@ -260,6 +280,35 @@ public class Ectoplasm : CreatureBehaviorScript
             }
         }
 
+        if(currentState == CreatureState.AttackStructure && targetStructure)
+        {
+            if(Vector3.Distance(targetStructure.transform.position, transform.position) < 2f)
+            {
+                targetStructure.TakeDamage(damageToStructure);
+                effectsHandler.MiscSound();
+                if(!isTweening)
+                {
+                    StartCoroutine(Jiggle());
+                }
+                StartCoroutine(AttackCoolDown());
+                coroutineRunning = true;
+
+                if(!targetStructure || targetStructure.health <= 0) 
+                {
+                    effectsHandler.PlayExtraSound(0);
+                    if(!isLarge) //Grow
+                    {
+                        Instantiate(largeSlime, transform.position, Quaternion.identity);
+                        AudioPoolManager.Instance.PlayClipAtPosition(effectsHandler.deathSound, transform.position);
+                        ParticlePoolManager.Instance.GrabCorpseParticle(corpseType).transform.position = corpseParticleTransform.position;
+                        Destroy(gameObject);
+                    }
+                    else health = maxHealth;
+                }
+                return;
+            }
+        }
+
         isMoving = false;
         coroutineRunning = false;
         interruptAction = false;
@@ -298,6 +347,44 @@ public class Ectoplasm : CreatureBehaviorScript
         }
     }
 
+    IEnumerator AttackCoolDown()
+    {
+        yield return new WaitForSeconds(2);
+        isMoving = false;
+        coroutineRunning = false;
+        interruptAction = false;
+    }
+
+    IEnumerator ScanForTargets()
+    {
+        while(health > 0)
+        {
+            if(!targetStructure) yield return new WaitForSeconds(10);
+            else yield return new WaitForSeconds(5);
+            float closestDistance = 40;
+
+            float distanceToStructure;
+
+            List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
+            foreach (var structure in structManager.allStructs)
+            {
+                FarmLand tile = structure as FarmLand;
+                distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
+                if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && distanceToStructure < closestDistance && (!tile || (tile.crop && !tile.isWeed)))
+                {
+                    availableStructure.Add(structure);
+                    closestDistance = distanceToStructure;
+                }
+            }
+
+            if (availableStructure.Count > 0)
+            {
+                int r = Random.Range(0, availableStructure.Count);
+                targetStructure = availableStructure[r];
+            }
+        }
+    }
+
     public override void OnDamage()
     {
         effectsHandler.OnHit();
@@ -305,6 +392,11 @@ public class Ectoplasm : CreatureBehaviorScript
         {
             StartCoroutine(Jiggle());
         }
+    }
+
+    public override void HitWithWater()
+    {
+        TakeDamage(10);
     }
 
     void OnDestroy()

@@ -324,7 +324,7 @@ public class MurderMancer : CreatureBehaviorScript
                 for(int i = 0; i < 4; i++)
                 {
                     int hareType = UnityEngine.Random.Range(0, (spawnedCreatureData.creatureVariants.Count + 1));
-                    if(hareType > 0 && spawnedCreatureData.creatureVariants[hareType - 1].probabilityInFarm <= 0) hareType = 0;
+                    //if(hareType > 0 && spawnedCreatureData.creatureVariants[hareType - 1].probabilityInFarm <= 0) hareType = 0;
                     GameObject prefab;
                     if(hareType == 0) prefab = spawnedCreatureData.objectPrefab;
                     else prefab = spawnedCreatureData.creatureVariants[hareType - 1].prefab;

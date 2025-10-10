@@ -29,6 +29,8 @@ public class CreatureObject : ScriptableObject
     public bool excludeFromNormalNights = false; //If true, the creature will not be picked to be part of the regular nighttime enemies
     public bool canSpawnBehindCabin = true; //If false, enemies cannot spawn at the mist section behind the cabin
 
+    //public CreatureSpawnVariance spawnVariance; //Dictates how many of this unit will spawn
+
     //[HideInInspector] public bool forceSpawnVariant = false;
 
     public SpawnType spawnType;
@@ -75,7 +77,7 @@ public class CreatureVariant
 {
     public string name;
     public GameObject prefab;
-    public float probabilityInFarm = 100; //Probability of spawning. Obsolete if using the List below
+    //public float probabilityInFarm = 100; //Probability of spawning. Obsolete if using the List below
     public float probabilityInWilderness = 100;
     public bool canSpawnInWilderness;
     public int wealthPrerequisite = 0;
@@ -87,4 +89,11 @@ public enum SpawnType
     Common, //Grunt enemies
     Rare, //More dynamic and gameplay changing
     Support //Less impactful or optional creature
+}
+
+[System.Serializable]
+public class CreatureSpawnVariance
+{
+    public int amountToSpawn;
+    public int variance;
 }

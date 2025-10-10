@@ -224,7 +224,7 @@ public class NightSpawningManager : MonoBehaviour
                 }
                 if(currentChance > p) prefab = c.creatureVariants[r].prefab;
             }
-            else if(c.creatureVariants[r].probabilityInFarm > p) prefab = c.creatureVariants[r].prefab; //If the siege variant list isnt setup
+            else prefab = null; //If the siege variant list isnt setup
 
             if(c.creatureVariants[r].wealthPrerequisite > PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
         }

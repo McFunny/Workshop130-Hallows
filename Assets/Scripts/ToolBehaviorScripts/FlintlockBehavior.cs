@@ -125,8 +125,15 @@ public class FlintlockBehavior : ToolBehavior
         {
             RaycastBulletHit(hit.collider.gameObject, hit.point);
         }
+        float xRecoil = Random.Range(-50f, 50f);
+        if(xRecoil < 0 && xRecoil > -25) xRecoil = -25;
+        if(xRecoil > 0 && xRecoil < 25) xRecoil = 25;
 
-        PlayerCam.Instance.AddCameraRecoil(Random.Range(-50f, 50f), Random.Range(-50f, 50));
+        float yRecoil = Random.Range(-50f, 50f);
+        if(yRecoil < 0 && yRecoil > -25) yRecoil = -25;
+        if(yRecoil > 0 && yRecoil < 25) yRecoil = 25;
+
+        PlayerCam.Instance.AddCameraRecoil(xRecoil, yRecoil);
 
         /*
         for (int i = 0; i < bulletCount; i++)
