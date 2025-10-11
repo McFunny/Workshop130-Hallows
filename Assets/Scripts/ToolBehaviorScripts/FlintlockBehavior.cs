@@ -109,7 +109,7 @@ public class FlintlockBehavior : ToolBehavior
         }
         ShootBullets();
         //ShootShrapnel();
-        yield return new WaitForSeconds(0.65f);
+        yield return new WaitForSeconds(0.45f);
         usingPrimary = false;
     }
 
@@ -124,30 +124,17 @@ public class FlintlockBehavior : ToolBehavior
         if (Physics.Raycast(origin, direction, out hit, 200, mask))
         {
             RaycastBulletHit(hit.collider.gameObject, hit.point);
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hit.point;
         }
         float xRecoil = Random.Range(-50f, 50f);
         if(xRecoil < 0 && xRecoil > -25) xRecoil = -25;
         if(xRecoil > 0 && xRecoil < 25) xRecoil = 25;
 
-        float yRecoil = Random.Range(-50f, 50f);
-        if(yRecoil < 0 && yRecoil > -25) yRecoil = -25;
-        if(yRecoil > 0 && yRecoil < 25) yRecoil = 25;
+        float yRecoil = Random.Range(-75f, 75f);
+        if(yRecoil < 0 && yRecoil > -40) yRecoil = -40;
+        if(yRecoil > 0 && yRecoil < 40) yRecoil = 40;
 
         PlayerCam.Instance.AddCameraRecoil(xRecoil, yRecoil);
-
-        /*
-        for (int i = 0; i < bulletCount; i++)
-        {
-            GameObject newBullet = ProjectilePoolManager.Instance.GrabFlintBulletRock();
-            newBullet.transform.position = bulletStart.position;
-            newBullet.transform.rotation = Quaternion.identity;
-            Vector3 dir;
-            if(i == 0) dir = bulletStart.forward + new Vector3(Random.Range(-0.02f,+0.02f), Random.Range(-0.02f,0.02f), Random.Range(-0.02f,0.02f));
-            else dir = bulletStart.forward + new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
-            newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
- 
-        }
-        */
     }
 
     void ShootShrapnel()

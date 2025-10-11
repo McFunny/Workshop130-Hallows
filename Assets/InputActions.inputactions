@@ -195,6 +195,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "BeginSecondaryCharge",
+                    "type": "Button",
+                    "id": "c405db5b-3de3-4ac1-ab59-46f2d2262bff",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "DropHeldItem",
                     "type": "Button",
                     "id": "2e6f42c5-d90e-4bb9-b80e-37366dd4880a",
@@ -1154,6 +1163,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "WaterJet",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c114bfd1-398e-46a3-bc6a-5e972ffe5a2d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "BeginSecondaryCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "263e2b92-4391-43bd-8847-64c4d6012e08",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "BeginSecondaryCharge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -13,7 +13,7 @@ public class CreatureObject : ScriptableObject
 
     public int id = -1;
 
-    public int dangerCost = 1; //how much wealth does it cost to spawn in
+    public float dangerCost = 1; //how much wealth does it cost to spawn in
     public int dangerThreshold = 0; //how much wealth does the player need to have in order to spawn it
     public int spawnWeight = 10; //how likely is it to get spawned over another creature
     public int spawnCap = 5; //how many can exist on the field

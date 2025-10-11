@@ -23,19 +23,19 @@ MonoBehaviour:
     wealthPrerequisite: 0
     variantChanceInFarm:
     - _int: 0
-      _probability: 25
+      _probability: 20
   health: 0
   position:
   - 0
   - 0
   - 0
   id: 24
-  dangerCost: 1
+  dangerCost: 0.3
   dangerThreshold: 0
   spawnWeight: 10
-  spawnCap: 20
-  spawnCapPerHour: 8
-  wealthPrerequisite: 700
+  spawnCap: 15
+  spawnCapPerHour: 6
+  wealthPrerequisite: 1000
   contribuiteToCreatureCap: 0
   amountKilled: 0
   hasSpawned: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
   canSpawnBehindCabin: 1
   spawnType: 2
   spawnChance_w: 0
-  mintWorth: 1
+  mintWorth: 2
   data:
     Name: 
     Id: -1

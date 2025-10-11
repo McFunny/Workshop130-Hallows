@@ -61,7 +61,8 @@ public class PyreFly : CreatureBehaviorScript
     {
         Normal,
         Napalm,
-        Hydro
+        Hydro,
+        Volatile
     }
 
     public CreatureState currentState;
@@ -94,6 +95,7 @@ public class PyreFly : CreatureBehaviorScript
         }
 
         if(variant == Variant.Hydro) ignited = false;
+        if(variant == Variant.Volatile) anim.SetBool("VolatileBob", true);
     }
 
     // Update is called once per frame
@@ -124,6 +126,13 @@ public class PyreFly : CreatureBehaviorScript
             Quaternion toRotation = Quaternion.LookRotation(direction);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 3.5f * Time.deltaTime);
+        }
+
+        if(variant == Variant.Volatile)
+        {
+            effectsHandler.loopingSource.pitch += Random.Range(-0.001f, 0.001f);
+            if(effectsHandler.loopingSource.pitch > 1.2f) effectsHandler.loopingSource.pitch = 1.2f;
+            else if(effectsHandler.loopingSource.pitch < .7f) effectsHandler.loopingSource.pitch = .7f;
         }
     }
 
@@ -242,7 +251,7 @@ public class PyreFly : CreatureBehaviorScript
         {
             currentState = CreatureState.StrafePlayer;
         }
-        else if(r < 7 && !inWilderness && variant == Variant.Normal) //otherwise wander
+        else if(r < 7 && !inWilderness && (variant == Variant.Normal || variant == Variant.Volatile)) //otherwise wander
         {
             if(ignited)
             {
@@ -404,6 +413,12 @@ public class PyreFly : CreatureBehaviorScript
 
     void IgniteStructure() //burn it
     {
+        if(variant == Variant.Volatile)
+        {
+            TakeDamage(999);
+            return;
+        }
+
         if(ignited)
         {
             if(targetStructure && targetStructure.IsFlammable())
@@ -609,7 +624,9 @@ public class PyreFly : CreatureBehaviorScript
                 PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
                 PlayerInteraction.Instance.PlayerTrip();
             }
-            Collider[] hitStructures = Physics.OverlapSphere(transform.position, 1.5f, 1 << 6);
+            float range = 1.5f;
+            if(variant == Variant.Volatile) range = 2;
+            Collider[] hitStructures = Physics.OverlapSphere(transform.position, range, 1 << 6);
             foreach(Collider collider in hitStructures)
             {
                 StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();

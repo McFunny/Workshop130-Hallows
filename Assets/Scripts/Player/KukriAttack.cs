@@ -17,6 +17,8 @@ public class KukriAttack : MonoBehaviour
     Vector3 c_Collision, s_Collision, d_Collision;
     GroundType type;
 
+    float creatureDamage = 10;
+
     [HideInInspector] public bool chargedSwing = false;
 
     void Start()
@@ -24,7 +26,7 @@ public class KukriAttack : MonoBehaviour
         collider.enabled = false;
     }
     
-    public IEnumerator Swing()
+    public IEnumerator Swing(int swingCount)
     {
         hitCreature = null;
         hitStructure = null;
@@ -32,8 +34,10 @@ public class KukriAttack : MonoBehaviour
         hitBug = null;
         collider.enabled = true;
         d_Collision = new Vector3(0,0,0);
-        yield return new WaitForSeconds(0.04f);
+        yield return new WaitForSeconds(0.01f);
         collider.enabled = false;
+        if(swingCount >= 3) creatureDamage = 20;
+        else creatureDamage = 10;
         HitObject();
     }
 
@@ -109,15 +113,17 @@ public class KukriAttack : MonoBehaviour
 
         if(hitCreature)
         {
-            float damage = 10;
+            float damage = creatureDamage;
             hitCreature.TakeDamage(damage, PlayerInteraction.Instance.transform.position);
             //playsound
             if(hitCreature.corpseType != CorpseParticleType.Metal) HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
+            else HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             print("Hit Creature");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             //PlayHitParticle(c_Collision);
             ParticlePoolManager.Instance.MoveAndPlayVFX(c_Collision, ParticlePoolManager.Instance.hitEffect);
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = c_Collision;
             hitCreature.PlayHitParticle(c_Collision);
 
             if(hitCreature && hitCreature.health > 0) PlayerInteraction.Instance.InvokeEnemyHitEvent(hitCreature);
@@ -165,7 +171,7 @@ public class KukriAttack : MonoBehaviour
     void PlayHitParticle(Vector3 hitPoint)
     {
         print("Played");
-        ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
+        ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPoint;
         ParticlePoolManager.Instance.MoveAndPlayVFX(hitPoint, ParticlePoolManager.Instance.hitEffect);
         return;
         /*

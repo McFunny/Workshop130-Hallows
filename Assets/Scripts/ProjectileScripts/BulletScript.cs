@@ -33,6 +33,7 @@ public class BulletScript : MonoBehaviour
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Armor");
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
+                ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
 
                 GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
                 if(particles) particles.transform.position = transform.position;
@@ -54,6 +55,7 @@ public class BulletScript : MonoBehaviour
                     HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                     print("Hit Structure");
                     ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
+                    ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
 
                     GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
                     if(particles) particles.transform.position = transform.position;
@@ -115,6 +117,7 @@ public class BulletScript : MonoBehaviour
 
                 print("Hit Creature");
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
+                ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                 if(creature.health + creatureDamage > 0 && !piercing) gameObject.SetActive(false);
                 return;

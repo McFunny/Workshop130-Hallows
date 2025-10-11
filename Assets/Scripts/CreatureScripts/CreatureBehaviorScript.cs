@@ -22,7 +22,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     [HideInInspector] public Transform player;
 
     public Collider[] allColliders; //to be disabled when a corpse
-    public Transform corpseParticleTransform;
+    public Transform corpseParticleTransform, knifeLodgeTransform;
     public CorpseParticleType corpseType;
 
     public Rigidbody rb;
@@ -338,6 +338,12 @@ public class CreatureBehaviorScript : MonoBehaviour
             ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hit.point;
             print("Played");
         }
+    }
+
+    public Transform GrabKnifeParent()
+    {
+        if(knifeLodgeTransform) return knifeLodgeTransform;
+        else return corpseParticleTransform;
     }
 
 

@@ -30,7 +30,9 @@ public class Ectoplasm : CreatureBehaviorScript
 
     bool interruptAction = false;
 
-    public GameObject smallSlime, largeSlime;
+    public GameObject smallSlimePrefab, largeSlimePrefab, harePrefab;
+
+    public GameObject bunnyObject;
 
     public enum CreatureState
     {
@@ -59,6 +61,8 @@ public class Ectoplasm : CreatureBehaviorScript
 
         StartCoroutine(MovingJiggle());
         StartCoroutine(ScanForTargets());
+
+        if(isLarge && Random.Range(0, 10) >= 7) bunnyObject.SetActive(true);
     }
 
     void Update()
@@ -273,7 +277,7 @@ public class Ectoplasm : CreatureBehaviorScript
             else if(Vector3.Distance(mergePartner.transform.position, transform.position) < 3)
             {
                 Destroy(mergePartner.gameObject);
-                Instantiate(largeSlime, transform.position, Quaternion.identity);
+                Instantiate(largeSlimePrefab, transform.position, Quaternion.identity);
                 AudioPoolManager.Instance.PlayClipAtPosition(effectsHandler.deathSound, transform.position);
                 ParticlePoolManager.Instance.GrabCorpseParticle(corpseType).transform.position = corpseParticleTransform.position;
                 Destroy(gameObject);
@@ -299,7 +303,7 @@ public class Ectoplasm : CreatureBehaviorScript
                     effectsHandler.PlayExtraSound(0);
                     if(!isLarge) //Grow
                     {
-                        Instantiate(largeSlime, transform.position, Quaternion.identity);
+                        Instantiate(largeSlimePrefab, transform.position, Quaternion.identity);
                         AudioPoolManager.Instance.PlayClipAtPosition(effectsHandler.deathSound, transform.position);
                         ParticlePoolManager.Instance.GrabCorpseParticle(corpseType).transform.position = corpseParticleTransform.position;
                         Destroy(gameObject);
@@ -400,6 +404,17 @@ public class Ectoplasm : CreatureBehaviorScript
         TakeDamage(10);
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            TakeDamage(30);
+            success = true;
+        }
+        else success = false;
+    }
+
     void OnDestroy()
     {
         base.OnDestroy();
@@ -409,7 +424,8 @@ public class Ectoplasm : CreatureBehaviorScript
         AudioPoolManager.Instance.PlayClipAtPosition(effectsHandler.deathSound, transform.position);
         if(isLarge)
         {
-            for(int i = 0; i < 2; i++) Instantiate(smallSlime, transform.position, Quaternion.identity);
+            for(int i = 0; i < 2; i++) Instantiate(smallSlimePrefab, transform.position, Quaternion.identity);
+            if(bunnyObject.activeSelf) Instantiate(harePrefab, transform.position, Quaternion.identity);
         }
     }
 
