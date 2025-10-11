@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class CraftingSystem : MonoBehaviour
@@ -21,6 +22,8 @@ public class CraftingSystem : MonoBehaviour
     [HideInInspector] public TextMeshProUGUI craftButtonText;
     [SerializeField] private List<Image> outputImages;
     [SerializeField] private List<TextMeshProUGUI> outputText;
+    [SerializeField] private List<Image> controllerImages;
+    [SerializeField] private UILerp collectLerp, timerLerp;
     [SerializeField] private List<CanvasGroup> canvasGroups = new List<CanvasGroup>();
     private CraftingEntry[] craftingEntries;
     private GameObject descriptionBoxContainer;
@@ -48,9 +51,16 @@ public class CraftingSystem : MonoBehaviour
 
     private void Update()
     {
+        if (!isCraftingMenuOpen) return;
+
+        collectLerp.lerpToStart = collectButton.interactable;
+        timerLerp.lerpToStart = currentStructure.isCrafting;
+
         if (ControlManager.isController)
         {
-            if (EventSystem.current.currentSelectedGameObject == null && isCraftingMenuOpen)
+            controllerImages[0].enabled = collectButton.interactable;
+            controllerImages[1].enabled = craftButton.interactable;
+            if (EventSystem.current.currentSelectedGameObject == null)
             {
                 if (container.transform.childCount > 0)
                 {
@@ -58,10 +68,36 @@ public class CraftingSystem : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            controllerImages[0].enabled = false;
+            controllerImages[1].enabled = false;
+        }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && isCraftingMenuOpen)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             OpenCraftingInterface();
+        }
+
+        if (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame)
+        {
+            OpenCraftingInterface();
+        }
+
+        if (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame)
+        {
+            if (collectButton.interactable)
+            {
+                collectButton.onClick.Invoke();
+            }
+        }
+
+        if (Gamepad.current != null && Gamepad.current.buttonWest.wasPressedThisFrame)
+        {
+            if (craftButton.interactable)
+            {
+                craftButton.onClick.Invoke();
+            }
         }
     }
 
