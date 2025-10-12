@@ -20,6 +20,8 @@ public class CraftingSystem : MonoBehaviour
     [SerializeField] private GameObject descriptionBoxVisuals;
     [SerializeField] private TextMeshProUGUI timerText;
     [HideInInspector] public TextMeshProUGUI craftButtonText;
+    [SerializeField] private Color activeColor, inactiveColor, completeColor;
+    [SerializeField] private List<Image> buttonBackgrounds;
     [SerializeField] private List<Image> outputImages;
     [SerializeField] private List<TextMeshProUGUI> outputText;
     [SerializeField] private List<Image> controllerImages;
@@ -200,12 +202,17 @@ public class CraftingSystem : MonoBehaviour
 
                 if (currentStructure.craftSlots[i].isComplete)
                 {
-                    outputImages[i].color = Color.green;
+                    buttonBackgrounds[i].color = completeColor;
+                    outputText[i].text = "x" + currentStructure.craftSlots[i].assignedCraft.outputAmount;
+                }
+                else if (i == currentStructure.currentSlot)
+                {
+                    buttonBackgrounds[i].color = activeColor;
                     outputText[i].text = "x" + currentStructure.craftSlots[i].assignedCraft.outputAmount;
                 }
                 else
                 {
-                    outputImages[i].color = Color.red;
+                    buttonBackgrounds[i].color = inactiveColor;
                     outputText[i].text = "x" + currentStructure.craftSlots[i].assignedCraft.outputAmount;
                 }
 
@@ -214,6 +221,7 @@ public class CraftingSystem : MonoBehaviour
             {
                 outputImages[i].enabled = false;
                 outputText[i].text = "";
+                buttonBackgrounds[i].color = inactiveColor;
             }
         }
         UpdateCraftButton();
