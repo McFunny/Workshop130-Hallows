@@ -311,7 +311,7 @@ public class SettingsValueManager : MonoBehaviour
             }
 
             PlayerPrefs.Save();
-            OnSettingsChanged.Invoke();
+            if (OnSettingsChanged != null) OnSettingsChanged.Invoke();
             volumeManager.SettingsChanged();
             applySettings.UpdateSettings();
         }
