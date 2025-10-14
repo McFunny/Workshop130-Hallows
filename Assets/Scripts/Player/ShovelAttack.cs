@@ -31,6 +31,7 @@ public class ShovelAttack : MonoBehaviour
         hitArmor = null;
         hitBug = null;
         collider.enabled = true;
+        Physics.SyncTransforms();
         d_Collision = new Vector3(0,0,0);
         yield return new WaitForSeconds(0.04f);
         collider.enabled = false;

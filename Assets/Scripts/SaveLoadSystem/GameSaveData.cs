@@ -21,7 +21,7 @@ public class GameSaveData : MonoBehaviour
     public int pDaysSinceDeath;
     public int pDayNumber;
     public string gameMode;
-    public bool droppedKukri;
+    public bool lostKukri;
 
     public int hourSaved = 8;
 
@@ -115,7 +115,7 @@ public class GameSaveData : MonoBehaviour
         PlayerInteraction.Instance.stamina = data.allGameSaveData.pStamina;
         PlayerInteraction.Instance.fatigue = data.allGameSaveData.pFatigue;
         PlayerInteraction.Instance.waterHeld = data.allGameSaveData.pWater;
-        PlayerInteraction.Instance.droppedKukri = data.allGameSaveData.droppedKukri;
+        PlayerInteraction.Instance.lostKukri = data.allGameSaveData.lostKukri;
         PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
         PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
         PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
@@ -240,7 +240,7 @@ public class GameSaveData : MonoBehaviour
         public int pDaysSinceDeath;
         public int pDayNumber;
         public int hourSaved;
-        public bool droppedKukri;
+        public bool lostKukri;
 
         public string gameMode;
 
@@ -316,7 +316,7 @@ public class GameSaveData : MonoBehaviour
         pStamina = PlayerInteraction.Instance.stamina;
         pFatigue = PlayerInteraction.Instance.fatigue;
         pWater = PlayerInteraction.Instance.waterHeld;
-        droppedKukri = PlayerInteraction.Instance.droppedKukri;
+        lostKukri = PlayerInteraction.Instance.lostKukri;
         pCurrentMoney = PlayerInteraction.Instance.currentMoney;
         pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
         pDayNumber = TimeManager.Instance.dayNum;

@@ -73,7 +73,7 @@ public class KukriProjectile : MonoBehaviour
                 bool hiltHit = true;
                 if(Random.Range(0, 10) < critChance) hiltHit = false;
                 knifeParent = creature.GrabKnifeParent();
-                if(knifeParent == null) hiltHit = true;
+                if(knifeParent == null || creature.corpseType == CorpseParticleType.Metal) hiltHit = true;
 
                 if(hiltHit)
                 {
@@ -138,6 +138,9 @@ public class KukriProjectile : MonoBehaviour
         if (!gameObject.scene.isLoaded) return; 
         GameObject knife = Instantiate(droppedPrefab, new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), transform.rotation);
         if(knifeParent) knife.GetComponent<DroppedKukri>().StuckInObject(knifeParent);
-        else  knife.GetComponent<Rigidbody>().AddForce(-knife.transform.forward * 20);
+        else  
+        {
+            knife.GetComponent<Rigidbody>().AddForce(-knife.transform.forward * 20);
+        }
     }
 }

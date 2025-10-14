@@ -49,7 +49,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public bool torchLit = false; //For the tool item
     public bool pyreflyLit = false; //For the tool item
-    public bool droppedKukri = false; //For when the player has thrown their knife
+    //public bool droppedKukri = false; //For when the player has thrown their knife
+    public bool lostKukri = false; //For when the player no longer has their knife
 
     private float reach = 8;
 

@@ -95,7 +95,7 @@ public class KukriBehavior : ToolBehavior
 
             case 1:
             if(swingCoroutine != null) HandItemManager.Instance.StopCoroutine(swingCoroutine);
-            swingCoroutine = HandItemManager.Instance.StartCoroutine(SwingTiming(0.35f, 0.2f, 0.3f));
+            swingCoroutine = HandItemManager.Instance.StartCoroutine(SwingTiming(0.35f, 0.15f, 0.35f));
             toolAnim.SetTrigger("Attack");
             break;
 
@@ -197,7 +197,9 @@ public class KukriBehavior : ToolBehavior
 
         HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
         PlayerInventoryHolder.Instance.UpdateInventory();
-        PlayerInteraction.Instance.droppedKukri = true;
+
+        //PlayerInteraction.Instance.droppedKukri = true;
+        PlayerInteraction.Instance.lostKukri = true;
     }
 
 }

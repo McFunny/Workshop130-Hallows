@@ -17,6 +17,24 @@ public class DroppedKukri : MonoBehaviour, IInteractable
     public bool stuck = false;
     public Rigidbody rb;
 
+    public static DroppedKukri Instance;
+
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            print("Destroyed Copy");
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        StartCoroutine(DistanceCheck());
+    }
+
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
@@ -24,8 +42,16 @@ public class DroppedKukri : MonoBehaviour, IInteractable
         interactSuccessful = addedSuccessfully;
         if (addedSuccessfully)
         {
+            HotbarDisplay display = FindObjectOfType<HotbarDisplay>();
+            int i = display.FindItemInHotbar(kukriItem);
+            if(i != -1)
+            {
+                display.SelectHotbarSlot(i);
+            }
+
             Destroy(this.gameObject);
-            PlayerInteraction.Instance.droppedKukri = false;
+            //PlayerInteraction.Instance.droppedKukri = false;
+            PlayerInteraction.Instance.lostKukri = false;
         }
     }
 
@@ -67,7 +93,7 @@ public class DroppedKukri : MonoBehaviour, IInteractable
         while(gameObject.activeSelf)
         {
             yield return new WaitForSeconds(10);
-            if(Vector3.Distance(transform.position, PlayerInteraction.Instance.playerFeet.position) > 100) Destroy(gameObject);
+            if(!stuck && Vector3.Distance(transform.position, PlayerInteraction.Instance.playerFeet.position) > 60) Destroy(gameObject);
         }
     }
 

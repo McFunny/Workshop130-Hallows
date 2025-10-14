@@ -41,6 +41,32 @@ public static class SaveLoad
         return true;
     }
 
+    /*public void SavePartial() //Save data when leaving to menu
+    {
+        // 1. Load the existing data from disk
+        ///////////////
+        SaveData tempData = new SaveData();
+
+        if (File.Exists(fullPath))
+        {
+            string json = File.ReadAllText(fullPath);
+            tempData = JsonUtility.FromJson<SaveData>(json);
+        }
+        else
+        {
+            Debug.LogError("Save file does not exist!");
+        }
+        /////
+
+        // 2. Apply updates
+        //
+        tempData.allGameSaveData
+
+        // 3. Save it back
+        string updatedJson = JsonUtility.ToJson(tempData, true);
+        File.WriteAllText(dir + FileName, updatedJson);
+    }*/
+
     public static void LoadGame()
     {
 
