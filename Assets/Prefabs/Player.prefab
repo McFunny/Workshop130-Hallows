@@ -282,6 +282,7 @@ MonoBehaviour:
   maxWaterHeld: 10
   torchLit: 0
   pyreflyLit: 0
+  lostKukri: 0
   currentEffects: []
   interactionLayers:
     serializedVersion: 2
@@ -705,6 +706,8 @@ MonoBehaviour:
   codexSelect: {fileID: -8827855844521779017, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
   waterJet: {fileID: 1408105732593544474, guid: 060d319d61d58794a97cf0963535b7d5,
+    type: 3}
+  secondaryCharge: {fileID: -6755665922849681339, guid: 060d319d61d58794a97cf0963535b7d5,
     type: 3}
   playerInput: {fileID: 3987123363838110697}
 --- !u!114 &3987123363838110697
@@ -1239,7 +1242,7 @@ GameObject:
   - component: {fileID: 3206851871481754621}
   - component: {fileID: 6229748458418044384}
   - component: {fileID: 4906821766386377603}
-  - component: {fileID: 6557857595189473857}
+  - component: {fileID: 5829176753059110686}
   m_Layer: 2
   m_Name: KukriAttackCollider
   m_TagString: Untagged
@@ -1282,9 +1285,9 @@ CapsuleCollider:
   m_Enabled: 0
   serializedVersion: 2
   m_Radius: 1.51
-  m_Height: 2.11
-  m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Height: 4.45
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.46}
 --- !u!54 &4906821766386377603
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1312,21 +1315,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6557857595189473857
+--- !u!114 &5829176753059110686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4613956978402958756}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68dadb45cdf7a7149876e646b17cd88d, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a9cf803292942a419ec61503b14f504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 6229748458418044384}
-  hitStruct: {fileID: 8300000, guid: 32902731c1131564a95c8392f4d81620, type: 3}
-  hitFlesh: {fileID: 8300000, guid: 4d7da1a9abc17b84b89870c0cbf80d7b, type: 3}
+  hitStruct: {fileID: 8300000, guid: 378cfb0789bc21a41ae40ea91a705356, type: 3}
+  hitFlesh: {fileID: 8300000, guid: 6f037103f1abe2e41bd4f85e3ace03c0, type: 3}
   hitDirt: {fileID: 8300000, guid: 1a51bf8f5a7c1c144a9b44c993eefb63, type: 3}
   chargedSwing: 0
 --- !u!1 &4710172168767217788
@@ -1574,6 +1577,7 @@ MonoBehaviour:
   sensX: 5
   sensY: 5
   orientation: {fileID: 2948405178405840430}
+  overrideCamera: 0
 --- !u!114 &6341220369791892867
 MonoBehaviour:
   m_ObjectHideFlags: 0

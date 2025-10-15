@@ -333,6 +333,7 @@ public class MutatedCrow : CreatureBehaviorScript
             rotation.z = 0;
             transform.eulerAngles = rotation;
 
+            HitStructureParticle(targetStructure.transform.position);
             targetStructure.TakeDamage(0.5f);
             targetStructure = null;
             currentState = CreatureState.CirclePoint;
@@ -782,6 +783,7 @@ public class MutatedCrow : CreatureBehaviorScript
             if (targetStructure != null)
             {
                 anim.SetBool("IsPecking", true);
+                HitStructureParticle(targetStructure.transform.position);
                 targetStructure.TakeDamage(0.5f);
 
                 if (targetStructure.health <= 0)

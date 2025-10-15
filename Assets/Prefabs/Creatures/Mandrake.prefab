@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2322281460046682945
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7485182385253761516}
+  m_Layer: 9
+  m_Name: KnifeTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7485182385253761516
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2322281460046682945}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.072748736, y: -0.631526, z: -0.7033546, w: 0.31807992}
+  m_LocalPosition: {x: 0.007, y: 0.057, z: -0.269}
+  m_LocalScale: {x: 40.538383, y: 40.538383, z: 40.538383}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 551351894508712417}
+  m_LocalEulerAnglesHint: {x: 290.828, y: -57.362, z: -90}
 --- !u!1 &3710296337739329102
 GameObject:
   m_ObjectHideFlags: 0
@@ -5068,6 +5099,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 5878999568548297613}
   corpseParticleTransform: {fileID: 4052748306328346468}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 1
   rb: {fileID: 6193243988813040387}
   anim: {fileID: 2578899447384088564}
@@ -5504,6 +5536,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -519510925231763734, guid: 2e21bcd4cd930d547aff1b3ed6691ab1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7485182385253761516}
     - targetCorrespondingSourceObject: {fileID: 7985275737065878072, guid: 2e21bcd4cd930d547aff1b3ed6691ab1,
         type: 3}
       insertIndex: -1
@@ -5542,6 +5578,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7306933078829329809}
   m_SourcePrefab: {fileID: 100100000, guid: 2e21bcd4cd930d547aff1b3ed6691ab1, type: 3}
+--- !u!4 &551351894508712417 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -519510925231763734, guid: 2e21bcd4cd930d547aff1b3ed6691ab1,
+    type: 3}
+  m_PrefabInstance: {fileID: 9181881074891783947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1278456909033442611 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7985275737065878072, guid: 2e21bcd4cd930d547aff1b3ed6691ab1,

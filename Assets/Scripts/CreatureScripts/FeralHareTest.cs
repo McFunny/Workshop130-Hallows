@@ -511,6 +511,22 @@ public class FeralHareTest : CreatureBehaviorScript
             cooldownEffect.SetActive(false);
             burstJumps = Random.Range(3,5);
         }
+
+        //Idle Anims
+        if(currentState != CreatureState.FleeFromPlayer && !playerInSightRange && !foundFarmTile && !isDead)
+        {
+            int r = Random.Range(0, 20);
+            if(r < 1) //Stand Idle
+            {
+                anim.Play("RabbitStandUp");
+                yield return new WaitForSeconds(2.5f);
+            }
+            else if(r < 3) //Thump Idle
+            {
+                anim.Play("RabbitThump");
+                yield return new WaitForSeconds(2.2f);
+            }
+        }
         jumpCooldown = false;
     }
 

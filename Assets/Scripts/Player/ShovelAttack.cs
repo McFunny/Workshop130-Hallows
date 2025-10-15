@@ -31,6 +31,7 @@ public class ShovelAttack : MonoBehaviour
         hitArmor = null;
         hitBug = null;
         collider.enabled = true;
+        Physics.SyncTransforms();
         d_Collision = new Vector3(0,0,0);
         yield return new WaitForSeconds(0.04f);
         collider.enabled = false;
@@ -125,6 +126,7 @@ public class ShovelAttack : MonoBehaviour
             //PlayHitParticle(c_Collision);
             ParticlePoolManager.Instance.MoveAndPlayVFX(c_Collision, ParticlePoolManager.Instance.hitEffect);
             hitCreature.PlayHitParticle(c_Collision);
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = c_Collision;
 
             if(hitCreature && hitCreature.health > 0) PlayerInteraction.Instance.InvokeEnemyHitEvent(hitCreature);
             return;
@@ -172,8 +174,9 @@ public class ShovelAttack : MonoBehaviour
     void PlayHitParticle(Vector3 hitPoint)
     {
         print("Played");
-        ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
+        ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPoint;
         ParticlePoolManager.Instance.MoveAndPlayVFX(hitPoint, ParticlePoolManager.Instance.hitEffect);
+        ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hitPoint;
         return;
         /*
         Vector3 direction = (transform.position - hitPoint).normalized;

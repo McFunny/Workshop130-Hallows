@@ -14802,6 +14802,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &3297598685663635510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2558883293610979833}
+  m_Layer: 9
+  m_Name: KnifeTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2558883293610979833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3297598685663635510}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.62034905, y: -0.62034905, z: -0.33936286, w: -0.33936283}
+  m_LocalPosition: {x: -8.003237, y: 0, z: 28.31536}
+  m_LocalScale: {x: 40.538383, y: 40.538383, z: 40.538383}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5171518939377296839}
+  m_LocalEulerAnglesHint: {x: 70.538, y: 0, z: 0}
 --- !u!1 &3936436860100099369
 GameObject:
   m_ObjectHideFlags: 0
@@ -25125,6 +25156,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 1675879192660001894}
   corpseParticleTransform: {fileID: 7846849672016393708}
+  knifeLodgeTransform: {fileID: 2558883293610979833}
   corpseType: 0
   rb: {fileID: 6985772768090619076}
   anim: {fileID: 8280994151204244012}
@@ -25844,6 +25876,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4801104195812616550, guid: 3ffcee251fb04a145ac7be83ed76e820,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2558883293610979833}
     - targetCorrespondingSourceObject: {fileID: -9165234960161646021, guid: 3ffcee251fb04a145ac7be83ed76e820,
         type: 3}
       insertIndex: -1
@@ -26089,6 +26125,12 @@ CapsuleCollider:
   m_Height: 87.2
   m_Direction: 0
   m_Center: {x: -0.22, y: 0, z: -5.29}
+--- !u!4 &5171518939377296839 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4801104195812616550, guid: 3ffcee251fb04a145ac7be83ed76e820,
+    type: 3}
+  m_PrefabInstance: {fileID: 388470409496202401}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6494244727864269598 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6864663320801580991, guid: 3ffcee251fb04a145ac7be83ed76e820,

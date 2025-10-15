@@ -35,5 +35,6 @@ public enum ToolType
     Hydrofly,
     Sealant,
     Kukri,
-    Flintlock
+    Flintlock,
+    NutrientTester
 }

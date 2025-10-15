@@ -2566,6 +2566,24 @@ MonoBehaviour:
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 0}
+  - name: Miller
+    destination: 26
+    mainTransform: {fileID: 0}
+    sublocations:
+    - name: MillerHome
+      transform: {fileID: 0}
+      isForWorkers: 0
+      isAtHome: 1
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
+    - name: MillerWork
+      transform: {fileID: 0}
+      isForWorkers: 1
+      isAtHome: 0
+      isOccupied: 0
+      occupant: {fileID: 0}
+      lookAtPoint: {fileID: 0}
 --- !u!1 &1938166777746701224
 GameObject:
   m_ObjectHideFlags: 0
@@ -4865,6 +4883,8 @@ MonoBehaviour:
   slimeSplash: {fileID: 7637895177972967617, guid: 69bc0df66ebefd845b3980e8afeebcd1,
     type: 3}
   slimeSplashLarge: {fileID: 6717718506617718510, guid: 4ad992d8b4518a642b66f6d14c56651d,
+    type: 3}
+  orangeHitParticle: {fileID: 9006107700234814910, guid: d365fcfda7971ee4787ed061388f4f70,
     type: 3}
   woodDestructionP: {fileID: 2191918286048292972, guid: 3e60246a56a3a424496e8ccba69e560a,
     type: 3}
@@ -11044,6 +11064,8 @@ MonoBehaviour:
     type: 3}
   critterHive: {fileID: 2547356748998068230, guid: e5ee233d83c2fd145bb68f82ae46faaf,
     type: 3}
+  buriedKukri: {fileID: 2170629837259517972, guid: 5f0e4ee85a46b2a46a2bebffb335e40b,
+    type: 3}
   fogChime: {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   berryBush: {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
   ignoreCropGrowthTime: 0
@@ -11250,6 +11272,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 88c7a631b6c3f164fadff223436437c4, type: 2}
   - {fileID: 11400000, guid: 450d390202a597d4b8eac734eef80593, type: 2}
   - {fileID: 11400000, guid: 2836db77fdc01174dbdaf3addf675d5f, type: 2}
+  - {fileID: 11400000, guid: 2e13a79dfc756104b86d4465eb9ccbc3, type: 2}
   allCreatures: []
   mistSpawns:
   - {fileID: 7187795816526134101}
@@ -11337,6 +11360,7 @@ MonoBehaviour:
   pDaysSinceDeath: 0
   pDayNumber: 0
   gameMode: 
+  lostKukri: 0
   hourSaved: 8
   gainedInventoryUpgrade: 0
   gainedWaterStorage: 0

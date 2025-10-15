@@ -30,7 +30,9 @@ public class Ectoplasm : CreatureBehaviorScript
 
     bool interruptAction = false;
 
-    public GameObject smallSlime, largeSlime;
+    public GameObject smallSlimePrefab, largeSlimePrefab, harePrefab;
+
+    public GameObject bunnyObject;
 
     public enum CreatureState
     {
@@ -58,6 +60,9 @@ public class Ectoplasm : CreatureBehaviorScript
         StartCoroutine(IdleSoundTimer());
 
         StartCoroutine(MovingJiggle());
+        StartCoroutine(ScanForTargets());
+
+        if(isLarge && Random.Range(0, 10) >= 7) bunnyObject.SetActive(true);
     }
 
     void Update()
@@ -96,7 +101,7 @@ public class Ectoplasm : CreatureBehaviorScript
                 break;
 
             case CreatureState.AttackStructure:
-                //AttackStructure();
+                Wander();
                 break;
 
             case CreatureState.AttackPlayer:
@@ -134,12 +139,31 @@ public class Ectoplasm : CreatureBehaviorScript
             return;
         }*/
 
-        if (!isMoving && !coroutineRunning && currentState == CreatureState.Wander)
+        if(currentState == CreatureState.Wander && targetStructure)
         {
-            Vector3 randomPoint;
-            if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
-            else randomPoint = PointAroundPatrolPoint(7);
-            StartCoroutine(MoveToPoint(randomPoint, 6));
+            currentState = CreatureState.AttackStructure;
+        }
+
+        if (!isMoving && !coroutineRunning)
+        {
+            if(currentState == CreatureState.Wander)
+            {
+                Vector3 randomPoint;
+                if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
+                else randomPoint = PointAroundPatrolPoint(7);
+                StartCoroutine(MoveToPoint(randomPoint, 6));
+            }
+            else if(currentState == CreatureState.AttackStructure)
+            {
+                if(!targetStructure)
+                {
+                    targetStructure = null;
+                    currentState = CreatureState.Wander;
+                    return;
+                }
+                StartCoroutine(MoveToPoint(targetStructure.transform.position, 6));
+            }
+            
         }
     }
 
@@ -253,10 +277,40 @@ public class Ectoplasm : CreatureBehaviorScript
             else if(Vector3.Distance(mergePartner.transform.position, transform.position) < 3)
             {
                 Destroy(mergePartner.gameObject);
-                Instantiate(largeSlime, transform.position, Quaternion.identity);
+                Instantiate(largeSlimePrefab, transform.position, Quaternion.identity);
                 AudioPoolManager.Instance.PlayClipAtPosition(effectsHandler.deathSound, transform.position);
                 ParticlePoolManager.Instance.GrabCorpseParticle(corpseType).transform.position = corpseParticleTransform.position;
                 Destroy(gameObject);
+            }
+        }
+
+        if(currentState == CreatureState.AttackStructure && targetStructure)
+        {
+            if(Vector3.Distance(targetStructure.transform.position, transform.position) < 2f)
+            {
+                HitStructureParticle(targetStructure.transform.position);
+                targetStructure.TakeDamage(damageToStructure);
+                effectsHandler.MiscSound();
+                if(!isTweening)
+                {
+                    StartCoroutine(Jiggle());
+                }
+                StartCoroutine(AttackCoolDown());
+                coroutineRunning = true;
+
+                if(!targetStructure || targetStructure.health <= 0) 
+                {
+                    effectsHandler.PlayExtraSound(0);
+                    if(!isLarge) //Grow
+                    {
+                        Instantiate(largeSlimePrefab, transform.position, Quaternion.identity);
+                        AudioPoolManager.Instance.PlayClipAtPosition(effectsHandler.deathSound, transform.position);
+                        ParticlePoolManager.Instance.GrabCorpseParticle(corpseType).transform.position = corpseParticleTransform.position;
+                        Destroy(gameObject);
+                    }
+                    else health = maxHealth;
+                }
+                return;
             }
         }
 
@@ -298,6 +352,44 @@ public class Ectoplasm : CreatureBehaviorScript
         }
     }
 
+    IEnumerator AttackCoolDown()
+    {
+        yield return new WaitForSeconds(2);
+        isMoving = false;
+        coroutineRunning = false;
+        interruptAction = false;
+    }
+
+    IEnumerator ScanForTargets()
+    {
+        while(health > 0)
+        {
+            if(!targetStructure) yield return new WaitForSeconds(10);
+            else yield return new WaitForSeconds(5);
+            float closestDistance = 40;
+
+            float distanceToStructure;
+
+            List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
+            foreach (var structure in structManager.allStructs)
+            {
+                FarmLand tile = structure as FarmLand;
+                distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
+                if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && distanceToStructure < closestDistance && (!tile || (tile.crop && !tile.isWeed)))
+                {
+                    availableStructure.Add(structure);
+                    closestDistance = distanceToStructure;
+                }
+            }
+
+            if (availableStructure.Count > 0)
+            {
+                int r = Random.Range(0, availableStructure.Count);
+                targetStructure = availableStructure[r];
+            }
+        }
+    }
+
     public override void OnDamage()
     {
         effectsHandler.OnHit();
@@ -305,6 +397,22 @@ public class Ectoplasm : CreatureBehaviorScript
         {
             StartCoroutine(Jiggle());
         }
+    }
+
+    public override void HitWithWater()
+    {
+        TakeDamage(10);
+    }
+
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            TakeDamage(30);
+            success = true;
+        }
+        else success = false;
     }
 
     void OnDestroy()
@@ -316,7 +424,8 @@ public class Ectoplasm : CreatureBehaviorScript
         AudioPoolManager.Instance.PlayClipAtPosition(effectsHandler.deathSound, transform.position);
         if(isLarge)
         {
-            for(int i = 0; i < 2; i++) Instantiate(smallSlime, transform.position, Quaternion.identity);
+            for(int i = 0; i < 2; i++) Instantiate(smallSlimePrefab, transform.position, Quaternion.identity);
+            if(bunnyObject.activeSelf) Instantiate(harePrefab, transform.position, Quaternion.identity);
         }
     }
 

@@ -172,6 +172,7 @@ public class NightSpawningManager : MonoBehaviour
                 difficultyPoints -= attemptedCreature.dangerCost;
                 if(creatureQueue.Count == 0) StartCoroutine(SpawnCreatures());
                 creatureQueue.Enqueue(attemptedCreature);
+                if(attemptedCreature.spawnType == SpawnType.Support) spawnAttempts += 0.2f; //Support creatures do not contribuite to max spawns this hour as much as non supports do. IE 5 crows = 1 hare spawn
                 spawnAttempts++;
                 if(attemptedCreature.contribuiteToCreatureCap) totalCreatures++;
                 creatureTallyDict[attemptedCreature]++;
@@ -196,7 +197,7 @@ public class NightSpawningManager : MonoBehaviour
 
                 if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && totalCreatures < maxCreatures && newCreature.spawnCap > creatureTallyDict[newCreature]) 
                 {
-                    totalCreatures++;
+                    if(newCreature.contribuiteToCreatureCap) totalCreatures++;
                     creatureTallyDict[newCreature]++;
                     SpawnCreature(newCreature);
                 }
@@ -224,7 +225,7 @@ public class NightSpawningManager : MonoBehaviour
                 }
                 if(currentChance > p) prefab = c.creatureVariants[r].prefab;
             }
-            else if(c.creatureVariants[r].probabilityInFarm > p) prefab = c.creatureVariants[r].prefab; //If the siege variant list isnt setup
+            else prefab = null; //If the siege variant list isnt setup
 
             if(c.creatureVariants[r].wealthPrerequisite > PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
         }

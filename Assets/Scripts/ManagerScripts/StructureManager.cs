@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri;
     public CropData fogChime, berryBush;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -105,6 +105,8 @@ public class StructureManager : MonoBehaviour
         {
             Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
+
+        if(PlayerInteraction.Instance.lostKukri && DroppedKukri.Instance == null) StartCoroutine(PopulateStructure(1, 1, buriedKukri, false, farmTileMap));
     }
 
     /*[ContextMenu("NutCrowTest")]

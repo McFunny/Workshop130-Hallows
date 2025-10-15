@@ -295,7 +295,11 @@ public class CombatConstruct : CreatureBehaviorScript
         {
             for(int i = 0; i < hitStructures.Count; i++)
             {
-                if(hitStructures[i]) hitStructures[i].TakeDamage(damageToStructure);
+                if(hitStructures[i]) 
+                {
+                    HitStructureParticle(hitStructures[i].transform.position);
+                    hitStructures[i].TakeDamage(damageToStructure);
+                }
             }
         }
 
