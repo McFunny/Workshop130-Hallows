@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -165,13 +166,24 @@ public class CraftingSystem : MonoBehaviour
             var buttonVars = tempButton.GetComponent<CraftingButton>();
 
             buttonVars.assignedEntry = entry;
-
             buttonVars.craftingSystem = this;
 
+            // Check level requirement
+            if (entry.levelRequirement > XPManager.instance.ReturnLevel())
+            {
+                buttonVars.unlocked = false;
+                buttonVars.questionMark.SetActive(true);
+                buttonVars.itemNameText.text = "???";
+                buttonVars.itemCountText.text = "";
+                buttonVars.icon.gameObject.SetActive(false);
+                tempButton.name = "Locked Craft";
+                continue;
+            }
+
+            // Item is unlocked
             buttonVars.itemCountText.text = "x" + entry.outputAmount;
             buttonVars.icon.sprite = entry.output.icon;
-
-            //Implement Unlocking later
+            buttonVars.unlocked = true;
             buttonVars.questionMark.SetActive(false);
 
             if (entry.nameOverride == "")
@@ -186,9 +198,16 @@ public class CraftingSystem : MonoBehaviour
             }
 
         }
-        //print(currentStructure.assignedCrafts.Capacity);
-        UpdateActiveCrafts();
 
+        // Sort so unlocked items are first
+        var children = container.GetComponentsInChildren<CraftingButton>();
+        var sortedChildren = children.OrderByDescending(x => x.unlocked).ToList();
+        for (int i = 0; i < sortedChildren.Count; i++)
+        {
+            sortedChildren[i].transform.SetSiblingIndex(i);
+        }
+
+        UpdateActiveCrafts();
     }
 
     public void UpdateActiveCrafts()

@@ -1164,6 +1164,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 474536576919656251}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1331907625087174672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3642765182466466880}
+  - component: {fileID: 5778894050295838619}
+  m_Layer: 0
+  m_Name: XP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3642765182466466880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331907625087174672}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5778894050295838619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331907625087174672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8252d73727552374ca107e27a81963ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levels:
+  - level: 1
+    xpToNextLevel: 40
+  - level: 2
+    xpToNextLevel: 60
+  - level: 3
+    xpToNextLevel: 80
+  - level: 4
+    xpToNextLevel: 120
+  - level: 5
+    xpToNextLevel: 160
+  - level: 6
+    xpToNextLevel: 200
+  - level: 7
+    xpToNextLevel: 300
+  - level: 8
+    xpToNextLevel: 400
+  - level: 9
+    xpToNextLevel: 550
+  - level: 10
+    xpToNextLevel: -1
 --- !u!1 &1332676148641161738
 GameObject:
   m_ObjectHideFlags: 0
@@ -10936,6 +11001,7 @@ Transform:
   - {fileID: 6939406517493349671}
   - {fileID: 4157573345881856525}
   - {fileID: 8058425567482587507}
+  - {fileID: 3642765182466466880}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4040343108907326756
@@ -11088,6 +11154,7 @@ MonoBehaviour:
   waterBulletStart: {fileID: 0}
   waterBulletCloseStart: {fileID: 0}
   waterCanParticles: {fileID: 0}
+  pistolParticles: {fileID: 0}
 --- !u!114 &3952483593475695091
 MonoBehaviour:
   m_ObjectHideFlags: 0
