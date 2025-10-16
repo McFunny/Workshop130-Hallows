@@ -12,7 +12,8 @@ public class ParticlePoolManager : MonoBehaviour
     public VisualEffect hitEffect;
 
     public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
-    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, slimeSplashLarge, orangeHitParticle;
+    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, slimeSplashLarge, orangeHitParticle,
+    cleanseParticle;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP;
 
@@ -37,6 +38,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> slimeSplashPool = new List<GameObject>();
     List<GameObject> slimeSplashLargePool = new List<GameObject>();
     List<GameObject> orangeHitPool = new List<GameObject>();
+    List<GameObject> cleansePool = new List<GameObject>();
 
     //Destruction
     List<GameObject> woodPool = new List<GameObject>();
@@ -110,14 +112,7 @@ public class ParticlePoolManager : MonoBehaviour
             newParticle.SetActive(false);
         }
 
-        for(int i = 0; i < 5; i++)
-        {
-            newParticle = Instantiate(dirtPixelParticle);
-            dirtPixelPool.Add(newParticle);
-            newParticle.SetActive(false);
-        }
-
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 3; i++)
         {
             newParticle = Instantiate(explosionParticle);
             explosionPool.Add(newParticle);
@@ -152,7 +147,7 @@ public class ParticlePoolManager : MonoBehaviour
             newParticle.SetActive(false);
         }
 
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 3; i++)
         {
             newParticle = Instantiate(splashParticle);
             splashPool.Add(newParticle);
@@ -161,64 +156,8 @@ public class ParticlePoolManager : MonoBehaviour
 
         for(int i = 0; i < 5; i++)
         {
-            newParticle = Instantiate(woodDestructionP);
-            woodPool.Add(newParticle);
-            newParticle.SetActive(false);
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
-            newParticle = Instantiate(metalDestructionP);
-            metalPool.Add(newParticle);
-            newParticle.SetActive(false);
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
-            newParticle = Instantiate(gloomDestructionP);
-            gloomPool.Add(newParticle);
-            newParticle.SetActive(false);
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
-            newParticle = Instantiate(stoneDestructionP);
-            stonePool.Add(newParticle);
-            newParticle.SetActive(false);
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
-            newParticle = Instantiate(robotDestructionP);
-            robotPool.Add(newParticle);
-            newParticle.SetActive(false);
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
             newParticle = Instantiate(impactParticle);
             impactPool.Add(newParticle);
-            newParticle.SetActive(false);
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
-            newParticle = Instantiate(bugSplatParticle);
-            bugSplatPool.Add(newParticle);
-            newParticle.SetActive(false);
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
-            newParticle = Instantiate(elecZapParticle);
-            elecZapPool.Add(newParticle);
-            newParticle.SetActive(false);
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
-            newParticle = Instantiate(heartParticles);
-            heartPool.Add(newParticle);
             newParticle.SetActive(false);
         }
     }
@@ -664,6 +603,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(orangeHitParticle);
         orangeHitPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabCleanseParticle()
+    {
+        foreach (GameObject particle in cleansePool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(cleanseParticle);
+        cleansePool.Add(newParticle);
         return newParticle;
     }
 

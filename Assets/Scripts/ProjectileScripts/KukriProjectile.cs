@@ -8,6 +8,8 @@ public class KukriProjectile : MonoBehaviour
 
     public float hiltDamage, critDamage;
 
+    float extraDamage = 0;
+
     public float bulletLifetime = 3;
 
     private Rigidbody bulletRigidbody;
@@ -78,12 +80,12 @@ public class KukriProjectile : MonoBehaviour
                 if(hiltHit)
                 {
                     knifeParent = null;
-                    creature.TakeDamage(hiltDamage);
+                    creature.TakeDamage(hiltDamage + (extraDamage/2));
                     HandItemManager.Instance.toolSource.PlayOneShot(hitDull);
                 }
                 else
                 {
-                    creature.TakeDamage(critDamage);
+                    creature.TakeDamage(critDamage + extraDamage);
                     HandItemManager.Instance.toolSource.PlayOneShot(hitCrit);
                     ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
                 }
@@ -127,8 +129,16 @@ public class KukriProjectile : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         critChance += 2;
+        extraDamage += 10;
         yield return new WaitForSeconds(0.3f);
         critChance += 4;
+        extraDamage += 10;
+        int x = 0;
+        while(x < 5)
+        {
+            yield return new WaitForSeconds(0.2f);
+            extraDamage += 10;
+        }
         yield return new WaitForSeconds(bulletLifetime);
         Destroy(gameObject);
     }

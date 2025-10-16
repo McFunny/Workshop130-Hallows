@@ -419,6 +419,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         inBall = true;
         anim.Play("Jump");
         yield return new WaitForSeconds(0.7f);
+        effectsHandler.PlaySound(effectsHandler.miscSound2);
         enterBallParticles.Play();
         ballObject.SetActive(true);
         bugObject.SetActive(false);
@@ -438,9 +439,13 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         ballObject.SetActive(false);
         bugObject.SetActive(true);
         anim.Play("JumpReverse");
+        effectsHandler.loopingSource.volume = 0;
+        effectsHandler.PlaySound(effectsHandler.miscSound3);
         yield return new WaitForSeconds(1);
         currentRoutine = null;
         ballTransitioning = false;
+
+        effectsHandler.loopingSource.volume = 0;
     }
 
     IEnumerator BallTimer()
@@ -511,6 +516,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             {
                 Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
                 rb.AddForce(110 * -dir, ForceMode.Impulse);
+
+                effectsHandler.PlaySound(effectsHandler.hitSounds[0]);
                 return;
             }
 
@@ -526,6 +533,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                         Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
                         rb.AddForce(25 * -dir, ForceMode.Impulse);
                     }
+                    effectsHandler.PlaySound(effectsHandler.hitSounds[0]);
                     return;
                 }
             }
@@ -546,6 +554,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
                     Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
                     rb.AddForce(25 * -dir, ForceMode.Impulse);
+                    effectsHandler.PlaySound(effectsHandler.hitSounds[0]);
                     return;
                 }
             }
@@ -617,6 +626,12 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         Vector3 velocity = rb.velocity;
 
         if(agent.enabled) velocity = agent.velocity;
+
+        if (rb.velocity.magnitude < minSpeedForHoming) 
+        {
+            effectsHandler.loopingSource.volume = 0;
+        }
+        else effectsHandler.loopingSource.volume = 0.5f;
 
         // Ignore very small movement (to prevent jitter)
         if (velocity.magnitude > 0.01f)

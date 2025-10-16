@@ -175,7 +175,6 @@ public class WaterCanBehavior : ToolBehavior
                     playAnim = true;
                     structure.Extinguish();
                     PlayerInteraction.Instance.waterHeld--;
-                    //return;
                 }
                 else structure.ToolInteraction(tool, out playAnim);
                 if(playAnim)
@@ -430,7 +429,7 @@ public class WaterCanBehavior : ToolBehavior
 
     IEnumerator ExtraLag()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
         PlayerInteraction.Instance.ToolUseToggle(false);
     }
 
