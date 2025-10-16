@@ -617,6 +617,7 @@ public class VileHog : CreatureBehaviorScript
 
                 int extraDamage = 0;
                 if(usingThrusters) extraDamage += 10;
+                HitStructureParticle(structure.transform.position);
                 if(!structure.destructable) //Hit a tree
                 {
                     structure.TakeDamage(damageToStructure + extraDamage);

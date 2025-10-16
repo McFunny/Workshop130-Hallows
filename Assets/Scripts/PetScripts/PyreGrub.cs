@@ -150,7 +150,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
         //Change the State
         agent.velocity = Vector3.zero;
-        targetStructure = null;
+        if(newState != PetState.Eat) targetStructure = null;
         currentState = newState;
 
         //Entering New State Effects
@@ -322,6 +322,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
     {
         if(!targetStructure && currentRoutine == null) //If there is no bowl, then they should not be in this state
         {
+            print("No Bowl");
             StateSwitch(PetState.Decide);
             return;
         }
@@ -373,6 +374,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             if(hunger <= 25 && bowl.ContainsEdibleItem(foodDiet)) isEating = true;
             if(thirst <= 25 && bowl.containsWater) isDrinking = true;
 
+            if(Vector3.Distance(player.position, transform.position) > 70f) transform.position = targetStructure.transform.position; // To get pet unstuck if they get stuck
+
             if(Vector3.Distance(targetStructure.transform.position, transform.position) < 1.5f && (isEating || isDrinking))
             {
                 agent.velocity = Vector3.zero;
@@ -416,6 +419,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         inBall = true;
         anim.Play("Jump");
         yield return new WaitForSeconds(0.7f);
+        effectsHandler.PlaySound(effectsHandler.miscSound2);
         enterBallParticles.Play();
         ballObject.SetActive(true);
         bugObject.SetActive(false);
@@ -435,9 +439,13 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         ballObject.SetActive(false);
         bugObject.SetActive(true);
         anim.Play("JumpReverse");
+        effectsHandler.loopingSource.volume = 0;
+        effectsHandler.PlaySound(effectsHandler.miscSound3);
         yield return new WaitForSeconds(1);
         currentRoutine = null;
         ballTransitioning = false;
+
+        effectsHandler.loopingSource.volume = 0;
     }
 
     IEnumerator BallTimer()
@@ -508,6 +516,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             {
                 Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
                 rb.AddForce(110 * -dir, ForceMode.Impulse);
+
+                effectsHandler.PlaySound(effectsHandler.hitSounds[0]);
                 return;
             }
 
@@ -523,6 +533,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                         Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
                         rb.AddForce(25 * -dir, ForceMode.Impulse);
                     }
+                    effectsHandler.PlaySound(effectsHandler.hitSounds[0]);
                     return;
                 }
             }
@@ -543,6 +554,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
                     Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
                     rb.AddForce(25 * -dir, ForceMode.Impulse);
+                    effectsHandler.PlaySound(effectsHandler.hitSounds[0]);
                     return;
                 }
             }
@@ -614,6 +626,12 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         Vector3 velocity = rb.velocity;
 
         if(agent.enabled) velocity = agent.velocity;
+
+        if (rb.velocity.magnitude < minSpeedForHoming) 
+        {
+            effectsHandler.loopingSource.volume = 0;
+        }
+        else effectsHandler.loopingSource.volume = 0.5f;
 
         // Ignore very small movement (to prevent jitter)
         if (velocity.magnitude > 0.01f)

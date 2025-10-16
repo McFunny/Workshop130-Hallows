@@ -30,6 +30,7 @@ public enum Destination
     CarpenterHouse,
     RandomLocation,
     InsideSpring,
+    MillerHouse,
 
 }
 

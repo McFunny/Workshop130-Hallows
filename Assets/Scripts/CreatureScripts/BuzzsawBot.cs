@@ -159,6 +159,7 @@ public class BuzzsawBot : CreatureBehaviorScript
             if(obstacle.GetComponent<FarmTree>() || obstacle.GetComponent<Boulder>() || obstacle.isObstacle)
             {
                 performRecoil = true;
+                HitStructureParticle(obstacle.transform.position);
                 obstacle.TakeDamage(5);
             }
             else
@@ -172,6 +173,7 @@ public class BuzzsawBot : CreatureBehaviorScript
                         if(tile.currentUpgrade == FarmLand.FarmTileUpgrade.Trellis)
                         {
                             performRecoil = true;
+                            HitStructureParticle(obstacle.transform.position);
                             obstacle.TakeDamage(5);
                         }
                         else tile.CropDestroyed();
@@ -184,9 +186,10 @@ public class BuzzsawBot : CreatureBehaviorScript
         var creature = hitObject.GetComponentInParent<CreatureBehaviorScript>();
         if (creature != null && creature.shovelVulnerable)
         {
-            if(creature as BuzzsawBot == null) creature.TakeDamage(15);
+            HitStructureParticle(creature.transform.position);
             performRecoil = true;
             creature.PlayHitParticle(creature.transform.position);
+            if(creature as BuzzsawBot == null) creature.TakeDamage(15);
         }
 
         if(performRecoil)

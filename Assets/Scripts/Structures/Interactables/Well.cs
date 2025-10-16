@@ -158,6 +158,7 @@ public class Well : MonoBehaviour, IInteractable
         if(enable && !highlightEnabled)
         {
             highlightEnabled = true;
+            if(InputManager.isHoldingInteract) interacting = true;
             foreach(GameObject thing in highlight) thing.SetActive(true);
             StartCoroutine(HightlightFlash());
         }

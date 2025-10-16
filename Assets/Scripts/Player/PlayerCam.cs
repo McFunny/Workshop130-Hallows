@@ -26,6 +26,9 @@ public class PlayerCam : MonoBehaviour
 
     private bool isSprinting;
 
+    public bool overrideCamera = false;
+    float cameraRecoilX, cameraRecoilY;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -72,7 +75,7 @@ public class PlayerCam : MonoBehaviour
             CursorLock();
         }
 
-        if ((PlayerMovement.restrictMovementTokens > 0) || PlayerMovement.isCodexOpen || PauseScript.isPaused)
+        if ((PlayerMovement.restrictMovementTokens > 0) || PlayerMovement.isCodexOpen || PauseScript.isPaused || overrideCamera)
         {
             //
         }
@@ -82,6 +85,33 @@ public class PlayerCam : MonoBehaviour
             Vector2 look = controlManager.look.action.ReadValue<Vector2>() * PlayerPrefs.GetFloat("Sensitivity", 1.0f);
             float lookX = look.x * sensX;
             float lookY = look.y * sensY;
+
+            if(cameraRecoilX != 0 || cameraRecoilY != 0)
+            {
+                if(cameraRecoilX > 0)
+                {
+                    lookX += 10;
+                    cameraRecoilX -= 10;
+                }
+                else
+                {
+                    lookX -= 10;
+                    cameraRecoilX += 10;
+                }
+                if(cameraRecoilX <= 10 && cameraRecoilX >= -10) cameraRecoilX = 0;
+
+                if(cameraRecoilY > 0)
+                {
+                    lookY += 10;
+                    cameraRecoilY -= 10;
+                }
+                else
+                {
+                    lookY -= 10;
+                    cameraRecoilY += 10;
+                }
+                if(cameraRecoilY <= 10 && cameraRecoilY >= -10) cameraRecoilY = 0;
+            }
             // Scaling sensitivity to match old input system;
             lookX *= 0.5f;
             lookX *= 0.1f;
@@ -121,7 +151,7 @@ public class PlayerCam : MonoBehaviour
 
         if(focusOnInterest)
         {
-            if(PlayerMovement.restrictMovementTokens == 0)
+            if(PlayerMovement.restrictMovementTokens == 0 && !overrideCamera)
             {
                 print("Clearing cuz player can move");
                 ClearObjectOfInterest();
@@ -171,5 +201,11 @@ public class PlayerCam : MonoBehaviour
     public void ForceChangeRotation(float rotY)
     {
         yRotation = rotY;
+    }
+
+    public void AddCameraRecoil(float x, float y)
+    {
+        cameraRecoilX += x;
+        cameraRecoilY += y;
     }
 }

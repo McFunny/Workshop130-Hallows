@@ -307,6 +307,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 2563397987986985789}
   corpseParticleTransform: {fileID: 3194070747602225014}
+  knifeLodgeTransform: {fileID: 5948249401344089658}
   corpseType: 0
   rb: {fileID: 5212718577640449399}
   anim: {fileID: 371782860820936844}
@@ -678,6 +679,37 @@ Transform:
   - {fileID: 2470801362162186451}
   m_Father: {fileID: 1851901289523918044}
   m_LocalEulerAnglesHint: {x: -0.5284932, y: 6.067831, z: 8.172295}
+--- !u!1 &4678842119816973388
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5948249401344089658}
+  m_Layer: 9
+  m_Name: KnifeTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5948249401344089658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4678842119816973388}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.0960007, y: -0.09600071, z: -0.70055974, w: -0.7005597}
+  m_LocalPosition: {x: -14.3, y: 0, z: -20.6}
+  m_LocalScale: {x: 40.538383, y: 40.538383, z: 40.538383}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4627557889308806197}
+  m_LocalEulerAnglesHint: {x: 180, y: -164.394, z: -90}
 --- !u!1 &5758075095229013128
 GameObject:
   m_ObjectHideFlags: 0
@@ -1460,6 +1492,7 @@ Transform:
   - {fileID: 5171823149866992233}
   - {fileID: 6015152931027672777}
   - {fileID: 5289081671406551774}
+  - {fileID: 5948249401344089658}
   m_Father: {fileID: 8517688401802875395}
   m_LocalEulerAnglesHint: {x: -83.65983, y: -90, z: -90}
 --- !u!1 &8184528517501508605

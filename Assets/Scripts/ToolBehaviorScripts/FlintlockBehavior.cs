@@ -5,10 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Tool Behavior", menuName = "Tool Behavior/Flintlock")]
 public class FlintlockBehavior : ToolBehavior
 {
-    public InventoryItemData bulletItem, bulletItem2;
     public List<InventoryItemData> acceptableAmmo;
 
-    InventoryItemData bulletFired;
+    public List<PelletValues> pelletValues;
+
+    //PelletValues currentPellet;
 
     public AudioClip shoot, hit_Dirt, hit_Creature, hit_Structure, headShot;
     int bulletCount = 1;
@@ -36,15 +37,14 @@ public class FlintlockBehavior : ToolBehavior
         var inventory = PlayerInventoryHolder.Instance.PrimaryInventorySystem;
         if (inventory.ContainsItems(acceptableAmmo, out List<InventorySlot> invSlot))
         {
-            if(invSlot[0].ItemData == bulletItem)
+            foreach (PelletValues p in pelletValues)
             {
-                bulletFired = bulletItem;
-                inventory.RemoveItemsFromInventory(bulletItem, 1);
-            }
-            else if(invSlot[0].ItemData == bulletItem2)
-            {
-                bulletFired = bulletItem2;
-                inventory.RemoveItemsFromInventory(bulletItem2, 1);
+                if(invSlot[0].ItemData == p.pelletItem)
+                {
+                    currentBulletDamage = p.damage;
+                    inventory.RemoveItemsFromInventory(p.pelletItem, 1);
+                    break;
+                }
             }
         }
         else 
@@ -53,15 +53,14 @@ public class FlintlockBehavior : ToolBehavior
             inventory = PlayerInventoryHolder.Instance.secondaryInventorySystem;
             if (inventory.ContainsItems(acceptableAmmo, out List<InventorySlot> invSlot2))
             {
-                if(invSlot2[0].ItemData == bulletItem)
+                foreach (PelletValues p in pelletValues)
                 {
-                    bulletFired = bulletItem;
-                    inventory.RemoveItemsFromInventory(bulletItem, 1);
-                }
-                else if(invSlot2[0].ItemData == bulletItem2)
-                {
-                    bulletFired = bulletItem2;
-                    inventory.RemoveItemsFromInventory(bulletItem2, 1);
+                    if(invSlot[0].ItemData == p.pelletItem)
+                    {
+                        currentBulletDamage = p.damage;
+                        inventory.RemoveItemsFromInventory(p.pelletItem, 1);
+                        break;
+                    }
                 }
             }
             else
@@ -103,14 +102,14 @@ public class FlintlockBehavior : ToolBehavior
 
     public IEnumerator ShootGun()
     {
-        PlayerInteraction.Instance.ShakeScreen(0.2f);
+        PlayerInteraction.Instance.ShakeScreen(0.7f);
         if(!bulletStart)
         {
             bulletStart = HandItemManager.Instance.bulletStart;
         }
         ShootBullets();
         //ShootShrapnel();
-        yield return new WaitForSeconds(0.65f);
+        yield return new WaitForSeconds(0.45f);
         usingPrimary = false;
     }
 
@@ -125,21 +124,17 @@ public class FlintlockBehavior : ToolBehavior
         if (Physics.Raycast(origin, direction, out hit, 200, mask))
         {
             RaycastBulletHit(hit.collider.gameObject, hit.point);
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hit.point;
         }
+        float xRecoil = Random.Range(-50f, 50f);
+        if(xRecoil < 0 && xRecoil > -25) xRecoil = -25;
+        if(xRecoil > 0 && xRecoil < 25) xRecoil = 25;
 
-        /*
-        for (int i = 0; i < bulletCount; i++)
-        {
-            GameObject newBullet = ProjectilePoolManager.Instance.GrabFlintBulletRock();
-            newBullet.transform.position = bulletStart.position;
-            newBullet.transform.rotation = Quaternion.identity;
-            Vector3 dir;
-            if(i == 0) dir = bulletStart.forward + new Vector3(Random.Range(-0.02f,+0.02f), Random.Range(-0.02f,0.02f), Random.Range(-0.02f,0.02f));
-            else dir = bulletStart.forward + new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
-            newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
- 
-        }
-        */
+        float yRecoil = Random.Range(-75f, 75f);
+        if(yRecoil < 0 && yRecoil > -40) yRecoil = -40;
+        if(yRecoil > 0 && yRecoil < 40) yRecoil = 40;
+
+        PlayerCam.Instance.AddCameraRecoil(xRecoil, yRecoil);
     }
 
     void ShootShrapnel()
@@ -228,7 +223,7 @@ public class FlintlockBehavior : ToolBehavior
             }
         }
 
-        if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
+        if(other.gameObject.layer == 0 || other.gameObject.layer == 7 || other.gameObject.layer == 19)
         {
             HandItemManager.Instance.toolSource.PlayOneShot(hit_Dirt);
             ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
@@ -243,4 +238,11 @@ public class FlintlockBehavior : ToolBehavior
         if(bug) bug.Struck();
 
     }
+}
+
+[System.Serializable]
+public class PelletValues
+{
+    public InventoryItemData pelletItem;
+    public float damage = 20;
 }

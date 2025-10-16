@@ -68,6 +68,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5780806070069542173}
   - {fileID: 4524781968641950821}
   - {fileID: 6467281127299057554}
   - {fileID: 8615862834029489243}
@@ -150,6 +151,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 8823205101778540317}
   corpseParticleTransform: {fileID: 0}
+  knifeLodgeTransform: {fileID: 5780806070069542173}
   corpseType: 1
   rb: {fileID: 6212936256822236674}
   anim: {fileID: 0}
@@ -10016,6 +10018,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &6596241374707853854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5780806070069542173}
+  m_Layer: 9
+  m_Name: KnifeTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5780806070069542173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6596241374707853854}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7218066, y: 0.000000029261225, z: -0.0000000056532197, w: 0.69209486}
+  m_LocalPosition: {x: 0, y: 2.37, z: 0.44}
+  m_LocalScale: {x: 1.3299999, y: 1.33, z: 1.33}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2419294830336076308}
+  m_LocalEulerAnglesHint: {x: 92.40799, y: 0, z: 0}
 --- !u!1 &7931492191362107116
 GameObject:
   m_ObjectHideFlags: 0
