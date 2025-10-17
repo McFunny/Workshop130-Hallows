@@ -197,7 +197,7 @@ public class ShovelBehavior : ToolBehavior
     {
         maxCharge = false;
         yield return new WaitForSeconds(0.2f * coolDownMod);
-        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f));
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.65f, "ShovelCharge", false));
 
         yield return new WaitForSeconds(0.6f * coolDownMod);
         if(InputManager.isCharging)

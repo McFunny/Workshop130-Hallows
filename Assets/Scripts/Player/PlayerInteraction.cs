@@ -435,7 +435,7 @@ public class PlayerInteraction : MonoBehaviour
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
     {
         if(time > 0) rb.velocity = new Vector3(0,0,0);
-        if(toolCooldown) yield break;
+        //if(toolCooldown) yield break;
         toolCooldown = true;
         yield return new WaitForSeconds(time);
         tool.ItemUsed();

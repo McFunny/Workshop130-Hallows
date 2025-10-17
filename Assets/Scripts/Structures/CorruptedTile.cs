@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 public class CorruptedTile : StructureBehaviorScript
 {
     public GameObject[] extraTiles;
+
+    bool beingCleansed;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,6 +77,11 @@ public class CorruptedTile : StructureBehaviorScript
             //StartCoroutine(DugUp());
             success = true;
         }
+        else if(type == ToolType.WateringCan && !beingCleansed)
+        {
+            StartCoroutine(CleanseRoutine());
+            success = true;
+        }
     }
 
     void UpdateModel()
@@ -116,6 +123,30 @@ public class CorruptedTile : StructureBehaviorScript
             extraTiles[3].SetActive(false);
         }
         else extraTiles[3].SetActive(true);
+    }
+
+    IEnumerator CleanseRoutine()
+    {
+        beingCleansed = true;
+        ParticlePoolManager.Instance.GrabCleanseParticle().transform.position = transform.position;
+        yield return new WaitForSeconds(6);
+        Destroy(gameObject);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 10)
+        {
+            PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.7f, "CorruptedTile", false));
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.layer == 10)
+        {
+            PlayerMovement.Instance.RemoveSpeedMod(gameObject);
+        }
     }
 
     void OnDestroy()

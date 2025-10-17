@@ -168,9 +168,9 @@ public class KukriBehavior : ToolBehavior
     {
         maxCharge = false;
         yield return new WaitForSeconds(0.1f * coolDownMod);
-        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f));
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f, "KukriCharge", false));
 
-        yield return new WaitForSeconds(0.6f * coolDownMod);
+        yield return new WaitForSeconds(0.4f * coolDownMod);
         if(InputManager.isCharging)
         {
             HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);

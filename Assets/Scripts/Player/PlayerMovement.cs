@@ -238,12 +238,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void RemoveSpeedMod(string source)
+    {
+        for(int i = 0; i < speedMods.Count; i++)
+        {
+            if(speedMods[i].tag == source)
+            {
+                speedMods.RemoveAt(i);
+                return;
+            }
+        }
+    }
+
 
 
     private void SpeedControl()
     {
         //The better system but one I really dont feel like working on
         float movementMult = 1;
+
+        List<string> appliedTags = new List<string>();
 
         for(int i = 0; i < speedMods.Count; i++)
         {
@@ -252,7 +266,11 @@ public class PlayerMovement : MonoBehaviour
                 speedMods.RemoveAt(i);
                 i--;
             }
-            else movementMult *= speedMods[i].modifier;
+            else if(speedMods[i].stack == true || !appliedTags.Contains(speedMods[i].tag))
+            {
+                movementMult *= speedMods[i].modifier;
+                appliedTags.Add(speedMods[i].tag);
+            }
         }
 
 
@@ -335,10 +353,14 @@ public class MovementSpeedModifiers
 {
     public GameObject source;
     public float modifier = 1f;
+    public string tag = "Default"; //identifier of the speed mod
+    public bool stack = true; //if false, speed mod will ignore mods with the same tag
 
-    public MovementSpeedModifiers(GameObject _source, float _modifier)
+    public MovementSpeedModifiers(GameObject _source, float _modifier, string _tag, bool _stack)
     {
         source = _source;
         modifier = _modifier;
+        tag = _tag;
+        stack = _stack;
     }
 }
