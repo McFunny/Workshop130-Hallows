@@ -132,10 +132,10 @@ public class PetCat : PetBehaviorScript, IInteractable
         CheckState(currentState);
     }
 
-    protected virtual void OnHour() //Shouldnt this be on override?
+    protected override void OnHour() //Shouldnt this be on override?
     {
         base.OnHour();
-        if(TimeManager.Instance.currentHour == 8)
+        if(TimeManager.Instance.isDay)
         {
             FindItem();
         }
@@ -813,7 +813,8 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     void FindItem()
     {
-        if(Random.Range(0f, 100f) < (friendshipLevel + 1) * 8.5f)
+        if(heldItem != null) return;
+        if(Random.Range(0f, 100f) < (friendshipLevel + 1) * 3.5f)
         {
             int x = 0;
             InventoryItemData chosenItem = null;

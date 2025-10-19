@@ -95,6 +95,7 @@ public class StructureManager : MonoBehaviour
             PopulateDecorCrows(0, 2);
             StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
             PopulateBerryBushes(-5, 2, false);
+            StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
