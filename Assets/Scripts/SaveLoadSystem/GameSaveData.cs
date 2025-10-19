@@ -43,6 +43,8 @@ public class GameSaveData : MonoBehaviour
     public bool watergunObtained;
     public bool bugNetObtained;
     public bool scytheObtained;
+    public bool pistolObtained;
+    public bool kukriObtained;
 
     public bool mm_giveBarricade; //Merchant handed the player a barricade at the start
     public bool cm_giveChest; //Craftsman handed the player a chest at the start
@@ -57,6 +59,7 @@ public class GameSaveData : MonoBehaviour
     public bool apo_explainedSiege; //Apoth has explained they read the scroll and have explained the seeds
     public bool mm_introducedPets; //Merchant explained pets
     public bool mm_soldPet; //Player got their first pet from the merchant
+    public bool tra_askedForFood; //Traveller offered kukri for food
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin
@@ -171,6 +174,8 @@ public class GameSaveData : MonoBehaviour
         watergunObtained = data.allGameSaveData.watergunObtained;
         bugNetObtained = data.allGameSaveData.bugNetObtained;
         scytheObtained = data.allGameSaveData.scytheObtained;
+        pistolObtained = data.allGameSaveData.pistolObtained;
+        kukriObtained = data.allGameSaveData.kukriObtained;
 
         mm_giveBarricade = data.allGameSaveData.mm_giveBarricade;
         cm_giveChest = data.allGameSaveData.cm_giveChest;
@@ -185,6 +190,7 @@ public class GameSaveData : MonoBehaviour
         apo_explainedSiege = data.allGameSaveData.apo_explainedSiege;
         mm_soldPet = data.allGameSaveData.mm_soldPet;
         mm_introducedPets = data.allGameSaveData.mm_introducedPets;
+        tra_askedForFood = data.allGameSaveData.tra_askedForFood;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -282,6 +288,8 @@ public class GameSaveData : MonoBehaviour
         public bool watergunObtained;
         public bool bugNetObtained;
         public bool scytheObtained;
+        public bool pistolObtained;
+        public bool kukriObtained;
 
         public bool mm_giveBarricade;
         public bool cm_giveChest;
@@ -296,6 +304,7 @@ public class GameSaveData : MonoBehaviour
         public bool apo_explainedSiege;
         public bool mm_soldPet;
         public bool mm_introducedPets;
+        public bool tra_askedForFood;
 
         public int siegesCleared;
         public bool siegeCropInHand; //
@@ -355,12 +364,20 @@ public class GameSaveData : MonoBehaviour
         tinkMet = data.tinkMet;
         apothMet = data.apothMet;
         culMet = data.culMet;
+        travMet = data.travMet;
+        graveMet = data.graveMet;
+        fanMet = data.fanMet;
+        butchMet = data.butchMet;
+        carpMet = data.carpMet;
+        mandrakeMet = data.mandrakeMet;
 
         townTreeCleared1 = data.townTreeCleared1;
         townTreeCleared2 = data.townTreeCleared2;
         watergunObtained = data.watergunObtained;
         bugNetObtained = data.bugNetObtained;
         scytheObtained = data.scytheObtained;
+        kukriObtained = data.kukriObtained;
+        pistolObtained = data.pistolObtained;
 
         mm_giveBarricade = data.mm_giveBarricade;
         cm_giveChest = data.cm_giveChest;
@@ -375,13 +392,7 @@ public class GameSaveData : MonoBehaviour
         apo_explainedSiege = data.apo_explainedSiege;
         mm_soldPet = data.mm_soldPet;
         mm_introducedPets = data.mm_introducedPets;
-
-        travMet = data.travMet;
-        graveMet = data.graveMet;
-        fanMet = data.fanMet;
-        butchMet = data.butchMet;
-        carpMet = data.carpMet;
-        mandrakeMet = data.mandrakeMet;
+        tra_askedForFood = data.tra_askedForFood;
 
         siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;

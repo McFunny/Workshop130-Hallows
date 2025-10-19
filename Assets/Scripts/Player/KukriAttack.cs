@@ -7,7 +7,7 @@ public class KukriAttack : MonoBehaviour
     //public LayerMask hitDetection;
     public Collider collider;
 
-    public AudioClip hitStruct, hitFlesh, hitDirt;
+    public AudioClip hitStruct, hitHay, hitFlesh, hitDirt;
 
     CreatureBehaviorScript hitCreature;
     StructureBehaviorScript hitStructure;
@@ -35,7 +35,10 @@ public class KukriAttack : MonoBehaviour
         collider.enabled = true;
         Physics.SyncTransforms();
         d_Collision = new Vector3(0,0,0);
-        yield return new WaitForSeconds(0.01f);
+        s_Collision = Vector3.zero;
+        c_Collision = Vector3.zero;
+        yield return new WaitForSeconds(0.03f);
+        Physics.SyncTransforms();
         collider.enabled = false;
         if(swingCount >= 3) creatureDamage = 20;
         else creatureDamage = 10;
@@ -133,8 +136,10 @@ public class KukriAttack : MonoBehaviour
 
         if(hitStructure)
         {
-            hitStructure.TakeDamage(0.5f);
-            HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            hitStructure.TakeDamage(1f);
+            if(hitStructure.structData.structureType == StructureType.Null || hitStructure.structData.structureType == StructureType.Hay || hitStructure.structData.structureType == StructureType.CorruptedFlesh) 
+            HandItemManager.Instance.toolSource.PlayOneShot(hitHay);
+            else HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             print("Hit Structure");
 
             PlayHitParticle(s_Collision);
@@ -149,19 +154,17 @@ public class KukriAttack : MonoBehaviour
 
         if(d_Collision != new Vector3(0,0,0))
         {
-            print("Hit default");
-
             PlayHitParticle(d_Collision);
-            HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-            return;
 
             if(type == GroundType.Dirt)
             {
-                ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
-                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                print("Hit dirt");
+                ParticlePoolManager.Instance.MoveAndPlayParticle(d_Collision, ParticlePoolManager.Instance.dirtParticle);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitDirt);
             }
             else
             {
+                print("Hit default");
                 PlayHitParticle(d_Collision);
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             }

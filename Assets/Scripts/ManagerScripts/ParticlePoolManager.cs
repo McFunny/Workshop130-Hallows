@@ -15,7 +15,7 @@ public class ParticlePoolManager : MonoBehaviour
     frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, slimeSplashLarge, orangeHitParticle,
     cleanseParticle;
 
-    public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP;
+    public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP, c_fleshDestructionP;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
@@ -46,6 +46,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> gloomPool = new List<GameObject>();
     List<GameObject> stonePool = new List<GameObject>();
     List<GameObject> robotPool = new List<GameObject>();
+    List<GameObject> c_fleshPool = new List<GameObject>();
 
     void Awake()
     {
@@ -501,6 +502,22 @@ public class ParticlePoolManager : MonoBehaviour
             stonePool.Add(newParticle);
             return newParticle;
         }
+        else if(type == StructureType.CorruptedFlesh)
+        {
+            foreach (GameObject particle in c_fleshPool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(c_fleshDestructionP);
+            c_fleshPool.Add(newParticle);
+            return newParticle;
+        }
         else return null;
     }
 
@@ -651,5 +668,6 @@ public enum StructureType
     Wood,
     Metal,
     Hay,
-    Stone
+    Stone,
+    CorruptedFlesh
 }

@@ -6,10 +6,7 @@ using UnityEngine.Rendering;
 
 public class TinkererNPC : NPC, ITalkable
 {
-    // InventoryItemData papers;
     //public InventoryItemData[] upgrades; //Save this for later
-
-  
 
     public float sellMultiplier = 1;
     public InventoryItemData[] possibleSoldItems;

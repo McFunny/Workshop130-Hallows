@@ -4833,6 +4833,8 @@ MonoBehaviour:
     type: 3}
   robotDestructionP: {fileID: 2487219476001570306, guid: 165dbd6590cb9d94db4e4cdc4498e6b1,
     type: 3}
+  c_fleshDestructionP: {fileID: 4910484031593661835, guid: 1c09cdc9c3b70134f8b801cf868c60a0,
+    type: 3}
 --- !u!1 &4440993460313997844
 GameObject:
   m_ObjectHideFlags: 0
@@ -10926,6 +10928,7 @@ GameObject:
   - component: {fileID: 2367110641730823191}
   - component: {fileID: 7859859832328411273}
   - component: {fileID: 5403788078324475412}
+  - component: {fileID: 146488457976756947}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -58947,6 +58950,24 @@ MonoBehaviour:
   allCritters: []
   barnSource: {fileID: 8058425567482587507}
   barnWell: {fileID: 8925027611684554634}
+--- !u!114 &146488457976756947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba557de8f0187438a7bd2882c31197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptedTiles: 0
+  maxCorruption: 200
+  weedTile: {fileID: 0}
+  nodePrefab: {fileID: 3074132556789739212, guid: 715a25f294e852d4fb753f83bda21cb0,
+    type: 3}
+  nodeData: {fileID: 11400000, guid: ac7f463dd9be3104db507cdcc7fa9a49, type: 2}
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0

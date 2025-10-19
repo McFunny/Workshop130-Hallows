@@ -7,7 +7,9 @@ public class CorruptedTile : StructureBehaviorScript
 {
     public GameObject[] extraTiles;
 
-    bool beingCleansed;
+    public StructureBehaviorScript containedStructure; //The structure that occupied this tile, such as a node
+
+    [HideInInspector] public bool beingCleansed;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +21,11 @@ public class CorruptedTile : StructureBehaviorScript
         StructureBehaviorScript.OnStructuresUpdated += UpdateModel;
         StartCoroutine(LateStart());
 
-        StartCoroutine(TestSpread());
+        //StartCoroutine(TestSpread());
         StartCoroutine(IdleSounds());
+
+
+        CorruptionManager.Instance.corruptedTiles++;
         
     }
 
@@ -28,9 +33,28 @@ public class CorruptedTile : StructureBehaviorScript
     {
         yield return new WaitForSeconds(1);
         UpdateModel();
+
+        //Grab the top structure
+        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, 1, 1 << 6);
+        foreach(Collider collider in nearbyColliders)
+        {
+            if(containedStructure) break;
+            StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+
+            if(structure && structure != this)
+            {
+                if(structure.structData == structData)
+                {
+                    Destroy(gameObject); //Duplicate tile
+                    yield break;
+                }
+                containedStructure = structure;
+                containedStructure.clearTileOnDestroy = false;
+            }
+        }
     }
 
-    IEnumerator TestSpread()
+    IEnumerator TestSpread() // Debugging only
     {
         while(health > 0)
         {
@@ -95,7 +119,7 @@ public class CorruptedTile : StructureBehaviorScript
         foundTile = manager.GetStructureOnPosition(currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x + 1, gridPos.y))); //right
         if(foundTile != null && (foundTile.TryGetComponent(out FarmLand t1) || foundTile.TryGetComponent(out CorruptedTile f1))) 
         {
-            if(t1 != null && t1.isWeed) t1.TakeDamage(1);
+            if(t1 != null && (t1.isWeed || !t1.crop)) t1.TakeDamage(1);
             extraTiles[0].SetActive(false);
         }
         else extraTiles[0].SetActive(true);
@@ -103,7 +127,7 @@ public class CorruptedTile : StructureBehaviorScript
         foundTile = manager.GetStructureOnPosition(currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x - 1, gridPos.y))); //left
         if(foundTile != null && (foundTile.TryGetComponent(out FarmLand t2) || foundTile.TryGetComponent(out CorruptedTile f2))) 
         {
-            if(t2 != null && t2.isWeed) t2.TakeDamage(1);
+            if(t2 != null && (t2.isWeed || !t2.crop)) t2.TakeDamage(1);
             extraTiles[1].SetActive(false);
         }
         else extraTiles[1].SetActive(true);
@@ -111,7 +135,7 @@ public class CorruptedTile : StructureBehaviorScript
         foundTile = manager.GetStructureOnPosition(currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y + 1))); //up
         if(foundTile != null && (foundTile.TryGetComponent(out FarmLand t3) || foundTile.TryGetComponent(out CorruptedTile f3))) 
         {
-            if(t3 != null && t3.isWeed) t3.TakeDamage(1);
+            if(t3 != null && (t3.isWeed || !t3.crop)) t3.TakeDamage(1);
             extraTiles[2].SetActive(false);
         }
         else extraTiles[2].SetActive(true);
@@ -119,13 +143,13 @@ public class CorruptedTile : StructureBehaviorScript
         foundTile = manager.GetStructureOnPosition(currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y - 1))); //down
         if(foundTile != null && (foundTile.TryGetComponent(out FarmLand t4) || foundTile.TryGetComponent(out CorruptedTile f4))) 
         {
-            if(t4 != null && t4.isWeed) t4.TakeDamage(1);
+            if(t4 != null && (t4.isWeed || !t4.crop)) t4.TakeDamage(1);
             extraTiles[3].SetActive(false);
         }
         else extraTiles[3].SetActive(true);
     }
 
-    IEnumerator CleanseRoutine()
+    public IEnumerator CleanseRoutine()
     {
         beingCleansed = true;
         ParticlePoolManager.Instance.GrabCleanseParticle().transform.position = transform.position;
@@ -154,5 +178,12 @@ public class CorruptedTile : StructureBehaviorScript
         base.OnDestroy();
         StructureBehaviorScript.OnStructuresUpdated -= UpdateModel;
         if(!gameObject.scene.isLoaded) return;
+
+        if(containedStructure)
+        {
+            Destroy(containedStructure.gameObject);
+        }
+
+        CorruptionManager.Instance.corruptedTiles--;
     }
 }

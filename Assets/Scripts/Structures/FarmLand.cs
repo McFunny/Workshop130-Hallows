@@ -450,6 +450,7 @@ public class FarmLand : StructureBehaviorScript
 
             hoursSpent = 0;
             DrainNutrients(out bool gainedStress, false);
+            if(crop.behavior) crop.behavior.OnGrowth(this);
             if(!isWeed)
             {
                 if(gainedStress)
