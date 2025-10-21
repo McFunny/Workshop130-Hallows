@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri;
     public CropData fogChime, berryBush;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -30,6 +30,7 @@ public class StructureManager : MonoBehaviour
     public bool forceSurvivalMode = false;
     public bool forceSellSiegeSeeds = false; //If true, the apoth will have the bools ticked as if she has already seen the scroll
     public bool disableBarricades = false; //If true, all fallen trees will already be cleared
+
 
 
     void Awake()
@@ -94,6 +95,7 @@ public class StructureManager : MonoBehaviour
             PopulateDecorCrows(0, 2);
             StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
             PopulateBerryBushes(-5, 2, false);
+            StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -105,6 +107,8 @@ public class StructureManager : MonoBehaviour
         {
             Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
+
+        if(PlayerInteraction.Instance.lostKukri && DroppedKukri.Instance == null) StartCoroutine(PopulateStructure(1, 1, buriedKukri, false, farmTileMap));
     }
 
     /*[ContextMenu("NutCrowTest")]
@@ -442,7 +446,7 @@ public class StructureManager : MonoBehaviour
         return tilePos;
     }
 
-    public List<Vector3> GetNearbyClearTiles(Vector3 pos, float range) //For farm only
+    public List<Vector3> GetNearbyClearTiles(Vector3 pos, float range) //For farm only. Used to get a collection of Empty Tiles within a range
     {
         List<Vector3> nearbyTiles = new List<Vector3>();
         foreach (var gridPosition in allFarmTiles)
@@ -866,7 +870,7 @@ public class StructureManager : MonoBehaviour
         PopulateBerryBushes(2, 3, true);
     }
 
-    IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
+    public IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
     {
         List<Vector3Int> spawnablePositions = new List<Vector3Int>();
 

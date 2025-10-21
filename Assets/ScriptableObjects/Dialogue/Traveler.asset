@@ -75,7 +75,17 @@ MonoBehaviour:
     - Just what is going on with the memories of the people in this town?
     - I swear that plant girl introduced herself to me 3 times in the past week!
     emotions: 040000000400000005000000
-  questPaths: []
+  questPaths:
+  - pathName: Quest for knife
+    paragraphs:
+    - Listen, I-I just can't stand eating what comes from that hooded merchant any
+      longer.
+    - He is tainting the food, I just know it! All of our food goes through him,
+      and I just want it right from the source!
+    - L-lets make a deal, okay farmer? You bring me some FRESH produce, and I can
+      lend you my survival knife!
+    - P-please.... I need some real food.
+    emotions: 02000000030000000400000002000000
   itemRecievedPaths:
   - pathName: Go Sell it instead
     paragraphs:

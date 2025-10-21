@@ -20,6 +20,9 @@ public class InputManager : MonoBehaviour
     public static bool isCharging = false;
     bool chargeButtonHeld = false;
 
+    public static bool isChargingSecondary = false;
+    bool chargeButtonSecondaryHeld = false;
+
     public static bool isHoldingInteract = false;
     bool interactButtonHeld = false;
 
@@ -51,6 +54,8 @@ public class InputManager : MonoBehaviour
         controlManager.waterGunCharge.action.canceled += BeginCharge; 
         controlManager.holdInteraction.action.started += BeginHoldInteraction;
         controlManager.holdInteraction.action.canceled += BeginHoldInteraction;
+        controlManager.secondaryCharge.action.started += BeginSecondaryCharge;
+        controlManager.secondaryCharge.action.canceled += BeginSecondaryCharge;
     }
     private void OnDisable()
     {
@@ -63,6 +68,8 @@ public class InputManager : MonoBehaviour
         controlManager.waterGunCharge.action.canceled -= BeginCharge;
         controlManager.holdInteraction.action.started -= BeginHoldInteraction;
         controlManager.holdInteraction.action.canceled -= BeginHoldInteraction;
+        controlManager.secondaryCharge.action.started -= BeginSecondaryCharge;
+        controlManager.secondaryCharge.action.canceled -= BeginSecondaryCharge;
     }
 
     void Update()
@@ -158,11 +165,31 @@ public class InputManager : MonoBehaviour
         if(PauseScript.isPaused) return;
 
         chargeButtonHeld = !chargeButtonHeld;
-        //print("Is button held? " + chargeButtonHeld);
+
+        if(chargeButtonSecondaryHeld) return;
 
         InventoryItemData heldItem = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
 
         if(chargeButtonHeld == false || PlayerMovement.restrictMovementTokens > 0 || (heldItem == null || (heldItem != waterGun && heldItem.ID != 1 && heldItem.ID != 0 && heldItem.ID != 2)))
+        {
+            isCharging = false;
+            //return;
+        }
+        else isCharging = !isCharging;
+        //print("Is the gun charging? " + isCharging);
+    }
+
+    private void BeginSecondaryCharge(InputAction.CallbackContext obj)
+    {
+        if(PauseScript.isPaused) return;
+
+        chargeButtonSecondaryHeld = !chargeButtonSecondaryHeld;
+
+        if(chargeButtonHeld) return;
+
+        InventoryItemData heldItem = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
+
+        if(chargeButtonSecondaryHeld == false || PlayerMovement.restrictMovementTokens > 0 || (heldItem == null || (heldItem.ID != 228)))
         {
             isCharging = false;
             //return;

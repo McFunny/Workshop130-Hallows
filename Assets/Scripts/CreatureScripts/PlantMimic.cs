@@ -341,9 +341,14 @@ public class PlantMimic : CreatureBehaviorScript
         StartCoroutine(AttackCooldown());
         yield return new WaitForSeconds(1.1f);
         effectsHandler.MiscSound2();
+        HitStructureParticle(targetStructure.transform.position);
         targetStructure.TakeDamage(damageToStructure);
         yield return new WaitForSeconds(0.2f);
-        targetStructure.TakeDamage(damageToStructure);
+        if(targetStructure) 
+        {
+            HitStructureParticle(targetStructure.transform.position);
+            targetStructure.TakeDamage(damageToStructure);
+        }
         yield return new WaitForSeconds(0.5f);
         
         coroutineRunning = false;

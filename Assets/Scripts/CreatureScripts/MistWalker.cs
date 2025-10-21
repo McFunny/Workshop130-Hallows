@@ -563,6 +563,7 @@ public class MistWalker : CreatureBehaviorScript
         if (Vector3.Distance(transform.position, targetStructure.transform.position) < 5f)
         {
             coroutineRunning = true;
+            HitStructureParticle(targetStructure.transform.position);
             targetStructure.TakeDamage(damageToStructure);
             transform.LookAt(targetStructure.transform.position);
             if (targetStructure != null && targetStructure.health <= 0) { targetStructure = null; }

@@ -217,6 +217,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""BeginSecondaryCharge"",
+                    ""type"": ""Button"",
+                    ""id"": ""c405db5b-3de3-4ac1-ab59-46f2d2262bff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""DropHeldItem"",
                     ""type"": ""Button"",
                     ""id"": ""2e6f42c5-d90e-4bb9-b80e-37366dd4880a"",
@@ -1176,6 +1185,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""WaterJet"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c114bfd1-398e-46a3-bc6a-5e972ffe5a2d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""BeginSecondaryCharge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""263e2b92-4391-43bd-8847-64c4d6012e08"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""BeginSecondaryCharge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2181,6 +2212,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_PageDown = m_Gameplay.FindAction("PageDown", throwIfNotFound: true);
         m_Gameplay_HideUI = m_Gameplay.FindAction("HideUI", throwIfNotFound: true);
         m_Gameplay_BeginCharge = m_Gameplay.FindAction("BeginCharge", throwIfNotFound: true);
+        m_Gameplay_BeginSecondaryCharge = m_Gameplay.FindAction("BeginSecondaryCharge", throwIfNotFound: true);
         m_Gameplay_DropHeldItem = m_Gameplay.FindAction("DropHeldItem", throwIfNotFound: true);
         m_Gameplay_BeginHoldInteraction = m_Gameplay.FindAction("BeginHoldInteraction", throwIfNotFound: true);
         m_Gameplay_MinigamePress = m_Gameplay.FindAction("MinigamePress", throwIfNotFound: true);
@@ -2295,6 +2327,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_PageDown;
     private readonly InputAction m_Gameplay_HideUI;
     private readonly InputAction m_Gameplay_BeginCharge;
+    private readonly InputAction m_Gameplay_BeginSecondaryCharge;
     private readonly InputAction m_Gameplay_DropHeldItem;
     private readonly InputAction m_Gameplay_BeginHoldInteraction;
     private readonly InputAction m_Gameplay_MinigamePress;
@@ -2329,6 +2362,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @PageDown => m_Wrapper.m_Gameplay_PageDown;
         public InputAction @HideUI => m_Wrapper.m_Gameplay_HideUI;
         public InputAction @BeginCharge => m_Wrapper.m_Gameplay_BeginCharge;
+        public InputAction @BeginSecondaryCharge => m_Wrapper.m_Gameplay_BeginSecondaryCharge;
         public InputAction @DropHeldItem => m_Wrapper.m_Gameplay_DropHeldItem;
         public InputAction @BeginHoldInteraction => m_Wrapper.m_Gameplay_BeginHoldInteraction;
         public InputAction @MinigamePress => m_Wrapper.m_Gameplay_MinigamePress;
@@ -2410,6 +2444,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BeginCharge.started += instance.OnBeginCharge;
             @BeginCharge.performed += instance.OnBeginCharge;
             @BeginCharge.canceled += instance.OnBeginCharge;
+            @BeginSecondaryCharge.started += instance.OnBeginSecondaryCharge;
+            @BeginSecondaryCharge.performed += instance.OnBeginSecondaryCharge;
+            @BeginSecondaryCharge.canceled += instance.OnBeginSecondaryCharge;
             @DropHeldItem.started += instance.OnDropHeldItem;
             @DropHeldItem.performed += instance.OnDropHeldItem;
             @DropHeldItem.canceled += instance.OnDropHeldItem;
@@ -2504,6 +2541,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BeginCharge.started -= instance.OnBeginCharge;
             @BeginCharge.performed -= instance.OnBeginCharge;
             @BeginCharge.canceled -= instance.OnBeginCharge;
+            @BeginSecondaryCharge.started -= instance.OnBeginSecondaryCharge;
+            @BeginSecondaryCharge.performed -= instance.OnBeginSecondaryCharge;
+            @BeginSecondaryCharge.canceled -= instance.OnBeginSecondaryCharge;
             @DropHeldItem.started -= instance.OnDropHeldItem;
             @DropHeldItem.performed -= instance.OnDropHeldItem;
             @DropHeldItem.canceled -= instance.OnDropHeldItem;
@@ -2817,6 +2857,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnPageDown(InputAction.CallbackContext context);
         void OnHideUI(InputAction.CallbackContext context);
         void OnBeginCharge(InputAction.CallbackContext context);
+        void OnBeginSecondaryCharge(InputAction.CallbackContext context);
         void OnDropHeldItem(InputAction.CallbackContext context);
         void OnBeginHoldInteraction(InputAction.CallbackContext context);
         void OnMinigamePress(InputAction.CallbackContext context);

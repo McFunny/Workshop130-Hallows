@@ -15,14 +15,20 @@ public class KukriBehavior : ToolBehavior
     bool maxCharge = false;
     Coroutine throwingCoroutine;
     Coroutine chargingCoroutine;
+
+    Coroutine swingCoroutine;
+
+    public GameObject knifeProjectile;
+    bool canSwing = true;
+    int swings = 0;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
+        if (usingPrimary || usingSecondary /*|| PlayerInteraction.Instance.toolCooldown*/) return;
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         if(!kukriAttack) kukriAttack = FindObjectOfType<KukriAttack>();
-        usingPrimary = true;
+        //usingPrimary = true;
 
         coolDownMod = 1; //Multiplied to the tool use cooldown
         animSpeedMod = 0; //Added to animation speed
@@ -41,11 +47,11 @@ public class KukriBehavior : ToolBehavior
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
 
 
-        HandItemManager.Instance.toolSource.PlayOneShot(swing);
-        //KnifeAttack(); //call the swing attack
+        //HandItemManager.Instance.toolSource.PlayOneShot(swing);
+        KnifeAttack(); //call the swing attack
         //PlayerInteraction.Instance.ToolUseToggle(true);
         //PlayerInteraction.Instance.ToolUseToggle(false);
-        usingPrimary = false;
+        //usingPrimary = false;
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -58,23 +64,6 @@ public class KukriBehavior : ToolBehavior
 
         coolDownMod = 1; //Multiplied to the tool use cooldown
         animSpeedMod = 0; //Added to animation speed
-
-        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
-        {
-            coolDownMod -= .35f;
-            animSpeedMod += .7f;
-        }
-        else if(PlayerInteraction.Instance.stamina <= 50)
-        {
-            coolDownMod += .25f;
-            animSpeedMod -= .3f;
-        }
-
-        toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-        //PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.42f * coolDownMod, 0.9f * coolDownMod)); //Disable charge and enable this for old behavior
-
-        toolAnim.SetBool("IsCharging", true);
-        //PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.0f, 0.0f)); //For the charge
         ItemUsed();
 
     }
@@ -83,6 +72,7 @@ public class KukriBehavior : ToolBehavior
     {
         if (usingSecondary)
         {
+            toolAnim.Play("knifethrow");
             if(throwingCoroutine == null) 
             {
                 throwingCoroutine = HandItemManager.Instance.StartCoroutine(ChargeThrow());
@@ -90,6 +80,54 @@ public class KukriBehavior : ToolBehavior
             }
         }
 
+    }
+
+    void KnifeAttack()
+    {
+        if(!canSwing) return;
+        switch(swings)
+        {
+            case 0:
+            if(swingCoroutine != null) HandItemManager.Instance.StopCoroutine(swingCoroutine);
+            swingCoroutine = HandItemManager.Instance.StartCoroutine(SwingTiming(0.15f, 0.15f, 0.3f));
+            toolAnim.SetTrigger("Attack");
+            break;
+
+            case 1:
+            if(swingCoroutine != null) HandItemManager.Instance.StopCoroutine(swingCoroutine);
+            swingCoroutine = HandItemManager.Instance.StartCoroutine(SwingTiming(0.35f, 0.15f, 0.35f));
+            toolAnim.SetTrigger("Attack");
+            break;
+
+            case 2:
+            if(swingCoroutine != null) HandItemManager.Instance.StopCoroutine(swingCoroutine);
+            swingCoroutine = HandItemManager.Instance.StartCoroutine(SwingTiming(0.35f, 0.0f, 0.4f));
+            toolAnim.SetTrigger("Attack");
+            break;
+
+            default:
+            if(!PlayerInteraction.Instance.toolCooldown) swings = 0;
+            break;
+        }
+    }
+
+    IEnumerator SwingTiming(float attackBuffer, float swingCooldown, float swingWindow)
+    {
+        canSwing = false;
+        swings++;
+        PlayerInteraction.Instance.ToolUseToggle(true);
+        yield return new WaitForSeconds(attackBuffer); //Time before the knife connects with the target
+        HandItemManager.Instance.toolSource.PlayOneShot(swing);
+        //Attack the thing in front
+        kukriAttack.StartCoroutine(kukriAttack.Swing(swings));
+        yield return new WaitForSeconds(swingCooldown); //Opening for the player to attack again
+        if(swings < 3) canSwing = true;
+        yield return new WaitForSeconds(swingWindow);
+        canSwing = false;
+        yield return new WaitForSeconds(0.4f); //Player missed the swing window, so now the knife is returning to idle
+        PlayerInteraction.Instance.ToolUseToggle(false);
+        swings = 0;
+        canSwing = true;
     }
 
 
@@ -100,10 +138,11 @@ public class KukriBehavior : ToolBehavior
         yield return new WaitForSeconds(0.01f);
         PlayerInteraction.Instance.ToolUseToggle(true);
         yield return new WaitUntil(() => !InputManager.isCharging);
+        //Debug.Log("Throw");
         //yield return new WaitForSeconds(0.01f);
         HandItemManager.Instance.StopCoroutine(chargingCoroutine);
         chargingCoroutine = null;
-        toolAnim.SetBool("IsCharging", false);
+        toolAnim.Play("knifeidle");
         throwingCoroutine = null;
 
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
@@ -117,7 +156,8 @@ public class KukriBehavior : ToolBehavior
             yield break;
         }
         PlayerMovement.Instance.RemoveSpeedMod(PlayerInteraction.Instance.gameObject);
-        //ThrowKnife();
+        yield return new WaitForSeconds(0.02f);
+        ThrowKnife();
         yield return new WaitForSeconds((0.45f * coolDownMod));
 
         PlayerInteraction.Instance.ToolUseToggle(false);
@@ -128,9 +168,9 @@ public class KukriBehavior : ToolBehavior
     {
         maxCharge = false;
         yield return new WaitForSeconds(0.1f * coolDownMod);
-        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f));
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f, "KukriCharge", false));
 
-        yield return new WaitForSeconds(0.6f * coolDownMod);
+        yield return new WaitForSeconds(0.4f * coolDownMod);
         if(InputManager.isCharging)
         {
             HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
@@ -142,6 +182,24 @@ public class KukriBehavior : ToolBehavior
     void ThrowKnife()
     {
         //remove the item, tick the thrown bool, then throwSFX it
+        HandItemManager.Instance.toolSource.PlayOneShot(throwSFX);
+
+        Ray camRay = PlayerInteraction.Instance.mainCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        Vector3 origin = camRay.origin;
+        Vector3 dir = camRay.direction;
+
+        GameObject newBullet = Instantiate(knifeProjectile, origin, Quaternion.identity);
+        newBullet.transform.rotation = PlayerMovement.Instance.orientation.rotation;
+
+        dir = dir + new Vector3(Random.Range(-0.02f,+0.02f), Random.Range(-0.02f,0.02f), Random.Range(-0.02f,0.02f));
+        newBullet.GetComponent<Rigidbody>().AddForce(dir * 180);
+        newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 30);
+
+        HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+        PlayerInventoryHolder.Instance.UpdateInventory();
+
+        //PlayerInteraction.Instance.droppedKukri = true;
+        PlayerInteraction.Instance.lostKukri = true;
     }
 
 }

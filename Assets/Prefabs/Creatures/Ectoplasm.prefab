@@ -55,7 +55,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.4, y: 1.4, z: 1.4}
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
   m_Center: {x: 0, y: 0.63, z: 0}
 --- !u!54 &8540975781977882187
 Rigidbody:
@@ -118,8 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a1397d88807254dac2baa8313cba09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 40
-  maxHealth: 40
+  health: 30
+  maxHealth: 30
   corpseHealth: 0
   ichorWorth: 0
   ichorDropRadius: 0
@@ -135,8 +135,10 @@ MonoBehaviour:
   corpseType: 4
   rb: {fileID: 8540975781977882187}
   anim: {fileID: 0}
-  droppedItems: []
-  dropChance: []
+  droppedItems:
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  dropChance:
+  - 5
   sightRange: 0
   attackRange: 0
   playerInSightRange: 0
@@ -161,9 +163,11 @@ MonoBehaviour:
   debrisLeft: 0
   debrisObject: {fileID: 8223943545755679473}
   model: {fileID: 8103084591268792341}
-  smallSlime: {fileID: 868360894720816715}
-  largeSlime: {fileID: 6939491037798060808, guid: 640554472ff6ca5448aa69feab4674ce,
+  smallSlimePrefab: {fileID: 868360894720816715}
+  largeSlimePrefab: {fileID: 6939491037798060808, guid: 640554472ff6ca5448aa69feab4674ce,
     type: 3}
+  harePrefab: {fileID: 0}
+  bunnyObject: {fileID: 0}
   currentState: 1
 --- !u!1 &882478766653639736
 GameObject:

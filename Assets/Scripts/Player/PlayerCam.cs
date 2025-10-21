@@ -90,27 +90,27 @@ public class PlayerCam : MonoBehaviour
             {
                 if(cameraRecoilX > 0)
                 {
-                    lookX += 5;
-                    cameraRecoilX -= 5;
+                    lookX += 10;
+                    cameraRecoilX -= 10;
                 }
                 else
                 {
-                    lookX -= 5;
-                    cameraRecoilX += 5;
+                    lookX -= 10;
+                    cameraRecoilX += 10;
                 }
-                if(cameraRecoilX <= 5 && cameraRecoilX >= -5) cameraRecoilX = 0;
+                if(cameraRecoilX <= 10 && cameraRecoilX >= -10) cameraRecoilX = 0;
 
                 if(cameraRecoilY > 0)
                 {
-                    lookY += 5;
-                    cameraRecoilY -= 5;
+                    lookY += 10;
+                    cameraRecoilY -= 10;
                 }
                 else
                 {
-                    lookY -= 5;
-                    cameraRecoilY += 5;
+                    lookY -= 10;
+                    cameraRecoilY += 10;
                 }
-                if(cameraRecoilY <= 5 && cameraRecoilY >= -5) cameraRecoilY = 0;
+                if(cameraRecoilY <= 10 && cameraRecoilY >= -10) cameraRecoilY = 0;
             }
             // Scaling sensitivity to match old input system;
             lookX *= 0.5f;

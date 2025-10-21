@@ -450,6 +450,7 @@ public class FarmLand : StructureBehaviorScript
 
             hoursSpent = 0;
             DrainNutrients(out bool gainedStress, false);
+            if(crop.behavior) crop.behavior.OnGrowth(this);
             if(!isWeed)
             {
                 if(gainedStress)
@@ -958,7 +959,7 @@ public class FarmLand : StructureBehaviorScript
         {
             if(crop)
             {
-                PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.9f));
+                PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.8f, "Weeds", false));
             }
             if(isWeed)
             {

@@ -151,6 +151,15 @@ public class ButcherNPC : NPC, ITalkable
         Talk();
     }*/
 
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
+    {
+        uniqueDialogue = false;
+        if(item == barterDatabase.uniqueTransactions[0].itemForSale)
+        {
+            GameSaveData.Instance.pistolObtained = true;
+        }
+    }
+
     public override void PlayerLeftRadius()
     {
         if (lastInteractedStoreItem)
@@ -172,8 +181,28 @@ public class ButcherNPC : NPC, ITalkable
         List<int> selectedTrades = new List<int>(); //Make sure no repeats
         foreach (StoreItem item in storeItems)
         {
-            if(itemsDisplayed > 4) break; //Limit the amount of items she sells
+            if(itemsDisplayed > 5) break; //Limit the amount of items she sells
             newItem = null;
+            int newCost;
+
+            if (itemsDisplayed == 0) //Maybe also add a limit where u cannot get this until uve killed things with the shotgun 10 times
+            {
+                if(!GameSaveData.Instance.pistolObtained) //Sell the pistol
+                {
+                    newItem = barterDatabase.uniqueTransactions[0].itemForSale;
+                    newCost = (int)(barterDatabase.uniqueTransactions[0].mintCost * sellMultiplier);
+                    storeItems[0].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
+                }
+                else //Sell the lead ammo
+                {
+                    newItem = barterDatabase.uniqueTransactions[1].itemForSale;
+                    newCost = (int)(barterDatabase.uniqueTransactions[1].mintCost * sellMultiplier);
+                    storeItems[0].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
+                }
+                storeItems[0].seller = this;
+                itemsDisplayed++;
+                continue;
+            }
             
             do
             {
@@ -186,7 +215,7 @@ public class ButcherNPC : NPC, ITalkable
                 } 
             }
             while (!newItem);
-            int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
             item.ChangeAmountGiven(barterDatabase.transactions[i].amountGiven);
             item.seller = this;

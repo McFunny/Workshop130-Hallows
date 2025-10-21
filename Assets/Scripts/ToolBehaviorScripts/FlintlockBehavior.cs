@@ -28,10 +28,12 @@ public class FlintlockBehavior : ToolBehavior
     Vector3 origin;
     Vector3 direction;
 
+    Coroutine lagRoutine;
+
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || TownGate.Instance.location == PlayerLocation.InTown) return;
+        if (usingPrimary || usingSecondary || TownGate.Instance.location == PlayerLocation.InTown) return;
         if (!player) player = _player;
 
         var inventory = PlayerInventoryHolder.Instance.PrimaryInventorySystem;
@@ -71,14 +73,19 @@ public class FlintlockBehavior : ToolBehavior
         }
         
         tool = _tool;
+        if(toolAnim == null) toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         usingPrimary = true;
         //Shoot
         HandItemManager.Instance.pistolParticles.Play();
 
-        HandItemManager.Instance.PlayPrimaryAnimation();
+        //HandItemManager.Instance.PlayPrimaryAnimation();
+        toolAnim.Play("pistolshoot", -1, 0f);
         HandItemManager.Instance.toolSource.PlayOneShot(shoot);
-        float cooldown = 0.25f;
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, cooldown));
+        PlayerInteraction.Instance.ToolUseToggle(true);
+        ItemUsed();
+
+        //float cooldown = 0.25f;
+        //PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, cooldown));
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -102,6 +109,7 @@ public class FlintlockBehavior : ToolBehavior
 
     public IEnumerator ShootGun()
     {
+        if(lagRoutine != null) HandItemManager.Instance.StopCoroutine(lagRoutine);
         PlayerInteraction.Instance.ShakeScreen(0.7f);
         if(!bulletStart)
         {
@@ -109,8 +117,15 @@ public class FlintlockBehavior : ToolBehavior
         }
         ShootBullets();
         //ShootShrapnel();
-        yield return new WaitForSeconds(0.65f);
+        yield return new WaitForSeconds(0.25f);
         usingPrimary = false;
+        lagRoutine = HandItemManager.Instance.StartCoroutine(ExtraLag());
+    }
+
+    public IEnumerator ExtraLag()
+    {
+        yield return new WaitForSeconds(0.7f);
+        PlayerInteraction.Instance.ToolUseToggle(false);
     }
 
     void ShootBullets()
@@ -124,23 +139,17 @@ public class FlintlockBehavior : ToolBehavior
         if (Physics.Raycast(origin, direction, out hit, 200, mask))
         {
             RaycastBulletHit(hit.collider.gameObject, hit.point);
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hit.point;
         }
+        float xRecoil = Random.Range(-50f, 50f);
+        if(xRecoil < 0 && xRecoil > -25) xRecoil = -25;
+        if(xRecoil > 0 && xRecoil < 25) xRecoil = 25;
 
-        PlayerCam.Instance.AddCameraRecoil(Random.Range(-50f, 50f), Random.Range(-50f, 50));
+        float yRecoil = Random.Range(20f, 75f);
+        //if(yRecoil < 0 && yRecoil > -40) yRecoil = -40;
+        //if(yRecoil > 0 && yRecoil < 40) yRecoil = 40;
 
-        /*
-        for (int i = 0; i < bulletCount; i++)
-        {
-            GameObject newBullet = ProjectilePoolManager.Instance.GrabFlintBulletRock();
-            newBullet.transform.position = bulletStart.position;
-            newBullet.transform.rotation = Quaternion.identity;
-            Vector3 dir;
-            if(i == 0) dir = bulletStart.forward + new Vector3(Random.Range(-0.02f,+0.02f), Random.Range(-0.02f,0.02f), Random.Range(-0.02f,0.02f));
-            else dir = bulletStart.forward + new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
-            newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
- 
-        }
-        */
+        PlayerCam.Instance.AddCameraRecoil(xRecoil, yRecoil);
     }
 
     void ShootShrapnel()

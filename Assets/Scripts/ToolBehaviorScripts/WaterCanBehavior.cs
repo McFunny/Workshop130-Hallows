@@ -9,7 +9,7 @@ public class WaterCanBehavior : ToolBehavior
 
     bool holdingPour = false;
     bool skipPour = false;
-    bool puttingCanAway = false;
+    //bool puttingCanAway = false;
     Coroutine wateringCoroutine;
     Coroutine chargingCoroutine;
 
@@ -170,12 +170,11 @@ public class WaterCanBehavior : ToolBehavior
             {
                 //play water anim
                 bool playAnim = false;
-                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0  && structure.GetComponent<FarmLand>() == null)
+                if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0 && structure.GetComponent<FarmLand>() == null)
                 {
                     playAnim = true;
                     structure.Extinguish();
                     PlayerInteraction.Instance.waterHeld--;
-                    //return;
                 }
                 else structure.ToolInteraction(tool, out playAnim);
                 if(playAnim)
@@ -280,12 +279,12 @@ public class WaterCanBehavior : ToolBehavior
             }
         }
 
-        if(puttingCanAway)
-        {
-            puttingCanAway = false;
-            PlayerInteraction.Instance.ToolUseToggle(true);
+        //if(puttingCanAway)
+        //{
+            //puttingCanAway = false;
+            //PlayerInteraction.Instance.ToolUseToggle(true);
             HandItemManager.Instance.StartCoroutine(ExtraLag());
-        }
+        //}
     }
 
     public override void ItemUsed() 
@@ -324,7 +323,7 @@ public class WaterCanBehavior : ToolBehavior
 
         if(!holdingPour) //Default pour
         {
-            PlayerInteraction.Instance.ToolUseToggle(false);
+            //PlayerInteraction.Instance.ToolUseToggle(false);
             PrimaryUse();
             yield break;
         }
@@ -352,7 +351,7 @@ public class WaterCanBehavior : ToolBehavior
         yield return new WaitForSeconds(0.4f);
         holdingPour = true;
         HandItemManager.Instance.StartCoroutine(QuickPourRoutine());
-        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.8f));
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.8f, "WateringCan", false));
 
         skipPour = false;
         float timeBetweenPours = 1.3f;
@@ -430,7 +429,7 @@ public class WaterCanBehavior : ToolBehavior
 
     IEnumerator ExtraLag()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
         PlayerInteraction.Instance.ToolUseToggle(false);
     }
 

@@ -49,6 +49,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public bool torchLit = false; //For the tool item
     public bool pyreflyLit = false; //For the tool item
+    //public bool droppedKukri = false; //For when the player has thrown their knife
+    public bool lostKukri = false; //For when the player no longer has their knife
 
     private float reach = 8;
 
@@ -160,7 +162,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void UseHeldItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen) return;
+        if(PlayerMovement.restrictMovementTokens > 0 /*|| toolCooldown*/ || PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen) return;
         UseHotBarItem();
     }
 
@@ -433,7 +435,7 @@ public class PlayerInteraction : MonoBehaviour
     public IEnumerator ToolUse(ToolBehavior tool, float time, float coolDown)
     {
         if(time > 0) rb.velocity = new Vector3(0,0,0);
-        if(toolCooldown) yield break;
+        //if(toolCooldown) yield break;
         toolCooldown = true;
         yield return new WaitForSeconds(time);
         tool.ItemUsed();

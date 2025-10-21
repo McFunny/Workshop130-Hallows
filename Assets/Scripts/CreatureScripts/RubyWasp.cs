@@ -304,7 +304,7 @@ public class RubyWasp : CreatureBehaviorScript
         anim.SetBool("Unstuck", false);
 
         stuckOnPlayer = true;
-        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.9f));
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.9f, "Wasp", true));
 
         while(unstickAttempts < attemptsNeeded)
         {

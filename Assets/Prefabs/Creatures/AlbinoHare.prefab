@@ -84,8 +84,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205de74dc972edc4fb03a7bbdcbcbcc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 40
-  maxHealth: 40
+  health: 45
+  maxHealth: 45
   corpseHealth: -5
   ichorWorth: 3
   ichorDropRadius: 4
@@ -99,6 +99,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 3289789081976909928}
   corpseParticleTransform: {fileID: 0}
+  knifeLodgeTransform: {fileID: 2105187146751214974}
   corpseType: 0
   rb: {fileID: 4562153418491908674}
   anim: {fileID: 4881661146719662693}
@@ -5234,6 +5235,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &6785444597942100641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2105187146751214974}
+  m_Layer: 9
+  m_Name: KnifeTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2105187146751214974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785444597942100641}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.70700574, y: -0.70700574, z: -0.011957651, w: -0.011957614}
+  m_LocalPosition: {x: -3.7, y: -0, z: 3.7}
+  m_LocalScale: {x: 40.538383, y: 40.538383, z: 40.538383}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 827712763026864490}
+  m_LocalEulerAnglesHint: {x: 180, y: -1.9379883, z: -90}
 --- !u!1 &7161803300513889417
 GameObject:
   m_ObjectHideFlags: 0
@@ -10272,7 +10304,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e273b9cc9a2293b4ea0dc91b7ef932a6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -7016041374589804585, guid: 3941b5bab5970094f838f8783dbeffeb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2105187146751214974}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3941b5bab5970094f838f8783dbeffeb,
         type: 3}
@@ -10287,6 +10323,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7523995039637585479}
   m_SourcePrefab: {fileID: 100100000, guid: 3941b5bab5970094f838f8783dbeffeb, type: 3}
+--- !u!4 &827712763026864490 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7016041374589804585, guid: 3941b5bab5970094f838f8783dbeffeb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1575877057976755901}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1320709902885781846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3941b5bab5970094f838f8783dbeffeb,
