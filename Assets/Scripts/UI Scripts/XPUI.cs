@@ -41,7 +41,7 @@ public class XPUI : MonoBehaviour
         xp.text = "XP: " + currentXP.ToString() + "/" + xpToNextLevel.ToString();
     }
 
-    private void Update()
+    /*private void Update() //Uncomment for debug
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -52,5 +52,5 @@ public class XPUI : MonoBehaviour
         {
             XPManager.instance.AddXP(15);
         }
-    }
+    }*/
 }
