@@ -21,7 +21,6 @@ public class XPManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -53,8 +52,7 @@ public class XPManager : MonoBehaviour
             currentXP -= levels[currentLevel - 1].xpToNextLevel;
             currentLevel++;
             onLevelUp?.Invoke();
-        }
-        
+        } 
     }
 
     public int ReturnXP()
@@ -65,6 +63,11 @@ public class XPManager : MonoBehaviour
     public int ReturnLevel()
     {
         return currentLevel;
+    }
+
+    public int ReturnTotalXP()
+    {
+        return totalXP;
     }
 
     public ReadOnlyCollection<Levels> LevelsList //WOW READ ONLY LIST!!! SO AWESOME SAUCE!!!
