@@ -10,6 +10,7 @@ public class GameSaveData : MonoBehaviour
     [Header("References to pets in scene. These must be filled manually")]
     public PetBehaviorScript catRef;
     public PetBehaviorScript grubRef;
+    public PetBehaviorScript dogRef;
     [HideInInspector] public PetBehaviorScript currentPet;
 
 
@@ -45,6 +46,7 @@ public class GameSaveData : MonoBehaviour
     public bool scytheObtained;
     public bool pistolObtained;
     public bool kukriObtained;
+    public bool testerObtained;
 
     public bool mm_giveBarricade; //Merchant handed the player a barricade at the start
     public bool cm_giveChest; //Craftsman handed the player a chest at the start
@@ -176,6 +178,7 @@ public class GameSaveData : MonoBehaviour
         scytheObtained = data.allGameSaveData.scytheObtained;
         pistolObtained = data.allGameSaveData.pistolObtained;
         kukriObtained = data.allGameSaveData.kukriObtained;
+        testerObtained = data.allGameSaveData.testerObtained;
 
         mm_giveBarricade = data.allGameSaveData.mm_giveBarricade;
         cm_giveChest = data.allGameSaveData.cm_giveChest;
@@ -210,6 +213,9 @@ public class GameSaveData : MonoBehaviour
                 break;
             case "Grub":
                 currentPet = grubRef;
+                break;
+            case "Dog":
+                currentPet = dogRef;
                 break;
             default:
                 break;
@@ -290,6 +296,7 @@ public class GameSaveData : MonoBehaviour
         public bool scytheObtained;
         public bool pistolObtained;
         public bool kukriObtained;
+        public bool testerObtained;
 
         public bool mm_giveBarricade;
         public bool cm_giveChest;
@@ -378,6 +385,7 @@ public class GameSaveData : MonoBehaviour
         scytheObtained = data.scytheObtained;
         kukriObtained = data.kukriObtained;
         pistolObtained = data.pistolObtained;
+        testerObtained = data.testerObtained;
 
         mm_giveBarricade = data.mm_giveBarricade;
         cm_giveChest = data.cm_giveChest;

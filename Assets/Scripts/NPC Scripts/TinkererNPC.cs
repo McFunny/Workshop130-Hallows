@@ -137,6 +137,10 @@ public class TinkererNPC : NPC, ITalkable
             GameSaveData.Instance.watergunObtained = true;
             QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(7));
         }
+        if(item == barterDatabase.uniqueTransactions[1].itemForSale)
+        {
+            GameSaveData.Instance.testerObtained = true;
+        }
     }
 
     public override void PlayerLeftRadius()
@@ -183,7 +187,16 @@ public class TinkererNPC : NPC, ITalkable
                 newItem = barterDatabase.uniqueTransactions[0].itemForSale;
                 newCost = (int)(barterDatabase.uniqueTransactions[0].mintCost * sellMultiplier);
                 storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
-                storeItems[0].seller = this;
+                storeItems[i].seller = this;
+                continue;
+            }
+
+            if (i == 1 && !GameSaveData.Instance.testerObtained && GameSaveData.Instance.tinkMet)
+            {
+                newItem = barterDatabase.uniqueTransactions[1].itemForSale;
+                newCost = (int)(barterDatabase.uniqueTransactions[1].mintCost * sellMultiplier);
+                storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
+                storeItems[i].seller = this;
                 continue;
             }
 

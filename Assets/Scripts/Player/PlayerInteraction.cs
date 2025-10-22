@@ -11,6 +11,9 @@ public class PlayerInteraction : MonoBehaviour
     public delegate void AttackedCreature(CreatureBehaviorScript c);
     public static event AttackedCreature OnPlayerAttack; //Unity Event that will listeners when the player physically attacks an enemy
 
+    public delegate void TakenDamage(float damage);
+    public static event TakenDamage OnPlayerDamaged; //Unity Event that will listeners when the player physically attacks an enemy
+
     public Camera mainCam;
 
     public Transform playerFeet, cameraPos, trippedFocalPoint;
@@ -400,6 +403,9 @@ public class PlayerInteraction : MonoBehaviour
 
         stamina +=  Mathf.Round(amount);
         if(amount <= -5) playerEffects.PlayerDamage();
+
+        if(amount <= -10) OnPlayerDamaged?.Invoke(amount);
+
         if(!sentLowStaminaMessage && stamina <= 50)
         {
             sentLowStaminaMessage = true;

@@ -22,6 +22,12 @@ public class PetDog : PetBehaviorScript, IInteractable
 
     float chanceToAttackAgain = 100;
 
+    int burrowsDug = 0;
+    int maxBurrows = 5;
+
+    public GameObject burrowPrefab;
+    public InventoryItemData boneItem;
+
     public PetState currentState;
 
     [Header("Debug tool to test out states")]
@@ -66,7 +72,7 @@ public class PetDog : PetBehaviorScript, IInteractable
                 break;
 
             case PetState.Bury:
-                //Bury();
+                Bury();
                 break;
 
             case PetState.ChaseThrownItem:
@@ -103,11 +109,13 @@ public class PetDog : PetBehaviorScript, IInteractable
 
         //agent.updateRotation = false;
         PlayerInteraction.OnPlayerAttack += NewTarget;
+        PlayerInteraction.OnPlayerDamaged += Retaliate;
     }
 
     void OnDestroy()
     {
         PlayerInteraction.OnPlayerAttack -= NewTarget;
+        PlayerInteraction.OnPlayerDamaged -= Retaliate;
         base.OnDestroy();
     }
 
@@ -234,10 +242,9 @@ public class PetDog : PetBehaviorScript, IInteractable
         if(hunger == 0) positiveActionChance = 0;
         float r = Random.Range(0, 100f);
 
-        if(r < positiveActionChance)
+        if(r < positiveActionChance && TimeManager.Instance.isDay && burrowsDug < maxBurrows)
         {
-            //currentState = PetState.ChaseCreature;
-            StateSwitch(PetState.ChaseCreature);
+            StateSwitch(PetState.Bury);
             return;
         }
 
@@ -247,16 +254,36 @@ public class PetDog : PetBehaviorScript, IInteractable
         else
         {
             StateSwitch(PetState.Follow);
-            forceFollows = Random.Range(7, 13);
+            forceFollows = Random.Range(5, 10);
         }
     }
 
-    void NewTarget(CreatureBehaviorScript c)
+    void NewTarget(CreatureBehaviorScript c) //attack when player attacks
     {
-        if(!targetCreature && currentState == PetState.Follow)
+        if(!targetCreature && currentState == PetState.Follow && c.shovelVulnerable && Random.Range(0,100) < friendshipLevel * 3)
         {
             targetCreature = c;
             StateSwitch(PetState.ChaseCreature);
+        }
+    }
+
+    void Retaliate(float damage) //Attack after player was hurt
+    {
+        if(!targetCreature && currentState == PetState.Follow)
+        {
+            Collider[] hitTargets = new Collider[10];
+            int numColliders;
+            numColliders = Physics.OverlapSphereNonAlloc(player.position, 10, hitTargets, CreatureMask);
+            for (int i = 0; i < numColliders; i++)
+            {
+                CreatureBehaviorScript creature = hitTargets[i].gameObject.GetComponentInParent<CreatureBehaviorScript>();
+                if(creature && creature.health > 0 && creature.shovelVulnerable)
+                {
+                    targetCreature = creature;
+                    StateSwitch(PetState.ChaseCreature);
+                    return;
+                }
+            }
         }
     }
 
@@ -291,10 +318,12 @@ public class PetDog : PetBehaviorScript, IInteractable
             }
             else
             {
-                target = StructureManager.Instance.GetRandomTile();
+                target = Vector3.zero;
+                if(Random.Range(0, 10f) > 7.8f) target = FindWeedSpot();
+                if(target == Vector3.zero) target = StructureManager.Instance.GetRandomTile();
                 target = GetRandomPointAround(target, 3);
             }
-            currentRoutine = StartCoroutine(MoveToPoint(target, 5));
+            currentRoutine = StartCoroutine(MoveToPoint(target, 10));
         }
     }
 
@@ -355,6 +384,21 @@ public class PetDog : PetBehaviorScript, IInteractable
         if(currentRoutine == null && !isMoving)
         {
             currentRoutine = StartCoroutine(MoveToPoint(target, 0.5f));
+        }
+    }
+
+    void Bury()
+    {
+        if (!isMoving && currentRoutine == null)
+        {
+            target = StructureManager.Instance.GetRandomClearTile();
+            if(target == Vector3.zero) StateSwitch(PetState.Decide);
+            agent.speed = runSpeed;
+            currentRoutine = StartCoroutine(MoveToPoint(target, 10));
+        }
+        else if (Vector3.Distance(transform.position, target) < 1.5f)
+        {
+            interruptAction = true;
         }
     }
 
@@ -442,7 +486,7 @@ public class PetDog : PetBehaviorScript, IInteractable
                 effectsHandler.PlaySound(effectsHandler.miscSound);
                 if(targetCreature)
                 {
-                    targetCreature.TakeDamage(15);
+                    targetCreature.TakeDamage(20);
                     targetCreature.PlayHitParticle(targetCreature.transform.position);
                 }
                 if(targetCreature && targetCreature.health > 0)
@@ -450,7 +494,7 @@ public class PetDog : PetBehaviorScript, IInteractable
                     if(chanceToAttackAgain > Random.Range(0, 100))
                     {
                         StartCoroutine(AttackCooldown());
-                        chanceToAttackAgain -= 35 - (friendshipLevel * 2);
+                        chanceToAttackAgain -= 30 - (friendshipLevel * 2);
                         return;
                     }
                     else chanceToAttackAgain = 100;
@@ -458,6 +502,18 @@ public class PetDog : PetBehaviorScript, IInteractable
                 targetCreature = null;
                 isMoving = false;
                 StateSwitch(PetState.Decide);
+                return;
+            }
+        }
+
+        if(currentState == PetState.Bury)
+        {
+            if (Vector3.Distance(transform.position, target) < 1.5f)
+            {
+                anim.Play("DogBury");
+                ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+                currentRoutine = StartCoroutine(DiggingRoutine());
+                isMoving = false;
                 return;
             }
         }
@@ -525,20 +581,29 @@ public class PetDog : PetBehaviorScript, IInteractable
         agent.ResetPath();
         bool creatureNear = false;
         float t = 0;
-        float time = Random.Range(2f, 10);
-        if(time > 6)
+        float time = Random.Range(3f, 10);
+        if(time > 7) //Sit
         {
             if(Random.Range(0, 10) > 2)
             {
                 anim.SetBool("IsSitting", true);
                 anim.Play("DogSit");
-                time += 5;
+                time += Random.Range(3, 10);
             }
             else
             {
                 anim.Play("DogHowl");
                 //Play a sound for it
                 effectsHandler.PlayExtraSound(Random.Range(2, effectsHandler.extraSounds.Length));
+            }
+        }
+        else //Bark
+        {
+            if(Random.Range(0,10) > 3)
+            {
+                yield return new WaitForSeconds(Random.Range(0.3f, 1.5f));
+                anim.Play("DogBarkSingle");
+                effectsHandler.RandomIdle();
             }
         }
         while(t < time)
@@ -585,6 +650,34 @@ public class PetDog : PetBehaviorScript, IInteractable
     IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(1.5f);
+        isMoving = false;
+    }
+
+    IEnumerator DiggingRoutine()
+    {
+        yield return new WaitForSeconds(2);
+        burrowsDug++;
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        Burrow burrow = Instantiate(burrowPrefab, target, Quaternion.identity).GetComponent<Burrow>();
+        for(int i = 0; i < 4; i++)
+        {
+            float chance = 0;
+            if(i == 0) chance = 100;
+            else chance = Random.Range(2,10) * friendshipLevel;
+            if(chance >= Random.Range(0,100)) burrow.InsertItem(boneItem);
+        }
+        FriendPointsChange(2, true);
+
+        if(Random.Range(0,10) > 3)
+        {
+            yield return new WaitForSeconds(Random.Range(0.3f, 1.5f));
+            anim.Play("DogBarkSingle");
+            effectsHandler.RandomIdle();
+        }
+
+        yield return new WaitForSeconds(2);
+        StateSwitch(PetState.Decide);
+        currentRoutine = null;
         isMoving = false;
     }
 
@@ -647,6 +740,23 @@ public class PetDog : PetBehaviorScript, IInteractable
         return false;
     }
 
+    Vector3 FindWeedSpot()
+    {
+        //
+        List<Vector3> posList = new List<Vector3>();
+
+        for(int i = 0; i < StructureManager.Instance.allStructs.Count; i++)
+        {
+            FarmLand tile = StructureManager.Instance.allStructs[i] as FarmLand;
+            if(tile && tile.isWeed)
+            {
+                posList.Add(tile.transform.position);
+            }
+        }
+        if(posList.Count > 0) return posList[Random.Range(0, posList.Count)];
+        return Vector3.zero;
+    }
+
     /////IInteractable nonsense/////
 
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
@@ -686,6 +796,21 @@ public class PetDog : PetBehaviorScript, IInteractable
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
             EatFood(item);
+            interactSuccessful = true;
+            return;
+        }
+        if(hunger < 100 && item == boneItem)
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            FriendPointsChange(1, true);
+            if(currentState == PetState.Idle) 
+            {
+                forceFollows = Random.Range(7, 13);
+                StateSwitch(PetState.Follow);
+                hunger += 5;
+                if(hunger > maxHunger) hunger = maxHunger;
+            }
             interactSuccessful = true;
             return;
         }
