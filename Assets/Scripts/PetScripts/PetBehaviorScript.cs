@@ -219,7 +219,7 @@ public class PetBehaviorScript : MonoBehaviour
         dripParticles.Stop();
     }
 
-    void OnDestroy()
+    public void OnDestroy()
     {
         TimeManager.OnHourlyUpdate -= OnHour;
     }

@@ -4905,7 +4905,7 @@ MonoBehaviour:
   destructable: 1
   flammable: 1
   onFire: 0
-  isObstacle: 0
+  isObstacle: 1
   repairableWithGlue: 0
   absentFromGrid: 1
   absentFromFarmGrid: 0
@@ -4943,6 +4943,7 @@ MonoBehaviour:
     type: 3}
   radius: 15
   maxTilesPerHour: 5
+  maxTilesPerHourCozy: 2
   activatedParticles: {fileID: 8580069755262256024}
 --- !u!54 &8555475884781127921
 Rigidbody:

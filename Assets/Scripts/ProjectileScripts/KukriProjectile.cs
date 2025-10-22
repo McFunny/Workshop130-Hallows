@@ -22,6 +22,22 @@ public class KukriProjectile : MonoBehaviour
     bool madeContact = false;
     bool canHitPlayer = false;
 
+    public static KukriProjectile Instance;
+
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            print("Destroyed Copy");
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     private void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();

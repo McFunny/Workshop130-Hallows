@@ -8,9 +8,8 @@ public class PetDog : PetBehaviorScript, IInteractable
 {
     public InventoryItemData heldItem;
     public SpriteRenderer itemR;
-    public List<ItemWithAmount> possibleGiftItems = new List<ItemWithAmount>();
-    public List<CreatureObject> targettableCreatures = new List<CreatureObject>();
-    public List<CreatureObject> fearedCreatures = new List<CreatureObject>();
+    //public List<CreatureObject> targettableCreatures = new List<CreatureObject>();
+    //public List<CreatureObject> fearedCreatures = new List<CreatureObject>();
 
     public Transform headPivot;
     Vector3 starePoint;
@@ -103,6 +102,13 @@ public class PetDog : PetBehaviorScript, IInteractable
         StartCoroutine(CheckSurroundings());
 
         //agent.updateRotation = false;
+        PlayerInteraction.OnPlayerAttack += NewTarget;
+    }
+
+    void OnDestroy()
+    {
+        PlayerInteraction.OnPlayerAttack -= NewTarget;
+        base.OnDestroy();
     }
 
     void Update()
@@ -245,6 +251,15 @@ public class PetDog : PetBehaviorScript, IInteractable
         }
     }
 
+    void NewTarget(CreatureBehaviorScript c)
+    {
+        if(!targetCreature && currentState == PetState.Follow)
+        {
+            targetCreature = c;
+            StateSwitch(PetState.ChaseCreature);
+        }
+    }
+
     void AwaitPlayer()
     {
         if(TownGate.Instance.location == PlayerLocation.InFarm || TownGate.Instance.location == PlayerLocation.InTown)
@@ -321,7 +336,7 @@ public class PetDog : PetBehaviorScript, IInteractable
             foreach(Collider collider in hitTargets)
             {
                 CreatureBehaviorScript creature = collider.gameObject.GetComponentInParent<CreatureBehaviorScript>();
-                if(creature && Random.Range(0,10) > 3 && creature.health > 0 && targettableCreatures.Contains(creature.creatureData))
+                if(creature && Random.Range(0,10) > 3 && creature.health > 0 && /*targettableCreatures.Contains(creature.creatureData)*/ creature.shovelVulnerable)
                 {
                     targetCreature = creature;
                     target = creature.gameObject.transform.position;
@@ -423,10 +438,11 @@ public class PetDog : PetBehaviorScript, IInteractable
                 agent.ResetPath();
                 currentRoutine = StartCoroutine(FollowRoutine()); //Just to buy the animation some time
 
-                effectsHandler.PlayExtraSound(Random.Range(0, effectsHandler.extraSounds.Length));
+                effectsHandler.PlaySound(effectsHandler.hitSounds[Random.Range(0, effectsHandler.hitSounds.Length)]);
+                effectsHandler.PlaySound(effectsHandler.miscSound);
                 if(targetCreature)
                 {
-                    targetCreature.TakeDamage(10);
+                    targetCreature.TakeDamage(15);
                     targetCreature.PlayHitParticle(targetCreature.transform.position);
                 }
                 if(targetCreature && targetCreature.health > 0)
@@ -434,7 +450,7 @@ public class PetDog : PetBehaviorScript, IInteractable
                     if(chanceToAttackAgain > Random.Range(0, 100))
                     {
                         StartCoroutine(AttackCooldown());
-                        chanceToAttackAgain -= 30 - (friendshipLevel * 2);
+                        chanceToAttackAgain -= 35 - (friendshipLevel * 2);
                         return;
                     }
                     else chanceToAttackAgain = 100;
@@ -522,6 +538,7 @@ public class PetDog : PetBehaviorScript, IInteractable
             {
                 anim.Play("DogHowl");
                 //Play a sound for it
+                effectsHandler.PlayExtraSound(Random.Range(2, effectsHandler.extraSounds.Length));
             }
         }
         while(t < time)
@@ -578,37 +595,6 @@ public class PetDog : PetBehaviorScript, IInteractable
         while(true)
         {
             yield return new WaitForSeconds(1f);
-
-            if(currentState == PetState.Idle || currentState == PetState.Follow)
-            {
-                numColliders = Physics.OverlapSphereNonAlloc(transform.position, 5, hitTargets, CreatureMask);
-                for (int i = 0; i < numColliders; i++)
-                {
-                    CreatureBehaviorScript creature = hitTargets[i].gameObject.GetComponentInParent<CreatureBehaviorScript>();
-                    if(creature && creature.health > 0)
-                    {
-                        if(fearedCreatures.Contains(creature.creatureData) && Random.Range(0,10) > 4)
-                        {
-                            target = creature.gameObject.transform.position;
-                            StateSwitch(PetState.Flee);
-                            break;
-                        }
-                        else
-                        {
-                            float positiveActionChance = (friendshipLevel + 1) * 2.75f;
-                            if(hunger == 0) positiveActionChance = 0;
-
-                            if(Random.Range(0, 20f) < positiveActionChance)
-                            {
-                                targetCreature = creature;
-                                target = creature.gameObject.transform.position;
-                                StateSwitch(PetState.ChaseCreature);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
 
             Vector3 closestTarget = Vector3.zero;
             float dist = 0;
