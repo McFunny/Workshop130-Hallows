@@ -191,7 +191,7 @@ public class HoeBehavior : ToolBehavior
     {
         maxCharge = false;
         yield return new WaitForSeconds(0.2f * coolDownMod);
-        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f));
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f, "HoeCharge", false));
 
         yield return new WaitForSeconds(0.5f * coolDownMod);
         if(InputManager.isCharging)

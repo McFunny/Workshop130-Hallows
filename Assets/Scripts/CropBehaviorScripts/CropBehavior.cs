@@ -48,6 +48,8 @@ public class CropBehavior : ScriptableObject
 
     public virtual void OnPollinate(FarmLand tile){}
 
+    public virtual void OnGrowth(FarmLand tile){}
+
     public virtual bool IsFlammable()
     {
         return true;

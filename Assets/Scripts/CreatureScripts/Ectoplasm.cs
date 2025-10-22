@@ -161,7 +161,7 @@ public class Ectoplasm : CreatureBehaviorScript
                     currentState = CreatureState.Wander;
                     return;
                 }
-                StartCoroutine(MoveToPoint(targetStructure.transform.position, 6));
+                StartCoroutine(MoveToPoint(targetStructure.transform.position, 2));
             }
             
         }
@@ -212,7 +212,7 @@ public class Ectoplasm : CreatureBehaviorScript
         {
             StartCoroutine(MoveToPoint(mergePoint, 10));
         }
-        else if(!mergePartner) interruptAction = true;
+        else if(!mergePartner || Vector3.Distance(mergePartner.transform.position, transform.position) < 2.5f) interruptAction = true;
     }
 
     private IEnumerator WaitAround()

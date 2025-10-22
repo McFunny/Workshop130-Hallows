@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70dbf8d30e14dbf4a99b211eb63c25fb, type: 3}
+  m_Name: NutTester
+  m_EditorClassIdentifier: 
+  ID: 234
+  displayName: Nutrient Scanner
+  description: Displays the nutrients present in a tile.
+  icon: {fileID: 21300000, guid: b99c4c51d38c70c49be8d30844819d0f, type: 3}
+  type: 2
+  maxStackSize: 1
+  value: 800
+  sellValueMultiplier: 1
+  isKeyItem: 1
+  hasModel: 1
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM:
+  - LMB (Hold) - Charge
+  - LMB (Release) - Fire
+  itemInputsController:
+  - RT (Hold) - Charge
+  - RT (Release) - Fire
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  durability: 0
+  behavior: {fileID: 11400000, guid: 985df4b9342dd274eaf86e0dd5803895, type: 2}
+  tool: 14

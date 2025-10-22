@@ -1,0 +1,125 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CorruptionManager : MonoBehaviour
+{
+    public static CorruptionManager Instance;
+
+    public int corruptedTiles = 0;
+    public int maxCorruption = 200;
+
+    public GameObject weedTile, nodePrefab;
+
+    public StructureObject nodeData;
+
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            print("Destroyed Copy");
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    void Start()
+    {
+        TimeManager.OnHourlyUpdate += HourUpdate;
+
+        //StartCoroutine(TestSpread()); // Debugging only
+    }
+
+    IEnumerator TestSpread() // Debugging only
+    {
+        while(Instance)
+        {
+            yield return new WaitForSeconds(Random.Range(6, 12));
+            TrySpawnNode();
+        }
+    }
+
+    public void HourUpdate()
+    {
+        if(TimeManager.Instance.currentHour == 8 && corruptedTiles > 10)
+        {
+            //StartCoroutine(StructureManager.Instance.PopulateStructure(-3, 5, weedTile, false, StructureManager.Instance.farmTileMap));
+        }
+        if(!TimeManager.Instance.isDay && Random.Range(0,10) > 3)
+        {
+            TrySpawnNode();
+        }
+    }
+
+    void TrySpawnNode()
+    {
+        ReturnFreeTileList(out List<CorruptedTile> cTiles);
+
+        if(cTiles.Count == 0) return;
+        int currentNodes = StructureManager.Instance.TallyStructure(nodeData);
+        int maxNodes = (corruptedTiles/10) + 1; //How many nodes can be present on the farm
+        if(currentNodes >= maxNodes) return;
+
+        //Every hour try to spawn up to 10 nodes, making sure they spawn not too close to existing nodes
+        int x = 0; //attempts
+        int s = 0; //successful attempts
+        int maxS = Random.Range(1, 4); //max successful attempts
+        while(x < 10 && s < maxS && currentNodes < maxNodes)
+        {
+            bool spotTooClose = false;
+            int index = Random.Range(0, cTiles.Count);
+            Collider[] nearbyNodes = Physics.OverlapSphere(cTiles[index].transform.position, 7, 1 << 6);
+            for(int i = 0; i < nearbyNodes.Length; i++)
+            {
+                CorruptionNode node = nearbyNodes[i].gameObject.GetComponentInParent<CorruptionNode>();
+                if(node)
+                {
+                    spotTooClose = true;
+                    break;
+                }
+            }
+
+            if(spotTooClose)
+            {
+                x++; 
+                continue;
+            }
+
+            //spawn node
+            cTiles[index].containedStructure = Instantiate(nodePrefab, cTiles[index].transform.position, Quaternion.identity).GetComponent<StructureBehaviorScript>();
+
+            cTiles.RemoveAt(index);
+            x++;
+            s++;
+            currentNodes++;
+        }
+    }
+
+    void ReturnFreeTileList(out List<CorruptedTile> cTiles)
+    {
+        //List<Vector3> freeTiles = new List<Vector3>();
+        cTiles = new List<CorruptedTile>();
+
+        for(int i = 0; i < StructureManager.Instance.allStructs.Count; i++) //Collects all available corrupted tiles that are empty
+        {
+            CorruptedTile cTile = StructureManager.Instance.allStructs[i] as CorruptedTile;
+            if(cTile && cTile.containedStructure == null)
+            {
+                //freeTiles.Add(cTile.transform.position);
+                cTiles.Add(cTile);
+            }
+        }
+    }
+
+    void OnDestroy()
+    {
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+        if(Instance != null && Instance == this) Instance = null;
+    }
+}

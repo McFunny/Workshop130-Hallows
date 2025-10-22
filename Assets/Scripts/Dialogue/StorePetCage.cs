@@ -39,6 +39,10 @@ public class StorePetCage : MonoBehaviour
             case PetType.Grub:
             activeObject = petObjects[1];
             break;
+
+            case PetType.Dog:
+            activeObject = petObjects[5];
+            break;
         }
         if(activeObject) activeObject.SetActive(true);
     }

@@ -49,8 +49,6 @@ public class StructureBehaviorScript : MonoBehaviour
     public Transform particleCenter; //for particles
 
     //Save Data
-    //[HideInInspector] public List<Item> itemList1;
-    //[HideInInspector] public List<Item> itemList2;
     [HideInInspector] public List<InventoryItemData> savedItems = new List<InventoryItemData>(); //For saving items stored in a structure, for example meat on a drying rack, seeds in a turret
     [HideInInspector] public int saveInt1, saveInt2, saveInt3;
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;

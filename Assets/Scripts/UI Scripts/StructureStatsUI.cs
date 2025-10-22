@@ -68,8 +68,16 @@ public class StructureStatsUI : MonoBehaviour
             {
                 //Debug.Log(structureStats[i].name, hitStructure);
 
-                structureNameText.text = structureItemData.displayName;
-                structureIcon.sprite = structureItemData.icon;
+                if(structureItemData)
+                {
+                    structureNameText.text = structureItemData.displayName;
+                    structureIcon.sprite = structureItemData.icon;
+                }
+                else
+                {
+                    structureNameText.text = "";
+                    structureIcon.sprite = null;
+                }
 
                 statList[i].statNameText.text = structureStats[i].name;
                 statList[i].statIcon.sprite = structureStats[i].icon;
