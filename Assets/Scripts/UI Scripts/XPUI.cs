@@ -8,10 +8,13 @@ public class XPUI : MonoBehaviour
     private void Start()
     {
         UpdateXPUI();
+        XPManager.instance.onLevelUp += UpdateXPUI;
+        XPManager.instance.onXpGain += UpdateXPUI;
     }
 
     void OnEnable()
     {
+        if (XPManager.instance == null) return;
         XPManager.instance.onLevelUp += UpdateXPUI;
         XPManager.instance.onXpGain += UpdateXPUI;
     }
@@ -41,16 +44,5 @@ public class XPUI : MonoBehaviour
         xp.text = "XP: " + currentXP.ToString() + "/" + xpToNextLevel.ToString();
     }
 
-    /*private void Update() //Uncomment for debug
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            XPManager.instance.AddXP(10);
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            XPManager.instance.AddXP(15);
-        }
-    }*/
+    
 }

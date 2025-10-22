@@ -34,6 +34,19 @@ public class XPManager : MonoBehaviour
         currentLevel = 1;
     }
 
+    /*private void Update() //Uncomment for debug
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            instance.AddXP(10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            instance.AddXP(15);
+        }
+    }*/
+
     public void AddXP(int amount)
     {
         totalXP += amount;

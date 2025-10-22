@@ -1423,6 +1423,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3651289319410105792}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1622079131392507579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 849135099497693356}
+  - component: {fileID: 4873265850592670481}
+  m_Layer: 0
+  m_Name: XP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &849135099497693356
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622079131392507579}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.0000015199182, z: -0, w: 1}
+  m_LocalPosition: {x: -4.3099384, y: 13.004661, z: 33.062183}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4873265850592670481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622079131392507579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8252d73727552374ca107e27a81963ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levels:
+  - level: 1
+    xpToNextLevel: 100
+  - level: 2
+    xpToNextLevel: 200
+  - level: 3
+    xpToNextLevel: 300
+  - level: 4
+    xpToNextLevel: 400
+  - level: 5
+    xpToNextLevel: -1
 --- !u!1 &1648619922275204028
 GameObject:
   m_ObjectHideFlags: 0
@@ -10963,6 +11018,7 @@ Transform:
   - {fileID: 6939406517493349671}
   - {fileID: 4157573345881856525}
   - {fileID: 8058425567482587507}
+  - {fileID: 849135099497693356}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4040343108907326756
@@ -11105,6 +11161,7 @@ MonoBehaviour:
   hydrofly: {fileID: 0}
   kukri: {fileID: 0}
   flintlock: {fileID: 0}
+  nutTester: {fileID: 0}
   torchFlame: {fileID: 0}
   pyreflyFlame: {fileID: 0}
   pyreflyMat: {fileID: 0}
@@ -11321,6 +11378,7 @@ MonoBehaviour:
   scytheObtained: 0
   pistolObtained: 0
   kukriObtained: 0
+  testerObtained: 0
   mm_giveBarricade: 0
   cm_giveChest: 0
   mm_giveGun: 0
