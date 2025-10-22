@@ -4821,6 +4821,10 @@ MonoBehaviour:
     type: 3}
   orangeHitParticle: {fileID: 9006107700234814910, guid: d365fcfda7971ee4787ed061388f4f70,
     type: 3}
+  cleanseParticle: {fileID: 3441194547447549414, guid: dfb7b58049734d441938eaf8059e03cd,
+    type: 3}
+  whiteHitParticle: {fileID: 2017681010470526393, guid: 7e2ef6de1b7d01147969ca665f396781,
+    type: 3}
   woodDestructionP: {fileID: 2191918286048292972, guid: 3e60246a56a3a424496e8ccba69e560a,
     type: 3}
   metalDestructionP: {fileID: 8607203124487407503, guid: d4f3a7714d7d0d745a179196c53fc5ba,
@@ -4830,6 +4834,8 @@ MonoBehaviour:
   stoneDestructionP: {fileID: 707649693110747030, guid: 3a2304c34c9d5ae4a8aa6db6f60a9909,
     type: 3}
   robotDestructionP: {fileID: 2487219476001570306, guid: 165dbd6590cb9d94db4e4cdc4498e6b1,
+    type: 3}
+  c_fleshDestructionP: {fileID: 4910484031593661835, guid: 1c09cdc9c3b70134f8b801cf868c60a0,
     type: 3}
 --- !u!1 &4440993460313997844
 GameObject:
@@ -10924,6 +10930,7 @@ GameObject:
   - component: {fileID: 2367110641730823191}
   - component: {fileID: 7859859832328411273}
   - component: {fileID: 5403788078324475412}
+  - component: {fileID: 146488457976756947}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -11311,6 +11318,8 @@ MonoBehaviour:
   watergunObtained: 0
   bugNetObtained: 0
   scytheObtained: 0
+  pistolObtained: 0
+  kukriObtained: 0
   mm_giveBarricade: 0
   cm_giveChest: 0
   mm_giveGun: 0
@@ -11324,6 +11333,7 @@ MonoBehaviour:
   apo_explainedSiege: 0
   mm_introducedPets: 0
   mm_soldPet: 0
+  tra_askedForFood: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   siegesCleared: 0
@@ -58945,6 +58955,24 @@ MonoBehaviour:
   allCritters: []
   barnSource: {fileID: 8058425567482587507}
   barnWell: {fileID: 8925027611684554634}
+--- !u!114 &146488457976756947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba557de8f0187438a7bd2882c31197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptedTiles: 0
+  maxCorruption: 200
+  weedTile: {fileID: 0}
+  nodePrefab: {fileID: 3074132556789739212, guid: 715a25f294e852d4fb753f83bda21cb0,
+    type: 3}
+  nodeData: {fileID: 11400000, guid: ac7f463dd9be3104db507cdcc7fa9a49, type: 2}
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0

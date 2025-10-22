@@ -7,7 +7,7 @@ public class ShovelAttack : MonoBehaviour
     //public LayerMask hitDetection;
     public Collider collider;
 
-    public AudioClip hitStruct, hitFlesh, hitDirt;
+    public AudioClip hitStruct, hitHay, hitFlesh, hitDirt;
 
     CreatureBehaviorScript hitCreature;
     StructureBehaviorScript hitStructure;
@@ -33,7 +33,10 @@ public class ShovelAttack : MonoBehaviour
         collider.enabled = true;
         Physics.SyncTransforms();
         d_Collision = new Vector3(0,0,0);
+        s_Collision = Vector3.zero;
+        c_Collision = Vector3.zero;
         yield return new WaitForSeconds(0.04f);
+        Physics.SyncTransforms();
         collider.enabled = false;
         HitObject();
 
@@ -47,7 +50,7 @@ public class ShovelAttack : MonoBehaviour
         //Vector3 collisionPoint;
 
         var structure = other.GetComponentInParent<StructureBehaviorScript>();
-        if (structure != null && hitStructure == null && (s_Collision == Vector3.zero || Vector3.Distance(transform.position, s_Collision) > Vector3.Distance(transform.position, other.ClosestPoint(transform.position))))
+        if (structure != null && (s_Collision == Vector3.zero || Vector3.Distance(transform.position, s_Collision) > Vector3.Distance(transform.position, other.ClosestPoint(transform.position))))
         {
             hitStructure = structure;
             s_Collision = other.ClosestPoint(transform.position);
@@ -106,10 +109,11 @@ public class ShovelAttack : MonoBehaviour
             if(chargedSwing) damage = 5;
             hitArmor.TakeDamage(damage);
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-            print("Hit Armor");
+            //print("Hit Armor");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             //PlayHitParticle(s_Collision);
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitArmor.transform.position;
             return;
         }
 
@@ -120,7 +124,7 @@ public class ShovelAttack : MonoBehaviour
             hitCreature.TakeDamage(damage, PlayerInteraction.Instance.transform.position);
             //playsound
             if(hitCreature.corpseType != CorpseParticleType.Metal) HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
-            print("Hit Creature");
+            //print("Hit Creature");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             //PlayHitParticle(c_Collision);
@@ -135,12 +139,15 @@ public class ShovelAttack : MonoBehaviour
         if(hitStructure)
         {
             hitStructure.TakeDamage(2);
-            HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-            print("Hit Structure");
+            if(hitStructure.structData.structureType == StructureType.Null || hitStructure.structData.structureType == StructureType.Hay || hitStructure.structData.structureType == StructureType.CorruptedFlesh) 
+            HandItemManager.Instance.toolSource.PlayOneShot(hitHay);
+            else HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            //print("Hit Structure");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             PlayHitParticle(s_Collision);
-
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = s_Collision;
+            return;
         }
 
         if(hitBug)
@@ -151,19 +158,22 @@ public class ShovelAttack : MonoBehaviour
 
         if(d_Collision != new Vector3(0,0,0))
         {
-            print("Hit default");
+            //print("Hit default");
 
             PlayHitParticle(d_Collision);
-            HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
-            return;
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = d_Collision;
+            //HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            //return;
 
             if(type == GroundType.Dirt)
             {
-                ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
-                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                //print("Hit dirt");
+                ParticlePoolManager.Instance.MoveAndPlayParticle(d_Collision, ParticlePoolManager.Instance.dirtParticle);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitDirt);
             }
             else
             {
+                //print("Hit default");
                 PlayHitParticle(d_Collision);
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             }
@@ -173,10 +183,9 @@ public class ShovelAttack : MonoBehaviour
 
     void PlayHitParticle(Vector3 hitPoint)
     {
-        print("Played");
+        //print("Played");
         ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPoint;
         ParticlePoolManager.Instance.MoveAndPlayVFX(hitPoint, ParticlePoolManager.Instance.hitEffect);
-        ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hitPoint;
         return;
         /*
         Vector3 direction = (transform.position - hitPoint).normalized;

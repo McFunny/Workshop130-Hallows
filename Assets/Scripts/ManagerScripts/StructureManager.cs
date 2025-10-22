@@ -32,6 +32,7 @@ public class StructureManager : MonoBehaviour
     public bool disableBarricades = false; //If true, all fallen trees will already be cleared
 
 
+
     void Awake()
     {
         if(forceSurvivalMode) MainMenuScript.currentFileMode = FileMode.Survival;
@@ -94,6 +95,7 @@ public class StructureManager : MonoBehaviour
             PopulateDecorCrows(0, 2);
             StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
             PopulateBerryBushes(-5, 2, false);
+            StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -444,7 +446,7 @@ public class StructureManager : MonoBehaviour
         return tilePos;
     }
 
-    public List<Vector3> GetNearbyClearTiles(Vector3 pos, float range) //For farm only
+    public List<Vector3> GetNearbyClearTiles(Vector3 pos, float range) //For farm only. Used to get a collection of Empty Tiles within a range
     {
         List<Vector3> nearbyTiles = new List<Vector3>();
         foreach (var gridPosition in allFarmTiles)
@@ -868,7 +870,7 @@ public class StructureManager : MonoBehaviour
         PopulateBerryBushes(2, 3, true);
     }
 
-    IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
+    public IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
     {
         List<Vector3Int> spawnablePositions = new List<Vector3Int>();
 

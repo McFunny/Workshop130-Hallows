@@ -28,10 +28,12 @@ public class FlintlockBehavior : ToolBehavior
     Vector3 origin;
     Vector3 direction;
 
+    Coroutine lagRoutine;
+
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || TownGate.Instance.location == PlayerLocation.InTown) return;
+        if (usingPrimary || usingSecondary || TownGate.Instance.location == PlayerLocation.InTown) return;
         if (!player) player = _player;
 
         var inventory = PlayerInventoryHolder.Instance.PrimaryInventorySystem;
@@ -71,14 +73,19 @@ public class FlintlockBehavior : ToolBehavior
         }
         
         tool = _tool;
+        if(toolAnim == null) toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         usingPrimary = true;
         //Shoot
         HandItemManager.Instance.pistolParticles.Play();
 
-        HandItemManager.Instance.PlayPrimaryAnimation();
+        //HandItemManager.Instance.PlayPrimaryAnimation();
+        toolAnim.Play("pistolshoot", -1, 0f);
         HandItemManager.Instance.toolSource.PlayOneShot(shoot);
-        float cooldown = 0.25f;
-        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, cooldown));
+        PlayerInteraction.Instance.ToolUseToggle(true);
+        ItemUsed();
+
+        //float cooldown = 0.25f;
+        //PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.1f, cooldown));
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
@@ -102,6 +109,7 @@ public class FlintlockBehavior : ToolBehavior
 
     public IEnumerator ShootGun()
     {
+        if(lagRoutine != null) HandItemManager.Instance.StopCoroutine(lagRoutine);
         PlayerInteraction.Instance.ShakeScreen(0.7f);
         if(!bulletStart)
         {
@@ -109,8 +117,15 @@ public class FlintlockBehavior : ToolBehavior
         }
         ShootBullets();
         //ShootShrapnel();
-        yield return new WaitForSeconds(0.45f);
+        yield return new WaitForSeconds(0.25f);
         usingPrimary = false;
+        lagRoutine = HandItemManager.Instance.StartCoroutine(ExtraLag());
+    }
+
+    public IEnumerator ExtraLag()
+    {
+        yield return new WaitForSeconds(0.7f);
+        PlayerInteraction.Instance.ToolUseToggle(false);
     }
 
     void ShootBullets()
@@ -124,15 +139,15 @@ public class FlintlockBehavior : ToolBehavior
         if (Physics.Raycast(origin, direction, out hit, 200, mask))
         {
             RaycastBulletHit(hit.collider.gameObject, hit.point);
-            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hit.point;
+            //ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hit.point;
         }
         float xRecoil = Random.Range(-50f, 50f);
         if(xRecoil < 0 && xRecoil > -25) xRecoil = -25;
         if(xRecoil > 0 && xRecoil < 25) xRecoil = 25;
 
-        float yRecoil = Random.Range(-75f, 75f);
-        if(yRecoil < 0 && yRecoil > -40) yRecoil = -40;
-        if(yRecoil > 0 && yRecoil < 40) yRecoil = 40;
+        float yRecoil = Random.Range(20f, 75f);
+        //if(yRecoil < 0 && yRecoil > -40) yRecoil = -40;
+        //if(yRecoil > 0 && yRecoil < 40) yRecoil = 40;
 
         PlayerCam.Instance.AddCameraRecoil(xRecoil, yRecoil);
     }
@@ -160,6 +175,7 @@ public class FlintlockBehavior : ToolBehavior
                 armor.TakeDamage(2);
                 HandItemManager.Instance.toolSource.PlayOneShot(hit_Structure);
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+                ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitPos;
 
                 //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
                 //if(particles) particles.transform.position = transform.position;
@@ -179,6 +195,7 @@ public class FlintlockBehavior : ToolBehavior
                     HandItemManager.Instance.toolSource.PlayOneShot(hit_Structure);
                     ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
                     ParticlePoolManager.Instance.MoveAndPlayParticle(hitPos, ParticlePoolManager.Instance.dirtParticle);
+                    ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitPos;
 
                     //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
                     //if(particles) particles.transform.position = transform.position;
@@ -196,6 +213,7 @@ public class FlintlockBehavior : ToolBehavior
                 float bulletSpeed = 200;
                 float forceMultiplier = 0.1f;
                 rb.AddForce(direction * bulletSpeed * forceMultiplier, ForceMode.Impulse);
+                ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitPos;
             }
         }
 
@@ -208,7 +226,7 @@ public class FlintlockBehavior : ToolBehavior
                 {
                     creature.TakeDamage(headShotMult * currentBulletDamage);
                     ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
-                    ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+                    ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hitPos;
                     HandItemManager.Instance.toolSource.PlayOneShot(headShot);
                 }
                 else creature.TakeDamage(currentBulletDamage);
@@ -218,6 +236,7 @@ public class FlintlockBehavior : ToolBehavior
                 //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
                 //if(particles) particles.transform.position = transform.position;
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+                ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hitPos;
                 creature.PlayHitParticle(hitPos);
                 return;
             }
@@ -227,6 +246,7 @@ public class FlintlockBehavior : ToolBehavior
         {
             HandItemManager.Instance.toolSource.PlayOneShot(hit_Dirt);
             ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitPos;
             ParticlePoolManager.Instance.MoveAndPlayParticle(hitPos, ParticlePoolManager.Instance.dirtParticle);
 
             //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);

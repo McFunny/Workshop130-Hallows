@@ -19,6 +19,9 @@ public class KukriProjectile : MonoBehaviour
     Transform knifeParent;
     int critChance = 4;
 
+    bool madeContact = false;
+    bool canHitPlayer = false;
+
     private void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -27,11 +30,13 @@ public class KukriProjectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if(madeContact == true) return;
         if(other.gameObject.layer == 18)
         {
             var armor = other.GetComponent<CreatureArmor>();
             if(armor)
             {
+                madeContact = true;
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
                 HandItemManager.Instance.toolSource.PlayOneShot(hitDull);
 
@@ -46,6 +51,7 @@ public class KukriProjectile : MonoBehaviour
             var structure = other.GetComponent<StructureBehaviorScript>();
             if (structure != null)
             {
+                madeContact = true;
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
                 HandItemManager.Instance.toolSource.PlayOneShot(hitDull);
 
@@ -72,7 +78,9 @@ public class KukriProjectile : MonoBehaviour
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
+                madeContact = true;
                 bool hiltHit = true;
+                float totalDamage;
                 if(Random.Range(0, 10) < critChance) hiltHit = false;
                 knifeParent = creature.GrabKnifeParent();
                 if(knifeParent == null || creature.corpseType == CorpseParticleType.Metal) hiltHit = true;
@@ -80,12 +88,14 @@ public class KukriProjectile : MonoBehaviour
                 if(hiltHit)
                 {
                     knifeParent = null;
-                    creature.TakeDamage(hiltDamage + (extraDamage/2));
+                    totalDamage = hiltDamage + (extraDamage/2);
+                    creature.TakeDamage(totalDamage);
                     HandItemManager.Instance.toolSource.PlayOneShot(hitDull);
                 }
                 else
                 {
-                    creature.TakeDamage(critDamage + extraDamage);
+                    totalDamage = critDamage + extraDamage;
+                    creature.TakeDamage(totalDamage);
                     HandItemManager.Instance.toolSource.PlayOneShot(hitCrit);
                     ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
                 }
@@ -94,6 +104,7 @@ public class KukriProjectile : MonoBehaviour
                 print("Hit Creature");
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
+                print("Total damage was: " + totalDamage);
                 Destroy(gameObject);
                 return;
             }
@@ -101,11 +112,20 @@ public class KukriProjectile : MonoBehaviour
 
         if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
         {
+            madeContact = true;
             HandItemManager.Instance.toolSource.PlayOneShot(hitDull);
             print("Missed");
             ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
 
             ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
+            Destroy(gameObject);
+            return;
+        }
+
+        if(other.gameObject.layer == 10 && canHitPlayer)
+        {
+            madeContact = true;
+            PlayerInteraction.Instance.StaminaChange(-30);
             Destroy(gameObject);
             return;
         }
@@ -127,17 +147,19 @@ public class KukriProjectile : MonoBehaviour
 
     IEnumerator LifeTime()
     {
-        yield return new WaitForSeconds(0.3f);
-        critChance += 2;
+        yield return new WaitForSeconds(0.2f);
+        critChance += 1;
         extraDamage += 10;
+        canHitPlayer = true;
         yield return new WaitForSeconds(0.3f);
-        critChance += 4;
-        extraDamage += 10;
+        critChance += 1;
+        extraDamage += 20;
         int x = 0;
         while(x < 5)
         {
             yield return new WaitForSeconds(0.2f);
-            extraDamage += 10;
+            critChance += 3;
+            extraDamage += 20;
         }
         yield return new WaitForSeconds(bulletLifetime);
         Destroy(gameObject);

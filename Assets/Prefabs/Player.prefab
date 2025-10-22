@@ -313,6 +313,11 @@ MonoBehaviour:
   grassFootsteps: {fileID: 8300000, guid: 2bfc2099e4ceed24b951a7982085d5f6, type: 3}
   stoneFootsteps: {fileID: 8300000, guid: 4b25d192cc97c434b8b563b8778f223d, type: 3}
   woodFootsteps: {fileID: 8300000, guid: 3e18de8b56f944948a6aeba020009413, type: 3}
+  fleshFootsteps:
+  - {fileID: 8300000, guid: 5d2088b2e3587dd45871a8308e9b9353, type: 3}
+  - {fileID: 8300000, guid: dc5cbeb6698e7c446b286d05dbfa7696, type: 3}
+  - {fileID: 8300000, guid: f7e9af48e2da2174f95c1116912b1d50, type: 3}
+  - {fileID: 8300000, guid: da1578a38023d7647b6418281f1af5b8, type: 3}
   groundLayers:
     serializedVersion: 2
     m_Bits: 129
@@ -1228,8 +1233,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 9208214954908016475}
   hitStruct: {fileID: 8300000, guid: 32902731c1131564a95c8392f4d81620, type: 3}
+  hitHay: {fileID: 8300000, guid: 4baa5cde02a5e944c8e385d5520effc7, type: 3}
   hitFlesh: {fileID: 8300000, guid: 4d7da1a9abc17b84b89870c0cbf80d7b, type: 3}
-  hitDirt: {fileID: 8300000, guid: 1a51bf8f5a7c1c144a9b44c993eefb63, type: 3}
+  hitDirt: {fileID: 8300000, guid: fbe4d1d2bf575744f8b0521904801a88, type: 3}
   chargedSwing: 0
 --- !u!1 &4613956978402958756
 GameObject:
@@ -1329,8 +1335,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 6229748458418044384}
   hitStruct: {fileID: 8300000, guid: 378cfb0789bc21a41ae40ea91a705356, type: 3}
+  hitHay: {fileID: 8300000, guid: 4baa5cde02a5e944c8e385d5520effc7, type: 3}
   hitFlesh: {fileID: 8300000, guid: 6f037103f1abe2e41bd4f85e3ace03c0, type: 3}
-  hitDirt: {fileID: 8300000, guid: 1a51bf8f5a7c1c144a9b44c993eefb63, type: 3}
+  hitDirt: {fileID: 8300000, guid: fbe4d1d2bf575744f8b0521904801a88, type: 3}
   chargedSwing: 0
 --- !u!1 &4710172168767217788
 GameObject:

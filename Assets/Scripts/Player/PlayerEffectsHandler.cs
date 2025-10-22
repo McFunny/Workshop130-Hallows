@@ -14,6 +14,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     public AudioSource source, footStepSource;
     public AudioClip itemPickup, itemEat, playerDie, playerDamage, waterJet, trip;
     public AudioClip grassFootsteps, stoneFootsteps, woodFootsteps;
+    public AudioClip[] fleshFootsteps;
     AudioClip lastPlayedSteps;
 
     public LayerMask groundLayers;
@@ -184,6 +185,10 @@ public class PlayerEffectsHandler : MonoBehaviour
             else if(hit.collider.gameObject.tag == "Wood_FootStepSurface")
             {
                 footStepSource.clip = woodFootsteps;
+            }
+            else if(hit.collider.gameObject.tag == "Flesh_FootStepSurface")
+            {
+                footStepSource.clip = fleshFootsteps[Random.Range(0, fleshFootsteps.Length)];
             }
             else
             {

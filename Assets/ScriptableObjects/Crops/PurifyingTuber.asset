@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: PurifyingTuber
+  m_EditorClassIdentifier: 
+  name: Purifying Tuber
+  id: 40
+  growthStages: 7
+  hoursPerStage: 1
+  harvestableGrowthStages: 07000000
+  cropSprites:
+  - {fileID: -353187242, guid: bd54ab0e315177742a359c67a6184828, type: 3}
+  - {fileID: 638508663, guid: bd54ab0e315177742a359c67a6184828, type: 3}
+  - {fileID: -1717733071, guid: bd54ab0e315177742a359c67a6184828, type: 3}
+  - {fileID: 1054402191, guid: bd54ab0e315177742a359c67a6184828, type: 3}
+  - {fileID: -711164097, guid: bd54ab0e315177742a359c67a6184828, type: 3}
+  - {fileID: 504263309, guid: bd54ab0e315177742a359c67a6184828, type: 3}
+  - {fileID: 1715035554, guid: bd54ab0e315177742a359c67a6184828, type: 3}
+  rottedImage: {fileID: -643250851, guid: bd54ab0e315177742a359c67a6184828, type: 3}
+  cropYield: {fileID: 11400000, guid: ec36204edcbfb524f925ec1085e37952, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 0}
+  cropYieldAmount: 1
+  cropYieldVariance: 1
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  noStressSeedChance: 10
+  waterIntake: 3
+  ichorIntake: 0
+  terraIntake: 0.25
+  gloamIntake: -1.5
+  stressLimit: 4
+  wealthValue: 0.5
+  requireScythe: 0
+  requirePollination: 0
+  behavior: {fileID: 11400000, guid: 17313eb065539cf43b5b317f18782cc1, type: 2}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

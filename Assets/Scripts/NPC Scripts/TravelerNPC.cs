@@ -53,6 +53,13 @@ public class TravelerNPC : NPC, ITalkable
                     currentPath = i;
                     currentType = PathType.AlreadySpoken;
                 }
+                else if(!GameSaveData.Instance.tra_askedForFood && GameSaveData.Instance.siegesCleared > 0) //Give knife quest
+                {
+                    GameSaveData.Instance.tra_askedForFood = true;
+                    currentPath = 0;
+                    currentType = PathType.Quest;
+                    QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[2]); //Add the "Grow Tuber Quest" quest
+                }
                 else if (currentPath == -1)
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
@@ -97,6 +104,38 @@ public class TravelerNPC : NPC, ITalkable
         Talk();
 
         interactSuccessful = true;
+    }
+
+    public int QuestCompletedDialogue() //Reference lastCompletedQuestIndex to get which quest it is/what type it is, and give specific remarks here!!
+    {
+        if(lastCompletedQuestIndex < 0)
+        {
+            return 0;
+        }
+
+        //Remark about completing the knife/tuber quest here
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[2])) return 1;
+
+        return 0;
+    }
+
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(!GameSaveData.Instance.tra_askedForFood && !GameSaveData.Instance.kukriObtained)
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        exclamationObject.SetActive(true);
+        return true;
     }
 
 }
