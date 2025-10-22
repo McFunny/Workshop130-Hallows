@@ -112,6 +112,7 @@ public class KukriAttack : MonoBehaviour
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             //PlayHitParticle(s_Collision);
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitArmor.transform.position;
             return;
         }
 
@@ -143,6 +144,7 @@ public class KukriAttack : MonoBehaviour
             print("Hit Structure");
 
             PlayHitParticle(s_Collision);
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = s_Collision;
 
         }
 

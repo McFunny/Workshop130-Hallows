@@ -8,6 +8,7 @@ public class CorruptionNode : StructureBehaviorScript
 
     public float radius = 10;
     public int maxTilesPerHour = 3;
+    public int maxTilesPerHourCozy = 2;
     float tileSpawnChance = 35; // out of 100
 
     public ParticleSystem activatedParticles;
@@ -61,6 +62,8 @@ public class CorruptionNode : StructureBehaviorScript
 
     IEnumerator TrySpawnTile()
     {
+        int currentMaxTilesPerHour = maxTilesPerHour;
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) currentMaxTilesPerHour = maxTilesPerHourCozy;
         //spawn tiles in a nearby radius
         List<Vector3> tileSpots = StructureManager.Instance.GetNearbyClearTiles(transform.position, radius); 
         if(tileSpots.Count == 0)
@@ -84,7 +87,7 @@ public class CorruptionNode : StructureBehaviorScript
                         StructureManager.Instance.SpawnStructure(corruptedTile, tilePos);
                         tilesSpawned++;
                         activatedParticles.Play();
-                        if(tilesSpawned >= maxTilesPerHour) yield break; //Placed enough tiles. Done
+                        if(tilesSpawned >= currentMaxTilesPerHour) yield break; //Placed enough tiles. Done
                         break;
                     }
                 }

@@ -34,8 +34,8 @@ public class PetDog : PetBehaviorScript, IInteractable
         AwaitPlayer, //When the player is gone in the crypt/wilderness
         Idle,
         Follow, //Follow the player. High chance to follow during the night, and will retaliate if the player is hurt while following
-        ChaseCreature, //Attack creature. May also just bark instead. Chance to attack when player is damaged if following
-        Bury, //Buried a bone
+        ChaseCreature, //Attack creature. May also just bark instead. Chance to attack when player is damaged if following. Highfriendship will have the dog have a chance to attack when the player attacks
+        Bury, //Buried a bone OR make a much mix pile
         ChaseThrownItem, //Chase a bone the player threw. These bones can be thrown for the dog to eat, gaining some food + friendship, and makes it follow. If a ball, increases friendship but has daily cap
         Flee,
         Pet,
@@ -527,7 +527,8 @@ public class PetDog : PetBehaviorScript, IInteractable
         while(t < time)
         {
             yield return new WaitForSeconds(1);
-            if(Random.Range(0,10) == 9) anim.SetTrigger("IsPanting");
+            if(Random.Range(0,10) > 6) anim.SetBool("IsPanting", true);
+            else anim.SetBool("IsPanting", false);
             t++;
         }
         
