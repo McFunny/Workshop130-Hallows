@@ -108,7 +108,7 @@ public class StructureManager : MonoBehaviour
             Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
 
-        if(PlayerInteraction.Instance.lostKukri && DroppedKukri.Instance == null) StartCoroutine(PopulateStructure(1, 1, buriedKukri, false, farmTileMap));
+        if(PlayerInteraction.Instance.lostKukri && DroppedKukri.Instance == null && KukriProjectile.Instance == null) StartCoroutine(PopulateStructure(1, 1, buriedKukri, false, farmTileMap));
     }
 
     /*[ContextMenu("NutCrowTest")]

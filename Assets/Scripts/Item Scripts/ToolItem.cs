@@ -36,5 +36,5 @@ public enum ToolType
     Sealant,
     Kukri,
     Flintlock,
-    NutrientTester
+    NutTester
 }

@@ -113,6 +113,7 @@ public class ShovelAttack : MonoBehaviour
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             //PlayHitParticle(s_Collision);
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitArmor.transform.position;
             return;
         }
 
@@ -145,6 +146,7 @@ public class ShovelAttack : MonoBehaviour
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
             PlayHitParticle(s_Collision);
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = s_Collision;
             return;
         }
 
@@ -159,6 +161,7 @@ public class ShovelAttack : MonoBehaviour
             //print("Hit default");
 
             PlayHitParticle(d_Collision);
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = d_Collision;
             //HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             //return;
 
@@ -183,7 +186,6 @@ public class ShovelAttack : MonoBehaviour
         //print("Played");
         ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPoint;
         ParticlePoolManager.Instance.MoveAndPlayVFX(hitPoint, ParticlePoolManager.Instance.hitEffect);
-        ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hitPoint;
         return;
         /*
         Vector3 direction = (transform.position - hitPoint).normalized;
