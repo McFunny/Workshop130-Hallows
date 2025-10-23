@@ -332,6 +332,7 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 0
   absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
@@ -355,11 +356,16 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   termite: {fileID: 11400000, guid: 745e1657ff76d9449bdcc105da2bd664, type: 2}
   eggObject: {fileID: 4433734455543241792}
   containsEgg: 0
   eggItem: {fileID: 11400000, guid: dec23fa49ebccd441bcbb92cd5ee2741, type: 2}
+  rockItem: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
 --- !u!1001 &3550701479803068689
 PrefabInstance:
   m_ObjectHideFlags: 0

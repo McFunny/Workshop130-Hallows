@@ -31,6 +31,8 @@ public class Brazier : StructureBehaviorScript
     void Update()
     {
         base.Update();
+
+        if(fire.activeSelf == true && flameLeft <= 0) ExtinguishFlame();
     }
 
     public override void StructureInteraction()
@@ -101,7 +103,7 @@ public class Brazier : StructureBehaviorScript
         
     }*/
 
-    IEnumerator FireDrain()
+    IEnumerator FireDrain() //Disabled
     {
         int r;
         while(gameObject.activeSelf)

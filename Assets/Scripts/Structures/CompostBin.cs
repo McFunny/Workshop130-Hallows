@@ -253,8 +253,8 @@ public class CompostBin : StructureBehaviorScript
         structureUIVariables.valueGroups[1].value = progress;
         structureUIVariables.valueGroups[1].maxValue = maxProgress;
 
-        structureUIVariables.valueGroups[1].value = currentCompostValue;
-        structureUIVariables.valueGroups[1].maxValue = maxCompostValue;
+        structureUIVariables.valueGroups[2].value = currentCompostValue;
+        structureUIVariables.valueGroups[2].maxValue = maxCompostValue;
         return structureUIVariables.valueGroups;
     }
 }
