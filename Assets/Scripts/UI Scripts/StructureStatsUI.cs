@@ -71,12 +71,14 @@ public class StructureStatsUI : MonoBehaviour
                 if(structureItemData)
                 {
                     structureNameText.text = structureItemData.displayName;
+                    structureIcon.enabled = true;
                     structureIcon.sprite = structureItemData.icon;
                 }
                 else
                 {
                     structureNameText.text = "";
                     structureIcon.sprite = null;
+                    structureIcon.enabled = false;
                 }
 
                 statList[i].statNameText.text = structureStats[i].name;

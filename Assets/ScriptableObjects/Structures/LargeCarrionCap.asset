@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a32fc360a3fcc94e90a583305d10ce8, type: 3}
-  m_Name: WaterBarrel
+  m_Name: LargeCarrionCap
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 3161338315516755844, guid: e8af2d42c07a0964f8e6a3cb435718fe,
+  objectPrefab: {fileID: 3893903995484621810, guid: 04a3206b380c219419f1f10da60c1692,
     type: 3}
-  id: 14
-  health: 5
+  id: 73
+  health: 0
   position:
   - 0
   - 0
@@ -26,7 +26,7 @@ MonoBehaviour:
   - 0
   data:
     Name: 
-    Id: 14
+    Id: 73
     health: 0
     position:
     - 0
@@ -49,14 +49,10 @@ MonoBehaviour:
     savedString3: 
     savedBool1: 0
   gridSize: 0
-  structureType: 1
+  structureType: 0
   mintRepairCost: 0
-  repairItems:
-  - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-    amount: 1
-  - item: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
-    amount: 2
-  requiredRepairs: 2
-  maxMisses: 3
+  repairItems: []
+  requiredRepairs: 1
+  maxMisses: 1
   bugSpawnChance: 0
-  hasBeenPlaced: 1
+  hasBeenPlaced: 0

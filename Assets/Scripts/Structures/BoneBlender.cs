@@ -11,14 +11,16 @@ public class BoneBlender : StructureBehaviorScript
     public PopupScript itemWarning; //Warning that the player does not have enough items
 
     public int progress = 0;
-    int maxProgress = 2;
+    int maxProgress = 3;
 
     int itemsNeeded = 5;
 
     bool ignoreNextHour = false;
 
-    public ParticleSystem fumes;
+    public ParticleSystem fumes, completedParticles;
     public Animator anim;
+
+    public AudioSource loopSource;
 
     void Start()
     {
@@ -49,6 +51,7 @@ public class BoneBlender : StructureBehaviorScript
         anim.SetBool("IsRunning", false);
         anim.SetBool("IsFinished", false);
         progress = 0;
+        completedParticles.Stop();
 
     }
 
@@ -74,6 +77,7 @@ public class BoneBlender : StructureBehaviorScript
             ParticlePoolManager.Instance.GrabCloudParticle().transform.position = itemInsertPos.position;
             fumes.Play();
             anim.SetBool("IsRunning", true);
+            loopSource.Play();
         }
     }
 
@@ -103,6 +107,8 @@ public class BoneBlender : StructureBehaviorScript
                 progress = maxProgress;
                 fumes.Stop();
                 anim.SetBool("IsFinished", true);
+                loopSource.Stop();
+                completedParticles.Play();
             }
         }
         else 
@@ -137,6 +143,7 @@ public class BoneBlender : StructureBehaviorScript
         if(progress == maxProgress)
         {
             anim.SetBool("IsFinished", true);
+            completedParticles.Play();
         }
     }
 

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class VFXStatusObject : MonoBehaviour
 {
@@ -18,9 +20,16 @@ public class VFXStatusObject : MonoBehaviour
 
     public AudioClip appliedSFX, removedSFX;
 
+    public Volume statusVolume;
+
 
     void OnEnable()
     {
+        if(statusVolume)
+        {
+            statusVolume.weight = 0;
+            StartCoroutine(VolumeSmoothing());
+        }
         StartCoroutine(CheckForStatus());
         //if(transform.parent != null) transform.parent = null;
         followTransform = null;
@@ -47,6 +56,25 @@ public class VFXStatusObject : MonoBehaviour
     void Update()
     {
         if(followTransform) transform.position = followTransform.position;
+    }
+
+    IEnumerator VolumeSmoothing()
+    {
+        while(statusVolume.weight < 1)
+        {
+            yield return new WaitForSeconds(0.1f);
+            statusVolume.weight += 0.1f;
+        }
+        if(!onPlayer) statusVolume.weight = 0;
+    }
+
+    IEnumerator VolumeRemovalSmoothing()
+    {
+        while(statusVolume.weight > 0)
+        {
+            yield return new WaitForSeconds(0.1f);
+            statusVolume.weight -= 0.1f;
+        }
     }
 
     IEnumerator CheckForStatus()
@@ -107,6 +135,8 @@ public class VFXStatusObject : MonoBehaviour
         }
 
         if(fireObject) fireObject.Extinguished();
+
+        if(statusVolume) StartCoroutine(VolumeRemovalSmoothing());
 
         yield return new WaitForSeconds(2);
 

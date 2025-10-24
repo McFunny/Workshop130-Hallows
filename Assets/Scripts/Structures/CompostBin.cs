@@ -26,6 +26,8 @@ public class CompostBin : StructureBehaviorScript
     bool ignoreNextHour = false;
     bool isSpinning = false;
 
+    public ParticleSystem completedParticles;
+
     //public TextMeshProUGUI itemText;
 
     //public bool isFunctioning = false; //cannot interact with it until its been on the farm at night
@@ -106,6 +108,7 @@ public class CompostBin : StructureBehaviorScript
                 }
             }*/
             StartCoroutine(GrabItems(compostYield));
+            completedParticles.Stop();
         }
     }
 
@@ -201,6 +204,7 @@ public class CompostBin : StructureBehaviorScript
             {
                 isSpinning = false;
                 anim.SetBool("Spinning", false);
+                completedParticles.Play();
             }
         }
     }
@@ -233,6 +237,7 @@ public class CompostBin : StructureBehaviorScript
         {
             isSpinning = false;
             anim.SetBool("Spinning", false);
+            completedParticles.Play();
         }
 
         //itemText.text = currentCompostValue + "/" + maxCompostValue;
