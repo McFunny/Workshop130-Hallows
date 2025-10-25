@@ -14,6 +14,8 @@ public class MerchantLantern : MonoBehaviour, IInteractable
     public Collider myCollider;
     public GameObject enabledObject;
 
+    public bool playerOwnedLamp = false;
+
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
@@ -31,6 +33,12 @@ public class MerchantLantern : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
+        if(playerOwnedLamp)
+        {
+            interactSuccessful = true;
+            return;
+        }
+
         merchant.LanternInteraction();
         interactSuccessful = true;
     }
@@ -54,7 +62,7 @@ public class MerchantLantern : MonoBehaviour, IInteractable
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(4);
-        if(GameSaveData.Instance.wildernessIntroduced == true/* || forceEnable*/) EnableSelf();
+        if(GameSaveData.Instance.wildernessIntroduced == true || playerOwnedLamp) EnableSelf();
         else
         {
             myCollider.enabled = false;

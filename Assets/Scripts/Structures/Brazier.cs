@@ -10,7 +10,7 @@ public class Brazier : StructureBehaviorScript
     public GameObject fire;
 
     public float flameLeft; //if 0, fire is gone
-    float maxFlame = 20;
+    float maxFlame = 30;
 
     //Rework to incorporate a fuel based system rather than static time.
 
