@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class UIScrollingUITexture : MonoBehaviour
 {
-    public float scrollSpeedX = 0.1f;
-    public float scrollSpeedY = 0.0f; // Set to 0 if only scrolling horizontally
+    public float scrollSpeedX = 0.0f;
+    public float scrollSpeedY = 0.0f;
 
     private RawImage uiImage;
 
