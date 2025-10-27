@@ -28,7 +28,7 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
 
         OnDamage += Damaged;
 
-        if(!TimeManager.Instance.isDay && Random.Range(0,10) > 6)
+        if(!TimeManager.Instance.isDay && Random.Range(0,10) > 8)
         {
             InsertItem(rockItem);
         }

@@ -21,6 +21,7 @@ public class KukriProjectile : MonoBehaviour
 
     bool madeContact = false;
     bool canHitPlayer = false;
+    bool hitExplosion;
 
     public static KukriProjectile Instance;
 
@@ -100,6 +101,8 @@ public class KukriProjectile : MonoBehaviour
                 if(Random.Range(0, 10) < critChance) hiltHit = false;
                 knifeParent = creature.GrabKnifeParent();
                 if(knifeParent == null || creature.corpseType == CorpseParticleType.Metal) hiltHit = true;
+
+                if(creature.TryGetComponent<PyreFly>(out PyreFly pFly) && pFly.ignited) hitExplosion = true;
 
                 if(hiltHit)
                 {
@@ -188,7 +191,8 @@ public class KukriProjectile : MonoBehaviour
         if(knifeParent) knife.GetComponent<DroppedKukri>().StuckInObject(knifeParent);
         else  
         {
-            knife.GetComponent<Rigidbody>().AddForce(-knife.transform.forward * 20);
+            if(hitExplosion) knife.GetComponent<Rigidbody>().AddForce(-knife.transform.forward * 120);
+            else knife.GetComponent<Rigidbody>().AddForce(-knife.transform.forward * 30);
         }
     }
 }
