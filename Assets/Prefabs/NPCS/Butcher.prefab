@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
-  enabled: 0
+  objectActive: 0
 --- !u!1 &3166767519974764479
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 1
-  enabled: 0
+  objectActive: 0
 --- !u!114 &9008461425270318482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,14 +471,6 @@ MonoBehaviour:
     questBehavior: {fileID: 0}
     questID: -1
   sellMultiplier: 1
-  possibleSoldItems:
-  - {fileID: 11400000, guid: 1c6623afdf1e992468dd092ddbfe177d, type: 2}
-  - {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
-  - {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
-  itemWeight:
-  - 1
-  - 1
-  - 0.9
 --- !u!1001 &7973098918794744709
 PrefabInstance:
   m_ObjectHideFlags: 0
