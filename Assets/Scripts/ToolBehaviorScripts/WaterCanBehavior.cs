@@ -339,7 +339,7 @@ public class WaterCanBehavior : ToolBehavior
         while(InputManager.isCharging && holdingPour)
         {
             if(holdingPour && PlayerInteraction.Instance.waterHeld > 0 && CanPour()) QuickPour();
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -354,7 +354,7 @@ public class WaterCanBehavior : ToolBehavior
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.8f, "WateringCan", false));
 
         skipPour = false;
-        float timeBetweenPours = 1.3f;
+        float timeBetweenPours = 1.5f;
         while(InputManager.isCharging && PlayerInteraction.Instance.stamina > 0 && PlayerInteraction.Instance.waterHeld > 0)
         {
             yield return new WaitForSeconds(timeBetweenPours);
@@ -373,7 +373,7 @@ public class WaterCanBehavior : ToolBehavior
     bool CanPour() //Checks player eyeline
     {
         Debug.Log(player.eulerAngles.x);
-        if((player.eulerAngles.x >= 35 && player.eulerAngles.x <= 90) || player.eulerAngles.x == 0) 
+        if((player.eulerAngles.x >= 25 && player.eulerAngles.x <= 90) || player.eulerAngles.x == 0) 
         {
             if(pourParticles) pourParticles.Play();
             return true;

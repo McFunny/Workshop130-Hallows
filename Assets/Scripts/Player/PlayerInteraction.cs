@@ -171,7 +171,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnInteractWithItem(InputAction.CallbackContext obj)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen) return;
+        if(PlayerMovement.restrictMovementTokens > 0 /*|| toolCooldown */|| PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen) return;
         if(!ControlManager.isController) StructureInteractionWithItem();
         else
         {

@@ -92,6 +92,9 @@ public class HotbarDisplay : MonoBehaviour
         PlaceableItem p_item = currentSlot.AssignedInventorySlot.ItemData as PlaceableItem;
         if (p_item) p_item.DisableHologram();
 
+        ToolItem current_t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
+        if(current_t_item) current_t_item.behavior.OnHolster();
+
         //if(currentIndex == slotIndex)
         //{
         //    return;
@@ -108,8 +111,6 @@ public class HotbarDisplay : MonoBehaviour
         // Optionally, use the item in the selected slot
         if (currentSlot.AssignedInventorySlot != null && currentSlot.AssignedInventorySlot.ItemData != null)
         {
-            //currentSlot.AssignedInventorySlot.ItemData.UseItem(); //currently just reports what item is in the slot in the debugger
-
             ToolItem t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
             if (t_item)
             {

@@ -12,6 +12,17 @@ public class NutTesterBehavior : ToolBehavior
     Coroutine scanningCoroutine;
     Coroutine chargingCoroutine;
 
+    InventoryItemData currentSeed; // Synced Seed
+    int currentSlotIndex = -1; //When -1, it is not paired with a seed
+    bool onHotbar = true;
+
+    public override void OnHolster()
+    {
+        currentSeed = null;
+        currentSlotIndex = -1;
+        onHotbar = true;
+    }
+
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         //Maybe give it a use to stun robots/ghosts, or check enemy hp
@@ -20,6 +31,51 @@ public class NutTesterBehavior : ToolBehavior
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         BeginCharge();
+    }
+
+    public override void SecondaryUse(Transform _player, ToolType _tool)
+    {
+        bool foundSeed = false;
+        //Change Synced Seed
+        HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
+
+        List<InventorySlot> inventorySlots;
+        CropItem c_item = null;
+
+        for (int iterations = 0; iterations < 2; iterations++) //Iterating twice to make sure both inventories are checked
+        {
+            if(onHotbar) inventorySlots = PlayerInventoryHolder.Instance.PrimaryInventorySystem.InventorySlots;
+            else inventorySlots = PlayerInventoryHolder.Instance.secondaryInventorySystem.InventorySlots;
+
+            for (int i = 0; i < inventorySlots.Count; i++)
+            {
+                if(i <= currentSlotIndex) continue;
+
+                c_item = inventorySlots[i].ItemData as CropItem;
+                if(c_item) //New Seed found to sync to
+                {
+                    currentSeed = c_item;
+                    currentSlotIndex = i;
+                    foundSeed = true;
+                    break;
+                }
+            }
+
+            if(foundSeed)
+            {
+                break;
+            }
+            else
+            {
+                currentSlotIndex = -1;
+                currentSeed = null;
+                onHotbar = !onHotbar;
+            }
+        }
+
+        //Display new info. If the current need is null, then dont display seed info
+        if(currentSeed) Debug.Log("Found " + currentSeed + " in slot " + currentSlotIndex);
+        else Debug.Log("No seed is present in the inventory or cycled through all seeds");
     }
 
     void BeginCharge()
@@ -37,6 +93,7 @@ public class NutTesterBehavior : ToolBehavior
         PlayerInteraction.Instance.ToolUseToggle(true);
         yield return new WaitUntil(() => !InputManager.isCharging);
 
+        //THIS IS WHERE U WOULD ADD CODE FOR THE ITEM NOT BEING USED ANYMORE
 
         HandItemManager.Instance.StopCoroutine(chargingCoroutine);
         chargingCoroutine = null;
@@ -60,7 +117,7 @@ public class NutTesterBehavior : ToolBehavior
         {
             yield return new WaitForSeconds(timeBetweenScans);
             //Scan Functionality Here: Refresh scan target via casting a ray
-            HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
+            //HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
         }
     }
 }
