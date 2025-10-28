@@ -439,5 +439,6 @@ public enum Character
     Gravedigger,
     Butcher,
     Craftsman,
-    ElderMandrake
+    ElderMandrake,
+    Miller
 }
