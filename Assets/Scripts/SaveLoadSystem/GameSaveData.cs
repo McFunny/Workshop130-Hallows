@@ -72,7 +72,7 @@ public class GameSaveData : MonoBehaviour
     public int siegesLost = 0; //Tracks how many times this CURRENT siege was failed. Resets after a siege is completed
 
     [Header("NPC Bools. All must be false when building")]
-    public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet;
+    public bool rascalMet, botMet, lumberMet, barMet, tinkMet, apothMet, culMet, travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet, millerMet;
 
     [Header("Critter Save Array")]
     public List<CritterData> critterData = new List<CritterData>();
@@ -201,6 +201,7 @@ public class GameSaveData : MonoBehaviour
         butchMet = data.allGameSaveData.butchMet;
         carpMet = data.allGameSaveData.carpMet;
         mandrakeMet = data.allGameSaveData.mandrakeMet;
+        millerMet = data.allGameSaveData.millerMet;
 
         siegesCleared = data.allGameSaveData.siegesCleared;
         siegeCropInHand = data.allGameSaveData.siegeCropInHand;
@@ -288,7 +289,7 @@ public class GameSaveData : MonoBehaviour
         public bool tinkMet;
         public bool apothMet;
         public bool culMet;
-        public bool travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet;
+        public bool travMet, graveMet, fanMet, butchMet, carpMet, mandrakeMet, millerMet;
 
         public bool townTreeCleared1, townTreeCleared2;
         public bool watergunObtained;
@@ -377,6 +378,7 @@ public class GameSaveData : MonoBehaviour
         butchMet = data.butchMet;
         carpMet = data.carpMet;
         mandrakeMet = data.mandrakeMet;
+        millerMet = data.millerMet;
 
         townTreeCleared1 = data.townTreeCleared1;
         townTreeCleared2 = data.townTreeCleared2;

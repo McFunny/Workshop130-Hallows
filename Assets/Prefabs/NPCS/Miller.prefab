@@ -407,7 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e42a3be685f11e4a9db004df5152c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: {fileID: 11400000, guid: 991fbd2e292d2da4aacf186d7fb7a817, type: 2}
+  dialogueText: {fileID: 11400000, guid: 9cfb9ead915597d40ba6714a53a4b135, type: 2}
   dialogueController: {fileID: 0}
   anim: {fileID: 4521967479122730709}
   happy: []
@@ -419,7 +419,7 @@ MonoBehaviour:
   eyeLine: {fileID: 6556679951177066807}
   exclamationObject: {fileID: 890197865955520166}
   character: 15
-  barterDatabase: {fileID: 0}
+  barterDatabase: {fileID: 11400000, guid: f666d1e104666c84784d1f07d3829fbf, type: 2}
   currentPath: -1
   currentType: 0
   lastInteractedStoreItem: {fileID: 0}
@@ -452,14 +452,7 @@ MonoBehaviour:
     behaviorID: -1
     questBehavior: {fileID: 0}
     questID: -1
-  papers: {fileID: 11400000, guid: 34661632c5cbbde42ac408b3e69a69d7, type: 2}
-  treeNut: {fileID: 11400000, guid: 8e12b2a64e1bae64f8198877cbc90497, type: 2}
-  wood: {fileID: 11400000, guid: 9525cd9eb5e835e40a2386f6ff7b9846, type: 2}
   sellMultiplier: 1
-  possibleSoldItems:
-  - {fileID: 11400000, guid: 34661632c5cbbde42ac408b3e69a69d7, type: 2}
-  itemWeight:
-  - 1
 --- !u!1001 &2376893531116290275
 PrefabInstance:
   m_ObjectHideFlags: 0

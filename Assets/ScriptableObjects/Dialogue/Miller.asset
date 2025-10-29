@@ -12,24 +12,91 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
   m_Name: Miller
   m_EditorClassIdentifier: 
-  speakerName: 
+  speakerName: Miller
   defaultPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Introduction
+    paragraphs:
+    - Hello... I pray the town gave you it's warmest welcomes...
+    - How is the old cabin? Is she treating you well?
+    - ... No need to lie. I know its not.
+    - I know too well what it is like to toil past these walls... In that wretched
+      field.
+    emotions: 00000000040000000200000003000000
   repeatedItemPath:
     pathName: 
-    paragraphs: []
-    emotions: 
-  paths: []
-  fillerPaths: []
+    paragraphs:
+    - Bleh! Something NEW please?
+    emotions: 03000000
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - Healthy stock. Healthy farm.
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - The {storeItemName}... {storeItemValue} <color=#E0D38F>Mints</color> <sprite
+      index=0>... {dontfreezePlayer}
+    emotions: 01000000
+  - pathName: Sold!
+    paragraphs:
+    - Tell the little ones I said hello for me, would ya..?
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - I need the <color=#E0D38F>Mints</color> <sprite index=0> just as much as you
+      do.
+    emotions: 02000000
+  - pathName: No Space
+    paragraphs:
+    - Lighten your load...
+    emotions: 00000000
+  fillerPaths:
+  - pathName: Filler1
+    paragraphs:
+    - I prefer my hens with their head still intact.
+    emotions: 00000000
   questPaths: []
-  itemRecievedPaths: []
-  itemSpecificRemarks: []
+  itemRecievedPaths:
+  - pathName: Go Sell that
+    paragraphs:
+    - Please... Just because I am old, does not mean I need charity.
+    emotions: 03000000
+  - pathName: Thanks For Item!
+    paragraphs:
+    - Oh man, I was starving! {itemGiven}
+    - Thanks, geezer!
+    emotions: 0100000001000000
+  - pathName: Im Full
+    paragraphs:
+    - Chill gramps, I still ain't done with the last thing you brought me!
+    emotions: 05000000
+  itemSpecificRemarks:
+  - pathName: Go Sell that
+    paragraphs:
+    - Please... Just because I am old, does not mean I need charity.
+    emotions: 03000000
+  - pathName: Scroll
+    paragraphs:
+    - No sir... I don't dare to meddle with that stuff no more...
+    emotions: 05000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
-  alreadySpoken: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
   branchingPaths: []
-  questCompletePaths: []
-  dailyQuestPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for doin' me that favor...
+    emotions: 01000000
+  dailyQuestPaths:
+  - pathName: Daily Quest
+    paragraphs:
+    - I hate to be a bother, but could you do me a favor? {freezePlayer}
+    emotions: 01000000
