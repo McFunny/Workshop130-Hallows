@@ -76,6 +76,8 @@ public class CandleCluster : StructureBehaviorScript
         {
             chanceForDrain = 25;
             health--;
+
+            if(Random.Range(0,10) > 6) ExtinguishFlame();
         }
         else chanceForDrain += 25;
     }

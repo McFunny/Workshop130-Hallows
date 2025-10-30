@@ -13,6 +13,7 @@ public class MutatedCrow : CreatureBehaviorScript
     public enum CreatureState
     {
         Idle,
+        Stun,
         CirclePlayer,
         CirclePoint,
         AttackPlayer,
@@ -126,6 +127,9 @@ public class MutatedCrow : CreatureBehaviorScript
         {
             case CreatureState.Idle:
                 Idle();
+                break;
+            case CreatureState.Stun:
+                //
                 break;
             case CreatureState.CirclePlayer:
                 CircleAroundPlayer();
@@ -900,7 +904,7 @@ public class MutatedCrow : CreatureBehaviorScript
 
     private bool CheckForScareCrow()
     {
-        if(inWilderness) return false;
+        if(inWilderness || carriedNut) return false;
         foreach (StructureBehaviorScript structure in structManager.allStructs)
         {
             int r = Random.Range(0,10);
@@ -1043,5 +1047,17 @@ public class MutatedCrow : CreatureBehaviorScript
             else return false;
         }
         else return false;
+    }
+
+    public override bool OnStun(float duration) // For the resin pole trap
+    {
+        if (currentState != CreatureState.Dead && currentState != CreatureState.Stun)
+        {
+            currentState = CreatureState.Stun;
+            rb.velocity = Vector3.zero;
+            anim.Play("Idle1");
+            return true;
+        }
+        return false;
     }
 }

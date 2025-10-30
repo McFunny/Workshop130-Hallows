@@ -11,7 +11,7 @@ public class MeatPile : StructureBehaviorScript
 
     public List<RepairItem> repairItems;
 
-    float range;
+    float range = 20;
 
     public InventoryItemData morsel;
 
@@ -130,7 +130,7 @@ public class MeatPile : StructureBehaviorScript
 
         if(health > 5)
         {
-            health -= 5;
+            //health -= 5;
             while(health > 0)
             {
                 health -= 5;

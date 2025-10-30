@@ -36,7 +36,7 @@ public class MerchantLantern : MonoBehaviour, IInteractable
         if(playerOwnedLamp)
         {
             interactSuccessful = true;
-            return;
+            //return;
         }
 
         merchant.LanternInteraction();

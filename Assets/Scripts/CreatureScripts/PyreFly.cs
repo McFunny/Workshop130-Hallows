@@ -701,5 +701,26 @@ public class PyreFly : CreatureBehaviorScript
         return true;
     }
 
+    public override bool OnStun(float duration) // For the resin pole trap
+    {
+        if (currentState != CreatureState.Stun && variant != Variant.Hydro)
+        {
+            currentState = CreatureState.Stun;
+            agent.enabled = false;
+            agent.speed = 0;
+            anim.Play("PyreflyHeld");
+            StopCoroutine(PlayerTurn());
+            return true;
+        }
+        return false;
+    }
+
+    public override void NewPriorityTarget(StructureBehaviorScript newStruct)
+    {
+        if (currentState == CreatureState.Stun || variant == Variant.Hydro) return;
+        target = newStruct.transform;
+        agent.destination = target.position;
+    }
+
     //
 }

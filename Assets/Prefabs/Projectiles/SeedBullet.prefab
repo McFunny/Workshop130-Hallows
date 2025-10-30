@@ -4987,6 +4987,7 @@ GameObject:
   - component: {fileID: 8001474453427081354}
   - component: {fileID: 624179189636330408}
   - component: {fileID: 4814462846862558883}
+  - component: {fileID: 8226383019554145766}
   - component: {fileID: 4602479461604590927}
   - component: {fileID: 3723184500475353691}
   - component: {fileID: 8493072858790282317}
@@ -5084,7 +5085,30 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.5
+  m_Radius: 1.45
+  m_Height: 5.15
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &8226383019554145766
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4626338264351226871}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 193
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4.18
   m_Height: 5.15
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -5106,8 +5130,11 @@ MonoBehaviour:
   structureDamage: 1
   creatureDamage: 10
   playerDamage: 0
+  armorDamage: 2
   fireBullet: 0
+  piercing: 0
   bulletLifetime: 3
+  particleType: 0
 --- !u!54 &3723184500475353691
 Rigidbody:
   m_ObjectHideFlags: 0

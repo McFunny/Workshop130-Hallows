@@ -25,7 +25,7 @@ public class ElderMandrakeNPC : NPC, ITalkable
                 }
                 else if(dailyQuest != null)
                 {
-                    currentPath = QuestDatabase.Instance.GetQuestPath(character);
+                    currentPath = QuestDatabase.Instance.GetQuestPath(character); //For giving out the friend quest
                     currentType = PathType.GivingDaily;
                     GivePlayerDailyQuest();
                 }

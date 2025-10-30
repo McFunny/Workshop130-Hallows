@@ -150,7 +150,7 @@ public class TownHen : CreatureBehaviorScript
             if(r > 7) anim.Play("HenIdle1");
             else if(r > 5) anim.Play("HenIdle2");
         }
-        while(currentTime < time || (playerInSightRange && currentTime > 1))
+        while(currentTime < time && (!playerInSightRange || currentTime <= 1))
         {
             yield return new WaitForSeconds(1);
             currentTime++;
