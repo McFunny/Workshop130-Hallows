@@ -343,7 +343,7 @@ public class WaterCanBehavior : ToolBehavior
             if(wateredCreature)
             {
                 wateredCreature = false;
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(1.1f);
             }
             if(holdingPour && PlayerInteraction.Instance.waterHeld > 0 && CanPour()) QuickPour();
             yield return new WaitForSeconds(0.1f);

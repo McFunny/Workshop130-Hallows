@@ -61,10 +61,12 @@ MonoBehaviour:
   - name: Refinery
     itemForSale: {fileID: 11400000, guid: 9f529fa0497a5e348890c35cfc771ee6, type: 2}
     useItemPrice: 1
-    mintCost: 495
+    mintCost: 395
     amountForSale: 1
     barterChance: 100
-    itemsRequired: []
+    itemsRequired:
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 2
     siegesRequired: 1
     amountGiven: 1
   - name: Thurible
@@ -88,10 +90,12 @@ MonoBehaviour:
   - name: SmartSprinkler
     itemForSale: {fileID: 11400000, guid: 860f7419dcf07274abe38328d16ae46b, type: 2}
     useItemPrice: 1
-    mintCost: 515
+    mintCost: 475
     amountForSale: 1
     barterChance: 100
-    itemsRequired: []
+    itemsRequired:
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 1
     siegesRequired: 2
     amountGiven: 1
   - name: Sprinkler
@@ -109,7 +113,9 @@ MonoBehaviour:
     mintCost: 135
     amountForSale: 1
     barterChance: 100
-    itemsRequired: []
+    itemsRequired:
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 1
     siegesRequired: 1
     amountGiven: 1
   - name: Cannon
@@ -118,7 +124,9 @@ MonoBehaviour:
     mintCost: 220
     amountForSale: 1
     barterChance: 100
-    itemsRequired: []
+    itemsRequired:
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 3
     siegesRequired: 1
     amountGiven: 1
   - name: BoneBlender
@@ -152,10 +160,12 @@ MonoBehaviour:
   - name: NutTester
     itemForSale: {fileID: 11400000, guid: 971fbc5132e51ce49aba21a8b924a78e, type: 2}
     useItemPrice: 1
-    mintCost: 800
+    mintCost: 750
     amountForSale: 1
     barterChance: 0
-    itemsRequired: []
+    itemsRequired:
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 2
     siegesRequired: 0
     amountGiven: 1
   uniqueTransactions2: []

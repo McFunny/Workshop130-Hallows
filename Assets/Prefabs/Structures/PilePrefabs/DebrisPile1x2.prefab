@@ -266,7 +266,6 @@ GameObject:
   - component: {fileID: 8581470853287583687}
   - component: {fileID: 3731401311020111431}
   - component: {fileID: 3605552116157395498}
-  - component: {fileID: 1822395567061920668}
   - component: {fileID: 4819455000627352322}
   - component: {fileID: 1543851025957173406}
   m_Layer: 6
@@ -333,8 +332,8 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
+    m_Bits: 512
+  m_LayerOverridePriority: 99
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 0
@@ -459,27 +458,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &1822395567061920668
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4121062105790560338}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 1024
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 4193271
-  m_LayerOverridePriority: 5
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5, y: 1.8, z: 2.2}
-  m_Center: {x: 0, y: 0.09, z: 0}
 --- !u!114 &4819455000627352322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,7 +480,9 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -523,7 +503,11 @@ MonoBehaviour:
   canShowHighlight: 0
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   repairedStruct: {fileID: 0}
   wood_debris: {fileID: 2106260606766614286}
   hay_debris: {fileID: 7574991871596184515}
@@ -533,6 +517,7 @@ MonoBehaviour:
   missesLeft: 1
   popup: {fileID: 11400000, guid: db84458b8c7581246bcdf40941db3482, type: 2}
   repairKit: {fileID: 11400000, guid: 47382b2ad18cb524ca356db160e7f67a, type: 2}
+  giveItemBack: 0
 --- !u!114 &1543851025957173406
 MonoBehaviour:
   m_ObjectHideFlags: 0

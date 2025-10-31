@@ -287,7 +287,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public Vector3 RandomMistPosition()
     {
-        List<Transform> possibleSpawns = mistSpawns;
+        List<Transform> possibleSpawns = new List<Transform>(mistSpawns);
         possibleSpawns.AddRange(behindCabinSpawns);
         int r = Random.Range(0, possibleSpawns.Count);
         float x = Random.Range(-2, 2);
@@ -298,7 +298,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public Vector3 RandomMistPositionFrontCabin() //Does not include the positions behind the cabin
     {
-        List<Transform> possibleSpawns = mistSpawns;
+        List<Transform> possibleSpawns = new List<Transform>(mistSpawns);
         int r = Random.Range(0, possibleSpawns.Count);
         float x = Random.Range(-2, 2);
         return possibleSpawns[r].position + (x * possibleSpawns[r].transform.right); 

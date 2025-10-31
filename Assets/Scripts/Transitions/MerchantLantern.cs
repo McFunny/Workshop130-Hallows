@@ -14,7 +14,12 @@ public class MerchantLantern : MonoBehaviour, IInteractable
     public Collider myCollider;
     public GameObject enabledObject;
 
+
+    //////////////PLAYER LANTERN BOOLS/////////////////
     public bool playerOwnedLamp = false;
+    bool interactedWith = false;
+
+    public PopupScript enterPopup, exitPopup, blockedPopup;
 
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
@@ -36,7 +41,16 @@ public class MerchantLantern : MonoBehaviour, IInteractable
         if(playerOwnedLamp)
         {
             interactSuccessful = true;
-            //return;
+            if(TravelCheck())
+            {
+                if(interactedWith)
+                {
+                    StartCoroutine(TakeToTransition());
+                }
+                else StartCoroutine(TravelTimer());
+            }
+            else PopupHandler.Instance.AddToQueue(blockedPopup);
+            return;
         }
 
         merchant.LanternInteraction();
@@ -57,6 +71,32 @@ public class MerchantLantern : MonoBehaviour, IInteractable
     public void ReturnFocalPoint(out Transform focalPoint)
     {
         focalPoint = transform;
+    }
+
+    IEnumerator TakeToTransition()
+    {
+        //restrict movement and darken screen
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        interactedWith = false;
+        yield return new WaitForSeconds(3);
+        WildernessTransitionManager.Instance.EnterTransition();
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
+    }
+
+    bool TravelCheck()
+    {
+        if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay || WildernessManager.Instance.visitedWilderness) return false;
+        else return true;
+    }
+
+    IEnumerator TravelTimer()
+    {
+        interactedWith = true;
+        PopupHandler.Instance.AddToQueue(enterPopup);
+        yield return new WaitForSeconds(3);
+        interactedWith = false;
     }
 
     IEnumerator DelayedStart()
