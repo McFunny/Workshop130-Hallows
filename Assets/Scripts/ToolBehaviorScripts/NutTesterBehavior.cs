@@ -13,14 +13,18 @@ public class NutTesterBehavior : ToolBehavior
     Coroutine chargingCoroutine;
 
     InventoryItemData currentSeed; // Synced Seed
+    NutrientStorage currentNutrients; // Synced Nutrients
     int currentSlotIndex = -1; //When -1, it is not paired with a seed
     bool onHotbar = true;
+
 
     public override void OnHolster()
     {
         currentSeed = null;
         currentSlotIndex = -1;
         onHotbar = true;
+        NutrientTesterScript.Instance.UpdateSeed(null);
+        NutrientTesterScript.Instance.UpdateTile(null);
     }
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
@@ -44,15 +48,15 @@ public class NutTesterBehavior : ToolBehavior
 
         for (int iterations = 0; iterations < 2; iterations++) //Iterating twice to make sure both inventories are checked
         {
-            if(onHotbar) inventorySlots = PlayerInventoryHolder.Instance.PrimaryInventorySystem.InventorySlots;
+            if (onHotbar) inventorySlots = PlayerInventoryHolder.Instance.PrimaryInventorySystem.InventorySlots;
             else inventorySlots = PlayerInventoryHolder.Instance.secondaryInventorySystem.InventorySlots;
 
             for (int i = 0; i < inventorySlots.Count; i++)
             {
-                if(i <= currentSlotIndex) continue;
+                if (i <= currentSlotIndex) continue;
 
                 c_item = inventorySlots[i].ItemData as CropItem;
-                if(c_item) //New Seed found to sync to
+                if (c_item) //New Seed found to sync to
                 {
                     currentSeed = c_item;
                     currentSlotIndex = i;
@@ -61,7 +65,7 @@ public class NutTesterBehavior : ToolBehavior
                 }
             }
 
-            if(foundSeed)
+            if (foundSeed)
             {
                 break;
             }
@@ -74,6 +78,9 @@ public class NutTesterBehavior : ToolBehavior
         }
 
         //Display new info. If the current need is null, then dont display seed info
+
+        NutrientTesterScript.Instance.UpdateSeed(currentSeed as CropItem);
+
         if(currentSeed) Debug.Log("Found " + currentSeed + " in slot " + currentSlotIndex);
         else Debug.Log("No seed is present in the inventory or cycled through all seeds");
     }
@@ -116,7 +123,23 @@ public class NutTesterBehavior : ToolBehavior
         while(InputManager.isCharging)
         {
             yield return new WaitForSeconds(timeBetweenScans);
-            //Scan Functionality Here: Refresh scan target via casting a ray
+            Vector3 fwd = player.TransformDirection(Vector3.forward);
+            RaycastHit hit;
+            //Debug.Log("AttemptRaycast");
+            if (Physics.Raycast(player.position, fwd, out hit, 7f, mask))
+            {
+
+                Vector3 tile = StructureManager.Instance.CheckTile(hit.point);
+                if (!StructureManager.Instance.ValidateGridType(tile, GridType.Farm))
+                {
+                    NutrientTesterScript.Instance.UpdateTile(null);
+                    continue;
+                }
+
+                NutrientStorage nutrients = StructureManager.Instance.FetchNutrient(tile);
+                currentNutrients = nutrients;
+                NutrientTesterScript.Instance.UpdateTile(nutrients);
+            }
             //HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
         }
     }
