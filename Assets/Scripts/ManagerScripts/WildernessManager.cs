@@ -21,6 +21,7 @@ public class WildernessManager : MonoBehaviour
     WildernessMap currentMap;
 
     [HideInInspector] public WildernessMerchant wagon;
+    public Transform playerWagon; //Must manually assign, sigh
 
     public Transform returnPosition;
 
@@ -34,6 +35,8 @@ public class WildernessManager : MonoBehaviour
             return;
         }
         else Instance = this;
+
+        if(!playerWagon) Debug.LogError("Player wagon variable needs to be set in the inspector!!! Take the transform of the player wagon under the Wilderness GameObject");
 
     }
 
@@ -69,8 +72,9 @@ public class WildernessManager : MonoBehaviour
 
         int r = Random.Range(0,currentMap.spawnPositions.Length);
         PlayerInteraction.Instance.transform.position = currentMap.spawnPositions[r].position;
-        wagon.transform.position = currentMap.wagonPositions[r].position;
-        wagon.transform.LookAt(PlayerInteraction.Instance.transform.position);
+        playerWagon.transform.position = currentMap.wagonPositions[r].position;
+        playerWagon.transform.rotation = currentMap.wagonPositions[r].rotation;
+        //playerWagon.transform.LookAt(PlayerInteraction.Instance.transform.position);
 
 
         currentMap.InitializeMap();

@@ -52,7 +52,7 @@ public class MouseItemData : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
             {
-                if(assignedInventorySlot.ItemData.isKeyItem) return;
+                if(assignedInventorySlot.ItemData.isKeyItem || !canDropItems) return;
                 DropItem();
             }
 

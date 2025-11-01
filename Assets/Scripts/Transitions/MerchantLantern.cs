@@ -41,15 +41,35 @@ public class MerchantLantern : MonoBehaviour, IInteractable
         if(playerOwnedLamp)
         {
             interactSuccessful = true;
-            if(TravelCheck())
+            if(TownGate.Instance.location == PlayerLocation.InFarm) //In Farm
             {
-                if(interactedWith)
+                if(TravelCheck())
                 {
-                    StartCoroutine(TakeToTransition());
+                    if(interactedWith)
+                    {
+                        StartCoroutine(TakeToTransition());
+                    }
+                    else 
+                    {
+                        PopupHandler.Instance.AddToQueue(enterPopup);
+                        StartCoroutine(InteractionTimer());
+                    }
                 }
-                else StartCoroutine(TravelTimer());
+                else PopupHandler.Instance.AddToQueue(blockedPopup);
             }
-            else PopupHandler.Instance.AddToQueue(blockedPopup);
+            else //In Wilderness
+            {
+                if(interactedWith) //Leave
+                {
+                    WildernessManager.Instance.ClearCreatures();
+                    StartCoroutine(TakeToTown());
+                }
+                else //Ask to leave
+                {
+                    PopupHandler.Instance.AddToQueue(exitPopup);
+                    StartCoroutine(InteractionTimer());
+                }
+            }
             return;
         }
 
@@ -81,6 +101,19 @@ public class MerchantLantern : MonoBehaviour, IInteractable
         interactedWith = false;
         yield return new WaitForSeconds(3);
         WildernessTransitionManager.Instance.EnterTransition();
+        //FadeScreen.coverScreen = false;
+        //PlayerMovement.restrictMovementTokens--;
+    }
+
+    IEnumerator TakeToTown()
+    {
+        interactedWith = false;
+
+        //restrict movement and darken screen
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSeconds(2);
+        WildernessManager.Instance.ExitWilderness();
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
     }
@@ -91,10 +124,9 @@ public class MerchantLantern : MonoBehaviour, IInteractable
         else return true;
     }
 
-    IEnumerator TravelTimer()
+    IEnumerator InteractionTimer()
     {
         interactedWith = true;
-        PopupHandler.Instance.AddToQueue(enterPopup);
         yield return new WaitForSeconds(3);
         interactedWith = false;
     }

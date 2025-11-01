@@ -4965,13 +4965,13 @@ Transform:
   m_GameObject: {fileID: 2649202533246996236}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: -0.5}
-  m_LocalPosition: {x: 5.791, y: 10.742, z: 5.929}
+  m_LocalPosition: {x: 5.7909927, y: 10.742001, z: 5.928955}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 285792352421905817}
   - {fileID: 1960841428854605421}
-  m_Father: {fileID: 8625644404996131319}
+  m_Father: {fileID: 7704353528423229735}
   m_LocalEulerAnglesHint: {x: 270, y: 0, z: -90}
 --- !u!33 &1068663482420060671
 MeshFilter:
@@ -5227,6 +5227,39 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 12.6, y: 1, z: 22.3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3962118075082924446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7704353528423229735}
+  m_Layer: 0
+  m_Name: WagonPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7704353528423229735
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962118075082924446}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 201784391544214911}
+  - {fileID: 6621202170864743529}
+  m_Father: {fileID: 8625644404996131319}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3985041574350028673
 GameObject:
   m_ObjectHideFlags: 0
@@ -10395,6 +10428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8625644404996131319}
+  - component: {fileID: 4980005164350448183}
   m_Layer: 0
   m_Name: PlayerWagon
   m_TagString: Untagged
@@ -10415,10 +10449,22 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 201784391544214911}
-  - {fileID: 6621202170864743529}
+  - {fileID: 7704353528423229735}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4980005164350448183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7327979696979830173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a78bbd4e75f7aa479c523194659eb74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &8294768819656925537
 GameObject:
   m_ObjectHideFlags: 0
@@ -10543,12 +10589,12 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8625644404996131319}
+    m_TransformParent: {fileID: 7704353528423229735}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2612761d50818c442aef4890e4daff5a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 0.79999995
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2612761d50818c442aef4890e4daff5a,
         type: 3}
@@ -10558,12 +10604,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 2612761d50818c442aef4890e4daff5a,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.8
+      value: 0.79999995
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2612761d50818c442aef4890e4daff5a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.88
+      value: 1.879982
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2612761d50818c442aef4890e4daff5a,
         type: 3}
@@ -10573,7 +10619,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 2612761d50818c442aef4890e4daff5a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.48
+      value: 0.47998047
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2612761d50818c442aef4890e4daff5a,
         type: 3}
