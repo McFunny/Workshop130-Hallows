@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 
-public class XPManager : MonoBehaviour
+public class XPManager : MonoBehaviour //Make this easier to use lol
 {
     public static XPManager instance;
     [SerializeField] private List<Levels> levels = new List<Levels>();
