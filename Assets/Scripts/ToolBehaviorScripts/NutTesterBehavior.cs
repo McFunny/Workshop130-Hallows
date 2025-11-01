@@ -119,7 +119,7 @@ public class NutTesterBehavior : ToolBehavior
         toolAnim.Play("MoveToUse");
         yield return new WaitForSeconds(0.4f);
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.8f, "NutTester", false));
-        float timeBetweenScans = 0.5f;
+        float timeBetweenScans = 0.2f;
         while(InputManager.isCharging)
         {
             yield return new WaitForSeconds(timeBetweenScans);
