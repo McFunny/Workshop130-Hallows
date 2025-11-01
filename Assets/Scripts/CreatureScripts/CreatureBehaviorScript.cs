@@ -158,6 +158,10 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             bloodParticle = ParticlePoolManager.Instance.GrabSlimeSplashParticle();
         }
+        if(corpseType == CorpseParticleType.Corrupted) 
+        {
+            bloodParticle = ParticlePoolManager.Instance.GrabCorruptBloodDropParticle();
+        }
         else return;
 
         if(pos == new Vector3(0,0,0))
