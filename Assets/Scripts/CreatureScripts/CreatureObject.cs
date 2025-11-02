@@ -6,6 +6,7 @@ using UnityEngine;
 public class CreatureObject : ScriptableObject
 {
     public GameObject objectPrefab;//, wildernessPrefab;
+    public GameObject corruptedPrefab;
     public List<CreatureVariant> creatureVariants = new List<CreatureVariant>();
     [HideInInspector] public float health;
 
