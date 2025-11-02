@@ -215,17 +215,23 @@ public class NightSpawningManager : MonoBehaviour
             int p = Random.Range(0,100);
             //if(c.forceSpawnVariant) p = 0;
 
+            //Code to spawn corrupted variant
+            if(c.corruptedPrefab && GameSaveData.Instance.siegesCleared > 1 && Random.Range(0,100) < CorruptionManager.Instance.CorruptedSpawnMod()) prefab = c.corruptedPrefab;
+
             //New Logic
-            if(c.creatureVariants[r].variantChanceInFarm.Count > 0)
+            if(prefab == null)
             {
-                float currentChance = 0;
-                foreach (IntWithProbability chance in c.creatureVariants[r].variantChanceInFarm)
+                if(c.creatureVariants[r].variantChanceInFarm.Count > 0)
                 {
-                    if(GameSaveData.Instance.siegesCleared >= chance._int) currentChance = chance._probability; //Make sure they are ordered in the list
+                    float currentChance = 0;
+                    foreach (IntWithProbability chance in c.creatureVariants[r].variantChanceInFarm)
+                    {
+                        if(GameSaveData.Instance.siegesCleared >= chance._int) currentChance = chance._probability; //Make sure they are ordered in the list
+                    }
+                    if(currentChance > p) prefab = c.creatureVariants[r].prefab;
                 }
-                if(currentChance > p) prefab = c.creatureVariants[r].prefab;
+                else prefab = null; //If the siege variant list isnt setup
             }
-            else prefab = null; //If the siege variant list isnt setup
 
             if(c.creatureVariants[r].wealthPrerequisite > PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
         }
@@ -287,7 +293,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public Vector3 RandomMistPosition()
     {
-        List<Transform> possibleSpawns = mistSpawns;
+        List<Transform> possibleSpawns = new List<Transform>(mistSpawns);
         possibleSpawns.AddRange(behindCabinSpawns);
         int r = Random.Range(0, possibleSpawns.Count);
         float x = Random.Range(-2, 2);
@@ -298,7 +304,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public Vector3 RandomMistPositionFrontCabin() //Does not include the positions behind the cabin
     {
-        List<Transform> possibleSpawns = mistSpawns;
+        List<Transform> possibleSpawns = new List<Transform>(mistSpawns);
         int r = Random.Range(0, possibleSpawns.Count);
         float x = Random.Range(-2, 2);
         return possibleSpawns[r].position + (x * possibleSpawns[r].transform.right); 

@@ -156,7 +156,8 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        if (StructureManager.Instance.enableCheats && controlManager.waterJet.action.WasPressedThisFrame() && !toolCooldown && PlayerMovement.restrictMovementTokens == 0) StartCoroutine(WaterPropulsion());
+        if ((StructureManager.Instance.enableCheats || playerUpgrades.gainedWaterPack) && controlManager.waterJet.action.WasPressedThisFrame() && !toolCooldown 
+        && PlayerMovement.restrictMovementTokens == 0) StartCoroutine(WaterPropulsion());
 
         //if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 

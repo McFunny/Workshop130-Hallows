@@ -191,14 +191,14 @@ public class TinkererNPC : NPC, ITalkable
                 continue;
             }
 
-            /*if (i == 1 && !GameSaveData.Instance.testerObtained && GameSaveData.Instance.tinkMet)
+            if (i == 1 && !GameSaveData.Instance.testerObtained && GameSaveData.Instance.tinkMet)
             {
                 newItem = barterDatabase.uniqueTransactions[1].itemForSale;
                 newCost = (int)(barterDatabase.uniqueTransactions[1].mintCost * sellMultiplier);
                 storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
                 storeItems[i].seller = this;
                 continue;
-            }*/ // Wait until the tool is done
+            } // Wait until the tool is done
 
             do
             {

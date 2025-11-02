@@ -55,6 +55,42 @@ MonoBehaviour:
     paragraphs:
     - I prefer my hens with their head still intact.
     emotions: 00000000
+  - pathName: Filler2
+    paragraphs:
+    - You arent bothering my hens... Are you..?
+    emotions: 04000000
+  - pathName: Filler3
+    paragraphs:
+    - It's nice to finally rest, after so many years of toiling for this town...
+    - It was hard work... But it was honest work....
+    emotions: 0100000000000000
+  - pathName: Filler4
+    paragraphs:
+    - I see they gave you a torch... Thats more than I got when I was in your shoes...
+    - To keep the Mist Walkers at bay, I had to resort to torching my fields with
+      a lit stick of wood...
+    - The town did not eat well that night... But it kept me alive...
+    emotions: 030000000500000002000000
+  - pathName: Filler5
+    paragraphs:
+    - Oh how I miss cultivating mandrakes...
+    - They were always such a fun chase...
+    - I can't help but feel a wave of envy whenever I hear their screams from your
+      farm at night...
+    emotions: 020000000000000000000000
+  - pathName: Filler6
+    paragraphs:
+    - A tip for you, boy...
+    - Lay your land with rocks...
+    - Keeps the soil sturdy... Reducing how often you must till the ground...
+    emotions: 000000000000000000000000
+  - pathName: Filler7
+    paragraphs:
+    - A seasoned farmer knows how to make the best of everything that the land provides...
+    - That includes the weeds...
+    - Weed fiber has plenty of uses... Not to mention weeds attract a plethora of
+      bugs to catch...
+    emotions: 000000000000000000000000
   questPaths: []
   itemRecievedPaths:
   - pathName: Go Sell that
@@ -77,7 +113,7 @@ MonoBehaviour:
     emotions: 03000000
   - pathName: Scroll
     paragraphs:
-    - No sir... I don't dare to meddle with that stuff no more...
+    - No... I don't dare to meddle with that stuff no more...
     emotions: 05000000
   friendshipPath1: []
   friendshipPath2: []
@@ -99,4 +135,4 @@ MonoBehaviour:
   - pathName: Daily Quest
     paragraphs:
     - I hate to be a bother, but could you do me a favor? {freezePlayer}
-    emotions: 01000000
+    emotions: 00000000

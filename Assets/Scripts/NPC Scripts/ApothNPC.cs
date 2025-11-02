@@ -206,7 +206,23 @@ public class ApothNPC : NPC, ITalkable
         if(item == barterDatabase.uniqueTransactions[index + 1].itemForSale)
         {
             GameSaveData.Instance.siegeCropInHand = true;
+            if(!GameSaveData.Instance.apo_explainedSiege)
+            {
+                GameSaveData.Instance.apo_explainedSiege = true;
+                ExtraInformation();
+                uniqueDialogue = true;
+            }
         }
+    }
+
+    void ExtraInformation()
+    {
+        currentPath = 7; //Explaining Siege
+        currentType = PathType.Misc;
+
+        dialogueController.restartDialogue = true;
+        Talk();
+
     }
 
     public override void BeginWorking()

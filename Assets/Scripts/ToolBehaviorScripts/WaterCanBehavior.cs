@@ -9,6 +9,8 @@ public class WaterCanBehavior : ToolBehavior
 
     bool holdingPour = false;
     bool skipPour = false;
+
+    bool wateredCreature; //To add a delay to hitting a creature with water
     //bool puttingCanAway = false;
     Coroutine wateringCoroutine;
     Coroutine chargingCoroutine;
@@ -338,6 +340,11 @@ public class WaterCanBehavior : ToolBehavior
     {
         while(InputManager.isCharging && holdingPour)
         {
+            if(wateredCreature)
+            {
+                wateredCreature = false;
+                yield return new WaitForSeconds(1.1f);
+            }
             if(holdingPour && PlayerInteraction.Instance.waterHeld > 0 && CanPour()) QuickPour();
             yield return new WaitForSeconds(0.1f);
         }
@@ -399,7 +406,7 @@ public class WaterCanBehavior : ToolBehavior
                 if(structure.onFire || !wateredStructures.Contains(structure))
                 {
                     FarmLand tile = structure as FarmLand;
-                    if(tile)
+                    if(tile && !structure.onFire)
                     {
                         wateredStructures.Add(structure);
                         if(tile.GetCropStats().waterLevel == 10) return;
@@ -413,10 +420,11 @@ public class WaterCanBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 6, 1 << 9))
         {
             var enemy = hit.collider.GetComponentInParent<CreatureBehaviorScript>();
-            if (enemy != null)
+            if (enemy != null && enemy.health > 0)
             {
                 enemy.HitWithWater();
                 consumeWater = true;
+                wateredCreature = true;
             }
         }
         if(consumeWater)

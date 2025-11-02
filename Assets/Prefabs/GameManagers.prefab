@@ -1392,6 +1392,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3720941011608264432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1555836819272223889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 517062141876867632}
+  m_Layer: 0
+  m_Name: MillerHouse
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &517062141876867632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555836819272223889}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 548.75, y: 1.34, z: -100.92}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 16907581968866686}
+  - {fileID: 7105911216569765274}
+  m_Father: {fileID: 7787821027441036890}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1584733850464327353
 GameObject:
   m_ObjectHideFlags: 0
@@ -1980,6 +2013,7 @@ Transform:
   - {fileID: 2055487060678113770}
   - {fileID: 4506046353892270426}
   - {fileID: 5680106217731862769}
+  - {fileID: 517062141876867632}
   - {fileID: 1207189002854949995}
   - {fileID: 3346180091967456471}
   - {fileID: 564916328386176895}
@@ -2558,22 +2592,22 @@ MonoBehaviour:
       lookAtPoint: {fileID: 0}
   - name: Miller
     destination: 26
-    mainTransform: {fileID: 0}
+    mainTransform: {fileID: 517062141876867632}
     sublocations:
     - name: MillerHome
-      transform: {fileID: 0}
+      transform: {fileID: 16907581968866686}
       isForWorkers: 0
       isAtHome: 1
       isOccupied: 0
       occupant: {fileID: 0}
       lookAtPoint: {fileID: 0}
     - name: MillerWork
-      transform: {fileID: 0}
+      transform: {fileID: 7105911216569765274}
       isForWorkers: 1
       isAtHome: 0
       isOccupied: 0
       occupant: {fileID: 0}
-      lookAtPoint: {fileID: 0}
+      lookAtPoint: {fileID: 1778140153785635230}
 --- !u!1 &1938166777746701224
 GameObject:
   m_ObjectHideFlags: 0
@@ -3999,7 +4033,7 @@ Transform:
   m_GameObject: {fileID: 3524132471912834969}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 436.71, y: 0.763, z: 31.93}
+  m_LocalPosition: {x: 69.721, y: 1.979, z: 43.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4220,6 +4254,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1008784946656914511}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &3717347121608473409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7105911216569765274}
+  m_Layer: 0
+  m_Name: MillerShop
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7105911216569765274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3717347121608473409}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27.502, y: -0.86512315, z: -3.611}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1778140153785635230}
+  m_Father: {fileID: 517062141876867632}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3735615617987135483
 GameObject:
   m_ObjectHideFlags: 0
@@ -4838,11 +4904,15 @@ MonoBehaviour:
     type: 3}
   corpseParticleYellow: {fileID: 2519875780709563835, guid: 33fbefdd5b0fde64f8304e492b46d21e,
     type: 3}
+  corruptedCorpseParticle: {fileID: 7986326716740724007, guid: 63c825d67b891df48985f10ab34dd2b7,
+    type: 3}
   poofParticle: {fileID: 5758540690595798765, guid: 501eae2240113b842b8e90b64bf0ca05,
     type: 3}
   extinguishParticle: {fileID: 8071351880682781720, guid: 170344e9b94b26549a53d56b1e9c959c,
     type: 3}
   bloodDropletParticle: {fileID: 4198128779284309709, guid: 42639817718dffa42bbf46599fac75e1,
+    type: 3}
+  corruptBloodDropletParticle: {fileID: 1064305485531257369, guid: e332484e0d1709041a24903a46075c0a,
     type: 3}
   sparksParticle: {fileID: 429448299970405951, guid: 0971fa5d17a72244e86a4b095d562933,
     type: 3}
@@ -10553,6 +10623,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaName: 0
+--- !u!1 &5428734249620211217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1778140153785635230}
+  m_Layer: 0
+  m_Name: LookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1778140153785635230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428734249620211217}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.00001335144, y: 0, z: 1.8509979}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7105911216569765274}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5465942974913701937
 GameObject:
   m_ObjectHideFlags: 0
@@ -10986,6 +11087,7 @@ GameObject:
   - component: {fileID: 7859859832328411273}
   - component: {fileID: 5403788078324475412}
   - component: {fileID: 146488457976756947}
+  - component: {fileID: 7036945931431975565}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -11335,6 +11437,7 @@ MonoBehaviour:
   butchSpoke: 0
   carpSpoke: 0
   mandrakeSpoke: 0
+  millerSpoke: 0
 --- !u!114 &8391427381802313727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11363,6 +11466,7 @@ MonoBehaviour:
   hourSaved: 8
   gainedInventoryUpgrade: 0
   gainedWaterStorage: 0
+  gainedWaterPack: 0
   tutorialMerchantSpoke: 0
   rascalWantsFood: 0
   rascalMentionedKey: 0
@@ -11411,6 +11515,7 @@ MonoBehaviour:
   butchMet: 0
   carpMet: 0
   mandrakeMet: 0
+  millerMet: 0
   critterData: []
   manikkinsAlive: 0
   deadHenIDs: 
@@ -58918,6 +59023,7 @@ MonoBehaviour:
     spawnChance: 80
   allMaps: []
   wagon: {fileID: 0}
+  playerWagon: {fileID: 0}
   returnPosition: {fileID: 3274068372633532939}
   visitedWilderness: 0
 --- !u!114 &1908568139050500351
@@ -59028,10 +59134,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   corruptedTiles: 0
   maxCorruption: 200
-  weedTile: {fileID: 0}
+  corruptedTile: {fileID: 8737718609640687283, guid: ae8f3d0b4ce2acf4ca214b38e5c1583a,
+    type: 3}
   nodePrefab: {fileID: 3074132556789739212, guid: 715a25f294e852d4fb753f83bda21cb0,
     type: 3}
   nodeData: {fileID: 11400000, guid: ac7f463dd9be3104db507cdcc7fa9a49, type: 2}
+--- !u!114 &7036945931431975565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7201aae75cadeda409b9cb54973f4f88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  farmWagon: {fileID: 0}
+  wildernessWagon: {fileID: 0}
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0
@@ -59800,6 +59921,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 564916328386176895}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7164162073775712970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 16907581968866686}
+  m_Layer: 0
+  m_Name: MillerHome
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &16907581968866686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7164162073775712970}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01, y: 0, z: -2.82}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 517062141876867632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7267330542640799114
 GameObject:

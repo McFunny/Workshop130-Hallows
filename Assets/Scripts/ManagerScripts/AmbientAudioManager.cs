@@ -29,6 +29,7 @@ public class AmbientAudioManager : MonoBehaviour
 
     bool firstTrackPlayed = false;
     [HideInInspector] public bool playMusicAtStart = true;
+    bool fadingMusic;
 
     [HideInInspector] public Gramophone playingGramophone;
     AudioClip gramoPhoneTrack;
@@ -203,12 +204,14 @@ public class AmbientAudioManager : MonoBehaviour
                 //musicSource.Stop(); // Stop current music
             }
             Debug.Log("It's either 6 or 20 music time");
-            StartCoroutine(FadeAudio()); 
+            StartCoroutine(FadeAudio(0)); 
         }
     }
 
-    IEnumerator FadeAudio()
+    public IEnumerator FadeAudio(float time)
     {
+        if(fadingMusic) yield break;
+        fadingMusic = true;
         float oldVolume = musicSource.volume;
         float currentVolume = oldVolume;
 
@@ -233,8 +236,13 @@ public class AmbientAudioManager : MonoBehaviour
 
         playingGramophone = null;
         gramoPhoneTrack = null;
+
+        yield return new WaitForSeconds(time); //Time it takes to restart the coroutine
+
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic()); //restarts coroutine
+        fadingMusic = false;
     }
+
 
     IEnumerator FadeBell()
     {
@@ -250,7 +258,7 @@ public class AmbientAudioManager : MonoBehaviour
             //musicSource.Stop(); // Stop current music
         }
         StopCoroutine(FinaleTheme());
-        StartCoroutine(FadeAudio()); 
+        StartCoroutine(FadeAudio(0)); 
     }
 
     public void StartFinaleTheme()

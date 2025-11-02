@@ -172,4 +172,10 @@ public class MillerNPC : NPC, ITalkable
         }
         shopUI.shopImgObj.SetActive(false);
     }
+
+    public override bool ActionCheck1() //To check if he starts selling items
+    {
+        if(GameSaveData.Instance.townTreeCleared2) return true;
+        return false;
+    }
 }

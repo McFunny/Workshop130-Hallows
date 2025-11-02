@@ -258,6 +258,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void ToggleHighlight(bool enable)
     {
+        OnHighlight(enable);
         if(HideUI.hideUI) return; //if the UI is hidden, do not show highlights
         
         if (highlight.Count == 0)
@@ -319,6 +320,8 @@ public class StructureBehaviorScript : MonoBehaviour
         }
         highlightCoroutine = null;
     }
+
+    protected virtual void OnHighlight(bool enabled){}
 
     public void LitOnFire()
     {

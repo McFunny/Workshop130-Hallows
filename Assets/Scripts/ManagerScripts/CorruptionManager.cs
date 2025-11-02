@@ -9,7 +9,7 @@ public class CorruptionManager : MonoBehaviour
     public int corruptedTiles = 0;
     public int maxCorruption = 200;
 
-    public GameObject weedTile, nodePrefab;
+    public GameObject corruptedTile, nodePrefab;
 
     public StructureObject nodeData;
 
@@ -115,6 +115,42 @@ public class CorruptionManager : MonoBehaviour
                 cTiles.Add(cTile);
             }
         }
+    }
+
+    public void CorruptionExplosion(Vector3 pos, float range)
+    {
+        Collider[] nearbyFarmTiles = Physics.OverlapSphere(pos, range, 1 << 6);
+
+        for(int i = 0; i < nearbyFarmTiles.Length; i++) //Clear empty tiles
+        {
+            FarmLand farmLand = nearbyFarmTiles[i].gameObject.GetComponentInParent<FarmLand>();
+            if(farmLand && !farmLand.crop)
+            {
+                farmLand.TakeDamage(99);
+            }
+        }
+
+        List<Vector3> tileSpots = StructureManager.Instance.GetNearbyClearTiles(pos, range); 
+        if(tileSpots.Count == 0)
+        {
+            print("No free tiles found");
+            return;
+        } 
+
+        foreach(Vector3 tilePos in tileSpots)
+        {
+            if(Random.Range(0f,100f) <= 90)
+            {
+                if(StructureManager.Instance.CheckTile(tilePos) == Vector3.zero) continue; //This once free tile is now occupied
+                StructureManager.Instance.SpawnStructure(corruptedTile, tilePos);
+
+            }
+        }
+    }
+
+    public float CorruptedSpawnMod()
+    {
+        return 5 + (corruptedTiles/maxCorruption) * 70;
     }
 
     void OnDestroy()

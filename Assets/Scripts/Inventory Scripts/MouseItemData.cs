@@ -13,8 +13,11 @@ public class MouseItemData : MonoBehaviour
     ControlManager controlManager;
     EventSystem eventSystem;
 
+    public static bool canDropItems = true;
+
     private void Awake()
     {
+        canDropItems = true;
         eventSystem = EventSystem.current;
         controlManager = FindFirstObjectByType<ControlManager>();
         itemSprite.gameObject.SetActive(true);
@@ -49,14 +52,14 @@ public class MouseItemData : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
             {
-                if(assignedInventorySlot.ItemData.isKeyItem) return;
+                if(assignedInventorySlot.ItemData.isKeyItem || !canDropItems) return;
                 DropItem();
             }
 
             if(controlManager.dropItem.action.WasReleasedThisFrame())
             {
                 print("Item Drop Attempted");
-                if(assignedInventorySlot.ItemData.isKeyItem) return;
+                if(assignedInventorySlot.ItemData.isKeyItem || !canDropItems) return;
                 DropItem();
                 print("Item Dropped");
             } 
