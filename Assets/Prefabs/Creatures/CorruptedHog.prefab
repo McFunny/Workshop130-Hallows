@@ -16079,8 +16079,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611bf15f694b37d4e8152c0fbd9aac4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 75
-  maxHealth: 75
+  health: 100
+  maxHealth: 100
   corpseHealth: -50
   ichorWorth: 5
   ichorDropRadius: 4.5
@@ -16109,7 +16109,7 @@ MonoBehaviour:
   - 5
   - 5
   sightRange: 25
-  attackRange: 15
+  attackRange: 10
   playerInSightRange: 0
   playerInAttackRange: 0
   shovelVulnerable: 1
@@ -16138,7 +16138,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   attackHitbox: {fileID: 4365606312147654173}
   chargePosition: {fileID: 6830114655965494419}
-  r: {fileID: 0}
+  r: {fileID: 6191503770755445613}
   chargeParticles: {fileID: 5412836992950152356}
   dashParticles: {fileID: 258018247737617617}
   walkSpeed: 2

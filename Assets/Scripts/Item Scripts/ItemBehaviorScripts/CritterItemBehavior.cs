@@ -23,6 +23,10 @@ public class CritterItemBehavior : ItemBehavior
                     case PetType.Grub:
                     GameSaveData.Instance.grubRef.gameObject.SetActive(true);
                     break;
+
+                    case PetType.Dog:
+                    GameSaveData.Instance.dogRef.gameObject.SetActive(true);
+                    break;
                 }
             }
             else
