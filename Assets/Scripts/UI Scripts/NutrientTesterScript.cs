@@ -9,9 +9,13 @@ public class NutrientTesterScript : MonoBehaviour
     [SerializeField] private GameObject statsParent, seedParent;
     [SerializeField] private TextMeshProUGUI gloamText, terraText, ichorText, waterText;
     [SerializeField] private Image seedImage, checkmarkImage;
+    [SerializeField] private RawImage staticVideo;
+    [SerializeField] private float minStatic, maxStatic, staticAlphaSpeed;
     public static NutrientTesterScript Instance;
     private CropItem currentSeed = null;
     private NutrientStorage currentNutrients = null;
+    private Coroutine staticCoroutine;
+    private Color staticColor = new Color(1f,1f,1f,1f);
     private void Awake()
     {
         if (Instance == null)
@@ -32,10 +36,29 @@ public class NutrientTesterScript : MonoBehaviour
         UpdateSeed(null);
     }
 
+    private void Update()
+    {
+        staticVideo.color = staticColor;
+
+        if (staticVideo.color.a > minStatic)
+        {
+            staticColor.a = Mathf.Lerp(staticVideo.color.a, minStatic, staticAlphaSpeed);
+        }
+        else
+        {
+            staticColor.a = minStatic;
+        }
+    }
+
+    private void OnEnable()
+    {
+        staticColor.a = maxStatic;
+    }
+
     public void UpdateSeed(CropItem seed)
     {
         currentSeed = seed;
-
+        
         if (seed == null)
         {
             seedParent.SetActive(false);
@@ -74,12 +97,14 @@ public class NutrientTesterScript : MonoBehaviour
         {
             checkmarkImage.color = Color.clear;
         }
-        
+
         seedParent.SetActive(true);
     }
 
     public void UpdateTile(NutrientStorage nutrients)
     {
+        staticColor.a = maxStatic;
+
         if (nutrients == null)
         {
             statsParent.SetActive(false);

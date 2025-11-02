@@ -13,7 +13,7 @@ public class NutTesterBehavior : ToolBehavior
     Coroutine chargingCoroutine;
 
     InventoryItemData currentSeed; // Synced Seed
-    NutrientStorage currentNutrients; // Synced Nutrients
+    Vector3 currentTile = new Vector3(-1,-1,-1); // Stored Tile
     int currentSlotIndex = -1; //When -1, it is not paired with a seed
     bool onHotbar = true;
 
@@ -21,6 +21,7 @@ public class NutTesterBehavior : ToolBehavior
     public override void OnHolster()
     {
         currentSeed = null;
+        currentTile = new Vector3(-1, -1, -1);
         currentSlotIndex = -1;
         onHotbar = true;
         NutrientTesterScript.Instance.UpdateSeed(null);
@@ -136,9 +137,16 @@ public class NutTesterBehavior : ToolBehavior
                     continue;
                 }
 
-                NutrientStorage nutrients = StructureManager.Instance.FetchNutrient(tile);
-                currentNutrients = nutrients;
-                NutrientTesterScript.Instance.UpdateTile(nutrients);
+                if (tile != currentTile)
+                {
+                    NutrientStorage nutrients = StructureManager.Instance.FetchNutrient(tile);
+                    NutrientTesterScript.Instance.UpdateTile(nutrients);
+                    currentTile = tile;
+                }
+
+                Debug.Log(currentTile);
+
+                
             }
             //HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
         }
