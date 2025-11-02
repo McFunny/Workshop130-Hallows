@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 868360894720816715, guid: ad06569d74e1c3346baf318d6520108a,
     type: 3}
+  corruptedPrefab: {fileID: 0}
   creatureVariants:
   - name: Large Slime
     prefab: {fileID: 6939491037798060808, guid: 640554472ff6ca5448aa69feab4674ce,
@@ -36,6 +37,7 @@ MonoBehaviour:
   spawnCap: 15
   spawnCapPerHour: 6
   wealthPrerequisite: 1000
+  siegePrerequisite: 2
   contribuiteToCreatureCap: 0
   amountKilled: 0
   hasSpawned: 0

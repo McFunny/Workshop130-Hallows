@@ -6,7 +6,7 @@ public class PlayerWagonScript : MonoBehaviour
 {
     public WagonType type;
 
-    void Awake()
+    void Start()
     {
         if(type == WagonType.Farm) WagonManager.Instance.farmWagon = this;
         else if(type == WagonType.Wilderness) WagonManager.Instance.wildernessWagon = this;
