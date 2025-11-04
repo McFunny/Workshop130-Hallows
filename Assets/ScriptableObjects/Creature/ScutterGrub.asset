@@ -15,7 +15,16 @@ MonoBehaviour:
   objectPrefab: {fileID: 1473590369860251716, guid: e92a9e1974cbe3e4f9c76fd00e546619,
     type: 3}
   corruptedPrefab: {fileID: 0}
-  creatureVariants: []
+  creatureVariants:
+  - name: Red Grub
+    prefab: {fileID: 2943604697870245909, guid: 8f2bc4e1607c2d544828da8ebcedbcf6,
+      type: 3}
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 2000
+    variantChanceInFarm:
+    - _int: 1
+      _probability: 50
   health: 0
   position:
   - 0
@@ -25,12 +34,12 @@ MonoBehaviour:
   dangerCost: 0.2
   dangerThreshold: 0
   spawnWeight: 12
-  spawnCap: 20
+  spawnCap: 40
   spawnCapPerHour: 8
   wealthPrerequisite: 0
   siegePrerequisite: 1
   contribuiteToCreatureCap: 0
-  amountKilled: 6
+  amountKilled: 8
   hasSpawned: 1
   excludeFromNormalNights: 0
   canSpawnBehindCabin: 1

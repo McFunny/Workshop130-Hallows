@@ -443,6 +443,7 @@ GameObject:
   - component: {fileID: 117945317085379076}
   - component: {fileID: 7609971834786884835}
   - component: {fileID: 8237484195179957920}
+  - component: {fileID: 5598804315908665279}
   m_Layer: 0
   m_Name: weathervaynebell
   m_TagString: Untagged
@@ -515,6 +516,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &5598804315908665279
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278161427538222925}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5bf41188dd737d04a80272bb181392b5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6760774555000172595
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,7 +864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 35c0b088e5ae6484dbe5d67e24e54c5c, type: 2}
-  itemForm: {fileID: 0}
+  itemForm: {fileID: 11400000, guid: 1e736ccd2c0d32743856d96c80a2e4c4, type: 2}
   health: 10
   maxHealth: 10
   wealthValue: 0
@@ -899,6 +921,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 27c7e9804970e6e49bdbdb028abc6734, type: 2}
   trackingEffect: {fileID: 3505345586868790491}
   pivot: {fileID: 2904281239006236521}
+  anim: {fileID: 5598804315908665279}
 --- !u!1 &8755277075233676027
 GameObject:
   m_ObjectHideFlags: 0

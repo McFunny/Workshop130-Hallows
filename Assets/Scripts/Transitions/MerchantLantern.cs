@@ -134,7 +134,7 @@ public class MerchantLantern : MonoBehaviour, IInteractable
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(4);
-        if(GameSaveData.Instance.wildernessIntroduced == true || playerOwnedLamp) EnableSelf();
+        if(/*GameSaveData.Instance.wildernessIntroduced == true || */playerOwnedLamp) EnableSelf();
         else
         {
             myCollider.enabled = false;

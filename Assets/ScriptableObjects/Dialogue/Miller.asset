@@ -50,6 +50,26 @@ MonoBehaviour:
     paragraphs:
     - Lighten your load...
     emotions: 00000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - The {storeItemName}? If you give me some supplies I can make you one.  {dontfreezePlayer}
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - The farming is your job, not mine.
+    emotions: 03000000
+  - pathName: Have A Pen
+    paragraphs:
+    - I hear the path to the barn has been cleared...
+    - It is a little worse for wear... but also a nice secluded place, distant from
+      the nightmares of the fog.
+    - Perfect for raising livestock...
+    - Here... Something to get you started...
+    - Once you have the pen all set up, go buy a swine from the merchant.
+    - Raise it well, and you will reap the benefits.
+    - Come see me by my home in the morning... I will try to provide you with some
+      essentials for critter raising...
+    emotions: 05000000020000000000000001000000000000000100000000000000
   fillerPaths:
   - pathName: Filler1
     paragraphs:

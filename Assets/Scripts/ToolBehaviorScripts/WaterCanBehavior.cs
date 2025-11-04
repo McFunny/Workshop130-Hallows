@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Tool Behavior", menuName = "Tool Behavior/WaterCan")]
 public class WaterCanBehavior : ToolBehavior
 {
-    public AudioClip refill, pour;
+    public AudioClip refill, pour, empty;
 
     bool holdingPour = false;
     bool skipPour = false;
@@ -68,6 +68,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
 
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -91,6 +92,7 @@ public class WaterCanBehavior : ToolBehavior
                     else PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
+                else HandItemManager.Instance.toolSource.PlayOneShot(empty);
             }
 
             var interactable = hit.collider.GetComponentInParent<IInteractable>();
@@ -101,6 +103,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
                     float animSpeedMod = 0; //Added to animation speed
@@ -136,6 +139,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
                     float animSpeedMod = 0; //Added to animation speed
@@ -183,6 +187,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
 
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -208,6 +213,7 @@ public class WaterCanBehavior : ToolBehavior
                     else PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
+                else HandItemManager.Instance.toolSource.PlayOneShot(empty);
             }
 
             var interactable = hit.collider.GetComponentInParent<IInteractable>();
@@ -218,6 +224,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
 
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -256,6 +263,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
                     float animSpeedMod = 0; //Added to animation speed
@@ -430,6 +438,7 @@ public class WaterCanBehavior : ToolBehavior
         if(consumeWater)
         {
             HandItemManager.Instance.toolSource.PlayOneShot(pour);
+            HandItemManager.Instance.toolSource.PlayOneShot(refill);
             PlayerInteraction.Instance.waterHeld--;
             skipPour = true;
         }

@@ -178,6 +178,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         if(NightSpawningManager.Instance.allCreatures.Contains(this)) NightSpawningManager.Instance.allCreatures.Remove(this);
         if(WildernessManager.Instance.allCreatures.Contains(this)) WildernessManager.Instance.allCreatures.Remove(this);
+        if(WildernessManager.Instance.allWagonCreatures.Contains(this)) WildernessManager.Instance.allWagonCreatures.Remove(this);
         foreach(Collider collider in allColliders)
         {
             collider.isTrigger = true;
@@ -349,6 +350,8 @@ public class CreatureBehaviorScript : MonoBehaviour
         if(knifeLodgeTransform) return knifeLodgeTransform;
         else return corpseParticleTransform;
     }
+
+    public virtual void TargetWagon(){}
 
 
     

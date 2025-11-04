@@ -15,17 +15,24 @@ public class Grub : CreatureBehaviorScript
 
     public GrubSwarm homeSwarm;
 
+    public GameObject fearObject;
+
     public List<StructureObject> targettableStructures;
     private StructureBehaviorScript targetStructure;
 
+    PlayerWagonScript targetWagon; //set this to the one in wagonmanager
+    Transform wagonWeakPoint;
+
     bool interruptAction = false;
+    bool stunnedByFire, stunCooldown;
 
     public enum CreatureState
     {
         Idle,
         Wander,
         AttackStructure,
-        Stun
+        Stun,
+        AttackWagon //Wilderness only
     }
 
     public CreatureState currentState;
@@ -52,7 +59,16 @@ public class Grub : CreatureBehaviorScript
             }
         }
 
+        if(inWilderness)
+        {
+            targetWagon = WagonManager.Instance.wildernessWagon;
+            wagonWeakPoint = targetWagon.GetWeakPoint();
+            currentState = CreatureState.AttackWagon;
+        }
+
         StartCoroutine(ScanForTargets());
+
+        agent.speed += Random.Range(-0.5f, 0.25f);
     }
 
     void Update()
@@ -62,7 +78,7 @@ public class Grub : CreatureBehaviorScript
         if(agent.velocity.magnitude > 1) anim.SetBool("IsWalking", true);
         else anim.SetBool("IsWalking", false);
 
-        if (!isDead && currentState != CreatureState.Stun)
+        if (!isDead && currentState != CreatureState.Stun && !stunnedByFire)
         {
             CheckState(currentState);
         }
@@ -87,6 +103,10 @@ public class Grub : CreatureBehaviorScript
             case CreatureState.Stun:
                 break;
 
+            case CreatureState.AttackWagon:
+                Wander();
+                break;
+
             default:
                 Debug.LogError("Unknown state: " + currentState);
                 break;
@@ -95,7 +115,7 @@ public class Grub : CreatureBehaviorScript
 
     private void Idle()
     {
-
+        print("Idled");
         if (!coroutineRunning)
         {
             StartCoroutine(WaitAround());
@@ -107,6 +127,11 @@ public class Grub : CreatureBehaviorScript
         if(currentState == CreatureState.Wander && targetStructure)
         {
             currentState = CreatureState.AttackStructure;
+        }
+
+        if(currentState == CreatureState.Wander && targetWagon)
+        {
+            currentState = CreatureState.AttackWagon;
         }
 
         if(CheckForObstacle(transform) != null)
@@ -125,14 +150,15 @@ public class Grub : CreatureBehaviorScript
 
         if (!isMoving && !coroutineRunning)
         {
-            if(currentState == CreatureState.Wander)
+            if(currentState == CreatureState.Wander) //Wandering
             {
                 Vector3 randomPoint;
                 if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
                 else randomPoint = PointAroundPatrolPoint(7);
-                StartCoroutine(MoveToPoint(randomPoint, 6));
+                StartCoroutine(MoveToPoint(randomPoint, Random.Range(6f, 15f)));
             }
-            else if(currentState == CreatureState.AttackStructure)
+
+            else if(currentState == CreatureState.AttackStructure) ///Attacking Structure
             {
                 if(!targetStructure)
                 {
@@ -140,7 +166,16 @@ public class Grub : CreatureBehaviorScript
                     currentState = CreatureState.Wander;
                     return;
                 }
-                StartCoroutine(MoveToPoint(targetStructure.transform.position, 2));
+                StartCoroutine(MoveToPoint(targetStructure.transform.position, 5));
+
+                if(Vector3.Distance(transform.position, targetStructure.transform.position) < 1.8f) interruptAction = true;
+            }
+
+            else if(currentState == CreatureState.AttackWagon) ///Attacking Wagon
+            {
+                StartCoroutine(MoveToPoint(wagonWeakPoint.position, 10));
+
+                if(Vector3.Distance(transform.position, wagonWeakPoint.position) < 1.8f) interruptAction = true;
             }
             
         }
@@ -150,6 +185,7 @@ public class Grub : CreatureBehaviorScript
     {
         coroutineRunning = true;
         float r = Random.Range(1f, 2f);
+        agent.ResetPath();
         yield return new WaitForSeconds(r);
         if(currentState == CreatureState.Idle)
         {
@@ -157,6 +193,7 @@ public class Grub : CreatureBehaviorScript
             currentState = CreatureState.Wander;
         }
         coroutineRunning = false;
+        print("I finished Idling");
     }
 
     private IEnumerator MoveToPoint(Vector3 destination, float maxTime)
@@ -193,12 +230,18 @@ public class Grub : CreatureBehaviorScript
         {
             if(Vector3.Distance(targetStructure.transform.position, transform.position) < 2.2f)
             {
-                HitStructureParticle(targetStructure.transform.position);
-                targetStructure.TakeDamage(damageToStructure);
-                effectsHandler.MiscSound();
-                anim.Play("GrubAttack");
-                ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+                agent.Stop();
+                StartCoroutine(AttackCoolDown());
+                coroutineRunning = true;
+                return;
+            }
+        }
 
+        if(currentState == CreatureState.AttackWagon)
+        {
+            if(Vector3.Distance(wagonWeakPoint.position, transform.position) < 3f)
+            {
+                agent.Stop();
                 StartCoroutine(AttackCoolDown());
                 coroutineRunning = true;
                 return;
@@ -222,7 +265,23 @@ public class Grub : CreatureBehaviorScript
 
     IEnumerator AttackCoolDown()
     {
+        anim.Play("GrubAttack");
+        yield return new WaitForSeconds(0.2f);
+        if(targetStructure)
+        {
+            HitStructureParticle(targetStructure.transform.position);
+            targetStructure.TakeDamage(damageToStructure);
+            effectsHandler.MiscSound();
+            ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+        }
+        else if(targetWagon)
+        {
+            effectsHandler.MiscSound();
+            ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+            targetWagon.TakeWagonDamage(damageToStructure);
+        }
         yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
+        agent.Resume();
         isMoving = false;
         coroutineRunning = false;
         interruptAction = false;
@@ -235,7 +294,7 @@ public class Grub : CreatureBehaviorScript
             yield return new WaitForSeconds(5);
             if(targetStructure) continue;
 
-            if(homeSwarm)
+            if(homeSwarm && homeSwarm.swarmTargets.Count > 0)
             {
                 // Specifically for grubs without a swarm
                 //Grab a random target from the swarm
@@ -267,6 +326,24 @@ public class Grub : CreatureBehaviorScript
         }
     }
 
+    IEnumerator FireStun()
+    {
+        stunnedByFire = true;
+        stunCooldown = true;
+        float oldSpeed = agent.speed;
+        agent.speed = 0;
+        fearObject.SetActive(true);
+        anim.Play("GrubStun");
+        effectsHandler.MiscSound2();
+        yield return new WaitForSeconds(3f);
+        agent.speed = oldSpeed - 1f;
+        stunnedByFire = false;
+        yield return new WaitForSeconds(4f);
+        fearObject.SetActive(false);
+        agent.speed += 1f;
+        stunCooldown = false;
+    }
+
     public override bool OnStun(float duration) // For the resin pole trap
     {
         if (currentState != CreatureState.Stun)
@@ -285,6 +362,14 @@ public class Grub : CreatureBehaviorScript
         if (currentState == CreatureState.Stun) return;
         interruptAction = true;
         targetStructure = newStruct;
+    }
+
+    public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
+    {
+        successful = false;
+        if(stunCooldown) return;
+        StartCoroutine(FireStun());
+        successful = true;
     }
 
     void OnDestroy()

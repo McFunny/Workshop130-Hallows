@@ -8,6 +8,9 @@ public class WagonManager : MonoBehaviour
 
     [HideInInspector] public PlayerWagonScript farmWagon, wildernessWagon;
 
+    public float wagonHealth = 500;
+    public float maxWagonHealth = 500;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -16,5 +19,16 @@ public class WagonManager : MonoBehaviour
             return;
         }
         else Instance = this;
+    }
+
+    public void WagonHealthChange(float amount)
+    {
+        wagonHealth += amount;
+
+        if(wagonHealth < 0) wagonHealth = 0;
+
+        if(wagonHealth > maxWagonHealth) wagonHealth = maxWagonHealth;
+
+        print("Wagon health changed. Health is " + wagonHealth);
     }
 }

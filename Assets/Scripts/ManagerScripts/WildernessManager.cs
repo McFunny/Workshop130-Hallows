@@ -10,7 +10,7 @@ public class WildernessManager : MonoBehaviour
     
     int maxCreatures = 5;
 
-    public List<CreatureBehaviorScript> allCreatures;
+    public List<CreatureBehaviorScript> allCreatures; // All other creatures
 
     public CreatureObject[] creatures;
     //public GameObject[] interactablePrefabs;
@@ -26,6 +26,15 @@ public class WildernessManager : MonoBehaviour
     public Transform returnPosition;
 
     public bool visitedWilderness = false; //marked true when leaving, cannot return until next day
+
+    /////////////////WILDERNESS WAGON WAVES////////////////////
+    public int waveNum = 0;
+    public List<CreatureBehaviorScript> allWagonCreatures; //All creatures spawned to attack wagon. Once list is empty, spawn next wave
+    public int minSwarm, maxSwarm; //Whats the min/max of creature swarms that spawn per hour
+    public List<WildernessSwarm> queuedSwarms; // Chosen swarms set to spawn
+
+    Coroutine waveCoroutine;
+    public AudioClip waveStartSFX, waveClearSFX;
 
     void Awake()
     {
@@ -80,6 +89,7 @@ public class WildernessManager : MonoBehaviour
         currentMap.InitializeMap();
         hoursSpentInWilderness++;
         StartCoroutine(CreatureSpawn());
+        StartCoroutine(WagonCreatureSpawn());
     }
 
     public void ExitWilderness()
@@ -93,6 +103,7 @@ public class WildernessManager : MonoBehaviour
         currentMap = null;
         hoursSpentInWilderness = 0;
         visitedWilderness = true;
+        StopCoroutines();
     }
 
     public void GameOver()
@@ -107,6 +118,14 @@ public class WildernessManager : MonoBehaviour
         currentMap = null;
         hoursSpentInWilderness = 0;
         visitedWilderness = false;
+        StopCoroutines();
+    }
+
+    void StopCoroutines()
+    {
+        StopCoroutine(CreatureSpawn());
+        StopCoroutine(WagonCreatureSpawn());
+        if(waveCoroutine != null) StopCoroutine(waveCoroutine);
     }
 
     void HourUpdate()
@@ -155,6 +174,59 @@ public class WildernessManager : MonoBehaviour
         }
     }
 
+    IEnumerator WagonCreatureSpawn()
+    {
+        int swarmCount;
+        yield return new WaitForSeconds(3);
+        while(currentMap)
+        {
+            //Wave Started
+            //Spawn algorithm
+            AudioPoolManager.Instance.PlayClipAtPosition(waveStartSFX, PlayerInteraction.Instance.transform.position);
+            swarmCount = Random.Range(minSwarm, maxSwarm + 1);
+            waveCoroutine = StartCoroutine(SpawnWaves(swarmCount));
+            yield return new WaitForSeconds(10);
+            yield return new WaitUntil(() => allWagonCreatures.Count == 0); 
+            //Wave Cleared
+            AudioPoolManager.Instance.PlayClipAtPosition(waveClearSFX, PlayerInteraction.Instance.transform.position);
+            minSwarm += Random.Range(0, 4);
+            maxSwarm += Random.Range(1, 4);
+            if(maxSwarm < minSwarm) maxSwarm = minSwarm;
+            waveNum++;
+            yield return new WaitForSeconds(10);
+        }
+    }
+
+    IEnumerator SpawnWaves(int swarmCount)
+    {
+        for(int i = 0; i < swarmCount; i++)
+        {
+            int attempts = 0;
+            WildernessSwarm chosenSwarm = null;
+            while(attempts < 10 && chosenSwarm == null)
+            {
+                chosenSwarm = currentMap.possibleSwarms[Random.Range(0, currentMap.possibleSwarms.Count)];
+                if(chosenSwarm.spawnChance <= Random.Range(0, 100) || chosenSwarm.minWaveCount > waveNum) chosenSwarm = null;
+                attempts++;
+            }
+            if(chosenSwarm == null) chosenSwarm = currentMap.possibleSwarms[0];
+            int amountToSpawn = Random.Range(chosenSwarm.spawnMin, chosenSwarm.spawnMin + 1);
+            Vector3 spawnPos = RandomSpawnPosition();
+            for(int x = 0; x < amountToSpawn; x++)
+            {
+                GameObject newCreature = Instantiate(chosenSwarm.prefab, spawnPos, Quaternion.identity);
+                if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
+                {
+                    enemy.inWilderness = true;
+                    enemy.OnSpawn();
+                    enemy.TargetWagon();
+                    allWagonCreatures.Add(enemy);
+                }
+            }
+            yield return new WaitForSeconds(Random.Range(2f,4f));
+        }
+    }
+
     void SpawnCreature(CreatureObject c)
     {
         //Add chance of spawning variants here
@@ -185,7 +257,7 @@ public class WildernessManager : MonoBehaviour
         foreach (CreatureBehaviorScript creature in creatures)
         {
             ICritter critter = creature as ICritter;
-            if (creature != null && creature.gameObject != null && critter == null)
+            if (creature != null && creature.gameObject != null && critter == null && !creature.persistAfterNewDay)
             {
                 Destroy(creature.gameObject);
             }
@@ -227,4 +299,14 @@ public class WildernessInteractable
     public GameObject prefab;
     public bool isLarge = false;
     public float spawnChance = 100;
+}
+
+[System.Serializable]
+public class WildernessSwarm
+{
+    public string name;
+    public GameObject prefab;
+    public float spawnChance = 100;
+    public int minWaveCount = 0;
+    public int spawnMin, spawnMax;
 }

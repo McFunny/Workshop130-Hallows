@@ -33,6 +33,8 @@ public class GrubSwarm : CreatureBehaviorScript
 
     IEnumerator AssignTarget()
     {
+        yield return new WaitForSeconds(1);
+        GatherNewTargets();
         while(grubs.Count > 0)
         {
             yield return new WaitForSeconds(Random.Range(10, 20));

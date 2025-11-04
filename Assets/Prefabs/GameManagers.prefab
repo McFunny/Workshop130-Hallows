@@ -11165,6 +11165,7 @@ MonoBehaviour:
     type: 3}
   buriedKukri: {fileID: 2170629837259517972, guid: 5f0e4ee85a46b2a46a2bebffb335e40b,
     type: 3}
+  fence: {fileID: 3237086419210112824, guid: b158141a3c1d2f34b985b7b8f408700f, type: 3}
   fogChime: {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   berryBush: {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
   ignoreCropGrowthTime: 0
@@ -11466,6 +11467,8 @@ MonoBehaviour:
   gameMode: 
   lostKukri: 0
   hourSaved: 8
+  wagonHealth: 0
+  wagonMaxHealth: 0
   gainedInventoryUpgrade: 0
   gainedWaterStorage: 0
   gainedWaterPack: 0
@@ -11499,6 +11502,7 @@ MonoBehaviour:
   mm_introducedPets: 0
   mm_soldPet: 0
   tra_askedForFood: 0
+  mil_gavePen: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   siegesCleared: 0
@@ -59028,6 +59032,13 @@ MonoBehaviour:
   playerWagon: {fileID: 0}
   returnPosition: {fileID: 3274068372633532939}
   visitedWilderness: 0
+  waveNum: 0
+  allWagonCreatures: []
+  minSwarm: 1
+  maxSwarm: 2
+  queuedSwarms: []
+  waveStartSFX: {fileID: 8300000, guid: 0b7f67cc2ca54644eade598edf5e0563, type: 3}
+  waveClearSFX: {fileID: 8300000, guid: 7486f26d89b045d4cb99e06a7e9c6987, type: 3}
 --- !u!114 &1908568139050500351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59155,6 +59166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   farmWagon: {fileID: 0}
   wildernessWagon: {fileID: 0}
+  wagonHealth: 100
+  maxWagonHealth: 100
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0

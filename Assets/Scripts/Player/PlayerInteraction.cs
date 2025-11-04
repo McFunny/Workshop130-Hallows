@@ -396,6 +396,11 @@ public class PlayerInteraction : MonoBehaviour
         if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
 
         //if(amount > 6) fatigue += Mathf.Round(amount * 0.1f);
+
+        if(amount > 0)
+        {
+            playerEffects.PlayClip(playerEffects.playerHeal, 1.3f);
+        }
         
         if(repairMinigame.IsMinigameActive())
         {
