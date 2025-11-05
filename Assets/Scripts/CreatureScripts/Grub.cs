@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Grub : CreatureBehaviorScript
 {
+    public Variant variant; // what variant of creature is this?
+
     bool isMoving, coroutineRunning;
 
     [HideInInspector] public NavMeshAgent agent;
@@ -26,16 +28,31 @@ public class Grub : CreatureBehaviorScript
     bool interruptAction = false;
     bool stunnedByFire, stunCooldown;
 
+    public CropData foxgloveData;
+
+    ///////////// Miner Variables///////////
+    public GameObject model;
+    public ParticleSystem burrowingParticles;
+    public GameObject burrow;
+    Vector3 emergePoint;
+
     public enum CreatureState
     {
         Idle,
         Wander,
         AttackStructure,
         Stun,
-        AttackWagon //Wilderness only
+        AttackWagon, //Wilderness only
+        Burrowing //Miner variant behavior
     }
 
     public CreatureState currentState;
+
+    public enum Variant
+    {
+        Normal,
+        Miner
+    }
 
     void Start()
     {
@@ -49,6 +66,13 @@ public class Grub : CreatureBehaviorScript
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
         StartCoroutine(IdleSoundTimer());
 
+        if(variant == Variant.Miner)
+        {
+            model.SetActive(false);
+            burrowingParticles.Play();
+            currentState = CreatureState.Burrowing;
+            agent.enabled = false;
+        }
         if(!inWilderness && Random.Range(0,10) > 2)
         {
             Transform burrowPos = StructureManager.Instance.FindBurrow(false, transform.position);
@@ -105,6 +129,10 @@ public class Grub : CreatureBehaviorScript
 
             case CreatureState.AttackWagon:
                 Wander();
+                break;
+
+            case CreatureState.Burrowing:
+                Burrowing();
                 break;
 
             default:
@@ -179,6 +207,59 @@ public class Grub : CreatureBehaviorScript
             }
             
         }
+    }
+
+    void Burrowing()
+    {
+        if(coroutineRunning) return;
+
+        if(emergePoint == Vector3.zero)
+        {
+            emergePoint = StructureManager.Instance.FindFreeTileNearCrop();
+            if(emergePoint == Vector3.zero)
+            { 
+                coroutineRunning = false;
+                StartCoroutine(Emerge(false));
+            }
+        }
+
+        //move to position
+        Vector3 direction = emergePoint - transform.position;
+        float distance = direction.magnitude;
+
+        // Normalize direction and move
+        Vector3 moveStep = direction.normalized * 2 * Time.deltaTime;
+
+        transform.position = Vector3.MoveTowards(transform.position, emergePoint, 2 * Time.deltaTime);
+
+        if (Vector3.Distance(emergePoint, transform.position) < 0.5f)
+        {
+            if(StructureManager.Instance.CheckTile(emergePoint) == Vector3.zero) //tile got covered
+            {
+                emergePoint = Vector3.zero;
+                return;
+            }
+            coroutineRunning = true;
+            StartCoroutine(Emerge(true));
+        }
+    }
+
+    IEnumerator Emerge(bool spawnBurrow)
+    {
+        coroutineRunning = true;
+        model.SetActive(true);
+        burrowingParticles.Stop();
+        ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+        yield return new WaitForSeconds(1);
+        if(spawnBurrow)
+        {
+            Vector3 burrowSpawn = StructureManager.Instance.GetTileCenter(emergePoint);
+            if(burrowSpawn != Vector3.zero) StructureManager.Instance.SpawnStructure(burrow, burrowSpawn);
+        }
+        agent.enabled = true;
+        FindNearbyStructure(5);
+        currentState = CreatureState.Wander;
+        coroutineRunning = false;
     }
 
     private IEnumerator WaitAround()
@@ -257,6 +338,11 @@ public class Grub : CreatureBehaviorScript
     {
         while(health > 0)
         {
+            if(currentState == CreatureState.Burrowing)
+            {
+                yield return new WaitForSeconds(5);
+                continue;
+            }
             int i = Random.Range(3,6);
             effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
@@ -269,6 +355,13 @@ public class Grub : CreatureBehaviorScript
         yield return new WaitForSeconds(0.2f);
         if(targetStructure)
         {
+            FarmLand tile = targetStructure as FarmLand;
+            if(tile && tile.crop && tile.crop == foxgloveData && Random.Range(0,5) > 2)
+            {
+                Destroy(this.gameObject);
+                yield break;
+            }
+
             HitStructureParticle(targetStructure.transform.position);
             targetStructure.TakeDamage(damageToStructure);
             effectsHandler.MiscSound();
@@ -291,7 +384,7 @@ public class Grub : CreatureBehaviorScript
     {
         while(health > 0)
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(3);
             if(targetStructure) continue;
 
             if(homeSwarm && homeSwarm.swarmTargets.Count > 0)
@@ -302,27 +395,32 @@ public class Grub : CreatureBehaviorScript
                 continue;
             }
 
-            float closestDistance = 60;
+            FindNearbyStructure(40);
+        }
+    }
 
-            float distanceToStructure;
+    void FindNearbyStructure(float distance)
+    {
+        float closestDistance = distance;
 
-            List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
-            foreach (var structure in structManager.allStructs)
+        float distanceToStructure;
+
+        List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
+        foreach (var structure in structManager.allStructs)
+        {
+            FarmLand tile = structure as FarmLand;
+            distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
+            if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && distanceToStructure < closestDistance && (!tile || (tile.crop && !tile.isWeed)))
             {
-                FarmLand tile = structure as FarmLand;
-                distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
-                if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && distanceToStructure < closestDistance && (!tile || (tile.crop && !tile.isWeed)))
-                {
-                    availableStructure.Add(structure);
-                    closestDistance = distanceToStructure;
-                }
+                availableStructure.Add(structure);
+                closestDistance = distanceToStructure;
             }
+        }
 
-            if (availableStructure.Count > 0)
-            {
-                int r = Random.Range(0, availableStructure.Count);
-                targetStructure = availableStructure[r];
-            }
+        if (availableStructure.Count > 0)
+        {
+            int r = Random.Range(0, availableStructure.Count);
+            targetStructure = availableStructure[r];
         }
     }
 
@@ -359,7 +457,7 @@ public class Grub : CreatureBehaviorScript
 
     public override void NewPriorityTarget(StructureBehaviorScript newStruct) //Also for when Swarm assigned a new target structure
     {
-        if (currentState == CreatureState.Stun) return;
+        if (currentState == CreatureState.Stun || currentState == CreatureState.Burrowing) return;
         interruptAction = true;
         targetStructure = newStruct;
     }
@@ -367,7 +465,7 @@ public class Grub : CreatureBehaviorScript
     public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
     {
         successful = false;
-        if(stunCooldown) return;
+        if(stunCooldown || currentState == CreatureState.Burrowing) return;
         StartCoroutine(FireStun());
         successful = true;
     }

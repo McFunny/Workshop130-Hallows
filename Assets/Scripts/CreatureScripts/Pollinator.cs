@@ -118,6 +118,14 @@ public class Pollinator : CreatureBehaviorScript
                 if(tile && tile.crop && tile.crop.id == 20)
                 {
                     flowerPos.Add(tile.transform.position);
+                    continue;
+                }
+
+                CandleCluster candle = s as CandleCluster;
+                if(candle && candle.type == CandleType.Aroma && candle.burning)
+                {
+                    flowerPos.Add(tile.transform.position);
+                    continue;
                 }
             }
 

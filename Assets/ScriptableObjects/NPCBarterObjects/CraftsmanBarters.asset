@@ -48,17 +48,6 @@ MonoBehaviour:
       amount: 5
     siegesRequired: 0
     amountGiven: 1
-  - name: Barrel
-    itemForSale: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
-    useItemPrice: 0
-    mintCost: 0
-    amountForSale: 3
-    barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 2
-    siegesRequired: 0
-    amountGiven: 1
   - name: BirdBath
     itemForSale: {fileID: 11400000, guid: 0bc13d18c81019245bbbcfee4abbab8a, type: 2}
     useItemPrice: 0
@@ -165,7 +154,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 407379bc0d8d7074488a51c551db0c77, type: 2}
       amount: 2
     - item: {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
-      amount: 2
+      amount: 3
     - item: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
       amount: 2
     siegesRequired: 0
@@ -183,6 +172,23 @@ MonoBehaviour:
       amount: 3
     siegesRequired: 0
     amountGiven: 1
+  - name: AromaCandles
+    itemForSale: {fileID: 11400000, guid: bfa9c49cede59534f87f567188bd0dab, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 407379bc0d8d7074488a51c551db0c77, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
+      amount: 2
+    siegesRequired: 0
+    amountGiven: 1
   uniqueTransactions:
   - name: StorageChest
     itemForSale: {fileID: 11400000, guid: 08f2970a8455d9243b49e5d93f89e338, type: 2}
@@ -191,6 +197,17 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 100
     itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: Barrel
+    itemForSale: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+      amount: 2
     siegesRequired: 0
     amountGiven: 1
   uniqueTransactions2:
@@ -287,7 +304,7 @@ MonoBehaviour:
   - name: PiggyBank
     itemForSale: {fileID: 11400000, guid: 34a49bec8bafae1498ea60b0c7779c96, type: 2}
     useItemPrice: 1
-    mintCost: 35
+    mintCost: 15
     amountForSale: 3
     barterChance: 50
     itemsRequired: []

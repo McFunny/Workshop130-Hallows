@@ -534,7 +534,6 @@ public class WagonMerchantNPC : NPC, ITalkable
         {
            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.bedTutorialPopup); 
            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(300)); //Add the "go buy seeds" quest
-           QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(302)); //Add the "go barter" quest
         }
         if(currentPath == 15) EmptyPetShop();
 

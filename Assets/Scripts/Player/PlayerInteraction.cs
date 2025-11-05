@@ -220,7 +220,20 @@ public class PlayerInteraction : MonoBehaviour
     {
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
 
-        if(item == null) return;
+        if(item == null)
+        {
+            //return; // Replace this with the setting bool check
+            
+            /////THIS IS TO TEST HAVING LEFT CLICK FUNCTION AS SPACE IF HAND IS EMPTY///////////
+            if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen)
+            {
+                if(DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
+                return;
+            }
+            InteractWithObject();
+            ////////////////////////////////////////////////////////////////////////////////////
+            return;
+        }
 
         //Is it a Tool item?
         ToolItem t_item = item as ToolItem;
@@ -307,7 +320,20 @@ public class PlayerInteraction : MonoBehaviour
     {
         //Debug.Log("UsingHandItem");
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
-        if(item == null) return;
+        if(item == null)
+        {
+            //return; // Replace this with the setting bool check
+
+            /////THIS IS TO TEST HAVING LEFT CLICK FUNCTION AS SPACE IF HAND IS EMPTY///////////
+            if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen)
+            {
+                if(DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
+                return;
+            }
+            InteractWithObject();
+            ////////////////////////////////////////////////////////////////////////////////////
+            return;
+        }
 
         //Is it a Tool item?
         ToolItem t_item = item as ToolItem;

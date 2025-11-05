@@ -153,8 +153,8 @@ MonoBehaviour:
     questBehavior: {fileID: 0}
     questID: 6
   - name: Grab New Invention
-    description: The Tinkerer claims to have something that would interest you. Check
-      out her shop by her home near the end of the day.
+    description: The Tinkerer claims to have some new tech for sale at her work station
+      that would interest you.
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
@@ -335,19 +335,20 @@ MonoBehaviour:
     behaviorID: -1
     questBehavior: {fileID: 0}
     questID: 301
-  - name: Learning The Trade
+  - name: Wood you care for a trade?
     description: Some individuals prefer to make trades instead of relying on mints.
-      Inspect their store sign to identify what items they are requesting, and make
-      a trade. Bartering for structures is a great way to fortify your farm.
+      Use your Timber Ears to trade for wood with the Craftsman, and use the wood
+      to trade for a barrel. Barrels are useful for storing water nearby.
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
-    itemRewards: []
+    itemRewards:
+    - {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
     townFavorReward: 0
     progress: 0
     maxProgress: 0
     daysLeft: -1
-    assignee: 0
+    assignee: 13
     displayProgress: 0
     orderIndex: 0
     objectID: 0

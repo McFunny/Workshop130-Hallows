@@ -1321,7 +1321,7 @@ public class NutrientStorage
         s.ichorLevel = 0;
         s.terraLevel = 10;
         s.gloamLevel = 10;
-        s.waterLevel = 3;
+        s.waterLevel = 0;
     }
     public void LoadStorage(NutrientStorage s, float i, float t, float g, float w)
     {

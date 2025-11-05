@@ -158,7 +158,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             bloodParticle = ParticlePoolManager.Instance.GrabSlimeSplashParticle();
         }
-        if(corpseType == CorpseParticleType.Corrupted) 
+        else if(corpseType == CorpseParticleType.Corrupted) 
         {
             bloodParticle = ParticlePoolManager.Instance.GrabCorruptBloodDropParticle();
         }
