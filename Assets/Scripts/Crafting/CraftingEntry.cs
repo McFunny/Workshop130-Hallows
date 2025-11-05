@@ -7,6 +7,7 @@ public class CraftingEntry : ScriptableObject
 {
     [Tooltip("Overrides the name that appears on the recipe if that's something you need to do. Does NOT change item name.")]
     public string nameOverride;
+    public CraftingCategory category = CraftingCategory.Misc;
     public int levelRequirement = -1;
     [Header("Output Data")]
     public InventoryItemData output;
@@ -23,4 +24,12 @@ public class CraftingRequirement
 {
     public InventoryItemData requiredItem;
     public int requiredAmount;
+}
+
+public enum CraftingCategory
+{
+    Structure,
+    Furniture,
+    Trinket,
+    Misc
 }

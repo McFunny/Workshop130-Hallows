@@ -13,6 +13,7 @@ public class CraftingSystem : MonoBehaviour
     public CraftingEntry selectedEntry;
     public Button craftButton;
     public Button collectButton;
+    [SerializeField] private bool showCategories;
     [SerializeField] private GameObject craftingMenu;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private GameObject container;
@@ -32,6 +33,7 @@ public class CraftingSystem : MonoBehaviour
     private GameObject descriptionBoxContainer;
     private CanvasGroup thisCanvasGroup;
     private TextMeshProUGUI collectButtonText;
+    private List<CraftingButton> craftingButtons = new List<CraftingButton>();
 
     [HideInInspector] public CraftingStructure currentStructure;
     private const int CRAFTCAP = 5;
@@ -154,6 +156,8 @@ public class CraftingSystem : MonoBehaviour
             outputImages[i].enabled = false;
         }
 
+        if(craftingButtons.Count != 0 && craftingButtons != null) craftingButtons.Clear();
+        
         descriptionBoxContainer.SetActive(false);
         descriptionBoxVisuals.SetActive(false);
     }
@@ -167,6 +171,7 @@ public class CraftingSystem : MonoBehaviour
 
             buttonVars.assignedEntry = entry;
             buttonVars.craftingSystem = this;
+            craftingButtons.Add(buttonVars);
 
             // Check level requirement
             if (entry.levelRequirement > XPManager.instance.ReturnLevel())
@@ -208,6 +213,34 @@ public class CraftingSystem : MonoBehaviour
         }
 
         UpdateActiveCrafts();
+    }
+
+    public void UpdateCategory(string c)
+    {
+
+        if(c == "All")
+        {
+            foreach (CraftingButton button in craftingButtons)
+            {
+                button.gameObject.SetActive(true);
+            }
+            return;
+        }
+
+        CraftingCategory category = (CraftingCategory)System.Enum.Parse(typeof(CraftingCategory), c); //Help me
+
+        
+        foreach (CraftingButton button in craftingButtons)
+        {
+            if (button.assignedEntry.category == category)
+            {
+                button.gameObject.SetActive(true);
+            }
+            else
+            {
+                button.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void UpdateActiveCrafts()
