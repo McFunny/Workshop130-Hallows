@@ -90,7 +90,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             tookDamage = true;
         }
 
-        if(!tookDamage) health += 5;
+        if(!tookDamage) health += 2;
         if(health > maxHealth) health = maxHealth;
         
         if(!homePen) FindHomePen();

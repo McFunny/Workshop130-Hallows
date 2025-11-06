@@ -19,7 +19,7 @@ public class MerchantLantern : MonoBehaviour, IInteractable
     public bool playerOwnedLamp = false;
     bool interactedWith = false;
 
-    public PopupScript enterPopup, exitPopup, blockedPopup;
+    public PopupScript enterPopup, exitPopup, blockedPopup, wagonBrokePopup, noHogsPopup;
 
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
@@ -55,7 +55,6 @@ public class MerchantLantern : MonoBehaviour, IInteractable
                         StartCoroutine(InteractionTimer());
                     }
                 }
-                else PopupHandler.Instance.AddToQueue(blockedPopup);
             }
             else //In Wilderness
             {
@@ -120,7 +119,21 @@ public class MerchantLantern : MonoBehaviour, IInteractable
 
     bool TravelCheck()
     {
-        if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay || WildernessManager.Instance.visitedWilderness) return false;
+        if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay || WildernessManager.Instance.visitedWilderness) 
+        {
+            PopupHandler.Instance.AddToQueue(blockedPopup);
+            return false;
+        }
+        else if(WagonManager.Instance.wagonDestroyed)
+        {
+            PopupHandler.Instance.AddToQueue(wagonBrokePopup);
+            return false;
+        }
+        else if(BarnManager.Instance.GrabHogsForWilderness() == false)
+        {
+            PopupHandler.Instance.AddToQueue(noHogsPopup);
+            return false;
+        }
         else return true;
     }
 

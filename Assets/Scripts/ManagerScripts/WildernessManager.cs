@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WildernessManager : MonoBehaviour
 {
+    public delegate void WildernessExit();
+    public static event WildernessExit OnWildernessLeave; //Unity Event that will listeners when the player leaves wilderness by any means
+
     public static WildernessManager Instance;
 
     int hoursSpentInWilderness = 0;
@@ -94,7 +98,7 @@ public class WildernessManager : MonoBehaviour
 
     public void ExitWilderness()
     {
-        if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InTown);
+        if(TownGate.Instance.location == PlayerLocation.InWilderness) TownGate.Instance.Transition(PlayerLocation.InFarm);
         AmbientAudioManager.Instance.ChangeMusic();
         PlayerInteraction.Instance.transform.position = returnPosition.position;
         ClearCreatures();
@@ -104,6 +108,7 @@ public class WildernessManager : MonoBehaviour
         hoursSpentInWilderness = 0;
         visitedWilderness = true;
         StopCoroutines();
+        OnWildernessLeave.Invoke();
     }
 
     public void GameOver()
@@ -119,6 +124,7 @@ public class WildernessManager : MonoBehaviour
         hoursSpentInWilderness = 0;
         visitedWilderness = false;
         StopCoroutines();
+        OnWildernessLeave.Invoke();
     }
 
     void StopCoroutines()

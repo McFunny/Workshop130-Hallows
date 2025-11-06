@@ -45,7 +45,7 @@ public class GrubSwarm : CreatureBehaviorScript
 
     void GatherNewTargets()
     {
-        float maxDistance = 10;
+        float maxDistance = 5;
 
         float distanceToStructure;
 

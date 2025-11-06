@@ -35,6 +35,7 @@ public class Grub : CreatureBehaviorScript
     public ParticleSystem burrowingParticles;
     public GameObject burrow;
     Vector3 emergePoint;
+    bool burrowDelay = true;
 
     public enum CreatureState
     {
@@ -68,6 +69,7 @@ public class Grub : CreatureBehaviorScript
 
         if(variant == Variant.Miner)
         {
+            StartCoroutine(BurrowDelay());
             model.SetActive(false);
             burrowingParticles.Play();
             currentState = CreatureState.Burrowing;
@@ -209,9 +211,15 @@ public class Grub : CreatureBehaviorScript
         }
     }
 
+    IEnumerator BurrowDelay()
+    {
+        yield return new WaitForSeconds(5);
+        burrowDelay = false;
+    }
+
     void Burrowing()
     {
-        if(coroutineRunning) return;
+        if(coroutineRunning || burrowDelay) return;
 
         if(emergePoint == Vector3.zero)
         {
@@ -246,16 +254,17 @@ public class Grub : CreatureBehaviorScript
 
     IEnumerator Emerge(bool spawnBurrow)
     {
+        yield return new WaitForSeconds(Random.Range(0.2f, 1.3f));
         coroutineRunning = true;
         model.SetActive(true);
         burrowingParticles.Stop();
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
-        yield return new WaitForSeconds(1);
         if(spawnBurrow)
         {
             Vector3 burrowSpawn = StructureManager.Instance.GetTileCenter(emergePoint);
             if(burrowSpawn != Vector3.zero) StructureManager.Instance.SpawnStructure(burrow, burrowSpawn);
         }
+        yield return new WaitForSeconds(1);
         agent.enabled = true;
         FindNearbyStructure(5);
         currentState = CreatureState.Wander;
@@ -384,7 +393,7 @@ public class Grub : CreatureBehaviorScript
     {
         while(health > 0)
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(5);
             if(targetStructure) continue;
 
             if(homeSwarm && homeSwarm.swarmTargets.Count > 0)

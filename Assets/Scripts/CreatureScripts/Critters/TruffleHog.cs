@@ -22,6 +22,8 @@ public class TruffleHog : CritterBehaviorScript
     [HideInInspector] public TruffleHog chaseTarget;
     [HideInInspector] public int hogChaseTokens = 0;
 
+    [HideInInspector] public bool usedForWagon = false;
+
     
 
     public enum CritterState
@@ -146,7 +148,7 @@ public class TruffleHog : CritterBehaviorScript
 
     protected override void OnHour()
     {
-        base.OnHour();
+        if(!usedForWagon) base.OnHour();
         if(TimeManager.Instance.currentHour == 8)
         {
             burrowsToDig = Random.Range(2, 4);
