@@ -25628,6 +25628,7 @@ Transform:
   m_Children:
   - {fileID: 8716913438590918911}
   - {fileID: 6423999452280401094}
+  - {fileID: 2059649529592410219}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &380451447299679946
@@ -25656,7 +25657,8 @@ MonoBehaviour:
   player: {fileID: 0}
   allColliders:
   - {fileID: 2822841118067903609}
-  corpseParticleTransform: {fileID: 0}
+  corpseParticleTransform: {fileID: 2059649529592410219}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 1
   rb: {fileID: 3916846582628337958}
   anim: {fileID: 1237335324042906677}
@@ -26063,6 +26065,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8610747221871349574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2059649529592410219}
+  m_Layer: 9
+  m_Name: ParticleCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2059649529592410219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610747221871349574}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0.26}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3794821353559688616}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8778361105444581653
 GameObject:
   m_ObjectHideFlags: 0

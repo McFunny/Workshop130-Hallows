@@ -2193,14 +2193,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: b1b94011ab4c8ce449eeef3b1c2f3c44, type: 2}
   itemForm: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
-  health: 35
-  maxHealth: 35
+  health: 30
+  maxHealth: 30
   wealthValue: 0
   salvageChance: 90
   destructable: 1
   flammable: 1
   onFire: 0
   isObstacle: 1
+  repairableWithGlue: 0
   absentFromGrid: 0
   absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
@@ -2283,9 +2284,9 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1.69, y: 0.655, z: 0.95}
+  m_Extents: {x: 0.75, y: 0.655, z: 0.95}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.83, z: 0}
   m_TimeToStationary: 0.5

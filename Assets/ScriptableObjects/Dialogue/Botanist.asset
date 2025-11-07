@@ -30,9 +30,7 @@ MonoBehaviour:
   - pathName: Buy something!
     paragraphs:
     - Find something that interests you?
-    - If you show me some seeds, I would be happy to give you some details about
-      them!
-    emotions: 0400000001000000
+    emotions: 04000000
   - pathName: Want to buy this?
     paragraphs:
     - I see you looking at the {storeItemName}. Its yours for {storeItemValue} <color=#E0D38F>Mints</color>
@@ -84,6 +82,12 @@ MonoBehaviour:
       {givePlayerItems}
     - Just be on the lookout for hogs and crows!
     emotions: 010000000000000005000000
+  - pathName: Still Setting Up
+    paragraphs:
+    - Sorry for the small seed selection... I usually have more inventory than this.
+    - I am still in the process of getting everything set up.
+    - I will have more seeds available tomorrow, so be sure to stop by!
+    emotions: 020000000000000001000000
   fillerPaths:
   - pathName: Hard Work
     paragraphs:

@@ -65,7 +65,8 @@ public class MistWalker : CreatureBehaviorScript
         Normal,
         Strong,
         Fogged,
-        FogMind
+        FogMind,
+        Corrupted
     }
 
     public CreatureState currentState;

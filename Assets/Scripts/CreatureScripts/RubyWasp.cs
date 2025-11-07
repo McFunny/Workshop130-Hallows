@@ -34,6 +34,7 @@ public class RubyWasp : CreatureBehaviorScript
         Chase,
         Attack,
         Stuck,
+        Stun,
         Flee,
         Dead
     }
@@ -80,6 +81,9 @@ public class RubyWasp : CreatureBehaviorScript
                 break;
             case CreatureState.Stuck:
                 Stuck();
+                break;
+            case CreatureState.Stun:
+                //
                 break;
             case CreatureState.Flee:
                 Flee();
@@ -464,5 +468,23 @@ public class RubyWasp : CreatureBehaviorScript
         item = null;
         TakeDamage(999);
         return false;
+    }
+
+    public override bool OnStun(float duration) // For the resin pole trap
+    {
+        if (currentState != CreatureState.Stun && currentState != CreatureState.Stuck)
+        {
+            currentState = CreatureState.Stun;
+            rb.velocity = Vector3.zero;
+            anim.Play("StuckIdle");
+            return true;
+        }
+        return false;
+    }
+
+    public override void NewPriorityTarget(StructureBehaviorScript newStruct)
+    {
+        if (currentState == CreatureState.Stun || currentState == CreatureState.Stuck) return;
+        targetPos = newStruct.transform.position;
     }
 }

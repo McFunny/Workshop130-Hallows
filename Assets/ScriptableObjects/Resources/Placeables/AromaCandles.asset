@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: AromaCandles
+  m_EditorClassIdentifier: 
+  ID: 241
+  displayName: Aroma Candles
+  description: Flammable waxy candles that can hold a small flame. After enough use,
+    they will melt. These candles produce a sweet scent when burning that attracts
+    pollinators.
+  icon: {fileID: 21300000, guid: bdfadac9ab91e904f8328fe5d6bb2a14, type: 3}
+  type: 3
+  maxStackSize: 20
+  value: 40
+  sellValueMultiplier: 0.25
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 7006745982727228009, guid: 0fe506893c60bf14a887b3976f001821,
+    type: 3}
+  hologramPrefab: {fileID: 5459170885130381352, guid: 08ad5dd5e4c0241498bb141a82434930,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
+  gridTypes: 01000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

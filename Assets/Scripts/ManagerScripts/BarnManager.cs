@@ -12,6 +12,8 @@ public class BarnManager : MonoBehaviour
 
     public Transform barnSource, barnWell; //The point used to identify distance and the well for hydroflies
 
+    List<TruffleHog> enlistedHogs = new List<TruffleHog>();
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -25,10 +27,52 @@ public class BarnManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        WildernessManager.OnWildernessLeave += FreeWildernessHogs;
+    }
+
+    void OnDestroy()
+    {
+        WildernessManager.OnWildernessLeave -= FreeWildernessHogs;
+    }
+
     public bool WithinBarn(Vector3 pos)
     {
         if(Vector3.Distance(pos, barnSource.position) > 80) return false;
         else return true;
+    }
+
+    public bool GrabHogsForWilderness()
+    {
+        List<TruffleHog> eligibleHogs = new List<TruffleHog>();
+        foreach(CritterBehaviorScript c in allCritters)
+        {
+            TruffleHog hog = c as TruffleHog;
+
+            if(c && c.health == c.maxHealth) eligibleHogs.Add(hog);
+        }
+
+        if(eligibleHogs.Count < 2) return false;
+
+        for(int i = 0; i < 2; i++)
+        {
+            int x = Random.Range(0, eligibleHogs.Count);
+            enlistedHogs.Add(eligibleHogs[x]);
+            eligibleHogs[x].usedForWagon = true;
+            eligibleHogs.RemoveAt(x);
+        }
+        return true;
+    }
+
+    void FreeWildernessHogs()
+    {
+        foreach(TruffleHog hog in enlistedHogs)
+        {
+            hog.health = 5;
+            hog.usedForWagon = false;
+        }
+        enlistedHogs.Clear();
     }
 
     public void SaveStats(out CritterData[] critterStats)

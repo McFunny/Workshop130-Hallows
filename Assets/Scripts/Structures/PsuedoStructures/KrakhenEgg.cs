@@ -23,4 +23,12 @@ public class KrakhenEgg : StructureBehaviorScript
         Instantiate(krakhen.objectPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
+
+    void OnDestroy()
+    {
+        base.OnDestroy();
+        if(!gameObject.scene.isLoaded) return;
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
+    }
 }

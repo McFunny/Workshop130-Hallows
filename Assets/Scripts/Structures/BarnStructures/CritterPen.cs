@@ -72,6 +72,7 @@ public class CritterPen : StructureBehaviorScript
         base.OnDestroy();
         if (!gameObject.scene.isLoaded || !dropItems) return; 
         //drop items
+        return; // Removing the process of needing to repair the item
         GameObject droppedItem;
         foreach(ItemWithAmount repairItem in structData.repairItems)
         {

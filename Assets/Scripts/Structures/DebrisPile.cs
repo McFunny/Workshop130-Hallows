@@ -171,6 +171,12 @@ public class DebrisPile : StructureBehaviorScript
         return true;
     }
 
+    protected override void OnHighlight(bool enabled)
+    {
+        if(enabled) debrisUI.ShowDebrisUI();
+        else debrisUI.HideDebrisUI();
+    }
+
     void OnDestroy()
     {
         base.OnDestroy();

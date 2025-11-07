@@ -310,6 +310,7 @@ MonoBehaviour:
   playerDamage: {fileID: 8300000, guid: 94bb20f5b11b99047ae0c5c724d377f4, type: 3}
   waterJet: {fileID: 8300000, guid: 35a2794032807a642ba42dc77c0dcfce, type: 3}
   trip: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
+  playerHeal: {fileID: 8300000, guid: 6b5b06b4f7336be4592ed8495321552a, type: 3}
   grassFootsteps: {fileID: 8300000, guid: 2bfc2099e4ceed24b951a7982085d5f6, type: 3}
   stoneFootsteps: {fileID: 8300000, guid: 4b25d192cc97c434b8b563b8778f223d, type: 3}
   woodFootsteps: {fileID: 8300000, guid: 3e18de8b56f944948a6aeba020009413, type: 3}
@@ -393,6 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gainedInventoryUpgrade: 0
   gainedWaterStorage: 0
+  gainedWaterPack: 0
 --- !u!1 &833586289986230531
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,7 +801,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 4.29, y: 0.39, z: 3.46}
+  m_Size: {x: 3.49, y: 0.39, z: 3.46}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4129650681484225867
 Rigidbody:
@@ -1188,7 +1190,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.21
+  m_Radius: 0.39
   m_Height: 5
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
@@ -1290,7 +1292,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 1.51
+  m_Radius: 1
   m_Height: 4.45
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.46}
@@ -1427,7 +1429,7 @@ Transform:
   m_GameObject: {fileID: 4953640713924337418}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -152.09584, y: 31.309, z: -9.217733}
+  m_LocalPosition: {x: 11.61, y: 8.26, z: -15.62}
   m_LocalScale: {x: 1.0779763, y: 1.0779763, z: 1.0779763}
   m_ConstrainProportionsScale: 1
   m_Children:

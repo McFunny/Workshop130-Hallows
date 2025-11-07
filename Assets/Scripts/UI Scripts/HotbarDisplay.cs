@@ -10,7 +10,7 @@ public class HotbarDisplay : MonoBehaviour
     TooltipControlsScript tooltipControls; //Handles hovering over structure with item
 
     public InventoryItemData torch, pyrefly;
-    
+
 
     private void Start()
     {
@@ -30,6 +30,7 @@ public class HotbarDisplay : MonoBehaviour
         }
 
         PlayerInventoryHolder.OnPlayerInventoryChanged += UpdateHandItem;
+        InventoryUIController.OnInventoryOpened += EnableDisableNavigation;
     }
 
     private void OnDisable()
@@ -41,11 +42,12 @@ public class HotbarDisplay : MonoBehaviour
         }
 
         PlayerInventoryHolder.OnPlayerInventoryChanged -= UpdateHandItem;
+        InventoryUIController.OnInventoryOpened -= EnableDisableNavigation;
     }
 
     private void HandleScrollInput(int direction)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return; //to solve the issue where there is a skip in the hotbar
+        if (PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused) return; //to solve the issue where there is a skip in the hotbar
 
         if (PlayerMovement.isCodexOpen) return;
         currentIndex += direction;
@@ -58,7 +60,7 @@ public class HotbarDisplay : MonoBehaviour
 
     private void HandleNumberPressed(int number)
     {
-        if(PauseScript.isPaused) return;
+        if (PauseScript.isPaused) return;
         if (PlayerMovement.isCodexOpen) return;
         if (number > 0 && number <= hotbarSlots.Length)
         {
@@ -68,17 +70,17 @@ public class HotbarDisplay : MonoBehaviour
 
     public int FindItemInHotbar(InventoryItemData item)
     {
-        for(int i = 0; i < hotbarSlots.Length; i++)
+        for (int i = 0; i < hotbarSlots.Length; i++)
         {
             InventorySlot_UI s = hotbarSlots[i];
-            if(s.AssignedInventorySlot != null && s.AssignedInventorySlot.ItemData == item) return i;
+            if (s.AssignedInventorySlot != null && s.AssignedInventorySlot.ItemData == item) return i;
         }
         return -1;
     }
 
     public void SelectHotbarSlot(int slotIndex)
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || InputManager.isCharging) return;
+        if (PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || InputManager.isCharging) return;
         if (PlayerMovement.isCodexOpen || PlayerMovement.accessingInventory) return;
 
         // Turn off highlight on the current slot
@@ -88,7 +90,10 @@ public class HotbarDisplay : MonoBehaviour
         }
 
         PlaceableItem p_item = currentSlot.AssignedInventorySlot.ItemData as PlaceableItem;
-        if(p_item) p_item.DisableHologram();
+        if (p_item) p_item.DisableHologram();
+
+        ToolItem current_t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
+        if(current_t_item) current_t_item.behavior.OnHolster();
 
         //if(currentIndex == slotIndex)
         //{
@@ -106,8 +111,6 @@ public class HotbarDisplay : MonoBehaviour
         // Optionally, use the item in the selected slot
         if (currentSlot.AssignedInventorySlot != null && currentSlot.AssignedInventorySlot.ItemData != null)
         {
-            //currentSlot.AssignedInventorySlot.ItemData.UseItem(); //currently just reports what item is in the slot in the debugger
-
             ToolItem t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
             if (t_item)
             {
@@ -118,15 +121,15 @@ public class HotbarDisplay : MonoBehaviour
                 HandItemManager.Instance.SwapHandModel(ToolType.Null);
                 HandItemManager.Instance.ShowSpriteInHand(currentSlot.AssignedInventorySlot.ItemData);
             }
-            }
+        }
         else
         {
             //Debug.Log($"No item in hotbar slot {slotIndex + 1}");
             HandItemManager.Instance.ClearHandModel();
         }
 
-        if(PlayerInventoryHolder.Instance.FindItemInBothInventories(torch)) HandItemManager.Instance.TorchFlameToggle(false);
-        if(PlayerInventoryHolder.Instance.FindItemInBothInventories(pyrefly)) HandItemManager.Instance.PyreflyFlameToggle(false);
+        if (PlayerInventoryHolder.Instance.FindItemInBothInventories(torch)) HandItemManager.Instance.TorchFlameToggle(false);
+        if (PlayerInventoryHolder.Instance.FindItemInBothInventories(pyrefly)) HandItemManager.Instance.PyreflyFlameToggle(false);
     }
 
     private void UpdateHandItem(InventorySystem inv)
@@ -151,6 +154,14 @@ public class HotbarDisplay : MonoBehaviour
         {
             //Debug.Log($"No item in hotbar slot {slotIndex + 1}");
             HandItemManager.Instance.ClearHandModel();
+        }
+    }
+    
+    private void EnableDisableNavigation(bool val)
+    {
+        foreach (InventorySlot_UI slot in hotbarSlots)
+        {
+            slot.GetComponent<UnityEngine.UI.Button>().interactable = val;
         }
     }
 

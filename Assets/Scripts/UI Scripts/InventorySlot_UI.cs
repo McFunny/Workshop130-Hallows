@@ -102,6 +102,7 @@ public class InventorySlot_UI : MonoBehaviour
         if (assignedInventorySlot.ItemData == null)
         {
             foodCooldownSlider.gameObject.SetActive(false);
+            itemGrey.enabled = false;
             return;
         }
 

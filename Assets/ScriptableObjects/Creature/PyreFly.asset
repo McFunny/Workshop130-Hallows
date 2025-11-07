@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 4938036239894532787, guid: 4f2ba8cc7e5521642b04236b7b908af1,
     type: 3}
+  corruptedPrefab: {fileID: 0}
   creatureVariants:
   - name: HydroFly
     prefab: {fileID: 2998068688611110752, guid: a13d5a8fb131c7842a30661f5527ecd4,
@@ -60,9 +61,10 @@ MonoBehaviour:
   spawnCap: 12
   spawnCapPerHour: 3
   wealthPrerequisite: 1000
+  siegePrerequisite: 1
   contribuiteToCreatureCap: 0
-  amountKilled: 1
-  hasSpawned: 1
+  amountKilled: 0
+  hasSpawned: 0
   excludeFromNormalNights: 0
   canSpawnBehindCabin: 1
   spawnType: 0

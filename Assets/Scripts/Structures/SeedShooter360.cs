@@ -16,7 +16,7 @@ public class SeedShooter360 : StructureBehaviorScript
     bool targetInSight = false;
     bool shotCooldown;
     bool returningToCenter;
-    float projectileSpeed = 250;
+    float projectileSpeed = 270;
     float minimumDistance = 3;
 
     //Maybe add a large button on the back, where when the player interacts with this, it can be turned on and off

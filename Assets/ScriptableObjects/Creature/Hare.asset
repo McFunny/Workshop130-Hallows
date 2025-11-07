@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 6623111765486677896, guid: 29856514ebb1bf546aec234b149d0a50,
     type: 3}
+  corruptedPrefab: {fileID: 0}
   creatureVariants:
   - name: Albino Hare
     prefab: {fileID: 2033714470042923742, guid: ecfd7c232fbd62142ab67acef659124b,
       type: 3}
-    probabilityInFarm: 5
     probabilityInWilderness: 100
     canSpawnInWilderness: 1
     wealthPrerequisite: 1500
@@ -30,7 +30,6 @@ MonoBehaviour:
   - name: Tunneler Hare
     prefab: {fileID: 6819695459686824168, guid: 656c18626710e5c4f950f3c0b70293ce,
       type: 3}
-    probabilityInFarm: 10
     probabilityInWilderness: 0
     canSpawnInWilderness: 0
     wealthPrerequisite: 1000
@@ -53,6 +52,7 @@ MonoBehaviour:
   spawnCap: 8
   spawnCapPerHour: 4
   wealthPrerequisite: 0
+  siegePrerequisite: 1
   contribuiteToCreatureCap: 1
   amountKilled: 0
   hasSpawned: 0

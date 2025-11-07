@@ -64,12 +64,12 @@ public class DebrisUI : MonoBehaviour
         }
     }
 
-    private void HideDebrisUI()
+    public void HideDebrisUI()
     {
         uiContainer.SetActive(false);
     }
 
-    private void ShowDebrisUI()
+    public void ShowDebrisUI()
     {
         if(forceHideUI) return;
         uiContainer.SetActive(true);

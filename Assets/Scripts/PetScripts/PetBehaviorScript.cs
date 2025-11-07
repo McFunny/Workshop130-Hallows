@@ -43,6 +43,8 @@ public class PetBehaviorScript : MonoBehaviour
     protected int forceFollows = 0;
 
     public ParticleSystem dripParticles;
+
+    public PopupScript levelUpPopup;
     
     protected void Start()
     {
@@ -99,6 +101,7 @@ public class PetBehaviorScript : MonoBehaviour
         {
             friendPoints = 0;
             friendshipLevel++;
+            PopupHandler.Instance.AddToQueue(levelUpPopup);
         }
     }
 
@@ -203,10 +206,11 @@ public class PetBehaviorScript : MonoBehaviour
 
     IEnumerator IdleSoundTimer()
     {
+        if(petType == PetType.Dog) yield break;
         while(true)
         {
             yield return new WaitForSeconds(Random.Range(9, 16));
-            if(effectsHandler.miscSound2 && Random.Range(0, 500) == 30) effectsHandler.MiscSound2();
+            if(petType == PetType.Cat && effectsHandler.miscSound2 && Random.Range(0, 500) == 30) effectsHandler.MiscSound2();
             else effectsHandler.RandomIdle();
         }
 
@@ -219,7 +223,7 @@ public class PetBehaviorScript : MonoBehaviour
         dripParticles.Stop();
     }
 
-    void OnDestroy()
+    public void OnDestroy()
     {
         TimeManager.OnHourlyUpdate -= OnHour;
     }

@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8979960604655940766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8753394607834209425}
+  - component: {fileID: 3965916298711392679}
+  m_Layer: 9
+  m_Name: RedGrubSwarm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8753394607834209425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8979960604655940766}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -23.64, y: -0.05000305, z: -15.910004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3965916298711392679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8979960604655940766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6c0739a5b8b574a8fc5c603d61c7c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  maxHealth: 100
+  corpseHealth: -50
+  ichorWorth: 5
+  ichorDropRadius: 2
+  creatureData: {fileID: 11400000, guid: 8457c2dea860fda4f86b1c062442ff7a, type: 2}
+  inWilderness: 0
+  patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
+  structManager: {fileID: 0}
+  effectsHandler: {fileID: 0}
+  player: {fileID: 0}
+  allColliders: []
+  corpseParticleTransform: {fileID: 0}
+  knifeLodgeTransform: {fileID: 0}
+  corpseType: 2
+  rb: {fileID: 0}
+  anim: {fileID: 0}
+  droppedItems: []
+  dropChance: []
+  sightRange: 0
+  attackRange: 0
+  playerInSightRange: 0
+  playerInAttackRange: 0
+  shovelVulnerable: 0
+  fireVulnerable: 0
+  bearTrapVulnerable: 0
+  frostVulnerable: 0
+  isDead: 0
+  damageToStructure: 0
+  damageToPlayer: 0
+  canCorpseBreak: 0
+  actionSpeedMod: 1
+  hitColor: {r: 0, g: 0, b: 0, a: 0}
+  currentEffects: []
+  grubs: []
+  swarmTargets: []
+  grubMin: 4
+  grubMax: 10
+  grubPrefab: {fileID: 2943604697870245909, guid: 8f2bc4e1607c2d544828da8ebcedbcf6,
+    type: 3}
+  targettableStructures:
+  - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
+  - {fileID: 11400000, guid: 79a49544904620c4986a1d7900c94604, type: 2}
+  - {fileID: 11400000, guid: b1b94011ab4c8ce449eeef3b1c2f3c44, type: 2}
+  - {fileID: 11400000, guid: a04da75bf71914a47a6297fd6ee76fe3, type: 2}
+  - {fileID: 11400000, guid: d7b2bc56be6439d4983793299e5322a7, type: 2}
+  - {fileID: 11400000, guid: 045a35b3e3380ed41848d0d35a370181, type: 2}
+  - {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
+  - {fileID: 11400000, guid: de0fd22b4d293114397868fe16a45b97, type: 2}

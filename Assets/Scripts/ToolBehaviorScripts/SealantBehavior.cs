@@ -39,7 +39,7 @@ public class SealantBehavior : ToolBehavior
     public override void SecondaryUse(Transform _player, ToolType _tool)
     {
         
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
+        if (/*usingPrimary || usingSecondary ||*/ PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
         tool = _tool;
 
@@ -52,7 +52,7 @@ public class SealantBehavior : ToolBehavior
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null && structure.RepairWithSealant(healthRestored))
             {
-                usingPrimary = true;
+                //usingSecondary = true;
                 HandItemManager.Instance.toolSource.PlayOneShot(placeSFX);
 
                 PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0, 0.2f));

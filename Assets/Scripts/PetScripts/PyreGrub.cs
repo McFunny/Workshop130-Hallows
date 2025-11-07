@@ -543,8 +543,11 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                 CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
                 if(creature && creature.shovelVulnerable)
                 {
+                    bool applyRecoil = true;
                     if(rb.velocity.magnitude > 10f)
                     {
+                        if(creature.health <= 10 && creature.canCorpseBreak) applyRecoil = false;
+
                         creature.TakeDamage(10);
                         if(creature.fireVulnerable && ignited) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(7, 12));
                         creature.PlayHitParticle(creature.transform.position);
@@ -552,10 +555,12 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                         if(ignited && Random.Range(0, 100) > (20 + friendshipLevel * 5)) IgnitionToggle(false);
                     }
 
-                    Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
-                    rb.AddForce(25 * -dir, ForceMode.Impulse);
-                    effectsHandler.PlaySound(effectsHandler.hitSounds[0]);
-                    return;
+                    if(applyRecoil)
+                    {
+                        Vector3 dir = Vector3.Normalize(other.gameObject.transform.position - transform.position);
+                        rb.AddForce(25 * -dir, ForceMode.Impulse);
+                        effectsHandler.PlaySound(effectsHandler.hitSounds[0]);
+                    }
                 }
             }
         }

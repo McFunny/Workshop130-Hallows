@@ -39,6 +39,7 @@ public class NPCManager : MonoBehaviour
     public bool butchSpoke = false;
     public bool carpSpoke = false;
     public bool mandrakeSpoke = false;
+    public bool millerSpoke = false;
 
     void Awake()
     {
@@ -76,6 +77,7 @@ public class NPCManager : MonoBehaviour
             butchSpoke = false;
             carpSpoke = false;
             mandrakeSpoke = false;
+            millerSpoke = false;
 
             StartCoroutine(DelayedHourUpdate());
         }

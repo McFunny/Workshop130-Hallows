@@ -217,7 +217,7 @@ public class HeadlessHen : CreatureBehaviorScript
             FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
             if(tile)
             {
-                if(tile.crop.behavior) 
+                if(tile.crop && tile.crop.behavior) 
                 {
                     if(tile.harvestable)
                     {
@@ -230,7 +230,7 @@ public class HeadlessHen : CreatureBehaviorScript
             }
         }
 
-        if(Vector3.Distance(player.position, transform.position) < 1.5f) PlayerInteraction.Instance.StaminaChange(8);
+        if(Vector3.Distance(player.position, transform.position) < 1.8f) PlayerInteraction.Instance.StaminaChange(8);
 
         surroundParticles.SetActive(true);
         effectsHandler.PlaySound(effectsHandler.miscSound3);

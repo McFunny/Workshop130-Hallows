@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: DangerVane
+  m_EditorClassIdentifier: 
+  ID: 237
+  displayName: Danger Vane
+  description: This contraption will sound an alarm when a creature approaches it,
+    highlighting them in a white light. Does not trigger on airborne targets.
+  icon: {fileID: 690116082, guid: 5bc2229503a7ba94ca998de038fae1a2, type: 3}
+  type: 3
+  maxStackSize: 5
+  value: 135
+  sellValueMultiplier: 0.25
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 8456008045873919119, guid: fbe9ddb67bd0c4e4f9079ea8038ae297,
+    type: 3}
+  hologramPrefab: {fileID: 3875113820079628495, guid: 091729ec763b2f443aed86d7b7882e51,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
+  gridTypes: 01000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

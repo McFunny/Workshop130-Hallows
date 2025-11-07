@@ -8,6 +8,7 @@ public class PlayerUpgrades : MonoBehaviour
     [Header("Disable all before build")]
     public bool gainedInventoryUpgrade;
     public bool gainedWaterStorage;
+    public bool gainedWaterPack;
 
     void Awake()
     {
@@ -19,6 +20,7 @@ public class PlayerUpgrades : MonoBehaviour
         gainedInventoryUpgrade = data.gainedInventoryUpgrade;
         gainedWaterStorage = data.gainedWaterStorage;
         if(gainedWaterStorage) PlayerInteraction.Instance.maxWaterHeld += 5;
+        gainedWaterPack = data.gainedWaterPack;
     }
 
     //[ContextMenu("TestInventoryIncrease")]
@@ -33,5 +35,10 @@ public class PlayerUpgrades : MonoBehaviour
         PlayerInteraction.Instance.maxWaterHeld += 5;
         PlayerInteraction.Instance.waterHeld += 5;
         gainedWaterStorage = true;
+    }
+
+    public void GainWaterPackUpgrade()
+    {
+        gainedWaterPack = true;
     }
 }

@@ -195,9 +195,10 @@ public class ButcherNPC : NPC, ITalkable
                 }
                 else //Sell the lead ammo
                 {
-                    newItem = barterDatabase.uniqueTransactions[1].itemForSale;
-                    newCost = (int)(barterDatabase.uniqueTransactions[1].mintCost * sellMultiplier);
-                    storeItems[0].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
+                    int pelletNum = Random.Range(1, 4);
+                    newItem = barterDatabase.uniqueTransactions[pelletNum].itemForSale;
+                    newCost = (int)(barterDatabase.uniqueTransactions[pelletNum].mintCost * sellMultiplier);
+                    storeItems[0].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[pelletNum].itemsRequired, barterDatabase.uniqueTransactions[pelletNum].amountForSale);
                 }
                 storeItems[0].seller = this;
                 itemsDisplayed++;

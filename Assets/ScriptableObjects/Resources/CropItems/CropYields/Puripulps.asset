@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
+  m_Name: Puripulps
+  m_EditorClassIdentifier: 
+  ID: 240
+  displayName: Puripulps
+  description: A squishy fruit that, while inedbile, has anti-bacterial properties
+    essential to cleansing Azure Rot.
+  icon: {fileID: 1485903178, guid: 74d64f82c07fbd541957746125e93cf0, type: 3}
+  type: 0
+  maxStackSize: 20
+  value: 27
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 45
+  useCooldown: 5
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM:
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

@@ -106,13 +106,14 @@ public enum ItemType
 {
     //
     Misc,
-    Consumable, 
-    Tool, 
-    Structure, 
-    BarnStructure, 
+    Consumable,
+    Tool,
+    Structure,
+    BarnStructure,
     CabinDecor,
-    Seed, 
+    Seed,
     Ammo,
     Creature,
-    Bug
+    Bug,
+    Throwable
 }

@@ -12,6 +12,7 @@ public class CreatureEffectsHandler : MonoBehaviour
     [HideInInspector]
     public AudioSource source;
     public AudioSource loopingSource;
+    public AudioSource footStepSource;
     public AudioClip moveSound;
     public AudioClip idleSound1;
     public AudioClip idleSound2;
@@ -131,5 +132,13 @@ public class CreatureEffectsHandler : MonoBehaviour
     public void PlayExtraSound(int i, float _volume)
     {
         if(extraSounds.Length > i) source.PlayOneShot(extraSounds[i], _volume);
+    }
+
+    public void PlayFootstep()
+    {
+        if(!footStepSource) return;
+        float p = Random.Range(0.9f, 1.1f);
+        footStepSource.pitch = p;
+        footStepSource.PlayOneShot(moveSound);
     }
 }
