@@ -401,7 +401,7 @@ public class Ectoplasm : CreatureBehaviorScript
 
     public override void HitWithWater()
     {
-        TakeDamage(10);
+        TakeDamage(30);
     }
 
     public override void ToolInteraction(ToolType type, out bool success)

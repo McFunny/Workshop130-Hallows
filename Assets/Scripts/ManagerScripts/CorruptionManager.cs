@@ -124,7 +124,7 @@ public class CorruptionManager : MonoBehaviour
         for(int i = 0; i < nearbyFarmTiles.Length; i++) //Clear empty tiles
         {
             FarmLand farmLand = nearbyFarmTiles[i].gameObject.GetComponentInParent<FarmLand>();
-            if(farmLand && !farmLand.crop)
+            if(farmLand && (!farmLand.crop || Random.Range(0,10) > 5))
             {
                 farmLand.TakeDamage(99);
             }

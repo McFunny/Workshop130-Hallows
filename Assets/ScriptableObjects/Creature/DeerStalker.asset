@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 4260368193489679878, guid: f5a7f2a67b5e54e4fb1073d9fc6e6adc,
     type: 3}
+  corruptedPrefab: {fileID: 0}
   creatureVariants: []
   health: 0
   position:
@@ -26,7 +27,8 @@ MonoBehaviour:
   spawnWeight: 2
   spawnCap: 2
   spawnCapPerHour: 1
-  wealthPrerequisite: 3000
+  wealthPrerequisite: 5000
+  siegePrerequisite: 2
   contribuiteToCreatureCap: 1
   amountKilled: 0
   hasSpawned: 0

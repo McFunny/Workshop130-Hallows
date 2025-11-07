@@ -10,6 +10,8 @@ public class AnimEvents : MonoBehaviour
     public event ColliderChange OnColliderChange;
 
     public CreatureBehaviorScript creatureScript;
+
+    public CreatureEffectsHandler audioScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,5 +38,10 @@ public class AnimEvents : MonoBehaviour
     public void FinishedDying()
     {
         if (creatureScript) creatureScript.canCorpseBreak = true;
+    }
+
+    public void FootStepSound()
+    {
+        if(audioScript) audioScript.PlayFootstep();
     }
 }

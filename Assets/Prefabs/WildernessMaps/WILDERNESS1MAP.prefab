@@ -33118,6 +33118,21 @@ MonoBehaviour:
   - {fileID: 2059843463384382574}
   forageablePrefab: {fileID: 3672103349891704917, guid: f9c56390acf3b2248a1b1b77c4e30d4f,
     type: 3}
+  possibleSwarms:
+  - name: Grub
+    prefab: {fileID: 1473590369860251716, guid: e92a9e1974cbe3e4f9c76fd00e546619,
+      type: 3}
+    spawnChance: 100
+    minWaveCount: 0
+    spawnMin: 4
+    spawnMax: 10
+  - name: Red Grub
+    prefab: {fileID: 2943604697870245909, guid: 8f2bc4e1607c2d544828da8ebcedbcf6,
+      type: 3}
+    spawnChance: 40
+    minWaveCount: 1
+    spawnMin: 4
+    spawnMax: 10
 --- !u!1 &8083643876636453317
 GameObject:
   m_ObjectHideFlags: 0

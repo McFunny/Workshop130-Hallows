@@ -139,7 +139,7 @@ public class NightSpawningManager : MonoBehaviour
         foreach(CreatureObject c in selectedCreatures)
         {
             //If there is more max difficulty points than it's threshold, it has a chance to spawn
-            if(c.dangerThreshold <= highestDifficultyPoints && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned);
+            if(c.dangerThreshold <= highestDifficultyPoints);
             {
                 for(int s = 0; s < c.spawnWeight; s++) weightArray.Add(w);
             }
@@ -195,11 +195,13 @@ public class NightSpawningManager : MonoBehaviour
                 r = Random.Range(0, selectedFillerCreatures.Count);
                 CreatureObject newCreature = selectedFillerCreatures[r];
 
-                if(newCreature.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && totalCreatures < maxCreatures && newCreature.spawnCap > creatureTallyDict[newCreature]) 
+                if(totalCreatures < maxCreatures && newCreature.spawnCap > creatureTallyDict[newCreature]) 
                 {
                     if(newCreature.contribuiteToCreatureCap) totalCreatures++;
                     creatureTallyDict[newCreature]++;
                     SpawnCreature(newCreature);
+
+                    if(newCreature.spawnType == SpawnType.Support) i -= 0.4f;
                 }
                 else i -= 0.9f;
             }
@@ -230,7 +232,7 @@ public class NightSpawningManager : MonoBehaviour
                     }
                     if(currentChance > p) prefab = c.creatureVariants[r].prefab;
                 }
-                else prefab = null; //If the siege variant list isnt setup
+                else prefab = null; //If the variant list isnt setup
             }
 
             if(c.creatureVariants[r].wealthPrerequisite > PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
@@ -374,7 +376,7 @@ public class NightSpawningManager : MonoBehaviour
         if(!overrideDifficulty)
         {
             if(MainMenuScript.currentFileMode == FileMode.Survival || SiegeManager.Instance.siegeCropOnFarm) difficultyMultiplier = 1;
-
+            else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = .5f;
             else if(GameSaveData.Instance.siegesCleared == 0) difficultyMultiplier = .75f;
             else if(GameSaveData.Instance.siegesCleared == 1) difficultyMultiplier = 1f;
             else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.25f;
@@ -459,7 +461,7 @@ public class NightSpawningManager : MonoBehaviour
         a = Random.Range(currentDLevel.c_varietyMin, currentDLevel.c_varietyMax + 1);
         foreach(CreatureObject c in creatures)
         {
-            if(c.spawnType == SpawnType.Common && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
+            if(c.spawnType == SpawnType.Common && c.CanSpawnThisNight() && !c.excludeFromNormalNights) temp.Add(c);
             //c.forceSpawnVariant = false;
         }
         for(int i = 0; i < a; i++)
@@ -478,7 +480,7 @@ public class NightSpawningManager : MonoBehaviour
         a = Random.Range(currentDLevel.r_varietyMin, currentDLevel.r_varietyMax + 1);
         foreach(CreatureObject c in creatures)
         {
-            if(c.spawnType == SpawnType.Rare && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
+            if(c.spawnType == SpawnType.Rare && c.CanSpawnThisNight() && !c.excludeFromNormalNights) temp.Add(c);
         }
         for(int i = 0; i < a; i++)
         {
@@ -495,7 +497,7 @@ public class NightSpawningManager : MonoBehaviour
         a = Random.Range(currentDLevel.s_varietyMin, currentDLevel.s_varietyMax + 1);
         foreach(CreatureObject c in creatures)
         {
-            if(c.spawnType == SpawnType.Support && c.wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned && !c.excludeFromNormalNights) temp.Add(c);
+            if(c.spawnType == SpawnType.Support && c.CanSpawnThisNight() && !c.excludeFromNormalNights) temp.Add(c);
         }
         for(int i = 0; i < a; i++)
         {

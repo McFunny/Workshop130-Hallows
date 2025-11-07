@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: NutTester
   m_EditorClassIdentifier: 
   ID: 234
-  displayName: Nutrient Scanner
-  description: Displays the nutrients present in a tile.
+  displayName: Soil Scanner
+  description: Displays the nutrients present in a tile. Can also sync to a seed
+    present in the inventory to check if it can grow on a given tile.
   icon: {fileID: 21300000, guid: b99c4c51d38c70c49be8d30844819d0f, type: 3}
   type: 2
   maxStackSize: 1

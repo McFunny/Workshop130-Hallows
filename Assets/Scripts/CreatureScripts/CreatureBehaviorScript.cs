@@ -158,7 +158,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             bloodParticle = ParticlePoolManager.Instance.GrabSlimeSplashParticle();
         }
-        if(corpseType == CorpseParticleType.Corrupted) 
+        else if(corpseType == CorpseParticleType.Corrupted) 
         {
             bloodParticle = ParticlePoolManager.Instance.GrabCorruptBloodDropParticle();
         }
@@ -178,6 +178,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         if(NightSpawningManager.Instance.allCreatures.Contains(this)) NightSpawningManager.Instance.allCreatures.Remove(this);
         if(WildernessManager.Instance.allCreatures.Contains(this)) WildernessManager.Instance.allCreatures.Remove(this);
+        if(WildernessManager.Instance.allWagonCreatures.Contains(this)) WildernessManager.Instance.allWagonCreatures.Remove(this);
         foreach(Collider collider in allColliders)
         {
             collider.isTrigger = true;
@@ -232,7 +233,7 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public virtual void NearLaventLeaf(Vector3 pos){}
 
-    public StructureBehaviorScript CheckForObstacle(Transform checkTransform)
+    public StructureBehaviorScript CheckForObstacle(Transform checkTransform) // consider instead doing a physics inside sphere check instead, so creatures dont need to be looking directly at the obstacle
     {
         RaycastHit hit;
         if (Physics.Raycast(checkTransform.position, checkTransform.forward, out hit, 3, 1 << 6))
@@ -349,6 +350,8 @@ public class CreatureBehaviorScript : MonoBehaviour
         if(knifeLodgeTransform) return knifeLodgeTransform;
         else return corpseParticleTransform;
     }
+
+    public virtual void TargetWagon(){}
 
 
     

@@ -49,11 +49,26 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     //private ToolTipScript toolTipScript;
 
+    //Variables for Exclamation animation
+    float amplitude = 0.3f;   // How far up and down it moves
+    float speed = 2f;         // How fast it moves
+    float pauseDuration = 0.3f; // How long to pause at top/bottom
+
+    private Vector3 startPos;
+    private bool movingUp = true;
+    private bool isPaused = false;
+
     protected virtual void Awake()
     {
         if (dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
         dailyQuest = null;
         toolTipScript = GameObject.Find("BarterCanvas").GetComponent<ToolTipScript>();
+
+        if(exclamationObject)
+        {
+            startPos = new Vector3(exclamationObject.transform.localPosition.x, exclamationObject.transform.localPosition.y + 0.25f, exclamationObject.transform.localPosition.z);
+            StartCoroutine(AnimateExclamation());
+        }
     }
 
     void OnEnable()
@@ -392,7 +407,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
         return false;
     }
 
-    bool GiveRewards(List<InventoryItemData> rewards)
+    protected bool GiveRewards(List<InventoryItemData> rewards)
     {
         if(rewards.Count == 0 || rewards[0] == null) return true;
 
@@ -420,6 +435,43 @@ public abstract class NPC : MonoBehaviour, IInteractable
     public void ReturnFocalPoint(out Transform focalPoint)
     {
         focalPoint = eyeLine;
+    }
+
+    IEnumerator AnimateExclamation()
+    {
+        while (true)
+        {
+            if (!isPaused)
+            {
+                // Determine target position
+                float targetY = movingUp ? startPos.y + amplitude : startPos.y - amplitude;
+                Vector3 targetPos = new Vector3(startPos.x, targetY, startPos.z);
+
+                // Smoothly move toward target
+                while (Vector3.Distance(exclamationObject.transform.localPosition, targetPos) > 0.01f)
+                {
+                    exclamationObject.transform.localPosition = Vector3.Lerp(
+                        exclamationObject.transform.localPosition,
+                        targetPos,
+                        Time.deltaTime * speed
+                    );
+                    yield return null;
+                }
+
+                // Snap exactly to target
+                exclamationObject.transform.localPosition = targetPos;
+
+                // Pause at top or bottom
+                isPaused = true;
+                yield return new WaitForSeconds(pauseDuration);
+                isPaused = false;
+
+                // Reverse direction
+                movingUp = !movingUp;
+            }
+
+            yield return null;
+        }
     }
 }
 

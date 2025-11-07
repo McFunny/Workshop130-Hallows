@@ -65,6 +65,23 @@ public class QuestManager : MonoBehaviour
         }*/
     }
 
+    public void ForceCompleteQuest(Quest q, out bool removed) //Compares ID's to see if the quest given is an active quest. If so, mark it as done
+    {
+        int questFoundID = FindSameQuest(q);
+        if(questFoundID > -1)
+        {
+            activeQuests[questFoundID].progress = activeQuests[questFoundID].maxProgress;
+            activeQuests[questFoundID].alreadyCompleted = true;
+            print("Quest was successfully completed");
+            removed = true;
+        }
+        else
+        {
+            print("Quest Not Found");
+            removed = false;
+        }
+    }
+
     public void ForceRemoveQuest(Quest q)
     {
         int questFoundID = FindSameQuest(q);

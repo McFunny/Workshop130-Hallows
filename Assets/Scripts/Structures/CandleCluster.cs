@@ -7,9 +7,11 @@ public class CandleCluster : StructureBehaviorScript
     public FireFearTrigger fireTrigger;
     public GameObject fire;
 
-    bool burning = false;
+    [HideInInspector] public bool burning = false;
 
     float chanceForDrain = 25;
+
+    public CandleType type;
 
     //Candles are crafted from 1 silk, 3-5 combs, and 1 nectar OR bug meat. Probably made in bulk
 
@@ -97,4 +99,10 @@ public class CandleCluster : StructureBehaviorScript
         burning = false;
         chanceForDrain = 25;
     }
+}
+
+public enum CandleType
+{
+    Default,
+    Aroma
 }

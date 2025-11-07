@@ -13,7 +13,7 @@ public class GameSaveData : MonoBehaviour
     public PetBehaviorScript dogRef;
     [HideInInspector] public PetBehaviorScript currentPet;
 
-
+    [Header("Player Variables")]
 
     public float pStamina, pFatigue;
     public float pWater;
@@ -25,6 +25,10 @@ public class GameSaveData : MonoBehaviour
     public bool lostKukri;
 
     public int hourSaved = 8;
+
+    [Header("Wagon Variables")]
+    public float wagonHealth;
+    public float wagonMaxHealth;
 
     [Header("Player Upgrade Variables. All must be false when building")]
     public bool gainedInventoryUpgrade = false;
@@ -63,9 +67,10 @@ public class GameSaveData : MonoBehaviour
     public bool mm_introducedPets; //Merchant explained pets
     public bool mm_soldPet; //Player got their first pet from the merchant
     public bool tra_askedForFood; //Traveller offered kukri for food
+    public bool mil_gavePen; // Miller gave the player a hog pen after they cleared the barn
 
     public bool townTreeCleared1; //Tree by bridge
-    public bool townTreeCleared2; //Extra tree by cabin
+    public bool townTreeCleared2; //Extra tree by cabin blocking barn
 
     [Header("Siege Progression Bools. All must be false when building")]
     public int siegesCleared = 0;
@@ -131,6 +136,10 @@ public class GameSaveData : MonoBehaviour
         if(data.allGameSaveData.hourSaved == 0) TimeManager.Instance.currentHour = 8;
         TimeManager.Instance.RefreshSkybox();
 
+        WagonManager.Instance.wagonHealth = data.allGameSaveData.wagonHealth;
+        WagonManager.Instance.maxWagonHealth = data.allGameSaveData.maxWagonHealth;
+
+
         switch(data.allGameSaveData.gameMode)
         {
             case "Normal":
@@ -195,6 +204,7 @@ public class GameSaveData : MonoBehaviour
         mm_soldPet = data.allGameSaveData.mm_soldPet;
         mm_introducedPets = data.allGameSaveData.mm_introducedPets;
         tra_askedForFood = data.allGameSaveData.tra_askedForFood;
+        mil_gavePen = data.allGameSaveData.mil_gavePen;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -258,6 +268,9 @@ public class GameSaveData : MonoBehaviour
 
         public string gameMode;
 
+        public float wagonHealth;
+        public float maxWagonHealth;
+
         public bool gainedInventoryUpgrade;
         public bool gainedWaterStorage;
         public bool gainedWaterPack;
@@ -315,6 +328,7 @@ public class GameSaveData : MonoBehaviour
         public bool mm_soldPet;
         public bool mm_introducedPets;
         public bool tra_askedForFood;
+        public bool mil_gavePen;
 
         public int siegesCleared;
         public bool siegeCropInHand; //
@@ -343,6 +357,9 @@ public class GameSaveData : MonoBehaviour
         hourSaved = TimeManager.Instance.currentHour;
         pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
         gameMode = MainMenuScript.currentFileMode.ToString();
+
+        wagonHealth = WagonManager.Instance.wagonHealth;
+        maxWagonHealth = WagonManager.Instance.maxWagonHealth;
 
         
 
@@ -406,6 +423,7 @@ public class GameSaveData : MonoBehaviour
         mm_soldPet = data.mm_soldPet;
         mm_introducedPets = data.mm_introducedPets;
         tra_askedForFood = data.tra_askedForFood;
+        mil_gavePen = data.mil_gavePen;
 
         siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;

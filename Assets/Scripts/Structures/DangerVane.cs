@@ -12,11 +12,16 @@ public class DangerVane : StructureBehaviorScript
 
     public GameObject trackingEffect;
     public Transform pivot;
+
+    public Animator anim;
     void Start()
     {
         transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
         base.Start();
         StartCoroutine(DetectCreatures());
+        BellRing();
+
+        OnDamage += BellRing;
     }
 
     void Update()
@@ -47,6 +52,12 @@ public class DangerVane : StructureBehaviorScript
         }
     }*/
 
+    void BellRing()
+    {
+        audioHandler.PlaySound(audioHandler.interactSound);
+        anim.Play("bellRing", -1, 0);
+    }
+
     IEnumerator DetectCreatures()
     {
         while(gameObject.activeSelf)
@@ -72,7 +83,7 @@ public class DangerVane : StructureBehaviorScript
                     trackedCreature = c;
                     trackingEffect.SetActive(true);
                     trackedCreatures.Add(c);
-                    audioHandler.PlaySound(audioHandler.interactSound);
+                    BellRing();
                     break;
                 }
             }
@@ -82,6 +93,7 @@ public class DangerVane : StructureBehaviorScript
     void OnDestroy()
     {
         base.OnDestroy();
+        OnDamage -= BellRing;
         if (!gameObject.scene.isLoaded) return; 
 
         if(trackedCreature)

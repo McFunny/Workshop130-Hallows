@@ -31,8 +31,38 @@ public class RubyWaspSwarm : CreatureBehaviorScript
         while(wasps.Count > 0)
         {
             yield return new WaitForSeconds(Random.Range(10, 20));
-            transform.position = StructureManager.Instance.GetRandomNearbyTile(GridType.Farm, 40, transform.position);
+            if(MoveToSpecialTarget() == false)transform.position = StructureManager.Instance.GetRandomNearbyTile(GridType.Farm, 40, transform.position);
         }
         Destroy(gameObject);
+    }
+
+    bool MoveToSpecialTarget()
+    {
+        if(Random.Range(0,10) > 6) return false;
+
+        List<Vector3> flowerPos = new List<Vector3>();
+        foreach(StructureBehaviorScript s in StructureManager.Instance.allStructs)
+        {
+            FarmLand tile = s as FarmLand;
+            if(tile && tile.crop && tile.crop.id == 20)
+            {
+                flowerPos.Add(tile.transform.position);
+                continue;
+            }
+
+            CandleCluster candle = s as CandleCluster;
+            if(candle && candle.type == CandleType.Aroma && candle.burning)
+            {
+                flowerPos.Add(tile.transform.position);
+                continue;
+            }
+        }
+
+        if(flowerPos.Count > 0)
+        {
+            transform.position = flowerPos[Random.Range(0, flowerPos.Count)];
+            return true;
+        }
+        else return false;
     }
 }

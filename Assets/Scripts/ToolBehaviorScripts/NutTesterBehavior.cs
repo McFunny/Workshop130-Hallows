@@ -141,6 +141,7 @@ public class NutTesterBehavior : ToolBehavior
                     NutrientStorage nutrients = StructureManager.Instance.FetchNutrient(tile);
                     NutrientTesterScript.Instance.UpdateTile(nutrients);
                     currentTile = tile;
+                    HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
                 }
 
                 Debug.Log(currentTile);

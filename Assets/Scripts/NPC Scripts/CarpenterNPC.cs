@@ -178,13 +178,6 @@ public class CarpenterNPC : NPC, ITalkable
         base.PlayerLeftRadius();
     }
 
-    /*public override void EmptyShopItem() //when an item is bought by the player
-    {
-        if(lastInteractedStoreItem.clearUponPurchase == false) return;
-        lastInteractedStoreItem.Empty();
-        lastInteractedStoreItem = null;
-    }*/
-
     public override void RefreshStore()
     {
         //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
@@ -215,8 +208,15 @@ public class CarpenterNPC : NPC, ITalkable
                     item.RefreshItem(newItem, 0, gloomStalkBarter.itemsRequired, 99);
                 }
             }
+            else if(x == 2) //Sell Barrel
+            {
+                newItem = barterDatabase.uniqueTransactions[1].itemForSale;
+                newCost = (int)(barterDatabase.uniqueTransactions[1].mintCost * sellMultiplier);
+                item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
+            }
             else if(x < 9)//Sell structures
             {
+
                 do
                 {
                     i = Random.Range(0, barterDatabase.transactions.Count);
@@ -256,6 +256,16 @@ public class CarpenterNPC : NPC, ITalkable
             }
 
             x++;
+        }
+    }
+
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
+    {
+        uniqueDialogue = false;
+        if(item == woodBarter.itemForSale) //Player bought wood while barter quest active
+        {
+            QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetTutorialQuest(302), out bool removedSuccesfully);
+            if(removedSuccesfully) GiveRewards(QuestDatabase.Instance.GetTutorialQuest(302).itemRewards);
         }
     }
 

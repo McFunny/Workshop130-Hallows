@@ -10,6 +10,8 @@ public class MillerNPC : NPC, ITalkable
     public float sellMultiplier = 1;
     List<StoreItem> storeItems = new List<StoreItem>();
 
+    public InventoryItemData hogPen;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -46,6 +48,14 @@ public class MillerNPC : NPC, ITalkable
                     currentPath = QuestDatabase.Instance.GetQuestPath(character);
                     currentType = PathType.GivingDaily;
                     GivePlayerDailyQuest();
+                }
+                else if (!GameSaveData.Instance.mil_gavePen && GameSaveData.Instance.townTreeCleared2 && !PlayerInventoryHolder.Instance.IsInventoryFull())
+                {
+                    GameSaveData.Instance.mil_gavePen = true;
+                    currentPath = 7;
+                    currentType = PathType.Misc;
+                    itemsToGive.Add(new ItemWithAmount(hogPen, 1));
+                    dailyQuest = null;
                 }
                 else if (NPCManager.Instance.millerSpoke)
                 {
@@ -171,6 +181,24 @@ public class MillerNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+    }
+
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(!GameSaveData.Instance.mil_gavePen)
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        return true;
     }
 
     public override bool ActionCheck1() //To check if he starts selling items

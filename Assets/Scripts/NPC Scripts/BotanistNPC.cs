@@ -73,8 +73,16 @@ public class BotanistNPC : NPC, ITalkable
             }
             else if(movementHandler.isWorking) //Working Dialogue
             {
-                currentPath = 0;
-                currentType = PathType.Misc;
+                if(TimeManager.Instance.dayNum == 1)
+                {
+                    currentPath = 10;
+                    currentType = PathType.Misc;   
+                }
+                else
+                {
+                    currentPath = 0;
+                    currentType = PathType.Misc;
+                }
             }
             else if(NPCManager.Instance.botanistSpoke) //Say nothing if already given flavor text
             {
@@ -102,7 +110,11 @@ public class BotanistNPC : NPC, ITalkable
         }
 
         //Remark about completing the timber ear quest here
-        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[0])) return 2; //Unfort this means no random timber ear quests
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[0]))
+        {
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(302)); //Add the "go barter for the wood" quest
+            return 2; //Unfort this means no random timber ear quests
+        }
 
         //Remark about completing the Gloomstalk quest here
         if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[1])) //Unfort this means no random gloomstalk quests
@@ -219,6 +231,13 @@ public class BotanistNPC : NPC, ITalkable
             {
                 if(x == 0)
                 {
+                    if(TimeManager.Instance.dayNum == 1) //Only sell a few carrot seeds the first day
+                    {
+                        item.RefreshItem(barterDatabase.uniqueTransactions2[0].itemForSale, barterDatabase.uniqueTransactions2[0].mintCost, barterDatabase.uniqueTransactions2[0].itemsRequired,
+                        barterDatabase.uniqueTransactions2[0].amountForSale);
+                        item.seller = this;
+                        return;
+                    }
                     int sack = Random.Range(0, 2);
                     item.RefreshItem(barterDatabase.uniqueTransactions[sack].itemForSale, barterDatabase.uniqueTransactions[sack].mintCost, barterDatabase.uniqueTransactions[sack].itemsRequired,
                     barterDatabase.uniqueTransactions[sack].amountForSale);

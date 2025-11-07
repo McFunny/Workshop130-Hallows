@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 3008943703359663933, guid: 96ea2a34416294641bf51cf7ca5fe5e2,
     type: 3}
+  corruptedPrefab: {fileID: 5906481233429557733, guid: 1980c3cafab68cd4ba4fba6bee6b1493,
+    type: 3}
   creatureVariants:
   - name: Momma Hog
     prefab: {fileID: 3950954694662362984, guid: 5c35fc27737ad2d4abf354a4b3721304,
       type: 3}
-    probabilityInFarm: 5
-    probabilityInWilderness: 15
+    probabilityInWilderness: 5
     canSpawnInWilderness: 1
     wealthPrerequisite: 3000
     variantChanceInFarm:
     - _int: 0
-      _probability: 5
+      _probability: 3
     - _int: 3
-      _probability: 10
+      _probability: 6
   - name: Dark Hog
     prefab: {fileID: 1793013750846052346, guid: 7bd87286ae9e5154b956e832100410bc,
       type: 3}
-    probabilityInFarm: 0
     probabilityInWilderness: 0
     canSpawnInWilderness: 0
     wealthPrerequisite: 2500
@@ -43,6 +43,17 @@ MonoBehaviour:
       _probability: 20
     - _int: 4
       _probability: 35
+  - name: Corrupt Hog
+    prefab: {fileID: 5906481233429557733, guid: 1980c3cafab68cd4ba4fba6bee6b1493,
+      type: 3}
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 9999
+    variantChanceInFarm:
+    - _int: 2
+      _probability: 3
+    - _int: 3
+      _probability: 5
   health: 0
   position:
   - 0
@@ -55,6 +66,7 @@ MonoBehaviour:
   spawnCap: 6
   spawnCapPerHour: 3
   wealthPrerequisite: 0
+  siegePrerequisite: 1
   contribuiteToCreatureCap: 1
   amountKilled: 0
   hasSpawned: 0

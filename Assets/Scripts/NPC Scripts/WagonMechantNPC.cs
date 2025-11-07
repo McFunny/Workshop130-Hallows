@@ -50,11 +50,11 @@ public class WagonMerchantNPC : NPC, ITalkable
             storeCritterItems[i].seller = this;
         }
 
-        if(lantern)
+        /*if(lantern)
         {
             lantern.merchant = this;
             if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold) lantern.EnableSelf();
-        }
+        }*/
 
         if (displaySign) displaySign.UpdateNPCName(this);
 
@@ -75,14 +75,14 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         if(dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
-            if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold) //Open Wilderness
+            /*if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold) //Open Wilderness
             {
                 currentPath = 8;
                 currentType = PathType.Misc;
                 GameSaveData.Instance.wildernessIntroduced = true;
                 lantern.EnableSelf();
             }
-            else if(CompletedQuest())
+            else*/ if(CompletedQuest())
             {
                 currentPath = 0;
                 currentType = PathType.QuestComplete;
@@ -534,7 +534,6 @@ public class WagonMerchantNPC : NPC, ITalkable
         {
            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.bedTutorialPopup); 
            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(300)); //Add the "go buy seeds" quest
-           QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(302)); //Add the "go barter" quest
         }
         if(currentPath == 15) EmptyPetShop();
 
