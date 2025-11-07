@@ -281,15 +281,8 @@ public class CropStatsRework : MonoBehaviour
                         
                         if (hasGloam || hasTerra || hasIchor)
                         {
-                            if(hasGloam || hasTerra)
-                            {
-                                t = t + "to grow " + seedData.displayName;
-                                tile.supportText.text = t;
-                            }
-                            else
-                            {
-                                tile.supportText.text = "";
-                            }
+                            t = t + "to grow " + seedData.displayName;
+                            tile.supportText.text = t;
                             
                         } 
                         else tile.supportText.text = "";
