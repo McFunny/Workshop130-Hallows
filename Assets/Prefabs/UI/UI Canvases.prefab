@@ -23173,6 +23173,7 @@ GameObject:
   - component: {fileID: 4588404554248158482}
   - component: {fileID: 8458829133120682768}
   - component: {fileID: 5356901035271240489}
+  - component: {fileID: 4534402331803078263}
   m_Layer: 0
   m_Name: CategoryButton
   m_TagString: Untagged
@@ -23221,7 +23222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -23264,6 +23265,28 @@ MonoBehaviour:
           m_StringArgument: Furniture
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4534402331803078263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2291200641206082281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 0}
+  keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
+  isPauseButton: 0
+  isDisabled: 0
+  ignoreColor: 1
+  isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!1 &2292481105712189062
 GameObject:
   m_ObjectHideFlags: 0
@@ -38286,6 +38309,7 @@ GameObject:
   - component: {fileID: 7709998590128693832}
   - component: {fileID: 5950166587953870379}
   - component: {fileID: 1502889200070251890}
+  - component: {fileID: 9016046018688442391}
   m_Layer: 0
   m_Name: CategoryButton
   m_TagString: Untagged
@@ -38334,7 +38358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -38377,6 +38401,28 @@ MonoBehaviour:
           m_StringArgument: All
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9016046018688442391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3924151655328409458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 0}
+  keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
+  isPauseButton: 0
+  isDisabled: 0
+  ignoreColor: 1
+  isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!1 &3936620942540518152
 GameObject:
   m_ObjectHideFlags: 0
@@ -57884,6 +57930,7 @@ GameObject:
   - component: {fileID: 6702572568001583515}
   - component: {fileID: 2914980192987541040}
   - component: {fileID: 7870132696277209088}
+  - component: {fileID: 5014567661863743324}
   m_Layer: 0
   m_Name: CategoryButton
   m_TagString: Untagged
@@ -57932,7 +57979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -57975,6 +58022,28 @@ MonoBehaviour:
           m_StringArgument: Trinket
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5014567661863743324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672415952996286676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 0}
+  keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
+  isPauseButton: 0
+  isDisabled: 0
+  ignoreColor: 1
+  isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!1 &5673706409833472151
 GameObject:
   m_ObjectHideFlags: 0
@@ -58528,6 +58597,7 @@ GameObject:
   - component: {fileID: 7016618073927237374}
   - component: {fileID: 5174694779452333087}
   - component: {fileID: 6275068557108589257}
+  - component: {fileID: 1027797695194345415}
   m_Layer: 0
   m_Name: CategoryButton
   m_TagString: Untagged
@@ -58576,7 +58646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -58619,6 +58689,28 @@ MonoBehaviour:
           m_StringArgument: Misc
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1027797695194345415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5745652330022863690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 0}
+  keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
+  isPauseButton: 0
+  isDisabled: 0
+  ignoreColor: 1
+  isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!1 &5758922882113657031
 GameObject:
   m_ObjectHideFlags: 0
@@ -58954,6 +59046,7 @@ GameObject:
   - component: {fileID: 5941095053723472267}
   - component: {fileID: 2112294977407782045}
   - component: {fileID: 7426756332329594409}
+  - component: {fileID: 4291980853707591734}
   m_Layer: 0
   m_Name: CategoryButton
   m_TagString: Untagged
@@ -59002,7 +59095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -59045,6 +59138,28 @@ MonoBehaviour:
           m_StringArgument: Structure
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4291980853707591734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5796815175842995605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 0}
+  keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
+  isPauseButton: 0
+  isDisabled: 0
+  ignoreColor: 1
+  isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!1 &5810251251743307164
 GameObject:
   m_ObjectHideFlags: 0
