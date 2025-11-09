@@ -231,7 +231,7 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public virtual void FogTeleport(){}
 
-    public virtual void NearLaventLeaf(Vector3 pos){}
+    public virtual void NearLaventLeaf(GameObject laventObject){}
 
     public StructureBehaviorScript CheckForObstacle(Transform checkTransform) // consider instead doing a physics inside sphere check instead, so creatures dont need to be looking directly at the obstacle
     {

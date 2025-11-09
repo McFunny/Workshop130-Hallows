@@ -12,6 +12,8 @@ public class MillerNPC : NPC, ITalkable
 
     public InventoryItemData hogPen;
 
+    public PopupScript millerHasPenPopup;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -181,6 +183,12 @@ public class MillerNPC : NPC, ITalkable
             lastInteractedStoreItem = null;
         }
         shopUI.shopImgObj.SetActive(false);
+    }
+
+    protected override void HourUpdate()
+    {
+        base.HourUpdate();
+        if(TimeManager.Instance.currentHour == 9 && !GameSaveData.Instance.mil_gavePen && GameSaveData.Instance.townTreeCleared2) PopupHandler.Instance.AddToQueue(millerHasPenPopup);
     }
 
     public override bool ExclamationCheck()

@@ -380,7 +380,7 @@ public class RubyWasp : CreatureBehaviorScript
         else successful = false;
     }
 
-    public override void NearLaventLeaf(Vector3 pos)
+    public override void NearLaventLeaf(GameObject laventObject)
     {
         if(currentState == CreatureState.Flee) return;
         if(currentState == CreatureState.Stuck)

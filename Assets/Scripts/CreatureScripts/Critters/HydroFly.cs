@@ -375,10 +375,10 @@ public class HydroFly : CritterBehaviorScript
         }
     }
 
-    public override void NearLaventLeaf(Vector3 pos)
+    public override void NearLaventLeaf(GameObject laventObject)
     {
         if(currentState == CritterState.Flee) return;
-        fearedObjectPosition = pos;
+        fearedObjectPosition = laventObject.transform.position;
         fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
         agent.destination = fleeToPos;
         fearObject.SetActive(true);

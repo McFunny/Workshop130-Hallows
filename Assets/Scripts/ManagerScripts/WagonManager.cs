@@ -13,6 +13,8 @@ public class WagonManager : MonoBehaviour
 
     public bool wagonDestroyed = false;
 
+    public int daysToRepair = -1;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -26,17 +28,38 @@ public class WagonManager : MonoBehaviour
     void Start()
     {
         WildernessManager.OnWildernessLeave += LeaveWilderness;
+        TimeManager.OnHourlyUpdate += HourUpdate;
     }
 
     void OnDestroy()
     {
         WildernessManager.OnWildernessLeave -= LeaveWilderness;
+        TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
+    void HourUpdate()
+    {
+        if(TimeManager.Instance.currentHour == 8)
+        {
+            if(farmWagon.gameObject.activeSelf == false && GameSaveData.Instance.playerWagonUnlocked) farmWagon.gameObject.SetActive(true);
+
+            if(daysToRepair > 0)
+            {
+                daysToRepair--;
+                if(daysToRepair == 0)
+                {
+                    daysToRepair = 0;
+                    wagonDestroyed = false;
+                    wagonHealth = maxWagonHealth;
+                }
+            }
+        }
     }
 
     public void WagonHealthChange(float amount)
     {
         if(amount <= 0 && wagonHealth <= 0) return;
-        
+
         wagonHealth += amount;
 
         if(wagonHealth < 0) wagonHealth = 0;

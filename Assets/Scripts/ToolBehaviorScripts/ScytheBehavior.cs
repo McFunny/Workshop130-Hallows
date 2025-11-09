@@ -38,6 +38,7 @@ public class ScytheBehavior : ToolBehavior
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUseWithoutMovementReset(this, 0.6f * coolDownMod, 2f * coolDownMod));
+        if(HandItemManager.Instance.scytheTrail) HandItemManager.Instance.scytheTrail.emitting = true;
     }
 
     public override void ItemUsed()

@@ -40124,6 +40124,7 @@ MonoBehaviour:
   player: {fileID: 0}
   allColliders: []
   corpseParticleTransform: {fileID: 7939875988728604726}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 3
   rb: {fileID: 8843730177484834126}
   anim: {fileID: 409113323032185492}
@@ -40199,7 +40200,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 3
-  MaxDistance: 20
+  MaxDistance: 40
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -40291,6 +40292,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 8193948259905518215}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
