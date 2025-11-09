@@ -62,6 +62,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public LayerMask interactionLayers;
     private bool ltCanPress = false;
+    private bool interactWithEmptyHand = false;
 
     [HideInInspector] public bool gameOver;
 
@@ -98,7 +99,7 @@ public class PlayerInteraction : MonoBehaviour
         playerInventoryHolder = GetComponent<PlayerInventoryHolder>();
         playerEffects = GetComponent<PlayerEffectsHandler>();
         rb = GetComponent<Rigidbody>();
-
+        UpdateSettings();
         StartCoroutine(WakeUp());
     }
 
@@ -110,6 +111,7 @@ public class PlayerInteraction : MonoBehaviour
         controlManager.interactWithItem.action.started += OnInteractWithItem;
         //SPACE INTERACTS WITH A STRUCTURE WITHOUT USING AN ITEM, EX: HARVESTING A CROP
         controlManager.interactWithoutItem.action.started += InteractWithoutItem;
+        SettingsValueManager.OnSettingsChanged += UpdateSettings;
     }
 
     private void OnDisable()
@@ -117,6 +119,7 @@ public class PlayerInteraction : MonoBehaviour
         controlManager.useHeldItem.action.started -= UseHeldItem;
         controlManager.interactWithItem.action.started -= OnInteractWithItem;
         controlManager.interactWithoutItem.action.started -= InteractWithoutItem;
+        SettingsValueManager.OnSettingsChanged -= UpdateSettings;
     }
 
     // Update is called once per frame
@@ -322,16 +325,17 @@ public class PlayerInteraction : MonoBehaviour
         InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
         if(item == null)
         {
-            //return; // Replace this with the setting bool check
-
-            /////THIS IS TO TEST HAVING LEFT CLICK FUNCTION AS SPACE IF HAND IS EMPTY///////////
-            if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory|| PlayerMovement.isCodexOpen)
+            if (interactWithEmptyHand && !ControlManager.isController)
             {
-                if(DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
-                return;
-            }
-            InteractWithObject();
-            ////////////////////////////////////////////////////////////////////////////////////
+                /////THIS IS TO TEST HAVING LEFT CLICK FUNCTION AS SPACE IF HAND IS EMPTY///////////
+                if (PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen)
+                {
+                    if (DialogueController.Instance) DialogueController.Instance.AdvanceDialogue();
+                    return;
+                }
+                InteractWithObject();
+                ////////////////////////////////////////////////////////////////////////////////////
+            }  
             return;
         }
 
@@ -678,10 +682,10 @@ public class PlayerInteraction : MonoBehaviour
         isTripped = true;
         PlayerMovement.restrictMovementTokens++;
         PlayerMovement.limitMaxVelocity = false;
-        if(addKnockback) GetComponent<PlayerMovement>().ApplyForceToPlayer(2000, PlayerInteraction.Instance.mainCam.transform.TransformDirection(-Vector3.forward));
+        if (addKnockback) GetComponent<PlayerMovement>().ApplyForceToPlayer(2000, PlayerInteraction.Instance.mainCam.transform.TransformDirection(-Vector3.forward));
         cameraPos.DOMoveY(cameraPos.position.y + 1, 0.15f); //Move up
 
-        if(addKnockback) PlayerCam.Instance.NewObjectOfInterest(trippedFocalPoint.position);
+        if (addKnockback) PlayerCam.Instance.NewObjectOfInterest(trippedFocalPoint.position);
         yield return new WaitForSeconds(.15f);
 
         cameraPos.DOMoveY(cameraPos.position.y - 2.5f, 0.25f); //Move Down
@@ -690,13 +694,21 @@ public class PlayerInteraction : MonoBehaviour
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         yield return new WaitForSeconds(.50f);
         PlayerMovement.limitMaxVelocity = true;
-        if(stamina <= 0) yield return new WaitForSeconds(3f); //Death extra time
+        if (stamina <= 0) yield return new WaitForSeconds(3f); //Death extra time
 
         cameraPos.DOMoveY(cameraPos.position.y + 1.5f, 0.75f); //Stand back up
         yield return new WaitForSeconds(0.75f);
         PlayerCam.Instance.ClearObjectOfInterest();
         isTripped = false;
         PlayerMovement.restrictMovementTokens--;
+    }
+    
+    private void UpdateSettings()
+    {
+        var prefs = PlayerPrefs.GetInt("EmptyHand", 0);
+
+        if (prefs == 0) interactWithEmptyHand = false;
+        else interactWithEmptyHand = true;
     }
 
 
