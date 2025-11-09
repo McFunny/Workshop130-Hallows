@@ -401,7 +401,7 @@ public class PyreFly : CreatureBehaviorScript
 
     void Flee()
     {
-        if(Vector3.Distance(transform.position, fearedObjectPosition) > 8)
+        if(Vector3.Distance(transform.position, fearedObjectPosition) > 10)
         {
             fearedObjectPosition = Vector3.zero;
             targetStructure = null;
@@ -599,10 +599,10 @@ public class PyreFly : CreatureBehaviorScript
         IgnitionToggle(false);
     }
 
-    public override void NearLaventLeaf(Vector3 pos)
+    public override void NearLaventLeaf(GameObject laventObject)
     {
         if(currentState == CreatureState.Flee) return;
-        fearedObjectPosition = pos;
+        fearedObjectPosition = laventObject.transform.position;
         fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
         agent.destination = fleeToPos;
         fearObject.SetActive(true);

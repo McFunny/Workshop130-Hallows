@@ -384,7 +384,7 @@ public class CombatConstruct : CreatureBehaviorScript
         effectsHandler.MiscSound(); 
         recoilTimeLeft = Random.Range(0.5f, 1f);
         Vector3 dir = (transform.position - source).normalized;
-        rb.AddForce(dir * Random.Range(50, 80), ForceMode.Impulse);
+        rb.AddForce(dir * Random.Range(90, 110), ForceMode.Impulse);
 
         if(currentState == CreatureState.Wander || currentState == CreatureState.Recoil)
         {

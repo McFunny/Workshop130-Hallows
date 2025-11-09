@@ -32,6 +32,29 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
         {
             InsertItem(rockItem);
         }
+        StartCoroutine(LateStart());
+    }
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(1);
+
+        //Grab the top structure
+        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, 1, 1 << 6);
+        foreach(Collider collider in nearbyColliders)
+        {
+            StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+
+            if(structure && structure != this)
+            {
+                if(structure.structData == structData)
+                {
+                    savedItems.Clear();
+                    Destroy(gameObject); //Duplicate tile
+                    yield break;
+                }
+            }
+        }
     }
 
     public override void ToolInteraction(ToolType type, out bool success)

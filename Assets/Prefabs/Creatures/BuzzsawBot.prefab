@@ -177,6 +177,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 8858737975791595055}
   corpseParticleTransform: {fileID: 6069728346836598901}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 3
   rb: {fileID: 5237795084871633998}
   anim: {fileID: 0}
@@ -228,7 +229,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 3
-  MaxDistance: 15
+  MaxDistance: 25
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -320,6 +321,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
