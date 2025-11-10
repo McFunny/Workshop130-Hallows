@@ -568,6 +568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2785113571293212450}
+  audioScript: {fileID: 0}
 --- !u!114 &2746970947097128294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,6 +586,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 8300000, guid: f8ecaea00208a5742a68fc5f1c88d97d, type: 3}
   idleSound2: {fileID: 8300000, guid: c1e7172a544ca2046972e2f88a008e39, type: 3}
@@ -793,7 +795,7 @@ NavMeshAgent:
   m_AngularSpeed: 280
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: -0.1
@@ -922,6 +924,9 @@ MonoBehaviour:
   r: {fileID: 7951305276581643515}
   chargeParticles: {fileID: 369293149087220636}
   dashParticles: {fileID: 4302005528072299436}
+  walkSpeed: 4
+  runSpeed: 8
+  chargeSpeed: 14
   exhaustL: {fileID: 0}
   exhaustR: {fileID: 0}
   thrusterParticles: {fileID: 0}

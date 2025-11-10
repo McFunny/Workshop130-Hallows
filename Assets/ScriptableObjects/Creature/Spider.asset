@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e14c53294b14d418d174be0feefd90, type: 3}
+  m_Name: Spider
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 6074865961531386278, guid: 6f2a0202391f2504db94ba820c270f8d,
+    type: 3}
+  corruptedPrefab: {fileID: 0}
+  creatureVariants: []
+  health: 0
+  position:
+  - 0
+  - 0
+  - 0
+  id: 27
+  dangerCost: 1
+  dangerThreshold: 0
+  spawnWeight: 8
+  spawnCap: 15
+  spawnCapPerHour: 4
+  wealthPrerequisite: 2500
+  siegePrerequisite: 1
+  contribuiteToCreatureCap: 0
+  amountKilled: 3
+  hasSpawned: 1
+  excludeFromNormalNights: 0
+  canSpawnBehindCabin: 1
+  spawnType: 2
+  spawnChance_w: 0
+  mintWorth: 1
+  data:
+    Name: 
+    Id: -1
+    health: 0
+    position:
+    - 0
+    - 0
+    - 0

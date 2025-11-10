@@ -9,10 +9,13 @@ using UnityEngine.Events;
 public class PlayerInteraction : MonoBehaviour
 {
     public delegate void AttackedCreature(CreatureBehaviorScript c);
-    public static event AttackedCreature OnPlayerAttack; //Unity Event that will listeners when the player physically attacks an enemy
+    public static event AttackedCreature OnPlayerAttack; //Unity Event that will tell listeners when the player physically attacks an enemy
 
+    public delegate void UseTool();
+    public static event UseTool OnToolUse; //Unity Event that will tell listeners when the player TRIES to use primary of a tool
+    
     public delegate void TakenDamage(float damage);
-    public static event TakenDamage OnPlayerDamaged; //Unity Event that will listeners when the player physically attacks an enemy
+    public static event TakenDamage OnPlayerDamaged; //Unity Event that will tell listeners when the player physically attacks an enemy
 
     public Camera mainCam;
 
@@ -339,6 +342,7 @@ public class PlayerInteraction : MonoBehaviour
         ToolItem t_item = item as ToolItem;
         if (t_item)
         {
+            OnToolUse.Invoke();
             t_item.PrimaryUse(mainCam.transform);
             return;
         }

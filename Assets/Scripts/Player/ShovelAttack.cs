@@ -138,7 +138,9 @@ public class ShovelAttack : MonoBehaviour
 
         if(hitStructure)
         {
-            hitStructure.TakeDamage(2);
+            float damage = 2;
+            if(chargedSwing) damage = 5;
+            hitStructure.TakeDamage(damage);
             if(hitStructure.structData.structureType == StructureType.Null || hitStructure.structData.structureType == StructureType.Hay || hitStructure.structData.structureType == StructureType.CorruptedFlesh) 
             HandItemManager.Instance.toolSource.PlayOneShot(hitHay);
             else HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);

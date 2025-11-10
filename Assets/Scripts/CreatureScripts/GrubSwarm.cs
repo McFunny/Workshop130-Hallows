@@ -37,7 +37,16 @@ public class GrubSwarm : CreatureBehaviorScript
         GatherNewTargets();
         while(grubs.Count > 0)
         {
-            yield return new WaitForSeconds(Random.Range(10, 20));
+            yield return new WaitForSeconds(Random.Range(4, 7));
+            for(int i = 0; i < swarmTargets.Count; ++i)
+            {
+                if(swarmTargets[i] == null)
+                {
+                    swarmTargets.RemoveAt(i);
+                    --i;
+                }
+            }
+
             if(swarmTargets.Count == 0) GatherNewTargets();
         }
         Destroy(gameObject);

@@ -118,6 +118,8 @@ public class MistWalker : CreatureBehaviorScript
             }
         }
 
+        if(Random.Range(0,10) > 1) anim.SetBool("AltWalk", true);
+
         if(MainMenuScript.currentFileMode == FileMode.Cozy) canLunge = false;
 
         //if(!inWilderness && Random.Range(0,5) > 2) currentState = CreatureState.WalkTowardsClosestStructure; //causing issues I think
@@ -587,21 +589,26 @@ public class MistWalker : CreatureBehaviorScript
 
         recoilCooldown = true;
         //anim.SetTrigger("IsLunging");
-        anim.Play("MistLunge", -1, 0);
+        if(variant == Variant.Corrupted) anim.Play("MistFeral", -1, 0);
+        else anim.Play("MistLunge", -1, 0);
         canLunge = false;
 
         effectsHandler.MiscSound();
 
-        yield return new WaitForSeconds(0.75f); 
+        if(variant == Variant.Corrupted) yield return new WaitForSeconds(0.45f); 
+        else yield return new WaitForSeconds(0.75f); 
 
        
         if(currentState != CreatureState.Stun)
         {
             Vector3 lungeDirection = (player.position - transform.position).normalized;
-            agent.velocity = lungeDirection * 20f; //better lunge
+            float lungeBoost = 20;
+            if(variant == Variant.Corrupted) lungeBoost += 10;
+            agent.velocity = lungeDirection * lungeBoost; //better lunge
         }
 
-        yield return new WaitForSeconds(0.5f);
+        if(variant == Variant.Corrupted) yield return new WaitForSeconds(0.35f); 
+        else yield return new WaitForSeconds(0.5f);
 
         attackingPlayer = false;
         agent.velocity = Vector3.zero;
@@ -613,7 +620,8 @@ public class MistWalker : CreatureBehaviorScript
         }
         else
         {
-            yield return new WaitForSeconds(0.5f);
+            if(variant == Variant.Corrupted) yield return new WaitForSeconds(1.75f); 
+            else yield return new WaitForSeconds(0.5f);
             if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsPlayer;
             coroutineRunning = false;
             recoilCooldown = false;
@@ -863,6 +871,8 @@ public class MistWalker : CreatureBehaviorScript
 
     public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
     {
+        successful = false;
+        if(variant == Variant.Corrupted) return;
         fireSource = _fireSource;
         successful = true;
     }

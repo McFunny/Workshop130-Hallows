@@ -626,6 +626,8 @@ public class VileHog : CreatureBehaviorScript
                     recoilTime = 2.5f;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     isCharging = false;
+                    agent.ResetPath();
+                    agent.speed = 0;
                 }
                 else if(structure.health <= (damageToStructure + extraDamage)) //Broke it
                 {
@@ -642,6 +644,8 @@ public class VileHog : CreatureBehaviorScript
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     recoilTime = 2.5f;
                     isCharging = false;
+                    agent.ResetPath();
+                    agent.speed = 0;
                 }
 
                 if(variant == Variant.Corrupted && Random.Range(0,10) > 2) CorruptionExplosion();

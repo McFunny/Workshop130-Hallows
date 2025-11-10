@@ -31,6 +31,7 @@ public class Grub : CreatureBehaviorScript
     public CropData foxgloveData;
     
     List<GameObject> nearbyLavent = new List<GameObject>();
+    public ParticleSystem laventParticles;
 
     ///////////// Miner Variables///////////
     public GameObject model;
@@ -188,7 +189,7 @@ public class Grub : CreatureBehaviorScript
                 Vector3 randomPoint;
                 if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
                 else randomPoint = PointAroundPatrolPoint(7);
-                StartCoroutine(MoveToPoint(randomPoint, Random.Range(6f, 15f)));
+                StartCoroutine(MoveToPoint(randomPoint, Random.Range(4f, 7f)));
             }
 
             else if(currentState == CreatureState.AttackStructure) ///Attacking Structure
@@ -199,7 +200,7 @@ public class Grub : CreatureBehaviorScript
                     currentState = CreatureState.Wander;
                     return;
                 }
-                StartCoroutine(MoveToPoint(targetStructure.transform.position, 5));
+                StartCoroutine(MoveToPoint(targetStructure.transform.position, 3));
 
                 if(Vector3.Distance(transform.position, targetStructure.transform.position) < 1.8f) interruptAction = true;
             }
@@ -420,6 +421,7 @@ public class Grub : CreatureBehaviorScript
         List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
         foreach (var structure in structManager.allStructs)
         {
+            if(!structure) continue;
             FarmLand tile = structure as FarmLand;
             distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
             if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && distanceToStructure < closestDistance && (!tile || (tile.crop && !tile.isWeed)))
@@ -509,7 +511,12 @@ public class Grub : CreatureBehaviorScript
                     nearbyLavent.RemoveAt(i);
                     i--;
                 }
-                else TakeDamage(2);
+                else
+                {
+                    TakeDamage(2);
+                    effectsHandler.MiscSound3();
+                    laventParticles.Play();
+                }
             }
         }
     }
