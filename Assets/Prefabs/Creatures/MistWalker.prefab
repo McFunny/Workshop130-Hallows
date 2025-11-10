@@ -6485,6 +6485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2215828228040180568}
+  audioScript: {fileID: 0}
 --- !u!114 &535665097273015830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6502,6 +6503,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 8300000, guid: 4ed83a296ee46a14382f4610b6328685, type: 3}
   idleSound2: {fileID: 8300000, guid: 45f89710a684633408759ec66332605e, type: 3}
@@ -8709,24 +8711,20 @@ MonoBehaviour:
   anim: {fileID: 7086865256813604448}
   droppedItems:
   - {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
-  - {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
-  - {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
   - {fileID: 11400000, guid: d06fed8a2ed642746af8ec6d863c5b72, type: 2}
   - {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
-  - {fileID: 11400000, guid: 38444ddad24ab25498022b6c407d9d92, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  - {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
   dropChance:
-  - 0.25
-  - 0.25
-  - 0.5
-  - 0.25
   - 0.5
   - 0.5
+  - 0.7
   - 10
-  - 5
-  - 5
+  - 0.5
+  - 0.5
+  - 0.3
   sightRange: 20
   attackRange: 5
   playerInSightRange: 0

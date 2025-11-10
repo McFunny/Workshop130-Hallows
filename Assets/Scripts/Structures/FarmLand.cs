@@ -40,6 +40,7 @@ public class FarmLand : StructureBehaviorScript
     public VisualEffect growth, growthComplete, growthImpeded, waterSplash, ichorSplash;
     public GameObject splashObject; //extra particles
     public TextMeshProUGUI supportText;
+    public GameObject laventSource;
 
     public TextMeshProUGUI harvestText;
     [SerializeField] private CropNeedsUI cropNeedsUI;

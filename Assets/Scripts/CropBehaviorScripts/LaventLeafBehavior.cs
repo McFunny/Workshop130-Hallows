@@ -5,6 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Crop Behavior", menuName = "Crop Behavior/LaventLeaf")]
 public class LaventLeafBehavior : CropBehavior
 {
+    public override void OnCropAwake(FarmLand tile)
+    {
+        tile.laventSource.SetActive(true);
+    }
+
+    public override void OnCropDestroyed(FarmLand tile)
+    {
+        tile.laventSource.SetActive(false);
+    }
+
     public override void BehaviorUpdate(FarmLand tile)
     {
         float range = 1.5f;
@@ -17,7 +27,7 @@ public class LaventLeafBehavior : CropBehavior
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null)
             {
-                creature.NearLaventLeaf(tile.transform.position);
+                creature.NearLaventLeaf(tile.laventSource);
             }
         }
 

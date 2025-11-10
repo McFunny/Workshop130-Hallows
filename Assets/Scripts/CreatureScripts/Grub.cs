@@ -29,6 +29,8 @@ public class Grub : CreatureBehaviorScript
     bool stunnedByFire, stunCooldown;
 
     public CropData foxgloveData;
+    
+    List<GameObject> nearbyLavent = new List<GameObject>();
 
     ///////////// Miner Variables///////////
     public GameObject model;
@@ -93,6 +95,7 @@ public class Grub : CreatureBehaviorScript
         }
 
         StartCoroutine(ScanForTargets());
+        StartCoroutine(LaventEffects());
 
         agent.speed += Random.Range(-0.5f, 0.25f);
     }
@@ -477,6 +480,38 @@ public class Grub : CreatureBehaviorScript
         if(stunCooldown || currentState == CreatureState.Burrowing) return;
         StartCoroutine(FireStun());
         successful = true;
+    }
+
+    public override void NearLaventLeaf(GameObject laventObject)
+    {
+        if(!nearbyLavent.Contains(laventObject))
+        {
+            nearbyLavent.Add(laventObject);
+        }
+        /*
+        if(currentState == CreatureState.Flee) return;
+        fearedObjectPosition = pos;
+        fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
+        agent.destination = fleeToPos;
+        fearObject.SetActive(true);
+        */
+    }
+
+    IEnumerator LaventEffects()
+    {
+        while(health > 0)
+        {
+            yield return new WaitForSeconds(1);
+            for(int i = 0; i < nearbyLavent.Count; i++)
+            {
+                if(!nearbyLavent[i] || nearbyLavent[i].activeSelf == false)
+                {
+                    nearbyLavent.RemoveAt(i);
+                    i--;
+                }
+                else TakeDamage(2);
+            }
+        }
     }
 
     void OnDestroy()

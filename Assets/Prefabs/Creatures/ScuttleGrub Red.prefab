@@ -460,10 +460,11 @@ MonoBehaviour:
   actionSpeedMod: 1
   hitColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.1764706}
   currentEffects: []
+  variant: 0
   agent: {fileID: 0}
   modelPivot: {fileID: 3610090612615533351}
   homeSwarm: {fileID: 0}
-  fearObject: {fileID: 0}
+  fearObject: {fileID: 3963428224700203171}
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
   - {fileID: 11400000, guid: 79a49544904620c4986a1d7900c94604, type: 2}
@@ -474,6 +475,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3fe873b04a6c99442b65e4e64611eb34, type: 2}
   - {fileID: 11400000, guid: de0fd22b4d293114397868fe16a45b97, type: 2}
   foxgloveData: {fileID: 11400000, guid: e7f84fbc95567f84e8d00919f4781bf9, type: 2}
+  model: {fileID: 0}
+  burrowingParticles: {fileID: 0}
+  burrow: {fileID: 0}
   currentState: 0
 --- !u!1 &3967047667314961140
 GameObject:
@@ -5831,6 +5835,12 @@ PrefabInstance:
 --- !u!4 &522840014690795908 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8709384083807015817, guid: 704f8890dcc419e40ba848dd2e201972,
+    type: 3}
+  m_PrefabInstance: {fileID: 9195350532750004749}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3963428224700203171 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5232231069020852910, guid: 704f8890dcc419e40ba848dd2e201972,
     type: 3}
   m_PrefabInstance: {fileID: 9195350532750004749}
   m_PrefabAsset: {fileID: 0}

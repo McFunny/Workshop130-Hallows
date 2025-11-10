@@ -26,10 +26,6 @@ public class GameSaveData : MonoBehaviour
 
     public int hourSaved = 8;
 
-    [Header("Wagon Variables")]
-    public float wagonHealth;
-    public float wagonMaxHealth;
-
     [Header("Player Upgrade Variables. All must be false when building")]
     public bool gainedInventoryUpgrade = false;
     public bool gainedWaterStorage = false;
@@ -68,6 +64,7 @@ public class GameSaveData : MonoBehaviour
     public bool mm_soldPet; //Player got their first pet from the merchant
     public bool tra_askedForFood; //Traveller offered kukri for food
     public bool mil_gavePen; // Miller gave the player a hog pen after they cleared the barn
+    public bool playerWagonUnlocked; // Player repaired the broken wagon in the barn
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin blocking barn
@@ -138,6 +135,7 @@ public class GameSaveData : MonoBehaviour
 
         WagonManager.Instance.wagonHealth = data.allGameSaveData.wagonHealth;
         WagonManager.Instance.maxWagonHealth = data.allGameSaveData.maxWagonHealth;
+        WagonManager.Instance.daysToRepair = data.allGameSaveData.daysToRepairWagon;
 
 
         switch(data.allGameSaveData.gameMode)
@@ -205,6 +203,7 @@ public class GameSaveData : MonoBehaviour
         mm_introducedPets = data.allGameSaveData.mm_introducedPets;
         tra_askedForFood = data.allGameSaveData.tra_askedForFood;
         mil_gavePen = data.allGameSaveData.mil_gavePen;
+        playerWagonUnlocked = data.allGameSaveData.playerWagonUnlocked;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -270,6 +269,7 @@ public class GameSaveData : MonoBehaviour
 
         public float wagonHealth;
         public float maxWagonHealth;
+        public int daysToRepairWagon;
 
         public bool gainedInventoryUpgrade;
         public bool gainedWaterStorage;
@@ -329,6 +329,7 @@ public class GameSaveData : MonoBehaviour
         public bool mm_introducedPets;
         public bool tra_askedForFood;
         public bool mil_gavePen;
+        public bool playerWagonUnlocked;
 
         public int siegesCleared;
         public bool siegeCropInHand; //
@@ -360,6 +361,7 @@ public class GameSaveData : MonoBehaviour
 
         wagonHealth = WagonManager.Instance.wagonHealth;
         maxWagonHealth = WagonManager.Instance.maxWagonHealth;
+        daysToRepairWagon = WagonManager.Instance.daysToRepair;
 
         
 
@@ -424,6 +426,7 @@ public class GameSaveData : MonoBehaviour
         mm_introducedPets = data.mm_introducedPets;
         tra_askedForFood = data.tra_askedForFood;
         mil_gavePen = data.mil_gavePen;
+        playerWagonUnlocked = data.playerWagonUnlocked;
 
         siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;
