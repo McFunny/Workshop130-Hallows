@@ -399,7 +399,8 @@ public class Spider : CreatureBehaviorScript
         bool canPlaceDen = false;
         bool canPlaceCocoon = false;
         Vector3 denSpawn = StructureManager.Instance.CheckLargeTile(transform.position);
-        if(denSpawn != Vector3.zero) 
+        Vector3 cocoonSpawn = StructureManager.Instance.GetTileCenter(transform.position);
+        if(denSpawn != Vector3.zero || cocoonSpawn != Vector3.zero) 
         {
             if(CanPlaceDen()) canPlaceDen = true;
             else if(CanPlaceCocoon()) canPlaceCocoon = true;
@@ -418,10 +419,13 @@ public class Spider : CreatureBehaviorScript
             if(playerInSightRange) timeElapsed += 0.3f;
         }
 
-        if(!playerInSightRange && denSpawn != Vector3.zero) 
+        denSpawn = StructureManager.Instance.CheckLargeTile(transform.position); //Have to check again in case of obstruction
+        cocoonSpawn = StructureManager.Instance.GetTileCenter(transform.position);
+
+        if(!playerInSightRange && (denSpawn != Vector3.zero || cocoonSpawn != Vector3.zero) ) 
         {
             if(canPlaceDen) StructureManager.Instance.SpawnStructure(denData.objectPrefab, denSpawn);
-            if(canPlaceCocoon) StructureManager.Instance.SpawnStructure(cocoonData.objectPrefab, denSpawn);
+            if(canPlaceCocoon) StructureManager.Instance.SpawnStructure(cocoonData.objectPrefab, cocoonSpawn);
         }
 
         if(currentState == CreatureState.Idle)

@@ -64,6 +64,7 @@ public class GameSaveData : MonoBehaviour
     public bool mm_soldPet; //Player got their first pet from the merchant
     public bool tra_askedForFood; //Traveller offered kukri for food
     public bool mil_gavePen; // Miller gave the player a hog pen after they cleared the barn
+    public bool playerWagonFound; // Player found the broken wagon in the barn
     public bool playerWagonUnlocked; // Player repaired the broken wagon in the barn
 
     public bool townTreeCleared1; //Tree by bridge
@@ -204,6 +205,7 @@ public class GameSaveData : MonoBehaviour
         tra_askedForFood = data.allGameSaveData.tra_askedForFood;
         mil_gavePen = data.allGameSaveData.mil_gavePen;
         playerWagonUnlocked = data.allGameSaveData.playerWagonUnlocked;
+        playerWagonFound = data.allGameSaveData.playerWagonFound;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -330,6 +332,7 @@ public class GameSaveData : MonoBehaviour
         public bool tra_askedForFood;
         public bool mil_gavePen;
         public bool playerWagonUnlocked;
+        public bool playerWagonFound;
 
         public int siegesCleared;
         public bool siegeCropInHand; //
@@ -427,6 +430,7 @@ public class GameSaveData : MonoBehaviour
         tra_askedForFood = data.tra_askedForFood;
         mil_gavePen = data.mil_gavePen;
         playerWagonUnlocked = data.playerWagonUnlocked;
+        playerWagonFound = data.playerWagonFound;
 
         siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;

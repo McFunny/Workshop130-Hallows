@@ -44,6 +44,7 @@ public class NightSpawningManager : MonoBehaviour
     bool eventOccured = false; //only 1 per night
 
     public NightPoolObject currentSpawnPool;
+    bool forceCorruptedSpawns;
 
     public PopupScript firstNightWarning;
 
@@ -85,6 +86,7 @@ public class NightSpawningManager : MonoBehaviour
             selectedCreatures.Clear();
             eventOccured = false;
             currentSpawnPool = null;
+            forceCorruptedSpawns = false;
             return;
         }
 
@@ -218,7 +220,7 @@ public class NightSpawningManager : MonoBehaviour
             //if(c.forceSpawnVariant) p = 0;
 
             //Code to spawn corrupted variant
-            if(c.corruptedPrefab && GameSaveData.Instance.siegesCleared > 1 && Random.Range(0,100) < CorruptionManager.Instance.CorruptedSpawnMod()) prefab = c.corruptedPrefab;
+            if(c.corruptedPrefab && ((GameSaveData.Instance.siegesCleared > 1 && Random.Range(0,100) < CorruptionManager.Instance.CorruptedSpawnMod()) || forceCorruptedSpawns)) prefab = c.corruptedPrefab;
 
             //New Logic
             if(prefab == null)
@@ -450,6 +452,7 @@ public class NightSpawningManager : MonoBehaviour
         {
             selectedCreatures = currentSpawnPool.creatures.ToList();
             selectedFillerCreatures = currentSpawnPool.creatures.ToList();
+            forceCorruptedSpawns = currentSpawnPool.forceCorrupted;
             return;
         }
 
