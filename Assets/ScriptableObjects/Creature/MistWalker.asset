@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 6507201721181545267, guid: 9bada7e4223709b40a5f5694c13b7505,
     type: 3}
-  corruptedPrefab: {fileID: 0}
+  corruptedPrefab: {fileID: 4374146570455700657, guid: d6efb0d271c14a04c9e7692224c67678,
+    type: 3}
   creatureVariants:
   - name: MistRunner
     prefab: {fileID: 9182699557056190295, guid: ca18cbf2d6513bd48b28d588bd39fa95,
@@ -38,7 +39,18 @@ MonoBehaviour:
     variantChanceInFarm:
     - _int: 0
       _probability: 1
-  health: 100
+  - name: CorruptedWalker
+    prefab: {fileID: 4374146570455700657, guid: d6efb0d271c14a04c9e7692224c67678,
+      type: 3}
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 9999
+    variantChanceInFarm:
+    - _int: 2
+      _probability: 3
+    - _int: 3
+      _probability: 5
+  health: 0
   position:
   - 0
   - 0

@@ -124,7 +124,7 @@ public class BulletScript : MonoBehaviour
             }
         }
 
-        if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
+        if(other.gameObject.layer == 0 || other.gameObject.layer == 7 || other.gameObject.layer == 19)
         {
             HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
             print("Missed");
@@ -134,6 +134,7 @@ public class BulletScript : MonoBehaviour
             if(particles) particles.transform.position = transform.position;
 
             if(!fireBullet) ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
+            else ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = transform.position;
             gameObject.SetActive(false);
             return;
         }

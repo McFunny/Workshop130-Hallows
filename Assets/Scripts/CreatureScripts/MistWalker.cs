@@ -45,6 +45,8 @@ public class MistWalker : CreatureBehaviorScript
     public List<GameObject> foggedWalkers = new List<GameObject>();
     public GameObject foggedWalkerPrefab;
 
+    public ParticleSystem feralLungeParticles;
+
     public enum CreatureState
     {
         SpawnIn,
@@ -620,7 +622,11 @@ public class MistWalker : CreatureBehaviorScript
         }
         else
         {
-            if(variant == Variant.Corrupted) yield return new WaitForSeconds(1.75f); 
+            if(variant == Variant.Corrupted)
+            {
+                feralLungeParticles.Play();
+                yield return new WaitForSeconds(1.75f); 
+            }
             else yield return new WaitForSeconds(0.5f);
             if(currentState != CreatureState.Stun) currentState = CreatureState.WalkTowardsPlayer;
             coroutineRunning = false;

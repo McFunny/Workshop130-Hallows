@@ -21,7 +21,7 @@ public class HandItemManager : MonoBehaviour
 
     public static HandItemManager Instance;
 
-    public AudioSource toolSource;
+    public AudioSource toolSource, watercanSource;
 
     public AudioClip extinguish;
 

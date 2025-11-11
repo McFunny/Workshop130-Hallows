@@ -342,7 +342,7 @@ public class PlayerInteraction : MonoBehaviour
         ToolItem t_item = item as ToolItem;
         if (t_item)
         {
-            OnToolUse.Invoke();
+            OnToolUse?.Invoke();
             t_item.PrimaryUse(mainCam.transform);
             return;
         }

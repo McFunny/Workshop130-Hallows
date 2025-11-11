@@ -23,6 +23,7 @@ public class Spider : CreatureBehaviorScript
     public GameObject fearObject;
 
     public SpiderDen homeDen;
+    public StructureObject denData, cocoonData;
 
     public List<StructureObject> targettableStructures;
     private StructureBehaviorScript targetStructure;
@@ -329,7 +330,7 @@ public class Spider : CreatureBehaviorScript
         agent.updateRotation = false;
         if(Random.Range(0,2) == 1) jumpDirection = (strafePointL.position - transform.position).normalized;
         else jumpDirection = jumpDirection = (strafePointR.position - transform.position).normalized;
-        agent.velocity = 10 * jumpDirection;
+        agent.velocity = 15 * jumpDirection;
         anim.Play("Dodge");
         yield return new WaitForSeconds(1);
         agent.velocity = Vector3.zero;
@@ -340,18 +341,89 @@ public class Spider : CreatureBehaviorScript
         dodgeCooldown = false;
     }
 
+    bool CanPlaceDen()
+    {
+        float chance = 0;
+        switch(StructureManager.Instance.TallyStructure(denData))
+        {
+            case 0:
+                chance = 18;
+                break;
+            case 1:
+                chance = 8;
+                break;
+            case 2:
+                chance = 5;
+                break;
+            case 3:
+                chance = 1;
+                break;
+            default :
+                chance = -1;
+                break;
+        }
+        if(Random.Range(0,100) < chance) return true;
+        else return false;
+    }
+
+    bool CanPlaceCocoon()
+    {
+        float chance = 0;
+        switch(StructureManager.Instance.TallyStructure(denData))
+        {
+            case 0:
+                chance = 0.5f;
+                break;
+            case 1:
+                chance = 2f;
+                break;
+            case 2:
+                chance = 4f;
+                break;
+            default :
+                chance = 8f;
+                break;
+        }
+        if(Random.Range(0f,100f) < chance) return true;
+        else return false;
+    }
+
     private IEnumerator WaitAround()
     {
         coroutineRunning = true;
-        float r = Random.Range(2f, 5f);
+        float r = Random.Range(2f, 4.5f);
         float timeElapsed = 0;
         agent.ResetPath();
+
+        //Try to make a den
+        bool canPlaceDen = false;
+        bool canPlaceCocoon = false;
+        Vector3 denSpawn = StructureManager.Instance.CheckLargeTile(transform.position);
+        if(denSpawn != Vector3.zero) 
+        {
+            if(CanPlaceDen()) canPlaceDen = true;
+            else if(CanPlaceCocoon()) canPlaceCocoon = true;
+
+            if(canPlaceDen || canPlaceCocoon)
+            {
+                yield return new WaitForSeconds(0.5f);
+                anim.Play("Dig");
+            }
+        }
+
         while(timeElapsed < r)
         {
             yield return new WaitForSeconds(0.1f);
             timeElapsed += 0.1f;
             if(playerInSightRange) timeElapsed += 0.3f;
         }
+
+        if(!playerInSightRange && denSpawn != Vector3.zero) 
+        {
+            if(canPlaceDen) StructureManager.Instance.SpawnStructure(denData.objectPrefab, denSpawn);
+            if(canPlaceCocoon) StructureManager.Instance.SpawnStructure(cocoonData.objectPrefab, denSpawn);
+        }
+
         if(currentState == CreatureState.Idle)
         {
             if(targetStructure) currentState = CreatureState.AttackStructure;
@@ -366,7 +438,14 @@ public class Spider : CreatureBehaviorScript
         //coroutineRunning = true;
         interruptAction = false;
 
-        if (TimeManager.Instance.isDay && !inWilderness) destination = despawnPos;
+        if (TimeManager.Instance.isDay && !inWilderness && currentState == CreatureState.Wander)
+        {
+            if(homeDen)
+            {
+                if(homeDen.heldSpiders < homeDen.maxSpiders && homeDen.isLarge) destination = homeDen.transform.position;
+            }
+            else destination = despawnPos;
+        } 
 
         agent.destination = destination;
 
@@ -394,6 +473,12 @@ public class Spider : CreatureBehaviorScript
     {
         if (currentState == CreatureState.Wander)
         {
+            if(TimeManager.Instance.isDay && homeDen && homeDen.heldSpiders < homeDen.maxSpiders && Vector3.Distance(transform.position, homeDen.transform.position) < 4)
+            {
+                homeDen.heldSpiders++;
+                Destroy(this.gameObject);
+                return;
+            }
             currentState = CreatureState.Idle;
         }
 
@@ -479,6 +564,9 @@ public class Spider : CreatureBehaviorScript
             CreatureBehaviorScript c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
             if(c && targettableCreatures.Contains(c.creatureData))
             {
+                Vector3 cocoonSpawn = StructureManager.Instance.GetTileCenter(c.transform.position);
+                if(cocoonSpawn != Vector3.zero) StructureManager.Instance.SpawnStructure(cocoonData.objectPrefab, cocoonSpawn);
+
                 agent.velocity = Vector3.zero;
                 c.TakeDamage(10);
                 c.PlayHitParticle(c.transform.position);
@@ -585,6 +673,16 @@ public class Spider : CreatureBehaviorScript
             {
                 availableStructure.Add(structure);
                 closestDistance = distanceToStructure;
+                continue;
+            }
+
+            if(homeDen) continue;
+
+            SpiderDen den = structure as SpiderDen;
+            if(den && !homeDen)
+            {
+                homeDen = den;
+                patrolPoint = den.transform;
             }
         }
 

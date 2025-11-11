@@ -323,6 +323,7 @@ public class WaterCanBehavior : ToolBehavior
             if(holdingPour && PlayerInteraction.Instance.waterHeld > 0) QuickPour();
         }*/
         if(pourParticles) pourParticles.Stop();
+        if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Stop();
 
         HandItemManager.Instance.StopCoroutine(chargingCoroutine);
         chargingCoroutine = null;
@@ -365,6 +366,7 @@ public class WaterCanBehavior : ToolBehavior
         holdingPour = false;
         yield return new WaitForSeconds(0.4f);
         holdingPour = true;
+        if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Play();
         HandItemManager.Instance.StartCoroutine(QuickPourRoutine());
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.8f, "WateringCan", false));
 
@@ -383,6 +385,7 @@ public class WaterCanBehavior : ToolBehavior
             //Ensure particles and code are being run only when the player is looking down
         }
         if(pourParticles) pourParticles.Stop();
+        if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Stop();
     }
 
     bool CanPour() //Checks player eyeline
@@ -391,11 +394,13 @@ public class WaterCanBehavior : ToolBehavior
         if((player.eulerAngles.x >= 25 && player.eulerAngles.x <= 90) || player.eulerAngles.x == 0) 
         {
             if(pourParticles) pourParticles.Play();
+            if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Play();
             return true;
         }
         else 
         {
             if(pourParticles) pourParticles.Stop();
+            if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Stop();
             return false;
         }
     }

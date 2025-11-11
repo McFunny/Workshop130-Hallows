@@ -13,16 +13,39 @@ public class SpiderDen : StructureBehaviorScript
     public InventoryItemData silk;
     public GameObject destructionObject;
 
+    public GameObject stage1, stage2;
+    public bool isLarge = false;
+    float chanceToGrow = 10;
+
     void Start()
     {
         OnDamage += DenHit;
         base.Start();
     }
 
+    void UpdateStage(bool grown)
+    {
+        if(isLarge == grown) return;
+
+        isLarge = grown;
+
+        if(isLarge)
+        {
+            heldSpiders = 2;
+            health = maxHealth;
+            stage1.SetActive(false);
+            stage2.SetActive(true);
+        }
+        else
+        {
+            stage1.SetActive(true);
+            stage2.SetActive(false);
+        }
+    }
+
     void OnDestroy()
     {
         OnDamage -= DenHit;
-        TimeManager.OnHourlyUpdate -= HourPassed;
         base.OnDestroy();
         if (!gameObject.scene.isLoaded || onFire) return; 
 
@@ -32,7 +55,8 @@ public class SpiderDen : StructureBehaviorScript
         GameObject droppedItem;
         Rigidbody itemRB;
         int r = Random.Range(3,6);
-        for(int i = 0; i < r; i++)
+        if(!isLarge) r = Random.Range(-1, 2);
+        for(int i = 0; i < r; ++i)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(silk);
             droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
@@ -44,11 +68,23 @@ public class SpiderDen : StructureBehaviorScript
             itemRB.AddForce(Vector3.up * 50);
         }
 
+        for(int x = 0; x < heldSpiders; ++x)
+        {
+            Instantiate(spiderData.objectPrefab, transform.position, Quaternion.identity);
+        }
+
         PlayerMovement.Instance.RemoveSpeedMod(gameObject);
     }
 
     public override void HourPassed()
     {
+        if(!isLarge)
+        {
+            if(Random.Range(0, 100) < chanceToGrow) UpdateStage(true);
+            else chanceToGrow += 33;
+            return;
+        }
+
         for(int i = 0; i < 2; ++i)
         {
             if((heldSpiders < maxSpiders || outsideSpiders < maxSpiders) && Random.Range(0,10) > 3) heldSpiders++;
@@ -69,7 +105,7 @@ public class SpiderDen : StructureBehaviorScript
 
     void DenHit()
     {
-        if(heldSpiders > 0)
+        if(heldSpiders > 0 && isLarge)
         {
             Instantiate(spiderData.objectPrefab, transform.position, Quaternion.identity).GetComponent<Spider>().homeDen = this;
             heldSpiders--;
@@ -92,5 +128,15 @@ public class SpiderDen : StructureBehaviorScript
         {
             PlayerMovement.Instance.RemoveSpeedMod(gameObject);
         }
+    }
+
+    public override void LoadVariables()
+    {
+        UpdateStage(saveBool1);
+    }
+
+    public override void SaveVariables()
+    {
+        saveBool1 = isLarge;
     }
 }
