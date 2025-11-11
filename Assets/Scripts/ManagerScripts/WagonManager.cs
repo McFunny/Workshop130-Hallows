@@ -29,12 +29,19 @@ public class WagonManager : MonoBehaviour
     {
         WildernessManager.OnWildernessLeave += LeaveWilderness;
         TimeManager.OnHourlyUpdate += HourUpdate;
+        StartCoroutine(DelayedStart());
     }
 
     void OnDestroy()
     {
         WildernessManager.OnWildernessLeave -= LeaveWilderness;
         TimeManager.OnHourlyUpdate -= HourUpdate;
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(3);
+        if(farmWagon.gameObject.activeSelf == false && GameSaveData.Instance.playerWagonUnlocked) farmWagon.gameObject.SetActive(true);
     }
 
     void HourUpdate()

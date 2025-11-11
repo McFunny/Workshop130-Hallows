@@ -36,7 +36,11 @@ public class BrokenWagonPile : MonoBehaviour, IInteractable
     {
         interactSuccessful = true;
 
-        GameSaveData.Instance.playerWagonFound = true;
+        if(!GameSaveData.Instance.playerWagonFound)
+        {
+            GameSaveData.Instance.playerWagonFound = true;
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(14));
+        }
 
         PopupHandler.Instance.AddToQueue(repairInstructions);
     }

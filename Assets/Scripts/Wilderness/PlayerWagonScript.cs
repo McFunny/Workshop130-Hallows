@@ -7,6 +7,8 @@ public class PlayerWagonScript : MonoBehaviour
     public WagonType type;
     public List<Transform> weakPoints; // spots for enemies to choose from to attack. Have at least 12 so enemies do not clump, slightly in the wagon so they stare at it
 
+    public Transform critterPos; //Where the hogs spawn after wilderness trip
+
     void Start()
     {
         if(type == WagonType.Farm) WagonManager.Instance.farmWagon = this;

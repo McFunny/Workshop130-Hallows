@@ -64,6 +64,7 @@ public class GameSaveData : MonoBehaviour
     public bool mm_soldPet; //Player got their first pet from the merchant
     public bool tra_askedForFood; //Traveller offered kukri for food
     public bool mil_gavePen; // Miller gave the player a hog pen after they cleared the barn
+    public bool cm_offersKit; //Player told craftsman about the broken wagon. He will start selling the kit
     public bool playerWagonFound; // Player found the broken wagon in the barn
     public bool playerWagonUnlocked; // Player repaired the broken wagon in the barn
 
@@ -204,6 +205,7 @@ public class GameSaveData : MonoBehaviour
         mm_introducedPets = data.allGameSaveData.mm_introducedPets;
         tra_askedForFood = data.allGameSaveData.tra_askedForFood;
         mil_gavePen = data.allGameSaveData.mil_gavePen;
+        cm_offersKit = data.allGameSaveData.cm_offersKit;
         playerWagonUnlocked = data.allGameSaveData.playerWagonUnlocked;
         playerWagonFound = data.allGameSaveData.playerWagonFound;
 
@@ -331,6 +333,7 @@ public class GameSaveData : MonoBehaviour
         public bool mm_introducedPets;
         public bool tra_askedForFood;
         public bool mil_gavePen;
+        public bool cm_offersKit;
         public bool playerWagonUnlocked;
         public bool playerWagonFound;
 
@@ -429,6 +432,7 @@ public class GameSaveData : MonoBehaviour
         mm_introducedPets = data.mm_introducedPets;
         tra_askedForFood = data.tra_askedForFood;
         mil_gavePen = data.mil_gavePen;
+        cm_offersKit = data.cm_offersKit;
         playerWagonUnlocked = data.playerWagonUnlocked;
         playerWagonFound = data.playerWagonFound;
 

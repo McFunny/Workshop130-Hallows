@@ -27,7 +27,7 @@ public class SpiderCocoon : StructureBehaviorScript
             itemRB.AddForce(Vector3.up * 50);
         }
 
-        if(r == 1 || r == 9)
+        if((r == 1 || r == 9) && absentFromFarmGrid == false)
         {
             Instantiate(spiderData.objectPrefab, transform.position, Quaternion.identity);
         }

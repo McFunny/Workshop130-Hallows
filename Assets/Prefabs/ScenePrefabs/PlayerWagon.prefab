@@ -6462,6 +6462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   merchant: {fileID: 0}
+  debug: 0
   myCollider: {fileID: 3094200519275469250}
   enabledObject: {fileID: 5998712838867261031}
   playerOwnedLamp: 1
@@ -7233,6 +7234,7 @@ Transform:
   - {fileID: 6621202170864743529}
   - {fileID: 2429764685375897590}
   - {fileID: 3304387705674213123}
+  - {fileID: 8905536446889831508}
   m_Father: {fileID: 8625644404996131319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3985041574350028673
@@ -14696,6 +14698,7 @@ MonoBehaviour:
   - {fileID: 5148821554039213297}
   - {fileID: 3096597386398471653}
   - {fileID: 7750642877857963934}
+  critterPos: {fileID: 8905536446889831508}
 --- !u!1 &7339030414205614993
 GameObject:
   m_ObjectHideFlags: 0
@@ -14881,6 +14884,37 @@ Transform:
   - {fileID: 830029862620495107}
   - {fileID: 1618073438713803633}
   m_Father: {fileID: 2285360679418960062}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7644026944913163383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8905536446889831508}
+  m_Layer: 0
+  m_Name: CritterPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8905536446889831508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7644026944913163383}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.36, y: 0, z: 8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7704353528423229735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7803715676316781782
 GameObject:
