@@ -9,17 +9,20 @@ public class ToolTipScript : MonoBehaviour
 {
     public GameObject panel;
     public TextMeshProUGUI itemName, itemDesc, itemStamina, itemType;
-    public Color c_default, c_tool, c_placeable, c_crop, c_consumable;
+    public Color c_default, c_tool, c_placeable, c_crop, c_consumable, c_ammo, c_bug;
     public GameObject intakeParent, outputParent;
     public GameObject[] input, output;
     [SerializeField] private GameObject[] barterIcons;
+    [SerializeField] private Sprite mintImage;
 
     [Header("Only needed for barter tooltips")]
-    [SerializeField] private Sprite mintImage;
     [SerializeField] private Image[] barterIconImages;
     [SerializeField] private TextMeshProUGUI[] barterIconTexts;
     private WaypointScript shopUI;
     [SerializeField] private List<VerticalLayoutGroup> verticalLayoutGroups = new List<VerticalLayoutGroup>();
+
+    //[Header("Only needed for crafting tooltips")]
+
     //protected Vector3[] corners;
 
     public void Awake()
@@ -65,7 +68,7 @@ public class ToolTipScript : MonoBehaviour
         panel.SetActive(false);
     }
 
-    protected void LateUpdate()
+    protected void LateUpdate() //keeping this just in case
     {
         /*if(!ControlManager.isGamepad)
         {
@@ -97,101 +100,146 @@ public class ToolTipScript : MonoBehaviour
     {
         if (itemData == null || !panel.activeSelf) return;
 
-        var type = itemData.GetType();
+        var type = itemData.type;
 
-        if (itemData.staminaValue != 0)
+        switch (type)
         {
-            itemStamina.text = "Heals " + itemData.staminaValue + " stamina.";
-            itemStamina.gameObject.SetActive(true);
-            itemType.text = "Consumable";
-            intakeParent.SetActive(false);
-            outputParent.SetActive(false);
-            itemType.color = c_consumable;
+            case ItemType.Misc:
+                itemType.text = "Misc";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_default;
+                break;
+
+            case ItemType.Consumable:
+                itemType.text = "Consumable";
+                itemStamina.text = "Heals " + itemData.staminaValue + " stamina.";
+                itemStamina.gameObject.SetActive(true);
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemType.color = c_consumable;
+                break;
+
+            case ItemType.Tool:
+                itemType.text = "Tool";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_tool;
+                break;
+
+            case ItemType.Structure:
+                itemType.text = "Structure";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_placeable;
+                break;
+
+            case ItemType.BarnStructure:
+                itemType.text = "Barn Structure";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_placeable;
+                break;
+
+            case ItemType.CabinDecor:
+                itemType.text = "Cabin Decor";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_placeable;
+                break;
+
+            case ItemType.Seed: //help
+                itemType.text = "Seed";
+                var seedData = itemData as CropItem; //why did I name it like this
+
+                //Consumes
+
+                if (seedData.cropData.gloamIntake > 0) { input[0].SetActive(true); }
+                else { input[0].SetActive(false); }
+
+                if (seedData.cropData.terraIntake > 0) { input[1].SetActive(true); }
+                else { input[1].SetActive(false); }
+
+                if (seedData.cropData.ichorIntake > 0) { input[2].SetActive(true); }
+                else { input[2].SetActive(false); }
+
+                if (seedData.cropData.waterIntake > 0) { input[3].SetActive(true); }
+                else { input[3].SetActive(false); }
+
+                if (seedData.cropData.requirePollination) { input[4].SetActive(true); }
+                else { input[4].SetActive(false); }
+
+                if (seedData.requireTrellis) { input[5].SetActive(true); }
+                else { input[5].SetActive(false); }
+
+                //Produces
+
+                if (seedData.cropData.gloamIntake < 0) { output[0].SetActive(true); }
+                else { output[0].SetActive(false); }
+
+                if (seedData.cropData.terraIntake < 0) { output[1].SetActive(true); }
+                else { output[1].SetActive(false); }
+
+                if (seedData.cropData.ichorIntake < 0) { output[2].SetActive(true); }
+                else { output[2].SetActive(false); }
+
+                if (seedData.cropData.waterIntake < 0) { output[3].SetActive(true); }
+                else { output[3].SetActive(false); }
+
+                intakeParent.SetActive(true);
+                outputParent.SetActive(true);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_crop;
+                break;
+
+            case ItemType.Ammo:
+                itemType.text = "Ammo";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_ammo;
+                break;
+
+            case ItemType.Creature:
+                itemType.text = "Creature";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_default;
+                break;
+
+            case ItemType.Bug:
+                itemType.text = "Bug";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_bug;
+                break;
+
+            case ItemType.Throwable:
+                itemType.text = "Throwable";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_ammo;
+                break;
+
+            default:
+                itemType.text = "Misc";
+                intakeParent.SetActive(false);
+                outputParent.SetActive(false);
+                itemStamina.gameObject.SetActive(false);
+                itemType.color = c_default;
+                break;
         }
-        else if (type.Equals(typeof(ToolItem)))
-        {
-            itemType.text = "Tool";
-            intakeParent.SetActive(false);
-            outputParent.SetActive(false);
-            itemStamina.gameObject.SetActive(false);
-            itemType.color = c_tool;
-        }
-        else if (type.Equals(typeof(PlaceableItem)))
-        {
-            var item = itemData as PlaceableItem;
-            //print(item);
-            if (item.gridTypes.Count == 0) Debug.LogError("Forgot to assign this structure a grid type!");
-            else if (item.gridTypes[0] == GridType.Any) itemType.text = "Structure";
-            else if (item.gridTypes[0] == GridType.Farm) itemType.text = "Farm Structure";
-            else if (item.gridTypes[0] == GridType.Cabin) itemType.text = "Cabin Structure";
-            else if (item.gridTypes[0] == GridType.Town) itemType.text = "Town Structure";
-
-            intakeParent.SetActive(false);
-            outputParent.SetActive(false);
-            itemStamina.gameObject.SetActive(false);
-            itemType.color = c_placeable;
-        }
-        else if (type.Equals(typeof(CropItem)))
-        {
-            itemType.text = "Seed";
-            var seedData = itemData as CropItem; //why did I name it like this
-
-            //Consumes
-
-            if (seedData.cropData.gloamIntake > 0) { input[0].SetActive(true); }
-            else { input[0].SetActive(false); }
-
-            if (seedData.cropData.terraIntake > 0) { input[1].SetActive(true); }
-            else { input[1].SetActive(false); }
-
-            if (seedData.cropData.ichorIntake > 0) { input[2].SetActive(true); }
-            else { input[2].SetActive(false); }
-
-            if (seedData.cropData.waterIntake > 0) { input[3].SetActive(true); }
-            else { input[3].SetActive(false); }
-
-            if (seedData.cropData.requirePollination) { input[4].SetActive(true); }
-            else { input[4].SetActive(false); }
-
-            if (seedData.requireTrellis) { input[5].SetActive(true); }
-            else { input[5].SetActive(false); }
-
-            //Produces
-
-            if (seedData.cropData.gloamIntake < 0) { output[0].SetActive(true); }
-            else { output[0].SetActive(false); }
-
-            if (seedData.cropData.terraIntake < 0) { output[1].SetActive(true); }
-            else { output[1].SetActive(false); }
-
-            if (seedData.cropData.ichorIntake < 0) { output[2].SetActive(true); }
-            else { output[2].SetActive(false); }
-
-            if (seedData.cropData.waterIntake < 0) { output[3].SetActive(true); }
-            else { output[3].SetActive(false); }
-
-            intakeParent.SetActive(true);
-            outputParent.SetActive(true);
-            itemStamina.gameObject.SetActive(false);
-            itemType.color = c_crop;
-        }
-        else
-        {
-            itemType.text = "Misc";
-            intakeParent.SetActive(false);
-            outputParent.SetActive(false);
-            itemStamina.gameObject.SetActive(false);
-            itemType.color = c_default;
-        }
-
-        //if(itemData.GetType)
 
         itemName.text = itemData.displayName;
         itemDesc.text = itemData.description;
-
-        /*itemName.gameObject.SetActive(true);
-        itemType.gameObject.SetActive(true);
-        itemDesc.gameObject.SetActive(true);*/
 
         for (int i = 0; i < verticalLayoutGroups.Count; i++)
         {
@@ -199,7 +247,6 @@ public class ToolTipScript : MonoBehaviour
             verticalLayoutGroups[i].enabled = false;
             verticalLayoutGroups[i].enabled = true;
         }
-
     }
 
     public void UpdateTooltipBarter(InventoryItemData item, List<ItemWithAmount> barterCost, int cost)
@@ -234,7 +281,34 @@ public class ToolTipScript : MonoBehaviour
                 barterIconTexts[i].text = "x" + barterCost[i - 1].amount.ToString();
             }
         }
+    }
 
-        
+    public void UpdateTooltipCraft(CraftingEntry entry)
+    {
+        for (int i = 0; i < barterIconImages.Length; i++)
+        {
+            barterIconImages[i].gameObject.SetActive(false);
+            barterIconTexts[i].gameObject.SetActive(false);
+        }
+
+        int count = 0;
+
+        if (entry.mintCost > 0)
+        {
+            barterIconImages[count].sprite = mintImage;
+            barterIconTexts[count].text = "x" + entry.mintCost + " (" + PlayerInteraction.Instance.currentMoney + ")";
+            barterIconImages[count].gameObject.SetActive(true);
+            barterIconTexts[count].gameObject.SetActive(true);
+            count++;
+        }
+
+        foreach (CraftingRequirement requirement in entry.craftingRequirements)
+            {
+                barterIconImages[count].sprite = requirement.requiredItem.icon;
+                barterIconTexts[count].text = "x" + requirement.requiredAmount + " (" + PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(requirement.requiredItem) + ")";
+                barterIconImages[count].gameObject.SetActive(true);
+                barterIconTexts[count].gameObject.SetActive(true);
+                count++;
+            }
     }
 }

@@ -10,7 +10,7 @@ public class Brazier : StructureBehaviorScript
     public GameObject fire;
 
     public float flameLeft; //if 0, fire is gone
-    float maxFlame = 20;
+    float maxFlame = 30;
 
     //Rework to incorporate a fuel based system rather than static time.
 
@@ -31,6 +31,8 @@ public class Brazier : StructureBehaviorScript
     void Update()
     {
         base.Update();
+
+        if(fire.activeSelf == true && flameLeft <= 0) ExtinguishFlame();
     }
 
     public override void StructureInteraction()
@@ -101,7 +103,7 @@ public class Brazier : StructureBehaviorScript
         
     }*/
 
-    IEnumerator FireDrain()
+    IEnumerator FireDrain() //Disabled
     {
         int r;
         while(gameObject.activeSelf)

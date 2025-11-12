@@ -509,7 +509,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 Barricade bar = targetStructure as Barricade;
                 if(bar && !bar.absentFromGrid)
                 {
-                    if(Vector3.Distance(bar.transform.position, transform.position) < 4f)
+                    if(Vector3.Distance(bar.transform.position, transform.position) < 5f)
                     {
                         agent.Stop();
                         oldJumpPos = transform.position;
@@ -813,7 +813,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     void FindItem()
     {
-        if(heldItem != null) return;
+        if(heldItem != null || thirst == 0 || hunger == 0) return;
         if(Random.Range(0f, 100f) < (friendshipLevel + 1) * 3.5f)
         {
             int x = 0;

@@ -22,6 +22,8 @@ public class Chest : FurnitureBehaviorScript
     public AudioSource source;
     public AudioClip openSFX, closeSFX;
 
+    bool frozeTime;
+
     void Awake()
     {
         base.Awake();
@@ -99,6 +101,12 @@ public class Chest : FurnitureBehaviorScript
 
         RefreshSockets();
         source.PlayOneShot(openSFX);
+
+        if(TimeManager.Instance.stopTime == false && TimeManager.Instance.isDay && TownGate.Instance.location == PlayerLocation.InFarm)
+        {
+            frozeTime = true;
+            TimeManager.Instance.stopTime = true;
+        }
     }
 
     void RefreshSockets()
@@ -115,6 +123,11 @@ public class Chest : FurnitureBehaviorScript
         anim.SetBool("isOpen", true);
         yield return new WaitForSeconds(0.1f);
         yield return new WaitUntil(() => !PlayerMovement.accessingInventory);
+        if(frozeTime)
+        {
+            frozeTime = false;
+            TimeManager.Instance.stopTime = false;
+        }
         anim.SetBool("isOpen", false);
         source.PlayOneShot(closeSFX);
         RefreshSockets();

@@ -118,6 +118,14 @@ public class Pollinator : CreatureBehaviorScript
                 if(tile && tile.crop && tile.crop.id == 20)
                 {
                     flowerPos.Add(tile.transform.position);
+                    continue;
+                }
+
+                CandleCluster candle = s as CandleCluster;
+                if(candle && candle.type == CandleType.Aroma && candle.burning)
+                {
+                    flowerPos.Add(tile.transform.position);
+                    continue;
                 }
             }
 
@@ -349,10 +357,10 @@ public class Pollinator : CreatureBehaviorScript
         else successful = false;
     }
 
-    public override void NearLaventLeaf(Vector3 pos)
+    public override void NearLaventLeaf(GameObject laventObject)
     {
         if(currentState == CreatureState.Flee) return;
-        fearedObjectPosition = pos;
+        fearedObjectPosition = laventObject.transform.position;
         fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
         agent.destination = fleeToPos;
         fearObject.SetActive(true);

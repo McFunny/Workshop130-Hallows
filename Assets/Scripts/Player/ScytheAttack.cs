@@ -36,6 +36,7 @@ public class ScytheAttack : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         PlayerMovement.limitMaxVelocity = true;
         PlayerMovement.ignoreMovementInputs = false;
+        if(HandItemManager.Instance.scytheTrail) HandItemManager.Instance.scytheTrail.emitting = false;
     }
 
     void OnTriggerEnter(Collider other)
@@ -131,7 +132,7 @@ public class ScytheAttack : MonoBehaviour
             ParticlePoolManager.Instance.MoveAndPlayVFX(hitCreatures[i].GetComponentInChildren<Collider>().ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
             hitCreatures[i].PlayHitParticle(hitCreatures[i].GetComponentInChildren<Collider>().ClosestPoint(transform.position));
 
-            hitCreatures[i].TakeDamage(35, PlayerInteraction.Instance.transform.position);
+            hitCreatures[i].TakeDamage(40, PlayerInteraction.Instance.transform.position);
 
             if(hitCreatures[i] && hitCreatures[i].health > 0) PlayerInteraction.Instance.InvokeEnemyHitEvent(hitCreatures[i]);
         }

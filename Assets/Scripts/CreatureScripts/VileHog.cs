@@ -38,9 +38,9 @@ public class VileHog : CreatureBehaviorScript
     float fleeTimeLeft = 0;
 
     bool holdingCrop;
-    float walkSpeed = 4;
-    float runSpeed = 8;
-    float chargeSpeed = 14;
+    public float walkSpeed = 4;
+    public float runSpeed = 8;
+    public float chargeSpeed = 14;
     float accelerateSpeed;
     float thrusterSpeed = 30;
     bool faceTarget;
@@ -75,7 +75,8 @@ public class VileHog : CreatureBehaviorScript
         Normal,
         Chunky, //unused
         Tiny,
-        Armored
+        Armored,
+        Corrupted
     }
 
     public CreatureState currentState;
@@ -625,6 +626,8 @@ public class VileHog : CreatureBehaviorScript
                     recoilTime = 2.5f;
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     isCharging = false;
+                    agent.ResetPath();
+                    agent.speed = 0;
                 }
                 else if(structure.health <= (damageToStructure + extraDamage)) //Broke it
                 {
@@ -641,7 +644,11 @@ public class VileHog : CreatureBehaviorScript
                     if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     recoilTime = 2.5f;
                     isCharging = false;
+                    agent.ResetPath();
+                    agent.speed = 0;
                 }
+
+                if(variant == Variant.Corrupted && Random.Range(0,10) > 2) CorruptionExplosion();
                 return;
             }    
 
@@ -751,6 +758,8 @@ public class VileHog : CreatureBehaviorScript
             dashParticles.Stop();
             chargeParticles.Stop();
             StopAllCoroutines();
+
+            if(variant == Variant.Corrupted) StartCoroutine(CorpseExplosionTimer());
         }
     }
 
@@ -839,6 +848,21 @@ public class VileHog : CreatureBehaviorScript
         thrustersReady = true;
         exhaustL.Stop();
         exhaustR.Stop();
+    }
+
+    IEnumerator CorpseExplosionTimer()
+    {
+        yield return new WaitForSeconds(Random.Range(30, 90));
+        CorruptionExplosion();
+    }
+
+    void CorruptionExplosion()
+    {
+        canCorpseBreak = true;
+        TakeDamage(999);
+        CorruptionManager.Instance.CorruptionExplosion(transform.position, 5);
+        //stagger player
+        if(Vector3.Distance(transform.position, player.transform.position) <= 5) PlayerInteraction.Instance.PlayerTrip();
     }
 
 }

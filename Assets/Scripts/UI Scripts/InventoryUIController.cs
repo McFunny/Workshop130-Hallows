@@ -26,6 +26,8 @@ public class InventoryUIController : MonoBehaviour
     public AudioClip openInventory;
     private TooltipControlsScript tooltipControlsScript;
     private RepairMinigame repairMinigame;
+    public delegate void InventoryOpened(bool val);
+    public static event InventoryOpened OnInventoryOpened;
 
     private void Awake()
     {
@@ -105,6 +107,7 @@ public class InventoryUIController : MonoBehaviour
             if(ControlManager.isGamepad) eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
+            OnInventoryOpened?.Invoke(true);
             source.PlayOneShot(openInventory);
             tooltipControlsScript.ShowInventoryControls();
             return;
@@ -117,6 +120,7 @@ public class InventoryUIController : MonoBehaviour
                 eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
             }
             eventSystem.SetSelectedGameObject(null);
+            OnInventoryOpened?.Invoke(false);
             StartCoroutine(CloseInventory());
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
         }
@@ -124,6 +128,7 @@ public class InventoryUIController : MonoBehaviour
         {
             if(eventSystem.currentSelectedGameObject != null) eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
             eventSystem.SetSelectedGameObject(null);
+            OnInventoryOpened?.Invoke(false);
             StartCoroutine(CloseBackpack());
             print("Closing backpack");
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
@@ -146,6 +151,7 @@ public class InventoryUIController : MonoBehaviour
                 eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
             }
             eventSystem.SetSelectedGameObject(null);
+            OnInventoryOpened?.Invoke(false);
             StartCoroutine(CloseInventory());
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
         }
@@ -156,6 +162,7 @@ public class InventoryUIController : MonoBehaviour
                 eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
             }
             eventSystem.SetSelectedGameObject(null);
+            OnInventoryOpened?.Invoke(false);
             StartCoroutine(CloseBackpack());
             HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
             print("Closing backpack");

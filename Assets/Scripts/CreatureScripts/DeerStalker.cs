@@ -102,6 +102,7 @@ public class DeerStalker : CreatureBehaviorScript
         if(variant == Variant.Normal && Random.Range(0,10) > 8) waitUntilHit = true;
 
         StartCoroutine(IdleSoundTimer());
+        StartCoroutine(FootstepTimer());
     }
 
     public void Spawn()
@@ -404,7 +405,7 @@ public class DeerStalker : CreatureBehaviorScript
     private void Flee()
     {
         if(coroutineRunning) return;
-        Vector3 runTo = transform.position + ((transform.position - player.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
+        Vector3 runTo = transform.position + ((((transform.position - player.transform.position) * 3) + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3))));
         agent.destination = runTo;
         fleeTimeLeft -= Time.deltaTime;
         if(fleeTimeLeft <= 0 && currentState == CreatureState.Flee)
@@ -698,45 +699,6 @@ public class DeerStalker : CreatureBehaviorScript
         currentState = CreatureState.Wander;
     }
 
-    /*public override bool OnStun(float duration)
-    {
-        if (currentState != CreatureState.Stun)
-        {
-            StartCoroutine(Stun(duration));
-            agent.destination = transform.position;
-            agent.ResetPath();
-            anim.SetTrigger("Recoiling");
-            return true;
-        }
-        return false;
-    }
-
-    private IEnumerator Stun(float duration)
-    {
-        currentState = CreatureState.Stun;
-        coroutineRunning = false;
-        StopTrackingPlayer();
-        StopCoroutine(AttackRoutine());
-        attackHitbox.enabled = false;
-        if(walkRoutine != null)
-        {
-            StopCoroutine(walkRoutine);
-            walkRoutine = null;
-
-            if(hasTransformed)
-            {
-                anim.Play("TrapStart");
-            }
-            else
-            {
-                animTransformed.Play("TrapStart");
-            }
-        }
-        yield return new WaitForSeconds(duration);
-        //StartCoroutine(IdleSoundTimer());
-        currentState = CreatureState.Wander;
-    } */
-
     public override void OnDeath()
     {
         if (!isDead)
@@ -838,6 +800,17 @@ public class DeerStalker : CreatureBehaviorScript
             }
             else effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
+        }
+    }
+
+    IEnumerator FootstepTimer()
+    {
+        while(health > 0)
+        {
+            //float i = Random.Range(0.3f, 0.5f);
+            yield return new WaitForSeconds(0.25f);
+            if(!hasTransformed || agent.velocity.magnitude < 1) continue;
+            effectsHandler.PlaySound(effectsHandler.footSteps[0]);
         }
     }
 

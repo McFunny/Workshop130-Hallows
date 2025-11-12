@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "New Tool Behavior", menuName = "Tool Behavior/WaterGun")]
 public class WaterGunBehavior : ToolBehavior
 {
-    public AudioClip shoot, charge, refill;
+    public AudioClip shoot, charge, refill, empty;
     int bulletCount = 1;
 
     Transform bulletStart;
@@ -30,7 +30,11 @@ public class WaterGunBehavior : ToolBehavior
         if (!player) player = _player;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
 
-        if(PlayerInteraction.Instance.waterHeld == 0) return;
+        if(PlayerInteraction.Instance.waterHeld == 0)
+        {
+            HandItemManager.Instance.toolSource.PlayOneShot(empty);
+            return;
+        }
         
         tool = _tool;
         usingPrimary = true;

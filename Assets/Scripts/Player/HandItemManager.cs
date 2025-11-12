@@ -21,13 +21,14 @@ public class HandItemManager : MonoBehaviour
 
     public static HandItemManager Instance;
 
-    public AudioSource toolSource;
+    public AudioSource toolSource, watercanSource;
 
     public AudioClip extinguish;
 
     public Transform bulletStart, waterBulletStart, waterBulletCloseStart;
 
     public ParticleSystem waterCanParticles, pistolParticles;
+    public TrailRenderer scytheTrail;
 
     void Awake()
     {

@@ -11,17 +11,19 @@ public class ParticlePoolManager : MonoBehaviour
 
     public VisualEffect hitEffect;
 
-    public GameObject corpseParticle, corpseParticleYellow, poofParticle, extinguishParticle, bloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, explosionParticle, cloudParticle, 
-    frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, slimeSplashLarge, orangeHitParticle,
-    cleanseParticle, whiteHitParticle;
+    public GameObject corpseParticle, corpseParticleYellow, corruptedCorpseParticle, poofParticle, extinguishParticle, bloodDropletParticle, corruptBloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, 
+    explosionParticle, cloudParticle, frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, 
+    slimeSplashLarge, orangeHitParticle, cleanseParticle, whiteHitParticle;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP, c_fleshDestructionP;
 
     List<GameObject> corpsePool = new List<GameObject>();
     List<GameObject> corpsePoolYellow = new List<GameObject>();
+    List<GameObject> corruptedCorpsePool = new List<GameObject>();
     List<GameObject> poofPool = new List<GameObject>();
     List<GameObject> extinguishPool = new List<GameObject>();
     List<GameObject> bloodDropPool = new List<GameObject>();
+    List<GameObject> corruptBloodDropPool = new List<GameObject>();
     List<GameObject> sparkPool = new List<GameObject>();
     List<GameObject> flamePool = new List<GameObject>();
     List<GameObject> dirtPixelPool = new List<GameObject>();
@@ -230,6 +232,22 @@ public class ParticlePoolManager : MonoBehaviour
             slimeSplashLargePool.Add(newParticle);
             return newParticle;
         }
+        else if(type == CorpseParticleType.Corrupted)
+        {
+            foreach (GameObject particle in corruptedCorpsePool)
+            {
+                if(!particle.activeSelf)
+                {
+                    particle.SetActive(true);
+                    return particle;
+                }
+            }
+
+            //No available particles, must make a new one
+            GameObject newParticle = Instantiate(corruptedCorpseParticle);
+            corruptedCorpsePool.Add(newParticle);
+            return newParticle;
+        }
         else return null;
     }
 
@@ -281,6 +299,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(bloodDropletParticle);
         bloodDropPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabCorruptBloodDropParticle()
+    {
+        foreach (GameObject particle in corruptBloodDropPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(corruptBloodDropletParticle);
+        corruptBloodDropPool.Add(newParticle);
         return newParticle;
     }
     public GameObject GrabSparkParticle()
@@ -677,7 +712,8 @@ public enum CorpseParticleType
     Yellow,
     Null,
     Metal,
-    Slime
+    Slime,
+    Corrupted
 }
 
 public enum StructureType

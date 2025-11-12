@@ -142,6 +142,35 @@ MonoBehaviour:
     minObject: 4
     maxObject: 12
     questBehavior: {fileID: 0}
+  - name: Kill Grubs
+    description: '"Our walls continue to wear down as time goes on. Please twindle
+      the population of our aggressors.'
+    dialogPath: 0
+    creature: {fileID: 11400000, guid: 3dbccb2a2b919c94ea3679a35ec8a00a, type: 2}
+    item: {fileID: 0}
+    crop: {fileID: 0}
+    mintMultiplier: 3.5
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 8
+    - item: {fileID: 11400000, guid: 04ac78899924e5341aff2f39d6bc16e1, type: 2}
+      amount: 1
+    townFavorReward: 5
+    daysLeftMin: 3
+    daysLeftMax: 4
+    assignee: 13
+    displayProgress: 1
+    minObject: 15
+    maxObject: 30
+    questBehavior: {fileID: 0}
   uniqueQuestChance: 0
   uniqueTemplates: []
   currentDailyQuestPath: 0

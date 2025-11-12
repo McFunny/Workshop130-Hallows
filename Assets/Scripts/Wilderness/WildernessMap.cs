@@ -19,6 +19,8 @@ public class WildernessMap : MonoBehaviour
     List<GameObject> currentInteractables = new List<GameObject>();
     List<GameObject> currentSetPieces = new List<GameObject>();
 
+    public List<WildernessSwarm> possibleSwarms;
+
     void Start()
     {
         if(!WildernessManager.Instance.allMaps.Contains(this))

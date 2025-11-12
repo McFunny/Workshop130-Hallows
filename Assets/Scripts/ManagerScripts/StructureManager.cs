@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri, fence, cocoon;
     public CropData fogChime, berryBush;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -96,6 +96,7 @@ public class StructureManager : MonoBehaviour
             StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
             PopulateBerryBushes(-5, 2, false);
             StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
+            StartCoroutine(PopulateStructure(-10, 3, cocoon, true, farmTileMap));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -862,9 +863,11 @@ public class StructureManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         StartCoroutine(PopulateStructure(15, 25, boulder, true, farmTileMap));
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
-        StartCoroutine(PopulateStructure(1, 2, barricade, true, barnTileMap));
+        StartCoroutine(PopulateStructure(2, 3, barricade, true, barnTileMap));
+        StartCoroutine(PopulateStructure(2, 5, fence, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
-        //StartCoroutine(PopulateStructure(1, 2, critterHive, true, barnTileMap));
+        //StartCoroutine(PopulateStructure(1, 2, critterHive, true, barnTileMap)); 
+        StartCoroutine(PopulateStructure(3, 8, cocoon, true, barnTileMap));
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
         PopulateBerryBushes(2, 3, true);
@@ -1320,7 +1323,7 @@ public class NutrientStorage
         s.ichorLevel = 0;
         s.terraLevel = 10;
         s.gloamLevel = 10;
-        s.waterLevel = 3;
+        s.waterLevel = 0;
     }
     public void LoadStorage(NutrientStorage s, float i, float t, float g, float w)
     {

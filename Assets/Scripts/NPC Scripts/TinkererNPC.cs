@@ -198,7 +198,7 @@ public class TinkererNPC : NPC, ITalkable
                 storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
                 storeItems[i].seller = this;
                 continue;
-            }
+            } // Wait until the tool is done
 
             do
             {

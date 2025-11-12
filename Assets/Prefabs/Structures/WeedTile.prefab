@@ -14723,7 +14723,7 @@ Transform:
   m_GameObject: {fileID: 5522835720167907393}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.924, z: 0}
+  m_LocalPosition: {x: 0, y: 1.098, z: 0}
   m_LocalScale: {x: 6.0000005, y: 6.0000005, z: 6.0000005}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -14909,6 +14909,7 @@ MonoBehaviour:
   flammable: 1
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 0
   absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
@@ -14934,6 +14935,9 @@ MonoBehaviour:
   clearTileOnDestroy: 1
   muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   cropDatabase: {fileID: 11400000, guid: 661de7c1217d14a4895b00a01fecacbe, type: 2}
   crop: {fileID: 11400000, guid: 5349594fbfaf93a4ea544f582119b7fb, type: 2}
   terraFert: {fileID: 11400000, guid: 0f0b9f1e36d584e46aefb25e70d4f50b, type: 2}

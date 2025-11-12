@@ -12,24 +12,147 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
   m_Name: Miller
   m_EditorClassIdentifier: 
-  speakerName: 
+  speakerName: Miller
   defaultPath:
-    pathName: 
-    paragraphs: []
-    emotions: 
+    pathName: Introduction
+    paragraphs:
+    - Hello... I pray the town gave you it's warmest welcomes...
+    - How is the old cabin? Is she treating you well?
+    - ... No need to lie. I know its not.
+    - I know too well what it is like to toil past these walls... In that wretched
+      field.
+    emotions: 00000000040000000200000003000000
   repeatedItemPath:
     pathName: 
-    paragraphs: []
-    emotions: 
-  paths: []
-  fillerPaths: []
+    paragraphs:
+    - Bleh! Something NEW please?
+    emotions: 03000000
+  paths:
+  - pathName: Buy something!
+    paragraphs:
+    - Healthy stock. Healthy farm.
+    emotions: 00000000
+  - pathName: Want to buy this?
+    paragraphs:
+    - The {storeItemName}... {storeItemValue} <color=#E0D38F>Mints</color> <sprite
+      index=0>... {dontfreezePlayer}
+    emotions: 01000000
+  - pathName: Sold!
+    paragraphs:
+    - Tell the little ones I said hello for me, would ya..?
+    emotions: 01000000
+  - pathName: No Money
+    paragraphs:
+    - I need the <color=#E0D38F>Mints</color> <sprite index=0> just as much as you
+      do.
+    emotions: 02000000
+  - pathName: No Space
+    paragraphs:
+    - Lighten your load...
+    emotions: 00000000
+  - pathName: Want To Trade for this?
+    paragraphs:
+    - The {storeItemName}? If you give me some supplies I can make you one.  {dontfreezePlayer}
+    emotions: 01000000
+  - pathName: Not Enough Items
+    paragraphs:
+    - The farming is your job, not mine.
+    emotions: 03000000
+  - pathName: Have A Pen
+    paragraphs:
+    - I hear the path to the barn has been cleared...
+    - It is a little worse for wear... but also a nice secluded place, distant from
+      the nightmares of the fog.
+    - Perfect for raising livestock...
+    - Here... Something to get you started...
+    - Once you have the pen all set up, go buy a swine from the merchant.
+    - Raise it well, and you will reap the benefits.
+    - Come see me by my home in the morning... I will try to provide you with some
+      essentials for critter raising...
+    emotions: 05000000020000000000000001000000000000000100000000000000
+  fillerPaths:
+  - pathName: Filler1
+    paragraphs:
+    - I prefer my hens with their head still intact.
+    emotions: 00000000
+  - pathName: Filler2
+    paragraphs:
+    - You arent bothering my hens... Are you..?
+    emotions: 04000000
+  - pathName: Filler3
+    paragraphs:
+    - It's nice to finally rest, after so many years of toiling for this town...
+    - It was hard work... But it was honest work....
+    emotions: 0100000000000000
+  - pathName: Filler4
+    paragraphs:
+    - I see they gave you a torch... Thats more than I got when I was in your shoes...
+    - To keep the Mist Walkers at bay, I had to resort to torching my fields with
+      a lit stick of wood...
+    - The town did not eat well that night... But it kept me alive...
+    emotions: 030000000500000002000000
+  - pathName: Filler5
+    paragraphs:
+    - Oh how I miss cultivating mandrakes...
+    - They were always such a fun chase...
+    - I can't help but feel a wave of envy whenever I hear their screams from your
+      farm at night...
+    emotions: 020000000000000000000000
+  - pathName: Filler6
+    paragraphs:
+    - A tip for you, boy...
+    - Lay your land with rocks...
+    - Keeps the soil sturdy... Reducing how often you must till the ground...
+    emotions: 000000000000000000000000
+  - pathName: Filler7
+    paragraphs:
+    - A seasoned farmer knows how to make the best of everything that the land provides...
+    - That includes the weeds...
+    - Weed fiber has plenty of uses... Not to mention weeds attract a plethora of
+      bugs to catch...
+    emotions: 000000000000000000000000
   questPaths: []
-  itemRecievedPaths: []
-  itemSpecificRemarks: []
+  itemRecievedPaths:
+  - pathName: Go Sell that
+    paragraphs:
+    - Please... Just because I am old, does not mean I need charity.
+    emotions: 03000000
+  - pathName: Thanks For Item!
+    paragraphs:
+    - Oh man, I was starving! {itemGiven}
+    - Thanks, geezer!
+    emotions: 0100000001000000
+  - pathName: Im Full
+    paragraphs:
+    - Chill gramps, I still ain't done with the last thing you brought me!
+    emotions: 05000000
+  itemSpecificRemarks:
+  - pathName: Go Sell that
+    paragraphs:
+    - Please... Just because I am old, does not mean I need charity.
+    emotions: 03000000
+  - pathName: Scroll
+    paragraphs:
+    - No... I don't dare to meddle with that stuff no more...
+    emotions: 05000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
-  alreadySpoken: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
   branchingPaths: []
-  questCompletePaths: []
-  dailyQuestPaths: []
+  questCompletePaths:
+  - pathName: Default Quest Complete
+    paragraphs:
+    - Thank you for doin' me that favor...
+    emotions: 01000000
+  dailyQuestPaths:
+  - pathName: Daily Quest
+    paragraphs:
+    - I hate to be a bother, but could you do me a favor? {freezePlayer}
+    emotions: 00000000

@@ -27,6 +27,7 @@ public class PetDog : PetBehaviorScript, IInteractable
 
     public GameObject burrowPrefab;
     public InventoryItemData boneItem;
+    public ParticleSystem biteParticles;
 
     public PetState currentState;
 
@@ -487,6 +488,7 @@ public class PetDog : PetBehaviorScript, IInteractable
                 if(targetCreature)
                 {
                     targetCreature.TakeDamage(20);
+                    biteParticles.Play();
                     targetCreature.PlayHitParticle(targetCreature.transform.position);
                 }
                 if(targetCreature && targetCreature.health > 0)

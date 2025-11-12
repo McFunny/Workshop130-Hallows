@@ -7,15 +7,12 @@ using UnityEngine.TextCore.Text;
 
 public class MillerNPC : NPC, ITalkable
 {
-    public InventoryItemData papers, treeNut, wood; //Store Items
-
     public float sellMultiplier = 1;
-    public InventoryItemData[] possibleSoldItems;
-    public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
-    //WaypointScript shopUI;
 
-    //public Quest treeQuest; //Yes this was taken from the lumberjack
+    public InventoryItemData hogPen;
+
+    public PopupScript millerHasPenPopup;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -34,46 +31,12 @@ public class MillerNPC : NPC, ITalkable
     {
         if (dialogueController.IsTalking() == false && dialogueController.FreeToSpeak(this))
         {
-            if (!GameSaveData.Instance.lumberMet)
+            if (!GameSaveData.Instance.millerMet)
             {
                 currentPath = -1;
                 currentType = PathType.Default;
-                GameSaveData.Instance.lumberMet = true;
-            }
-            else if (GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_offersDeal)
-            {
-                GameSaveData.Instance.lumber_offersDeal = true; //He will now start selling his papers at his shop
-                currentPath = 0;
-                currentType = PathType.Quest;
-                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(4));
-                QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(3));
-
-                /*else if(!GameSaveData.Instance.lumber_choppedTree)
-                {
-                    if(!startedDialogue)
-                    {
-                        //Asks if the player wants to hand over the money
-                        currentPath = 2;
-                        currentType = PathType.Quest;
-                    }
-                    else if(PlayerInteraction.Instance.currentMoney >= 400)
-                    {
-                        //Takes money
-                        PlayerInteraction.Instance.currentMoney -= 400;
-                        currentPath = 3;
-                        currentType = PathType.Quest;
-                        GameSaveData.Instance.lumber_choppedTree = true;
-                        print("I took ur money");
-                        anim.SetTrigger("TakeItem");
-
-                        QuestManager.Instance.ForceCompleteQuest(treeQuest);
-                    }
-                    else
-                    {
-                        currentPath = 1;
-                        currentType = PathType.Quest;
-                    }
-                }*/
+                GameSaveData.Instance.millerMet = true;
+                NPCManager.Instance.millerSpoke = true;
             }
             else
             {
@@ -82,13 +45,21 @@ public class MillerNPC : NPC, ITalkable
                     currentPath = 0;
                     currentType = PathType.QuestComplete;
                 }
-                else if (dailyQuest != null)
+                else if(dailyQuest != null)
                 {
                     currentPath = QuestDatabase.Instance.GetQuestPath(character);
                     currentType = PathType.GivingDaily;
                     GivePlayerDailyQuest();
                 }
-                else if (NPCManager.Instance.lumberjackSpoke)
+                else if (!GameSaveData.Instance.mil_gavePen && GameSaveData.Instance.townTreeCleared2 && !PlayerInventoryHolder.Instance.IsInventoryFull())
+                {
+                    GameSaveData.Instance.mil_gavePen = true;
+                    currentPath = 7;
+                    currentType = PathType.Misc;
+                    itemsToGive.Add(new ItemWithAmount(hogPen, 1));
+                    dailyQuest = null;
+                }
+                else if (NPCManager.Instance.millerSpoke)
                 {
                     int i = Random.Range(0, dialogueText.alreadySpoken.Length);
                     currentPath = i;
@@ -98,25 +69,15 @@ public class MillerNPC : NPC, ITalkable
                 {
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
-                    NPCManager.Instance.lumberjackSpoke = true;
                     currentType = PathType.Filler;
+                    NPCManager.Instance.millerSpoke = true;
                 }
-
+              
             }
         }
         Talk();
         interactSuccessful = true;
     }
-
-    /*public void Talk()
-    {
-        if(!dialogueController.FreeToSpeak(this)) return;
-        anim.SetTrigger("IsTalking");
-        movementHandler.TalkToPlayer();
-        dialogueController.currentTalker = this;
-        dialogueController.DisplayNextParagraph(dialogueText, currentPath, currentType);
-        startedDialogue = true;
-    }*/
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
@@ -133,93 +94,31 @@ public class MillerNPC : NPC, ITalkable
             currentType = PathType.QuestComplete;
         }
 
-       /* else if (item == papers)
+        else if (item.ID == 163)
         {
             currentPath = 1;
             currentType = PathType.ItemSpecific;
         }
 
-        else if (item == treeNut)
-        {
-            currentPath = 2;
-            currentType = PathType.ItemSpecific;
-        }*/
-        else if (item.ID == 163) //Uhh what is this cam?
-        {
-            currentPath = 3;
-            currentType = PathType.ItemSpecific;
-        }
-
-        else if (item.staminaValue > 0)
-        {
-            currentPath = 0;
-            currentType = PathType.ItemRecieved;
-            /*
-            if(!NPCManager.Instance.lumberjackFed)
-            {
-                currentPath = 0;
-                currentType = PathType.ItemRecieved;
-                NPCManager.Instance.lumberjackFed = true;
-                anim.SetTrigger("TakeItem");
-            }
-            else
-            {
-                currentPath = 1;
-                currentType = PathType.ItemRecieved;
-            }
-            */
-            //Its consumable and giftable
-        }
-
         else
         {
             currentPath = 0;
             currentType = PathType.ItemSpecific;
         }
 
+        //code for the item being edible
         Talk();
 
         interactSuccessful = true;
     }
 
-    public override void PurchaseAttempt(StoreItem item)
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
     {
-        if (dialogueController.IsInterruptable() == false)
+        uniqueDialogue = false;
+        if(item == barterDatabase.uniqueTransactions[0].itemForSale)
         {
-            return;
+            GameSaveData.Instance.pistolObtained = true;
         }
-        if (lastInteractedStoreItem == item)
-        {
-            //check price, then give item
-            if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
-            {
-                currentPath = 3; //no money!?!?!?
-            }
-            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
-            {
-                currentPath = 4; //No space in inventory
-            }
-            else
-            {
-                if (item.itemData == papers) currentPath = 5; //papers sold
-                else currentPath = 2; //item sold
-                shopUI.shopImgObj.SetActive(false);
-            }
-            anim.SetTrigger("IsTalking");
-        }
-        else
-        {
-            dialogueController.restartDialogue = true;
-            currentPath = 1; //item selected
-            anim.SetTrigger("IsTalking");
-            if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-            lastInteractedStoreItem = item;
-            shopUI.shopTarget = item.arrowObject.transform;
-            shopUI.shopImgObj.SetActive(true);
-
-        }
-        currentType = PathType.Misc;
-        Talk();
     }
 
     public override void PlayerLeftRadius()
@@ -228,40 +127,40 @@ public class MillerNPC : NPC, ITalkable
         {
             lastInteractedStoreItem = null;
         }
-        if (movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
+        if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
         base.PlayerLeftRadius();
     }
 
-    /*public override void EmptyShopItem() //For when a player bought smth
-    {
-        if(!lastInteractedStoreItem.clearUponPurchase) return;
-        lastInteractedStoreItem.Empty();
-        lastInteractedStoreItem = null;
-    }*/
-
     public override void RefreshStore()
     {
-        //if(lastInteractedStoreItem) lastInteractedStoreItem.arrowObject.SetActive(false);
         if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
         lastInteractedStoreItem = null;
         int i;
         float r;
+        int itemsDisplayed = 0;
         InventoryItemData newItem;
-        int x = 0; //iterations
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
         foreach (StoreItem item in storeItems)
         {
-            if (x == 0) newItem = papers;
-            else
+            newItem = null;
+            int newCost;
+            
+            do
             {
-                newItem = wood;
-                item.clearUponPurchase = false;
+                i = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i))
+                {
+                    newItem = barterDatabase.transactions[i].itemForSale;
+                    selectedTrades.Add(i);
+                } 
             }
-
-            int newCost = (int)(newItem.value * sellMultiplier);
-            item.RefreshItem(newItem, newCost);
+            while (!newItem);
+            newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
+            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
+            item.ChangeAmountGiven(barterDatabase.transactions[i].amountGiven);
             item.seller = this;
-
-            x++;
+            itemsDisplayed++;
         }
     }
 
@@ -286,9 +185,33 @@ public class MillerNPC : NPC, ITalkable
         shopUI.shopImgObj.SetActive(false);
     }
 
-    public override bool ActionCheck1() //To check if he starts selling papers
+    protected override void HourUpdate()
     {
+        base.HourUpdate();
+        if(TimeManager.Instance.currentHour == 9 && !GameSaveData.Instance.mil_gavePen && GameSaveData.Instance.townTreeCleared2) PopupHandler.Instance.AddToQueue(millerHasPenPopup);
+    }
+
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(!GameSaveData.Instance.mil_gavePen)
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
         return true;
+    }
+
+    public override bool ActionCheck1() //To check if he starts selling items
+    {
+        if(GameSaveData.Instance.townTreeCleared2) return true;
         return false;
     }
 }

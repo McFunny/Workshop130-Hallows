@@ -19,6 +19,7 @@ public class BirdBath : StructureBehaviorScript
     void Awake()
     {
         if(!inWilderness) base.Awake();
+        else audioHandler = GetComponent<StructureAudioHandler>();
         StartCoroutine("AnimateWater");
         WaterLevelChange();
     }

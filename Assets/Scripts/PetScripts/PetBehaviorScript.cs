@@ -43,6 +43,8 @@ public class PetBehaviorScript : MonoBehaviour
     protected int forceFollows = 0;
 
     public ParticleSystem dripParticles;
+
+    public PopupScript levelUpPopup;
     
     protected void Start()
     {
@@ -99,6 +101,7 @@ public class PetBehaviorScript : MonoBehaviour
         {
             friendPoints = 0;
             friendshipLevel++;
+            PopupHandler.Instance.AddToQueue(levelUpPopup);
         }
     }
 

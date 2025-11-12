@@ -65,7 +65,7 @@ public class FarmTree : StructureBehaviorScript
             Destroy(this.gameObject);
         }
 
-        if(Random.Range(0, 500) >= 499 && TimeManager.Instance.dayNum > 3) forceHiveSpawn = true;
+        if(Random.Range(0, 400) >= 399 && TimeManager.Instance.dayNum > 3) forceHiveSpawn = true;
 
         if(forceHiveSpawn && Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) > 80) SpawnHive();
     }

@@ -4949,6 +4949,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 5307211597870855247}
   corpseParticleTransform: {fileID: 577307498091193494}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 1
   rb: {fileID: 7749879778386280191}
   anim: {fileID: 9107664028569677582}
@@ -4976,6 +4977,7 @@ MonoBehaviour:
   targettableStructures:
   - {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
   - {fileID: 11400000, guid: 6718ac27de477bc458a00f38f26d048b, type: 2}
+  - {fileID: 11400000, guid: 79a49544904620c4986a1d7900c94604, type: 2}
   agent: {fileID: 0}
   ignited: 1
   pyreFire: {fileID: 9061156446741105128}
@@ -4999,7 +5001,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4938036239894532787}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.12
   m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
@@ -14983,7 +14985,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b99a98991c0c51048bc9c799af83ea4b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b99a98991c0c51048bc9c799af83ea4b,
         type: 3}

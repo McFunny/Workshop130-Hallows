@@ -6,6 +6,7 @@ using UnityEngine;
 public class CreatureObject : ScriptableObject
 {
     public GameObject objectPrefab;//, wildernessPrefab;
+    public GameObject corruptedPrefab;
     public List<CreatureVariant> creatureVariants = new List<CreatureVariant>();
     [HideInInspector] public float health;
 
@@ -19,7 +20,9 @@ public class CreatureObject : ScriptableObject
     public int spawnCap = 5; //how many can exist on the field
     public int spawnCapPerHour = 3; //how many can spawn per hour at max
 
+    //////////UNLOCK VARIABLES. ONLY ONE OF THESE NEEDS TO BE REACHED IN ORDER TO SPAWN//////////
     public int wealthPrerequisite = 0; //How much money should the player have collected prior to seeing this creature
+    public int siegePrerequisite = 1; // How many sieges are needed to be beaten before force unlocked
 
     public bool contribuiteToCreatureCap = true; //EX Crows shouldnt contribuite to max amount of creatures loaded in. Instead use their spawn cap
 
@@ -47,6 +50,13 @@ public class CreatureObject : ScriptableObject
     {
         Creature newCreature = new Creature(this);
         return newCreature;
+    }
+
+    public bool CanSpawnThisNight()
+    {
+        //If the player has earned enough mints to unlock OR beat enough sieges,
+        if(wealthPrerequisite <= PlayerInteraction.Instance.totalMoneyEarned || siegePrerequisite <= GameSaveData.Instance.siegesCleared) return true;
+        else return false;
     }
 }
 [System.Serializable]

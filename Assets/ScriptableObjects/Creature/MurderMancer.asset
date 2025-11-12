@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 7240314494536439997, guid: 2ab646416d4de044abd47a0acaf7b29c,
     type: 3}
+  corruptedPrefab: {fileID: 0}
   creatureVariants:
   - name: Magic Mancer
     prefab: {fileID: 2337580192286805976, guid: dc48067d0f11896499a433e1f2888397,
@@ -35,7 +36,8 @@ MonoBehaviour:
   spawnWeight: 1
   spawnCap: 3
   spawnCapPerHour: 1
-  wealthPrerequisite: 800
+  wealthPrerequisite: 1800
+  siegePrerequisite: 1
   contribuiteToCreatureCap: 1
   amountKilled: 0
   hasSpawned: 0

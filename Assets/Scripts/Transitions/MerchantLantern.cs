@@ -9,10 +9,17 @@ public class MerchantLantern : MonoBehaviour, IInteractable
 
     //public Transform interior, exterior;
     [HideInInspector] public WagonMerchantNPC merchant;
-    //public bool forceEnable = false; //MAKE THIS FALSE BEFORE BUILDING
+    public bool debug = false; //MAKE THIS FALSE BEFORE BUILDING
 
     public Collider myCollider;
     public GameObject enabledObject;
+
+
+    //////////////PLAYER LANTERN BOOLS/////////////////
+    public bool playerOwnedLamp = false;
+    bool interactedWith = false;
+
+    public PopupScript enterPopup, exitPopup, blockedPopup, wagonBrokePopup, noHogsPopup;
 
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
@@ -31,6 +38,40 @@ public class MerchantLantern : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
+        if(playerOwnedLamp)
+        {
+            interactSuccessful = true;
+            if(TownGate.Instance.location == PlayerLocation.InFarm) //In Farm
+            {
+                if(TravelCheck())
+                {
+                    if(interactedWith)
+                    {
+                        StartCoroutine(TakeToTransition());
+                    }
+                    else 
+                    {
+                        PopupHandler.Instance.AddToQueue(enterPopup);
+                        StartCoroutine(InteractionTimer());
+                    }
+                }
+            }
+            else //In Wilderness
+            {
+                if(interactedWith) //Leave
+                {
+                    WildernessManager.Instance.ClearCreatures();
+                    StartCoroutine(TakeToTown());
+                }
+                else //Ask to leave
+                {
+                    PopupHandler.Instance.AddToQueue(exitPopup);
+                    StartCoroutine(InteractionTimer());
+                }
+            }
+            return;
+        }
+
         merchant.LanternInteraction();
         interactSuccessful = true;
     }
@@ -51,10 +92,64 @@ public class MerchantLantern : MonoBehaviour, IInteractable
         focalPoint = transform;
     }
 
+    IEnumerator TakeToTransition()
+    {
+        //restrict movement and darken screen
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        interactedWith = false;
+        yield return new WaitForSeconds(3);
+        WildernessTransitionManager.Instance.EnterTransition();
+        //FadeScreen.coverScreen = false;
+        //PlayerMovement.restrictMovementTokens--;
+    }
+
+    IEnumerator TakeToTown()
+    {
+        interactedWith = false;
+
+        //restrict movement and darken screen
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSeconds(2);
+        WildernessManager.Instance.ExitWilderness();
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
+    }
+
+    bool TravelCheck()
+    {
+        if(debug) return true;
+
+        if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay || WildernessManager.Instance.visitedWilderness) 
+        {
+            PopupHandler.Instance.AddToQueue(blockedPopup);
+            return false;
+        }
+        else if(WagonManager.Instance.wagonDestroyed)
+        {
+            PopupHandler.Instance.AddToQueue(wagonBrokePopup);
+            return false;
+        }
+        else if(BarnManager.Instance.GrabHogsForWilderness() == false)
+        {
+            PopupHandler.Instance.AddToQueue(noHogsPopup);
+            return false;
+        }
+        else return true;
+    }
+
+    IEnumerator InteractionTimer()
+    {
+        interactedWith = true;
+        yield return new WaitForSeconds(3);
+        interactedWith = false;
+    }
+
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(4);
-        if(GameSaveData.Instance.wildernessIntroduced == true/* || forceEnable*/) EnableSelf();
+        if(/*GameSaveData.Instance.wildernessIntroduced == true || */playerOwnedLamp) EnableSelf();
         else
         {
             myCollider.enabled = false;

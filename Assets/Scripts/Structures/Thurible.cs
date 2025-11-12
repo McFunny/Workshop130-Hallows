@@ -20,6 +20,8 @@ public class Thurible : StructureBehaviorScript
     public float flameLeft; //if 0, fire is gone
     float maxFlame = 60; //Max flame per level
 
+    public GameObject laventSource;
+
     void Awake()
     {
         base.Awake();
@@ -28,7 +30,8 @@ public class Thurible : StructureBehaviorScript
     void Start()
     {
         base.Start();
-        //StartCoroutine(FireDrain()); //Gonna see how this is without the passive fire drain
+        StartCoroutine(FireDrain());
+        StartCoroutine(ScareBugs());
         flameLeft = 0;
         fire.SetActive(false);
     }
@@ -50,11 +53,18 @@ public class Thurible : StructureBehaviorScript
                 flameLeft = maxFlame;
                 fire.SetActive(true);
                 leafParticles.Play();
-                audioHandler.PlaySound(audioHandler.activatedSound);
+                //audioHandler.PlaySound(audioHandler.activatedSound);
+                laventSource.SetActive(true);
                 success = true;
             }
             else success = false;
             return;
+        }
+        else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && flameLeft > 0)
+        {
+            PlayerInteraction.Instance.waterHeld--;
+            HitWithWater();
+            success = true;
         }
         else if(type == ToolType.Shovel)
         {
@@ -75,6 +85,14 @@ public class Thurible : StructureBehaviorScript
         }
     }
 
+    public override void HitWithWater()
+    {
+        if(flameLeft <= 0) return;
+        StopCoroutine(FireDrain());
+        flameLeft = 0;
+        ExtinguishFlame();
+    }
+
     IEnumerator FireDrain()
     {
         int r;
@@ -85,9 +103,12 @@ public class Thurible : StructureBehaviorScript
             if(flameLeft <= 0) flameLeft = 0;
             if(flameLeft == 0 && fire.activeSelf)
             {
-                LeafChange(-1);
                 if(leafCount == 0) ExtinguishFlame();
-                else flameLeft = maxFlame;
+                else 
+                {
+                    LeafChange(-1);
+                    flameLeft = maxFlame;
+                }
             }
         }
     }
@@ -96,10 +117,10 @@ public class Thurible : StructureBehaviorScript
     {
         while(gameObject.activeSelf)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
             if(flameLeft == 0) continue;
 
-            float range = 5f;
+            float range = 9f;
 
             Collider[] hitEnemies = Physics.OverlapSphere(transform.position, range, 1 << 9);
             foreach(Collider collider in hitEnemies)
@@ -107,7 +128,7 @@ public class Thurible : StructureBehaviorScript
                 var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
                 if (creature != null)
                 {
-                    creature.NearLaventLeaf(transform.position);
+                    creature.NearLaventLeaf(laventSource);
                 }
             }
 
@@ -136,6 +157,7 @@ public class Thurible : StructureBehaviorScript
         fire.SetActive(false);
         audioHandler.PlaySound(audioHandler.miscSounds1[0]);
         leafParticles.Stop();
+        laventSource.SetActive(false);
     }
 
     void OnDestroy()
@@ -160,8 +182,8 @@ public class Thurible : StructureBehaviorScript
         structureUIVariables.valueGroups[1].value = flameLeft;
         structureUIVariables.valueGroups[1].maxValue = maxFlame;
 
-        structureUIVariables.valueGroups[1].value = leafCount;
-        structureUIVariables.valueGroups[1].maxValue = maxLeafCount;
+        structureUIVariables.valueGroups[2].value = leafCount;
+        structureUIVariables.valueGroups[2].maxValue = maxLeafCount;
         return structureUIVariables.valueGroups;
     }
 }

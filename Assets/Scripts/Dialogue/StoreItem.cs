@@ -166,7 +166,6 @@ public class StoreItem : MonoBehaviour, IInteractable
 
     public void CompleteTrade() //Completed a barter trade
     {
-        QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetTutorialQuest(302)); //Completed the Barter quest if assigned
 
         PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(barterCost);
         PlayerInventoryHolder.Instance.UpdateInventory();

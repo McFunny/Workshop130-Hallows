@@ -5,10 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Tool Behavior", menuName = "Tool Behavior/WaterCan")]
 public class WaterCanBehavior : ToolBehavior
 {
-    public AudioClip refill, pour;
+    public AudioClip refill, pour, empty;
 
     bool holdingPour = false;
     bool skipPour = false;
+
+    bool wateredCreature; //To add a delay to hitting a creature with water
     //bool puttingCanAway = false;
     Coroutine wateringCoroutine;
     Coroutine chargingCoroutine;
@@ -66,6 +68,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
 
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -89,6 +92,7 @@ public class WaterCanBehavior : ToolBehavior
                     else PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
+                else HandItemManager.Instance.toolSource.PlayOneShot(empty);
             }
 
             var interactable = hit.collider.GetComponentInParent<IInteractable>();
@@ -99,6 +103,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
                     float animSpeedMod = 0; //Added to animation speed
@@ -134,6 +139,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
                     float animSpeedMod = 0; //Added to animation speed
@@ -181,6 +187,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
 
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -206,6 +213,7 @@ public class WaterCanBehavior : ToolBehavior
                     else PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
+                else HandItemManager.Instance.toolSource.PlayOneShot(empty);
             }
 
             var interactable = hit.collider.GetComponentInParent<IInteractable>();
@@ -216,6 +224,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
 
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -254,6 +263,7 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     //HandItemManager.Instance.PlayPrimaryAnimation();
                     HandItemManager.Instance.toolSource.PlayOneShot(pour);
+                    HandItemManager.Instance.toolSource.PlayOneShot(refill);
                     PlayerMovement.restrictMovementTokens++;
                     float coolDownMod = 1; //Multiplied to the tool use cooldown
                     float animSpeedMod = 0; //Added to animation speed
@@ -313,6 +323,7 @@ public class WaterCanBehavior : ToolBehavior
             if(holdingPour && PlayerInteraction.Instance.waterHeld > 0) QuickPour();
         }*/
         if(pourParticles) pourParticles.Stop();
+        if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Stop();
 
         HandItemManager.Instance.StopCoroutine(chargingCoroutine);
         chargingCoroutine = null;
@@ -338,8 +349,13 @@ public class WaterCanBehavior : ToolBehavior
     {
         while(InputManager.isCharging && holdingPour)
         {
+            if(wateredCreature)
+            {
+                wateredCreature = false;
+                yield return new WaitForSeconds(1.1f);
+            }
             if(holdingPour && PlayerInteraction.Instance.waterHeld > 0 && CanPour()) QuickPour();
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -350,11 +366,12 @@ public class WaterCanBehavior : ToolBehavior
         holdingPour = false;
         yield return new WaitForSeconds(0.4f);
         holdingPour = true;
+        if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Play();
         HandItemManager.Instance.StartCoroutine(QuickPourRoutine());
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.8f, "WateringCan", false));
 
         skipPour = false;
-        float timeBetweenPours = 1.3f;
+        float timeBetweenPours = 1.5f;
         while(InputManager.isCharging && PlayerInteraction.Instance.stamina > 0 && PlayerInteraction.Instance.waterHeld > 0)
         {
             yield return new WaitForSeconds(timeBetweenPours);
@@ -368,19 +385,22 @@ public class WaterCanBehavior : ToolBehavior
             //Ensure particles and code are being run only when the player is looking down
         }
         if(pourParticles) pourParticles.Stop();
+        if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Stop();
     }
 
     bool CanPour() //Checks player eyeline
     {
         Debug.Log(player.eulerAngles.x);
-        if((player.eulerAngles.x >= 35 && player.eulerAngles.x <= 90) || player.eulerAngles.x == 0) 
+        if((player.eulerAngles.x >= 25 && player.eulerAngles.x <= 90) || player.eulerAngles.x == 0) 
         {
             if(pourParticles) pourParticles.Play();
+            if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Play();
             return true;
         }
         else 
         {
             if(pourParticles) pourParticles.Stop();
+            if(HandItemManager.Instance.watercanSource) HandItemManager.Instance.watercanSource.Stop();
             return false;
         }
     }
@@ -399,7 +419,7 @@ public class WaterCanBehavior : ToolBehavior
                 if(structure.onFire || !wateredStructures.Contains(structure))
                 {
                     FarmLand tile = structure as FarmLand;
-                    if(tile)
+                    if(tile && !structure.onFire)
                     {
                         wateredStructures.Add(structure);
                         if(tile.GetCropStats().waterLevel == 10) return;
@@ -413,15 +433,17 @@ public class WaterCanBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 6, 1 << 9))
         {
             var enemy = hit.collider.GetComponentInParent<CreatureBehaviorScript>();
-            if (enemy != null)
+            if (enemy != null && enemy.health > 0)
             {
                 enemy.HitWithWater();
                 consumeWater = true;
+                wateredCreature = true;
             }
         }
         if(consumeWater)
         {
             HandItemManager.Instance.toolSource.PlayOneShot(pour);
+            HandItemManager.Instance.toolSource.PlayOneShot(refill);
             PlayerInteraction.Instance.waterHeld--;
             skipPour = true;
         }

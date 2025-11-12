@@ -401,7 +401,7 @@ public class PyreFly : CreatureBehaviorScript
 
     void Flee()
     {
-        if(Vector3.Distance(transform.position, fearedObjectPosition) > 8)
+        if(Vector3.Distance(transform.position, fearedObjectPosition) > 12)
         {
             fearedObjectPosition = Vector3.zero;
             targetStructure = null;
@@ -599,11 +599,16 @@ public class PyreFly : CreatureBehaviorScript
         IgnitionToggle(false);
     }
 
-    public override void NearLaventLeaf(Vector3 pos)
+    public override void NearLaventLeaf(GameObject laventObject)
     {
         if(currentState == CreatureState.Flee) return;
-        fearedObjectPosition = pos;
-        fleeToPos = transform.position + ((transform.position - fearedObjectPosition + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 8));
+        fearedObjectPosition = laventObject.transform.position;
+        fleeToPos = transform.position + (-transform.forward * 10);
+
+        targetStructure = null;
+        targetFireSource = null;
+
+        currentState = CreatureState.Flee;
         agent.destination = fleeToPos;
         fearObject.SetActive(true);
     }
@@ -699,6 +704,27 @@ public class PyreFly : CreatureBehaviorScript
         }
 
         return true;
+    }
+
+    public override bool OnStun(float duration) // For the resin pole trap
+    {
+        if (currentState != CreatureState.Stun && variant != Variant.Hydro)
+        {
+            currentState = CreatureState.Stun;
+            agent.enabled = false;
+            agent.speed = 0;
+            anim.Play("PyreflyHeld");
+            StopCoroutine(PlayerTurn());
+            return true;
+        }
+        return false;
+    }
+
+    public override void NewPriorityTarget(StructureBehaviorScript newStruct)
+    {
+        if (currentState == CreatureState.Stun || variant == Variant.Hydro) return;
+        target = newStruct.transform;
+        agent.destination = target.position;
     }
 
     //
