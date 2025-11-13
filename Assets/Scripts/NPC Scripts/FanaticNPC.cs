@@ -32,6 +32,14 @@ public class FanaticNPC : NPC, ITalkable
                 currentType = PathType.Default;
                 GameSaveData.Instance.fanMet = true;
             }
+            else if(GameSaveData.Instance.apo_wasKidnapped && !GameSaveData.Instance.fan_ApoGoneComment)
+            {
+                currentPath = 6;
+                currentType = PathType.Misc;
+                GameSaveData.Instance.fan_ApoGoneComment = true;
+                NPCManager.Instance.fanSpoke = true;
+
+            }
             else if(!GameSaveData.Instance.fan_giveBombs && !PlayerInventoryHolder.Instance.IsInventoryFull())
             {
                 GameSaveData.Instance.fan_giveBombs = true;
@@ -39,6 +47,7 @@ public class FanaticNPC : NPC, ITalkable
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(bathBomb, 3));
                 dailyQuest = null;
+                NPCManager.Instance.fanSpoke = true;
             }
             else
             {

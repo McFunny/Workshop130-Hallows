@@ -47,12 +47,21 @@ public class CarpenterNPC : NPC, ITalkable
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(chest, 1));
                 dailyQuest = null;
+                NPCManager.Instance.carpSpoke = true;
             }
-            else if(!GameSaveData.Instance.cm_offersKit && GameSaveData.Instance.playerWagonFound)
+            else if(!GameSaveData.Instance.cm_refusedRepairs && GameSaveData.Instance.playerWagonFound && !GameSaveData.Instance.tav_reportedApoMissing)
+            {
+                GameSaveData.Instance.cm_refusedRepairs = true;
+                currentPath = 10;
+                currentType = PathType.Misc;
+                NPCManager.Instance.carpSpoke = true;
+            }
+            else if(!GameSaveData.Instance.cm_offersKit && GameSaveData.Instance.playerWagonFound && GameSaveData.Instance.tav_reportedApoMissing) //Offering kit to repair the wagon
             {
                 GameSaveData.Instance.cm_offersKit = true;
                 currentPath = 8;
                 currentType = PathType.Misc;
+                NPCManager.Instance.carpSpoke = true;
             }
             else
             {

@@ -71,6 +71,7 @@ public class PlaceableItem : InventoryItemData
                 if(placeAsPile) placedStruct.PlaceAsPile();
 
                 if(Tutorial.Instance) Tutorial.Instance.PlaceStructure();
+                PopupEvents.current.PlaceStructure();
             }
 
         }

@@ -12,7 +12,7 @@ public class TruffleHog : CritterBehaviorScript
     float walkSpeed = 4;
     float runSpeed = 9;
 
-    int burrowsToDig = 0; //How many burrows it plans to dig
+    [HideInInspector] public int burrowsToDig = 0; //How many burrows it plans to dig
 
     public GameObject burrowPrefab;
     public InventoryItemData truffleItem;
@@ -149,7 +149,7 @@ public class TruffleHog : CritterBehaviorScript
     protected override void OnHour()
     {
         if(!usedForWagon) base.OnHour();
-        if(TimeManager.Instance.currentHour == 8)
+        if(TimeManager.Instance.currentHour == 8 && !TutorialMiller.Instance)
         {
             burrowsToDig = Random.Range(2, 4);
         }

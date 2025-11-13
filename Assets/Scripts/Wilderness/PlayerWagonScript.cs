@@ -9,6 +9,8 @@ public class PlayerWagonScript : MonoBehaviour
 
     public Transform critterPos; //Where the hogs spawn after wilderness trip
 
+    public GameObject wagonModel, brokenModel;
+
     void Start()
     {
         if(type == WagonType.Farm) WagonManager.Instance.farmWagon = this;
@@ -23,6 +25,20 @@ public class PlayerWagonScript : MonoBehaviour
     public Transform GetWeakPoint()
     {
         return weakPoints[Random.Range(0, weakPoints.Count)];
+    }
+
+    public void UpdateModel(bool repaired)
+    {
+        if(repaired)
+        {
+            wagonModel.SetActive(true);
+            brokenModel.SetActive(false);
+        }
+        else
+        {
+            wagonModel.SetActive(false);
+            brokenModel.SetActive(true);
+        }
     }
 }
 

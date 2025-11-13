@@ -11,6 +11,8 @@ public class TavernNPC : NPC, ITalkable
 
     public List<Character> possibleFetchAssignees, possibleHuntAssignees, possibleGrowAssignees;
 
+    public PopupScript tav_WarningP;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -36,6 +38,14 @@ public class TavernNPC : NPC, ITalkable
                 currentType = PathType.Default;
                 GameSaveData.Instance.barMet = true;
             }
+            else if(GameSaveData.Instance.apo_wasKidnapped && !GameSaveData.Instance.tav_reportedApoMissing)
+            {
+                GameSaveData.Instance.tav_reportedApoMissing = true;
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(15));
+                currentPath = 5;
+                currentType = PathType.Misc;
+                NPCManager.Instance.barkeepSpoke = true;
+            }
             else if(CompletedQuest())
             {
                 currentPath = 0;
@@ -55,21 +65,21 @@ public class TavernNPC : NPC, ITalkable
             }
             else if (currentPath == -1) //Give 1 daily flavor text
             {
-                if((Random.Range(0, 10) >= 99 && CurrentPlayerQuests() < 3) || CurrentPlayerQuests() == 0) //temp disabled
+                /*if((Random.Range(0, 10) >= 99 && CurrentPlayerQuests() < 3) || CurrentPlayerQuests() == 0) //temp disabled
                 {
                     GiveQuest();
                     int i = Random.Range(0, dialogueText.questPaths.Length);
                     currentPath = i;
                     currentType = PathType.Quest;
                     NPCManager.Instance.barkeepSpoke = true;
-                }
-                else
-                {
+                }*/
+                //else
+                //{
                     int i = Random.Range(0, dialogueText.fillerPaths.Length);
                     currentPath = i;
                     currentType = PathType.Filler;
                     NPCManager.Instance.barkeepSpoke = true;
-                }
+                //}
             }
         }
         Talk();
@@ -186,6 +196,31 @@ public class TavernNPC : NPC, ITalkable
             if(q.isMajorQuest == false && q.alreadyCompleted == false) subQuestsActive++;
         }
         return subQuestsActive;
+    }
+
+    protected override void HourUpdate()
+    {
+        base.HourUpdate();
+
+        if(TimeManager.Instance.currentHour == 9 && !GameSaveData.Instance.tav_reportedApoMissing && GameSaveData.Instance.apo_wasKidnapped) PopupHandler.Instance.AddToQueue(tav_WarningP);
+    }
+
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(!GameSaveData.Instance.tav_reportedApoMissing && GameSaveData.Instance.apo_wasKidnapped)
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        return true;
     }
 
 
