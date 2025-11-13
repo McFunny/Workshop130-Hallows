@@ -51,6 +51,13 @@ public class ApothNPC : NPC, ITalkable
                     currentType = PathType.Quest;
                     QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[9]);
                 }
+                else if(!GameSaveData.Instance.apo_thanked && GameSaveData.Instance.apo_rescued) //Apo commented on being rescued
+                {
+                    GameSaveData.Instance.apo_thanked = true;
+                    currentPath = 8;
+                    currentType = PathType.Misc;
+                    QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(16)); //Ideally this is called after the apoth is freed from her cage
+                }
                 else if(dailyQuest != null)
                 {
                     currentPath = QuestDatabase.Instance.GetQuestPath(character);
@@ -225,6 +232,12 @@ public class ApothNPC : NPC, ITalkable
 
     }
 
+    public override int VerifySchedule()
+    {
+        if(GameSaveData.Instance.apo_wasKidnapped && !GameSaveData.Instance.apo_rescued) return 2;
+        return 1;
+    }
+
     public override void BeginWorking()
     {
         if (!assignedStall) return;
@@ -260,10 +273,16 @@ public class ApothNPC : NPC, ITalkable
             currentlyReadingScroll = false;
             GameSaveData.Instance.apo_readScroll = true;
         }
+
+        if(TimeManager.Instance.currentHour == 8 && !GameSaveData.Instance.apo_wasKidnapped && GameSaveData.Instance.siegesCleared == 1)
+        {
+            GameSaveData.Instance.apo_wasKidnapped = true;
+        }
     }
 
     bool CanSellSiegeSeeds()
     {
+        if(GameSaveData.Instance.siegesCleared == 1 && !GameSaveData.Instance.apo_rescued) return false; // apo has not been kidnapped yet or is kidnapped
         if(GameSaveData.Instance.siegeCropInHand || SiegeManager.Instance.siegeCropOnFarm || !GameSaveData.Instance.apo_readScroll) return false;
         if(GameSaveData.Instance.siegesCleared >= 4) return false; //All sieges done
         return true;

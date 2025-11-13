@@ -22,7 +22,11 @@ public class NPCMovement : MonoBehaviour
     public Sublocation currentSublocation;
 
     public bool isWorking;
+
+    List<Schedule> currentScheduleList; //Which schedule they are currently running
+
     public List<Schedule> scheduleList = new List<Schedule>();
+    public List<Schedule> scheduleList2 = new List<Schedule>(); //Alternate schedule
 
     NPC npcScript;
     bool isTalking = false;
@@ -34,20 +38,35 @@ public class NPCMovement : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        TimeManager.OnHourlyUpdate += CheckDestination;
+        TimeManager.OnHourlyUpdate += MoveToNextPlace;
         npcMovementManager = FindObjectOfType<NPCMovementManager>();
         npcScript = GetComponent<NPC>();
+        StartCoroutine(DelayedMove());
+    }
+
+    IEnumerator DelayedMove()
+    {
+        yield return new WaitForSeconds(4);
         CheckDestination();
+    }
+
+    void MoveToNextPlace()
+    {
+        StartCoroutine(DelayedMove());
     }
 
     void OnDisable()
     {
-        TimeManager.OnHourlyUpdate -= CheckDestination;
+        TimeManager.OnHourlyUpdate -= MoveToNextPlace;
     }
 
     public void CheckDestination()
     {
-        foreach (Schedule schedule in scheduleList)
+        int scheduleNum = npcScript.VerifySchedule();
+        if(scheduleNum == 2) currentScheduleList = scheduleList2;
+        else currentScheduleList = scheduleList;
+
+        foreach (Schedule schedule in currentScheduleList)
         {
             if (schedule.time == TimeManager.Instance.currentHour)
             {

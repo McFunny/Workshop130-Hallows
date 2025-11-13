@@ -317,6 +317,11 @@ public abstract class NPC : MonoBehaviour, IInteractable
         return "";
     }
 
+    public virtual int VerifySchedule()
+    {
+        return 1;
+    }
+
     public bool CompletedQuest()
     {
         //Check if player completed any quest non item related

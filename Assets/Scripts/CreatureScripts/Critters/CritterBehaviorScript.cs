@@ -210,6 +210,8 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 
     public override void OnDamage()
     {
+        if(TutorialMiller.Instance) health = maxHealth;
+
         if(health > 0 && effectsHandler.hitSounds.Length > 0) effectsHandler.OnHit();
     }
 
@@ -273,6 +275,12 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             FriendPointsChange(25, true);
             effectsHandler.PlaySound(effectsHandler.petSound);
             interactSuccessful = true;
+
+            if(TutorialMiller.Instance) 
+            {
+                TutorialMiller.Instance.HogPetted();
+            }
+            PopupEvents.current.PetCritter();
             return;
         }
         interactSuccessful = false;

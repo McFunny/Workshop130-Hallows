@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd4c3c83fae23b4cae61c12ce438472, type: 3}
+  m_Name: TutorialMiller
+  m_EditorClassIdentifier: 
+  speakerName: Miller
+  defaultPath:
+    pathName: Have A Pen
+    paragraphs:
+    - I heard from the Lumberjack the path to the barn has been cleared...   {freezePlayer}
+    - It is a little worse for wear... but also a nice secluded place, distant from
+      the nightmares of the fog.
+    - Perfect for raising livestock...
+    - Here... Something to get you started... {giveGift}
+    - This animal pen can house larger sized critters in your barn. Without a home,
+      critters will run away at dawn...
+    - 'While you get that set up, I will see if I can wrangle up a hog for ya...  '
+    - Consider it a house warming gift...
+    emotions: 05000000020000000000000001000000020000000000000001000000
+  repeatedItemPath:
+    pathName: 
+    paragraphs:
+    - Bleh! Something NEW please?
+    emotions: 03000000
+  paths:
+  - pathName: ...
+    paragraphs:
+    - ...
+    emotions: 00000000
+  - pathName: Make Room
+    paragraphs:
+    - Good day to you Mr.Farmer...
+    - Before I proceed... Would you mind clearing some space in your pockets...?
+    emotions: 0000000004000000
+  - pathName: All Done
+    paragraphs:
+    - Looks like your new friend is all settled in...
+    - My business here is done... Come see me by my home in the morning... I carry
+      essentials for animal husbandry...
+    - Take care...
+    emotions: 010000000000000000000000
+  fillerPaths: []
+  questPaths: []
+  itemRecievedPaths: []
+  itemSpecificRemarks: []
+  friendshipPath1: []
+  friendshipPath2: []
+  friendshipPath3: []
+  alreadySpoken:
+  - pathName: ...
+    paragraphs:
+    - '...
+
+'
+    emotions: 06000000
+  branchingPaths: []
+  questCompletePaths: []
+  dailyQuestPaths: []

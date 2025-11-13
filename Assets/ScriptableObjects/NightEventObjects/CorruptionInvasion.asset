@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdaa6e979a4595f41a02359956e28cb1, type: 3}
+  m_Name: CorruptionInvasion
+  m_EditorClassIdentifier: 
+  name: CorruptionInvasion
+  occurenceChance: 2
+  difficultyPointsCost: 10
+  eventStartPopup: {fileID: 11400000, guid: e80698437b9c512448a5ace28b4e6e51, type: 2}
+  wealthPrerequisite: 4000
+  units:
+  - prefab: {fileID: 4374146570455700657, guid: d6efb0d271c14a04c9e7692224c67678,
+      type: 3}
+    spawnMin: 1
+    spawnMax: 3
+  - prefab: {fileID: 5906481233429557733, guid: 1980c3cafab68cd4ba4fba6bee6b1493,
+      type: 3}
+    spawnMin: 2
+    spawnMax: 4
