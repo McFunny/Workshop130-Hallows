@@ -187,7 +187,7 @@ public class InventoryUIController : MonoBehaviour
         chestPanel.gameObject.SetActive(true);
         playerBackpackPanel.gameObject.SetActive(true);
         chestPanel.RefreshDynamicInventory(invToDisplay);
-       
+        OnInventoryOpened?.Invoke(true);
         isBackpackOpen = true;
 
     }
