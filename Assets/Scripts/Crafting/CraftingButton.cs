@@ -18,6 +18,12 @@ public class CraftingButton : MonoBehaviour
         if(unlocked)
         {
             craftingSystem.UpdateAssignedEntry(assignedEntry);
+
+            if(assignedEntry.isRecentlyUnlocked)
+            {
+                bulb.gameObject.SetActive(false);
+                assignedEntry.isRecentlyUnlocked = false;
+            }
             return;
         }
     }
