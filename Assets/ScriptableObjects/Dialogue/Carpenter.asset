@@ -76,10 +76,21 @@ MonoBehaviour:
   - pathName: Sold repair kit
     paragraphs:
     - Superb. I will get to the repairs in a moment. Expect a servicable wagon by
-      dawn.
+      dawn.   {freezePlayer}
     - In the meantime, try to scrounge up the beasts to pull the carriage.
     - I surmise 2 healthy Truffle Hogs ought to suffice.
     emotions: 010000000000000000000000
+  - pathName: i will not sell repair kit
+    paragraphs:
+    - Whats that you say? There is a dilapidated wagon in your farm that needs repairs? 
+      {freezePlayer}
+    - I.. am not quite sure how this will assist in your farming endeavors... The
+      mist outside makes travelling near impossible.
+    - While I am all for repairing the damages done by this regional blight, I feel
+      there are more important things in need of repairing than a dingy wagon.
+    - If you can provide logical reasoning to warrant a repair, then come see me
+      again.
+    emotions: 04000000020000000500000000000000
   fillerPaths:
   - pathName: Back to glory
     paragraphs:

@@ -55,7 +55,7 @@ MonoBehaviour:
     emotions: 03000000
   - pathName: SiegeWarning
     paragraphs:
-    - Excellent! Here is the Titan Seed.
+    - Excellent! Here is the Titan Seed. {freezePlayer}
     - According to that scroll, you will need to protect the flower's exposed root
       nodes in addition to the plant itself.
     - Lose too many, and the flower will perish. Make sure you have plenty of water
@@ -63,6 +63,21 @@ MonoBehaviour:
     - Fear not however. The more I make, the less flowers I will require to synthesize
       another.
     emotions: 01000000000000000500000001000000
+  - pathName: Thanks for rescue
+    paragraphs:
+    - Hey there farmer! I got those new marigleam seeds ready for you! {freezePlayer}
+    - ... What is that look for?
+    - ... Huh? Am I ok? Why wouldn't I be?
+    - ... Kidnapped? Farmer, with no due respect, I think you have been huffing the
+      fog fumes too much! You are talking utter nonsense!
+    - Here is something worth talking about! I recently found these new and shiny
+      seeds! They appear to have properties similar to that of the marigleams.
+    - For example, holding them up near the haze seems to dispel it! It is not super
+      noticeable, but in high amounts I bet it could dissipate a good portion of
+      it!
+    - These could be crucial in removing high concentrations of isolated mist! If
+      only I could remember where I found them...
+    emotions: 01000000040000000400000005000000010000000000000001000000
   fillerPaths:
   - pathName: Aloe
     paragraphs:

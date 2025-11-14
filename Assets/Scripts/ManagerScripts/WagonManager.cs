@@ -42,22 +42,30 @@ public class WagonManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         if(farmWagon.gameObject.activeSelf == false && GameSaveData.Instance.playerWagonUnlocked) farmWagon.gameObject.SetActive(true);
+        if(wagonHealth <= 0) wagonDestroyed = true;
+        farmWagon.UpdateModel(!wagonDestroyed);
     }
 
     void HourUpdate()
     {
         if(TimeManager.Instance.currentHour == 8)
         {
-            if(farmWagon.gameObject.activeSelf == false && GameSaveData.Instance.playerWagonUnlocked) farmWagon.gameObject.SetActive(true);
+            if(farmWagon.gameObject.activeSelf == false && GameSaveData.Instance.playerWagonUnlocked)
+            {
+                farmWagon.gameObject.SetActive(true);
+                QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(15), out bool removedSuccesfully);
+                if(removedSuccesfully) QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(16));
+            }
 
             if(daysToRepair > 0)
             {
                 daysToRepair--;
                 if(daysToRepair == 0)
                 {
-                    daysToRepair = 0;
+                    //daysToRepair = 0;
                     wagonDestroyed = false;
                     wagonHealth = maxWagonHealth;
+                    farmWagon.UpdateModel(true);
                 }
             }
         }
@@ -78,6 +86,8 @@ public class WagonManager : MonoBehaviour
         if(!wagonDestroyed && wagonHealth == 0 && TownGate.Instance.location == PlayerLocation.InWilderness)
         {
             WildernessManager.Instance.ExitWilderness();
+            wagonDestroyed = true;
+            daysToRepair = 2;
         }
     }
 

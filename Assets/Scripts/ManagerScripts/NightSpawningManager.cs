@@ -253,6 +253,21 @@ public class NightSpawningManager : MonoBehaviour
         }
     }
 
+    public void SpawnCreature(GameObject c) //prefab version
+    {
+        GameObject prefab = c;
+
+        GameObject newCreature; 
+        newCreature = Instantiate(prefab, RandomMistPositionFrontCabin(), Quaternion.identity);
+
+        if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
+        {
+            enemy.OnSpawn(); 
+            allCreatures.Add(enemy);
+            if(enemy.creatureData) enemy.creatureData.hasSpawned = true;
+        }
+    }
+
     IEnumerator SpawnCreatures()
     {
         yield return new WaitForSeconds(0.5f);
@@ -528,7 +543,7 @@ public class NightSpawningManager : MonoBehaviour
     {
         for(int i = 0; i < nightEvents.Count; i++)
         {
-            if(Random.Range(0, 100f) < nightEvents[i].occurenceChance  && !eventOccured && TimeManager.Instance.dayNum > 1)
+            if(Random.Range(0, 100f) < nightEvents[i].occurenceChance  && !eventOccured && TimeManager.Instance.dayNum > 1 && nightEvents[i].CanStartEvent())
             {
                 nightEvents[i].InitiateEvent();
                 difficultyPoints -= nightEvents[i].difficultyPointsCost;

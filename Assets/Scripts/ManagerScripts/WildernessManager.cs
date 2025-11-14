@@ -6,7 +6,10 @@ using UnityEngine.Events;
 public class WildernessManager : MonoBehaviour
 {
     public delegate void WildernessExit();
-    public static event WildernessExit OnWildernessLeave; //Unity Event that will listeners when the player leaves wilderness by any means
+    public static event WildernessExit OnWildernessLeave; //Unity Event that will tell listeners when the player leaves wilderness by any means
+
+    public delegate void WildernessEnter();
+    public static event WildernessEnter OnWildernessEnter; //Unity Event that will tell listeners when the player enters wilderness by any means
 
     public static WildernessManager Instance;
 
@@ -94,6 +97,7 @@ public class WildernessManager : MonoBehaviour
         hoursSpentInWilderness++;
         StartCoroutine(CreatureSpawn());
         StartCoroutine(WagonCreatureSpawn());
+        OnWildernessEnter?.Invoke();
     }
 
     public void ExitWilderness()
@@ -108,7 +112,7 @@ public class WildernessManager : MonoBehaviour
         hoursSpentInWilderness = 0;
         visitedWilderness = true;
         StopCoroutines();
-        OnWildernessLeave.Invoke();
+        OnWildernessLeave?.Invoke();
     }
 
     public void GameOver()
@@ -124,7 +128,7 @@ public class WildernessManager : MonoBehaviour
         hoursSpentInWilderness = 0;
         visitedWilderness = false;
         StopCoroutines();
-        OnWildernessLeave.Invoke();
+        OnWildernessLeave?.Invoke();
     }
 
     void StopCoroutines()
@@ -199,7 +203,7 @@ public class WildernessManager : MonoBehaviour
             maxSwarm += Random.Range(1, 4);
             if(maxSwarm < minSwarm) maxSwarm = minSwarm;
             waveNum++;
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(30);
         }
     }
 

@@ -50,7 +50,9 @@ public class Fence : StructureBehaviorScript
     {
         int mask = 0;
 
-        Tilemap currentMap = StructureManager.Instance.farmTileMap;
+        Tilemap currentMap;
+        if(!absentFromFarmGrid) currentMap = StructureManager.Instance.farmTileMap;
+        else currentMap = StructureManager.Instance.barnTileMap;
         StructureBehaviorScript foundFence = null;
         StructureManager manager = StructureManager.Instance;
 

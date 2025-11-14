@@ -107,7 +107,7 @@ public class StructureDatabase : ScriptableObject
         int i = 0;
         foreach(StructureObject s in Structures)
         {
-            if(data.structStats != null || i >= data.structStats.Length || data.structStats.Length == 0) return;
+            if(data.structStats == null || i >= data.structStats.Length || data.structStats.Length == 0) return;
             s.hasBeenPlaced = data.structStats[i];
             i++;
         }

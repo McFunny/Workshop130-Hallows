@@ -22,6 +22,8 @@ public class CritterPen : StructureBehaviorScript
     void Start()
     {
         StartCoroutine(DelayedStart());
+
+        if(TutorialMiller.Instance) TutorialMiller.Instance.SpawnHog();
     }
 
     public override void ToolInteraction(ToolType type, out bool success)

@@ -21,6 +21,8 @@ public class WildernessMap : MonoBehaviour
 
     public List<WildernessSwarm> possibleSwarms;
 
+    public GameObject apothCageSetpiece;
+
     void Start()
     {
         if(!WildernessManager.Instance.allMaps.Contains(this))
@@ -89,6 +91,8 @@ public class WildernessMap : MonoBehaviour
                     prefabToSpawn = setPiecePrefabs[s]._object;
                 }
                 attempts++;
+
+                if(GameSaveData.Instance.apo_wasKidnapped && !GameSaveData.Instance.apo_rescued) prefabToSpawn = apothCageSetpiece;
             }
             GameObject spawnedObject = Instantiate(prefabToSpawn, setPiecePositions[i].position, Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0));
             currentSetPieces.Add(spawnedObject);

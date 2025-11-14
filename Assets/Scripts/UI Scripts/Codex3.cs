@@ -267,6 +267,7 @@ public class Codex3 : MonoBehaviour
         codexAudio.PlayOneShot(codexOpenSound); // Play the codex open sound
 
         if (Tutorial.Instance) Tutorial.Instance.OpenCodex();
+        PopupEvents.current.OpenCodex();
     }
 
     public void CloseCodex()

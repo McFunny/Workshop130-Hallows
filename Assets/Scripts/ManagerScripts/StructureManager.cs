@@ -862,12 +862,16 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(15, 25, weedTile, false, farmTileMap));
         yield return new WaitForSeconds(1.5f);
         StartCoroutine(PopulateStructure(15, 25, boulder, true, farmTileMap));
+        yield return new WaitForSeconds(1.5f);
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 3, barricade, true, barnTileMap));
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 5, fence, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
         //StartCoroutine(PopulateStructure(1, 2, critterHive, true, barnTileMap)); 
         StartCoroutine(PopulateStructure(3, 8, cocoon, true, barnTileMap));
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
         PopulateBerryBushes(2, 3, true);

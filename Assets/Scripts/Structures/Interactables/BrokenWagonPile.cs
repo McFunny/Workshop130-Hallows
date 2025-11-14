@@ -36,13 +36,13 @@ public class BrokenWagonPile : MonoBehaviour, IInteractable
     {
         interactSuccessful = true;
 
+        PopupHandler.Instance.AddToQueue(repairInstructions);
+
         if(!GameSaveData.Instance.playerWagonFound)
         {
             GameSaveData.Instance.playerWagonFound = true;
             QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(14));
         }
-
-        PopupHandler.Instance.AddToQueue(repairInstructions);
     }
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)

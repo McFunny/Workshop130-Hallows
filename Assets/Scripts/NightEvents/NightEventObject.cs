@@ -11,9 +11,17 @@ public class NightEventObject : ScriptableObject
     public int difficultyPointsCost = 10; //How many difficulty points will be removed when this occurs
 
     public PopupScript eventStartPopup;
+
+    public int wealthPrerequisite = 0;
     
     public virtual void InitiateEvent()
     {
         //What happens when the event begins
+    }
+
+    public virtual bool CanStartEvent()
+    {
+        if(PlayerInteraction.Instance.totalMoneyEarned >= wealthPrerequisite) return true;
+        else return false;
     }
 }

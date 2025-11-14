@@ -9,8 +9,16 @@ public class Brazier : StructureBehaviorScript
     public FireFearTrigger fireTrigger;
     public GameObject fire;
 
-    public float flameLeft; //if 0, fire is gone
-    float maxFlame = 30;
+    public int flameLeft; //if 0, fire is gone
+    int maxFlame = 20; //How many hours it lasts
+
+    bool isBurning;
+
+    public List<RepairItem> fuelItems;
+
+    public PopupScript needWoodP;
+
+    public GameObject woodObject;
 
     //Rework to incorporate a fuel based system rather than static time.
 
@@ -22,10 +30,11 @@ public class Brazier : StructureBehaviorScript
     void Start()
     {
         base.Start();
-        fireTrigger.OnScare += EnemyScaredByFire;
-        //StartCoroutine(FireDrain()); //Gonna see how this is without the passive fire drain
-        flameLeft = 0;
+        //fireTrigger.OnScare += EnemyScaredByFire;
+        //StartCoroutine(FireDrain());
+        //flameLeft = 0;
         fire.SetActive(false);
+        UpdateModel();
     }
 
     void Update()
@@ -52,14 +61,20 @@ public class Brazier : StructureBehaviorScript
         if(type == ToolType.Torch)
         {
             print("Torch");
-            if(PlayerInteraction.Instance.torchLit && flameLeft <= 0)
+            if(PlayerInteraction.Instance.torchLit && !isBurning)
             {
-                flameLeft = maxFlame;
+                if(flameLeft == 0)
+                {
+                    PopupHandler.Instance.AddToQueue(needWoodP);
+                    success = false;
+                    return;
+                }
+                isBurning = true;
                 fire.SetActive(true);
                 audioHandler.PlaySound(audioHandler.activatedSound);
                 success = true;
             }
-            else if(flameLeft > 0 && !PlayerInteraction.Instance.torchLit)
+            else if(isBurning && !PlayerInteraction.Instance.torchLit)
             {
                 HandItemManager.Instance.TorchFlameToggle(true);
                 success = true;
@@ -72,13 +87,13 @@ public class Brazier : StructureBehaviorScript
             //StartCoroutine(DugUpForItem());
             success = true;
         }
-        else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && flameLeft > 0)
+        else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && isBurning)
         {
             PlayerInteraction.Instance.waterHeld--;
             HitWithWater();
             success = true;
         }
-        else if (type == ToolType.Pyrefly && flameLeft > 0 && !PlayerInteraction.Instance.pyreflyLit)
+        else if (type == ToolType.Pyrefly && isBurning && !PlayerInteraction.Instance.pyreflyLit)
         {
             HandItemManager.Instance.PyreflyFlameToggle(true);
             success = true;
@@ -87,10 +102,34 @@ public class Brazier : StructureBehaviorScript
         
     }
 
+    public override void ItemInteraction(InventoryItemData item)
+    {
+        if(flameLeft >= maxFlame) return;
+        foreach(RepairItem r in fuelItems)
+        {
+            if(r.item == item)
+            {
+                if(maxFlame <= r.repairAmount + flameLeft) flameLeft = maxFlame;
+                else flameLeft += r.repairAmount;
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                PlayerInventoryHolder.Instance.UpdateInventory();
+                UpdateModel();
+                audioHandler.PlaySound(audioHandler.itemInteractSound);
+                return;
+            }
+        }
+    }
+
+    void UpdateModel()
+    {
+        if(flameLeft > 0) woodObject.SetActive(true);
+        else woodObject.SetActive(false);
+    }
+
     public override void HitWithWater()
     {
-        if(flameLeft <= 0) return;
-        flameLeft = 0;
+        if(!isBurning) return;
+        isBurning = false;
         ExtinguishFlame();
     }
 
@@ -103,7 +142,20 @@ public class Brazier : StructureBehaviorScript
         
     }*/
 
-    IEnumerator FireDrain() //Disabled
+    public override void HourPassed()
+    {
+        if(isBurning)
+        {
+            flameLeft--;
+
+            if(flameLeft == 0 && fire.activeSelf)
+            {
+                ExtinguishFlame();
+            }
+        }
+    }
+
+    /*IEnumerator FireDrain() //Disabled
     {
         int r;
         while(gameObject.activeSelf)
@@ -118,9 +170,12 @@ public class Brazier : StructureBehaviorScript
             }
         }
     }
+    */
 
     void ExtinguishFlame()
     {
+        UpdateModel();
+        isBurning = false;
         ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = fire.transform.position;
         fire.SetActive(false);
         audioHandler.PlaySound(audioHandler.miscSounds1[0]);
@@ -128,15 +183,38 @@ public class Brazier : StructureBehaviorScript
 
     void OnDestroy()
     {
-        fireTrigger.OnScare -= EnemyScaredByFire;
+        //fireTrigger.OnScare -= EnemyScaredByFire;
         base.OnDestroy();
         //if (!gameObject.scene.isLoaded) return; 
     }
 
-    void EnemyScaredByFire(bool successful)
+    /*void EnemyScaredByFire(bool successful)
     {
         if(flameLeft <= 0 || !successful) return;
         flameLeft -= Random.Range(1,3);
         if(flameLeft <= 0) ExtinguishFlame();
+    }*/
+    
+    public override void LoadVariables()
+    {
+        flameLeft = saveInt1;
+        UpdateModel();
+    }
+
+    public override void SaveVariables()
+    {
+        saveInt1 = flameLeft;
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = flameLeft;
+        structureUIVariables.valueGroups[1].maxValue = maxFlame;
+
+        return structureUIVariables.valueGroups;
     }
 }

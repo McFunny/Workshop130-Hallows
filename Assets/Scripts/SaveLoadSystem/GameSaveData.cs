@@ -67,6 +67,12 @@ public class GameSaveData : MonoBehaviour
     public bool cm_offersKit; //Player told craftsman about the broken wagon. He will start selling the kit
     public bool playerWagonFound; // Player found the broken wagon in the barn
     public bool playerWagonUnlocked; // Player repaired the broken wagon in the barn
+    public bool apo_wasKidnapped; //Apothocary is gone
+    public bool apo_rescued; //Apothocary is saved
+    public bool apo_thanked; //Apothocary thanked player for rescueing
+    public bool tav_reportedApoMissing; //Tavernkeep told player she is missing
+    public bool fan_ApoGoneComment; //Extra dialogue from the fanatic from the missing apoth
+    public bool cm_refusedRepairs; //Craftsman refused to repair the wagon. Apoth must be kidnapped first
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin blocking barn
@@ -161,6 +167,7 @@ public class GameSaveData : MonoBehaviour
         if(data.allGameSaveData.bugStats != null) BugDatabase.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.critterStats != null) BarnManager.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.structStats != null) StructureDatabase.Instance.LoadStats(data.allGameSaveData);
+        // Place the code for recipe loading
 
         tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
         rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -208,6 +215,12 @@ public class GameSaveData : MonoBehaviour
         cm_offersKit = data.allGameSaveData.cm_offersKit;
         playerWagonUnlocked = data.allGameSaveData.playerWagonUnlocked;
         playerWagonFound = data.allGameSaveData.playerWagonFound;
+        apo_wasKidnapped = data.allGameSaveData.apo_wasKidnapped;
+        apo_rescued = data.allGameSaveData.apo_rescued;
+        apo_thanked = data.allGameSaveData.apo_thanked;
+        tav_reportedApoMissing = data.allGameSaveData.tav_reportedApoMissing;
+        fan_ApoGoneComment = data.allGameSaveData.fan_ApoGoneComment;
+        cm_refusedRepairs = data.allGameSaveData.cm_refusedRepairs;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -336,9 +349,15 @@ public class GameSaveData : MonoBehaviour
         public bool cm_offersKit;
         public bool playerWagonUnlocked;
         public bool playerWagonFound;
+        public bool apo_wasKidnapped;
+        public bool apo_rescued; 
+        public bool apo_thanked; 
+        public bool tav_reportedApoMissing;
+        public bool fan_ApoGoneComment;
+        public bool cm_refusedRepairs;
 
         public int siegesCleared;
-        public bool siegeCropInHand; //
+        public bool siegeCropInHand; 
         public int siegesLost;
 
         public float petHunger, petProgress, petThirst;
@@ -380,6 +399,7 @@ public class GameSaveData : MonoBehaviour
         BugDatabase.Instance.SaveStats(out bugStats);
         BarnManager.Instance.SaveStats(out critterStats);
         StructureDatabase.Instance.SaveStats(out structStats);
+        // Place the code for recipe saving
 
 
         tutorialMerchantSpoke = data.tutorialMerchantSpoke;
@@ -435,6 +455,12 @@ public class GameSaveData : MonoBehaviour
         cm_offersKit = data.cm_offersKit;
         playerWagonUnlocked = data.playerWagonUnlocked;
         playerWagonFound = data.playerWagonFound;
+        apo_wasKidnapped = data.apo_wasKidnapped;
+        apo_rescued = data.apo_rescued;
+        apo_thanked = data.apo_thanked;
+        tav_reportedApoMissing = data.tav_reportedApoMissing;
+        fan_ApoGoneComment = data.fan_ApoGoneComment;
+        cm_refusedRepairs = data.cm_refusedRepairs;
 
         siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;

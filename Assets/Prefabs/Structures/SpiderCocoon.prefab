@@ -99,7 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24acd9ba387ddb41bb2f8f181c3e512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitSounds: []
+  hitSounds:
+  - {fileID: 8300000, guid: f7e9af48e2da2174f95c1116912b1d50, type: 3}
   miscSounds1:
   - {fileID: 8300000, guid: 1a51bf8f5a7c1c144a9b44c993eefb63, type: 3}
   - {fileID: 8300000, guid: f2ae1f4b9a63a2844ba62107e4e26fce, type: 3}
@@ -107,7 +108,7 @@ MonoBehaviour:
   miscSounds2: []
   interactSound: {fileID: 8300000, guid: 670c8869953582347943c68fdb8f866b, type: 3}
   itemInteractSound: {fileID: 0}
-  breakSound: {fileID: 0}
+  breakSound: {fileID: 8300000, guid: da1578a38023d7647b6418281f1af5b8, type: 3}
   activatedSound: {fileID: 0}
 --- !u!82 &1771979749676372193
 AudioSource:

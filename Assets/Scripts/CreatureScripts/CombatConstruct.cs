@@ -223,7 +223,7 @@ public class CombatConstruct : CreatureBehaviorScript
                 movingToPlayer = false;
                 continue;
             }
-            else if(inWilderness || playerInSightRange)
+            else if((inWilderness && !patrolPoint) || playerInSightRange)
             {
                 targetPos = player.position;
                 movingToPlayer = true;
@@ -233,7 +233,8 @@ public class CombatConstruct : CreatureBehaviorScript
             yield return new WaitForSeconds(Random.Range(1.5f, 3f));
             float x = Random.Range(-15f, 15f);
             float z = Random.Range(-15f, 15f);
-            targetPos = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
+            if(patrolPoint) targetPos = new Vector3(patrolPoint.position.x + x, patrolPoint.position.y, patrolPoint.position.z + z);
+            else targetPos = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
         }
     }
 
