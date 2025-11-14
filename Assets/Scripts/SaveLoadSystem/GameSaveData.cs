@@ -167,6 +167,7 @@ public class GameSaveData : MonoBehaviour
         if(data.allGameSaveData.bugStats != null) BugDatabase.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.critterStats != null) BarnManager.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.structStats != null) StructureDatabase.Instance.LoadStats(data.allGameSaveData);
+        if(data.allGameSaveData.craftingStats != null) CraftingDatabase.Instance.LoadStats(data.allGameSaveData);
         // Place the code for recipe loading
 
         tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
@@ -302,6 +303,7 @@ public class GameSaveData : MonoBehaviour
         public int[] bugStats;
         public CritterData[] critterStats;
         public bool[] structStats;
+        public CraftingPlayerStats[] craftingStats;
 
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
@@ -399,7 +401,7 @@ public class GameSaveData : MonoBehaviour
         BugDatabase.Instance.SaveStats(out bugStats);
         BarnManager.Instance.SaveStats(out critterStats);
         StructureDatabase.Instance.SaveStats(out structStats);
-        // Place the code for recipe saving
+        CraftingDatabase.Instance.SaveStats(out craftingStats);
 
 
         tutorialMerchantSpoke = data.tutorialMerchantSpoke;

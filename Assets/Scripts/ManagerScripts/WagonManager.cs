@@ -10,10 +10,11 @@ public class WagonManager : MonoBehaviour
 
     public float wagonHealth = 500;
     public float maxWagonHealth = 500;
-
     public bool wagonDestroyed = false;
 
     public int daysToRepair = -1;
+    public delegate void OnWagonHPChanged();
+    public event OnWagonHPChanged onWagonHPChanged;
 
     void Awake()
     {
@@ -79,7 +80,9 @@ public class WagonManager : MonoBehaviour
 
         if(wagonHealth < 0) wagonHealth = 0;
 
-        if(wagonHealth > maxWagonHealth) wagonHealth = maxWagonHealth;
+        if (wagonHealth > maxWagonHealth) wagonHealth = maxWagonHealth;
+
+        onWagonHPChanged();
 
         print("Wagon health changed. Health is " + wagonHealth);
 

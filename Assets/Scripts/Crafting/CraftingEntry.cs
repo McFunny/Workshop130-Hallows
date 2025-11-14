@@ -5,10 +5,14 @@ using UnityEngine;
 [CreateAssetMenu]
 public class CraftingEntry : ScriptableObject
 {
+    public int id = -1;
     [Tooltip("Overrides the name that appears on the recipe if that's something you need to do. Does NOT change item name.")]
     public string nameOverride;
     public CraftingCategory category = CraftingCategory.Misc;
+    [Header("Unlock Requirements")]
     public int levelRequirement = -1;
+    public bool isUnlocked;
+    public bool isRecentlyUnlocked;
     [Header("Output Data")]
     public InventoryItemData output;
     public int outputAmount = 1;
