@@ -28,7 +28,7 @@ public class BrokenWagonPile : MonoBehaviour, IInteractable
     void CheckData()
     {
         if(TimeManager.Instance.currentHour != 8) return;
-        if(GameSaveData.Instance.playerWagonUnlocked) Destroy(gameObject);
+        //if(GameSaveData.Instance.playerWagonUnlocked) Destroy(gameObject);
         StartCoroutine(DelayedStart());
     }
 
