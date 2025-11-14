@@ -10,6 +10,7 @@ public class FlintlockBehavior : ToolBehavior
     public List<PelletValues> pelletValues;
 
     //PelletValues currentPellet;
+    public AudioClip[] shootSFX;
 
     public AudioClip shoot, hit_Dirt, hit_Creature, hit_Structure, headShot;
     int bulletCount = 1;
@@ -80,7 +81,7 @@ public class FlintlockBehavior : ToolBehavior
 
         //HandItemManager.Instance.PlayPrimaryAnimation();
         toolAnim.Play("pistolshoot", -1, 0f);
-        HandItemManager.Instance.toolSource.PlayOneShot(shoot);
+        HandItemManager.Instance.toolSource.PlayOneShot(shootSFX[Random.Range(0, shootSFX.Length)]);
         PlayerInteraction.Instance.ToolUseToggle(true);
         ItemUsed();
 
