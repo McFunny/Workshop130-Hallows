@@ -104,7 +104,7 @@ public class UIMenuButton : MonoBehaviour
             if(EventSystem.current.currentSelectedGameObject == this.gameObject)
             {
                 isSelected = true;
-                arrowImage.color = c_interactable;
+                if(arrowImage != null) arrowImage.color = c_interactable;
                 //arrowImage.enabled = true;
                 if(ignoreColor) return;
 
@@ -113,7 +113,7 @@ public class UIMenuButton : MonoBehaviour
             else
             {
                 isSelected = false;
-                arrowImage.color = c_invisible;
+                if(arrowImage != null) arrowImage.color = c_invisible;
                 //arrowImage.enabled = false;
                 if(ignoreColor) return;
                 

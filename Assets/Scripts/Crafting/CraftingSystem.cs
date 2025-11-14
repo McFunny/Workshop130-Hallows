@@ -29,7 +29,7 @@ public class CraftingSystem : MonoBehaviour
     [SerializeField] private List<Image> controllerImages;
     [SerializeField] private UILerp collectLerp, timerLerp;
     [SerializeField] private List<CanvasGroup> canvasGroups = new List<CanvasGroup>();
-    private CraftingEntry[] craftingEntries;
+    private List<CraftingEntry> craftingEntries = new List<CraftingEntry>();
     private GameObject descriptionBoxContainer;
     private CanvasGroup thisCanvasGroup;
     private TextMeshProUGUI collectButtonText;
@@ -46,7 +46,7 @@ public class CraftingSystem : MonoBehaviour
         thisCanvasGroup = GetComponent<CanvasGroup>();
         craftingMenu.SetActive(false);
         isCraftingMenuOpen = false;
-        craftingEntries = Resources.LoadAll<CraftingEntry>("Crafting");
+        craftingEntries = CraftingDatabase.Instance.GetCraftingDatabase();
         descriptionBoxContainer = descriptionBox.gameObject.transform.GetChild(0).gameObject;
         descriptionBoxVisuals.SetActive(false);
 
@@ -174,13 +174,14 @@ public class CraftingSystem : MonoBehaviour
             craftingButtons.Add(buttonVars);
 
             // Check level requirement
-            if (entry.levelRequirement > XPManager.instance.ReturnLevel())
+            if (!entry.isUnlocked)
             {
                 buttonVars.unlocked = false;
                 buttonVars.questionMark.SetActive(true);
                 buttonVars.itemNameText.text = "???";
                 buttonVars.itemCountText.text = "";
                 buttonVars.icon.gameObject.SetActive(false);
+                buttonVars.bulb.gameObject.SetActive(false);
                 tempButton.name = "Locked Craft";
                 continue;
             }
@@ -190,6 +191,7 @@ public class CraftingSystem : MonoBehaviour
             buttonVars.icon.sprite = entry.output.icon;
             buttonVars.unlocked = true;
             buttonVars.questionMark.SetActive(false);
+            buttonVars.bulb.gameObject.SetActive(entry.isRecentlyUnlocked);
 
             if (entry.nameOverride == "")
             {
