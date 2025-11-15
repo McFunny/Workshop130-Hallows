@@ -38,8 +38,9 @@ public class Codex3 : MonoBehaviour
         Plants,
         Creatures,
         Bugs,
-        Quests,
-        Critters
+        Critters,
+        Quests
+        
     }
     OpenCategory openCategory;
     [SerializeField] private UIAlphaController bgPanel;
@@ -345,12 +346,12 @@ public class Codex3 : MonoBehaviour
                     Cat = BugEntries;
                     break;
                 case 6:
-                    isQuest = true;
+                    critterObjects = new List<GameObject>();
+                    isCritter = true;
                     Cat = null;
                     break;
                 case 7:
-                    critterObjects = new List<GameObject>();
-                    isCritter = true;
+                    isQuest = true;
                     Cat = null;
                     break;
             }
@@ -367,9 +368,9 @@ public class Codex3 : MonoBehaviour
 
                 for (int e = 0; e < activeQuests.Count; e++)
                 {
-                    var chosenContainer = containers[i];
-                    if (e < maxQuestEntries) chosenContainer = containers[i];
-                    else chosenContainer = secondaryContainers[i];
+                    var chosenContainer = containers[7];
+                    if (e < maxQuestEntries) chosenContainer = containers[7];
+                    else chosenContainer = secondaryContainers[7];
 
                     GameObject entryButton = Instantiate(entryButtonHorizontalPrefab, chosenContainer.transform);
                     entryButton.name = activeQuests[e].name + " Quest";
@@ -439,7 +440,7 @@ public class Codex3 : MonoBehaviour
                 PetBehaviorScript pet = gameSaveData.currentPet;
                 if (pet != null)
                 {
-                    var petButton = Instantiate(critterButtonPrefab, containers[7].transform);
+                    var petButton = Instantiate(critterButtonPrefab, containers[6].transform);
                     petButton.name = pet.name + " Pet";
 
                     var petVars = petButton.GetComponent<CodexCritter>();
@@ -464,7 +465,7 @@ public class Codex3 : MonoBehaviour
                 for (int c = 0; c < critters.Count; c++)
                 {
                     int batchIndex = buttonsPlaced / maxCritterEntries;
-                    Transform currentParent = (batchIndex % 2 == 0) ? containers[7].transform : secondaryContainers[7].transform;
+                    Transform currentParent = (batchIndex % 2 == 0) ? containers[6].transform : secondaryContainers[6].transform;
                     Color homelessColor = new Color(1.0f, 1.0f, 1.0f, 0.75f);
                     Color hasHomeColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
