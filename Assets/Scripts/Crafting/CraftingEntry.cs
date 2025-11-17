@@ -11,8 +11,8 @@ public class CraftingEntry : ScriptableObject
     public CraftingCategory category = CraftingCategory.Misc;
     [Header("Unlock Requirements")]
     public int levelRequirement = -1;
-    public bool isUnlocked;
-    public bool isRecentlyUnlocked;
+    public bool isUnlocked = false;
+    public bool isRecentlyUnlocked = true;
     [Header("Output Data")]
     public InventoryItemData output;
     public int outputAmount = 1;
