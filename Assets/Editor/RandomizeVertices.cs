@@ -18,22 +18,27 @@ public class RandomizeVertices : EditorWindow
         GUILayout.Label("Randomize ProBuilder Vertices", EditorStyles.boldLabel);
         randomOffset = EditorGUILayout.FloatField("Random Offset", randomOffset);
 
-        if (GUILayout.Button("Randomize Selected Object"))
+        if (GUILayout.Button("Randomize Selected Objects"))
         {
-            if (Selection.activeGameObject == null)
+            var selection = Selection.gameObjects;
+
+            if (selection.Length == 0)
             {
-                Debug.LogError("No object selected!");
+                Debug.LogError("No objects selected!");
                 return;
             }
 
-            var mesh = Selection.activeGameObject.GetComponent<ProBuilderMesh>();
-            if (mesh == null)
+            foreach (var go in selection)
             {
-                Debug.LogError("Selected object is not a ProBuilder mesh!");
-                return;
-            }
+                var mesh = go.GetComponent<ProBuilderMesh>();
+                if (mesh == null)
+                {
+                    Debug.LogWarning($"{go.name} is not a ProBuilder mesh, skipping.");
+                    continue;
+                }
 
-            RandomizeSharedVertices(mesh, randomOffset);
+                RandomizeSharedVertices(mesh, randomOffset);
+            }
         }
     }
 
@@ -41,22 +46,17 @@ public class RandomizeVertices : EditorWindow
     {
         Undo.RegisterCompleteObjectUndo(mesh, "Randomize Vertices");
 
-        // Copy positions to a mutable list
         List<Vector3> positions = new List<Vector3>(mesh.positions);
-
-        // Get shared vertex groups (each represents a connected vertex cluster)
         var sharedVertices = mesh.sharedVertices;
 
         foreach (var sharedGroup in sharedVertices)
         {
-            // Generate one random offset per shared vertex cluster
             Vector3 randomOffsetVec = new Vector3(
                 Random.Range(-offset, offset),
                 Random.Range(-offset, offset),
                 Random.Range(-offset, offset)
             );
 
-            // Apply that offset to all vertex indices in this group
             foreach (int index in sharedGroup)
             {
                 positions[index] += randomOffsetVec;
