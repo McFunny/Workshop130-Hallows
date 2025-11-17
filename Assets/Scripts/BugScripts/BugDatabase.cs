@@ -67,10 +67,12 @@ public class BugDatabase : ScriptableObject
     public void LoadStats(AllGameSaveData data)
     {
         int i = 0;
+        Debug.Log("Loading bug database");
         foreach(BugObject c in _bugDatabase)
         {
-            if(data.bugStats != null || i >= data.bugStats.Length || data.bugStats.Length == 0) return;
+            if(data.bugStats == null || i >= data.bugStats.Length || data.bugStats.Length == 0) return;
             c.amountCaught = data.bugStats[i];
+            Debug.Log(c.amountCaught);
             i++;
         }
     }
