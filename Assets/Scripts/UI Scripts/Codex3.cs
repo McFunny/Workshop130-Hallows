@@ -81,6 +81,9 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private CodexEntries waterGunEntry;
     [SerializeField] private CodexEntries scytheEntry;
     [SerializeField] private CodexEntries bugNetEntry;
+    [SerializeField] private CodexEntries nutTesterEntry;
+    [SerializeField] private CodexEntries kukriEntry;
+    [SerializeField] private CodexEntries pistolEntry;
 
     private void Awake()
     {
@@ -841,6 +844,9 @@ public class Codex3 : MonoBehaviour
         waterGunEntry.unlocked = gameSaveData.watergunObtained;
         bugNetEntry.unlocked = gameSaveData.bugNetObtained;
         scytheEntry.unlocked = gameSaveData.scytheObtained;
+        nutTesterEntry.unlocked = gameSaveData.testerObtained;
+        kukriEntry.unlocked = gameSaveData.kukriObtained;
+        pistolEntry.unlocked = gameSaveData.pistolObtained;
 
         if (mandrakeCreatureEntry.creatureData.amountKilled > 0)
         {

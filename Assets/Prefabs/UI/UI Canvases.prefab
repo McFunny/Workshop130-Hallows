@@ -12987,6 +12987,9 @@ MonoBehaviour:
   waterGunEntry: {fileID: 11400000, guid: b6da3ab967dfeaf429c121f420008ccb, type: 2}
   scytheEntry: {fileID: 11400000, guid: 766bb66102f59264d8be566efa2a6261, type: 2}
   bugNetEntry: {fileID: 11400000, guid: 748bc84e61944ad49b8df0cae2d7e5c5, type: 2}
+  nutTesterEntry: {fileID: 11400000, guid: d2ce407d4c7036a4c9d0e1f5882ee58b, type: 2}
+  kukriEntry: {fileID: 11400000, guid: 4831ca21582f5b5418e33a5cbe60223a, type: 2}
+  pistolEntry: {fileID: 11400000, guid: 78e177989847392479174c183fc47b88, type: 2}
 --- !u!82 &7023204899320078213
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15224,7 +15227,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6270179669531299219
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15320,6 +15323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed5fcb89fe8b3f418339bd7fee08edf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainUIContainer: {fileID: 0}
   healthSlider: {fileID: 449381146592377278}
 --- !u!1 &1705758885142528603
 GameObject:
@@ -61736,7 +61740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5065063243739724601
 RectTransform:
   m_ObjectHideFlags: 0
