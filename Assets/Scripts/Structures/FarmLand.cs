@@ -718,6 +718,8 @@ public class FarmLand : StructureBehaviorScript
         if(Tutorial.Instance && isWeed) Tutorial.Instance.WeedDug();
         else if(Tutorial.Instance && crop) Tutorial.Instance.LostSeed();
 
+        ParticlePoolManager.Instance.GrabStructDigParticle().transform.position = transform.position;
+
         if(crop) StructureInteraction();
         else
         {

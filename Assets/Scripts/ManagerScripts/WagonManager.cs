@@ -44,7 +44,7 @@ public class WagonManager : MonoBehaviour
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(3);
-        if(!GameSaveData.Instance.playerWagonUnlocked && debugWagon) farmWagon.gameObject.SetActive(false);
+        if(!GameSaveData.Instance.playerWagonUnlocked && !debugWagon) farmWagon.gameObject.SetActive(false);
         if(wagonHealth <= 0) wagonDestroyed = true;
         farmWagon.UpdateModel(!wagonDestroyed);
     }
