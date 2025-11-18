@@ -148,6 +148,22 @@ public class CorruptionManager : MonoBehaviour
         }
     }
 
+    public IEnumerator FinaleComplete()
+    {
+        for(int i = 0; i < StructureManager.Instance.allStructs.Count; ++i)
+        {
+            if(StructureManager.Instance.allStructs[i] == null) continue;
+            CorruptedTile c = StructureManager.Instance.allStructs[i] as CorruptedTile;
+
+            if(c)
+            {
+                yield return new WaitForSeconds(Random.Range(0.2f, 0.8f));
+                c.health = 0;
+                Destroy(c.gameObject);
+            }
+        }
+    }
+
     public float CorruptedSpawnMod()
     {
         return 5 + (corruptedTiles/maxCorruption) * 70;

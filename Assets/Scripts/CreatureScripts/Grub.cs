@@ -387,6 +387,7 @@ public class Grub : CreatureBehaviorScript
             targetWagon.TakeWagonDamage(damageToStructure);
         }
         yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
+        if(stunCooldown) yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
         agent.Resume();
         isMoving = false;
         coroutineRunning = false;
@@ -448,11 +449,11 @@ public class Grub : CreatureBehaviorScript
         anim.Play("GrubStun");
         effectsHandler.MiscSound2();
         yield return new WaitForSeconds(3f);
-        agent.speed = oldSpeed - 1f;
+        agent.speed = oldSpeed - 1.5f;
         stunnedByFire = false;
         yield return new WaitForSeconds(4f);
         fearObject.SetActive(false);
-        agent.speed += 1f;
+        agent.speed += 1.5f;
         stunCooldown = false;
     }
 

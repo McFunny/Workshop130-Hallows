@@ -600,6 +600,8 @@ public class NightSpawningManager : MonoBehaviour
                 creature.TakeDamage(999);
             }
         }
+
+        CorruptionManager.Instance.StartCoroutine(CorruptionManager.Instance.FinaleComplete());
     }
 
     IEnumerator GameCompleted()

@@ -32,6 +32,11 @@ public class BrokenWagonPile : MonoBehaviour, IInteractable
         StartCoroutine(DelayedStart());
     }
 
+    void OnDestroy()
+    {
+        TimeManager.OnHourlyUpdate -= CheckData;
+    }
+
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         interactSuccessful = true;
