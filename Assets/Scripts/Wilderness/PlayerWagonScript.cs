@@ -13,7 +13,10 @@ public class PlayerWagonScript : MonoBehaviour
 
     void Start()
     {
-        if(type == WagonType.Farm) WagonManager.Instance.farmWagon = this;
+        if(type == WagonType.Farm)
+        {
+            WagonManager.Instance.farmWagon = this;
+        }
         else if(type == WagonType.Wilderness) WagonManager.Instance.wildernessWagon = this;
     }
 

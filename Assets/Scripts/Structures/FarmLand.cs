@@ -436,11 +436,11 @@ public class FarmLand : StructureBehaviorScript
         }
         hoursSpent++;
 
-        if(!crop) return; //No crop
+        if(crop == null) return; //No crop
 
         if(crop.behavior) crop.behavior.OnHour(this);
 
-        if((hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
+        if((crop && hoursSpent >= crop.hoursPerStage) || StructureManager.Instance.ignoreCropGrowthTime)
         {
             if(crop.behavior && !crop.behavior.CanGrow(this)) return;
 
@@ -717,6 +717,8 @@ public class FarmLand : StructureBehaviorScript
         forceDig = true;
         if(Tutorial.Instance && isWeed) Tutorial.Instance.WeedDug();
         else if(Tutorial.Instance && crop) Tutorial.Instance.LostSeed();
+
+        ParticlePoolManager.Instance.GrabStructDigParticle().transform.position = transform.position;
 
         if(crop) StructureInteraction();
         else

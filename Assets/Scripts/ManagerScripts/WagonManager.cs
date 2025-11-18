@@ -16,6 +16,8 @@ public class WagonManager : MonoBehaviour
     public delegate void OnWagonHPChanged();
     public event OnWagonHPChanged onWagonHPChanged;
 
+    public bool debugWagon; // if true, will force the player wagon to stay spawned in even if not unlocked
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -42,7 +44,7 @@ public class WagonManager : MonoBehaviour
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(3);
-        if(farmWagon.gameObject.activeSelf == false && GameSaveData.Instance.playerWagonUnlocked) farmWagon.gameObject.SetActive(true);
+        if(!GameSaveData.Instance.playerWagonUnlocked && !debugWagon) farmWagon.gameObject.SetActive(false);
         if(wagonHealth <= 0) wagonDestroyed = true;
         farmWagon.UpdateModel(!wagonDestroyed);
     }

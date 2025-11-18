@@ -96,12 +96,7 @@ public class BearTrap : StructureBehaviorScript
     {
         if(!caughtSomething)
         {
-            if(Random.Range(0, maxHealth) <= health) 
-            {
-                GameObject droppedItem = ItemPoolManager.Instance.GrabItem(itemForm);
-                droppedItem.transform.position = transform.position;
-            }
-            Destroy(this.gameObject);
+            base.DigAction();
         }
         
     }
