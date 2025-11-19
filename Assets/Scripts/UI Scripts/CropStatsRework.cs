@@ -28,6 +28,8 @@ public class CropStatsRework : MonoBehaviour
     public delegate void CropStatsShown();
     public event CropStatsShown OnCropStatsShown;
     private bool alwaysShowDetailedStats;
+    [Header("Overrides")]
+    [SerializeField] private CropData mandrakeCrop;
 
     void Awake()
     {
@@ -109,8 +111,17 @@ public class CropStatsRework : MonoBehaviour
                 else
                 {
                     isActive = true;
-                    cropNameText.text = hitCrop.crop.name;
-                    cropNameTextD.text = hitCrop.crop.name;
+                    if(hitCrop.crop == mandrakeCrop)
+                    {
+                        cropNameText.text = hitCrop.crop.name + "?";
+                        cropNameTextD.text = hitCrop.crop.name + "?";
+                    }
+                    else
+                    {
+                        cropNameText.text = hitCrop.crop.name;
+                        cropNameTextD.text = hitCrop.crop.name;
+                    }
+                    
                 }
                 FarmlandStatUpdate(hitCrop);
             }
