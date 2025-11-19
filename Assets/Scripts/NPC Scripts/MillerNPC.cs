@@ -51,14 +51,14 @@ public class MillerNPC : NPC, ITalkable
                     currentType = PathType.GivingDaily;
                     GivePlayerDailyQuest();
                 }
-                else if (!GameSaveData.Instance.mil_gavePen && GameSaveData.Instance.townTreeCleared2 && !PlayerInventoryHolder.Instance.IsInventoryFull())
+                /*else if (!GameSaveData.Instance.mil_gavePen && GameSaveData.Instance.townTreeCleared2 && !PlayerInventoryHolder.Instance.IsInventoryFull())
                 {
                     GameSaveData.Instance.mil_gavePen = true;
                     currentPath = 7;
                     currentType = PathType.Misc;
                     itemsToGive.Add(new ItemWithAmount(hogPen, 1));
                     dailyQuest = null;
-                }
+                }*/
                 else if (NPCManager.Instance.millerSpoke)
                 {
                     int i = Random.Range(0, dialogueText.alreadySpoken.Length);
@@ -112,14 +112,14 @@ public class MillerNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
+    /*public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
     {
         uniqueDialogue = false;
         if(item == barterDatabase.uniqueTransactions[0].itemForSale)
         {
             GameSaveData.Instance.pistolObtained = true;
         }
-    }
+    }*/
 
     public override void PlayerLeftRadius()
     {
@@ -188,10 +188,10 @@ public class MillerNPC : NPC, ITalkable
     protected override void HourUpdate()
     {
         base.HourUpdate();
-        if(TimeManager.Instance.currentHour == 9 && !GameSaveData.Instance.mil_gavePen && GameSaveData.Instance.townTreeCleared2) PopupHandler.Instance.AddToQueue(millerHasPenPopup);
+        //if(TimeManager.Instance.currentHour == 9 && !GameSaveData.Instance.mil_gavePen && GameSaveData.Instance.townTreeCleared2) PopupHandler.Instance.AddToQueue(millerHasPenPopup);
     }
 
-    public override bool ExclamationCheck()
+    /*public override bool ExclamationCheck()
     {
         if(base.ExclamationCheck() == false)
         {
@@ -207,7 +207,7 @@ public class MillerNPC : NPC, ITalkable
             }
         }
         return true;
-    }
+    }*/
 
     public override bool ActionCheck1() //To check if he starts selling items
     {

@@ -9828,6 +9828,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 7615063608950619662}
   corpseParticleTransform: {fileID: 2250135483946723332}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 1
   rb: {fileID: 580013471618771925}
   anim: {fileID: 8768231876989588211}
@@ -9877,7 +9878,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4752466917925727808}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 0.5
   m_Speed: 4
   m_Acceleration: 8
@@ -20247,6 +20248,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 1890379229740654837}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}

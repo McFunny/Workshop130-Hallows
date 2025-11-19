@@ -5948,6 +5948,9 @@ MonoBehaviour:
   r: {fileID: 7990588649442076165}
   chargeParticles: {fileID: 306790215504124835}
   dashParticles: {fileID: 8328095646225358408}
+  walkSpeed: 4
+  runSpeed: 8
+  chargeSpeed: 14
   exhaustL: {fileID: 0}
   exhaustR: {fileID: 0}
   thrusterParticles: {fileID: 0}
@@ -11335,6 +11338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 5915516447648380893}
+  audioScript: {fileID: 0}
 --- !u!114 &5606231958215177958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11352,6 +11356,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 8300000, guid: f8ecaea00208a5742a68fc5f1c88d97d, type: 3}
   idleSound2: {fileID: 8300000, guid: c1e7172a544ca2046972e2f88a008e39, type: 3}
@@ -17375,6 +17380,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7234107323769093488, guid: 167469892e4d2c84592db22f40a55284,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17486,6 +17496,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7234107323769093488, guid: 167469892e4d2c84592db22f40a55284,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17596,6 +17611,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234107323769093488, guid: 167469892e4d2c84592db22f40a55284,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

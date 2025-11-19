@@ -71,6 +71,7 @@ public class BarnManager : MonoBehaviour
         {
             hog.health = 5;
             hog.usedForWagon = false;
+            hog.transform.position = WagonManager.Instance.farmWagon.critterPos.position;
         }
         enlistedHogs.Clear();
     }

@@ -64,7 +64,15 @@ public class GameSaveData : MonoBehaviour
     public bool mm_soldPet; //Player got their first pet from the merchant
     public bool tra_askedForFood; //Traveller offered kukri for food
     public bool mil_gavePen; // Miller gave the player a hog pen after they cleared the barn
+    public bool cm_offersKit; //Player told craftsman about the broken wagon. He will start selling the kit
+    public bool playerWagonFound; // Player found the broken wagon in the barn
     public bool playerWagonUnlocked; // Player repaired the broken wagon in the barn
+    public bool apo_wasKidnapped; //Apothocary is gone
+    public bool apo_rescued; //Apothocary is saved
+    public bool apo_thanked; //Apothocary thanked player for rescueing
+    public bool tav_reportedApoMissing; //Tavernkeep told player she is missing
+    public bool fan_ApoGoneComment; //Extra dialogue from the fanatic from the missing apoth
+    public bool cm_refusedRepairs; //Craftsman refused to repair the wagon. Apoth must be kidnapped first
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin blocking barn
@@ -159,6 +167,8 @@ public class GameSaveData : MonoBehaviour
         if(data.allGameSaveData.bugStats != null) BugDatabase.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.critterStats != null) BarnManager.Instance.LoadStats(data.allGameSaveData);
         if(data.allGameSaveData.structStats != null) StructureDatabase.Instance.LoadStats(data.allGameSaveData);
+        if(data.allGameSaveData.craftingStats != null) CraftingDatabase.Instance.LoadStats(data.allGameSaveData);
+        // Place the code for recipe loading
 
         tutorialMerchantSpoke = data.allGameSaveData.tutorialMerchantSpoke;
         rascalWantsFood = data.allGameSaveData.rascalWantsFood;
@@ -203,7 +213,15 @@ public class GameSaveData : MonoBehaviour
         mm_introducedPets = data.allGameSaveData.mm_introducedPets;
         tra_askedForFood = data.allGameSaveData.tra_askedForFood;
         mil_gavePen = data.allGameSaveData.mil_gavePen;
+        cm_offersKit = data.allGameSaveData.cm_offersKit;
         playerWagonUnlocked = data.allGameSaveData.playerWagonUnlocked;
+        playerWagonFound = data.allGameSaveData.playerWagonFound;
+        apo_wasKidnapped = data.allGameSaveData.apo_wasKidnapped;
+        apo_rescued = data.allGameSaveData.apo_rescued;
+        apo_thanked = data.allGameSaveData.apo_thanked;
+        tav_reportedApoMissing = data.allGameSaveData.tav_reportedApoMissing;
+        fan_ApoGoneComment = data.allGameSaveData.fan_ApoGoneComment;
+        cm_refusedRepairs = data.allGameSaveData.cm_refusedRepairs;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -285,6 +303,7 @@ public class GameSaveData : MonoBehaviour
         public int[] bugStats;
         public CritterData[] critterStats;
         public bool[] structStats;
+        public CraftingPlayerStats[] craftingStats;
 
         public bool tutorialMerchantSpoke;
         public bool rascalWantsFood;
@@ -329,10 +348,18 @@ public class GameSaveData : MonoBehaviour
         public bool mm_introducedPets;
         public bool tra_askedForFood;
         public bool mil_gavePen;
+        public bool cm_offersKit;
         public bool playerWagonUnlocked;
+        public bool playerWagonFound;
+        public bool apo_wasKidnapped;
+        public bool apo_rescued; 
+        public bool apo_thanked; 
+        public bool tav_reportedApoMissing;
+        public bool fan_ApoGoneComment;
+        public bool cm_refusedRepairs;
 
         public int siegesCleared;
-        public bool siegeCropInHand; //
+        public bool siegeCropInHand; 
         public int siegesLost;
 
         public float petHunger, petProgress, petThirst;
@@ -374,6 +401,7 @@ public class GameSaveData : MonoBehaviour
         BugDatabase.Instance.SaveStats(out bugStats);
         BarnManager.Instance.SaveStats(out critterStats);
         StructureDatabase.Instance.SaveStats(out structStats);
+        CraftingDatabase.Instance.SaveStats(out craftingStats);
 
 
         tutorialMerchantSpoke = data.tutorialMerchantSpoke;
@@ -426,7 +454,15 @@ public class GameSaveData : MonoBehaviour
         mm_introducedPets = data.mm_introducedPets;
         tra_askedForFood = data.tra_askedForFood;
         mil_gavePen = data.mil_gavePen;
+        cm_offersKit = data.cm_offersKit;
         playerWagonUnlocked = data.playerWagonUnlocked;
+        playerWagonFound = data.playerWagonFound;
+        apo_wasKidnapped = data.apo_wasKidnapped;
+        apo_rescued = data.apo_rescued;
+        apo_thanked = data.apo_thanked;
+        tav_reportedApoMissing = data.tav_reportedApoMissing;
+        fan_ApoGoneComment = data.fan_ApoGoneComment;
+        cm_refusedRepairs = data.cm_refusedRepairs;
 
         siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;

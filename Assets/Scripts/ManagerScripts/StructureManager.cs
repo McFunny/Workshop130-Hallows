@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri, fence;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri, fence, cocoon;
     public CropData fogChime, berryBush;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -96,6 +96,7 @@ public class StructureManager : MonoBehaviour
             StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
             PopulateBerryBushes(-5, 2, false);
             StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
+            StartCoroutine(PopulateStructure(-10, 3, cocoon, true, farmTileMap));
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -861,11 +862,16 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(15, 25, weedTile, false, farmTileMap));
         yield return new WaitForSeconds(1.5f);
         StartCoroutine(PopulateStructure(15, 25, boulder, true, farmTileMap));
+        yield return new WaitForSeconds(1.5f);
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 3, barricade, true, barnTileMap));
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 5, fence, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
-        //StartCoroutine(PopulateStructure(1, 2, critterHive, true, barnTileMap));
+        //StartCoroutine(PopulateStructure(1, 2, critterHive, true, barnTileMap)); 
+        StartCoroutine(PopulateStructure(3, 8, cocoon, true, barnTileMap));
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
         PopulateBerryBushes(2, 3, true);
@@ -1106,6 +1112,40 @@ public class StructureManager : MonoBehaviour
                         }
                         script.SpriteChange();
                     }
+                }
+                spawnablePositions.RemoveAt(randomIndex);
+            }
+        }
+    }
+
+    public void PopulateCrop(int min, int max, CropData crop)
+    {
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        foreach (Vector3Int position in farmTileMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePos = farmTileMap.GetCellCenterWorld(position);
+            if(farmTileMap.GetTile(position) == freeTile)
+            {
+                spawnablePositions.Add(position);
+            }
+        }
+
+        int r = Random.Range(min,max + 1);
+        if (r <= 0 || !crop) return;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = farmTileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(farmTileMap.GetTile(spawnablePositions[randomIndex]) != null && farmTileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
+                {
+                    FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
+                    script.InsertCrop(crop);
+                    SetTile(spawnPos);
                 }
                 spawnablePositions.RemoveAt(randomIndex);
             }

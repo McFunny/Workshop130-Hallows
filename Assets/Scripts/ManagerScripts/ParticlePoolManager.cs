@@ -13,7 +13,7 @@ public class ParticlePoolManager : MonoBehaviour
 
     public GameObject corpseParticle, corpseParticleYellow, corruptedCorpseParticle, poofParticle, extinguishParticle, bloodDropletParticle, corruptBloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, 
     explosionParticle, cloudParticle, frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, 
-    slimeSplashLarge, orangeHitParticle, cleanseParticle, whiteHitParticle;
+    slimeSplashLarge, orangeHitParticle, cleanseParticle, whiteHitParticle, structDigParticle;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP, c_fleshDestructionP;
 
@@ -42,6 +42,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> orangeHitPool = new List<GameObject>();
     List<GameObject> cleansePool = new List<GameObject>();
     List<GameObject> whiteHitPool = new List<GameObject>();
+    List<GameObject> structDigPool = new List<GameObject>();
 
     //Destruction
     List<GameObject> woodPool = new List<GameObject>();
@@ -673,6 +674,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(whiteHitParticle);
         whiteHitPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabStructDigParticle()
+    {
+        foreach (GameObject particle in structDigPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(structDigParticle);
+        structDigPool.Add(newParticle);
         return newParticle;
     }
 

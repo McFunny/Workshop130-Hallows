@@ -405,7 +405,7 @@ public class DeerStalker : CreatureBehaviorScript
     private void Flee()
     {
         if(coroutineRunning) return;
-        Vector3 runTo = transform.position + ((transform.position - player.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
+        Vector3 runTo = transform.position + ((((transform.position - player.transform.position) * 3) + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3))));
         agent.destination = runTo;
         fleeTimeLeft -= Time.deltaTime;
         if(fleeTimeLeft <= 0 && currentState == CreatureState.Flee)

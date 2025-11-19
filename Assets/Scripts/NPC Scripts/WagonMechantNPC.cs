@@ -232,7 +232,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             {
                 currentPath = 6; //no money!?!?!?
             }
-            else if(PlayerInventoryHolder.Instance.IsInventoryFull())
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull() && !item.itemData.cannotEnterInventory)
             {
                 currentPath = 7; //No space in inventory
             }
@@ -256,6 +256,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                     }
                     else //item was a critter
                     {
+                        bool noHome = true;
                         foreach (StructureBehaviorScript structure in StructureManager.Instance.allStructs)
                         {
                             CritterPen pen = structure as CritterPen;
@@ -263,11 +264,11 @@ public class WagonMerchantNPC : NPC, ITalkable
                             if(pen.type == c.homeType)
                             {
                                 currentPath = 5; //item sold
+                                noHome = false;
                                 break;
                             }
-
-                            currentPath = 18; //critter has no home
                         }
+                        if(noHome) currentPath = 18; //critter has no home
                     }
                     
                 }

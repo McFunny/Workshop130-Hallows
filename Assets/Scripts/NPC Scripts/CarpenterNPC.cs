@@ -47,6 +47,21 @@ public class CarpenterNPC : NPC, ITalkable
                 currentType = PathType.Misc;
                 itemsToGive.Add(new ItemWithAmount(chest, 1));
                 dailyQuest = null;
+                NPCManager.Instance.carpSpoke = true;
+            }
+            else if(!GameSaveData.Instance.cm_refusedRepairs && GameSaveData.Instance.playerWagonFound && !GameSaveData.Instance.tav_reportedApoMissing)
+            {
+                GameSaveData.Instance.cm_refusedRepairs = true;
+                currentPath = 10;
+                currentType = PathType.Misc;
+                NPCManager.Instance.carpSpoke = true;
+            }
+            else if(!GameSaveData.Instance.cm_offersKit && GameSaveData.Instance.playerWagonFound && GameSaveData.Instance.tav_reportedApoMissing) //Offering kit to repair the wagon
+            {
+                GameSaveData.Instance.cm_offersKit = true;
+                currentPath = 8;
+                currentType = PathType.Misc;
+                NPCManager.Instance.carpSpoke = true;
             }
             else
             {
@@ -125,53 +140,6 @@ public class CarpenterNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    /*public override void PurchaseAttempt(StoreItem item)
-    {
-        if (dialogueController.IsInterruptable() == false)
-        {
-            return;
-        }
-        if (lastInteractedStoreItem == item)
-        {
-            //check price, then give item
-            if (PlayerInteraction.Instance.currentMoney < lastInteractedStoreItem.cost)
-            {
-                currentPath = 3; //no money!?!?!?
-            }
-            else if (PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, 1))
-            {
-                currentPath = 4; //No space in inventory
-            }
-            else
-            {
-                currentPath = 2; //item sold
-                shopUI.shopImgObj.SetActive(false);
-                if (assignedStall.displaySign)
-                {
-                    assignedStall.displaySign.ResetDisplay();
-                }
-            }
-            anim.SetTrigger("IsTalking");
-        }
-        else
-        {
-            dialogueController.restartDialogue = true;
-            currentPath = 1; //item selected
-            anim.SetTrigger("IsTalking");
-            if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
-            lastInteractedStoreItem = item;
-            shopUI.shopTarget = item.arrowObject.transform;
-            shopUI.shopImgObj.SetActive(true);
-            if (assignedStall.displaySign)
-            {
-                assignedStall.displaySign.DisplayItem(lastInteractedStoreItem.itemData);
-            }
-
-        }
-        currentType = PathType.Misc;
-        Talk();
-    }*/
-
     public override void PlayerLeftRadius()
     {
         if(movementHandler.isWorking) shopUI.shopImgObj.SetActive(false);
@@ -208,11 +176,20 @@ public class CarpenterNPC : NPC, ITalkable
                     item.RefreshItem(newItem, 0, gloomStalkBarter.itemsRequired, 99);
                 }
             }
-            else if(x == 2) //Sell Barrel
+            else if(x == 2) //Sell Barrel OR the repair kit
             {
-                newItem = barterDatabase.uniqueTransactions[1].itemForSale;
-                newCost = (int)(barterDatabase.uniqueTransactions[1].mintCost * sellMultiplier);
-                item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
+                if(GameSaveData.Instance.cm_offersKit && !GameSaveData.Instance.playerWagonUnlocked) //Repair Kit
+                {
+                    newItem = barterDatabase.uniqueTransactions[2].itemForSale;
+                    newCost = (int)(barterDatabase.uniqueTransactions[2].mintCost * sellMultiplier);
+                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[2].itemsRequired, barterDatabase.uniqueTransactions[2].amountForSale);
+                }
+                else //Barrel
+                {
+                    newItem = barterDatabase.uniqueTransactions[1].itemForSale;
+                    newCost = (int)(barterDatabase.uniqueTransactions[1].mintCost * sellMultiplier);
+                    item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[1].itemsRequired, barterDatabase.uniqueTransactions[1].amountForSale);
+                }
             }
             else if(x < 9)//Sell structures
             {
@@ -266,6 +243,19 @@ public class CarpenterNPC : NPC, ITalkable
         {
             QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetTutorialQuest(302), out bool removedSuccesfully);
             if(removedSuccesfully) GiveRewards(QuestDatabase.Instance.GetTutorialQuest(302).itemRewards);
+            return;
+        }
+        if(item == barterDatabase.uniqueTransactions[2].itemForSale) // Player bought the kit
+        {
+            currentPath = 9;
+            currentType = PathType.Misc;
+            dialogueController.restartDialogue = true;
+            QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(14));
+            Talk();
+            return;
+
+            uniqueDialogue = true;
+            return;
         }
     }
 
@@ -295,7 +285,8 @@ public class CarpenterNPC : NPC, ITalkable
     {
         if(base.ExclamationCheck() == false)
         {
-            if(!GameSaveData.Instance.cm_giveChest)
+            if(!GameSaveData.Instance.cm_giveChest || (!GameSaveData.Instance.cm_offersKit && GameSaveData.Instance.playerWagonFound && 
+            (!GameSaveData.Instance.cm_refusedRepairs || GameSaveData.Instance.tav_reportedApoMissing)))
             {
                 exclamationObject.SetActive(true);
                 return true;

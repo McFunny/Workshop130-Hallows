@@ -4424,6 +4424,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2051518580300837426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3936917048168425215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4230735258544770894}
+  m_Layer: 0
+  m_Name: Spot (18)
+  m_TagString: Untagged
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4230735258544770894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3936917048168425215}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 65.09, y: 0, z: -40.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 474536576919656251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3963962206093629198
 GameObject:
   m_ObjectHideFlags: 0
@@ -4949,6 +4980,8 @@ MonoBehaviour:
   cleanseParticle: {fileID: 3441194547447549414, guid: dfb7b58049734d441938eaf8059e03cd,
     type: 3}
   whiteHitParticle: {fileID: 2017681010470526393, guid: 7e2ef6de1b7d01147969ca665f396781,
+    type: 3}
+  structDigParticle: {fileID: 8260779043896246266, guid: 5d1ad69de0b78fd41bc0ab0911f2e933,
     type: 3}
   woodDestructionP: {fileID: 2191918286048292972, guid: 3e60246a56a3a424496e8ccba69e560a,
     type: 3}
@@ -10180,6 +10213,7 @@ MonoBehaviour:
   - {fileID: 4759477504724506100}
   - {fileID: 5795834188946563376}
   - {fileID: 4943098471609811063}
+  - {fileID: 4230735258544770894}
   crowSpots:
   - {fileID: 5888730988772639455}
   - {fileID: 6015689667237086059}
@@ -11166,6 +11200,7 @@ MonoBehaviour:
   buriedKukri: {fileID: 2170629837259517972, guid: 5f0e4ee85a46b2a46a2bebffb335e40b,
     type: 3}
   fence: {fileID: 3237086419210112824, guid: b158141a3c1d2f34b985b7b8f408700f, type: 3}
+  cocoon: {fileID: 9183404411685452638, guid: 23c489f685fdab8499639b3403bac8eb, type: 3}
   fogChime: {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
   berryBush: {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
   ignoreCropGrowthTime: 0
@@ -11272,12 +11307,14 @@ MonoBehaviour:
   pyreflyUnlit: {fileID: 2100000, guid: 9b08859ccf23f4f45a1ba5415972eebd, type: 2}
   handSpriteTransform: {fileID: 0}
   toolSource: {fileID: 2845003546474641417}
+  watercanSource: {fileID: 0}
   extinguish: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   bulletStart: {fileID: 0}
   waterBulletStart: {fileID: 0}
   waterBulletCloseStart: {fileID: 0}
   waterCanParticles: {fileID: 0}
   pistolParticles: {fileID: 0}
+  scytheTrail: {fileID: 0}
 --- !u!114 &3952483593475695091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11302,16 +11339,16 @@ MonoBehaviour:
     maxCreatures: 6
   - difficultyPointThreshold: 25
     c_varietyMin: 2
-    c_varietyMax: 4
+    c_varietyMax: 3
     r_varietyMin: 1
     r_varietyMax: 2
     s_varietyMin: 1
-    s_varietyMax: 2
+    s_varietyMax: 1
     hourlySpawnAttempts: 5
     maxCreatures: 6
   - difficultyPointThreshold: 75
     c_varietyMin: 2
-    c_varietyMax: 5
+    c_varietyMax: 4
     r_varietyMin: 1
     r_varietyMax: 3
     s_varietyMin: 1
@@ -11319,17 +11356,17 @@ MonoBehaviour:
     hourlySpawnAttempts: 6
     maxCreatures: 8
   - difficultyPointThreshold: 150
-    c_varietyMin: 3
-    c_varietyMax: 5
+    c_varietyMin: 2
+    c_varietyMax: 4
     r_varietyMin: 2
     r_varietyMax: 3
-    s_varietyMin: 2
+    s_varietyMin: 1
     s_varietyMax: 3
     hourlySpawnAttempts: 8
     maxCreatures: 10
   - difficultyPointThreshold: 225
     c_varietyMin: 3
-    c_varietyMax: 5
+    c_varietyMax: 4
     r_varietyMin: 2
     r_varietyMax: 4
     s_varietyMin: 2
@@ -11338,7 +11375,7 @@ MonoBehaviour:
     maxCreatures: 12
   - difficultyPointThreshold: 300
     c_varietyMin: 3
-    c_varietyMax: 6
+    c_varietyMax: 4
     r_varietyMin: 3
     r_varietyMax: 4
     s_varietyMin: 2
@@ -11351,7 +11388,7 @@ MonoBehaviour:
     r_varietyMin: 3
     r_varietyMax: 4
     s_varietyMin: 2
-    s_varietyMax: 4
+    s_varietyMax: 3
     hourlySpawnAttempts: 12
     maxCreatures: 20
   creatures:
@@ -11376,6 +11413,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2e13a79dfc756104b86d4465eb9ccbc3, type: 2}
   - {fileID: 11400000, guid: 8457c2dea860fda4f86b1c062442ff7a, type: 2}
   - {fileID: 11400000, guid: 3dbccb2a2b919c94ea3679a35ec8a00a, type: 2}
+  - {fileID: 11400000, guid: 668d2e39634652e478346ea6a911f280, type: 2}
   allCreatures: []
   mistSpawns:
   - {fileID: 7187795816526134101}
@@ -11400,6 +11438,8 @@ MonoBehaviour:
   nightEvents:
   - {fileID: 11400000, guid: 846015b0d2cb63b4fa36b8246f961fa5, type: 2}
   - {fileID: 11400000, guid: e4ed0856b651a094aa24e5bca6b800fe, type: 2}
+  - {fileID: 11400000, guid: 15fadd710b4c870469a74638c7dc96eb, type: 2}
+  - {fileID: 11400000, guid: 42e88111de082c644af07790639fc60f, type: 2}
   currentSpawnPool: {fileID: 0}
   firstNightWarning: {fileID: 11400000, guid: 72660b2db610a4141a9a53f590aa60ec, type: 2}
 --- !u!114 &6272051581299996177
@@ -11467,8 +11507,6 @@ MonoBehaviour:
   gameMode: 
   lostKukri: 0
   hourSaved: 8
-  wagonHealth: 0
-  wagonMaxHealth: 0
   gainedInventoryUpgrade: 0
   gainedWaterStorage: 0
   gainedWaterPack: 0
@@ -11503,6 +11541,15 @@ MonoBehaviour:
   mm_soldPet: 0
   tra_askedForFood: 0
   mil_gavePen: 0
+  cm_offersKit: 0
+  playerWagonFound: 0
+  playerWagonUnlocked: 0
+  apo_wasKidnapped: 0
+  apo_rescued: 0
+  apo_thanked: 0
+  tav_reportedApoMissing: 0
+  fan_ApoGoneComment: 0
+  cm_refusedRepairs: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   siegesCleared: 0
@@ -59168,6 +59215,9 @@ MonoBehaviour:
   wildernessWagon: {fileID: 0}
   wagonHealth: 100
   maxWagonHealth: 100
+  wagonDestroyed: 0
+  daysToRepair: -1
+  debugWagon: 0
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0
@@ -60957,6 +61007,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5623900851688348402}
+  - {fileID: 4230735258544770894}
   - {fileID: 5631018947489639298}
   - {fileID: 1609105906979850559}
   - {fileID: 1663209871995425163}

@@ -419,6 +419,7 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 0
   absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
@@ -442,7 +443,11 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   cropRenderer: {fileID: 6880864752236574915}
   itemDropTransform: {fileID: 0}
   type:
@@ -477,12 +482,16 @@ MonoBehaviour:
     sprite: {fileID: 966189109, guid: 539a8d6022dfa864f900b83fbaae38d9, type: 3}
   - item: {fileID: 11400000, guid: 1c88f2578c856db478e5447c134d120b, type: 2}
     wildernessSpawnRate: 30
-    townSpawnRate: 40
+    townSpawnRate: 30
     sprite: {fileID: -265457967, guid: 539a8d6022dfa864f900b83fbaae38d9, type: 3}
   - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
     wildernessSpawnRate: 10
     townSpawnRate: 70
     sprite: {fileID: 1972443649, guid: e7e1c27e4448a364585c970156d76960, type: 3}
+  - item: {fileID: 11400000, guid: ec36204edcbfb524f925ec1085e37952, type: 2}
+    wildernessSpawnRate: 100
+    townSpawnRate: 0
+    sprite: {fileID: -711164097, guid: bd54ab0e315177742a359c67a6184828, type: 3}
   dugUpSound: {fileID: 8300000, guid: 670c8869953582347943c68fdb8f866b, type: 3}
 --- !u!1 &4952454737248816691
 GameObject:

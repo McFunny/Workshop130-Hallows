@@ -15,7 +15,7 @@ public class SettingsValueManager : MonoBehaviour
     [SerializeField] private Button applyButton, defaultButton, backButton, resolutionButton;
     [SerializeField] private TextMeshProUGUI title, brightnessDisplay, sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay, resolutionDisplay;
     [SerializeField] private Slider brightnessSlider, sensitivitySlider, masterVolSlider, musicSlider, sfxSlider;
-    [SerializeField] private Toggle sprint, detailedUI;
+    [SerializeField] private Toggle sprint, detailedUI, emptyHand;
     //[SerializeField] private TMP_Dropdown resolutionDropDown;
     [SerializeField] private GameObject horizontalMenuButton, resolutionBox, resolutionContent;
     public GameObject resolutionDefault;
@@ -27,7 +27,7 @@ public class SettingsValueManager : MonoBehaviour
     private float currentRefreshRate;
     private int currentResolutionIndex;
     private int tempResolutionIndex;
-    private int sprintValue, detailedUIValue;
+    private int sprintValue, detailedUIValue, emptyHandValue;
     private float brightnessValue;
     private float defaultSensitivity, defaultVolume; // Default values
     private float sensitivity, masterVolume, musicVolume, sfxVolume; // Current Values
@@ -36,9 +36,6 @@ public class SettingsValueManager : MonoBehaviour
     private ApplySettings applySettings;
     public delegate void SettingsChanged();
     public static event SettingsChanged OnSettingsChanged;
-
-
-    private InputSystemUIInputModule inputSystem;
 
     void Awake()
     {
@@ -51,6 +48,7 @@ public class SettingsValueManager : MonoBehaviour
         brightnessValue = PlayerPrefs.GetFloat("Brightness", 0);
         sprintValue = PlayerPrefs.GetInt("ToggleSprint", 0);
         detailedUIValue = PlayerPrefs.GetInt("DetailedUI", 0);
+        emptyHandValue = PlayerPrefs.GetInt("EmptyHand", 0);
         volumeManager = FindFirstObjectByType<VolumeManager>();
         applySettings = FindFirstObjectByType<ApplySettings>();
 
@@ -194,12 +192,6 @@ public class SettingsValueManager : MonoBehaviour
         ChangeSettingsPage(currentPage);
     }
 
-    void Start()
-    {
-        print("Test");
-        inputSystem = FindObjectOfType<InputSystemUIInputModule>(); // try to change input module settings when the settings menu is opened
-    }
-
     void OnEnable()
     {
         EnableDisablePreviousMenuButtons(false);
@@ -226,6 +218,9 @@ public class SettingsValueManager : MonoBehaviour
 
         if (detailedUIValue == 0) detailedUI.isOn = false;
         else detailedUI.isOn = true;
+
+        if (emptyHandValue == 0) emptyHand.isOn = false;
+        else emptyHand.isOn = true;
 
         resolutionDisplay.text = $"{filteredResolutions[currentResolutionIndex].width} x {filteredResolutions[currentResolutionIndex].height}";
 
@@ -299,6 +294,7 @@ public class SettingsValueManager : MonoBehaviour
             PlayerPrefs.SetFloat("Brightness", brightnessValue);
             PlayerPrefs.SetInt("ToggleSprint", sprintValue);
             PlayerPrefs.SetInt("DetailedUI", detailedUIValue);
+            PlayerPrefs.SetInt("EmptyHand", emptyHandValue);
 
             Resolution resolution = filteredResolutions[tempResolutionIndex];
             Screen.SetResolution(resolution.width, resolution.height, true);
@@ -413,6 +409,13 @@ public class SettingsValueManager : MonoBehaviour
         applyButton.interactable = true;
     }
 
+    public void UpdateEmptyHandInteractToggle(bool h)
+    {
+        if (h == false) emptyHandValue = 0;
+        else emptyHandValue = 1;
+        applyButton.interactable = true;
+    }
+
     public void UpdatebrightnessValue(float gam)
     {
         brightnessValue = gam;
@@ -516,6 +519,6 @@ public class SettingsPage
     public string pageName;
     public Button categoryButton;
     public List<GameObject> settingsToDisplay;
-    public Selectable firstOnList;
-    public Selectable lastOnList;
+    [HideInInspector] public Selectable firstOnList;
+    [HideInInspector] public Selectable lastOnList;
 }

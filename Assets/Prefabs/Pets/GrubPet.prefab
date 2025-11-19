@@ -140,7 +140,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437511266243986187}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 1.27
   m_Speed: 3
   m_Acceleration: 8
@@ -171,6 +171,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 6226993169842215751}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -181,9 +182,9 @@ MonoBehaviour:
   footSteps: []
   deathSound: {fileID: 0}
   miscSound: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
-  miscSound2: {fileID: 8300000, guid: ab1a9607038bfb445941b67f32438783, type: 3}
-  miscSound3: {fileID: 8300000, guid: dacd886bf18a897458436fc85afcc470, type: 3}
-  eatSound: {fileID: 0}
+  miscSound2: {fileID: 8300000, guid: 7e4e681c5a9c63c4cad337e85fa15ac3, type: 3}
+  miscSound3: {fileID: 8300000, guid: e317f3388019e734a8479dcef56c4954, type: 3}
+  eatSound: {fileID: 8300000, guid: e317f3388019e734a8479dcef56c4954, type: 3}
   petSound: {fileID: 8300000, guid: e477a4c89ee3a594ab99949ff7410007, type: 3}
   extraSounds: []
   particle1: {fileID: 0}

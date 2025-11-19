@@ -9,7 +9,7 @@ public class MerchantLantern : MonoBehaviour, IInteractable
 
     //public Transform interior, exterior;
     [HideInInspector] public WagonMerchantNPC merchant;
-    //public bool forceEnable = false; //MAKE THIS FALSE BEFORE BUILDING
+    public bool debug = false; //MAKE THIS FALSE BEFORE BUILDING
 
     public Collider myCollider;
     public GameObject enabledObject;
@@ -119,6 +119,8 @@ public class MerchantLantern : MonoBehaviour, IInteractable
 
     bool TravelCheck()
     {
+        if(debug) return true;
+
         if(TimeManager.Instance.currentHour >= 17 || !TimeManager.Instance.isDay || WildernessManager.Instance.visitedWilderness) 
         {
             PopupHandler.Instance.AddToQueue(blockedPopup);

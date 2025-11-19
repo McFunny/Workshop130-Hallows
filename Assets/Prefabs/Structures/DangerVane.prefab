@@ -634,6 +634,7 @@ GameObject:
   - component: {fileID: 4877376255616348760}
   - component: {fileID: 7954157045665168355}
   - component: {fileID: 1641303015475010007}
+  - component: {fileID: 9046166250383753812}
   m_Layer: 6
   m_Name: DangerVane
   m_TagString: Untagged
@@ -922,6 +923,22 @@ MonoBehaviour:
   trackingEffect: {fileID: 3505345586868790491}
   pivot: {fileID: 2904281239006236521}
   anim: {fileID: 5598804315908665279}
+--- !u!208 &9046166250383753812
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8456008045873919119}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &8755277075233676027
 GameObject:
   m_ObjectHideFlags: 0

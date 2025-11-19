@@ -13,6 +13,7 @@ public class CraftingSystem : MonoBehaviour
     public CraftingEntry selectedEntry;
     public Button craftButton;
     public Button collectButton;
+    [SerializeField] private bool showCategories;
     [SerializeField] private GameObject craftingMenu;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private GameObject container;
@@ -28,10 +29,11 @@ public class CraftingSystem : MonoBehaviour
     [SerializeField] private List<Image> controllerImages;
     [SerializeField] private UILerp collectLerp, timerLerp;
     [SerializeField] private List<CanvasGroup> canvasGroups = new List<CanvasGroup>();
-    private CraftingEntry[] craftingEntries;
+    private List<CraftingEntry> craftingEntries = new List<CraftingEntry>();
     private GameObject descriptionBoxContainer;
     private CanvasGroup thisCanvasGroup;
     private TextMeshProUGUI collectButtonText;
+    private List<CraftingButton> craftingButtons = new List<CraftingButton>();
 
     [HideInInspector] public CraftingStructure currentStructure;
     private const int CRAFTCAP = 5;
@@ -44,7 +46,7 @@ public class CraftingSystem : MonoBehaviour
         thisCanvasGroup = GetComponent<CanvasGroup>();
         craftingMenu.SetActive(false);
         isCraftingMenuOpen = false;
-        craftingEntries = Resources.LoadAll<CraftingEntry>("Crafting");
+        craftingEntries = CraftingDatabase.Instance.GetCraftingDatabase();
         descriptionBoxContainer = descriptionBox.gameObject.transform.GetChild(0).gameObject;
         descriptionBoxVisuals.SetActive(false);
 
@@ -154,6 +156,8 @@ public class CraftingSystem : MonoBehaviour
             outputImages[i].enabled = false;
         }
 
+        if(craftingButtons.Count != 0 && craftingButtons != null) craftingButtons.Clear();
+        
         descriptionBoxContainer.SetActive(false);
         descriptionBoxVisuals.SetActive(false);
     }
@@ -167,15 +171,17 @@ public class CraftingSystem : MonoBehaviour
 
             buttonVars.assignedEntry = entry;
             buttonVars.craftingSystem = this;
+            craftingButtons.Add(buttonVars);
 
             // Check level requirement
-            if (entry.levelRequirement > XPManager.instance.ReturnLevel())
+            if (!entry.isUnlocked)
             {
                 buttonVars.unlocked = false;
                 buttonVars.questionMark.SetActive(true);
                 buttonVars.itemNameText.text = "???";
                 buttonVars.itemCountText.text = "";
                 buttonVars.icon.gameObject.SetActive(false);
+                buttonVars.bulb.gameObject.SetActive(false);
                 tempButton.name = "Locked Craft";
                 continue;
             }
@@ -185,6 +191,7 @@ public class CraftingSystem : MonoBehaviour
             buttonVars.icon.sprite = entry.output.icon;
             buttonVars.unlocked = true;
             buttonVars.questionMark.SetActive(false);
+            buttonVars.bulb.gameObject.SetActive(entry.isRecentlyUnlocked);
 
             if (entry.nameOverride == "")
             {
@@ -208,6 +215,34 @@ public class CraftingSystem : MonoBehaviour
         }
 
         UpdateActiveCrafts();
+    }
+
+    public void UpdateCategory(string c)
+    {
+
+        if(c == "All")
+        {
+            foreach (CraftingButton button in craftingButtons)
+            {
+                button.gameObject.SetActive(true);
+            }
+            return;
+        }
+
+        CraftingCategory category = (CraftingCategory)System.Enum.Parse(typeof(CraftingCategory), c); //Help me
+
+        
+        foreach (CraftingButton button in craftingButtons)
+        {
+            if (button.assignedEntry.category == category)
+            {
+                button.gameObject.SetActive(true);
+            }
+            else
+            {
+                button.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void UpdateActiveCrafts()

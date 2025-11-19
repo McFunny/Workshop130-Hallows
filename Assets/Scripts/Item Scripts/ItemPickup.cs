@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SaveLoadSystem;
 using System;
+using DG.Tweening;
 
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(UniqueID))]
@@ -149,6 +150,9 @@ public class ItemPickup : MonoBehaviour
 
     IEnumerator PickupTimer()
     {
+        Transform spriteT = r.gameObject.transform;
+        spriteT.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        spriteT.DOScale(1, 0.5f);
         yield return new WaitForSeconds(0.5f);
         canBeCollected = true;
         myCollider.enabled = false;

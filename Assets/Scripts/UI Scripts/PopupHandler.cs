@@ -51,6 +51,7 @@ public class PopupHandler : MonoBehaviour
         PopupEvents.current.OnClearCorpse += OnClearCorpse;
         PopupEvents.current.OnOpenCodex += OnOpenCodex;
         PopupEvents.current.OnStructurePlaced += OnStructurePlaced;
+        PopupEvents.current.OnPetCritter += OnPetCritter;
         //popupContainer.SetActive(false);
         conditionMet = false;
         popupTransform.position = lerpStart.position;
@@ -70,6 +71,7 @@ public class PopupHandler : MonoBehaviour
         TimeManager.OnHourlyUpdate -= NightWarning;
         PopupEvents.current.OnOpenCodex -= OnOpenCodex;
         PopupEvents.current.OnStructurePlaced -= OnStructurePlaced;
+        PopupEvents.current.OnPetCritter -= OnPetCritter;
     }
 
     void Update()
@@ -237,6 +239,12 @@ public class PopupHandler : MonoBehaviour
             print("Structure!!!");
             conditionMet = false; // Reset
         }
+        else if (popup.endCondition == PopupScript.EndCondition.PetCritter)
+        {
+            yield return new WaitUntil(() => conditionMet);
+            print("Critter!!!");
+            conditionMet = false; // Reset
+        }
         else //Should work with any other popup
         {
             yield return new WaitUntil(() => conditionMet);
@@ -324,6 +332,14 @@ public class PopupHandler : MonoBehaviour
     private void OnStructurePlaced()
     {
         if (isActive && currentPopup.endCondition == PopupScript.EndCondition.PlaceStructure)
+        {
+            conditionMet = true;
+        }
+    }
+
+    private void OnPetCritter()
+    {
+        if (isActive && currentPopup.endCondition == PopupScript.EndCondition.PetCritter)
         {
             conditionMet = true;
         }

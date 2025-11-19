@@ -11,8 +11,11 @@ using TMPro;
 
 public class MainMenuScript : MonoBehaviour
 {
+    [SerializeField] private int saveFilesToCreate = 3;
+    [SerializeField] private CanvasGroup mainCanvasGroup;
     public InputActionReference hideUI, UICancel;
-    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault, loadCanvas, loadSlotObject, loadDefault, difficultyOptions, difficultyDefault, resolutionBox;
+    public GameObject menuObject, defaultObject, settingsDefault, settingsCanvas, controlsCanvas, controlsDefault, loadCanvas, loadSlotObject, loadDefault, difficultyOptions, difficultyDefault, resolutionBox, loadButtonContainer;
+    public GameObject loadButtonPrefab;
     private SettingsValueManager settingsValueManager;
     ControlManager controlManager;
     public AudioSource source;
@@ -33,16 +36,16 @@ public class MainMenuScript : MonoBehaviour
 
     public GameObject dayLight, nightLight;
     public Button[] buttons;
-    public Button[] loadButtons;
-    public Button[] deleteButtons;
+    public List<Button> loadButtons = new List<Button>();
+    public List<Button> deleteButtons = new List<Button>();
     public Button[] nonNavigableButtons;
     public TextMeshProUGUI[] loadText;
     public ConfirmationBox confirmationBox;
 
-    public GameObject[] loadOptionsObjects;
+    public List<GameObject> loadOptionsObjects = new List<GameObject>();
     GameObject selectedLoadSlot;
 
-    public List<FileData> fileDatas = new List<FileData>();
+    public List<FileDatas> fileDatas = new List<FileDatas>();
     public static int currentSaveSlot = -1; //-1 means nothing is selecte
     public static FileMode currentFileMode;
     public bool isNewGame;
@@ -67,6 +70,37 @@ public class MainMenuScript : MonoBehaviour
         controlManager.playerInput.SwitchCurrentActionMap("UI");
         int r = Random.Range(0, 3);
 
+        foreach (Transform child in loadButtonContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        loadButtons.Clear();
+        loadOptionsObjects.Clear();
+        deleteButtons.Clear();
+        // This script is a mess and I really really really don't feel like rewriting it
+        for (int i = 0; i < saveFilesToCreate; i++)
+        {
+            var loadButton = Instantiate(loadButtonPrefab, loadButtonContainer.transform);
+            var filedata = loadButton.GetComponent<FileDatas>();
+            deleteButtons.Add(filedata.deleteSaveButton);
+            filedata.fileNameText.text = "Save File " + (i + 1);
+            fileDatas.Add(filedata);
+        }
+
+        for (int i = 0; i < saveFilesToCreate; i++)
+        {
+            loadButtons.Add(fileDatas[i].loadGameButton);
+            loadOptionsObjects.Add(fileDatas[i].slotData);
+        }
+
+        for (int i = 0; i < saveFilesToCreate; i++)
+        {
+            loadButtons.Add(fileDatas[i].newGameButton);
+            loadOptionsObjects.Add(fileDatas[i].slotButtons);
+        }
+
+        loadDefault = fileDatas[0].gameObject;
+        
         ChangeMenu(r);
     }
 
@@ -114,9 +148,9 @@ public class MainMenuScript : MonoBehaviour
             else { EventSystem.current.SetSelectedGameObject(defaultObject); }
             print("Default Menu Object Selected");
 
-            for (int i = 0; i < loadOptionsObjects.Length; i++)
+            for (int i = 0; i < loadOptionsObjects.Count; i++)
             {
-                if (i < loadOptionsObjects.Length / 2)
+                if (i < loadOptionsObjects.Count / 2)
                 {
                     loadOptionsObjects[i].SetActive(true);
                 }
@@ -195,9 +229,9 @@ public class MainMenuScript : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < loadOptionsObjects.Length; i++)
+        for (int i = 0; i < loadOptionsObjects.Count; i++)
         {
-            if (i < loadOptionsObjects.Length / 2)
+            if (i < loadOptionsObjects.Count / 2)
             {
                 if (!loadOptionsObjects[i].activeSelf) optionsOpen = true;
                 loadOptionsObjects[i].SetActive(true);
@@ -207,6 +241,9 @@ public class MainMenuScript : MonoBehaviour
                 loadOptionsObjects[i].SetActive(false);
             }
         }
+        //Debug.Log("We made it here");
+        //Debug.Log(selectedLoadSlot);
+        //Debug.Log(buttons[1].gameObject);
         if (optionsOpen)
         {
             if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(selectedLoadSlot);
@@ -214,9 +251,9 @@ public class MainMenuScript : MonoBehaviour
         else
         {
             loadCanvas.SetActive(false);
+            mainCanvasGroup.interactable = true;
             if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
         }
-
     }
 
     public void TestPress()
@@ -251,19 +288,19 @@ public class MainMenuScript : MonoBehaviour
             print("Game Exited Successfully :)");
         }
 
-        for (int i = 0; i < loadButtons.Length; i++)
+        for (int i = 0; i < loadButtons.Count; i++)
         {
 
             if (confirmationBox.calledBy == loadButtons[i]) // Load Game
             {
                 int pathNum;
-                if (i < loadButtons.Length / 2)
+                if (i < loadButtons.Count / 2)
                 {
                     pathNum = i;
                 }
                 else
                 {
-                    pathNum = i - (loadButtons.Length / 2);
+                    pathNum = i - (loadButtons.Count / 2);
                 }
 
                 print("pathNum = " + pathNum);
@@ -314,7 +351,7 @@ public class MainMenuScript : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < deleteButtons.Length; i++)
+        for (int i = 0; i < deleteButtons.Count; i++)
         {
             if (confirmationBox.calledBy == deleteButtons[i])
             {
@@ -322,9 +359,9 @@ public class MainMenuScript : MonoBehaviour
                 SaveLoad.DeleteSaveData();
                 LoadSaveFileInfo();
 
-                for (int o = 0; o < loadOptionsObjects.Length; o++)
+                for (int o = 0; o < loadOptionsObjects.Count; o++)
                 {
-                    if (o < loadOptionsObjects.Length / 2)
+                    if (o < loadOptionsObjects.Count / 2)
                     {
                         loadOptionsObjects[o].SetActive(true);
                     }
@@ -468,7 +505,7 @@ public class MainMenuScript : MonoBehaviour
     public void OpenLoadScreen()
     {
         LoadSaveFileInfo();
-        for (int i = 0; i < loadButtons.Length / 2; i++)
+        for (int i = 0; i < loadButtons.Count / 2; i++)
         {
             if (fileDatas[i].saveDataPresent)
             {
@@ -485,6 +522,7 @@ public class MainMenuScript : MonoBehaviour
 
         if (isTransitioning) return;
         loadCanvas.SetActive(true);
+        mainCanvasGroup.interactable = false;
         if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(loadDefault);
     }
     public void OpenResolutionScreen()
@@ -573,7 +611,23 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].mintsCurrentText.text = "Current Mints: " + fileDatas[i].mintsCurrent;
                 fileDatas[i].mintsTotalText.text = "Total Mints: " + fileDatas[i].mintsTotal;
                 fileDatas[i].difficultyText.text = "Difficulty: " + fileDatas[i].difficulty.ToString();
-                fileDatas[i].siegesClearedText.text = "Sieges Cleared: " + fileDatas[i].completedSieges;
+
+                if (fileDatas[i].completedSieges > 0 && fileDatas[i].completedSieges < 5)
+                {
+                    for (int s = 0; s < fileDatas[i].completedSieges; s++)
+                    {
+                        fileDatas[i].siegeImages[s].color = Color.white;
+                    }
+                }
+                else if (fileDatas[i].completedSieges >= fileDatas[i].siegeImages.Count)
+                {
+                    for (int s = 0; s < fileDatas[i].siegeImages.Count; s++)
+                    {
+                        fileDatas[i].siegeImages[s].color = Color.white;
+                    }
+                }
+                
+                //fileDatas[i].siegesClearedText.text = "Sieges Cleared: " + fileDatas[i].completedSieges;
 
                 fileDatas[i].dayNumText.gameObject.SetActive(true);
                 fileDatas[i].mintsCurrentText.gameObject.SetActive(true);
@@ -657,18 +711,7 @@ public class MainMenuScript : MonoBehaviour
 }
 
 [System.Serializable]
-public class FileData
-{
-    public Button slotButton;
-    public TextMeshProUGUI dayNumText, mintsCurrentText, mintsTotalText, emptySlot, difficultyText, siegesClearedText;
-    public string difficulty;
-    public bool saveDataPresent = false;
 
-    public int dayNum;
-    public int mintsCurrent;
-    public int mintsTotal;
-    public int completedSieges;
-}
 
 public enum FileMode
 {

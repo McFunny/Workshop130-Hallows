@@ -63,7 +63,7 @@ public class ResinPole : StructureBehaviorScript
         for(int i = 0; i < sockets.Count; i++)
         {
             if(sockets[i].creature == null) continue;
-            nectarDurability--;
+            if(nectarDurability > 1 && Random.Range(0,10) > 5) nectarDurability--;
         }
         if(nectarDurability <= 0)
         {

@@ -132,8 +132,8 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
 
     public void WaterLevelChange()
     {
-        if(waterLevel > 0) renderer.enabled = true;
-        else renderer.enabled = false;
+        if(waterLevel > 0) waterTexture.gameObject.SetActive(true);
+        else waterTexture.gameObject.SetActive(false);
 
         if(waterLevel >= 8) waterTexture.position = new Vector3(waterTexture.position.x, 1.6f, waterTexture.position.z);
         else if(waterLevel >= 5) waterTexture.position = new Vector3(waterTexture.position.x, 1f, waterTexture.position.z);

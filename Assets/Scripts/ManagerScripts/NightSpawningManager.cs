@@ -44,6 +44,7 @@ public class NightSpawningManager : MonoBehaviour
     bool eventOccured = false; //only 1 per night
 
     public NightPoolObject currentSpawnPool;
+    bool forceCorruptedSpawns;
 
     public PopupScript firstNightWarning;
 
@@ -85,6 +86,7 @@ public class NightSpawningManager : MonoBehaviour
             selectedCreatures.Clear();
             eventOccured = false;
             currentSpawnPool = null;
+            forceCorruptedSpawns = false;
             return;
         }
 
@@ -218,7 +220,7 @@ public class NightSpawningManager : MonoBehaviour
             //if(c.forceSpawnVariant) p = 0;
 
             //Code to spawn corrupted variant
-            if(c.corruptedPrefab && GameSaveData.Instance.siegesCleared > 1 && Random.Range(0,100) < CorruptionManager.Instance.CorruptedSpawnMod()) prefab = c.corruptedPrefab;
+            if(c.corruptedPrefab && ((GameSaveData.Instance.siegesCleared > 1 && Random.Range(0,100) < CorruptionManager.Instance.CorruptedSpawnMod()) || forceCorruptedSpawns)) prefab = c.corruptedPrefab;
 
             //New Logic
             if(prefab == null)
@@ -242,6 +244,21 @@ public class NightSpawningManager : MonoBehaviour
         GameObject newCreature; 
         if(c.canSpawnBehindCabin) newCreature = Instantiate(prefab, RandomMistPosition(), Quaternion.identity);
         else newCreature = Instantiate(prefab, RandomMistPositionFrontCabin(), Quaternion.identity);
+
+        if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
+        {
+            enemy.OnSpawn(); 
+            allCreatures.Add(enemy);
+            if(enemy.creatureData) enemy.creatureData.hasSpawned = true;
+        }
+    }
+
+    public void SpawnCreature(GameObject c) //prefab version
+    {
+        GameObject prefab = c;
+
+        GameObject newCreature; 
+        newCreature = Instantiate(prefab, RandomMistPositionFrontCabin(), Quaternion.identity);
 
         if(newCreature.TryGetComponent<CreatureBehaviorScript>(out var enemy))
         {
@@ -379,8 +396,8 @@ public class NightSpawningManager : MonoBehaviour
             else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = .5f;
             else if(GameSaveData.Instance.siegesCleared == 0) difficultyMultiplier = .75f;
             else if(GameSaveData.Instance.siegesCleared == 1) difficultyMultiplier = 1f;
-            else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.25f;
-            else if(GameSaveData.Instance.siegesCleared == 3) difficultyMultiplier = 1.50f;
+            else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.1f;
+            else if(GameSaveData.Instance.siegesCleared == 3) difficultyMultiplier = 1.2f;
             
             /*if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.6f;
             else if(PlayerInteraction.Instance.totalMoneyEarned > 6000) difficultyMultiplier = 1.4f;
@@ -450,6 +467,7 @@ public class NightSpawningManager : MonoBehaviour
         {
             selectedCreatures = currentSpawnPool.creatures.ToList();
             selectedFillerCreatures = currentSpawnPool.creatures.ToList();
+            forceCorruptedSpawns = currentSpawnPool.forceCorrupted;
             return;
         }
 
@@ -525,7 +543,7 @@ public class NightSpawningManager : MonoBehaviour
     {
         for(int i = 0; i < nightEvents.Count; i++)
         {
-            if(Random.Range(0, 100f) < nightEvents[i].occurenceChance  && !eventOccured && TimeManager.Instance.dayNum > 1)
+            if(Random.Range(0, 100f) < nightEvents[i].occurenceChance  && !eventOccured && TimeManager.Instance.dayNum > 1 && nightEvents[i].CanStartEvent())
             {
                 nightEvents[i].InitiateEvent();
                 difficultyPoints -= nightEvents[i].difficultyPointsCost;
@@ -582,6 +600,8 @@ public class NightSpawningManager : MonoBehaviour
                 creature.TakeDamage(999);
             }
         }
+
+        CorruptionManager.Instance.StartCoroutine(CorruptionManager.Instance.FinaleComplete());
     }
 
     IEnumerator GameCompleted()

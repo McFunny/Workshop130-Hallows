@@ -129,11 +129,10 @@ public class NutTesterBehavior : ToolBehavior
             //Debug.Log("AttemptRaycast");
             if (Physics.Raycast(player.position, fwd, out hit, 7f, mask))
             {
-
                 Vector3 tile = StructureManager.Instance.CheckTile(hit.point);
                 if (!StructureManager.Instance.ValidateGridType(tile, GridType.Farm))
                 {
-                    NutrientTesterScript.Instance.UpdateTile(null);
+                    //NutrientTesterScript.Instance.UpdateTile(null);
                     continue;
                 }
 

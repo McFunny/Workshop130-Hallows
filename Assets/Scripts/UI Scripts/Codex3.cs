@@ -38,8 +38,9 @@ public class Codex3 : MonoBehaviour
         Plants,
         Creatures,
         Bugs,
-        Quests,
-        Critters
+        Critters,
+        Quests
+        
     }
     OpenCategory openCategory;
     [SerializeField] private UIAlphaController bgPanel;
@@ -49,8 +50,8 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private AudioSource codexAudio;
     [SerializeField] private AudioClip codexOpenSound, codexCloseSound;
     [SerializeField] private Button[] categoryButtons;
-    [SerializeField] private GameObject[] containers;
-    [SerializeField] private GameObject[] secondaryContainers;
+    [SerializeField] private List<GameObject> containers = new List<GameObject>();
+    [SerializeField] private List<GameObject> secondaryContainers = new List<GameObject>();
     [SerializeField] private List<CodexPage> codexPages;
     [SerializeField] private TextMeshProUGUI categoryTitle;
     [SerializeField] private GameObject categoryContainer;
@@ -80,6 +81,9 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private CodexEntries waterGunEntry;
     [SerializeField] private CodexEntries scytheEntry;
     [SerializeField] private CodexEntries bugNetEntry;
+    [SerializeField] private CodexEntries nutTesterEntry;
+    [SerializeField] private CodexEntries kukriEntry;
+    [SerializeField] private CodexEntries pistolEntry;
 
     private void Awake()
     {
@@ -267,6 +271,7 @@ public class Codex3 : MonoBehaviour
         codexAudio.PlayOneShot(codexOpenSound); // Play the codex open sound
 
         if (Tutorial.Instance) Tutorial.Instance.OpenCodex();
+        PopupEvents.current.OpenCodex();
     }
 
     public void CloseCodex()
@@ -310,13 +315,14 @@ public class Codex3 : MonoBehaviour
     private void UpdateEntries()
     {
         if (TutorialList != null) ClearCodex(); // Clear the codex before updating entries. Checking the tutorial list should be sufficient.
-
+        print(containers.Count);
         // Run this on Start or when the codex is opened to update the entries
-        for (int i = 0; i < containers.Length; i++)
+        for (int i = 0; i < 8; i++) // CHANGE THIS IF WE EVER ADD MORE CATEGORIES
         {
             var Cat = TutorialEntries;
             var isQuest = false;
             var isCritter = false;
+            Debug.LogWarning(i);
             switch (i)
             {
                 case 0:
@@ -344,12 +350,12 @@ public class Codex3 : MonoBehaviour
                     Cat = BugEntries;
                     break;
                 case 6:
-                    isQuest = true;
+                    critterObjects = new List<GameObject>();
+                    isCritter = true;
                     Cat = null;
                     break;
                 case 7:
-                    critterObjects = new List<GameObject>();
-                    isCritter = true;
+                    isQuest = true;
                     Cat = null;
                     break;
             }
@@ -366,9 +372,9 @@ public class Codex3 : MonoBehaviour
 
                 for (int e = 0; e < activeQuests.Count; e++)
                 {
-                    var chosenContainer = containers[i];
-                    if (e < maxQuestEntries) chosenContainer = containers[i];
-                    else chosenContainer = secondaryContainers[i];
+                    var chosenContainer = containers[7];
+                    if (e < maxQuestEntries) chosenContainer = containers[7];
+                    else chosenContainer = secondaryContainers[7];
 
                     GameObject entryButton = Instantiate(entryButtonHorizontalPrefab, chosenContainer.transform);
                     entryButton.name = activeQuests[e].name + " Quest";
@@ -438,7 +444,7 @@ public class Codex3 : MonoBehaviour
                 PetBehaviorScript pet = gameSaveData.currentPet;
                 if (pet != null)
                 {
-                    var petButton = Instantiate(critterButtonPrefab, containers[7].transform);
+                    var petButton = Instantiate(critterButtonPrefab, containers[6].transform);
                     petButton.name = pet.name + " Pet";
 
                     var petVars = petButton.GetComponent<CodexCritter>();
@@ -458,12 +464,12 @@ public class Codex3 : MonoBehaviour
 
                 //Critters
                 List<CritterBehaviorScript> critters = BarnManager.Instance.allCritters;
-                if (critters.Count == 0) return;
+                if (critters.Count == 0) continue;
 
                 for (int c = 0; c < critters.Count; c++)
                 {
                     int batchIndex = buttonsPlaced / maxCritterEntries;
-                    Transform currentParent = (batchIndex % 2 == 0) ? containers[7].transform : secondaryContainers[7].transform;
+                    Transform currentParent = (batchIndex % 2 == 0) ? containers[6].transform : secondaryContainers[6].transform;
                     Color homelessColor = new Color(1.0f, 1.0f, 1.0f, 0.75f);
                     Color hasHomeColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -755,7 +761,7 @@ public class Codex3 : MonoBehaviour
     private void ClearCodex()
     {
         // Clear all the entries in the codex
-        for (int i = 0; i < containers.Length; i++)
+        for (int i = 0; i < containers.Count; i++)
         {
             foreach (Transform child in containers[i].transform)
             {
@@ -814,7 +820,7 @@ public class Codex3 : MonoBehaviour
             else buttonLerps[i].lerpToStart = true;
         }
 
-        for (int i = 0; i < containers.Length; i++)
+        for (int i = 0; i < containers.Count; i++)
         {
             containers[i].SetActive(i == catInt); //i is true when i = categoryIndex. Did not know I could do this lol
             secondaryContainers[i].SetActive(i == catInt);
@@ -838,6 +844,9 @@ public class Codex3 : MonoBehaviour
         waterGunEntry.unlocked = gameSaveData.watergunObtained;
         bugNetEntry.unlocked = gameSaveData.bugNetObtained;
         scytheEntry.unlocked = gameSaveData.scytheObtained;
+        nutTesterEntry.unlocked = gameSaveData.testerObtained;
+        kukriEntry.unlocked = gameSaveData.kukriObtained;
+        pistolEntry.unlocked = gameSaveData.pistolObtained;
 
         if (mandrakeCreatureEntry.creatureData.amountKilled > 0)
         {

@@ -6,6 +6,8 @@ public class RustlingDirt : MonoBehaviour
 {
     public List<ItemWithAmount> items = new List<ItemWithAmount>();
 
+    public GameObject grubPrefab;
+
     void Start()
     {
         TimeManager.OnHourlyUpdate += OnHour;
@@ -36,7 +38,11 @@ public class RustlingDirt : MonoBehaviour
         {
             InventoryItemData item = null;
             int x = 0;
-            while(!item && x < 20)
+
+            bool spawnGrub = false;
+            if(Random.Range(0,20) == 8) spawnGrub = true;
+
+            while(!item && x < 20 && !spawnGrub)
             {
                 int r = Random.Range(0, items.Count);
                 if(Random.Range(0, 100) < items[r].amount) item = items[r].item;
@@ -55,6 +61,10 @@ public class RustlingDirt : MonoBehaviour
 
                 ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
                 ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+            }
+            else if(spawnGrub)
+            {
+                Instantiate(grubPrefab, transform.position, Quaternion.identity);
             }
         }
 

@@ -101,11 +101,13 @@ public class CorruptedTile : StructureBehaviorScript
             //StartCoroutine(DugUp());
             success = true;
         }
+        /*
         else if(type == ToolType.WateringCan && !beingCleansed)
         {
             StartCoroutine(CleanseRoutine());
             success = true;
         }
+        */
     }
 
     void UpdateModel()
@@ -154,6 +156,7 @@ public class CorruptedTile : StructureBehaviorScript
         beingCleansed = true;
         ParticlePoolManager.Instance.GrabCleanseParticle().transform.position = transform.position;
         yield return new WaitForSeconds(6);
+        health = 0;
         Destroy(gameObject);
     }
 

@@ -156,7 +156,13 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public virtual void TimeLapse(int hours){}
 
-    public virtual void HitWithWater(){}
+    public virtual void HitWithWater()
+    {
+        if(onFire)
+        {
+            Extinguish();
+        }
+    }
 
     public virtual bool IsFlammable()
     {
@@ -373,6 +379,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
             AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
         }
+        ParticlePoolManager.Instance.GrabStructDigParticle().transform.position = transform.position;
         Destroy(this.gameObject);
     }
 

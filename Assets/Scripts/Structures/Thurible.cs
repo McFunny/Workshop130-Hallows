@@ -53,7 +53,7 @@ public class Thurible : StructureBehaviorScript
                 flameLeft = maxFlame;
                 fire.SetActive(true);
                 leafParticles.Play();
-                audioHandler.PlaySound(audioHandler.activatedSound);
+                //audioHandler.PlaySound(audioHandler.activatedSound);
                 laventSource.SetActive(true);
                 success = true;
             }
@@ -117,10 +117,10 @@ public class Thurible : StructureBehaviorScript
     {
         while(gameObject.activeSelf)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
             if(flameLeft == 0) continue;
 
-            float range = 8f;
+            float range = 9f;
 
             Collider[] hitEnemies = Physics.OverlapSphere(transform.position, range, 1 << 9);
             foreach(Collider collider in hitEnemies)
