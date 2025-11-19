@@ -5990,6 +5990,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4357d23962aa5ad42ba23563e9fac2dd, type: 2}
   - {fileID: 11400000, guid: 2836db77fdc01174dbdaf3addf675d5f, type: 2}
   - {fileID: 11400000, guid: 2e13a79dfc756104b86d4465eb9ccbc3, type: 2}
+  - {fileID: 11400000, guid: 668d2e39634652e478346ea6a911f280, type: 2}
+  - {fileID: 11400000, guid: 3dbccb2a2b919c94ea3679a35ec8a00a, type: 2}
   fearedCreatures:
   - {fileID: 11400000, guid: 4357d23962aa5ad42ba23563e9fac2dd, type: 2}
   - {fileID: 11400000, guid: 88c7a631b6c3f164fadff223436437c4, type: 2}
@@ -6016,7 +6018,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2239540658194966862}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 0.54
   m_Speed: 3
   m_Acceleration: 8
@@ -6047,6 +6049,7 @@ MonoBehaviour:
   pitchMax: 1.1
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}

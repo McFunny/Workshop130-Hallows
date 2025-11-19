@@ -4980,8 +4980,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.54
-  m_Center: {x: 0, y: 0.56, z: 0}
+  m_Radius: 0.75
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!114 &4827781133675064686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5034,8 +5034,8 @@ MonoBehaviour:
   actionSpeedMod: 1
   hitColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.1764706}
   currentEffects: []
-  moveSpeed: 8
-  flyingSpeed: 6
+  moveSpeed: 6.5
+  flyingSpeed: 4.5
   directionChangeInterval: 2
   randomTurnStrength: 30
   panicTurnChance: 0.2
@@ -35706,6 +35706,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 5172344837281164832}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}

@@ -8,6 +8,28 @@ public class SpiderCocoon : StructureBehaviorScript
     public CreatureObject spiderData;
 
     public GameObject destructionObject;
+
+    void Start()
+    {
+        base.Start();
+
+        int r = Random.Range(0,4);
+
+        switch(r)
+        {
+            case 0:
+            break;
+            case 1:
+            transform.Rotate(0, 90, 0);
+            break;
+            case 2:
+            transform.Rotate(0, 180, 0);
+            break;
+            case 3:
+            transform.Rotate(0, 270, 0);
+            break;
+        }
+    }
     void OnDestroy()
     {
         base.OnDestroy();
@@ -15,7 +37,7 @@ public class SpiderCocoon : StructureBehaviorScript
         GameObject droppedItem;
         Rigidbody itemRB;
         int r = Random.Range(0,12);
-        if(r > 9)
+        if(r > 2)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(silk);
             droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);

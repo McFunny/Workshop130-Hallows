@@ -112,14 +112,14 @@ public class MillerNPC : NPC, ITalkable
         interactSuccessful = true;
     }
 
-    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
+    /*public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
     {
         uniqueDialogue = false;
         if(item == barterDatabase.uniqueTransactions[0].itemForSale)
         {
             GameSaveData.Instance.pistolObtained = true;
         }
-    }
+    }*/
 
     public override void PlayerLeftRadius()
     {

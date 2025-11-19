@@ -21,20 +21,20 @@ MonoBehaviour:
       type: 3}
     probabilityInWilderness: 100
     canSpawnInWilderness: 1
-    wealthPrerequisite: 1500
+    wealthPrerequisite: 3000
     variantChanceInFarm:
-    - _int: 0
-      _probability: 10
     - _int: 1
+      _probability: 10
+    - _int: 2
       _probability: 15
   - name: Tunneler Hare
     prefab: {fileID: 6819695459686824168, guid: 656c18626710e5c4f950f3c0b70293ce,
       type: 3}
     probabilityInWilderness: 0
     canSpawnInWilderness: 0
-    wealthPrerequisite: 1000
+    wealthPrerequisite: 2000
     variantChanceInFarm:
-    - _int: 0
+    - _int: 1
       _probability: 10
     - _int: 2
       _probability: 20

@@ -396,8 +396,8 @@ public class NightSpawningManager : MonoBehaviour
             else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = .5f;
             else if(GameSaveData.Instance.siegesCleared == 0) difficultyMultiplier = .75f;
             else if(GameSaveData.Instance.siegesCleared == 1) difficultyMultiplier = 1f;
-            else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.25f;
-            else if(GameSaveData.Instance.siegesCleared == 3) difficultyMultiplier = 1.50f;
+            else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.1f;
+            else if(GameSaveData.Instance.siegesCleared == 3) difficultyMultiplier = 1.2f;
             
             /*if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.6f;
             else if(PlayerInteraction.Instance.totalMoneyEarned > 6000) difficultyMultiplier = 1.4f;

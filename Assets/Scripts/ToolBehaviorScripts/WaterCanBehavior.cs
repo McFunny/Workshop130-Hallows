@@ -425,6 +425,13 @@ public class WaterCanBehavior : ToolBehavior
                         if(tile.GetCropStats().waterLevel == 10) return;
                     }
                     else if(structure as IWaterHolder == null) wateredStructures.Add(structure);
+                    else if(structure.onFire)
+                    {
+                        structure.Extinguish();
+                        wateredStructures.Add(structure);
+                        consumeWater = true;
+                        return;
+                    }
                     structure.HitWithWater();
                     consumeWater = true;
                 }

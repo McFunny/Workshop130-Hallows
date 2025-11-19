@@ -15,7 +15,7 @@ public class SpiderDen : StructureBehaviorScript
 
     public GameObject stage1, stage2;
     public bool isLarge = false;
-    float chanceToGrow = 10;
+    float chanceToGrow = 0;
 
     void Start()
     {
@@ -81,7 +81,7 @@ public class SpiderDen : StructureBehaviorScript
         if(!isLarge)
         {
             if(Random.Range(0, 100) < chanceToGrow) UpdateStage(true);
-            else chanceToGrow += 33;
+            else chanceToGrow += 23;
             return;
         }
 

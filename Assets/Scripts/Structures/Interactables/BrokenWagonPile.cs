@@ -41,6 +41,8 @@ public class BrokenWagonPile : MonoBehaviour, IInteractable
     {
         interactSuccessful = true;
 
+        if(TutorialMiller.Instance) return;
+
         PopupHandler.Instance.AddToQueue(repairInstructions);
 
         if(!GameSaveData.Instance.playerWagonFound)

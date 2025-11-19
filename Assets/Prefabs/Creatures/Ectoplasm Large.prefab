@@ -54,6 +54,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -5444,7 +5445,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6939491037798060808}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 0.5
   m_Speed: 2.5
   m_Acceleration: 8
@@ -5484,6 +5485,7 @@ MonoBehaviour:
   player: {fileID: 0}
   allColliders: []
   corpseParticleTransform: {fileID: 5696039895253702025}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 4
   rb: {fileID: 3652535790322957819}
   anim: {fileID: 0}

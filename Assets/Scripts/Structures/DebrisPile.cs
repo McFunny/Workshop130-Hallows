@@ -35,6 +35,8 @@ public class DebrisPile : StructureBehaviorScript
         //grab the repaired struct via saved int1 and the database
         if(!repairedStruct) LoadVariables();
         EnablePile();
+
+        debrisUI.HideDebrisUI();
     }
     
     public void InsertStructure(StructureObject newStructure)
