@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MimicTrap
   m_EditorClassIdentifier: 
   name: Pheremone Trap
-  id: -1
+  id: 41
   growthStages: 2
   hoursPerStage: 1
   harvestableGrowthStages: 
@@ -31,13 +31,13 @@ MonoBehaviour:
   noStressSeedChance: 0
   waterIntake: 0
   ichorIntake: 0
-  terraIntake: 0
-  gloamIntake: 0
+  terraIntake: -3
+  gloamIntake: 0.25
   stressLimit: 0
   wealthValue: 0
   requireScythe: 0
   requirePollination: 1
-  behavior: {fileID: 0}
+  behavior: {fileID: 11400000, guid: 63e2b17a4d77a4b4684dbe945af97b3a, type: 2}
   emitsGlow: 0
   amountHarvested: 0
   amountKilled: 0

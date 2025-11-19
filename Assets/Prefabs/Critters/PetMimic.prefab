@@ -232,6 +232,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 1334939685986927856}
   corpseParticleTransform: {fileID: 7480172665369430010}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 0
   rb: {fileID: 4937025114327124755}
   anim: {fileID: 4910568566820833478}
@@ -307,6 +308,7 @@ MonoBehaviour:
   flaskItem: {fileID: 11400000, guid: aa8320088dd258846a151d59ce481740, type: 2}
   growthProgress: 0
   harvestReadyObj: {fileID: 7311078216924347820}
+  trap: {fileID: 11400000, guid: 225b60126aa3aac45838e8cefd7fb09b, type: 2}
   targetCreature: {fileID: 0}
   currentState: 2
 --- !u!1 &1213945206727341175
@@ -1816,6 +1818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2525765495578016567}
+  audioScript: {fileID: 0}
 --- !u!114 &3808627906263650435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1833,6 +1836,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 3442508256231344758}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 8300000, guid: 3b5b01a8c894ac34887a136e8c07c96d, type: 3}
   idleSound2: {fileID: 8300000, guid: 13151c299a7f7984ab315235ccec2298, type: 3}
