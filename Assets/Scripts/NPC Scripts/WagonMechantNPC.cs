@@ -159,7 +159,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             anim.SetTrigger("IsTalking");
         }
 
-        else if(item.sellValueMultiplier == 0 || item.value == 0)
+        else if(item.sellValueMultiplier == 0 || item.value == 0 || item.sellValueMultiplier == 0)
         {
             //Cannot Buy
             lastSeenItem = item;
@@ -498,7 +498,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             GameSaveData.Instance.mm_giveGun = true;
             itemsToGive.Add(new ItemWithAmount(shotGun, 1));
             if(MainMenuScript.currentFileMode == FileMode.Cozy) itemsToGive.Add(new ItemWithAmount(ammo, 20));
-            else itemsToGive.Add(new ItemWithAmount(ammo, 6));
+            else itemsToGive.Add(new ItemWithAmount(ammo, 10));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
         }
         else if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold)

@@ -22,6 +22,9 @@ public class CreatureArmor : MonoBehaviour
 
     CreatureBehaviorScript parentCreature;
 
+    public InventoryItemData droppedItem;
+    public float dropChance;
+
     void Awake()
     {
         if(damageParticlesObject)
@@ -73,6 +76,12 @@ public class CreatureArmor : MonoBehaviour
             {
                 if(particleCenter) Instantiate(gibs, particleCenter.position, Quaternion.identity);
                 else Instantiate(gibs, transform.position, Quaternion.identity);
+            }
+
+            if(Random.Range(0, 100) <= dropChance && droppedItem)
+            {
+                GameObject newItem = ItemPoolManager.Instance.GrabItem(droppedItem);
+                newItem.transform.position = transform.position;
             }
         }
         if(source) source.PlayOneShot(destroyedSFX);

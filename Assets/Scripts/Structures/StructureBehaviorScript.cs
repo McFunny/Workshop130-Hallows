@@ -361,7 +361,7 @@ public class StructureBehaviorScript : MonoBehaviour
         {
             if(health > 20) TakeDamage(Mathf.Round(health / 10));
             else TakeDamage(2);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
             if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
         }
     }

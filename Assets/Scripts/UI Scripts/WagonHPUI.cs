@@ -7,7 +7,7 @@ public class WagonHPUI : MonoBehaviour
     [SerializeField] private Slider healthSlider;
 
 
-    private void OnEnable()
+    private void Start()
     {
         WagonManager.Instance.onWagonHPChanged += OnWagonHPChange;
         WildernessManager.OnWildernessEnter += OnWildernessEnter;

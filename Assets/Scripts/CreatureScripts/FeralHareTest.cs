@@ -39,6 +39,7 @@ public class FeralHareTest : CreatureBehaviorScript
     int burstJumps = 3; //How many attacks in quick succession the hare can do
 
     public GameObject cooldownEffect;
+    public ParticleSystem biteParticles;
 
     public Collider attackCollider;
     bool attackingPlayer = false;
@@ -60,7 +61,8 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         Normal,
         Albino,
-        Tunneler
+        Tunneler,
+        Corrupt
     }
 
     public CreatureState currentState;
@@ -72,7 +74,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         base.Start();
         currentState = CreatureState.Wander;
-        if(variant != Variant.Albino && !inWilderness) StartCoroutine(CropCheck());
+        if(variant != Variant.Albino && variant != Variant.Corrupt && !inWilderness) StartCoroutine(CropCheck());
         despawnPos = NightSpawningManager.Instance.despawnPositions[Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length)].position;
         yOrigin = transform.position.y;
         StartCoroutine(IdleSoundTimer());
@@ -85,7 +87,7 @@ public class FeralHareTest : CreatureBehaviorScript
             if(exitBurrow != null)
             {
                 EnterBurrow();
-                if(variant != Variant.Albino) //Immediately find crop
+                if(variant != Variant.Albino && variant != Variant.Corrupt) //Immediately find crop
                 {
                     FindCrop();
                 }
@@ -675,6 +677,7 @@ public class FeralHareTest : CreatureBehaviorScript
         {
             PlayerInteraction.Instance.StaminaChange(damageToPlayer);
             attackCollider.enabled = false;
+            biteParticles.Play();
         }
 
         if(other.transform == targetBurrow && exitBurrow)

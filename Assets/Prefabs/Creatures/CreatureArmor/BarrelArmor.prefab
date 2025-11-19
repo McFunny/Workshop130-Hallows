@@ -133,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   maxHealth: 10
+  armorObject: {fileID: 0}
   damageParticlesObject: {fileID: 7768353796819666158}
   structureType: 1
   gibs: {fileID: 2697239246615553408, guid: d1aac4759640ab94fa1f30fa6e74d8aa, type: 3}
@@ -140,6 +141,8 @@ MonoBehaviour:
   source: {fileID: 3171685725390823853}
   damagedSFX: {fileID: 8300000, guid: fdad68a7e6445d64e8b82f6ac9397e7b, type: 3}
   destroyedSFX: {fileID: 8300000, guid: ac590ee887859d847ada730d76cd1ab1, type: 3}
+  droppedItem: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+  dropChance: 75
 --- !u!82 &3171685725390823853
 AudioSource:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine;
 public class MimicTrapBehavior : CropBehavior
 {
     public List<CreatureObject> immuneCreatures;
+    public GameObject particleEffect;
     public override void OnCropDestroyed(FarmLand tile)
     {
         Collider[] hitCreatures = Physics.OverlapSphere(tile.transform.position, 5f, 1 << 9);
@@ -19,5 +20,6 @@ public class MimicTrapBehavior : CropBehavior
                 continue;
             }
         }
+        Instantiate(particleEffect, tile.transform.position, Quaternion.identity);
     }
 }

@@ -468,7 +468,8 @@ public class PetMimic : CritterBehaviorScript
 
     void SpawnTrap()
     {
-        if(Random.Range(0, 100) > (friendshipLevel + 1) * 8) return;
-        StructureManager.Instance.PopulateCrop(1, 1, trap);
+        if(Random.Range(0, 100) <= (friendshipLevel + 1) * 8) StructureManager.Instance.PopulateCrop(1, 1, trap);
+
+        if(Random.Range(0, 100) <= (friendshipLevel + 1) * 8) StructureManager.Instance.PopulateCrop(1, 1, trap);
     }
 }

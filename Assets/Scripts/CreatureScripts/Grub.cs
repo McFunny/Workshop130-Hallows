@@ -386,7 +386,7 @@ public class Grub : CreatureBehaviorScript
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             targetWagon.TakeWagonDamage(damageToStructure);
         }
-        yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
+        yield return new WaitForSeconds(Random.Range(2.5f, 4f));
         if(stunCooldown) yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
         agent.Resume();
         isMoving = false;
