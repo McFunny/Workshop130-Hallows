@@ -96,12 +96,12 @@ public class CorruptedTile : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
+        /*
         if(type == ToolType.Shovel)
         {
             //StartCoroutine(DugUp());
             success = true;
         }
-        /*
         else if(type == ToolType.WateringCan && !beingCleansed)
         {
             StartCoroutine(CleanseRoutine());

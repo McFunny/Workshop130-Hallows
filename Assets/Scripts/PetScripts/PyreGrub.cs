@@ -548,7 +548,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                     {
                         if(creature.health <= 10 && creature.canCorpseBreak) applyRecoil = false;
 
-                        creature.TakeDamage(10);
+                        creature.TakeDamage(20);
                         if(creature.fireVulnerable && ignited) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(7, 12));
                         creature.PlayHitParticle(creature.transform.position);
 

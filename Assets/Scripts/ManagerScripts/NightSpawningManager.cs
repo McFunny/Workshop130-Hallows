@@ -180,7 +180,7 @@ public class NightSpawningManager : MonoBehaviour
                     attemptedCreature.hasSpawned = true;
                 }
                 creatureQueue.Enqueue(attemptedCreature);
-                if(attemptedCreature.spawnType == SpawnType.Support) spawnAttempts += 0.3f; //Support creatures do not contribuite to max spawns this hour as much as non supports do. IE 5 crows = 1 hare spawn
+                if(attemptedCreature.spawnType == SpawnType.Support) spawnAttempts += 0.4f; //Support creatures do not contribuite to max spawns this hour as much as non supports do. IE 5 crows = 1 hare spawn
                 spawnAttempts++;
                 if(attemptedCreature.contribuiteToCreatureCap) totalCreatures++;
                 creatureTallyDict[attemptedCreature]++;

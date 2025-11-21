@@ -661,8 +661,8 @@ public class VileHog : CreatureBehaviorScript
             if (creature != null && creature.shovelVulnerable && (creature.creatureData != creatureData || creature.health <= 0) && variant != Variant.Tiny)
             {
                 float extraDamage = 0;
-                if(usingThrusters) extraDamage += 30;
-                creature.TakeDamage(30 + extraDamage);
+                if(usingThrusters) extraDamage += 50;
+                creature.TakeDamage(50 + extraDamage);
                 creature.PlayHitParticle(new Vector3(0,0,0));
             }
         }

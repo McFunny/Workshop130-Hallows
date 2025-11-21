@@ -44,6 +44,12 @@ public class FeralHareTest : CreatureBehaviorScript
     public Collider attackCollider;
     bool attackingPlayer = false;
 
+    [Header("Corrupt Variables")]
+    CorruptedTile cTile, patrolTile;
+    public StructureObject nodeData, tileData;
+    public ThingToMake newObject;
+    public CropData purifyingCrop;
+
     public enum CreatureState
     {
         Wander,
@@ -52,7 +58,8 @@ public class FeralHareTest : CreatureBehaviorScript
         FleeFromPlayer,
         Stunned,
         Dead,
-        MakingBurrow
+        MakingBurrow,
+        Run
         //AttackPlayer,
         //AttackCooldown
     }
@@ -65,6 +72,13 @@ public class FeralHareTest : CreatureBehaviorScript
         Corrupt
     }
 
+    public enum ThingToMake //corrupted hare only
+    {
+        Burrow,
+        Node,
+        Tile
+    }
+
     public CreatureState currentState;
 
     public LayerMask obstacleMask;
@@ -74,7 +88,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         base.Start();
         currentState = CreatureState.Wander;
-        if(variant != Variant.Albino && variant != Variant.Corrupt && !inWilderness) StartCoroutine(CropCheck());
+        if(variant != Variant.Albino && !inWilderness) StartCoroutine(CropCheck());
         despawnPos = NightSpawningManager.Instance.despawnPositions[Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length)].position;
         yOrigin = transform.position.y;
         StartCoroutine(IdleSoundTimer());
@@ -95,6 +109,11 @@ public class FeralHareTest : CreatureBehaviorScript
         }
 
         if(MainMenuScript.currentFileMode == FileMode.Cozy) actionSpeedMod -= 0.1f;
+
+        if(variant == Variant.Corrupt && !inWilderness)
+        {
+            StartCoroutine(RefreshCorruptPatrol());
+        }
     }
 
     // Update is called once per frame
@@ -111,7 +130,7 @@ public class FeralHareTest : CreatureBehaviorScript
         } 
 
         // If the player is in sight, switch to flee state
-        if (playerInSightRange && currentState != CreatureState.Eat && variant != Variant.Albino)
+        if (playerInSightRange && currentState != CreatureState.Eat && variant != Variant.Albino && variant != Variant.Corrupt)
         {
             fleeTimeLeft = 1;
             currentState = CreatureState.FleeFromPlayer;
@@ -160,6 +179,9 @@ public class FeralHareTest : CreatureBehaviorScript
             case CreatureState.MakingBurrow:
                 MakeBurrow();
                 break;
+            case CreatureState.Run:
+                RunToTarget();
+                break;
         }
     }
 
@@ -173,15 +195,15 @@ public class FeralHareTest : CreatureBehaviorScript
         if (!jumpCooldown)
         {
             StartCoroutine(JumpCooldownTimer());
-            if(variant == Variant.Albino) //Seek the player
+            if(variant == Variant.Albino || variant == Variant.Corrupt) //Seek the player
             {
                 if(patrolPoint && !playerInSightRange)
                 {
-                    Vector3 hopPoint = PointAroundPatrolPoint(7);
+                    Vector3 hopPoint = PointAroundPatrolPoint(10);
                     hopPoint.y = 0;
                     Hop(hopPoint);
                 }
-                Hop(player.position);
+                else Hop(player.position);
                 if(playerInSightRange) burstJumps--;
             }
             else
@@ -289,10 +311,22 @@ public class FeralHareTest : CreatureBehaviorScript
 
     void MakeBurrow()
     {
+
         if (!isDigging)
         {
             isDigging = true;
-            newBurrowPos = StructureManager.Instance.CheckTile(transform.position);
+
+            if(variant == Variant.Corrupt)
+            {
+                if(newObject == ThingToMake.Node && cTile)  newBurrowPos = cTile.transform.position;
+                else if(newObject == ThingToMake.Tile) newBurrowPos = StructureManager.Instance.CheckTile(transform.position);
+                else newBurrowPos = new Vector3(0,0,0);
+            }
+            else
+            {
+                newBurrowPos = StructureManager.Instance.CheckTile(transform.position);
+            }
+
             if(newBurrowPos == new Vector3(0,0,0))
             {
                 currentState = CreatureState.Wander;
@@ -317,9 +351,10 @@ public class FeralHareTest : CreatureBehaviorScript
         effectsHandler.MiscSound();
         diggingTimeLeft = 4;
         yield return new WaitUntil(() => diggingTimeLeft <= 0 || playerInSightRange);
-        if (!playerInSightRange && StructureManager.Instance.CheckTile(newBurrowPos) != new Vector3(0,0,0))
+        if (!playerInSightRange && (StructureManager.Instance.CheckTile(newBurrowPos) != new Vector3(0,0,0) || (newObject != ThingToMake.Node || (cTile != null && cTile.containedStructure == null))))
         {
-            StructureManager.Instance.SpawnStructure(burrow, newBurrowPos);
+            if(newObject == ThingToMake.Tile) StructureManager.Instance.SpawnStructure(tileData.objectPrefab, newBurrowPos);
+            else StructureManager.Instance.SpawnStructure(burrow, newBurrowPos);
 
             if(variant == Variant.Tunneler)
             {
@@ -329,6 +364,7 @@ public class FeralHareTest : CreatureBehaviorScript
             }
         }
         anim.SetBool("IsDigging", false);
+        cTile = null;
         if(currentState == CreatureState.MakingBurrow) currentState = CreatureState.Wander;
         isDigging = false;
     }
@@ -337,6 +373,37 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         int burrowChance = Random.Range(0,10);
         if(variant == Variant.Tunneler) burrowChance += 5;
+        if(variant == Variant.Corrupt) 
+        {
+            int currentNodes = StructureManager.Instance.TallyStructure(nodeData);
+            int maxNodes = (CorruptionManager.Instance.corruptedTiles/10) + 1; //How many nodes can be present on the farm
+            if(currentNodes >= maxNodes) burrowChance = 0;
+            
+            if(burrowChance > 4) 
+            {
+                Collider[] hitStructures = Physics.OverlapSphere(transform.position, 3f, 1 << 6);
+                foreach(Collider collider in hitStructures)
+                {
+                    CorruptedTile foundTile = collider.gameObject.GetComponentInParent<CorruptedTile>();
+                    if(foundTile && foundTile.containedStructure == null)
+                    {
+                        cTile = foundTile;
+                        newObject = ThingToMake.Node;
+                        return true; //Found a nearby empty tile
+                    }
+                }
+            }
+
+            
+            burrowChance = Random.Range(0,10); //try again to plant a tile
+            if(!patrolPoint) burrowChance += 2;
+            if(structManager.CheckTile(transform.position) == Vector3.zero) return false;
+            if(burrowChance >= 4 && structManager.ValidateGridType(transform.position, GridType.Farm)) 
+            {
+                newObject = ThingToMake.Tile;
+                return true;
+            }
+        }
 
         if(structManager.CheckTile(transform.position) == Vector3.zero) return false;
         if(burrowChance >= 7 && structManager.BurrowCount() < 15 && currentState == CreatureState.Wander && structManager.ValidateGridType(transform.position, GridType.Farm))
@@ -395,6 +462,7 @@ public class FeralHareTest : CreatureBehaviorScript
                         FarmLand potentialFarmTile = structure as FarmLand;
                         if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && !potentialFarmTile.rotted)
                         {
+                            if(potentialFarmTile.crop != purifyingCrop && variant == Variant.Corrupt) continue;
                             availableLands.Add(potentialFarmTile);
                         }
                     }
@@ -424,6 +492,26 @@ public class FeralHareTest : CreatureBehaviorScript
         } while (gameObject.activeSelf);
     }
 
+    IEnumerator RefreshCorruptPatrol()
+    {
+        while(health > 0)
+        {
+            yield return new WaitForSeconds(3);
+            if(patrolTile == null || Random.Range(0,10) > 9)
+            {
+                CorruptionManager.Instance.ReturnFreeTileList(out List<CorruptedTile> cTiles);
+                if(cTiles.Count == 0)
+                {
+                    patrolPoint = null;
+                    continue;
+                }
+
+                patrolTile = cTiles[Random.Range(0, cTiles.Count)];
+                patrolPoint = patrolTile.transform;
+            }
+        }
+    }
+
     public void Hop(Vector3 destination)
     {
         if(burrowCooldown)
@@ -433,7 +521,7 @@ public class FeralHareTest : CreatureBehaviorScript
             return;
         }
 
-        if(variant == Variant.Albino) rb.velocity = new Vector3(0,0,0);
+        if(variant == Variant.Albino || variant == Variant.Corrupt) rb.velocity = new Vector3(0,0,0);
 
         bool obstructed = false;
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
@@ -488,7 +576,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         jumpCooldown = true;
 
-        if(variant == Variant.Albino)
+        if(variant == Variant.Albino || variant == Variant.Corrupt)
         {
             attackCollider.enabled = true;
             attackingPlayer = true;
@@ -497,25 +585,26 @@ public class FeralHareTest : CreatureBehaviorScript
         float time = Random.Range(0.9f, 1.3f);
         if(currentState == CreatureState.FleeFromPlayer) time = time / 2.7f;
         else time = time/actionSpeedMod;
-        if(variant == Variant.Albino && playerInSightRange) time =  0.4f;
+        if((variant == Variant.Albino || variant == Variant.Corrupt) && playerInSightRange) time =  0.4f;
         yield return new WaitForSeconds(time);
 
-        if(variant == Variant.Albino)
+        if(variant == Variant.Albino || variant == Variant.Corrupt)
         {
             attackCollider.enabled = false;
             attackingPlayer = false;
         }
 
-        if(burstJumps <= 0 && variant == Variant.Albino)
+        if(burstJumps <= 0 && (variant == Variant.Albino || variant == Variant.Corrupt))
         {
             cooldownEffect.SetActive(true);
-            yield return new WaitForSeconds(Random.Range(3, 5)/actionSpeedMod);
+            if(variant == Variant.Corrupt) yield return new WaitForSeconds(Random.Range(1, 2)/actionSpeedMod);
+            else yield return new WaitForSeconds(Random.Range(3, 5)/actionSpeedMod);
             cooldownEffect.SetActive(false);
             burstJumps = Random.Range(3,5);
         }
 
         //Idle Anims
-        if(currentState != CreatureState.FleeFromPlayer && !playerInSightRange && !foundFarmTile && !isDead)
+        if(currentState != CreatureState.FleeFromPlayer && !playerInSightRange && !foundFarmTile && !isDead && variant != Variant.Corrupt)
         {
             int r = Random.Range(0, 20);
             if(r < 1) //Stand Idle
@@ -528,6 +617,11 @@ public class FeralHareTest : CreatureBehaviorScript
                 anim.Play("RabbitThump");
                 yield return new WaitForSeconds(2.2f);
             }
+        }
+        if(variant == Variant.Corrupt && Random.Range(0, 100) > 98 && currentState != CreatureState.FleeFromPlayer)
+        {
+            currentState = CreatureState.Run;
+            anim.Play("RabbitStandRun");
         }
         jumpCooldown = false;
     }
@@ -606,6 +700,7 @@ public class FeralHareTest : CreatureBehaviorScript
             //else
             //{
                 fleeTimeLeft = 3.5f;
+                if(variant == Variant.Corrupt) fleeTimeLeft = 5f;
                 currentState = CreatureState.FleeFromPlayer;
             //}
         } 
@@ -684,6 +779,36 @@ public class FeralHareTest : CreatureBehaviorScript
         {
             EnterBurrow();
         }
+    }
+
+    void RunToTarget()
+    {
+        float maxSpeed = 12 * actionSpeedMod;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer <= 3)
+        {
+            rb.velocity = Vector3.zero;
+            currentState = CreatureState.Wander;
+            anim.Play("RabbitIdle");
+            return;
+        }
+
+        // Move toward lagged target position
+        Vector3 toTarget = player.position - transform.position;
+        toTarget.y = 0;
+
+        Vector3 direction = toTarget.normalized;
+
+        Vector3 desiredVelocity = direction * maxSpeed;
+        Vector3 velocityDelta = desiredVelocity - rb.velocity;
+        velocityDelta.y = 0;
+
+        Vector3 force = velocityDelta * 10;
+        rb.AddForce(force, ForceMode.Acceleration);
+
+        var rotation = Quaternion.LookRotation(toTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 2);
     }
 
 }

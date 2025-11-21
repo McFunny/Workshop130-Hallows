@@ -23,7 +23,9 @@ MonoBehaviour:
     canSpawnInWilderness: 0
     wealthPrerequisite: 0
     variantChanceInFarm:
-    - _int: 0
+    - _int: 1
+      _probability: 5
+    - _int: 2
       _probability: 10
   health: 0
   position:

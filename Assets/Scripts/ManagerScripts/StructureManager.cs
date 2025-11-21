@@ -131,9 +131,9 @@ public class StructureManager : MonoBehaviour
                 if(potentialWeed && potentialWeed.isWeed) continue;
 
                 r = Random.Range(0, 10);
-                if(potentialWeed) r += 2;
+                if(potentialWeed) r += 3;
                 if(MainMenuScript.currentFileMode == FileMode.Cozy) r -= 2;
-                if((r >= 6.5f || allStructs[i].onFire) && !allStructs[i].absentFromFarmGrid) //Destroy structure.
+                if((r >= 7.5f || allStructs[i].onFire) && !allStructs[i].absentFromFarmGrid) //Destroy structure.
                 {
                     print("Deleting: " + allStructs[i]);
                     //Destroy(allStructs[i].gameObject);

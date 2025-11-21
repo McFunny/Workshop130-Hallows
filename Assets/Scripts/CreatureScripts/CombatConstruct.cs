@@ -280,7 +280,9 @@ public class CombatConstruct : CreatureBehaviorScript
     {
         attackCooldown = true;
         scrapeParticles.SetActive(false);
+        moveSpeed -= 1.5f;
         yield return new WaitForSeconds(duration / actionSpeedMod);
+        moveSpeed += 1.5f;
         attackCooldown = false;
         scrapeParticles.SetActive(true);
     }
