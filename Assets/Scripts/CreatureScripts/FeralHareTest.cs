@@ -354,7 +354,11 @@ public class FeralHareTest : CreatureBehaviorScript
         if (!playerInSightRange && (StructureManager.Instance.CheckTile(newBurrowPos) != new Vector3(0,0,0) || (newObject != ThingToMake.Node || (cTile != null && cTile.containedStructure == null))))
         {
             if(newObject == ThingToMake.Tile) StructureManager.Instance.SpawnStructure(tileData.objectPrefab, newBurrowPos);
-            else StructureManager.Instance.SpawnStructure(burrow, newBurrowPos);
+            else 
+            {
+                if(cTile) cTile.containedStructure = StructureManager.Instance.SpawnStructureWithInstance(burrow, newBurrowPos).GetComponent<StructureBehaviorScript>();
+                else StructureManager.Instance.SpawnStructure(burrow, newBurrowPos);
+            }
 
             if(variant == Variant.Tunneler)
             {
@@ -376,7 +380,7 @@ public class FeralHareTest : CreatureBehaviorScript
         if(variant == Variant.Corrupt) 
         {
             int currentNodes = StructureManager.Instance.TallyStructure(nodeData);
-            int maxNodes = (CorruptionManager.Instance.corruptedTiles/10) + 1; //How many nodes can be present on the farm
+            float maxNodes = (CorruptionManager.Instance.corruptedTiles/10) + 1; //How many nodes can be present on the farm
             if(currentNodes >= maxNodes) burrowChance = 0;
             
             if(burrowChance > 4) 
@@ -403,6 +407,8 @@ public class FeralHareTest : CreatureBehaviorScript
                 newObject = ThingToMake.Tile;
                 return true;
             }
+
+            return false;
         }
 
         if(structManager.CheckTile(transform.position) == Vector3.zero) return false;
@@ -597,7 +603,7 @@ public class FeralHareTest : CreatureBehaviorScript
         if(burstJumps <= 0 && (variant == Variant.Albino || variant == Variant.Corrupt))
         {
             cooldownEffect.SetActive(true);
-            if(variant == Variant.Corrupt) yield return new WaitForSeconds(Random.Range(1, 2)/actionSpeedMod);
+            if(variant == Variant.Corrupt) yield return new WaitForSeconds(Random.Range(2, 3)/actionSpeedMod);
             else yield return new WaitForSeconds(Random.Range(3, 5)/actionSpeedMod);
             cooldownEffect.SetActive(false);
             burstJumps = Random.Range(3,5);
@@ -640,7 +646,8 @@ public class FeralHareTest : CreatureBehaviorScript
         foreach (StructureBehaviorScript structure in structManager.allStructs)
         {
             FarmLand potentialFarmTile = structure as FarmLand;
-            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && Vector3.Distance(transform.position, potentialFarmTile.transform.position) < 25)
+            if (potentialFarmTile && !undesiredCrops.Contains(potentialFarmTile.crop) && Vector3.Distance(transform.position, potentialFarmTile.transform.position) < 25 && 
+            potentialFarmTile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)
             {
                 availableLands.Add(potentialFarmTile);
             }
@@ -700,7 +707,6 @@ public class FeralHareTest : CreatureBehaviorScript
             //else
             //{
                 fleeTimeLeft = 3.5f;
-                if(variant == Variant.Corrupt) fleeTimeLeft = 5f;
                 currentState = CreatureState.FleeFromPlayer;
             //}
         } 

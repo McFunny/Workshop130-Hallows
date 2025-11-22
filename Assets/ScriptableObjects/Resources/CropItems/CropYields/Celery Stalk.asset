@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
+  m_Name: Celery Stalk
+  m_EditorClassIdentifier: 
+  ID: 253
+  displayName: Celery Stalk
+  description: Thin leafy stalks, made of mostly water.
+  icon: {fileID: -191107299, guid: 6e9e0480d25ebc8489c4d508828ce5ba, type: 3}
+  type: 1
+  maxStackSize: 20
+  value: 28
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 22
+  animalHungerValue: 0
+  bonusCompostValue: 20
+  useCooldown: 1
+  pickledForm: {fileID: 11400000, guid: 0a11938c706757b46baacc9bb674972a, type: 2}
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: bf102542b987b4748af8988d59c4d9e6, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

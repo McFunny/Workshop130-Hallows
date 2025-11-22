@@ -7817,6 +7817,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf8af9956b089464085a930ba02b3711, type: 2}
   - {fileID: 11400000, guid: a501ca9b19d35a648a26a5b5683a9a07, type: 2}
   - {fileID: 11400000, guid: 472d8d69d5ad5b046b724150f19e191b, type: 2}
+  - {fileID: 11400000, guid: 7c88cdeb4ede7984fa2d456e64a08a06, type: 2}
+  - {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
+  - {fileID: 11400000, guid: 15b34919b3c702044a8d8dd49665f9d6, type: 2}
+  - {fileID: 11400000, guid: d222d9f3f34c0ad409c923992c7d030d, type: 2}
   agent: {fileID: 0}
   animEvents: {fileID: 2659592759609832544}
   lungeAttackHitbox: {fileID: 3968163408924619539}
@@ -7826,6 +7830,7 @@ MonoBehaviour:
   equippableArmor: []
   foggedWalkers: []
   foggedWalkerPrefab: {fileID: 0}
+  feralLungeParticles: {fileID: 0}
   currentState: 2
 --- !u!195 &22023094558129277
 NavMeshAgent:
@@ -8484,6 +8489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2847078871799312132}
+  audioScript: {fileID: 0}
 --- !u!114 &2776007452843154496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8501,6 +8507,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 8300000, guid: 4ed83a296ee46a14382f4610b6328685, type: 3}
   idleSound2: {fileID: 8300000, guid: 45f89710a684633408759ec66332605e, type: 3}

@@ -5077,11 +5077,13 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 27c7e9804970e6e49bdbdb028abc6734, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
   allColliders: []
   corpseParticleTransform: {fileID: 8629234440405096224}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 0
   rb: {fileID: 7647965887755357475}
   anim: {fileID: 8055655871951679778}
@@ -5118,7 +5120,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9065206578167672808}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 0.5
   m_Speed: 2
   m_Acceleration: 8
@@ -5149,6 +5151,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -5159,6 +5162,9 @@ MonoBehaviour:
   miscSound: {fileID: 0}
   miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
 --- !u!82 &6399212708906378645
 AudioSource:

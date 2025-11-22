@@ -121,7 +121,7 @@ public class CorruptedTile : StructureBehaviorScript
         foundTile = manager.GetStructureOnPosition(currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x + 1, gridPos.y))); //right
         if(foundTile != null && (foundTile.TryGetComponent(out FarmLand t1) || foundTile.TryGetComponent(out CorruptedTile f1))) 
         {
-            if(t1 != null && (t1.isWeed || !t1.crop)) t1.TakeDamage(1);
+            if(t1 != null && ((t1.isWeed || !t1.crop) && t1.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)) t1.TakeDamage(1);
             extraTiles[0].SetActive(false);
         }
         else extraTiles[0].SetActive(true);
@@ -129,7 +129,7 @@ public class CorruptedTile : StructureBehaviorScript
         foundTile = manager.GetStructureOnPosition(currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x - 1, gridPos.y))); //left
         if(foundTile != null && (foundTile.TryGetComponent(out FarmLand t2) || foundTile.TryGetComponent(out CorruptedTile f2))) 
         {
-            if(t2 != null && (t2.isWeed || !t2.crop)) t2.TakeDamage(1);
+            if(t2 != null && ((t2.isWeed || !t2.crop) && t2.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)) t2.TakeDamage(1);
             extraTiles[1].SetActive(false);
         }
         else extraTiles[1].SetActive(true);
@@ -137,7 +137,7 @@ public class CorruptedTile : StructureBehaviorScript
         foundTile = manager.GetStructureOnPosition(currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y + 1))); //up
         if(foundTile != null && (foundTile.TryGetComponent(out FarmLand t3) || foundTile.TryGetComponent(out CorruptedTile f3))) 
         {
-            if(t3 != null && (t3.isWeed || !t3.crop)) t3.TakeDamage(1);
+            if(t3 != null && ((t3.isWeed || !t3.crop) && t3.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)) t3.TakeDamage(1);
             extraTiles[2].SetActive(false);
         }
         else extraTiles[2].SetActive(true);
@@ -145,7 +145,7 @@ public class CorruptedTile : StructureBehaviorScript
         foundTile = manager.GetStructureOnPosition(currentMap.GetCellCenterWorld(new Vector3Int(gridPos.x, gridPos.y - 1))); //down
         if(foundTile != null && (foundTile.TryGetComponent(out FarmLand t4) || foundTile.TryGetComponent(out CorruptedTile f4))) 
         {
-            if(t4 != null && (t4.isWeed || !t4.crop)) t4.TakeDamage(1);
+            if(t4 != null && ((t4.isWeed || !t4.crop) && t4.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)) t4.TakeDamage(1);
             extraTiles[3].SetActive(false);
         }
         else extraTiles[3].SetActive(true);

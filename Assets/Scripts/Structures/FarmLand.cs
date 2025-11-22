@@ -410,7 +410,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(isWeed && !TimeManager.Instance.isDay)
+        if(isWeed && currentUpgrade != FarmTileUpgrade.Corrupt && !TimeManager.Instance.isDay)
         {
             StructureManager.Instance.WeedSpread(transform.position, out bool becomeThorn);
             if(becomeThorn)
@@ -499,6 +499,13 @@ public class FarmLand : StructureBehaviorScript
     {
         crop = _crop;
         growthStage = 1;
+
+        if(isWeed)
+        {
+            growthStage = Random.Range(0, crop.growthStages - 1);
+            growthStage++;
+        }
+
         hoursSpent = 0;
         plantStress = 0;
         if(nutrients != null) SpriteChange();

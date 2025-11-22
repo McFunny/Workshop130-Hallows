@@ -157,7 +157,7 @@ public class MistWalker : CreatureBehaviorScript
             if (structure && targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid)
             {
                 FarmLand f = structure as FarmLand;
-                if(f && (!f.crop || undesiredCrops.Contains(f.crop))) continue;
+                if(f && (!f.crop || undesiredCrops.Contains(f.crop) || f.isWeed || f.currentUpgrade == FarmLand.FarmTileUpgrade.Corrupt)) continue;
                 
                 availableStructure.Add(structure);
             }

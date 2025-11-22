@@ -20,6 +20,8 @@ public class CorruptionNode : StructureBehaviorScript
 
         //StartCoroutine(TestSpread()); // Debugging only
         StartCoroutine(LateStart()); 
+
+        base.Start();
     }
 
     public void HourUpdate()
