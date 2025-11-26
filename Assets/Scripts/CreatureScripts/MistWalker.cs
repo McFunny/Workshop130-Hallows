@@ -680,7 +680,7 @@ public class MistWalker : CreatureBehaviorScript
             float r = Random.Range(0, 100);
             if(r > 30) canDoubleLunge = true;
         }
-        yield return new WaitForSeconds(lungeCooldown);
+        yield return new WaitForSeconds(lungeCooldown + Random.Range(-0.5f, 4f));
         canLunge = true;
     }
     #endregion

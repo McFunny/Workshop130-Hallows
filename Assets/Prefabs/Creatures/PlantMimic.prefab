@@ -318,14 +318,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 15b811d0b42fdf44e86c618d24730806, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
-  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   dropChance:
   - 5
   - 5
   - 5
   - 7
   - 10
-  - 7
   - 7
   sightRange: 20
   attackRange: 5
@@ -348,6 +346,13 @@ MonoBehaviour:
   fakeCrop: {fileID: 1033588906638334954, guid: 672e75d27fe2e5b45a90265a6e549492,
     type: 3}
   targetCreature: {fileID: 0}
+  undesiredCrops:
+  - {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
+  - {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
+  - {fileID: 11400000, guid: 225b60126aa3aac45838e8cefd7fb09b, type: 2}
+  - {fileID: 11400000, guid: 327028795e7109e4085a7de271dd17a8, type: 2}
+  - {fileID: 11400000, guid: a5c9ac8a307947a4c9e7b79117b80097, type: 2}
+  - {fileID: 11400000, guid: 15b34919b3c702044a8d8dd49665f9d6, type: 2}
   currentState: 0
 --- !u!136 &7701611766458343982
 CapsuleCollider:
@@ -912,6 +917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 6411311941882197973}
+  audioScript: {fileID: 0}
 --- !u!114 &3793323686553748171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -929,6 +935,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 6530363596841781460}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 8300000, guid: ff0eac1c375d84340835a4aa692da2ea, type: 3}
   idleSound1: {fileID: 8300000, guid: 3b5b01a8c894ac34887a136e8c07c96d, type: 3}
   idleSound2: {fileID: 8300000, guid: 13151c299a7f7984ab315235ccec2298, type: 3}

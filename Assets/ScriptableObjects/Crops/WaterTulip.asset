@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: WaterTulip
+  m_EditorClassIdentifier: 
+  name: Water Tulip
+  id: 49
+  growthStages: 6
+  hoursPerStage: 1
+  harvestableGrowthStages: 06000000
+  cropSprites:
+  - {fileID: -1841268659, guid: a167ac19d9f31964293366a8621a1426, type: 3}
+  - {fileID: 344377268, guid: a167ac19d9f31964293366a8621a1426, type: 3}
+  - {fileID: 717874728, guid: a167ac19d9f31964293366a8621a1426, type: 3}
+  - {fileID: -503632134, guid: a167ac19d9f31964293366a8621a1426, type: 3}
+  - {fileID: 2066278827, guid: a167ac19d9f31964293366a8621a1426, type: 3}
+  - {fileID: 499709024, guid: a167ac19d9f31964293366a8621a1426, type: 3}
+  rottedImage: {fileID: 941243999, guid: a167ac19d9f31964293366a8621a1426, type: 3}
+  cropYield: {fileID: 11400000, guid: 399f6cecaa2990448994f3ec12b230da, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 11400000, guid: 8bfa7d8c44f166e4b9c5330b1be44df6, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  noStressSeedChance: 10
+  waterIntake: 8
+  ichorIntake: 0.25
+  terraIntake: -0.25
+  gloamIntake: 0.5
+  stressLimit: 3
+  wealthValue: 2
+  requireScythe: 0
+  requirePollination: 1
+  behavior: {fileID: 0}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

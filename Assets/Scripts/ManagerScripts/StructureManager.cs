@@ -1249,6 +1249,50 @@ public class StructureManager : MonoBehaviour
         return GetRandomClearTile();
     }
 
+    public Vector3 FindFreeTileNearCrop(List<CropData> cropsToAvoid)
+    {
+        List<Vector3> cropTiles = new List<Vector3>();
+        List<Vector3> priorityCropTiles = new List<Vector3>();
+
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand farmTile = allStructs[i] as FarmLand;
+            if(farmTile && !farmTile.isWeed && farmTile.crop && !farmTile.rotted) 
+            {
+                cropTiles.Add(GetTileCenter(farmTile.transform.position));
+                if(!cropsToAvoid.Contains(farmTile.crop)) priorityCropTiles.Add(GetTileCenter(farmTile.transform.position));
+            }
+        }
+        if(cropTiles.Count > 0)
+        {
+            int x = 0;
+            List<Vector3> clearTiles = new List<Vector3>();
+            while(x < 50)
+            {
+                int r = 0;
+                if(x < 25)
+                {
+                    r = Random.Range(0, priorityCropTiles.Count);
+                    clearTiles = GetAdjacentClearTiles(priorityCropTiles[r]);
+                }
+                else
+                {
+                    r = Random.Range(0, cropTiles.Count);
+                    clearTiles = GetAdjacentClearTiles(cropTiles[r]);
+                }
+                if(clearTiles.Count > 0)
+                {
+                    return clearTiles[Random.Range(0,clearTiles.Count)];
+                }
+
+                x++;
+            }
+            //code for replacing a crop
+        }
+
+        return GetRandomClearTile();
+    }
+
     public Transform FindBurrow(bool returnFarthest, Vector3 pos)
     {
         List<Transform> burrows = new List<Transform>();

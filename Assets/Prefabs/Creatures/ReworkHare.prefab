@@ -111,7 +111,7 @@ MonoBehaviour:
   - 1.5
   - 0.5
   - 10
-  - 5
+  - 3
   sightRange: 8
   attackRange: 6
   playerInSightRange: 0
@@ -140,10 +140,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 472d8d69d5ad5b046b724150f19e191b, type: 2}
   - {fileID: 11400000, guid: 7c88cdeb4ede7984fa2d456e64a08a06, type: 2}
   - {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
+  - {fileID: 11400000, guid: 6767e2bec9f1fe44ab8167722b020996, type: 2}
   carrotCrop: {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
   burrow: {fileID: 7255452786975544648, guid: a7f024629f7649543ab098046aced1a2, type: 3}
   cooldownEffect: {fileID: 0}
+  biteParticles: {fileID: 0}
   attackCollider: {fileID: 0}
+  nodeData: {fileID: 0}
+  tileData: {fileID: 0}
+  newObject: 0
+  purifyingCrop: {fileID: 0}
   currentState: 0
   obstacleMask:
     serializedVersion: 2
@@ -213,6 +219,7 @@ MonoBehaviour:
   pitchMax: 0.1
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 8300000, guid: 41ee24f61477af04eb448d5aed4d56ee, type: 3}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -467,6 +474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2798424889111977121}
+  audioScript: {fileID: 0}
 --- !u!4 &2156604931362612132 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 18051530ab4a067418f4833f913b0e91,
@@ -703,6 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2798424889111977121}
+  audioScript: {fileID: 0}
 --- !u!4 &2075929816573193594 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3941b5bab5970094f838f8783dbeffeb,

@@ -463,6 +463,19 @@ public class RubyWasp : CreatureBehaviorScript
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 9 && health <= 0)
+        {
+            var c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+            if(c && c.shovelVulnerable)
+            {
+                ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = other.transform.position;
+                c.TakeDamage(20);
+            }
+        }
+    }
+
     public override bool CaughtByBugNet(out InventoryItemData item)
     {
         item = null;

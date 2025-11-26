@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
+  m_Name: Water Tulip Bud
+  m_EditorClassIdentifier: 
+  ID: 258
+  displayName: Water Tulip Bud
+  description: Thin clear petals trap a large amount of water inside. Can be thrown
+    to cover an area in water.
+  icon: {fileID: -1516524089, guid: a167ac19d9f31964293366a8621a1426, type: 3}
+  type: 10
+  maxStackSize: 20
+  value: 26
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 1
+  pickledForm: {fileID: 0}
+  itemConversions:
+  - method: 3
+    newItem: {fileID: 11400000, guid: 8bfa7d8c44f166e4b9c5330b1be44df6, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

@@ -501,13 +501,13 @@ public class WagonMerchantNPC : NPC, ITalkable
             else itemsToGive.Add(new ItemWithAmount(ammo, 10));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
         }
-        else if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold)
+        /*else if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold)
         {
             currentPath = 8;
             currentType = PathType.Misc;
             GameSaveData.Instance.wildernessIntroduced = true;
             lantern.EnableSelf();
-        }
+        }*/
         else return;
         metPlayerAtEntrace = true;
         talkingOutsideWagon = true;

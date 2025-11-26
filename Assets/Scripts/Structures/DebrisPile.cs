@@ -188,7 +188,7 @@ public class DebrisPile : StructureBehaviorScript
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
 
-        if(!repairedStruct || repairedStruct.droppedItems.Count == 0 || !repaired) return;
+        if(!repairedStruct || repairedStruct.droppedItems.Count == 0 || repaired) return;
         GameObject droppedItem;
         foreach(ItemWithAmount recoveredItem in repairedStruct.droppedItems)
         {

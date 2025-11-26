@@ -5128,7 +5128,7 @@ MonoBehaviour:
   currentEffects: []
   agent: {fileID: 0}
   fleeDistance: 3
-  timeBeforeLeavingFarm: 30
+  timeBeforeLeavingFarm: 90
   currentState: 0
 --- !u!195 &8600245057972823617
 NavMeshAgent:
@@ -5715,6 +5715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 6198489945415801376}
+  audioScript: {fileID: 0}
 --- !u!114 &3304942740154724292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5732,6 +5733,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 8300000, guid: c04b8172b5cdac844a036d62609e4da7, type: 3}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
