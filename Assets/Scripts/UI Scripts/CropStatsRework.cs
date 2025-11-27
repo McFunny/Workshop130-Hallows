@@ -104,8 +104,8 @@ public class CropStatsRework : MonoBehaviour
                 else
                 {
                     isActive = true;
-                    cropNameText.text = hitCrop.crop.name;
-                    cropNameTextD.text = hitCrop.crop.name;
+                    cropNameText.text = hitCrop.crop.name + "?";
+                    cropNameTextD.text = hitCrop.crop.name + "?";
                 }
 
                 FarmlandStatUpdate(hitCrop);
