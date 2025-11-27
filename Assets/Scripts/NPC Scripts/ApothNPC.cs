@@ -24,6 +24,11 @@ public class ApothNPC : NPC, ITalkable
     void Start()
     {
         shopUI = FindObjectOfType<WaypointScript>();
+
+        if(!GameSaveData.Instance.apo_wasKidnapped && GameSaveData.Instance.siegesCleared == 1)
+        {
+            GameSaveData.Instance.apo_wasKidnapped = true;
+        }
     }
 
     public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -274,10 +279,12 @@ public class ApothNPC : NPC, ITalkable
             GameSaveData.Instance.apo_readScroll = true;
         }
 
-        if(TimeManager.Instance.currentHour == 8 && !GameSaveData.Instance.apo_wasKidnapped && GameSaveData.Instance.siegesCleared == 1)
+        if((TimeManager.Instance.currentHour == 8 || TimeManager.Instance.currentHour == 9) && !GameSaveData.Instance.apo_wasKidnapped && GameSaveData.Instance.siegesCleared == 1)
         {
             GameSaveData.Instance.apo_wasKidnapped = true;
         }
+
+        
     }
 
     bool CanSellSiegeSeeds()

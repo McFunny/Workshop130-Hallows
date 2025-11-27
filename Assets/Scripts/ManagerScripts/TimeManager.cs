@@ -299,8 +299,10 @@ public class TimeManager : MonoBehaviour
         //change time and day
         if(isDay) //Died during the day
         {
-            int targetHour = currentHour + 5;
+            int targetHour = currentHour;
             if(currentHour < 8) targetHour = 7;
+            else targetHour = currentHour + 5;
+            
             if(targetHour > 19) targetHour = 18;
             else targetHour = 19;
             while(currentHour != targetHour)

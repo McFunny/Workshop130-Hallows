@@ -23,7 +23,9 @@ MonoBehaviour:
     canSpawnInWilderness: 0
     wealthPrerequisite: 0
     variantChanceInFarm:
-    - _int: 0
+    - _int: 1
+      _probability: 5
+    - _int: 2
       _probability: 10
   health: 0
   position:
@@ -31,16 +33,16 @@ MonoBehaviour:
   - 0
   - 0
   id: 24
-  dangerCost: 0.5
+  dangerCost: 1
   dangerThreshold: 0
-  spawnWeight: 10
-  spawnCap: 15
-  spawnCapPerHour: 6
+  spawnWeight: 8
+  spawnCap: 8
+  spawnCapPerHour: 4
   wealthPrerequisite: 1000
   siegePrerequisite: 2
   contribuiteToCreatureCap: 0
-  amountKilled: 0
-  hasSpawned: 0
+  amountKilled: 23
+  hasSpawned: 1
   excludeFromNormalNights: 0
   canSpawnBehindCabin: 1
   spawnType: 2

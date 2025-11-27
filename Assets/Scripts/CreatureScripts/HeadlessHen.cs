@@ -430,7 +430,7 @@ public class HeadlessHen : CreatureBehaviorScript
         if (Physics.Raycast(origin, transform.forward, out hit, 1.3f, 1 << 6))
         {
             FarmLand tile = hit.collider.GetComponentInParent<FarmLand>(); //To check if its a tree because trees arent "obstacles"
-            if(tile && tile.crop && !tile.isWeed)
+            if(tile && tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)
             {
                 return true;
             }

@@ -8,6 +8,7 @@ public class ShovelAttack : MonoBehaviour
     public Collider collider;
 
     public AudioClip hitStruct, hitHay, hitFlesh, hitDirt;
+    public AudioClip[] hitSolid;
 
     CreatureBehaviorScript hitCreature;
     StructureBehaviorScript hitStructure;
@@ -108,7 +109,7 @@ public class ShovelAttack : MonoBehaviour
             float damage = 2;
             if(chargedSwing) damage = 5;
             hitArmor.TakeDamage(damage);
-            HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            HandItemManager.Instance.toolSource.PlayOneShot(hitSolid[Random.Range(0, hitSolid.Length)]);
             //print("Hit Armor");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
@@ -143,7 +144,7 @@ public class ShovelAttack : MonoBehaviour
             hitStructure.TakeDamage(damage);
             if(hitStructure.structData.structureType == StructureType.Null || hitStructure.structData.structureType == StructureType.Hay || hitStructure.structData.structureType == StructureType.CorruptedFlesh) 
             HandItemManager.Instance.toolSource.PlayOneShot(hitHay);
-            else HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            else HandItemManager.Instance.toolSource.PlayOneShot(hitSolid[Random.Range(0, hitSolid.Length)]);
             //print("Hit Structure");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
@@ -164,7 +165,7 @@ public class ShovelAttack : MonoBehaviour
 
             PlayHitParticle(d_Collision);
             ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = d_Collision;
-            //HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+            //HandItemManager.Instance.toolSource.PlayOneShot(hitSolid[Random.Range(0, hitSolid.Length)]);
             //return;
 
             if(type == GroundType.Dirt)
@@ -177,7 +178,7 @@ public class ShovelAttack : MonoBehaviour
             {
                 //print("Hit default");
                 PlayHitParticle(d_Collision);
-                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitSolid[Random.Range(0, hitSolid.Length)]);
             }
         }
     }

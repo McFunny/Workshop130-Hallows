@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edfa73c5b2ca624f88c7f0fb8be25d6, type: 3}
+  m_Name: WhipWeedSapling
+  m_EditorClassIdentifier: 
+  ID: 247
+  displayName: Birch Spire Sapling
+  description: The starter for a Birch Spire; a sentient dwarf tree that attacks
+    threats standing nearby tilled tiles. Consumes 0.1 Ichor per attack. A mature
+    Birch Spire will always drop this.
+  icon: {fileID: -1265404325, guid: 50e9fecd88d77d84dadfc1b692113fa9, type: 3}
+  type: 6
+  maxStackSize: 20
+  value: 57
+  sellValueMultiplier: 0.5
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM:
+  - RMB - Plant
+  itemInputsController:
+  - LT - Plant
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  plantable: 1
+  cropData: {fileID: 11400000, guid: 68591232a27b64c45a5c056a3faf705f, type: 2}
+  ableToBeShot: 0
+  requireTrellis: 0

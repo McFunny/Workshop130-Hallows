@@ -21,6 +21,7 @@ public class CritterPen : StructureBehaviorScript
 
     void Start()
     {
+        base.Start();
         StartCoroutine(DelayedStart());
 
         if(TutorialMiller.Instance) TutorialMiller.Instance.SpawnHog();

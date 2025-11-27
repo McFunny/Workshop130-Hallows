@@ -139,7 +139,7 @@ public class HandItemManager : MonoBehaviour
                 break;
         }
         if(currentHandObject) currentAnim = currentHandObject.GetComponent<Animator>();
-        if(!currentAnim) currentAnim = currentHandObject.GetComponentInChildren<Animator>();
+        if(!currentAnim && currentHandObject) currentAnim = currentHandObject.GetComponentInChildren<Animator>();
         currentType = type;
     }
 

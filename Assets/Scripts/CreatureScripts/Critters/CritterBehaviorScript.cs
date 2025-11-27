@@ -58,14 +58,19 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     {
         if(justSpawned)
         {
+            if(!homePen) FindHomePen();
             justSpawned = false;
             return;
         }
         else if(TimeManager.Instance.currentHour == 8 && !homePen)
         {
-            PopupHandler.Instance.names.Enqueue(name);
-            PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterLeftPopup);
-            Destroy(gameObject);
+            FindHomePen();
+            if(!homePen)
+            {
+                PopupHandler.Instance.names.Enqueue(name);
+                PopupHandler.Instance.AddToQueue(PopupHandler.Instance.critterLeftPopup);
+                Destroy(gameObject);
+            } 
         }
     
         if(isDead)
@@ -194,10 +199,10 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 
     void FindHomePen()
     {
-        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 80f, 1 << 6);
+        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 150f, 1 << 6);
         foreach(Collider collider in hitStructures)
         {
-            CritterPen pen = collider.gameObject.GetComponent<CritterPen>();
+            CritterPen pen = collider.gameObject.GetComponentInParent<CritterPen>();
             if(pen && pen.type == penType && pen.housedCritters.Count < pen.maxOccupency)
             {
                 if(pen.type == PenType.Hive && pen.durability <= 0) continue;

@@ -285,7 +285,8 @@ public class CarpenterNPC : NPC, ITalkable
     {
         if(base.ExclamationCheck() == false)
         {
-            if(!GameSaveData.Instance.cm_giveChest || (!GameSaveData.Instance.cm_offersKit && GameSaveData.Instance.playerWagonFound))
+            if(!GameSaveData.Instance.cm_giveChest || (!GameSaveData.Instance.cm_offersKit && GameSaveData.Instance.playerWagonFound && 
+            (!GameSaveData.Instance.cm_refusedRepairs || GameSaveData.Instance.tav_reportedApoMissing)))
             {
                 exclamationObject.SetActive(true);
                 return true;

@@ -15109,6 +15109,8 @@ MonoBehaviour:
   source: {fileID: 8468605174948723911}
   damagedSFX: {fileID: 8300000, guid: c0adbf6c7093efc4598cabd862a75484, type: 3}
   destroyedSFX: {fileID: 8300000, guid: c0adbf6c7093efc4598cabd862a75484, type: 3}
+  droppedItem: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+  dropChance: 20
 --- !u!82 &8468605174948723911
 AudioSource:
   m_ObjectHideFlags: 0
@@ -25168,8 +25170,8 @@ MonoBehaviour:
   dropChance:
   - 2
   - 10
-  - 5
-  - 5
+  - 3
+  - 3
   sightRange: 30
   attackRange: 15
   playerInSightRange: 0
@@ -25194,6 +25196,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5349594fbfaf93a4ea544f582119b7fb, type: 2}
   - {fileID: 11400000, guid: 6d581edce78107e45ace1df7ddff4ae5, type: 2}
   - {fileID: 11400000, guid: cf8af9956b089464085a930ba02b3711, type: 2}
+  - {fileID: 11400000, guid: d222d9f3f34c0ad409c923992c7d030d, type: 2}
+  - {fileID: 11400000, guid: a5c9ac8a307947a4c9e7b79117b80097, type: 2}
   foxGlove: {fileID: 11400000, guid: e17a35f1d70b23a4699d1887727d5504, type: 2}
   dare: {fileID: 11400000, guid: de018e0513a39de4fa014811f87add4b, type: 2}
   agent: {fileID: 0}
@@ -25202,6 +25206,9 @@ MonoBehaviour:
   r: {fileID: 8894265632853931253}
   chargeParticles: {fileID: 8632913371489729355}
   dashParticles: {fileID: 4069743003862797960}
+  walkSpeed: 4
+  runSpeed: 8
+  chargeSpeed: 14
   exhaustL: {fileID: 7003191025341666741}
   exhaustR: {fileID: 5814703515928487990}
   thrusterParticles: {fileID: 379850105376366216}
@@ -25958,6 +25965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 6655097342209205718}
+  audioScript: {fileID: 0}
 --- !u!114 &8895335155472924121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25975,6 +25983,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 8300000, guid: f8ecaea00208a5742a68fc5f1c88d97d, type: 3}
   idleSound2: {fileID: 8300000, guid: c1e7172a544ca2046972e2f88a008e39, type: 3}

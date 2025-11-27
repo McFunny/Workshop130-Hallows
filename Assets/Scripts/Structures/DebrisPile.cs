@@ -21,6 +21,7 @@ public class DebrisPile : StructureBehaviorScript
     public InventoryItemData repairKit;
 
     public bool giveItemBack = false;
+    bool repaired = false;
 
     void Awake()
     {
@@ -35,6 +36,8 @@ public class DebrisPile : StructureBehaviorScript
         //grab the repaired struct via saved int1 and the database
         if(!repairedStruct) LoadVariables();
         EnablePile();
+
+        debrisUI.HideDebrisUI();
     }
     
     public void InsertStructure(StructureObject newStructure)
@@ -152,6 +155,7 @@ public class DebrisPile : StructureBehaviorScript
         if(repairedStruct.gridSize == GridSize.OneByTwo) StructureManager.Instance.SetOneByTwoTile(transform.position);
         s.transform.rotation = transform.rotation;
 
+        repaired = true;
         Destroy(gameObject);
     }
 
@@ -183,6 +187,17 @@ public class DebrisPile : StructureBehaviorScript
         if (!gameObject.scene.isLoaded) return;
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
+
+        if(!repairedStruct || repairedStruct.droppedItems.Count == 0 || repaired) return;
+        GameObject droppedItem;
+        foreach(ItemWithAmount recoveredItem in repairedStruct.droppedItems)
+        {
+            for(int i = 0; i < recoveredItem.amount; ++i)
+            {
+                droppedItem = ItemPoolManager.Instance.GrabItem(recoveredItem.item);
+                droppedItem.transform.position = transform.position;
+            }
+        }
     }
 
     public override void SaveVariables()

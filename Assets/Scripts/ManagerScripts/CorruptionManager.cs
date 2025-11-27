@@ -9,9 +9,12 @@ public class CorruptionManager : MonoBehaviour
     public int corruptedTiles = 0;
     public int maxCorruption = 200;
 
-    public GameObject corruptedTile, nodePrefab;
+    public GameObject corruptedTile, nodePrefab, farmTile, weedTile;
 
     public StructureObject nodeData;
+
+    int cropSpawnCooldown = 0;
+    public CropData twistedFiberCrop, weedCrop, whipCrop;
 
 
     // Start is called before the first frame update
@@ -51,9 +54,13 @@ public class CorruptionManager : MonoBehaviour
         {
             //StartCoroutine(StructureManager.Instance.PopulateStructure(-3, 5, weedTile, false, StructureManager.Instance.farmTileMap));
         }
-        if(!TimeManager.Instance.isDay && Random.Range(0,10) > 3)
+        if(!TimeManager.Instance.isDay)
         {
-            TrySpawnNode();
+            if(Random.Range(0,10) > 3) TrySpawnNode();
+            if(cropSpawnCooldown > 0) --cropSpawnCooldown;
+            else if(Random.Range(0, 10) > 7) TrySpawnTwistedBramble();
+
+            TrySpawnCorruptWeeds();
         }
     }
 
@@ -101,7 +108,69 @@ public class CorruptionManager : MonoBehaviour
         }
     }
 
-    void ReturnFreeTileList(out List<CorruptedTile> cTiles)
+    [ContextMenu("Test Weed Spawn")]
+    void TrySpawnCorruptWeeds()
+    {
+        ReturnFreeTileList(out List<CorruptedTile> cTiles);
+
+        if(cTiles.Count == 0) return;
+
+        int weedsToSpawn = Random.Range(-5, 4);
+        int x = 0;
+        while(x < weedsToSpawn && cTiles.Count > 0)
+        {
+            int index = Random.Range(0, cTiles.Count);
+            CorruptedTile cTile = cTiles[index].GetComponent<CorruptedTile>();
+            FarmLand tile;
+            
+
+            if(Random.Range(0,10) > 6) //Whip Weed
+            {
+                cTile.containedStructure = Instantiate(farmTile, cTile.transform.position, Quaternion.identity).GetComponent<StructureBehaviorScript>();
+                tile = cTile.containedStructure as FarmLand;
+                tile.InsertCrop(whipCrop);
+                tile.ForceChangeGrowthStage(Random.Range(3, 6));
+            }
+            else //Regular Weed
+            {
+                cTile.containedStructure = Instantiate(weedTile, cTile.transform.position, Quaternion.identity).GetComponent<StructureBehaviorScript>();
+                tile = cTile.containedStructure as FarmLand;
+                tile.InsertCrop(weedCrop);
+            }
+            tile.ApplyNewUpgrade(FarmLand.FarmTileUpgrade.Corrupt);
+
+            cTile.containedStructure.clearTileOnDestroy = false;
+
+            x++;
+            cTiles.RemoveAt(index);
+        }
+    }
+
+    [ContextMenu("Test Bramble Spawn")]
+    void TrySpawnTwistedBramble()
+    {
+        ReturnFreeTileList(out List<CorruptedTile> cTiles);
+
+        if(cTiles.Count == 0) return;
+
+        cropSpawnCooldown = Random.Range(4, 12);
+
+        Collider[] nearbyTiles = Physics.OverlapSphere(cTiles[Random.Range(0, cTiles.Count)].transform.position, 4.5f, 1 << 6);
+        for(int i = 0; i < nearbyTiles.Length; i++)
+        {
+            if(Random.Range(0, 10) > 1)
+            {
+                CorruptedTile cTile = nearbyTiles[i].GetComponent<CorruptedTile>();
+                cTile.containedStructure = Instantiate(farmTile, cTile.transform.position, Quaternion.identity).GetComponent<StructureBehaviorScript>();
+                FarmLand tile = cTile.containedStructure as FarmLand;
+                tile.ApplyNewUpgrade(FarmLand.FarmTileUpgrade.Corrupt);
+                tile.InsertCrop(twistedFiberCrop);
+                cTile.containedStructure.clearTileOnDestroy = false;
+            }
+        }
+    }
+
+    public void ReturnFreeTileList(out List<CorruptedTile> cTiles) //Returns an open corruption Tile
     {
         //List<Vector3> freeTiles = new List<Vector3>();
         cTiles = new List<CorruptedTile>();

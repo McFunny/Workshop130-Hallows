@@ -143,7 +143,7 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
         if(mode == SprinklerMode.Stream) c_stream.enabled = true;
         else c_cone.enabled = true;
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
 
         if(mode == SprinklerMode.Stream) c_stream.enabled = false;
         else c_cone.enabled = false;
@@ -188,7 +188,7 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
         StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
         if(structure && !structsInRange.Contains(structure))
         {
-            //print("Found a structure");
+            print("Found a structure");
             structsInRange.Add(structure);
         }
         /*

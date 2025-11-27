@@ -753,7 +753,7 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 1
-  repairableWithGlue: 0
+  repairableWithGlue: 1
   absentFromGrid: 0
   absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
@@ -834,7 +834,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.75, y: 0.655, z: 0.95}
+  m_Extents: {x: 1, y: 0.655, z: 0.75}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1

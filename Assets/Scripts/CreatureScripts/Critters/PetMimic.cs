@@ -24,6 +24,8 @@ public class PetMimic : CritterBehaviorScript
 
     float baseAttack = 15;
 
+    public CropData trap;
+
     [HideInInspector] public CreatureBehaviorScript targetCreature; //Pheromone afflicted creature
 
     public enum CritterState
@@ -160,6 +162,8 @@ public class PetMimic : CritterBehaviorScript
             growthProgress = maxGrowth;
             harvestReadyObj.SetActive(true);
         }
+
+        if(TimeManager.Instance.currentHour == 8) SpawnTrap();
     }
 
     private void Idle()
@@ -460,5 +464,12 @@ public class PetMimic : CritterBehaviorScript
         if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) return true; //Player has it
 
         return false;
+    }
+
+    void SpawnTrap()
+    {
+        if(Random.Range(0, 100) <= (friendshipLevel + 1) * 8) StructureManager.Instance.PopulateCrop(1, 1, trap);
+
+        if(Random.Range(0, 100) <= (friendshipLevel + 1) * 8) StructureManager.Instance.PopulateCrop(1, 1, trap);
     }
 }

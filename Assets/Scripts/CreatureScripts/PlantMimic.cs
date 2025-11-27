@@ -26,6 +26,8 @@ public class PlantMimic : CreatureBehaviorScript
 
     [HideInInspector] public CreatureBehaviorScript targetCreature; //Pheromone afflicted creature
 
+    public List<CropData> undesiredCrops = new List<CropData>();
+
     public enum CreatureState
     {
         InitialBury, //Spawned in
@@ -137,7 +139,7 @@ public class PlantMimic : CreatureBehaviorScript
         anim.SetBool("IsBuried", true);
         currentState = CreatureState.Buried;
 
-        Vector3 cropSpawn = StructureManager.Instance.FindFreeTileNearCrop();
+        Vector3 cropSpawn = StructureManager.Instance.FindFreeTileNearCrop(undesiredCrops);
         if(cropSpawn == new Vector3(0,0,0)) Destroy(this.gameObject);
         else
         {
@@ -323,7 +325,7 @@ public class PlantMimic : CreatureBehaviorScript
         {
             currentState = CreatureState.Buried;
 
-            Vector3 cropSpawn = StructureManager.Instance.FindFreeTileNearCrop();
+            Vector3 cropSpawn = StructureManager.Instance.FindFreeTileNearCrop(undesiredCrops);
             if(cropSpawn == new Vector3(0,0,0)) Destroy(this.gameObject);
             else
             {

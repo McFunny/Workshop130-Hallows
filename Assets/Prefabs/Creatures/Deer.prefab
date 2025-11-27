@@ -29396,11 +29396,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   dropChance:
   - 10
   - 2
   - 10
   - 10
+  - 5
   - 5
   - 5
   sightRange: 10
@@ -34414,6 +34416,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -34446,6 +34449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 0}
+  audioScript: {fileID: 0}
 --- !u!82 &5737913143408519455
 AudioSource:
   m_ObjectHideFlags: 0

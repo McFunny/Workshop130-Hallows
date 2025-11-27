@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458de41bb6405d9449b69306544db3a1, type: 3}
+  m_Name: MimicTrapBehavior
+  m_EditorClassIdentifier: 
+  behaviorUpdateTime: 0
+  immuneCreatures:
+  - {fileID: 11400000, guid: 4a3f2bb9ea16f5242b1fc5432a77b36c, type: 2}
+  - {fileID: 11400000, guid: 1100f346622663643a32671aca44603b, type: 2}
+  particleEffect: {fileID: 7048398171113167699, guid: c3b42cba9226d484e8b519d287f15fe1,
+    type: 3}

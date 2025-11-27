@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: MimicTrap
+  m_EditorClassIdentifier: 
+  name: Pheromone Trap
+  id: 41
+  growthStages: 2
+  hoursPerStage: 1
+  harvestableGrowthStages: 
+  cropSprites:
+  - {fileID: 1920921545, guid: aec27454e8a92a74999645e0f1cd87f2, type: 3}
+  - {fileID: -1413149066, guid: aec27454e8a92a74999645e0f1cd87f2, type: 3}
+  rottedImage: {fileID: -82719562, guid: aec27454e8a92a74999645e0f1cd87f2, type: 3}
+  cropYield: {fileID: 11400000, guid: 15b811d0b42fdf44e86c618d24730806, type: 2}
+  cropSecondaryYield: {fileID: 0}
+  cropSeed: {fileID: 0}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  noStressSeedChance: 0
+  waterIntake: 0
+  ichorIntake: 0
+  terraIntake: -3
+  gloamIntake: 0.25
+  stressLimit: 0
+  wealthValue: 0
+  requireScythe: 0
+  requirePollination: 1
+  behavior: {fileID: 11400000, guid: 63e2b17a4d77a4b4684dbe945af97b3a, type: 2}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

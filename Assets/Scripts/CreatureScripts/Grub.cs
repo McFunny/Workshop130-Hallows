@@ -33,6 +33,10 @@ public class Grub : CreatureBehaviorScript
     List<GameObject> nearbyLavent = new List<GameObject>();
     public ParticleSystem laventParticles;
 
+    GameObject nearbyFire;
+
+    public EquipEnemyArmor[] equippableArmor;
+
     ///////////// Miner Variables///////////
     public GameObject model;
     public ParticleSystem burrowingParticles;
@@ -99,6 +103,12 @@ public class Grub : CreatureBehaviorScript
         StartCoroutine(LaventEffects());
 
         agent.speed += Random.Range(-0.5f, 0.25f);
+
+        for(int i = 0; i < equippableArmor.Length; i++)
+        {
+            r = Random.Range(0,100);
+            if(equippableArmor[i].chanceToEquip >= r) equippableArmor[i].armorObject.SetActive(true);
+        }
     }
 
     void Update()
@@ -371,7 +381,8 @@ public class Grub : CreatureBehaviorScript
             FarmLand tile = targetStructure as FarmLand;
             if(tile && tile.crop && tile.crop == foxgloveData && Random.Range(0,5) > 2)
             {
-                Destroy(this.gameObject);
+                TakeDamage(99);
+                //Destroy(this.gameObject);
                 yield break;
             }
 
@@ -386,8 +397,8 @@ public class Grub : CreatureBehaviorScript
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             targetWagon.TakeWagonDamage(damageToStructure);
         }
-        yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
-        if(stunCooldown) yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
+        yield return new WaitForSeconds(Random.Range(2.5f, 4f));
+        if(stunCooldown) yield return new WaitForSeconds(Random.Range(3f, 5f));
         agent.Resume();
         isMoving = false;
         coroutineRunning = false;
@@ -415,8 +426,6 @@ public class Grub : CreatureBehaviorScript
 
     void FindNearbyStructure(float distance)
     {
-        float closestDistance = distance;
-
         float distanceToStructure;
 
         List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
@@ -425,10 +434,11 @@ public class Grub : CreatureBehaviorScript
             if(!structure) continue;
             FarmLand tile = structure as FarmLand;
             distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
-            if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && distanceToStructure < closestDistance && (!tile || (tile.crop && !tile.isWeed)))
+            if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && distanceToStructure < distance && 
+            (!tile || (tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)))
             {
+                if(!tile && Random.Range(0,4) == 0) continue;
                 availableStructure.Add(structure);
-                closestDistance = distanceToStructure;
             }
         }
 
@@ -448,10 +458,15 @@ public class Grub : CreatureBehaviorScript
         fearObject.SetActive(true);
         anim.Play("GrubStun");
         effectsHandler.MiscSound2();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         agent.speed = oldSpeed - 1.5f;
         stunnedByFire = false;
         yield return new WaitForSeconds(4f);
+
+        while(nearbyFire && nearbyFire.activeSelf)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
         fearObject.SetActive(false);
         agent.speed += 1.5f;
         stunCooldown = false;
@@ -481,6 +496,7 @@ public class Grub : CreatureBehaviorScript
     {
         successful = false;
         if(stunCooldown || currentState == CreatureState.Burrowing) return;
+        nearbyFire = _fireSource.gameObject;
         StartCoroutine(FireStun());
         successful = true;
     }

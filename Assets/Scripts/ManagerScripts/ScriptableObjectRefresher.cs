@@ -16,5 +16,7 @@ public class ScriptableObjectRefresher : MonoBehaviour
 
         CropDatabase.Instance.ResetStats();
         CreatureDatabase.Instance.ResetStats();
+        StructureDatabase.Instance.ResetStats();
+        BugDatabase.Instance.ResetStats();
     }
 }

@@ -157,7 +157,7 @@ public class MistWalker : CreatureBehaviorScript
             if (structure && targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid)
             {
                 FarmLand f = structure as FarmLand;
-                if(f && (!f.crop || undesiredCrops.Contains(f.crop))) continue;
+                if(f && (!f.crop || undesiredCrops.Contains(f.crop) || f.isWeed || f.currentUpgrade == FarmLand.FarmTileUpgrade.Corrupt)) continue;
                 
                 availableStructure.Add(structure);
             }
@@ -680,7 +680,7 @@ public class MistWalker : CreatureBehaviorScript
             float r = Random.Range(0, 100);
             if(r > 30) canDoubleLunge = true;
         }
-        yield return new WaitForSeconds(lungeCooldown);
+        yield return new WaitForSeconds(lungeCooldown + Random.Range(-0.5f, 4f));
         canLunge = true;
     }
     #endregion

@@ -55,7 +55,7 @@ public class CactusBehavior : CropBehavior
         CreatureBehaviorScript c = contactedObject.GetComponentInParent<CreatureBehaviorScript>();
         if(c && c.shovelVulnerable && (c as ICritter) == null)
         {
-            c.TakeDamage(15);
+            c.TakeDamage(10);
             AudioPoolManager.Instance.PlayClipAtPosition(contactSFX, tile.transform.position);
             ParticlePoolManager.Instance.MoveAndPlayParticle(tile.transform.position, ParticlePoolManager.Instance.dirtParticle);
             c.PlayHitParticle(Vector3.zero);

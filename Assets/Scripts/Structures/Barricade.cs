@@ -86,6 +86,15 @@ public class Barricade : StructureBehaviorScript
         }
     }
 
+    public override bool RepairWithSealant(int amount)
+    {
+        if(!repairableWithGlue || health == maxHealth) return false;
+        health += amount;
+        if(health > maxHealth) health = maxHealth;
+        UpdateModel();
+        return true;
+    }
+
     void OnDestroy()
     {
         OnDamage -= UpdateModel;

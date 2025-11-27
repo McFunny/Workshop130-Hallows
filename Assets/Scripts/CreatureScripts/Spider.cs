@@ -362,7 +362,7 @@ public class Spider : CreatureBehaviorScript
                 chance = -1;
                 break;
         }
-        if(Random.Range(0,100) < chance) return true;
+        if(Random.Range(0,100) < chance && StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm)) return true;
         else return false;
     }
 
@@ -372,19 +372,19 @@ public class Spider : CreatureBehaviorScript
         switch(StructureManager.Instance.TallyStructure(denData))
         {
             case 0:
-                chance = 0.5f;
+                chance = 0.1f;
                 break;
             case 1:
-                chance = 2f;
+                chance = 1f;
                 break;
             case 2:
-                chance = 4f;
+                chance = 2f;
                 break;
             default :
-                chance = 8f;
+                chance = 4f;
                 break;
         }
-        if(Random.Range(0f,100f) < chance) return true;
+        if(Random.Range(0f,100f) < chance && StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm)) return true;
         else return false;
     }
 
@@ -399,7 +399,7 @@ public class Spider : CreatureBehaviorScript
         bool canPlaceDen = false;
         bool canPlaceCocoon = false;
         Vector3 denSpawn = StructureManager.Instance.CheckLargeTile(transform.position);
-        Vector3 cocoonSpawn = StructureManager.Instance.GetTileCenter(transform.position);
+        Vector3 cocoonSpawn = StructureManager.Instance.CheckTile(transform.position);
         if(denSpawn != Vector3.zero || cocoonSpawn != Vector3.zero) 
         {
             if(CanPlaceDen()) canPlaceDen = true;
@@ -420,7 +420,7 @@ public class Spider : CreatureBehaviorScript
         }
 
         denSpawn = StructureManager.Instance.CheckLargeTile(transform.position); //Have to check again in case of obstruction
-        cocoonSpawn = StructureManager.Instance.GetTileCenter(transform.position);
+        cocoonSpawn = StructureManager.Instance.CheckTile(transform.position);
 
         if(!playerInSightRange && (denSpawn != Vector3.zero || cocoonSpawn != Vector3.zero) ) 
         {

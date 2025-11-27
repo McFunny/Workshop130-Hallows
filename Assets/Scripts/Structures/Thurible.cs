@@ -22,6 +22,8 @@ public class Thurible : StructureBehaviorScript
 
     public GameObject laventSource;
 
+    public AudioSource loopSource;
+
     void Awake()
     {
         base.Awake();
@@ -55,6 +57,7 @@ public class Thurible : StructureBehaviorScript
                 leafParticles.Play();
                 //audioHandler.PlaySound(audioHandler.activatedSound);
                 laventSource.SetActive(true);
+                loopSource.Play();
                 success = true;
             }
             else success = false;
@@ -158,6 +161,7 @@ public class Thurible : StructureBehaviorScript
         audioHandler.PlaySound(audioHandler.miscSounds1[0]);
         leafParticles.Stop();
         laventSource.SetActive(false);
+        loopSource.Stop();
     }
 
     void OnDestroy()

@@ -100,8 +100,8 @@ public class MeatPile : StructureBehaviorScript
 
     protected override float ApplyDamageModifier(float damage)
     {
-        if(damage < 20) damage = 2;
-        else damage = damage / 3; //This averages out how long the meat decoy keeps enemies distracted
+        if(damage < 20) damage = 1;
+        else damage = damage / 2; //This averages out how long the meat decoy keeps enemies distracted
 
         return damage;
     }

@@ -14787,7 +14787,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
   hunger: 100
   maxHunger: 100
-  hungerDecayRate: 8
+  hungerDecayRate: 6.5
   thirst: 100
   maxThirst: 100
   thirstDecayRate: 6
@@ -14823,7 +14823,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7606052807766396560}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 1.27
   m_Speed: 3
   m_Acceleration: 8
@@ -14854,6 +14854,7 @@ MonoBehaviour:
   pitchMax: 1.1
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}

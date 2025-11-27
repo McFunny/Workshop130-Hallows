@@ -159,7 +159,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             anim.SetTrigger("IsTalking");
         }
 
-        else if(item.sellValueMultiplier == 0 || item.value == 0)
+        else if(item.sellValueMultiplier == 0 || item.value == 0 || item.sellValueMultiplier == 0)
         {
             //Cannot Buy
             lastSeenItem = item;
@@ -232,7 +232,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             {
                 currentPath = 6; //no money!?!?!?
             }
-            else if(PlayerInventoryHolder.Instance.IsInventoryFull())
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull() && !item.itemData.cannotEnterInventory)
             {
                 currentPath = 7; //No space in inventory
             }
@@ -256,6 +256,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                     }
                     else //item was a critter
                     {
+                        bool noHome = true;
                         foreach (StructureBehaviorScript structure in StructureManager.Instance.allStructs)
                         {
                             CritterPen pen = structure as CritterPen;
@@ -263,11 +264,11 @@ public class WagonMerchantNPC : NPC, ITalkable
                             if(pen.type == c.homeType)
                             {
                                 currentPath = 5; //item sold
+                                noHome = false;
                                 break;
                             }
-
-                            currentPath = 18; //critter has no home
                         }
+                        if(noHome) currentPath = 18; //critter has no home
                     }
                     
                 }
@@ -497,16 +498,16 @@ public class WagonMerchantNPC : NPC, ITalkable
             GameSaveData.Instance.mm_giveGun = true;
             itemsToGive.Add(new ItemWithAmount(shotGun, 1));
             if(MainMenuScript.currentFileMode == FileMode.Cozy) itemsToGive.Add(new ItemWithAmount(ammo, 20));
-            else itemsToGive.Add(new ItemWithAmount(ammo, 6));
+            else itemsToGive.Add(new ItemWithAmount(ammo, 10));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
         }
-        else if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold)
+        /*else if(!GameSaveData.Instance.wildernessIntroduced && PlayerInteraction.Instance.totalMoneyEarned > wildernessUnlockThreshold)
         {
             currentPath = 8;
             currentType = PathType.Misc;
             GameSaveData.Instance.wildernessIntroduced = true;
             lantern.EnableSelf();
-        }
+        }*/
         else return;
         metPlayerAtEntrace = true;
         talkingOutsideWagon = true;

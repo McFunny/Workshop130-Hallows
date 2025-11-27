@@ -104,7 +104,7 @@ public class StructureManager : MonoBehaviour
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
 
-        if(Random.Range(0,100) < 7)
+        if(Random.Range(0,100) < 7 && TimeManager.Instance.isDay)
         {
             Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
@@ -131,9 +131,9 @@ public class StructureManager : MonoBehaviour
                 if(potentialWeed && potentialWeed.isWeed) continue;
 
                 r = Random.Range(0, 10);
-                if(potentialWeed) r += 2;
+                if(potentialWeed) r += 3;
                 if(MainMenuScript.currentFileMode == FileMode.Cozy) r -= 2;
-                if((r >= 6.5f || allStructs[i].onFire) && !allStructs[i].absentFromFarmGrid) //Destroy structure.
+                if((r >= 7.5f || allStructs[i].onFire) && !allStructs[i].absentFromFarmGrid) //Destroy structure.
                 {
                     print("Deleting: " + allStructs[i]);
                     //Destroy(allStructs[i].gameObject);
@@ -1118,6 +1118,40 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void PopulateCrop(int min, int max, CropData crop)
+    {
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        foreach (Vector3Int position in farmTileMap.cellBounds.allPositionsWithin)
+        {
+            Vector3 tilePos = farmTileMap.GetCellCenterWorld(position);
+            if(farmTileMap.GetTile(position) == freeTile)
+            {
+                spawnablePositions.Add(position);
+            }
+        }
+
+        int r = Random.Range(min,max + 1);
+        if (r <= 0 || !crop) return;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = farmTileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(farmTileMap.GetTile(spawnablePositions[randomIndex]) != null && farmTileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
+                {
+                    FarmLand script = Instantiate(farmTile, spawnPos, Quaternion.identity).GetComponent<FarmLand>();
+                    script.InsertCrop(crop);
+                    SetTile(spawnPos);
+                }
+                spawnablePositions.RemoveAt(randomIndex);
+            }
+        }
+    }
+
     void PopulateDecorCrows(int min, int max)
     {
         int r = Random.Range(min,max + 1);
@@ -1202,6 +1236,50 @@ public class StructureManager : MonoBehaviour
             {
                 int r = Random.Range(0, cropTiles.Count);
                 clearTiles = GetAdjacentClearTiles(cropTiles[r]);
+                if(clearTiles.Count > 0)
+                {
+                    return clearTiles[Random.Range(0,clearTiles.Count)];
+                }
+
+                x++;
+            }
+            //code for replacing a crop
+        }
+
+        return GetRandomClearTile();
+    }
+
+    public Vector3 FindFreeTileNearCrop(List<CropData> cropsToAvoid)
+    {
+        List<Vector3> cropTiles = new List<Vector3>();
+        List<Vector3> priorityCropTiles = new List<Vector3>();
+
+        for(int i = 0; i < allStructs.Count; i++)
+        {
+            FarmLand farmTile = allStructs[i] as FarmLand;
+            if(farmTile && !farmTile.isWeed && farmTile.crop && !farmTile.rotted) 
+            {
+                cropTiles.Add(GetTileCenter(farmTile.transform.position));
+                if(!cropsToAvoid.Contains(farmTile.crop)) priorityCropTiles.Add(GetTileCenter(farmTile.transform.position));
+            }
+        }
+        if(cropTiles.Count > 0)
+        {
+            int x = 0;
+            List<Vector3> clearTiles = new List<Vector3>();
+            while(x < 50)
+            {
+                int r = 0;
+                if(x < 25)
+                {
+                    r = Random.Range(0, priorityCropTiles.Count);
+                    clearTiles = GetAdjacentClearTiles(priorityCropTiles[r]);
+                }
+                else
+                {
+                    r = Random.Range(0, cropTiles.Count);
+                    clearTiles = GetAdjacentClearTiles(cropTiles[r]);
+                }
                 if(clearTiles.Count > 0)
                 {
                     return clearTiles[Random.Range(0,clearTiles.Count)];

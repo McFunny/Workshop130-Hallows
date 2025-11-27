@@ -173,8 +173,14 @@ public class NightSpawningManager : MonoBehaviour
                 spawnedCreaturesThisHour[weightArray[r]]++;
                 difficultyPoints -= attemptedCreature.dangerCost;
                 if(creatureQueue.Count == 0) StartCoroutine(SpawnCreatures());
+                if(attemptedCreature.hasSpawned == false)
+                {
+                    spawnAttempts += 5;
+                    difficultyPoints -= attemptedCreature.dangerCost * 2;
+                    attemptedCreature.hasSpawned = true;
+                }
                 creatureQueue.Enqueue(attemptedCreature);
-                if(attemptedCreature.spawnType == SpawnType.Support) spawnAttempts += 0.2f; //Support creatures do not contribuite to max spawns this hour as much as non supports do. IE 5 crows = 1 hare spawn
+                if(attemptedCreature.spawnType == SpawnType.Support) spawnAttempts += 0.4f; //Support creatures do not contribuite to max spawns this hour as much as non supports do. IE 5 crows = 1 hare spawn
                 spawnAttempts++;
                 if(attemptedCreature.contribuiteToCreatureCap) totalCreatures++;
                 creatureTallyDict[attemptedCreature]++;
@@ -191,7 +197,7 @@ public class NightSpawningManager : MonoBehaviour
 
         if(totalCreatures < maxCreatures/2 && difficultyPoints < 8)
         {
-            r = Random.Range(2,6);
+            r = Random.Range(2,5);
             for(float i = 0; i < r; i++)
             {
                 r = Random.Range(0, selectedFillerCreatures.Count);
@@ -203,7 +209,7 @@ public class NightSpawningManager : MonoBehaviour
                     creatureTallyDict[newCreature]++;
                     SpawnCreature(newCreature);
 
-                    if(newCreature.spawnType == SpawnType.Support) i -= 0.4f;
+                    if(newCreature.spawnType == SpawnType.Support) i -= 0.3f;
                 }
                 else i -= 0.9f;
             }
@@ -396,8 +402,8 @@ public class NightSpawningManager : MonoBehaviour
             else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = .5f;
             else if(GameSaveData.Instance.siegesCleared == 0) difficultyMultiplier = .75f;
             else if(GameSaveData.Instance.siegesCleared == 1) difficultyMultiplier = 1f;
-            else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.25f;
-            else if(GameSaveData.Instance.siegesCleared == 3) difficultyMultiplier = 1.50f;
+            else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.1f;
+            else if(GameSaveData.Instance.siegesCleared == 3) difficultyMultiplier = 1.2f;
             
             /*if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.6f;
             else if(PlayerInteraction.Instance.totalMoneyEarned > 6000) difficultyMultiplier = 1.4f;

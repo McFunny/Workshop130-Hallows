@@ -11339,16 +11339,16 @@ MonoBehaviour:
     maxCreatures: 6
   - difficultyPointThreshold: 25
     c_varietyMin: 2
-    c_varietyMax: 4
+    c_varietyMax: 3
     r_varietyMin: 1
     r_varietyMax: 2
     s_varietyMin: 1
-    s_varietyMax: 2
+    s_varietyMax: 1
     hourlySpawnAttempts: 5
     maxCreatures: 6
   - difficultyPointThreshold: 75
     c_varietyMin: 2
-    c_varietyMax: 5
+    c_varietyMax: 4
     r_varietyMin: 1
     r_varietyMax: 3
     s_varietyMin: 1
@@ -11356,17 +11356,17 @@ MonoBehaviour:
     hourlySpawnAttempts: 6
     maxCreatures: 8
   - difficultyPointThreshold: 150
-    c_varietyMin: 3
-    c_varietyMax: 5
+    c_varietyMin: 2
+    c_varietyMax: 4
     r_varietyMin: 2
     r_varietyMax: 3
-    s_varietyMin: 2
+    s_varietyMin: 1
     s_varietyMax: 3
     hourlySpawnAttempts: 8
     maxCreatures: 10
   - difficultyPointThreshold: 225
     c_varietyMin: 3
-    c_varietyMax: 5
+    c_varietyMax: 4
     r_varietyMin: 2
     r_varietyMax: 4
     s_varietyMin: 2
@@ -11375,7 +11375,7 @@ MonoBehaviour:
     maxCreatures: 12
   - difficultyPointThreshold: 300
     c_varietyMin: 3
-    c_varietyMax: 6
+    c_varietyMax: 4
     r_varietyMin: 3
     r_varietyMax: 4
     s_varietyMin: 2
@@ -11388,7 +11388,7 @@ MonoBehaviour:
     r_varietyMin: 3
     r_varietyMax: 4
     s_varietyMin: 2
-    s_varietyMax: 4
+    s_varietyMax: 3
     hourlySpawnAttempts: 12
     maxCreatures: 20
   creatures:
@@ -59198,7 +59198,14 @@ MonoBehaviour:
     type: 3}
   nodePrefab: {fileID: 3074132556789739212, guid: 715a25f294e852d4fb753f83bda21cb0,
     type: 3}
+  farmTile: {fileID: 2961193080738427394, guid: 5f5fcaf963705e0419b1ecadb42c0641,
+    type: 3}
+  weedTile: {fileID: 5689272689766288214, guid: 795d947421894ad42b9aafb1b92eeea0,
+    type: 3}
   nodeData: {fileID: 11400000, guid: ac7f463dd9be3104db507cdcc7fa9a49, type: 2}
+  twistedFiberCrop: {fileID: 11400000, guid: a5c9ac8a307947a4c9e7b79117b80097, type: 2}
+  weedCrop: {fileID: 11400000, guid: d222d9f3f34c0ad409c923992c7d030d, type: 2}
+  whipCrop: {fileID: 11400000, guid: 15b34919b3c702044a8d8dd49665f9d6, type: 2}
 --- !u!114 &7036945931431975565
 MonoBehaviour:
   m_ObjectHideFlags: 0

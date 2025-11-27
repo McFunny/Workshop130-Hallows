@@ -15,7 +15,7 @@ public class FarmLand : StructureBehaviorScript
     public Collider finishedGrowingCollider;
 
     public MeshRenderer meshRenderer;
-    public Material dry, wet, barren, barrenWet;
+    public Material dry, wet, barren, barrenWet, corruptMat;
 
     [Header("Crop Stats")]
     public int growthStage = -1; //-1 means there is no crop //MUST BE SAVED
@@ -58,7 +58,8 @@ public class FarmLand : StructureBehaviorScript
         Stone,
         Mulch,
         Trellis,
-        MiniWeeds
+        MiniWeeds,
+        Corrupt
     }
     // Start is called before the first frame update
     void Awake()
@@ -211,7 +212,7 @@ public class FarmLand : StructureBehaviorScript
 
         if(crop) return;
         CropItem newCrop = item as CropItem;
-        if(newCrop && newCrop.plantable)
+        if(newCrop && newCrop.plantable && currentUpgrade != FarmTileUpgrade.Corrupt)
         {
             if(newCrop.requireTrellis && currentUpgrade != FarmTileUpgrade.Trellis)
             {
@@ -366,7 +367,7 @@ public class FarmLand : StructureBehaviorScript
                 ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             } 
             harvestable = false;
-            if((forceDig && !harvestedByScythe) || isWeed)
+            if((forceDig && !harvestedByScythe) || isWeed || currentUpgrade == FarmTileUpgrade.Corrupt)
             {
                 if(currentUpgrade == FarmTileUpgrade.Trellis) ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
@@ -409,7 +410,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(isWeed && !TimeManager.Instance.isDay)
+        if(isWeed && currentUpgrade != FarmTileUpgrade.Corrupt && !TimeManager.Instance.isDay)
         {
             StructureManager.Instance.WeedSpread(transform.position, out bool becomeThorn);
             if(becomeThorn)
@@ -498,6 +499,13 @@ public class FarmLand : StructureBehaviorScript
     {
         crop = _crop;
         growthStage = 1;
+
+        if(isWeed)
+        {
+            growthStage = Random.Range(0, crop.growthStages - 1);
+            growthStage++;
+        }
+
         hoursSpent = 0;
         plantStress = 0;
         if(nutrients != null) SpriteChange();
@@ -565,6 +573,8 @@ public class FarmLand : StructureBehaviorScript
             if(meshRenderer.material == barren) meshRenderer.material = barrenWet;
             else meshRenderer.material = wet;
         }
+
+        if(currentUpgrade == FarmTileUpgrade.Corrupt) meshRenderer.material = corruptMat;
 
         if(harvestText)
         {
@@ -931,6 +941,9 @@ public class FarmLand : StructureBehaviorScript
             maxHealth -= 10;
             isObstacle = false;
             break;
+            case FarmTileUpgrade.Corrupt:
+            transform.position = new Vector3(transform.position.x, transform.position.y - 0.2f, transform.position.z);
+            break;
             default:
             break;
         }
@@ -948,6 +961,9 @@ public class FarmLand : StructureBehaviorScript
             maxHealth += 10;
             health += 10;
             isObstacle = true;
+            break;
+            case FarmTileUpgrade.Corrupt:
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
             break;
             default:
             break;

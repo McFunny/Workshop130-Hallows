@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de93e0becb1ea0499acc09f075fb970, type: 3}
+  m_Name: WhipWeedBehavior
+  m_EditorClassIdentifier: 
+  behaviorUpdateTime: 4
+  corruptionVariant: 0
+  tileData: {fileID: 11400000, guid: 4bb8c5d0417971e499a33ac0a0c86ee3, type: 2}
+  weedAttack: {fileID: 4807668186747842374, guid: df4bbcb8ea28ede4e89210476ad9fafc,
+    type: 3}
+  range: 25
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 512

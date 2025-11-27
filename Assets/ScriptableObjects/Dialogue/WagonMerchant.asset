@@ -106,9 +106,11 @@ MonoBehaviour:
   - pathName: Go to my wagon
     paragraphs:
     - There you are. {freezePlayer}
-    - I feared you got lost.
-    - Go to my wagon. Beside the market square. We can discuss further down there.
-    emotions: 030000000200000000000000
+    - Took your sweet time, didn't you?
+    - Do not fear for your crops. They are safe during the day.
+    - Continue on to my wagon. Beside the market square. We can discuss further down
+      there.
+    emotions: 03000000020000000100000000000000
   - pathName: Text for shotgun
     paragraphs:
     - BlahBlahBlahShotgun {freezePlayer}
@@ -117,7 +119,7 @@ MonoBehaviour:
   - pathName: Take Care of Pet
     paragraphs:
     - Done. You will find your new friend on your land. {itemBought}
-    - if you want to gain it's trust, do not forget to take care of it.
+    - If you want to gain it's trust, do not forget to take care of it.
     - The more it trusts you, the stronger it will become.
     emotions: 000000000000000005000000
   - pathName: No More pets

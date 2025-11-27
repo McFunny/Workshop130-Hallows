@@ -5036,10 +5036,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   dropChance:
   - 10
   - 10
   - 5
+  - 10
+  - 10
   - 10
   - 10
   - 5
@@ -19746,6 +19750,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 8300000, guid: 2a55d94bfc604b7468b96484f6f5c216, type: 3}
   idleSound2: {fileID: 8300000, guid: 2d9d4418eb7cb8741be64695477dd691, type: 3}
@@ -19779,6 +19784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 0}
+  audioScript: {fileID: 0}
 --- !u!82 &4724428700119050415
 AudioSource:
   m_ObjectHideFlags: 0

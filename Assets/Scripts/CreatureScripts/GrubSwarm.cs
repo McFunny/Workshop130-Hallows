@@ -33,7 +33,7 @@ public class GrubSwarm : CreatureBehaviorScript
 
     IEnumerator AssignTarget()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         GatherNewTargets();
         while(grubs.Count > 0)
         {
@@ -62,7 +62,7 @@ public class GrubSwarm : CreatureBehaviorScript
         foreach (var structure in structManager.allStructs) //Find all the valid structures
         {
             FarmLand tile = structure as FarmLand;
-            if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && (!tile || (tile.crop && !tile.isWeed)))
+            if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && (!tile || (tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)))
             {
                 availableStructures.Add(structure);
             }

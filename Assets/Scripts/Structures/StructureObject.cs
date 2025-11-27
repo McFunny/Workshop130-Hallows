@@ -31,6 +31,8 @@ public class StructureObject : ScriptableObject
 
     public bool hasBeenPlaced = false; //For codex unlock purposes
 
+    public List<ItemWithAmount> droppedItems = new List<ItemWithAmount>(); //Will hold things like wood cost to repair and the like
+
 
     public Structure CreateStructure()
     {
