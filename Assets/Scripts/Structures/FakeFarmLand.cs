@@ -18,6 +18,8 @@ public class FakeFarmLand : StructureBehaviorScript
     public VisualEffect waterSplash, ichorSplash;
 
     bool isDigging, destroyed;
+    private CropData mimicCropData;
+    private Vector2 mimicGrowthStage;
 
     void Awake()
     {
@@ -59,6 +61,8 @@ public class FakeFarmLand : StructureBehaviorScript
             FarmLand tile = collider.gameObject.GetComponentInParent<FarmLand>();
             if(tile && tile.crop)
             {
+                mimicCropData = tile.crop;
+                mimicGrowthStage = new Vector2(tile.growthStage, mimicCropData.growthStages);
                 cropRenderer.sprite = tile.cropRenderer.sprite;
                 return;
             }
@@ -170,5 +174,20 @@ public class FakeFarmLand : StructureBehaviorScript
     void Damaged()
     {
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+    }
+
+    public NutrientStorage GetCropStats() //For the UI
+    {
+        return nutrients;
+    }
+
+    public CropData GetMimicCropData()
+    {
+        return mimicCropData;
+    }
+
+    public Vector2 GetMimicGrowthStage()
+    {
+        return mimicGrowthStage;
     }
 }

@@ -8,7 +8,6 @@ public class CropStatsRework : MonoBehaviour
     Camera mainCam;
     public Color c_default, c_rising, c_lowering, c_transparent;
     public GameObject cropStatsParent, cropStats, cropStatsDetailed;
-    private FarmLand hitCrop;
     public Image cropSprite, cropSpriteD, gloamArrow, terraArrow, ichorArrow, waterArrow;
     public bool isActive;
     public bool isDetailed;
@@ -17,10 +16,6 @@ public class CropStatsRework : MonoBehaviour
     public Slider gloamFill, terraFill, ichorFill, waterFill, gloamFillD, terraFillD, ichorFillD, waterFillD;
     string growthString;
     ControlManager controlManager;
-    //For Lerps
-    float timeSpendAnimating = 0;
-    float moveProgress = 0;
-    float maxMoveProgress = 0.5f;
     
     [SerializeField] private string lackingGloam, lackingTerra, lackingIchor;
     [SerializeField] private UILerpHandler lerpHandler;
@@ -28,8 +23,6 @@ public class CropStatsRework : MonoBehaviour
     public delegate void CropStatsShown();
     public event CropStatsShown OnCropStatsShown;
     private bool alwaysShowDetailedStats;
-    [Header("Overrides")]
-    [SerializeField] private CropData mandrakeCrop;
 
     void Awake()
     {
@@ -99,7 +92,7 @@ public class CropStatsRework : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "FarmLand")
             {
-                hitCrop = hit.collider.GetComponentInParent<FarmLand>();
+                var hitCrop = hit.collider.GetComponentInParent<FarmLand>();
 
                 if(hitCrop.growthStage < 0 || !hitCrop.crop)
                 {
@@ -111,19 +104,19 @@ public class CropStatsRework : MonoBehaviour
                 else
                 {
                     isActive = true;
-                    if(hitCrop.crop == mandrakeCrop)
-                    {
-                        cropNameText.text = hitCrop.crop.name + "?";
-                        cropNameTextD.text = hitCrop.crop.name + "?";
-                    }
-                    else
-                    {
-                        cropNameText.text = hitCrop.crop.name;
-                        cropNameTextD.text = hitCrop.crop.name;
-                    }
-                    
+                    cropNameText.text = hitCrop.crop.name;
+                    cropNameTextD.text = hitCrop.crop.name;
                 }
+
                 FarmlandStatUpdate(hitCrop);
+            }
+            else if (hit.collider.gameObject.tag == "Mimic")
+            {
+                var hitCrop = hit.collider.GetComponentInParent<FakeFarmLand>();
+                cropNameText.text = hitCrop.GetMimicCropData().name;
+                cropNameTextD.text = hitCrop.GetMimicCropData().name;
+                isActive = true;
+                FakeFarmlandStatUpdate(hitCrop);
             }
             else
             {
@@ -348,5 +341,129 @@ public class CropStatsRework : MonoBehaviour
             cropSpriteD.gameObject.SetActive(true);
             cropSpriteD.sprite = tile.cropRenderer.sprite;
         }
+    }
+
+    void FakeFarmlandStatUpdate(FakeFarmLand tile)
+    {
+        NutrientStorage tileNutrients = tile.GetCropStats();
+        CropData mimicCrop = tile.GetMimicCropData();
+        OnCropStatsShown?.Invoke();
+        if (tileNutrients == null) { return; }
+
+        gloamFill.value = tileNutrients.gloamLevel / 10;
+        terraFill.value = tileNutrients.terraLevel / 10;
+        ichorFill.value = tileNutrients.ichorLevel / 10;
+        waterFill.value = tileNutrients.waterLevel / 10;
+
+        gloamFillD.value = tileNutrients.gloamLevel / 10;
+        terraFillD.value = tileNutrients.terraLevel / 10;
+        ichorFillD.value = tileNutrients.ichorLevel / 10;
+        waterFillD.value = tileNutrients.waterLevel / 10;
+
+        gloamValue.text = tileNutrients.gloamLevel + "/10";
+        terraValue.text = tileNutrients.terraLevel + "/10";
+        ichorValue.text = tileNutrients.ichorLevel + "/10";
+        waterValue.text = tileNutrients.waterLevel + "/10";
+
+        if(tile.crop != null)
+        {
+
+            if(tile.crop.gloamIntake > 0)
+            {
+                gloamIntake.text = (-1 * tile.crop.gloamIntake).ToString();
+                gloamArrow.gameObject.transform.rotation = Quaternion.Euler(0f,0f,0f);
+                gloamArrow.color = c_lowering;
+                gloamArrow.gameObject.SetActive(true);
+            }
+            else if(tile.crop.gloamIntake < 0)
+            {
+                gloamIntake.text = "+" + -tile.crop.gloamIntake;
+                gloamArrow.gameObject.transform.rotation = Quaternion.Euler(0f,0f,180f);
+                gloamArrow.color = c_rising;
+                gloamArrow.gameObject.SetActive(true);
+            }
+            else
+            {
+                gloamIntake.text = "";
+                gloamArrow.gameObject.SetActive(false);
+            }
+            
+
+            if(tile.crop.terraIntake > 0)
+            {
+                terraIntake.text = (-1 * tile.crop.terraIntake).ToString();
+                terraArrow.gameObject.transform.rotation = Quaternion.Euler(0f,0f,0f);
+                terraArrow.color = c_lowering;
+                terraArrow.gameObject.SetActive(true);
+            }
+            else if(tile.crop.terraIntake < 0)
+            {
+                terraIntake.text = "+" + -tile.crop.terraIntake;
+                terraArrow.gameObject.transform.rotation = Quaternion.Euler(0f,0f,180f);
+                terraArrow.color = c_rising;
+                terraArrow.gameObject.SetActive(true);
+            }
+            else
+            {
+                terraIntake.text = "";
+                terraArrow.gameObject.SetActive(false);
+            }
+
+            if(tile.crop.ichorIntake > 0)
+            {
+                ichorIntake.text = (-1 * tile.crop.ichorIntake).ToString();
+                ichorArrow.gameObject.transform.rotation = Quaternion.Euler(0f,0f,0f);
+                ichorArrow.color = c_lowering;
+                ichorArrow.gameObject.SetActive(true);
+            }
+            else if(tile.crop.ichorIntake < 0)
+            {
+                ichorIntake.text = "+" + -tile.crop.ichorIntake;
+                ichorArrow.gameObject.transform.rotation = Quaternion.Euler(0f,0f,180f);
+                ichorArrow.color = c_rising;
+                ichorArrow.gameObject.SetActive(true);
+            }
+            else
+            {
+                ichorIntake.text = "";
+                ichorArrow.gameObject.SetActive(false);
+            }
+
+            if(tile.crop.waterIntake > 0)
+            {
+                waterIntake.text = (-1 * tile.crop.waterIntake).ToString();
+                waterArrow.color = c_lowering;
+                waterArrow.gameObject.SetActive(true);
+            }
+            else if(tile.crop.waterIntake < 0)
+            {
+                waterIntake.text = "";
+                waterArrow.gameObject.SetActive(false);
+            }
+            else
+            {
+                waterIntake.text = "";
+                waterArrow.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            gloamIntake.text = "";
+            gloamArrow.gameObject.SetActive(false);
+            terraIntake.text = "";
+            terraArrow.gameObject.SetActive(false);
+            ichorIntake.text = "";
+            ichorArrow.gameObject.SetActive(false);
+            waterIntake.text = "";
+            waterArrow.gameObject.SetActive(false);
+        }
+
+        growthString = "Stage: " + tile.GetMimicGrowthStage().x.ToString() + "/" + tile.GetMimicGrowthStage().y.ToString();
+        growthStageNumberD.text = growthString;
+        growthStageNumber.text = growthString;
+        cropSprite.sprite = mimicCrop.cropYield.icon;
+        cropSprite.gameObject.SetActive(true);
+        cropSpriteD.sprite = mimicCrop.cropYield.icon;
+        cropSpriteD.gameObject.SetActive(true);
     }
 }
