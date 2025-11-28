@@ -170,7 +170,7 @@ public class BuzzsawBot : CreatureBehaviorScript
                     tile.ToolInteraction(ToolType.Scythe, out bool success);
                     if(!success) 
                     {
-                        if(tile.currentUpgrade == FarmLand.FarmTileUpgrade.Trellis)
+                        if(tile.currentUpgrade == FarmLand.FarmTileUpgrade.Trellis || tile.currentUpgrade == FarmLand.FarmTileUpgrade.Stone)
                         {
                             performRecoil = true;
                             HitStructureParticle(obstacle.transform.position);
