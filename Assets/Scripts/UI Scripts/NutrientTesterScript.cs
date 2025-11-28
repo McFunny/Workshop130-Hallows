@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,11 +11,30 @@ public class NutrientTesterScript : MonoBehaviour
     [SerializeField] private Image seedImage, checkmarkImage;
     [SerializeField] private RawImage staticVideo;
     [SerializeField] private float minStatic, maxStatic, staticAlphaSpeed;
+    [SerializeField] private PopupEvents popup;
+    [Header("Settings")]
+    [SerializeField] private float radius;
+    [SerializeField] private RectTransform radarPanel;
+    [SerializeField] private float radarRange = 50f;
+    [SerializeField] private RectTransform iconPrefab;
+    public int initialPoolSize = 20;
     public static NutrientTesterScript Instance;
     private CropItem currentSeed = null;
     private NutrientStorage currentNutrients = null;
-    private Coroutine staticCoroutine;
     private Color staticColor = new Color(1f,1f,1f,1f);
+    public enum TesterMode
+    {
+        Nutrient,
+        Radar
+    }
+    private TesterMode mode = TesterMode.Nutrient;
+    private Transform player;
+    
+
+    private Dictionary<GameObject, RectTransform> iconMap = new Dictionary<GameObject, RectTransform>();
+    private HashSet<GameObject> trackedObjects = new HashSet<GameObject>();
+    private Queue<RectTransform> iconPool = new Queue<RectTransform>();
+    
     private void Awake()
     {
         if (Instance == null)
@@ -34,6 +53,38 @@ public class NutrientTesterScript : MonoBehaviour
     {
         UpdateTile(null);
         UpdateSeed(null);
+
+        for (int i = 0; i < initialPoolSize; i++)
+        {
+            RectTransform icon = Instantiate(iconPrefab, radarPanel);
+            icon.gameObject.SetActive(false);
+            iconPool.Enqueue(icon);
+        }
+
+        player = PlayerMovement.Instance.orientation.transform;
+    }
+
+    private void OnEnable()
+    {
+        staticColor.a = maxStatic;
+        WildernessManager.OnWildernessEnter += HandleWildernessEnter;
+        WildernessManager.OnWildernessLeave += HandleWildernessExit;
+    }
+
+    private void OnDisable()
+    {
+        WildernessManager.OnWildernessEnter -= HandleWildernessEnter;
+        WildernessManager.OnWildernessLeave -= HandleWildernessExit;
+    }
+
+    private void HandleWildernessEnter()
+    {
+        mode = TesterMode.Radar;
+    }
+
+    private void HandleWildernessExit()
+    {
+        mode = TesterMode.Nutrient;
     }
 
     private void Update()
@@ -48,12 +99,10 @@ public class NutrientTesterScript : MonoBehaviour
         {
             staticColor.a = minStatic;
         }
-    }
 
-    private void OnEnable()
-    {
-        staticColor.a = maxStatic;
-    }
+        if(mode != TesterMode.Radar) return;
+        Radar();
+    }  
 
     public void UpdateSeed(CropItem seed)
     {
@@ -120,5 +169,72 @@ public class NutrientTesterScript : MonoBehaviour
         statsParent.SetActive(true);
 
         UpdateSeed(currentSeed);
+    }
+
+    private void Radar()
+    {
+        radarPanel.localRotation = Quaternion.Euler(0, 0, -player.eulerAngles.y);
+
+        // Would probably be more performant to cache all creatures tbh
+        foreach (GameObject other in GameObject.FindGameObjectsWithTag("Creature"))
+        {
+            float dist = Vector3.Distance(other.transform.position, player.position);
+            bool inRange = dist <= radarRange;
+
+            // Handle entering range
+            if (inRange && !trackedObjects.Contains(other))
+            {
+                trackedObjects.Add(other);
+
+                RectTransform icon = GetIconFromPool();
+                icon.gameObject.SetActive(true);
+                iconMap.Add(other, icon);
+            }
+
+            // Handle leaving range
+            else if (!inRange && trackedObjects.Contains(other))
+            {
+                trackedObjects.Remove(other);
+
+                if (iconMap.TryGetValue(other, out RectTransform oldIcon))
+                {
+                    ReturnIcon(oldIcon);
+                    iconMap.Remove(other);
+                }
+            }
+
+            // Update position if tracked
+            if (inRange && iconMap.TryGetValue(other, out RectTransform iconToMove))
+            {
+                Vector3 offset = other.transform.position - player.position;
+
+                float scaledX = (offset.x / radarRange) * (radarPanel.sizeDelta.x / 2);
+                float scaledY = (offset.z / radarRange) * (radarPanel.sizeDelta.y / 2);
+
+                iconToMove.anchoredPosition = new Vector2(scaledX, scaledY);
+            }
+        }
+    }
+
+    RectTransform GetIconFromPool()
+    {
+        if (iconPool.Count > 0) return iconPool.Dequeue();
+            
+        // This should be really rare lol
+        RectTransform icon = Instantiate(iconPrefab, radarPanel);
+        icon.gameObject.SetActive(false);
+        return icon;
+    }
+
+
+    void ReturnIcon(RectTransform icon)
+    {
+        icon.gameObject.SetActive(false);
+        iconPool.Enqueue(icon);
+    }
+
+    public TesterMode ReturnMode()
+    {
+        return mode;
     }
 }

@@ -104,17 +104,17 @@ public class CropStatsRework : MonoBehaviour
                 else
                 {
                     isActive = true;
-                    cropNameText.text = hitCrop.crop.name + "?";
-                    cropNameTextD.text = hitCrop.crop.name + "?";
+                    cropNameText.text = hitCrop.crop.name;
+                    cropNameTextD.text = hitCrop.crop.name;
                 }
 
                 FarmlandStatUpdate(hitCrop);
             }
-            else if (hit.collider.gameObject.tag == "Mimic")
+            else if (hit.collider.gameObject.tag == "MimicTile")
             {
                 var hitCrop = hit.collider.GetComponentInParent<FakeFarmLand>();
-                cropNameText.text = hitCrop.GetMimicCropData().name;
-                cropNameTextD.text = hitCrop.GetMimicCropData().name;
+                cropNameText.text = hitCrop.GetMimicCropData().name + "?";
+                cropNameTextD.text = hitCrop.GetMimicCropData().name + "?";
                 isActive = true;
                 FakeFarmlandStatUpdate(hitCrop);
             }

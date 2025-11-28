@@ -30,7 +30,6 @@ public class NutTesterBehavior : ToolBehavior
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
-        //Maybe give it a use to stun robots/ghosts, or check enemy hp
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
         tool = _tool;
@@ -39,6 +38,19 @@ public class NutTesterBehavior : ToolBehavior
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
+    {
+        switch (NutrientTesterScript.Instance.ReturnMode())
+        {
+            case NutrientTesterScript.TesterMode.Nutrient:
+                CycleSeed();
+                break;
+            case NutrientTesterScript.TesterMode.Radar:
+                //No secondary use in radar mode Yet
+                break;
+        }
+    }
+
+    private void CycleSeed()
     {
         bool foundSeed = false;
         //Change Synced Seed
@@ -121,34 +133,38 @@ public class NutTesterBehavior : ToolBehavior
         yield return new WaitForSeconds(0.4f);
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.8f, "NutTester", false));
         float timeBetweenScans = 0.2f;
-        while(InputManager.isCharging)
+
+        if(NutrientTesterScript.Instance.ReturnMode() == NutrientTesterScript.TesterMode.Nutrient)
         {
-            yield return new WaitForSeconds(timeBetweenScans);
-            Vector3 fwd = player.TransformDirection(Vector3.forward);
-            RaycastHit hit;
-            //Debug.Log("AttemptRaycast");
-            if (Physics.Raycast(player.position, fwd, out hit, 7f, mask))
+            while(InputManager.isCharging)
             {
-                Vector3 tile = StructureManager.Instance.CheckTile(hit.point);
-                if (!StructureManager.Instance.ValidateGridType(tile, GridType.Farm))
+                yield return new WaitForSeconds(timeBetweenScans);
+                Vector3 fwd = player.TransformDirection(Vector3.forward);
+                RaycastHit hit;
+                //Debug.Log("AttemptRaycast");
+                if (Physics.Raycast(player.position, fwd, out hit, 7f, mask))
                 {
-                    //NutrientTesterScript.Instance.UpdateTile(null);
-                    continue;
+                    Vector3 tile = StructureManager.Instance.CheckTile(hit.point);
+                    if (!StructureManager.Instance.ValidateGridType(tile, GridType.Farm))
+                    {
+                        //NutrientTesterScript.Instance.UpdateTile(null);
+                        continue;
+                    }
+
+                    if (tile != currentTile)
+                    {
+                        NutrientStorage nutrients = StructureManager.Instance.FetchNutrient(tile);
+                        NutrientTesterScript.Instance.UpdateTile(nutrients);
+                        currentTile = tile;
+                        HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
+                    }
+
+                    Debug.Log(currentTile);
+
+                    
                 }
-
-                if (tile != currentTile)
-                {
-                    NutrientStorage nutrients = StructureManager.Instance.FetchNutrient(tile);
-                    NutrientTesterScript.Instance.UpdateTile(nutrients);
-                    currentTile = tile;
-                    HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
-                }
-
-                Debug.Log(currentTile);
-
-                
+                //HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
             }
-            //HandItemManager.Instance.toolSource.PlayOneShot(blipSFX);
         }
     }
 }
