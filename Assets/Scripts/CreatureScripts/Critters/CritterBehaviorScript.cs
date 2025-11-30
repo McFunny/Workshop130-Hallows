@@ -34,6 +34,8 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     bool justSpawned = true;
     protected bool behaviorDelay = true;
 
+    protected ThoughtBubble thoughtBubbleScript;
+
     protected void Start() //Have all critters call these 2 functions in their Start method (Nvm?)
     {
         base.Start();
@@ -46,6 +48,10 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         BarnManager.Instance.allCritters.Add(this);
         OnHour();
         StartCoroutine(BehaviorDelay());
+
+        thoughtBubbleScript = GetComponentInChildren<ThoughtBubble>();
+
+        if(thoughtBubbleScript) StartCoroutine(EmotionDisplay());
     }
 
     IEnumerator BehaviorDelay()
@@ -161,6 +167,17 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             yield return new WaitForSeconds(i);
             effectsHandler.RandomIdle();
         }
+    }
+
+    IEnumerator EmotionDisplay()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(Random.Range(15f, 45f));
+            if(hunger < maxHunger/4) thoughtBubbleScript.PlayEmotion(0);
+            else if(thirst < maxThirst/4) thoughtBubbleScript.PlayEmotion(1);
+        }
+
     }
 
     protected Vector3 GetRandomPointAround(Vector3 origin, float radius)

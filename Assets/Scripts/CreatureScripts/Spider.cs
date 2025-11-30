@@ -422,10 +422,10 @@ public class Spider : CreatureBehaviorScript
         denSpawn = StructureManager.Instance.CheckLargeTile(transform.position); //Have to check again in case of obstruction
         cocoonSpawn = StructureManager.Instance.CheckTile(transform.position);
 
-        if(!playerInSightRange && (denSpawn != Vector3.zero || cocoonSpawn != Vector3.zero) ) 
+        if(!playerInSightRange) 
         {
-            if(canPlaceDen) StructureManager.Instance.SpawnStructure(denData.objectPrefab, denSpawn);
-            if(canPlaceCocoon) StructureManager.Instance.SpawnStructure(cocoonData.objectPrefab, cocoonSpawn);
+            if(canPlaceDen && denSpawn != Vector3.zero) StructureManager.Instance.SpawnStructure(denData.objectPrefab, denSpawn);
+            if(canPlaceCocoon && cocoonSpawn != Vector3.zero) StructureManager.Instance.SpawnStructure(cocoonData.objectPrefab, cocoonSpawn);
         }
 
         if(currentState == CreatureState.Idle)

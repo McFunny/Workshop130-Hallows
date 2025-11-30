@@ -63,7 +63,11 @@ public class CreatureBehaviorScript : MonoBehaviour
         effectsHandler = GetComponentInChildren<CreatureEffectsHandler>();
         player = PlayerInteraction.Instance.playerFeet;
 
-        if(hitColor != Color.black)
+        if(Mathf.Approximately(hitColor.r, 0) &&
+        Mathf.Approximately(hitColor.g, 0) &&
+        Mathf.Approximately(hitColor.b, 0) &&
+        Mathf.Approximately(hitColor.a, 0)) return;
+        else
         {
             SkinnedMeshRenderer[] allChildRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
             for(int i = 0; i < allChildRenderers.Length; i++)

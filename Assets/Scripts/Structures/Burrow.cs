@@ -154,6 +154,11 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
         HitWithWater();
     }
 
+    public void Freeze()
+    {
+        return;
+    }
+
     public void UseBurrow() //creatures call this when using it
     {
         if(containsEgg)

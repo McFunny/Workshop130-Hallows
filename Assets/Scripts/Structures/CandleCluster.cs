@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CandleCluster : StructureBehaviorScript
+public class CandleCluster : StructureBehaviorScript, IFireHolder
 {
     public FireFearTrigger fireTrigger;
     public GameObject fire;
@@ -86,18 +86,29 @@ public class CandleCluster : StructureBehaviorScript
 
     public override void HitWithWater()
     {
-        if(!burning) return;
         ExtinguishFlame();
     }
 
 
     void ExtinguishFlame()
     {
+        if(!burning) return;
         ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = fire.transform.position;
         fire.SetActive(false);
         audioHandler.PlaySound(audioHandler.miscSounds1[0]);
         burning = false;
         chanceForDrain = 25;
+    }
+
+    public bool CanBeExtinguished()
+    {
+        if(!burning) return false;
+        else return true;
+    }
+
+    public void ExternalExtinguish()
+    {
+        ExtinguishFlame();
     }
 }
 
