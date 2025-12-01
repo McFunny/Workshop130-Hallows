@@ -242,6 +242,11 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
         HitWithWater();
     }
 
+    public void Freeze()
+    {
+        return;
+    }
+
     IEnumerator ScanTiles()
     {
         while(health > 0)

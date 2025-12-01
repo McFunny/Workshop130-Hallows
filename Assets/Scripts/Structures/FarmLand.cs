@@ -849,6 +849,8 @@ public class FarmLand : StructureBehaviorScript
             GameObject frost = ParticlePoolManager.Instance.GrabFrostParticle();
             frost.transform.position = transform.position;
             frost.GetComponent<CropFrost>().afflictedTile = this;
+
+            if(crop && crop.behavior) crop.behavior.OnFrost(this);
             //spawn frost particle and assign it to this
         }
     }

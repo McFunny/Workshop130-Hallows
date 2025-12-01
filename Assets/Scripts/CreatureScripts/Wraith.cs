@@ -16,7 +16,7 @@ public class Wraith : CreatureBehaviorScript
     public float timeSpentInFire;
     public float flameDecayRate = 0.5f;
     public float maxFlameTime = 1.5f;
-    private FireFearTrigger fireSource;
+    //private FireFearTrigger fireSource;
     List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>();
 
     private Coroutine trackPlayerRoutine; 

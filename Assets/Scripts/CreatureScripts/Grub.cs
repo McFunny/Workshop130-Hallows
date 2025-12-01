@@ -33,7 +33,7 @@ public class Grub : CreatureBehaviorScript
     List<GameObject> nearbyLavent = new List<GameObject>();
     public ParticleSystem laventParticles;
 
-    GameObject nearbyFire;
+    FireFearTrigger nearbyFire;
 
     public EquipEnemyArmor[] equippableArmor;
 
@@ -463,7 +463,7 @@ public class Grub : CreatureBehaviorScript
         stunnedByFire = false;
         yield return new WaitForSeconds(4f);
 
-        while(nearbyFire && nearbyFire.activeSelf)
+        while(nearbyFire && nearbyFire.gameObject.activeSelf && Vector3.Distance(transform.position, nearbyFire.transform.position) < nearbyFire.fleeRange)
         {
             yield return new WaitForSeconds(0.5f);
         }
@@ -496,7 +496,7 @@ public class Grub : CreatureBehaviorScript
     {
         successful = false;
         if(stunCooldown || currentState == CreatureState.Burrowing) return;
-        nearbyFire = _fireSource.gameObject;
+        nearbyFire = _fireSource;
         StartCoroutine(FireStun());
         successful = true;
     }

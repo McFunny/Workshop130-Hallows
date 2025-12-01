@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Brazier : StructureBehaviorScript
+public class Brazier : StructureBehaviorScript, IFireHolder
 {
     //public InventoryItemData recoveredItem;
 
@@ -175,6 +175,7 @@ public class Brazier : StructureBehaviorScript
     void ExtinguishFlame()
     {
         UpdateModel();
+        if(!isBurning) return;
         isBurning = false;
         ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = fire.transform.position;
         fire.SetActive(false);
@@ -216,5 +217,16 @@ public class Brazier : StructureBehaviorScript
         structureUIVariables.valueGroups[1].maxValue = maxFlame;
 
         return structureUIVariables.valueGroups;
+    }
+
+    public bool CanBeExtinguished()
+    {
+        if(!isBurning) return false;
+        else return true;
+    }
+
+    public void ExternalExtinguish()
+    {
+        ExtinguishFlame();
     }
 }

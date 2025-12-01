@@ -194,6 +194,11 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
         HitWithWater();
     }
 
+    public void Freeze()
+    {
+        return;
+    }
+
     public override List<StructureUIValueGroup> GetStructureUIValues()
     {
         if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;

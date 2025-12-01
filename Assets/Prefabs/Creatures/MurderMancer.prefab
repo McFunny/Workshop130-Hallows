@@ -19952,6 +19952,7 @@ MonoBehaviour:
   player: {fileID: 0}
   allColliders: []
   corpseParticleTransform: {fileID: 0}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 2
   rb: {fileID: 0}
   anim: {fileID: 4964165140247100873}
@@ -20011,6 +20012,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 8300000, guid: da91d464da2878e44bd10a2857ee9f7a, type: 3}
   idleSound1: {fileID: 8300000, guid: 71d0ca140ac0ea04192cc91df19e3296, type: 3}
   idleSound2: {fileID: 0}
@@ -20018,6 +20020,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 147369e4547d0e84786099e470be3844, type: 3}
   - {fileID: 8300000, guid: a61e18e8dc156bf4fa185e37c1be3e00, type: 3}
   - {fileID: 8300000, guid: 35e28df6bd758df46b755d80c9693207, type: 3}
+  - {fileID: 8300000, guid: 4a4c3574120196b45a7d9a81b81aa0f3, type: 3}
   hitSounds: []
   footSteps: []
   deathSound: {fileID: 0}
@@ -20026,7 +20029,11 @@ MonoBehaviour:
   miscSound3: {fileID: 0}
   eatSound: {fileID: 0}
   petSound: {fileID: 0}
-  extraSounds: []
+  extraSounds:
+  - {fileID: 8300000, guid: e853c8473d8d2ef45b13c5b5dc6b1dd6, type: 3}
+  - {fileID: 8300000, guid: 95e221a15bc1ec743881e0aaaa987f01, type: 3}
+  - {fileID: 8300000, guid: e3fbb87a77e354640bec243bb2f1136e, type: 3}
+  - {fileID: 8300000, guid: 66aa4c792da00224887b9c4cb6fcbbb8, type: 3}
   particle1: {fileID: 0}
 --- !u!82 &6149455387161133296
 AudioSource:

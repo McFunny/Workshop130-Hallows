@@ -14,6 +14,8 @@ public class HydroflyProjectileScript : MonoBehaviour
 
     public GameObject bigSplashEffect;
 
+    public bool destroyOnUse = false;
+
     private void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -61,7 +63,8 @@ public class HydroflyProjectileScript : MonoBehaviour
             }
         }
 
-        gameObject.SetActive(false);
+        if(destroyOnUse) Destroy(gameObject);
+        else gameObject.SetActive(false);
     }
 
     void OnEnable()

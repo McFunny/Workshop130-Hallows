@@ -12,4 +12,11 @@ public interface IWaterHolder
     }
 
     public void GivenWater();
+
+    public bool CanBeFrozen()
+    {
+        return false;
+    }
+
+    public void Freeze();
 }

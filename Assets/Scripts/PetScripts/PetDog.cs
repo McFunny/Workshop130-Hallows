@@ -504,6 +504,7 @@ public class PetDog : PetBehaviorScript, IInteractable
                 targetCreature = null;
                 isMoving = false;
                 StateSwitch(PetState.Decide);
+                thoughtBubbleScript.PlayEmotion(2);
                 return;
             }
         }

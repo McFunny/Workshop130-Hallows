@@ -12,7 +12,7 @@ public class CropFrost : MonoBehaviour
 
     void Update()
     {
-        if(!afflictedTile || afflictedTile.nearbyFires.Count > 0)
+        if(!afflictedTile || afflictedTile.nearbyFires.Count > 0 || !afflictedTile.crop)
         {
             gameObject.SetActive(false);
         }

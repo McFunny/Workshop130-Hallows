@@ -67,6 +67,8 @@ public class CropBehavior : ScriptableObject
 
     public virtual void BehaviorUpdate(FarmLand tile){}
 
+    public virtual void OnFrost(FarmLand tile){}
+
     public virtual bool OverrideWaterNeed(FarmLand tile) //Forces the ui to display it needs water
     {
         return false;
