@@ -22,9 +22,12 @@ public class Wisp : CreatureBehaviorScript
     public List<StructureObject> targettableStructures;
     StructureBehaviorScript targetStructure;
 
+    List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>();
+
     bool attackCooldown = false;
     bool isAttacking = false;
     bool isFrosting = false;
+    bool pauseFromLight;
     float fleeTimeLeft;
 
     Coroutine currentRoutine;
@@ -48,6 +51,7 @@ public class Wisp : CreatureBehaviorScript
         ExtinguishFlame, //Covering eyes to extinguish fire
         Stunned,
         BeingCaptured,
+        Flashed, //Stunned for a moment by the player torch
         Dead
     }
 
@@ -61,12 +65,13 @@ public class Wisp : CreatureBehaviorScript
 
         StartCoroutine(RefreshBehavior());
         StartCoroutine(IdleSoundTimer());
+        StartCoroutine(CheckNearbyFires());
 
         if(!inWilderness) targetPos = StructureManager.Instance.GetRandomTile();
 
         allChildRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
 
-        MaterialChange(false);
+        VisibilityChange(false);
     }
 
     void FixedUpdate()
@@ -121,7 +126,10 @@ public class Wisp : CreatureBehaviorScript
                 AttackPlayer();
                 break;
             case CreatureState.ExtinguishFlame:
-                //ExtinguishFlame();
+                ExtinguishFlame();
+                break;
+            case CreatureState.Flashed:
+                Flashed();
                 break;
             case CreatureState.BeingCaptured:
                 //
@@ -161,6 +169,7 @@ public class Wisp : CreatureBehaviorScript
         else if(inWilderness)
         {
             currentState = CreatureState.AttackPlayer;
+            return;
         }
         else
         {
@@ -203,7 +212,7 @@ public class Wisp : CreatureBehaviorScript
             if(!structure || !targettableStructures.Contains(structure.structData) || structure.absentFromFarmGrid) continue;
 
             FarmLand tile = structure as FarmLand;
-            if (tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt && !tile.isFrosted)
+            if (tile && tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt && !tile.isFrosted)
             {
                 if(Random.Range(0,3) == 0 || availableStructures.Count == 0) availableStructures.Add(structure); //Crops have less likely chance to be chosen
                 continue;
@@ -215,13 +224,6 @@ public class Wisp : CreatureBehaviorScript
                 availableStructures.Add(structure); 
                 continue;
             }
-
-            /*IFireHolder fHolder = structure as IFireHolder;
-            if (fHolder != null && fHolder.CanBeExtinguished())
-            {
-                availableStructures.Add(structure); 
-                continue;
-            }*/
         }
 
         if (availableStructures.Count > 0)
@@ -246,8 +248,9 @@ public class Wisp : CreatureBehaviorScript
     IEnumerator FrostStructureRoutine()
     {
         anim.Play("ghoulBlow");
-        MaterialChange(true);
+        VisibilityChange(true);
         yield return new WaitForSeconds(0.8f);
+        if(currentState != CreatureState.FrostStructure) yield break;
 
         frostParticles.Play();
         isFrosting = true;
@@ -271,6 +274,8 @@ public class Wisp : CreatureBehaviorScript
 
         chaseDir = chaseDir.normalized;
 
+        chaseDir.y = 0;
+
         Quaternion targetRot = Quaternion.LookRotation(chaseDir, Vector3.up);
 
         /*if(currentRoutine != null) 
@@ -289,14 +294,15 @@ public class Wisp : CreatureBehaviorScript
 
         // Apply velocity
         if(distance > 0.7f) rb.velocity = chaseDir * currentSpeed + new Vector3(0, rb.velocity.y, 0);
+        else rb.velocity = Vector3.zero;
 
         rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, targetRot, 360 * Time.fixedDeltaTime));
     }
 
     IEnumerator AttackPlayerRoutine()
     {
-        MaterialChange(true);
-        anim.Play("ghoulPunch");
+        VisibilityChange(true);
+        anim.SetTrigger("Punching");
         rb.velocity = Vector3.zero;
         effectsHandler.PlaySound(effectsHandler.extraSounds[0]);
         yield return new WaitForSeconds(1f);
@@ -316,23 +322,23 @@ public class Wisp : CreatureBehaviorScript
 
     void ResetToFlee()
     {
-        MaterialChange(false);
+        VisibilityChange(false);
         targetStructure = null;
         currentState = CreatureState.Wander;
-        fleeTimeLeft = Random.Range(3f, 5f);
+        fleeTimeLeft = Random.Range(4f, 6f);
         targetPos = NightSpawningManager.Instance.RandomMistPosition();
     }
 
-    void MaterialChange(bool visible)
+    void VisibilityChange(bool visible)
     {
-        if(visible == currentlyVisible) return;
+        if(visible == currentlyVisible || (!visible && nearbyFires.Count > 0)) return;
         currentlyVisible = visible;
         shovelVulnerable = visible;
         effectsHandler.PlaySound(effectsHandler.extraSounds[3]);
         hurtParticles.Play();
         for(int i = 0; i < allChildRenderers.Length; i++)
         {
-            if(visible) allChildRenderers[i].material = visibleMat; //also make it visible if nearby fire
+            if(visible) allChildRenderers[i].material = visibleMat;
             else allChildRenderers[i].material = hiddenMat;
         }
     }
@@ -344,7 +350,7 @@ public class Wisp : CreatureBehaviorScript
             Material mat = renderers[i].material;
             if(currentlyVisible || mat == visibleMat) return;
             float dist = Vector3.Distance(player.position, transform.position);
-            Color newColor = Color.Lerp(nearbyColor, hiddenColor, dist/10);
+            Color newColor = Color.Lerp(nearbyColor, hiddenColor, dist/20);
             mat.SetColor("_Fresnel_Color", newColor);
         }
     }
@@ -359,17 +365,100 @@ public class Wisp : CreatureBehaviorScript
 
     void ExtinguishFlame()
     {
+        if(pauseFromLight) 
+        {
+            if(currentRoutine == null) currentRoutine = StartCoroutine(PauseFromLight());
+            return;
+        }
+        if(currentRoutine != null)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
 
+        float distance = Vector3.Distance(transform.position, targetPos);
+
+        if(distance <= hazeDistance + 1 || !targetStructure)
+        {
+            if(targetStructure)
+            {
+                currentState = CreatureState.FrostStructure;
+            }
+            else
+            {
+                currentState = CreatureState.Wander;
+            }
+            return;
+        }
+        targetDirection = (targetPos - transform.position).normalized;
+
+        // Move
+        rb.velocity = targetDirection * currentSpeed + new Vector3(0, rb.velocity.y, 0);
+
+        // Smooth rotate Rigidbody
+        if (targetDirection != Vector3.zero)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(targetDirection, Vector3.up);
+            rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, targetRot, turnSpeed * Time.fixedDeltaTime));
+        }
     }
 
-    /*public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
+    IEnumerator PauseFromLight()
     {
-        //fireSource = _fireSource;
+        pauseFromLight = false;
+        rb.velocity = Vector3.zero;
+        yield return new WaitForSeconds(1.2f);
+        currentRoutine = null;
+    }
+
+    void Flashed()
+    {
+        rb.velocity = Vector3.zero;
+
+        if(currentRoutine == null)
+        {
+            currentRoutine = StartCoroutine(FlashedCoroutine());
+        }
+    }
+
+    IEnumerator FlashedCoroutine()
+    {
+        anim.SetBool("Shocked", true);
+        effectsHandler.PlaySound(effectsHandler.extraSounds[4]);
+        yield return new WaitForSeconds(2);
+        anim.SetBool("Shocked", false);
+        ResetToFlee();
+        currentRoutine = null;
+    }
+
+    public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
+    {
         if(!nearbyFires.Contains(_fireSource)) nearbyFires.Add(_fireSource);
         successful = true;
 
+        if((currentState == CreatureState.Wander || (currentState == CreatureState.AttackPlayer && !attackCooldown)) && fleeTimeLeft <= 0)
+        {
+            VisibilityChange(true);
+            if(_fireSource.priority >= 5) //Player torch
+            {
+                currentState = CreatureState.Flashed;
+                return;
+            }
+
+            var structure = _fireSource.gameObject.GetComponentInParent<StructureBehaviorScript>();
+            IFireHolder fHolder = structure as IFireHolder;
+            if (fHolder != null && fHolder.CanBeExtinguished())
+            {
+                targetStructure = structure;
+                targetPos = targetStructure.transform.position;
+
+                pauseFromLight = true;
+                currentState = CreatureState.ExtinguishFlame;
+            }
+        }
+
         //Pause for a moment to cover eyes, then proceed to target
-    }*/
+    }
 
     public override void OnDamage()
     {
@@ -378,7 +467,7 @@ public class Wisp : CreatureBehaviorScript
         //Maybe teleport? Or flee at least
         effectsHandler.PlaySound(effectsHandler.extraSounds[3]);
 
-        if(Vector3.Distance(transform.position, player.position) < attackRange && currentState == CreatureState.ExtinguishFlame)
+        if(Vector3.Distance(transform.position, player.position) < 9 && currentState == CreatureState.ExtinguishFlame)
         {
             if(Random.Range(0,10) > 6) currentState = CreatureState.AttackPlayer;
             else ResetToFlee();
@@ -444,6 +533,30 @@ public class Wisp : CreatureBehaviorScript
             int i = Random.Range(3,8);
             //effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
+        }
+    }
+
+    IEnumerator CheckNearbyFires()
+    {
+        float distFromFire = 0;
+        while(true)
+        {
+            yield return new WaitForSeconds(1);
+            if(nearbyFires.Count == 0) 
+            {
+                if(currentState == CreatureState.Wander && currentlyVisible) VisibilityChange(false);
+                continue;
+            }
+
+            for(int i = 0; i < nearbyFires.Count; ++i)
+            {
+                if(nearbyFires[i] != null) distFromFire = Vector3.Distance(nearbyFires[i].transform.position, transform.position);
+                if(nearbyFires[i] == null || nearbyFires[i].gameObject.activeInHierarchy == false || distFromFire > nearbyFires[i].fleeRange)
+                {
+                    nearbyFires.RemoveAt(i);
+                    --i;
+                }
+            }
         }
     }
 }
