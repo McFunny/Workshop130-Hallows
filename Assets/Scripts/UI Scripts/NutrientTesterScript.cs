@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class NutrientTesterScript : MonoBehaviour
 {
-    [SerializeField] private GameObject statsParent, seedParent;
+    [SerializeField] private GameObject statsParent, seedParent, nutrientsParent, radarParent;
     [SerializeField] private TextMeshProUGUI gloamText, terraText, ichorText, waterText;
     [SerializeField] private Image seedImage, checkmarkImage;
     [SerializeField] private RawImage staticVideo;
@@ -47,6 +47,7 @@ public class NutrientTesterScript : MonoBehaviour
         }
 
         Debug.Log("Nutrient Tester Instance: " + Instance);
+        HandleWildernessExit();
     }
 
     private void Start()
@@ -80,11 +81,15 @@ public class NutrientTesterScript : MonoBehaviour
     private void HandleWildernessEnter()
     {
         mode = TesterMode.Radar;
+        nutrientsParent.SetActive(false);
+        radarParent.SetActive(true);
     }
 
     private void HandleWildernessExit()
     {
         mode = TesterMode.Nutrient;
+        nutrientsParent.SetActive(true);
+        radarParent.SetActive(false);
     }
 
     private void Update()
