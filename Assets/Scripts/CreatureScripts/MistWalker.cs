@@ -99,6 +99,7 @@ public class MistWalker : CreatureBehaviorScript
         if(variant == Variant.Strong) canDoubleLunge = true;
         if (variant == Variant.FogMind) SpawnFoggedWalkers();
         if (variant == Variant.Fogged) canAttack = false;
+        if (variant == Variant.Corrupted) attackCooldown -= 0.2f;
 
         for(int i = 0; i < equippableArmor.Length; i++)
         {
@@ -680,7 +681,7 @@ public class MistWalker : CreatureBehaviorScript
             float r = Random.Range(0, 100);
             if(r > 30) canDoubleLunge = true;
         }
-        yield return new WaitForSeconds(lungeCooldown + Random.Range(-0.5f, 4f));
+        yield return new WaitForSeconds(lungeCooldown + Random.Range(-1f, 3f));
         canLunge = true;
     }
     #endregion

@@ -162,7 +162,7 @@ public class BearTrap : StructureBehaviorScript
                     //kill
                     capturedCreature.transform.position = transform.position;
                     capturedCreature.TakeDamage(999);
-                    TakeDamage(2);
+                    TakeDamage(3);
                     capturedCreature.PlayHitParticle(new Vector3(0, 0, 0));
                     StartCoroutine(HoldCorpse());
                 }

@@ -11,12 +11,12 @@ public interface IWaterHolder
         return true;
     }
 
-    public void GivenWater();
-
-    public bool CanBeFrozen()
+    public void ManualFill(out bool success)
     {
-        return false;
+        success = false;
     }
 
-    public void Freeze();
+    public void GivenWater();
+
+    public void EmptyWater();
 }

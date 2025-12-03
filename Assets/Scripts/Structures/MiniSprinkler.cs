@@ -70,7 +70,7 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
     {
         if(smartSprinkler) return;
 
-        if(waterLevel > 0 && !TimeManager.Instance.isDay && !watering)
+        if(waterLevel > 0 && !TimeManager.Instance.isDay && !watering && !IsFrozen())
         {
             waterLevel--;
             StartCoroutine(WaterTiles());
@@ -112,12 +112,30 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
 
     public override void HitWithWater()
     {
-        if(waterLevel < maxWaterLevel && !waterCooldown) 
+        if(waterLevel < maxWaterLevel && !waterCooldown && !IsFrozen()) 
         {
             waterLevel++;
             splash.Play();
             //StartCoroutine(WaterCooldown()); //Keep disabled if the watergun costs 1 per multi shot
         }
+    }
+
+    public void ManualFill(out bool success)
+    {
+        if(PlayerInteraction.Instance.waterHeld >= (maxWaterLevel - waterLevel) && waterLevel < maxWaterLevel)
+        {
+            PlayerInteraction.Instance.waterHeld -= maxWaterLevel - waterLevel;
+            waterLevel = maxWaterLevel;
+            if(!wateredThisHour && !smartSprinkler) 
+            {
+                StartCoroutine(WaterTiles());
+                waterLevel--;
+                wateredThisHour = true;
+            }
+            splash.Play();
+            success = true;
+        }
+        else success = false;
     }
 
     IEnumerator WaterCooldown()
@@ -233,7 +251,7 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
 
     public bool CanBeWatered()
     {
-        if(waterLevel < maxWaterLevel) return true;
+        if(waterLevel < maxWaterLevel && !IsFrozen()) return true;
         else return false;
     }
 
@@ -242,10 +260,11 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
         HitWithWater();
     }
 
-    public void Freeze()
+    public void EmptyWater()
     {
-        return;
+        waterLevel = 0;
     }
+
 
     IEnumerator ScanTiles()
     {

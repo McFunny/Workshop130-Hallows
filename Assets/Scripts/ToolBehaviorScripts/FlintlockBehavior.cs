@@ -174,7 +174,8 @@ public class FlintlockBehavior : ToolBehavior
             if(armor)
             {
                 armor.TakeDamage(2);
-                HandItemManager.Instance.toolSource.PlayOneShot(hit_Structure);
+                //HandItemManager.Instance.toolSource.PlayOneShot(hit_Structure);
+                AudioPoolManager.Instance.PlayClipAtPosition(hit_Structure, hitPos, HandItemManager.Instance.toolSource.volume, 40);
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
                 ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitPos;
 
@@ -193,7 +194,9 @@ public class FlintlockBehavior : ToolBehavior
                 if(currentBulletStructureDamage > 0)
                 {
                     structure.TakeDamage(currentBulletStructureDamage);
-                    HandItemManager.Instance.toolSource.PlayOneShot(hit_Structure);
+                    //HandItemManager.Instance.toolSource.PlayOneShot(hit_Structure);
+                    AudioPoolManager.Instance.PlayClipAtPosition(hit_Structure, hitPos, HandItemManager.Instance.toolSource.volume, 40);
+                    
                     ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
                     ParticlePoolManager.Instance.MoveAndPlayParticle(hitPos, ParticlePoolManager.Instance.dirtParticle);
                     ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitPos;
@@ -229,13 +232,14 @@ public class FlintlockBehavior : ToolBehavior
                     ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
                     ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hitPos;
                     HandItemManager.Instance.toolSource.PlayOneShot(headShot);
+                    AudioPoolManager.Instance.PlayClipAtPosition(headShot, hitPos, 0.8f, 100);
                 }
                 else creature.TakeDamage(currentBulletDamage);
                 //playsound
-                HandItemManager.Instance.toolSource.PlayOneShot(hit_Creature);
+                //HandItemManager.Instance.toolSource.PlayOneShot(hit_Creature);
+                AudioPoolManager.Instance.PlayClipAtPosition(hit_Creature, hitPos, HandItemManager.Instance.toolSource.volume, 40);
 
-                //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
-                //if(particles) particles.transform.position = transform.position;
+
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
                 ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hitPos;
                 creature.PlayHitParticle(hitPos);
@@ -245,13 +249,11 @@ public class FlintlockBehavior : ToolBehavior
 
         if(other.gameObject.layer == 0 || other.gameObject.layer == 7 || other.gameObject.layer == 19)
         {
-            HandItemManager.Instance.toolSource.PlayOneShot(hit_Dirt);
+            //HandItemManager.Instance.toolSource.PlayOneShot(hit_Dirt);
+            AudioPoolManager.Instance.PlayClipAtPosition(hit_Dirt, hitPos, HandItemManager.Instance.toolSource.volume, 40);
             ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;
             ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = hitPos;
             ParticlePoolManager.Instance.MoveAndPlayParticle(hitPos, ParticlePoolManager.Instance.dirtParticle);
-
-            //GameObject particles = ParticlePoolManager.Instance.GrabDestructionParticle(particleType);
-            //if(particles) particles.transform.position = transform.position;
             return;
         }
 

@@ -218,8 +218,14 @@ public class Wisp : CreatureBehaviorScript
                 continue;
             }
 
-            IWaterHolder wHolder = structure as IWaterHolder;
+            /*IWaterHolder wHolder = structure as IWaterHolder;
             if (wHolder != null && wHolder.CanBeFrozen())
+            {
+                availableStructures.Add(structure); 
+                continue;
+            }*/
+
+            if(structure.Freezable())
             {
                 availableStructures.Add(structure); 
                 continue;
@@ -500,12 +506,13 @@ public class Wisp : CreatureBehaviorScript
 
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
 
-            IWaterHolder wHolder = structure as IWaterHolder;
+            /*IWaterHolder wHolder = structure as IWaterHolder;
             if (wHolder != null && wHolder.CanBeFrozen())
             {
                 wHolder.Freeze();
                 return;
-            }
+            }*/
+            if(structure.Freezable()) structure.Freeze();
 
             IFireHolder fHolder = structure as IFireHolder;
             if (fHolder != null && fHolder.CanBeExtinguished())

@@ -138,6 +138,7 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
 
     public override void HitWithWater()
     {
+        if(IsFrozen()) return;
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         Destroy(gameObject);
@@ -145,7 +146,7 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
 
     public bool CanBeWatered()
     {
-        if(savedItems.Count > 0) return false;
+        if(savedItems.Count > 0 && !IsFrozen()) return false;
         return true;
     }
 
@@ -154,9 +155,18 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
         HitWithWater();
     }
 
-    public void Freeze()
+    public void EmptyWater(){}
+
+    public void ManualFill(out bool success)
     {
-        return;
+        if(PlayerInteraction.Instance.waterHeld > 0)
+        {
+            ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
+            PlayerInteraction.Instance.waterHeld--;
+            success = true;
+            Destroy(gameObject);
+        }
+        else success = false;
     }
 
     public void UseBurrow() //creatures call this when using it
