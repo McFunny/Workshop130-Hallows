@@ -4855,7 +4855,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -9744,7 +9744,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -14681,7 +14681,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -19569,7 +19569,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -19715,6 +19715,7 @@ MonoBehaviour:
   explodeSFX: {fileID: 8300000, guid: 35a2794032807a642ba42dc77c0dcfce, type: 3}
   bulletLifetime: 3
   bigSplashEffect: {fileID: 3092762235628287228}
+  destroyOnUse: 0
 --- !u!135 &5107174497224402539
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19823,6 +19824,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bud
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5f2fe02a2018424428fb7e9516becb6d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

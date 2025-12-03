@@ -274,7 +274,7 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
 
     public bool CanBeWatered()
     {
-        if(waterLevel < maxWaterLevel && !spilled && IsFrozen()) return true;
+        if(waterLevel < maxWaterLevel && !spilled && !IsFrozen()) return true;
         else return false;
     }
 
@@ -286,7 +286,6 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
     public void EmptyWater()
     {
         waterLevel = 0;
-        showSplash = false;
         WaterLevelChange();
     }
 
