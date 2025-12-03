@@ -115,7 +115,7 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
 
     public override void HitWithWater()
     {
-        if(waterLevel < maxWaterLevel && !waterCooldown) 
+        if(waterLevel < maxWaterLevel && !waterCooldown && !IsFrozen()) 
         {
             waterLevel++;
             WaterLevelChange();
@@ -185,7 +185,7 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
 
     public bool CanBeWatered()
     {
-        if(waterLevel < maxWaterLevel) return true;
+        if(waterLevel < maxWaterLevel && !IsFrozen()) return true;
         else return false;
     }
 
@@ -194,9 +194,11 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
         HitWithWater();
     }
 
-    public void Freeze()
+    public void EmptyWater()
     {
-        return;
+        waterLevel = 0;
+        showSplash = false;
+        WaterLevelChange();
     }
 
     public override List<StructureUIValueGroup> GetStructureUIValues()

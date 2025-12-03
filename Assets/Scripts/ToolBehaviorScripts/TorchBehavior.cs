@@ -22,7 +22,7 @@ public class TorchBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
             var structure = hit.collider.GetComponent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 //torch the thing
                 bool playAnim = false;
@@ -128,7 +128,7 @@ public class TorchBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
             var structure = hit.collider.GetComponent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 //torch the thing
                 bool playAnim = false;

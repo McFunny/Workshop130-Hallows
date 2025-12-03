@@ -44,24 +44,29 @@ public class WaterCanBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 //play water anim
                 bool playAnim = false;
+                IWaterHolder wHolder = structure as IWaterHolder;
                 if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0 && structure.GetComponent<FarmLand>() == null)
                 {
                     playAnim = true;
                     structure.Extinguish();
                     PlayerInteraction.Instance.waterHeld--;
                 }
-                else if(structure.GetComponent<WaterBarrel>())
+                else if(wHolder != null)
+                {
+                    wHolder.ManualFill(out playAnim);
+                }
+                /*else if(structure.GetComponent<WaterBarrel>())
                 {
                     structure.GetComponent<WaterBarrel>().ManualFill(out playAnim);
                 }
                 else if(structure.GetComponent<BirdBath>())
                 {
                     structure.GetComponent<BirdBath>().ManualFill(out playAnim);
-                }
+                }*/
                 else structure.ToolInteraction(tool, out playAnim);
 
                 if(playAnim)
@@ -172,7 +177,7 @@ public class WaterCanBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 //play water anim
                 bool playAnim = false;
@@ -414,7 +419,7 @@ public class WaterCanBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 6, mask))
         {
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 if(structure.onFire || !wateredStructures.Contains(structure))
                 {

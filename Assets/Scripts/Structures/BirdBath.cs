@@ -103,7 +103,7 @@ public class BirdBath : StructureBehaviorScript
     {
         //simulate rain accumulation
         if(inWilderness) return;
-        if(Random.Range(0,10) < 8) return;
+        if(Random.Range(0,10) < 8 || IsFrozen()) return;
         if(waterLevel < 1)
         {
             waterLevel++;

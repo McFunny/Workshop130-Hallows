@@ -14,7 +14,7 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri, fence, cocoon;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri, fence, cocoon, bucket;
     public CropData fogChime, berryBush;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
@@ -874,6 +874,7 @@ public class StructureManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
+        StartCoroutine(PopulateStructure(1, 1, bucket, true, farmTileMap));
         PopulateBerryBushes(2, 3, true);
     }
 

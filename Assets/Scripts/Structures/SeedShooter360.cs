@@ -197,8 +197,8 @@ public class SeedShooter360 : StructureBehaviorScript
             InventoryItemData seedShot = savedItems[0];
             savedItems.Remove(seedShot);
         }
-        
-        yield return new WaitForSeconds(2.5f);
+        if(townOwned) yield return new WaitForSeconds(0.5f);
+        else yield return new WaitForSeconds(2.5f);
 
         shotCooldown = false;
     }

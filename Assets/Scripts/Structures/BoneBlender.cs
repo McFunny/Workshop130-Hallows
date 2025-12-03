@@ -78,6 +78,7 @@ public class BoneBlender : StructureBehaviorScript
             fumes.Play();
             anim.SetBool("IsRunning", true);
             loopSource.Play();
+            ignoreNextHour = true;
         }
     }
 

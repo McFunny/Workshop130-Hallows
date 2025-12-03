@@ -426,6 +426,7 @@ public class PyreFly : CreatureBehaviorScript
                 IgnitionToggle(false);
                 targetStructure.LitOnFire();
                 targetStructure = null;
+                effectsHandler.MiscSound2();
                 currentState = CreatureState.Wander;
             }
             else
@@ -629,8 +630,8 @@ public class PyreFly : CreatureBehaviorScript
                 PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
                 PlayerInteraction.Instance.PlayerTrip();
             }
-            float range = 1.5f;
-            if(variant == Variant.Volatile) range = 2;
+            float range = 2f;
+            if(variant == Variant.Volatile) range = 3;
             Collider[] hitStructures = Physics.OverlapSphere(transform.position, range, 1 << 6);
             foreach(Collider collider in hitStructures)
             {
