@@ -11,6 +11,7 @@ public class StructurePage : CodexPage
     [SerializeField] private List<GameObject> repairObjects;
     [SerializeField] private List<Image> resourceIcons;
     [SerializeField] private List<TextMeshProUGUI> resourceText;
+    [SerializeField] private GameObject noneObject;
 
     public override void UpdatePage(CodexEntries entry, Quest quest)
     {
@@ -24,6 +25,14 @@ public class StructurePage : CodexPage
         {
             repairObjects[i].SetActive(false);
         }
+
+        if( entry.structureData.repairItems.Count <= 0 && entry.structureData.mintRepairCost <= 0)
+        {
+            noneObject.SetActive(true);
+            return;
+        }
+        
+        noneObject.SetActive(false);
 
         print("HELLO?????");
         for (int i = 0; i <= entry.structureData.repairItems.Count; i++)
@@ -63,12 +72,5 @@ public class StructurePage : CodexPage
             resourceIcons.Add(icon);
             resourceText.Add(text);
         }
-    }
-
-    private IEnumerator DelayedUpdatePage(CodexEntries entry)
-    {
-        
-
-        yield break;
     }
 }

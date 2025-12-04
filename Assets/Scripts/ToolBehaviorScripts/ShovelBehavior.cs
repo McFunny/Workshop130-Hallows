@@ -68,7 +68,7 @@ public class ShovelBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 7, mask))
         {
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 //play dig anim
                 bool playAnim = false;

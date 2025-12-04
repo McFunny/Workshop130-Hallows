@@ -264,7 +264,7 @@ public class PlayerInteraction : MonoBehaviour
             }
 
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 structure.ItemInteraction(item);
                 //Debug.Log("Interacted with item");
@@ -301,7 +301,7 @@ public class PlayerInteraction : MonoBehaviour
             }
 
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 structure.StructureInteraction();
                 //Debug.Log("Interacting with a structure");
@@ -528,7 +528,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             if(hit.collider.gameObject.layer == 19) return;
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 if(structure == lastSeenStruct) return;
                 structure.ToggleHighlight(true);

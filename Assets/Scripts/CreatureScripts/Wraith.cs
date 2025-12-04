@@ -111,12 +111,14 @@ public class Wraith : CreatureBehaviorScript
         ParticlePoolManager.Instance.GrabThawParticle().transform.position = corpseParticleTransform.position;
         transform.position = NightSpawningManager.Instance.RandomMistPosition();
         nearbyFires.Clear();
+        effectsHandler.loopingSource.Stop();
     }
 
     public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
     {
         //fireSource = _fireSource;
         if(!nearbyFires.Contains(_fireSource)) nearbyFires.Add(_fireSource);
+        if(nearbyFires.Count == 1) effectsHandler.loopingSource.Play();
         successful = true;
     }
 
@@ -124,6 +126,7 @@ public class Wraith : CreatureBehaviorScript
     {
         FireFearTrigger trigger = other.GetComponent<FireFearTrigger>();
         if(trigger && nearbyFires.Contains(trigger)) nearbyFires.Remove(trigger);
+        if(nearbyFires.Count == 0) effectsHandler.loopingSource.Stop();
     }
 
     void SpawnFlower()

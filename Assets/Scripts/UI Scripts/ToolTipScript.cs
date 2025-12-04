@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System;
 using UnityEngine.UI;
 
 public class ToolTipScript : MonoBehaviour
@@ -114,8 +112,12 @@ public class ToolTipScript : MonoBehaviour
 
             case ItemType.Consumable:
                 itemType.text = "Consumable";
-                itemStamina.text = "Heals " + itemData.staminaValue + " stamina.";
-                itemStamina.gameObject.SetActive(true);
+                if(itemData.staminaValue == 0)
+                {
+                    itemStamina.text = "Heals " + itemData.staminaValue + " stamina.";
+                    itemStamina.gameObject.SetActive(true);
+                }
+                else itemStamina.gameObject.SetActive(false);
                 intakeParent.SetActive(false);
                 outputParent.SetActive(false);
                 itemType.color = c_consumable;

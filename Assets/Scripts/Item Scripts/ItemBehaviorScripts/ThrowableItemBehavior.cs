@@ -9,6 +9,8 @@ public class ThrowableItemBehavior : ItemBehavior
 
     public float force = 100;
 
+    public AudioClip throwSFX;
+
     public override void UseItem(out bool consumeItem)
     {
         Vector3 itemPos = PlayerInteraction.Instance.transform.position;
@@ -20,7 +22,10 @@ public class ThrowableItemBehavior : ItemBehavior
 
     void ThrowItem()
     {
+
         Transform bulletStart = HandItemManager.Instance.bulletStart;
+
+        AudioPoolManager.Instance.PlayClipAtPosition(throwSFX, bulletStart.position);
 
         GameObject projectile = Instantiate(prefab, bulletStart.position, Quaternion.identity);
         projectile.transform.position = bulletStart.position;

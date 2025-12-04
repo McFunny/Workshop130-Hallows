@@ -79,6 +79,8 @@ public class StructureBehaviorScript : MonoBehaviour
     public GameObject structureUI; 
     public StructureUIValues structureUIVariables;
 
+    protected IceBlockScript iceBlock;
+
     Coroutine highlightCoroutine;
 
     //NavMeshSurface navSurface;
@@ -108,6 +110,8 @@ public class StructureBehaviorScript : MonoBehaviour
                 damageParticles.Add(child.GetComponent<ParticleSystem>());
             }
         }
+
+        iceBlock = GetComponentInChildren<IceBlockScript>();
 
     }
 
@@ -166,13 +170,20 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public virtual bool IsFlammable()
     {
-        if(onFire) return false;
+        if(onFire || (iceBlock && iceBlock.blockObject.activeSelf)) return false;
         return flammable;
     }
 
     public void TakeDamage(float damage)
     {
         float finalDamage = ApplyDamageModifier(damage);
+
+        if(iceBlock && iceBlock.blockObject.activeSelf)
+        {
+            iceBlock.TakeDamage(finalDamage);
+            return;
+        }
+
         OnDamage?.Invoke();
         OnDamageWithValue?.Invoke(finalDamage);
         if(!destructable || health <= 0) return;
@@ -331,7 +342,7 @@ public class StructureBehaviorScript : MonoBehaviour
 
     public void LitOnFire()
     {
-        if(onFire || !flammable) return;
+        if(onFire || !flammable || (iceBlock && iceBlock.blockObject.activeSelf)) return;
         onFire = true;
         GameObject flame = ParticlePoolManager.Instance.GrabFlameEffect();
         flame.transform.position = transform.position;
@@ -396,6 +407,33 @@ public class StructureBehaviorScript : MonoBehaviour
         health += amount;
         if(health > maxHealth) health = maxHealth;
         return true;
+    }
+
+    public bool Interactable() //Can the player interact with the structure?
+    {
+        if(iceBlock && iceBlock.blockObject.activeSelf) return false; //Structure is currently frozen
+        return true;
+    }
+
+    [ContextMenu("Test Freeze")]
+    public void Freeze()
+    {
+        if(!iceBlock || iceBlock.blockObject.activeSelf) return;
+        iceBlock.FormIce();
+    }
+
+    public virtual bool Freezable()
+    {
+        if(!iceBlock || iceBlock.blockObject.activeSelf) return false;
+
+        return true;
+    }
+
+    public virtual bool IsFrozen()
+    {
+        if(iceBlock && iceBlock.blockObject.activeSelf) return true;
+
+        return false;
     }
 
     public virtual void SaveVariables()
