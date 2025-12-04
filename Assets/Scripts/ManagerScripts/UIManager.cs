@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     float duration = 2f;
     public TextMeshProUGUI coinText;
     private Animator coinAnimator;
+
+    public AudioSource loopingSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,11 +38,13 @@ public class UIManager : MonoBehaviour
             currentCoins = (int)Mathf.Lerp(currentCoins, PlayerInteraction.Instance.currentMoney, lerp);*/
 
             coinText.text = currentCoins.ToString();
+            if(!loopingSource.isPlaying) loopingSource.Play();
         }
         else
         {
             coinAnimator.SetBool("MoneyChanging", false);
             //lerp = 0;
+            if(loopingSource.isPlaying) loopingSource.Stop();
         }
     }
 }

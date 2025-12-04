@@ -35,6 +35,7 @@ public class HydroflyProjectileScript : MonoBehaviour
     void Explode()
     {
         bigSplashEffect.transform.position = transform.position;
+        bigSplashEffect.transform.rotation = Quaternion.identity;
         bigSplashEffect.SetActive(false);
         bigSplashEffect.SetActive(true);
         bigSplashEffect.transform.parent = null;
