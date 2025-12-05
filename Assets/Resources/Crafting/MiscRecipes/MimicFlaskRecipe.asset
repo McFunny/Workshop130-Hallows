@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
+  m_Name: MimicFlaskRecipe
+  m_EditorClassIdentifier: 
+  id: 5
+  nameOverride: Pheromone Flask
+  category: 3
+  levelRequirement: -1
+  isUnlocked: 0
+  isRecentlyUnlocked: 1
+  output: {fileID: 11400000, guid: aa8320088dd258846a151d59ce481740, type: 2}
+  outputAmount: 1
+  craftTimeInSeconds: 120
+  mintCost: 0
+  craftingRequirements:
+  - requiredItem: {fileID: 11400000, guid: 15b811d0b42fdf44e86c618d24730806, type: 2}
+    requiredAmount: 2
+  - requiredItem: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
+    requiredAmount: 3

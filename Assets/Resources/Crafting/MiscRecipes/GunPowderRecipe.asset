@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
+  m_Name: GunPowderRecipe
+  m_EditorClassIdentifier: 
+  id: 4
+  nameOverride: Gunpowder
+  category: 3
+  levelRequirement: 6
+  isUnlocked: 0
+  isRecentlyUnlocked: 1
+  output: {fileID: 11400000, guid: b4d77aadfa04c894088fc7eed93d7ab1, type: 2}
+  outputAmount: 5
+  craftTimeInSeconds: 10
+  mintCost: 0
+  craftingRequirements:
+  - requiredItem: {fileID: 11400000, guid: dec23fa49ebccd441bcbb92cd5ee2741, type: 2}
+    requiredAmount: 1
