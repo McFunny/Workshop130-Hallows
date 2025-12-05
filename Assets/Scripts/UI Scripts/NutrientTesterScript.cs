@@ -47,7 +47,7 @@ public class NutrientTesterScript : MonoBehaviour
         }
 
         Debug.Log("Nutrient Tester Instance: " + Instance);
-        HandleWildernessEnter();
+        HandleWildernessExit();
     }
 
     private void Start()
@@ -80,6 +80,7 @@ public class NutrientTesterScript : MonoBehaviour
 
     private void HandleWildernessEnter()
     {
+        return;
         mode = TesterMode.Radar;
         nutrientsParent.SetActive(false);
         radarParent.SetActive(true);
