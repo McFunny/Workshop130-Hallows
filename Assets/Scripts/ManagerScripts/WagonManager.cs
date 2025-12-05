@@ -84,7 +84,7 @@ public class WagonManager : MonoBehaviour
 
         if (wagonHealth > maxWagonHealth) wagonHealth = maxWagonHealth;
 
-        onWagonHPChanged();
+        onWagonHPChanged.Invoke();
 
         print("Wagon health changed. Health is " + wagonHealth);
 
