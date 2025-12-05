@@ -227,9 +227,9 @@ public class BotanistNPC : NPC, ITalkable
             int extraItems = 0;
             newCost = -1;
 
-            if(x == 0 || x > 8) //For guaranteed stuff to sell
+            if(x < 3 || x > 8) //For guaranteed stuff to sell
             {
-                if(x == 0)
+                if(x < 3)
                 {
                     if(TimeManager.Instance.dayNum == 1) //Only sell a few carrot seeds the first day
                     {
@@ -241,7 +241,7 @@ public class BotanistNPC : NPC, ITalkable
                     int sack = Random.Range(0, 2);
                     item.RefreshItem(barterDatabase.uniqueTransactions[sack].itemForSale, barterDatabase.uniqueTransactions[sack].mintCost, barterDatabase.uniqueTransactions[sack].itemsRequired,
                     barterDatabase.uniqueTransactions[sack].amountForSale);
-                } 
+                }
                 if(x > 8)
                 {
 

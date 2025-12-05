@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
+  m_Name: AmmoRecipe
+  m_EditorClassIdentifier: 
+  id: 0
+  nameOverride: Ammo
+  category: 3
+  levelRequirement: 10
+  isUnlocked: 0
+  isRecentlyUnlocked: 1
+  output: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+  outputAmount: 1
+  craftTimeInSeconds: 150
+  mintCost: 0
+  craftingRequirements:
+  - requiredItem: {fileID: 11400000, guid: b4d77aadfa04c894088fc7eed93d7ab1, type: 2}
+    requiredAmount: 4
+  - requiredItem: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+    requiredAmount: 2
