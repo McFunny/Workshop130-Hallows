@@ -80,6 +80,7 @@ public class NutrientTesterScript : MonoBehaviour
 
     private void HandleWildernessEnter()
     {
+        return;
         mode = TesterMode.Radar;
         nutrientsParent.SetActive(false);
         radarParent.SetActive(true);
@@ -179,37 +180,38 @@ public class NutrientTesterScript : MonoBehaviour
     private void Radar()
     {
         radarPanel.localRotation = Quaternion.Euler(0, 0, -player.eulerAngles.y);
+        List<CreatureBehaviorScript> creatures = WildernessManager.Instance.allCreatures.Concat(NightSpawningManager.Instance.allCreatures).ToList();
 
-        // Would probably be more performant to cache all creatures tbh
-        foreach (GameObject other in GameObject.FindGameObjectsWithTag("Creature"))
+        foreach (CreatureBehaviorScript other in creatures)
         {
+            var tracked = other.gameObject;
             float dist = Vector3.Distance(other.transform.position, player.position);
             bool inRange = dist <= radarRange;
 
             // Handle entering range
-            if (inRange && !trackedObjects.Contains(other))
+            if (inRange && !trackedObjects.Contains(tracked))
             {
-                trackedObjects.Add(other);
+                trackedObjects.Add(tracked);
 
                 RectTransform icon = GetIconFromPool();
                 icon.gameObject.SetActive(true);
-                iconMap.Add(other, icon);
+                iconMap.Add(tracked, icon);
             }
 
             // Handle leaving range
-            else if (!inRange && trackedObjects.Contains(other))
+            else if (!inRange && trackedObjects.Contains(tracked))
             {
-                trackedObjects.Remove(other);
+                trackedObjects.Remove(tracked);
 
-                if (iconMap.TryGetValue(other, out RectTransform oldIcon))
+                if (iconMap.TryGetValue(tracked, out RectTransform oldIcon))
                 {
                     ReturnIcon(oldIcon);
-                    iconMap.Remove(other);
+                    iconMap.Remove(tracked);
                 }
             }
 
             // Update position if tracked
-            if (inRange && iconMap.TryGetValue(other, out RectTransform iconToMove))
+            if (inRange && iconMap.TryGetValue(tracked, out RectTransform iconToMove))
             {
                 Vector3 offset = other.transform.position - player.position;
 
