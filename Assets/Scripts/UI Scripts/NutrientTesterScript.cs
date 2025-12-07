@@ -13,6 +13,7 @@ public class NutrientTesterScript : MonoBehaviour
     [SerializeField] private RawImage staticVideo;
     [SerializeField] private float minStatic, maxStatic, staticAlphaSpeed;
     [SerializeField] private PopupEvents popup;
+    [SerializeField] private GameObject circleImage;
     [Header("Settings")]
     public static NutrientTesterScript Instance;
     private CropItem currentSeed = null;
@@ -34,7 +35,7 @@ public class NutrientTesterScript : MonoBehaviour
     [SerializeField] private GameObject radarBar;
     private GameObject radarObject;
     private RadarHandler radarHandler;
-    [SerializeField] private float rotationSpeed = 5f;
+    public float rotationSpeed = 5f;
     public LayerMask include, exclude;
     [Header("Pooling")]
     
@@ -62,22 +63,21 @@ public class NutrientTesterScript : MonoBehaviour
         {
             CreateIconToPool();
         }
+
+        player = PlayerMovement.Instance.orientation.transform;
+        radarObject = new GameObject("RadarParent");
+        radarObject.transform.SetParent(player, false);
+        radarHandler = radarObject.AddComponent<RadarHandler>();
+        radarHandler.circleImage = circleImage;
+
+        radarObject.transform.localRotation = quaternion.Euler(Vector3.zero);
+        radarHandler.enabled = false;
     }
 
     private void Start()
     {
         UpdateTile(null);
         UpdateSeed(null);
-
-        
-
-        player = PlayerMovement.Instance.orientation.transform;
-        radarObject = new GameObject("RadarParent");
-        radarObject.transform.SetParent(player, false);
-        radarHandler = radarObject.AddComponent<RadarHandler>();
-
-        radarObject.transform.localRotation = quaternion.Euler(Vector3.zero);
-        radarHandler.enabled = false;
 
         HandleWildernessEnter();
     }
@@ -222,10 +222,10 @@ public class NutrientTesterScript : MonoBehaviour
     #region Radar
     private void NewRadar()
     {
-        Vector3 rotationAmount = new Vector3(0f, rotationSpeed, 0f);
+        /*Vector3 rotationAmount = new Vector3(0f, rotationSpeed, 0f);
         Vector3 barRotationAmount = new Vector3(0f, 0f, -rotationSpeed);
         radarObject.transform.Rotate(rotationAmount * Time.deltaTime);
-        radarBar.transform.Rotate(barRotationAmount * Time.deltaTime);
+        radarBar.transform.Rotate(barRotationAmount * Time.deltaTime);*/
 
         foreach (var kvp in activeIcons) //kvp == Key Value Pair
         {
