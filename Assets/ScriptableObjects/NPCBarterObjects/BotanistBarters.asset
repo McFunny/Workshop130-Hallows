@@ -108,7 +108,7 @@ MonoBehaviour:
     useItemPrice: 1
     mintCost: 15
     amountForSale: 1
-    barterChance: 75
+    barterChance: 50
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
@@ -155,7 +155,7 @@ MonoBehaviour:
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
-    siegesRequired: 1
+    siegesRequired: 2
     amountGiven: 1
   - name: LavendarSeeds
     itemForSale: {fileID: 11400000, guid: ffc572397851eaa4bb996652631df959, type: 2}
@@ -201,6 +201,24 @@ MonoBehaviour:
     barterChance: 80
     itemsRequired: []
     siegesRequired: 1
+    amountGiven: 1
+  - name: PumpkinSeeds
+    itemForSale: {fileID: 11400000, guid: 011866a9c07ea4941900e969138a99ff, type: 2}
+    useItemPrice: 1
+    mintCost: 20
+    amountForSale: 1
+    barterChance: 80
+    itemsRequired: []
+    siegesRequired: 2
+    amountGiven: 1
+  - name: BriarTomatoSeeds
+    itemForSale: {fileID: 11400000, guid: 31f98f1fd4117034292510fca5ba1b00, type: 2}
+    useItemPrice: 1
+    mintCost: 14
+    amountForSale: 1
+    barterChance: 80
+    itemsRequired: []
+    siegesRequired: 2
     amountGiven: 1
   uniqueTransactions:
   - name: SeedPouchGloomStalk

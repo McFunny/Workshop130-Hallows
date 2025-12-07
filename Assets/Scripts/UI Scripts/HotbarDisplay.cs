@@ -114,11 +114,11 @@ public class HotbarDisplay : MonoBehaviour
             ToolItem t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
             if (t_item)
             {
-                HandItemManager.Instance.SwapHandModel(t_item.tool);
+                HandItemManager.Instance.SwapHandModel(t_item.tool, t_item.isUpgrade);
             }
             else
             {
-                HandItemManager.Instance.SwapHandModel(ToolType.Null);
+                HandItemManager.Instance.SwapHandModel(ToolType.Null, false);
                 HandItemManager.Instance.ShowSpriteInHand(currentSlot.AssignedInventorySlot.ItemData);
             }
         }
@@ -141,12 +141,12 @@ public class HotbarDisplay : MonoBehaviour
             ToolItem t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
             if (t_item)
             {
-                HandItemManager.Instance.SwapHandModel(t_item.tool);
+                HandItemManager.Instance.SwapHandModel(t_item.tool, t_item.isUpgrade);
             }
             else
             {
                 //Debug.Log("Running this");
-                HandItemManager.Instance.SwapHandModel(ToolType.Null);
+                HandItemManager.Instance.SwapHandModel(ToolType.Null, false);
                 HandItemManager.Instance.ShowSpriteInHand(currentSlot.AssignedInventorySlot.ItemData);
             }
         }

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edfa73c5b2ca624f88c7f0fb8be25d6, type: 3}
+  m_Name: BriarTomatoSeeds
+  m_EditorClassIdentifier: 
+  ID: 263
+  displayName: Briar Tomato Seeds
+  description: This crop grows both fruit and flowers. The fruit grows after the
+    flowers have been pollinated.
+  icon: {fileID: -1583505646, guid: 2f4a8ddb38f63b54d9e088304e7444a3, type: 3}
+  type: 6
+  maxStackSize: 20
+  value: 14
+  sellValueMultiplier: 0
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 5
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  itemInputsKBM:
+  - RMB - Plant
+  itemInputsController:
+  - LT - Plant
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  plantable: 1
+  cropData: {fileID: 11400000, guid: 1be0edf15bb48644c819e92c37090c51, type: 2}
+  ableToBeShot: 0
+  requireTrellis: 1

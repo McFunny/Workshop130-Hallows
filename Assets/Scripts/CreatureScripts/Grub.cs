@@ -217,9 +217,9 @@ public class Grub : CreatureBehaviorScript
 
             else if(currentState == CreatureState.AttackWagon) ///Attacking Wagon
             {
-                StartCoroutine(MoveToPoint(wagonWeakPoint.position, 10));
+                StartCoroutine(MoveToPoint(wagonWeakPoint.position, 5));
 
-                if(Vector3.Distance(transform.position, wagonWeakPoint.position) < 1.8f) interruptAction = true;
+                if(Vector3.Distance(transform.position, wagonWeakPoint.position) < 2f) interruptAction = true;
             }
             
         }

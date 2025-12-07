@@ -32,7 +32,7 @@ public class CropBehavior : ScriptableObject
         secondaryCropBonus = 0;
     }
 
-    public virtual void OnCropDestroyed(FarmLand tile){}
+    public virtual void OnCropDestroyed(FarmLand tile){} //Will be called if the crop was harvested or killed
 
     public virtual void OnWatered(FarmLand tile){}
 
