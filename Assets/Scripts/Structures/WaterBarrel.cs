@@ -115,6 +115,7 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
 
     public override void HitWithWater()
     {
+        base.HitWithWater();
         if(waterLevel < maxWaterLevel && !waterCooldown && !IsFrozen()) 
         {
             waterLevel++;

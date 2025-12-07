@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4123281e781618d4d81279df35eb424f, type: 3}
+  m_Name: WaterCanUpgradeBehavior
+  m_EditorClassIdentifier: 
+  usingPrimary: 0
+  usingSecondary: 0
+  player: {fileID: 0}
+  tool: 3
+  toolAnim: {fileID: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
+  refill: {fileID: 8300000, guid: 7869daed20ca6a74093713f88f651a66, type: 3}
+  pour: {fileID: 8300000, guid: 642cd19220282564bb9aed0b56c1eb57, type: 3}
+  empty: {fileID: 8300000, guid: 9630814d62650374faeb8b0c35ecc9bb, type: 3}
+  isUpgraded: 1

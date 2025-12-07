@@ -19,13 +19,15 @@ public class WaterCanBehavior : ToolBehavior
 
     ParticleSystem pourParticles;
 
+    public bool isUpgraded;
+
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
-        if(!pourParticles) pourParticles = HandItemManager.Instance.waterCanParticles;
+        if(!pourParticles) pourParticles = HandItemManager.Instance.GetWaterCanParticles(isUpgraded);
         if(pourParticles) pourParticles.Stop();
         //water
         //PrimaryUse();
@@ -185,6 +187,8 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     playAnim = true;
                     structure.Extinguish();
+                    if(structure.particleCenter) ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.particleCenter.position;
+                    else ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.transform.position;
                     PlayerInteraction.Instance.waterHeld--;
                 }
                 else structure.ToolInteraction(tool, out playAnim);
@@ -430,20 +434,29 @@ public class WaterCanBehavior : ToolBehavior
                         wateredStructures.Add(structure);
                         if(tile.GetCropStats().waterLevel == 10) return;
                     }
-                    else if(wHolder == null || !wHolder.CanBeWatered())
+                    else if((wHolder == null || !wHolder.CanBeWatered()) && !structure.onFire)
                     {
                         wateredStructures.Add(structure);
-                        if(!wHolder.CanBeWatered()) return;
+                        if(wHolder != null && !wHolder.CanBeWatered()) return;
                     }
                     else if(structure.onFire)
                     {
                         structure.Extinguish();
                         wateredStructures.Add(structure);
                         consumeWater = true;
-                        return;
                     }
-                    structure.HitWithWater();
-                    consumeWater = true;
+
+                    if(!structure.onFire)
+                    {
+                        structure.HitWithWater();
+                        consumeWater = true;
+                    }
+
+                    if(!tile)
+                    {
+                        if(structure.particleCenter) ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.particleCenter.position;
+                        else ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.transform.position;
+                    }
                 }
             }
         }
