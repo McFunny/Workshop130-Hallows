@@ -79,7 +79,7 @@ public class NutrientTesterScript : MonoBehaviour
         UpdateTile(null);
         UpdateSeed(null);
 
-        HandleWildernessEnter();
+        HandleWildernessExit();
     }
 
     private void OnEnable()
