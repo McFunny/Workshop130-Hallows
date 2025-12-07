@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d548831c787c14a9c04ea42f41f402, type: 3}
+  m_Name: BriarTomato
+  m_EditorClassIdentifier: 
+  name: Briar Tomato
+  id: 50
+  growthStages: 7
+  hoursPerStage: 2
+  harvestableGrowthStages: 050000000600000007000000
+  cropSprites:
+  - {fileID: 71718765, guid: 2f4a8ddb38f63b54d9e088304e7444a3, type: 3}
+  - {fileID: 1583310708, guid: 2f4a8ddb38f63b54d9e088304e7444a3, type: 3}
+  - {fileID: 306101454, guid: 2f4a8ddb38f63b54d9e088304e7444a3, type: 3}
+  - {fileID: -1568376098, guid: 2f4a8ddb38f63b54d9e088304e7444a3, type: 3}
+  - {fileID: -1167372757, guid: 2f4a8ddb38f63b54d9e088304e7444a3, type: 3}
+  - {fileID: -2114476487, guid: 2f4a8ddb38f63b54d9e088304e7444a3, type: 3}
+  - {fileID: 532386394, guid: 2f4a8ddb38f63b54d9e088304e7444a3, type: 3}
+  rottedImage: {fileID: -1953842476, guid: 2f4a8ddb38f63b54d9e088304e7444a3, type: 3}
+  cropYield: {fileID: 11400000, guid: 702475c7d540cce4ba65663aed88d75d, type: 2}
+  cropSecondaryYield: {fileID: 11400000, guid: ec2a1085c71aefb44a33100b4f4dd647, type: 2}
+  cropSeed: {fileID: 11400000, guid: 31f98f1fd4117034292510fca5ba1b00, type: 2}
+  cropYieldAmount: 1
+  cropYieldVariance: 0
+  seedYieldAmount: 0
+  seedYieldVariance: 0
+  noStressSeedChance: 10
+  waterIntake: 8
+  ichorIntake: 0.5
+  terraIntake: -0.75
+  gloamIntake: 1
+  stressLimit: 3
+  wealthValue: 5
+  requireScythe: 0
+  requirePollination: 1
+  behavior: {fileID: 11400000, guid: 9c248ef3cfca7064da58b0c7e37d0b6f, type: 2}
+  emitsGlow: 0
+  amountHarvested: 0
+  amountKilled: 0

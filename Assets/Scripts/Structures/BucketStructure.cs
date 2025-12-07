@@ -175,6 +175,7 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
         audioHandler.PlaySound(audioHandler.activatedSound);
 
         if(waterLevel == 0) return;
+        int waterSpilled = waterLevel;
         waterLevel = 0;
         WaterLevelChange();
 
@@ -200,10 +201,14 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
             Collider[] hitStructures = Physics.OverlapSphere(splashPos, range, 1 << 6);
             foreach(Collider collider in hitStructures)
             {
+                if(i == 0) break;
                 StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
                 if(structure && structure != this)
                 {
-                    structure.HitWithWater();
+                    IWaterHolder wHolder = structure as IWaterHolder;
+                    if(wHolder != null) for(int x = 0; x < waterSpilled; ++x) wHolder.GivenWater();
+                    else structure.HitWithWater();
+                    break;
                 }
             }
 
