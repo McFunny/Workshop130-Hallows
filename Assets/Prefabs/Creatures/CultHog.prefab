@@ -15109,8 +15109,8 @@ MonoBehaviour:
   source: {fileID: 8468605174948723911}
   damagedSFX: {fileID: 8300000, guid: c0adbf6c7093efc4598cabd862a75484, type: 3}
   destroyedSFX: {fileID: 8300000, guid: c0adbf6c7093efc4598cabd862a75484, type: 3}
-  droppedItem: {fileID: 0}
-  dropChance: 0
+  droppedItem: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+  dropChance: 20
 --- !u!82 &8468605174948723911
 AudioSource:
   m_ObjectHideFlags: 0
@@ -25170,8 +25170,8 @@ MonoBehaviour:
   dropChance:
   - 2
   - 10
-  - 5
-  - 5
+  - 3
+  - 3
   sightRange: 30
   attackRange: 15
   playerInSightRange: 0

@@ -77,7 +77,8 @@ public class Well : MonoBehaviour, IInteractable
             return;
         }
         interactSuccessful = true;
-        PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
+        PlayerInteraction.Instance.waterHeld += 10;
+        if(PlayerInteraction.Instance.maxWaterHeld < PlayerInteraction.Instance.waterHeld) PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
         waterSprite.SetActive(false);
         bucketFilled = false;
         splashParticle.Play();

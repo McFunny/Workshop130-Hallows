@@ -218,9 +218,9 @@ public class ApothNPC : NPC, ITalkable
         if(item == barterDatabase.uniqueTransactions[index + 1].itemForSale)
         {
             GameSaveData.Instance.siegeCropInHand = true;
-            if(!GameSaveData.Instance.apo_explainedSiege)
+            if(!GameSaveData.Instance.apo_explainedTitanSeed)
             {
-                GameSaveData.Instance.apo_explainedSiege = true;
+                GameSaveData.Instance.apo_explainedTitanSeed = true;
                 ExtraInformation();
                 uniqueDialogue = true;
             }

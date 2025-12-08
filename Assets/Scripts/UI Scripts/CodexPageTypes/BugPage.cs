@@ -6,7 +6,7 @@ using UnityEngine;
 public class BugPage : CodexPage
 {
     [SerializeField] private TextMeshProUGUI descriptionText;
-    [SerializeField] private TextMeshProUGUI spawnMethodText, activeHoursText, spawnLocationsText;
+    [SerializeField] private TextMeshProUGUI amountCaughtText, spawnMethodText, activeHoursText, spawnLocationsText;
     
     public override void UpdatePage(CodexEntries entry, Quest quest)
     {
@@ -19,6 +19,7 @@ public class BugPage : CodexPage
         descriptionText.text = entry.rightText;
         
         var bugData = entry.bugData;
+        amountCaughtText.text = "Amount Caught: " + bugData.amountCaught.ToString();
 
         if (bugData.spawnMethod.Count > 0)
         {

@@ -7,7 +7,7 @@ public class CorruptionManager : MonoBehaviour
     public static CorruptionManager Instance;
 
     public int corruptedTiles = 0;
-    public int maxCorruption = 200;
+    public int maxCorruption = 150;
 
     public GameObject corruptedTile, nodePrefab, farmTile, weedTile;
 
@@ -235,7 +235,7 @@ public class CorruptionManager : MonoBehaviour
 
     public float CorruptedSpawnMod()
     {
-        return 5 + (corruptedTiles/maxCorruption) * 70;
+        return 5 + (corruptedTiles/maxCorruption) * 90;
     }
 
     void OnDestroy()

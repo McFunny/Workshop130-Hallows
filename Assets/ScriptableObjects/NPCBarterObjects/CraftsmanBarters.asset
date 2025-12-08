@@ -42,7 +42,7 @@ MonoBehaviour:
     useItemPrice: 0
     mintCost: 0
     amountForSale: 3
-    barterChance: 75
+    barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
       amount: 5
@@ -56,7 +56,7 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 10
+      amount: 15
     siegesRequired: 0
     amountGiven: 1
   - name: Brazier
@@ -67,7 +67,7 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 20
+      amount: 25
     siegesRequired: 0
     amountGiven: 1
   - name: ImbuedScarecrow
@@ -129,7 +129,7 @@ MonoBehaviour:
       amount: 3
     - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
       amount: 10
-    siegesRequired: 0
+    siegesRequired: 1
     amountGiven: 1
   - name: Fence
     itemForSale: {fileID: 11400000, guid: 4c7a93923a0481847b797b183edec4d0, type: 2}
@@ -181,6 +181,17 @@ MonoBehaviour:
       amount: 3
     - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
       amount: 2
+    siegesRequired: 1
+    amountGiven: 1
+  - name: Bucket
+    itemForSale: {fileID: 11400000, guid: 08e4b996e6c213f4bbdbdd33a92ffab3, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 4
     siegesRequired: 0
     amountGiven: 1
   uniqueTransactions:

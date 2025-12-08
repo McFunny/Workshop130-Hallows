@@ -66,6 +66,7 @@ public class CactusBehavior : CropBehavior
             PlayerInteraction.Instance.StaminaChange(-6);
             AudioPoolManager.Instance.PlayClipAtPosition(contactSFX, tile.transform.position);
             ParticlePoolManager.Instance.MoveAndPlayParticle(tile.transform.position, ParticlePoolManager.Instance.dirtParticle);
+            StructureManager.Instance.IchorRefill(tile.transform.position, 1, 0.5f);
         }
     }
 

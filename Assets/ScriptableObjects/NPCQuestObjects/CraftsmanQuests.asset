@@ -22,7 +22,7 @@ MonoBehaviour:
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
     crop: {fileID: 0}
-    mintMultiplier: 1.3
+    mintMultiplier: 1.7
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
     crop: {fileID: 0}
-    mintMultiplier: 1.3
+    mintMultiplier: 1.7
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
     questBehavior: {fileID: 0}
   - name: Kill Walkers
     description: '"Our walls continue to wear down as time goes on. Please twindle
-      the population of our aggressors.'
+      the population of our aggressors."'
     dialogPath: 0
     creature: {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}
     item: {fileID: 0}
@@ -100,7 +100,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 6
     - item: {fileID: 11400000, guid: 47382b2ad18cb524ca356db160e7f67a, type: 2}
-      amount: 6
+      amount: 3
     townFavorReward: 5
     daysLeftMin: 2
     daysLeftMax: 4
@@ -111,7 +111,7 @@ MonoBehaviour:
     questBehavior: {fileID: 0}
   - name: Kill Hogs
     description: '"Our walls continue to wear down as time goes on. Please twindle
-      the population of our aggressors.'
+      the population of our aggressors."'
     dialogPath: 0
     creature: {fileID: 11400000, guid: 0ebd9230fbe563a41b362064859707b3, type: 2}
     item: {fileID: 0}
@@ -143,8 +143,8 @@ MonoBehaviour:
     maxObject: 12
     questBehavior: {fileID: 0}
   - name: Kill Grubs
-    description: '"Our walls continue to wear down as time goes on. Please twindle
-      the population of our aggressors.'
+    description: '"These pests have gnawed at our foundation long enough! Crush them
+      all."'
     dialogPath: 0
     creature: {fileID: 11400000, guid: 3dbccb2a2b919c94ea3679a35ec8a00a, type: 2}
     item: {fileID: 0}

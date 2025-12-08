@@ -19,13 +19,15 @@ public class WaterCanBehavior : ToolBehavior
 
     ParticleSystem pourParticles;
 
+    public bool isUpgraded;
+
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
         if (!player) player = _player;
         tool = _tool;
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
-        if(!pourParticles) pourParticles = HandItemManager.Instance.waterCanParticles;
+        if(!pourParticles) pourParticles = HandItemManager.Instance.GetWaterCanParticles(isUpgraded);
         if(pourParticles) pourParticles.Stop();
         //water
         //PrimaryUse();
@@ -44,24 +46,29 @@ public class WaterCanBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 //play water anim
                 bool playAnim = false;
+                IWaterHolder wHolder = structure as IWaterHolder;
                 if(structure.onFire && PlayerInteraction.Instance.waterHeld > 0 && structure.GetComponent<FarmLand>() == null)
                 {
                     playAnim = true;
                     structure.Extinguish();
                     PlayerInteraction.Instance.waterHeld--;
                 }
-                else if(structure.GetComponent<WaterBarrel>())
+                else if(wHolder != null)
+                {
+                    wHolder.ManualFill(out playAnim);
+                }
+                /*else if(structure.GetComponent<WaterBarrel>())
                 {
                     structure.GetComponent<WaterBarrel>().ManualFill(out playAnim);
                 }
                 else if(structure.GetComponent<BirdBath>())
                 {
                     structure.GetComponent<BirdBath>().ManualFill(out playAnim);
-                }
+                }*/
                 else structure.ToolInteraction(tool, out playAnim);
 
                 if(playAnim)
@@ -172,7 +179,7 @@ public class WaterCanBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 //play water anim
                 bool playAnim = false;
@@ -180,6 +187,8 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     playAnim = true;
                     structure.Extinguish();
+                    if(structure.particleCenter) ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.particleCenter.position;
+                    else ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.transform.position;
                     PlayerInteraction.Instance.waterHeld--;
                 }
                 else structure.ToolInteraction(tool, out playAnim);
@@ -414,26 +423,40 @@ public class WaterCanBehavior : ToolBehavior
         if (Physics.Raycast(player.position, fwd, out hit, 6, mask))
         {
             var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
-            if (structure != null)
+            if (structure != null && structure.Interactable())
             {
                 if(structure.onFire || !wateredStructures.Contains(structure))
                 {
                     FarmLand tile = structure as FarmLand;
+                    IWaterHolder wHolder = structure as IWaterHolder;
                     if(tile && !structure.onFire)
                     {
                         wateredStructures.Add(structure);
                         if(tile.GetCropStats().waterLevel == 10) return;
                     }
-                    else if(structure as IWaterHolder == null) wateredStructures.Add(structure);
+                    else if((wHolder == null || !wHolder.CanBeWatered()) && !structure.onFire)
+                    {
+                        wateredStructures.Add(structure);
+                        if(wHolder != null && !wHolder.CanBeWatered()) return;
+                    }
                     else if(structure.onFire)
                     {
                         structure.Extinguish();
                         wateredStructures.Add(structure);
                         consumeWater = true;
-                        return;
                     }
-                    structure.HitWithWater();
-                    consumeWater = true;
+
+                    if(!structure.onFire)
+                    {
+                        structure.HitWithWater();
+                        consumeWater = true;
+                    }
+
+                    if(!tile)
+                    {
+                        if(structure.particleCenter) ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.particleCenter.position;
+                        else ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.transform.position;
+                    }
                 }
             }
         }

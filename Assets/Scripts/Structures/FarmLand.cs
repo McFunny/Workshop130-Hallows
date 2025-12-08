@@ -828,6 +828,8 @@ public class FarmLand : StructureBehaviorScript
     {
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         if(currentUpgrade == FarmTileUpgrade.Stone && health < 10) ApplyNewUpgrade(FarmTileUpgrade.None);
+
+        if(crop && crop.behavior) crop.behavior.OnDamage(this);
     }
 
     void FrostDamage() //When watering a frosted crop
@@ -849,6 +851,8 @@ public class FarmLand : StructureBehaviorScript
             GameObject frost = ParticlePoolManager.Instance.GrabFrostParticle();
             frost.transform.position = transform.position;
             frost.GetComponent<CropFrost>().afflictedTile = this;
+
+            if(crop && crop.behavior) crop.behavior.OnFrost(this);
             //spawn frost particle and assign it to this
         }
     }

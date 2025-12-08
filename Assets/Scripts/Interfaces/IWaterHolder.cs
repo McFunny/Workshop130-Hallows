@@ -11,5 +11,12 @@ public interface IWaterHolder
         return true;
     }
 
+    public void ManualFill(out bool success)
+    {
+        success = false;
+    }
+
     public void GivenWater();
+
+    public void EmptyWater();
 }

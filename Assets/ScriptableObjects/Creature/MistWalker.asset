@@ -42,8 +42,8 @@ MonoBehaviour:
   - name: CorruptedWalker
     prefab: {fileID: 4374146570455700657, guid: d6efb0d271c14a04c9e7692224c67678,
       type: 3}
-    probabilityInWilderness: 0
-    canSpawnInWilderness: 0
+    probabilityInWilderness: 5
+    canSpawnInWilderness: 1
     wealthPrerequisite: 999999
     variantChanceInFarm:
     - _int: 2
@@ -58,7 +58,7 @@ MonoBehaviour:
   id: 4
   dangerCost: 6
   dangerThreshold: 0
-  spawnWeight: 9
+  spawnWeight: 6
   spawnCap: 8
   spawnCapPerHour: 4
   wealthPrerequisite: 300

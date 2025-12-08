@@ -363,6 +363,8 @@ MonoBehaviour:
       barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
   fireTrigger: {fileID: 3523500965712473190}
   fire: {fileID: 4529376283411613826}
+  burning: 0
+  type: 0
 --- !u!1 &8584942364512683415
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,7 +481,7 @@ PrefabInstance:
     - target: {fileID: 2760334366413817041, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Size.x
-      value: 23
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 2760334366413817041, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
@@ -489,7 +491,7 @@ PrefabInstance:
     - target: {fileID: 2760334366413817041, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}
       propertyPath: m_Size.z
-      value: 23
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 3098245029451628288, guid: 3de1502c9faa979489a0e014ef581b47,
         type: 3}

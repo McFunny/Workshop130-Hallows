@@ -572,6 +572,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 targetCreature = null;
                 isMoving = false;
                 StateSwitch(PetState.Decide);
+                thoughtBubbleScript.PlayEmotion(2);
                 return;
             }
         }
@@ -862,6 +863,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             effectsHandler.MiscSound();
             StopCoroutine(DripEffects());
             StartCoroutine(DripEffects());
+            thoughtBubbleScript.PlayEmotion(2);
             return;
         }
         if(hunger < 100 && (foodDiet.Contains(item)))

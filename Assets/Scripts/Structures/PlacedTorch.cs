@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlacedTorch : StructureBehaviorScript
+public class PlacedTorch : StructureBehaviorScript, IFireHolder
 {
 
     //public FireFearTrigger fireTrigger;
@@ -92,6 +92,8 @@ public class PlacedTorch : StructureBehaviorScript
 
     void ExtinguishFlame()
     {
+        flameLeft = 0;
+        
         currentlyLit = false;
         //ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = fire.transform.position;
         fire.SetActive(false);
@@ -122,5 +124,16 @@ public class PlacedTorch : StructureBehaviorScript
         structureUIVariables.valueGroups[1].value = flameLeft;
         structureUIVariables.valueGroups[1].maxValue = maxFlame;
         return structureUIVariables.valueGroups;
+    }
+
+    public bool CanBeExtinguished()
+    {
+        if(flameLeft <= 0) return false;
+        else return true;
+    }
+
+    public void ExternalExtinguish()
+    {
+        ExtinguishFlame();
     }
 }

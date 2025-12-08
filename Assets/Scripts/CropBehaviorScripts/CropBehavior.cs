@@ -32,7 +32,7 @@ public class CropBehavior : ScriptableObject
         secondaryCropBonus = 0;
     }
 
-    public virtual void OnCropDestroyed(FarmLand tile){}
+    public virtual void OnCropDestroyed(FarmLand tile){} //Will be called if the crop was harvested or killed
 
     public virtual void OnWatered(FarmLand tile){}
 
@@ -50,6 +50,8 @@ public class CropBehavior : ScriptableObject
 
     public virtual void OnGrowth(FarmLand tile){}
 
+    public virtual void OnDamage(FarmLand tile){}
+
     public virtual bool IsFlammable()
     {
         return true;
@@ -66,6 +68,8 @@ public class CropBehavior : ScriptableObject
     }
 
     public virtual void BehaviorUpdate(FarmLand tile){}
+
+    public virtual void OnFrost(FarmLand tile){}
 
     public virtual bool OverrideWaterNeed(FarmLand tile) //Forces the ui to display it needs water
     {

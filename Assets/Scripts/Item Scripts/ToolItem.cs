@@ -5,9 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Inventory System/Tool Item")]
 public class ToolItem : InventoryItemData
 {
-    public float durability;
     public ToolBehavior behavior;
     public ToolType tool;
+
+    public bool isUpgrade = false;
 
     public void PrimaryUse(Transform player)
     {

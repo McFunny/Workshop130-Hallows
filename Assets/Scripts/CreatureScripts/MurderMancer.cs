@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -84,6 +83,8 @@ public class MurderMancer : CreatureBehaviorScript
         coroutineRunning = true;
         burningParticles.SetActive(true);
         anim.SetBool("OnFire", true);
+        if(Random.Range(0, 400) == 1) effectsHandler.PlaySound(effectsHandler.extraSounds[3]);
+        else effectsHandler.PlaySound(effectsHandler.extraSounds[Random.Range(0, 3)]);
         yield return new WaitForSeconds(1.8f);
         if(litByPlayer)
         {
@@ -382,12 +383,12 @@ public class MurderMancer : CreatureBehaviorScript
 
     private void Stun()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     private void Die()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     void OnDestroy()

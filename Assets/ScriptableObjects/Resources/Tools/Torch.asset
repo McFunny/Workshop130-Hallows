@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 92
   displayName: Torch
-  description: Can be used to ward off some creatures and ignite structures and corpses
-    when lit. Can be placed.
+  description: Can be used to ignite structures and corpses when lit. The light can
+    ward off some creatures. Can be placed.
   icon: {fileID: 1694786780, guid: 8715eb310ed4af949ab091abb29eb44e, type: 3}
   type: 2
   maxStackSize: 1
@@ -35,6 +35,6 @@ MonoBehaviour:
   itemBehavior: {fileID: 0}
   useSound: {fileID: 0}
   cannotEnterInventory: 0
-  durability: 0
   behavior: {fileID: 11400000, guid: 1d30b5f1895f3284bb65e90f4b0cd9af, type: 2}
   tool: 5
+  isUpgrade: 0

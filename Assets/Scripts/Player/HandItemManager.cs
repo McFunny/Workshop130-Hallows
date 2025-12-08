@@ -5,6 +5,7 @@ using UnityEngine;
 public class HandItemManager : MonoBehaviour
 {
     public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly, hydrofly, kukri, flintlock, nutTester;
+    public GameObject wateringCanUpgrade, scytheUpgrade, torchUpgrade, hoeUpgrade;
     public GameObject torchFlame, pyreflyFlame;
     public MeshRenderer pyreflyMat;
     public Material pyreflyLit, pyreflyUnlit;
@@ -27,7 +28,7 @@ public class HandItemManager : MonoBehaviour
 
     public Transform bulletStart, waterBulletStart, waterBulletCloseStart;
 
-    public ParticleSystem waterCanParticles, pistolParticles;
+    public ParticleSystem waterCanParticles, pistolParticles, waterCanUpgradeParticles;
     public TrailRenderer scytheTrail;
 
     void Awake()
@@ -57,7 +58,7 @@ public class HandItemManager : MonoBehaviour
         
     }
 
-    public void SwapHandModel(ToolType type)
+    public void SwapHandModel(ToolType type, bool isUpgrade)
     {
         if (MissingObject() || type == currentType) return;
         if (currentHandObject) currentHandObject.SetActive(false);
@@ -77,8 +78,16 @@ public class HandItemManager : MonoBehaviour
                 //shovel.transform.rotation = shovelRot;
                 break;
             case ToolType.WateringCan:
-                wateringCan.SetActive(true);
-                currentHandObject = wateringCan;
+                if(isUpgrade)
+                {
+                    wateringCanUpgrade.SetActive(true);
+                    currentHandObject = wateringCanUpgrade;
+                }
+                else
+                {
+                    wateringCan.SetActive(true);
+                    currentHandObject = wateringCan;
+                }
                 //wateringCan.transform.position = wateringCanPos;
                 //wateringCan.transform.rotation = wateringCanRot;
                 break;
@@ -191,9 +200,9 @@ public class HandItemManager : MonoBehaviour
             ToolItem t_item = slot.ItemData as ToolItem;
             if(t_item)
             {
-                SwapHandModel(t_item.tool);
+                SwapHandModel(t_item.tool, t_item.isUpgrade);
             }
-            else SwapHandModel(ToolType.Null);
+            else SwapHandModel(ToolType.Null, false);
         }
         else
         {
@@ -264,6 +273,12 @@ public class HandItemManager : MonoBehaviour
     public ToolType GetCurrentType()
     {
         return currentType;
+    }
+
+    public ParticleSystem GetWaterCanParticles(bool isUpgrade)
+    {
+        if(isUpgrade) return waterCanUpgradeParticles;
+        else return waterCanParticles;
     }
 
     void InitializeStartingVectors() //no worky

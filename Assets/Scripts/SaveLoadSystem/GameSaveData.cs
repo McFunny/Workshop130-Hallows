@@ -60,6 +60,7 @@ public class GameSaveData : MonoBehaviour
     public bool fan_giveBombs; //Fanatic gave player bathbombs at the start
     public bool apo_readScroll; //Apoth has recieved the scroll and will start selling the seeds
     public bool apo_explainedSiege; //Apoth has explained they read the scroll and have explained the seeds
+    public bool apo_explainedTitanSeed; //Apoth has explained how the titan seeds work
     public bool mm_introducedPets; //Merchant explained pets
     public bool mm_soldPet; //Player got their first pet from the merchant
     public bool tra_askedForFood; //Traveller offered kukri for food
@@ -209,6 +210,7 @@ public class GameSaveData : MonoBehaviour
         fan_giveBombs = data.allGameSaveData.fan_giveBombs;
         apo_readScroll = data.allGameSaveData.apo_readScroll;
         apo_explainedSiege = data.allGameSaveData.apo_explainedSiege;
+        apo_explainedTitanSeed = data.allGameSaveData.apo_explainedTitanSeed;
         mm_soldPet = data.allGameSaveData.mm_soldPet;
         mm_introducedPets = data.allGameSaveData.mm_introducedPets;
         tra_askedForFood = data.allGameSaveData.tra_askedForFood;
@@ -344,6 +346,7 @@ public class GameSaveData : MonoBehaviour
         public bool fan_giveBombs;
         public bool apo_readScroll;
         public bool apo_explainedSiege;
+        public bool apo_explainedTitanSeed;
         public bool mm_soldPet;
         public bool mm_introducedPets;
         public bool tra_askedForFood;
@@ -450,6 +453,7 @@ public class GameSaveData : MonoBehaviour
         fan_giveBombs = data.fan_giveBombs;
         apo_readScroll = data.apo_readScroll;
         apo_explainedSiege = data.apo_explainedSiege;
+        apo_explainedTitanSeed = data.apo_explainedTitanSeed;
         mm_soldPet = data.mm_soldPet;
         mm_introducedPets = data.mm_introducedPets;
         tra_askedForFood = data.tra_askedForFood;

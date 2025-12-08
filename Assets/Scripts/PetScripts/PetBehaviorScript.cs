@@ -45,6 +45,8 @@ public class PetBehaviorScript : MonoBehaviour
     public ParticleSystem dripParticles;
 
     public PopupScript levelUpPopup;
+
+    protected ThoughtBubble thoughtBubbleScript;
     
     protected void Start()
     {
@@ -56,6 +58,10 @@ public class PetBehaviorScript : MonoBehaviour
         spawnOrigin = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
         GameSaveData.Instance.currentPet = this;
+
+        thoughtBubbleScript = GetComponentInChildren<ThoughtBubble>();
+
+        if(thoughtBubbleScript) StartCoroutine(EmotionDisplay());
     }
 
     void OnDisable()
@@ -212,6 +218,17 @@ public class PetBehaviorScript : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(9, 16));
             if(petType == PetType.Cat && effectsHandler.miscSound2 && Random.Range(0, 500) == 30) effectsHandler.MiscSound2();
             else effectsHandler.RandomIdle();
+        }
+
+    }
+
+    IEnumerator EmotionDisplay()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(Random.Range(15f, 45f));
+            if(hunger < 25) thoughtBubbleScript.PlayEmotion(0);
+            else if(thirst < 25) thoughtBubbleScript.PlayEmotion(1);
         }
 
     }
