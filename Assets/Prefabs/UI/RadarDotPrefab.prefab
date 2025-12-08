@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3695306923512911549}
   - component: {fileID: 3643442779221322491}
   - component: {fileID: 5701529954563053932}
+  - component: {fileID: 1470136488284522237}
   m_Layer: 11
   m_Name: RadarDotPrefab
   m_TagString: Untagged
@@ -59,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -75,3 +76,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1470136488284522237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134048269936727000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4c6500e387c1e64c9997e1f442cbc97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 5701529954563053932}

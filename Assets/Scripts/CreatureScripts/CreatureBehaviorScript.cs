@@ -200,6 +200,7 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         if(NightSpawningManager.Instance.allCreatures.Contains(this))NightSpawningManager.Instance.allCreatures.Remove(this);
         if(WildernessManager.Instance.allCreatures.Contains(this)) WildernessManager.Instance.allCreatures.Remove(this);
+        NutrientTesterScript.Instance?.OnCreatureDestroyed(this);
     }
 
     public virtual void OnSpawn(){}

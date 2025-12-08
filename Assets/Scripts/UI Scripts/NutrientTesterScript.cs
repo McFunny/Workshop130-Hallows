@@ -1,23 +1,20 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NutrientTesterScript : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private GameObject statsParent, seedParent, nutrientsParent, radarParent;
     [SerializeField] private TextMeshProUGUI gloamText, terraText, ichorText, waterText;
     [SerializeField] private Image seedImage, checkmarkImage;
     [SerializeField] private RawImage staticVideo;
     [SerializeField] private float minStatic, maxStatic, staticAlphaSpeed;
     [SerializeField] private PopupEvents popup;
+    [SerializeField] private GameObject circleImage;
     [Header("Settings")]
-    [SerializeField] private float radius;
-    [SerializeField] private RectTransform radarPanel;
-    [SerializeField] private float radarRange = 50f;
-    [SerializeField] private RectTransform iconPrefab;
-    public int initialPoolSize = 20;
     public static NutrientTesterScript Instance;
     private CropItem currentSeed = null;
     private NutrientStorage currentNutrients = null;
@@ -28,13 +25,27 @@ public class NutrientTesterScript : MonoBehaviour
         Radar
     }
     private TesterMode mode = TesterMode.Nutrient;
-    private Transform player;
-    
 
-    private Dictionary<GameObject, RectTransform> iconMap = new Dictionary<GameObject, RectTransform>();
-    private HashSet<GameObject> trackedObjects = new HashSet<GameObject>();
-    private Queue<RectTransform> iconPool = new Queue<RectTransform>();
+    //New Radar
+    [Header("Radar")]
+    private Transform player;
+    public float radarRange = 50f;
+    [SerializeField] private float fadeDuration = 1f;
+    [SerializeField] private RectTransform radarPanel;
+    [SerializeField] private GameObject radarBar;
+    private GameObject radarObject;
+    private RadarHandler radarHandler;
+    public float rotationSpeed = 5f;
+    public LayerMask include, exclude;
+    [Header("Pooling")]
     
+    public RadarIcon iconPrefab;
+    public int preloadAmount = 20;
+
+    private Queue<RadarIcon> pool = new Queue<RadarIcon>();
+    private Dictionary<CreatureBehaviorScript, RadarIcon> activeIcons = new();
+    
+    #region Unity Functions
     private void Awake()
     {
         if (Instance == null)
@@ -47,7 +58,20 @@ public class NutrientTesterScript : MonoBehaviour
         }
 
         Debug.Log("Nutrient Tester Instance: " + Instance);
-        HandleWildernessExit();
+
+        for (int i = 0; i < preloadAmount; i++)
+        {
+            CreateIconToPool();
+        }
+
+        player = PlayerMovement.Instance.orientation.transform;
+        radarObject = new GameObject("RadarParent");
+        radarObject.transform.SetParent(player, false);
+        radarHandler = radarObject.AddComponent<RadarHandler>();
+        radarHandler.circleImage = circleImage;
+
+        radarObject.transform.localRotation = quaternion.Euler(Vector3.zero);
+        radarHandler.enabled = false;
     }
 
     private void Start()
@@ -55,19 +79,13 @@ public class NutrientTesterScript : MonoBehaviour
         UpdateTile(null);
         UpdateSeed(null);
 
-        for (int i = 0; i < initialPoolSize; i++)
-        {
-            RectTransform icon = Instantiate(iconPrefab, radarPanel);
-            icon.gameObject.SetActive(false);
-            iconPool.Enqueue(icon);
-        }
-
-        player = PlayerMovement.Instance.orientation.transform;
+        HandleWildernessExit();
     }
 
     private void OnEnable()
     {
         staticColor.a = maxStatic;
+        if(radarObject != null) radarObject.transform.localRotation = quaternion.Euler(Vector3.zero);
         WildernessManager.OnWildernessEnter += HandleWildernessEnter;
         WildernessManager.OnWildernessLeave += HandleWildernessExit;
     }
@@ -78,10 +96,25 @@ public class NutrientTesterScript : MonoBehaviour
         WildernessManager.OnWildernessLeave -= HandleWildernessExit;
     }
 
+    private void Update()
+    {
+        HandleStatic();
+        if(mode == TesterMode.Radar) NewRadar();
+    }
+
+    private void LateUpdate()
+    {
+        HandleMissingCreatures();
+    }
+
+    #endregion
+
+    #region Misc
     private void HandleWildernessEnter()
     {
-        return;
+        //return;
         mode = TesterMode.Radar;
+        radarHandler.enabled = true;
         nutrientsParent.SetActive(false);
         radarParent.SetActive(true);
     }
@@ -89,11 +122,12 @@ public class NutrientTesterScript : MonoBehaviour
     private void HandleWildernessExit()
     {
         mode = TesterMode.Nutrient;
+        radarHandler.enabled = false;
         nutrientsParent.SetActive(true);
         radarParent.SetActive(false);
     }
 
-    private void Update()
+    private void HandleStatic()
     {
         staticVideo.color = staticColor;
 
@@ -105,10 +139,16 @@ public class NutrientTesterScript : MonoBehaviour
         {
             staticColor.a = minStatic;
         }
+    }
 
-        if(mode != TesterMode.Radar) return;
-        Radar();
-    }  
+    public TesterMode ReturnMode()
+    {
+        return mode;
+    }
+
+    #endregion
+
+    #region Nutrient Tester
 
     public void UpdateSeed(CropItem seed)
     {
@@ -177,71 +217,123 @@ public class NutrientTesterScript : MonoBehaviour
         UpdateSeed(currentSeed);
     }
 
-    private void Radar()
+    #endregion
+    
+    #region Radar
+    private void NewRadar()
     {
-        radarPanel.localRotation = Quaternion.Euler(0, 0, -player.eulerAngles.y);
-        List<CreatureBehaviorScript> creatures = WildernessManager.Instance.allCreatures.Concat(NightSpawningManager.Instance.allCreatures).ToList();
+        /*Vector3 rotationAmount = new Vector3(0f, rotationSpeed, 0f);
+        Vector3 barRotationAmount = new Vector3(0f, 0f, -rotationSpeed);
+        radarObject.transform.Rotate(rotationAmount * Time.deltaTime);
+        radarBar.transform.Rotate(barRotationAmount * Time.deltaTime);*/
 
-        foreach (CreatureBehaviorScript other in creatures)
+        foreach (var kvp in activeIcons) //kvp == Key Value Pair
         {
-            var tracked = other.gameObject;
-            float dist = Vector3.Distance(other.transform.position, player.position);
-            bool inRange = dist <= radarRange;
-
-            // Handle entering range
-            if (inRange && !trackedObjects.Contains(tracked))
-            {
-                trackedObjects.Add(tracked);
-
-                RectTransform icon = GetIconFromPool();
-                icon.gameObject.SetActive(true);
-                iconMap.Add(tracked, icon);
-            }
-
-            // Handle leaving range
-            else if (!inRange && trackedObjects.Contains(tracked))
-            {
-                trackedObjects.Remove(tracked);
-
-                if (iconMap.TryGetValue(tracked, out RectTransform oldIcon))
-                {
-                    ReturnIcon(oldIcon);
-                    iconMap.Remove(tracked);
-                }
-            }
-
-            // Update position if tracked
-            if (inRange && iconMap.TryGetValue(tracked, out RectTransform iconToMove))
-            {
-                Vector3 offset = other.transform.position - player.position;
-
-                float scaledX = (offset.x / radarRange) * (radarPanel.sizeDelta.x / 2);
-                float scaledY = (offset.z / radarRange) * (radarPanel.sizeDelta.y / 2);
-
-                iconToMove.anchoredPosition = new Vector2(scaledX, scaledY);
-            }
+            UpdateIconPosition(kvp.Key, kvp.Value);
         }
+        
     }
 
-    RectTransform GetIconFromPool()
+    private RadarIcon CreateIconToPool()
     {
-        if (iconPool.Count > 0) return iconPool.Dequeue();
-            
-        // This should be really rare lol
-        RectTransform icon = Instantiate(iconPrefab, radarPanel);
+        RadarIcon icon = Instantiate(iconPrefab, radarPanel);
+        icon.Init(this);
         icon.gameObject.SetActive(false);
+        pool.Enqueue(icon);
         return icon;
     }
 
+    private RadarIcon GetIcon()
+    {
+        if (pool.Count == 0) CreateIconToPool();
+            
+        RadarIcon icon = pool.Dequeue();
+        icon.ResetIcon();
+        return icon;
+    }
 
-    void ReturnIcon(RectTransform icon)
+    public void ReturnToPool(RadarIcon icon)
     {
         icon.gameObject.SetActive(false);
-        iconPool.Enqueue(icon);
+        pool.Enqueue(icon);
     }
 
-    public TesterMode ReturnMode()
+    private void UpdateIconPosition(CreatureBehaviorScript creature, RadarIcon icon)
     {
-        return mode;
+        if(creature == null) return;
+        // Compute position relative to player look direction
+        Vector3 relativePos = player.InverseTransformPoint(creature.transform.position);
+
+        // Ignore vertical difference
+        relativePos.y = 0f;
+
+        // Clamp distance to radar range
+        float distance = Mathf.Min(relativePos.magnitude, radarRange);
+
+        if (distance < 0.001f)
+        {
+            icon.image.rectTransform.anchoredPosition = Vector2.zero;
+            return;
+        }
+
+        // Normalize and scale
+        Vector2 dir = new Vector2(relativePos.x, relativePos.z).normalized;
+        float radarRadius = Mathf.Min(radarPanel.rect.width, radarPanel.rect.height) * 0.5f;
+        Vector2 uiPos = dir * (distance / radarRange * radarRadius);
+
+        icon.image.rectTransform.anchoredPosition = uiPos;
     }
+
+    public void TriggerEnter(Collider other)
+    {
+        if (!other.transform.root.TryGetComponent(out CreatureBehaviorScript creature))return;
+        if (activeIcons.ContainsKey(creature)) return;
+            
+        RadarIcon icon = GetIcon();
+        activeIcons.Add(creature, icon);
+    }
+
+    public void TriggerExit(Collider other)
+    {
+        if (!other.transform.root.TryGetComponent(out CreatureBehaviorScript creature)) return;
+
+        if (activeIcons.TryGetValue(creature, out var icon))
+        {
+            activeIcons.Remove(creature);
+            icon.FadeOut(fadeDuration);
+        }
+    }
+
+    public void OnCreatureDestroyed(CreatureBehaviorScript creature)
+    {
+        if (activeIcons.TryGetValue(creature, out var icon))
+        {
+            icon.FadeOut(fadeDuration);
+            activeIcons.Remove(creature);
+        }
+    }
+
+    private void HandleMissingCreatures()
+    {
+        var toRemove = new List<CreatureBehaviorScript>();
+
+        foreach (var kvp in activeIcons)
+        {
+            if (kvp.Key == null) // creature destroyed
+            {
+                // Return icon to pool
+                ReturnToPool(kvp.Value);
+                toRemove.Add(kvp.Key);
+            }
+            else
+            {
+                UpdateIconPosition(kvp.Key, kvp.Value);
+            }
+        }
+
+        // Remove destroyed creatures from dictionary
+        foreach (var key in toRemove) activeIcons.Remove(key);
+    }
+
+    #endregion
 }
