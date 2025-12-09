@@ -471,7 +471,7 @@ public class Wisp : CreatureBehaviorScript
         effectsHandler.OnHit();
         hurtParticles.Play();
         //Maybe teleport? Or flee at least
-        effectsHandler.PlaySound(effectsHandler.extraSounds[3]);
+        effectsHandler.OnHit();
 
         if(Vector3.Distance(transform.position, player.position) < 9 && currentState == CreatureState.ExtinguishFlame)
         {
@@ -537,8 +537,8 @@ public class Wisp : CreatureBehaviorScript
     {
         while(health > 0)
         {
-            int i = Random.Range(3,8);
-            //effectsHandler.RandomIdle();
+            float i = Random.Range(8f,15f);
+            effectsHandler.RandomIdle();
             yield return new WaitForSeconds(i);
         }
     }

@@ -13,6 +13,8 @@ public class RadarHandler : MonoBehaviour
     [HideInInspector] public GameObject circleImage;
     private Vector3 circleScale = new Vector3();
 
+    public AudioClip radarPing;
+
     void Start()
     {
         maxSize = NutrientTesterScript.Instance.radarRange;;
@@ -47,6 +49,7 @@ public class RadarHandler : MonoBehaviour
     {
         while (true)
         {
+            if(radarPing) HandItemManager.Instance.toolSource.PlayOneShot(radarPing);
             while (radarCollider.radius < maxSize)
             {
                 radarCollider.radius = Mathf.MoveTowards(radarCollider.radius, maxSize, NutrientTesterScript.Instance.rotationSpeed * Time.deltaTime);

@@ -22,4 +22,10 @@ public class WaterTulipBehavior : CropBehavior
     {
         tile.TakeStressDamage(5);
     }
+
+    public override void OnDamage(FarmLand tile)
+    {
+        if(tile.growthStage < 3) return;
+        if(tile.onFire && tile.crop) tile.CropDestroyed();
+    }
 }

@@ -37,6 +37,8 @@ public class NutrientTesterScript : MonoBehaviour
     private RadarHandler radarHandler;
     public float rotationSpeed = 5f;
     public LayerMask include, exclude;
+
+    public AudioClip radarPing;
     [Header("Pooling")]
     
     public RadarIcon iconPrefab;
@@ -69,6 +71,7 @@ public class NutrientTesterScript : MonoBehaviour
         radarObject.transform.SetParent(player, false);
         radarHandler = radarObject.AddComponent<RadarHandler>();
         radarHandler.circleImage = circleImage;
+        radarHandler.radarPing = radarPing;
 
         radarObject.transform.localRotation = quaternion.Euler(Vector3.zero);
         radarHandler.enabled = false;
