@@ -256,6 +256,7 @@ public class Wisp : CreatureBehaviorScript
         anim.Play("ghoulBlow");
         VisibilityChange(true);
         yield return new WaitForSeconds(0.8f);
+        effectsHandler.PlaySound(effectsHandler.extraSounds[5]);
         if(currentState != CreatureState.FrostStructure) yield break;
 
         frostParticles.Play();
@@ -471,7 +472,6 @@ public class Wisp : CreatureBehaviorScript
         effectsHandler.OnHit();
         hurtParticles.Play();
         //Maybe teleport? Or flee at least
-        effectsHandler.OnHit();
 
         if(Vector3.Distance(transform.position, player.position) < 9 && currentState == CreatureState.ExtinguishFlame)
         {
