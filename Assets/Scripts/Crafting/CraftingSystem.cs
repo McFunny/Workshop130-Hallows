@@ -34,13 +34,28 @@ public class CraftingSystem : MonoBehaviour
     private CanvasGroup thisCanvasGroup;
     private TextMeshProUGUI collectButtonText;
     private List<CraftingButton> craftingButtons = new List<CraftingButton>();
+    private enum Categories //THIS ORDER MUST MATCH WHAT WILL BE ON SCREEN FROM LEFT TO RIGHT
+    {
+        All,
+        Structure,
+        Furniture,
+        Trinket,
+        Misc
+    }
+    [SerializeField] private Categories currentCategory;
+    [SerializeField] private List<UILerp> categoryLerps;
 
     [HideInInspector] public CraftingStructure currentStructure;
     private const int CRAFTCAP = 5;
+    private ControlManager controlManager;
 
-
+    private void Awake()
+    {
+        controlManager = FindFirstObjectByType<ControlManager>();
+    }
     private void Start()
     {
+        
         craftButtonText = craftButton.GetComponentInChildren<TextMeshProUGUI>();
         collectButtonText = collectButton.GetComponentInChildren<TextMeshProUGUI>();
         thisCanvasGroup = GetComponent<CanvasGroup>();
@@ -52,6 +67,28 @@ public class CraftingSystem : MonoBehaviour
 
         Reset();
         //PopulateCraftingInterface();
+    }
+
+    private void OnEnable()
+    {
+        controlManager.hotbarUp.action.started += HotbarUp;
+        controlManager.hotbarDown.action.started += HotbarDown;
+    }
+
+    private void OnDisable()
+    {
+        controlManager.hotbarUp.action.started -= HotbarUp;
+        controlManager.hotbarDown.action.started -= HotbarDown;
+    }
+
+    private void HotbarUp(InputAction.CallbackContext obj)
+    {
+        ControllerChangeCategories(-1);
+    }
+
+    private void HotbarDown(InputAction.CallbackContext obj)
+    {
+        ControllerChangeCategories(1);
     }
 
     private void Update()
@@ -109,6 +146,7 @@ public class CraftingSystem : MonoBehaviour
     public void OpenCraftingInterface()
     {
         if (PlayerMovement.isStalled && !isCraftingMenuOpen) return;
+        UpdateCategory(currentCategory.ToString());
 
         craftingMenu.SetActive(!craftingMenu.activeSelf);
         isCraftingMenuOpen = craftingMenu.activeSelf;
@@ -217,8 +255,25 @@ public class CraftingSystem : MonoBehaviour
         UpdateActiveCrafts();
     }
 
+    private void ControllerChangeCategories(int val)
+    {
+        //Debug.Log("we made it");
+        int currentVal = (int)currentCategory + val;
+        if (currentVal < 0 || currentVal > categoryLerps.Count - 1) return;
+        
+        string categoryToChangeTo = System.Enum.GetName(typeof(Categories), currentVal);
+        UpdateCategory(categoryToChangeTo);
+    }
+
     public void UpdateCategory(string c)
     {
+        currentCategory = (Categories)System.Enum.Parse(typeof(Categories), c);
+
+        for(int i = 0; i < categoryLerps.Count; i++)
+        {
+            if(i == (int)currentCategory) categoryLerps[i].lerpToStart = true;
+            else categoryLerps[i].lerpToStart = false;
+        }
 
         if(c == "All")
         {
@@ -226,11 +281,11 @@ public class CraftingSystem : MonoBehaviour
             {
                 button.gameObject.SetActive(true);
             }
+            EventSystem.current.SetSelectedGameObject(GetFirstActiveObject(container.transform));
             return;
         }
 
-        CraftingCategory category = (CraftingCategory)System.Enum.Parse(typeof(CraftingCategory), c); //Help me
-
+        CraftingCategory category = (CraftingCategory)System.Enum.Parse(typeof(CraftingCategory), c); //Help me (turns the string "c" into a crafting category enum)
         
         foreach (CraftingButton button in craftingButtons)
         {
@@ -243,6 +298,10 @@ public class CraftingSystem : MonoBehaviour
                 button.gameObject.SetActive(false);
             }
         }
+
+        //Find first active gameobject and make is the current selected gameobject
+        EventSystem.current.SetSelectedGameObject(GetFirstActiveObject(container.transform));
+        
     }
 
     public void UpdateActiveCrafts()
@@ -468,6 +527,18 @@ public class CraftingSystem : MonoBehaviour
             cg.interactable = val;
             cg.blocksRaycasts = val;
         }
+    }
+
+    private GameObject GetFirstActiveObject(Transform parent)
+    {
+        foreach (Transform child in container.transform)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                return child.gameObject;
+            }
+        }
+        return null;
     }
 }
 
