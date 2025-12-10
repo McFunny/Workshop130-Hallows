@@ -29,12 +29,14 @@ public class PlayerUpgrades : MonoBehaviour
         gainedInventoryUpgrade = true;
         playerInventoryHolder.IncreaseBackpackInventory();
     }
-
+    //[ContextMenu("Test Water Increase")]
     public void GainWaterStorage()
     {
         PlayerInteraction.Instance.maxWaterHeld += 5;
         PlayerInteraction.Instance.waterHeld += 5;
         gainedWaterStorage = true;
+        var UIMeters = FindFirstObjectByType<UIMeters>();
+        UIMeters.UpdateMeters();
     }
 
     public void GainWaterPackUpgrade()
