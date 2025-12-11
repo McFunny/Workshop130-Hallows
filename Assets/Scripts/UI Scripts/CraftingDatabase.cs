@@ -8,6 +8,8 @@ public class CraftingDatabase : ScriptableObject
 {
     public PopupScript recipeUnlockedP;
 
+    public bool forceUnlockAll = false;
+
     private static CraftingDatabase _instance;
 
     public static CraftingDatabase Instance
@@ -53,6 +55,8 @@ public class CraftingDatabase : ScriptableObject
         {
             _craftingDatabase[i].isUnlocked = false;
             _craftingDatabase[i].isRecentlyUnlocked = false;
+
+            if(forceUnlockAll) _craftingDatabase[i].isUnlocked = true;
         }
     }
 
