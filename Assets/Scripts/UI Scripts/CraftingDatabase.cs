@@ -6,6 +6,8 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Crafting Database")]
 public class CraftingDatabase : ScriptableObject
 {
+    public PopupScript recipeUnlockedP;
+
     private static CraftingDatabase _instance;
 
     public static CraftingDatabase Instance
@@ -82,6 +84,11 @@ public class CraftingDatabase : ScriptableObject
         return _craftingDatabase; 
     }
 
+    public void UnlockRecipiePopup()
+    {
+        PopupHandler.Instance.AddToQueue(recipeUnlockedP);
+    }
+
     public void UnlockRandomLockedRecipeInTier() //Call when using machine
     {
         for(int tier = 0; tier < 10; ++tier)
@@ -94,6 +101,8 @@ public class CraftingDatabase : ScriptableObject
             if(recipesInTier.Count > 0)
             {
                 recipesInTier[Random.Range(0, recipesInTier.Count)].isUnlocked = true;
+                UnlockRecipiePopup();
+                break;
             }
             
         }

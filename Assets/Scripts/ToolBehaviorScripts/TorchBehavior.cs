@@ -9,6 +9,8 @@ public class TorchBehavior : ToolBehavior
     FireFearTrigger fireScript;
     public AudioClip ignite, extinguish;
     public GameObject placedPrefab;
+
+    public bool isUpgrade;
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;

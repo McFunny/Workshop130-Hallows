@@ -13,6 +13,9 @@ public class PlacedHoe : StructureBehaviorScript
 
     bool isTriggered;
 
+    public float playerDamage = -10;
+    public float creatureDamage = 25;
+
     void Awake()
     {
         base.Awake();
@@ -69,12 +72,12 @@ public class PlacedHoe : StructureBehaviorScript
         
         if(player)
         {
-            player.StaminaChange(-10);
+            player.StaminaChange(playerDamage);
             PlayerMovement.restrictMovementTokens--;
         } 
         else if(creature)
         {
-            creature.TakeDamage(25);
+            creature.TakeDamage(creatureDamage);
             creature.PlayHitParticle(new Vector3(0, 0, 0));
         }
 

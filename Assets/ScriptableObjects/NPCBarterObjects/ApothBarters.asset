@@ -15,15 +15,11 @@ MonoBehaviour:
   transactions:
   - name: Moss Mulch
     itemForSale: {fileID: 11400000, guid: b91eb7226c0651e4b93fa3b225208b93, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 32
     amountForSale: 5
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 573cd785fcc35aa4297d6cbb67192d97, type: 2}
-      amount: 2
-    - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
-      amount: 3
+    itemsRequired: []
     siegesRequired: 0
     amountGiven: 5
   - name: FloralBathBomb
@@ -72,7 +68,7 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 75
     itemsRequired:
-    - item: {fileID: 11400000, guid: a6d94f2d39d88dd42b8a2a300232702f, type: 2}
+    - item: {fileID: 11400000, guid: b4d77aadfa04c894088fc7eed93d7ab1, type: 2}
       amount: 1
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
       amount: 2
@@ -91,30 +87,22 @@ MonoBehaviour:
     amountGiven: 1
   - name: CorpsePowder
     itemForSale: {fileID: 11400000, guid: 9d78fe6d2bb73a84a95ae131ae3cab1f, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 26
     amountForSale: 3
     barterChance: 75
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 04236fdf99a1d0a44be48c5524def0ee, type: 2}
-      amount: 1
-    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 2
+    itemsRequired: []
     siegesRequired: 1
-    amountGiven: 5
+    amountGiven: 1
   - name: Pheromone Flask
     itemForSale: {fileID: 11400000, guid: aa8320088dd258846a151d59ce481740, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 56
     amountForSale: 3
     barterChance: 75
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 15b811d0b42fdf44e86c618d24730806, type: 2}
-      amount: 2
-    - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
-      amount: 3
+    itemsRequired: []
     siegesRequired: 0
-    amountGiven: 5
+    amountGiven: 1
   uniqueTransactions:
   - name: YellowMarigleamSeeds
     itemForSale: {fileID: 11400000, guid: 747cebbd0cf1e854d84e73ad4d034f05, type: 2}

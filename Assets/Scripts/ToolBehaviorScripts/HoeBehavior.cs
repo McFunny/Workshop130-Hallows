@@ -14,8 +14,11 @@ public class HoeBehavior : ToolBehavior
     float animSpeedMod = 0; //Added to animation speed
 
     bool maxCharge = false;
+    bool upgradedCharge = false;
     Coroutine swingingHoeCoroutine;
     Coroutine chargingCoroutine;
+
+    public bool isUpgrade;
 
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
@@ -120,8 +123,14 @@ public class HoeBehavior : ToolBehavior
         //Vector3 playerPos;
         Vector3 currentPos;
         List<Vector3> targets = new List<Vector3>();
+        int targetAmount = 2;
+        if(upgradedCharge)
+        {
+            upgradedCharge = false;
+            targetAmount += 2;
+        }
         //playerPos = StructureManager.Instance.GetTileCenter(player.position);
-        targets = StructureManager.Instance.ShowTargets(pos, StructureManager.Instance.GetDirection(player), 2, false);
+        targets = StructureManager.Instance.ShowTargets(pos, StructureManager.Instance.GetDirection(player), targetAmount, false);
         if(targets.Count > 0)
         {
             for(int i = 0; i < targets.Count; i++)
@@ -190,16 +199,24 @@ public class HoeBehavior : ToolBehavior
     IEnumerator ChargeTimer()
     {
         maxCharge = false;
+        upgradedCharge = false;
         yield return new WaitForSeconds(0.2f * coolDownMod);
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.6f, "HoeCharge", false));
 
         yield return new WaitForSeconds(0.5f * coolDownMod);
         if(InputManager.isCharging)
         {
-            //HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
             AudioPoolManager.Instance.PlayClip(chargeReady, 0.8f);
             maxCharge = true;
-            Debug.Log("Charged Up");
+            //Debug.Log("Charged Up");
+        }
+        if(!isUpgrade) yield break;
+        yield return new WaitForSeconds(0.8f * coolDownMod);
+        if(InputManager.isCharging)
+        {
+            AudioPoolManager.Instance.PlayClip(chargeReady, 0.8f);
+            upgradedCharge = true;
+            //Debug.Log("Charged Up");
         }
     }
 

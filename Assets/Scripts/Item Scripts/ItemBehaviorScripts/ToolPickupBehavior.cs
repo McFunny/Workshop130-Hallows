@@ -22,6 +22,9 @@ public class ToolPickupBehavior : ItemBehavior
             case ToolType.Flintlock:
             GameSaveData.Instance.pistolObtained = true;
             break;
+            case ToolType.WateringCan:
+            if(tItem.isUpgrade) PlayerInteraction.Instance.playerUpgrades.GainWaterStorage();
+            break;
         }
     }
 }
