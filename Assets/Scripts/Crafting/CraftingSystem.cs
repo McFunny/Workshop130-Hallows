@@ -106,7 +106,7 @@ public class CraftingSystem : MonoBehaviour
             {
                 if (container.transform.childCount > 0)
                 {
-                    EventSystem.current.SetSelectedGameObject(container.transform.GetChild(0).gameObject);
+                    EventSystem.current.SetSelectedGameObject(GetFirstActiveObject(container.transform));
                 }
             }
         }
@@ -281,7 +281,7 @@ public class CraftingSystem : MonoBehaviour
             {
                 button.gameObject.SetActive(true);
             }
-            EventSystem.current.SetSelectedGameObject(GetFirstActiveObject(container.transform));
+            EventSystem.current.SetSelectedGameObject(null);
             return;
         }
 
@@ -298,10 +298,7 @@ public class CraftingSystem : MonoBehaviour
                 button.gameObject.SetActive(false);
             }
         }
-
-        //Find first active gameobject and make is the current selected gameobject
-        EventSystem.current.SetSelectedGameObject(GetFirstActiveObject(container.transform));
-        
+        EventSystem.current.SetSelectedGameObject(null);   
     }
 
     public void UpdateActiveCrafts()
@@ -343,6 +340,12 @@ public class CraftingSystem : MonoBehaviour
     public void UpdateAssignedEntry(CraftingEntry entry)
     {
         selectedEntry = entry;
+        if(selectedEntry == null)
+        {
+            descriptionBoxContainer.SetActive(false);
+            descriptionBoxVisuals.SetActive(false);
+            return;
+        }
         descriptionBoxContainer.SetActive(true);
         descriptionBoxVisuals.SetActive(true);
         descriptionBox.UpdateToolTip(entry.output);
