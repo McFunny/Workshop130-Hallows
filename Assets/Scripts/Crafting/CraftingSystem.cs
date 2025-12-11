@@ -14,6 +14,8 @@ public class CraftingSystem : MonoBehaviour
     public Button craftButton;
     public Button collectButton;
     [SerializeField] private bool showCategories;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip collectSound, openSound;
     [SerializeField] private GameObject craftingMenu;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private GameObject container;
@@ -42,7 +44,7 @@ public class CraftingSystem : MonoBehaviour
         Trinket,
         Misc
     }
-    [SerializeField] private Categories currentCategory;
+    [SerializeField] private Categories currentCategory = Categories.All;
     [SerializeField] private List<UILerp> categoryLerps;
 
     [HideInInspector] public CraftingStructure currentStructure;
@@ -83,11 +85,13 @@ public class CraftingSystem : MonoBehaviour
 
     private void HotbarUp(InputAction.CallbackContext obj)
     {
+        if(!isCraftingMenuOpen) return;
         ControllerChangeCategories(-1);
     }
 
     private void HotbarDown(InputAction.CallbackContext obj)
     {
+        if(!isCraftingMenuOpen) return;
         ControllerChangeCategories(1);
     }
 
@@ -146,13 +150,13 @@ public class CraftingSystem : MonoBehaviour
     public void OpenCraftingInterface()
     {
         if (PlayerMovement.isStalled && !isCraftingMenuOpen) return;
-        UpdateCategory(currentCategory.ToString());
 
         craftingMenu.SetActive(!craftingMenu.activeSelf);
         isCraftingMenuOpen = craftingMenu.activeSelf;
 
         if (isCraftingMenuOpen)
         {
+            PlaySound(openSound, 0.012f);
             descriptionBoxContainer.SetActive(false);
             PlayerMovement.restrictMovementTokens++;
             Reset();
@@ -171,6 +175,7 @@ public class CraftingSystem : MonoBehaviour
                 collectButton.interactable = false;
                 collectButtonText.text = "Nothing to Collect";
             }
+            UpdateCategory(currentCategory.ToString());
         }
         else
         {
@@ -206,7 +211,7 @@ public class CraftingSystem : MonoBehaviour
         {
             var tempButton = Instantiate(buttonPrefab, container.transform);
             var buttonVars = tempButton.GetComponent<CraftingButton>();
-
+            
             buttonVars.assignedEntry = entry;
             buttonVars.craftingSystem = this;
             craftingButtons.Add(buttonVars);
@@ -467,6 +472,7 @@ public class CraftingSystem : MonoBehaviour
                 currentStructure.craftSlots[i].assignedCraft = null;
             }
         }
+        PlaySound(collectSound, 0.077f);
         currentStructure.craftSlots.RemoveAll(item => item.assignedCraft == null);
 
         if (currentStructure.craftSlots.Count > 0)
@@ -542,6 +548,12 @@ public class CraftingSystem : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void PlaySound(AudioClip clip, float volume)
+    {
+        audioSource.volume = volume;
+        audioSource.PlayOneShot(clip);
     }
 }
 

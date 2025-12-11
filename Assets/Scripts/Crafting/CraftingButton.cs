@@ -11,6 +11,7 @@ public class CraftingButton : MonoBehaviour
     public GameObject questionMark;
     public Image icon, bulb;
     public bool unlocked = false;
+    [SerializeField] private AudioClip selectSound;
     [HideInInspector] public CraftingSystem craftingSystem;
 
     public void OnSelect()
@@ -18,7 +19,7 @@ public class CraftingButton : MonoBehaviour
         if(unlocked)
         {
             craftingSystem.UpdateAssignedEntry(assignedEntry);
-
+            craftingSystem.PlaySound(selectSound, 0.25f);
             if(assignedEntry.isRecentlyUnlocked)
             {
                 bulb.gameObject.SetActive(false);
