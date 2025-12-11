@@ -161,6 +161,18 @@ public class ScytheAttack : MonoBehaviour
     void SummonBloodParticles(CreatureBehaviorScript c)
     {
         float bulletsToSpawn = c.ichorWorth * 2;
+
+        for(int i = 0; i < bulletsToSpawn; i++)
+        {
+            GameObject newBullet = ProjectilePoolManager.Instance.GrabBlood();
+            newBullet.transform.position = c.corpseParticleTransform.position;
+            newBullet.transform.rotation = c.corpseParticleTransform.rotation;
+            //newBullet.GetComponent<WaterProjectileScript>().homing = true;
+            //newBullet.GetComponent<WaterProjectileScript>().target = highlights[i].transform.position;
+            Vector3 dir = new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1));//+ new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
+            newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (90));
+            newBullet.GetComponent<Rigidbody>().AddForce(dir * (30));
+        }
     }
 
 
