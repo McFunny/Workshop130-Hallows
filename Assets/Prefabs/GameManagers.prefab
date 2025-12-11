@@ -5061,6 +5061,8 @@ MonoBehaviour:
     type: 3}
   splashParticle: {fileID: 8103510642182244075, guid: 6fe66ed917d73144ea510b28cc0f7094,
     type: 3}
+  bloodSplashParticle: {fileID: 3378665807823350144, guid: 6dc17b70e318e6a4fa21f7e3847a6bf0,
+    type: 3}
   impactParticle: {fileID: 2575947040800524439, guid: 3cb05d08fbddb9641a3e3341c0d68311,
     type: 3}
   bugSplatParticle: {fileID: 215203445717129186, guid: fe51a2317d76b754aa500b6416b14043,
@@ -10260,6 +10262,8 @@ MonoBehaviour:
     type: 3}
   largeWaterPrefab: {fileID: 1120375190423058, guid: eced87ea2a1a1b342a8341c820a76e5e,
     type: 3}
+  bloodPrefab: {fileID: 1958409568512810735, guid: cf96595a9f681904181ca75faab56861,
+    type: 3}
   seedBulletPrefab: {fileID: 4626338264351226871, guid: 8b9fadc5ff532a84e83c736918fa9fc0,
     type: 3}
   fireBallPrefab: {fileID: 1625334908140150664, guid: 7f07ce0f5dcc82c43af09eb725823e0c,
@@ -11406,6 +11410,7 @@ MonoBehaviour:
   hoeUpgrade: {fileID: 0}
   torchFlame: {fileID: 0}
   pyreflyFlame: {fileID: 0}
+  torchUpgradeFlame: {fileID: 0}
   pyreflyMat: {fileID: 0}
   pyreflyLit: {fileID: 2100000, guid: 8470e1ec53530ae439f837b725de6731, type: 2}
   pyreflyUnlit: {fileID: 2100000, guid: 9b08859ccf23f4f45a1ba5415972eebd, type: 2}
@@ -11632,6 +11637,10 @@ MonoBehaviour:
   pistolObtained: 0
   kukriObtained: 0
   testerObtained: 0
+  upg_can: 0
+  upg_hoe: 0
+  upg_scythe: 0
+  upg_torch: 0
   mm_giveBarricade: 0
   cm_giveChest: 0
   mm_giveGun: 0
@@ -11657,8 +11666,17 @@ MonoBehaviour:
   tav_reportedApoMissing: 0
   fan_ApoGoneComment: 0
   cm_refusedRepairs: 0
+  tink_explainedTickets: 0
+  bot_newWares: 0
+  tink_newWares: 0
+  mm_introducedTickets: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
+  botShopLevel: 0
+  mintsDonatedToBot: 0
+  tTicketsHeld: 0
+  tTicketMintProgress: 0
+  tTicketsAvailable: 0
   siegesCleared: 0
   siegeCropInHand: 0
   siegesLost: 0
@@ -11698,6 +11716,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a14397d01a318ea469bfd45b59737143, type: 2}
   - {fileID: 11400000, guid: 4dbaa9cb42199164aaa5f5a09dfe838f, type: 2}
   - {fileID: 11400000, guid: 1d30b5f1895f3284bb65e90f4b0cd9af, type: 2}
+  - {fileID: 11400000, guid: 902cfd273c16d744c85e381587d48301, type: 2}
+  - {fileID: 11400000, guid: 00b0dcc88f0272149a7571f3c9c1d4af, type: 2}
+  - {fileID: 11400000, guid: f668ee4074f51b64ca8bb645e680ec07, type: 2}
+  - {fileID: 11400000, guid: 42304680cc357394393f6e3a05ed1415, type: 2}
 --- !u!114 &8128180679079574985
 MonoBehaviour:
   m_ObjectHideFlags: 0

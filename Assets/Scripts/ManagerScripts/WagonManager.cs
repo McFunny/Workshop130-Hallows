@@ -90,7 +90,7 @@ public class WagonManager : MonoBehaviour
 
         if(!wagonDestroyed && wagonHealth == 0 && TownGate.Instance.location == PlayerLocation.InWilderness)
         {
-            WildernessManager.Instance.ExitWilderness();
+            StartCoroutine(WagonLost());
             wagonDestroyed = true;
             daysToRepair = 2;
         }
@@ -99,5 +99,17 @@ public class WagonManager : MonoBehaviour
     void LeaveWilderness()
     {
         if(!wagonDestroyed) wagonHealth = maxWagonHealth;
+    }
+
+    IEnumerator WagonLost()
+    {
+
+        //restrict movement and darken screen
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        yield return new WaitForSeconds(2);
+        WildernessManager.Instance.ExitWilderness();
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
     }
 }
