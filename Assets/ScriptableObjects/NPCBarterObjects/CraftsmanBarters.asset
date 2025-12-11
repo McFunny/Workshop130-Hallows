@@ -144,16 +144,12 @@ MonoBehaviour:
     amountGiven: 10
   - name: CandleCluster
     itemForSale: {fileID: 11400000, guid: 04ac78899924e5341aff2f39d6bc16e1, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 30
     amountForSale: 3
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 407379bc0d8d7074488a51c551db0c77, type: 2}
-      amount: 2
-    - item: {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
-      amount: 3
-    siegesRequired: 0
+    itemsRequired: []
+    siegesRequired: 1
     amountGiven: 1
   - name: ResinPole
     itemForSale: {fileID: 11400000, guid: 9ce51f32c11ab834ca26d97ec6ffa822, type: 2}
@@ -170,17 +166,11 @@ MonoBehaviour:
     amountGiven: 1
   - name: AromaCandles
     itemForSale: {fileID: 11400000, guid: bfa9c49cede59534f87f567188bd0dab, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 40
     amountForSale: 3
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 407379bc0d8d7074488a51c551db0c77, type: 2}
-      amount: 2
-    - item: {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
-      amount: 3
-    - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
-      amount: 2
+    itemsRequired: []
     siegesRequired: 1
     amountGiven: 1
   - name: Bucket
@@ -304,7 +294,7 @@ MonoBehaviour:
   - name: ItemCrate
     itemForSale: {fileID: 11400000, guid: 015b6ad30f765bd44b0521ce3c38d6dd, type: 2}
     useItemPrice: 1
-    mintCost: 25
+    mintCost: 35
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
@@ -340,7 +330,7 @@ MonoBehaviour:
   - name: RoundTable
     itemForSale: {fileID: 11400000, guid: bdeba9a96d3a12447a87ae337c6f4b75, type: 2}
     useItemPrice: 1
-    mintCost: 25
+    mintCost: 35
     amountForSale: 3
     barterChance: 25
     itemsRequired: []

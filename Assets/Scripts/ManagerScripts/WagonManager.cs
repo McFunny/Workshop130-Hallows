@@ -18,6 +18,8 @@ public class WagonManager : MonoBehaviour
 
     public bool debugWagon; // if true, will force the player wagon to stay spawned in even if not unlocked
 
+    public AudioClip wagonDestroyedSFX1, wagonDestroyedSFX2;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -80,6 +82,8 @@ public class WagonManager : MonoBehaviour
 
         wagonHealth += amount;
 
+        if(amount < 0) AudioPoolManager.Instance.PlayClip(wagonDestroyedSFX2, 0.2f);
+
         if(wagonHealth < 0) wagonHealth = 0;
 
         if (wagonHealth > maxWagonHealth) wagonHealth = maxWagonHealth;
@@ -90,14 +94,37 @@ public class WagonManager : MonoBehaviour
 
         if(!wagonDestroyed && wagonHealth == 0 && TownGate.Instance.location == PlayerLocation.InWilderness)
         {
-            WildernessManager.Instance.ExitWilderness();
+            StartCoroutine(WagonLost());
             wagonDestroyed = true;
             daysToRepair = 2;
+            farmWagon.UpdateModel(false);
         }
     }
 
     void LeaveWilderness()
     {
         if(!wagonDestroyed) wagonHealth = maxWagonHealth;
+    }
+
+    IEnumerator WagonLost()
+    {
+
+        //restrict movement and darken screen
+        PlayerMovement.restrictMovementTokens++;
+        FadeScreen.coverScreen = true;
+        PlayerInteraction.Instance.invincible = true;
+
+        AudioPoolManager.Instance.PlayClip(wagonDestroyedSFX1, 0.8f);
+        yield return new WaitForSeconds(0.8f);
+        AudioPoolManager.Instance.PlayClip(wagonDestroyedSFX2, 0.8f);
+        yield return new WaitForSeconds(0.4f);
+        AudioPoolManager.Instance.PlayClip(wagonDestroyedSFX2, 0.8f);
+        yield return new WaitForSeconds(0.2f);
+        AudioPoolManager.Instance.PlayClip(wagonDestroyedSFX1, 0.8f);
+        yield return new WaitForSeconds(2);
+        WildernessManager.Instance.ExitWilderness();
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
+        PlayerInteraction.Instance.invincible = false;
     }
 }

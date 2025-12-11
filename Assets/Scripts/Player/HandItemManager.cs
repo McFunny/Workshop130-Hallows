@@ -6,7 +6,7 @@ public class HandItemManager : MonoBehaviour
 {
     public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly, hydrofly, kukri, flintlock, nutTester;
     public GameObject wateringCanUpgrade, scytheUpgrade, torchUpgrade, hoeUpgrade;
-    public GameObject torchFlame, pyreflyFlame;
+    public GameObject torchFlame, pyreflyFlame, torchUpgradeFlame;
     public MeshRenderer pyreflyMat;
     public Material pyreflyLit, pyreflyUnlit;
 
@@ -66,8 +66,16 @@ public class HandItemManager : MonoBehaviour
         switch (type)
         {
             case ToolType.Hoe:
-                hoe.SetActive(true);
-                currentHandObject = hoe;
+                if(isUpgrade)
+                {
+                    hoeUpgrade.SetActive(true);
+                    currentHandObject = hoeUpgrade;
+                }
+                else
+                {
+                    hoe.SetActive(true);
+                    currentHandObject = hoe;
+                }
                 //hoe.transform.position = hoePos;
                 //hoe.transform.rotation = hoeRot;
                 break;
@@ -104,8 +112,16 @@ public class HandItemManager : MonoBehaviour
                 //waterGun.transform.rotation = waterGunRot;
                 break;
             case ToolType.Torch:
-                torch.SetActive(true);
-                currentHandObject = torch;
+                if(isUpgrade)
+                {
+                    torchUpgrade.SetActive(true);
+                    currentHandObject = torchUpgrade;
+                }
+                else
+                {
+                    torch.SetActive(true);
+                    currentHandObject = torch;
+                }
                 //torch.transform.position = torchPos;
                 //torch.transform.rotation = torchRot;
                 break;
@@ -116,8 +132,16 @@ public class HandItemManager : MonoBehaviour
                 //bugNet.transform.rotation = bugNetRot;
                 break;
             case ToolType.Scythe:
-                scythe.SetActive(true);
-                currentHandObject = scythe;
+                if(isUpgrade)
+                {
+                    scytheUpgrade.SetActive(true);
+                    currentHandObject = scytheUpgrade;
+                }
+                else
+                {
+                    scythe.SetActive(true);
+                    currentHandObject = scythe;
+                }
                 //scythe.transform.position = scythePos;
                 //scythe.transform.rotation = scytheRot;
                 break;
@@ -239,6 +263,7 @@ public class HandItemManager : MonoBehaviour
         {
             PlayerInteraction.Instance.torchLit = true;
             torchFlame.SetActive(true);
+            torchUpgradeFlame.SetActive(true);
         }
         else
         {
@@ -249,6 +274,7 @@ public class HandItemManager : MonoBehaviour
             } 
             PlayerInteraction.Instance.torchLit = false;
             torchFlame.SetActive(false);
+            torchUpgradeFlame.SetActive(false);
         }
     }
 

@@ -63,6 +63,8 @@ public class CreatureBehaviorScript : MonoBehaviour
         effectsHandler = GetComponentInChildren<CreatureEffectsHandler>();
         player = PlayerInteraction.Instance.playerFeet;
 
+        if(!corpseParticleTransform) corpseParticleTransform = transform;
+
         if(Mathf.Approximately(hitColor.r, 0) &&
         Mathf.Approximately(hitColor.g, 0) &&
         Mathf.Approximately(hitColor.b, 0) &&

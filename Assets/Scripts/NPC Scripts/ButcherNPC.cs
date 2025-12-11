@@ -10,6 +10,8 @@ public class ButcherNPC : NPC, ITalkable
     //public InventoryItemData[] possibleSoldItems;
     //public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
+
+    public CraftingEntry wPellet, sPellet;
     //WaypointScript shopUI;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
@@ -157,6 +159,9 @@ public class ButcherNPC : NPC, ITalkable
         if(item == barterDatabase.uniqueTransactions[0].itemForSale)
         {
             GameSaveData.Instance.pistolObtained = true;
+            wPellet.isUnlocked = true;
+            sPellet.isUnlocked = true;
+            CraftingDatabase.Instance.UnlockRecipiePopup();
         }
     }
 

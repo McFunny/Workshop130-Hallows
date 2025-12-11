@@ -14,6 +14,9 @@ public class CraftingStructure : StructureBehaviorScript
 
     public AudioSource loopingSource;
 
+    public Animator anim;
+    public ParticleSystem fumes;
+
     public void Start()
     {
         base.Start();
@@ -136,6 +139,9 @@ public class CraftingStructure : StructureBehaviorScript
         {
             if(audioCoroutine == null) audioCoroutine = StartCoroutine(LoopAudio());
             craftCoroutine = StartCoroutine(PerformCraft());
+
+            fumes.Play();
+            anim.SetBool("Running", true);
         }
     }
 
@@ -145,6 +151,9 @@ public class CraftingStructure : StructureBehaviorScript
         loopingSource.Stop();
         StopCoroutine(audioCoroutine);
         audioCoroutine = null;
+
+        fumes.Stop();
+        anim.SetBool("Running", false);
     }
 
     IEnumerator LoopAudio()

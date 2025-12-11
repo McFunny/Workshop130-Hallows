@@ -10,6 +10,7 @@ public class ScytheAttack : MonoBehaviour
     public AudioClip hitPlant, hitFlesh, hitGround, hitHardObject;
 
     bool cancelSwing; //Happens when the player hits a hard thing
+    [HideInInspector] public bool upgradedSwing;
 
 
     List<CreatureBehaviorScript> hitCreatures = new List<CreatureBehaviorScript>();
@@ -37,6 +38,7 @@ public class ScytheAttack : MonoBehaviour
         PlayerMovement.limitMaxVelocity = true;
         PlayerMovement.ignoreMovementInputs = false;
         if(HandItemManager.Instance.scytheTrail) HandItemManager.Instance.scytheTrail.emitting = false;
+        upgradedSwing = false;
     }
 
     void OnTriggerEnter(Collider other)
@@ -132,7 +134,11 @@ public class ScytheAttack : MonoBehaviour
             ParticlePoolManager.Instance.MoveAndPlayVFX(hitCreatures[i].GetComponentInChildren<Collider>().ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
             hitCreatures[i].PlayHitParticle(hitCreatures[i].GetComponentInChildren<Collider>().ClosestPoint(transform.position));
 
-            hitCreatures[i].TakeDamage(40, PlayerInteraction.Instance.transform.position);
+            float damage = 40;
+            //if(upgradedSwing) damage += 5;
+            if(upgradedSwing && hitCreatures[i].corpseType == CorpseParticleType.Red) SummonBloodParticles(hitCreatures[i]);
+
+            hitCreatures[i].TakeDamage(damage, PlayerInteraction.Instance.transform.position);
 
             if(hitCreatures[i] && hitCreatures[i].health > 0) PlayerInteraction.Instance.InvokeEnemyHitEvent(hitCreatures[i]);
         }
@@ -149,6 +155,23 @@ public class ScytheAttack : MonoBehaviour
         {
             if(hitBugs[i] == null) continue;
             hitBugs[i].Struck();
+        }
+    }
+
+    void SummonBloodParticles(CreatureBehaviorScript c)
+    {
+        float bulletsToSpawn = c.ichorWorth * 2;
+
+        for(int i = 0; i < bulletsToSpawn; i++)
+        {
+            GameObject newBullet = ProjectilePoolManager.Instance.GrabBlood();
+            newBullet.transform.position = c.corpseParticleTransform.position;
+            newBullet.transform.rotation = c.corpseParticleTransform.rotation;
+            //newBullet.GetComponent<WaterProjectileScript>().homing = true;
+            //newBullet.GetComponent<WaterProjectileScript>().target = highlights[i].transform.position;
+            Vector3 dir = new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1));//+ new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
+            newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (90));
+            newBullet.GetComponent<Rigidbody>().AddForce(dir * (30));
         }
     }
 

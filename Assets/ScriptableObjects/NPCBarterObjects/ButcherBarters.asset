@@ -90,11 +90,13 @@ MonoBehaviour:
     amountGiven: 1
   - name: BoneBlender
     itemForSale: {fileID: 11400000, guid: c01dc5febc780da41aa2782a05c1c5aa, type: 2}
-    useItemPrice: 1
-    mintCost: 55
+    useItemPrice: 0
+    mintCost: 0
     amountForSale: 1
     barterChance: 100
-    itemsRequired: []
+    itemsRequired:
+    - item: {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+      amount: 45
     siegesRequired: 0
     amountGiven: 1
   - name: Ammo
@@ -127,7 +129,7 @@ MonoBehaviour:
   - name: PelletsLead
     itemForSale: {fileID: 11400000, guid: 9d994982860541344b51b5a6e07f7c73, type: 2}
     useItemPrice: 1
-    mintCost: 6
+    mintCost: 12
     amountForSale: 10
     barterChance: 100
     itemsRequired: []
@@ -135,24 +137,20 @@ MonoBehaviour:
     amountGiven: 1
   - name: PelletsWood
     itemForSale: {fileID: 11400000, guid: 5b0351895d1af24488dd9fa1dd08f169, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 4
     amountForSale: 10
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
-      amount: 1
+    itemsRequired: []
     siegesRequired: 0
     amountGiven: 3
   - name: PelletsStone
     itemForSale: {fileID: 11400000, guid: f2c23cbc789d1a54eb0e1ddbebddbb08, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 8
     amountForSale: 10
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 1
+    itemsRequired: []
     siegesRequired: 0
     amountGiven: 3
   uniqueTransactions2: []

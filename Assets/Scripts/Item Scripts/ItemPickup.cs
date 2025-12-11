@@ -191,6 +191,7 @@ public class ItemPickup : MonoBehaviour
                 int toAdd = Mathf.Min(space, remaining);
                 if (toAdd > 0)
                 {
+                    if(item.itemBehavior) item.itemBehavior.OnRecieve(item);
                     slot.AddToStack(toAdd);
                     remaining -= toAdd;
                 }
@@ -208,6 +209,7 @@ public class ItemPickup : MonoBehaviour
                 int toAdd = Mathf.Min(space, remaining);
                 if (toAdd > 0)
                 {
+                    if(item.itemBehavior) item.itemBehavior.OnRecieve(item);
                     slot.AddToStack(toAdd);
                     remaining -= toAdd;
                 }

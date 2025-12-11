@@ -12,7 +12,7 @@ public class ParticlePoolManager : MonoBehaviour
     public VisualEffect hitEffect;
 
     public GameObject corpseParticle, corpseParticleYellow, corruptedCorpseParticle, poofParticle, extinguishParticle, bloodDropletParticle, corruptBloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, 
-    explosionParticle, cloudParticle, frostParticle, thawParticle, frostBurstParticle, splashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, 
+    explosionParticle, cloudParticle, frostParticle, thawParticle, frostBurstParticle, splashParticle, bloodSplashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, 
     slimeSplashLarge, orangeHitParticle, cleanseParticle, whiteHitParticle, structDigParticle;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP, c_fleshDestructionP;
@@ -33,6 +33,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> thawPool = new List<GameObject>();
     List<GameObject> frostBurstPool = new List<GameObject>();
     List<GameObject> splashPool = new List<GameObject>();
+    List<GameObject> bloodSplashPool = new List<GameObject>();
     List<GameObject> impactPool = new List<GameObject>();
     List<GameObject> bugSplatPool = new List<GameObject>();
     List<GameObject> elecZapPool = new List<GameObject>();
@@ -156,6 +157,13 @@ public class ParticlePoolManager : MonoBehaviour
         {
             newParticle = Instantiate(splashParticle);
             splashPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
+
+        for(int i = 0; i < 8; i++)
+        {
+            newParticle = Instantiate(bloodSplashParticle);
+            bloodSplashPool.Add(newParticle);
             newParticle.SetActive(false);
         }
 
@@ -469,6 +477,23 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(splashParticle);
         splashPool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabBloodSplashParticle()
+    {
+        foreach (GameObject particle in bloodSplashPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(bloodSplashParticle);
+        bloodSplashPool.Add(newParticle);
         return newParticle;
     }
 

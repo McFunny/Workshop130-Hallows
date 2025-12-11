@@ -19562,6 +19562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2208400131092726451}
+  - component: {fileID: 1518332442438340143}
   m_Layer: 0
   m_Name: WaterSplashParticle
   m_TagString: Untagged
@@ -19587,3 +19588,17 @@ Transform:
   - {fileID: 3908378152993744275}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1518332442438340143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8103510642182244075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ffa88f66334fd441944e16d825e85ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 2
+  destroyOnCompletion: 0
