@@ -59172,7 +59172,7 @@ MonoBehaviour:
   - name: NutTree
     prefab: {fileID: 961734341835733743, guid: 8ab60daef09d902458f56812eb07eef0, type: 3}
     isLarge: 1
-    spawnChance: 20
+    spawnChance: 30
   - name: CrowPod
     prefab: {fileID: 446895733223214618, guid: 33cdc1b0f9171ba49b8921f09f1f76c3, type: 3}
     isLarge: 0
@@ -59181,6 +59181,18 @@ MonoBehaviour:
     prefab: {fileID: 333776889047174946, guid: 74b68e7b5b260af4ab1b74fcc6dd329d, type: 3}
     isLarge: 0
     spawnChance: 80
+  - name: Cocoon
+    prefab: {fileID: 1616115317982493522, guid: 38e0adb7b39efd14fa0a0d0b18531128,
+      type: 3}
+    isLarge: 0
+    spawnChance: 20
+  - name: Spider Nest
+    prefab: {fileID: 6055325477070051919, guid: 9fefb041093dae0418bf0ce04ff4ca5e,
+      type: 3}
+    isLarge: 1
+    spawnChance: 20
+  corruptedCocoonPrefab: {fileID: 1616115317982493522, guid: 38e0adb7b39efd14fa0a0d0b18531128,
+    type: 3}
   allMaps: []
   wagon: {fileID: 0}
   playerWagon: {fileID: 0}

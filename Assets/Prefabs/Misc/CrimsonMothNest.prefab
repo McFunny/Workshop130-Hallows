@@ -133,6 +133,7 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 1
   absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
@@ -157,6 +158,9 @@ MonoBehaviour:
   clearTileOnDestroy: 1
   muteSound: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   rb: {fileID: 2748907494035620814}
   mothData: {fileID: 11400000, guid: df1b8c3719cd05e4e81165e095075d35, type: 2}
   heldWasps: 3
@@ -173,10 +177,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: a55e25a490059294d9aa4aaab61a5bcc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3794126dc72f5f545af79eeccc9b1e6a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.222
-  m_Pitch: -0.56
+  m_Volume: 0.188
+  m_Pitch: 0.93
   Loop: 1
   Mute: 0
   Spatialize: 0

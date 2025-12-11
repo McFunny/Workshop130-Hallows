@@ -21,6 +21,14 @@ public class SpiderDen : StructureBehaviorScript
     {
         OnDamage += DenHit;
         base.Start();
+
+        StartCoroutine(DelayedStart());
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(1);
+        if(absentFromGrid) UpdateStage(true);
     }
 
     void UpdateStage(bool grown)
@@ -70,7 +78,12 @@ public class SpiderDen : StructureBehaviorScript
 
         for(int x = 0; x < heldSpiders; ++x)
         {
-            Instantiate(spiderData.objectPrefab, transform.position, Quaternion.identity);
+            Spider newSpider = Instantiate(spiderData.objectPrefab, transform.position, Quaternion.identity).GetComponent<Spider>();
+            if(absentFromGrid)
+            {
+                newSpider.persistAfterNewDay = false;
+                newSpider.inWilderness = true;
+            }
         }
 
         PlayerMovement.Instance.RemoveSpeedMod(gameObject);
@@ -93,7 +106,12 @@ public class SpiderDen : StructureBehaviorScript
             {
                 heldSpiders--;
                 outsideSpiders++;
-                Instantiate(spiderData.objectPrefab, transform.position, Quaternion.identity).GetComponent<Spider>().homeDen = this;
+                Spider newSpider = Instantiate(spiderData.objectPrefab, transform.position, Quaternion.identity).GetComponent<Spider>();
+                if(absentFromGrid)
+                {
+                    newSpider.persistAfterNewDay = false;
+                    newSpider.inWilderness = true;
+                }
             }
         }
     }

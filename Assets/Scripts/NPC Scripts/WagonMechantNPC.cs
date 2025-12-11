@@ -35,6 +35,10 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public ItemDisplaySign displaySign;
 
+    public float[] ticketThresholds;
+    float mintsBeforeSale; // tracks how many mints player had before selling item to calculate how many mints were earned
+    bool checkTicket;
+
     void Start()
     {
         shopUI = FindObjectOfType<WaypointScript>();
@@ -198,6 +202,8 @@ public class WagonMerchantNPC : NPC, ITalkable
 
                 anim.SetTrigger("Transaction");
                 QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(13));
+                checkTicket = true;
+                mintsBeforeSale = PlayerInteraction.Instance.currentMoney;
             }
             Talk();
         }
@@ -522,6 +528,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void OnConvoEnd()
     {
+        if(checkTicket) GiveTicketCheck();
         ////////////// Clear last seen item to stop player frustration at accidental purchasing
         if(lastInteractedStoreItem)
         {
@@ -560,6 +567,45 @@ public class WagonMerchantNPC : NPC, ITalkable
     public void Test()
     {
         print(PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(carrotSeeds));
+    }
+
+    void GiveTicketCheck()
+    {
+        checkTicket = false;
+        float mintsEarned = PlayerInteraction.Instance.currentMoney - mintsBeforeSale;
+        GameSaveData sData = GameSaveData.Instance;
+
+        sData.tTicketMintProgress += mintsEarned;
+
+        int currentTier = CraftingDatabase.Instance.CurrentTier();
+
+        if(currentTier == -1 || currentTier >= ticketThresholds.Length) return;
+
+        if(sData.tTicketMintProgress >= ticketThresholds[currentTier])
+        {
+            while(sData.tTicketMintProgress >= ticketThresholds[currentTier])
+            {
+                sData.tTicketMintProgress -= ticketThresholds[currentTier];
+                GameSaveData.Instance.tTicketsAvailable++;
+
+                currentTier = CraftingDatabase.Instance.CurrentTier();
+                if(currentTier == -1 || currentTier >= ticketThresholds.Length) return;
+            }
+        }
+    }
+
+    public void InteractWithTicketBox()
+    {
+        if(dialogueController.IsTalking() == true || GameSaveData.Instance.mm_introducedTickets || !GameSaveData.Instance.mm_giveBarricade) return;
+
+        GameSaveData.Instance.mm_introducedTickets = true;
+
+        currentPath = 19;
+        currentType = PathType.Misc;
+        lastSeenItem = null;
+        dialogueController.SetInterruptable(false);
+        anim.SetTrigger("IsTalking");
+        Talk();
     }
     
 }

@@ -10,6 +10,7 @@ public class WildernessMap : MonoBehaviour
     public Transform[] wagonPositions; //Associated wagon spawns
     public Transform[] enemySpawnPositions; //Spots enemies can spawn from. Should grab the closest 2 from the player
     public Transform[] setPiecePositions; //Locations that the giant setpieces can take
+    public Transform[] cocoonPositions; //Locations that the cocoons can take
     public ObjectWithProbability[] setPiecePrefabs;
     public WildernessInteractableSpot[] interactablePositions; //Locations of small things like trees with nuts, hives, and foreagables can spawn near
     public GameObject[] obstacles; //Locations that block paths. Must be enabled or disabled
@@ -96,6 +97,16 @@ public class WildernessMap : MonoBehaviour
             }
             GameObject spawnedObject = Instantiate(prefabToSpawn, setPiecePositions[i].position, Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0));
             currentSetPieces.Add(spawnedObject);
+        }
+
+        t = 0;
+        for(int i = 0; i < cocoonPositions.Length; i++) //Cocoon Generation
+        {
+            if(Random.Range(0, 10) < 6) continue;
+            GameObject spawnedObject = Instantiate(WildernessManager.Instance.corruptedCocoonPrefab, cocoonPositions[i].position, Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0));
+            currentInteractables.Add(spawnedObject);
+            t++;
+            if(t >= 20) break;
         }
     }
 

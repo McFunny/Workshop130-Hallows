@@ -13,6 +13,8 @@ public class TinkererNPC : NPC, ITalkable
     public float[] itemWeight; //likelyness of being sold, from 0 - 1
     List<StoreItem> storeItems = new List<StoreItem>();
 
+    public InventoryItemData assembly, ticket;
+
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
         base.Awake();
@@ -37,6 +39,7 @@ public class TinkererNPC : NPC, ITalkable
                 GameSaveData.Instance.tinkMet = true;
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(7));
                 dailyQuest = null;
+                itemsToGive.Add(new ItemWithAmount(assembly, 1));
             }
             else
             {
@@ -44,6 +47,12 @@ public class TinkererNPC : NPC, ITalkable
                 {
                     currentPath = QuestCompletedDialogue();
                     currentType = PathType.QuestComplete;
+                }
+                else if(GameSaveData.Instance.tink_newWares)
+                {
+                    GameSaveData.Instance.tink_newWares = false;
+                    currentPath = 8;
+                    currentType = PathType.Misc;
                 }
                 else if(dailyQuest != null)
                 {
@@ -94,6 +103,20 @@ public class TinkererNPC : NPC, ITalkable
         {
             currentPath = 1;
             currentType = PathType.ItemSpecific;
+        }
+        else if(item == ticket)
+        {
+            if(GameSaveData.Instance.tink_explainedTickets)
+            {
+                GameSaveData.Instance.tink_explainedTickets = true;
+                currentPath = 7;
+                currentType = PathType.Misc;
+            }
+            else
+            {
+                currentPath = 2;
+                currentType = PathType.ItemSpecific;
+            }
         }
 
         else if (item.staminaValue > 0)
@@ -247,6 +270,25 @@ public class TinkererNPC : NPC, ITalkable
         {
             assignedStall.displaySign.LeaveShop();
         }
+    }
+
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(!GameSaveData.Instance.tinkMet || GameSaveData.Instance.tink_newWares)
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        exclamationObject.SetActive(true);
+        return true;
     }
 
     public override bool ActionCheck1()

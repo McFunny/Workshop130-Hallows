@@ -103,6 +103,9 @@ public class CrimsonMothNest : StructureBehaviorScript
         Vector3 dir3 = Random.onUnitSphere;
         dir3 = new Vector3(dir3.x, transform.position.y, dir3.z);
         rb.AddForce(dir3 * 5);
+
+        ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
     }
 
     void OnTriggerEnter(Collider other)

@@ -126,6 +126,15 @@ public class MistWalker : CreatureBehaviorScript
         if(MainMenuScript.currentFileMode == FileMode.Cozy) canLunge = false;
 
         //if(!inWilderness && Random.Range(0,5) > 2) currentState = CreatureState.WalkTowardsClosestStructure; //causing issues I think
+
+        if(canLunge) StartCoroutine(LungeSpawnTimer());
+    }
+
+    IEnumerator LungeSpawnTimer()
+    {
+        canLunge = false;
+        yield return new WaitForSeconds(0.7f);
+        canLunge = true;
     }
 
    

@@ -56,6 +56,12 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = QuestCompletedDialogue();
                 currentType = PathType.QuestComplete;
             }
+            else if(GameSaveData.Instance.bot_newWares)
+            {
+                GameSaveData.Instance.bot_newWares = false;
+                currentPath = 11;
+                currentType = PathType.Misc;
+            }
             else if(!GameSaveData.Instance.bot_giveScytheQuest && !PlayerInventoryHolder.Instance.IsInventoryFull() && timberCrop.amountHarvested > 3)
             {
                 GameSaveData.Instance.bot_giveScytheQuest = true;
@@ -381,7 +387,7 @@ public class BotanistNPC : NPC, ITalkable
     {
         if(base.ExclamationCheck() == false)
         {
-            if(!GameSaveData.Instance.bot_giveSeeds || (!GameSaveData.Instance.bot_giveScytheQuest && timberCrop.amountHarvested > 3))
+            if(!GameSaveData.Instance.bot_giveSeeds || (!GameSaveData.Instance.bot_giveScytheQuest && timberCrop.amountHarvested > 3) || GameSaveData.Instance.bot_newWares)
             {
                 exclamationObject.SetActive(true);
                 return true;

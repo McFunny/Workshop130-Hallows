@@ -12,6 +12,8 @@ public class CraftingStructure : StructureBehaviorScript
     public bool isCrafting = false;
     public Coroutine craftCoroutine;
 
+    public AudioSource loopingSource;
+
     public void Start()
     {
         base.Start();
@@ -121,6 +123,8 @@ public class CraftingStructure : StructureBehaviorScript
         {
             StopAllCoroutines();
             isCrafting = false;
+            audioHandler.PlaySound(audioHandler.activatedSound);
+            loopingSource.Stop();
         }
     }
 
@@ -129,7 +133,18 @@ public class CraftingStructure : StructureBehaviorScript
         if (!isCrafting && craftSlots.Count > 0)
         {
             craftCoroutine = StartCoroutine(PerformCraft());
+            StartCoroutine(LoopAudio());
         }
+    }
+
+    IEnumerator LoopAudio()
+    {
+        if(Random.Range(0,4) == 1) loopingSource.clip = audioHandler.miscSounds1[0];
+        else loopingSource.clip = audioHandler.miscSounds1[Random.Range(0, audioHandler.miscSounds1.Length)];
+        loopingSource.Play();
+
+        float musicRuntime = loopingSource.clip.length;
+        yield return new WaitForSecondsRealtime(musicRuntime);
     }
 }
 

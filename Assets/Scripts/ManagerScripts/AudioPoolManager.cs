@@ -56,6 +56,7 @@ public class AudioPoolManager : MonoBehaviour
                 AudioSource oldSource = audio.GetComponent<AudioSource>();
                 oldSource.volume = defaultVolume;
                 oldSource.maxDistance = defaultDistance;
+                oldSource.spatialBlend = 1.0f;
                 oldSource.PlayOneShot(clip);
                 return;
             }
@@ -72,7 +73,7 @@ public class AudioPoolManager : MonoBehaviour
         newSource.PlayOneShot(clip);
     }
 
-    public void PlayClipAtPosition(AudioClip clip, Vector3 pos, float volume, float maxDistance) //make one for volume too
+    public void PlayClipAtPosition(AudioClip clip, Vector3 pos, float volume, float maxDistance)
     {
         foreach (GameObject audio in audioPool)
         {
@@ -83,6 +84,7 @@ public class AudioPoolManager : MonoBehaviour
                 AudioSource oldSource = audio.GetComponent<AudioSource>();
                 oldSource.volume = volume;
                 oldSource.maxDistance = maxDistance;
+                oldSource.spatialBlend = 1.0f;
                 oldSource.PlayOneShot(clip);
                 return;
             }
@@ -96,6 +98,32 @@ public class AudioPoolManager : MonoBehaviour
         AudioSource newSource = newAudio.GetComponent<AudioSource>();
         newSource.volume = volume;
         newSource.maxDistance = maxDistance;
+        newSource.spatialBlend = 1.0f;
+        newSource.PlayOneShot(clip);
+    }
+
+    public void PlayClip(AudioClip clip, float volume) // Can be heard from anywhere
+    {
+        foreach (GameObject audio in audioPool)
+        {
+            if(!audio.activeSelf)
+            {
+                audio.SetActive(true);
+                AudioSource oldSource = audio.GetComponent<AudioSource>();
+                oldSource.volume = volume;
+                oldSource.spatialBlend = 0.0f;
+                oldSource.PlayOneShot(clip);
+                return;
+            }
+        }
+
+        //No available items, must make a new one
+        GameObject newAudio = Instantiate(audioPrefab);
+        audioPool.Add(newAudio);
+
+        AudioSource newSource = newAudio.GetComponent<AudioSource>();
+        newSource.volume = volume;
+        newSource.spatialBlend = 0.0f;
         newSource.PlayOneShot(clip);
     }
 }

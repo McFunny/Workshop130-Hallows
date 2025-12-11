@@ -19,13 +19,16 @@ MonoBehaviour:
     - 'About time that lazy oaf cleared that tree!
 
       {freezePlayer}'
-    - On the bright side, I just finished some new schematics for a variety of new
-      gadgets.
+    - A girl can only live off of Aloe and Yarrow for so long!
     - You took up the farming task for the town, correct? Well, I just so happen
-      to have some new tech that needs some field testing.
-    - Meet me at my workshop later and I will have it ready on the table.
+      to have some new gadgets that needs some field testing.
+    - For starters, take this. It is an Automatic Assembly. Old stuff goes in, new
+      stuff comes out. Kind of like alchemy. {givePlayerItems}
+    - Don't ask me how it works. I forgot. Hard to think with no food!
+    - Meet me at my workshop later and I will have some more inventions ready on
+      the table.
     - And don't forget your mints!
-    emotions: 0500000001000000040000000000000003000000
+    emotions: 05000000030000000400000000000000020000000000000003000000
   repeatedItemPath:
     pathName: 
     paragraphs: []
@@ -60,6 +63,19 @@ MonoBehaviour:
     paragraphs:
     - I can't build out of nothing!... At least, not yet!
     emotions: 03000000
+  - pathName: Ticket Explaination
+    paragraphs:
+    - Oh! Looks like you got yourselves some Tinker Tickets!
+    - Go ahead and insert them into the machine near my workshop. Each ticket will
+      grant you another recipee for the Assembly.
+    emotions: 0100000000000000
+  - pathName: New Stuff
+    paragraphs:
+    - Great work last night fending off those invaders!
+    - I maaaaay have taken the liberty of collecting some scattered parts and materials
+      during your robotic rampage while you were occupied...
+    - But hey! I have more gear to try out! Check them out!
+    emotions: 010000000200000001000000
   fillerPaths:
   - pathName: Seed Shooter
     paragraphs:
@@ -118,6 +134,11 @@ MonoBehaviour:
     - This looks like blueprints... for a plant!
     - Are you telling me we can BUILD plants now??
     emotions: 0400000005000000
+  - pathName: Ticket
+    paragraphs:
+    - Looks like someone has been hard at work.
+    - Go plop that into my Recipe Machine back in my workshop for your reward!
+    emotions: 0000000001000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
