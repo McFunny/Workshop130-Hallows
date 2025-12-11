@@ -202,7 +202,8 @@ public class ShovelBehavior : ToolBehavior
         yield return new WaitForSeconds(0.6f * coolDownMod);
         if(InputManager.isCharging)
         {
-            HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
+            //HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
+            AudioPoolManager.Instance.PlayClip(chargeReady, 0.8f);
             maxCharge = true;
             Debug.Log("Charged Up");
         }

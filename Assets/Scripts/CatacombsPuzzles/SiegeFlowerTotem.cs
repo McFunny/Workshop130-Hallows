@@ -92,14 +92,19 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
             case 1:
                 QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.MainQuests[9]);
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[10]);
+                GameSaveData.Instance.bot_newWares = true;
+                GameSaveData.Instance.tink_newWares = true;
                 break;
             case 2:
                 QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.MainQuests[10]);
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[11]);
+                GameSaveData.Instance.bot_newWares = true;
+                GameSaveData.Instance.tink_newWares = true;
                 break;
             case 3:
                 QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.MainQuests[11]);
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[12]);
+                GameSaveData.Instance.bot_newWares = true;
                 break;
             case 4:
                 QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.MainQuests[12]);

@@ -20,9 +20,10 @@ public class WildernessManager : MonoBehaviour
     public List<CreatureBehaviorScript> allCreatures; // All other creatures
 
     public CreatureObject[] creatures;
-    //public GameObject[] interactablePrefabs;
+
     public WildernessInteractable[] wildernessInteractables;
-    //public float[] interactableSpawnChances;
+
+    public GameObject corruptedCocoonPrefab;
 
     [HideInInspector] public List<WildernessMap> allMaps = new List<WildernessMap>();
     WildernessMap currentMap;
@@ -165,7 +166,7 @@ public class WildernessManager : MonoBehaviour
         {
             //print("Ran");
             if(skipTimer) t = 1f;
-            else t = Random.Range(10, 20);
+            else t = Random.Range(15, 25);
             yield return new WaitForSeconds(t);
             if(allCreatures.Count < maxCreatures && currentMap && !DialogueController.Instance.IsTalking())
             {
@@ -175,7 +176,7 @@ public class WildernessManager : MonoBehaviour
                 if(newCreature.spawnChance_w > Random.Range(0,100))
                 {
                     SpawnCreature(newCreature);
-                    if(allCreatures.Count < maxCreatures/2 && Random.Range(0,100) > 50) SpawnCreature(newCreature);
+                    if(allCreatures.Count < maxCreatures/2 && Random.Range(0,100) > 75) SpawnCreature(newCreature);
 
                     skipTimer = false;
                 }

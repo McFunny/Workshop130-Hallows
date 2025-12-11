@@ -196,7 +196,8 @@ public class HoeBehavior : ToolBehavior
         yield return new WaitForSeconds(0.5f * coolDownMod);
         if(InputManager.isCharging)
         {
-            HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
+            //HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
+            AudioPoolManager.Instance.PlayClip(chargeReady, 0.8f);
             maxCharge = true;
             Debug.Log("Charged Up");
         }

@@ -81,7 +81,7 @@ public class Spider : CreatureBehaviorScript
         {
             targetWagon = WagonManager.Instance.wildernessWagon;
             wagonWeakPoint = targetWagon.GetWeakPoint();
-            currentState = CreatureState.AttackWagon;
+            if(!homeDen) currentState = CreatureState.AttackWagon;
         }
 
         StartCoroutine(ScanForTargets());
@@ -195,7 +195,7 @@ public class Spider : CreatureBehaviorScript
             currentState = CreatureState.AttackStructure;
         }
 
-        if(currentState == CreatureState.Wander && targetWagon)
+        if(currentState == CreatureState.Wander && targetWagon && !homeDen)
         {
             currentState = CreatureState.AttackWagon;
         }
@@ -250,7 +250,7 @@ public class Spider : CreatureBehaviorScript
             else if(currentState == CreatureState.AttackWagon) ///Attacking Wagon
             {
                 agent.updateRotation = true;
-                StartCoroutine(MoveToPoint(wagonWeakPoint.position, 10));
+                StartCoroutine(MoveToPoint(wagonWeakPoint.position, 5));
 
                 if(Vector3.Distance(transform.position, wagonWeakPoint.position) < 1.8f) interruptAction = true;
             }

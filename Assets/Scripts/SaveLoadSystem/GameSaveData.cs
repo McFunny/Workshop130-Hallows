@@ -48,6 +48,7 @@ public class GameSaveData : MonoBehaviour
     public bool pistolObtained;
     public bool kukriObtained;
     public bool testerObtained;
+    public bool upg_can, upg_hoe, upg_scythe, upg_torch;
 
     public bool mm_giveBarricade; //Merchant handed the player a barricade at the start
     public bool cm_giveChest; //Craftsman handed the player a chest at the start
@@ -74,9 +75,19 @@ public class GameSaveData : MonoBehaviour
     public bool tav_reportedApoMissing; //Tavernkeep told player she is missing
     public bool fan_ApoGoneComment; //Extra dialogue from the fanatic from the missing apoth
     public bool cm_refusedRepairs; //Craftsman refused to repair the wagon. Apoth must be kidnapped first
+    public bool tink_explainedTickets;
+    public bool bot_newWares; // The bot needs to explain they have new seeds. Turns to false after explaination given
+    public bool tink_newWares; // The bot needs to explain they have new gear. Turns to false after explaination given
+    public bool mm_introducedTickets; // Merchant explained the ticket box
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin blocking barn
+
+    public int botShopLevel;
+    public int mintsDonatedToBot;
+    public int tTicketsHeld; // How many tickets the player has that they have not redeemed
+    public float tTicketMintProgress; // How much progress was made since last recipe unlock
+    public int tTicketsAvailable; // How many are sitting in the box
 
     [Header("Siege Progression Bools. All must be false when building")]
     public int siegesCleared = 0;
@@ -198,6 +209,10 @@ public class GameSaveData : MonoBehaviour
         pistolObtained = data.allGameSaveData.pistolObtained;
         kukriObtained = data.allGameSaveData.kukriObtained;
         testerObtained = data.allGameSaveData.testerObtained;
+        upg_can = data.allGameSaveData.upg_can;
+        upg_hoe = data.allGameSaveData.upg_hoe;
+        upg_scythe = data.allGameSaveData.upg_scythe;
+        upg_torch = data.allGameSaveData.upg_torch;
 
         mm_giveBarricade = data.allGameSaveData.mm_giveBarricade;
         cm_giveChest = data.allGameSaveData.cm_giveChest;
@@ -224,6 +239,10 @@ public class GameSaveData : MonoBehaviour
         tav_reportedApoMissing = data.allGameSaveData.tav_reportedApoMissing;
         fan_ApoGoneComment = data.allGameSaveData.fan_ApoGoneComment;
         cm_refusedRepairs = data.allGameSaveData.cm_refusedRepairs;
+        tink_explainedTickets = data.allGameSaveData.tink_explainedTickets;
+        bot_newWares = data.allGameSaveData.bot_newWares;
+        tink_newWares = data.allGameSaveData.tink_newWares;
+        mm_introducedTickets = data.allGameSaveData.mm_introducedTickets;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -232,6 +251,12 @@ public class GameSaveData : MonoBehaviour
         carpMet = data.allGameSaveData.carpMet;
         mandrakeMet = data.allGameSaveData.mandrakeMet;
         millerMet = data.allGameSaveData.millerMet;
+
+        botShopLevel = data.allGameSaveData.botShopLevel;
+        mintsDonatedToBot = data.allGameSaveData.mintsDonatedToBot;
+        tTicketsHeld = data.allGameSaveData.tTicketsHeld;
+        tTicketMintProgress = data.allGameSaveData.tTicketMintProgress;
+        tTicketsAvailable = data.allGameSaveData.tTicketsAvailable;
 
         siegesCleared = data.allGameSaveData.siegesCleared;
         siegeCropInHand = data.allGameSaveData.siegeCropInHand;
@@ -334,6 +359,7 @@ public class GameSaveData : MonoBehaviour
         public bool pistolObtained;
         public bool kukriObtained;
         public bool testerObtained;
+        public bool upg_can, upg_hoe, upg_scythe, upg_torch;
 
         public bool mm_giveBarricade;
         public bool cm_giveChest;
@@ -360,6 +386,16 @@ public class GameSaveData : MonoBehaviour
         public bool tav_reportedApoMissing;
         public bool fan_ApoGoneComment;
         public bool cm_refusedRepairs;
+        public bool tink_explainedTickets;
+        public bool bot_newWares; 
+        public bool tink_newWares;
+        public bool mm_introducedTickets;
+
+        public int botShopLevel;
+        public int mintsDonatedToBot;
+        public int tTicketsHeld;
+        public float tTicketMintProgress;
+        public int tTicketsAvailable;
 
         public int siegesCleared;
         public bool siegeCropInHand; 
@@ -441,6 +477,10 @@ public class GameSaveData : MonoBehaviour
         kukriObtained = data.kukriObtained;
         pistolObtained = data.pistolObtained;
         testerObtained = data.testerObtained;
+        upg_can = data.upg_can;
+        upg_hoe = data.upg_hoe;
+        upg_scythe = data.upg_scythe;
+        upg_torch = data.upg_torch;
 
         mm_giveBarricade = data.mm_giveBarricade;
         cm_giveChest = data.cm_giveChest;
@@ -467,6 +507,16 @@ public class GameSaveData : MonoBehaviour
         tav_reportedApoMissing = data.tav_reportedApoMissing;
         fan_ApoGoneComment = data.fan_ApoGoneComment;
         cm_refusedRepairs = data.cm_refusedRepairs;
+        tink_explainedTickets = data.tink_explainedTickets;
+        bot_newWares = data.bot_newWares;
+        tink_newWares = data.tink_newWares;
+        mm_introducedTickets = data.mm_introducedTickets;
+
+        botShopLevel = data.botShopLevel;
+        mintsDonatedToBot = data.mintsDonatedToBot;
+        tTicketsHeld = data.tTicketsHeld;
+        tTicketMintProgress = data.tTicketMintProgress;
+        tTicketsAvailable = data.tTicketsAvailable;
 
         siegesCleared = data.siegesCleared;
         siegeCropInHand = data.siegeCropInHand;

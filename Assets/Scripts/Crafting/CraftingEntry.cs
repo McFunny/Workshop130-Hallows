@@ -10,7 +10,7 @@ public class CraftingEntry : ScriptableObject
     public string nameOverride;
     public CraftingCategory category = CraftingCategory.Misc;
     [Header("Unlock Requirements")]
-    public int levelRequirement = -1;
+    public int tier = -1; //-1 means unlocked through alternative means
     public bool isUnlocked = false;
     public bool isRecentlyUnlocked = true;
     [Header("Output Data")]

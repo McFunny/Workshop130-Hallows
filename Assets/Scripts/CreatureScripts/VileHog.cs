@@ -852,7 +852,8 @@ public class VileHog : CreatureBehaviorScript
 
     IEnumerator CorpseExplosionTimer()
     {
-        yield return new WaitForSeconds(Random.Range(30, 90));
+        if(!inWilderness) yield return new WaitForSeconds(Random.Range(30, 90));
+        else yield return new WaitForSeconds(Random.Range(0f, 2f));
         CorruptionExplosion();
     }
 
@@ -862,7 +863,14 @@ public class VileHog : CreatureBehaviorScript
         TakeDamage(999);
         CorruptionManager.Instance.CorruptionExplosion(transform.position, 5);
         //stagger player
-        if(Vector3.Distance(transform.position, player.transform.position) <= 5) PlayerInteraction.Instance.PlayerTrip();
+        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.playerFeet.position) <= 5) PlayerInteraction.Instance.PlayerTrip();
+
+        GameObject corpseParticle = ParticlePoolManager.Instance.GrabCorpseParticle(corpseType);
+        if(corpseParticle)
+        {
+            if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
+            else corpseParticle.transform.position = transform.position;
+        }
     }
 
 }

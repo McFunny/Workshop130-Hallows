@@ -60,7 +60,7 @@ public class StructureBehaviorScript : MonoBehaviour
     //public DestructionType destructionType;
     public GameObject gibs;
 
-    public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
+    [HideInInspector] public List<FireFearTrigger> nearbyFires = new List<FireFearTrigger>(); //to track if this structure is currently illuminated
     
     [Header("Highlights")]
     public List<GameObject> highlight = new List<GameObject>();

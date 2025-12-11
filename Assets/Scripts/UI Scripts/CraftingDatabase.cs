@@ -82,6 +82,66 @@ public class CraftingDatabase : ScriptableObject
         return _craftingDatabase; 
     }
 
+    public void UnlockRandomLockedRecipeInTier() //Call when using machine
+    {
+        for(int tier = 0; tier < 10; ++tier)
+        {
+            List<CraftingEntry> recipesInTier = new List<CraftingEntry>();
+            foreach(CraftingEntry c in _craftingDatabase)
+            {
+                if(c.isUnlocked == false && c.tier == tier) recipesInTier.Add(c);
+            }
+            if(recipesInTier.Count > 0)
+            {
+                recipesInTier[Random.Range(0, recipesInTier.Count)].isUnlocked = true;
+            }
+            
+        }
+    }
+
+    public int CurrentTier() //Tracks what the current tier of the next unlock will be
+    {
+        int heldTickets = GameSaveData.Instance.tTicketsHeld;
+        for(int tier = 0; tier < 10; ++tier)
+        {
+            List<CraftingEntry> recipesInTier = new List<CraftingEntry>();
+            foreach(CraftingEntry c in _craftingDatabase)
+            {
+                if(c.isUnlocked == false && c.tier == tier) recipesInTier.Add(c);
+            }
+            if(recipesInTier.Count > heldTickets)
+            {
+                return tier;
+            }
+            else heldTickets -= recipesInTier.Count;
+            
+        }
+
+        return -1;
+    }
+
+    /*public List<CraftingEntry> GetLockedRecipesInTier(out int currentTier, out List<CraftingEntry> recipesInTier)
+    {
+        for(int tier = 0; tier < 10; ++tier)
+        {
+            recipesInTier.Clear();
+            recipesInTier = new List<CraftingEntry>();
+            foreach(CraftingEntry c in _craftingDatabase)
+            {
+                if(c.isUnlocked == false && c.tier == tier) recipesInTier.Add(c.isUnlocked);
+            }
+            if(recipesInTier.Count > 0)
+            {
+                currentTier = tier;
+                return;
+            }
+            
+        }
+
+        currentTier = -1;
+        recipesInTier = new List<CraftingEntry>();
+    }*/
+
 }
 
 [System.Serializable]

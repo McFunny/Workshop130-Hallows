@@ -30,7 +30,7 @@ public class FyllaraNut : StructureBehaviorScript
         TreeNutDrop();
     }
 
-    void TreeNutDrop()
+    public void TreeNutDrop()
     {
         if(rb.useGravity == true) return;
         GetComponent<Collider>().excludeLayers = clearMask;
@@ -41,12 +41,9 @@ public class FyllaraNut : StructureBehaviorScript
         rb.AddForce(dir3 * 5);
     }
 
-    void OnTriggerEnter(Collider other)
+    public void BreakNut()
     {
-        if(!rb.useGravity) return;
-        if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
-        {
-            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(nut);
+        GameObject droppedItem = ItemPoolManager.Instance.GrabItem(nut);
             droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
@@ -54,6 +51,14 @@ public class FyllaraNut : StructureBehaviorScript
             audioHandler.PlaySoundAtPoint(audioHandler.breakSound,transform.position);
 
             Destroy(gameObject);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(!rb.useGravity) return;
+        if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
+        {
+            BreakNut();
         }
         if(hasDealtDamage) return;
         if(other.gameObject.CompareTag("Player"))
