@@ -10,7 +10,7 @@ public class CraftingStructure : StructureBehaviorScript
     public int currentSlot;
     private const int CRAFTCAP = 5;
     public bool isCrafting = false;
-    public Coroutine craftCoroutine;
+    public Coroutine craftCoroutine, audioCoroutine;
 
     public AudioSource loopingSource;
 
@@ -44,7 +44,7 @@ public class CraftingStructure : StructureBehaviorScript
             craftSlots.Add(newSlot);
             if (!isCrafting)
             {
-                craftCoroutine = StartCoroutine(PerformCraft());
+                StartCrafting();
             }
         }
     }
@@ -78,15 +78,19 @@ public class CraftingStructure : StructureBehaviorScript
         craftSlots[currentSlot].isComplete = true;
 
         isCrafting = false;
+        CraftSlotData slot = null;
 
         for (int i = 0; i < craftSlots.Count; i++)
         {
             if (craftSlots[i].isComplete == false)
             {
+                slot = craftSlots[i];
                 craftCoroutine = StartCoroutine(PerformCraft());
                 break;
             }
         }
+
+        if (slot == null) AllCraftsFinished();
 
         if (craftingSystem.currentStructure == this)
         {
@@ -123,8 +127,6 @@ public class CraftingStructure : StructureBehaviorScript
         {
             StopAllCoroutines();
             isCrafting = false;
-            audioHandler.PlaySound(audioHandler.activatedSound);
-            loopingSource.Stop();
         }
     }
 
@@ -132,13 +134,22 @@ public class CraftingStructure : StructureBehaviorScript
     {
         if (!isCrafting && craftSlots.Count > 0)
         {
+            if(audioCoroutine == null) audioCoroutine = StartCoroutine(LoopAudio());
             craftCoroutine = StartCoroutine(PerformCraft());
-            StartCoroutine(LoopAudio());
         }
+    }
+
+    private void AllCraftsFinished()
+    {
+        audioHandler.PlaySound(audioHandler.activatedSound);
+        loopingSource.Stop();
+        StopCoroutine(audioCoroutine);
+        audioCoroutine = null;
     }
 
     IEnumerator LoopAudio()
     {
+        Debug.Log("We made it here");
         if(Random.Range(0,4) == 1) loopingSource.clip = audioHandler.miscSounds1[0];
         else loopingSource.clip = audioHandler.miscSounds1[Random.Range(0, audioHandler.miscSounds1.Length)];
         loopingSource.Play();
