@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.14509805, g: 0.24846667, b: 0.29411766, a: 1}
+  m_Color: {r: 0, g: 0.12941177, b: 0.03137255, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -554,7 +554,6 @@ GameObject:
   - component: {fileID: 3111415886379129129}
   - component: {fileID: 4970106727457810098}
   - component: {fileID: 2724085331899108204}
-  - component: {fileID: 4550997769383171706}
   m_Layer: 11
   m_Name: ScreenCanvas
   m_TagString: Untagged
@@ -645,49 +644,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4550997769383171706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1666732432761989215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14993afe5c52a5245be2a7a2af74a77b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statsParent: {fileID: 2028059538118369538}
-  seedParent: {fileID: 8326571290572073205}
-  nutrientsParent: {fileID: 8107536093458234118}
-  radarParent: {fileID: 8479589087599185725}
-  gloamText: {fileID: 8957173506043024421}
-  terraText: {fileID: 1665300065483106517}
-  ichorText: {fileID: 7882523940054624289}
-  waterText: {fileID: 1951765389483514868}
-  seedImage: {fileID: 2245856637425999693}
-  checkmarkImage: {fileID: 4162113104999638206}
-  staticVideo: {fileID: 428244457509315303}
-  minStatic: 0.05
-  maxStatic: 1
-  staticAlphaSpeed: 0.05
-  popup: {fileID: 0}
-  circleImage: {fileID: 4497958838504355788}
-  radarRange: 50
-  fadeDuration: 1
-  radarPanel: {fileID: 3876617861360984900}
-  radarBar: {fileID: 4635658211087478679}
-  rotationSpeed: 40
-  include:
-    serializedVersion: 2
-    m_Bits: 512
-  exclude:
-    serializedVersion: 2
-    m_Bits: 8388087
-  radarPing: {fileID: 8300000, guid: 630ad7df4d620f34e8eefbe50a3c42e0, type: 3}
-  iconPrefab: {fileID: 1470136488284522237, guid: d720241b8828a4a49aebb635df941413,
-    type: 3}
-  preloadAmount: 20
 --- !u!1 &1804491407348392147
 GameObject:
   m_ObjectHideFlags: 0
@@ -2208,6 +2164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7620139703952626033}
+  - component: {fileID: 2487367911153492149}
   m_Layer: 11
   m_Name: NutrientTester
   m_TagString: Untagged
@@ -2231,6 +2188,49 @@ Transform:
   - {fileID: 2354706849551015241}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2487367911153492149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7887784196359342330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14993afe5c52a5245be2a7a2af74a77b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statsParent: {fileID: 2028059538118369538}
+  seedParent: {fileID: 8326571290572073205}
+  nutrientsParent: {fileID: 8107536093458234118}
+  radarParent: {fileID: 8479589087599185725}
+  gloamText: {fileID: 8957173506043024421}
+  terraText: {fileID: 1665300065483106517}
+  ichorText: {fileID: 7882523940054624289}
+  waterText: {fileID: 1951765389483514868}
+  seedImage: {fileID: 2245856637425999693}
+  checkmarkImage: {fileID: 4162113104999638206}
+  staticVideo: {fileID: 428244457509315303}
+  minStatic: 0.05
+  maxStatic: 1
+  staticAlphaSpeed: 0.05
+  popup: {fileID: 0}
+  circleImage: {fileID: 4497958838504355788}
+  radarRange: 100
+  fadeDuration: 1
+  radarPanel: {fileID: 3876617861360984900}
+  radarBar: {fileID: 4635658211087478679}
+  rotationSpeed: 40
+  include:
+    serializedVersion: 2
+    m_Bits: 512
+  exclude:
+    serializedVersion: 2
+    m_Bits: 8388087
+  radarPing: {fileID: 8300000, guid: 630ad7df4d620f34e8eefbe50a3c42e0, type: 3}
+  iconPrefab: {fileID: 1470136488284522237, guid: d720241b8828a4a49aebb635df941413,
+    type: 3}
+  preloadAmount: 20
 --- !u!1 &8107536093458234118
 GameObject:
   m_ObjectHideFlags: 0

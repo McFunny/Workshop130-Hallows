@@ -94,7 +94,7 @@ public class ToolTipScript : MonoBehaviour
 
         transform.position = pos;*/
     }
-    public void UpdateToolTip(InventoryItemData itemData)
+    public void UpdateToolTip(InventoryItemData itemData, bool isCraft = false)
     {
         if (itemData == null || !panel.activeSelf) return;
 
@@ -159,6 +159,14 @@ public class ToolTipScript : MonoBehaviour
                 itemType.text = "Seed";
                 var seedData = itemData as CropItem; //why did I name it like this
 
+                if(isCraft)
+                {
+                    intakeParent.SetActive(false);
+                    outputParent.SetActive(false);
+                    itemStamina.gameObject.SetActive(false);
+                    itemType.color = c_crop;
+                    break;
+                }
                 //Consumes
 
                 if (seedData.cropData.gloamIntake > 0) { input[0].SetActive(true); }
@@ -305,12 +313,12 @@ public class ToolTipScript : MonoBehaviour
         }
 
         foreach (CraftingRequirement requirement in entry.craftingRequirements)
-            {
-                barterIconImages[count].sprite = requirement.requiredItem.icon;
-                barterIconTexts[count].text = "x" + requirement.requiredAmount + " (" + PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(requirement.requiredItem) + ")";
-                barterIconImages[count].gameObject.SetActive(true);
-                barterIconTexts[count].gameObject.SetActive(true);
-                count++;
-            }
+        {
+            barterIconImages[count].sprite = requirement.requiredItem.icon;
+            barterIconTexts[count].text = "x" + requirement.requiredAmount + " (" + PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(requirement.requiredItem) + ")";
+            barterIconImages[count].gameObject.SetActive(true);
+            barterIconTexts[count].gameObject.SetActive(true);
+            count++;
+        }
     }
 }
