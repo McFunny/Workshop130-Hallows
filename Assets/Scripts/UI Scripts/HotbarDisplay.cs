@@ -115,6 +115,7 @@ public class HotbarDisplay : MonoBehaviour
             if (t_item)
             {
                 HandItemManager.Instance.SwapHandModel(t_item.tool, t_item.isUpgrade);
+                t_item.behavior.OnEquip();
             }
             else
             {

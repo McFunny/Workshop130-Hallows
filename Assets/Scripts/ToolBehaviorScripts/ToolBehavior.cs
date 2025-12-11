@@ -23,5 +23,7 @@ public class ToolBehavior : ScriptableObject
 
     public virtual void OnHolster(){}
 
+    public virtual void OnEquip() {}
+
 
 }

@@ -65,8 +65,12 @@ public class NutrientTesterScript : MonoBehaviour
         {
             CreateIconToPool();
         }
+    }
 
+    private void Start()
+    {
         player = PlayerMovement.Instance.orientation.transform;
+
         radarObject = new GameObject("RadarParent");
         radarObject.transform.SetParent(player, false);
         radarHandler = radarObject.AddComponent<RadarHandler>();
@@ -75,10 +79,7 @@ public class NutrientTesterScript : MonoBehaviour
 
         radarObject.transform.localRotation = quaternion.Euler(Vector3.zero);
         radarHandler.enabled = false;
-    }
 
-    private void Start()
-    {
         UpdateTile(null);
         UpdateSeed(null);
 
@@ -99,6 +100,12 @@ public class NutrientTesterScript : MonoBehaviour
         WildernessManager.OnWildernessLeave -= HandleWildernessExit;
     }
 
+    public void EnableDisableRadar(bool val)
+    {
+        if(mode != TesterMode.Radar) return;
+        radarHandler.enabled = val;
+    }
+
     private void Update()
     {
         HandleStatic();
@@ -117,7 +124,7 @@ public class NutrientTesterScript : MonoBehaviour
     {
         //return;
         mode = TesterMode.Radar;
-        radarHandler.enabled = true;
+        //radarHandler.enabled = true;
         nutrientsParent.SetActive(false);
         radarParent.SetActive(true);
     }
@@ -125,7 +132,7 @@ public class NutrientTesterScript : MonoBehaviour
     private void HandleWildernessExit()
     {
         mode = TesterMode.Nutrient;
-        radarHandler.enabled = false;
+        //radarHandler.enabled = false;
         nutrientsParent.SetActive(true);
         radarParent.SetActive(false);
     }
