@@ -49,6 +49,8 @@ public class TimeManager : MonoBehaviour
     public Transform playerRespawn, respawnFocus;
 
     public static TimeManager Instance;
+    public delegate void UpdateCraftTimes(int val);
+    public static event UpdateCraftTimes OnUpdateCraftTimes;
 
     void Awake()
     {
@@ -402,22 +404,29 @@ public class TimeManager : MonoBehaviour
         stopTime = true;
         int timeDif = 0;
         currentMinute = 0;
+
+        int hoursPassed = 0;
+        int minsPassed = 0;
         if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
 
         FadeScreen.coverScreen = true;
         PlayerMovement.restrictMovementTokens++;
         yield return new WaitForSeconds(2f);
+        
         //change time and day
         if(isDay) //Died during the day
         {
             int targetHour = 19;
+            
             while(currentHour != targetHour)
             {
                 currentHour++;
+                hoursPassed++;
                 print(currentHour);
                 PlayerInteraction.Instance.StaminaChange(5);
                 OnHourlyUpdate?.Invoke();
             }
+            minsPassed = hoursPassed * minPerDayHour;
         }
         StartCoroutine(QuickSaveGame());
 
@@ -431,7 +440,7 @@ public class TimeManager : MonoBehaviour
         stopTime = false;
 
         currentMinute = minPerDayHour - 20;
-
+        OnUpdateCraftTimes?.Invoke(minsPassed + currentMinute);
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
     }
