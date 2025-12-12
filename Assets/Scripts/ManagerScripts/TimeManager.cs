@@ -296,6 +296,7 @@ public class TimeManager : MonoBehaviour
         timeSkipping = true;
         stopTime = true;
         int timeDif = 0;
+        int minsPassed = 0;
         currentMinute = 0;
         if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
         //change time and day
@@ -310,6 +311,7 @@ public class TimeManager : MonoBehaviour
             while(currentHour != targetHour)
             {
                 currentHour++;
+                minsPassed += minPerDayHour;
 
                 //this doesnt account for the things that arent structures
                 /*foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
@@ -324,6 +326,7 @@ public class TimeManager : MonoBehaviour
             while(currentHour != 8)
             {
                 currentHour++;
+                minsPassed += minPerNightHour;
                 if(currentHour >= 24) currentHour = 0;
 
                 //this doesnt account for the things that arent structures
@@ -335,6 +338,7 @@ public class TimeManager : MonoBehaviour
             }
             StartCoroutine(NewDayTransition());
         }
+        OnUpdateCraftTimes?.Invoke(minsPassed);
         ToggleSkyLights();
         isDay = true;
         InitializeSkyBox();
@@ -428,6 +432,7 @@ public class TimeManager : MonoBehaviour
             }
             minsPassed = hoursPassed * minPerDayHour;
         }
+        OnUpdateCraftTimes?.Invoke(minsPassed + (minPerDayHour - 20));
         StartCoroutine(QuickSaveGame());
 
         ToggleSkyLights();
@@ -440,7 +445,7 @@ public class TimeManager : MonoBehaviour
         stopTime = false;
 
         currentMinute = minPerDayHour - 20;
-        OnUpdateCraftTimes?.Invoke(minsPassed + currentMinute);
+        
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
     }
