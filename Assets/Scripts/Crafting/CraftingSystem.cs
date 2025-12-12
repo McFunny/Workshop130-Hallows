@@ -457,6 +457,7 @@ public class CraftingSystem : MonoBehaviour
     public void CollectCrafts()
     {
         currentStructure.StopCrafting();
+        Debug.Log("Craft Stopped");
         for (int i = 0; i < currentStructure.craftSlots.Count; i++)
         {
             if (currentStructure.craftSlots[i].isComplete)
@@ -479,6 +480,7 @@ public class CraftingSystem : MonoBehaviour
         if (currentStructure.craftSlots.Count > 0)
         {
             currentStructure.StartCrafting();
+            Debug.Log("Craft Starting");
         }
         UpdateActiveCrafts();
         if (selectedEntry != null) UpdateAssignedEntry(selectedEntry);
