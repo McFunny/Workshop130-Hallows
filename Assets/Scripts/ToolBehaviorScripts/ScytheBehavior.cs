@@ -56,6 +56,7 @@ public class ScytheBehavior : ToolBehavior
     void ScytheSwing()
     {
         if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == null || HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData != thisItem) return;
+        scytheAttack.upgradedSwing = isUpgrade;
         scytheAttack.StartCoroutine(scytheAttack.Swing());
         PlayerMovement.limitMaxVelocity = false;
         PlayerMovement.ignoreMovementInputs = true;
