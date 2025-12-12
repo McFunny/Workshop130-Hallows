@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.020004272, y: 0.25, z: -0.14001465}
-  m_LocalScale: {x: 1.03, y: 1.03, z: 1.03}
+  m_LocalScale: {x: 0.52, y: 0.52, z: 0.52}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 931091954533404862}
@@ -4925,7 +4925,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.020004272, y: 0.25, z: -0.14001465}
-  m_LocalScale: {x: 1.03, y: 1.03, z: 1.03}
+  m_LocalScale: {x: 0.52, y: 0.52, z: 0.52}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 931091954533404862}
@@ -9907,9 +9907,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e1f6c932cf42b41b7dc0d2c462a96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitStruct: {fileID: 8300000, guid: 35a2794032807a642ba42dc77c0dcfce, type: 3}
-  hitEnemy: {fileID: 8300000, guid: 35a2794032807a642ba42dc77c0dcfce, type: 3}
-  hitGround: {fileID: 8300000, guid: 35a2794032807a642ba42dc77c0dcfce, type: 3}
+  hitStruct: {fileID: 8300000, guid: 1cc80417d05589142b064bf975937e15, type: 3}
+  hitEnemy: {fileID: 8300000, guid: 1cc80417d05589142b064bf975937e15, type: 3}
+  hitGround: {fileID: 8300000, guid: 1cc80417d05589142b064bf975937e15, type: 3}
   homing: 0
   target: {x: 0, y: 0, z: 0}
   thingsToTurnOff:
@@ -9918,6 +9918,7 @@ MonoBehaviour:
   - {fileID: 1994207621315276668}
   trail: {fileID: 4306679912716059854}
   ichorGain: 1
+  sourceCreature: {fileID: 0}
 --- !u!1 &1994207621315276668
 GameObject:
   m_ObjectHideFlags: 0
@@ -9946,7 +9947,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.020004272, y: 0.25, z: -0.14001465}
-  m_LocalScale: {x: 1.03, y: 1.03, z: 1.03}
+  m_LocalScale: {x: 0.52, y: 0.52, z: 0.52}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 931091954533404862}
@@ -14898,8 +14899,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.010334015
-        value: 0.44252777
+        time: 0.007751465
+        value: 0.23563385
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -14920,9 +14921,9 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.8773585, g: 0.0041384934, b: 0.110136054, a: 1}
-      key1: {r: 0.9150943, g: 0, b: 0.1556285, a: 1}
-      key2: {r: 0.8018868, g: 0, b: 0.1363755, a: 1}
+      key0: {r: 0.5471698, g: 0.002580996, b: 0.068517946, a: 1}
+      key1: {r: 0.3962264, g: 0, b: 0.068021685, a: 1}
+      key2: {r: 0.1981132, g: 0, b: 0.03399006, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -14988,7 +14989,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0.020004272, y: 0.25, z: -0.14001465}
-  m_LocalScale: {x: 0.74, y: 0.74, z: 0.74}
+  m_LocalScale: {x: 0.39, y: 0.39, z: 0.39}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 931091954533404862}
@@ -15183,7 +15184,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 2
       minColor: {r: 0.254717, g: 0, b: 0, a: 1}
-      maxColor: {r: 0.6603774, g: 0, b: 0.019803587, a: 1}
+      maxColor: {r: 0.3584906, g: 0.015218933, b: 0.025435314, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

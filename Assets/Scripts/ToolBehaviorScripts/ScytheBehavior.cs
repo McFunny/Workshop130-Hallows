@@ -35,7 +35,7 @@ public class ScytheBehavior : ToolBehavior
         else if(PlayerInteraction.Instance.stamina <= 50)
         {
             coolDownMod += .25f;
-            animSpeedMod -= .3f;
+            animSpeedMod -= .25f;
         }
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);

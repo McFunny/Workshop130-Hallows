@@ -27,6 +27,10 @@ public class Cannon : StructureBehaviorScript
 
     Coroutine primeRoutine;
 
+    public bool isBugCannon = false;
+
+    public GameObject beetleBall;
+
 
     void Start()
     {
@@ -141,6 +145,12 @@ public class Cannon : StructureBehaviorScript
             case 209:
                 newBullet = ProjectilePoolManager.Instance.GrabEggBullet();
                 break;
+            case 182:
+                newBullet = Instantiate(beetleBall,bulletOrigin.position, cannonHead.rotation);//ProjectilePoolManager.Instance.GrabBeetleBall();
+                break;
+            case 135:
+                newBullet = Instantiate(beetleBall,bulletOrigin.position, cannonHead.rotation);//ProjectilePoolManager.Instance.GrabBeetleBall();
+                break;
             default:
             newBullet = ProjectilePoolManager.Instance.GrabTimberEarBullet();
             break;
@@ -155,11 +165,14 @@ public class Cannon : StructureBehaviorScript
         Vector3 dir = (targetPosition - cannonHead.position).normalized;
         //dir.y = 0;
 
-        newBullet.transform.position = bulletOrigin.position;
-        newBullet.transform.rotation = Quaternion.identity;
-
-        newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * extraUpVelocity);
-        newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
+        if(!isBugCannon)
+        {
+            newBullet.transform.position = bulletOrigin.position;
+            newBullet.transform.rotation = Quaternion.identity;
+            
+            newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * extraUpVelocity);
+            newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
+        }
         //print("PEW");
 
         ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
@@ -168,9 +181,14 @@ public class Cannon : StructureBehaviorScript
         cannonHead.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.5f, 0, 0.2f);
         yield return new WaitForSeconds(0.2f);
         savedItems.RemoveAt(0);
-        if(savedItems.Count > 0) UpdateModel(savedItems[0].ID, out bool success2);
+        if(savedItems.Count > 0)
+        {
+            UpdateModel(savedItems[0].ID, out bool success2);
+            if(isBugCannon) isPrimed = true;
+        }
         
-        yield return new WaitForSeconds(1.5f);
+        if(isBugCannon) yield return new WaitForSeconds(0.5f);
+        else yield return new WaitForSeconds(1.5f);
 
         shotCooldown = false;
     }
@@ -210,6 +228,25 @@ public class Cannon : StructureBehaviorScript
             success = false;
             return;
         }
+        if(isBugCannon)
+        {
+            switch(itemID) //This is where we enable objects in the cannon
+            {
+                case 135: //loam beetle
+                    loadedAmmo[0].SetActive(true);
+                    success = true;
+                    break;
+                case 182: //jag beetle
+                    loadedAmmo[0].SetActive(true);
+                    success = true;
+                    break;
+
+                default:
+                    success = false;
+                    break;
+            }
+            return;
+        }
         switch(itemID) //This is where we enable objects in the cannon
         {
             case 116:
@@ -228,7 +265,6 @@ public class Cannon : StructureBehaviorScript
                 loadedAmmo[3].SetActive(true);
                 success = true;
                 break;
-
             default:
                 success = false;
                 break;
