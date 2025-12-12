@@ -62,7 +62,8 @@ public class BloodProjectile : MonoBehaviour
                     else return;
                 }
                 if(!deleteDrop) return;
-                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                //HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                AudioPoolManager.Instance.PlayClipAtPosition(hitStruct, transform.position, 0.1f, 30);
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                 ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = transform.position;
                 StartCoroutine(TurnOff());
@@ -78,7 +79,8 @@ public class BloodProjectile : MonoBehaviour
             if (creature != null && creature.shovelVulnerable && creature.health > 0 && (!sourceCreature || sourceCreature != creature))
             {
                 creature.HitWithWater();
-                HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
+                //HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
+                AudioPoolManager.Instance.PlayClipAtPosition(hitEnemy, transform.position, 0.1f, 30);
                 //print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                 ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = transform.position;
@@ -90,12 +92,14 @@ public class BloodProjectile : MonoBehaviour
 
         if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
         {
-            HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
+            //HandItemManager.Instance.toolSource.PlayOneShot(hitGround);
+            AudioPoolManager.Instance.PlayClipAtPosition(hitGround, transform.position, 0.1f, 30);
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
             ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = transform.position;
             //gameObject.SetActive(false);
             StartCoroutine(TurnOff());
+            GroundImpact(transform.position);
             //NutrientRefill
             return;
         }
@@ -103,6 +107,27 @@ public class BloodProjectile : MonoBehaviour
         var bug = other.GetComponent<BugBehaviorScript>();
         if(bug) bug.Struck();
 
+    }
+
+    void GroundImpact(Vector3 pos)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f);
+        foreach(Collider collider in hitColliders)
+        {
+            StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+            if(structure && structure.onFire) structure.Extinguish();
+            if(structure) return;
+
+            var creature = collider.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+            if (creature != null && creature.shovelVulnerable && creature.health > 0 && (!sourceCreature || sourceCreature != creature))
+            {
+                creature.TakeDamage(5);
+                creature.HitWithWater();
+                AudioPoolManager.Instance.PlayClipAtPosition(hitEnemy, pos, 0.1f, 30);
+                ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = creature.transform.position;
+                return;
+            }
+        }
     }
 
     void OnEnable()
