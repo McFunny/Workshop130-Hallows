@@ -26,6 +26,12 @@ public class NutTesterBehavior : ToolBehavior
         onHotbar = true;
         NutrientTesterScript.Instance.UpdateSeed(null);
         NutrientTesterScript.Instance.UpdateTile(null);
+        NutrientTesterScript.Instance.EnableDisableRadar(false);
+    }
+
+    public override void OnEquip()
+    {
+        NutrientTesterScript.Instance.EnableDisableRadar(true);
     }
 
     public override void PrimaryUse(Transform _player, ToolType _tool)

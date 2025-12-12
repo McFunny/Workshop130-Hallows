@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class CraftingStructure : StructureBehaviorScript
@@ -21,7 +20,13 @@ public class CraftingStructure : StructureBehaviorScript
     {
         base.Start();
         craftingSystem = FindObjectOfType<CraftingSystem>();
+        TimeManager.OnUpdateCraftTimes += TimeSkipped;
 
+    }
+    private void OnDestroy()
+    {
+        base.OnDestroy();
+        TimeManager.OnUpdateCraftTimes -= TimeSkipped;
     }
     public override void StructureInteraction()
     {
@@ -93,12 +98,12 @@ public class CraftingStructure : StructureBehaviorScript
             }
         }
 
-        if (slot == null) AllCraftsFinished();
-
         if (craftingSystem.currentStructure == this)
         {
             craftingSystem.UpdateActiveCrafts();
         }
+
+        if(slot == null) AllCraftsFinished();
     }
 
     private IEnumerator CraftTimer()
@@ -124,11 +129,48 @@ public class CraftingStructure : StructureBehaviorScript
         else return false;
     }
 
+    public void TimeSkipped(int timePassed)
+    {
+        Debug.Log("Time Skipped: " + timePassed + " mins");
+        StopCrafting();
+        int minsToRemove = timePassed;
+        for (int i = 0; i < craftSlots.Count; i++)
+        {
+            if(craftSlots[i].isComplete) continue;
+
+            if(minsToRemove >= craftSlots[i].timeRemaining)
+            {
+                minsToRemove -= craftSlots[i].timeRemaining;
+                craftSlots[i].timeRemaining = 0;
+            }
+            else
+            {
+                craftSlots[i].timeRemaining -= minsToRemove;
+                break;
+            }
+        }
+
+        bool incompleteCraftFound = false;
+
+        for (int i = 0; i < craftSlots.Count; i++)
+        {
+            if (!craftSlots[i].isComplete)
+            {
+                incompleteCraftFound = true;
+                break;
+            }
+        }
+
+        if(incompleteCraftFound) StartCrafting();
+        else AllCraftsFinished();
+        
+    }
+
     public void StopCrafting()
     {
         if (isCrafting)
         {
-            StopAllCoroutines();
+            StopCoroutine(craftCoroutine);
             isCrafting = false;
         }
     }
@@ -148,12 +190,14 @@ public class CraftingStructure : StructureBehaviorScript
     private void AllCraftsFinished()
     {
         audioHandler.PlaySound(audioHandler.activatedSound);
+        
         loopingSource.Stop();
-        StopCoroutine(audioCoroutine);
+        if(audioCoroutine != null) StopCoroutine(audioCoroutine);
         audioCoroutine = null;
-
+        
         fumes.Stop();
         anim.SetBool("Running", false);
+        print(anim.GetBool("Running"));
     }
 
     IEnumerator LoopAudio()
@@ -168,6 +212,7 @@ public class CraftingStructure : StructureBehaviorScript
     }
 }
 
+[System.Serializable]
 public class CraftSlotData
 {
     public CraftingEntry assignedCraft;

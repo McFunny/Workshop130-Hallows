@@ -17,7 +17,7 @@ public class RadarHandler : MonoBehaviour
 
     void Start()
     {
-        maxSize = NutrientTesterScript.Instance.radarRange;;
+        maxSize = NutrientTesterScript.Instance.radarRange;
 
         radarCollider = GetComponent<SphereCollider>();
         //radarCollider.center = new Vector3(0, radarRange / 2f, radarRange / 2f);
@@ -27,17 +27,19 @@ public class RadarHandler : MonoBehaviour
         radarCollider.excludeLayers = NutrientTesterScript.Instance.exclude;
     }
 
-    void OnEnable()
+    public void OnEnable()
     {
         if(radarCollider == null) radarCollider = GetComponent<SphereCollider>();
         radarCollider.enabled = true;
         scan = StartCoroutine(Scan());  
+        Debug.Log("Radar Enabled");
     }
 
-    void OnDisable()
+    public void OnDisable()
     {
-        StopCoroutine(scan);
+        if(scan != null) StopCoroutine(scan);
         radarCollider.enabled = false;
+        Debug.Log("Radar Disabled");
     }
 
     private void OnTriggerEnter(Collider other)

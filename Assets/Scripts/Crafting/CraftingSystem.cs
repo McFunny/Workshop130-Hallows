@@ -182,6 +182,7 @@ public class CraftingSystem : MonoBehaviour
             PlayerMovement.restrictMovementTokens--;
             currentStructure = null;
             selectedEntry = null;
+            EventSystem.current.SetSelectedGameObject(null);
             UpdateTimerText(0);
             EnableDisableAllCanvasGroups(true);
         }
@@ -353,7 +354,7 @@ public class CraftingSystem : MonoBehaviour
         }
         descriptionBoxContainer.SetActive(true);
         descriptionBoxVisuals.SetActive(true);
-        descriptionBox.UpdateToolTip(entry.output);
+        descriptionBox.UpdateToolTip(entry.output, true);
         descriptionBox.UpdateTooltipCraft(entry);
 
         CraftReason CanCraft = IsAbleToCraft();

@@ -49,6 +49,8 @@ public class TimeManager : MonoBehaviour
     public Transform playerRespawn, respawnFocus;
 
     public static TimeManager Instance;
+    public delegate void UpdateCraftTimes(int val);
+    public static event UpdateCraftTimes OnUpdateCraftTimes;
 
     void Awake()
     {
@@ -294,6 +296,7 @@ public class TimeManager : MonoBehaviour
         timeSkipping = true;
         stopTime = true;
         int timeDif = 0;
+        int minsPassed = 0;
         currentMinute = 0;
         if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
         //change time and day
@@ -308,6 +311,7 @@ public class TimeManager : MonoBehaviour
             while(currentHour != targetHour)
             {
                 currentHour++;
+                minsPassed += minPerDayHour;
 
                 //this doesnt account for the things that arent structures
                 /*foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
@@ -322,6 +326,7 @@ public class TimeManager : MonoBehaviour
             while(currentHour != 8)
             {
                 currentHour++;
+                minsPassed += minPerNightHour;
                 if(currentHour >= 24) currentHour = 0;
 
                 //this doesnt account for the things that arent structures
@@ -333,6 +338,7 @@ public class TimeManager : MonoBehaviour
             }
             StartCoroutine(NewDayTransition());
         }
+        OnUpdateCraftTimes?.Invoke(minsPassed);
         ToggleSkyLights();
         isDay = true;
         InitializeSkyBox();
@@ -402,23 +408,31 @@ public class TimeManager : MonoBehaviour
         stopTime = true;
         int timeDif = 0;
         currentMinute = 0;
+
+        int hoursPassed = 0;
+        int minsPassed = 0;
         if(sunMoonPivot) sunMoonPivot.eulerAngles = new Vector3(oldRotation, 0, 0);
 
         FadeScreen.coverScreen = true;
         PlayerMovement.restrictMovementTokens++;
         yield return new WaitForSeconds(2f);
+        
         //change time and day
         if(isDay) //Died during the day
         {
             int targetHour = 19;
+            
             while(currentHour != targetHour)
             {
                 currentHour++;
+                hoursPassed++;
                 print(currentHour);
                 PlayerInteraction.Instance.StaminaChange(5);
                 OnHourlyUpdate?.Invoke();
             }
+            minsPassed = hoursPassed * minPerDayHour;
         }
+        OnUpdateCraftTimes?.Invoke(minsPassed + (minPerDayHour - 20));
         StartCoroutine(QuickSaveGame());
 
         ToggleSkyLights();
@@ -431,7 +445,7 @@ public class TimeManager : MonoBehaviour
         stopTime = false;
 
         currentMinute = minPerDayHour - 20;
-
+        
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
     }
