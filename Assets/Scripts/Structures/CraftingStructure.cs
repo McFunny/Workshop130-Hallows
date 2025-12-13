@@ -184,6 +184,7 @@ public class CraftingStructure : StructureBehaviorScript
 
             fumes.Play();
             anim.SetBool("Running", true);
+            print("played");
         }
     }
 
