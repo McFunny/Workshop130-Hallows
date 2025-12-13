@@ -25,6 +25,11 @@ public class Gachapon : MonoBehaviour, IInteractable
 
     public InventoryItemData siegePaper;
 
+    private AudioSource gachaponAudioSource;
+    public AudioClip gachaponOpenSound;
+    public AudioClip gachaponGearsTurning;
+    public AudioClip gachaponCloseSound;
+
 
 
     private void Awake()
@@ -41,13 +46,21 @@ public class Gachapon : MonoBehaviour, IInteractable
     private void Start()
     {
         animator = GetComponent<Animator>();
+        gachaponAudioSource = GetComponent<AudioSource>();
 
-        if(!MainMenuScript.loadingData)
+        if (!MainMenuScript.loadingData)
         {
             AddToBacklog(siegePaper, 1);
         }
 
         if(!currentlyOfferingPrize) ballSprite.enabled = false;
+        else
+        {
+            ballSprite.enabled = true;
+            gachaponAudioSource.clip = gachaponGearsTurning;
+            gachaponAudioSource.loop = true;
+            gachaponAudioSource.Play();
+        }
         if (itemBacklog.Count > 0) PlayParticles(true);
         else PlayParticles(false);
 
@@ -84,6 +97,11 @@ public class Gachapon : MonoBehaviour, IInteractable
         animator.SetTrigger("Open");
         ballSprite.enabled = true;
         currentlyOfferingPrize = true;
+
+        gachaponAudioSource.Stop();
+        gachaponAudioSource.loop = false;
+        gachaponAudioSource.PlayOneShot(gachaponOpenSound);
+
         yield return new WaitForSeconds(0.75f);
         coroutineRunning = false;
     }
@@ -91,14 +109,27 @@ public class Gachapon : MonoBehaviour, IInteractable
     IEnumerator CloseGachapon()
     {
         coroutineRunning = true;
+        gachaponAudioSource.Stop();
+        gachaponAudioSource.loop = false;
+        gachaponAudioSource.PlayOneShot(gachaponCloseSound);
         animator.SetTrigger("Close");
         itemBacklog.RemoveAt(0);
         itemNumberBacklog.RemoveAt(0);
         ballSprite.enabled = false;
         currentlyOfferingPrize = false;
-        if (itemBacklog.Count > 0) PlayParticles(true);
-        else PlayParticles(false);
-        yield return new WaitForSeconds(0.75f);
+        if (itemBacklog.Count > 0)
+        {
+            PlayParticles(true);
+            gachaponAudioSource.clip = gachaponGearsTurning;
+            gachaponAudioSource.loop = true;
+            gachaponAudioSource.Play();
+        }
+        else
+        {
+            gachaponAudioSource.Stop();
+            PlayParticles(false);
+        }
+            yield return new WaitForSeconds(0.75f);
         coroutineRunning = false;
     }
     private void PlayParticles(bool enable)
@@ -117,7 +148,13 @@ public class Gachapon : MonoBehaviour, IInteractable
     {
         itemBacklog.Add(item.ID);
         itemNumberBacklog.Add(numberOfItems);
-        if (itemBacklog.Count > 0) PlayParticles(true);
+        if (itemBacklog.Count > 0)
+        {
+            PlayParticles(true);
+            gachaponAudioSource.clip = gachaponGearsTurning;
+            gachaponAudioSource.loop = true;
+            gachaponAudioSource.Play();
+        }
     }
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)

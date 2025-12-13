@@ -237,7 +237,12 @@ public class SlotMachine : MonoBehaviour,IInteractable
                     break;
                 case 4:
                         yield return StartCoroutine(SummonPyreFly());
+                        float randomValue = Random.value;
+                        if (randomValue < 0.5f)
+                    {
                         broken = true;
+                    }
+                  
                     break;
                 case 5:
                    
@@ -280,7 +285,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
     private bool CheckIfBreaks()
     {
         float baseChance = 0.05f;
-        float incrementalChance = 0.05f;
+        float incrementalChance = 0.02f;
         float breakchance = baseChance + (timesSpun * incrementalChance);
 
         breakchance = Mathf.Clamp01(breakchance);

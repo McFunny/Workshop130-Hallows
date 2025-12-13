@@ -34,6 +34,7 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
         spriteRenderer.sprite = nutrientSprites[correctFire - 1];
         fireSpriteRenderer.sprite = fireSprite;
         canvas.SetActive(false);
+        fire.DoTypeBasedOnNumber(currentFire);
     }
 
     public bool isLocked = false;

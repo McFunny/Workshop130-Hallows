@@ -31,6 +31,7 @@ public enum Destination
     RandomLocation,
     InsideSpring,
     MillerHouse,
+    ToolUpgradeSpot
 
 }
 

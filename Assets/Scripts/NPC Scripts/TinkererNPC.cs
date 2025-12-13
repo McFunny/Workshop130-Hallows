@@ -296,4 +296,10 @@ public class TinkererNPC : NPC, ITalkable
         if (GameSaveData.Instance.townTreeCleared1) return true;
         return false;
     }
+
+    public override bool ActionCheck2()
+    {
+        if (GameSaveData.Instance.siegesCleared >= 1) return true;
+        return false;
+    }
 }
