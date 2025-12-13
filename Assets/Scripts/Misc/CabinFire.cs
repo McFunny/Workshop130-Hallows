@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class CabinFire : MonoBehaviour, IInteractable
 {
-    public InventoryItemData torch, pyreflyItem;
+    public InventoryItemData torch, pyreflyItem, upgradedTorch;
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
     public List<GameObject> highlight = new List<GameObject>();
@@ -19,7 +19,7 @@ public class CabinFire : MonoBehaviour, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if((item == torch) && PlayerInteraction.Instance.torchLit == false)
+        if((item == torch || item == upgradedTorch) && PlayerInteraction.Instance.torchLit == false)
         {
             interactSuccessful = true;
             HandItemManager.Instance.TorchFlameToggle(true);

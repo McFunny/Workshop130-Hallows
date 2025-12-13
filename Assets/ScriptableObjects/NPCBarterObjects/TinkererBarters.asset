@@ -61,7 +61,7 @@ MonoBehaviour:
   - name: Refinery
     itemForSale: {fileID: 11400000, guid: 9f529fa0497a5e348890c35cfc771ee6, type: 2}
     useItemPrice: 1
-    mintCost: 395
+    mintCost: 495
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -90,7 +90,7 @@ MonoBehaviour:
   - name: SmartSprinkler
     itemForSale: {fileID: 11400000, guid: 860f7419dcf07274abe38328d16ae46b, type: 2}
     useItemPrice: 1
-    mintCost: 475
+    mintCost: 515
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -168,4 +168,48 @@ MonoBehaviour:
       amount: 2
     siegesRequired: 0
     amountGiven: 1
-  uniqueTransactions2: []
+  uniqueTransactions2:
+  - name: WaterCanLV2
+    itemForSale: {fileID: 11400000, guid: 2f8eee1c486dcf14884d843e2d192aeb, type: 2}
+    useItemPrice: 1
+    mintCost: 500
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 0fa68b7eb4fb6d3418cea0e79b973520, type: 2}
+      amount: 1
+    siegesRequired: 1
+    amountGiven: 1
+  - name: HoeUpgrade
+    itemForSale: {fileID: 11400000, guid: 4fc339324df4c6c4da6a434153461313, type: 2}
+    useItemPrice: 1
+    mintCost: 250
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 0fa68b7eb4fb6d3418cea0e79b973520, type: 2}
+      amount: 1
+    siegesRequired: 1
+    amountGiven: 1
+  - name: TorchUpgrade
+    itemForSale: {fileID: 11400000, guid: 930944324854f0b41a4dd2a9fd58c712, type: 2}
+    useItemPrice: 1
+    mintCost: 450
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 0fa68b7eb4fb6d3418cea0e79b973520, type: 2}
+      amount: 1
+    siegesRequired: 1
+    amountGiven: 1
+  - name: ScytheUpgrade
+    itemForSale: {fileID: 11400000, guid: 7bdf12e96ea2d0e4a99ce1973954b13d, type: 2}
+    useItemPrice: 1
+    mintCost: 650
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 0fa68b7eb4fb6d3418cea0e79b973520, type: 2}
+      amount: 1
+    siegesRequired: 1
+    amountGiven: 1

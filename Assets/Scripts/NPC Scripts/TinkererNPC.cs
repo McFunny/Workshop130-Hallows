@@ -205,6 +205,20 @@ public class TinkererNPC : NPC, ITalkable
 
             newItem = null;
 
+            if(storeItems.Count == 4)// upgrades
+            {
+                if (i == 0 && GameSaveData.Instance.upg_can) continue;
+                if (i == 1 && GameSaveData.Instance.upg_hoe) continue;
+                if (i == 2 && GameSaveData.Instance.upg_torch) continue;
+                if (i == 3 && GameSaveData.Instance.upg_scythe) continue;
+
+                newItem = barterDatabase.uniqueTransactions2[0].itemForSale;
+                newCost = (int)(barterDatabase.uniqueTransactions2[0].mintCost * sellMultiplier);
+                storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions2[0].itemsRequired, barterDatabase.uniqueTransactions2[0].amountForSale);
+                storeItems[i].seller = this;
+                continue;
+            }
+
             if (i == 0 && !GameSaveData.Instance.watergunObtained && GameSaveData.Instance.tinkMet)
             {
                 newItem = barterDatabase.uniqueTransactions[0].itemForSale;
@@ -299,6 +313,7 @@ public class TinkererNPC : NPC, ITalkable
 
     public override bool ActionCheck2()
     {
+        if(GameSaveData.Instance.upg_can && GameSaveData.Instance.upg_hoe && GameSaveData.Instance.upg_scythe && GameSaveData.Instance.upg_torch) return false;
         if (GameSaveData.Instance.siegesCleared >= 1) return true;
         return false;
     }
