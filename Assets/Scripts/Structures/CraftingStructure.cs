@@ -53,6 +53,7 @@ public class CraftingStructure : StructureBehaviorScript
             if (!isCrafting)
             {
                 StartCrafting();
+                Debug.Log("Craft Starting");
             }
         }
     }
@@ -133,6 +134,7 @@ public class CraftingStructure : StructureBehaviorScript
     {
         Debug.Log("Time Skipped: " + timePassed + " mins");
         StopCrafting();
+        Debug.Log("Craft Stopped");
         int minsToRemove = timePassed;
         for (int i = 0; i < craftSlots.Count; i++)
         {
@@ -154,16 +156,24 @@ public class CraftingStructure : StructureBehaviorScript
 
         for (int i = 0; i < craftSlots.Count; i++)
         {
-            if (!craftSlots[i].isComplete)
+            if (craftSlots[i].timeRemaining <= 0)
             {
+                craftSlots[i].isComplete = true;
+            }
+            else
+            {
+                Debug.Log("Craft " + i + " is incomplete. Starting Craft again");
                 incompleteCraftFound = true;
                 break;
             }
         }
 
-        if(incompleteCraftFound) StartCrafting();
+        if(incompleteCraftFound == true)
+        {
+            StartCrafting();
+            Debug.Log("Craft Starting");
+        } 
         else AllCraftsFinished();
-        
     }
 
     public void StopCrafting()
