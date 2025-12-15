@@ -16,13 +16,15 @@ public class CropStatsRework : MonoBehaviour
     public Slider gloamFill, terraFill, ichorFill, waterFill, gloamFillD, terraFillD, ichorFillD, waterFillD;
     string growthString;
     ControlManager controlManager;
-    
+
     [SerializeField] private string lackingGloam, lackingTerra, lackingIchor;
     [SerializeField] private UILerpHandler lerpHandler;
     [SerializeField] private PetStatsUI petStatsUI;
     public delegate void CropStatsShown();
     public event CropStatsShown OnCropStatsShown;
     private bool alwaysShowDetailedStats;
+    [Header("Overrides")]
+    [SerializeField] private CropItem mistGrasp;
 
     void Awake()
     {
@@ -279,8 +281,12 @@ public class CropStatsRework : MonoBehaviour
                         } 
                         if(tileNutrients.ichorLevel < seedData.cropData.ichorIntake * seedData.cropData.growthStages)
                         {
-                            t = t + "<sprite name=N_Ichor> ";
-                            hasIchor = true;
+                            if(seedData != mistGrasp)
+                            {
+                                t = t + "<sprite name=N_Ichor> ";
+                                hasIchor = true;
+                            }
+                            
                         } 
                         
                         if (hasGloam || hasTerra || hasIchor)

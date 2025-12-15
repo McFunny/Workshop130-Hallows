@@ -16,6 +16,8 @@ public class UIMeters : MonoBehaviour
     ControlManager controlManager;
     public TextMeshProUGUI leftText, rightText;
     private const float INITIALMAXWATER = 10f;
+    private bool isDamagedCoroutineRunning = false;
+    private bool isWaterLoweredCoroutineRunning = false;
     void Start()
     {
         p = PlayerInteraction.Instance;
@@ -50,16 +52,10 @@ public class UIMeters : MonoBehaviour
             leftTextbox.SetActive(false);
         }
 
-        if(p.stamina < currentStamina)
+        if(p.stamina != currentStamina || p.waterHeld != currentWater)
         {
             UpdateMeters();
-            StartCoroutine(PlayerDamaged());
-        }
-
-        if(p.waterHeld < currentWater)
-        {
-            UpdateMeters();
-            StartCoroutine(WaterLowered());
+            
         }
     }
 
@@ -72,6 +68,20 @@ public class UIMeters : MonoBehaviour
 
         leftText.text = p.waterHeld + "/" + p.maxWaterHeld;
         rightText.text = p.stamina + "/" + p.maxStamina;
+
+        if(p.stamina < currentStamina)
+        {
+            if(!isDamagedCoroutineRunning)
+            {
+                if(p.stamina < p.maxStamina) StartCoroutine(PlayerDamaged());
+            }
+            
+        }
+
+        if(p.waterHeld < currentWater)
+        {
+            if(!isWaterLoweredCoroutineRunning) StartCoroutine(WaterLowered());
+        }
 
         currentStamina = p.stamina;
         currentWater = p.waterHeld;
@@ -100,6 +110,7 @@ public class UIMeters : MonoBehaviour
 
     IEnumerator PlayerDamaged()
     {
+        isDamagedCoroutineRunning = true;
         for(int i = 0; i < 4; i++)
         {
             staminaFill.color = c_damage;
@@ -110,10 +121,12 @@ public class UIMeters : MonoBehaviour
             yield return new WaitForSeconds(.1f);
             
         }
+        isDamagedCoroutineRunning = false;
     }
 
     IEnumerator WaterLowered()
     {
+        isWaterLoweredCoroutineRunning = true;
         for(int i = 0; i < 4; i++)
         {
             if(currentWater > INITIALMAXWATER) extraWaterFill.color = c_damage;
@@ -130,6 +143,7 @@ public class UIMeters : MonoBehaviour
 
         extraWaterFill.color = c_water;
         waterFill.color = c_water;
+        isWaterLoweredCoroutineRunning = false;
     }
     
 }
