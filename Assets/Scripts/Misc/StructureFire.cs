@@ -44,6 +44,7 @@ public class StructureFire : MonoBehaviour
         {
             player.StaminaChange(-playerDamage);
             if(Random.Range(0,4) > 0) player.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 4);
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = player.playerFeet.position;
         }
 
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
@@ -52,7 +53,8 @@ public class StructureFire : MonoBehaviour
             creature.TakeDamage(creatureDamage);
             if(Random.Range(0,4) > 0) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 5);
 
-            creature.PlayHitParticle(new Vector3(0, 0, 0));
+            creature.PlayHitParticle(creature.corpseParticleTransform.position);
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = creature.corpseParticleTransform.position;
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Well : MonoBehaviour, IInteractable
 {
-    public InventoryItemData waterCan, waterGun;
+    public InventoryItemData waterCan, waterGun, waterCanUpgrade;
     public Transform bucket, bucketTop, ropePos, _focalPoint;
     public GameObject waterSprite;
 
@@ -71,7 +71,7 @@ public class Well : MonoBehaviour, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(!bucketFilled || (item != waterCan && item != waterGun) || PlayerInteraction.Instance.waterHeld == PlayerInteraction.Instance.maxWaterHeld)
+        if(!bucketFilled || (item != waterCan && item != waterGun && item != waterCanUpgrade) || PlayerInteraction.Instance.waterHeld == PlayerInteraction.Instance.maxWaterHeld)
         {
             interactSuccessful = false;
             return;

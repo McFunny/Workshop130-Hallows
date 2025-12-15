@@ -128,12 +128,12 @@ public class PlacedHoe : StructureBehaviorScript
         //if (!gameObject.scene.isLoaded) return; 
     }
 
-    void ChangeRotation() //Issue: This screws up the animation of it
+    void ChangeRotation() 
     {
         if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) > 10) return;
         
         
-        int r = Random.Range(0,4);
+        /*int r = Random.Range(0,4);
 
         switch(r)
         {
@@ -148,36 +148,28 @@ public class PlacedHoe : StructureBehaviorScript
             case 3:
             transform.Rotate(0, 270, 0);
             break;
+        }*/
+
+        Direction dir = StructureManager.Instance.GetDirection(PlayerInteraction.Instance.mainCam.transform);
+        switch(dir)
+        {
+            case Direction.North:
+            transform.Rotate(0, 180, 0);
+            break;
+            case Direction.East:
+            transform.Rotate(0, 90, 0);
+            break;
+            case Direction.South:
+            transform.Rotate(0, 0, 0);
+            break;
+            case Direction.West:
+            transform.Rotate(0, 270, 0);
+            break;
         }
 
         startingAngle = startingAngle + transform.eulerAngles;
         currentAngle = startingAngle;
         endingAngle = endingAngle + transform.eulerAngles;
-
-        /*float rotation = player.eulerAngles.y; 
-
-        //Debug.Log(rotation);
-
-        if(rotation <= 45 || rotation >= 315)
-        {
-            newDirection = Direction.South;
-            transform.rotation.y = 5;
-        }
-
-        else if(rotation >= 45 && rotation <= 135)
-        {
-            newDirection = Direction.East;
-        }
-
-        else if(rotation >= 135 && rotation <= 225)
-        {
-            newDirection = Direction.North;
-        }
-
-        else 
-        {
-            newDirection = Direction.West;
-        } */
 
     }
 }

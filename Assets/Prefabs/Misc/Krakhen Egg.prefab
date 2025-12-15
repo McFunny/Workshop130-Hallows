@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4840626454979030704}
   - component: {fileID: 6499434248519750491}
   - component: {fileID: 3270717554427318243}
+  - component: {fileID: 6653181430287375926}
   m_Layer: 6
   m_Name: Krakhen Egg
   m_TagString: Untagged
@@ -158,6 +159,7 @@ MonoBehaviour:
     enableUI: 0
     valueGroups: []
   krakhen: {fileID: 11400000, guid: 2836db77fdc01174dbdaf3addf675d5f, type: 2}
+  gunPowder: {fileID: 11400000, guid: b4d77aadfa04c894088fc7eed93d7ab1, type: 2}
 --- !u!82 &6499434248519750491
 AudioSource:
   m_ObjectHideFlags: 0
@@ -274,6 +276,27 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 8300000, guid: 1ff12a1bf9990564c90f8043ffa028b4, type: 3}
   activatedSound: {fileID: 0}
+--- !u!95 &6653181430287375926
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337647651044073138}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e66ab24db91fd3942a53a368c2d0d088, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2835972896312722720
 PrefabInstance:
   m_ObjectHideFlags: 0

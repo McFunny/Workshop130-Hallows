@@ -30,6 +30,18 @@ public class NutMachine : MonoBehaviour, IInteractable
     public GameObject lNutPrefab, rNutPrefab;
     public ParticleSystem abnerParticles; //im going to beat you with many hammers
 
+    [Header("Pod Stuff")]
+    public InventoryItemData[] possiblePodItems;
+    public float[] podItemWeight;
+    public InventoryItemData seedPod;
+
+    Vector3 lPodPos, rPodPos;
+    Quaternion lPodRot, rPodRot;
+    public GameObject lPod, rPod;
+    public Rigidbody lPodRB, rPodRB;
+
+    public GameObject lPodPrefab, rPodPrefab;
+
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
@@ -44,6 +56,16 @@ public class NutMachine : MonoBehaviour, IInteractable
             PlayerInventoryHolder.Instance.UpdateInventory();
             StartCoroutine(ChopNut());
             interactSuccessful = true;
+            return;
+        }
+
+        if(item == seedPod && canBeUsed)
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            StartCoroutine(ChopPod());
+            interactSuccessful = true;
+            PlayerMovement.Instance.RemoveSpeedMod(PlayerInteraction.Instance.gameObject);
             return;
         }
         interactSuccessful = false;
@@ -69,6 +91,16 @@ public class NutMachine : MonoBehaviour, IInteractable
 
         lNut.SetActive(false);
         rNut.SetActive(false);
+
+
+        lPodRot = lPod.transform.rotation;
+        rPodRot = rPod.transform.rotation;
+
+        lPodPos = lPod.transform.position;
+        rPodPos = lPod.transform.position;
+
+        lPod.SetActive(false);
+        rPod.SetActive(false);
     }
 
     public void Update()
@@ -96,12 +128,12 @@ public class NutMachine : MonoBehaviour, IInteractable
             Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
             source.PlayOneShot(nutCut);
             itemRB = droppedItem.GetComponent<Rigidbody>();
+            droppedItem.transform.position = new Vector3(nutSpawn.position.x, nutSpawn.position.y, nutSpawn.position.z);
             itemRB.AddForce(Vector3.forward * 40);
             itemRB.AddForce(Vector3.up * 20);
             lRB.isKinematic = false;
             rRB.isKinematic = false;
         
-            droppedItem.transform.position = new Vector3(nutSpawn.position.x, nutSpawn.position.y, nutSpawn.position.z);
             abnerParticles.Play();
         }
         yield return new WaitForSeconds(0.7f);
@@ -110,6 +142,40 @@ public class NutMachine : MonoBehaviour, IInteractable
         //lNut.SetActive(false);
         //rNut.SetActive(false);
         //ResetNutPosition();
+        canBeUsed = true;
+    }
+
+    IEnumerator ChopPod()
+    {
+        //put player focal point on the machine, do the machine anim stuff, spawn item, then break focal point
+        canBeUsed = false;
+        if(!lPod || !rPod) InstantiatePods();
+        else
+        {
+            lPod.SetActive(true);
+            rPod.SetActive(true);
+        }
+
+        nutMachineAnim.Play("nutcracker");
+        yield return new WaitForSeconds(1.1f);
+        int iterations = Random.Range(2, 6);
+        for(int i = 0; i < iterations; i++)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(RandomPodItem());
+            Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
+            source.PlayOneShot(nutCut);
+            itemRB = droppedItem.GetComponent<Rigidbody>();
+            droppedItem.transform.position = new Vector3(nutSpawn.position.x, nutSpawn.position.y, nutSpawn.position.z);
+            itemRB.AddForce(Vector3.forward * 40);
+            itemRB.AddForce(Vector3.up * 20);
+            lPodRB.isKinematic = false;
+            rPodRB.isKinematic = false;
+        
+            abnerParticles.Play();
+        }
+        yield return new WaitForSeconds(0.7f);
+        lPod = null;
+        rPod = null;
         canBeUsed = true;
     }
 
@@ -126,6 +192,19 @@ public class NutMachine : MonoBehaviour, IInteractable
         return possibleNutItems[0];
     }
 
+    InventoryItemData RandomPodItem()
+    {
+        int x = 0;
+        while(x < 10)
+        {
+            int i = Random.Range(0, possiblePodItems.Length);
+            float r = Random.Range(0f,1f);
+            if(r < podItemWeight[i]) return possiblePodItems[i];
+            x++;
+        }
+        return possiblePodItems[0];
+    }
+
     void ResetNutPosition()
     {
         lRB.isKinematic = true;
@@ -138,12 +217,32 @@ public class NutMachine : MonoBehaviour, IInteractable
         rNut.transform.rotation = rNutRot;
     }
 
+    void ResetPodPosition()
+    {
+        lPodRB.isKinematic = true;
+        rPodRB.isKinematic = true;
+
+        lPod.transform.position = lPodPos;
+        rPod.transform.position = rPodPos;
+
+        lPod.transform.rotation = lPodRot;
+        rPod.transform.rotation = rPodRot;
+    }
+
     void InstantiateNuts()
     {
         lNut = Instantiate(lNutPrefab, lNutPos, lNutRot);
         rNut = Instantiate(rNutPrefab, rNutPos, rNutRot);
         lRB = lNut.GetComponent<Rigidbody>();
         rRB = rNut.GetComponent<Rigidbody>();
+    }
+
+    void InstantiatePods()
+    {
+        lPod = Instantiate(lPodPrefab, lPodPos, lPodRot);
+        rPod = Instantiate(rPodPrefab, rPodPos, rPodRot);
+        lPodRB = lPod.GetComponent<Rigidbody>();
+        rPodRB = rPod.GetComponent<Rigidbody>();
     }
 
 

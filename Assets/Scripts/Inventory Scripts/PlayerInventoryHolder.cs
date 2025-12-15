@@ -497,6 +497,18 @@ public class PlayerInventoryHolder : InventoryHolder
         else return true;
     }
 
+    public void RemoveItemsFromBothInventories(InventoryItemData item, int amount)
+    {
+        int amountToRemove = amount;
+        amountToRemove -= primaryInventorySystem.ReturnItemCount(item);
+        primaryInventorySystem.RemoveItemsFromInventory(item, amount);
+
+        if(amountToRemove > 0)
+        {
+            secondaryInventorySystem.RemoveItemsFromInventory(item, amountToRemove);
+        }
+    }
+
     public void RemoveItemsFromBothInventories(List<ItemWithAmount> list)
     {
         for(int i = 0; i < list.Count; i++)
@@ -523,6 +535,10 @@ public class PlayerInventoryHolder : InventoryHolder
         List<InventorySlot> currentSInventoryRow2 = new List<InventorySlot>();
 
         List<InventorySlot> newSInventory = new List<InventorySlot>();
+        
+        //Make sure to trigger the effects of swapping off a tool
+        ToolItem current_t_item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as ToolItem;
+        if(current_t_item) current_t_item.behavior.OnHolster();
 
         for(int i = 0; i < 9; i++)
         {
@@ -541,6 +557,10 @@ public class PlayerInventoryHolder : InventoryHolder
         primaryInventorySystem.ForcePopulateInventory(currentSInventoryRow1);
         secondaryInventorySystem.ForcePopulateInventory(newSInventory);
         UpdateInventory();
+
+        //Make sure to trigger the effects of swapping on to a tool
+        current_t_item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as ToolItem;
+        if(current_t_item) current_t_item.behavior.OnEquip();
         
     }
 

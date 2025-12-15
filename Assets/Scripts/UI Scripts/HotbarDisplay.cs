@@ -11,6 +11,21 @@ public class HotbarDisplay : MonoBehaviour
 
     public InventoryItemData torch, pyrefly;
 
+    public static HotbarDisplay Instance;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
 
     private void Start()
     {
@@ -83,6 +98,11 @@ public class HotbarDisplay : MonoBehaviour
         if (PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || InputManager.isCharging) return;
         if (PlayerMovement.isCodexOpen || PlayerMovement.accessingInventory) return;
 
+        /*if(currentIndex == slotIndex) // Causes scroll wheel to not work
+        {
+           return;
+        }*/
+
         // Turn off highlight on the current slot
         if (currentSlot != null)
         {
@@ -95,10 +115,6 @@ public class HotbarDisplay : MonoBehaviour
         ToolItem current_t_item = currentSlot.AssignedInventorySlot.ItemData as ToolItem;
         if(current_t_item) current_t_item.behavior.OnHolster();
 
-        //if(currentIndex == slotIndex)
-        //{
-        //    return;
-        //}
 
         // Set the new slot
         currentIndex = slotIndex;
@@ -164,6 +180,11 @@ public class HotbarDisplay : MonoBehaviour
         {
             slot.GetComponent<UnityEngine.UI.Button>().interactable = val;
         }
+    }
+
+    public int GetCurrentSlotIndex()
+    {
+        return currentIndex;
     }
 
 }

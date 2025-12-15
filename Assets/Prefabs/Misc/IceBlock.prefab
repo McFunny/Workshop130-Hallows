@@ -34124,7 +34124,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3425969823765045398}
   - component: {fileID: 314689548833796590}
-  - component: {fileID: 7510083461680165398}
   - component: {fileID: 4171645539447804348}
   m_Layer: 6
   m_Name: IceBlock
@@ -34174,27 +34173,6 @@ MonoBehaviour:
   iceBreak: {fileID: 8300000, guid: ade4b05c43c85d54db49e78bf0657cd0, type: 3}
   iceFreeze: {fileID: 8300000, guid: 647311d0fd8698e4380e0f0fa204f54a, type: 3}
   meltingSource: {fileID: 4171645539447804348}
---- !u!65 &7510083461680165398
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3664485673408975753}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &4171645539447804348
 AudioSource:
   m_ObjectHideFlags: 0
@@ -34459,8 +34437,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 3, z: 2}
+  m_Center: {x: 0, y: 1.02, z: 0}
 --- !u!208 &6637105708114940059
 NavMeshObstacle:
   m_ObjectHideFlags: 0

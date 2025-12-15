@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HandItemManager : MonoBehaviour
 {
-    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly, hydrofly, kukri, flintlock, nutTester;
+    public GameObject hoe, shovel, wateringCan, shotGun, waterGun, torch, bugNet, scythe, pyrefly, hydrofly, kukri, flintlock, nutTester, seedPod;
     public GameObject wateringCanUpgrade, scytheUpgrade, torchUpgrade, hoeUpgrade;
     public GameObject torchFlame, pyreflyFlame, torchUpgradeFlame;
     public MeshRenderer pyreflyMat;
@@ -166,6 +166,10 @@ public class HandItemManager : MonoBehaviour
             case ToolType.NutTester:
                 nutTester.SetActive(true);
                 currentHandObject = nutTester;
+                break;
+            case ToolType.SeedPod:
+                seedPod.SetActive(true);
+                currentHandObject = seedPod;
                 break;
             default:
                 currentHandObject = null;

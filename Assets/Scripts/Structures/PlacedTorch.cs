@@ -17,6 +17,12 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
     int flameLeft = 0;
     int maxFlame = 1;
 
+    public bool isUpgraded = false;
+
+    public ParticleSystem flameThrowerParticles;
+    public Collider burnCollider;
+    bool shootingFire;
+
     void Awake()
     {
         base.Awake();
@@ -29,6 +35,28 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
         if(!PlayerInteraction.Instance.torchLit) ExtinguishFlame();
         else StartCoroutine(FireDrain());
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+
+        Orient();
+    }
+
+    void Orient()
+    {
+        Direction dir = StructureManager.Instance.GetDirection(PlayerInteraction.Instance.mainCam.transform);
+        switch(dir)
+        {
+            case Direction.North:
+            transform.Rotate(0, 180, 0);
+            break;
+            case Direction.East:
+            transform.Rotate(0, 90, 0);
+            break;
+            case Direction.South:
+            transform.Rotate(0, 0, 0);
+            break;
+            case Direction.West:
+            transform.Rotate(0, 270, 0);
+            break;
+        }
     }
 
     void Update()
@@ -70,6 +98,7 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
         currentlyLit = true;
         maxFlame = Random.Range(110, 140);
         flameLeft = maxFlame;
+        if(isUpgraded) StartCoroutine(ShootFire());
         lightScript.flickerSpeed = 0.1f;
         lightScript.intensityVariation = 0.2f;
         while(flameLeft > maxFlame * 0.3f)
@@ -90,6 +119,22 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
         ExtinguishFlame();
     }
 
+    IEnumerator ShootFire()
+    {
+        while(flameLeft > 20)
+        {
+            yield return new WaitForSeconds(Random.Range(4f, 12f));
+            shootingFire = true;
+            burnCollider.enabled = true;
+            flameThrowerParticles.Play();
+            audioHandler.PlaySound(audioHandler.activatedSound);
+            yield return new WaitForSeconds(Random.Range(1.5f, 3f));
+            shootingFire = false;
+            burnCollider.enabled = false;
+            flameThrowerParticles.Stop();
+        }
+    }
+
     void ExtinguishFlame()
     {
         flameLeft = 0;
@@ -99,6 +144,47 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
         fire.SetActive(false);
         //audioHandler.PlaySound(audioHandler.miscSounds1[0]);
         HandItemManager.Instance.TorchFlameToggle(false);
+
+        if(isUpgraded)
+        {
+            StopCoroutine(ShootFire());
+            flameThrowerParticles.Stop();
+            burnCollider.enabled = false;
+            shootingFire = false;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(!shootingFire) return;
+
+        if(other.gameObject.layer == 10) //Player
+        {
+            PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 6);
+            return;
+        }
+
+        var enemy = other.GetComponentInParent<CreatureBehaviorScript>();
+        if (enemy != null)
+        {
+            if((enemy.fireVulnerable || (enemy.canCorpseBreak && enemy.health <= 0)))
+            {
+                int burnDuration = Random.Range(6, 10);
+                if(enemy.health <= 0) burnDuration += 20;
+                enemy.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), burnDuration);
+                return;
+            }
+        }
+
+        var structure = other.GetComponent<StructureBehaviorScript>();
+        if (structure != null)
+        {
+            if(structure.IsFlammable() && !structure.onFire && PlayerInteraction.Instance.torchLit)
+            {
+                structure.LitOnFire();
+            }
+            else if(PlayerInteraction.Instance.torchLit && !structure.IsFlammable()) structure.ToolInteraction(ToolType.Torch, out bool playAnim);
+        }
     }
 
     public override void HitWithWater()

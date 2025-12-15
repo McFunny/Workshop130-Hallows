@@ -5,6 +5,7 @@ using UnityEngine;
 public class KrakhenEgg : StructureBehaviorScript
 {
     public CreatureObject krakhen;
+    public InventoryItemData gunPowder;
 
     void Start()
     {
@@ -30,5 +31,12 @@ public class KrakhenEgg : StructureBehaviorScript
         if(!gameObject.scene.isLoaded) return;
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
+
+        int r = Random.Range(1, 3);
+        for(int i = 0; i < r; ++i)
+        {
+            GameObject droppedItem = ItemPoolManager.Instance.GrabItem(gunPowder);
+            droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        }
     }
 }

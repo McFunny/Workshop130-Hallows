@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class WaterSource : MonoBehaviour, IInteractable
 {
-    public InventoryItemData waterCan, waterGun;
+    public InventoryItemData waterCan, waterGun, waterCanUpgrade;
 
 
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
@@ -21,7 +21,7 @@ public class WaterSource : MonoBehaviour, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if((item != waterCan && item != waterGun) || PlayerInteraction.Instance.waterHeld == PlayerInteraction.Instance.maxWaterHeld)
+        if((item != waterCan && item != waterGun && item != waterCanUpgrade) || PlayerInteraction.Instance.waterHeld == PlayerInteraction.Instance.maxWaterHeld)
         {
             interactSuccessful = false;
             return;

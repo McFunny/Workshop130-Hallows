@@ -10,7 +10,7 @@ public class Cannon : StructureBehaviorScript
     public List<GameObject> loadedAmmo;
 
     public GameObject primedEffect;
-    public ParticleSystem firedEffect, smokeEffect;
+    public ParticleSystem firedEffect, smokeEffect, insertEffect;
 
     bool isPrimed, forceFire;
 
@@ -20,6 +20,9 @@ public class Cannon : StructureBehaviorScript
     float projectileSpeed = 230;
 
     int maxAmmo = 3;
+    int gunPowder = 0;
+    int maxPowder = 10;
+    public InventoryItemData gunPowderItem;
 
     public List<CreatureObject> targettableCreatures; //No crows, no wraiths, no murdermancers
 
@@ -173,10 +176,12 @@ public class Cannon : StructureBehaviorScript
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * extraUpVelocity);
             newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
         }
+        else --gunPowder;
         //print("PEW");
 
         ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
-        ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
+        //ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
+        insertEffect.Play();
 
         cannonHead.DOPunchScale(new Vector3(0.2f, 0.2f, 0.2f), 0.5f, 0, 0.2f);
         yield return new WaitForSeconds(0.2f);
@@ -204,6 +209,19 @@ public class Cannon : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(item == gunPowderItem && gunPowder < maxPowder && !isBugCannon)
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            gunPowder += 2;
+            if(gunPowder > maxPowder) gunPowder = maxPowder;
+
+            audioHandler.PlaySound(audioHandler.miscSounds1[1]);
+
+            //ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
+            insertEffect.Play();
+            return;
+        }
         if(savedItems.Count < maxAmmo)
         {
             UpdateModel(item.ID, out bool success);
@@ -216,7 +234,8 @@ public class Cannon : StructureBehaviorScript
 
             audioHandler.PlaySound(audioHandler.itemInteractSound);
 
-            ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
+            //ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
+            insertEffect.Play();
         }
     }
 
@@ -310,6 +329,10 @@ public class Cannon : StructureBehaviorScript
         shotCooldown = true;
         primedEffect.SetActive(true);
         yield return new WaitForSeconds(2);
+
+        while(gunPowder == 0 && !isBugCannon) yield return new WaitForSeconds(0.5f);
+
+
         shotCooldown = false;
         isPrimed = true;
         yield return new WaitForSeconds(30);
@@ -326,6 +349,11 @@ public class Cannon : StructureBehaviorScript
 
         structureUIVariables.valueGroups[1].value = savedItems.Count;
         structureUIVariables.valueGroups[1].maxValue = maxAmmo;
+
+        if(isBugCannon) return structureUIVariables.valueGroups;
+
+        structureUIVariables.valueGroups[2].value = gunPowder;
+        structureUIVariables.valueGroups[2].maxValue = maxPowder;
         return structureUIVariables.valueGroups;
     }
 }

@@ -7,7 +7,7 @@ public class Spa : MonoBehaviour, IInteractable
 {
     bool playerInSpa, activated;
 
-    public InventoryItemData waterCan, waterGun;
+    public InventoryItemData waterCan, waterGun, waterCanUpgrade;
 
     public InventoryItemData bathBomb;
 
@@ -41,7 +41,7 @@ public class Spa : MonoBehaviour, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if((item == waterCan || item == waterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld)
+        if((item == waterCan || item == waterGun || item == waterCanUpgrade) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld)
         {
             interactSuccessful = true;
             PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
