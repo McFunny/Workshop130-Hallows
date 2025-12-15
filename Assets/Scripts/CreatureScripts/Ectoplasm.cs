@@ -397,6 +397,9 @@ public class Ectoplasm : CreatureBehaviorScript
         {
             StartCoroutine(Jiggle());
         }
+
+        if(isLarge) ShootSlime(Random.Range(3, 6));
+        else ShootSlime(Random.Range(1, 4));
     }
 
     public override void HitWithWater()
@@ -415,6 +418,22 @@ public class Ectoplasm : CreatureBehaviorScript
         else success = false;
     }
 
+    void ShootSlime(int amount)
+    {
+        for(int i = 0; i < amount; i++)
+        {
+            GameObject newBullet = ProjectilePoolManager.Instance.GrabSlime();
+            newBullet.GetComponent<BloodProjectile>().sourceCreature = this;
+            Vector3 dropPos = corpseParticleTransform.position;
+            dropPos.y += 1;
+            newBullet.transform.position = dropPos;
+            newBullet.transform.rotation = corpseParticleTransform.rotation;
+            Vector3 dir = new Vector3(Random.Range(-1,1), 0, Random.Range(-1,1));
+            newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * Random.Range(40,60));
+            newBullet.GetComponent<Rigidbody>().AddForce(dir * Random.Range(10,30));
+        }
+    }
+
     void OnDestroy()
     {
         base.OnDestroy();
@@ -426,7 +445,9 @@ public class Ectoplasm : CreatureBehaviorScript
         {
             for(int i = 0; i < 2; i++) Instantiate(smallSlimePrefab, transform.position, Quaternion.identity);
             if(bunnyObject.activeSelf) Instantiate(harePrefab, transform.position, Quaternion.identity);
+            ShootSlime(Random.Range(4, 8));
         }
+        else ShootSlime(Random.Range(2, 4));
     }
 
 }

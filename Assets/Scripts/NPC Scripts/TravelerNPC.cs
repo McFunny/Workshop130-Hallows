@@ -119,6 +119,12 @@ public class TravelerNPC : NPC, ITalkable
         return 0;
     }
 
+    public override int VerifySchedule()
+    {
+        if(GameSaveData.Instance.kukriObtained) return 2;
+        return 1;
+    }
+
     public override bool ExclamationCheck()
     {
         if(base.ExclamationCheck() == false)

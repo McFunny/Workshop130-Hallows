@@ -19,7 +19,7 @@ public class CropBehavior : ScriptableObject
         stagesReduced = 0;
         return true;
     }
-    public virtual void OnIchorRefill(FarmLand tile){}
+    public virtual void OnIchorRefill(FarmLand tile, float amount){}
 
     public virtual void CropBonusYield(FarmLand tile, out int cropBonus, out int secondaryCropBonus)
     {
@@ -41,6 +41,8 @@ public class CropBehavior : ScriptableObject
     public virtual void OnConsumed(CreatureBehaviorScript creature){} //For when eaten at full growth
 
     public virtual void OnConsumedBeforeMaturity(CreatureBehaviorScript creature){} //For when eaten at all
+
+    public virtual bool WasFullyEaten(FarmLand tile, CreatureBehaviorScript creature){ return true;} //For after it was eaten
 
     public virtual void OnContact(FarmLand tile, GameObject contactedObject){}
 

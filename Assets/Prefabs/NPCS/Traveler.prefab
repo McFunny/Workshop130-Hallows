@@ -124,6 +124,27 @@ MonoBehaviour:
     Action: 3
     actionCheck: 0
     actionAnim: 0
+  scheduleList2:
+  - time: 7
+    Destination: 21
+    Action: 3
+    actionCheck: 0
+    actionAnim: 0
+  - time: 13
+    Destination: 21
+    Action: 3
+    actionCheck: 0
+    actionAnim: 0
+  - time: 17
+    Destination: 21
+    Action: 3
+    actionCheck: 0
+    actionAnim: 0
+  - time: 20
+    Destination: 21
+    Action: 3
+    actionCheck: 0
+    actionAnim: 0
 --- !u!136 &5040061449895067745
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -160,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 1
+  objectActive: 0
 --- !u!114 &5733344347484069397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  objectActive: 0
 --- !u!1 &3487590607102457872
 GameObject:
   m_ObjectHideFlags: 0

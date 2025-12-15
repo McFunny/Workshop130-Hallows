@@ -93,6 +93,24 @@ public class CraftingDatabase : ScriptableObject
         PopupHandler.Instance.AddToQueue(recipeUnlockedP);
     }
 
+    public void UnlockRecipe(int id)
+    {
+        if(_craftingDatabase.Count < id || _craftingDatabase[id].isUnlocked) return;
+        _craftingDatabase[id].isUnlocked = true;
+        PopupHandler.Instance.AddToQueue(recipeUnlockedP);
+
+
+        return;
+        foreach(CraftingEntry c in _craftingDatabase)
+        {
+            if(c.isUnlocked == false && c.id == id) 
+            {
+                c.isUnlocked = true;
+                PopupHandler.Instance.AddToQueue(recipeUnlockedP);
+            }
+        }
+    }
+
     public void UnlockRandomLockedRecipeInTier() //Call when using machine
     {
         for(int tier = 0; tier < 10; ++tier)

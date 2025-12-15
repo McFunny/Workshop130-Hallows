@@ -19,6 +19,12 @@ public class BloodProjectile : MonoBehaviour
 
     public CreatureBehaviorScript sourceCreature;
 
+    public LiquidProjectile type;
+
+    bool hitTarget = false;
+
+    public List<CreatureObject> immuneCreatures = new List<CreatureObject>();
+
 
     void OnTriggerEnter(Collider other)
     {
@@ -38,7 +44,6 @@ public class BloodProjectile : MonoBehaviour
 
         if (other.gameObject.layer == 6)
         {
-            //break
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null)
             {
@@ -50,13 +55,13 @@ public class BloodProjectile : MonoBehaviour
                 }
 
                 FarmLand farmTile = structure as FarmLand;
-                if(farmTile)
+                if(farmTile && ichorGain > 0)
                 {
                     NutrientStorage nutrients = farmTile.GetCropStats();
                     if(nutrients.ichorLevel < 10)
                     {
                         nutrients.ichorLevel += ichorGain;
-                        farmTile.IchorRefill();
+                        farmTile.IchorRefill(ichorGain);
                         deleteDrop = true;
                     }
                     else return;
@@ -65,7 +70,8 @@ public class BloodProjectile : MonoBehaviour
                 //HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 AudioPoolManager.Instance.PlayClipAtPosition(hitStruct, transform.position, 0.1f, 30);
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = transform.position;
+                if(type == LiquidProjectile.Blood) ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = transform.position;
+                else ParticlePoolManager.Instance.GrabSlimeSplashParticle().transform.position = transform.position;
                 StartCoroutine(TurnOff());
 
                 return;
@@ -73,19 +79,29 @@ public class BloodProjectile : MonoBehaviour
             
         }
 
-        if(other.gameObject.layer == 9)
+        if(other.gameObject.layer == 10 && type == LiquidProjectile.Slime)
+        {
+            PlayerInteraction.Instance.StaminaChange(-8);
+            AudioPoolManager.Instance.PlayClipAtPosition(hitStruct, transform.position, 0.1f, 30);
+            hitTarget = true;
+            return;
+        }
+
+        if(other.gameObject.layer == 9 && !hitTarget)
         {
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if (creature != null && creature.shovelVulnerable && creature.health > 0 && (!sourceCreature || sourceCreature != creature))
+            if (creature != null && creature.shovelVulnerable && creature.health > 0 && (!sourceCreature || sourceCreature != creature) && !immuneCreatures.Contains(creature.creatureData))
             {
                 creature.HitWithWater();
                 //HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);
                 AudioPoolManager.Instance.PlayClipAtPosition(hitEnemy, transform.position, 0.1f, 30);
                 //print("Hit Creature");
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-                ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = transform.position;
+                if(type == LiquidProjectile.Blood) ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = transform.position;
+                else ParticlePoolManager.Instance.GrabSlimeSplashParticle().transform.position = transform.position;
                 //gameObject.SetActive(false);
                 //StartCoroutine(TurnOff());
+                hitTarget = true;
                 return;
             }
         }
@@ -96,7 +112,8 @@ public class BloodProjectile : MonoBehaviour
             AudioPoolManager.Instance.PlayClipAtPosition(hitGround, transform.position, 0.1f, 30);
             print("Missed");
             ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
-            ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = transform.position;
+            if(type == LiquidProjectile.Blood) ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = transform.position;
+            else ParticlePoolManager.Instance.GrabSlimeSplashParticle().transform.position = transform.position;
             //gameObject.SetActive(false);
             StartCoroutine(TurnOff());
             GroundImpact(transform.position);
@@ -119,12 +136,13 @@ public class BloodProjectile : MonoBehaviour
             if(structure) return;
 
             var creature = collider.gameObject.GetComponentInParent<CreatureBehaviorScript>();
-            if (creature != null && creature.shovelVulnerable && creature.health > 0 && (!sourceCreature || sourceCreature != creature))
+            if (creature != null && creature.shovelVulnerable && creature.health > 0 && (!sourceCreature || sourceCreature != creature) && !immuneCreatures.Contains(creature.creatureData))
             {
                 creature.TakeDamage(5);
                 creature.HitWithWater();
                 AudioPoolManager.Instance.PlayClipAtPosition(hitEnemy, pos, 0.1f, 30);
-                ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = creature.transform.position;
+                if(type == LiquidProjectile.Blood) ParticlePoolManager.Instance.GrabBloodSplashParticle().transform.position = creature.transform.position;
+                else ParticlePoolManager.Instance.GrabSlimeSplashParticle().transform.position = creature.transform.position;
                 return;
             }
         }
@@ -133,6 +151,7 @@ public class BloodProjectile : MonoBehaviour
     void OnEnable()
     {
         canCollide = true;
+        hitTarget = false;
         trail.emitting = false;
         StartCoroutine(LifeTime());
         if(!rb) rb = GetComponent<Rigidbody>();
@@ -172,4 +191,10 @@ public class BloodProjectile : MonoBehaviour
         yield return new WaitForSeconds(20);
         gameObject.SetActive(false);
     }
+}
+
+public enum LiquidProjectile
+{
+    Blood,
+    Slime
 }

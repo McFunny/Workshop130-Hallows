@@ -491,6 +491,32 @@ MonoBehaviour:
     desiredCrop: {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
     desiredItem: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
     amount: 0
+  - name: The Cure
+    description: '"The rot reacts violently when exposed to the fruit of this plant.
+      Grow me some more samples. I am so close to a breakthrough!"'
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards:
+    - {fileID: 11400000, guid: 21aea03be2a49a14eb9253765376d5d5, type: 2}
+    - {fileID: 11400000, guid: 21aea03be2a49a14eb9253765376d5d5, type: 2}
+    - {fileID: 11400000, guid: 21aea03be2a49a14eb9253765376d5d5, type: 2}
+    townFavorReward: 2
+    progress: 0
+    maxProgress: 15
+    daysLeft: -1
+    assignee: 5
+    displayProgress: 1
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 2
+    desiredCrop: {fileID: 11400000, guid: 5de48c13d6ba38144a2bcde66ea2e0a0, type: 2}
+    desiredItem: {fileID: 11400000, guid: 9ce37bb1168c1394eaa045b7ba6297b5, type: 2}
+    amount: 15
   - name: Clean Produce
     description: The traveller is leery of the food provided to the town by the merchant.
       He comes to you desperate of fresh food, and is asking for 50 Terra Tubers.
@@ -515,6 +541,35 @@ MonoBehaviour:
     desiredCrop: {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
     desiredItem: {fileID: 11400000, guid: 290e218f74d5d2445b4c40b0ba01d7c2, type: 2}
     amount: 50
+  UniqueFetchQuests:
+  - name: The Problem
+    description: '"A blight only found deep within the Azure haze is starting to
+      spread near our town! I believe I can make a potent fungicide, but I will need
+      samples of the infected for my research."'
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards:
+    - {fileID: 11400000, guid: ec36204edcbfb524f925ec1085e37952, type: 2}
+    - {fileID: 11400000, guid: ec36204edcbfb524f925ec1085e37952, type: 2}
+    - {fileID: 11400000, guid: ec36204edcbfb524f925ec1085e37952, type: 2}
+    - {fileID: 11400000, guid: ec36204edcbfb524f925ec1085e37952, type: 2}
+    - {fileID: 11400000, guid: ec36204edcbfb524f925ec1085e37952, type: 2}
+    townFavorReward: 2
+    progress: 0
+    maxProgress: 1
+    daysLeft: -1
+    assignee: 5
+    displayProgress: 0
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 0
+    desiredItem: {fileID: 11400000, guid: 34030026025182d43ba020ca09d78ae2, type: 2}
+    amount: 20
   npcQuestObjects:
   - {fileID: 11400000, guid: 8c8e1e3e46520f847977634a78f612a8, type: 2}
   - {fileID: 11400000, guid: 76d9cf775cc656847aeabc3b5a841417, type: 2}

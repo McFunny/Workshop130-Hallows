@@ -10340,6 +10340,8 @@ MonoBehaviour:
     type: 3}
   bloodPrefab: {fileID: 1958409568512810735, guid: cf96595a9f681904181ca75faab56861,
     type: 3}
+  slimePrefab: {fileID: 8292747188127643779, guid: 4c2984c4eafa03a4ab04d884b104d1e3,
+    type: 3}
   seedBulletPrefab: {fileID: 4626338264351226871, guid: 8b9fadc5ff532a84e83c736918fa9fc0,
     type: 3}
   fireBallPrefab: {fileID: 1625334908140150664, guid: 7f07ce0f5dcc82c43af09eb725823e0c,
@@ -11484,6 +11486,7 @@ MonoBehaviour:
   kukri: {fileID: 0}
   flintlock: {fileID: 0}
   nutTester: {fileID: 0}
+  seedPod: {fileID: 0}
   wateringCanUpgrade: {fileID: 0}
   scytheUpgrade: {fileID: 0}
   torchUpgrade: {fileID: 0}
@@ -11497,6 +11500,8 @@ MonoBehaviour:
   handSpriteTransform: {fileID: 0}
   toolSource: {fileID: 2845003546474641417}
   watercanSource: {fileID: 0}
+  torchSource: {fileID: 0}
+  watercanUpgradeSource: {fileID: 0}
   extinguish: {fileID: 8300000, guid: 3005f008cef1502498dab381e14a2a2a, type: 3}
   bulletStart: {fileID: 0}
   waterBulletStart: {fileID: 0}
@@ -11504,6 +11509,7 @@ MonoBehaviour:
   waterCanParticles: {fileID: 0}
   pistolParticles: {fileID: 0}
   waterCanUpgradeParticles: {fileID: 0}
+  flameThrowerParticles: {fileID: 0}
   scytheTrail: {fileID: 0}
 --- !u!114 &3952483593475695091
 MonoBehaviour:

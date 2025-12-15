@@ -440,7 +440,7 @@ public class VileHog : CreatureBehaviorScript
         {
             heldItem = foundFarmTile.crop.cropYield;
             r.sprite = heldItem.icon;
-            foundFarmTile.CropDestroyed();
+            if(!foundFarmTile.crop.behavior || foundFarmTile.crop.behavior.WasFullyEaten(foundFarmTile, this) == true) foundFarmTile.CropDestroyed();
             foundFarmTile = null;
             
             fleeTimeLeft = Random.Range(6, 12);

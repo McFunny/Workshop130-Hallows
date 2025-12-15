@@ -10,6 +10,7 @@ public class ApothNPC : NPC, ITalkable
     List<StoreItem> storeItems = new List<StoreItem>();
 
     bool currentlyReadingScroll = false;
+    bool justGaveTissueQuest = false;
 
     Barter siegeSeedBarter;
 
@@ -46,7 +47,7 @@ public class ApothNPC : NPC, ITalkable
             {
                 if(CompletedQuest())
                 {
-                    currentPath = 0;
+                    currentPath = QuestCompletedDialogue();
                     currentType = PathType.QuestComplete;
                 }
                 else if(!GameSaveData.Instance.apo_explainedSiege && GameSaveData.Instance.apo_readScroll)
@@ -62,6 +63,13 @@ public class ApothNPC : NPC, ITalkable
                     currentPath = 8;
                     currentType = PathType.Misc;
                     QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(16)); //Ideally this is called after the apoth is freed from her cage
+                }
+                else if(!GameSaveData.Instance.apo_gaveTissueQuest && GameSaveData.Instance.siegesCleared == 2) //Apo gives quest for azure rot cure
+                {
+                    GameSaveData.Instance.apo_gaveTissueQuest = true;
+                    currentPath = 1;
+                    currentType = PathType.Quest;
+                    QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueFetchQuests[0]);
                 }
                 else if(dailyQuest != null)
                 {
@@ -227,6 +235,32 @@ public class ApothNPC : NPC, ITalkable
         }
     }
 
+    public int QuestCompletedDialogue() //Reference lastCompletedQuestIndex to get which quest it is/what type it is, and give specific remarks here!!
+    {
+        if(lastCompletedQuestIndex < 0)
+        {
+            return 0;
+        }
+
+        //Remark about completing the Tissue quest here
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueFetchQuests[0]))
+        {
+            QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[2]); //Add the "Grow Puripulp Quest" quest
+            if(justGaveTissueQuest) return 3;
+            else return 1; 
+        }
+
+        //Remark about completing the Puripulp quest here
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[2])) 
+        {
+            GameSaveData.Instance.apo_gaveCure = true;
+            CraftingDatabase.Instance.UnlockRecipe(7); // unlocks the purification flask
+            return 2;
+        } 
+
+        return 0;
+    }
+
     void ExtraInformation()
     {
         currentPath = 7; //Explaining Siege
@@ -284,12 +318,37 @@ public class ApothNPC : NPC, ITalkable
             GameSaveData.Instance.apo_wasKidnapped = true;
         }
 
+        if(TimeManager.Instance.currentHour == 8)
+        {
+            justGaveTissueQuest = false;
+        }
+
         
+    }
+
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if((!GameSaveData.Instance.apo_gaveTissueQuest && GameSaveData.Instance.siegesCleared == 2) || (!GameSaveData.Instance.apo_explainedSiege && GameSaveData.Instance.apo_readScroll))
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        exclamationObject.SetActive(true);
+        return true;
     }
 
     bool CanSellSiegeSeeds()
     {
         if(GameSaveData.Instance.siegesCleared == 1 && !GameSaveData.Instance.apo_rescued) return false; // apo has not been kidnapped yet or is kidnapped
+        if(GameSaveData.Instance.siegesCleared == 2 && !GameSaveData.Instance.apo_gaveCure) return false; // apo has not given the azure rot cure yet
         if(GameSaveData.Instance.siegeCropInHand || SiegeManager.Instance.siegeCropOnFarm || !GameSaveData.Instance.apo_readScroll) return false;
         if(GameSaveData.Instance.siegesCleared >= 4) return false; //All sieges done
         return true;

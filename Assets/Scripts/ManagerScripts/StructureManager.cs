@@ -687,7 +687,7 @@ public class StructureManager : MonoBehaviour
                         if(structure)
                         {
                             FarmLand farmPlot = structure as FarmLand;
-                            if(farmPlot) farmPlot.IchorRefill();
+                            if(farmPlot) farmPlot.IchorRefill(amount);
                         }
                     } 
                 }
