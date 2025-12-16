@@ -6,12 +6,13 @@ public class ProjectilePoolManager : MonoBehaviour
 {
     public static ProjectilePoolManager Instance;
 
-    public GameObject bulletPrefab, largeWaterPrefab, bloodPrefab, seedBulletPrefab, fireBallPrefab, pyreflyPrefab, hydroflyPrefab, timberEarPrefab, cannonRockPrefab, eggPrefab,
+    public GameObject bulletPrefab, largeWaterPrefab, bloodPrefab, slimePrefab, seedBulletPrefab, fireBallPrefab, pyreflyPrefab, hydroflyPrefab, timberEarPrefab, cannonRockPrefab, eggPrefab,
     fBulletRock, fBulletShrapnel, fBulletLead, fBulletWood, beetlePrefab, jagBeetlePrefab;
 
     List<GameObject> bulletPool = new List<GameObject>();
     List<GameObject> largeWaterPool = new List<GameObject>();
     List<GameObject> bloodPool = new List<GameObject>();
+    List<GameObject> slimePool = new List<GameObject>();
     List<GameObject> seedPool = new List<GameObject>();
     List<GameObject> fireBallPool = new List<GameObject>();
     List<GameObject> pyreflyPool = new List<GameObject>();
@@ -65,6 +66,14 @@ public class ProjectilePoolManager : MonoBehaviour
             bloodPool.Add(newBullet);
             newBullet.SetActive(false);
         }
+
+        for(int i = 0; i < 6; i++)
+        {
+            GameObject newBullet = Instantiate(slimePrefab);
+            slimePool.Add(newBullet);
+            newBullet.SetActive(false);
+        }
+
 
         for(int i = 0; i < 12; i++)
         {
@@ -176,6 +185,25 @@ public class ProjectilePoolManager : MonoBehaviour
         //No available projectiles, must make a new one
         GameObject newBullet = Instantiate(bloodPrefab);
         bloodPool.Add(newBullet);
+        newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+        return newBullet;
+    }
+
+    public GameObject GrabSlime()
+    {
+        foreach (GameObject bullet in slimePool)
+        {
+            if(!bullet.activeSelf)
+            {
+                bullet.SetActive(true);
+                bullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+                return bullet;
+            }
+        }
+
+        //No available projectiles, must make a new one
+        GameObject newBullet = Instantiate(slimePrefab);
+        slimePool.Add(newBullet);
         newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
         return newBullet;
     }

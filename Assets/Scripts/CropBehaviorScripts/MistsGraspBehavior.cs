@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Crop Behavior", menuName = "Crop Behavior/MistsGrasp")]
 public class MistsGraspBehavior : CropBehavior
 {
-    public override void OnIchorRefill(FarmLand tile)
+    public override void OnIchorRefill(FarmLand tile, float amount)
     {
+        if(amount <= 1) return;
         tile.hoursSpent = tile.crop.hoursPerStage + 1;
         tile.ignoreNextGrowthMoment = false;
         tile.HourPassed();

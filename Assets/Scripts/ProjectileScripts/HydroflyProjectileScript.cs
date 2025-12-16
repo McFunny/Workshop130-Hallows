@@ -44,7 +44,7 @@ public class HydroflyProjectileScript : MonoBehaviour
         {
             StatusEffectManager.Instance.RemoveStatusOnPlayer(StatusEffectName.Fire);
         }
-        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 6f, 1 << 6);
+        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 3f, 1 << 6);
         foreach(Collider collider in hitStructures)
         {
             StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
@@ -54,7 +54,7 @@ public class HydroflyProjectileScript : MonoBehaviour
             }
         }
 
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 6f, 1 << 9);
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 4f, 1 << 9);
         foreach(Collider collider in hitEnemies)
         {
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();

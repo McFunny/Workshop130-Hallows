@@ -79,6 +79,8 @@ public class GameSaveData : MonoBehaviour
     public bool bot_newWares; // The bot needs to explain they have new seeds. Turns to false after explaination given
     public bool tink_newWares; // The bot needs to explain they have new gear. Turns to false after explaination given
     public bool mm_introducedTickets; // Merchant explained the ticket box
+    public bool apo_gaveTissueQuest; // Apoth asked for the tissue samples
+    public bool apo_gaveCure; // Apoth gave the recipe to the purifying flask, meaning the player completed that quest, and she will now sell the marigleam
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin blocking barn
@@ -243,6 +245,8 @@ public class GameSaveData : MonoBehaviour
         bot_newWares = data.allGameSaveData.bot_newWares;
         tink_newWares = data.allGameSaveData.tink_newWares;
         mm_introducedTickets = data.allGameSaveData.mm_introducedTickets;
+        apo_gaveTissueQuest = data.allGameSaveData.apo_gaveTissueQuest;
+        apo_gaveCure = data.allGameSaveData.apo_gaveCure;
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -390,6 +394,8 @@ public class GameSaveData : MonoBehaviour
         public bool bot_newWares; 
         public bool tink_newWares;
         public bool mm_introducedTickets;
+        public bool apo_gaveTissueQuest; 
+        public bool apo_gaveCure;
 
         public int botShopLevel;
         public int mintsDonatedToBot;
@@ -511,6 +517,8 @@ public class GameSaveData : MonoBehaviour
         bot_newWares = data.bot_newWares;
         tink_newWares = data.tink_newWares;
         mm_introducedTickets = data.mm_introducedTickets;
+        apo_gaveTissueQuest = data.apo_gaveTissueQuest;
+        apo_gaveCure = data.apo_gaveCure;
 
         botShopLevel = data.botShopLevel;
         mintsDonatedToBot = data.mintsDonatedToBot;

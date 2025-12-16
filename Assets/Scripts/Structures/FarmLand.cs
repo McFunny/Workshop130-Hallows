@@ -799,10 +799,10 @@ public class FarmLand : StructureBehaviorScript
         if(Tutorial.Instance && !isWeed) Tutorial.Instance.WateredSeed();
     }
 
-    public void IchorRefill()
+    public void IchorRefill(float amount)
     {
         ichorSplash.Play();
-        if(crop && crop.behavior) crop.behavior.OnIchorRefill(this);
+        if(crop && crop.behavior) crop.behavior.OnIchorRefill(this, amount);
         StructureManager.Instance.UpdateStorage(transform.position, nutrients);
     }
 

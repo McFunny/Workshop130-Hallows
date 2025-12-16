@@ -11,6 +11,8 @@ public class QuestDatabase : ScriptableObject
 
     public GrowQuest[] UniqueGrowQuests;
 
+    public FetchQuest[] UniqueFetchQuests;
+
     public List<NPCQuestObject> npcQuestObjects = new List<NPCQuestObject>();
 
     //List of the behaviors
@@ -32,6 +34,11 @@ public class QuestDatabase : ScriptableObject
         for(int i = 0; i < UniqueGrowQuests.Length; i++)
         {
             UniqueGrowQuests[i].questID = i;
+        }
+
+        for(int i = 0; i < UniqueFetchQuests.Length; i++)
+        {
+            UniqueFetchQuests[i].questID = i;
         }
 
         //Function to order the behaviors
