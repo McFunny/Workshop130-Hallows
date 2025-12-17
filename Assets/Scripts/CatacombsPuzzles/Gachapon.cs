@@ -48,10 +48,10 @@ public class Gachapon : MonoBehaviour, IInteractable
         animator = GetComponent<Animator>();
         gachaponAudioSource = GetComponent<AudioSource>();
 
-        if (!MainMenuScript.loadingData)
+        /*if (!MainMenuScript.loadingData)
         {
             AddToBacklog(siegePaper, 1);
-        }
+        }*/
 
         if(!currentlyOfferingPrize) ballSprite.enabled = false;
         else
@@ -246,6 +246,14 @@ public class Gachapon : MonoBehaviour, IInteractable
         if (itemBacklog.Count > 0)
         {
            PlayParticles(true);
+            gachaponAudioSource.clip = gachaponGearsTurning;
+            gachaponAudioSource.loop = true;
+            gachaponAudioSource.Play();
+        }
+        else
+        {
+            PlayParticles(false);
+            gachaponAudioSource.Stop();
         }
 
     }
