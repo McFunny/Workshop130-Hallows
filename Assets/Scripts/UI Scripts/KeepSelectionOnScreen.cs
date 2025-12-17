@@ -1,75 +1,106 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+MIT License
+
+Copyright (c) 2023 Martin Jonasson
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class KeepSelectionOnScreen : MonoBehaviour //Bro I stg...
-{
-    [SerializeField] RectTransform scrollRectTransform;
-    [SerializeField] RectTransform contentPanel;
-    [SerializeField] RectTransform selectedRectTransform;
-    [SerializeField] GameObject lastSelected;
+[RequireComponent(typeof(ScrollRect))]
+public class KeepSelectionOnScreen : MonoBehaviour {
 
-    void Start() {
-        scrollRectTransform = GetComponent<RectTransform>();
-        contentPanel = GetComponent<ScrollRect>().content;
-    }
+    public ScrollRect    scrollRect;
+    public RectTransform viewportRectTransform;
+    public RectTransform contentRectTransform;
+
+    RectTransform selectedRectTransform;
 
     void Update() {
         if(!ControlManager.isController) return;
-        //print("Controller Checked");
-        // Get the currently selected UI element from the event system.
-        GameObject selected = EventSystem.current.currentSelectedGameObject;
-        //print(selected);
-        //print(selected.transform.parent);
+        var selected = EventSystem.current.currentSelectedGameObject;
+        // nothing is selected, bail
+        if (selected == null) return;
 
-        // Return if there are none.
-        if (selected == null) {
-            return;
-        }
+        // whatever is selected isn't a descendant of the scroll rect, we can ignore it
+        if (!selected.transform.IsChildOf(contentRectTransform)) return;
 
-        if(selected.GetComponent<UIMenuButton>() != null)
-        {
-            var component = selected.GetComponent<UIMenuButton>();
-            if(!component.isWithinScrollRect) return;
-        }
-        else{return;}
-        //print("Component is UIMenuButton");
-        
-        // Return if the selected game object is the same as it was last frame,
-        // meaning we haven't moved.
-        if (selected == lastSelected) {
-            //print("selected = lastSelected");
-            return;
-        }
-        //print("selected != lastSelected");
-        //print("Selected object is not the same as the last frame");
+        selectedRectTransform = selected.GetComponent<RectTransform>();
+        var viewportRect = viewportRectTransform.rect;
+       
+        // transform the selected rect from its local space to the content rect space
+        var selectedRect         = selectedRectTransform.rect;
+        var selectedRectWorld    = selectedRect.Transform(selectedRectTransform);
+        var selectedRectViewport = selectedRectWorld.InverseTransform(viewportRectTransform);
+       
+        // now we can calculate if we're outside the viewport either on top or on the bottom
+        var outsideOnTop    = selectedRectViewport.yMax - viewportRect.yMax;
+        var outsideOnBottom = viewportRect.yMin - selectedRectViewport.yMin;
+       
+        // if these values are positive, we're outside the viewport
+        // if they are negative, we're inside, i zero any "inside" values here to keep things easier to reason about
+        if (outsideOnTop < 0) outsideOnTop       = 0;
+        if (outsideOnBottom < 0) outsideOnBottom = 0;
+       
+        // pick the direction to scroll
+        // if the selection is big it could possibly be outside on both ends, i prioritize the top here
+        var delta = outsideOnTop > 0 ? outsideOnTop : -outsideOnBottom;
+       
+        // if no scroll, we bail
+        if (delta == 0) return;
+       
+        // now we transform the content rect into the viewport space
+        var contentRect         = contentRectTransform.rect;
+        var contentRectWorld    = contentRect.Transform(contentRectTransform);
+        var contentRectViewport = contentRectWorld.InverseTransform(viewportRectTransform);
 
-        // Get the rect tranform for the selected game object.
-        if(selected.GetComponent<Button>() == null) selectedRectTransform = selected.GetComponent<RectTransform>();
-        else selectedRectTransform = selected.GetComponent<RectTransform>();
-        // The position of the selected UI element is the absolute anchor position,
-        // ie. the local position within the scroll rect + its height if we're
-        // scrolling down. If we're scrolling up it's just the absolute anchor position.
-        float selectedPositionY = Mathf.Abs(selectedRectTransform.anchoredPosition.y) + selectedRectTransform.rect.height;
+        // using this we can calculate how much of the content extends past the viewport
+        var overflow = contentRectViewport.height - viewportRect.height;
 
-        // The upper bound of the scroll view is the anchor position of the content we're scrolling.
-        float scrollViewMinY = contentPanel.anchoredPosition.y;
-        // The lower bound is the anchor position + the height of the scroll rect.
-        float scrollViewMaxY = contentPanel.anchoredPosition.y + scrollRectTransform.rect.height;
+        // now we can use the overflow from earlier to work out how many units the normalized scroll will move us, so
+        // we can scroll exactly to where we need to
+        var unitsToNormalized = 1 / overflow;
+        scrollRect.verticalNormalizedPosition += delta * unitsToNormalized;
+    }   
+}
 
-        // If the selected position is below the current lower bound of the scroll view we scroll down.
-        if (selectedPositionY > scrollViewMaxY) {
-            float newY = selectedPositionY - scrollRectTransform.rect.height;
-            contentPanel.anchoredPosition = new Vector2(contentPanel.anchoredPosition.x, newY);
-        }
-        // If the selected position is above the current upper bound of the scroll view we scroll up.
-        else if (Mathf.Abs(selectedRectTransform.anchoredPosition.y) < scrollViewMinY) {
-            contentPanel.anchoredPosition = new Vector2(contentPanel.anchoredPosition.x, Mathf.Abs(selectedRectTransform.anchoredPosition.y));
-        }
-
-        lastSelected = selected;
-        //print("help");
+internal static class KSOSExtensions {
+    /// <summary>
+    /// Transforms a rect from the transform local space to world space.
+    /// </summary>
+    public static Rect Transform(this Rect r, Transform transform) {
+        return new Rect {
+            min = transform.TransformPoint(r.min),
+            max = transform.TransformPoint(r.max),
+        };
+    }
+   
+    /// <summary>
+    /// Transforms a rect from world space to the transform local space
+    /// </summary>
+    public static Rect InverseTransform(this Rect r, Transform transform) {
+        return new Rect {
+            min = transform.InverseTransformPoint(r.min),
+            max = transform.InverseTransformPoint(r.max),
+        };
     }
 }
