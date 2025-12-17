@@ -38,18 +38,19 @@ public class CraftingSystem : MonoBehaviour
     private List<CraftingButton> craftingButtons = new List<CraftingButton>();
     private enum Categories //THIS ORDER MUST MATCH WHAT WILL BE ON SCREEN FROM LEFT TO RIGHT
     {
-        All,
+        Seed,
         Structure,
         Furniture,
         Trinket,
         Misc
     }
-    [SerializeField] private Categories currentCategory = Categories.All;
+    [SerializeField] private Categories currentCategory = Categories.Seed;
     [SerializeField] private List<UILerp> categoryLerps;
 
     [HideInInspector] public CraftingStructure currentStructure;
     private const int CRAFTCAP = 5;
     private ControlManager controlManager;
+    private Coroutine closeCraftingCoroutine;
 
     private void Awake()
     {
@@ -66,21 +67,21 @@ public class CraftingSystem : MonoBehaviour
         craftingEntries = CraftingDatabase.Instance.GetCraftingDatabase();
         descriptionBoxContainer = descriptionBox.gameObject.transform.GetChild(0).gameObject;
         descriptionBoxVisuals.SetActive(false);
-
         Reset();
-        //PopulateCraftingInterface();
     }
 
     private void OnEnable()
     {
         controlManager.hotbarUp.action.started += HotbarUp;
         controlManager.hotbarDown.action.started += HotbarDown;
+        controlManager.openInventory.action.started += CloseCraftingInterface;
     }
 
     private void OnDisable()
     {
         controlManager.hotbarUp.action.started -= HotbarUp;
         controlManager.hotbarDown.action.started -= HotbarDown;
+        controlManager.openInventory.action.started -= CloseCraftingInterface;
     }
 
     private void HotbarUp(InputAction.CallbackContext obj)
@@ -93,6 +94,21 @@ public class CraftingSystem : MonoBehaviour
     {
         if(!isCraftingMenuOpen) return;
         ControllerChangeCategories(1);
+    }
+
+    private void CloseCraftingInterface(InputAction.CallbackContext obj)
+    {
+        if(closeCraftingCoroutine != null)
+        {
+            StopCoroutine(closeCraftingCoroutine);
+        }
+        closeCraftingCoroutine = StartCoroutine(CloseCraftingInterfaceCoroutine());
+    }
+
+    private IEnumerator CloseCraftingInterfaceCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if(isCraftingMenuOpen) OpenCraftingInterface();
     }
 
     private void Update()
@@ -176,6 +192,8 @@ public class CraftingSystem : MonoBehaviour
                 collectButtonText.text = "Nothing to Collect";
             }
             UpdateCategory(currentCategory.ToString());
+            Debug.Log(currentCategory);
+            
         }
         else
         {
@@ -271,9 +289,9 @@ public class CraftingSystem : MonoBehaviour
         UpdateCategory(categoryToChangeTo);
     }
 
-    public void UpdateCategory(string c)
+    public void UpdateCategory(string categoryString)
     {
-        currentCategory = (Categories)System.Enum.Parse(typeof(Categories), c);
+        currentCategory = (Categories)System.Enum.Parse(typeof(Categories), categoryString);
 
         for(int i = 0; i < categoryLerps.Count; i++)
         {
@@ -281,7 +299,7 @@ public class CraftingSystem : MonoBehaviour
             else categoryLerps[i].lerpToStart = false;
         }
 
-        if(c == "All")
+        if(categoryString == "All")
         {
             foreach (CraftingButton button in craftingButtons)
             {
@@ -291,7 +309,7 @@ public class CraftingSystem : MonoBehaviour
             return;
         }
 
-        CraftingCategory category = (CraftingCategory)System.Enum.Parse(typeof(CraftingCategory), c); //Help me (turns the string "c" into a crafting category enum)
+        CraftingCategory category = (CraftingCategory)System.Enum.Parse(typeof(CraftingCategory), categoryString); //Help me (turns the categoryString into a crafting category enum)
         
         foreach (CraftingButton button in craftingButtons)
         {
