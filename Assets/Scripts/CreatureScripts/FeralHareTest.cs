@@ -669,7 +669,7 @@ public class FeralHareTest : CreatureBehaviorScript
         yield return new WaitUntil(() => !inEatingRange || eatingTimeLeft <= 0 || foundFarmTile == null || foundFarmTile.crop == null || currentState != CreatureState.Eat);
         if (inEatingRange && foundFarmTile && foundFarmTile.crop && currentState == CreatureState.Eat)
         {
-            bool canLeaveBurrow = true;
+            bool cropFullyEaten = true;
             if(foundFarmTile.crop.behavior) 
             {
                 if(foundFarmTile.harvestable)
@@ -678,17 +678,17 @@ public class FeralHareTest : CreatureBehaviorScript
                 }
                 else foundFarmTile.crop.behavior.OnConsumedBeforeMaturity(this);
 
-                if(foundFarmTile.crop.behavior.WasFullyEaten(foundFarmTile, this) == false) canLeaveBurrow = false;
+                if(foundFarmTile.crop.behavior.WasFullyEaten(foundFarmTile, this) == false) cropFullyEaten = false;
                 else foundFarmTile.CropDestroyed();
             }
-            if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20 && foundFarmTile.currentUpgrade != FarmLand.FarmTileUpgrade.Trellis && canLeaveBurrow)
+            if(Random.Range(0, 10) > 5 && StructureManager.Instance.BurrowCount() < 20 && foundFarmTile.currentUpgrade != FarmLand.FarmTileUpgrade.Trellis && cropFullyEaten)
             {
                 Vector3 pos = foundFarmTile.transform.position;
                 Destroy(foundFarmTile.gameObject);
                 yield return new WaitForSeconds(0.2f);
                 StructureManager.Instance.SpawnStructure(burrow, StructureManager.Instance.GetTileCenter(pos));
             }
-            else
+            else if(cropFullyEaten)
             {
                 foundFarmTile.CropDestroyed();
             }

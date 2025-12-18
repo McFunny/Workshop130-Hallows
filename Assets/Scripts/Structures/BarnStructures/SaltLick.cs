@@ -8,6 +8,7 @@ public class SaltLick : StructureBehaviorScript
 
     float useChance = 5;
     float hungerRestored = 10;
+    float healthRestored = 15;
 
     void Start()
     {
@@ -57,8 +58,11 @@ public class SaltLick : StructureBehaviorScript
                 {
                     c.FriendPointsChange(10, true);
                     c.hunger += hungerRestored;
+                    c.health += healthRestored;
+                    if(c.health > c.maxHealth) c.health = c.maxHealth;
                     health -= 1;
                     UpdateModel();
+                    if(health <= 0) break;
                 }
             }
         }

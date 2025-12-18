@@ -30,3 +30,9 @@ public class ItemWithAmount
         item = _item;
     }
 }
+[System.Serializable]
+public class CropWithProbability
+{
+    public CropData _crop;
+    public float _probability = 0;
+}
