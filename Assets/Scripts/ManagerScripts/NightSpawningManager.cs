@@ -38,7 +38,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public ParticleSystem finaleMist;
 
-    public CreatureObject pollinator;
+    public CreatureObject pollinator, ferrat;
 
     public List<NightEventObject> nightEvents = new List<NightEventObject>();
     bool eventOccured = false; //only 1 per night
@@ -87,6 +87,12 @@ public class NightSpawningManager : MonoBehaviour
             eventOccured = false;
             currentSpawnPool = null;
             forceCorruptedSpawns = false;
+
+            if(ReportTotalOfCreature(ferrat) < ferrat.spawnCap && Random.Range(0,15) == 1) //Spawn ferrats
+            {
+                SpawnCreature(ferrat);
+                if(Random.Range(0,3) == 1) SpawnCreature(ferrat);
+            }
             return;
         }
 

@@ -6,7 +6,8 @@ using UnityEngine.AI;
 public class Ferrat : CreatureBehaviorScript
 {
 
-    bool isMoving, coroutineRunning, isStanding; //ISMOVING TRACKS IF THE MOVEMENT COROUTINE IS PLAYING. COROUTINERUNNING CHECKS IF ANY *OTHER* COROUTINE IS RUNNING
+    bool isMoving, coroutineRunning; //ISMOVING TRACKS IF THE MOVEMENT COROUTINE IS PLAYING. COROUTINERUNNING CHECKS IF ANY *OTHER* COROUTINE IS RUNNING
+    bool isStanding = false;
 
     [HideInInspector] public NavMeshAgent agent;
 
@@ -44,13 +45,16 @@ public class Ferrat : CreatureBehaviorScript
         
         agent.enabled = false;
         agent.enabled = true;
+        agent.speed = runSpeed;
 
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
         StartCoroutine(IdleSoundTimer());
         StartCoroutine(CheckPlayerNuts());
-        timeUntilLeave = Random.Range(300, 500);
+        timeUntilLeave = Random.Range(100, 500);
         StartCoroutine(LeaveTimer());
+
+        GrabTree();
     }
 
     void Update()
@@ -75,10 +79,10 @@ public class Ferrat : CreatureBehaviorScript
         {
             if(playerInSightRange)
             {
-                if(currentState != CreatureState.Flee && !coroutineRunning) currentState = CreatureState.Flee;
+                if(currentState == CreatureState.Wander && !coroutineRunning) currentState = CreatureState.Flee;
             }
 
-            if(currentState == CreatureState.Flee && distanceFromPlayer > sightRange + 6)
+            if(currentState == CreatureState.Flee && distanceFromPlayer > sightRange + 10)
             {
                 currentState = CreatureState.Wander;
             }
@@ -133,9 +137,10 @@ public class Ferrat : CreatureBehaviorScript
         coroutineRunning = true;
         anim.SetBool("IsStanding", isStanding);
         agent.speed = 0;
+        agent.velocity = Vector3.zero;
         yield return new WaitForSeconds(0.7f);
-        if(isStanding) agent.speed = runSpeed;
-        else agent.speed = walkSpeed;
+        if(isStanding) agent.speed = walkSpeed;
+        else agent.speed = runSpeed;
         coroutineRunning = false;
     }
 
@@ -150,8 +155,8 @@ public class Ferrat : CreatureBehaviorScript
         
                 Vector3 randomPoint;
                 if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
-                else randomPoint = PointAroundPatrolPoint(7);
-                StartCoroutine(MoveToPoint(randomPoint, Random.Range(1f, 4f)));
+                else randomPoint = PointAroundPatrolPoint(10);
+                StartCoroutine(MoveToPoint(randomPoint, Random.Range(0.5f, 2.5f)));
             }
             
         }
@@ -172,17 +177,22 @@ public class Ferrat : CreatureBehaviorScript
         {
             if(currentState == CreatureState.ApproachPlayer)
             {
-        
-                Vector3 randomPoint;
-                if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
-                else randomPoint = PointAroundPatrolPoint(7);
-                StartCoroutine(MoveToPoint(randomPoint, Random.Range(1f, 2.5f)));
+    
+                StartCoroutine(MoveToPoint(player.position, Random.Range(1f, 2.5f)));
             }
             
         }
 
-        if(distanceFromPlayer <= 3) interruptAction = true;
+        if(distanceFromPlayer <= 3 || !IsPlayerStill()) interruptAction = true;
     }
+
+    private Vector3 GetRandomPointAround(Vector3 origin, float radius)
+    {
+        Vector2 randomDirection = Random.insideUnitCircle * radius;
+        Vector3 randomPoint = new Vector3(randomDirection.x, origin.y, randomDirection.y) + origin;
+        return randomPoint;
+    }
+
 
     private void Flee()
     {
@@ -203,13 +213,11 @@ public class Ferrat : CreatureBehaviorScript
 
         if (!isMoving)
         {
-            if(currentState == CreatureState.ApproachPlayer)
+            if(currentState == CreatureState.FollowPlayer)
             {
         
-                Vector3 randomPoint;
-                if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
-                else randomPoint = PointAroundPatrolPoint(7);
-                StartCoroutine(MoveToPoint(randomPoint, Random.Range(1f, 2.5f)));
+                Vector3 randomPoint = GetRandomPointAround(player.position, 12f);
+                StartCoroutine(MoveToPoint(randomPoint, Random.Range(2f, 5f)));
             }
             
         }
@@ -239,6 +247,7 @@ public class Ferrat : CreatureBehaviorScript
         float r = Random.Range(1f, 3.5f);
         float timeElapsed = 0;
         agent.ResetPath();
+        //agent.velocity = Vector3.zero;
 
         while(timeElapsed < r)
         {
@@ -339,7 +348,6 @@ public class Ferrat : CreatureBehaviorScript
     {
         while(health > 0 && currentState != CreatureState.FollowPlayer && currentState != CreatureState.Leave)
         {
-            yield return new WaitForSeconds(Random.Range(3, 7));
             if(distanceFromPlayer < 20 && PlayerHoldingNuts())
             {
                 if(IsPlayerStill())
@@ -347,6 +355,7 @@ public class Ferrat : CreatureBehaviorScript
                     currentState = CreatureState.ApproachPlayer;
                 }
             }
+            yield return new WaitForSeconds(Random.Range(3, 7));
         }
     }
 
@@ -386,14 +395,33 @@ public class Ferrat : CreatureBehaviorScript
 
     bool IsPlayerStill()
     {
-        if(PlayerInteraction.Instance.rb.velocity.magnitude > 5) return false;
+        Vector2 moveInput = PlayerInteraction.Instance.controlManager.movement.action.ReadValue<Vector2>();
+        if(moveInput.y >= 0.2f || moveInput.y <= -0.2f || moveInput.x >= 0.2f || moveInput.x <= -0.2f) return false;
         else return true;
     }
 
     bool PlayerHoldingNuts()
     {
-        if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == timberEar) return true;
+        if(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == timberEar) return true;
         else return false;
+    }
+
+    void GrabTree()
+    {
+        List<StructureBehaviorScript> availableStructures = new List<StructureBehaviorScript>();
+        foreach (var structure in StructureManager.Instance.allStructs)
+        {
+            if (structure && !structure.absentFromFarmGrid)
+            {
+                FarmTree tree = structure as FarmTree;
+                if(!tree) continue;
+                
+                availableStructures.Add(tree);
+            }
+                
+        }
+
+        if(availableStructures.Count > 0) patrolPoint = availableStructures[Random.Range(0, availableStructures.Count)].transform;
     }
 
 
