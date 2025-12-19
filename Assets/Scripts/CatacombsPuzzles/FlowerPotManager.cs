@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class FlowerPotManager : ImAPuzzleManager
+public class FlowerPotManager : ImAPuzzleManager, IButtonable
 {
 
     public static FlowerPotManager Instance;
@@ -61,6 +61,7 @@ public class FlowerPotManager : ImAPuzzleManager
         int correctPots = 0;
         for (int i = 0; i < pots.Count; i++)
         {
+            pots[i].DestroyIncorrectFlowers();
             if (pots[i].isCorrect)
             {
                 correctPots++;
@@ -106,6 +107,12 @@ public class FlowerPotManager : ImAPuzzleManager
             if(data.pots == null || i >= data.pots.Count) continue;
             pots[i].ImportSaveData(data.pots[i]);
         }
+    }
+
+    public void OnButtonPress()
+    {
+        if (puzzleSolved == true) return;
+        CheckToSeeIfSolved();
     }
 }
 

@@ -12,14 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
   m_Name: MysterySeedRecipe
   m_EditorClassIdentifier: 
-  id: -1
+  id: 25
   nameOverride: 
-  category: 3
+  category: 0
   tier: 0
   isUnlocked: 0
   isRecentlyUnlocked: 1
-  output: {fileID: 0}
+  output: {fileID: 11400000, guid: dda10ab425968af4c8ed64969b9225d4, type: 2}
   outputAmount: 1
   craftTimeInSeconds: 15
   mintCost: 0
-  craftingRequirements: []
+  craftingRequirements:
+  - requiredItem: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+    requiredAmount: 2
+  - requiredItem: {fileID: 11400000, guid: ad3821a813642114d9979d54224f657c, type: 2}
+    requiredAmount: 3
+  - requiredItem: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+    requiredAmount: 1

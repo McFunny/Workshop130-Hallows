@@ -8,7 +8,7 @@ public class CreatureEffectsHandler : MonoBehaviour
     public float volume = 1f;
     public float pitchMin = 0;
     public float pitchMax = 0;
-    float originalPitch;
+    float originalPitch, originalFootstepPitch;
     [HideInInspector]
     public AudioSource source;
     public AudioSource loopingSource;
@@ -28,7 +28,7 @@ public class CreatureEffectsHandler : MonoBehaviour
 
     public AudioClip[] extraSounds;
 
-    public ParticleSystem particle1;
+    public ParticleSystem particle1, footStepParticles;
 
 
 
@@ -38,6 +38,7 @@ public class CreatureEffectsHandler : MonoBehaviour
     {
         source = GetComponent<AudioSource>();
         originalPitch = source.pitch;
+        if(footStepSource) originalFootstepPitch = footStepSource.pitch;
     }
 
     public void PlaySound(AudioClip clip)
@@ -137,8 +138,10 @@ public class CreatureEffectsHandler : MonoBehaviour
     public void PlayFootstep()
     {
         if(!footStepSource) return;
-        float p = Random.Range(0.9f, 1.1f);
+        float p = originalFootstepPitch + Random.Range(-.1f, .1f);
         footStepSource.pitch = p;
         footStepSource.PlayOneShot(moveSound);
+
+        if(footStepParticles) footStepParticles.Play();
     }
 }

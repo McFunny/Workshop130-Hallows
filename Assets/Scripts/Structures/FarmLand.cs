@@ -1004,6 +1004,8 @@ public class FarmLand : StructureBehaviorScript
             {
                 if(c.frostVulnerable && isFrosted) c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 6);
 
+                if(c.creatureData && c.creatureData.id == 29) return; //Ferrats are immune
+
                 if(isWeed && growthStage == 7) 
                 {
                     c.TakeDamage(10);

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48be4f06dffcc547b055a2944714f3d, type: 3}
+  m_Name: MysteryCropBehavior
+  m_EditorClassIdentifier: 
+  behaviorUpdateTime: 0
+  possibleCrops:
+  - _crop: {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
+    _probability: 80
+  - _crop: {fileID: 11400000, guid: 0070b090fdf5e6b429d8ffadc243c101, type: 2}
+    _probability: 20
+  - _crop: {fileID: 11400000, guid: d21a6e65259c92d499af2658e49ce8ed, type: 2}
+    _probability: 60
+  - _crop: {fileID: 11400000, guid: d76b160dc47240047a3199c2e726eae6, type: 2}
+    _probability: 40
+  - _crop: {fileID: 11400000, guid: 404da733dbaddf84da0cc2ca396dd61e, type: 2}
+    _probability: 60
+  - _crop: {fileID: 11400000, guid: 5a60016cc237cd846b888ac0d414fcb4, type: 2}
+    _probability: 40
+  - _crop: {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
+    _probability: 80
+  - _crop: {fileID: 11400000, guid: 7c88cdeb4ede7984fa2d456e64a08a06, type: 2}
+    _probability: 80
