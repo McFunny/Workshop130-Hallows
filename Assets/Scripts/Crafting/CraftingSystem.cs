@@ -461,6 +461,7 @@ public class CraftingSystem : MonoBehaviour
 
         PlayerInteraction.Instance.currentMoney -= selectedEntry.mintCost;
         PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(classConv);
+        PlayerInventoryHolder.Instance.UpdateInventory();
         currentStructure.AddCraft(selectedEntry);
         //PlayerInventoryHolder.Instance.AddToInventory(selectedEntry.output, selectedEntry.outputAmount);
         UpdateAssignedEntry(selectedEntry);
