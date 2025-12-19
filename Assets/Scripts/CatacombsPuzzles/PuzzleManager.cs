@@ -28,6 +28,8 @@ public class PuzzleManager : MonoBehaviour
     public GameObject flowerPuzzleSteam;
     public GameObject bugPuzzleSteam;
 
+    public MudRoomDoor mudRoomDoor;
+
     private CinemachineImpulseSource impulseSource;
 
     private void Awake()
@@ -147,6 +149,7 @@ public class PuzzleManager : MonoBehaviour
             siegeFlowerSaveData = SiegeFlowerPuzzleManager.Instance.ExportSaveData(),
             gachaponSaveData = Gachapon.Instance.ExportSaveData(),
             torchSaveData = CatacombsTorchManager.Instance.ExportSaveData(),
+            mudRoomDoorSaveData = mudRoomDoor.ExportSaveData(),
             totalPuzzlesSolved = totalPuzzlesSolved,
             allPuzzlesSolved = allPuzzlesSolved
         };
@@ -164,6 +167,7 @@ public class PuzzleManager : MonoBehaviour
         SiegeFlowerPuzzleManager.Instance.ImportSaveData(data.siegeFlowerSaveData);
         Gachapon.Instance.ImportSaveData(data.gachaponSaveData);
         CatacombsTorchManager.Instance.ImportSaveData(data.torchSaveData);
+        mudRoomDoor.ImportSaveData(data.mudRoomDoorSaveData);
         totalPuzzlesSolved = data.totalPuzzlesSolved;
         allPuzzlesSolved = data.allPuzzlesSolved;
         if (allPuzzlesSolved)
@@ -189,6 +193,7 @@ public struct PuzzleManagerSaveData
     public SiegeFlowerPuzzleSaveData siegeFlowerSaveData;
     public GachaponSaveData gachaponSaveData;
     public TorchSaveData torchSaveData;
+    public MudRoomDoorSaveData mudRoomDoorSaveData;
     public int totalPuzzlesSolved;
     public bool allPuzzlesSolved;
 }

@@ -17,6 +17,7 @@ public class UIScroll : MonoBehaviour
 
     void OnEnable()
     {
+        if(!controlManager) controlManager = FindFirstObjectByType<ControlManager>();
         controlManager.uiScroll.action.started += HandleScroll;
     }
 

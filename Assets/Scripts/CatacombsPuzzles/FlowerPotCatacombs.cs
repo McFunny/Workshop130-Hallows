@@ -32,6 +32,11 @@ public class FlowerPotCatacombs : MonoBehaviour, IInteractable
     public int flowerIndex;
     public UnityAction<IInteractable> OnInteractionComplete { get; set; }
 
+    public GameObject fire;
+
+    private AudioSource audioSource;
+    public AudioClip lightSound, burnSound, extinguishSound;
+
     private void Awake()
     {
         fogChimeLight?.SetActive(false);
@@ -42,6 +47,7 @@ public class FlowerPotCatacombs : MonoBehaviour, IInteractable
     private void Start()
     {
         UpdateVisual();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -80,6 +86,29 @@ public class FlowerPotCatacombs : MonoBehaviour, IInteractable
                 return;
             }
         }
+    }
+
+    public void DestroyIncorrectFlowers()
+    {
+        if (isCorrect == false)
+        {
+            StartCoroutine(BurnFlower());
+        }
+    }
+
+    IEnumerator BurnFlower()
+    {
+        audioSource.PlayOneShot(lightSound);
+        GameObject fireObj = Instantiate(fire, r.transform.position, Quaternion.identity);
+        fireObj.transform.localScale = fireObj.transform.localScale / 2;
+        yield return new WaitForSeconds(0.5f);
+        if (currentItem != null) audioSource.PlayOneShot(burnSound);
+        currentItem = null;
+        UpdateVisual();
+        UpdateFlower(currentItem);
+        yield return new WaitForSeconds(0.5f);
+        Destroy(fireObj);
+        audioSource.PlayOneShot(extinguishSound);
     }
 
     public void EndInteraction() { }
@@ -121,7 +150,7 @@ public class FlowerPotCatacombs : MonoBehaviour, IInteractable
     public void UpdateFlower(InventoryItemData flower)
     {
         isCorrect = flower == requiredItem;
-        FlowerPotManager.Instance.CheckToSeeIfSolved();
+        //FlowerPotManager.Instance.CheckToSeeIfSolved();
     }
 
     public FlowerSaveData ExportSaveData()

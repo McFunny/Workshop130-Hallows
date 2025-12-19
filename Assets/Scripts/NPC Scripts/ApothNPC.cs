@@ -198,6 +198,13 @@ public class ApothNPC : NPC, ITalkable
                 continue;
             }
 
+            if(x == 3 && GameSaveData.Instance.apo_gaveCure) //Purify Flask
+            {
+                newItem = barterDatabase.uniqueTransactions2[0].itemForSale;
+                newCost = (int)(barterDatabase.uniqueTransactions2[0].mintCost * sellMultiplier);
+                item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions2[0].itemsRequired, barterDatabase.uniqueTransactions2[0].amountForSale);
+            }
+
             do
             {
                 i = Random.Range(0, barterDatabase.transactions.Count);
