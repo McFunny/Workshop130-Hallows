@@ -6,13 +6,15 @@ public class HideUI : MonoBehaviour
 {
     [SerializeField] CanvasGroup canvasGroup, tooltipCanvasGroup;
     private CanvasGroup versionCanvas;
-    [SerializeField] KeyCode mainKey, tooltipKey;
+    [SerializeField] KeyCode mainKey, tooltipKey, versionKey;
     public static bool hideUI = false;
     public System.Action onUIHidden, onUIShown;
 
-    void Awake()
+    void Start()
     {
-        versionCanvas = GameObject.Find("BuildCanvas").GetComponent<CanvasGroup>();
+        GameObject versionObject = GameObject.Find("BuildCanvas");
+        if(versionObject == null) return;
+        versionCanvas = versionObject.GetComponent<CanvasGroup>();
     }
 
     // Update is called once per frame
@@ -36,15 +38,26 @@ public class HideUI : MonoBehaviour
         {
             if (tooltipCanvasGroup.alpha == 1)
             {
-                if(versionCanvas == null) versionCanvas = GameObject.Find("BuildCanvas").GetComponent<CanvasGroup>();
                 tooltipCanvasGroup.alpha = 0;
+            }
+            
+            else 
+            {
+                tooltipCanvasGroup.alpha = 1;
+            }
+        }
+
+        if (versionKey != KeyCode.None && Input.GetKeyDown(versionKey) && versionCanvas != null)
+        {
+            if (versionCanvas.alpha == 1)
+            {
+                if(versionCanvas == null) return;
                 versionCanvas.alpha = 0;
             }
             
             else 
             {
-                if(versionCanvas == null) versionCanvas = GameObject.Find("BuildCanvas").GetComponent<CanvasGroup>();
-                tooltipCanvasGroup.alpha = 1;
+                if(versionCanvas == null) return;
                 versionCanvas.alpha = 1;
             }
         }
