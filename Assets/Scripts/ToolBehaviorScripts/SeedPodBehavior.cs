@@ -19,7 +19,7 @@ public class SeedPodBehavior : ToolBehavior
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
     {
-        if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
+        if (usingPrimary || usingSecondary) return;
         if (!player) player = _player;
         tool = _tool;
 
@@ -67,6 +67,8 @@ public class SeedPodBehavior : ToolBehavior
         PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(thisItem, 1);
         PlayerInventoryHolder.Instance.UpdateInventory();
         PlayerMovement.Instance.RemoveSpeedMod(PlayerInteraction.Instance.gameObject);
+
+        PlayerInteraction.Instance.toolCooldown = false;
     }
 
     public override void OnHolster()
@@ -87,10 +89,12 @@ public class SeedPodBehavior : ToolBehavior
         PlayerInventoryHolder.Instance.RemoveItemsFromBothInventories(thisItem, 1);
         PlayerInventoryHolder.Instance.UpdateInventory();
         PlayerMovement.Instance.RemoveSpeedMod(PlayerInteraction.Instance.gameObject);
+        PlayerInteraction.Instance.toolCooldown = false;
     }
 
     public override void OnEquip()
     {
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.65f, "SeedPod", false));
+        PlayerInteraction.Instance.toolCooldown = true;
     }
 }

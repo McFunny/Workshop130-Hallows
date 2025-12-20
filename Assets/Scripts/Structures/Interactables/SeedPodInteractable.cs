@@ -46,7 +46,11 @@ public class SeedPodInteractable : MonoBehaviour, IInteractable
             {
                 display.SelectHotbarSlot(i);
             }
-            else PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.65f, "SeedPod", false));
+            else
+            {
+                PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.65f, "SeedPod", false));
+                PlayerInteraction.Instance.toolCooldown = true;
+            }
 
             AudioPoolManager.Instance.PlayClipAtPosition(pickupSFX, transform.position, 0.8f, 20);
 
