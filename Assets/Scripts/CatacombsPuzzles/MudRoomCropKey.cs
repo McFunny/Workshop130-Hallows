@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -102,5 +103,11 @@ public class MudRoomCropKey : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
         
+    }
+
+    internal void AutoComplete()
+    {
+        cropInserted = true;
+        foregroundSprite.enabled = true;
     }
 }

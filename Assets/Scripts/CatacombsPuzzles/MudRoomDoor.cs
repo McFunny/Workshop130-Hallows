@@ -29,8 +29,6 @@ public class MudRoomDoor : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        if (!puzzleSolved)
-            AssignCrops();
     }
 
     void AssignCrops()
@@ -123,11 +121,9 @@ public class MudRoomDoor : MonoBehaviour
 
     public void ImportSaveData(MudRoomDoorSaveData data)
     {
-        //if(data.cropKeys == null || 0 == data.cropKeys.Count) return;
-
-        if (data.cropKeys.Count == 0)
+        if (data.cropKeys == null || 0 == data.cropKeys.Count)
         {
-            ForceOpen();
+            AssignCrops();
             return;
         }
 
@@ -139,6 +135,7 @@ public class MudRoomDoor : MonoBehaviour
         if (puzzleSolved)
             ForceOpen();
     }
+
 }
 
 [System.Serializable]
