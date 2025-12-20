@@ -16,6 +16,7 @@ public class InventoryUIController : MonoBehaviour
     PlayerInventoryHolder inventoryHolder;
 
     private bool isBackpackOpen = false;  
+    public bool showTrinkets = false;
     public bool readyToPress;
     [SerializeField] private GameObject firstObject;
     ControlManager controlManager;
@@ -85,6 +86,8 @@ public class InventoryUIController : MonoBehaviour
     {
         //if(EventSystem.current.currentSelectedGameObject == null){toolTip.panel.SetActive(false);}
         //print(eventSystem.currentSelectedGameObject);
+        if(showTrinkets == false) trinketPanel.gameObject.SetActive(false);
+
         if(!PlayerMovement.accessingInventory)
         {
             toolTip.panel.SetActive(false);
@@ -192,6 +195,8 @@ public class InventoryUIController : MonoBehaviour
         PlayerMovement.accessingInventory = true;
         chestPanel.gameObject.SetActive(true);
         playerBackpackPanel.gameObject.SetActive(true);
+        trinketPanel.gameObject.SetActive(true);
+        trinketPanel.RefreshDynamicInventory(invToDisplay);
         chestPanel.RefreshDynamicInventory(invToDisplay);
         OnInventoryOpened?.Invoke(true);
         isBackpackOpen = true;
