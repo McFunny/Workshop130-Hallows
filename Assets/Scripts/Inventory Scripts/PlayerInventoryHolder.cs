@@ -1,4 +1,4 @@
- using SaveLoadSystem;
+using SaveLoadSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,10 +13,13 @@ public class PlayerInventoryHolder : InventoryHolder
 
     [SerializeField] protected int secondaryInventorySize;
     [SerializeField] public InventorySystem secondaryInventorySystem;
+    [SerializeField] protected int trinketInventorySize;
+    [SerializeField] public InventorySystem trinketInventorySystem;
     [SerializeField] private Database _database;
 
     public static UnityAction<InventorySystem> OnPlayerHotbarDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerBackpackDisplayRequested;
+    public static UnityAction<InventorySystem> OnPlayerTrinketDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
     public delegate void ItemAddedToInventory(InventorySlot slot);
     public static event ItemAddedToInventory onItemAddedToInventory;
@@ -74,6 +77,13 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         base.Awake();
         secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
+        trinketInventorySystem = new InventorySystem(trinketInventorySize);
+
+        foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
+        {
+            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket | InventorySlot.AcceptedItemType.Misc;
+        }
+
         SaveLoad.OnSaveGame += SaveInventory;
         SaveLoad.OnLoadGame += LoadInventory;
 
@@ -568,6 +578,7 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+        OnPlayerInventoryChanged?.Invoke(trinketInventorySystem);
        
     }
 
@@ -575,7 +586,9 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+        OnPlayerInventoryChanged?.Invoke(trinketInventorySystem);
         OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
+        OnPlayerTrinketDisplayRequested?.Invoke(trinketInventorySystem);
         if(InventoryUIController.Instance.chestPanel.gameObject.activeSelf) InventoryUIController.Instance.chestPanel.UpdateSlots();
     }
    

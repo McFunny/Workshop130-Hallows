@@ -55,6 +55,10 @@ public abstract class InventoryDisplay : MonoBehaviour
         bool isShiftPress = Input.GetKey(KeyCode.LeftShift);
         PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
         PrintSystem(inventorySystem);
+        string mouseItemType = null;
+        if(mouseInventoryItem.assignedInventorySlot.ItemData != null) mouseItemType = mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString();
+
+        Debug.Log("Mouse Item Type: " + mouseItemType);
         // Left-click logic:
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData == null)
         {
@@ -123,6 +127,10 @@ public abstract class InventoryDisplay : MonoBehaviour
         if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
             ///////////The player clicked on an empty slot while holding an item//////////////
+            
+            // Cancels the action if the slot does not accept this item (mainly for trinkets)
+            if(CanAcceptItem(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+
             clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.assignedInventorySlot);
             clickedUISlot.UpdateUISlot();
             mouseInventoryItem.ClearSlot();
@@ -133,6 +141,10 @@ public abstract class InventoryDisplay : MonoBehaviour
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
             ///////////The player clicked on a slot while holding an item//////////////
+            
+            //Cancels the action if the slot does not accept this item (mainly for trinkets)
+            if(CanAcceptItem(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+            
             bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData == mouseInventoryItem.assignedInventorySlot.ItemData;
 
             if (isSameItem && clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.assignedInventorySlot.StackSize))
@@ -427,5 +439,19 @@ public abstract class InventoryDisplay : MonoBehaviour
         clickedUISlot.UpdateUISlot();
 
 
+    }
+
+    private bool CanAcceptItem(string _itemType, string _slotType)
+    {
+        InventorySlot.AcceptedItemType itemType = (InventorySlot.AcceptedItemType)System.Enum.Parse(typeof(InventorySlot.AcceptedItemType), _itemType);
+
+        if(itemType == InventorySlot.AcceptedItemType.None) return false;
+
+        InventorySlot.AcceptedItemType slotType = (InventorySlot.AcceptedItemType)System.Enum.Parse(typeof(InventorySlot.AcceptedItemType), _slotType);
+
+        if(slotType == InventorySlot.AcceptedItemType.Everything) return true;
+
+        Debug.Log(itemType + " | " + slotType);
+        return (slotType & itemType) == 0;
     }
 }

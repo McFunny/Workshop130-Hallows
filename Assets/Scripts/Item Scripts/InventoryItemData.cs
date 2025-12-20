@@ -115,5 +115,6 @@ public enum ItemType
     Ammo,
     Creature,
     Bug,
-    Throwable
+    Throwable,
+    Trinket
 }
