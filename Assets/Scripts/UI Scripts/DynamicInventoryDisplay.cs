@@ -23,6 +23,10 @@ public class DynamicInventoryDisplay : InventoryDisplay
         {
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested += RefreshDynamicInventory;
         }
+        else if (gameObject.name == "PlayerTrinkets")
+        {
+            PlayerInventoryHolder.OnPlayerTrinketDisplayRequested += RefreshDynamicInventory;
+        }
     }
 
     private void OnDisable()
@@ -34,6 +38,10 @@ public class DynamicInventoryDisplay : InventoryDisplay
         else if (gameObject.name == "PlayerBackPack")
         {
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested -= RefreshDynamicInventory;
+        }
+        else if (gameObject.name == "PlayerTrinkets")
+        {
+            PlayerInventoryHolder.OnPlayerTrinketDisplayRequested -= RefreshDynamicInventory;
         }
 
         if (inventorySystem != null) inventorySystem.OnInventorySlotChanged -= UpdateSlot;
@@ -59,7 +67,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
             AssignSlot(inventorySystem);
         }
 
-        //Debug.Log($"Displaying {inventorySystem} in UI: {gameObject.name}"); // Log to verify correct inventory is shown
+        Debug.Log($"Displaying {inventorySystem} in UI: {gameObject.name}"); // Log to verify correct inventory is shown
     }
 
     public override void AssignSlot(InventorySystem invToDisplay)

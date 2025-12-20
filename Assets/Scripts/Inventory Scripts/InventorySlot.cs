@@ -12,8 +12,27 @@ public class InventorySlot
 
     public InventoryItemData ItemData => itemData;
     public int StackSize => stackSize;
+    [Flags]
+    public enum AcceptedItemType
+    {
+        None = 0,
+        Misc = 1 << 0,
+        Consumable = 1 << 1,
+        Tool = 1 << 2,
+        Structure = 1 << 3,
+        BarnStructure = 1 << 4,
+        CabinDecor = 1 << 5,
+        Seed  = 1 << 6,
+        Ammo = 1 << 7,
+        Creature = 1 << 8,
+        Bug = 1 << 9,
+        Throwable = 1 << 10,
+        Trinket = 1 << 11,
 
+        Everything = ~0
+    }
 
+    public AcceptedItemType acceptedItemType = AcceptedItemType.Everything;
 
     public InventorySlot(InventoryItemData source, int amount) // Constructor to make a occupied inventory slot
     {

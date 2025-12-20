@@ -9,6 +9,7 @@ public class InventoryUIController : MonoBehaviour
 {
     public DynamicInventoryDisplay chestPanel;
     public DynamicInventoryDisplay playerBackpackPanel;
+    public DynamicInventoryDisplay trinketPanel;
 
     public static InventoryUIController Instance;
 
@@ -41,6 +42,7 @@ public class InventoryUIController : MonoBehaviour
         readyToPress = true;
         chestPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
+        trinketPanel.gameObject.SetActive(false);
 
         inventoryHolder = FindObjectOfType<PlayerInventoryHolder>();
 
@@ -54,6 +56,7 @@ public class InventoryUIController : MonoBehaviour
     void Start()
     {
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
+        PlayerInventoryHolder.OnPlayerTrinketDisplayRequested?.Invoke(inventoryHolder.trinketInventorySystem);
         StartCoroutine(CloseBackpack());
         readyToPress = true;
         eventSystem = EventSystem.current;
@@ -64,6 +67,7 @@ public class InventoryUIController : MonoBehaviour
     {
         InventoryHolder.OnDynamicInventoryDisplayRequested += DisplayInventory;
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested += DisplayPlayerBackpack;
+        PlayerInventoryHolder.OnPlayerTrinketDisplayRequested += DisplayPlayerBackpack;
         controlManager.openInventory.action.started += OpenInventory;
         controlManager.closeInventory.action.started += CloseInput;
     }
@@ -72,6 +76,7 @@ public class InventoryUIController : MonoBehaviour
     {
         InventoryHolder.OnDynamicInventoryDisplayRequested -= DisplayInventory;
         PlayerInventoryHolder.OnPlayerBackpackDisplayRequested -= DisplayPlayerBackpack;
+        PlayerInventoryHolder.OnPlayerTrinketDisplayRequested -= DisplayPlayerBackpack;
         controlManager.openInventory.action.started -= OpenInventory;
         controlManager.closeInventory.action.started -= CloseInput;
     }
@@ -106,6 +111,7 @@ public class InventoryUIController : MonoBehaviour
         {
             if(ControlManager.isGamepad) eventSystem.SetSelectedGameObject(HotbarDisplay.currentSlot.gameObject);
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested?.Invoke(inventoryHolder.secondaryInventorySystem);
+            PlayerInventoryHolder.OnPlayerTrinketDisplayRequested?.Invoke(inventoryHolder.trinketInventorySystem);
             HotbarDisplay.currentSlot.slotHighlight.SetActive(false);
             OnInventoryOpened?.Invoke(true);
             source.PlayOneShot(openInventory);
@@ -199,6 +205,8 @@ public class InventoryUIController : MonoBehaviour
             //print("Opening");
             PlayerMovement.accessingInventory = true;
             playerBackpackPanel.gameObject.SetActive(true);
+            trinketPanel.gameObject.SetActive(true);
+            trinketPanel.RefreshDynamicInventory(invToDisplay);
             playerBackpackPanel.RefreshDynamicInventory(invToDisplay);
             isBackpackOpen = true; 
             readyToPress = false;
@@ -211,6 +219,7 @@ public class InventoryUIController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         chestPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
+        trinketPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
         isBackpackOpen = false;
         tooltipControlsScript.ShowDefaultControls(); 
@@ -222,6 +231,7 @@ public class InventoryUIController : MonoBehaviour
         //print("Closing");
         //HandItemManager.Instance.CheckSlotForTool();
         playerBackpackPanel.gameObject.SetActive(false);
+        trinketPanel.gameObject.SetActive(false);
         PlayerMovement.accessingInventory = false;
         isBackpackOpen = false; 
         tooltipControlsScript.ShowDefaultControls(); 
