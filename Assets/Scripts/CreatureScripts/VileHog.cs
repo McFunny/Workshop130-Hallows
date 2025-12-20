@@ -436,7 +436,7 @@ public class VileHog : CreatureBehaviorScript
             agent.SetDestination(target.position);
             yield return null;
         }
-        if(digTimeElapsed >= 2f)
+        if(digTimeElapsed >= 2f && foundFarmTile.crop)
         {
             heldItem = foundFarmTile.crop.cropYield;
             r.sprite = heldItem.icon;
@@ -528,7 +528,9 @@ public class VileHog : CreatureBehaviorScript
         while(isCharging && chargeTimeElapsed < chargeTime)
         {
             chargeTimeElapsed += Time.deltaTime;
-            agent.SetDestination(chargePosition.position);
+            if (NavMesh.SamplePosition(chargePosition.position, out var hit, 1.0f, NavMesh.AllAreas)) agent.SetDestination(hit.position);
+            else if (agent.pathStatus != NavMeshPathStatus.PathComplete) agent.Move(transform.forward * agent.speed * Time.deltaTime);
+            //agent.SetDestination(chargePosition.position);
             yield return null;
         }
         if(usingThrusters) thrusterParticles.SetActive(false);
@@ -852,7 +854,7 @@ public class VileHog : CreatureBehaviorScript
 
     IEnumerator CorpseExplosionTimer()
     {
-        if(!inWilderness) yield return new WaitForSeconds(Random.Range(30, 90));
+        if(!inWilderness) yield return new WaitForSeconds(Random.Range(15, 45));
         else yield return new WaitForSeconds(Random.Range(0f, 2f));
         CorruptionExplosion();
     }

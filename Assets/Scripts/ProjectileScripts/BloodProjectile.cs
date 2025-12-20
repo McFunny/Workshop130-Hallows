@@ -24,6 +24,7 @@ public class BloodProjectile : MonoBehaviour
     bool hitTarget = false;
 
     public List<CreatureObject> immuneCreatures = new List<CreatureObject>();
+    
 
 
     void OnTriggerEnter(Collider other)

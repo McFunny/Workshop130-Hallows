@@ -123,6 +123,8 @@ public class MudRoomDoor : MonoBehaviour
 
     public void ImportSaveData(MudRoomDoorSaveData data)
     {
+        //if(data.cropKeys == null || 0 == data.cropKeys.Count) return;
+
         if (data.cropKeys.Count == 0)
         {
             ForceOpen();

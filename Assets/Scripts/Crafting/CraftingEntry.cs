@@ -32,6 +32,7 @@ public class CraftingRequirement
 
 public enum CraftingCategory
 {
+    Seed,
     Structure,
     Furniture,
     Trinket,
