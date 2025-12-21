@@ -442,7 +442,11 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         stamina +=  Mathf.Round(amount);
-        if(amount <= -5) playerEffects.PlayerDamage();
+        if(amount <= -5)
+        {
+            playerEffects.PlayerDamage();
+            //ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.6f), Mathf.Clamp(-amount / 5, 1, 6));
+        }
 
         if(amount <= -10) OnPlayerDamaged?.Invoke(amount);
 

@@ -130,7 +130,7 @@ public class MudRoomDoor : MonoBehaviour
         puzzleSolved = data.puzzleSolved;
 
         foreach (var keyData in data.cropKeys)
-            cropKeys[keyData.keyIndex].ImportSaveData(keyData);
+            cropKeys[keyData._keyIndex].ImportSaveData(keyData);
 
         if (puzzleSolved)
             ForceOpen();
@@ -141,8 +141,8 @@ public class MudRoomDoor : MonoBehaviour
 [System.Serializable]
 public struct MudRoomCropKeySaveData
 {
-    public int keyIndex;
-    public bool cropInserted;
+    public int _keyIndex;
+    public bool _cropInserted;
     public string cropName;
 }
 

@@ -13,8 +13,8 @@ public class Ferrat : CreatureBehaviorScript
 
     private Vector3 despawnPos;
 
-    float walkSpeed = 4;
-    float runSpeed = 12;
+    float walkSpeed = 3.5f;
+    float runSpeed = 14;
 
     public InventoryItemData timberEar;
 
@@ -203,7 +203,8 @@ public class Ferrat : CreatureBehaviorScript
             return;
         }
         Vector3 runTo = transform.position + ((transform.position - player.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3))));
-        agent.destination = runTo;
+        if (NavMesh.SamplePosition(runTo, out var hit, 1.0f, NavMesh.AllAreas)) agent.destination = runTo;
+        else if (agent.pathStatus != NavMeshPathStatus.PathComplete) agent.Move(transform.forward * agent.speed * Time.deltaTime);
 
     }
 
@@ -244,10 +245,12 @@ public class Ferrat : CreatureBehaviorScript
     private IEnumerator WaitAround()
     {
         coroutineRunning = true;
-        float r = Random.Range(1f, 3.5f);
+        float r = Random.Range(1f, 5.5f);
         float timeElapsed = 0;
         agent.ResetPath();
         //agent.velocity = Vector3.zero;
+
+        bool performedExtraIdle = false;
 
         while(timeElapsed < r)
         {
@@ -258,10 +261,11 @@ public class Ferrat : CreatureBehaviorScript
                 if(currentState != CreatureState.ApproachPlayer || !IsPlayerStill()) timeElapsed += 0.3f;
             }
 
-            if(!isDead && isStanding && Random.Range(0, 100) < 3)
+            if(!isDead && !performedExtraIdle &&  isStanding && Random.Range(0, 100) < 5)
             {
                 anim.Play("UniqueIdle");
-                yield return new WaitForSeconds(0.5f);
+                performedExtraIdle = true;
+                yield return new WaitForSeconds(1.5f);
             }
             
         }
@@ -312,6 +316,7 @@ public class Ferrat : CreatureBehaviorScript
                 currentState = CreatureState.FollowPlayer;
                 timeUntilLeave = Random.Range(30, 160);
                 effectsHandler.MiscSound();
+                ParticlePoolManager.Instance.GrabHeartParticle().transform.position = corpseParticleTransform.position;
             }
         }
 

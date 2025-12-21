@@ -131,7 +131,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-
+        if(checkTicket) GiveTicketCheck();
         if(!GameSaveData.Instance.mm_giveBarricade && !PlayerInventoryHolder.Instance.IsInventoryFull()) //Make sure he gives the intro to the store before player can start selling
         {
             GameSaveData.Instance.mm_giveBarricade = true;
@@ -219,6 +219,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void PurchaseAttempt(StoreItem item)
     {
+        if(checkTicket) GiveTicketCheck();
         if(dialogueController.IsInterruptable() == false)
         {
             Talk();
@@ -573,11 +574,16 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         checkTicket = false;
         float mintsEarned = PlayerInteraction.Instance.currentMoney - mintsBeforeSale;
+        if(mintsEarned <= 0) return;
         GameSaveData sData = GameSaveData.Instance;
 
         sData.tTicketMintProgress += mintsEarned;
 
         int currentTier = CraftingDatabase.Instance.CurrentTier();
+
+        //print("Mints Earned is " + mintsEarned);
+        //print("Mint Progress is " + sData.tTicketMintProgress);
+        //print("Current Tier is " + currentTier);
 
         if(currentTier == -1 || currentTier >= ticketThresholds.Length) return;
 

@@ -189,7 +189,11 @@ public class HoeBehavior : ToolBehavior
         
         HandItemManager.Instance.PlayPrimaryAnimation();
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
-        if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-2);
+        if(PlayerInteraction.Instance.stamina > 50)
+        {
+            if(maxCharge) PlayerInteraction.Instance.StaminaChange(-6);
+            else PlayerInteraction.Instance.StaminaChange(-3);
+        }
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * coolDownMod, 1.1f * coolDownMod));
         PlayerMovement.restrictMovementTokens++;

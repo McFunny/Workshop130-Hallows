@@ -463,7 +463,7 @@ public class FarmLand : StructureBehaviorScript
                 {
                     growthStage++;
                     if(growth) growth.Play();
-                    health += 5;
+                    health += 2;
                     if(health > maxHealth) health = maxHealth;
                 }
             }

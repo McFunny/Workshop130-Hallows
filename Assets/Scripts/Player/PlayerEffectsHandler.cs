@@ -30,6 +30,9 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     Rigidbody rb;
 
+    public Material pixelRenderer;
+    float pixelation, originalPixelation;
+
     public bool onItemSoundCooldown = false;
     bool isFocusing = false;
     void Start()
@@ -45,6 +48,8 @@ public class PlayerEffectsHandler : MonoBehaviour
 
         originalPitch = source.pitch;
         lastPlayedSteps = grassFootsteps;
+
+        originalPixelation = pixelRenderer.GetFloat("pixelation");
     }
 
     // Update is called once per frame

@@ -82,17 +82,19 @@ public class MudRoomCropKey : MonoBehaviour, IInteractable
 
     public MudRoomCropKeySaveData ExportSaveData()
     {
+        string cropName = "";
+        if(assignedCrop) cropName = assignedCrop.name;
         return new MudRoomCropKeySaveData
         {
-            keyIndex = keyIndex,
-            cropInserted = cropInserted,
-            cropName = assignedCrop.name
+            _keyIndex = keyIndex,
+            _cropInserted = cropInserted,
+            cropName = cropName
         };
     }
 
     public void ImportSaveData(MudRoomCropKeySaveData data)
     {
-        cropInserted = data.cropInserted;
+        cropInserted = data._cropInserted;
         assignedCrop = CropDatabase.Instance.GetCropByName(data.cropName);
 
         backgroundSprite.sprite = assignedCrop.cropYield.icon;
