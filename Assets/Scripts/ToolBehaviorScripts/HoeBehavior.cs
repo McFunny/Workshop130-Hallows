@@ -116,6 +116,7 @@ public class HoeBehavior : ToolBehavior
             PlayerInteraction.Instance.StartCoroutine(SpawnTiles());
         }
         PlayerCam.Instance.ClearObjectOfInterest();
+        ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Dirt, new Color(1,1,1,0.4f), Random.Range(1, 5));
     }
 
     IEnumerator SpawnTiles()
@@ -191,8 +192,13 @@ public class HoeBehavior : ToolBehavior
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
         if(PlayerInteraction.Instance.stamina > 50)
         {
-            if(maxCharge) PlayerInteraction.Instance.StaminaChange(-6);
-            else PlayerInteraction.Instance.StaminaChange(-3);
+            PlayerInteraction.Instance.overrideDamagePulse = true;
+            if(maxCharge) PlayerInteraction.Instance.StaminaChange(-5);
+            else
+            {
+                if(isUpgrade) PlayerInteraction.Instance.StaminaChange(-1);
+                else PlayerInteraction.Instance.StaminaChange(-3);
+            }
         }
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * coolDownMod, 1.1f * coolDownMod));

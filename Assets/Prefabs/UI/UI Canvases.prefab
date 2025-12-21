@@ -80571,6 +80571,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2713350797461767331}
   - component: {fileID: 4889913529161280093}
+  - component: {fileID: 1996061337457035604}
   m_Layer: 0
   m_Name: Container
   m_TagString: Untagged
@@ -80594,7 +80595,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -317.2, y: -415.5}
+  m_AnchoredPosition: {x: -388.8, y: -436.5}
   m_SizeDelta: {x: 804.9, y: 413.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4889913529161280093
@@ -80610,14 +80611,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasRect: {fileID: 2713350797461767331}
-  splatPrefab: {fileID: 5485900648587205554, guid: 03758d3e8c8405b4c95b7053732151f8,
-    type: 3}
-  sizeRange: {x: 60, y: 80}
+  sizeRange: {x: 80, y: 140}
   edgeThickness: 120
   inwardBias: 40
-  bloodSprite: {fileID: 21300000, guid: 3e35652efa7eee24f8562fcb2a6cf679, type: 3}
-  waterSprite: {fileID: 21300000, guid: 3e35652efa7eee24f8562fcb2a6cf679, type: 3}
-  dirtSprite: {fileID: 21300000, guid: 3e35652efa7eee24f8562fcb2a6cf679, type: 3}
+  lowerScreenBias: 0.75
+  bloodSprite: {fileID: 643531248, guid: 4e9a7fe376acabe4d874d9ee1005729b, type: 3}
+  waterSprite: {fileID: -1675913808, guid: 4e9a7fe376acabe4d874d9ee1005729b, type: 3}
+  dirtSprite: {fileID: -604252148, guid: 4e9a7fe376acabe4d874d9ee1005729b, type: 3}
+  splatPool: {fileID: 1996061337457035604}
+--- !u!114 &1996061337457035604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8291549430429550478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9145618cbf52c59478161f880f8f519a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splatPrefab: {fileID: 5485900648587205554, guid: 03758d3e8c8405b4c95b7053732151f8,
+    type: 3}
+  initialSize: 10
 --- !u!1 &8302297018257404420
 GameObject:
   m_ObjectHideFlags: 0

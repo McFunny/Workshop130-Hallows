@@ -312,6 +312,8 @@ public class WaterCanBehavior : ToolBehavior
     { 
         PlayerMovement.restrictMovementTokens--;
         PlayerCam.Instance.ClearObjectOfInterest();
+
+        //ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Water, new Color(1,1,1,0.4f), Random.Range(1, 4));
     }
 
     void BeginCharge()
@@ -481,6 +483,8 @@ public class WaterCanBehavior : ToolBehavior
             HandItemManager.Instance.toolSource.PlayOneShot(refill);
             PlayerInteraction.Instance.waterHeld--;
             skipPour = true;
+
+            //ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Water, new Color(1,1,1,0.4f), Random.Range(1, 4));
         }
     }
 

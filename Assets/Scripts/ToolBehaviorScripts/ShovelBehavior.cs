@@ -93,7 +93,7 @@ public class ShovelBehavior : ToolBehavior
                         coolDownMod += .25f;
                         animSpeedMod -= .15f;
                     }
-                    //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
+                    if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.9f * coolDownMod));
@@ -139,6 +139,8 @@ public class ShovelBehavior : ToolBehavior
             PlayerMovement.restrictMovementTokens--;
             PlayerCam.Instance.ClearObjectOfInterest();
             if(interactedStructure) interactedStructure.DigAction();
+
+            ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Dirt, new Color(1,1,1,0.4f), Random.Range(3, 7));
         }
 
     }

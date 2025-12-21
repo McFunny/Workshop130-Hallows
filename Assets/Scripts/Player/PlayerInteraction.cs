@@ -48,6 +48,7 @@ public class PlayerInteraction : MonoBehaviour
     public float fatigue = 0;
     [HideInInspector] public readonly float maxFatigue = 150;
     bool sentLowStaminaMessage = false;
+    [HideInInspector] public bool overrideDamagePulse; //Makes the damage effects not happen
     public bool invincible = false;
 
     public float waterHeld = 10; //for watering can //USED TO BE 15, TRYING 10
@@ -417,11 +418,13 @@ public class PlayerInteraction : MonoBehaviour
         if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible || isTripped)
         {
             print("Damage negated! Stamina is : " + stamina);
+            overrideDamagePulse = false;
             return;
         }
         if(stamina + amount <= 50 && stamina > 50 && amount >= -4 && amount < 0)
         {
             print("Damage negated to not go under threshold");
+            overrideDamagePulse = false;
             return;
         }
 
@@ -442,10 +445,10 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         stamina +=  Mathf.Round(amount);
-        if(amount <= -5)
+        if(amount <= -5 && !overrideDamagePulse)
         {
             playerEffects.PlayerDamage();
-            //ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.6f), Mathf.Clamp(-amount / 5, 1, 6));
+            //ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.4f), Mathf.Clamp(-amount / 3, 1, 8));
         }
 
         if(amount <= -10) OnPlayerDamaged?.Invoke(amount);
@@ -456,6 +459,8 @@ public class PlayerInteraction : MonoBehaviour
             PopupHandler.Instance.AddToQueue(lowStaminaWarning);
         }
         else if(stamina > 50) sentLowStaminaMessage = false;
+
+        overrideDamagePulse = false;
     }
 
     public void ApplyStatusEffect(StatusEffectObject status, int duration)
@@ -700,6 +705,7 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(.25f);
         playerEffects.PlayClip(playerEffects.trip);
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Dirt, new Color(1,1,1,0.4f), 5);
         yield return new WaitForSeconds(.50f);
         PlayerMovement.limitMaxVelocity = true;
         if (stamina <= 0) yield return new WaitForSeconds(3f); //Death extra time

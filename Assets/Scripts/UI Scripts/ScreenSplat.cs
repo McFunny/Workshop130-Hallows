@@ -20,6 +20,8 @@ public class ScreenSplat : MonoBehaviour
     public RectTransform rect;
     float timer;
 
+    ScreenSplatPool pool;
+
     void OnEnable()
     {
         timer = lifetime;
@@ -48,7 +50,7 @@ public class ScreenSplat : MonoBehaviour
         if (punch && punchTimer > 0f)     UpdatePunch();
 
         if (timer <= 0f)
-            Destroy(gameObject);
+            pool.Release(this);
     }
 
     void UpdatePunch()
@@ -78,5 +80,10 @@ public class ScreenSplat : MonoBehaviour
         Color c = image.color;
         c.a = a;
         image.color = c;
+    }
+
+    public void Init(ScreenSplatPool owningPool)
+    {
+        pool = owningPool;
     }
 }

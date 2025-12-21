@@ -128,6 +128,7 @@ Transform:
   - {fileID: 6417454025253256516}
   - {fileID: 34180377439238289}
   - {fileID: 4363058580884312923}
+  - {fileID: 6763113819967865891}
   m_Father: {fileID: 5634429398668762257}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!54 &954386218018464814
@@ -280,6 +281,7 @@ MonoBehaviour:
   daysSinceDeath: 0
   stamina: 200
   fatigue: 0
+  overrideDamagePulse: 0
   invincible: 0
   waterHeld: 0
   maxWaterHeld: 10
@@ -314,6 +316,7 @@ MonoBehaviour:
   waterJet: {fileID: 8300000, guid: 35a2794032807a642ba42dc77c0dcfce, type: 3}
   trip: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
   playerHeal: {fileID: 8300000, guid: 6b5b06b4f7336be4592ed8495321552a, type: 3}
+  heartBeat: {fileID: 8300000, guid: 7bb0d3d5cd6f82148a34e24fb185559a, type: 3}
   grassFootsteps: {fileID: 8300000, guid: 2bfc2099e4ceed24b951a7982085d5f6, type: 3}
   stoneFootsteps: {fileID: 8300000, guid: 4b25d192cc97c434b8b563b8778f223d, type: 3}
   woodFootsteps: {fileID: 8300000, guid: 3e18de8b56f944948a6aeba020009413, type: 3}
@@ -327,9 +330,12 @@ MonoBehaviour:
     m_Bits: 129
   shakeIntensity: 1
   damageImpulse: {fileID: 1326828943737913890}
+  lowHealthVolume: {fileID: 4388961878688339624}
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   focusColor: {r: 0, g: 0, b: 0, a: 0}
   pixelRenderer: {fileID: 2100000, guid: 1b13abc0013c92443a0d16af162a9a11, type: 2}
+  pixelationFloor: 500
+  pixelationStep: 700
   onItemSoundCooldown: 0
 --- !u!114 &1326828943737913890
 MonoBehaviour:
@@ -1734,6 +1740,55 @@ MonoBehaviour:
   collider: {fileID: 5538233878325030906}
   collectedItem: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
   caught: {fileID: 8300000, guid: 670c8869953582347943c68fdb8f866b, type: 3}
+--- !u!1 &7553466905139908614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6763113819967865891}
+  - component: {fileID: 4388961878688339624}
+  m_Layer: 0
+  m_Name: LowHealthVolume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6763113819967865891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553466905139908614}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 968838946076285070}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4388961878688339624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553466905139908614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 40fe9b852446d5b41a3d4e48ecbf4fba, type: 2}
 --- !u!1 &7622246450863309278
 GameObject:
   m_ObjectHideFlags: 0

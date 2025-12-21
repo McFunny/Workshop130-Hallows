@@ -173,6 +173,7 @@ public class ShovelAttack : MonoBehaviour
                 //print("Hit dirt");
                 ParticlePoolManager.Instance.MoveAndPlayParticle(d_Collision, ParticlePoolManager.Instance.dirtParticle);
                 HandItemManager.Instance.toolSource.PlayOneShot(hitDirt);
+                ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Dirt, new Color(1,1,1,0.4f), Random.Range(0, 3));
             }
             else
             {
