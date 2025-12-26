@@ -103,7 +103,7 @@ public class TorchBehavior : ToolBehavior
                     return;
                 } 
 
-                if(PlayerInteraction.Instance.torchLit && enemy.canCorpseBreak && enemy.fireVulnerable && !StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Fire, enemy))
+                if(PlayerInteraction.Instance.torchLit && enemy.canCorpseBreak && enemy.health <= 0 && enemy.fireVulnerable && !StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Fire, enemy))
                 {
                     enemy.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 20);
 
@@ -210,7 +210,7 @@ public class TorchBehavior : ToolBehavior
                     return;
                 } 
 
-                if(PlayerInteraction.Instance.torchLit && enemy.canCorpseBreak && enemy.fireVulnerable && !StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Fire, enemy))
+                if(PlayerInteraction.Instance.torchLit && enemy.canCorpseBreak && enemy.health <= 0 && enemy.fireVulnerable && !StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Fire, enemy))
                 {
                     enemy.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), 70);
 

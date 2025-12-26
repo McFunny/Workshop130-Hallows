@@ -26,6 +26,8 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     float chanceToAttackAgain = 100;
 
+    int giftCooldownHours = 0;
+
     public PetState currentState;
 
     [Header("Debug tool to test out states")]
@@ -135,6 +137,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     protected override void OnHour() //Shouldnt this be on override?
     {
         base.OnHour();
+        if(giftCooldownHours > 0) --giftCooldownHours;
         if(TimeManager.Instance.isDay)
         {
             FindItem();
@@ -814,7 +817,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     void FindItem()
     {
-        if(heldItem != null || thirst == 0 || hunger == 0) return;
+        if(heldItem != null || thirst == 0 || hunger == 0 || giftCooldownHours > 0) return;
         if(Random.Range(0f, 100f) < (friendshipLevel + 1) * 3.5f)
         {
             int x = 0;
@@ -828,6 +831,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             {
                 itemR.sprite = chosenItem.icon;
                 heldItem = chosenItem;
+                giftCooldownHours = 6;
             }
         }
     }

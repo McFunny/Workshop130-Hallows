@@ -11525,22 +11525,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dLevels:
   - difficultyPointThreshold: -1
-    c_varietyMin: 2
+    c_varietyMin: 1
     c_varietyMax: 2
     r_varietyMin: 1
     r_varietyMax: 2
-    s_varietyMin: 0
+    s_varietyMin: 1
+    s_varietyMax: 1
+    hourlySpawnAttempts: 4
+    maxCreatures: 4
+  - difficultyPointThreshold: 25
+    c_varietyMin: 2
+    c_varietyMax: 2
+    r_varietyMin: 1
+    r_varietyMax: 1
+    s_varietyMin: 1
     s_varietyMax: 1
     hourlySpawnAttempts: 5
-    maxCreatures: 6
-  - difficultyPointThreshold: 25
+    maxCreatures: 5
+  - difficultyPointThreshold: 50
     c_varietyMin: 2
     c_varietyMax: 3
     r_varietyMin: 1
     r_varietyMax: 2
     s_varietyMin: 1
-    s_varietyMax: 1
-    hourlySpawnAttempts: 5
+    s_varietyMax: 2
+    hourlySpawnAttempts: 6
     maxCreatures: 6
   - difficultyPointThreshold: 75
     c_varietyMin: 2
@@ -11549,14 +11558,23 @@ MonoBehaviour:
     r_varietyMax: 3
     s_varietyMin: 1
     s_varietyMax: 2
-    hourlySpawnAttempts: 6
+    hourlySpawnAttempts: 7
+    maxCreatures: 8
+  - difficultyPointThreshold: 100
+    c_varietyMin: 2
+    c_varietyMax: 4
+    r_varietyMin: 1
+    r_varietyMax: 3
+    s_varietyMin: 1
+    s_varietyMax: 3
+    hourlySpawnAttempts: 8
     maxCreatures: 8
   - difficultyPointThreshold: 150
     c_varietyMin: 2
     c_varietyMax: 4
     r_varietyMin: 2
     r_varietyMax: 3
-    s_varietyMin: 1
+    s_varietyMin: 2
     s_varietyMax: 3
     hourlySpawnAttempts: 8
     maxCreatures: 10

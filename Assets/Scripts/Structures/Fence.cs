@@ -12,6 +12,10 @@ public class Fence : StructureBehaviorScript
     public GameObject[] fenceVariants;
 
     private Dictionary<int, GameObject> lookup;
+
+    GameObject spawnedCrow = null;
+    public GameObject crowPrefab;
+    public Transform crowSpawn;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +47,16 @@ public class Fence : StructureBehaviorScript
         {
             //StartCoroutine(DugUp());
             success = true;
+        }
+    }
+
+    public override void HourPassed()
+    {
+        if(TownGate.Instance.location != PlayerLocation.InFarm && !spawnedCrow && Random.Range(0, 100) < 4)
+        {
+            spawnedCrow = Instantiate(crowPrefab, crowSpawn.position, Quaternion.identity);
+            spawnedCrow.GetComponent<MutatedCrow>().isDecorCrow = true;
+            spawnedCrow.transform.localEulerAngles = new Vector3(0, Random.Range(0,360), 0);
         }
     }
 

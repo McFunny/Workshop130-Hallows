@@ -19695,6 +19695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3623747073230192176}
   - component: {fileID: 6680532833129735191}
+  - component: {fileID: 3921797593613490506}
   - component: {fileID: 2213322743984664087}
   - component: {fileID: 8362216468705191320}
   m_Layer: 14
@@ -19740,10 +19741,33 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &3921797593613490506
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5214445914679651587}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.75
+  m_Height: 2.61
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.57, z: 0}
 --- !u!54 &2213322743984664087
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19783,7 +19807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 229bf6dffbd44b84bafe72a3ce47f1fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageToCreature: 20
+  damageToCreature: 25
   damageToPlayer: 10
   explosion: {fileID: 2834791782777119406}
   berryItem: {fileID: 11400000, guid: fd5df79885821954eaeb7cdb40432017, type: 2}
@@ -34528,3 +34552,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1dcc4d190c25ae4584687149da7ad29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enabled: 0

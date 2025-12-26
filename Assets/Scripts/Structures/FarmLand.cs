@@ -400,7 +400,7 @@ public class FarmLand : StructureBehaviorScript
 
             PlayerInteraction.Instance.waterHeld--;
         }
-        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable) && currentUpgrade != FarmTileUpgrade.Trellis)
+        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable || rotted) && currentUpgrade != FarmTileUpgrade.Trellis)
         {
             harvestedByScythe = true;
             StructureInteraction();
@@ -1006,11 +1006,11 @@ public class FarmLand : StructureBehaviorScript
 
                 if(c.creatureData && c.creatureData.id == 29) return; //Ferrats are immune
 
-                if(isWeed && growthStage == 7) 
+                if(isWeed && growthStage == 7 && c.shovelVulnerable)  //bramble heart weeds
                 {
                     c.TakeDamage(10);
                     c.PlayHitParticle(Vector3.zero);
-                    if(Random.Range(0,10) >= 6) Destroy(gameObject);
+                    if(Random.Range(0,10) >= 3) Destroy(gameObject);
                 }
             }
         }

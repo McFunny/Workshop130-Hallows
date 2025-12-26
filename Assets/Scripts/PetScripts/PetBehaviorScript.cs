@@ -13,7 +13,7 @@ public class PetBehaviorScript : MonoBehaviour
     public int friendshipLevel = 0;
     int maxFriendshipLevel = 10; //Increases frequency of actions
     public float friendPoints = 0;
-    float maxFriendPoints = 100; //Increases level when maxed
+    float maxFriendPoints = 200; //Increases level when maxed
     public List<InventoryItemData> foodDiet = new List<InventoryItemData>();
     public float hunger = 100; //Animals will eat once their hunger is below a fourth
     public float maxHunger = 100;

@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class CatacombKey : MonoBehaviour
 {
-    void Awake()
+    void Start()
     {
+        StartCoroutine(DelayedStart());
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(2);
         if(GameSaveData.Instance.keyCollected) Destroy(this.gameObject);
     }
 
