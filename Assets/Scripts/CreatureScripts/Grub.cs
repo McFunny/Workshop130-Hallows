@@ -542,6 +542,8 @@ public class Grub : CreatureBehaviorScript
     {
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
+
+        if(homeSwarm) homeSwarm.grubs.Remove(gameObject);
     }
 
 }

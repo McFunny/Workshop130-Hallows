@@ -180,16 +180,16 @@ public class PlayerEffectsHandler : MonoBehaviour
             do
             {
                 yield return new WaitForSeconds(0.1f);
-                vignette.intensity.value += 0.01f;
+                vignette.intensity.value += 0.02f;
             }
-            while(vignette.intensity.value < 0.55f);
+            while(vignette.intensity.value < 0.7f);
             yield return new WaitForSeconds(0.1f);
             do
             {
                 yield return new WaitForSeconds(0.1f);
-                vignette.intensity.value -= 0.01f;
+                vignette.intensity.value -= 0.02f;
             }
-            while(vignette.intensity.value > 0.4f);
+            while(vignette.intensity.value > 0.45f);
             source.PlayOneShot(heartBeat);
         }
 

@@ -120,7 +120,7 @@ public class HeadlessHen : CreatureBehaviorScript
     {
         TryJumpOverObstacle();
 
-        if(CloseToCropCheck() && !attackCooldown)
+        if(CloseToCropCheck() && !attackCooldown && currentState != CreatureState.AttackPlayer)
         {
             currentState = CreatureState.AttackCrop;
             return;

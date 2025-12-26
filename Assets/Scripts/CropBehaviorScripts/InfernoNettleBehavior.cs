@@ -25,13 +25,13 @@ public class InfernoNettleBehavior : CropBehavior
             case 1:
             return;
             case 2:
-            burnDuration = 5;
+            burnDuration = 6;
             break;
             case 3:
-            burnDuration = 10;
+            burnDuration = 12;
             break;
             case 4:
-            burnDuration = 20;
+            burnDuration = 24;
             break;
             default:
             burnDuration = 0;

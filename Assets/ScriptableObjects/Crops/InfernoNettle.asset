@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Inferno Nettle
   id: 21
   growthStages: 4
-  hoursPerStage: 2
+  hoursPerStage: 1
   harvestableGrowthStages: 04000000
   cropSprites:
   - {fileID: 712777515, guid: 67e3a288c79d32d4d84ab62e1e844f30, type: 3}
@@ -32,9 +32,9 @@ MonoBehaviour:
   seedYieldVariance: 2
   noStressSeedChance: 0
   waterIntake: 0
-  ichorIntake: 0.75
+  ichorIntake: 0.5
   terraIntake: 0.5
-  gloamIntake: 0.5
+  gloamIntake: -0.25
   stressLimit: 2
   wealthValue: 2
   requireScythe: 0

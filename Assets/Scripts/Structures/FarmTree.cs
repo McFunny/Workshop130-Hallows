@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class FarmTree : StructureBehaviorScript
 {
+    TreeType type;
+
     public InventoryItemData treePapers;
 
     public bool taggedForCutting = false;
 
-    public GameObject papers;
+    public GameObject papers, papersPine;
     public GameObject logPile;
 
     public Transform itemDrop;
-    public ParticleSystem leafBurst;
+    public ParticleSystem leafBurst, leafBurstPine;
 
     public GameObject mothHivePrefab;
     public GameObject currentHive;
@@ -20,18 +22,44 @@ public class FarmTree : StructureBehaviorScript
     public bool forceHiveSpawn;
 
     public Transform[] hiveSpawns;
+    //public Transform[] hiveSpawnsPine;
+
+    public GameObject[] treeModels;
     void Awake()
     {
         base.Awake();
+
+        if(Random.Range(0,10) < 2)
+        {
+            type = TreeType.Evergreen;
+            UpdateModel();
+        }
     }
 
     void Start()
     {
         base.Start();
-        if(taggedForCutting) papers.SetActive(true);
+        if(taggedForCutting)
+        {
+            TogglePapers(true);
+        }
         OnDamage += TreeHit;
 
         if(forceHiveSpawn) SpawnHive();
+    }
+
+    void TogglePapers(bool enable)
+    {
+        if(enable)
+        {
+            papers.SetActive(true);
+            papersPine.SetActive(true);
+        }
+        else
+        {
+            papers.SetActive(false);
+            papersPine.SetActive(false);
+        }
     }
 
     public override void StructureInteraction()
@@ -39,7 +67,7 @@ public class FarmTree : StructureBehaviorScript
         if(taggedForCutting)
         {
             taggedForCutting = false;
-            papers.SetActive(false);
+            TogglePapers(false);
 
             GameObject droppedItem = ItemPoolManager.Instance.GrabItem(treePapers);
             droppedItem.transform.position = itemDrop.position;
@@ -51,7 +79,7 @@ public class FarmTree : StructureBehaviorScript
         if(item == treePapers && !taggedForCutting)
         {
             taggedForCutting = true;
-            papers.SetActive(true);
+            TogglePapers(true);
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
         }
@@ -74,6 +102,7 @@ public class FarmTree : StructureBehaviorScript
     {
         forceHiveSpawn = false;
         currentHive = Instantiate(mothHivePrefab, hiveSpawns[Random.Range(0, hiveSpawns.Length)].position, Quaternion.identity);
+        //else currentHive = Instantiate(mothHivePrefab, hiveSpawnsPine[Random.Range(0, hiveSpawnsPine.Length)].position, Quaternion.identity);
 
         Vector3 directionAway = currentHive.transform.position - transform.position;
         directionAway.y = 0;
@@ -88,22 +117,49 @@ public class FarmTree : StructureBehaviorScript
 
     void TreeHit()
     {
-        leafBurst.Play();
+        if(type == TreeType.Orange) leafBurst.Play();
+        else leafBurstPine.Play();
+    }
+
+    void UpdateModel()
+    {
+        if(type == TreeType.Evergreen)
+        {
+            treeModels[0].SetActive(false);
+            treeModels[1].SetActive(true);
+        }
+        else 
+        {
+            treeModels[0].SetActive(true);
+            treeModels[1].SetActive(false);
+        }
     }
 
     public override void LoadVariables()
     {
         if(saveInt1 == 1) SpawnHive();
+
+        if(saveString1 == "Evergreen") type = TreeType.Evergreen;
+
+        UpdateModel();
     }
 
     public override void SaveVariables()
     {
         if(currentHive) saveInt1 = 1;
         else saveInt1 = 0;
+
+        saveString1 = type.ToString();
     }
 
     /*public override object GetSaveData()
     {
         return new FarmTreeSaveData(this);
     }*/
+}
+
+public enum TreeType
+{
+    Orange,
+    Evergreen
 }

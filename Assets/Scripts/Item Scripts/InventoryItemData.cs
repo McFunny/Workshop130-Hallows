@@ -31,6 +31,8 @@ public class InventoryItemData : ScriptableObject
     public InventoryItemData pickledForm;
     public List<ItemConversion> itemConversions = new List<ItemConversion>();
 
+    public List<CookingStats> cookingStats = new List<CookingStats>(); //If this is empty, then it cannot be cooked
+
     [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
     public List<string> itemInputsKBM;
     public List<string> itemInputsController;
