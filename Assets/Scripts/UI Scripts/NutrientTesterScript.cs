@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class NutrientTesterScript : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject statsParent, seedParent, nutrientsParent, radarParent;
+    [SerializeField] private GameObject statsParent;
+    [SerializeField] private GameObject seedParent, nutrientsParent, radarParent;
     [SerializeField] private TextMeshProUGUI gloamText, terraText, ichorText, waterText;
     [SerializeField] private Image seedImage, checkmarkImage;
     [SerializeField] private RawImage staticVideo;
@@ -28,11 +29,12 @@ public class NutrientTesterScript : MonoBehaviour
 
     //New Radar
     [Header("Radar")]
-    private Transform player;
-    public float radarRange = 50f;
     [SerializeField] private float fadeDuration = 1f;
     [SerializeField] private RectTransform radarPanel;
     [SerializeField] private GameObject radarBar;
+    [SerializeField] private Color defaultEnemyColor, grubColor;
+    private Transform player;
+    public float radarRange = 50f;
     private GameObject radarObject;
     private RadarHandler radarHandler;
     public float rotationSpeed = 5f;
@@ -45,6 +47,7 @@ public class NutrientTesterScript : MonoBehaviour
     public int preloadAmount = 20;
 
     private Queue<RadarIcon> pool = new Queue<RadarIcon>();
+    public List<RadarIcon> iconReferences = new List<RadarIcon>();
     private Dictionary<CreatureBehaviorScript, RadarIcon> activeIcons = new();
     
     #region Unity Functions
@@ -249,6 +252,7 @@ public class NutrientTesterScript : MonoBehaviour
         RadarIcon icon = Instantiate(iconPrefab, radarPanel);
         icon.Init(this);
         icon.gameObject.SetActive(false);
+        iconReferences.Add(icon);
         pool.Enqueue(icon);
         return icon;
     }
@@ -271,6 +275,10 @@ public class NutrientTesterScript : MonoBehaviour
     private void UpdateIconPosition(CreatureBehaviorScript creature, RadarIcon icon)
     {
         if(creature == null) return;
+
+        if(creature as Grub) icon.image.color = grubColor;
+        else icon.image.color = defaultEnemyColor;
+
         // Compute position relative to player look direction
         Vector3 relativePos = player.InverseTransformPoint(creature.transform.position);
 
@@ -343,6 +351,14 @@ public class NutrientTesterScript : MonoBehaviour
 
         // Remove destroyed creatures from dictionary
         foreach (var key in toRemove) activeIcons.Remove(key);
+    }
+
+    public void ForceResetIcons()
+    {
+        foreach (RadarIcon icon in activeIcons.Values)
+        {
+            icon.ResetIcon();
+        }
     }
 
     #endregion

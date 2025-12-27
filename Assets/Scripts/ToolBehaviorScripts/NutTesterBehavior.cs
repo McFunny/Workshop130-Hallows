@@ -26,6 +26,13 @@ public class NutTesterBehavior : ToolBehavior
         onHotbar = true;
         NutrientTesterScript.Instance.UpdateSeed(null);
         NutrientTesterScript.Instance.UpdateTile(null);
+        
+        foreach (RadarIcon icon in NutrientTesterScript.Instance.iconReferences)
+        {
+            Debug.Log("Color Changed");
+            icon.image.color = new Color(icon.image.color.r, icon.image.color.g, icon.image.color.b, 0f);
+        }
+
         NutrientTesterScript.Instance.EnableDisableRadar(false);
     }
 

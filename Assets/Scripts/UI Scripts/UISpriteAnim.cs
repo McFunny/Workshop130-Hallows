@@ -40,25 +40,27 @@ public class UISpriteAnim : MonoBehaviour
     public void PlayUI()
     { 
         IsDone = false;
+        ResetSprite();
         corotineAnim = StartCoroutine(PlayAnimCoroutineUI(false));
     }
     
     public void PlayOneShotUI()
     {
         IsDone = false;
+        ResetSprite();
         corotineAnim = StartCoroutine(PlayAnimCoroutineUI(true));
     }
 
     public void StopUI()
     {      
         IsDone = true;
-        StopCoroutine(corotineAnim);
+        if(corotineAnim != null) StopCoroutine(corotineAnim);
+        if(hideOnComplete) image.enabled = false;
         ResetSprite();
     }
 
     private void ResetSprite()
     {
-        if(hideOnComplete) image.enabled = false;
         indexSprite = 0;
         image.sprite = spriteArray[indexSprite];
     }
@@ -70,19 +72,19 @@ public class UISpriteAnim : MonoBehaviour
         {
             yield return new WaitForSeconds(timeBetweenFrames);
 
+            image.sprite = spriteArray[indexSprite];
+            indexSprite += 1;
+
             if (indexSprite >= spriteArray.Length)
             {
                 indexSprite = 0;
                 if (playOnce)
                 {
                     IsDone = true;
-                    ResetSprite();
                     break;
                 }
             }
-
-            image.sprite = spriteArray[indexSprite];
-            indexSprite += 1;
         }
+        if(hideOnComplete) image.enabled = false;
     }
 }
