@@ -38,6 +38,7 @@ public class TicketBox : MonoBehaviour, IInteractable
                 GameSaveData.Instance.tTicketsAvailable = 0;
                 anim.SetBool("IsOpened", false);
                 r.enabled = false;
+                source.Play();
             }
         }
 

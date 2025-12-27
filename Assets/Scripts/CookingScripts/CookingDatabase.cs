@@ -81,6 +81,6 @@ public class CookingDatabase : ScriptableObject
 
     public List<CookingRecipe> GetCraftingDatabase()
     {
-        return _cookingDatabase; 
+        return new List<CookingRecipe>(_cookingDatabase); 
     }
 }

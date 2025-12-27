@@ -20,6 +20,8 @@ public class CrockPot : FurnitureBehaviorScript
 
     public Animator anim;
 
+    CookingRecipe currentRecipe;
+
 
     public void Awake()
     {
@@ -138,7 +140,9 @@ public class CrockPot : FurnitureBehaviorScript
 
     IEnumerator CookCoroutine()
     {
-        cookTimeLeft = 15;
+        currentRecipe = GetRecipe();
+
+        cookTimeLeft = currentRecipe.cookTimeInSeconds;
         while(cookTimeLeft > 0)
         {
             yield return new WaitForSeconds(1);
@@ -161,7 +165,7 @@ public class CrockPot : FurnitureBehaviorScript
             savedItems[i] = null;
         }
 
-        savedItems[0] = oilItem; //Cooked Item
+        savedItems[0] = currentRecipe.output; //Cooked Item
 
         audioHandler.PlaySound(audioHandler.miscSounds1[0]);
 
@@ -170,8 +174,63 @@ public class CrockPot : FurnitureBehaviorScript
         RefreshSockets();
     }
 
+    CookingRecipe GetRecipe()
+    {
+        List<CookingRecipe> allRecipes = CookingDatabase.Instance.GetCraftingDatabase();
+
+        List<CookingRecipe> validRecipes = new List<CookingRecipe>();
+
+        List<InventoryItemData> ingredients = new List<InventoryItemData>(savedItems);
+
+        List<CookingStats> recipeStats = InitializeStats();
+
+        //Get the stats of the ingredients
+        for(int i = 0; i < ingredients.Count; ++i)
+        {
+            for(int c = 0; c < ingredients[i].cookingStats.Count; ++c)
+            {
+                bool addedValue = false;
+                for(int r = 0; r < recipeStats.Count; ++r)
+                {
+                    if(recipeStats[r].type == ingredients[i].cookingStats[c].type)
+                    {
+                        recipeStats[r].value += ingredients[i].cookingStats[c].value;
+                        addedValue = true;
+                        break;
+                    }
+                }
+
+                if(!addedValue)
+                {
+                    recipeStats.Add(new CookingStats(ingredients[i].cookingStats[c].type, ingredients[i].cookingStats[c].value));
+                }
+            }
+        }
+
+        //Find matching recipes. Stop once at least one is found in that tier
+        for(int i = 5; i >= -1; --i)
+        {
+            for(int x = 0; x < allRecipes.Count; ++x)
+            {
+                if(allRecipes[x].priority == i)
+                {
+                    if(allRecipes[x].EligibleRecipe(ingredients, recipeStats)) validRecipes.Add(allRecipes[x]); //Matching recipe
+                    allRecipes.RemoveAt(x);
+                    --x;
+                }
+            }
+            if(validRecipes.Count > 0) break; //We found a matching recipe at the highest priority, so we do not need to iterate anymore
+        }
+
+        if(validRecipes.Count == 0) return null;
+
+        return(validRecipes[Random.Range(0, validRecipes.Count)]);
+    }
+
     void PlaceOnClosestSocket(InventoryItemData item)
     {
+        if(item.cookingStats == null || item.cookingStats.Count == 0) return; // Not a valid Ingredient
+
         Vector3 fwd = PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward);
         RaycastHit hit;
         Vector3 hitPos;
@@ -347,5 +406,20 @@ public class CrockPot : FurnitureBehaviorScript
         }
         RefreshSockets();
         RefreshModel();
+    }
+
+    public List<CookingStats> InitializeStats()
+    {
+        List<CookingStats> newStats = new List<CookingStats>();
+        newStats.Add(new CookingStats(IngredientType.Veggie, 0));
+        newStats.Add(new CookingStats(IngredientType.Fruit, 0));
+        newStats.Add(new CookingStats(IngredientType.Meat, 0));
+        newStats.Add(new CookingStats(IngredientType.Sweetener, 0));
+        newStats.Add(new CookingStats(IngredientType.Bug, 0));
+        newStats.Add(new CookingStats(IngredientType.Egg, 0));
+        newStats.Add(new CookingStats(IngredientType.Filler, 0));
+        newStats.Add(new CookingStats(IngredientType.Weeds, 0));
+
+        return newStats;
     }
 }

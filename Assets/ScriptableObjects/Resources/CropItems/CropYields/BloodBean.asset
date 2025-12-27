@@ -22,7 +22,7 @@ MonoBehaviour:
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 38
+  staminaValue: 28
   animalHungerValue: 100
   bonusCompostValue: 40
   useCooldown: 5
@@ -32,7 +32,9 @@ MonoBehaviour:
     newItem: {fileID: 11400000, guid: d25a0f4a47914b54a90b7ba093cdd6ee, type: 2}
     itemsNeeded: 1
     itemsGained: 1
-  cookingStats: []
+  cookingStats:
+  - type: 0
+    value: 0.5
   itemInputsKBM:
   - LMB - Consume
   - RMB - Show Item
