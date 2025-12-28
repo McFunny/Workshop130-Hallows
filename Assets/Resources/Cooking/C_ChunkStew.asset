@@ -13,17 +13,10 @@ MonoBehaviour:
   m_Name: C_ChunkStew
   m_EditorClassIdentifier: 
   id: 11
+  amountMade: 0
   priority: 0
   requiredItems: []
   barredItems: []
-  veggieValue: 0
-  fruitValue: 0
-  meatValue: 0
-  sweetValue: 0
-  bugValue: 0
-  eggValue: 0
-  fillerValue: 0
-  weedValue: 0
   recipeStats:
   - type: 2
     value: 1
@@ -31,3 +24,4 @@ MonoBehaviour:
     value: -1
   output: {fileID: 11400000, guid: 355f7c75ec6865441a344a8eed4597d1, type: 2}
   cookTimeInSeconds: 30
+  validRecipes: []

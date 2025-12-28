@@ -13,17 +13,10 @@ MonoBehaviour:
   m_Name: C_MeatSkewer
   m_EditorClassIdentifier: 
   id: 6
+  amountMade: 0
   priority: 2
   requiredItems: []
   barredItems: []
-  veggieValue: 0
-  fruitValue: 0
-  meatValue: 1
-  sweetValue: 0
-  bugValue: 0
-  eggValue: 0
-  fillerValue: -1
-  weedValue: 0
   recipeStats:
   - type: 2
     value: 1.5
@@ -31,5 +24,8 @@ MonoBehaviour:
     value: -1
   - type: 5
     value: -1
+  - type: 3
+    value: -1
   output: {fileID: 11400000, guid: d98a9b6b76191374b8a92115c5e58c69, type: 2}
   cookTimeInSeconds: 25
+  validRecipes: []

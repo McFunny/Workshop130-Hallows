@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d2ead40bcc7494582ff788e70c898a, type: 3}
+  m_Name: C_Chili
+  m_EditorClassIdentifier: 
+  id: 16
+  amountMade: 0
+  priority: 3
+  requiredItems:
+  - {fileID: 11400000, guid: ec2a1085c71aefb44a33100b4f4dd647, type: 2}
+  - {fileID: 11400000, guid: 3ba20670767bc1547ac240af99c7214c, type: 2}
+  barredItems: []
+  recipeStats:
+  - type: 2
+    value: 1
+  output: {fileID: 11400000, guid: 9891f13003d8f9449bb3392d00e46803, type: 2}
+  cookTimeInSeconds: 60
+  validRecipes: []

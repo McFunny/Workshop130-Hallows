@@ -13,22 +13,16 @@ MonoBehaviour:
   m_Name: C_Croissant
   m_EditorClassIdentifier: 
   id: 3
+  amountMade: 0
   priority: 3
   requiredItems:
   - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
   - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
   - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
   barredItems: []
-  veggieValue: 0
-  fruitValue: 0
-  meatValue: -1
-  sweetValue: 0
-  bugValue: 0
-  eggValue: 0
-  fillerValue: 0
-  weedValue: 0
   recipeStats:
   - type: 2
     value: -1
   output: {fileID: 11400000, guid: ce03bf77f7cfae644b8b257d4877bf50, type: 2}
   cookTimeInSeconds: 15
+  validRecipes: []
