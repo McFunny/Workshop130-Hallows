@@ -12,18 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d2ead40bcc7494582ff788e70c898a, type: 3}
   m_Name: C_SpringRolls
   m_EditorClassIdentifier: 
-  id: -1
+  id: 8
   priority: 2
-  requiredItems:
-  - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
-  - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+  requiredItems: []
   barredItems: []
-  veggieValue: 1
+  veggieValue: 0
   fruitValue: 0
   meatValue: 0
   sweetValue: 0
   bugValue: 0
   eggValue: 0
   fillerValue: 0
+  weedValue: 1
+  recipeStats:
+  - type: 7
+    value: 1
   output: {fileID: 11400000, guid: 800035b1dded5f64b85f9d723e794adc, type: 2}
   cookTimeInSeconds: 15

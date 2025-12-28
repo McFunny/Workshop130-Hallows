@@ -22,13 +22,15 @@ MonoBehaviour:
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 15
+  staminaValue: 7
   animalHungerValue: 50
   bonusCompostValue: 20
   useCooldown: 5
   pickledForm: {fileID: 0}
   itemConversions: []
-  cookingStats: []
+  cookingStats:
+  - type: 7
+    value: 1
   itemInputsKBM:
   - LMB - Consume
   - RMB - Show Item

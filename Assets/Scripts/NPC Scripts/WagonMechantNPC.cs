@@ -5,7 +5,7 @@ using UnityEngine;
 public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
-    public InventoryItemData barricade, shotGun, ammo, carrot, carrotSeeds, inventoryUpgrade;
+    public InventoryItemData barricade, shotGun, ammo, carrot, carrotSeeds, inventoryUpgrade, burntFood;
     [HideInInspector] public bool interactedWithLantern;
     bool remembersGift; //if true and the player tries to sell barricades, he gets mad
     bool metPlayerAtEntrace = false; //resets at new day
@@ -157,6 +157,15 @@ public class WagonMerchantNPC : NPC, ITalkable
         else if (item as CropItem != null) //Seeds
         {
             currentPath = Random.Range(1,3);
+            currentType = PathType.ItemSpecific;
+            lastSeenItem = item;
+            Talk();
+            anim.SetTrigger("IsTalking");
+        }
+
+        else if (item == burntFood) //Burnt Food
+        {
+            currentPath = 3;
             currentType = PathType.ItemSpecific;
             lastSeenItem = item;
             Talk();
