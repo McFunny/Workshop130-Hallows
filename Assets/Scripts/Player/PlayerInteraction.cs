@@ -448,7 +448,7 @@ public class PlayerInteraction : MonoBehaviour
         if(amount <= -5 && !overrideDamagePulse)
         {
             playerEffects.PlayerDamage();
-            //ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.4f), Mathf.Clamp(-amount / 3, 1, 8));
+            ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.4f), Mathf.Clamp(-amount / 3, 1, 8));
         }
 
         if(amount <= -10) OnPlayerDamaged?.Invoke(amount);
