@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
-  m_Name: PurifyFlaskRecipe
+  m_Name: SugarRecipe
   m_EditorClassIdentifier: 
-  id: 7
-  nameOverride: Purification Flask
+  id: 27
+  nameOverride: 
   category: 4
-  tier: -1
+  tier: 0
   isUnlocked: 0
   isRecentlyUnlocked: 0
-  output: {fileID: 11400000, guid: 21aea03be2a49a14eb9253765376d5d5, type: 2}
-  outputAmount: 1
-  craftTimeInSeconds: 180
+  output: {fileID: 11400000, guid: 014246d86b4f14340974fb87085c9c21, type: 2}
+  outputAmount: 4
+  craftTimeInSeconds: 30
   mintCost: 0
   craftingRequirements:
-  - requiredItem: {fileID: 11400000, guid: 9ce37bb1168c1394eaa045b7ba6297b5, type: 2}
-    requiredAmount: 4
-  - requiredItem: {fileID: 11400000, guid: 34030026025182d43ba020ca09d78ae2, type: 2}
-    requiredAmount: 6
+  - requiredItem: {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
+    requiredAmount: 1

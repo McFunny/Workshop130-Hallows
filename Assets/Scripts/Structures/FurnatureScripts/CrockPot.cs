@@ -70,6 +70,11 @@ public class CrockPot : FurnitureBehaviorScript
                 resultSprite.sprite = null;
                 savedItems[0] = null;
                 RefreshSockets();
+
+                placeItemParticles.transform.position = resultSprite.transform.position;
+                placeItemParticles.Play();
+
+                audioHandler.PlaySound(audioHandler.itemInteractSound);
             }
             return;
         }
@@ -143,6 +148,9 @@ public class CrockPot : FurnitureBehaviorScript
         currentRecipe = GetRecipe();
 
         cookTimeLeft = currentRecipe.cookTimeInSeconds;
+
+        yield return new WaitForSeconds(0.5f);
+        audioHandler.PlaySound(audioHandler.interactSound);
         while(cookTimeLeft > 0)
         {
             yield return new WaitForSeconds(1);
@@ -168,6 +176,9 @@ public class CrockPot : FurnitureBehaviorScript
         savedItems[0] = currentRecipe.output; //Cooked Item
 
         audioHandler.PlaySound(audioHandler.miscSounds1[0]);
+
+        finishPoof.Play();
+        audioHandler.PlaySound(audioHandler.miscSounds1[3]);
 
 
         RefreshModel();

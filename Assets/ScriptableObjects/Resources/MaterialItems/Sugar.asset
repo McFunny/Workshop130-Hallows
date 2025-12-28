@@ -10,25 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
-  m_Name: FriedGreens
+  m_Name: Sugar
   m_EditorClassIdentifier: 
-  ID: 286
-  displayName: Fried Greens
-  description: Crispy bed of fried weeds.
-  icon: {fileID: -676412330, guid: 521c825fd370b254dbd1d51cbaf0dffb, type: 3}
-  type: 1
-  maxStackSize: 20
-  value: 30
+  ID: 291
+  displayName: Sugar
+  description: Crystalized and process sugar. Makes for an excellent cooking component.
+  icon: {fileID: 722698244, guid: 521c825fd370b254dbd1d51cbaf0dffb, type: 3}
+  type: 0
+  maxStackSize: 99
+  value: 12
   sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 30
+  staminaValue: 0
   animalHungerValue: 0
   bonusCompostValue: 0
-  useCooldown: 5
+  useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
-  cookingStats: []
+  cookingStats:
+  - type: 3
+    value: 0.5
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []
