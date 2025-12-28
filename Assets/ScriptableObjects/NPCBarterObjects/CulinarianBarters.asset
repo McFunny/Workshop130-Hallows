@@ -45,8 +45,10 @@ MonoBehaviour:
     barterChance: 20
     itemsRequired:
     - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
-      amount: 2
-    - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: 014246d86b4f14340974fb87085c9c21, type: 2}
       amount: 2
     siegesRequired: 0
     amountGiven: 1
@@ -111,4 +113,14 @@ MonoBehaviour:
       amount: 1
     siegesRequired: 1
     amountGiven: 1
+  - name: CanolaOil
+    itemForSale: {fileID: 11400000, guid: d6ac15fc9d737c444a13413d09c361eb, type: 2}
+    useItemPrice: 1
+    mintCost: 10
+    amountForSale: 3
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
   uniqueTransactions: []
+  uniqueTransactions2: []
