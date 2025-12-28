@@ -6,7 +6,7 @@ using UnityEngine;
 public class CookingRecipe : ScriptableObject
 {
     public int id = -1;
-    //public int amountMade = 0; //How many has the player made?
+    public int amountMade = 0; //How many has the player made?
 
     [Tooltip("Higher priority recipes will be made over lower ones. Max is 5, Min is 0")]
     public int priority = 0; 
@@ -24,6 +24,9 @@ public class CookingRecipe : ScriptableObject
     [Header("Output Data")]
     public InventoryItemData output;
     public int cookTimeInSeconds;
+
+    [Header("Past Recipes")]
+    public List<ValidRecipe> validRecipes = new List<ValidRecipe>();
 
 
     public bool EligibleRecipe(List<InventoryItemData> ingredients, List<CookingStats> currentStats)
@@ -61,6 +64,16 @@ public class CookingRecipe : ScriptableObject
 
     }
 
+    public void AddNewRecipe(List<InventoryItemData> ingredients)
+    {
+        ValidRecipe newRecipe = new ValidRecipe(ingredients);
+
+        if(validRecipes.Count == 0) validRecipes.Add(newRecipe);
+        else validRecipes.Insert(0, newRecipe);
+
+        if(newRecipe.usedItems.Count >= 5) validRecipes.RemoveAt(4);
+    }
+
 }
 
 [System.Serializable]
@@ -73,6 +86,17 @@ public class CookingStats //For items
     {
         type = _type;
         value = _value;
+    }
+}
+
+[System.Serializable]
+public class ValidRecipe
+{
+    public List<InventoryItemData> usedItems;
+
+    public ValidRecipe(List<InventoryItemData> ingredients)
+    {
+        usedItems = ingredients;
     }
 }
 

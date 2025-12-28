@@ -45,16 +45,14 @@ public class CookingDatabase : ScriptableObject
         return _cookingDatabase.Find(i => i.id == id);
     }
 
-    /*public void ResetStats()
+    public void ResetStats()
     {
         for(int i = 0; i < _cookingDatabase.Count; i++)
         {
-            _cookingDatabase[i].isUnlocked = false;
-            _cookingDatabase[i].isRecentlyUnlocked = false;
-
-            if(forceUnlockAll) _cookingDatabase[i].isUnlocked = true;
+            _cookingDatabase[i].amountMade = 0;
+            _cookingDatabase[i].validRecipes.Clear();
         }
-    }*/
+    }
 
     /*public void SaveStats(out CraftingPlayerStats[] craftingStats)
     {

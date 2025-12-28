@@ -19,5 +19,6 @@ public class ScriptableObjectRefresher : MonoBehaviour
         StructureDatabase.Instance.ResetStats();
         BugDatabase.Instance.ResetStats();
         CraftingDatabase.Instance.ResetStats();
+        CookingDatabase.Instance.ResetStats();
     }
 }

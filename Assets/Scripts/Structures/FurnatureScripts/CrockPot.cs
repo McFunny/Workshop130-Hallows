@@ -235,7 +235,9 @@ public class CrockPot : FurnitureBehaviorScript
 
         if(validRecipes.Count == 0) return null;
 
-        return(validRecipes[Random.Range(0, validRecipes.Count)]);
+        CookingRecipe chosenRecipe = validRecipes[Random.Range(0, validRecipes.Count)];
+        chosenRecipe.AddNewRecipe(ingredients);
+        return chosenRecipe;
     }
 
     void PlaceOnClosestSocket(InventoryItemData item)
