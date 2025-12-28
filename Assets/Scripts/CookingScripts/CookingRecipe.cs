@@ -18,7 +18,7 @@ public class CookingRecipe : ScriptableObject
     public List<InventoryItemData> barredItems = new List<InventoryItemData>(); 
 
     [Tooltip("If the value is less than 0, that means it CANNOT have it in the recipe")]
-    public float veggieValue, fruitValue, meatValue, sweetValue, bugValue, eggValue, fillerValue, weedValue;
+    //public float veggieValue, fruitValue, meatValue, sweetValue, bugValue, eggValue, fillerValue, weedValue;
     public List<CookingStats> recipeStats = new List<CookingStats>();
 
     [Header("Output Data")]
