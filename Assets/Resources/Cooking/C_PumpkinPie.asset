@@ -13,19 +13,12 @@ MonoBehaviour:
   m_Name: C_PumpkinPie
   m_EditorClassIdentifier: 
   id: 7
+  amountMade: 0
   priority: 0
   requiredItems:
   - {fileID: 11400000, guid: 0d504ad457e8daa44bad469d9160dd58, type: 2}
   - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
   barredItems: []
-  veggieValue: 1.5
-  fruitValue: -1
-  meatValue: -1
-  sweetValue: 0.5
-  bugValue: -1
-  eggValue: 0
-  fillerValue: 0
-  weedValue: -1
   recipeStats:
   - type: 0
     value: 1.5
@@ -41,3 +34,4 @@ MonoBehaviour:
     value: -1
   output: {fileID: 11400000, guid: 73d06c3e4d273984285a25213a895509, type: 2}
   cookTimeInSeconds: 45
+  validRecipes: []

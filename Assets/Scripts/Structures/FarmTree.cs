@@ -8,6 +8,8 @@ public class FarmTree : StructureBehaviorScript
 
     public InventoryItemData treePapers;
 
+    public StructureObject leafPile;
+
     public bool taggedForCutting = false;
 
     public GameObject papers, papersPine;
@@ -91,11 +93,17 @@ public class FarmTree : StructureBehaviorScript
         {
             Instantiate(logPile, StructureManager.Instance.GetTileCenter(transform.position), Quaternion.identity);
             Destroy(this.gameObject);
+            return;
         }
 
         if(Random.Range(0, 400) >= 399 && TimeManager.Instance.dayNum > 3) forceHiveSpawn = true;
 
-        if(forceHiveSpawn && Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) > 80) SpawnHive();
+        bool playerNearby = true;
+        if(Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) > 80) playerNearby = false;
+
+        if(forceHiveSpawn && !playerNearby) SpawnHive();
+
+        if(Random.Range(0, 100) >= 92 && !playerNearby || (TimeManager.Instance.currentHour == 8 && Random.Range(0, 10) > 8)) StartCoroutine(SpawnLeafPile());
     }
 
     void SpawnHive()
@@ -107,6 +115,19 @@ public class FarmTree : StructureBehaviorScript
         Vector3 directionAway = currentHive.transform.position - transform.position;
         directionAway.y = 0;
         currentHive.transform.rotation = Quaternion.LookRotation(directionAway);
+    }
+
+    IEnumerator SpawnLeafPile()
+    {
+        if(type == TreeType.Evergreen) yield break;
+        yield return new WaitForSeconds(Random.Range(0.5f, 3f));
+
+        List<Vector3> availableTiles = StructureManager.Instance.GetNearbyClearTiles(transform.position, 5);
+
+        if(availableTiles.Count == 0) yield break;
+
+        GameObject pile = Instantiate(leafPile.objectPrefab, availableTiles[Random.Range(0, availableTiles.Count)], Quaternion.identity);
+        pile.transform.localEulerAngles = new Vector3(0, Random.Range(0,360), 0);
     }
 
     void OnDestroy()

@@ -13,17 +13,10 @@ MonoBehaviour:
   m_Name: C_FancyFlank
   m_EditorClassIdentifier: 
   id: 12
+  amountMade: 0
   priority: 3
   requiredItems: []
   barredItems: []
-  veggieValue: 0
-  fruitValue: 0
-  meatValue: 0
-  sweetValue: 0
-  bugValue: 0
-  eggValue: 0
-  fillerValue: 0
-  weedValue: 0
   recipeStats:
   - type: 2
     value: 1.5
@@ -31,3 +24,4 @@ MonoBehaviour:
     value: 1.5
   output: {fileID: 11400000, guid: d2da9badcf653a4449c5a11e56725fc2, type: 2}
   cookTimeInSeconds: 60
+  validRecipes: []

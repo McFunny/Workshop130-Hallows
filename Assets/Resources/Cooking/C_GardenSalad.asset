@@ -13,17 +13,10 @@ MonoBehaviour:
   m_Name: C_GardenSalad
   m_EditorClassIdentifier: 
   id: 5
+  amountMade: 0
   priority: 0
   requiredItems: []
   barredItems: []
-  veggieValue: 3
-  fruitValue: 0
-  meatValue: -1
-  sweetValue: 0
-  bugValue: -1
-  eggValue: 0
-  fillerValue: 0
-  weedValue: 0
   recipeStats:
   - type: 0
     value: 3
@@ -33,3 +26,4 @@ MonoBehaviour:
     value: -1
   output: {fileID: 11400000, guid: 2b6d1ee1e98a13746a95c2991d3b951a, type: 2}
   cookTimeInSeconds: 25
+  validRecipes: []

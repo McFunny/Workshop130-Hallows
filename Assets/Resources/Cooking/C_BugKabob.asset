@@ -13,17 +13,10 @@ MonoBehaviour:
   m_Name: C_BugKabob
   m_EditorClassIdentifier: 
   id: 0
+  amountMade: 0
   priority: 2
   requiredItems: []
   barredItems: []
-  veggieValue: 0
-  fruitValue: 0
-  meatValue: 0
-  sweetValue: 0
-  bugValue: 1
-  eggValue: 0
-  fillerValue: -1
-  weedValue: 0
   recipeStats:
   - type: 4
     value: 1
@@ -31,3 +24,4 @@ MonoBehaviour:
     value: -1
   output: {fileID: 11400000, guid: 995e68105f917cf43a48bd00d4fd1feb, type: 2}
   cookTimeInSeconds: 15
+  validRecipes: []

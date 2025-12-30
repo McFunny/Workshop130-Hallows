@@ -13,19 +13,12 @@ MonoBehaviour:
   m_Name: C_SweetCarrots
   m_EditorClassIdentifier: 
   id: 9
+  amountMade: 0
   priority: 1
   requiredItems:
   - {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
   barredItems:
   - {fileID: 11400000, guid: 27896107abf33c44abc3c74431a72d74, type: 2}
-  veggieValue: 1
-  fruitValue: 0
-  meatValue: -1
-  sweetValue: 1
-  bugValue: -1
-  eggValue: 0
-  fillerValue: 0
-  weedValue: 0
   recipeStats:
   - type: 0
     value: 1
@@ -37,3 +30,4 @@ MonoBehaviour:
     value: -1
   output: {fileID: 11400000, guid: 5a9a6263f5638eb4dadec07b613956d7, type: 2}
   cookTimeInSeconds: 30
+  validRecipes: []

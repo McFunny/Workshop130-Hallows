@@ -13,19 +13,13 @@ MonoBehaviour:
   m_Name: C_CharredDinner
   m_EditorClassIdentifier: 
   id: 2
+  amountMade: 0
   priority: -1
   requiredItems: []
   barredItems: []
-  veggieValue: 0
-  fruitValue: 0
-  meatValue: 0
-  sweetValue: 0
-  bugValue: 0
-  eggValue: 0
-  fillerValue: 0
-  weedValue: 0
   recipeStats:
   - type: 0
     value: 0
   output: {fileID: 11400000, guid: d047228a6e443ca46843c71c725ba95e, type: 2}
   cookTimeInSeconds: 15
+  validRecipes: []

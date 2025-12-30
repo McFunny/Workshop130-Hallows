@@ -13,19 +13,12 @@ MonoBehaviour:
   m_Name: C_TrailMix
   m_EditorClassIdentifier: 
   id: 10
+  amountMade: 0
   priority: 1
   requiredItems:
   - {fileID: 11400000, guid: 994552f3ed281f54d91c4e2be086b40c, type: 2}
   barredItems:
   - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
-  veggieValue: 0
-  fruitValue: 0
-  meatValue: 0
-  sweetValue: 0
-  bugValue: 0
-  eggValue: 0
-  fillerValue: 0
-  weedValue: 0
   recipeStats:
   - type: 0
     value: 0.5
@@ -33,3 +26,4 @@ MonoBehaviour:
     value: 0.5
   output: {fileID: 11400000, guid: 1cbd6a07c5770ff4da7303ac9adb9429, type: 2}
   cookTimeInSeconds: 10
+  validRecipes: []

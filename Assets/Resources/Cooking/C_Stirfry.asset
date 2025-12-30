@@ -13,17 +13,10 @@ MonoBehaviour:
   m_Name: C_Stirfry
   m_EditorClassIdentifier: 
   id: 14
+  amountMade: 0
   priority: 0
   requiredItems: []
   barredItems: []
-  veggieValue: 0
-  fruitValue: 0
-  meatValue: 0
-  sweetValue: 0
-  bugValue: 0
-  eggValue: 0
-  fillerValue: 0
-  weedValue: 0
   recipeStats:
   - type: 0
     value: 1.5
@@ -31,3 +24,4 @@ MonoBehaviour:
     value: -1
   output: {fileID: 11400000, guid: 45683e9008110cf48bd589d81be9b74f, type: 2}
   cookTimeInSeconds: 25
+  validRecipes: []

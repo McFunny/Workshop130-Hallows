@@ -54,15 +54,15 @@ public class CookingDatabase : ScriptableObject
         }
     }
 
-    /*public void SaveStats(out CraftingPlayerStats[] craftingStats)
+    public void SaveStats(out CookingPlayerStats[] cookingStats)
     {
-        List<CraftingPlayerStats> temp = new List<CraftingPlayerStats>();
+        List<CookingPlayerStats> temp = new List<CookingPlayerStats>();
 
         foreach(CookingRecipe c in _cookingDatabase)
         {
-            temp.Add(new CraftingPlayerStats(c.isUnlocked, c.isRecentlyUnlocked));
+            temp.Add(new CookingPlayerStats(c.amountMade, c.validRecipes));
         }
-        craftingStats = temp.ToArray();
+        cookingStats = temp.ToArray();
     }
 
     public void LoadStats(AllGameSaveData data)
@@ -70,15 +70,29 @@ public class CookingDatabase : ScriptableObject
         int i = 0;
         foreach(CookingRecipe c in _cookingDatabase)
         {
-            if(i >= data.craftingStats.Length) return;
-            c.isUnlocked = data.craftingStats[i].isUnlocked;
-            c.isRecentlyUnlocked = data.craftingStats[i].isRecentlyUnlocked;
+            if(i >= data.cookingStats.Length) return;
+            c.amountMade = data.cookingStats[i].amountMade;
+            c.validRecipes = new List<ValidRecipe>(data.cookingStats[i].validRecipes);
             i++;
         }
-    }*/
+    }
 
     public List<CookingRecipe> GetCraftingDatabase()
     {
         return new List<CookingRecipe>(_cookingDatabase); 
+    }
+}
+
+
+[System.Serializable]
+public class CookingPlayerStats
+{
+    public int amountMade = 0;
+    public List<ValidRecipe> validRecipes = new List<ValidRecipe>();
+
+    public CookingPlayerStats(int _amountMade, List<ValidRecipe> _validRecipes)
+    {
+        amountMade = _amountMade;
+        validRecipes = _validRecipes;
     }
 }
