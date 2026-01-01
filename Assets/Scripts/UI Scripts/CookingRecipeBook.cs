@@ -32,6 +32,7 @@ public class CookingRecipeBook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //DEBUG ----------
         if(Input.GetKeyDown(KeyCode.RightAlt))
         {
             if(recipeBookOpen == true)
@@ -40,6 +41,7 @@ public class CookingRecipeBook : MonoBehaviour
             }
             else OpenRecipeBook();
         }
+        //DEBUG ----------
 
         if(recipeBookOpen == false) return;
 
@@ -66,7 +68,7 @@ public class CookingRecipeBook : MonoBehaviour
                 ChangePage(-1);
             }
 
-            //DEBUG
+            
             if(Gamepad.current.buttonEast.wasPressedThisFrame)
             {
                 CloseRecipeBook();
