@@ -89,7 +89,7 @@ public class CookingRecipeBook : MonoBehaviour
         }
     }
 
-    private void OpenRecipeBook()
+    public void OpenRecipeBook()
     {
         //container.SetActive(!container.activeSelf);
         EventSystem.current.SetSelectedGameObject(null);
@@ -103,7 +103,7 @@ public class CookingRecipeBook : MonoBehaviour
         
     }
 
-    private void CloseRecipeBook()
+    public void CloseRecipeBook()
     {
         Time.timeScale = 1f;
         PlayerMovement.restrictMovementTokens--;
