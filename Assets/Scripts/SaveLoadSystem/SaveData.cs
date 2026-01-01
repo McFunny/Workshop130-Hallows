@@ -17,6 +17,7 @@ namespace SaveLoadSystem
 
         public StructureInventory allStructuresSaveData;
         public PuzzleManagerSaveData puzzleSaveData;
+        public AchievementSaveData achievementSaveData;
 
 
         public SaveData()

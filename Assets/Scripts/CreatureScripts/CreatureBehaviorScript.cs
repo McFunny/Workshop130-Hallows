@@ -193,6 +193,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             creatureData.amountKilled++;
             creatureData.hasSpawned = true;
+            AchievementManager.Instance.NotifyCreatureKill(creatureData);
         }
 
         if(Tutorial.Instance) Tutorial.Instance.KillCreature();
