@@ -101,6 +101,7 @@ public class InputManager : MonoBehaviour
         if(PauseScript.isPaused) return;
         if(PlayerMovement.isCodexOpen) return;
         if(CraftingSystem.isCraftingMenuOpen) return;
+        if(CookingRecipeBook.recipeBookOpen) return;
         if(!PlayerMovement.accessingInventory)
         {
             gridIsActive = !gridIsActive;

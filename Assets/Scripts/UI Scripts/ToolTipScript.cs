@@ -112,7 +112,7 @@ public class ToolTipScript : MonoBehaviour
 
             case ItemType.Consumable:
                 itemType.text = "Consumable";
-                if(itemData.staminaValue == 0)
+                if(itemData.staminaValue > 0)
                 {
                     itemStamina.text = "Heals " + itemData.staminaValue + " stamina.";
                     itemStamina.gameObject.SetActive(true);

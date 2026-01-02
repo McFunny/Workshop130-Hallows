@@ -24,7 +24,7 @@ public class UIAlphaController : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerMovement.isCodexOpen)
+        if (PlayerMovement.isCodexOpen || CookingRecipeBook.recipeBookOpen)
         {
             if (canvasGroup.alpha < 1)
             {
