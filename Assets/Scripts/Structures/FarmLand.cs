@@ -17,6 +17,8 @@ public class FarmLand : StructureBehaviorScript
     public MeshRenderer meshRenderer;
     public Material dry, wet, barren, barrenWet, corruptMat;
 
+    public Color flashColor;
+
     [Header("Crop Stats")]
     public int growthStage = -1; //-1 means there is no crop //MUST BE SAVED
     public int hoursSpent = 0; //how long has the plant been in this growth stage for?
@@ -116,6 +118,8 @@ public class FarmLand : StructureBehaviorScript
         OnDamage += Damaged;
 
         if(!isWeed) StartCoroutine(BehaviorTimer());
+
+        StartCoroutine(LowHealthFlash());
 
     }
 
@@ -1029,6 +1033,23 @@ public class FarmLand : StructureBehaviorScript
         if(other.gameObject.layer == 10)
         {
             PlayerMovement.Instance.RemoveSpeedMod(gameObject);
+        }
+    }
+
+    IEnumerator LowHealthFlash()
+    {
+        Color defaultColor = cropRenderer.color;
+        while(health > 0)
+        {
+            yield return new WaitForSeconds(5);
+            if(health > 5) continue;
+            for(int i = 0; i < 3; ++i)
+            {
+                cropRenderer.color = flashColor;
+                yield return new WaitForSeconds(0.1f);
+                cropRenderer.color = defaultColor;
+                yield return new WaitForSeconds(0.1f);
+            }
         }
     }
 

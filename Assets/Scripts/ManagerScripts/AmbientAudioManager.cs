@@ -11,6 +11,7 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip[] nightAmbience;
     public AudioClip[] windAmbience;
     public AudioClip[] wildernessAmbience;
+    public AudioClip[] catacombAmbience;
     public AudioClip[] musicAmbience;
     public AudioClip[] musicNightAmbience;
     public AudioClip[] wildernessMusicAmbience;
@@ -132,6 +133,10 @@ public class AmbientAudioManager : MonoBehaviour
             else if(TownGate.Instance.location == PlayerLocation.InWilderness)
             {
                 ambienceSource.clip = wildernessAmbience[Random.Range(0, wildernessAmbience.Length)];
+            }
+            else if(TownGate.Instance.location == PlayerLocation.InCrypt)
+            {
+                ambienceSource.clip = catacombAmbience[Random.Range(0, catacombAmbience.Length)];
             }
             else
             {
