@@ -29,6 +29,8 @@ public class MudRoomDoor : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        if (cropKeys[0].assignedCrop == null)
+            AssignCrops();
     }
 
     void AssignCrops()

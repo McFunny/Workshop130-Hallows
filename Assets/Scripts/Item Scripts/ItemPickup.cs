@@ -172,7 +172,7 @@ public class ItemPickup : MonoBehaviour
         }
         myCollider.enabled = true;
         ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
-        
+        AchievementManager.Instance.NotifyItemCollected(ItemData);
         gameObject.SetActive(false); // Make the item disappear
     }
 

@@ -96,7 +96,11 @@ public class MudRoomCropKey : MonoBehaviour, IInteractable
     {
         cropInserted = data._cropInserted;
         assignedCrop = CropDatabase.Instance.GetCropByName(data.cropName);
-
+        if (assignedCrop == null)
+        {
+            Debug.LogError("MudRoomCropKey: Could not find crop with name " + data.cropName);
+            return;
+        }
         backgroundSprite.sprite = assignedCrop.cropYield.icon;
         foregroundSprite.sprite = assignedCrop.cropYield.icon;
         foregroundSprite.enabled = cropInserted;

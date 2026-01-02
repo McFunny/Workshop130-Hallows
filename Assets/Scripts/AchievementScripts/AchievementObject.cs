@@ -1,22 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AchievementObject : ScriptableObject
+public abstract class AchievementObject : ScriptableObject
 {
-    public string name;
-    public string description;
+    [Header("Info")]
+    public string id;                 // MUST be unique
+    public string displayName;
+    [TextArea] public string description;
+    public Sprite icon;
 
-    public float progress = 0;
-    public float maxProgress = 0;
+    public bool hideAchievement = false; // if true, show ??? until unlocked
 
-    public bool hideAchievement = false; //If true, the name of this achievement should display as ??? if not completed
+    [Header("Progress")]
+    [Min(1)] public float maxProgress = 1f;
+
+    // Called by the manager so the achievement can ask for progress/unlock.
+    protected void AddProgress(float amount)
+    {
+        AchievementManager.Instance.AddProgress(id, amount);
+    }
+
+    protected void Unlock()
+    {
+        AchievementManager.Instance.ForceUnlock(id);
+    }
 
     /////These are all of the vitual functions that could contribuite to increasing the progress to the achievements. Achievements will typically use only 1 or 2 of these functions/////
 
-    public virtual void OnCreatureKill(){}
+    public virtual void OnCreatureKill(CreatureObject killedCreature){}
 
-    public virtual void OnCropHarvest(){}
+    public virtual void OnCropHarvest(CropData harvestedCrop){}
 
     public virtual void OnPyreflyTeamKill(){} //For calling if u kill something by using a pyrefly explosion
+
+    public virtual void OnItemCollected(InventoryItemData itemData) { } //This will be used for single item obtainments like the water gun or tool upgrades!
+
+    public virtual void JustAddProgress(float number = 1f){ } //For achievements that just need to have progress added without any specific notification
 }
