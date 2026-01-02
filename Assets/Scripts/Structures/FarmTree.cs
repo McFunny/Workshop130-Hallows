@@ -120,9 +120,9 @@ public class FarmTree : StructureBehaviorScript
     IEnumerator SpawnLeafPile()
     {
         if(type == TreeType.Evergreen) yield break;
-        yield return new WaitForSeconds(Random.Range(0.5f, 3f));
+        yield return new WaitForSeconds(Random.Range(1.5f, 4f));
 
-        List<Vector3> availableTiles = StructureManager.Instance.GetNearbyClearTiles(transform.position, 5);
+        List<Vector3> availableTiles = StructureManager.Instance.GetNearbyClearTiles(transform.position, 7);
 
         if(availableTiles.Count == 0) yield break;
 

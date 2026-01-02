@@ -273,7 +273,7 @@ public class Spider : CreatureBehaviorScript
 
                     if(Vector3.Distance(transform.position, player.position) < 6) strafePos += retreatDir * 3;
 
-                    StartCoroutine(MoveToPoint(strafePointR.position, Random.Range(0.8f,1.5f)));
+                    StartCoroutine(MoveToPoint(strafePos, Random.Range(0.8f,1.5f)));
                 }
                 else 
                 {
