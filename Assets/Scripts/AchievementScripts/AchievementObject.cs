@@ -6,6 +6,7 @@ public abstract class AchievementObject : ScriptableObject
     public string id;                 // MUST be unique
     public string displayName;
     [TextArea] public string description;
+    public Sprite icon;
 
     public bool hideAchievement = false; // if true, show ??? until unlocked
 
@@ -31,5 +32,7 @@ public abstract class AchievementObject : ScriptableObject
 
     public virtual void OnPyreflyTeamKill(){} //For calling if u kill something by using a pyrefly explosion
 
-    public virtual void OnItemCollected(InventoryItemData itemData, int amount) { }
+    public virtual void OnItemCollected(InventoryItemData itemData) { } //This will be used for single item obtainments like the water gun or tool upgrades!
+
+    public virtual void JustAddProgress(float number = 1f){ } //For achievements that just need to have progress added without any specific notification
 }

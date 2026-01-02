@@ -26,8 +26,8 @@ public class AchievementManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        BuildLookup();
-        EnsureRuntimeKeysExist();
+        ProcessAchievements();
+        EnsureKeyExists();
 
         SaveLoad.OnSaveGame += SaveData;
         SaveLoad.OnLoadGame += LoadData;
@@ -42,7 +42,7 @@ public class AchievementManager : MonoBehaviour
     /// <summary>
     /// Ensures that the achievementById dictionary is built for quick lookup.
     /// </summary>
-    private void BuildLookup()
+    private void ProcessAchievements()
     {
         achievementById.Clear();
 
@@ -69,7 +69,7 @@ public class AchievementManager : MonoBehaviour
     /// <summary>
     /// Makes sure that all achievements have entries in the progress dictionary.
     /// </summary>
-    private void EnsureRuntimeKeysExist()
+    private void EnsureKeyExists()
     {
         foreach (var id in achievementById.Keys)
         {
@@ -78,9 +78,6 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-    // ------------------------
-    // Public runtime API
-    // ------------------------
 
     //Function to check if an achievement is unlocked
     public bool IsUnlocked(string id) => unlockedIds.Contains(id);
@@ -162,24 +159,24 @@ public class AchievementManager : MonoBehaviour
     }
 
     // Notify that a pyrefly has killed something else
-    public void NotifyPyreflyTeamKill()
+    public void NotifyJustAddProgress()
     {
         foreach (var ach in allAchievements)
         {
             if (ach == null) continue;
             if (IsUnlocked(ach.id)) continue;
-            ach.OnPyreflyTeamKill();
+            ach.JustAddProgress();
         }
     }
 
     // Notify that an item has been collected
-    public void NotifyItemCollected(InventoryItemData itemData, int amount)
+    public void NotifyItemCollected(InventoryItemData itemData)
     {
         foreach (var ach in allAchievements)
         {
             if (ach == null) continue;
             if (IsUnlocked(ach.id)) continue;
-            ach.OnItemCollected(itemData, amount);
+            ach.OnItemCollected(itemData);
         }
     }
 
@@ -217,7 +214,7 @@ public class AchievementManager : MonoBehaviour
 
         if (data == null || data.achievementSaveData == null || data.achievementSaveData.entries == null)
         {
-            EnsureRuntimeKeysExist();
+            EnsureKeyExists();
             return;
         }
 
@@ -234,7 +231,7 @@ public class AchievementManager : MonoBehaviour
                 unlockedIds.Add(entry.id);
         }
 
-        EnsureRuntimeKeysExist();
+        EnsureKeyExists();
     }
 }
 

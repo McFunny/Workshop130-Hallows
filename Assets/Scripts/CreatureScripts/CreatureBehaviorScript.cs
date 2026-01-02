@@ -50,6 +50,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public bool canCorpseBreak;
     public float actionSpeedMod = 1; //Dictates the speed of specific interactions per creature
 
+    public DamageType lastDamageTypeTaken;
+
     List <Material> allMats = new List<Material>();
     List <Color> allMatColors = new List<Color>();
     bool flashing = false;
@@ -363,4 +365,25 @@ public class CreatureBehaviorScript : MonoBehaviour
 
 
     
+}
+
+public enum DamageType
+{
+    Shovel,
+    Fire,
+    Shotgun,
+    Flintlock,
+    BearTrap,
+    Frost,
+    Kukri,
+    Scythe,
+    Hoe,
+    Watergun,
+    Cannonball,
+    Mine,
+    Seedshooter,
+    PyreflyExplosion,
+    ThornWeed,
+    HogCharge,
+    FrostProjectile
 }
