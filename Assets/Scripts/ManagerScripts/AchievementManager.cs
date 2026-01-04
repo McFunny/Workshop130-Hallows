@@ -78,6 +78,19 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    //Function to get all achievements with their progress
+    public Dictionary<AchievementObject, float> GetAllAchievementsWithProgress()
+    {
+        var result = new Dictionary<AchievementObject, float>();
+        foreach (var kvp in achievementById)
+        {
+            var ach = kvp.Value;
+            var progress = GetProgress(kvp.Key);
+            result[ach] = progress;
+        }
+        return result;
+    }
+
 
     //Function to check if an achievement is unlocked
     public bool IsUnlocked(string id) => unlockedIds.Contains(id);
