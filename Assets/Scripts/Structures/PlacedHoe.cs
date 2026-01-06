@@ -79,6 +79,11 @@ public class PlacedHoe : StructureBehaviorScript
         {
             creature.TakeDamage(creatureDamage);
             creature.PlayHitParticle(new Vector3(0, 0, 0));
+
+            if(creature.health <= 0)
+            {
+                AchievementManager.Instance.NotifyCreatureKilledWithHoe();
+            }
         }
 
         yield return new WaitForSeconds(0.3f);

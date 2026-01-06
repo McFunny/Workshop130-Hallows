@@ -130,6 +130,12 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    public void ResetProgress(string id)
+    {
+        if (!achievementById.ContainsKey(id)) return;
+        progressById[id] = 0f;
+    }
+
     //Function to force unlock an achievement via id
     public void ForceUnlock(string id)
     {
@@ -171,14 +177,25 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-    // Notify that a pyrefly has killed something else
-    public void NotifyJustAddProgress()
+    // Notify that a bug has been caught
+    public void NotifyBugCatch(BugObject bug)
     {
         foreach (var ach in allAchievements)
         {
             if (ach == null) continue;
             if (IsUnlocked(ach.id)) continue;
-            ach.JustAddProgress();
+            ach.OnBugCatch(bug);
+        }
+    }
+
+    // Notify that a pyrefly has killed something else
+    public void NotifyCheckProgress()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.CheckProgress();
         }
     }
 
@@ -193,7 +210,30 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-#endregion
+    //First slot is the creature that got killed, second slot is the creature that killed it
+    public void NotitfyCreatureKilledByCreature(CreatureObject creatureKilled, CreatureObject killer)
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnCreatureKillByOtherCreature(creatureKilled, killer);
+            Debug.Log($"Progress on {ach.displayName}: {progressById[ach.id]}/{ach.maxProgress}");
+        }
+    }
+
+    public void NotifyCreatureKilledByHoe()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnCreatureKilledByHoe();
+            Debug.Log($"Progress on {ach.displayName}: {progressById[ach.id]}/{ach.maxProgress}");
+        }
+    }
+
+    #endregion
 
     /// <summary>
     /// SAVE/LOAD FUNCTIONS

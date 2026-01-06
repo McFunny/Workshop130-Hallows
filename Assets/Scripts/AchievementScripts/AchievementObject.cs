@@ -19,6 +19,11 @@ public abstract class AchievementObject : ScriptableObject
         AchievementManager.Instance.AddProgress(id, amount);
     }
 
+    protected void ResetProgress()
+    {
+        AchievementManager.Instance.ResetProgress(id);
+    }
+
     protected void Unlock()
     {
         AchievementManager.Instance.ForceUnlock(id);
@@ -30,9 +35,15 @@ public abstract class AchievementObject : ScriptableObject
 
     public virtual void OnCropHarvest(CropData harvestedCrop){}
 
+    public virtual void OnBugCatch(BugObject caughtBug){ }
+
     public virtual void OnPyreflyTeamKill(){} //For calling if u kill something by using a pyrefly explosion
 
     public virtual void OnItemCollected(InventoryItemData itemData) { } //This will be used for single item obtainments like the water gun or tool upgrades!
 
-    public virtual void JustAddProgress(float number = 1f){ } //For achievements that just need to have progress added without any specific notification
+    public virtual void CheckProgress(float number = 1f){ } //For achievements that just need to have progress added without any specific notification
+
+    public virtual void OnCreatureKillByOtherCreature(CreatureObject creatureKilled, CreatureObject killer){ } //For calling if u kill something by using a pyrefly explosion caused by hog
+
+    public virtual void OnCreatureKilledByHoe() { }
 }

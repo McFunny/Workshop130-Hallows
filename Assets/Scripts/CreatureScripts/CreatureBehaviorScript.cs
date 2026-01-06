@@ -369,21 +369,5 @@ public class CreatureBehaviorScript : MonoBehaviour
 
 public enum DamageType
 {
-    Shovel,
-    Fire,
-    Shotgun,
-    Flintlock,
-    BearTrap,
-    Frost,
-    Kukri,
-    Scythe,
-    Hoe,
-    Watergun,
-    Cannonball,
-    Mine,
-    Seedshooter,
-    PyreflyExplosion,
-    ThornWeed,
-    HogCharge,
-    FrostProjectile
+    HogCharge
 }
