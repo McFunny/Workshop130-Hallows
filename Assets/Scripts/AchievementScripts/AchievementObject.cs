@@ -9,6 +9,7 @@ public abstract class AchievementObject : ScriptableObject
     public Sprite icon;
 
     public bool hideAchievement = false; // if true, show ??? until unlocked
+    public bool isUnlocked;
 
     [Header("Progress")]
     [Min(1)] public float maxProgress = 1f;
@@ -26,7 +27,7 @@ public abstract class AchievementObject : ScriptableObject
 
     protected void Unlock()
     {
-        AchievementManager.Instance.ForceUnlock(id);
+        AchievementManager.Instance.UnlockAchievement(id);
     }
 
     /////These are all of the vitual functions that could contribuite to increasing the progress to the achievements. Achievements will typically use only 1 or 2 of these functions/////
