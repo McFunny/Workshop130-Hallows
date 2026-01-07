@@ -244,12 +244,13 @@ public class CulinarianNPC : NPC, ITalkable
 
     bool AbleToGiveCrockPotQuest()
     {
-        if(GameSaveData.Instance.rascalMentionedKey && QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.GetTutorialQuest(304)) == -1) return true;
+        if(!GameSaveData.Instance.cul_gaveCrock && GameSaveData.Instance.rascalMentionedKey && QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.GetTutorialQuest(304)) == -1) return true;
         return false;
     }
 
     bool AbleToCompleteCrockPotQuest()
     {
+        if(GameSaveData.Instance.cul_gaveCrock) return false;
         int questNum = QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.GetTutorialQuest(304));
         if(questNum == -1) return false;
         if(QuestManager.Instance.activeQuests[questNum].progress >= QuestManager.Instance.activeQuests[questNum].maxProgress)

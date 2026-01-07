@@ -43,16 +43,21 @@ public class PlayerInteraction : MonoBehaviour
     public delegate void PlayerDeathEvent();
     public static event PlayerDeathEvent OnPlayerDeath;
 
+    ///Stamina and Water///
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
     public float fatigue = 0;
     [HideInInspector] public readonly float maxFatigue = 150;
+    public float regenRate = 4; //Every .5 seconds
+    public float targetRegen = 0; // Target stamin value at end of regen
+
     bool sentLowStaminaMessage = false;
     [HideInInspector] public bool overrideDamagePulse; //Makes the damage effects not happen
     public bool invincible = false;
 
     public float waterHeld = 10; //for watering can //USED TO BE 15, TRYING 10
     [HideInInspector] public float maxWaterHeld = 10;
+    //////
 
     public bool torchLit = false; //For the tool item
     public bool pyreflyLit = false; //For the tool item
@@ -105,6 +110,7 @@ public class PlayerInteraction : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         UpdateSettings();
         StartCoroutine(WakeUp());
+        StartCoroutine(RegenRoutine());
     }
 
     private void OnEnable()
@@ -369,7 +375,8 @@ public class PlayerInteraction : MonoBehaviour
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
             //eat it
-            StaminaChange(item.staminaValue);
+            //StaminaChange(item.staminaValue);
+            EatFood(item.staminaValue);
             itemUsed = true;
         }
 
@@ -444,11 +451,12 @@ public class PlayerInteraction : MonoBehaviour
             repairMinigame.EndMinigame();
         }
 
-        stamina +=  Mathf.Round(amount);
+        stamina += Mathf.Round(amount);
         if(amount <= -5 && !overrideDamagePulse)
         {
             playerEffects.PlayerDamage();
             ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.4f), Mathf.Clamp(-amount / 3, 1, 8));
+            if(stamina <= 0 || MainMenuScript.currentFileMode != FileMode.Cozy) targetRegen = 0;
         }
 
         if(amount <= -10) OnPlayerDamaged?.Invoke(amount);
@@ -461,6 +469,43 @@ public class PlayerInteraction : MonoBehaviour
         else if(stamina > 50) sentLowStaminaMessage = false;
 
         overrideDamagePulse = false;
+    }
+
+    public void EatFood(float staminaGain)
+    {
+        if(staminaGain <= 10)
+        {
+            StaminaChange(10);
+            return;
+        }
+        
+        StaminaChange(Mathf.Floor(staminaGain/4));
+        if(targetRegen == 0) targetRegen = stamina;
+        targetRegen += Mathf.Floor(staminaGain * .75f);
+        if(targetRegen > maxStamina) targetRegen = maxStamina;
+    }
+
+    IEnumerator RegenRoutine()
+    {
+        bool skipNext = true;
+        while(true)
+        {
+            yield return new WaitForSeconds(1f);
+            if(targetRegen <= stamina || stamina <= 0) 
+            {
+                targetRegen = 0;
+                skipNext = true;
+                continue;
+            }
+
+            if(skipNext) //To make sure heal isnt always immediate
+            {
+                skipNext = false;
+                continue;
+            }
+
+            StaminaChange(regenRate);
+        }
     }
 
     public void ApplyStatusEffect(StatusEffectObject status, int duration)
