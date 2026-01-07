@@ -67,7 +67,7 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
       amount: 2
-    siegesRequired: 1
+    siegesRequired: 2
     amountGiven: 1
   - name: Thurible
     itemForSale: {fileID: 11400000, guid: a7ccfd2851b613d4c8c1dfdbd9c9f4b1, type: 2}
@@ -142,6 +142,15 @@ MonoBehaviour:
     itemForSale: {fileID: 11400000, guid: 1e736ccd2c0d32743856d96c80a2e4c4, type: 2}
     useItemPrice: 1
     mintCost: 135
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: CraftingMachine
+    itemForSale: {fileID: 11400000, guid: 9b48420bc73d5f74c92bf84211aaf233, type: 2}
+    useItemPrice: 1
+    mintCost: 345
     amountForSale: 1
     barterChance: 100
     itemsRequired: []

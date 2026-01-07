@@ -19616,7 +19616,7 @@ MonoBehaviour:
   knifeLodgeTransform: {fileID: 0}
   corpseType: 1
   rb: {fileID: 0}
-  anim: {fileID: 0}
+  anim: {fileID: 3941503936862628395}
   droppedItems:
   - {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
   dropChance:
@@ -19634,6 +19634,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 1
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.1764706}
   currentEffects: []
   agent: {fileID: 0}
@@ -24738,17 +24739,37 @@ PrefabInstance:
     - target: {fileID: 2036864775776884439, guid: aafa691accfe4b343801c5af34e51a8d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99956137
+      value: 0.99935544
       objectReference: {fileID: 0}
     - target: {fileID: 2036864775776884439, guid: aafa691accfe4b343801c5af34e51a8d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.029615048
+      value: 0.029608961
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036864775776884439, guid: aafa691accfe4b343801c5af34e51a8d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.020294417
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036864775776884439, guid: aafa691accfe4b343801c5af34e51a8d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0006012879
       objectReference: {fileID: 0}
     - target: {fileID: 2036864775776884439, guid: aafa691accfe4b343801c5af34e51a8d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 3.394
+      value: 3.391
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036864775776884439, guid: aafa691accfe4b343801c5af34e51a8d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -2.331
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036864775776884439, guid: aafa691accfe4b343801c5af34e51a8d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.138
       objectReference: {fileID: 0}
     - target: {fileID: 2347318969164410287, guid: aafa691accfe4b343801c5af34e51a8d,
         type: 3}
@@ -24933,17 +24954,37 @@ PrefabInstance:
     - target: {fileID: 9186400727330636341, guid: aafa691accfe4b343801c5af34e51a8d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99956137
+      value: 0.99935544
       objectReference: {fileID: 0}
     - target: {fileID: 9186400727330636341, guid: aafa691accfe4b343801c5af34e51a8d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.029615048
+      value: 0.029608961
+      objectReference: {fileID: 0}
+    - target: {fileID: 9186400727330636341, guid: aafa691accfe4b343801c5af34e51a8d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.020294417
+      objectReference: {fileID: 0}
+    - target: {fileID: 9186400727330636341, guid: aafa691accfe4b343801c5af34e51a8d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0006012879
       objectReference: {fileID: 0}
     - target: {fileID: 9186400727330636341, guid: aafa691accfe4b343801c5af34e51a8d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 3.394
+      value: 3.391
+      objectReference: {fileID: 0}
+    - target: {fileID: 9186400727330636341, guid: aafa691accfe4b343801c5af34e51a8d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -2.331
+      objectReference: {fileID: 0}
+    - target: {fileID: 9186400727330636341, guid: aafa691accfe4b343801c5af34e51a8d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.138
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -25182,6 +25223,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!4 &3013982741415003144 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aafa691accfe4b343801c5af34e51a8d,

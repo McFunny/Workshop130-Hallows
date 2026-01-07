@@ -10002,6 +10002,7 @@ MonoBehaviour:
   damageToPlayer: -35
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 0.25490198}
   currentEffects: []
   attackCollider: {fileID: 5619163433188919599}
@@ -29987,6 +29988,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -89.7211
       objectReference: {fileID: 0}
+    - target: {fileID: -4856548682882783069, guid: 33898f74f90fbc642954bf350b1bf7fb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 91251a3521c0dbc46bf9c03d01bee231, type: 2}
     - target: {fileID: -4749399847336582855, guid: 33898f74f90fbc642954bf350b1bf7fb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -30761,6 +30767,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.000000009036235
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327706250480836532, guid: 33898f74f90fbc642954bf350b1bf7fb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5364503525985226125, guid: 33898f74f90fbc642954bf350b1bf7fb,
         type: 3}

@@ -39,43 +39,20 @@ MonoBehaviour:
     amountGiven: 1
   - name: PaleCarrotCake
     itemForSale: {fileID: 11400000, guid: 86effa1763457db43a40a9362bc37cdc, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 90
     amountForSale: 3
     barterChance: 20
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
-      amount: 1
-    - item: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
-      amount: 4
-    - item: {fileID: 11400000, guid: 014246d86b4f14340974fb87085c9c21, type: 2}
-      amount: 2
+    itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
   - name: Croissant
     itemForSale: {fileID: 11400000, guid: ce03bf77f7cfae644b8b257d4877bf50, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 40
     amountForSale: 3
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
-      amount: 4
-    siegesRequired: 0
-    amountGiven: 1
-  - name: Salad
-    itemForSale: {fileID: 11400000, guid: 2b6d1ee1e98a13746a95c2991d3b951a, type: 2}
-    useItemPrice: 0
-    mintCost: 0
-    amountForSale: 3
-    barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: fdfadc98faaac3a43a9625ea63f6a3b6, type: 2}
-      amount: 1
-    - item: {fileID: 11400000, guid: 344ae7d106f0b2646bc557fde3166d30, type: 2}
-      amount: 1
-    - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
-      amount: 1
+    itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
   - name: BugKabob
@@ -113,14 +90,43 @@ MonoBehaviour:
       amount: 1
     siegesRequired: 1
     amountGiven: 1
-  - name: CanolaOil
-    itemForSale: {fileID: 11400000, guid: d6ac15fc9d737c444a13413d09c361eb, type: 2}
+  uniqueTransactions:
+  - name: CrockPot
+    itemForSale: {fileID: 11400000, guid: c1decf5bc680ff049b4425d619bd4ac7, type: 2}
     useItemPrice: 1
-    mintCost: 10
-    amountForSale: 3
+    mintCost: 260
+    amountForSale: 1
     barterChance: 100
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
-  uniqueTransactions: []
+  - name: CanolaOil
+    itemForSale: {fileID: 11400000, guid: d6ac15fc9d737c444a13413d09c361eb, type: 2}
+    useItemPrice: 1
+    mintCost: 10
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: CanolaOil
+    itemForSale: {fileID: 11400000, guid: d6ac15fc9d737c444a13413d09c361eb, type: 2}
+    useItemPrice: 1
+    mintCost: 0
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 5b97e944223dda54ab665ae57f753f14, type: 2}
+      amount: 5
+    siegesRequired: 0
+    amountGiven: 1
+  - name: Sugar
+    itemForSale: {fileID: 11400000, guid: 014246d86b4f14340974fb87085c9c21, type: 2}
+    useItemPrice: 1
+    mintCost: 12
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
   uniqueTransactions2: []

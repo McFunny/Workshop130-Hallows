@@ -22,6 +22,8 @@ public class CrimsonMothNest : StructureBehaviorScript
         audioHandler = GetComponent<StructureAudioHandler>();
         StartCoroutine(ScanForPlayer());
         yielditems = true;
+
+        if(!TimeManager.Instance.isDay) ReleaseWasps();
     }
 
     void OnDestroy()
@@ -63,7 +65,7 @@ public class CrimsonMothNest : StructureBehaviorScript
         while(true)
         {
             yield return new WaitForSeconds(2);
-            if(Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) < 15)
+            if(Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) < 11)
             {
                 for(int i = 0; i < heldWasps; i++)
                 {
@@ -82,10 +84,18 @@ public class CrimsonMothNest : StructureBehaviorScript
     {
         if(heldWasps < 3 && Random.Range(0,10) > 6) heldWasps++;
 
-        if(heldWasps == 3 && !TimeManager.Instance.isDay)
+        if(heldWasps > 0 && !TimeManager.Instance.isDay)
         {
-            heldWasps--;
+            ReleaseWasps();
+        }
+    }
+
+    void ReleaseWasps()
+    {
+        for(int i = 0; i < heldWasps; i++)
+        {
             Instantiate(mothData.objectPrefab, transform.position, Quaternion.identity).GetComponent<RubyWasp>().homeNest = this;
+            if(i >= 3) return;
         }
     }
 
@@ -119,11 +129,7 @@ public class CrimsonMothNest : StructureBehaviorScript
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
             ParticlePoolManager.Instance.GrabCorpseParticle(CorpseParticleType.Yellow).transform.position = transform.position;
 
-            for(int i = 0; i < heldWasps; i++)
-            {
-                Instantiate(mothData.objectPrefab, transform.position, Quaternion.identity).GetComponent<RubyWasp>().homeNest = this;
-                if(i >= 3) i = heldWasps;
-            }
+            ReleaseWasps();
 
             audioHandler.PlaySoundAtPoint(audioHandler.breakSound,transform.position);
 

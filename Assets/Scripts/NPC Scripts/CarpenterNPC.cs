@@ -215,6 +215,12 @@ public class CarpenterNPC : NPC, ITalkable
                 newCost = (int)(barterDatabase.uniqueTransactions[0].mintCost * sellMultiplier);
                 item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
             }
+            else if(x == 10 && GameSaveData.Instance.cul_gaveCrock)//Sell CrockPot
+            {
+                newItem = barterDatabase.uniqueTransactions[3].itemForSale;
+                newCost = (int)(barterDatabase.uniqueTransactions[3].mintCost * sellMultiplier);
+                item.RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions[3].itemsRequired, barterDatabase.uniqueTransactions[3].amountForSale);
+            }
             else //Sell furnature
             {
                 do

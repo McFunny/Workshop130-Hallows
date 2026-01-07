@@ -79,7 +79,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1756453533996364400}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 0.5
   m_Speed: 4
   m_Acceleration: 8
@@ -145,6 +145,7 @@ MonoBehaviour:
     Action: 3
     actionCheck: 0
     actionAnim: 0
+  scheduleList2: []
 --- !u!136 &476778053569335579
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -180,7 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfaf9ee1ef95c6241925cd1a6fe8ef16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invert: 1
+  invert: 0
+  npcOverride: 1
+  objectActive: 0
 --- !u!114 &3010117837704667411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,6 +479,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
+  objectActive: 0
 --- !u!1001 &5124348898591781984
 PrefabInstance:
   m_ObjectHideFlags: 0
