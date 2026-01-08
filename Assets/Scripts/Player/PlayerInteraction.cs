@@ -761,6 +761,16 @@ public class PlayerInteraction : MonoBehaviour
         isTripped = false;
         PlayerMovement.restrictMovementTokens--;
     }
+
+    public void ToggleTrip(bool trip)
+    {
+        isTripped = trip;
+    }
+
+    public bool TripCheck()
+    {
+        return isTripped;
+    }
     
     private void UpdateSettings()
     {

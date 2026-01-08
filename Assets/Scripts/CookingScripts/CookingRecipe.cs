@@ -110,6 +110,7 @@ public enum IngredientType
     Bug,
     Egg,
     Filler,
-    Weeds //Plant fiber, reedtail, yarrow, ect
+    Weeds, //Plant fiber, reedtail, yarrow, ect
+    Tuber
 
 }

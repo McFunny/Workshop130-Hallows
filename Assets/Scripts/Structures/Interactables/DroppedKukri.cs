@@ -44,14 +44,19 @@ public class DroppedKukri : MonoBehaviour, IInteractable
         {
             HotbarDisplay display = FindObjectOfType<HotbarDisplay>();
             int i = display.FindItemInHotbar(kukriItem);
-            if(i != -1)
+
+            InventoryItemData item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
+            ToolItem t_Item = null;
+            if(item) t_Item = item as ToolItem;
+            if(i != -1 && t_Item == null)
             {
                 display.SelectHotbarSlot(i);
             }
+            ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
+
+            PlayerInteraction.Instance.lostKukri = false;
 
             Destroy(this.gameObject);
-            //PlayerInteraction.Instance.droppedKukri = false;
-            PlayerInteraction.Instance.lostKukri = false;
         }
     }
 
@@ -143,5 +148,10 @@ public class DroppedKukri : MonoBehaviour, IInteractable
             }
             while(power < 1.9f && highlightEnabled);
         }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 10 && !stuck && rb.velocity.magnitude < 0.5f) Interact(PlayerInteraction.Instance, out bool success);
     }
 }
