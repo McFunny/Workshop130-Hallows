@@ -76,6 +76,10 @@ public class MouseItemData : MonoBehaviour
             itemRB.AddForce(HandItemManager.Instance.bulletStart.forward * 300);
             itemRB.AddForce(Vector3.up * 100);
         }
+
+        PlaceableItem p_item = assignedInventorySlot.ItemData as PlaceableItem;
+        if (p_item) p_item.DisableHologram();
+
         ClearSlot();
     }
 

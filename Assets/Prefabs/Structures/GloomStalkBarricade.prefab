@@ -1528,7 +1528,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9d7df750b62889e4ca9276c18dde8004, type: 2}
+  - {fileID: 2100000, guid: ba5b5efb2d1c3704e8748ccb949af69e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2237,7 +2237,7 @@ MonoBehaviour:
       barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
   gloomStalk: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
   brokenBox: {fileID: 4722383386622465818}
-  clearM: {fileID: 2100000, guid: 9d7df750b62889e4ca9276c18dde8004, type: 2}
+  clearM: {fileID: 2100000, guid: ba5b5efb2d1c3704e8748ccb949af69e, type: 2}
   brokenM: {fileID: 2100000, guid: a7fba40119810734b8f5096746ee3969, type: 2}
   veryBrokenM: {fileID: 2100000, guid: 1a9226c67418dbd4d90d925cac84e838, type: 2}
   repairItems:
@@ -2725,6 +2725,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5403930433040775419, guid: 67b1176c4326a6144ae550cfb6ae7f52,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d95582d6516e2344abcd1a8bf9f64433, type: 2}
+    - target: {fileID: -2142347751070909609, guid: 67b1176c4326a6144ae550cfb6ae7f52,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d95582d6516e2344abcd1a8bf9f64433, type: 2}
     - target: {fileID: 919132149155446097, guid: 67b1176c4326a6144ae550cfb6ae7f52,
         type: 3}
       propertyPath: m_Name

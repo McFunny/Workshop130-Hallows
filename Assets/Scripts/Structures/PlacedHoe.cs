@@ -123,6 +123,7 @@ public class PlacedHoe : StructureBehaviorScript
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
+            ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
             Destroy(this.gameObject);
         }
     }

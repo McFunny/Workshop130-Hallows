@@ -117,11 +117,10 @@ public class BearTrap : StructureBehaviorScript
         //print(distance);
         if(victim/*distance < 1.5f*/)
         {
-
+            PlayerInteraction player = victim.GetComponent<PlayerInteraction>();
             //does the damage
-            if(victim.GetComponent<PlayerInteraction>() && distance < 1.5f)
+            if(player && distance < 1.5f && !player.TripCheck())
             {
-                PlayerInteraction player = victim.GetComponent<PlayerInteraction>();
                 player.rb.velocity = Vector3.zero;
                 player.StaminaChange(-25);
 

@@ -7,7 +7,7 @@ public class Acolyte : CreatureBehaviorScript
 {
     public Collider attackCollider;
     bool isCharging = false;
-    bool grabbedPlayer;
+    bool grabbedPlayer, slammedPlayer;
 
     bool isMoving, coroutineRunning; //ISMOVING TRACKS IF THE MOVEMENT COROUTINE IS PLAYING. COROUTINERUNNING CHECKS IF ANY *OTHER* COROUTINE IS RUNNING
     
@@ -28,18 +28,24 @@ public class Acolyte : CreatureBehaviorScript
     bool interruptAction = false;
     bool spellCooldown = false;
     bool faceTarget;
+    bool recoilCooldown = false;
+    bool chargeCooldown = false;
+
     float baseSpeed;
     public float strafeSpeed;
     public float chargeSpeed;
+    float chargeTimeElapsed = 0;
+    bool strafeLeft = false;
 
-    private Coroutine chargeRoutine;
+    private Coroutine chargeRoutine, grabRoutine, spellRoutine;
 
-    public Transform strafePointL, strafePointR, chargePoint;
+    public Transform strafePointL, strafePointR, chargePoint, playerHoldPoint;
 
     public Transform modelGrounded;
+    Vector3 modelFloatPos;
     public GameObject model;
 
-    public ParticleSystem teleportParticles;
+    public ParticleSystem teleportParticles, missChargeParticles;
 
 
     public enum CreatureState
@@ -77,11 +83,13 @@ public class Acolyte : CreatureBehaviorScript
         StartCoroutine(ScanForTargets());
 
         baseSpeed = agent.speed;
+
+        modelFloatPos = model.transform.position;
     }
 
     void Update()
     {
-        if (health <= 0) isDead = true;
+        if (health <= 0 && !grabbedPlayer) isDead = true;
 
         if(isDead) return;
 
@@ -94,6 +102,8 @@ public class Acolyte : CreatureBehaviorScript
 
             agent.speed = newSpeed;
         }
+
+        FloatAnimToggle();
 
 
         float distance = Vector3.Distance(player.position, transform.position);
@@ -114,7 +124,7 @@ public class Acolyte : CreatureBehaviorScript
             direction.y = 0;
             Quaternion toRotation = Quaternion.LookRotation(direction);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 3.5f * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 15f * Time.deltaTime);
         }
     }
 
@@ -191,28 +201,30 @@ public class Acolyte : CreatureBehaviorScript
                 Vector3 randomPoint;
                 if(!patrolPoint) randomPoint = StructureManager.Instance.GetRandomTile();
                 else randomPoint = PointAroundPatrolPoint(7);
-                StartCoroutine(MoveToPoint(randomPoint, Random.Range(1f, 2.5f)));
+                StartCoroutine(MoveToPoint(randomPoint, Random.Range(2f, 3.5f)));
             }
 
             else if(currentState == CreatureState.AttackPlayer) ///isCharging Player
             {
                 agent.updateRotation = false;
-                //Reformat this to strafing around the player
+                faceTarget = true;
                 if(playerInSightRange)
                 {
                     float r = Random.Range(0, 10);
-                    transform.LookAt(player.position);
+                    //transform.LookAt(player.position);
 
                     Vector3 strafePos;
 
-                    if(r > 4) strafePos = strafePointL.position;
+                    if(r > 7) strafeLeft = !strafeLeft;
+
+                    if(strafeLeft) strafePos = strafePointL.position;
                     else strafePos = strafePointR.position;
 
                     Vector3 retreatDir = (transform.position - player.position).normalized;
 
                     if(Vector3.Distance(transform.position, player.position) < 10) strafePos += retreatDir * 5;
 
-                    if(playerInAttackRange) StartCoroutine(MoveToPoint(strafePos, Random.Range(0.4f,0.7f)));
+                    if(playerInAttackRange) StartCoroutine(MoveToPoint(strafePos, Random.Range(0.7f,0.9f)));
 
                     else StartCoroutine(MoveToPoint(player.position, 0.3f));
                 }
@@ -293,12 +305,7 @@ public class Acolyte : CreatureBehaviorScript
         {
             timeSpent += Time.deltaTime;
 
-            if(agent.updateRotation == false)
-            {
-                Vector3 directionToTarget = player.position - transform.position;
-                Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1.2f * Time.deltaTime);
-            }
+            //FaceTarget();
 
             if(interruptAction) timeSpent += 30;
             yield return null;
@@ -307,9 +314,23 @@ public class Acolyte : CreatureBehaviorScript
         FinishedMoving();
     }
 
+    /*void FaceTarget()
+    {
+        if(agent.updateRotation == false && faceTarget)
+        {
+            Vector3 directionToTarget = player.position - transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1.2f * Time.deltaTime);
+        }
+    }*/
+
     void FinishedMoving()
     {
-        if(!playerInSightRange) agent.updateRotation = true;
+        if(!playerInSightRange)
+        {
+            faceTarget = false;
+            agent.updateRotation = true;
+        }
 
         if (currentState == CreatureState.Wander)
         {
@@ -321,23 +342,25 @@ public class Acolyte : CreatureBehaviorScript
             if(Vector3.Distance(targetStructure.transform.position, transform.position) < 10f && !spellCooldown)
             {
                 agent.Stop();
-                StartCoroutine(ThrowSpell());
+                spellRoutine = StartCoroutine(ThrowSpell());
             }
         }
 
         if(currentState == CreatureState.AttackPlayer)
         {
-            if(playerInAttackRange && Random.Range(0,100) == 1 && !isCharging)
+            if(playerInAttackRange && Random.Range(0,10) == 1 && !isCharging && StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm) 
+                && !chargeCooldown && TimeManager.Instance.currentHour != 7)
             {
                 //Do the lunge attack
                 //agent.Stop();
+                currentState = CreatureState.Charging;
                 StartCoroutine(LungeAttack());
                 agent.updateRotation = true;
                 return;
             }
             else if(playerInSightRange && Random.Range(0,10) > 2 && !spellCooldown)
             {
-                StartCoroutine(ThrowSpell());
+                spellRoutine = StartCoroutine(ThrowSpell());
                 //return;
             }
 
@@ -353,7 +376,9 @@ public class Acolyte : CreatureBehaviorScript
     {
         spellCooldown = true;
         anim.Play("CultSpell");
+        effectsHandler.RandomIdle();
         yield return new WaitForSeconds(0.4f);
+        effectsHandler.MiscSound2();
         GameObject newBullet = Instantiate(ballProjectile, bulletSpawn.position, bulletSpawn.rotation);
         newBullet.GetComponent<ShadowProjectile>().sourceCreature = this;
         //newBullet.transform.position = bulletSpawn;
@@ -362,7 +387,7 @@ public class Acolyte : CreatureBehaviorScript
         //newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * Random.Range(40,60));
         newBullet.GetComponent<Rigidbody>().AddForce(bulletSpawn.forward * Random.Range(40,90));
 
-        if(!targetStructure && Random.Range(0, 15) == 1) 
+        if(!targetStructure && Random.Range(0, 15) == 1 || (Vector3.Distance(transform.position, player.position) < 10 && Random.Range(0, 4) == 1)) 
         {
             teleportParticles.Play();
             yield return new WaitForSeconds(0.5f);
@@ -371,6 +396,8 @@ public class Acolyte : CreatureBehaviorScript
         if(health > 75) yield return new WaitForSeconds(Random.Range(1f, 3f));
         else yield return new WaitForSeconds(Random.Range(0.5f, 2f));
         spellCooldown = false;
+
+        spellRoutine = null;
     }
 
     void Teleport()
@@ -397,15 +424,12 @@ public class Acolyte : CreatureBehaviorScript
         if (other.CompareTag("Player"))
         {
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
-            if (playerInteraction != null)
+            if (playerInteraction != null && !playerInteraction.TripCheck() && PlayerMovement.restrictMovementTokens == 0)
             {
-                /*playerInteraction.StaminaChange(damageToPlayer);
-                playerInteraction.PlayerTrip();
-                attackHitbox.enabled = false;
-                if(!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
-                recoilTime = 1.7f;
-                isCharging = false;*/
+                faceTarget = false;
                 grabbedPlayer = true;
+                grabRoutine = StartCoroutine(GrabPlayer());
+                chargeTimeElapsed -= 0.5f;
                 return;
             }
         }
@@ -426,24 +450,27 @@ public class Acolyte : CreatureBehaviorScript
 
     IEnumerator LungeAttack()
     {
-        float chargeTimeElapsed = 0;
+        chargeTimeElapsed = 0;
         float chargeTime = 1.5f;
         //
         anim.SetBool("IsGrabbing", true);
         anim.SetBool("GrabSuccess", false);
+        anim.Play("CultGrabStart");
         agent.speed = 0;
         agent.ResetPath();
         agent.updateRotation = false;
         faceTarget = true;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
 
-        yield return new WaitForSeconds(0.2f); //Beginning to charge
+        chargeCooldown = true;
+
+        effectsHandler.PlayExtraSound(1, 1f);
+
+        yield return new WaitForSeconds(0.5f); //Beginning to charge
 
         //Actively Charging
-        effectsHandler.MiscSound2();
-        anim.SetBool("ChargePrep", false);
 
-        faceTarget = false;
+        //faceTarget = false;
         agent.speed = chargeSpeed;
 
         isCharging = true;
@@ -456,6 +483,8 @@ public class Acolyte : CreatureBehaviorScript
             yield return null;
         }
         attackCollider.enabled = false;
+
+        faceTarget = false;
 
         if(chargeTimeElapsed >= chargeTime) //Throw/miss
         {
@@ -474,29 +503,107 @@ public class Acolyte : CreatureBehaviorScript
         {
             anim.SetBool("GrabSuccess", true);
             anim.SetBool("IsGrabbing", false);
-            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
-            PlayerInteraction.Instance.PlayerTrip();
+            slammedPlayer = true;
+            //PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            //PlayerInteraction.Instance.PlayerTrip();
         }
         agent.speed = 0;
         isCharging = false;
         agent.ResetPath();
+        agent.velocity = Vector3.zero;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+
+        yield return new WaitForSeconds(0.2f);
+        grabbedPlayer = false;
+
+        if(anim.GetBool("GrabSuccess") == false)
+        {
+            modelFloatPos = model.transform.position;
+            model.transform.position = modelGrounded.position;
+            yield return new WaitForSeconds(0.5f);
+            missChargeParticles.Play();
+            effectsHandler.PlayExtraSound(0, 1f);
+        }
         yield return new WaitForSeconds(1.5f);
 
         if(anim.GetBool("GrabSuccess") == false)
         {
             yield return new WaitForSeconds(1f);
+            model.transform.position = modelFloatPos;
         }
         else
         {
             teleportParticles.Play();
             yield return new WaitForSeconds(0.5f);
-            if(currentState == CreatureState.Charging) currentState = CreatureState.Wander;
             Teleport();
         }
+        if(currentState == CreatureState.Charging) currentState = CreatureState.Wander;
         
         chargeRoutine = null;
         agent.updateRotation = true;
+
+        interruptAction = false;
+
+        chargeCooldown = false;
+        isMoving = false;
+    }
+
+    IEnumerator GrabPlayer()
+    {
+        foreach(Collider collider in allColliders)
+        {
+            collider.isTrigger = true;
+        }
+
+        effectsHandler.MiscSound3();
+
+        PlayerInteraction.Instance.ToggleTrip(true);
+        PlayerMovement.restrictMovementTokens++;
+        PlayerCam.Instance.NewObjectOfInterest(corpseParticleTransform.position);
+
+        Vector3 playerStartPos = new Vector3(PlayerInteraction.Instance.transform.position.x, PlayerInteraction.Instance.transform.position.y, PlayerInteraction.Instance.transform.position.z);
+
+        while(grabbedPlayer)
+        {
+            PlayerInteraction.Instance.transform.position = playerHoldPoint.position;
+            yield return null;
+        }
+        PlayerInteraction.Instance.ToggleTrip(false);
+        PlayerCam.Instance.ClearObjectOfInterest();
+
+        yield return new WaitForSeconds(0.05f);
+
+        //Player is still floating
+
+        PlayerInteraction.Instance.transform.position = new Vector3(playerHoldPoint.position.x, playerStartPos.y, playerHoldPoint.position.z);
+
+        if(!slammedPlayer)  PlayerInteraction.Instance.StaminaChange(Mathf.Floor(damageToPlayer * .75f));
+        else  PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+
+        slammedPlayer = false;
+        PlayerMovement.restrictMovementTokens--;
+
+        yield return new WaitForSeconds(0.2f);
+
+        if(!slammedPlayer) 
+        {
+            PlayerInteraction.Instance.PlayerTrip();
+            effectsHandler.MiscSound3();
+        }
+        else 
+        {
+            PlayerInteraction.Instance.PlayerTripNoKnockback();
+            effectsHandler.PlayExtraSound(0, 1f);
+        }
+
+        yield return new WaitForSeconds(1);
+
+        foreach(Collider collider in allColliders)
+        {
+            collider.isTrigger = false;
+        }
+
+        grabRoutine = null;
     }
 
     IEnumerator ScanForTargets()
@@ -566,6 +673,42 @@ public class Acolyte : CreatureBehaviorScript
         targetStructure = newStruct;
     }
 
+    void FloatAnimToggle()
+    {
+        bool idleFloat = true;
+        if(agent.velocity.magnitude > 0.4f && currentState != CreatureState.Charging && currentState != CreatureState.AttackPlayer) idleFloat = false;
+
+        anim.SetBool("IsMoving", !idleFloat);
+    }
+
+    public override void OnDamage()
+    {
+        if(recoilCooldown || currentState == CreatureState.Charging) return;
+
+        if(spellRoutine != null) StopCoroutine(spellRoutine);
+        spellRoutine = null;
+
+        anim.Play("CultHit");
+
+        StartCoroutine(RecoilRoutine());
+    }
+
+    IEnumerator RecoilRoutine()
+    {
+        recoilCooldown = true;
+        spellCooldown = true;
+        chargeCooldown = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        spellCooldown = false;
+        chargeCooldown = false;
+
+        yield return new WaitForSeconds(2);
+
+        recoilCooldown = false;
+    }
+
     public override void OnDeath()
     {
         if (!isDead)
@@ -576,6 +719,13 @@ public class Acolyte : CreatureBehaviorScript
             agent.enabled = false;
             rb.isKinematic = true;
             rb.freezeRotation = true;
+
+            if(grabRoutine != null)
+            {
+                PlayerMovement.restrictMovementTokens = 0;
+                PlayerInteraction.Instance.ToggleTrip(false);
+            }
+
             StopAllCoroutines();
 
             model.transform.position = modelGrounded.position;

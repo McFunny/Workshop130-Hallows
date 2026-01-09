@@ -55,9 +55,10 @@ public class CrockPot : FurnitureBehaviorScript
             if(hasFinishedItem)
             {
                 finishPoof.Play();
-                audioHandler.PlaySound(audioHandler.miscSounds1[3]);
+                audioHandler.PlaySound(audioHandler.miscSounds1[5]);
             }
-            audioHandler.PlaySound(audioHandler.interactSound);
+            //audioHandler.PlaySound(audioHandler.interactSound);
+            audioHandler.PlaySound(audioHandler.miscSounds1[4]);
             return;
         }
 
@@ -115,7 +116,11 @@ public class CrockPot : FurnitureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(hasFinishedItem || isCooking || lidClosed) return;
+        if(hasFinishedItem || isCooking || lidClosed) 
+        {
+            audioHandler.PlaySound(audioHandler.miscSounds1[1]);
+            return;
+        }
 
         if(item == oilItem)
         {
@@ -432,6 +437,7 @@ public class CrockPot : FurnitureBehaviorScript
         newStats.Add(new CookingStats(IngredientType.Egg, 0));
         newStats.Add(new CookingStats(IngredientType.Filler, 0));
         newStats.Add(new CookingStats(IngredientType.Weeds, 0));
+        newStats.Add(new CookingStats(IngredientType.Tuber, 0));
 
         return newStats;
     }
