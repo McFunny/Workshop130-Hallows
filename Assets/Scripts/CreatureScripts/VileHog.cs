@@ -676,6 +676,13 @@ public class VileHog : CreatureBehaviorScript
                     }
                 }
 
+                if(creature.corpseType == CorpseParticleType.Stone)
+                {
+                    if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
+                    recoilTime = 2.1f;
+                    isCharging = false;
+                }
+
             }
 
             if (other.gameObject.layer == 0 || other.gameObject.layer == 7)
