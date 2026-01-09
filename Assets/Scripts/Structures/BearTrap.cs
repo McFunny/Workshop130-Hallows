@@ -274,7 +274,16 @@ public class BearTrap : StructureBehaviorScript
         if(other.gameObject.layer == 9 || other.gameObject.layer == 10)
         {
             CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if(creature && !creature.bearTrapVulnerable) return;
+            if(creature)
+            {
+                if(!creature.bearTrapVulnerable) return;
+
+                else if(!creature.shovelVulnerable) //break it. IE golem steps on it
+                {
+                    TakeDamage(99);
+                    return;
+                }
+            }
             isTriggered = true;
             StartCoroutine(SpringTrap(other)); //pass enemy script or player script variable
         }

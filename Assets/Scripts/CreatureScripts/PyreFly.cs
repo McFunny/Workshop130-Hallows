@@ -649,6 +649,7 @@ public class PyreFly : CreatureBehaviorScript
                 var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
                 if (creature != null && creature.shovelVulnerable)
                 {
+                    creature.lastDamageTypeTaken = DamageType.PyreflyExplosion;
                     creature.TakeDamage(80);
                     if(creature.fireVulnerable) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 15));
                     creature.PlayHitParticle(creature.transform.position);

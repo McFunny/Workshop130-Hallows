@@ -257,6 +257,7 @@ public class ParticlePoolManager : MonoBehaviour
             corruptedCorpsePool.Add(newParticle);
             return newParticle;
         }
+        else if(type == CorpseParticleType.Stone) return GrabDestructionParticle(StructureType.Stone);
         else return null;
     }
 
@@ -756,7 +757,8 @@ public enum CorpseParticleType
     Null,
     Metal,
     Slime,
-    Corrupted
+    Corrupted,
+    Stone
 }
 
 public enum StructureType

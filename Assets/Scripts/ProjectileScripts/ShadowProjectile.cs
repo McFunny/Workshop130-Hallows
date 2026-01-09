@@ -86,9 +86,11 @@ public class ShadowProjectile : MonoBehaviour
         if(other.gameObject.layer == 9 && !hitTarget)
         {
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if (creature != null && creature.shovelVulnerable && creature.health > 0 && (!sourceCreature || sourceCreature != creature) && !immuneCreatures.Contains(creature.creatureData))
+            if (creature != null && creature.shovelVulnerable && creature.health > 0 && (!sourceCreature || sourceCreature != creature))
             {
-                creature.TakeDamage(creatureDamage);
+                if(immuneCreatures.Contains(creature.creatureData)) creature.TakeDamage(0, transform.position); //To bounce the buzzsaw
+                else creature.TakeDamage(creatureDamage);
+
                 AudioPoolManager.Instance.PlayClipAtPosition(hitEnemy, transform.position, 0.1f, 30);
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                 

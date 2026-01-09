@@ -664,8 +664,16 @@ public class VileHog : CreatureBehaviorScript
             {
                 float extraDamage = 0;
                 if(usingThrusters) extraDamage += 50;
+                creature.lastDamageTypeTaken = DamageType.HogCharge;
                 creature.TakeDamage(50 + extraDamage);
                 creature.PlayHitParticle(new Vector3(0,0,0));
+
+                if(creature.corpseType == CorpseParticleType.Stone)
+                {
+                    if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
+                    recoilTime = 2.1f;
+                    isCharging = false;
+                }
             }
         }
 

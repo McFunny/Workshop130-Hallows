@@ -100,7 +100,7 @@ public class KukriProjectile : MonoBehaviour
                 float totalDamage;
                 if(Random.Range(0, 10) < critChance) hiltHit = false;
                 knifeParent = creature.GrabKnifeParent();
-                if(knifeParent == null || creature.corpseType == CorpseParticleType.Metal) hiltHit = true;
+                if(knifeParent == null || creature.corpseType == CorpseParticleType.Metal || creature.corpseType == CorpseParticleType.Stone) hiltHit = true;
 
                 if(creature.TryGetComponent<PyreFly>(out PyreFly pFly) && pFly.ignited) hitExplosion = true;
 

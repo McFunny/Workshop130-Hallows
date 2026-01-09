@@ -96,6 +96,13 @@ public class WaterProjectileScript : MonoBehaviour
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
+                Wisp wisp = creature as Wisp;
+                if(wisp)
+                {
+                    if(!isFrozen) FreezeShot();
+                    return;
+                }
+
                 if(isFrozen)
                 {
                     creature.TakeDamage(50);

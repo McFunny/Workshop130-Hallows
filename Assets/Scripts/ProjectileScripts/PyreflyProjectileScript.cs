@@ -55,6 +55,7 @@ public class PyreflyProjectileScript : MonoBehaviour
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
+                creature.lastDamageTypeTaken = DamageType.Mine;
                 creature.TakeDamage(creatureDamage);
                 if(creature.fireVulnerable) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(6, 10));
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
