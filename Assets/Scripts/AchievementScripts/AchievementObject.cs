@@ -57,4 +57,10 @@ public abstract class AchievementObject : ScriptableObject
     public virtual void OnKickedBucket() { }
 
     public virtual void OnCropPollinated() { }
+
+    public virtual void OnFrozenProjectileKill() { }
+
+    public virtual void OnHighCrowKill() { }
+
+    public virtual void OnAllFriendsAch() { }
 }

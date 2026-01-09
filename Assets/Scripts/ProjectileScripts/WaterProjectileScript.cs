@@ -106,6 +106,10 @@ public class WaterProjectileScript : MonoBehaviour
                 if(isFrozen)
                 {
                     creature.TakeDamage(50);
+                    if(creature.health <= 0)
+                    {
+                        AchievementManager.Instance.NotifyFrozenProjectileKill();
+                    }
                     ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                     ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
                     HandItemManager.Instance.toolSource.PlayOneShot(hitIce);

@@ -1018,6 +1018,11 @@ public class MutatedCrow : CreatureBehaviorScript
         if(!IsGrounded() && health > 0) TakeDamage(100);
         if(IsGrounded() && health <= 0) canCorpseBreak = true;
 
+        if(transform.position.y >= 40)
+        {
+            AchievementManager.Instance.NotifyHighCrowKill();
+        }
+
         if(carriedNut)
         {
             carriedNut.GetComponent<StructureBehaviorScript>().HitWithWater();

@@ -296,6 +296,37 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    public void NotifyFrozenProjectileKill()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnFrozenProjectileKill();
+        }
+    }
+
+    public void NotifyHighCrowKill()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnHighCrowKill();
+        }
+    }
+
+    public void NotifyAllFriendsAch()
+    {
+
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnAllFriendsAch();
+        }
+    }
+
     #endregion
 
 
@@ -317,11 +348,24 @@ public class AchievementManager : MonoBehaviour
 
     }
 
+    //MannikkinID is 20
+    CreatureObject mannikkinOBJ;
+    public void TrackWhosFollowingPlayer()
+    {
+        mannikkinOBJ = CreatureDatabase.Instance.GetCreature(20);
+        if (GameSaveData.Instance.currentPet != null && 
+            NightSpawningManager.Instance.ReportTotalOfCreature(mannikkinOBJ) > 0 
+            )
+        {
+            NotifyAllFriendsAch();
+        }
+    }
+
     #endregion
 
-    /// <summary>
-    /// SAVE/LOAD FUNCTIONS
-    /// </summary>
+        /// <summary>
+        /// SAVE/LOAD FUNCTIONS
+        /// </summary>
 
     private void SaveData()
     {
