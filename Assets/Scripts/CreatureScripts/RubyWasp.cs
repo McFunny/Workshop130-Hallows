@@ -308,6 +308,7 @@ public class RubyWasp : CreatureBehaviorScript
         anim.SetBool("Unstuck", false);
 
         stuckOnPlayer = true;
+        AchievementManager.Instance.TrackStuckWasps(true);
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.9f, "Wasp", true));
 
         while(unstickAttempts < attemptsNeeded)
@@ -328,7 +329,7 @@ public class RubyWasp : CreatureBehaviorScript
         allColliders[0].isTrigger = false;
         anim.SetBool("Unstuck", true);
         currentState = CreatureState.Wander;
-
+        AchievementManager.Instance.TrackStuckWasps(false);
         stuckOnPlayer = false;
         PlayerMovement.Instance.RemoveSpeedMod(gameObject);
         yield return new WaitForSeconds(3f);

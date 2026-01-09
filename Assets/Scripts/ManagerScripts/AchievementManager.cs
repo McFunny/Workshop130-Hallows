@@ -246,6 +246,77 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    public void Notify150KukriKill()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.On150KukriKill();
+        }
+    }
+
+    public void NotifySleepWithTorchLit()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.SleepWithLitTorch();
+        }
+    }
+
+    public void NotifyWaspsStuck()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnWaspsStuck();
+        }
+    }
+
+    public void NotifyKickedBucket()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnKickedBucket();
+        }
+    }
+
+    public void NotifyCropPollinated()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnCropPollinated();
+        }
+    }
+
+    #endregion
+
+
+    #region HelperFunctionsForAchievements
+
+    /// <summary>
+    /// Tracks the number of wasps that have gotten stuck. If 3 or more get stuck, notifies relevant achievements.
+    /// </summary>
+    int stuckWaspCount = 0;
+    public void TrackStuckWasps(bool isWaspStuck)
+    {
+        if(isWaspStuck == true) stuckWaspCount += 1;
+        else if(isWaspStuck == false) stuckWaspCount = Mathf.Max(0, stuckWaspCount - 1);
+
+        if (stuckWaspCount >= 3)
+        {
+            NotifyWaspsStuck();
+        }
+
+    }
+
     #endregion
 
     /// <summary>
