@@ -13,7 +13,7 @@ public class AchievementManager : MonoBehaviour
     private Dictionary<string, AchievementObject> achievementById = new Dictionary<string, AchievementObject>();
 
     private Dictionary<string, float> progressById = new Dictionary<string, float>();
-    private HashSet<string> unlockedIds = new HashSet<string>();
+    private HashSet<string> unlockedIDs = new HashSet<string>();
 
     private void Awake()
     {
@@ -78,9 +78,29 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    //Function to get all achievements with their progress
+    public Dictionary<AchievementObject, float> GetAllAchievementsWithProgress()
+    {
+        var result = new Dictionary<AchievementObject, float>();
+        foreach (var kvp in achievementById)
+        {
+            var ach = kvp.Value;
+            var progress = GetProgress(kvp.Key);
+            result[ach] = progress;
+        }
+        return result;
+    }
+
 
     //Function to check if an achievement is unlocked
-    public bool IsUnlocked(string id) => unlockedIds.Contains(id);
+    public bool IsUnlocked(string id) => unlockedIDs.Contains(id);
+
+    public bool IsAchievementHidden(string id)
+    {
+        if (achievementById.TryGetValue(id, out var ach))
+            return ach.hideAchievement;
+        return false;
+    }
 
     //Function to get current progress of an achievement
     public float GetProgress(string id)
@@ -102,7 +122,7 @@ public class AchievementManager : MonoBehaviour
     {
         if (amount <= 0f) return;
         if (!achievementById.ContainsKey(id)) return;
-        if (unlockedIds.Contains(id)) return;
+        if (unlockedIDs.Contains(id)) return;
 
         float max = GetMaxProgress(id);
         float current = GetProgress(id);
@@ -113,19 +133,31 @@ public class AchievementManager : MonoBehaviour
         // Check for unlock
         if (next >= max)
         {
-            ForceUnlock(id);
+            UnlockAchievement(id);
         }
     }
 
-    //Function to force unlock an achievement via id
-    public void ForceUnlock(string id)
+    public void ResetProgress(string id)
     {
         if (!achievementById.ContainsKey(id)) return;
-        if (unlockedIds.Contains(id)) return;
+        progressById[id] = 0f;
+    }
+
+    //Function to force unlock an achievement via id
+    public void UnlockAchievement(string id)
+    {
+        if (!achievementById.ContainsKey(id)) return;
+        if (unlockedIDs.Contains(id)) return;
 
         progressById[id] = GetMaxProgress(id);
-        unlockedIds.Add(id);
+        unlockedIDs.Add(id);
 
+        if(achievementById[id].hideAchievement)
+            achievementById[id].hideAchievement = false;
+        
+
+        achievementById[id].isUnlocked = true;
+    
         //For UI events
         //OnAchievementUnlocked?.Invoke(achievementById[id]);
     }
@@ -158,14 +190,25 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-    // Notify that a pyrefly has killed something else
-    public void NotifyJustAddProgress()
+    // Notify that a bug has been caught
+    public void NotifyBugCatch(BugObject bug)
     {
         foreach (var ach in allAchievements)
         {
             if (ach == null) continue;
             if (IsUnlocked(ach.id)) continue;
-            ach.JustAddProgress();
+            ach.OnBugCatch(bug);
+        }
+    }
+
+    // Notify that a pyrefly has killed something else
+    public void NotifyCheckProgress()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.CheckProgress();
         }
     }
 
@@ -180,7 +223,101 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-#endregion
+    //First slot is the creature that got killed, second slot is the creature that killed it
+    public void NotitfyCreatureKilledByCreature(CreatureObject creatureKilled, CreatureObject killer)
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnCreatureKillByOtherCreature(creatureKilled, killer);
+            Debug.Log($"Progress on {ach.displayName}: {progressById[ach.id]}/{ach.maxProgress}");
+        }
+    }
+
+    public void NotifyCreatureKilledWithHoe()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnCreatureKilledByHoe();
+            Debug.Log($"Progress on {ach.displayName}: {progressById[ach.id]}/{ach.maxProgress}");
+        }
+    }
+
+    public void Notify150KukriKill()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.On150KukriKill();
+        }
+    }
+
+    public void NotifySleepWithTorchLit()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.SleepWithLitTorch();
+        }
+    }
+
+    public void NotifyWaspsStuck()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnWaspsStuck();
+        }
+    }
+
+    public void NotifyKickedBucket()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnKickedBucket();
+        }
+    }
+
+    public void NotifyCropPollinated()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnCropPollinated();
+        }
+    }
+
+    #endregion
+
+
+    #region HelperFunctionsForAchievements
+
+    /// <summary>
+    /// Tracks the number of wasps that have gotten stuck. If 3 or more get stuck, notifies relevant achievements.
+    /// </summary>
+    int stuckWaspCount = 0;
+    public void TrackStuckWasps(bool isWaspStuck)
+    {
+        if(isWaspStuck == true) stuckWaspCount += 1;
+        else if(isWaspStuck == false) stuckWaspCount = Mathf.Max(0, stuckWaspCount - 1);
+
+        if (stuckWaspCount >= 3)
+        {
+            NotifyWaspsStuck();
+        }
+
+    }
+
+    #endregion
 
     /// <summary>
     /// SAVE/LOAD FUNCTIONS
@@ -202,7 +339,8 @@ public class AchievementManager : MonoBehaviour
             {
                 id = id,
                 progress = GetProgress(id),
-                unlocked = unlockedIds.Contains(id)
+                isUnlocked = unlockedIDs.Contains(id),
+                hideAchievement = achievementById[id].hideAchievement
             });
         }
     }
@@ -210,7 +348,7 @@ public class AchievementManager : MonoBehaviour
     private void LoadData(SaveData data)
     {
         progressById.Clear();
-        unlockedIds.Clear();
+        unlockedIDs.Clear();
 
         if (data == null || data.achievementSaveData == null || data.achievementSaveData.entries == null)
         {
@@ -227,8 +365,16 @@ public class AchievementManager : MonoBehaviour
             float max = GetMaxProgress(entry.id);
             progressById[entry.id] = Mathf.Clamp(entry.progress, 0f, max);
 
-            if (entry.unlocked)
-                unlockedIds.Add(entry.id);
+            if (entry.hideAchievement)
+                achievementById[entry.id].hideAchievement = true;
+
+            if (entry.isUnlocked)
+            {
+                unlockedIDs.Add(entry.id);
+                achievementById[entry.id].hideAchievement = false;
+            }
+
+            
         }
 
         EnsureKeyExists();
@@ -246,5 +392,6 @@ public class AchievementEntry
 {
     public string id;
     public float progress;
-    public bool unlocked;
+    public bool isUnlocked;
+    public bool hideAchievement;
 }

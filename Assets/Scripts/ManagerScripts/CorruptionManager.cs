@@ -6,8 +6,22 @@ public class CorruptionManager : MonoBehaviour
 {
     public static CorruptionManager Instance;
 
-    public int corruptedTiles = 0;
+    public int corruptedTiles
+    {
+        get => corruptedTilesGetter;
+        set
+        {
+            if (value == corruptedTilesGetter) return;
+
+            corruptedTilesGetter = value;
+            AchievementManager.Instance.NotifyCheckProgress();
+        }
+    }
+
+
     public int maxCorruption = 150;
+
+    private int corruptedTilesGetter = 0;
 
     public GameObject corruptedTile, nodePrefab, farmTile, weedTile;
 

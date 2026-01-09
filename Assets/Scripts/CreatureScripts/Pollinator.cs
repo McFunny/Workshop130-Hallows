@@ -260,6 +260,7 @@ public class Pollinator : CreatureBehaviorScript
         if(tile)
         {
             tile.Pollinate();
+            AchievementManager.Instance.NotifyCropPollinated();
             foreach(ParticleSystem p in pollenParticles) p.Play();
             QuestManager.Instance.AddQuestProgress(1, QuestDatabase.Instance.GetTutorialQuest(301)); //Complete the pollination quest
         }

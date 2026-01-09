@@ -109,12 +109,20 @@ public class KukriProjectile : MonoBehaviour
                     knifeParent = null;
                     totalDamage = hiltDamage + (extraDamage/2);
                     creature.TakeDamage(totalDamage);
+                    if(totalDamage >= 150)
+                    {
+                        AchievementManager.Instance.Notify150KukriKill();
+                    }
                     HandItemManager.Instance.toolSource.PlayOneShot(hitDull);
                 }
                 else
                 {
                     totalDamage = critDamage + extraDamage;
                     creature.TakeDamage(totalDamage);
+                    if (totalDamage >= 150)
+                    {
+                        AchievementManager.Instance.Notify150KukriKill();
+                    }
                     HandItemManager.Instance.toolSource.PlayOneShot(hitCrit);
                     ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
                 }

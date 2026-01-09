@@ -219,6 +219,10 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
                 if (creature != null)
                 {
                     creature.HitWithWater();
+                    if(creature.isDead || creature.health <= 0)
+                    {
+                        AchievementManager.Instance.NotifyKickedBucket();
+                    }
                 }
             }
         }
