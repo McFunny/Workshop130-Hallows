@@ -19393,6 +19393,7 @@ GameObject:
   - component: {fileID: 852272441846676517}
   - component: {fileID: 6043592888970242467}
   - component: {fileID: 3080943224550374390}
+  - component: {fileID: 7394003856231266954}
   m_Layer: 0
   m_Name: UI Canvases
   m_TagString: Untagged
@@ -19510,6 +19511,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkToOpen: https://forms.gle/3TBYR3WwhfGTSCDb9
+--- !u!114 &7394003856231266954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987382957477208780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d89148520732c48a2beb9f3376f54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trinkets: []
 --- !u!1 &1988344387602326687
 GameObject:
   m_ObjectHideFlags: 0
@@ -26067,7 +26081,7 @@ MonoBehaviour:
   chestPanel: {fileID: 4192405413652956200}
   playerBackpackPanel: {fileID: 931456198594889812}
   trinketPanel: {fileID: 6936738012347902032}
-  showTrinkets: 0
+  showTrinkets: 1
   readyToPress: 0
   firstObject: {fileID: 8892151013641761253}
   toolTip: {fileID: 0}
@@ -73604,7 +73618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1883264441455127313

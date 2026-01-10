@@ -47,6 +47,7 @@ public abstract class InventoryDisplay : MonoBehaviour
         if(i == PlayerInventoryHolder.Instance.PrimaryInventorySystem) print("I clicked in the Primary");
         if(i == PlayerInventoryHolder.Instance.secondaryInventorySystem) print("I clicked in the Secondary");
         if(i == InventoryUIController.Instance.chestPanel.InventorySystem) print("I clicked in the Tertiary");
+        if(i == PlayerInventoryHolder.Instance.trinketInventorySystem) print("I clicked in the Trinkets");
     }
 
     public void HandleSlotLeftClick(InventorySlot_UI clickedUISlot)
@@ -76,7 +77,13 @@ public abstract class InventoryDisplay : MonoBehaviour
                     clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot t_slot))
                     {
                         ///////////Moving item into the chest//////////////
+                        
+                        if(clickedUISlot.ParentDisplay.gameObject.name == "PlayerTrinkets")
+                        {
+                            TrinketInventoryHandler.Instance.TrinketRemoved(clickedUISlot.AssignedInventorySlot);
+                        }
                         clickedUISlot.ClearSlot();
+                        
                         //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                         PlayerInventoryHolder.Instance.UpdateOpenInventory();
                         //if(t_slot != null) UpdateSlot(t_slot); 
@@ -108,6 +115,10 @@ public abstract class InventoryDisplay : MonoBehaviour
             else if (isShiftPress && PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
             {
                 //for quick swapping into one of the player's inventories
+                if(clickedUISlot.ParentDisplay.gameObject.name == "PlayerTrinkets")
+                {
+                    TrinketInventoryHandler.Instance.TrinketRemoved(clickedUISlot.AssignedInventorySlot);
+                }
                 clickedUISlot.ClearSlot();
                 //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 PlayerInventoryHolder.Instance.UpdateOpenInventory();
@@ -118,8 +129,13 @@ public abstract class InventoryDisplay : MonoBehaviour
             {
                 ///////////The player picked up an item from a slot//////////////
                 mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
+                if(clickedUISlot.ParentDisplay.gameObject.name == "PlayerTrinkets")
+                {
+                    TrinketInventoryHandler.Instance.TrinketRemoved(clickedUISlot.AssignedInventorySlot);
+                }
                 clickedUISlot.ClearSlot();
                 PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+
                 return;
             }
         } 
@@ -129,11 +145,17 @@ public abstract class InventoryDisplay : MonoBehaviour
             ///////////The player clicked on an empty slot while holding an item//////////////
             
             // Cancels the action if the slot does not accept this item (mainly for trinkets)
-            if(CanAcceptItem(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+            if(!CanAcceptItemType(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
 
             clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.assignedInventorySlot);
             clickedUISlot.UpdateUISlot();
             mouseInventoryItem.ClearSlot();
+
+            if(clickedUISlot.ParentDisplay.gameObject.name == "PlayerTrinkets")
+            {
+                TrinketInventoryHandler.Instance.TrinketEntered(clickedUISlot.AssignedInventorySlot);
+            }
+
             PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
             return;
         }
@@ -143,7 +165,7 @@ public abstract class InventoryDisplay : MonoBehaviour
             ///////////The player clicked on a slot while holding an item//////////////
             
             //Cancels the action if the slot does not accept this item (mainly for trinkets)
-            if(CanAcceptItem(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+            if(!CanAcceptItemType(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
             
             bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData == mouseInventoryItem.assignedInventorySlot.ItemData;
 
@@ -201,9 +223,17 @@ public abstract class InventoryDisplay : MonoBehaviour
 
         if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
+            //Cancels the action if the slot does not accept this item (mainly for trinkets)
+            if(!CanAcceptItemType(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+            
             // Add one item from the mouse inventory to the clicked slot
             clickedUISlot.AssignedInventorySlot.AssignItem(new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, 1));
             mouseInventoryItem.assignedInventorySlot.RemoveFromStack(1); // Remove one from the mouse
+
+            if(clickedUISlot.ParentDisplay.gameObject.name == "PlayerTrinkets")
+            {
+                TrinketInventoryHandler.Instance.TrinketRemoved(clickedUISlot.AssignedInventorySlot);
+            }
 
             // Update the clicked slot UI
             clickedUISlot.UpdateUISlot();
@@ -441,7 +471,7 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     }
 
-    private bool CanAcceptItem(string _itemType, string _slotType)
+    private bool CanAcceptItemType(string _itemType, string _slotType)
     {
         InventorySlot.AcceptedItemType itemType = (InventorySlot.AcceptedItemType)System.Enum.Parse(typeof(InventorySlot.AcceptedItemType), _itemType);
 
@@ -452,6 +482,6 @@ public abstract class InventoryDisplay : MonoBehaviour
         if(slotType == InventorySlot.AcceptedItemType.Everything) return true;
 
         Debug.Log(itemType + " | " + slotType);
-        return (slotType & itemType) == 0;
+        return (slotType & itemType) != 0;
     }
 }

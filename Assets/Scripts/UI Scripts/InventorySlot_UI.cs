@@ -13,6 +13,7 @@ public class InventorySlot_UI : MonoBehaviour
     [SerializeField] public GameObject slotHighlight;
     [SerializeField] private InventorySlot assignedInventorySlot;
     [SerializeField] private Animator pickupAnim;
+    
 
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
     public InventoryDisplay ParentDisplay { get; private set; }
@@ -37,6 +38,7 @@ public class InventorySlot_UI : MonoBehaviour
         itemName.gameObject.SetActive(false);
         itemGrey.enabled = false;
         foodCooldownSlider.value = 0;
+        //Debug.Log(ParentDisplay.gameObject.name);
     }
 
     private void OnEnable()
