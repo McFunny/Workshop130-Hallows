@@ -300,6 +300,13 @@ public class FarmLand : StructureBehaviorScript
                     QuestManager.Instance.CropHarvested(crop);//Increase progress per crop yield
 
                     cropsHarvestedHere++;
+                    AchievementManager.Instance.NotifyCropHarvest(crop);
+
+                    CropData peanut = CropDatabase.Instance.GetCrop(16);
+                    if(cropsHarvestedHere >= 20 && crop == peanut)
+                    {
+
+                    }
                 }
 
 

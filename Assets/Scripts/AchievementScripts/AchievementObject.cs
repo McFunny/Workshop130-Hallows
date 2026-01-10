@@ -50,7 +50,7 @@ public abstract class AchievementObject : ScriptableObject
 
     public virtual void On150KukriKill() { }
 
-    public virtual void SleepWithLitTorch() { } 
+    public virtual void SleepWithLitTorch() { }
 
     public virtual void OnWaspsStuck() { }
 
@@ -63,4 +63,18 @@ public abstract class AchievementObject : ScriptableObject
     public virtual void OnHighCrowKill() { }
 
     public virtual void OnAllFriendsAch() { }
+
+    public virtual void OnPachinkoJackpot() { }
+
+    public virtual void OnHareAlmostDoneEatingDeath() { }
+
+    public virtual void OnSiegeComplete(int siegeIndex) { }
+
+    public virtual void OnFinaleComplete() { }
+
+    public virtual void OnHourlyUpdate(int hour) { }
+
+    public virtual void OnDareConsumed() { }
+
+    public virtual void OnGrowHellaNuts() { }
 }

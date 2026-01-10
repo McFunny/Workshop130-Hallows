@@ -279,6 +279,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
         {
+            AchievementManager.Instance.NotifyDareConsumed();
             walkMod += 3f;
             sprintMod += 4.5f;
         }

@@ -31,12 +31,14 @@ public class AchievementManager : MonoBehaviour
 
         SaveLoad.OnSaveGame += SaveData;
         SaveLoad.OnLoadGame += LoadData;
+        TimeManager.OnHourlyUpdate += HandleHourlyUpdate;
     }
 
     private void OnDisable()
     {
         SaveLoad.OnSaveGame -= SaveData;
         SaveLoad.OnLoadGame -= LoadData;
+        TimeManager.OnHourlyUpdate -= HandleHourlyUpdate;
     }
 
     /// <summary>
@@ -327,6 +329,66 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    public void NotifyPachinkoJackpot()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnPachinkoJackpot();
+        }
+    }
+
+    public void NotifyHareDeadWhileEating()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnHareAlmostDoneEatingDeath();
+        }
+    }
+
+    public void NotifyDareConsumed()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnDareConsumed();
+        }
+    }
+
+    public void NotifySiegeCompleted(int siegeIndex)
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnSiegeComplete(siegeIndex);
+        }
+    }
+
+    public void NotifyFinaleCompleted()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnFinaleComplete();
+        }
+    }
+
+    public void NotifyPeanutFarmer()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnGrowHellaNuts();
+        }
+    }
+
     #endregion
 
 
@@ -358,6 +420,16 @@ public class AchievementManager : MonoBehaviour
             )
         {
             NotifyAllFriendsAch();
+        }
+    }
+
+    public void HandleHourlyUpdate()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnHourlyUpdate(TimeManager.Instance.currentHour);
         }
     }
 
