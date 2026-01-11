@@ -46,19 +46,6 @@ public class TrinketInventoryHandler : MonoBehaviour
         BreakTrinket(mouseItemData);
     }
 
-    public void TrinketQuickSwitched(InventorySlot slot, InventorySlot slotToSwitchTo)
-    {
-        Debug.Log("Trinket left slot: " + slot);
-        Debug.Log("Trinket: " + slot.ItemData.displayName);
-        GetTrinketDataFromSlot(slot).durability = 0f;
-        BreakTrinket(slotToSwitchTo);
-    }
-
-    public void BreakTrinket(InventorySlot slot)
-    {
-       slot.ClearSlot();
-    }
-
     public void BreakTrinket(MouseItemData mouseItemData)
     {
        mouseItemData.ClearSlot();
@@ -90,6 +77,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         ChangeTrinketDurability(slot, trinketDurability);
 
         uiSlot.durabilitySlider.value = trinketDurability;
+        //uiSlot.durabilitySlider.maxValue = 100f;
 
         if(trinketDurability <= 0f)
         {
