@@ -437,6 +437,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
     public override void OnDeath()
     {
+        if(eatingTimeLeft <= 0.5f) AchievementManager.Instance.NotifyHareDeadWhileEating();
         base.OnDeath();
         anim.SetTrigger("IsDead");
         rb.isKinematic = true;

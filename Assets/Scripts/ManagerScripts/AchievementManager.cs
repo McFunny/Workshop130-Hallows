@@ -31,12 +31,14 @@ public class AchievementManager : MonoBehaviour
 
         SaveLoad.OnSaveGame += SaveData;
         SaveLoad.OnLoadGame += LoadData;
+        TimeManager.OnHourlyUpdate += HandleHourlyUpdate;
     }
 
     private void OnDisable()
     {
         SaveLoad.OnSaveGame -= SaveData;
         SaveLoad.OnLoadGame -= LoadData;
+        TimeManager.OnHourlyUpdate -= HandleHourlyUpdate;
     }
 
     /// <summary>
@@ -296,6 +298,97 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    public void NotifyFrozenProjectileKill()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnFrozenProjectileKill();
+        }
+    }
+
+    public void NotifyHighCrowKill()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnHighCrowKill();
+        }
+    }
+
+    public void NotifyAllFriendsAch()
+    {
+
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnAllFriendsAch();
+        }
+    }
+
+    public void NotifyPachinkoJackpot()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnPachinkoJackpot();
+        }
+    }
+
+    public void NotifyHareDeadWhileEating()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnHareAlmostDoneEatingDeath();
+        }
+    }
+
+    public void NotifyDareConsumed()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnDareConsumed();
+        }
+    }
+
+    public void NotifySiegeCompleted(int siegeIndex)
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnSiegeComplete(siegeIndex);
+        }
+    }
+
+    public void NotifyFinaleCompleted()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnFinaleComplete();
+        }
+    }
+
+    public void NotifyPeanutFarmer()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnGrowHellaNuts();
+        }
+    }
+
     #endregion
 
 
@@ -317,11 +410,34 @@ public class AchievementManager : MonoBehaviour
 
     }
 
+    //MannikkinID is 20
+    CreatureObject mannikkinOBJ;
+    public void TrackWhosFollowingPlayer()
+    {
+        mannikkinOBJ = CreatureDatabase.Instance.GetCreature(20);
+        if (GameSaveData.Instance.currentPet != null && 
+            NightSpawningManager.Instance.ReportTotalOfCreature(mannikkinOBJ) > 0 
+            )
+        {
+            NotifyAllFriendsAch();
+        }
+    }
+
+    public void HandleHourlyUpdate()
+    {
+        foreach (var ach in allAchievements)
+        {
+            if (ach == null) continue;
+            if (IsUnlocked(ach.id)) continue;
+            ach.OnHourlyUpdate(TimeManager.Instance.currentHour);
+        }
+    }
+
     #endregion
 
-    /// <summary>
-    /// SAVE/LOAD FUNCTIONS
-    /// </summary>
+        /// <summary>
+        /// SAVE/LOAD FUNCTIONS
+        /// </summary>
 
     private void SaveData()
     {

@@ -8,6 +8,11 @@ public class PachinkoWinHole : MonoBehaviour
     {
         PachinkoManager.Instance.totalWinnings += rewardAmount;
         PachinkoManager.Instance.NotifyBugDestroyed(true, rewardAmount);
+
+        if(this.gameObject.name == "Jackpot")
+        {
+            AchievementManager.Instance.NotifyPachinkoJackpot();
+        }
     }
 
 }

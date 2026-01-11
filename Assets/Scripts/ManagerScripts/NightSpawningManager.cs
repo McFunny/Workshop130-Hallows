@@ -600,6 +600,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public void FinaleComplete()
     {
+        AchievementManager.Instance.NotifyFinaleCompleted();
         AmbientAudioManager.Instance.WinFinaleTheme();
         StartCoroutine(GameCompleted());
 
