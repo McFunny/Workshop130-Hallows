@@ -105,6 +105,7 @@ public class WaterProjectileScript : MonoBehaviour
 
                 if(isFrozen)
                 {
+                    creature.lastDamageTypeTaken = DamageType.FrostProjectile;
                     creature.TakeDamage(50);
                     ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
                     ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;

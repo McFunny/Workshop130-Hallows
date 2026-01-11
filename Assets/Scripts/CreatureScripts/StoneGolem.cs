@@ -28,7 +28,7 @@ public class StoneGolem : CreatureBehaviorScript
 
     bool interruptAction = false;
 
-    public StructureObject burrowData;
+    public StructureObject burrowData, rockData;
 
     public Transform knockBackPoint;
 
@@ -145,7 +145,7 @@ public class StoneGolem : CreatureBehaviorScript
             return;
         }
 
-        if(lastDamageTypeTaken == DamageType.HogCharge)
+        if(lastDamageTypeTaken == DamageType.HogCharge || lastDamageTypeTaken == DamageType.FrostProjectile || lastDamageTypeTaken == DamageType.Cannonball)
         {
             //Recoil
             TakeRealDamage(50);
@@ -349,8 +349,8 @@ public class StoneGolem : CreatureBehaviorScript
                 if(slamRoutine != null) playerInteraction.StaminaChange(damageToPlayer - 20); //Slam
                 else 
                 {
-                    PlayerInteraction.Instance.PlayerTrip();
                     playerInteraction.StaminaChange(damageToPlayer); //Swipe
+                    PlayerInteraction.Instance.PlayerTrip();
                 }
                 attacking = false;
                 return;
@@ -476,7 +476,7 @@ public class StoneGolem : CreatureBehaviorScript
 
         float timeElapsed = 0;
         float maxTime = 1f;
-        float minTimeForDamage = 0.3f; //If under this recoil time, no damage
+        float minTimeForDamage = 0.35f; //If under this recoil time, no damage
 
         currentState = CreatureState.Knockback;
 
@@ -574,6 +574,8 @@ public class StoneGolem : CreatureBehaviorScript
         deathParticles.gameObject.transform.parent = null;
         effectsHandler.MiscSound();
         yield return new WaitForSeconds(0.1f);
+        Vector3 rockSpawn = StructureManager.Instance.CheckTile(corpseParticleTransform.position);
+        if(rockSpawn != Vector3.zero && Random.Range(0,4) >= 2) Instantiate(rockData.objectPrefab, rockSpawn, Quaternion.identity);
         canCorpseBreak = true;
         base.TakeDamage(999);
     }

@@ -40,6 +40,7 @@ public class CulinarianNPC : NPC, ITalkable
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(304));
                 currentPath = 0;
                 currentType = PathType.Quest;
+                dailyQuest = null;
             }
             else if(AbleToCompleteCrockPotQuest())
             {
@@ -255,6 +256,7 @@ public class CulinarianNPC : NPC, ITalkable
         if(questNum == -1) return false;
         if(QuestManager.Instance.activeQuests[questNum].progress >= QuestManager.Instance.activeQuests[questNum].maxProgress)
         {
+            QuestManager.Instance.activeQuests[questNum].alreadyCompleted = true;
             return true;
         }
 

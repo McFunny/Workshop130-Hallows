@@ -211,7 +211,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         if(!isMoving)
         {
             float distance = Vector3.Distance(player.position, spawnOrigin);
-            if(distance > followDistance && friendshipLevel >= 1)
+            if(distance > followDistance && friendshipLevel >= 1 && TimeManager.Instance.isDay)
             {
                 StateSwitch(PetState.Follow);
                 currentRoutine = null;

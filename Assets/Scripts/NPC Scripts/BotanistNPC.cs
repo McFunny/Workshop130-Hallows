@@ -249,18 +249,6 @@ public class BotanistNPC : NPC, ITalkable
                          barterDatabase.uniqueTransactions[sack].amountForSale + Random.Range(1, 4));
                 }
 
-                else if(TimeManager.Instance.dayNum < 5 && !GameSaveData.Instance.townTreeCleared1)
-                {
-                    if(x <= 8) //Only sell a few seed types the first 4 days or after the bridge is cleared
-                    {
-                        i = Random.Range(0, barterDatabase.uniqueTransactions2.Count);
-
-                        item.RefreshItem(barterDatabase.uniqueTransactions2[i].itemForSale, barterDatabase.uniqueTransactions2[i].mintCost, barterDatabase.uniqueTransactions2[i].itemsRequired,
-                        barterDatabase.uniqueTransactions2[i].amountForSale);
-                    }
-                    else return; // stops extra items from being sold
-                }
-
                 if(x > 8)
                 {
 
@@ -286,6 +274,22 @@ public class BotanistNPC : NPC, ITalkable
                         questCrops.Remove(questCrops[0]);
                         break;
                     }
+                }
+            }
+
+            else if(TimeManager.Instance.dayNum < 5 && !GameSaveData.Instance.townTreeCleared1)
+            {
+                if(x <= 8) //Only sell a few seed types the first 4 days or after the bridge is cleared
+                {
+                    i = Random.Range(0, barterDatabase.uniqueTransactions2.Count);
+
+                    item.RefreshItem(barterDatabase.uniqueTransactions2[i].itemForSale, barterDatabase.uniqueTransactions2[i].mintCost, barterDatabase.uniqueTransactions2[i].itemsRequired,
+                    barterDatabase.uniqueTransactions2[i].amountForSale);
+                    item.seller = this;
+                    x++;
+
+                    if(++x > 8) return; // stops extra items from being sold
+                    continue;
                 }
             }
 
