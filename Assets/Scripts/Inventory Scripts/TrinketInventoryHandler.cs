@@ -9,6 +9,7 @@ public class TrinketInventoryHandler : MonoBehaviour
     public static TrinketInventoryHandler Instance;
     public List<TrinketInventoryData> trinkets = new List<TrinketInventoryData>();
 
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -37,10 +38,30 @@ public class TrinketInventoryHandler : MonoBehaviour
         Debug.Log("Trinket: " + slot.ItemData.displayName);
     }
 
-    public void TrinketRemoved(InventorySlot slot)
+    public void TrinketRemoved(InventorySlot slot, MouseItemData mouseItemData)
     {
         Debug.Log("Trinket left slot: " + slot);
         Debug.Log("Trinket: " + slot.ItemData.displayName);
+        GetTrinketDataFromSlot(slot).durability = 0f;
+        BreakTrinket(mouseItemData);
+    }
+
+    public void TrinketQuickSwitched(InventorySlot slot, InventorySlot slotToSwitchTo)
+    {
+        Debug.Log("Trinket left slot: " + slot);
+        Debug.Log("Trinket: " + slot.ItemData.displayName);
+        GetTrinketDataFromSlot(slot).durability = 0f;
+        BreakTrinket(slotToSwitchTo);
+    }
+
+    public void BreakTrinket(InventorySlot slot)
+    {
+       slot.ClearSlot();
+    }
+
+    public void BreakTrinket(MouseItemData mouseItemData)
+    {
+       mouseItemData.ClearSlot();
     }
 
     private void OnSave()
@@ -59,6 +80,41 @@ public class TrinketInventoryHandler : MonoBehaviour
                 trinkets[i].durability = data.playerTrinketDurabilityData[i];
             }
         }
+    }
+
+    public void OnInventoryUpdate(InventorySlot_UI uiSlot, InventorySlot slot)
+    {
+        TrinketInventoryData trinketData = GetTrinketDataFromSlot(slot);
+
+        float trinketDurability = trinketData != null ? trinketData.durability : 0f;
+        ChangeTrinketDurability(slot, trinketDurability);
+
+        uiSlot.durabilitySlider.value = trinketDurability;
+
+        if(trinketDurability <= 0f)
+        {
+            uiSlot.durabilitySlider.gameObject.SetActive(false);
+        }
+        else 
+        {
+            uiSlot.durabilitySlider.gameObject.SetActive(true);
+        }
+
+    }
+
+    private void ChangeTrinketDurability(InventorySlot slot, float newDurability)
+    {
+        TrinketInventoryData trinketData = GetTrinketDataFromSlot(slot);
+        
+        if (trinketData != null)
+        {
+            trinketData.durability = newDurability;
+        }
+    }
+
+    private TrinketInventoryData GetTrinketDataFromSlot(InventorySlot slot)
+    {
+        return trinkets.Find(t => t.slot == slot);
     }
 
 }

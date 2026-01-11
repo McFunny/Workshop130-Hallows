@@ -13,6 +13,7 @@ public class InventorySlot_UI : MonoBehaviour
     [SerializeField] public GameObject slotHighlight;
     [SerializeField] private InventorySlot assignedInventorySlot;
     [SerializeField] private Animator pickupAnim;
+    public Slider durabilitySlider;
     
 
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
@@ -252,6 +253,13 @@ public class InventorySlot_UI : MonoBehaviour
                 itemCount.text = slot.StackSize.ToString();
             else
                 itemCount.text = "";
+
+            if(transform.parent.gameObject.name == "PlayerTrinkets")
+            {
+
+                TrinketInventoryHandler.Instance.OnInventoryUpdate(this, assignedInventorySlot);
+                
+            }
         }
         else
         {
@@ -283,6 +291,8 @@ public class InventorySlot_UI : MonoBehaviour
         itemDesc = "";
         foodCooldownSlider.gameObject.SetActive(false);
         itemGrey.enabled = false;
+        durabilitySlider.gameObject.SetActive(false);
+        durabilitySlider.value = 0;
         //itemName.gameObject.SetActive(false);
     }
 

@@ -82,7 +82,7 @@ public class PlayerInventoryHolder : InventoryHolder
 
         foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
         {
-            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket | InventorySlot.AcceptedItemType.Misc;
             TrinketInventoryData data = new TrinketInventoryData();
 
             data.slot = slot;
