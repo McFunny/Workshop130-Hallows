@@ -981,6 +981,16 @@ public class MutatedCrow : CreatureBehaviorScript
             canCorpseBreak = true;
             TakeDamage(100);
         }
+
+        if(other.gameObject.layer == 9 && health <= 0)
+        {
+            var c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+            if(c && c.shovelVulnerable)
+            {
+                ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = other.transform.position;
+                c.TakeDamage(20);
+            }
+        }
     }
 
     IEnumerator DeathTimer()

@@ -4934,7 +4934,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.6
-  m_Speed: 3
+  m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 240
@@ -4994,6 +4994,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 1
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.1764706}
   currentEffects: []
   variant: 0
@@ -10012,6 +10013,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &5561297401619151271
 AudioSource:
   m_ObjectHideFlags: 0

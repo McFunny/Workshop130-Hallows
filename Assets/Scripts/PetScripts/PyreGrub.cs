@@ -740,6 +740,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
+        interactSuccessful = false;
         if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && ignited) //Water
         {
             PlayerInteraction.Instance.waterHeld--;
@@ -764,8 +765,13 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             }
             else interactSuccessful = false;
         }
-        else if(hunger < 100 && (foodDiet.Contains(item)) && !inBall && !ballTransitioning)
+        else if(hunger < 100 && !inBall && !ballTransitioning)
         {
+            if(!foodDiet.Contains(item))
+            {
+                thoughtBubbleScript.PlayEmotion(2);
+                return;
+            }
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
             EatFood(item);

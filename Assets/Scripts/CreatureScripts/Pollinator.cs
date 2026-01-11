@@ -401,6 +401,7 @@ public class Pollinator : CreatureBehaviorScript
     public override void NewPriorityTarget(StructureBehaviorScript newStruct)
     {
         if (currentState == CreatureState.Stun || fireSources.Count > 0) return;
+        if(targetStructure) return;
         targetStructure = newStruct;
         target = newStruct.transform;
     }

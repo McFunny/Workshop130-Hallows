@@ -21,6 +21,24 @@ public class GrubSwarm : CreatureBehaviorScript
 
         int grubsToSpawn = Random.Range(grubMin, grubMax + 1);
 
+        switch (GameSaveData.Instance.siegesCleared)
+        {
+            case 0:
+            grubsToSpawn-= 2;
+            break;
+            case 1:
+            break;
+            case 2:
+            grubsToSpawn+= 1;
+            break;
+            case 3:
+            grubsToSpawn+= 2;
+            break;
+            default:
+            grubsToSpawn+= 2;
+            break;
+        }
+
         for(int i = 0; i < grubsToSpawn; i++)
         {
             Grub grub = Instantiate(grubPrefab, transform.position, Quaternion.identity).GetComponentInParent<Grub>();

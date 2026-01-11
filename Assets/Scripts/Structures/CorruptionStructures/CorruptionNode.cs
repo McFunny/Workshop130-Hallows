@@ -9,7 +9,7 @@ public class CorruptionNode : StructureBehaviorScript
     public float radius = 10;
     public int maxTilesPerHour = 3;
     public int maxTilesPerHourCozy = 2;
-    float tileSpawnChance = 35; // out of 100
+    float tileSpawnChance = 15; // out of 100
 
     public ParticleSystem activatedParticles;
 

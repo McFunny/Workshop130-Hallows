@@ -11,6 +11,7 @@ public class CrimsonMothNest : StructureBehaviorScript
     public CreatureObject mothData;
 
     public int heldWasps = 3;
+    public int outsideWasps;
 
     public InventoryItemData nectar, comb;
 
@@ -82,7 +83,7 @@ public class CrimsonMothNest : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(heldWasps < 3 && Random.Range(0,10) > 6) heldWasps++;
+        if(Random.Range(0,10) > 6 && heldWasps + outsideWasps < 3) heldWasps++;
 
         if(heldWasps > 0 && !TimeManager.Instance.isDay)
         {
@@ -95,8 +96,9 @@ public class CrimsonMothNest : StructureBehaviorScript
         for(int i = 0; i < heldWasps; i++)
         {
             Instantiate(mothData.objectPrefab, transform.position, Quaternion.identity).GetComponent<RubyWasp>().homeNest = this;
-            if(i >= 3) return;
+            if(i >= 3) break;
         }
+        heldWasps = 0;
     }
 
     public override void HitWithWater()

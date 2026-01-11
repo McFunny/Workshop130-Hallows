@@ -63,6 +63,7 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
+            AudioPoolManager.Instance.PlayClipAtPosition(audioHandler.itemInteractSound, transform.position, 0.4f, 10);
             Destroy(this.gameObject);
         }
     }

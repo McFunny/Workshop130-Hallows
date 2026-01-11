@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3b4c4f202173f4c8b374726138955a, type: 3}
+  m_Name: Crop Health
+  m_EditorClassIdentifier: 
+  buttonIcon: {fileID: 677554962, guid: 90d5400c6f54f9d44813e3ffd985c686, type: 3}
+  unlocked: 1
+  mainImage: {fileID: 21300000, guid: c1f0115413e02f64db31b00129bbb66c, type: 3}
+  entryName: Crop Health
+  entryType: 0
+  cropData: {fileID: 0}
+  creatureData: {fileID: 0}
+  structureData: {fileID: 0}
+  bugData: {fileID: 0}
+  targetedBy: []
+  description:
+  - Performing actions and recieving strikes from enemies depletes your stamina.
+    You can restore it by eating food or by resting in the town spring.
+  - When below 1/4th of max stamina, you may no longer sprint, and any actions the
+    player makes will take longer to perform.
+  leftText: Instead of eating the entire crop, some creatures deal damage to the
+    plant instead. When a crop's health reaches 0 it will die, leaving behind nothing.
+    Health can be indicated via a pulsing red flash on a crop.
+  rightText: Crops will heal every time they advance a growth stage. Other items,
+    such as rocks or trellises, can be applied to a tile, increasing the max health
+    of the crop.
