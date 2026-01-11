@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: CookBook
+  m_EditorClassIdentifier: 
+  ID: -1
+  displayName: Cook Book
+  description: A collection of all discovered cooking recipes.
+  icon: {fileID: -165935428, guid: 80965390d10eeb94bb8c2cd163c4fb84, type: 3}
+  type: 5
+  maxStackSize: 5
+  value: 100
+  sellValueMultiplier: 0.1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  cookingStats: []
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 7451422694590274757, guid: 5b3ab6e05e9493b41bcbf6721569d9b9,
+    type: 3}
+  hologramPrefab: {fileID: 4592699234880958734, guid: 7a31b5b3ce925d64aaa8329ad9775fee,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: c273154dcd53b0b4d9e35cc5ba6e4ccd, type: 3}
+  gridTypes: 02000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 1
