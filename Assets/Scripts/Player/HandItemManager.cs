@@ -180,6 +180,12 @@ public class HandItemManager : MonoBehaviour
         currentType = type;
     }
 
+    public bool IsPlayerHoldingTorch()
+    {
+        if(currentType == ToolType.Torch) return true;
+        else return false;
+    }
+
     public void ShowSpriteInHand(InventoryItemData item)
     {
         handRenderer.sprite = item.icon;

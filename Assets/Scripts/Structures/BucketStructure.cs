@@ -63,6 +63,7 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
+            AudioPoolManager.Instance.PlayClipAtPosition(audioHandler.itemInteractSound, transform.position, 0.4f, 10);
             Destroy(this.gameObject);
         }
     }
@@ -219,6 +220,10 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
                 if (creature != null)
                 {
                     creature.HitWithWater();
+                    if(creature.isDead || creature.health <= 0)
+                    {
+                        AchievementManager.Instance.NotifyKickedBucket();
+                    }
                 }
             }
         }

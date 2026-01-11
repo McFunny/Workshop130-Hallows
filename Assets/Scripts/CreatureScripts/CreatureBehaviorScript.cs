@@ -92,7 +92,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         
     }
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         print("Ouch");
         if(StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Dare, this) && damage > 0) damage *= 1.5f;
@@ -141,6 +141,9 @@ public class CreatureBehaviorScript : MonoBehaviour
                 {
                     if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
                     else corpseParticle.transform.position = transform.position;
+
+                    if(corpseType == CorpseParticleType.Red && player && Vector3.Distance(player.position, transform.position) < 5)
+                        ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.4f), Random.Range(2, 7));
                 }
                 if(Tutorial.Instance) Tutorial.Instance.ClearedCorpse();
                 Destroy(this.gameObject);
@@ -369,6 +372,7 @@ public class CreatureBehaviorScript : MonoBehaviour
 
 public enum DamageType
 {
+    Null,
     Shovel,
     Fire,
     Shotgun,

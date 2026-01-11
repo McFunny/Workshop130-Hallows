@@ -37,7 +37,8 @@ public class Pollinator : CreatureBehaviorScript
         Wander,
         WanderByFire,
         WalkTowardsTarget,
-        Flee
+        Flee,
+        Stun
     }
     public CreatureState currentState;
 
@@ -60,6 +61,7 @@ public class Pollinator : CreatureBehaviorScript
 
     void Update()
     {
+        if(currentState == CreatureState.Stun) return;
         Flutter();
 
         if(currentState != CreatureState.WanderByFire) agent.speed = defaultSpeed;
@@ -99,6 +101,9 @@ public class Pollinator : CreatureBehaviorScript
                 break;
             case CreatureState.Flee:
                 Flee();
+                break;
+            case CreatureState.Stun:
+                //
                 break;
 
             default:
@@ -166,7 +171,7 @@ public class Pollinator : CreatureBehaviorScript
 
         if (TimeManager.Instance.isDay) destination = despawnPos;
 
-        agent.destination = destination;
+        if(agent.enabled) agent.destination = destination;
 
         float timeSpent = 0; //to make sure it doesnt get stuck
         float maxTime = Random.Range(5, 8);
@@ -209,7 +214,7 @@ public class Pollinator : CreatureBehaviorScript
             if(targetStructure)  currentState = CreatureState.WalkTowardsTarget;
             else  currentState = CreatureState.WanderByFire;
         }
-        else currentState = CreatureState.Wander;
+        else if(currentState != CreatureState.Stun) currentState = CreatureState.Wander;
 
         isMoving = false;
         coroutineRunning = false;
@@ -229,7 +234,7 @@ public class Pollinator : CreatureBehaviorScript
             StartCoroutine(PollenateStructure());
         }
 
-        if(target && agent.destination != target.position)
+        if(target && agent.destination != target.position && agent.enabled)
         {
             agent.destination = target.position;
         }
@@ -255,6 +260,7 @@ public class Pollinator : CreatureBehaviorScript
         if(tile)
         {
             tile.Pollinate();
+            AchievementManager.Instance.NotifyCropPollinated();
             foreach(ParticleSystem p in pollenParticles) p.Play();
             QuestManager.Instance.AddQuestProgress(1, QuestDatabase.Instance.GetTutorialQuest(301)); //Complete the pollination quest
         }
@@ -377,5 +383,26 @@ public class Pollinator : CreatureBehaviorScript
         item = null;
         TakeDamage(999);
         return false;
+    }
+
+    public override bool OnStun(float duration) // For the resin pole trap
+    {
+        if (currentState != CreatureState.Stun)
+        {
+            currentState = CreatureState.Stun;
+            //agent.Stop();
+            agent.enabled = false;
+            anim.Play("StuckIdle");
+            return true;
+        }
+        return false;
+    }
+
+    public override void NewPriorityTarget(StructureBehaviorScript newStruct)
+    {
+        if (currentState == CreatureState.Stun || fireSources.Count > 0) return;
+        if(targetStructure) return;
+        targetStructure = newStruct;
+        target = newStruct.transform;
     }
 }

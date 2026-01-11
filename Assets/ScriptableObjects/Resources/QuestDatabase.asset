@@ -440,6 +440,28 @@ MonoBehaviour:
     behaviorID: -1
     questBehavior: {fileID: 0}
     questID: 303
+  - name: Cooking Apprentice
+    description: '"You cannot simply survive off of your harvest without proper preparation!
+      Watch me show you how to make the most of your ingredients. Bring me the ingredients
+      I need to my stand, and I will prepare some equisite dishes for you!"'
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards:
+    - {fileID: 11400000, guid: c1decf5bc680ff049b4425d619bd4ac7, type: 2}
+    townFavorReward: 0
+    progress: 0
+    maxProgress: 3
+    daysLeft: -1
+    assignee: 7
+    displayProgress: 1
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 304
   UniqueGrowQuests:
   - name: Timber Ear Cultivation
     description: The botanist gave you some Timber Ear seeds. This crop yields many
@@ -518,8 +540,9 @@ MonoBehaviour:
     desiredItem: {fileID: 11400000, guid: 9ce37bb1168c1394eaa045b7ba6297b5, type: 2}
     amount: 15
   - name: Clean Produce
-    description: The traveller is leery of the food provided to the town by the merchant.
-      He comes to you desperate of fresh food, and is asking for 50 Terra Tubers.
+    description: The traveller is leery of the food distribuited to the town by the
+      merchant. He comes to you desperate of fresh food, and is asking for 30 Terra
+      Tubers.
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
@@ -527,7 +550,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: caeafa45a45590f4e9a2efcfe05b9a4f, type: 2}
     townFavorReward: 0
     progress: 0
-    maxProgress: 50
+    maxProgress: 30
     daysLeft: -1
     assignee: 9
     displayProgress: 0
@@ -540,7 +563,7 @@ MonoBehaviour:
     questID: 3
     desiredCrop: {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
     desiredItem: {fileID: 11400000, guid: 290e218f74d5d2445b4c40b0ba01d7c2, type: 2}
-    amount: 50
+    amount: 30
   UniqueFetchQuests:
   - name: The Problem
     description: '"A blight only found deep within the Azure haze is starting to

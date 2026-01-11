@@ -100,7 +100,7 @@ public class KukriProjectile : MonoBehaviour
                 float totalDamage;
                 if(Random.Range(0, 10) < critChance) hiltHit = false;
                 knifeParent = creature.GrabKnifeParent();
-                if(knifeParent == null || creature.corpseType == CorpseParticleType.Metal) hiltHit = true;
+                if(knifeParent == null || creature.corpseType == CorpseParticleType.Metal || creature.corpseType == CorpseParticleType.Stone) hiltHit = true;
 
                 if(creature.TryGetComponent<PyreFly>(out PyreFly pFly) && pFly.ignited) hitExplosion = true;
 
@@ -109,12 +109,20 @@ public class KukriProjectile : MonoBehaviour
                     knifeParent = null;
                     totalDamage = hiltDamage + (extraDamage/2);
                     creature.TakeDamage(totalDamage);
+                    if(totalDamage >= 150)
+                    {
+                        AchievementManager.Instance.Notify150KukriKill();
+                    }
                     HandItemManager.Instance.toolSource.PlayOneShot(hitDull);
                 }
                 else
                 {
                     totalDamage = critDamage + extraDamage;
                     creature.TakeDamage(totalDamage);
+                    if (totalDamage >= 150)
+                    {
+                        AchievementManager.Instance.Notify150KukriKill();
+                    }
                     HandItemManager.Instance.toolSource.PlayOneShot(hitCrit);
                     ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
                 }

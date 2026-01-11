@@ -296,7 +296,7 @@ public class NightSpawningManager : MonoBehaviour
         switch (TimeManager.Instance.currentHour)
             {
                 case 1:
-                    return 0.4f;
+                    return 0.5f;
                 case 2:
                     return 0.4f;
                 case 3:
@@ -316,7 +316,7 @@ public class NightSpawningManager : MonoBehaviour
                 case 23:
                     return 0.7f;
                 case 0:
-                    return 0.4f;
+                    return 0.6f;
                 default:
                     return 1;
             }
@@ -600,6 +600,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public void FinaleComplete()
     {
+        AchievementManager.Instance.NotifyFinaleCompleted();
         AmbientAudioManager.Instance.WinFinaleTheme();
         StartCoroutine(GameCompleted());
 

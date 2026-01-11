@@ -77,12 +77,13 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0, g: 0, b: 0, a: 0}
   currentEffects: []
   grubs: []
   swarmTargets: []
-  grubMin: 6
-  grubMax: 12
+  grubMin: 4
+  grubMax: 10
   grubPrefab: {fileID: 1473590369860251716, guid: e92a9e1974cbe3e4f9c76fd00e546619,
     type: 3}
   targettableStructures:

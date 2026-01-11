@@ -102,7 +102,7 @@ public class Grub : CreatureBehaviorScript
         StartCoroutine(ScanForTargets());
         StartCoroutine(LaventEffects());
 
-        agent.speed += Random.Range(-0.5f, 0.25f);
+        agent.speed += Random.Range(-0.5f, 0f);
 
         for(int i = 0; i < equippableArmor.Length; i++)
         {

@@ -78,6 +78,7 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
                 display.SelectHotbarSlot(i);
                 if(currentlyLit) HandItemManager.Instance.TorchFlameToggle(true);
             }
+            ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
             Destroy(this.gameObject);
         }
     }

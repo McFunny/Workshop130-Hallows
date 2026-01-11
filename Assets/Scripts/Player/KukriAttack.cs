@@ -121,7 +121,7 @@ public class KukriAttack : MonoBehaviour
             float damage = creatureDamage;
             hitCreature.TakeDamage(damage, PlayerInteraction.Instance.transform.position);
             //playsound
-            if(hitCreature.corpseType != CorpseParticleType.Metal) HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
+            if(hitCreature.corpseType != CorpseParticleType.Metal && hitCreature.corpseType != CorpseParticleType.Stone) HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
             else HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             print("Hit Creature");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);

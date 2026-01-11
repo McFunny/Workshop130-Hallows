@@ -858,6 +858,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
+        interactSuccessful = false;
         if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && (currentState == PetState.Idle || currentState == PetState.Follow))
         {
             PlayerInteraction.Instance.waterHeld--;
@@ -870,8 +871,13 @@ public class PetCat : PetBehaviorScript, IInteractable
             thoughtBubbleScript.PlayEmotion(2);
             return;
         }
-        if(hunger < 100 && (foodDiet.Contains(item)))
+        if(hunger < 100)
         {
+            if(!foodDiet.Contains(item))
+            {
+                thoughtBubbleScript.PlayEmotion(2);
+                return;
+            }
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
             EatFood(item);

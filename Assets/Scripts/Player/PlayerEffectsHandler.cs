@@ -40,6 +40,8 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     public bool onItemSoundCooldown = false;
     bool isFocusing = false;
+
+    public ParticleSystem stepDirtP, stepRockP;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -182,7 +184,7 @@ public class PlayerEffectsHandler : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
                 vignette.intensity.value += 0.02f;
             }
-            while(vignette.intensity.value < 0.7f);
+            while(vignette.intensity.value < 0.55f);
             yield return new WaitForSeconds(0.1f);
             do
             {
@@ -266,10 +268,12 @@ public class PlayerEffectsHandler : MonoBehaviour
             if(hit.collider.gameObject.tag == "Stone_FootStepSurface")
             {
                 footStepSource.clip = stoneFootsteps;
+                stepRockP.Play();
             }
             else if(hit.collider.gameObject.tag == "Wood_FootStepSurface")
             {
                 footStepSource.clip = woodFootsteps;
+                stepRockP.Play();
             }
             else if(hit.collider.gameObject.tag == "Flesh_FootStepSurface")
             {
@@ -278,6 +282,7 @@ public class PlayerEffectsHandler : MonoBehaviour
             else
             {
                 footStepSource.clip = grassFootsteps;
+                stepDirtP.Play();
             }
 
             lastPlayedSteps = footStepSource.clip;

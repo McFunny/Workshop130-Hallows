@@ -69,6 +69,15 @@ public class ScytheAttack : MonoBehaviour
         var creature = other.GetComponentInParent<CreatureBehaviorScript>();
         if (creature != null && creature.shovelVulnerable)
         {
+            if(creature.corpseType == CorpseParticleType.Stone || creature.corpseType == CorpseParticleType.Metal)
+            {
+                cancelSwing = true;
+                HandItemManager.Instance.toolSource.PlayOneShot(hitHardObject);
+                ParticlePoolManager.Instance.MoveAndPlayVFX(other.ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
+                creature.TakeDamage(35, PlayerInteraction.Instance.transform.position);
+                return;
+            }
+
             if(hitCreatures.Contains(creature)) return;
             hitCreatures.Add(creature);
         }

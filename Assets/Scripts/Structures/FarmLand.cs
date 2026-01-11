@@ -54,6 +54,10 @@ public class FarmLand : StructureBehaviorScript
 
     public PopupScript needTrellis, removeTrellis;
 
+
+    ///////Achievement Stuff///////
+    float cropsHarvestedHere = 0;
+
     public enum FarmTileUpgrade
     {
         None,
@@ -294,10 +298,19 @@ public class FarmLand : StructureBehaviorScript
                     itemRB.AddForce(Vector3.up * 50);
 
                     QuestManager.Instance.CropHarvested(crop);//Increase progress per crop yield
+
+                    cropsHarvestedHere++;
+                    AchievementManager.Instance.NotifyCropHarvest(crop);
+
+                    CropData peanut = CropDatabase.Instance.GetCrop(16);
+                    if(cropsHarvestedHere >= 20 && crop == peanut)
+                    {
+
+                    }
                 }
 
 
-                r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
+                r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
                 if(isWeed && Random.Range(0, 100) > 97) r = 1; //For crabgrass seeds from weeds
                 if(r == 0 && crop.noStressSeedChance > Random.Range(0, 100f)) r = 1;
                 for (int i = 0; i < r; i++) //Seed yield
@@ -526,6 +539,8 @@ public class FarmLand : StructureBehaviorScript
         }
 
         if(Tutorial.Instance) Tutorial.Instance.PlantedSeed();
+
+        cropsHarvestedHere = 0;
     }
 
     public void ForceChangeGrowthStage(int newStage)
@@ -690,6 +705,8 @@ public class FarmLand : StructureBehaviorScript
         {
             crop.behavior.OnCropDestroyed(this);
         }
+
+        cropsHarvestedHere = 0;
     }
 
     public void CropDestroyed()
@@ -705,6 +722,8 @@ public class FarmLand : StructureBehaviorScript
         harvestable = false;
         SpriteChange();
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+
+        cropsHarvestedHere = 0;
     }
 
     void ReturnNutrientsFromDeadPlant()
@@ -1094,6 +1113,8 @@ public class FarmLand : StructureBehaviorScript
 
         if(crop && crop.behavior) crop.behavior.OnCropAwake(this);
 
+        cropsHarvestedHere = saveFloat2;
+
         GetCropStats();
     }
 
@@ -1126,6 +1147,8 @@ public class FarmLand : StructureBehaviorScript
             }
 
             saveBool1 = isPollinated;
+
+            saveFloat2 = cropsHarvestedHere;
         }
 
     }

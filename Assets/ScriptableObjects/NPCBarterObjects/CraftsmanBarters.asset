@@ -145,7 +145,7 @@ MonoBehaviour:
   - name: CandleCluster
     itemForSale: {fileID: 11400000, guid: 04ac78899924e5341aff2f39d6bc16e1, type: 2}
     useItemPrice: 1
-    mintCost: 60
+    mintCost: 50
     amountForSale: 3
     barterChance: 100
     itemsRequired: []
@@ -167,7 +167,7 @@ MonoBehaviour:
   - name: AromaCandles
     itemForSale: {fileID: 11400000, guid: bfa9c49cede59534f87f567188bd0dab, type: 2}
     useItemPrice: 1
-    mintCost: 90
+    mintCost: 70
     amountForSale: 3
     barterChance: 100
     itemsRequired: []
@@ -216,6 +216,19 @@ MonoBehaviour:
       amount: 10
     - item: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
       amount: 30
+    siegesRequired: 0
+    amountGiven: 1
+  - name: CrockPot
+    itemForSale: {fileID: 11400000, guid: c1decf5bc680ff049b4425d619bd4ac7, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 15
+    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+      amount: 2
     siegesRequired: 0
     amountGiven: 1
   uniqueTransactions2:
@@ -365,18 +378,5 @@ MonoBehaviour:
     amountForSale: 3
     barterChance: 25
     itemsRequired: []
-    siegesRequired: 0
-    amountGiven: 1
-  - name: CrockPot
-    itemForSale: {fileID: 11400000, guid: c1decf5bc680ff049b4425d619bd4ac7, type: 2}
-    useItemPrice: 0
-    mintCost: 0
-    amountForSale: 1
-    barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 15
-    - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 2
     siegesRequired: 0
     amountGiven: 1

@@ -240,14 +240,15 @@ public class BotanistNPC : NPC, ITalkable
                     if(TimeManager.Instance.dayNum == 1) //Only sell a few carrot seeds the first day
                     {
                         item.RefreshItem(barterDatabase.uniqueTransactions2[0].itemForSale, barterDatabase.uniqueTransactions2[0].mintCost, barterDatabase.uniqueTransactions2[0].itemsRequired,
-                        barterDatabase.uniqueTransactions2[0].amountForSale);
+                        barterDatabase.uniqueTransactions2[0].amountForSale + 3);
                         item.seller = this;
                         return;
                     }
-                    int sack = Random.Range(0, 3);
+                    int sack = x;//Random.Range(0, 3);
                     item.RefreshItem(barterDatabase.uniqueTransactions[sack].itemForSale, barterDatabase.uniqueTransactions[sack].mintCost, barterDatabase.uniqueTransactions[sack].itemsRequired,
-                    barterDatabase.uniqueTransactions[sack].amountForSale);
+                         barterDatabase.uniqueTransactions[sack].amountForSale + Random.Range(1, 4));
                 }
+
                 if(x > 8)
                 {
 
@@ -273,6 +274,22 @@ public class BotanistNPC : NPC, ITalkable
                         questCrops.Remove(questCrops[0]);
                         break;
                     }
+                }
+            }
+
+            else if(TimeManager.Instance.dayNum < 5 && !GameSaveData.Instance.townTreeCleared1)
+            {
+                if(x <= 8) //Only sell a few seed types the first 4 days or after the bridge is cleared
+                {
+                    i = Random.Range(0, barterDatabase.uniqueTransactions2.Count);
+
+                    item.RefreshItem(barterDatabase.uniqueTransactions2[i].itemForSale, barterDatabase.uniqueTransactions2[i].mintCost, barterDatabase.uniqueTransactions2[i].itemsRequired,
+                    barterDatabase.uniqueTransactions2[i].amountForSale);
+                    item.seller = this;
+                    x++;
+
+                    if(++x > 8) return; // stops extra items from being sold
+                    continue;
                 }
             }
 

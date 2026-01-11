@@ -35,6 +35,20 @@ public class CulinarianNPC : NPC, ITalkable
                 currentType = PathType.Default;
                 GameSaveData.Instance.culMet = true;
             }
+            else if (AbleToGiveCrockPotQuest())
+            {
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(304));
+                currentPath = 0;
+                currentType = PathType.Quest;
+                dailyQuest = null;
+            }
+            else if(AbleToCompleteCrockPotQuest())
+            {
+                currentPath = 1;
+                currentType = PathType.QuestComplete;
+                GameSaveData.Instance.cul_gaveCrock = true;
+                GiveRewards(QuestDatabase.Instance.GetTutorialQuest(304).itemRewards);
+            }
             else
             {
                 if(CompletedQuest())
@@ -99,6 +113,12 @@ public class CulinarianNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
+        else if (item.ID == 285)
+        {
+            currentPath = 2;
+            currentType = PathType.ItemSpecific;
+        }
+
         else if (item.staminaValue > 0)
         {
             currentPath = 0;
@@ -131,10 +151,25 @@ public class CulinarianNPC : NPC, ITalkable
         int i;
         float r;
         InventoryItemData newItem;
+        int x = 0; //iterations
         List<int> selectedTrades = new List<int>(); //Make sure no repeats
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+
+            if(x < 4) //For crock pot, sugar, and oil
+            {
+                if(!GameSaveData.Instance.cul_gaveCrock && x == 0) //No crockpot until quest is done
+                {
+                    x++;
+                    continue;
+                }
+                item.RefreshItem(barterDatabase.uniqueTransactions[x].itemForSale, barterDatabase.uniqueTransactions[x].mintCost, barterDatabase.uniqueTransactions[x].itemsRequired,
+                    barterDatabase.uniqueTransactions[x].amountForSale);
+                item.seller = this;
+                x++;
+                continue;
+            }
             
             do
             {
@@ -150,6 +185,20 @@ public class CulinarianNPC : NPC, ITalkable
             int newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
             item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
             item.seller = this;
+            x++;
+        }
+    }
+
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
+    {
+        uniqueDialogue = false;
+        int questNum = QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.GetTutorialQuest(304));
+        if(questNum == -1 || QuestManager.Instance.activeQuests[questNum].progress >= QuestManager.Instance.activeQuests[questNum].maxProgress) return;
+
+        foreach(Barter barter in barterDatabase.transactions) if(barter.itemForSale == item)
+        {
+            QuestManager.Instance.activeQuests[questNum].progress++;
+            break;
         }
     }
 
@@ -173,5 +222,44 @@ public class CulinarianNPC : NPC, ITalkable
         }
         shopUI.shopImgObj.SetActive(false);
         if (assignedStall.barterSign) assignedStall.barterSign.LeaveShop();
+    }
+
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(AbleToGiveCrockPotQuest())
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        exclamationObject.SetActive(true);
+        return true;
+    }
+
+    bool AbleToGiveCrockPotQuest()
+    {
+        if(!GameSaveData.Instance.cul_gaveCrock && GameSaveData.Instance.rascalMentionedKey && QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.GetTutorialQuest(304)) == -1) return true;
+        return false;
+    }
+
+    bool AbleToCompleteCrockPotQuest()
+    {
+        if(GameSaveData.Instance.cul_gaveCrock) return false;
+        int questNum = QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.GetTutorialQuest(304));
+        if(questNum == -1) return false;
+        if(QuestManager.Instance.activeQuests[questNum].progress >= QuestManager.Instance.activeQuests[questNum].maxProgress)
+        {
+            QuestManager.Instance.activeQuests[questNum].alreadyCompleted = true;
+            return true;
+        }
+
+        return false;
     }
 }

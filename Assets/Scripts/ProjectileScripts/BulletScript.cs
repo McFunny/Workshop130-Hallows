@@ -9,7 +9,7 @@ public class BulletScript : MonoBehaviour
     public float structureDamage, creatureDamage, playerDamage;
     public float armorDamage = 2;
 
-    public bool fireBullet, piercing;
+    public bool fireBullet, piercing, cannonBall;
     public float bulletLifetime = 3;
 
     private Rigidbody bulletRigidbody;
@@ -107,6 +107,8 @@ public class BulletScript : MonoBehaviour
                 if(fireBullet && !creature.fireVulnerable) return;
 
                 if(fireBullet) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(3, 7));
+
+                if(cannonBall) creature.lastDamageTypeTaken = DamageType.Cannonball;
                 creature.TakeDamage(creatureDamage);
                 //playsound
                 HandItemManager.Instance.toolSource.PlayOneShot(hitEnemy);

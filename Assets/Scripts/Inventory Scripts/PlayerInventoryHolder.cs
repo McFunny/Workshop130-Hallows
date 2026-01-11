@@ -559,6 +559,9 @@ public class PlayerInventoryHolder : InventoryHolder
         ToolItem current_t_item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as ToolItem;
         if(current_t_item) current_t_item.behavior.OnHolster();
 
+        PlaceableItem p_item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as PlaceableItem;
+        if (p_item) p_item.DisableHologram();
+
         for(int i = 0; i < 9; i++)
         {
             currentPInventory.Add(new InventorySlot(primaryInventorySystem.InventorySlots[i].ItemData, primaryInventorySystem.InventorySlots[i].StackSize));

@@ -1803,7 +1803,7 @@ Transform:
   m_GameObject: {fileID: 1899875134374188398}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 92.7, y: 0, z: -55.9}
+  m_LocalPosition: {x: 86.06, y: 1.76, z: -55.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11186,7 +11186,7 @@ Transform:
   m_GameObject: {fileID: 5776158517774895998}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -104.5, y: 0, z: -20.5}
+  m_LocalPosition: {x: -104.5, y: 1.713, z: -20.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11314,6 +11314,7 @@ GameObject:
   - component: {fileID: 5403788078324475412}
   - component: {fileID: 146488457976756947}
   - component: {fileID: 7036945931431975565}
+  - component: {fileID: 6801622736193339337}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -11641,6 +11642,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 989367b97cd2476409c66250e75f9098, type: 2}
   - {fileID: 11400000, guid: 08c972b82d0ed54479ab951d910f2790, type: 2}
   - {fileID: 11400000, guid: e656cbe38aa744042876ef65ed6101e3, type: 2}
+  - {fileID: 11400000, guid: 115f61b0c856dd840a72809e655d75d4, type: 2}
   selectedFillerCreatures: []
   allCreatures: []
   mistSpawns:
@@ -11790,6 +11792,7 @@ MonoBehaviour:
   mm_introducedTickets: 0
   apo_gaveTissueQuest: 0
   apo_gaveCure: 0
+  cul_gaveCrock: 0
   townTreeCleared1: 0
   townTreeCleared2: 0
   botShopLevel: 0
@@ -59488,6 +59491,19 @@ MonoBehaviour:
   debugWagon: 0
   wagonDestroyedSFX1: {fileID: 8300000, guid: ac590ee887859d847ada730d76cd1ab1, type: 3}
   wagonDestroyedSFX2: {fileID: 8300000, guid: fdad68a7e6445d64e8b82f6ac9397e7b, type: 3}
+--- !u!114 &6801622736193339337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905684624903694689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e027291a3e4834a94a2f2223984269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allAchievements: []
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0
@@ -60484,7 +60500,7 @@ Transform:
   m_GameObject: {fileID: 7494202654796708368}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.2, y: 0, z: -130.4}
+  m_LocalPosition: {x: -12.2, y: 2.057, z: -130.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

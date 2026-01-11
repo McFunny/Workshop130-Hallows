@@ -216,7 +216,7 @@ public class Ferrat : CreatureBehaviorScript
         {
             if(currentState == CreatureState.FollowPlayer)
             {
-        
+                AchievementManager.Instance.TrackWhosFollowingPlayer();
                 Vector3 randomPoint = GetRandomPointAround(player.position, 12f);
                 StartCoroutine(MoveToPoint(randomPoint, Random.Range(2f, 5f)));
             }

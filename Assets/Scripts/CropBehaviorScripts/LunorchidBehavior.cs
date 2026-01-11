@@ -7,6 +7,8 @@ public class LunorchidBehavior : CropBehavior
 {
     public CreatureObject bug;
 
+    public List<CreatureObject> attractedBugs = new List<CreatureObject>();
+
     public override void OnHour(FarmLand tile)
     {
         //Check nightspawning manager's count of bugs, spawn at the start of night
@@ -24,6 +26,21 @@ public class LunorchidBehavior : CropBehavior
         if(currentBugs < 2 || chanceOfExtraBug/(currentBugs - 1) > Random.Range(0, 100))
         {
             NightSpawningManager.Instance.SpawnCreature(bug);
+        }
+    }
+
+    public override void BehaviorUpdate(FarmLand tile)
+    {
+        float range = 15f;
+
+        Collider[] hitEnemies = Physics.OverlapSphere(tile.transform.position, range, 1 << 9);
+        foreach(Collider collider in hitEnemies)
+        {
+            var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+            if (creature != null && attractedBugs.Contains(creature.creatureData))
+            {
+                creature.NewPriorityTarget(tile);
+            }
         }
     }
 }

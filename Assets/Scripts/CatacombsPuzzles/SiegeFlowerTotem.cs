@@ -87,6 +87,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
     private void UpdateSieges()
     {
         GameSaveData.Instance.siegesCleared++;
+        AchievementManager.Instance.NotifySiegeCompleted(GameSaveData.Instance.siegesCleared);
         switch (GameSaveData.Instance.siegesCleared)
         {
             case 1:

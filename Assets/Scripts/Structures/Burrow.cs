@@ -206,6 +206,7 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
+                creature.lastDamageTypeTaken = DamageType.Mine;
                 creature.TakeDamage(40);
                 if(creature.fireVulnerable) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 15));
                 creature.PlayHitParticle(creature.transform.position);

@@ -117,11 +117,10 @@ public class BearTrap : StructureBehaviorScript
         //print(distance);
         if(victim/*distance < 1.5f*/)
         {
-
+            PlayerInteraction player = victim.GetComponent<PlayerInteraction>();
             //does the damage
-            if(victim.GetComponent<PlayerInteraction>() && distance < 1.5f)
+            if(player && distance < 1.5f && !player.TripCheck())
             {
-                PlayerInteraction player = victim.GetComponent<PlayerInteraction>();
                 player.rb.velocity = Vector3.zero;
                 player.StaminaChange(-25);
 
@@ -275,7 +274,16 @@ public class BearTrap : StructureBehaviorScript
         if(other.gameObject.layer == 9 || other.gameObject.layer == 10)
         {
             CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if(creature && !creature.bearTrapVulnerable) return;
+            if(creature)
+            {
+                if(!creature.bearTrapVulnerable) return;
+
+                else if(!creature.shovelVulnerable) //break it. IE golem steps on it
+                {
+                    TakeDamage(99);
+                    return;
+                }
+            }
             isTriggered = true;
             StartCoroutine(SpringTrap(other)); //pass enemy script or player script variable
         }
