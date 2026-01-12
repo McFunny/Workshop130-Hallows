@@ -36,6 +36,9 @@ public class StoneGolem : CreatureBehaviorScript
 
     public GameObject headLight, deathParticles;
 
+    public SkinnedMeshRenderer[] allChildRenderers;
+    public Material healthyMat, hurtMat, veryHurtMat;
+
     public enum CreatureState
     {
         Idle,
@@ -71,6 +74,8 @@ public class StoneGolem : CreatureBehaviorScript
         baseSpeed = agent.speed;
 
         if(variant == Variant.Goliath) knockBackVulnerable = false;
+
+        //SkinnedMeshRenderer[] allChildRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
 
     }
 
@@ -172,6 +177,21 @@ public class StoneGolem : CreatureBehaviorScript
         if(health <= 0 && !isDead)
         {
             base.TakeDamage(999);
+        }
+
+        if(health < maxHealth * .34f)
+        {
+            for(int i = 0; i < allChildRenderers.Length; i++)
+            {
+                allChildRenderers[i].material = veryHurtMat;
+            }
+        }
+        else if(health < maxHealth)
+        {
+            for(int i = 0; i < allChildRenderers.Length; i++)
+            {
+                allChildRenderers[i].material = hurtMat;
+            }
         }
     }
 
@@ -339,17 +359,17 @@ public class StoneGolem : CreatureBehaviorScript
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !isDead)
+        if (other.CompareTag("Player"))
         {
             if(!attacking) return;
 
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
-                if(slamRoutine != null) playerInteraction.StaminaChange(damageToPlayer - 20); //Slam
+                if(slamRoutine != null || isDead) playerInteraction.StaminaChange(damageToPlayer); //Slam
                 else 
                 {
-                    playerInteraction.StaminaChange(damageToPlayer); //Swipe
+                    playerInteraction.StaminaChange(damageToPlayer - 20); //Swipe
                     PlayerInteraction.Instance.PlayerTrip();
                 }
                 attacking = false;
