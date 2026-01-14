@@ -18,12 +18,13 @@ public class FarmTree : StructureBehaviorScript
     public Transform itemDrop;
     public ParticleSystem leafBurst, leafBurstPine;
 
-    public GameObject mothHivePrefab;
-    public GameObject currentHive;
+    public GameObject mothHivePrefab, acornPrefab;
+    GameObject currentHangingObject = null;
+    TreeObject treeObject;
 
     public bool forceHiveSpawn;
 
-    public Transform[] hiveSpawns;
+    public Transform[] hiveSpawns, acornSpawns;
     //public Transform[] hiveSpawnsPine;
 
     public GameObject[] treeModels;
@@ -101,20 +102,34 @@ public class FarmTree : StructureBehaviorScript
         bool playerNearby = true;
         if(Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) > 80) playerNearby = false;
 
-        if(forceHiveSpawn && !playerNearby) SpawnHive();
+        if(playerNearby) return;
 
-        if(Random.Range(0, 100) >= 92 && !playerNearby || (TimeManager.Instance.currentHour == 8 && Random.Range(0, 10) > 8)) StartCoroutine(SpawnLeafPile());
+        if(forceHiveSpawn) SpawnHive();
+
+        if(Random.Range(0, 100) >= 93 || (TimeManager.Instance.currentHour == 8 && Random.Range(0, 10) > 8)) StartCoroutine(SpawnLeafPile());
+
+        if(Random.Range(0, 100) >= 95 && !currentHangingObject && type == TreeType.Orange) SpawnAcorn();
     }
 
     void SpawnHive()
     {
         forceHiveSpawn = false;
-        currentHive = Instantiate(mothHivePrefab, hiveSpawns[Random.Range(0, hiveSpawns.Length)].position, Quaternion.identity);
-        //else currentHive = Instantiate(mothHivePrefab, hiveSpawnsPine[Random.Range(0, hiveSpawnsPine.Length)].position, Quaternion.identity);
+        if(treeObject == TreeObject.Hive) return;
+        if(currentHangingObject) Destroy(currentHangingObject);
+        treeObject = TreeObject.Hive;
+        
+        currentHangingObject = Instantiate(mothHivePrefab, hiveSpawns[Random.Range(0, hiveSpawns.Length)].position, Quaternion.identity);
+        //else currentHangingObject = Instantiate(mothHivePrefab, hiveSpawnsPine[Random.Range(0, hiveSpawnsPine.Length)].position, Quaternion.identity);
 
-        Vector3 directionAway = currentHive.transform.position - transform.position;
+        Vector3 directionAway = currentHangingObject.transform.position - transform.position;
         directionAway.y = 0;
-        currentHive.transform.rotation = Quaternion.LookRotation(directionAway);
+        currentHangingObject.transform.rotation = Quaternion.LookRotation(directionAway);
+    }
+
+    void SpawnAcorn()
+    {
+        treeObject = TreeObject.Acorn;
+        currentHangingObject = Instantiate(acornPrefab, acornSpawns[Random.Range(0, acornSpawns.Length)].position, Quaternion.identity);
     }
 
     IEnumerator SpawnLeafPile()
@@ -140,6 +155,12 @@ public class FarmTree : StructureBehaviorScript
     {
         if(type == TreeType.Orange) leafBurst.Play();
         else leafBurstPine.Play();
+
+        if(currentHangingObject)
+        {
+            FyllaraNut nutScript = currentHangingObject.GetComponent<FyllaraNut>();
+            if(nutScript) nutScript.TreeNutDrop();
+        }
     }
 
     void UpdateModel()
@@ -159,6 +180,16 @@ public class FarmTree : StructureBehaviorScript
     public override void LoadVariables()
     {
         if(saveInt1 == 1) SpawnHive();
+        if(saveString2 == "Hive")
+        {
+            SpawnHive();
+            treeObject = TreeObject.Hive;
+        }
+        else if(saveString2 == "Acorn")
+        {
+            SpawnAcorn();
+            treeObject = TreeObject.Acorn;
+        }
 
         if(saveString1 == "Evergreen") type = TreeType.Evergreen;
 
@@ -167,10 +198,11 @@ public class FarmTree : StructureBehaviorScript
 
     public override void SaveVariables()
     {
-        if(currentHive) saveInt1 = 1;
-        else saveInt1 = 0;
+        //if(currentHangingObject) saveInt1 = 1;
+        //else saveInt1 = 0;
 
         saveString1 = type.ToString();
+        saveString2 = treeObject.ToString();
     }
 
     /*public override object GetSaveData()
@@ -183,4 +215,11 @@ public enum TreeType
 {
     Orange,
     Evergreen
+}
+
+public enum TreeObject
+{
+    Null,
+    Hive,
+    Acorn
 }

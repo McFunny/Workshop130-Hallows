@@ -9881,8 +9881,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda608356b326fa449f888d39b5106c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 60
-  maxHealth: 60
+  health: 40
+  maxHealth: 40
   corpseHealth: 0
   ichorWorth: 0
   ichorDropRadius: 0
@@ -9914,6 +9914,7 @@ MonoBehaviour:
   damageToPlayer: -18
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0, g: 0, b: 0, a: 0}
   currentEffects: []
   moveSpeed: 5
@@ -35519,6 +35520,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 13b508318f39e1543abba0059b84e65e, type: 3}
   - {fileID: 8300000, guid: be5ef38091422c0468dc955aeaef5522, type: 3}
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &3958249507022853865
 AudioSource:
   m_ObjectHideFlags: 0

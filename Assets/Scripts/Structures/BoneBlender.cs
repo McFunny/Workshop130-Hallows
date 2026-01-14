@@ -13,7 +13,7 @@ public class BoneBlender : StructureBehaviorScript
     public int progress = 0;
     int maxProgress = 3;
 
-    int itemsNeeded = 5;
+    int itemsNeeded = 4;
 
     bool ignoreNextHour = false;
 

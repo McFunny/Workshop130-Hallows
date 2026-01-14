@@ -93,7 +93,7 @@ public class StructureManager : MonoBehaviour
         {
             StartCoroutine(PopulateStructure(-3, 5, weedTile, false, farmTileMap));
             PopulateDecorCrows(0, 2);
-            StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
+            StartCoroutine(PopulateStructure(-2, 4, boulder, true, farmTileMap));
             PopulateBerryBushes(-5, 2, false);
             StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
             StartCoroutine(PopulateStructure(-10, 3, cocoon, true, farmTileMap));

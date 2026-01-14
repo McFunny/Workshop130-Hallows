@@ -176,6 +176,9 @@ public class WaterCanBehavior : ToolBehavior
 
     void PrimaryUse() //Behavior as if the player used left click on a structure
     {
+        if(pourParticles) pourParticles.Stop();
+        if(pourSource) pourSource.Stop();
+
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))

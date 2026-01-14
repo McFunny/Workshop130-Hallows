@@ -33,7 +33,8 @@ public class LeafPile : StructureBehaviorScript
         int x = 0;
 
         bool spawnCreature = false;
-        if(Random.Range(0,20) > 16 && !TimeManager.Instance.stopTime) spawnCreature = true;
+        if(!TimeManager.Instance.isDay && Random.Range(0,20) > 12) spawnCreature = true;
+        else if(Random.Range(0,20) > 16 && !TimeManager.Instance.stopTime) spawnCreature = true;
 
         else if(Random.Range(0,20) > 6) return;
 
