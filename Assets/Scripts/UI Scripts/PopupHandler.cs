@@ -146,7 +146,7 @@ public class PopupHandler : MonoBehaviour
         popupText.text = textToShow;
         currentPopup = popup;
 
-        AudioPoolManager.Instance.PlayClip(notifSFX, 0.5f);
+        AudioPoolManager.Instance.PlayClip(notifSFX, 0.3f);
     }
 
     IEnumerator CheckQueue()

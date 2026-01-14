@@ -111,6 +111,7 @@ public enum IngredientType
     Egg,
     Filler,
     Weeds, //Plant fiber, reedtail, yarrow, ect
-    Tuber
+    Tuber,
+    Nut
 
 }

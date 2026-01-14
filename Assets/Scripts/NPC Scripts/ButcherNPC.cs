@@ -161,7 +161,7 @@ public class ButcherNPC : NPC, ITalkable
             GameSaveData.Instance.pistolObtained = true;
             wPellet.isUnlocked = true;
             sPellet.isUnlocked = true;
-            CraftingDatabase.Instance.UnlockRecipiePopup();
+            CraftingDatabase.Instance.UnlockRecipePopup();
         }
     }
 

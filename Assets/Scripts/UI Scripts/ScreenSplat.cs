@@ -32,6 +32,7 @@ public class ScreenSplat : MonoBehaviour
 
         if (punch) 
         {
+            punchOvershoot = 1.15f;
             rect.localScale = baseScale * punchStartScale;
             punchOvershoot *= Random.Range(0.95f, 1.1f);
         }

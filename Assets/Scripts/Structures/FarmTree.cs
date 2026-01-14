@@ -97,14 +97,14 @@ public class FarmTree : StructureBehaviorScript
             return;
         }
 
-        if(Random.Range(0, 400) >= 399 && TimeManager.Instance.dayNum > 3) forceHiveSpawn = true;
+        if(Random.Range(0, 400) >= 399 && TimeManager.Instance.dayNum > 3 && TimeManager.Instance.isDay) forceHiveSpawn = true;
 
         bool playerNearby = true;
         if(Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) > 80) playerNearby = false;
 
         if(playerNearby) return;
 
-        if(forceHiveSpawn) SpawnHive();
+        if(forceHiveSpawn && TimeManager.Instance.isDay) SpawnHive();
 
         if(Random.Range(0, 100) >= 93 || (TimeManager.Instance.currentHour == 8 && Random.Range(0, 10) > 8)) StartCoroutine(SpawnLeafPile());
 

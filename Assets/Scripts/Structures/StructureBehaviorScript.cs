@@ -235,7 +235,7 @@ public class StructureBehaviorScript : MonoBehaviour
         
         if(health <= 0 || forcePile) //For when a structure is destroyed by removing all the hp
         {
-            if(health <= 0)
+            if(health <= 0 && structData)
             {
                 GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
                 if(p)

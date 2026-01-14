@@ -9,6 +9,7 @@ public class Wisp : CreatureBehaviorScript
     public float moveSpeed = 4f;
     public float stunnedSpeed = 0.5f;
     public float fleeSpeed = 12f;
+    public float attackMoveSpeed = 2.5f;
     float currentSpeed;
     public float turnSpeed = 360f;
 
@@ -94,7 +95,8 @@ public class Wisp : CreatureBehaviorScript
         }
         else 
         {
-            currentSpeed = moveSpeed;
+            if(attackCooldown) currentSpeed = attackMoveSpeed;
+            else currentSpeed = moveSpeed;
             anim.SetBool("CoverEyes", false);
             anim.SetBool("Fleeing", false);
         }
@@ -300,7 +302,7 @@ public class Wisp : CreatureBehaviorScript
         }
 
         // Apply velocity
-        if(distance > 0.7f) rb.velocity = chaseDir * currentSpeed + new Vector3(0, rb.velocity.y, 0);
+        if(distance > 1.2f) rb.velocity = chaseDir * currentSpeed + new Vector3(0, rb.velocity.y, 0);
         else rb.velocity = Vector3.zero;
 
         rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, targetRot, 360 * Time.fixedDeltaTime));

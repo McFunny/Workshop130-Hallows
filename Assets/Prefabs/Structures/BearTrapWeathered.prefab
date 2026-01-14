@@ -273,6 +273,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -285,6 +286,8 @@ MonoBehaviour:
   topClamp: {fileID: 7118545593169415662}
   bottomClamp: {fileID: 26154679216094702}
   triggeredSFX: {fileID: 8300000, guid: aa9c348d3787238419ebe8bb92fe535b, type: 3}
+  leafPilePrefab: {fileID: 4265228784915763946, guid: ccc615622a9860a4a9defeb93ecfb4b1,
+    type: 3}
 --- !u!82 &2079226683980650209
 AudioSource:
   m_ObjectHideFlags: 0

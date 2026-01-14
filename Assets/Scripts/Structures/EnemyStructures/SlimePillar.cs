@@ -32,6 +32,8 @@ public class SlimePillar : StructureBehaviorScript
         OnDamageWithValue += Damaged;
 
         UpdateModel();
+
+        StartCoroutine(SpawnSlimes());
     }
 
     void UpdateModel()
@@ -49,14 +51,16 @@ public class SlimePillar : StructureBehaviorScript
     {
         while(health > 0)
         {
-            yield return new WaitForSeconds(Random.Range(15, 40));
-            if(slimeValue < 2) continue;
+            yield return new WaitForSeconds(Random.Range(15, 30));
+            if(slimeValue < 2 || TimeManager.Instance.isDay) continue;
 
             Instantiate(slimeData.objectPrefab, creatureSpawn.position, Quaternion.identity);
 
             if(slimeValue == 3 && Random.Range(0,2) == 1) Instantiate(slimeData.objectPrefab, creatureSpawn.position, Quaternion.identity);
 
             ParticlePoolManager.Instance.GrabSlimeSplashParticle().transform.position = creatureSpawn.position;
+
+            audioHandler.PlaySound(audioHandler.activatedSound);
         }
     }
 
@@ -92,6 +96,7 @@ public class SlimePillar : StructureBehaviorScript
         slimeValue--;
         ParticlePoolManager.Instance.GrabSlimeSplashParticle().transform.position = particleCenter.position;
         UpdateModel();
+        audioHandler.PlaySound(audioHandler.itemInteractSound);
     }
 
     void OnDestroy()

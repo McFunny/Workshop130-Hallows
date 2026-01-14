@@ -26,6 +26,8 @@ public class BearTrap : StructureBehaviorScript
 
     Collider collider;
 
+    public GameObject leafPilePrefab;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -46,7 +48,14 @@ public class BearTrap : StructureBehaviorScript
             bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
         }
         
-        if(TownGate.Instance.location == PlayerLocation.InWilderness) absentFromGrid = true;
+        if(TownGate.Instance.location == PlayerLocation.InWilderness) 
+        {
+            absentFromGrid = true;
+            if(Random.Range(0,5) < 2)
+            {
+                Instantiate(leafPilePrefab, transform.position, Quaternion.identity).transform.parent = transform;
+            } 
+        }
         base.Start();
     }
 

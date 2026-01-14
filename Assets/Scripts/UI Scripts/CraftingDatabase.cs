@@ -88,7 +88,7 @@ public class CraftingDatabase : ScriptableObject
         return _craftingDatabase; 
     }
 
-    public void UnlockRecipiePopup()
+    public void UnlockRecipePopup()
     {
         PopupHandler.Instance.AddToQueue(recipeUnlockedP);
     }
@@ -106,6 +106,7 @@ public class CraftingDatabase : ScriptableObject
             if(c.isUnlocked == false && c.id == id) 
             {
                 c.isUnlocked = true;
+                c.isRecentlyUnlocked = true;
                 PopupHandler.Instance.AddToQueue(recipeUnlockedP);
             }
         }
@@ -123,7 +124,7 @@ public class CraftingDatabase : ScriptableObject
             if(recipesInTier.Count > 0)
             {
                 recipesInTier[Random.Range(0, recipesInTier.Count)].isUnlocked = true;
-                UnlockRecipiePopup();
+                UnlockRecipePopup();
                 break;
             }
             

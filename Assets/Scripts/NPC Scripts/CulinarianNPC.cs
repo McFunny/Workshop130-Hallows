@@ -48,6 +48,7 @@ public class CulinarianNPC : NPC, ITalkable
                 currentType = PathType.QuestComplete;
                 GameSaveData.Instance.cul_gaveCrock = true;
                 GiveRewards(QuestDatabase.Instance.GetTutorialQuest(304).itemRewards);
+                itemsToGive.Add(new ItemWithAmount(barterDatabase.uniqueTransactions[2].itemForSale, 1));
             }
             else
             {
