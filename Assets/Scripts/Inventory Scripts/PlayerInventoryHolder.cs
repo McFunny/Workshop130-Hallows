@@ -46,6 +46,7 @@ public class PlayerInventoryHolder : InventoryHolder
     [SerializeField] private List<Item> debugItems;
 
     [ContextMenu("Name Items")]
+
     public void NameItems()
     {
         for(int i = 0; i < startingItems.Count; i++)
@@ -82,6 +83,10 @@ public class PlayerInventoryHolder : InventoryHolder
         foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
         {
             slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket | InventorySlot.AcceptedItemType.Misc;
+            TrinketInventoryData data = new TrinketInventoryData();
+
+            data.slot = slot;
+            TrinketInventoryHandler.Instance.trinkets.Add(data);
         }
 
         SaveLoad.OnSaveGame += SaveInventory;
@@ -108,6 +113,10 @@ public class PlayerInventoryHolder : InventoryHolder
             this.secondaryInventorySize = data.playerInventoryData.secondaryInventorySizeSave;
             this.secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
             this.secondaryInventorySystem.LoadFromSaveData(data.playerInventoryData.secondaryInvSystemSave, _database);
+
+            trinketInventorySize = data.playerInventoryData.trinketInventorySizeSave;
+            trinketInventorySystem = new InventorySystem(trinketInventorySize);
+            trinketInventorySystem.LoadFromSaveData(data.playerInventoryData.trinketInvSystemSave, _database);
 
             UpdateInventory();
         }
@@ -148,7 +157,7 @@ public class PlayerInventoryHolder : InventoryHolder
 
     private void SaveInventory()
     {
-        SaveLoad.CurrentSaveData.playerInventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
+        SaveLoad.CurrentSaveData.playerInventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize, trinketInventorySystem, trinketInventorySize);
     }
 
     private void EquipStartingItems()
@@ -603,13 +612,17 @@ public struct PlayerInventorySaveData
 {
     public InventorySystemSaveData primaryInvSystemSave;
     public InventorySystemSaveData secondaryInvSystemSave;
+    public InventorySystemSaveData trinketInvSystemSave;
     public int secondaryInventorySizeSave;
+    public int trinketInventorySizeSave;
 
-    public PlayerInventorySaveData(InventorySystem primary, InventorySystem secondary, int secondarySize)
+    public PlayerInventorySaveData(InventorySystem primary, InventorySystem secondary, int secondarySize, InventorySystem trinket, int trinketSize)
     {
         primaryInvSystemSave = primary.GetSaveData();
         secondaryInvSystemSave = secondary.GetSaveData();
         secondaryInventorySizeSave = secondarySize;
+        trinketInvSystemSave = trinket.GetSaveData();
+        trinketInventorySizeSave = trinketSize;
     }
 
 }
