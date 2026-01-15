@@ -10,8 +10,15 @@ public class TrinketItem : InventoryItemData
     public TrinketKey key;
 
     public bool stackable = false;
+    [Tooltip("Does taking damage lose durability? If so, lose durability for each damage")]
+    public bool damagedByAttacks = false;
 
-    public float removalBreakModifier = 0; //If positive, less likely to break. Else, more likely
+    public float maxDurability = 10;
+
+    //public float durabilityLossRate = 1;
+
+    [Tooltip("If durability is less than or equal to this, guaranteed chance to break")]
+    public float guaranteedBreakThreshold = 2; 
 
     public void OnEquip()
     {
