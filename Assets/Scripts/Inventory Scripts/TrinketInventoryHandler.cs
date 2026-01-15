@@ -7,7 +7,7 @@ using UnityEngine;
 public class TrinketInventoryHandler : MonoBehaviour
 {
     public static TrinketInventoryHandler Instance;
-    public List<TrinketInventoryData> trinkets = new List<TrinketInventoryData>();
+    public List<TrinketInventoryData> trinkets = new List<TrinketInventoryData>(); //This holds the trinkets
 
     public AudioClip equipSFX, removeSFX, breakSFX;
 
