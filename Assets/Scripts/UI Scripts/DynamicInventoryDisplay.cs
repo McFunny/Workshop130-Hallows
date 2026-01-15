@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class DynamicInventoryDisplay : InventoryDisplay
 {
@@ -65,6 +66,12 @@ public class DynamicInventoryDisplay : InventoryDisplay
         {
             inventorySystem.OnInventorySlotChanged += UpdateSlot;
             AssignSlot(inventorySystem);
+        }
+
+        if(gameObject.name == "PlayerTrinkets")
+        {
+            if(inventorySystem.InventorySize == 0) GetComponent<Image>().enabled = false;
+            else GetComponent<Image>().enabled = true;
         }
 
         Debug.Log($"Displaying {inventorySystem} in UI: {gameObject.name}"); // Log to verify correct inventory is shown

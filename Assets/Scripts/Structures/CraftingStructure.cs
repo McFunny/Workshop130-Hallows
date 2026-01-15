@@ -132,6 +132,7 @@ public class CraftingStructure : StructureBehaviorScript
 
     public void TimeSkipped(int timePassed)
     {
+        if(isCrafting == false) return;
         Debug.Log("Time Skipped: " + timePassed + " mins");
         StopCrafting();
         Debug.Log("Craft Stopped");
@@ -227,6 +228,14 @@ public class CraftingStructure : StructureBehaviorScript
 public class CraftSlotData
 {
     public CraftingEntry assignedCraft;
+    public int timeRemaining;
+    public bool isComplete = false;
+}
+
+[System.Serializable]
+public class CraftSlotSaveData
+{
+    public int craftID;
     public int timeRemaining;
     public bool isComplete = false;
 }

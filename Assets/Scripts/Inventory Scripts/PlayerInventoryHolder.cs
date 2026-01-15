@@ -143,6 +143,21 @@ public class PlayerInventoryHolder : InventoryHolder
         UpdateInventory();
     }
 
+    public void IncreaseTrinketInventory(int increaseVal) //For changing the size at runtime
+    {
+        this.trinketInventorySize += increaseVal;
+        //store temp ref of current inventory
+        InventorySystemSaveData tempData = this.trinketInventorySystem.GetSaveData();
+        for (int i = 0; i < increaseVal; i++)
+        {
+            tempData.savedSlots.Add(new InventorySlotSaveData(-1, 0));
+        }
+
+        this.trinketInventorySystem = new InventorySystem(trinketInventorySize);
+        this.trinketInventorySystem.LoadFromSaveData(tempData, _database);
+
+        UpdateInventory();
+    }
 
     private void Start()
     {
@@ -153,6 +168,15 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         yield return new WaitForSeconds(0.5f);
         if(!MainMenuScript.loadingData) EquipStartingItems();
+    }
+
+    private void Update()
+    {
+        if(!StructureManager.Instance.enableCheats) return;
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            IncreaseTrinketInventory(1);
+        }
     }
 
     private void SaveInventory()
