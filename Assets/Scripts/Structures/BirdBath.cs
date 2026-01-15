@@ -54,7 +54,8 @@ public class BirdBath : StructureBehaviorScript
         }
         if((type == ToolType.WateringCan || type == ToolType.WaterGun) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld && waterLevel > 0)
         {
-            PlayerInteraction.Instance.waterHeld += 5;
+            PlayerInteraction.Instance.WaterChange(5);
+            //PlayerInteraction.Instance.waterHeld += 5;
             waterLevel--;
             WaterLevelChange();
             success = true;
@@ -65,7 +66,8 @@ public class BirdBath : StructureBehaviorScript
     {
         if(PlayerInteraction.Instance.waterHeld >= 5 && waterLevel < 1)
         {
-            PlayerInteraction.Instance.waterHeld -= 5;
+            PlayerInteraction.Instance.WaterChange(-5);
+            //PlayerInteraction.Instance.waterHeld -= 5;
             waterLevel++;
             WaterLevelChange();
             success = true;

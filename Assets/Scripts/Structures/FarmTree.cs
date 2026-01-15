@@ -28,10 +28,18 @@ public class FarmTree : StructureBehaviorScript
     //public Transform[] hiveSpawnsPine;
 
     public GameObject[] treeModels;
+
+    bool newTree = true;
     void Awake()
     {
         base.Awake();
 
+        StartCoroutine(DelayedStart());
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(1);
         if(Random.Range(0,10) < 2)
         {
             type = TreeType.Evergreen;
@@ -108,7 +116,7 @@ public class FarmTree : StructureBehaviorScript
 
         if(Random.Range(0, 100) >= 93 || (TimeManager.Instance.currentHour == 8 && Random.Range(0, 10) > 8)) StartCoroutine(SpawnLeafPile());
 
-        if(Random.Range(0, 100) >= 95 && !currentHangingObject && type == TreeType.Orange) SpawnAcorn();
+        if(Random.Range(0, 100) >= 99 && !currentHangingObject && type == TreeType.Orange) SpawnAcorn();
     }
 
     void SpawnHive()
@@ -193,6 +201,8 @@ public class FarmTree : StructureBehaviorScript
 
         if(saveString1 == "Evergreen") type = TreeType.Evergreen;
 
+        newTree = saveBool1;
+
         UpdateModel();
     }
 
@@ -203,6 +213,8 @@ public class FarmTree : StructureBehaviorScript
 
         saveString1 = type.ToString();
         saveString2 = treeObject.ToString();
+
+        saveBool1 = newTree;
     }
 
     /*public override object GetSaveData()

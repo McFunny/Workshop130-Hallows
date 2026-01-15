@@ -161,7 +161,7 @@ public class TruffleHog : CritterBehaviorScript
 
         if((hunger <= 25 && EatCheck(false)) || (thirst <= 25 && EatCheck(true)))
         {
-             currentState = CritterState.Eat;
+            currentState = CritterState.Eat;
             return;
         }
 
@@ -171,7 +171,7 @@ public class TruffleHog : CritterBehaviorScript
             currentState = CritterState.WalkTowards;
             return;
         }
-        else if(burrowsToDig > 0)
+        else if(burrowsToDig > 0 && !TimeManager.Instance.stopTime)
         {
             if(BarnManager.Instance.WithinBarn(transform.position))
             {
@@ -304,10 +304,15 @@ public class TruffleHog : CritterBehaviorScript
         if (!isMoving && currentRoutine == null)
         {
             agent.speed = runSpeed;
+            if(!targetObject)
+            {
+                currentState = CritterState.Idle;
+                return;
+            }
             target = targetObject.position;
             currentRoutine = StartCoroutine(MoveToPoint(target, 10));
         }
-        else if (Vector3.Distance(transform.position, target) < 1.5f)
+        else if (Vector3.Distance(transform.position, target) < 2f)
         {
             interruptAction = true;
         }

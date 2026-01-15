@@ -26,10 +26,6 @@ public class CrockPot : FurnitureBehaviorScript
     public void Awake()
     {
         base.Awake();
-        for(int i = 0; i < itemSockets.Count; i++)
-        {
-            savedItems.Add(null);
-        }
     }
 
     public void Start()
@@ -39,6 +35,17 @@ public class CrockPot : FurnitureBehaviorScript
         RefreshSockets();
 
         lidClosed = true;
+
+        StartCoroutine(DelayedStart());
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(1);
+        for(int i = 0; i < itemSockets.Count; i++)
+        {
+            savedItems.Add(null);
+        }
     }
 
     void Update()
@@ -203,6 +210,12 @@ public class CrockPot : FurnitureBehaviorScript
         //Get the stats of the ingredients
         for(int i = 0; i < ingredients.Count; ++i)
         {
+            if(ingredients[i] == null || ingredients[i].cookingStats == null)
+            {
+                ingredients.RemoveAt(i);
+                i--;
+                continue;
+            }
             for(int c = 0; c < ingredients[i].cookingStats.Count; ++c)
             {
                 bool addedValue = false;
@@ -415,7 +428,7 @@ public class CrockPot : FurnitureBehaviorScript
         hasOil = saveBool1;
         if(saveInt1 == 1) hasFinishedItem = true;
         else hasFinishedItem = false;
-        if(savedItems.Count == 0)
+        if(savedItems.Count < itemSockets.Count)
         {
             for(int i = 0; i < itemSockets.Count; i++)
             {

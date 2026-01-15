@@ -12,7 +12,7 @@ public class Boulder : StructureBehaviorScript
 
     bool dropItems = false;
 
-    int rockNum = -1;
+    public int rockNum = -1;
 
     public StructureObject geyserData;
 
@@ -44,7 +44,7 @@ public class Boulder : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(TimeManager.Instance.currentHour == 8 && Random.Range(0,50) == 1) //Turn into a plugged geyser
+        if(TimeManager.Instance.currentHour == 8 && Random.Range(0,120) == 1 && StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm)) //Turn into a plugged geyser
         {
             rockNum = 3;
             UpdateModel();

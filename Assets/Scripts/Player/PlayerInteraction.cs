@@ -471,6 +471,34 @@ public class PlayerInteraction : MonoBehaviour
         overrideDamagePulse = false;
     }
 
+    public void WaterChange(float amount)
+    {
+        print(amount);
+
+        if(amount + waterHeld > maxWaterHeld) amount -= amount + waterHeld - maxWaterHeld;
+        else if(waterHeld + amount < 0) amount = waterHeld;
+
+        if(amount == 0) return;
+
+        waterHeld += amount;
+
+        print(amount);
+
+        //if using hareflask trinket, subtract 1 for each water gained over maxWater - 5
+        if(waterHeld > (maxWaterHeld - 5))
+        {
+            float tempValue = waterHeld;
+            float x = 0;
+            while(tempValue > (maxWaterHeld - 5))
+            {
+                tempValue--;
+                x++;
+                //Damage Trinket
+                if(x >= amount) tempValue = 0;
+            }
+        }
+    }
+
     public void EatFood(float staminaGain)
     {
         if(staminaGain <= 10)

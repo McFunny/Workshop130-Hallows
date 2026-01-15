@@ -89,7 +89,7 @@ public class Brazier : StructureBehaviorScript, IFireHolder
         }
         else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && isBurning)
         {
-            PlayerInteraction.Instance.waterHeld--;
+            PlayerInteraction.Instance.WaterChange(-1);
             HitWithWater();
             success = true;
         }

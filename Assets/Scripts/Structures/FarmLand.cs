@@ -856,6 +856,8 @@ public class FarmLand : StructureBehaviorScript
         if(currentUpgrade == FarmTileUpgrade.Stone && health < 10) ApplyNewUpgrade(FarmTileUpgrade.None);
 
         if(crop && crop.behavior) crop.behavior.OnDamage(this);
+
+        if(crop == null && currentUpgrade == FarmTileUpgrade.None) Destroy(gameObject);
     }
 
     void FrostDamage() //When watering a frosted crop

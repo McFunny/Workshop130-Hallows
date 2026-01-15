@@ -197,7 +197,7 @@ public class Wisp : CreatureBehaviorScript
         while(health > 0)
         {
             //have it randomly target crop or player
-            yield return new WaitForSeconds(Random.Range(4f, 15f));
+            yield return new WaitForSeconds(Random.Range(4f, 10));
             if(fleeTimeLeft > 0 || currentState != CreatureState.Wander || targetStructure) continue;
 
             float r = Random.Range(0, 100);
@@ -249,7 +249,7 @@ public class Wisp : CreatureBehaviorScript
         if(currentRoutine == null)
         {
             currentRoutine = StartCoroutine(FrostStructureRoutine());
-            StartCoroutine(AttackCooldownTimer(6));
+            StartCoroutine(AttackCooldownTimer(4));
         }
     }
 
@@ -531,6 +531,7 @@ public class Wisp : CreatureBehaviorScript
         {
             deathParticles.SetActive(true);
             deathParticles.transform.parent = null;
+            ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
             Destroy(gameObject);
         }
     }

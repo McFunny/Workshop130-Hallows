@@ -39,7 +39,9 @@ MonoBehaviour:
     emotions: 01000000
   - pathName: Sold!
     paragraphs:
-    - Tell the little ones I said hello for me, would ya..?
+    - 'Tell the little ones I said hello for me, would ya..? {itemBought}
+
+      {dontfreezePlayer}'
     emotions: 01000000
   - pathName: No Money
     paragraphs:

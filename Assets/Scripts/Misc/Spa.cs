@@ -44,7 +44,8 @@ public class Spa : MonoBehaviour, IInteractable
         if((item == waterCan || item == waterGun || item == waterCanUpgrade) && PlayerInteraction.Instance.waterHeld < PlayerInteraction.Instance.maxWaterHeld)
         {
             interactSuccessful = true;
-            PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
+            PlayerInteraction.Instance.WaterChange(PlayerInteraction.Instance.maxWaterHeld);
+            //PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
             splashVFX.Play();
             source.Play();
             return;

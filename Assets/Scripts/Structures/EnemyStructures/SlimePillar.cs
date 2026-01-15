@@ -79,7 +79,7 @@ public class SlimePillar : StructureBehaviorScript
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && slimeValue > 0)
         {
             ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
-            PlayerInteraction.Instance.waterHeld--;
+            PlayerInteraction.Instance.WaterChange(-1);
             success = true;
             ReduceSlime();
         }

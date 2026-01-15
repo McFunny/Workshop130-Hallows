@@ -43,7 +43,7 @@ public class DandipillarScript : BugBehaviorScript
     {
         while(gameObject.activeSelf)
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(15);
             if(targetPlant != null) continue;
 
             List<GameObject> nearbyCrops = StructureManager.Instance.ReturnStructuresOfType(farmData);

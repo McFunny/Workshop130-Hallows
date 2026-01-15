@@ -49,7 +49,7 @@ public class KrakhenEgg : StructureBehaviorScript
         audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
 
         int r = Random.Range(1, 3);
-        if(hatched) r -= 1;
+        if(hatched) r -= Random.Range(1, 4);
         for(int i = 0; i < r; ++i)
         {
             GameObject droppedItem = ItemPoolManager.Instance.GrabItem(gunPowder);

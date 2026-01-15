@@ -11,6 +11,8 @@ public class TrinketItem : InventoryItemData
 
     public bool stackable = false;
 
+    public float removalBreakModifier = 0; //If positive, less likely to break. Else, more likely
+
     public void OnEquip()
     {
         behavior.OnEquip();

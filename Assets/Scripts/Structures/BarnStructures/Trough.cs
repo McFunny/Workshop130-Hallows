@@ -82,7 +82,8 @@ public class Trough : StructureBehaviorScript
             {
                 if(PlayerInteraction.Instance.waterHeld > 0 && waterLevel + waterGained < maxWaterLevel)
                 {
-                    PlayerInteraction.Instance.waterHeld--;
+                    PlayerInteraction.Instance.WaterChange(-1);
+                    //PlayerInteraction.Instance.waterHeld--;
                     waterGained++;
                 }
             }
@@ -205,6 +206,7 @@ public class Trough : StructureBehaviorScript
     {
         for(int i = 0; i < itemSockets.Count; i++)
         {
+            if(savedItems.Count < i) savedItems.Add(null);
             if(savedItems[i] != null && foodDiet.Contains(savedItems[i]))
             {
                 return true;
@@ -251,6 +253,7 @@ public class Trough : StructureBehaviorScript
     {
         for(int i = 0; i < itemSockets.Count; i++)
         {
+            if(savedItems.Count < i) savedItems.Add(null);
             if(savedItems[i] != null && savedItems[i].animalHungerValue > 0 && Random.Range(0, 10) > 7)
             {
                 Instantiate(crowPrefab, itemSockets[i].transform.position, Quaternion.identity).GetComponentInChildren<MutatedCrow>().isDecorCrow = true;
@@ -265,7 +268,7 @@ public class Trough : StructureBehaviorScript
     {
         if(saveInt1 > 0) WaterLevelChange(saveInt1);
 
-        if(savedItems.Count == 0)
+        if(savedItems.Count < itemSockets.Count)
         {
             for(int i = 0; i < itemSockets.Count; i++)
             {

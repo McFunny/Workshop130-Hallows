@@ -38,7 +38,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public ParticleSystem finaleMist;
 
-    public CreatureObject pollinator, ferrat;
+    public CreatureObject pollinator, ferrat, deer;
 
     public List<NightEventObject> nightEvents = new List<NightEventObject>();
     bool eventOccured = false; //only 1 per night
@@ -88,7 +88,7 @@ public class NightSpawningManager : MonoBehaviour
             currentSpawnPool = null;
             forceCorruptedSpawns = false;
 
-            if(ReportTotalOfCreature(ferrat) < ferrat.spawnCap && Random.Range(0,15) == 1) //Spawn ferrats
+            if(ReportTotalOfCreature(ferrat) < ferrat.spawnCap && Random.Range(0,15) == 1) //Spawn eer
             {
                 SpawnCreature(ferrat);
                 if(Random.Range(0,3) == 1) SpawnCreature(ferrat);
@@ -108,6 +108,8 @@ public class NightSpawningManager : MonoBehaviour
             SelectNightPool();
         }
         if(ReportTotalOfCreature(pollinator) < 2 && Random.Range(0,4) == 1) SpawnCreature(pollinator);
+
+        if(ReportTotalOfCreature(deer) < deer.spawnCap && Random.Range(0,50) == 1) SpawnCreature(deer); //Spawn Deer
 
         CalculateDifficulty();
 

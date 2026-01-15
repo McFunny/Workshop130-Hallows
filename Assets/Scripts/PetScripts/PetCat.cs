@@ -747,7 +747,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                             StateSwitch(PetState.Flee);
                             break;
                         }
-                        else
+                        else if(targettableCreatures.Contains(creature.creatureData))
                         {
                             float positiveActionChance = (friendshipLevel + 1) * 2.75f;
                             if(hunger == 0) positiveActionChance = 0;

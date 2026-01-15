@@ -270,11 +270,16 @@ public class PetMimic : CritterBehaviorScript
     {
         if (!coroutineRunning)
         {
+            if(!targetObject)
+            {
+                currentState = CritterState.Idle;
+                return;
+            }
             target = targetObject.position;
             StartCoroutine(MoveToPoint(target, 10));
             coroutineRunning = true;
         }
-        else if (Vector3.Distance(transform.position, target) < 1.5f)
+        else if (Vector3.Distance(transform.position, target) < 2f)
         {
             interruptAction = true;
         }
