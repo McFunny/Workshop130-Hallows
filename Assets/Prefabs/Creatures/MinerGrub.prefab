@@ -72,6 +72,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &2669063018219848330
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19803,6 +19804,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 1
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.1764706}
   currentEffects: []
   variant: 1
@@ -19821,6 +19823,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: de0fd22b4d293114397868fe16a45b97, type: 2}
   - {fileID: 11400000, guid: b0e9f88532ede3c46ad0c91577f295e4, type: 2}
   - {fileID: 11400000, guid: 6718ac27de477bc458a00f38f26d048b, type: 2}
+  - {fileID: 11400000, guid: 9af743b3f8e58b242ba0e3ec8ff81791, type: 2}
   foxgloveData: {fileID: 11400000, guid: e7f84fbc95567f84e8d00919f4781bf9, type: 2}
   laventParticles: {fileID: 2253346826862018363}
   equippableArmor: []

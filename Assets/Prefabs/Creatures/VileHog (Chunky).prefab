@@ -5857,8 +5857,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611bf15f694b37d4e8152c0fbd9aac4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 125
-  maxHealth: 125
+  health: 100
+  maxHealth: 100
   corpseHealth: -50
   ichorWorth: 5
   ichorDropRadius: 3.5
@@ -5884,7 +5884,7 @@ MonoBehaviour:
   dropChance:
   - 6
   - 10
-  - 5
+  - 10
   - 3
   sightRange: 25
   attackRange: 15
@@ -5899,6 +5899,7 @@ MonoBehaviour:
   damageToPlayer: -45
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0.25490198}
   currentEffects: []
   variant: 1

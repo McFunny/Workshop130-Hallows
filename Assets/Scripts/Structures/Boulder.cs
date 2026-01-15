@@ -14,6 +14,8 @@ public class Boulder : StructureBehaviorScript
 
     int rockNum = -1;
 
+    public StructureObject geyserData;
+
     void Awake()
     {
         base.Awake();
@@ -31,13 +33,28 @@ public class Boulder : StructureBehaviorScript
 
     void UpdateModel()
     {
-        if(rockNum == -1) rockNum = Random.Range(0, rockVariations.Count);
+        if(rockNum == -1)
+        {
+            rockNum = Random.Range(0, 3);
+            //if(Random.Range(0,30) == 1) rockNum = 3;
+        }
         foreach(GameObject rock in rockVariations) rock.SetActive(false);
         rockVariations[rockNum].SetActive(true);
     }
 
+    public override void HourPassed()
+    {
+        if(TimeManager.Instance.currentHour == 8 && Random.Range(0,50) == 1) //Turn into a plugged geyser
+        {
+            rockNum = 3;
+            UpdateModel();
+        }
+    }
+
     void OnDestroy()
     {
+        if(rockNum == 3) clearTileOnDestroy = false;
+
         OnDamageWithValue -= Damaged;
         base.OnDestroy();
 
@@ -56,6 +73,11 @@ public class Boulder : StructureBehaviorScript
             Rigidbody itemRB = droppedItem.GetComponent<Rigidbody>();
             itemRB.AddForce(dir3 * 35);
             itemRB.AddForce(Vector3.up * 50);
+        }
+
+        if(rockNum == 3)
+        {
+            Instantiate(geyserData.objectPrefab, transform.position, Quaternion.identity);
         }
     }
 

@@ -74,6 +74,7 @@ public class StructureBehaviorScript : MonoBehaviour
     [HideInInspector] public bool clearTileOnDestroy = true;
     bool forcePile = false;
     [HideInInspector] public bool muteSound = false;
+    public bool allowContinousWatering = false; //If true, quick watering will play over and over, like filling up barrels
 
     [Tooltip("Specific UI for this structure, if it has any")]
     public GameObject structureUI; 
@@ -234,7 +235,7 @@ public class StructureBehaviorScript : MonoBehaviour
         
         if(health <= 0 || forcePile) //For when a structure is destroyed by removing all the hp
         {
-            if(health <= 0)
+            if(health <= 0 && structData)
             {
                 GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
                 if(p)
@@ -371,6 +372,7 @@ public class StructureBehaviorScript : MonoBehaviour
         while(onFire)
         {
             if(health > 20) TakeDamage(Mathf.Round(health / 10));
+            else if(health == 2) health -= 1;
             else TakeDamage(2);
             yield return new WaitForSeconds(3f);
             if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);

@@ -176,6 +176,9 @@ public class WaterCanBehavior : ToolBehavior
 
     void PrimaryUse() //Behavior as if the player used left click on a structure
     {
+        if(pourParticles) pourParticles.Stop();
+        if(pourSource) pourSource.Stop();
+
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
@@ -441,7 +444,7 @@ public class WaterCanBehavior : ToolBehavior
                         wateredStructures.Add(structure);
                         if(tile.GetCropStats().waterLevel == 10) return;
                     }
-                    else if((wHolder == null || !wHolder.CanBeWatered()) && !structure.onFire)
+                    else if((wHolder == null || !wHolder.CanBeWatered()) && !structure.onFire && !structure.allowContinousWatering)
                     {
                         wateredStructures.Add(structure);
                         if(wHolder != null && !wHolder.CanBeWatered()) return;

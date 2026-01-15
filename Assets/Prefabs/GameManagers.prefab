@@ -3638,6 +3638,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7679895750107485329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2829954877966297327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7612680629034325964}
+  - component: {fileID: 3693662022705487583}
+  m_Layer: 0
+  m_Name: AchievementManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7612680629034325964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2829954877966297327}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -50.378662, y: 9.562347, z: -32.697105}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8883901233060397173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3693662022705487583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2829954877966297327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e027291a3e4834a94a2f2223984269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allAchievements: []
 --- !u!1 &2843282118049928541
 GameObject:
   m_ObjectHideFlags: 0
@@ -11314,7 +11359,6 @@ GameObject:
   - component: {fileID: 5403788078324475412}
   - component: {fileID: 146488457976756947}
   - component: {fileID: 7036945931431975565}
-  - component: {fileID: 6801622736193339337}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -11348,6 +11392,7 @@ Transform:
   - {fileID: 4157573345881856525}
   - {fileID: 8058425567482587507}
   - {fileID: 849135099497693356}
+  - {fileID: 7612680629034325964}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4040343108907326756
@@ -11671,6 +11716,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e4ed0856b651a094aa24e5bca6b800fe, type: 2}
   - {fileID: 11400000, guid: 15fadd710b4c870469a74638c7dc96eb, type: 2}
   - {fileID: 11400000, guid: 42e88111de082c644af07790639fc60f, type: 2}
+  - {fileID: 11400000, guid: a46b706c20e439e419ed2687297042fa, type: 2}
   currentSpawnPool: {fileID: 0}
   firstNightWarning: {fileID: 11400000, guid: 72660b2db610a4141a9a53f590aa60ec, type: 2}
 --- !u!114 &6272051581299996177
@@ -59336,6 +59382,11 @@ MonoBehaviour:
       type: 3}
     isLarge: 1
     spawnChance: 20
+  - name: LeafPile
+    prefab: {fileID: 4265228784915763946, guid: ccc615622a9860a4a9defeb93ecfb4b1,
+      type: 3}
+    isLarge: 0
+    spawnChance: 40
   corruptedCocoonPrefab: {fileID: 1616115317982493522, guid: 38e0adb7b39efd14fa0a0d0b18531128,
     type: 3}
   allMaps: []
@@ -59456,7 +59507,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ba557de8f0187438a7bd2882c31197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corruptedTiles: 0
   maxCorruption: 200
   corruptedTile: {fileID: 8737718609640687283, guid: ae8f3d0b4ce2acf4ca214b38e5c1583a,
     type: 3}
@@ -59491,19 +59541,6 @@ MonoBehaviour:
   debugWagon: 0
   wagonDestroyedSFX1: {fileID: 8300000, guid: ac590ee887859d847ada730d76cd1ab1, type: 3}
   wagonDestroyedSFX2: {fileID: 8300000, guid: fdad68a7e6445d64e8b82f6ac9397e7b, type: 3}
---- !u!114 &6801622736193339337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5905684624903694689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5e027291a3e4834a94a2f2223984269, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allAchievements: []
 --- !u!1 &5908869676180100719
 GameObject:
   m_ObjectHideFlags: 0

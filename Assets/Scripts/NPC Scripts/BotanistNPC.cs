@@ -283,12 +283,14 @@ public class BotanistNPC : NPC, ITalkable
                 {
                     i = Random.Range(0, barterDatabase.uniqueTransactions2.Count);
 
+                    extraItems += Random.Range(1, 6);
+
                     item.RefreshItem(barterDatabase.uniqueTransactions2[i].itemForSale, barterDatabase.uniqueTransactions2[i].mintCost, barterDatabase.uniqueTransactions2[i].itemsRequired,
-                    barterDatabase.uniqueTransactions2[i].amountForSale);
+                    barterDatabase.uniqueTransactions2[i].amountForSale + extraItems);
                     item.seller = this;
                     x++;
 
-                    if(++x > 8) return; // stops extra items from being sold
+                    if(x > 8) return; // stops extra items from being sold
                     continue;
                 }
             }

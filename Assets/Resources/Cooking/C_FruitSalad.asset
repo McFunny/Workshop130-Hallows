@@ -14,18 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 23
   amountMade: 0
-  priority: 0
+  priority: 1
   requiredItems: []
   barredItems: []
   recipeStats:
-  - type: 0
-    value: 1.5
   - type: 1
     value: 1
   - type: 4
     value: -1
   - type: 2
     value: -1
+  - type: 6
+    value: -1
+  - type: 3
+    value: -1
   output: {fileID: 11400000, guid: 25cc2279251a8214aae0aaedc25fc10e, type: 2}
-  cookTimeInSeconds: 20
+  cookTimeInSeconds: 25
   validRecipes: []

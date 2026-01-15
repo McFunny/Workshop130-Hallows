@@ -467,7 +467,7 @@ public class FarmLand : StructureBehaviorScript
                 return;
             }
 
-            hoursSpent = 0;
+            //hoursSpent = 0;
             DrainNutrients(out bool gainedStress, false);
             if(crop.behavior) crop.behavior.OnGrowth(this);
             if(!isWeed)
@@ -482,6 +482,8 @@ public class FarmLand : StructureBehaviorScript
                     if(growth) growth.Play();
                     health += 2;
                     if(health > maxHealth) health = maxHealth;
+
+                    hoursSpent = 0;
                 }
             }
             if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
@@ -531,6 +533,7 @@ public class FarmLand : StructureBehaviorScript
         wealthValue = crop.wealthValue;
         ignoreNextGrowthMoment = true;
         maxHealth = oldMaxHealth;
+        health = maxHealth;
 
         if(crop.behavior) 
         {

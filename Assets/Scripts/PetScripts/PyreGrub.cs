@@ -765,6 +765,15 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             }
             else interactSuccessful = false;
         }
+        else if(item.ID == 142) //Pyrefly
+        {
+            if(!PlayerInteraction.Instance.pyreflyLit && ignited)
+            {
+                HandItemManager.Instance.PyreflyFlameToggle(true);
+                interactSuccessful = true;
+            }
+            else interactSuccessful = false;
+        }
         else if(hunger < 100 && !inBall && !ballTransitioning)
         {
             if(!foodDiet.Contains(item))

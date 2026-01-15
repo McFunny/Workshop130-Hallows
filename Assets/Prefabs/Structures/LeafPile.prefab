@@ -1486,8 +1486,8 @@ ParticleSystem:
         m_RotationOrder: 4
     startFrame:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 3
+      scalar: 0.75
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4984,7 +4984,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 4176373
+    m_Bits: 4176369
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -5181,6 +5181,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 0

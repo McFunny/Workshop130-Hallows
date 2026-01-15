@@ -438,6 +438,7 @@ public class CrockPot : FurnitureBehaviorScript
         newStats.Add(new CookingStats(IngredientType.Filler, 0));
         newStats.Add(new CookingStats(IngredientType.Weeds, 0));
         newStats.Add(new CookingStats(IngredientType.Tuber, 0));
+        newStats.Add(new CookingStats(IngredientType.Nut, 0));
 
         return newStats;
     }

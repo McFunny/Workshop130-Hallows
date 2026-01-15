@@ -7,6 +7,8 @@ public class KrakhenEgg : StructureBehaviorScript
     public CreatureObject krakhen;
     public InventoryItemData gunPowder;
 
+    public Rigidbody rb;
+
     bool hatched;
 
     void Start()
@@ -26,6 +28,17 @@ public class KrakhenEgg : StructureBehaviorScript
         Instantiate(krakhen.objectPrefab, transform.position, Quaternion.identity);
         hatched = true;
         Destroy(gameObject);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(!rb.useGravity) return;
+        if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
+        {
+            rb.isKinematic = true;
+            rb.useGravity = false;
+        }
+        
     }
 
     void OnDestroy()
