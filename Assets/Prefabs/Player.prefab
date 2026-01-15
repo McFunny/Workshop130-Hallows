@@ -222,7 +222,7 @@ MonoBehaviour:
   secondaryInventorySize: 9
   secondaryInventorySystem:
     inventorySlots: []
-  trinketInventorySize: 4
+  trinketInventorySize: 1
   trinketInventorySystem:
     inventorySlots: []
   _database: {fileID: 11400000, guid: 778e7ccc03dfccb4294abbe8b57c710a, type: 2}
@@ -282,6 +282,8 @@ MonoBehaviour:
   daysSinceDeath: 0
   stamina: 200
   fatigue: 0
+  regenRate: 4
+  targetRegen: 0
   overrideDamagePulse: 0
   invincible: 0
   waterHeld: 0

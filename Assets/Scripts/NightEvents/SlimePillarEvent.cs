@@ -15,7 +15,7 @@ public class SlimePillarEvent : NightEventObject
     IEnumerator PerformEvent()
     {
         List<Vector3> openTiles = new List<Vector3>();
-        int pillarsToSpawn = Random.Range(1, 4);
+        int pillarsToSpawn = Random.Range(1, 2);
         for(int i = 0; i < pillarsToSpawn; i++)
         {
             openTiles.Add(StructureManager.Instance.GetRandomClearTile());

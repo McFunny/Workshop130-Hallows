@@ -166,6 +166,11 @@ public class InventorySystem
     public void LoadFromSaveData(InventorySystemSaveData saveData, Database database) //Also call this for when we dynamically change inventory size
     {
         inventorySlots.Clear();
+        if(saveData.savedSlots == null)
+        {
+            Debug.Log("No save data exists for this inventory"); //This means we need to load in empty slots
+            return;
+        }
         foreach (var slotData in saveData.savedSlots)
         {
             if (slotData.itemID != -1)

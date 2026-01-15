@@ -68,7 +68,7 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0)
         {
             ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
-            PlayerInteraction.Instance.waterHeld--;
+            PlayerInteraction.Instance.WaterChange(-1);
             success = true;
             Destroy(gameObject);
         }

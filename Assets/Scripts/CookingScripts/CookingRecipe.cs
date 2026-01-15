@@ -71,7 +71,7 @@ public class CookingRecipe : ScriptableObject
         if(validRecipes.Count == 0) validRecipes.Add(newRecipe);
         else validRecipes.Insert(0, newRecipe);
 
-        if(newRecipe.usedItems.Count >= 5) validRecipes.RemoveAt(4);
+        if(validRecipes.Count >= 5) validRecipes.RemoveAt(4);
     }
 
 }

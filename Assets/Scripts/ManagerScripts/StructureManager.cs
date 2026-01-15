@@ -125,7 +125,7 @@ public class StructureManager : MonoBehaviour
         int s = 0;
         for(int i = 0; i < allStructs.Count; i++)
         {
-            if(allStructs[i] && allStructs[i].destructable)
+            if(allStructs[i] && allStructs[i].destructable && ValidateGridType(allStructs[i].transform.position, GridType.Farm) == true)
             {
                 FarmLand potentialWeed = allStructs[i] as FarmLand;
                 if(potentialWeed && potentialWeed.isWeed) continue;

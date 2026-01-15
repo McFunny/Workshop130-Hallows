@@ -80,14 +80,14 @@ public class PlayerInventoryHolder : InventoryHolder
         secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
         trinketInventorySystem = new InventorySystem(trinketInventorySize);
 
-        foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
+        /*foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
         {
-            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket | InventorySlot.AcceptedItemType.Misc;
+            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
             TrinketInventoryData data = new TrinketInventoryData();
 
             data.slot = slot;
             TrinketInventoryHandler.Instance.trinkets.Add(data);
-        }
+        }*/
 
         SaveLoad.OnSaveGame += SaveInventory;
         SaveLoad.OnLoadGame += LoadInventory;
@@ -101,6 +101,20 @@ public class PlayerInventoryHolder : InventoryHolder
         {
             Instance = this;
         }
+    }
+
+    void Start()
+    {
+        foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
+        {
+            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+            TrinketInventoryData data = new TrinketInventoryData();
+
+            data.slot = slot;
+            TrinketInventoryHandler.Instance.trinkets.Add(data);
+        }
+
+        StartCoroutine(DelayedStart());
     }
 
     private void LoadInventory(SaveData data)
@@ -157,11 +171,6 @@ public class PlayerInventoryHolder : InventoryHolder
         this.trinketInventorySystem.LoadFromSaveData(tempData, _database);
 
         UpdateInventory();
-    }
-
-    private void Start()
-    {
-        StartCoroutine(DelayedStart());
     }
 
     IEnumerator DelayedStart()

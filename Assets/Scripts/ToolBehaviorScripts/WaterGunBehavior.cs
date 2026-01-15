@@ -240,7 +240,7 @@ public class WaterGunBehavior : ToolBehavior
             freeMultishotting = true;
         }
 
-        PlayerInteraction.Instance.waterHeld -= 1; //See if this is unbalanced and we should revert back to 1 cost to multi shot
+        PlayerInteraction.Instance.WaterChange(-1); //See if this is unbalanced and we should revert back to 1 cost to multi shot
         GameObject newBullet;
         Vector3 dir;
         float extraForce = 15;

@@ -99,8 +99,21 @@ public class HoeBehavior : ToolBehavior
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
                 HotbarDisplay.currentSlot.UpdateUISlot();
                 HandItemManager.Instance.ClearHandModel();
+                return;
             }
         } 
+
+        if (Physics.Raycast(player.position, fwd, out hit, 6, 1 << 6))
+        {
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
+            if (structure != null && structure.Interactable())
+            {
+                //Use Tool to interact with structure (Probably just the tool rack)
+                bool success = false;
+                structure.ToolInteraction(tool, out success);
+                if(success) return;
+            }
+        }
     }
 
     public override void ItemUsed() 

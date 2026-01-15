@@ -7,7 +7,7 @@ public class BarnTutorialTrigger : MonoBehaviour
     public GameObject tutorial;
     void OnTriggerEnter(Collider other)
     {
-        if(!GameSaveData.Instance.mil_gavePen && TimeManager.Instance.isDay && TimeManager.Instance.currentHour != 19 && Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) < 7)
+        if(!GameSaveData.Instance.mil_gavePen && TimeManager.Instance.isDay && TimeManager.Instance.currentHour != 19 && Vector3.Distance(PlayerInteraction.Instance.transform.position, transform.position) < 15)
         {
             GameSaveData.Instance.mil_gavePen = true;
             PlayerInteraction.Instance.invincible = true;

@@ -27,7 +27,8 @@ public class WaterSource : MonoBehaviour, IInteractable
             return;
         }
         interactSuccessful = true;
-        PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
+        PlayerInteraction.Instance.WaterChange(PlayerInteraction.Instance.maxWaterHeld);
+        //PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
         
     }
     

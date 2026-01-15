@@ -57,7 +57,8 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     playAnim = true;
                     structure.Extinguish();
-                    PlayerInteraction.Instance.waterHeld--;
+                    //PlayerInteraction.Instance.waterHeld--;
+                    PlayerInteraction.Instance.WaterChange(-1);
                 }
                 else if(wHolder != null)
                 {
@@ -194,7 +195,7 @@ public class WaterCanBehavior : ToolBehavior
                     structure.Extinguish();
                     if(structure.particleCenter) ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.particleCenter.position;
                     else ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.transform.position;
-                    PlayerInteraction.Instance.waterHeld--;
+                    PlayerInteraction.Instance.WaterChange(-1);
                 }
                 else structure.ToolInteraction(tool, out playAnim);
                 if(playAnim)
@@ -399,7 +400,7 @@ public class WaterCanBehavior : ToolBehavior
                 skipPour = false;
                 continue;
             }
-            if(CanPour())PlayerInteraction.Instance.waterHeld--;
+            if(CanPour())PlayerInteraction.Instance.WaterChange(-1);
 
             //Ensure particles and code are being run only when the player is looking down
         }
@@ -484,7 +485,7 @@ public class WaterCanBehavior : ToolBehavior
         {
             HandItemManager.Instance.toolSource.PlayOneShot(pour);
             HandItemManager.Instance.toolSource.PlayOneShot(refill);
-            PlayerInteraction.Instance.waterHeld--;
+            PlayerInteraction.Instance.WaterChange(-1);
             skipPour = true;
 
             //ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Water, new Color(1,1,1,0.4f), Random.Range(1, 4));

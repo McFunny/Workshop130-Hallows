@@ -92,6 +92,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             TakeDamage(5);
             FriendPointsChange(-2, false);
             tookDamage = true;
+            hunger = 0;
         }
         thirst -= thirstDecayRate;
         if(thirst < 0)
@@ -99,6 +100,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             TakeDamage(5);
             FriendPointsChange(-2, false);
             tookDamage = true;
+            thirst = 0;
         }
 
         if(!tookDamage) health += 2;

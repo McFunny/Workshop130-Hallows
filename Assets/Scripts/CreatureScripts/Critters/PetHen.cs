@@ -280,10 +280,15 @@ public class PetHen : CritterBehaviorScript
         if (!isMoving && currentRoutine == null)
         {
             agent.speed = runSpeed;
+            if(!targetObject)
+            {
+                currentState = CritterState.Idle;
+                return;
+            }
             target = targetObject.position;
             currentRoutine = StartCoroutine(MoveToPoint(target, 10));
         }
-        else if (Vector3.Distance(transform.position, target) < 1.5f)
+        else if (Vector3.Distance(transform.position, target) < 1.7f)
         {
             interruptAction = true;
         }

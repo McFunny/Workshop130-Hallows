@@ -9,6 +9,8 @@ public class TrinketInventoryHandler : MonoBehaviour
     public static TrinketInventoryHandler Instance;
     public List<TrinketInventoryData> trinkets = new List<TrinketInventoryData>();
 
+    public AudioClip equipSFX, removeSFX, breakSFX;
+
 
     void Awake()
     {
@@ -36,14 +38,39 @@ public class TrinketInventoryHandler : MonoBehaviour
     {
         Debug.Log("Trinket entered slot: " + slot);
         Debug.Log("Trinket: " + slot.ItemData.displayName);
+        GetTrinketDataFromSlot(slot).durability = 100f;
+        TrinketItem trinket = slot.ItemData as TrinketItem;
+        if(!trinket)
+        {
+            Debug.LogError("This is not a trinket and should not be here");
+            return;
+        }
+
+        trinket.OnEquip();
+
+        DialogueController.Instance.source.PlayOneShot(equipSFX);
     }
 
     public void TrinketRemoved(InventorySlot slot, MouseItemData mouseItemData)
     {
         Debug.Log("Trinket left slot: " + slot);
         Debug.Log("Trinket: " + slot.ItemData.displayName);
-        GetTrinketDataFromSlot(slot).durability = 0f;
-        BreakTrinket(mouseItemData);
+
+        TrinketItem trinket = slot.ItemData as TrinketItem;
+        if(!trinket)
+        {
+            Debug.LogError("This is not a trinket and should not be here");
+            return;
+        }
+        trinket.OnRemove();
+
+        if(GetTrinketDataFromSlot(slot).durability + trinket.removalBreakModifier < UnityEngine.Random.Range(0, 100))
+        {
+            GetTrinketDataFromSlot(slot).durability = 0f;
+            BreakTrinket(mouseItemData);
+            DialogueController.Instance.source.PlayOneShot(breakSFX);
+        }
+        else DialogueController.Instance.source.PlayOneShot(removeSFX);
     }
 
     public void BreakTrinket(MouseItemData mouseItemData)

@@ -52,6 +52,27 @@ public class NutTesterBehavior : ToolBehavior
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
     {
+        if(!PlayerInteraction.Instance.toolCooldown)
+        {
+            if (!player) player = _player;
+            tool = _tool;
+
+            Vector3 fwd = player.TransformDirection(Vector3.forward);
+            RaycastHit hit;
+
+            if (Physics.Raycast(player.position, fwd, out hit, 6, 1 << 6))
+            {
+                var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
+                if (structure != null && structure.Interactable())
+                {
+                    //Use Tool to interact with structure (Probably just the tool rack)
+                    bool success = false;
+                    structure.ToolInteraction(tool, out success);
+                    if(success) return;
+                }
+            }
+        }
+
         switch (NutrientTesterScript.Instance.ReturnMode())
         {
             case NutrientTesterScript.TesterMode.Nutrient:
