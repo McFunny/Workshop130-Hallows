@@ -38,13 +38,14 @@ public class TrinketInventoryHandler : MonoBehaviour
     {
         Debug.Log("Trinket entered slot: " + slot);
         Debug.Log("Trinket: " + slot.ItemData.displayName);
-        GetTrinketDataFromSlot(slot).durability = 100f;
         TrinketItem trinket = slot.ItemData as TrinketItem;
         if(!trinket)
         {
             Debug.LogError("This is not a trinket and should not be here");
             return;
         }
+        GetTrinketDataFromSlot(slot).maxDurability = trinket.maxDurability;
+        GetTrinketDataFromSlot(slot).durability = trinket.maxDurability;
 
         trinket.OnEquip();
 
@@ -64,7 +65,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         }
         trinket.OnRemove();
 
-        if(GetTrinketDataFromSlot(slot).durability + trinket.removalBreakModifier < UnityEngine.Random.Range(0, 100))
+        if(GetTrinketDataFromSlot(slot).durability < UnityEngine.Random.Range(trinket.guaranteedBreakThreshold + 1, trinket.maxDurability))
         {
             GetTrinketDataFromSlot(slot).durability = 0f;
             BreakTrinket(mouseItemData);
@@ -104,7 +105,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         ChangeTrinketDurability(slot, trinketDurability);
 
         uiSlot.durabilitySlider.value = trinketDurability;
-        //uiSlot.durabilitySlider.maxValue = 100f;
+        uiSlot.durabilitySlider.maxValue = trinketData.maxDurability;
 
         if(trinketDurability <= 0f)
         {
@@ -139,4 +140,5 @@ public class TrinketInventoryData
 {
     public InventorySlot slot;
     public float durability;
+    public float maxDurability;
 }
