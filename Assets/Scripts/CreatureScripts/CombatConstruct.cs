@@ -291,7 +291,7 @@ public class CombatConstruct : CreatureBehaviorScript
     {
         if(hitPlayer && (hitStructures.Count == 0 || CanSeePlayer()))
         {
-            PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
+            PlayerInteraction.Instance.StaminaChange(-damageToPlayer, corpseParticleTransform.position);
             hitPlayer = false;
         }
         else if(hitStructures.Count > 0)

@@ -20,6 +20,9 @@ public class TrinketItem : InventoryItemData
     [Tooltip("If durability is less than or equal to this, guaranteed chance to break")]
     public float guaranteedBreakThreshold = 2; 
 
+    [Tooltip("How much to multiply oncoming damage. Used for basic armor trinkets")]
+    public float damageMultiplier = 1;
+
     public void OnEquip()
     {
         behavior.OnEquip();

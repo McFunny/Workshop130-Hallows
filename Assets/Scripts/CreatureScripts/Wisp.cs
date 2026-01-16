@@ -490,7 +490,7 @@ public class Wisp : CreatureBehaviorScript
         {
             if(other.gameObject.layer == 10) 
             {
-                PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+                PlayerInteraction.Instance.StaminaChange(damageToPlayer, corpseParticleTransform.position);
                 isAttacking = false;
                 effectsHandler.PlaySound(effectsHandler.extraSounds[1]);
             }

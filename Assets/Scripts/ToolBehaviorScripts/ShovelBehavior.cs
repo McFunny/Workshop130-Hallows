@@ -7,7 +7,7 @@ public class ShovelBehavior : ToolBehavior
 {
     public InventoryItemData thisItem;
     ShovelAttack shovelAttack;
-    public AudioClip swing, dig, chargeReady;
+    public AudioClip swing, dig, chargeReady, parrySFX, parrySuccessSFX;
     StructureBehaviorScript interactedStructure;
 
     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -16,6 +16,7 @@ public class ShovelBehavior : ToolBehavior
     bool maxCharge = false;
     Coroutine swingingShovelCoroutine;
     Coroutine chargingCoroutine;
+
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
@@ -42,6 +43,12 @@ public class ShovelBehavior : ToolBehavior
         {
             coolDownMod += .25f;
             animSpeedMod -= .3f;
+        }
+        if(PlayerInteraction.Instance.parrySuccess)
+        {
+            coolDownMod -= .35f;
+            animSpeedMod += .7f;
+            PlayerInteraction.Instance.parrySuccess = false;
         }
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
@@ -114,8 +121,13 @@ public class ShovelBehavior : ToolBehavior
                     PlayerCam.Instance.NewObjectOfInterest(structure.transform.position);
 
                 }
+                return;
             }
         }
+
+        if(PlayerInteraction.Instance.stamina <= 50) return;
+        PlayerInteraction.Instance.StartCoroutine(ParryRoutine());
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ParryRoutine());
 
     }
 
@@ -209,6 +221,24 @@ public class ShovelBehavior : ToolBehavior
             maxCharge = true;
             Debug.Log("Charged Up");
         }
+    }
+
+    IEnumerator ParryRoutine()
+    {
+        toolAnim.Play("shovelParry");
+        AudioPoolManager.Instance.PlayClip(parrySFX, 0.8f);
+        yield return new WaitForSeconds(0.01f);
+        while(PlayerInteraction.Instance.isParrying)
+        {
+            yield return null;
+        }
+
+        if(PlayerInteraction.Instance.parrySuccess)
+        {
+            toolAnim.Play("shovelParrySuccess");
+            AudioPoolManager.Instance.PlayClip(parrySuccessSFX, 0.8f);
+        }
+
     }
 
 

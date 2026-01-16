@@ -63,6 +63,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool pyreflyLit = false; //For the tool item
     //public bool droppedKukri = false; //For when the player has thrown their knife
     public bool lostKukri = false; //For when the player no longer has their knife
+    public bool isParrying, parrySuccess;
 
     private float reach = 8;
 
@@ -437,7 +438,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f;
 
-        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
+        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount <= -5) amount *= 1.5f;
 
         //if(amount > 6) fatigue += Mathf.Round(amount * 0.1f);
 
@@ -469,6 +470,27 @@ public class PlayerInteraction : MonoBehaviour
         else if(stamina > 50) sentLowStaminaMessage = false;
 
         overrideDamagePulse = false;
+    }
+
+    public void StaminaChange(float amount, Vector3 sourcePos) //Mostly just for parrying
+    {
+        //Dont forget to check the Dot
+        if(isParrying && amount <= 5)
+        {
+            Vector3 dir = (sourcePos - transform.position).normalized;
+            float dot = Vector3.Dot(dir, mainCam.transform.forward);
+
+            if(dot >= 0.65f)
+            {
+                isParrying = false;
+                parrySuccess = true;
+                if(HandItemManager.Instance.parryParticles) HandItemManager.Instance.parryParticles.Play();
+                return;
+            }
+        }
+
+
+        StaminaChange(amount);
     }
 
     public void WaterChange(float amount)
@@ -806,6 +828,34 @@ public class PlayerInteraction : MonoBehaviour
 
         if (prefs == 0) interactWithEmptyHand = false;
         else interactWithEmptyHand = true;
+    }
+
+    public IEnumerator ParryRoutine()
+    {
+        isParrying = true;
+        parrySuccess = false;
+        ToolUseToggle(true);
+        float timeElapsed = 0;
+        float maxTime = 0.4f;
+
+        while(timeElapsed < maxTime && !parrySuccess)
+        {
+            yield return new WaitForSeconds(0.1f);
+            timeElapsed += 0.1f;
+        }
+
+        isParrying = false;
+        if(parrySuccess)
+        {
+            ToolUseToggle(false);
+            yield return new WaitForSeconds(0.8f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.2f);
+            ToolUseToggle(false);
+        }
+        parrySuccess = false;
     }
 
 

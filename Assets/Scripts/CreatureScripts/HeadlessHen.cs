@@ -374,7 +374,7 @@ public class HeadlessHen : CreatureBehaviorScript
     {
         if(isAttacking && !isDead)
         {
-            if(other.gameObject.layer == 10) PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            if(other.gameObject.layer == 10) PlayerInteraction.Instance.StaminaChange(damageToPlayer, corpseParticleTransform.position);
 
             if(other.gameObject.layer == 6)
             {

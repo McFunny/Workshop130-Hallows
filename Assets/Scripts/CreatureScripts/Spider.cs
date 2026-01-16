@@ -557,7 +557,7 @@ public class Spider : CreatureBehaviorScript
             if (playerInteraction != null)
             {
                 agent.velocity = Vector3.zero; //STOP PLAYER MOMENTUM IMMEDIATELY SO THE SPIDER DOES NOT PUSH THE PLAYER
-                playerInteraction.StaminaChange(-damageToPlayer);
+                playerInteraction.StaminaChange(-damageToPlayer, corpseParticleTransform.position);
                 attacking = false;
                 return;
             }

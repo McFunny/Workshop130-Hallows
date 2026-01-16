@@ -150,7 +150,7 @@ public class BuzzsawBot : CreatureBehaviorScript
         if(hitObject.layer == 10)
         {
             performRecoil = true;
-            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            PlayerInteraction.Instance.StaminaChange(damageToPlayer, corpseParticleTransform.position);
         }
 
         StructureBehaviorScript obstacle = hitObject.GetComponentInParent<StructureBehaviorScript>(); //To check if its a tree because trees arent "obstacles"

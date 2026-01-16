@@ -780,7 +780,7 @@ public class FeralHareTest : CreatureBehaviorScript
     {
         if (attackingPlayer && other.CompareTag("Player") && !isDead)
         {
-            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            PlayerInteraction.Instance.StaminaChange(damageToPlayer, corpseParticleTransform.position);
             attackCollider.enabled = false;
             biteParticles.Play();
         }

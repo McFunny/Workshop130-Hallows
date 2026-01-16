@@ -275,8 +275,8 @@ public class RubyWasp : CreatureBehaviorScript
         yield return new WaitForSeconds(0.15f);
         if(playerInAttackRange)
         {
-            PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
-            if(Random.Range(0, 10) > 4) //It got stuck!
+            PlayerInteraction.Instance.StaminaChange(-damageToPlayer, corpseParticleTransform.position);
+            if(Random.Range(0, 10) > 4 && !PlayerInteraction.Instance.isParrying) //It got stuck!
             {
                 currentState = CreatureState.Stuck;
                 rb.velocity = Vector3.zero;

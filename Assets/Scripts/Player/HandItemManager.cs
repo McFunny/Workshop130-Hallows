@@ -28,7 +28,7 @@ public class HandItemManager : MonoBehaviour
 
     public Transform bulletStart, waterBulletStart, waterBulletCloseStart;
 
-    public ParticleSystem waterCanParticles, pistolParticles, waterCanUpgradeParticles, flameThrowerParticles;
+    public ParticleSystem waterCanParticles, pistolParticles, waterCanUpgradeParticles, flameThrowerParticles, parryParticles;
     public TrailRenderer scytheTrail;
 
     void Awake()

@@ -402,7 +402,7 @@ public class PlantMimic : CreatureBehaviorScript
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
-                playerInteraction.StaminaChange(damageToPlayer);
+                playerInteraction.StaminaChange(damageToPlayer, corpseParticleTransform.position);
                 attackHitbox.enabled = false;
             }
 
