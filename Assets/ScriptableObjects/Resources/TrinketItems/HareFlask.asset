@@ -17,8 +17,8 @@ MonoBehaviour:
   description: Increases max water by 5.
   icon: {fileID: 241465970, guid: f9b058152f9563045a80150eb21313e7, type: 3}
   type: 11
-  maxStackSize: 20
-  value: 50
+  maxStackSize: 1
+  value: 40
   sellValueMultiplier: 0.8
   isKeyItem: 0
   hasModel: 0
@@ -38,4 +38,7 @@ MonoBehaviour:
   behavior: {fileID: 11400000, guid: 0637065da24c80749889d367d2fe1a42, type: 2}
   key: 1
   stackable: 0
-  removalBreakModifier: 0
+  damagedByAttacks: 0
+  maxDurability: 30
+  guaranteedBreakThreshold: 5
+  damageMultiplier: 1

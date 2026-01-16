@@ -10,6 +10,11 @@ public class LeafPile : StructureBehaviorScript
 
     public GameObject leafParticles;
 
+    public override void HitWithWater()
+    {
+        Destroy(this.gameObject);
+    }
+
 
     void OnTriggerEnter(Collider other)
     {

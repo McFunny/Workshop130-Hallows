@@ -442,22 +442,25 @@ public class PlayerInteraction : MonoBehaviour
 
         //if(amount > 6) fatigue += Mathf.Round(amount * 0.1f);
 
-        if(amount > 0)
-        {
-            playerEffects.PlayClip(playerEffects.playerHeal, 1.3f);
-        }
+        if(amount > 0) playerEffects.PlayClip(playerEffects.playerHeal, 1.3f);
         
-        if(repairMinigame.IsMinigameActive())
+        if(repairMinigame.IsMinigameActive()) repairMinigame.EndMinigame();
+
+        if(amount <= -5) //Apply Damage Reduction from Trinkets
         {
-            repairMinigame.EndMinigame();
+            amount = TrinketInventoryHandler.Instance.ApplyTrinketDamageModifiers(amount);
+            if(amount > -5) amount = -5;
         }
 
         stamina += Mathf.Round(amount);
+
         if(amount <= -5 && !overrideDamagePulse)
         {
             playerEffects.PlayerDamage();
             ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.4f), Mathf.Clamp(-amount / 3, 1, 8));
             if(stamina <= 0 || MainMenuScript.currentFileMode != FileMode.Cozy) targetRegen = 0;
+
+            //TrinketInventoryHandler.Instance.DamageArmorTrinkets(-amount);
         }
 
         if(amount <= -10) OnPlayerDamaged?.Invoke(amount);
@@ -485,6 +488,7 @@ public class PlayerInteraction : MonoBehaviour
                 isParrying = false;
                 parrySuccess = true;
                 if(HandItemManager.Instance.parryParticles) HandItemManager.Instance.parryParticles.Play();
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.Parry);
                 return;
             }
         }
@@ -495,8 +499,6 @@ public class PlayerInteraction : MonoBehaviour
 
     public void WaterChange(float amount)
     {
-        print(amount);
-
         if(amount + waterHeld > maxWaterHeld) amount -= amount + waterHeld - maxWaterHeld;
         else if(waterHeld + amount < 0) amount = waterHeld;
 
@@ -504,19 +506,18 @@ public class PlayerInteraction : MonoBehaviour
 
         waterHeld += amount;
 
-        print(amount);
 
         //if using hareflask trinket, subtract 1 for each water gained over maxWater - 5
-        if(waterHeld > (maxWaterHeld - 5))
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.WaterFlask) && waterHeld > (maxWaterHeld - 5))
         {
             float tempValue = waterHeld;
             float x = 0;
-            while(tempValue > (maxWaterHeld - 5))
+            while(tempValue > (maxWaterHeld - 5) && x < amount)
             {
                 tempValue--;
                 x++;
                 //Damage Trinket
-                if(x >= amount) tempValue = 0;
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.WaterFlask);
             }
         }
     }
@@ -799,6 +800,7 @@ public class PlayerInteraction : MonoBehaviour
         cameraPos.DOMoveY(cameraPos.position.y - 2.5f, 0.25f); //Move Down
         yield return new WaitForSeconds(.25f);
         playerEffects.PlayClip(playerEffects.trip);
+        playerEffects.CallScreenShake(0.7f);
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
         ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Dirt, new Color(1,1,1,0.4f), 5);
         yield return new WaitForSeconds(.50f);

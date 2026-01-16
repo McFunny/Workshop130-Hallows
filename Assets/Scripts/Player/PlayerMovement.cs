@@ -352,6 +352,12 @@ public class PlayerMovement : MonoBehaviour
         return rb.velocity;
     }
 
+    public bool IsMoving()
+    {
+        if(rb.velocity.magnitude > 7 && restrictMovementTokens == 0) return true;
+        else return false;
+    }
+
 }
 
 public class MovementSpeedModifiers

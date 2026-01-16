@@ -42,5 +42,7 @@ public class TrinketItem : InventoryItemData
 public enum TrinketKey
 {
     Basic,
-    WaterFlask
+    WaterFlask,
+    Parry,
+    WingTag
 }

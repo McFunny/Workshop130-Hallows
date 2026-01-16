@@ -55,7 +55,11 @@ public class HandItemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(currentAnim)
+        {
+            if(PlayerMovement.Instance.IsMoving()) currentAnim.SetBool("IsWalking", true);
+            else currentAnim.SetBool("IsWalking", false);
+        }
     }
 
     public void SwapHandModel(ToolType type, bool isUpgrade)

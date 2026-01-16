@@ -137,6 +137,10 @@ public abstract class InventoryDisplay : MonoBehaviour
 
             if(IsTrinketSlot(clickedUISlot))
             {
+                // Cancels the action if the trinket is not stackable
+                if(!TrinketInventoryHandler.Instance.CanPlaceInTrinketSlot(mouseInventoryItem.assignedInventorySlot.ItemData)) return;
+
+
                 clickedUISlot.AssignedInventorySlot.AssignItem(new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, 1));
                 mouseInventoryItem.assignedInventorySlot.RemoveFromStack(1);
                 TrinketInventoryHandler.Instance.TrinketEntered(clickedUISlot.AssignedInventorySlot);
@@ -232,6 +236,8 @@ public abstract class InventoryDisplay : MonoBehaviour
         {
             //Cancels the action if the slot does not accept this item (mainly for trinkets)
             if(!CanAcceptItemType(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+
+            if(IsTrinketSlot(clickedUISlot)) if(!TrinketInventoryHandler.Instance.CanPlaceInTrinketSlot(mouseInventoryItem.assignedInventorySlot.ItemData)) return;
             
             // Add one item from the mouse inventory to the clicked slot
             clickedUISlot.AssignedInventorySlot.AssignItem(new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, 1));

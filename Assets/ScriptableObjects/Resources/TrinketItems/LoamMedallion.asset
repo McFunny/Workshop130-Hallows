@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: -1
   displayName: Loam Medallion
-  description: Reduces damage taken by 10%.
+  description: Reduces damage taken from attacks by 10%.
   icon: {fileID: 1980542278, guid: 77ece19bd9a7b374792ce67543c342cf, type: 3}
   type: 11
-  maxStackSize: 20
-  value: 30
+  maxStackSize: 1
+  value: 15
   sellValueMultiplier: 0.8
   isKeyItem: 0
   hasModel: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
   behavior: {fileID: 11400000, guid: edba0bb6905774b4a81b291be35f4a8d, type: 2}
   key: 0
   stackable: 1
-  damagedByAttacks: 0
+  damagedByAttacks: 1
   maxDurability: 50
   guaranteedBreakThreshold: 10
   damageMultiplier: 0.9

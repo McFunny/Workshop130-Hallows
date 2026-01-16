@@ -49,7 +49,8 @@ public class TrinketInventoryHandler : MonoBehaviour
 
         trinket.OnEquip();
 
-        DialogueController.Instance.source.PlayOneShot(equipSFX);
+        //DialogueController.Instance.source.PlayOneShot(equipSFX);
+        AudioPoolManager.Instance.PlayClip(equipSFX, 0.1f);
     }
 
     public void TrinketRemoved(InventorySlot slot, MouseItemData mouseItemData)
@@ -69,18 +70,30 @@ public class TrinketInventoryHandler : MonoBehaviour
         {
             GetTrinketDataFromSlot(slot).durability = 0f;
             BreakTrinket(mouseItemData);
-            DialogueController.Instance.source.PlayOneShot(breakSFX);
         }
-        else DialogueController.Instance.source.PlayOneShot(removeSFX);
+        else AudioPoolManager.Instance.PlayClip(removeSFX, 0.9f);//DialogueController.Instance.source.PlayOneShot(removeSFX);
     }
 
     public void BreakTrinket(MouseItemData mouseItemData)
     {
        mouseItemData.ClearSlot();
+       //DialogueController.Instance.source.PlayOneShot(breakSFX);
+       AudioPoolManager.Instance.PlayClip(breakSFX, 0.1f);
     }
 
-    public void ApplyTrinketDamage(TrinketKey _key)
+    public void BreakTrinket(InventorySlot slot)
     {
+        TrinketItem trinket = slot.ItemData as TrinketItem;
+        if(trinket) trinket.OnRemove();
+        slot.ClearSlot();
+        //DialogueController.Instance.source.PlayOneShot(breakSFX);
+        AudioPoolManager.Instance.PlayClip(breakSFX, 0.4f);
+    }
+
+    public void ApplyTrinketDamage(TrinketKey _key, float damage = 1) //Reduced trinket durability
+    {
+        if(damage < 0) damage *= -1; //Make sure its not healing the trinkets
+
         for(int i = 0; i < trinkets.Count; ++i)
         {
             InventoryItemData item = trinkets[i].slot.ItemData;
@@ -90,12 +103,57 @@ public class TrinketInventoryHandler : MonoBehaviour
             if(t_item && t_item.key == _key)
             {
                 //Apply Damage
+                ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - damage);
                 return;
             }
         }
     }
 
-    public bool CheckForTrinket(TrinketKey _key)
+    /*public void DamageArmorTrinkets(float damage) //Damage trinkets that can take damage from attacks
+    {
+        if(damage < 0) damage *= -1; //Make sure its not healing the trinkets
+
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            InventoryItemData item = trinkets[i].slot.ItemData;
+            if(!item) continue;
+            TrinketItem t_item = item as TrinketItem;
+
+            if(t_item && t_item.damagedByAttacks)
+            {
+                //Apply Damage
+                ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - damage);
+            }
+        }
+    }*/
+
+    public float ApplyTrinketDamageModifiers(float damage) //Apply trinket armor
+    {
+        damage *= -1;
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            InventoryItemData item = trinkets[i].slot.ItemData;
+            if(!item) continue;
+            TrinketItem t_item = item as TrinketItem;
+
+            if(t_item)
+            {
+                float amountReduced = damage - (damage * t_item.damageMultiplier);
+                amountReduced = Mathf.CeilToInt(amountReduced);
+                damage -= amountReduced;
+
+                if(t_item.damagedByAttacks)
+                {
+                    if(t_item.damageMultiplier == 1) ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - Mathf.Clamp(damage / 5, 1, 10));
+                    else ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - Mathf.Clamp(amountReduced, 1, 100));
+                }
+            }
+        }
+
+        return -damage;
+    }
+
+    public bool CheckForTrinket(TrinketKey _key) //Checking if specific trinket exists
     {
         for(int i = 0; i < trinkets.Count; ++i)
         {
@@ -110,6 +168,30 @@ public class TrinketInventoryHandler : MonoBehaviour
         }
 
         return false;
+    }
+
+    bool CheckForRepeatNonStackableTrinket(TrinketKey _key) //Checking if there is another non-stackable trinket of the same type
+    {
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            InventoryItemData item = trinkets[i].slot.ItemData;
+            if(!item) continue;
+            TrinketItem t_item = item as TrinketItem;
+
+            if(t_item && t_item.key == _key && t_item.stackable)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool CanPlaceInTrinketSlot(InventoryItemData _item)
+    {
+        TrinketItem t_item = _item as TrinketItem;
+        if(!t_item) return false;
+        return !CheckForRepeatNonStackableTrinket(t_item.key);
     }
 
     private void OnSave()
@@ -137,6 +219,16 @@ public class TrinketInventoryHandler : MonoBehaviour
             {
                 trinkets[i].maxDurability = data.playerTrinketMaxDurabilityData[i];
             }
+        }
+
+        ReloadTrinkets();
+    }
+
+    void ReloadTrinkets()
+    {
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            TrinketEntered(trinkets[i].slot);
         }
     }
 
@@ -171,6 +263,8 @@ public class TrinketInventoryHandler : MonoBehaviour
         if (trinketData != null)
         {
             trinketData.durability = newDurability;
+
+            if(newDurability <= 0) BreakTrinket(slot);
         }
     }
 

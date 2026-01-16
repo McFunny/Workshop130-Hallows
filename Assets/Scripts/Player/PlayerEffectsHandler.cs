@@ -116,6 +116,11 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     }
 
+    public void CallScreenShake(float intensity)
+    {
+        damageImpulse.GenerateImpulseWithForce(intensity);
+    }
+
 
 
     IEnumerator DamageFlash()
