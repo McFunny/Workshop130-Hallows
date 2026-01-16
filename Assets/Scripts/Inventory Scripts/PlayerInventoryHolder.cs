@@ -128,10 +128,14 @@ public class PlayerInventoryHolder : InventoryHolder
             this.secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
             this.secondaryInventorySystem.LoadFromSaveData(data.playerInventoryData.secondaryInvSystemSave, _database);
 
+            Debug.Log("Old trinket InventorySize: " + trinketInventorySize);
             trinketInventorySize = data.playerInventoryData.trinketInventorySizeSave;
+            Debug.Log("New trinket InventorySize: " + trinketInventorySize);
             trinketInventorySystem = new InventorySystem(trinketInventorySize);
             trinketInventorySystem.LoadFromSaveData(data.playerInventoryData.trinketInvSystemSave, _database);
 
+            UpdateTrinketHandler();
+            TrinketInventoryHandler.Instance.OnLoad(data);
             UpdateInventory();
         }
         else
@@ -169,8 +173,38 @@ public class PlayerInventoryHolder : InventoryHolder
 
         this.trinketInventorySystem = new InventorySystem(trinketInventorySize);
         this.trinketInventorySystem.LoadFromSaveData(tempData, _database);
-
+        
+        UpdateTrinketHandler();
         UpdateInventory();
+    }
+
+    private void UpdateTrinketHandler()
+    {
+        int index = 0;
+        List<float> durabilityList = new List<float>();
+        List<float> maxDurabilityList = new List<float>();
+        durabilityList = TrinketInventoryHandler.Instance.GetDurabilityList();
+        maxDurabilityList = TrinketInventoryHandler.Instance.GetMaxDurabilityList();
+        TrinketInventoryHandler.Instance.trinkets = new List<TrinketInventoryData>();
+        
+        foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
+        {
+            TrinketInventoryData data = new TrinketInventoryData();
+            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+
+            if(index < trinketInventorySize)
+            {
+                data.slot = slot;
+                if(index < durabilityList.Count)
+                {
+                    data.durability = durabilityList[index];
+                    data.maxDurability = maxDurabilityList[index];
+                }
+            }
+            
+            TrinketInventoryHandler.Instance.trinkets.Add(data);
+            index++;
+        }
     }
 
     IEnumerator DelayedStart()

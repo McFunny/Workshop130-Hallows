@@ -135,16 +135,32 @@ public abstract class InventoryDisplay : MonoBehaviour
             // Cancels the action if the slot does not accept this item (mainly for trinkets)
             if(!CanAcceptItemType(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
 
-            clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.assignedInventorySlot);
-            
-            
-
             if(IsTrinketSlot(clickedUISlot))
             {
+                clickedUISlot.AssignedInventorySlot.AssignItem(new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, 1));
+                mouseInventoryItem.assignedInventorySlot.RemoveFromStack(1);
                 TrinketInventoryHandler.Instance.TrinketEntered(clickedUISlot.AssignedInventorySlot);
+
+                // Check if the mouse inventory stack is empty after removal
+                if (mouseInventoryItem.assignedInventorySlot.StackSize <= 0)
+                {
+                    mouseInventoryItem.ClearSlot(); // Clear the mouse if stack is empty
+                }
+                else
+                {
+                    // Create a new item for the remaining stack and update the mouse UI
+                    var newItem = new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, mouseInventoryItem.assignedInventorySlot.StackSize);
+                    mouseInventoryItem.ClearSlot();
+                    mouseInventoryItem.UpdateMouseSlot(newItem); // Update the mouse UI with the remaining stack
+                }
             }
+            else 
+            {
+                clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.assignedInventorySlot);
+                mouseInventoryItem.ClearSlot();
+            }
+
             clickedUISlot.UpdateUISlot();
-            mouseInventoryItem.ClearSlot();
             PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
             return;
         }
@@ -155,6 +171,7 @@ public abstract class InventoryDisplay : MonoBehaviour
             
             //Cancels the action if the slot does not accept this item (mainly for trinkets)
             if(!CanAcceptItemType(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+            if(IsTrinketSlot(clickedUISlot)) return;
             
             bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData == mouseInventoryItem.assignedInventorySlot.ItemData;
 
@@ -222,7 +239,7 @@ public abstract class InventoryDisplay : MonoBehaviour
 
             if(IsTrinketSlot(clickedUISlot))
             {
-                TrinketInventoryHandler.Instance.TrinketRemoved(clickedUISlot.AssignedInventorySlot, mouseInventoryItem);
+                TrinketInventoryHandler.Instance.TrinketEntered(clickedUISlot.AssignedInventorySlot);
             }
 
             // Update the clicked slot UI

@@ -25,13 +25,13 @@ public class TrinketInventoryHandler : MonoBehaviour
         }
 
         SaveLoad.OnSaveGame += OnSave;
-        SaveLoad.OnLoadGame += OnLoad;
+        //SaveLoad.OnLoadGame += OnLoad;
     }
 
     private void OnDisable()
     {
         SaveLoad.OnSaveGame -= OnSave;
-        SaveLoad.OnLoadGame -= OnLoad;
+        //SaveLoad.OnLoadGame -= OnLoad;
     }
 
     public void TrinketEntered(InventorySlot slot)
@@ -82,17 +82,27 @@ public class TrinketInventoryHandler : MonoBehaviour
     private void OnSave()
     {
         List<float> durabilityList = trinkets.Select(t => t.durability).ToList();
+        List<float> maxDurabilityList = trinkets.Select(t => t.maxDurability).ToList();
 
         SaveLoad.CurrentSaveData.playerTrinketDurabilityData = durabilityList;
+        SaveLoad.CurrentSaveData.playerTrinketMaxDurabilityData = maxDurabilityList;
     }
 
-    private void OnLoad(SaveData data)
+    public void OnLoad(SaveData data)
     {
         if (data.playerTrinketDurabilityData != null)
         {
-            for (int i = 0; i < data.playerTrinketDurabilityData.Capacity; i++)
+            for (int i = 0; i < data.playerTrinketDurabilityData.Count; i++)
             {
                 trinkets[i].durability = data.playerTrinketDurabilityData[i];
+            }
+        }
+
+        if (data.playerTrinketMaxDurabilityData != null)
+        {
+            for (int i = 0; i < data.playerTrinketMaxDurabilityData.Count; i++)
+            {
+                trinkets[i].maxDurability = data.playerTrinketMaxDurabilityData[i];
             }
         }
     }
@@ -102,11 +112,14 @@ public class TrinketInventoryHandler : MonoBehaviour
         TrinketInventoryData trinketData = GetTrinketDataFromSlot(slot);
 
         float trinketDurability = trinketData != null ? trinketData.durability : 0f;
+        float trinketMaxDurability = trinketData != null ? trinketData.maxDurability : 0f;
         ChangeTrinketDurability(slot, trinketDurability);
 
-        uiSlot.durabilitySlider.value = trinketDurability;
-        uiSlot.durabilitySlider.maxValue = trinketData.maxDurability;
+        Debug.Log("Trinket durability: " + trinketDurability);
 
+        uiSlot.durabilitySlider.maxValue = trinketMaxDurability;
+        uiSlot.durabilitySlider.value = trinketDurability;
+        
         if(trinketDurability <= 0f)
         {
             uiSlot.durabilitySlider.gameObject.SetActive(false);
@@ -131,6 +144,16 @@ public class TrinketInventoryHandler : MonoBehaviour
     private TrinketInventoryData GetTrinketDataFromSlot(InventorySlot slot)
     {
         return trinkets.Find(t => t.slot == slot);
+    }
+
+    public List<float> GetDurabilityList()
+    {
+        return trinkets.Select(t => t.durability).ToList();
+    }
+
+    public List<float> GetMaxDurabilityList()
+    {
+        return trinkets.Select(t => t.maxDurability).ToList();
     }
 
 }

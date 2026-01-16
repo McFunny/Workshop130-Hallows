@@ -5,6 +5,7 @@ using UnityEngine;
 public class CraftingStructure : StructureBehaviorScript
 {
     public List<CraftSlotData> craftSlots = new List<CraftSlotData>();
+    private CraftSlotSaveData craftSlotSaveData;
     private CraftingSystem craftingSystem;
     public int currentSlot;
     private const int CRAFTCAP = 5;
@@ -34,6 +35,16 @@ public class CraftingStructure : StructureBehaviorScript
         craftingSystem.SetCurrentStructure(this);
         StartCoroutine(WaitToOpenCraftingInterface());
 
+    }
+
+    public override void LoadVariables()
+    {
+        craftSlotSaveData = saveCrafts;
+    }
+
+    public override void SaveVariables()
+    {
+        saveCrafts = craftSlotSaveData;
     }
 
     private IEnumerator WaitToOpenCraftingInterface()

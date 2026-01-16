@@ -39,6 +39,15 @@ public class InventorySlot_UI : MonoBehaviour
         itemName.gameObject.SetActive(false);
         itemGrey.enabled = false;
         foodCooldownSlider.value = 0;
+        if(transform.parent.gameObject.name == "PlayerTrinkets")
+        {
+            assignedInventorySlot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+            TrinketInventoryHandler.Instance.OnInventoryUpdate(this, assignedInventorySlot);
+        }
+        else
+        {
+            assignedInventorySlot.acceptedItemType = InventorySlot.AcceptedItemType.Everything;
+        }
         //Debug.Log(ParentDisplay.gameObject.name);
     }
 
@@ -254,11 +263,15 @@ public class InventorySlot_UI : MonoBehaviour
             else
                 itemCount.text = "";
 
+            Debug.Log("Kevin: Parent slot is " + transform.parent.gameObject.name);
             if(transform.parent.gameObject.name == "PlayerTrinkets")
             {
-
+                slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
                 TrinketInventoryHandler.Instance.OnInventoryUpdate(this, assignedInventorySlot);
-                
+            }
+            else
+            {
+                slot.acceptedItemType = InventorySlot.AcceptedItemType.Everything;
             }
         }
         else
