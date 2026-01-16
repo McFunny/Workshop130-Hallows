@@ -850,11 +850,14 @@ public class PlayerInteraction : MonoBehaviour
         if(parrySuccess)
         {
             ToolUseToggle(false);
-            yield return new WaitForSeconds(0.8f);
+            invincible = true;
+            yield return new WaitForSeconds(0.4f);
+            invincible = false;
+            yield return new WaitForSeconds(0.4f);
         }
         else
         {
-            yield return new WaitForSeconds(1.2f);
+            yield return new WaitForSeconds(1.05f);
             ToolUseToggle(false);
         }
         parrySuccess = false;

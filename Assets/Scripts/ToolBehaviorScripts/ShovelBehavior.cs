@@ -127,7 +127,7 @@ public class ShovelBehavior : ToolBehavior
 
         if(PlayerInteraction.Instance.stamina <= 50) return;
         if(!TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.Parry)) return; //Do the check for the trinket
-        
+
         PlayerInteraction.Instance.StartCoroutine(ParryRoutine());
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ParryRoutine());
 
@@ -219,7 +219,7 @@ public class ShovelBehavior : ToolBehavior
         if(InputManager.isCharging)
         {
             //HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
-            AudioPoolManager.Instance.PlayClip(chargeReady, 0.8f);
+            AudioPoolManager.Instance.PlayClip(chargeReady, 0.4f);
             maxCharge = true;
             Debug.Log("Charged Up");
         }

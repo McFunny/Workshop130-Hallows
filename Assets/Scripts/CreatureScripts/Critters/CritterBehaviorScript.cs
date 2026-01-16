@@ -52,6 +52,11 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         thoughtBubbleScript = GetComponentInChildren<ThoughtBubble>();
 
         if(thoughtBubbleScript) StartCoroutine(EmotionDisplay());
+
+        if(!MainMenuScript.loadingData)
+        {
+            name = CritterNameDatabase.Instance.GetCritterName(critterType);
+        }
     }
 
     IEnumerator BehaviorDelay()
