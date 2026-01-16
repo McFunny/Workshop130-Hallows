@@ -126,6 +126,7 @@ public class ShovelBehavior : ToolBehavior
         }
 
         if(PlayerInteraction.Instance.stamina <= 50) return;
+        return; //Do the check for the trinket
         PlayerInteraction.Instance.StartCoroutine(ParryRoutine());
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ParryRoutine());
 
