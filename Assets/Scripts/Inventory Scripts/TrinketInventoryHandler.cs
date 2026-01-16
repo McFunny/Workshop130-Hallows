@@ -79,6 +79,39 @@ public class TrinketInventoryHandler : MonoBehaviour
        mouseItemData.ClearSlot();
     }
 
+    public void ApplyTrinketDamage(TrinketKey _key)
+    {
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            InventoryItemData item = trinkets[i].slot.ItemData;
+            if(!item) continue;
+            TrinketItem t_item = item as TrinketItem;
+
+            if(t_item && t_item.key == _key)
+            {
+                //Apply Damage
+                return;
+            }
+        }
+    }
+
+    public bool CheckForTrinket(TrinketKey _key)
+    {
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            InventoryItemData item = trinkets[i].slot.ItemData;
+            if(!item) continue;
+            TrinketItem t_item = item as TrinketItem;
+
+            if(t_item && t_item.key == _key)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void OnSave()
     {
         List<float> durabilityList = trinkets.Select(t => t.durability).ToList();
