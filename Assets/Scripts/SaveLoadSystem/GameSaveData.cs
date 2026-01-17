@@ -11,6 +11,7 @@ public class GameSaveData : MonoBehaviour
     public PetBehaviorScript catRef;
     public PetBehaviorScript grubRef;
     public PetBehaviorScript dogRef;
+    public PetBehaviorScript rockRef;
     [HideInInspector] public PetBehaviorScript currentPet;
 
     [Header("Player Variables")]
@@ -82,6 +83,7 @@ public class GameSaveData : MonoBehaviour
     public bool apo_gaveTissueQuest; // Apoth asked for the tissue samples
     public bool apo_gaveCure; // Apoth gave the recipe to the purifying flask, meaning the player completed that quest, and she will now sell the marigleam
     public bool cul_gaveCrock; // Player completed cooking tutorial
+    public bool mm_sellOnlyRocks;
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin blocking barn
@@ -250,6 +252,8 @@ public class GameSaveData : MonoBehaviour
         apo_gaveTissueQuest = data.allGameSaveData.apo_gaveTissueQuest;
         apo_gaveCure = data.allGameSaveData.apo_gaveCure;
         cul_gaveCrock = data.allGameSaveData.cul_gaveCrock;
+        mm_sellOnlyRocks = data.allGameSaveData.mm_sellOnlyRocks;
+
 
         travMet = data.allGameSaveData.travMet;
         graveMet = data.allGameSaveData.graveMet;
@@ -278,6 +282,9 @@ public class GameSaveData : MonoBehaviour
                 currentPet = grubRef;
                 break;
             case "Dog":
+                currentPet = dogRef;
+                break;
+            case "Rock":
                 currentPet = dogRef;
                 break;
             default:
@@ -401,6 +408,7 @@ public class GameSaveData : MonoBehaviour
         public bool apo_gaveTissueQuest; 
         public bool apo_gaveCure;
         public bool cul_gaveCrock;
+        public bool mm_sellOnlyRocks;
 
         public int botShopLevel;
         public int mintsDonatedToBot;
@@ -526,6 +534,7 @@ public class GameSaveData : MonoBehaviour
         apo_gaveTissueQuest = data.apo_gaveTissueQuest;
         apo_gaveCure = data.apo_gaveCure;
         cul_gaveCrock = data.cul_gaveCrock;
+        mm_sellOnlyRocks = data.mm_sellOnlyRocks;
 
         botShopLevel = data.botShopLevel;
         mintsDonatedToBot = data.mintsDonatedToBot;

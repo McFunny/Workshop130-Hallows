@@ -212,7 +212,7 @@ public class PetBehaviorScript : MonoBehaviour
 
     IEnumerator IdleSoundTimer()
     {
-        if(petType == PetType.Dog) yield break;
+        if(petType == PetType.Dog || petType == PetType.Rock) yield break;
         while(true)
         {
             yield return new WaitForSeconds(Random.Range(9, 16));
@@ -252,5 +252,6 @@ public enum PetType
     Shoebill,
     Grub,
     Crab,
-    Dog
+    Dog,
+    Rock
 }
