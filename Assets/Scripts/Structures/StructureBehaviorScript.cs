@@ -54,7 +54,7 @@ public class StructureBehaviorScript : MonoBehaviour
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
     [HideInInspector] public string saveString1, saveString2, saveString3;
     [HideInInspector] public bool saveBool1;
-    [HideInInspector] public CraftSlotSaveData saveCrafts; // CRAFTING MACHINE ONLY
+    [HideInInspector] public List<CraftSlotSaveData> saveCrafts; // CRAFTING MACHINE ONLY
 
     public GameObject damageParticlesObject;
     List<ParticleSystem> damageParticles = new List<ParticleSystem>();

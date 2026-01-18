@@ -5,7 +5,7 @@ using UnityEngine;
 public class CraftingStructure : StructureBehaviorScript
 {
     public List<CraftSlotData> craftSlots = new List<CraftSlotData>();
-    private CraftSlotSaveData craftSlotSaveData;
+    private List<CraftSlotSaveData> craftSlotSaveData = new List<CraftSlotSaveData>();
     private CraftingSystem craftingSystem;
     public int currentSlot;
     private const int CRAFTCAP = 5;
@@ -17,10 +17,15 @@ public class CraftingStructure : StructureBehaviorScript
     public Animator anim;
     public ParticleSystem fumes;
 
+    private void Awake()
+    {
+        base.Awake();
+        craftingSystem = FindObjectOfType<CraftingSystem>();
+    }
+
     public void Start()
     {
         base.Start();
-        craftingSystem = FindObjectOfType<CraftingSystem>();
         TimeManager.OnUpdateCraftTimes += TimeSkipped;
 
     }
@@ -37,16 +42,39 @@ public class CraftingStructure : StructureBehaviorScript
 
     }
 
-    public override void LoadVariables()
-    {
-        craftSlotSaveData = saveCrafts;
-    }
-
     public override void SaveVariables()
     {
+        craftSlotSaveData.Clear();
+        foreach (CraftSlotData slot in craftSlots)
+        {
+            CraftSlotSaveData saveSlot = new()
+            {
+                craftID = slot.assignedCraft.id,
+                timeRemaining = slot.timeRemaining,
+                isComplete = slot.isComplete
+            };
+            craftSlotSaveData.Add(saveSlot);
+        }
         saveCrafts = craftSlotSaveData;
     }
 
+    public override void LoadVariables()
+    {
+        craftSlotSaveData = saveCrafts;
+        craftSlots.Clear();
+        foreach (CraftSlotSaveData saveSlot in craftSlotSaveData)
+        {
+            CraftSlotData slot = new()
+            {
+                assignedCraft = CraftingDatabase.Instance.GetCraft(saveSlot.craftID),
+                timeRemaining = saveSlot.timeRemaining,
+                isComplete = saveSlot.isComplete
+            };
+            craftSlots.Add(slot);
+        }
+        StartCrafting();
+    }
+    
     private IEnumerator WaitToOpenCraftingInterface()
     {
         yield return new WaitForSeconds(0.1f);
@@ -120,6 +148,7 @@ public class CraftingStructure : StructureBehaviorScript
 
     private IEnumerator CraftTimer()
     {
+        Debug.Log("Starting Craft Timer for slot " + currentSlot + "at crafter " + this.gameObject);
         while (craftSlots[currentSlot].timeRemaining > 0)
         {
             yield return new WaitForSeconds(1f);
@@ -213,7 +242,14 @@ public class CraftingStructure : StructureBehaviorScript
     private void AllCraftsFinished()
     {
         audioHandler.PlaySound(audioHandler.activatedSound);
-        
+
+        StartCoroutine(DelayEffectStop());
+        Debug.Log("All Crafts Finished at crafter " + this.gameObject);
+    }
+
+    private IEnumerator DelayEffectStop()
+    {
+        yield return new WaitForSeconds(0.2f);
         loopingSource.Stop();
         if(audioCoroutine != null) StopCoroutine(audioCoroutine);
         audioCoroutine = null;
