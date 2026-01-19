@@ -32,7 +32,7 @@ public class CookingRecipeBook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //DEBUG ----------
+        /*//DEBUG ----------
         if(Input.GetKeyDown(KeyCode.RightAlt))
         {
             if(recipeBookOpen == true)
@@ -41,7 +41,7 @@ public class CookingRecipeBook : MonoBehaviour
             }
             else OpenRecipeBook();
         }
-        //DEBUG ----------
+        //DEBUG ----------*/
 
         if(recipeBookOpen == false) return;
 

@@ -6,13 +6,14 @@ using UnityEngine.Events;
 public class CookBook : FurnitureBehaviorScript
 {
     public Animator anim;
+    private CookingRecipeBook cookingRecipeBook;
     //private CodexRework codex;
 
     private void Start()
     {
         base.Start();
         FurnitureStart();
-
+        cookingRecipeBook = FindFirstObjectByType<CookingRecipeBook>();
         StartCoroutine(DistanceCheck());
     }
 
@@ -20,6 +21,7 @@ public class CookBook : FurnitureBehaviorScript
     {
         //INSERT CODE TO BRING UP COOK BOOK UI HERE
         //IT MAY BE WISE TO ADD A BUTTON IN THE UI TO TURN THIS STRUCTURE INTO AN ITEM, SO THE PLAYER DOES NOT HAVE TO USE SHOVEL TO REMOVE
+        cookingRecipeBook.OpenRecipeBook();
 
         /*
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
