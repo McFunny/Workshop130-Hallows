@@ -147,6 +147,25 @@ MonoBehaviour:
     - I believe you may redeem these in one of her machines across the bridge.
     - Don't ask me what they do. If you are so curious, talk to her yourself.
     emotions: 00000000000000000000000000000000
+  - pathName: Buy a rock? 1
+    paragraphs:
+    - That is not a pet. That is a rock.
+    emotions: 03000000
+  - pathName: Buy a rock? 2
+    paragraphs:
+    - That is not even supposed to be there. Pick a different option.
+    emotions: 00000000000000000000000000000000
+  - pathName: Buy a rock? 3
+    paragraphs:
+    - Are you seriously going to choose the rock? This is the last time I will be
+      asking.
+    emotions: 00000000
+  - pathName: I am selling rocks
+    paragraphs:
+    - Is there an problem?
+    - I figured this line of wares would be better suited to your...
+    - '"Unique" interests...'
+    emotions: 000000000000000000000000
   fillerPaths:
   - pathName: I need your goods
     paragraphs:

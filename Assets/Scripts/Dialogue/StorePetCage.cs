@@ -43,6 +43,10 @@ public class StorePetCage : MonoBehaviour
             case PetType.Dog:
             activeObject = petObjects[5];
             break;
+
+            case PetType.Rock:
+            activeObject = petObjects[6];
+            break;
         }
         if(activeObject) activeObject.SetActive(true);
     }

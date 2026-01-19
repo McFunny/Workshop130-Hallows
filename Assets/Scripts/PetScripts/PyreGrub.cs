@@ -741,7 +741,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         interactSuccessful = false;
-        if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && ignited) //Water
+        if((item.ID == 2 || item.ID == 270) && PlayerInteraction.Instance.waterHeld > 0 && ignited) //Water
         {
             PlayerInteraction.Instance.waterHeld--;
             interactSuccessful = true;
@@ -751,7 +751,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             IgnitionToggle(false);
             return;
         }
-        else if(item.ID == 92) //Torch
+        else if(item.ID == 92 || item.ID == 274) //Torch
         {
             if(!PlayerInteraction.Instance.torchLit && ignited)
             {

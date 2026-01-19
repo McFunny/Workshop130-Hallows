@@ -5,7 +5,7 @@ using UnityEngine;
 public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
-    public InventoryItemData barricade, shotGun, ammo, carrot, carrotSeeds, inventoryUpgrade, burntFood;
+    public InventoryItemData barricade, shotGun, ammo, carrot, carrotSeeds, inventoryUpgrade, burntFood, rockPet, rockItem;
     [HideInInspector] public bool interactedWithLantern;
     bool remembersGift; //if true and the player tries to sell barricades, he gets mad
     bool metPlayerAtEntrace = false; //resets at new day
@@ -38,6 +38,8 @@ public class WagonMerchantNPC : NPC, ITalkable
     public float[] ticketThresholds;
     float mintsBeforeSale; // tracks how many mints player had before selling item to calculate how many mints were earned
     bool checkTicket;
+
+    int buyRockAttempts = 0;
 
     void Start()
     {
@@ -102,9 +104,17 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             else if(!gaveFiller)
             {
-                int i = Random.Range(0, dialogueText.fillerPaths.Length);
-                currentPath = i;
-                currentType = PathType.Filler;
+                if(GameSaveData.Instance.mm_sellOnlyRocks)
+                {
+                    currentPath = 23;
+                    currentType = PathType.Misc;
+                }
+                else
+                {
+                    int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentPath = i;
+                    currentType = PathType.Filler;
+                }
                 gaveFiller = true;
             }
             else
@@ -266,7 +276,27 @@ public class WagonMerchantNPC : NPC, ITalkable
                         }
                         else
                         {
-                            currentPath = 15; //Pet sold
+                            if(item.itemData == rockPet)
+                            {
+                                switch(buyRockAttempts)
+                                {
+                                    case 0:
+                                    currentPath = 20;
+                                    break;
+                                    case 1:
+                                    currentPath = 21;
+                                    break;
+                                    case 2:
+                                    currentPath = 22;
+                                    break;
+                                    default:
+                                    currentPath = 15; //Pet sold
+                                    GameSaveData.Instance.mm_sellOnlyRocks = true;
+                                    break;
+                                }
+                                buyRockAttempts++;
+                            }
+                            else currentPath = 15; //Pet sold
                             //EmptyPetShop();
                         }
                     }
@@ -324,6 +354,14 @@ public class WagonMerchantNPC : NPC, ITalkable
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+            if(GameSaveData.Instance.mm_sellOnlyRocks)
+            {
+                int rockCost = (int) (rockItem.value * sellMultiplier);
+                item.RefreshItem(rockItem, rockCost);
+                item.seller = this;
+                x++;
+                return;
+            }
             do
             {
                 i = Random.Range(0, possibleSoldItems.Length);
@@ -335,7 +373,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                 {
                     newItem = ammo;
 
-                    item.RefreshItem(newItem, (int) (newItem.value * sellMultiplier), new List<ItemWithAmount>(), 10);
+                    item.RefreshItem(newItem, (int) (newItem.value * sellMultiplier), new List<ItemWithAmount>(), 5);
                     item.seller = this;
                     x++;
                     continue;
@@ -373,6 +411,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             item.seller = this;
             x++;
         }
+        GameSaveData.Instance.mm_sellOnlyRocks = false;
     }
 
     public override void EmptyShopItem()

@@ -635,6 +635,8 @@ MonoBehaviour:
   carrotSeeds: {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
   inventoryUpgrade: {fileID: 11400000, guid: 0fa22db8f6f9e23488de256485a881aa, type: 2}
   burntFood: {fileID: 11400000, guid: d047228a6e443ca46843c71c725ba95e, type: 2}
+  rockPet: {fileID: 11400000, guid: f7c7a6f53a0e30747911e35a558e02f0, type: 2}
+  rockItem: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
   interactedWithLantern: 0
   scareSound: {fileID: 8300000, guid: 1489ee062737a464bbaa016f82f1ba58, type: 3}
   townEntrancePos: {fileID: 0}
@@ -679,6 +681,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ab32622b7c8d76a4683fdbc1139940f7, type: 2}
   - {fileID: 11400000, guid: cfe710618be9e1d4f9460d8642315064, type: 2}
   - {fileID: 11400000, guid: a9a673ac490af6e4f9a51364cb013530, type: 2}
+  - {fileID: 11400000, guid: f7c7a6f53a0e30747911e35a558e02f0, type: 2}
   possibleSoldCritterItems:
   - {fileID: 11400000, guid: d3d014d6ef3bfae49aa59c66da83111b, type: 2}
   - {fileID: 11400000, guid: e7f90e71a2590cc4a81bdd9d43f662a3, type: 2}
@@ -694,8 +697,8 @@ MonoBehaviour:
   - {fileID: 1615948447052289675}
   displaySign: {fileID: 0}
   ticketThresholds:
+  - 150
   - 250
-  - 300
   - 350
   - 350
   - 350
@@ -760,6 +763,7 @@ MonoBehaviour:
   anim: {fileID: 6431865721862584351}
   r: {fileID: 713684922354688613}
   merchant: {fileID: 7426511987197169560}
+  starParticles: {fileID: 0}
   highlight:
   - {fileID: 4513597081768453496}
   - {fileID: 5562783632520594204}

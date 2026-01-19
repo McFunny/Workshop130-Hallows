@@ -783,7 +783,7 @@ public class PetDog : PetBehaviorScript, IInteractable
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         interactSuccessful = false;
-        if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && (currentState == PetState.Idle || currentState == PetState.Follow))
+        if((item.ID == 2 || item.ID == 270) && PlayerInteraction.Instance.waterHeld > 0 && (currentState == PetState.Idle || currentState == PetState.Follow))
         {
             PlayerInteraction.Instance.waterHeld--;
             interactSuccessful = true;
