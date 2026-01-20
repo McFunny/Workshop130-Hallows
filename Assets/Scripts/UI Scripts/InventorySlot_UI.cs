@@ -96,7 +96,7 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 if (itemName.text != "")
                 {
-                    if (itemDesc != null) { toolTip.UpdateToolTip(assignedInventorySlot.ItemData); }
+                    if (itemDesc != null) { toolTip.UpdateToolTip(assignedInventorySlot); }
                     toolTip.panel.SetActive(true);
                 }
                 else
@@ -239,7 +239,7 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 toolTip.panel.SetActive(false);
             }
-            if (assignedInventorySlot.ItemData != null) { toolTip.UpdateToolTip(assignedInventorySlot.ItemData); }
+            if (assignedInventorySlot.ItemData != null) { toolTip.UpdateToolTip(assignedInventorySlot); }
         }
 
     }

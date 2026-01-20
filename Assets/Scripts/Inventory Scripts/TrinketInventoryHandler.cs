@@ -277,6 +277,15 @@ public class TrinketInventoryHandler : MonoBehaviour
     {
         return trinkets.Select(t => t.durability).ToList();
     }
+    public float GetTrinketDurability(InventorySlot slot)
+    {
+        TrinketInventoryData trinketData = GetTrinketDataFromSlot(slot);
+        if (trinketData != null)
+        {
+            return trinketData.durability;
+        }
+        return -1f; // Return -1 if the trinket data is not found
+    }
 
     public List<float> GetMaxDurabilityList()
     {
