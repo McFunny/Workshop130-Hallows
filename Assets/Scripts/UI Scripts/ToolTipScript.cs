@@ -229,8 +229,11 @@ public class ToolTipScript : MonoBehaviour
                     float chance = (currentDurability / trinket.maxDurability) * 100f;
                     if (chance > 100f) chance = 100;
                     chance = 100f - chance;
+                    
+                    if(chance == 0f) chanceToBreak.text = "<color=green>" + Mathf.RoundToInt(chance) + "%</color> chance to break when unequipped";
+                    else if(chance > 0f && chance < 50f) chanceToBreak.text = "<color=yellow>" + Mathf.RoundToInt(chance) + "%</color> chance to break when unequipped";
+                    else chanceToBreak.text = "<color=red>" + Mathf.RoundToInt(chance) + "%</color> chance to break when unequipped";
 
-                    chanceToBreak.text = Mathf.RoundToInt(chance) + "% chance to break when removed from slot";
                     chanceToBreak.gameObject.SetActive(true);
                 }
                 else chanceToBreak.gameObject.SetActive(false);
