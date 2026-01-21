@@ -263,7 +263,7 @@ public class InventorySlot_UI : MonoBehaviour
             else
                 itemCount.text = "";
 
-            Debug.Log("Kevin: Parent slot is " + transform.parent.gameObject.name);
+            //Debug.Log("Kevin: Parent slot is " + transform.parent.gameObject.name);
             if(transform.parent.gameObject.name == "PlayerTrinkets")
             {
                 slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
