@@ -305,7 +305,7 @@ public class FarmLand : StructureBehaviorScript
                     CropData peanut = CropDatabase.Instance.GetCrop(16);
                     if(cropsHarvestedHere >= 20 && crop == peanut)
                     {
-
+                        AchievementManager.Instance.NotifyPeanutFarmer();
                     }
                 }
 

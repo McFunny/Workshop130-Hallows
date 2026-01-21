@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc21407d1f06f5243a08b2265a190769, type: 3}
-  m_Name: CollectAllCrops
+  m_Script: {fileID: 11500000, guid: c7daec76acb18de4a9538b11c9cab3e5, type: 3}
+  m_Name: WhenTheCrowSings
   m_EditorClassIdentifier: 
   id: 
-  displayName: Collect All Crops
-  description: Harvest every crop VeilWood has to offer.
+  displayName: When The Crow Sings
+  description: Kill 100 Crows.
   icon: {fileID: 0}
   hideAchievement: 0
   isUnlocked: 0
-  maxProgress: 1
+  maxProgress: 100
+  crowData: {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
