@@ -7,6 +7,7 @@ using DG.Tweening;
 public class Ectoplasm : CreatureBehaviorScript
 {
     public bool isLarge;
+    bool dontSplat;
 
     bool isMoving, coroutineRunning;
 
@@ -404,6 +405,7 @@ public class Ectoplasm : CreatureBehaviorScript
 
     public override void HitWithWater()
     {
+        dontSplat = true;
         TakeDamage(30);
     }
 
@@ -420,6 +422,11 @@ public class Ectoplasm : CreatureBehaviorScript
 
     void ShootSlime(int amount)
     {
+        if(dontSplat)
+        {
+            if(health > 0) dontSplat = false;
+            return;
+        }
         for(int i = 0; i < amount; i++)
         {
             GameObject newBullet = ProjectilePoolManager.Instance.GrabSlime();

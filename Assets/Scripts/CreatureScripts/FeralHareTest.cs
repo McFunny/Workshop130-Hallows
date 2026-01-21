@@ -20,6 +20,7 @@ public class FeralHareTest : CreatureBehaviorScript
     bool inEatingRange = false;
     bool isStunned = false;
     bool burrowCooldown = false;
+    bool forceRandomJump;
     float eatingTimeLeft = 5f; // how many seconds does it take to eat a crop
     float fleeTimeLeft = 0;
     float yOrigin;
@@ -536,11 +537,12 @@ public class FeralHareTest : CreatureBehaviorScript
         {
             destination = despawnPos;
         }
-        if(CheckForObstruction()) //randomizes jump is running into a wall/tree
+        if(CheckForObstruction() || forceRandomJump) //randomizes jump is running into a wall/tree
         {
             //print("Obstruction Detected");
             destination = jumpPos;
             obstructed = true;
+            forceRandomJump = false;
         }
         // hare will jump toward a random direction using physics, using rb.addforce to a random vector3 position in addition to a vector3.up force
         Vector3 jumpDirection = (transform.position - destination).normalized;
@@ -715,6 +717,8 @@ public class FeralHareTest : CreatureBehaviorScript
             //}
         } 
         effectsHandler.OnHit();
+
+        forceRandomJump = true;
     }
 
     public override void OnCorpseDamage()
