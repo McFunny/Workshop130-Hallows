@@ -655,7 +655,7 @@ public class Spider : CreatureBehaviorScript
             yield return new WaitForSeconds(5);
             if(targetStructure) continue;
 
-            FindNearbyStructure(10);
+            FindNearbyStructure(5);
             if(!targetStructure) FindNearbyCreature(10);
             
         }

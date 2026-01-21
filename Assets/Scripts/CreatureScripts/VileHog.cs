@@ -602,7 +602,7 @@ public class VileHog : CreatureBehaviorScript
             {
                 int extraDamage = 0;
                 if (usingThrusters) extraDamage += 15;
-                playerInteraction.StaminaChange(damageToPlayer - extraDamage);
+                playerInteraction.StaminaChange(damageToPlayer - extraDamage, corpseParticleTransform.position);
                 playerInteraction.PlayerTrip();
                 attackHitbox.enabled = false;
                 if (!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");

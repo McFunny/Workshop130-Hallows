@@ -291,6 +291,8 @@ MonoBehaviour:
   torchLit: 0
   pyreflyLit: 0
   lostKukri: 0
+  isParrying: 0
+  parrySuccess: 0
   currentEffects: []
   interactionLayers:
     serializedVersion: 2
@@ -26246,8 +26248,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.4
-      minScalar: 0.2
+      scalar: 0.2
+      minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -26688,7 +26690,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.01
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2

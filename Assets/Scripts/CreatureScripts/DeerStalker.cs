@@ -473,7 +473,7 @@ public class DeerStalker : CreatureBehaviorScript
         biteParticles.Play();
         if(hitPlayer && (hitStructures.Count == 0 || CanSeePlayer()))
         {
-            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            PlayerInteraction.Instance.StaminaChange(damageToPlayer, corpseParticleTransform.position);
             hitPlayer = false;
             animTransformed.SetBool("AttackSuccessful", true);
             yield return new WaitForSeconds(1.5f);

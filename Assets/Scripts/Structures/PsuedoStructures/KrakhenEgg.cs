@@ -46,6 +46,7 @@ public class KrakhenEgg : StructureBehaviorScript
         base.OnDestroy();
         if(!gameObject.scene.isLoaded) return;
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
         audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
 
         int r = Random.Range(1, 3);

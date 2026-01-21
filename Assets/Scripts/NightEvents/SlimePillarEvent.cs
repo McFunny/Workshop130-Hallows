@@ -12,6 +12,14 @@ public class SlimePillarEvent : NightEventObject
         PopupHandler.Instance.StartCoroutine(PerformEvent());
     }
 
+    public override bool CanStartEvent()
+    {
+        if(StructureManager.Instance.TallyStructure(pillar) > 3) return false;
+
+        if(PlayerInteraction.Instance.totalMoneyEarned >= wealthPrerequisite) return true;
+        else return false;
+    }
+
     IEnumerator PerformEvent()
     {
         List<Vector3> openTiles = new List<Vector3>();
