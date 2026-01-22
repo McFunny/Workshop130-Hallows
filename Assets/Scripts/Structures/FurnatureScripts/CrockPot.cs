@@ -87,7 +87,7 @@ public class CrockPot : FurnitureBehaviorScript
             return;
         }
 
-        if(!CanBeRemoved()) RemoveClosestSocket();
+        if(!CanBeRemoved() && !isCooking) RemoveClosestSocket();
         return;
 
         /*bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);

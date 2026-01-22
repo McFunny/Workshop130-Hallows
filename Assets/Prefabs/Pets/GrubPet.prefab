@@ -100,6 +100,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
   - {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
   - {fileID: 11400000, guid: 79790c84e5887a946adc6dac3fac60cc, type: 2}
+  - {fileID: 11400000, guid: d047228a6e443ca46843c71c725ba95e, type: 2}
   hunger: 100
   maxHunger: 100
   hungerDecayRate: 3
@@ -189,6 +190,7 @@ MonoBehaviour:
   petSound: {fileID: 8300000, guid: e477a4c89ee3a594ab99949ff7410007, type: 3}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &4364478105155590604
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15292,6 +15294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &5729502999517357197
 GameObject:

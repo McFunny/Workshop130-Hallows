@@ -208,6 +208,8 @@ public class BotanistNPC : NPC, ITalkable
         InventoryItemData newItem;
         int x = 0; //iterations
 
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
+
         questCrops.Clear();
 
         if (QuestManager.Instance.activeQuests.Count > 0)
@@ -246,7 +248,7 @@ public class BotanistNPC : NPC, ITalkable
                     }
                     int sack = x;//Random.Range(0, 3);
                     item.RefreshItem(barterDatabase.uniqueTransactions[sack].itemForSale, barterDatabase.uniqueTransactions[sack].mintCost, barterDatabase.uniqueTransactions[sack].itemsRequired,
-                         barterDatabase.uniqueTransactions[sack].amountForSale + Random.Range(1, 4));
+                         barterDatabase.uniqueTransactions[sack].amountForSale + Random.Range(2, 5));
                 }
 
                 if(x > 8)
@@ -302,7 +304,10 @@ public class BotanistNPC : NPC, ITalkable
                 r = Random.Range(0f, 100f);
                 if (r < barterDatabase.transactions[i].barterChance && !newItem && barterDatabase.transactions[i].siegesRequired <= GameSaveData.Instance.siegesCleared)
                 {
+                    if(selectedTrades.Contains(i) && Random.Range(0, 10) > 4) continue; //Repeats are less likely but not impossible
                     newItem = barterDatabase.transactions[i].itemForSale;
+
+                    selectedTrades.Add(i);
                 }
             }
             while (!newItem);

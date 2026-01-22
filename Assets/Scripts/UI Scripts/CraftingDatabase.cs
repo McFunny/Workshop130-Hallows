@@ -119,6 +119,8 @@ public class CraftingDatabase : ScriptableObject
             List<CraftingEntry> recipesInTier = new List<CraftingEntry>();
             foreach(CraftingEntry c in _craftingDatabase)
             {
+                if(c.isTrinket && GameSaveData.Instance.trinketSlotsGiven == 0) continue; //Do not unlock trinkets until after fanatic quest
+                
                 if(c.isUnlocked == false && c.tier == tier) recipesInTier.Add(c);
             }
             if(recipesInTier.Count > 0)
@@ -139,6 +141,8 @@ public class CraftingDatabase : ScriptableObject
             List<CraftingEntry> recipesInTier = new List<CraftingEntry>();
             foreach(CraftingEntry c in _craftingDatabase)
             {
+                if(c.isTrinket && GameSaveData.Instance.trinketSlotsGiven == 0) continue; //Do not unlock trinkets until after fanatic quest
+
                 if(c.isUnlocked == false && c.tier == tier) recipesInTier.Add(c);
             }
             if(recipesInTier.Count > heldTickets)

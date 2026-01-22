@@ -42,6 +42,17 @@ public class CraftingStructure : StructureBehaviorScript
 
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+        if(isCrafting || craftSlots.Count > 0) return;
+        if(type == ToolType.Shovel)
+        {
+            //StartCoroutine(DugUp());
+            success = true;
+        }
+    }
+
     public override void SaveVariables()
     {
         craftSlotSaveData.Clear();

@@ -94855,8 +94855,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5fafdb865c386a41bd03ddf32e55634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 760673249}
+  structData: {fileID: 0}
+  itemForm: {fileID: 0}
+  health: 5
+  maxHealth: 5
+  wealthValue: 0
+  salvageChance: 0
+  destructable: 1
+  flammable: 1
+  onFire: 0
+  isObstacle: 1
+  repairableWithGlue: 0
+  absentFromGrid: 0
+  absentFromFarmGrid: 0
+  focalPoint: {fileID: 0}
+  particleCenter: {fileID: 0}
+  savedItems: []
+  saveInt1: 0
+  saveInt2: 0
+  saveInt3: 0
+  saveFloat1: 0
+  saveFloat2: 0
+  saveFloat3: 0
+  saveString1: 
+  saveString2: 
+  saveString3: 
+  saveBool1: 0
+  saveCrafts:
+    craftID: 0
+    timeRemaining: 0
+    isComplete: 0
+  damageParticlesObject: {fileID: 0}
+  gibs: {fileID: 0}
+  nearbyFires: []
   highlight: []
+  canShowHighlight: 1
+  audioHandler: {fileID: 0}
+  clearTileOnDestroy: 1
+  muteSound: 0
+  allowContinousWatering: 0
+  structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
+  onTable: 0
+  anim: {fileID: 760673249}
 --- !u!65 &722697673
 BoxCollider:
   m_ObjectHideFlags: 0

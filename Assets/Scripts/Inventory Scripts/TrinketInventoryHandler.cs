@@ -71,7 +71,7 @@ public class TrinketInventoryHandler : MonoBehaviour
             GetTrinketDataFromSlot(slot).durability = 0f;
             BreakTrinket(mouseItemData);
         }
-        else AudioPoolManager.Instance.PlayClip(removeSFX, 0.9f);//DialogueController.Instance.source.PlayOneShot(removeSFX);
+        else AudioPoolManager.Instance.PlayClip(removeSFX, 0.4f);//DialogueController.Instance.source.PlayOneShot(removeSFX);
     }
 
     public void BreakTrinket(MouseItemData mouseItemData)
@@ -87,7 +87,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         if(trinket) trinket.OnRemove();
         slot.ClearSlot();
         //DialogueController.Instance.source.PlayOneShot(breakSFX);
-        AudioPoolManager.Instance.PlayClip(breakSFX, 0.4f);
+        AudioPoolManager.Instance.PlayClip(breakSFX, 0.1f);
     }
 
     public void ApplyTrinketDamage(TrinketKey _key, float damage = 1) //Reduced trinket durability

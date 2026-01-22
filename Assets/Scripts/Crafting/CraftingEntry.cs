@@ -13,6 +13,7 @@ public class CraftingEntry : ScriptableObject
     public int tier = -1; //-1 means unlocked through alternative means
     public bool isUnlocked = false;
     public bool isRecentlyUnlocked = true;
+    public bool isTrinket; //If true, cannot be unlocked until after fanatic quest
     [Header("Output Data")]
     public InventoryItemData output;
     public int outputAmount = 1;

@@ -116,7 +116,7 @@ public class FarmTree : StructureBehaviorScript
 
         if(Random.Range(0, 100) >= 93 || (TimeManager.Instance.currentHour == 8 && Random.Range(0, 10) > 8)) StartCoroutine(SpawnLeafPile());
 
-        if(Random.Range(0, 100) >= 99 && !currentHangingObject && type == TreeType.Orange) SpawnAcorn();
+        if(Random.Range(0, 100) >= 96 && !currentHangingObject && type == TreeType.Orange) SpawnAcorn();
     }
 
     void SpawnHive()

@@ -31,6 +31,7 @@ public class GameSaveData : MonoBehaviour
     public bool gainedInventoryUpgrade = false;
     public bool gainedWaterStorage = false;
     public bool gainedWaterPack = false;
+    public int trinketSlotsGiven = 0;
 
     [Header("Main Quest Progression Bools. All must be false when building")]
     public bool tutorialMerchantSpoke; //Tutorial Complete
@@ -153,6 +154,8 @@ public class GameSaveData : MonoBehaviour
         PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
         PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
         PlayerInteraction.Instance.playerUpgrades.LoadData(data.allGameSaveData);
+
+        trinketSlotsGiven = data.allGameSaveData.trinketSlotsGiven;
         TimeManager.Instance.dayNum = data.allGameSaveData.pDayNumber;
         TimeManager.Instance.currentHour = data.allGameSaveData.hourSaved;
         if(data.allGameSaveData.hourSaved == 0) TimeManager.Instance.currentHour = 8;
@@ -333,6 +336,7 @@ public class GameSaveData : MonoBehaviour
         public bool gainedInventoryUpgrade;
         public bool gainedWaterStorage;
         public bool gainedWaterPack;
+        public int trinketSlotsGiven;
 
         public Quest[] activeQuests;
         public FetchQuest[] activeFetchQuests;
@@ -432,6 +436,7 @@ public class GameSaveData : MonoBehaviour
         gainedInventoryUpgrade = PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade;
         gainedWaterStorage = PlayerInteraction.Instance.playerUpgrades.gainedWaterStorage; //Put this first so the maxwater amount will be correct
         gainedWaterPack = PlayerInteraction.Instance.playerUpgrades.gainedWaterPack;
+        trinketSlotsGiven = data.trinketSlotsGiven;
 
         pStamina = PlayerInteraction.Instance.stamina;
         pFatigue = PlayerInteraction.Instance.fatigue;

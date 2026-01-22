@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de038b7e1398104b9c8a342eddb6d1f, type: 3}
+  m_Name: LumenMothInvasion
+  m_EditorClassIdentifier: 
+  name: Lumen Moth Invasion
+  occurenceChance: 1
+  difficultyPointsCost: 0
+  eventStartPopup: {fileID: 11400000, guid: ba6563b233292c44794d9244d8264e21, type: 2}
+  wealthPrerequisite: 0
+  units:
+  - prefab: {fileID: 7575999969673721782, guid: 33a4bd1b9d1f7434389e7fad8765e401,
+      type: 3}
+    spawnMin: 3
+    spawnMax: 8
