@@ -109,7 +109,7 @@ public class PetRock : PetBehaviorScript, IInteractable
             thirst = maxThirst;
             return;
         }
-        if(hunger < 100)
+        /*if(hunger < 100)
         {
             if(!foodDiet.Contains(item))
             {
@@ -121,7 +121,7 @@ public class PetRock : PetBehaviorScript, IInteractable
             EatFood(item);
             interactSuccessful = true;
             return;
-        }
+        }*/
         interactSuccessful = false;
     }
     

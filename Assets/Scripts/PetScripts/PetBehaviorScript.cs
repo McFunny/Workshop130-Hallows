@@ -14,7 +14,7 @@ public class PetBehaviorScript : MonoBehaviour
     int maxFriendshipLevel = 10; //Increases frequency of actions
     public float friendPoints = 0;
     float maxFriendPoints = 200; //Increases level when maxed
-    public List<InventoryItemData> foodDiet = new List<InventoryItemData>();
+    //public List<InventoryItemData> foodDiet = new List<InventoryItemData>();
     public float hunger = 100; //Animals will eat once their hunger is below a fourth
     public float maxHunger = 100;
     public float hungerDecayRate = 5;
@@ -119,8 +119,10 @@ public class PetBehaviorScript : MonoBehaviour
 
         //hunger = 100;
         if(hunger > maxHunger) hunger = maxHunger;
-        if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/4, true); //It should always contain this
-        else FriendPointsChange(hungerRestored/6, true);
+
+        FriendPointsChange(hungerRestored/4, true);
+        /*if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/4, true); //It should always contain this
+        else FriendPointsChange(hungerRestored/6, true);*/
         effectsHandler.PlaySound(effectsHandler.eatSound);
     }
 
@@ -193,7 +195,7 @@ public class PetBehaviorScript : MonoBehaviour
         if(foundBowls.Length == 0) return false;
         for(int i = 0; i < foundBowls.Length; i++)
         {
-            if((!checkForThirst && foundBowls[i].ContainsEdibleItem(foodDiet)) || (checkForThirst && foundBowls[i].containsWater))
+            if((!checkForThirst && foundBowls[i].ContainsEdibleItem(petType)) || (checkForThirst && foundBowls[i].containsWater))
             {
                 targetStructure = foundBowls[i];
                 return true;

@@ -27,12 +27,18 @@ MonoBehaviour:
   bonusCompostValue: 10
   useCooldown: 0
   pickledForm: {fileID: 0}
-  itemConversions: []
+  itemConversions:
+  - method: 1
+    newItem: {fileID: 11400000, guid: 28a1c02f9eb126140a1c9003542196a7, type: 2}
+    itemsNeeded: 1
+    itemsGained: 1
   cookingStats:
   - type: 2
     value: 0.5
   - type: 4
     value: 0.5
+  foodForPets: 000000000200000004000000
+  foodForCritters: 0000000003000000
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

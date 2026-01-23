@@ -83,6 +83,14 @@ public class PetMimic : CritterBehaviorScript
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
+        if(hunger < 100 && item.foodForCritters.Count >= 0 || item.foodForCritters.Contains(critterType))
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            EatFood(item);
+            interactSuccessful = true;
+            return;
+        }
         interactSuccessful = true;
     }
 
@@ -298,7 +306,7 @@ public class PetMimic : CritterBehaviorScript
                 return;
             }
             bool isEating = false, isDrinking = false;
-            if(hunger <= hunger/4 && trough.HasEdibleItem(foodDiet)) isEating = true;
+            if(hunger <= hunger/4 && trough.HasEdibleItem(critterType)) isEating = true;
             if(thirst <= thirst/4 && trough.waterLevel > 0) isDrinking = true;
 
             if(Vector3.Distance(targetObject.transform.position, transform.position) < 1.5f && (isEating || isDrinking))
@@ -307,7 +315,7 @@ public class PetMimic : CritterBehaviorScript
                 agent.ResetPath();
                 if(isEating)
                 {
-                    trough.EatItem(foodDiet, out InventoryItemData itemEaten);
+                    trough.EatItem(critterType, out InventoryItemData itemEaten);
                     EatFood(itemEaten);
                 }
                 else

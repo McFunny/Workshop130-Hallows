@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3b4c4f202173f4c8b374726138955a, type: 3}
+  m_Name: Trinkets
+  m_EditorClassIdentifier: 
+  buttonIcon: {fileID: -321396511, guid: 0f7621093bff7cb4a9e3fc68858f5fa1, type: 3}
+  unlocked: 1
+  mainImage: {fileID: 21300000, guid: c1f0115413e02f64db31b00129bbb66c, type: 3}
+  entryName: Trinkets
+  entryType: 0
+  cropData: {fileID: 0}
+  creatureData: {fileID: 0}
+  structureData: {fileID: 0}
+  bugData: {fileID: 0}
+  targetedBy: []
+  description:
+  - Performing actions and recieving strikes from enemies depletes your stamina.
+    You can restore it by eating food or by resting in the town spring.
+  - When below 1/4th of max stamina, you may no longer sprint, and any actions the
+    player makes will take longer to perform.
+  leftText: Trinkets are powerful items that can bestow potent effects when worn.
+    Each trinket has a unique effect, and some have stackable effects. When removing
+    a trinket, it has the chance to break based on the remaining durability.
+  rightText: 

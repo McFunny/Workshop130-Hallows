@@ -108,6 +108,15 @@ public class PetBowl : FurnitureBehaviorScript
         return false;
     }
 
+    public bool ContainsEdibleItem(PetType type)
+    {
+        if(savedItems.Count == 0 || savedItems[0] == null) return false;
+
+        if(savedItems[0].foodForPets.Count > 0 && savedItems[0].foodForPets.Contains(type)) return true;
+
+        return false;
+    }
+
     public void WaterChange(bool hasWater)
     {
         if(hasWater == containsWater) return;

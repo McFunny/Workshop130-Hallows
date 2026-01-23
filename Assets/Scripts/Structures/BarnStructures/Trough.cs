@@ -202,12 +202,42 @@ public class Trough : StructureBehaviorScript
         return false;
     }
 
+    public bool EatItem(CritterType type, out InventoryItemData itemAte) //For creatures eating
+    {
+        itemAte = null;
+        for(int i = 0; i < itemSockets.Count; i++)
+        {
+            if(savedItems[i] != null && savedItems[i].foodForCritters.Count > 0 && savedItems[i].foodForCritters.Contains(type))
+            {
+                itemAte = savedItems[i];
+                itemSockets[i].sprite = null;
+                savedItems[i] = null;
+                ParticlePoolManager.Instance.MoveAndPlayParticle(itemSockets[i].transform.position, ParticlePoolManager.Instance.dirtParticle);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public bool HasEdibleItem(List<InventoryItemData> foodDiet) //For creatures eating
     {
         for(int i = 0; i < itemSockets.Count; i++)
         {
             if(savedItems.Count < i) savedItems.Add(null);
             if(savedItems[i] != null && foodDiet.Contains(savedItems[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool HasEdibleItem(CritterType type) //For creatures eating
+    {
+        for(int i = 0; i < itemSockets.Count; i++)
+        {
+            if(savedItems.Count < i) savedItems.Add(null);
+            if(savedItems[i] != null && savedItems[i].foodForCritters.Count > 0 && savedItems[i].foodForCritters.Contains(type))
             {
                 return true;
             }

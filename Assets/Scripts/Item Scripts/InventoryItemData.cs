@@ -33,6 +33,9 @@ public class InventoryItemData : ScriptableObject
 
     public List<CookingStats> cookingStats = new List<CookingStats>(); //If this is empty, then it cannot be cooked
 
+    public List<PetType> foodForPets = new List<PetType>();
+    public List<CritterType> foodForCritters = new List<CritterType>();
+
     [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
     public List<string> itemInputsKBM;
     public List<string> itemInputsController;

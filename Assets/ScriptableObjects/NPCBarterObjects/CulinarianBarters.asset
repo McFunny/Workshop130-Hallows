@@ -99,7 +99,16 @@ MonoBehaviour:
       amount: 3
     - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
       amount: 1
-    siegesRequired: 1
+    siegesRequired: 2
+    amountGiven: 1
+  - name: Fried Egg
+    itemForSale: {fileID: 11400000, guid: 80af82519823ca54a96f44be27251b17, type: 2}
+    useItemPrice: 1
+    mintCost: 18
+    amountForSale: 3
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
     amountGiven: 1
   uniqueTransactions:
   - name: CrockPot
