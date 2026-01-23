@@ -8,8 +8,14 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
     public float sellMultiplier = 1;
     public StoreItem[] storeItems;
+
     ItemDisplaySign displaySign;
 
+    private List<InventoryItemData> allowedShopItems = new List<InventoryItemData>();
+    [SerializeField] private List<InventoryItemData> starterItems = new List<InventoryItemData>();
+    [SerializeField] private List<InventoryItemData> tierOneItems = new List<InventoryItemData>();
+    [SerializeField] private List<InventoryItemData> tierTwoItems = new List<InventoryItemData>();
+    [SerializeField] private List<InventoryItemData> tierThreeItems = new List<InventoryItemData>();
 
 
     //Find a way to get feedback on when a dialogue tree is finished by calling an event/delegate.
@@ -26,6 +32,24 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
         if (displaySign) displaySign.UpdateNPCName(this);
 
+    }
+
+    public void AddItemsToAllowedItems(int tier)
+    {
+        switch (tier)
+        {
+            case 1:
+                allowedShopItems.AddRange(tierOneItems);
+                break;
+            case 2:
+                allowedShopItems.AddRange(tierTwoItems);
+                break;
+            case 3:
+                allowedShopItems.AddRange(tierThreeItems);
+                break;
+            default:
+                break;
+        }
     }
 
     IEnumerator DelayedStart()
@@ -121,6 +145,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 anim.SetTrigger("Transaction");
                 InventorySlot slot = HotbarDisplay.currentSlot.AssignedInventorySlot;
                 SurvivalModeManager.Instance.mintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
+                SurvivalModeManager.Instance.totalMintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
             }
             Talk();
         }
@@ -201,7 +226,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
             {
                 i = Random.Range(0, barterDatabase.transactions.Count);
                 r = Random.Range(0f, 100f);
-                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i))
+                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(barterDatabase.transactions[i].itemForSale))
                 {
                     newItem = barterDatabase.transactions[i].itemForSale;
                     selectedTrades.Add(i);
