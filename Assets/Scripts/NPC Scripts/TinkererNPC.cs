@@ -54,6 +54,12 @@ public class TinkererNPC : NPC, ITalkable
                     currentPath = 8;
                     currentType = PathType.Misc;
                 }
+                else if(GameSaveData.Instance.trinketSlotsGiven > 0 && !GameSaveData.Instance.tink_foundTrinketRecipes)
+                {
+                    GameSaveData.Instance.tink_foundTrinketRecipes = true;
+                    currentPath = 9;
+                    currentType = PathType.Misc;
+                }
                 else if(dailyQuest != null)
                 {
                     currentPath = QuestDatabase.Instance.GetQuestPath(character);
@@ -290,7 +296,7 @@ public class TinkererNPC : NPC, ITalkable
     {
         if(base.ExclamationCheck() == false)
         {
-            if(!GameSaveData.Instance.tinkMet || GameSaveData.Instance.tink_newWares)
+            if(!GameSaveData.Instance.tinkMet || GameSaveData.Instance.tink_newWares || (GameSaveData.Instance.trinketSlotsGiven > 0 && !GameSaveData.Instance.tink_foundTrinketRecipes))
             {
                 exclamationObject.SetActive(true);
                 return true;

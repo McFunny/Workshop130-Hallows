@@ -169,7 +169,8 @@ public class InventorySystem
         {
             Debug.Log("No save data exists for this inventory"); //This means we need to load in empty slots, but we dont know which inventory this is, so we dont know how many slots to make
 
-            //Specifically for trinket system. Thank you Alex!//
+            //Specifically for initializing trinket system with 1 slot on a new save. Thank you Alex!//
+            /*
             InventorySlot slot = new InventorySlot();
             inventorySlots.Add(slot); 
 
@@ -178,6 +179,7 @@ public class InventorySystem
 
             data.slot = slot;
             TrinketInventoryHandler.Instance.trinkets.Add(data);
+            */
             ////////////////////////////////////////////////////
             return;
         }

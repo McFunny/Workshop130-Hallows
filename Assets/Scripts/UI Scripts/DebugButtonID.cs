@@ -26,7 +26,7 @@ public class DebugButtonID : MonoBehaviour
        
         if (data)
         {
-            if(data.itemBehavior) data.itemBehavior.OnRecieve(data);
+            //if(data.itemBehavior) data.itemBehavior.OnRecieve(data);
             playerInv.AddToInventory(data, count);
             return;
         }

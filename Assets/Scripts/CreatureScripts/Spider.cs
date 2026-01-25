@@ -318,6 +318,8 @@ public class Spider : CreatureBehaviorScript
     {
         if(isDead || coroutineRunning || dodgeCooldown || Random.Range(0,10) > 7 || currentState != CreatureState.AttackPlayer) return;
 
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) return;
+
         StartCoroutine(DodgeJump());
     }
 
@@ -510,7 +512,9 @@ public class Spider : CreatureBehaviorScript
 
         if(currentState == CreatureState.AttackPlayer)
         {
-            if(playerInAttackRange && Random.Range(0,10) > 6 && canLunge && !fearCooldown && !dodging)
+            int attackChance = 6;
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) attackChance = 8;
+            if(playerInAttackRange && Random.Range(0,10) > attackChance && canLunge && !fearCooldown && !dodging)
             {
                 //Do the lunge attack
                 //agent.Stop();

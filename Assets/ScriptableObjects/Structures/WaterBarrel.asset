@@ -48,6 +48,7 @@ MonoBehaviour:
     savedString2: 
     savedString3: 
     savedBool1: 0
+    savedCrafts: []
   gridSize: 0
   structureType: 1
   mintRepairCost: 0
@@ -58,8 +59,8 @@ MonoBehaviour:
     amount: 2
   requiredRepairs: 2
   maxMisses: 3
-  bugSpawnChance: 0
-  hasBeenPlaced: 1
+  bugSpawnChance: 20
+  hasBeenPlaced: 0
   droppedItems:
   - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
     amount: 1

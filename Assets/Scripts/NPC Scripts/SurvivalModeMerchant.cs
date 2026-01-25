@@ -145,7 +145,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 anim.SetTrigger("Transaction");
                 InventorySlot slot = HotbarDisplay.currentSlot.AssignedInventorySlot;
                 SurvivalModeManager.Instance.mintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
-                SurvivalModeManager.Instance.totalMintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
+                SurvivalModeManager.Instance.TotalMintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
             }
             Talk();
         }

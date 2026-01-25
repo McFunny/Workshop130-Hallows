@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &711227599219588319
 GameObject:
@@ -197,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &1505604861759349415
 GameObject:
@@ -296,6 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &1910148091564102930
 GameObject:
@@ -395,6 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &2298380968191192119
 GameObject:
@@ -494,6 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &3179936937413641892
 GameObject:
@@ -593,6 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &3354019825886239813
 GameObject:
@@ -775,6 +781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &3552867400261567144
 GameObject:
@@ -984,8 +991,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: a04da75bf71914a47a6297fd6ee76fe3, type: 2}
   itemForm: {fileID: 11400000, guid: eb4c078a895c6e74db5d38552006a6e5, type: 2}
-  health: 15
-  maxHealth: 15
+  health: 20
+  maxHealth: 20
   wealthValue: 0
   salvageChance: 0
   destructable: 1
@@ -1008,6 +1015,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 4971040144437236444}
   gibs: {fileID: 8788469494092045344, guid: 55153b842331cf74da4701267c73ce79, type: 3}
   nearbyFires: []
@@ -1017,6 +1025,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -1177,6 +1186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &3779885621153299885
 GameObject:
@@ -1276,6 +1286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &3806893570158442527
 GameObject:
@@ -1375,6 +1386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &4457823955682950408
 GameObject:
@@ -1474,6 +1486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &5106337543978191620
 GameObject:
@@ -1656,6 +1669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &5876224010645035299
 GameObject:
@@ -1869,6 +1883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &6608971175016717612
 GameObject:
@@ -2505,6 +2520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1001 &5192151989692165412
 PrefabInstance:

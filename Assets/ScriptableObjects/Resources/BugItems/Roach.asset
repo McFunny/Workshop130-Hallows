@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
+  m_Name: Roach
+  m_EditorClassIdentifier: 
+  ID: 328
+  displayName: Roach
+  description: Bug
+  icon: {fileID: 21300000, guid: f415efb853926db4eb9c4de03c74dac3, type: 3}
+  type: 9
+  maxStackSize: 99
+  value: 4
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 4
+  animalHungerValue: 20
+  bonusCompostValue: 20
+  useCooldown: 1
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  cookingStats:
+  - type: 4
+    value: 1
+  foodForPets: 
+  foodForCritters: 03000000
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

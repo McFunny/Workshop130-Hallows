@@ -16,7 +16,7 @@ MonoBehaviour:
   templates:
   - name: Reed Nibbler Specimens Needed!
     description: '"The bugs around here have interesting properties. I must examine
-      more."'
+      {itemAmount}."'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: df4c35edce1e14a4faefdf1f56156a90, type: 2}
@@ -30,11 +30,12 @@ MonoBehaviour:
     daysLeftMax: 4
     assignee: 5
     displayProgress: 0
-    minObject: 3
-    maxObject: 7
+    minObject: 2
+    maxObject: 4
     questBehavior: {fileID: 0}
   - name: Dandipillar Specimens Needed!
-    description: '"This one isn''t for science. They are just soooo cute!"'
+    description: '"This one isn''t for science. They are just soooo cute! Bring me
+      {itemAmount}."'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: 9a70b19ccd0b85f41b2dcd849c9d0584, type: 2}
@@ -48,17 +49,17 @@ MonoBehaviour:
     daysLeftMax: 4
     assignee: 5
     displayProgress: 0
-    minObject: 3
-    maxObject: 7
+    minObject: 2
+    maxObject: 4
     questBehavior: {fileID: 0}
   - name: Jag Beetle Specimens Needed!
     description: '"The bugs around here have interesting properties. I must examine
-      more."'
+      {itemAmount}."'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: 0808c3213e2bcd4469f1c257f4d27a1f, type: 2}
     crop: {fileID: 0}
-    mintMultiplier: 3.5
+    mintMultiplier: 4
     itemRewards:
     - item: {fileID: 0}
       amount: 0
@@ -67,12 +68,12 @@ MonoBehaviour:
     daysLeftMax: 4
     assignee: 5
     displayProgress: 0
-    minObject: 3
-    maxObject: 7
+    minObject: 1
+    maxObject: 3
     questBehavior: {fileID: 0}
   - name: Monarch Specimens Needed!
     description: '"The bugs around here have interesting properties. I must examine
-      more."'
+      {itemAmount}."'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: ef05c14840f851f4582659aa2d5fa290, type: 2}
@@ -86,12 +87,12 @@ MonoBehaviour:
     daysLeftMax: 4
     assignee: 5
     displayProgress: 0
-    minObject: 3
-    maxObject: 7
+    minObject: 1
+    maxObject: 3
     questBehavior: {fileID: 0}
   - name: Worm Specimens Needed!
     description: '"The bugs around here have interesting properties. I must examine
-      more."'
+      {itemAmount}."'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: fda6df6807d3506479ad2c8c19b6ff65, type: 2}
@@ -105,12 +106,12 @@ MonoBehaviour:
     daysLeftMax: 4
     assignee: 5
     displayProgress: 0
-    minObject: 2
-    maxObject: 4
+    minObject: 1
+    maxObject: 3
     questBehavior: {fileID: 0}
   - name: Leafid Specimens Needed!
     description: '"The bugs around here have interesting properties. I must examine
-      more."'
+      {itemAmount}."'
     dialogPath: 0
     creature: {fileID: 0}
     item: {fileID: 11400000, guid: ebd1a7d282da207419ef397be73f770d, type: 2}
@@ -125,7 +126,7 @@ MonoBehaviour:
     assignee: 5
     displayProgress: 0
     minObject: 2
-    maxObject: 4
+    maxObject: 3
     questBehavior: {fileID: 0}
   uniqueQuestChance: 0
   uniqueTemplates: []

@@ -6,8 +6,8 @@ public class SpiderDen : StructureBehaviorScript
 {
     public CreatureObject spiderData;
 
-    public int heldSpiders = 3;
-    public int maxSpiders = 4;
+    public int heldSpiders = 2;
+    public int maxSpiders = 3;
     public int outsideSpiders = 0;
 
     public InventoryItemData silk;
@@ -100,7 +100,7 @@ public class SpiderDen : StructureBehaviorScript
 
         for(int i = 0; i < 2; ++i)
         {
-            if((heldSpiders < maxSpiders || outsideSpiders < maxSpiders) && Random.Range(0,10) > 3) heldSpiders++;
+            if((heldSpiders < maxSpiders && outsideSpiders < maxSpiders) && Random.Range(0,10) > 3) heldSpiders++;
 
             if(heldSpiders >= maxSpiders)
             {

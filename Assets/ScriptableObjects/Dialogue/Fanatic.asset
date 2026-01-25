@@ -59,6 +59,28 @@ MonoBehaviour:
     - ...
     - AND SHE WON'T BE THE LAST!
     emotions: 020000000600000003000000
+  - pathName: Giving trinket bug quest
+    paragraphs:
+    - I have had an epiphany!  {freezePlayer}
+    - There lies secrets! Potential! Within the bugs!
+    - You don't believe me?? No one believes me! I can prove it!
+    - Bring me a handful of beetles. These old hands can't steady a net!
+    emotions: 01000000050000000400000003000000
+  - pathName: Giving trinket bug quest 2
+    paragraphs:
+    - Now that you have had a taste of this power, I bet you are looking for more,
+      eh?  {freezePlayer}
+    - Well, what are you waiting for?? Time to leave that wretched hoe behind and
+      pick up that net son.
+    - Time to get a catchin'!
+    emotions: 040000000300000001000000
+  - pathName: Giving trinket bug quest 3
+    paragraphs:
+    - What is this? You come seeking more..?  {freezePlayer}
+    - We are almost at our limit lad... Any more power after this and our bodies
+      will implode!
+    - Bring me these last final specimins...
+    emotions: 040000000500000000000000
   fillerPaths:
   - pathName: Mist Everywhere
     paragraphs:
@@ -119,7 +141,29 @@ MonoBehaviour:
     - The hares!! I have seen them fly!
     - You gotta believe me!
     emotions: 0500000003000000
-  questPaths: []
+  questPaths:
+  - pathName: Giving trinket bug quest
+    paragraphs:
+    - THEY ARE PUTTING SOMETHING IN THE BUGS!  {freezePlayer}
+    - There lies secrets! Magic! Within the bugs!
+    - You don't believe me?? No one believes me! But I can prove it!
+    - Bring me a handful of beetles. These old hands can't steady a net!
+    emotions: 01000000050000000400000003000000
+  - pathName: Giving trinket bug quest 2
+    paragraphs:
+    - Now that you have had a taste of this power, I bet you are looking for more,
+      eh?  {freezePlayer}
+    - Well, what are you waiting for?? Time to leave that wretched hoe behind and
+      pick up that net son.
+    - Time to get a catchin'!
+    emotions: 040000000300000001000000
+  - pathName: Giving trinket bug quest 3
+    paragraphs:
+    - What is this? You come seeking more..?  {freezePlayer}
+    - We are almost at our limit lad... Any more power after this and our bodies
+      will implode!
+    - Bring me these last final specimins...
+    emotions: 040000000500000000000000
   itemRecievedPaths:
   - pathName: Go Sell it instead
     paragraphs:
@@ -153,6 +197,23 @@ MonoBehaviour:
     paragraphs:
     - Thank you for completing my quest!
     emotions: 01000000
+  - pathName: Completed Trinket Bug Quest 1
+    paragraphs:
+    - Mmmm yesss... Yes these will do... {freezePlayer}
+    - I have been blessed with knowledge that I will bestow upon you...
+    - Go on! Wear this trinket I have just created... These trinkets grant otherworldly
+      powers you cannot comprehend! {givePlayerItems}
+    - With my creations, we will become gods!
+    - Leave me be now! I must ponder more...
+    - Whats that...? You say you have no place to wear it!
+    - Bah! Enough of such nonsense! Here, keep it in one of these! Now begone with
+      you!
+    emotions: 01000000000000000300000001000000030000000400000003000000
+  - pathName: Completed Trinket Bug Quest 2
+    paragraphs:
+    - Very good! {freezePlayer}
+    - Here is your reward, as promised.
+    emotions: 0100000000000000
   dailyQuestPaths:
   - pathName: Daily Quest
     paragraphs:

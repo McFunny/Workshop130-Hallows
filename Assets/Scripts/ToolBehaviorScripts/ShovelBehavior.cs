@@ -84,7 +84,9 @@ public class ShovelBehavior : ToolBehavior
                 {
                     interactedStructure = structure;
                     usingSecondary = true;
-                    HandItemManager.Instance.PlaySecondaryAnimation();
+
+                    //HandItemManager.Instance.PlaySecondaryAnimation();
+                    toolAnim.Play("shoveldig");
                     HandItemManager.Instance.toolSource.PlayOneShot(dig);
 
                     coolDownMod = 1; //Multiplied to the tool use cooldown

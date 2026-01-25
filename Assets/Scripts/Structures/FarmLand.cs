@@ -923,7 +923,7 @@ public class FarmLand : StructureBehaviorScript
         }
 
 
-        nutrients.waterLevel -= 2;
+        nutrients.waterLevel -= 1;
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
 
         nutrients.ichorLevel -= .5f;

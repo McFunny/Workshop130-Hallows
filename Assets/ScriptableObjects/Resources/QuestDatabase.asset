@@ -569,7 +569,7 @@ MonoBehaviour:
   - name: The Problem
     description: '"A blight only found deep within the Azure haze is starting to
       spread near our town! I believe I can make a potent fungicide, but I will need
-      samples of the infected for my research."'
+      {itemAmount} samples of {itemName} for my research."'
     isMajorQuest: 1
     alreadyCompleted: 0
     mintReward: 0
@@ -584,7 +584,7 @@ MonoBehaviour:
     maxProgress: 1
     daysLeft: -1
     assignee: 5
-    displayProgress: 0
+    displayProgress: 1
     orderIndex: 0
     objectID: 0
     objectID2: 0
@@ -594,6 +594,76 @@ MonoBehaviour:
     questID: 0
     desiredItem: {fileID: 11400000, guid: 34030026025182d43ba020ca09d78ae2, type: 2}
     amount: 20
+  - name: Sorry To Bug You
+    description: The Fanatic believes the bugs of Veilwood have potent powers. He
+      wishes to extract said power, and in turn, share with you on how to use it.
+      He is requesting {itemAmount} {itemName}.
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards:
+    - {fileID: 11400000, guid: 0be9540f5b2fd164f9638b707141c579, type: 2}
+    townFavorReward: 0
+    progress: 0
+    maxProgress: 1
+    daysLeft: -1
+    assignee: 10
+    displayProgress: 1
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 1
+    desiredItem: {fileID: 11400000, guid: c9af372d6ca36fd46b681856e9182698, type: 2}
+    amount: 10
+  - name: Sorry To Bug You Once More
+    description: Once again you are tasked with bringing the Fanatic more bugs. He
+      is asking for {itemAmount} {itemName}.
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards:
+    - {fileID: 11400000, guid: 0be9540f5b2fd164f9638b707141c579, type: 2}
+    townFavorReward: 0
+    progress: 0
+    maxProgress: 1
+    daysLeft: -1
+    assignee: 10
+    displayProgress: 1
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 2
+    desiredItem: {fileID: 11400000, guid: fda6df6807d3506479ad2c8c19b6ff65, type: 2}
+    amount: 5
+  - name: Sorry To Bug You A Final Time
+    description: Once again you are tasked with bringing the Fanatic more bugs. He
+      is asking for {itemAmount} {itemName}.
+    isMajorQuest: 1
+    alreadyCompleted: 0
+    mintReward: 0
+    itemRewards:
+    - {fileID: 11400000, guid: 0be9540f5b2fd164f9638b707141c579, type: 2}
+    townFavorReward: 0
+    progress: 0
+    maxProgress: 1
+    daysLeft: -1
+    assignee: 10
+    displayProgress: 1
+    orderIndex: 0
+    objectID: 0
+    objectID2: 0
+    savedRewardIDs: 
+    behaviorID: -1
+    questBehavior: {fileID: 0}
+    questID: 3
+    desiredItem: {fileID: 11400000, guid: ebd1a7d282da207419ef397be73f770d, type: 2}
+    amount: 10
   npcQuestObjects:
   - {fileID: 11400000, guid: 8c8e1e3e46520f847977634a78f612a8, type: 2}
   - {fileID: 11400000, guid: 76d9cf775cc656847aeabc3b5a841417, type: 2}
