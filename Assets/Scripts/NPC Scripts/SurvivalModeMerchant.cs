@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SurvivalModeMerchant : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
+    private SurvivalMechantBarterDatabase survivalBarterDatabase;
 
     public float sellMultiplier = 1;
     public StoreItem[] storeItems;
@@ -17,12 +19,15 @@ public class SurvivalModeMerchant : NPC, ITalkable
     [SerializeField] private List<InventoryItemData> tierTwoItems = new List<InventoryItemData>();
     [SerializeField] private List<InventoryItemData> tierThreeItems = new List<InventoryItemData>();
 
+    private List<InventoryItemData> purchasedShopItems = new List<InventoryItemData>();
+
 
     //Find a way to get feedback on when a dialogue tree is finished by calling an event/delegate.
 
     void Start()
     {
         shopUI = FindObjectOfType<WaypointScript>();
+        survivalBarterDatabase = barterDatabase as SurvivalMechantBarterDatabase;
         StartCoroutine(DelayedStart());
         TimeManager.OnHourlyUpdate += HourlyUpdate;
         for(int i = 0; i < storeItems.Length; i++)
@@ -31,6 +36,8 @@ public class SurvivalModeMerchant : NPC, ITalkable
         }
 
         if (displaySign) displaySign.UpdateNPCName(this);
+
+        allowedShopItems.AddRange(starterItems);
 
     }
 
@@ -144,6 +151,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
                 anim.SetTrigger("Transaction");
                 InventorySlot slot = HotbarDisplay.currentSlot.AssignedInventorySlot;
+                purchasedShopItems.Add(slot.ItemData);
                 SurvivalModeManager.Instance.mintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
                 SurvivalModeManager.Instance.TotalMintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
             }
@@ -211,33 +219,107 @@ public class SurvivalModeMerchant : NPC, ITalkable
         {
             newItem = null;
 
-            if(x < 6)
+            //First 6 items are always there
+            if (x < 6)
             {
                 item.seller = this;
 
-                newItem = barterDatabase.uniqueTransactions[x].itemForSale;
-                item.RefreshItem(newItem, barterDatabase.uniqueTransactions[x].mintCost, barterDatabase.uniqueTransactions[x].itemsRequired,  barterDatabase.uniqueTransactions[x].amountForSale);
+                newItem = survivalBarterDatabase.alwaysThere[x].itemForSale;
+                item.RefreshItem(newItem, survivalBarterDatabase.alwaysThere[x].mintCost, survivalBarterDatabase.alwaysThere[x].itemsRequired, survivalBarterDatabase.alwaysThere[x].amountForSale);
 
                 x++;
                 continue;
             }
 
-            do
+            //Next 3 are random seed items
+            //No repeats and make sure they are allowed items
+            else if (x < 9)
             {
-                i = Random.Range(0, barterDatabase.transactions.Count);
-                r = Random.Range(0f, 100f);
-                if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(barterDatabase.transactions[i].itemForSale))
+                do
                 {
-                    newItem = barterDatabase.transactions[i].itemForSale;
-                    selectedTrades.Add(i);
+                    i = Random.Range(0, survivalBarterDatabase.seeds.Count);
+                    r = Random.Range(0f, 100f);
+                    if (r < survivalBarterDatabase.seeds[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(survivalBarterDatabase.seeds[i].itemForSale))
+                    {
+                        newItem = survivalBarterDatabase.seeds[i].itemForSale;
+                        selectedTrades.Add(i);
+                    }
                 }
-            }
-            while (!newItem);
-            newCost = (int)(barterDatabase.transactions[i].mintCost * sellMultiplier);
-            item.RefreshItem(newItem, newCost, barterDatabase.transactions[i].itemsRequired, barterDatabase.transactions[i].amountForSale);
-            item.seller = this;
+                while (!newItem);
+                newCost = (int)(survivalBarterDatabase.seeds[i].mintCost * sellMultiplier);
+                item.RefreshItem(newItem, newCost, survivalBarterDatabase.seeds[i].itemsRequired, survivalBarterDatabase.seeds[i].amountForSale);
+                item.seller = this;
 
-            x++;
+                x++;
+            }
+            //Next 3 are random structure items
+            //No repeats and make sure they are allowed items
+            else if (x < 12)
+            {
+                do
+                {
+                    i = Random.Range(0, survivalBarterDatabase.structures.Count);
+                    r = Random.Range(0f, 100f);
+                    if (r < survivalBarterDatabase.structures[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(survivalBarterDatabase.structures[i].itemForSale))
+                    {
+                        newItem = survivalBarterDatabase.structures[i].itemForSale;
+                        selectedTrades.Add(i);
+                    }
+                }
+                while (!newItem);
+                newCost = (int)(survivalBarterDatabase.structures[i].mintCost * sellMultiplier);
+                item.RefreshItem(newItem, newCost, survivalBarterDatabase.structures[i].itemsRequired, survivalBarterDatabase.structures[i].amountForSale);
+                item.seller = this;
+                x++;
+            }
+            //Next 3 are random furniture items
+            //No repeats and make sure they are allowed items
+            else if (x < 15)
+            {
+                do
+                {
+                    i = Random.Range(0, survivalBarterDatabase.furniture.Count);
+                    r = Random.Range(0f, 100f);
+                    if (r < survivalBarterDatabase.furniture[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(survivalBarterDatabase.furniture[i].itemForSale))
+                    {
+                        newItem = survivalBarterDatabase.furniture[i].itemForSale;
+                        selectedTrades.Add(i);
+                    }
+                }
+                while (!newItem);
+                newCost = (int)(survivalBarterDatabase.furniture[i].mintCost * sellMultiplier);
+                item.RefreshItem(newItem, newCost, survivalBarterDatabase.furniture[i].itemsRequired, survivalBarterDatabase.furniture[i].amountForSale);
+                item.seller = this;
+                x++;
+            }
+            //Last 5 are special items
+            else if (x < 20)
+            {
+                if (!purchasedShopItems.Contains(survivalBarterDatabase.specialObjs[x - 15].itemForSale))
+                {
+                    newItem = survivalBarterDatabase.specialObjs[x - 15].itemForSale;
+                    item.RefreshItem(newItem, survivalBarterDatabase.specialObjs[x - 15].mintCost, survivalBarterDatabase.specialObjs[x - 15].itemsRequired, survivalBarterDatabase.specialObjs[x - 15].amountForSale);
+                    item.seller = this;
+                }
+                else //Get a random trinket instead
+                {
+                    do
+                    {
+                        i = Random.Range(0, survivalBarterDatabase.trinkets.Count);
+                        r = Random.Range(0f, 100f);
+                        if (r < survivalBarterDatabase.trinkets[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(survivalBarterDatabase.trinkets[i].itemForSale))
+                        {
+                            newItem = survivalBarterDatabase.trinkets[i].itemForSale;
+                            selectedTrades.Add(i);
+                        }
+                    }
+                    while (!newItem);
+                    newCost = (int)(survivalBarterDatabase.trinkets[i].mintCost * sellMultiplier);
+                    item.RefreshItem(newItem, newCost, survivalBarterDatabase.trinkets[i].itemsRequired, survivalBarterDatabase.trinkets[i].amountForSale);
+                    item.seller = this;
+                }
+                x++;
+            }
         }
     }
 
