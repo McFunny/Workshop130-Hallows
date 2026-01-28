@@ -10,11 +10,11 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
     int maxWaterLevel = 3;
     int oldLevel;
 
-    public Transform waterTexture, splashPosition;
+    public Transform waterTexture, splashPosition, splashPositionL, splashPositionR;
     public SpriteRenderer renderer;
     public Sprite[] waterSprites;
 
-    public ParticleSystem splash, spillSplash;
+    public ParticleSystem splash, spillSplash, largeSpillSplash;
 
     bool showSplash = false;
     bool waterCooldown = false;
@@ -184,6 +184,8 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
 
         splash.Play();
         spillSplash.Play();
+
+        if(waterSpilled == 3) largeSpillSplash.Play();
         audioHandler.PlaySound(audioHandler.interactSound);
 
         Vector3 splashPos;
@@ -209,8 +211,51 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
                 if(structure && structure != this)
                 {
                     IWaterHolder wHolder = structure as IWaterHolder;
-                    if(wHolder != null) for(int x = 0; x < waterSpilled; ++x) wHolder.GivenWater();
+                    if(wHolder != null && waterSpilled < 3) for(int x = 0; x < waterSpilled; ++x) wHolder.GivenWater();
                     else structure.HitWithWater();
+                    break;
+                }
+            }
+
+            Collider[] hitEnemies = Physics.OverlapSphere(splashPos, range * 2.5f, 1 << 9);
+            foreach(Collider collider in hitEnemies)
+            {
+                var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+                if (creature != null)
+                {
+                    creature.HitWithWater();
+                    if(creature.isDead || creature.health <= 0)
+                    {
+                        AchievementManager.Instance.NotifyKickedBucket();
+                    }
+                }
+            }
+        }
+
+        if(waterSpilled == 3) SpillExtraWater();
+    }
+
+
+    void SpillExtraWater()
+    {
+        Vector3 splashPos;
+        float range = 1;
+        for(int i = 0; i < 2; ++i)
+        {
+            if(i == 0) splashPos = splashPositionL.position;
+            else splashPos = splashPositionR.position;
+
+            if(Vector3.Distance(splashPos, PlayerInteraction.Instance.transform.position) < 3f)
+            {
+                StatusEffectManager.Instance.RemoveStatusOnPlayer(StatusEffectName.Fire);
+            }
+            Collider[] hitStructures = Physics.OverlapSphere(splashPos, range, 1 << 6);
+            foreach(Collider collider in hitStructures)
+            {
+                StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+                if(structure && structure != this)
+                {
+                    structure.HitWithWater();
                     break;
                 }
             }

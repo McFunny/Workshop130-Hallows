@@ -87,17 +87,56 @@ MonoBehaviour:
     paragraphs:
     - Don't you have some beartraps to step on?
     emotions: 00000000
+  - pathName: Big Bugs
+    paragraphs:
+    - Its no fair! Pops won't let me go outside the town walls.
+    - But I have seen the giant bugs outside! I wanna catch the big bugs!
+    - The little ones have become too easy...
+    emotions: 020000000500000003000000
+  - pathName: Prank
+    paragraphs:
+    - I played such a great prank on the plant girl the other day!
+    - I gathered a giant ball of green goop I found out by one of the walls the other
+      day, and threw it on one of her seed pouches!
+    - The look on her face was pure gold!
+    emotions: 010000000000000001000000
+  - pathName: Fire Bugs
+    paragraphs:
+    - Have you seen the red fire bugs at night?
+    - Those are my favorite to catch! Make for good hand warmers.
+    - Pops never lets me play with them though...
+    emotions: 040000000100000002000000
+  - pathName: New Friend
+    paragraphs:
+    - Have you ran into my new friend?
+    - He is a Ferrat! As I was collecting Timber Ear off the floor, the little guy
+      came up to me!
+    - It was so cool! I wonder what he is up to right now?
+    emotions: 040000000100000004000000
+  - pathName: Town Cat
+    paragraphs:
+    - Have you seen our town cat yet?
+    - She makes for the best bug catching partner!
+    emotions: 0400000001000000
+  - pathName: Candy
+    paragraphs:
+    - Pops said if I stay out of trouble, I will get hard candy for desert today.
+    - I prefer to have both.
+    emotions: 0000000001000000
   questPaths:
   - pathName: Empty
     paragraphs: []
     emotions: 
   - pathName: Food For Thought
     paragraphs:
-    - I see you eyeing that big door. I bet you want to know how to open it. {freezePlayer}
+    - Hey you! New guy! {freezePlayer}
+    - You see that giant door in the graveyard? Rumor says there lies some huuuuuge
+      secrets in there...
+    - I bet you want to know how to open it!
     - Well, I MAY know where a key is... But I am just soooo hungry, I can barely
       remember...
     - Maybe a Pale Carrot would jog my memory...
-    emotions: 000000000100000002000000
+    emotions: 0500000001000000000000000200000000000000
   - pathName: Inform of Key
     paragraphs:
     - Now we are talking! {itemGiven} {freezePlayer}
@@ -146,6 +185,10 @@ MonoBehaviour:
   - pathName: Scroll
     paragraphs:
     - Sorry gramps! I grew out of coloring books last year.
+    emotions: 01000000
+  - pathName: ScuttleGrub
+    paragraphs:
+    - Haha, look how squishy it is!
     emotions: 01000000
   friendshipPath1: []
   friendshipPath2: []

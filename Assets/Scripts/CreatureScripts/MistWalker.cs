@@ -45,7 +45,7 @@ public class MistWalker : CreatureBehaviorScript
     public List<GameObject> foggedWalkers = new List<GameObject>();
     public GameObject foggedWalkerPrefab;
 
-    public ParticleSystem feralLungeParticles;
+    public ParticleSystem feralLungeParticles, deathLandParticles;
 
     public enum CreatureState
     {
@@ -788,7 +788,15 @@ public class MistWalker : CreatureBehaviorScript
             StopAllCoroutines();
             fearParticle.SetActive(false);
             if (variant == Variant.FogMind) { KillFogged(); }
+
+            if(deathLandParticles) StartCoroutine(PlayDeathParticles());
         }
+    }
+
+    IEnumerator PlayDeathParticles()
+    {
+        yield return new WaitForSeconds(0.35f);
+        deathLandParticles.Play();
     }
 
     private void KillFogged()

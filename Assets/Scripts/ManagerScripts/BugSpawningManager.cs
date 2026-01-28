@@ -47,7 +47,7 @@ public class BugSpawningManager : MonoBehaviour
 
     void SpawnHourlyBugs()
     {
-        int hourlyBugCap = Random.Range(-3, 4); //Max amount to spawn per hour
+        int hourlyBugCap = Random.Range(-3, 5); //Max amount to spawn per hour
         Vector3 spawnPos = Vector3.zero;
 
         //Standard spawning of hourly bugs that spawn over time in the Farm, Town, Wilderness, ect
@@ -148,6 +148,29 @@ public class BugSpawningManager : MonoBehaviour
         if(chosenBug) allBugs.Add(Instantiate(chosenBug, spawnPos, Quaternion.identity));
 
         Debug.Log("Spawned a " + chosenBug);
+    }
+
+    public void SpawnCorpseBug(Vector3 pos)
+    {
+        List<BugObject> possibleBugs = new List<BugObject>();
+
+        //Sort by time of day available and method and location
+        foreach(BugObject bug in BugDatabase.Instance._bugDatabase)
+        {
+            if(bug.spawnMethod.Contains(BugSpawnMethod.Corpses) && PlayerInteraction.Instance.totalMoneyEarned >= bug.wealthPrerequisite) possibleBugs.Add(bug);
+        }
+        if(possibleBugs.Count == 0) return;
+
+        int iterations = 0;
+        GameObject chosenBug = null;
+        while(iterations < 5 && !chosenBug)
+        {
+            int r = Random.Range(0, possibleBugs.Count);
+            if(possibleBugs[r].spawnChance > Random.Range(0,100)) chosenBug = possibleBugs[r].objectPrefab;
+            iterations++;
+        }
+
+        if(chosenBug) allBugs.Add(Instantiate(chosenBug, pos, Quaternion.identity));
     }
 
     int GrabSpecificSpot(BugSpawnArea location)

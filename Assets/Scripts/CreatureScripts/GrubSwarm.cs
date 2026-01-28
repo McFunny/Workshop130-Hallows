@@ -27,9 +27,9 @@ public class GrubSwarm : CreatureBehaviorScript
         switch (GameSaveData.Instance.siegesCleared)
         {
             case 0:
-            grubsToSpawn-= 2;
+            grubsToSpawn-= 3;
             break;
-            case 1:
+            case 1: grubsToSpawn-= 1;
             break;
             case 2:
             grubsToSpawn+= 1;
