@@ -16,7 +16,7 @@ public class SurvivalMechantBarterDatabase : NPCBarterDatabase
 
 
 
-    [ContextMenu("Name Entries")]
+    [ContextMenu("Name all Entries")]
     void RefreshEntries()
     {
         for (int i = 0; i < transactions.Count; i++)

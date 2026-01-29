@@ -280,8 +280,8 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 {
                     i = Random.Range(0, survivalBarterDatabase.furniture.Count);
                     r = Random.Range(0f, 100f);
-                    if (r < survivalBarterDatabase.furniture[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(survivalBarterDatabase.furniture[i].itemForSale))
-                    {
+                    if (r < survivalBarterDatabase.furniture[i].barterChance && !selectedTrades.Contains(i))
+                    { 
                         newItem = survivalBarterDatabase.furniture[i].itemForSale;
                         selectedTrades.Add(i);
                     }
@@ -307,7 +307,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
                     {
                         i = Random.Range(0, survivalBarterDatabase.trinkets.Count);
                         r = Random.Range(0f, 100f);
-                        if (r < survivalBarterDatabase.trinkets[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(survivalBarterDatabase.trinkets[i].itemForSale))
+                        if (r < survivalBarterDatabase.trinkets[i].barterChance)
                         {
                             newItem = survivalBarterDatabase.trinkets[i].itemForSale;
                             selectedTrades.Add(i);
