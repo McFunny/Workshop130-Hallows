@@ -172,14 +172,17 @@ public class PlayerInventoryHolder : InventoryHolder
         }*/
 
         ////////////////////Working code from Inventory System////////////////////////
-        InventorySlot slot = new InventorySlot();
-        trinketInventorySystem.InventorySlots.Add(slot); 
+        trinketInventorySystem.AddNewTrinketSlotToInventory();
+        /// 
+        /*InventorySlot slot = new InventorySlot();
+        //trinketInventorySystem.InventorySlots.Add(slot); 
+        trinketInventorySystem.AddNewSlotToInventory(slot);
 
         slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
         TrinketInventoryData data = new TrinketInventoryData();
 
         data.slot = slot;
-        TrinketInventoryHandler.Instance.trinkets.Add(data);
+        TrinketInventoryHandler.Instance.trinkets.Add(data); */
         ////////////////////////////////////////////
 
         
@@ -192,7 +195,7 @@ public class PlayerInventoryHolder : InventoryHolder
         UpdateInventory();
     }
 
-    private void UpdateTrinketHandler()
+    public void UpdateTrinketHandler()
     {
         int index = 0;
         List<float> durabilityList = new List<float>();

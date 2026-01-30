@@ -377,7 +377,7 @@ public class Acolyte : CreatureBehaviorScript
         spellCooldown = true;
         anim.Play("CultSpell");
         effectsHandler.RandomIdle();
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.6f);
         effectsHandler.MiscSound2();
         GameObject newBullet = Instantiate(ballProjectile, bulletSpawn.position, bulletSpawn.rotation);
         newBullet.GetComponent<ShadowProjectile>().sourceCreature = this;

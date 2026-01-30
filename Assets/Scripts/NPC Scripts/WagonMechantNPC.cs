@@ -343,7 +343,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         Talk();
     }
 
-    public override void RefreshStore()
+    /*public override void RefreshStore()
     {
         if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
         lastInteractedStoreItem = null;
@@ -407,6 +407,88 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             while(!newItem);
             int newCost = (int) (newItem.value * sellMultiplier);
+            item.RefreshItem(newItem, newCost);
+            item.seller = this;
+            x++;
+        }
+        GameSaveData.Instance.mm_sellOnlyRocks = false;
+    } */
+
+    public override void RefreshStore()
+    {
+        if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
+        lastInteractedStoreItem = null;
+        int newCost = 0;
+        float r;
+        int b;
+        InventoryItemData newItem;
+
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
+
+        int extraItems = 0;
+
+       
+        for (int i = 0; i < storeItems.Length; i++)
+        {
+            //////
+
+            newItem = null;
+            if(GameSaveData.Instance.mm_sellOnlyRocks)
+            {
+                int rockCost = (int) (rockItem.value * sellMultiplier);
+                storeItems[i].RefreshItem(rockItem, rockCost);
+                storeItems[i].seller = this;
+                return;
+            }
+
+            if(i == 0 && !PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) newItem = inventoryUpgrade;
+
+            do
+            {
+                b = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[b].barterChance && barterDatabase.transactions[b].siegesRequired <= GameSaveData.Instance.siegesCleared)
+                {
+                    if(selectedTrades.Contains(b) && Random.Range(0, 10) > 4) continue; //Repeats are less likely but not impossible
+                    newItem = barterDatabase.transactions[b].itemForSale;
+                    selectedTrades.Add(b);
+                }
+            }
+            while (!newItem);
+            newCost = (int)(barterDatabase.transactions[b].mintCost * sellMultiplier);
+
+            extraItems = 0;
+            if(barterDatabase.transactions[b].amountForSale == 1) extraItems = Random.Range(0, 3);
+            else if(barterDatabase.transactions[b].amountForSale == 3) extraItems = Random.Range(0, 6);
+            if(GameSaveData.Instance.siegesCleared > 1 && extraItems > 0) extraItems += Random.Range(0, 4);
+
+            storeItems[i].RefreshItem(newItem, newCost, barterDatabase.transactions[b].itemsRequired, barterDatabase.transactions[b].amountForSale + extraItems);
+            storeItems[i].ChangeAmountGiven(barterDatabase.transactions[b].amountGiven);
+            storeItems[i].seller = this;
+        }
+
+        //For selling pets and critters
+        if(TimeManager.Instance.dayNum < 3) return; //Wont give pets until third day
+        int x = 0;
+        foreach (StoreItem item in storeCritterItems)
+        {
+            newItem = null;
+            do
+            {
+                if(GameSaveData.Instance.mm_soldPet == false)
+                {
+                    if(x >= soldPetItems.Length) return;
+                    newItem = soldPetItems[x];
+                    continue;
+                }
+                else if(GameSaveData.Instance.townTreeCleared2 == false) return; //Wont sell if the barn is not unlocked
+
+                int index = Random.Range(0, possibleSoldCritterItems.Length);
+                r = Random.Range(0f,1f);
+                if(r < critterItemWeight[index]) newItem = possibleSoldCritterItems[index];
+            }
+            while(!newItem);
+            newCost = (int) (newItem.value * sellMultiplier);
             item.RefreshItem(newItem, newCost);
             item.seller = this;
             x++;

@@ -12,4 +12,12 @@ public class FogChimeBehavior : CropBehavior
             tile.CropDied();
         }
     }
+
+    public override void OnHarvest(FarmLand tile, bool usedShovel, bool usedScythe)
+    {
+        for(int i = 0; i < TrinketInventoryHandler.Instance.CheckForTrinketAmount(TrinketKey.Fogchime); ++i)
+        {
+            PlayerInteraction.Instance.StaminaChange(5);
+        }
+    }
 }
