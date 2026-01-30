@@ -495,9 +495,13 @@ public class VileHog : CreatureBehaviorScript
 
         float chargeTimeElapsed = 0;
         //
+        anim.ResetTrigger("Recoiled");
+        anim.ResetTrigger("Attacked");
+        anim.ResetTrigger("Missed");
         anim.SetBool("ChargePrep", true);
         anim.SetBool("IsWalking", false);
         anim.SetBool("IsRunning", true);
+
         agent.speed = 0;
         agent.ResetPath();
         faceTarget = true;

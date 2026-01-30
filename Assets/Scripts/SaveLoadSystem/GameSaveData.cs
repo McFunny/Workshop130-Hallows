@@ -31,7 +31,7 @@ public class GameSaveData : MonoBehaviour
     public bool gainedInventoryUpgrade = false;
     public bool gainedWaterStorage = false;
     public bool gainedWaterPack = false;
-    public int trinketSlotsGiven = 0;
+    public int trinketSlotsGiven = 0; //Specifically by the fanatic
 
     [Header("Main Quest Progression Bools. All must be false when building")]
     public bool tutorialMerchantSpoke; //Tutorial Complete
@@ -85,6 +85,7 @@ public class GameSaveData : MonoBehaviour
     public bool apo_gaveCure; // Apoth gave the recipe to the purifying flask, meaning the player completed that quest, and she will now sell the marigleam
     public bool cul_gaveCrock; // Player completed cooking tutorial
     public bool mm_sellOnlyRocks;
+    public bool tink_foundTrinketRecipes; //Player spoke to tinkerer after getting a trinket slot from the fanatic. She explains he filled her machine with doodles
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin blocking barn
@@ -256,6 +257,7 @@ public class GameSaveData : MonoBehaviour
         apo_gaveCure = data.allGameSaveData.apo_gaveCure;
         cul_gaveCrock = data.allGameSaveData.cul_gaveCrock;
         mm_sellOnlyRocks = data.allGameSaveData.mm_sellOnlyRocks;
+        tink_foundTrinketRecipes = data.allGameSaveData.tink_foundTrinketRecipes;
 
 
         travMet = data.allGameSaveData.travMet;
@@ -413,6 +415,7 @@ public class GameSaveData : MonoBehaviour
         public bool apo_gaveCure;
         public bool cul_gaveCrock;
         public bool mm_sellOnlyRocks;
+        public bool tink_foundTrinketRecipes;
 
         public int botShopLevel;
         public int mintsDonatedToBot;
@@ -540,6 +543,7 @@ public class GameSaveData : MonoBehaviour
         apo_gaveCure = data.apo_gaveCure;
         cul_gaveCrock = data.cul_gaveCrock;
         mm_sellOnlyRocks = data.mm_sellOnlyRocks;
+        tink_foundTrinketRecipes = data.tink_foundTrinketRecipes;
 
         botShopLevel = data.botShopLevel;
         mintsDonatedToBot = data.mintsDonatedToBot;

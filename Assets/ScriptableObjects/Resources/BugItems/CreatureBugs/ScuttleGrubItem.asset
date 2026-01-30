@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
+  m_Name: ScuttleGrubItem
+  m_EditorClassIdentifier: 
+  ID: 334
+  displayName: Scuttle Grub
+  description: A squishy, common garden pest.
+  icon: {fileID: -860527551, guid: 9f5ba7e77b753a8449d5aaa3e3a20127, type: 3}
+  type: 9
+  maxStackSize: 99
+  value: 6
+  sellValueMultiplier: 1
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 5
+  animalHungerValue: 40
+  bonusCompostValue: 20
+  useCooldown: 10
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  cookingStats:
+  - type: 4
+    value: 1
+  foodForPets: 
+  foodForCritters: 0300000000000000
+  itemInputsKBM: []
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0

@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Pollinator : CreatureBehaviorScript
 {
+    public InventoryItemData bugItem;
+
     private bool isMoving = false;
     private bool coroutineRunning = false;
     private Transform target;
@@ -380,9 +382,9 @@ public class Pollinator : CreatureBehaviorScript
 
     public override bool CaughtByBugNet(out InventoryItemData item)
     {
-        item = null;
-        TakeDamage(999);
-        return false;
+        item = bugItem;
+
+        return true;
     }
 
     public override bool OnStun(float duration) // For the resin pole trap

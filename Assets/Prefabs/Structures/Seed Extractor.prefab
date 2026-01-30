@@ -319,6 +319,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 6748710116967442891}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -328,6 +329,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -345,6 +347,11 @@ MonoBehaviour:
   itemDropTransform: {fileID: 3227932839961028744}
   itemInsertPos: {fileID: 8524646968133969101}
   dullSeedItem: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+  reducedSeedCrops:
+  - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
+  - {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
+  - {fileID: 11400000, guid: 7768b12c99afd534b97a45295f745592, type: 2}
+  - {fileID: 11400000, guid: 9401d4180bd757444ab2c02ad370e83d, type: 2}
   progress: 0
   fumes: {fileID: 4061044061189872165}
 --- !u!1 &6667757162511049233

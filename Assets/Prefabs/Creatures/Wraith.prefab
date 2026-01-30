@@ -5088,8 +5088,16 @@ MonoBehaviour:
   corpseType: 0
   rb: {fileID: 7647965887755357475}
   anim: {fileID: 8055655871951679778}
-  droppedItems: []
-  dropChance: []
+  droppedItems:
+  - {fileID: 11400000, guid: 7e1f78f7555b6ca408e04d4318a79a5b, type: 2}
+  - {fileID: 11400000, guid: 7e1f78f7555b6ca408e04d4318a79a5b, type: 2}
+  - {fileID: 11400000, guid: 7e1f78f7555b6ca408e04d4318a79a5b, type: 2}
+  - {fileID: 11400000, guid: 7e1f78f7555b6ca408e04d4318a79a5b, type: 2}
+  dropChance:
+  - 10
+  - 7
+  - 5
+  - 5
   sightRange: 20
   attackRange: 6
   playerInSightRange: 0
@@ -5103,6 +5111,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0, g: 0, b: 0, a: 0}
   currentEffects: []
   flowerPrefab: {fileID: 4417471642985031599, guid: 2d560ac035121214eaae984fa846d090,
@@ -5167,6 +5176,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &6399212708906378645
 AudioSource:
   m_ObjectHideFlags: 0

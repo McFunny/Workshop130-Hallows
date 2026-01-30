@@ -378,22 +378,22 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
   allColliders: []
   corpseParticleTransform: {fileID: 0}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 0
   rb: {fileID: 218861372867643202}
   anim: {fileID: 1379588060873593538}
   droppedItems:
   - {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
   - {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
-  - {fileID: 11400000, guid: 38444ddad24ab25498022b6c407d9d92, type: 2}
   dropChance:
   - 0.5
-  - 3
-  - 2
+  - 5
   sightRange: 20
   attackRange: 6
   playerInSightRange: 0
@@ -407,6 +407,7 @@ MonoBehaviour:
   damageToPlayer: 5
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 0.7176471}
   currentEffects: []
   isAttackCrow: 0
@@ -458,6 +459,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -474,6 +476,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!54 &218861372867643202
 Rigidbody:
   m_ObjectHideFlags: 0

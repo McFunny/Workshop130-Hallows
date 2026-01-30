@@ -15,15 +15,16 @@ MonoBehaviour:
   id: 33
   nameOverride: 
   category: 1
-  tier: 1
-  isUnlocked: 0
+  tier: 0
+  isUnlocked: 1
   isRecentlyUnlocked: 0
+  isTrinket: 0
   output: {fileID: 11400000, guid: 4c7a93923a0481847b797b183edec4d0, type: 2}
   outputAmount: 5
   craftTimeInSeconds: 180
   mintCost: 0
   craftingRequirements:
   - requiredItem: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
-    requiredAmount: 4
+    requiredAmount: 3
   - requiredItem: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
     requiredAmount: 1

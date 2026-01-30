@@ -16,7 +16,7 @@ public class StructureManager : MonoBehaviour
 
     public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri, fence, cocoon, bucket, leafPile;
     public CropData fogChime, berryBush;
-    public StructureObject boulderData;
+    public StructureObject boulderData, decorData;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allFarmTiles = new List<Vector3Int>();
@@ -97,6 +97,9 @@ public class StructureManager : MonoBehaviour
             int boulders = TallyStructure(boulderData);
             if(boulders < 6) StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
             else if(boulders < 20) StartCoroutine(PopulateStructure(-2, 1, boulder, true, farmTileMap));
+
+            int decor = TallyStructure(decorData);
+            if(decor < 50) StartCoroutine(PopulateStructure(-2, 5, decorData.objectPrefab, true, farmTileMap));
             PopulateBerryBushes(-5, 2, false);
             StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
             StartCoroutine(PopulateStructure(-10, 3, cocoon, true, farmTileMap));
@@ -880,6 +883,8 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(1, 1, bucket, true, farmTileMap));
         StartCoroutine(PopulateStructure(2, 5, leafPile, true, farmTileMap));
         PopulateBerryBushes(2, 3, true);
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(PopulateStructure(20, 40, decorData.objectPrefab, true, farmTileMap));
     }
 
     public IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)

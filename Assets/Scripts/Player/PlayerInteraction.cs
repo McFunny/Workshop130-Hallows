@@ -460,6 +460,8 @@ public class PlayerInteraction : MonoBehaviour
             ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.4f), Mathf.Clamp(-amount / 3, 1, 8));
             if(stamina <= 0 || MainMenuScript.currentFileMode != FileMode.Cozy) targetRegen = 0;
 
+            StartCoroutine(DamageSlowDown());
+
             //TrinketInventoryHandler.Instance.DamageArmorTrinkets(-amount);
         }
 
@@ -557,6 +559,13 @@ public class PlayerInteraction : MonoBehaviour
 
             StaminaChange(regenRate);
         }
+    }
+
+    IEnumerator DamageSlowDown()
+    {
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.6f, "Damage", false));
+        yield return new WaitForSeconds(0.5f);
+        PlayerMovement.Instance.RemoveSpeedMod("Damage");
     }
 
     public void ApplyStatusEffect(StatusEffectObject status, int duration)

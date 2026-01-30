@@ -130,6 +130,8 @@ public class TrinketInventoryHandler : MonoBehaviour
     public float ApplyTrinketDamageModifiers(float damage) //Apply trinket armor
     {
         damage *= -1;
+
+        List<int> trinketsToDamage = new List<int>();
         for(int i = 0; i < trinkets.Count; ++i)
         {
             InventoryItemData item = trinkets[i].slot.ItemData;
@@ -144,10 +146,15 @@ public class TrinketInventoryHandler : MonoBehaviour
 
                 if(t_item.damagedByAttacks)
                 {
-                    if(t_item.damageMultiplier == 1) ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - Mathf.Clamp(damage / 5, 1, 10));
-                    else ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - Mathf.Clamp(amountReduced, 1, 100));
+                    if(t_item.damageMultiplier == 1) trinketsToDamage.Add(i); //If trinket doesnt provide armor
+                    else ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - Mathf.Clamp(amountReduced, 1, 100)); //This means order does matter when equipping armor trinkets
                 }
             }
+        }
+
+        for(int i = 0; i < trinketsToDamage.Count; ++i) //To ensure regular trinket damage is after armor is applied
+        {
+            ChangeTrinketDurability(trinkets[trinketsToDamage[i]].slot, trinkets[trinketsToDamage[i]].durability - Mathf.Clamp(damage / 5, 1, 10)); 
         }
 
         return -damage;

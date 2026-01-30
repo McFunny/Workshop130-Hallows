@@ -7,7 +7,7 @@ public class FanaticNPC : NPC, ITalkable
     public float sellMultiplier = 1;
     List<StoreItem> storeItems = new List<StoreItem>();
 
-    public InventoryItemData bathBomb;
+    public InventoryItemData bathBomb, loamTrinket;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -49,11 +49,20 @@ public class FanaticNPC : NPC, ITalkable
                 dailyQuest = null;
                 NPCManager.Instance.fanSpoke = true;
             }
+            else if (AbleToGiveTrinketQuest())
+            {
+                int questIndex = 1 + GameSaveData.Instance.trinketSlotsGiven;
+                //QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetTutorialQuest(305));
+                QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueFetchQuests[questIndex]);
+                currentPath = GameSaveData.Instance.trinketSlotsGiven;
+                currentType = PathType.Quest;
+                dailyQuest = null;
+            }
             else
             {
                 if (CompletedQuest())
                 {
-                    currentPath = 0;
+                    currentPath = QuestCompletedDialogue();
                     currentType = PathType.QuestComplete;
                 }
                 else if(dailyQuest != null)
@@ -80,6 +89,27 @@ public class FanaticNPC : NPC, ITalkable
         }
         Talk();
         interactSuccessful = true;
+    }
+
+    public int QuestCompletedDialogue() //Reference lastCompletedQuestIndex to get which quest it is/what type it is, and give specific remarks here!!
+    {
+        if(lastCompletedQuestIndex < 0)
+        {
+            return 0;
+        }
+
+        int questIndex = 1 + GameSaveData.Instance.trinketSlotsGiven;
+
+        //Remark about completing the bug trinket quest here
+        if(GameSaveData.Instance.trinketSlotsGiven < 3 && QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueFetchQuests[questIndex]))
+        {
+            if(GameSaveData.Instance.trinketSlotsGiven == 0) itemsToGive.Add(new ItemWithAmount(loamTrinket, 1));
+            GameSaveData.Instance.trinketSlotsGiven++;
+
+            return GameSaveData.Instance.trinketSlotsGiven;
+        }
+
+        return 0;
     }
 
     /*public void Talk()
@@ -164,6 +194,54 @@ public class FanaticNPC : NPC, ITalkable
         }
         shopUI.shopImgObj.SetActive(false);
     }
+
+    bool AbleToGiveTrinketQuest()
+    {
+        int questIndex = 1 + GameSaveData.Instance.trinketSlotsGiven;
+
+        if(GameSaveData.Instance.trinketSlotsGiven >= 3) return false;
+
+        if(GameSaveData.Instance.trinketSlotsGiven == 0) 
+        {
+            if(GameSaveData.Instance.ras_askedForNet && GameSaveData.Instance.tinkMet && QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.UniqueFetchQuests[questIndex]) == -1) return true;
+            else return false;
+        }
+        else if(GameSaveData.Instance.trinketSlotsGiven <= GameSaveData.Instance.siegesCleared && QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.UniqueFetchQuests[questIndex]) == -1) return true;
+        return false;
+    }
+
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(AbleToGiveTrinketQuest())
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        exclamationObject.SetActive(true);
+        return true;
+    }
+
+    /*bool AbleToCompleteTrinketQuest()
+    {
+        if(GameSaveData.Instance.cul_gaveCrock) return false;
+        int questNum = QuestManager.Instance.FindSameQuest(QuestDatabase.Instance.GetTutorialQuest(304));
+        if(questNum == -1) return false;
+        if(QuestManager.Instance.activeQuests[questNum].progress >= QuestManager.Instance.activeQuests[questNum].maxProgress)
+        {
+            QuestManager.Instance.activeQuests[questNum].alreadyCompleted = true;
+            return true;
+        }
+
+        return false;
+    }*/
 
     public override bool ActionCheck1() //Spa Check
     {

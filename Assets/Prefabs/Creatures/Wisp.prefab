@@ -9899,8 +9899,12 @@ MonoBehaviour:
   corpseType: 2
   rb: {fileID: 368519282495099495}
   anim: {fileID: 1784182687706803806}
-  droppedItems: []
-  dropChance: []
+  droppedItems:
+  - {fileID: 11400000, guid: 7e1f78f7555b6ca408e04d4318a79a5b, type: 2}
+  - {fileID: 11400000, guid: 7e1f78f7555b6ca408e04d4318a79a5b, type: 2}
+  dropChance:
+  - 7
+  - 3
   sightRange: 20
   attackRange: 3
   playerInSightRange: 0
@@ -9920,6 +9924,7 @@ MonoBehaviour:
   moveSpeed: 5
   stunnedSpeed: 1
   fleeSpeed: 10.5
+  attackMoveSpeed: 2.5
   turnSpeed: 360
   hazeDistance: 1
   targettableStructures:

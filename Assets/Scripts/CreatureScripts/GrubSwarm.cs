@@ -14,6 +14,9 @@ public class GrubSwarm : CreatureBehaviorScript
     public List<StructureObject> targettableStructures;
     private StructureBehaviorScript targetStructure;
 
+    public List<CropData> desiredCrops; //More likely to target these than others
+    public List<CropData> undesiredCrops; //Will never target these
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,9 +27,9 @@ public class GrubSwarm : CreatureBehaviorScript
         switch (GameSaveData.Instance.siegesCleared)
         {
             case 0:
-            grubsToSpawn-= 2;
+            grubsToSpawn-= 3;
             break;
-            case 1:
+            case 1: grubsToSpawn-= 1;
             break;
             case 2:
             grubsToSpawn+= 1;
@@ -77,16 +80,36 @@ public class GrubSwarm : CreatureBehaviorScript
         float distanceToStructure;
 
         List<StructureBehaviorScript> availableStructures = new List<StructureBehaviorScript>();
+        List<StructureBehaviorScript> priorityStructure = new List<StructureBehaviorScript>();
+
         foreach (var structure in structManager.allStructs) //Find all the valid structures
         {
             FarmLand tile = structure as FarmLand;
-            if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && (!tile || (tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)))
+            if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && (!tile || (tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)
+                && !undesiredCrops.Contains(tile.crop)))
             {
                 availableStructures.Add(structure);
+
+                if(tile && tile.crop && desiredCrops.Contains(tile.crop)) priorityStructure.Add(structure); 
             }
         }
 
-        if (availableStructures.Count > 0) // pick a random one and mark all of the ones nearby it as attackable
+        if (priorityStructure.Count > 0 && Random.Range(0,10) > 3)
+        {
+            int r = Random.Range(0, priorityStructure.Count);
+            transform.position = priorityStructure[r].transform.position;
+
+            foreach (var validStructure in priorityStructure)
+            {
+                distanceToStructure = Vector3.Distance(transform.position, validStructure.transform.position);
+                if (targettableStructures.Contains(validStructure.structData) && !validStructure.absentFromFarmGrid && distanceToStructure < maxDistance)
+                {
+                    swarmTargets.Add(validStructure);
+                }
+            }
+        }
+
+        else if (availableStructures.Count > 0) // pick a random one and mark all of the ones nearby it as attackable
         {
             int r = Random.Range(0, availableStructures.Count);
             transform.position = availableStructures[r].transform.position;

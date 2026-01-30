@@ -566,7 +566,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                     if(chanceToAttackAgain > Random.Range(0, 100))
                     {
                         StartCoroutine(AttackCooldown());
-                        chanceToAttackAgain -= 30 - (friendshipLevel * 2);
+                        chanceToAttackAgain -= 40 - (friendshipLevel * 2);
                         return;
                     }
                     else chanceToAttackAgain = 100;
@@ -596,7 +596,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 return;
             }
             bool isEating = false, isDrinking = false;
-            if(hunger <= 25 && bowl.ContainsEdibleItem(foodDiet)) isEating = true;
+            if(hunger <= 25 && bowl.ContainsEdibleItem(petType)) isEating = true;
             if(thirst <= 25 && bowl.containsWater) isDrinking = true;
 
             if(Vector3.Distance(player.position, transform.position) > 70f) transform.position = targetStructure.transform.position; //To get the pet unstuck if they got stuck
@@ -641,7 +641,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     IEnumerator IdleRoutine()
     {
         agent.ResetPath();
-        bool creatureNear = false;
+        //bool creatureNear = false;
         float t = 0;
         float time = Random.Range(2f, 15);
         if(time > 10)
@@ -663,7 +663,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             yield return new WaitForSeconds(1);
 
         }
-        if(creatureNear)
+        /*if(creatureNear)
         {
             if(targetCreature)
             {
@@ -674,7 +674,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 StateSwitch(PetState.Flee);
             }
         }
-        else StateSwitch(PetState.Decide);
+        else */StateSwitch(PetState.Decide);
         currentRoutine = null;
     }
 
@@ -752,7 +752,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                             float positiveActionChance = (friendshipLevel + 1) * 2.75f;
                             if(hunger == 0) positiveActionChance = 0;
 
-                            if(Random.Range(0, 20f) < positiveActionChance)
+                            if(Random.Range(0, 100f) < positiveActionChance)
                             {
                                 targetCreature = creature;
                                 target = creature.gameObject.transform.position;
@@ -873,7 +873,7 @@ public class PetCat : PetBehaviorScript, IInteractable
         }
         if(hunger < 100)
         {
-            if(!foodDiet.Contains(item))
+            if(item.foodForPets.Count == 0 || !item.foodForPets.Contains(petType))
             {
                 thoughtBubbleScript.PlayEmotion(2);
                 return;

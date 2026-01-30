@@ -163,16 +163,30 @@ public class PlayerInventoryHolder : InventoryHolder
 
     public void IncreaseTrinketInventory(int increaseVal) //For changing the size at runtime
     {
-        this.trinketInventorySize += increaseVal;
+        /*this.trinketInventorySize += increaseVal;
         //store temp ref of current inventory
         InventorySystemSaveData tempData = this.trinketInventorySystem.GetSaveData();
         for (int i = 0; i < increaseVal; i++)
         {
             tempData.savedSlots.Add(new InventorySlotSaveData(-1, 0));
-        }
+        }*/
 
+        ////////////////////Working code from Inventory System////////////////////////
+        InventorySlot slot = new InventorySlot();
+        trinketInventorySystem.InventorySlots.Add(slot); 
+
+        slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+        TrinketInventoryData data = new TrinketInventoryData();
+
+        data.slot = slot;
+        TrinketInventoryHandler.Instance.trinkets.Add(data);
+        ////////////////////////////////////////////
+
+        
+        /*
         this.trinketInventorySystem = new InventorySystem(trinketInventorySize);
         this.trinketInventorySystem.LoadFromSaveData(tempData, _database);
+        */
         
         UpdateTrinketHandler();
         UpdateInventory();
@@ -285,6 +299,11 @@ public class PlayerInventoryHolder : InventoryHolder
 
     public bool AddToInventory(InventoryItemData data, int amount)
     {
+        if(data.cannotEnterInventory)
+        {
+            if(data.itemBehavior) data.itemBehavior.OnRecieve(data);
+            return true;
+        }
 
         if (primaryInventorySystem.ContainsItem(data, out List<InventorySlot> primarySlots))
         {

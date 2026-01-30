@@ -178,6 +178,7 @@ public class CulinarianNPC : NPC, ITalkable
                 r = Random.Range(0f, 100f);
                 if (r < barterDatabase.transactions[i].barterChance && !selectedTrades.Contains(i) && barterDatabase.transactions[i].siegesRequired <= GameSaveData.Instance.siegesCleared)
                 {
+                    if(i == 8 && GameSaveData.Instance.deadHenIDs.Count >= 4) continue; //No eggs if no hens
                     newItem = barterDatabase.transactions[i].itemForSale;
                     selectedTrades.Add(i);
                 } 

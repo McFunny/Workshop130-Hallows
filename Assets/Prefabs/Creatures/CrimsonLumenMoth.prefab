@@ -20672,6 +20672,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!135 &1304263639035867244
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -25688,7 +25689,7 @@ MonoBehaviour:
   droppedItems:
   - {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
   dropChance:
-  - 3
+  - 4
   sightRange: 15
   attackRange: 1.8
   playerInSightRange: 0
@@ -25702,8 +25703,10 @@ MonoBehaviour:
   damageToPlayer: 6
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0, g: 0, b: 0, a: 0}
   currentEffects: []
+  bugItem: {fileID: 11400000, guid: 10a8298b29619534bbf1d21cb275494b, type: 2}
   homeSwarm: {fileID: 0}
   homeNest: {fileID: 0}
   accelerationRate: 15

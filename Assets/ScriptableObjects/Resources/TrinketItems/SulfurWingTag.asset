@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a97edcfff0fb534418f18db54fa10584, type: 3}
-  m_Name: ParryTrinket
+  m_Name: SulfurWingTag
   m_EditorClassIdentifier: 
-  ID: 316
-  displayName: Parry Trinket
-  description: Unlocks the ability to deflect an attack with the shovel.
-  icon: {fileID: 1157540343, guid: 77ece19bd9a7b374792ce67543c342cf, type: 3}
+  ID: 331
+  displayName: Sulfur Wing Tag
+  description: Increases movement speed by 13%.
+  icon: {fileID: 1564958842, guid: 77ece19bd9a7b374792ce67543c342cf, type: 3}
   type: 11
   maxStackSize: 1
-  value: 55
+  value: 40
   sellValueMultiplier: 0.8
   isKeyItem: 0
   hasModel: 0
@@ -29,16 +29,18 @@ MonoBehaviour:
   pickledForm: {fileID: 0}
   itemConversions: []
   cookingStats: []
+  foodForPets: 
+  foodForCritters: 
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []
   itemBehavior: {fileID: 0}
   useSound: {fileID: 0}
   cannotEnterInventory: 0
-  behavior: {fileID: 11400000, guid: edba0bb6905774b4a81b291be35f4a8d, type: 2}
-  key: 2
-  stackable: 0
-  damagedByAttacks: 0
-  maxDurability: 20
-  guaranteedBreakThreshold: 10
+  behavior: {fileID: 11400000, guid: 154d8895c1b048740b4e97b1c9c85f78, type: 2}
+  key: 3
+  stackable: 1
+  damagedByAttacks: 1
+  maxDurability: 15
+  guaranteedBreakThreshold: 5
   damageMultiplier: 1

@@ -201,7 +201,8 @@ public class HoeBehavior : ToolBehavior
         }
 
         
-        HandItemManager.Instance.PlayPrimaryAnimation();
+        //HandItemManager.Instance.PlayPrimaryAnimation();
+        toolAnim.Play("hoeswinging");
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
         if(PlayerInteraction.Instance.stamina > 50)
         {

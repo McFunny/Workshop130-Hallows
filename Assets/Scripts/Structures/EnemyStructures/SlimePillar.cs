@@ -52,6 +52,8 @@ public class SlimePillar : StructureBehaviorScript
         while(health > 0)
         {
             yield return new WaitForSeconds(Random.Range(15, 30));
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(Random.Range(10, 20));
+
             if(slimeValue < 2 || TimeManager.Instance.isDay) continue;
 
             Instantiate(slimeData.objectPrefab, creatureSpawn.position, Quaternion.identity);
@@ -68,7 +70,8 @@ public class SlimePillar : StructureBehaviorScript
     {
         if(TimeManager.Instance.isDay) return;
 
-        slimeValue += Random.Range(0,3);
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) slimeValue += Random.Range(0,2);
+        else slimeValue += Random.Range(0,3);
         if(slimeValue > maxSlimeValue) slimeValue = maxSlimeValue;
         UpdateModel();
     }

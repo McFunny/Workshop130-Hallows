@@ -537,7 +537,7 @@ public class PetDog : PetBehaviorScript, IInteractable
                 return;
             }
             bool isEating = false, isDrinking = false;
-            if(hunger <= 25 && bowl.ContainsEdibleItem(foodDiet)) isEating = true;
+            if(hunger <= 25 && bowl.ContainsEdibleItem(petType)) isEating = true;
             if(thirst <= 25 && bowl.containsWater) isDrinking = true;
 
             if(Vector3.Distance(player.position, transform.position) > 70f) transform.position = targetStructure.transform.position; //To get the pet unstuck if they got stuck
@@ -797,7 +797,7 @@ public class PetDog : PetBehaviorScript, IInteractable
         }
         if(hunger < 100)
         {
-            if(!foodDiet.Contains(item))
+            if(item.foodForPets.Count == 0 || !item.foodForPets.Contains(petType))
             {
                 thoughtBubbleScript.PlayEmotion(2);
                 return;

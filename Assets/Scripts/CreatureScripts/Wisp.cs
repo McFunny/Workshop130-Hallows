@@ -417,6 +417,7 @@ public class Wisp : CreatureBehaviorScript
         pauseFromLight = false;
         rb.velocity = Vector3.zero;
         yield return new WaitForSeconds(1.2f);
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
         currentRoutine = null;
     }
 
@@ -435,6 +436,7 @@ public class Wisp : CreatureBehaviorScript
         anim.SetBool("Shocked", true);
         effectsHandler.PlaySound(effectsHandler.extraSounds[4]);
         yield return new WaitForSeconds(2);
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
         anim.SetBool("Shocked", false);
         ResetToFlee();
         currentRoutine = null;

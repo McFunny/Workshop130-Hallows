@@ -101,7 +101,6 @@ public class StructureBehaviorScript : MonoBehaviour
         audioHandler = GetComponent<StructureAudioHandler>();
 
         TimeManager.OnHourlyUpdate += HourPassed;
-        if(highlight != null && highlight.Count > 0) foreach(GameObject thing in highlight) thing.SetActive(false);
 
         if(structureUI) structureUI.SetActive(false);
 
@@ -114,6 +113,8 @@ public class StructureBehaviorScript : MonoBehaviour
         }
 
         iceBlock = GetComponentInChildren<IceBlockScript>();
+
+        if(highlight != null && highlight.Count > 0) foreach(GameObject thing in highlight) if(thing) thing.SetActive(false);
 
     }
 

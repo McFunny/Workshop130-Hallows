@@ -8,8 +8,10 @@ public class SeedExtractor : StructureBehaviorScript
 
     public InventoryItemData dullSeedItem;
 
+    public List<InventoryItemData> reducedSeedCrops;
+
     public int progress = 0;
-    int maxProgress = 2;
+    int maxProgress = 5;
 
     bool ignoreNextHour = false;
 
@@ -28,8 +30,12 @@ public class SeedExtractor : StructureBehaviorScript
 
         InventoryItemData itemToSpawn = savedItems[0].FetchConversion(ItemConversionMethod.SeedExtract).newItem;
 
-        int r = Random.Range(3, 8);
-        int dullSeeds = Random.Range(-3, 2);
+        int r = Random.Range(3, 7);
+        if(reducedSeedCrops.Contains(savedItems[0])) r = Random.Range(1, 5);
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) r += Random.Range(1, 3);
+
+
+        int dullSeeds = Random.Range(-2, 4);
         for(int i = 0; i < r; i++)
         {
             GameObject droppedItem;
@@ -54,6 +60,8 @@ public class SeedExtractor : StructureBehaviorScript
 
         fumes.Stop();
 
+        progress = 0;
+
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -70,6 +78,8 @@ public class SeedExtractor : StructureBehaviorScript
 
             ParticlePoolManager.Instance.GrabCloudParticle().transform.position = itemInsertPos.position;
             fumes.Play();
+
+            progress = 0;
         }
     }
 
@@ -93,10 +103,11 @@ public class SeedExtractor : StructureBehaviorScript
                 return;
             }
             progress++;
+            if(reducedSeedCrops.Contains(savedItems[0])) progress += 2;
 
             if(progress >= maxProgress)
             {
-                progress = 0;
+                progress = maxProgress;
                 fumes.Stop();
             }
         }

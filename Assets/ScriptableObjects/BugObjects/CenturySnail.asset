@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda309ec47a8b7044b7f23e52468985c, type: 3}
+  m_Name: CenturySnail
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 6035728877999309688, guid: f61c990ce76f5c7489b81e924243cfc3,
+    type: 3}
+  id: 12
+  spawnChance: 5
+  wealthPrerequisite: 0
+  amountCaught: 0
+  spawnMethod: 00000000
+  activeHours: 0200000003000000
+  spawnLocations: 
+  homeStructures:
+  - {fileID: 11400000, guid: ac7f463dd9be3104db507cdcc7fa9a49, type: 2}
+  - {fileID: 11400000, guid: ccf0bb3bdaa0aa74eb6570c92ea6650a, type: 2}
+  - {fileID: 11400000, guid: 61a199cce83a86e4cb261ecd0e227c35, type: 2}

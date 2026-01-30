@@ -302,7 +302,7 @@ public class Ectoplasm : CreatureBehaviorScript
                 if(!targetStructure || targetStructure.health <= 0) 
                 {
                     effectsHandler.PlayExtraSound(0);
-                    if(!isLarge) //Grow
+                    if(!isLarge && Random.Range(0,10) > 3 && MainMenuScript.currentFileMode != FileMode.Cozy) //Grow
                     {
                         Instantiate(largeSlimePrefab, transform.position, Quaternion.identity);
                         AudioPoolManager.Instance.PlayClipAtPosition(effectsHandler.deathSound, transform.position);

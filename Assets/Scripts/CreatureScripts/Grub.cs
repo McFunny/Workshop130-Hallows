@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Grub : CreatureBehaviorScript
 {
+    public InventoryItemData bugItem;
+
     public Variant variant; // what variant of creature is this?
 
     bool isMoving, coroutineRunning;
@@ -21,6 +23,9 @@ public class Grub : CreatureBehaviorScript
 
     public List<StructureObject> targettableStructures;
     private StructureBehaviorScript targetStructure;
+
+    public List<CropData> desiredCrops; //More likely to target these than others
+    public List<CropData> undesiredCrops; //Will never target these
 
     PlayerWagonScript targetWagon; //set this to the one in wagonmanager
     Transform wagonWeakPoint;
@@ -429,20 +434,29 @@ public class Grub : CreatureBehaviorScript
         float distanceToStructure;
 
         List<StructureBehaviorScript> availableStructure = new List<StructureBehaviorScript>();
+        List<StructureBehaviorScript> priorityStructure = new List<StructureBehaviorScript>();
         foreach (var structure in structManager.allStructs)
         {
             if(!structure) continue;
             FarmLand tile = structure as FarmLand;
             distanceToStructure = Vector3.Distance(transform.position, structure.transform.position);
             if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && distanceToStructure < distance && 
-            (!tile || (tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt)))
+            (!tile || (tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt && !undesiredCrops.Contains(tile.crop))))
             {
                 if(!tile && Random.Range(0,4) == 0) continue;
-                availableStructure.Add(structure);
+                availableStructure.Add(structure); 
+
+                if(tile && tile.crop && desiredCrops.Contains(tile.crop)) priorityStructure.Add(structure); 
             }
         }
 
-        if (availableStructure.Count > 0)
+        if (priorityStructure.Count > 0 && Random.Range(0,10) > 3)
+        {
+            int r = Random.Range(0, priorityStructure.Count);
+            targetStructure = priorityStructure[r];
+        }
+
+        else if (availableStructure.Count > 0)
         {
             int r = Random.Range(0, availableStructure.Count);
             targetStructure = availableStructure[r];
@@ -536,6 +550,13 @@ public class Grub : CreatureBehaviorScript
                 }
             }
         }
+    }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = bugItem;
+
+        return true;
     }
 
     void OnDestroy()
