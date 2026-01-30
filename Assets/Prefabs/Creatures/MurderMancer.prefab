@@ -19960,10 +19960,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
   - {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
   - {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+  - {fileID: 11400000, guid: 011866a9c07ea4941900e969138a99ff, type: 2}
+  - {fileID: 11400000, guid: 011866a9c07ea4941900e969138a99ff, type: 2}
   dropChance:
   - 10
   - 5
   - 5
+  - 2
+  - 2
   sightRange: 0
   attackRange: 0
   playerInSightRange: 0
@@ -19977,6 +19981,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 1
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0, g: 0, b: 0, a: 0}
   currentEffects: []
   timeSinceLastSeenPlayer: 0
@@ -20035,6 +20040,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e3fbb87a77e354640bec243bb2f1136e, type: 3}
   - {fileID: 8300000, guid: 66aa4c792da00224887b9c4cb6fcbbb8, type: 3}
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &6149455387161133296
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20145,6 +20151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 1
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &7731100338164798985
 GameObject:

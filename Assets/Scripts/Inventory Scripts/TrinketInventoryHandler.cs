@@ -46,6 +46,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         }
         GetTrinketDataFromSlot(slot).maxDurability = trinket.maxDurability;
         GetTrinketDataFromSlot(slot).durability = trinket.maxDurability;
+        GetTrinketDataFromSlot(slot).breakChance = trinket.breakChance;
 
         trinket.OnEquip();
 
@@ -66,9 +67,13 @@ public class TrinketInventoryHandler : MonoBehaviour
         }
         trinket.OnRemove();
 
-        if(GetTrinketDataFromSlot(slot).durability < UnityEngine.Random.Range(trinket.guaranteedBreakThreshold + 1, trinket.maxDurability))
+        TrinketInventoryData trinketData = GetTrinketDataFromSlot(slot);
+
+        if(trinketData.durability != trinketData.maxDurability && trinketData.durability < UnityEngine.Random.Range(trinket.guaranteedBreakThreshold + 1, trinket.maxDurability))
         {
             GetTrinketDataFromSlot(slot).durability = 0f;
+            GetTrinketDataFromSlot(slot).maxDurability = 0f;
+            GetTrinketDataFromSlot(slot).breakChance = 0f;
             BreakTrinket(mouseItemData);
         }
         else AudioPoolManager.Instance.PlayClip(removeSFX, 0.4f);//DialogueController.Instance.source.PlayOneShot(removeSFX);
@@ -90,7 +95,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         AudioPoolManager.Instance.PlayClip(breakSFX, 0.1f);
     }
 
-    public void ApplyTrinketDamage(TrinketKey _key, float damage = 1) //Reduced trinket durability
+    public void ApplyTrinketDamage(TrinketKey _key, float damage = 1, bool damageMultiple = false) //Reduced trinket durability
     {
         if(damage < 0) damage *= -1; //Make sure its not healing the trinkets
 
@@ -104,7 +109,7 @@ public class TrinketInventoryHandler : MonoBehaviour
             {
                 //Apply Damage
                 ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - damage);
-                return;
+                if(!damageMultiple) return;
             }
         }
     }
@@ -134,6 +139,8 @@ public class TrinketInventoryHandler : MonoBehaviour
         List<int> trinketsToDamage = new List<int>();
         for(int i = 0; i < trinkets.Count; ++i)
         {
+            //if(trinkets[i].slot == null) continue;
+
             InventoryItemData item = trinkets[i].slot.ItemData;
             if(!item) continue;
             TrinketItem t_item = item as TrinketItem;
@@ -164,6 +171,8 @@ public class TrinketInventoryHandler : MonoBehaviour
     {
         for(int i = 0; i < trinkets.Count; ++i)
         {
+            //if(trinkets[i].slot == null) continue;
+
             InventoryItemData item = trinkets[i].slot.ItemData;
             if(!item) continue;
             TrinketItem t_item = item as TrinketItem;
@@ -177,10 +186,32 @@ public class TrinketInventoryHandler : MonoBehaviour
         return false;
     }
 
+    public int CheckForTrinketAmount(TrinketKey _key) //Checking if specific trinket exists and how many is equipped
+    {
+        int amount = 0;
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            //if(trinkets[i].slot == null) continue;
+
+            InventoryItemData item = trinkets[i].slot.ItemData;
+            if(!item) continue;
+            TrinketItem t_item = item as TrinketItem;
+
+            if(t_item && t_item.key == _key)
+            {
+                amount++;
+            }
+        }
+
+        return amount;
+    }
+
     bool CheckForRepeatNonStackableTrinket(TrinketKey _key) //Checking if there is another non-stackable trinket of the same type
     {
         for(int i = 0; i < trinkets.Count; ++i)
         {
+            //if(trinkets[i].slot == null) continue;
+
             InventoryItemData item = trinkets[i].slot.ItemData;
             if(!item) continue;
             TrinketItem t_item = item as TrinketItem;
@@ -271,7 +302,11 @@ public class TrinketInventoryHandler : MonoBehaviour
         {
             trinketData.durability = newDurability;
 
-            if(newDurability <= 0) BreakTrinket(slot);
+            if(newDurability <= 0)
+            {
+                if(UnityEngine.Random.Range(0, 100) <= trinketData.breakChance) BreakTrinket(slot);
+                else trinketData.durability = 1;
+            }
         }
     }
 
@@ -307,4 +342,6 @@ public class TrinketInventoryData
     public InventorySlot slot;
     public float durability;
     public float maxDurability;
+
+    public float breakChance;
 }

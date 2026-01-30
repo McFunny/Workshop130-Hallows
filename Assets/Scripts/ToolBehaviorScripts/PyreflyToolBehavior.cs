@@ -91,6 +91,15 @@ public class PyreflyToolBehavior : ToolBehavior
                 } 
             }
         } 
+
+
+        if(!PlayerInteraction.Instance.pyreflyLit && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.Pyrecharge))
+        {
+            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.Pyrecharge);
+            HandItemManager.Instance.PyreflyFlameToggle(true);
+            HandItemManager.Instance.toolSource.PlayOneShot(ignite);
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 0.5f));
+        }
     }
 
     public override void ItemUsed()

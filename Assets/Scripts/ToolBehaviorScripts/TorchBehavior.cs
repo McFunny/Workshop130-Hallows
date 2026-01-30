@@ -130,6 +130,7 @@ public class TorchBehavior : ToolBehavior
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
                 HotbarDisplay.currentSlot.UpdateUISlot();
                 HandItemManager.Instance.ClearHandModel();
+                return;
             }
         } 
     }
@@ -237,8 +238,18 @@ public class TorchBehavior : ToolBehavior
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
                 HotbarDisplay.currentSlot.UpdateUISlot();
                 HandItemManager.Instance.ClearHandModel();
+                return;
             }
         } 
+
+        if(!PlayerInteraction.Instance.torchLit && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.Pyrecharge))
+        {
+            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.Pyrecharge);
+            HandItemManager.Instance.TorchFlameToggle(true);
+            HandItemManager.Instance.PlayPrimaryAnimation();
+            HandItemManager.Instance.toolSource.PlayOneShot(ignite);
+            PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.2f, 1f));
+        }
     }
 
     public override void ItemUsed()

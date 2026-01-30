@@ -23,6 +23,9 @@ public class TrinketItem : InventoryItemData
     [Tooltip("How much to multiply oncoming damage. Used for basic armor trinkets")]
     public float damageMultiplier = 1;
 
+    [Tooltip("How likely on a scale of 1-100 will this break upon taking enough damage to shatter it?")]
+    public float breakChance = 100;
+
     public void OnEquip()
     {
         behavior.OnEquip();
@@ -44,5 +47,11 @@ public enum TrinketKey
     Basic,
     WaterFlask,
     Parry,
-    WingTag
+    WingTag,
+    Fogchime,
+    Pyrecharge,
+    Autocrank,
+    RoachRegen,
+    HareBoots,
+    DunemiteBoots
 }
