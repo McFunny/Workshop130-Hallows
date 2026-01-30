@@ -210,16 +210,14 @@ public class InventorySystem
     public void AddNewTrinketSlotToInventory()
     {
         InventorySlot slot = new InventorySlot();
-        inventorySlots.Add(slot); 
 
         slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
         TrinketInventoryData data = new TrinketInventoryData();
 
-        Debug.Log(slot);
-
         data.slot = slot;
 
-        Debug.Log(data.slot);
+        inventorySlots.Add(data.slot); 
+
         TrinketInventoryHandler.Instance.trinkets.Add(data);
 
         PlayerInventoryHolder.Instance.UpdateTrinketHandler();
