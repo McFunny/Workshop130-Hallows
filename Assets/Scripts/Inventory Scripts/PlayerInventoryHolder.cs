@@ -163,14 +163,6 @@ public class PlayerInventoryHolder : InventoryHolder
 
     public void IncreaseTrinketInventory(int increaseVal) //For changing the size at runtime
     {
-        /*this.trinketInventorySize += increaseVal;
-        //store temp ref of current inventory
-        InventorySystemSaveData tempData = this.trinketInventorySystem.GetSaveData();
-        for (int i = 0; i < increaseVal; i++)
-        {
-            tempData.savedSlots.Add(new InventorySlotSaveData(-1, 0));
-        }*/
-
         ////////////////////Working code from Inventory System////////////////////////
         trinketInventorySystem.AddNewTrinketSlotToInventory();
         /// 
@@ -185,12 +177,6 @@ public class PlayerInventoryHolder : InventoryHolder
         TrinketInventoryHandler.Instance.trinkets.Add(data); */
         ////////////////////////////////////////////
 
-        
-        /*
-        this.trinketInventorySystem = new InventorySystem(trinketInventorySize);
-        this.trinketInventorySystem.LoadFromSaveData(tempData, _database);
-        */
-        
         UpdateTrinketHandler();
         UpdateInventory();
     }

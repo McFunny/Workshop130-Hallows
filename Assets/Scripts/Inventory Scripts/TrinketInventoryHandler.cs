@@ -44,6 +44,8 @@ public class TrinketInventoryHandler : MonoBehaviour
             Debug.LogError("This is not a trinket and should not be here");
             return;
         }
+        TrinketInventoryData trinketData = GetTrinketDataFromSlot(slot);
+        print(trinketData);
         GetTrinketDataFromSlot(slot).maxDurability = trinket.maxDurability;
         GetTrinketDataFromSlot(slot).durability = trinket.maxDurability;
         GetTrinketDataFromSlot(slot).breakChance = trinket.breakChance;
