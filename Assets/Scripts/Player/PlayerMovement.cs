@@ -220,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
     {
         for(int i = 0; i < speedMods.Count; i++)
         {
-            if(speedMods[i].source == newMod.source) return;
+            if(speedMods[i].source == newMod.source && speedMods[i].tag == newMod.tag) return;
         }
 
         speedMods.Add(newMod);

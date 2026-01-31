@@ -231,7 +231,8 @@ public class TrinketInventoryHandler : MonoBehaviour
     {
         TrinketItem t_item = _item as TrinketItem;
         if(!t_item) return false;
-        return !CheckForRepeatNonStackableTrinket(t_item.key);
+        if(t_item.stackable == false) return !CheckForRepeatNonStackableTrinket(t_item.key);
+        return true;
     }
 
     private void OnSave()
@@ -249,6 +250,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         {
             for (int i = 0; i < data.playerTrinketDurabilityData.Count; i++)
             {
+                if(i >= trinkets.Count || trinkets[i] == null) continue;
                 trinkets[i].durability = data.playerTrinketDurabilityData[i];
             }
         }
@@ -257,6 +259,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         {
             for (int i = 0; i < data.playerTrinketMaxDurabilityData.Count; i++)
             {
+                if(i >= trinkets.Count || trinkets[i] == null) continue;
                 trinkets[i].maxDurability = data.playerTrinketMaxDurabilityData[i];
             }
         }

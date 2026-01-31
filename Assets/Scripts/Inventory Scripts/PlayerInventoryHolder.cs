@@ -164,6 +164,7 @@ public class PlayerInventoryHolder : InventoryHolder
     public void IncreaseTrinketInventory(int increaseVal) //For changing the size at runtime
     {
         ////////////////////Working code from Inventory System////////////////////////
+        trinketInventorySize++;
         trinketInventorySystem.AddNewTrinketSlotToInventory();
         /// 
         /*InventorySlot slot = new InventorySlot();
