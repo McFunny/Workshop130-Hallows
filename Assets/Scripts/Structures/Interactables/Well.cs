@@ -107,16 +107,20 @@ public class Well : MonoBehaviour, IInteractable
 
         if(phase == WellPhase.BucketRisen) return;
 
-        if(altitude < distance && ((!interacting || !InputManager.isHoldingInteract) || phase == WellPhase.BucketInitialDrop))
+        if(altitude < distance && ((!interacting || !InputManager.isHoldingInteract) || phase == WellPhase.BucketInitialDrop) && !autoCranking)
         {
             currentRate = currentRate + rateChange * Time.deltaTime;
+
             if(currentRate > dropRateMax) currentRate = dropRateMax;
         }
         else if((interacting && InputManager.isHoldingInteract) || autoCranking)
         {
             //altitude += riseRateMax * Time.deltaTime;
             currentRate = currentRate - rateChange * Time.deltaTime;
-            if(currentRate < riseRateMax) currentRate = riseRateMax;
+
+            float tempMaxRaiseRate = riseRateMax;
+            if(autoCranking && !interacting) tempMaxRaiseRate *= 0.5f;
+            if(currentRate < tempMaxRaiseRate) currentRate = tempMaxRaiseRate;
         }
 
         altitude += currentRate * Time.deltaTime;
@@ -164,7 +168,8 @@ public class Well : MonoBehaviour, IInteractable
         bool performAutoCrank = false;
         while(true)
         {
-            yield return new WaitForSeconds(5);
+            if(performAutoCrank) yield return new WaitForSeconds(2);
+            else yield return new WaitForSeconds(5);
             if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.Autocrank) && (phase == WellPhase.BucketAtBottom))
             {
                 if(performAutoCrank) autoCranking = true;

@@ -218,10 +218,10 @@ public class InventorySystem
 
         inventorySlots.Add(data.slot); 
 
-        TrinketInventoryHandler.Instance.trinkets.Add(data);
+        //TrinketInventoryHandler.Instance.trinkets.Add(data);
 
-        PlayerInventoryHolder.Instance.UpdateTrinketHandler();
-        PlayerInventoryHolder.Instance.UpdateInventory();
+        //PlayerInventoryHolder.Instance.UpdateTrinketHandler();
+        //PlayerInventoryHolder.Instance.UpdateInventory();
     }
 
 }
