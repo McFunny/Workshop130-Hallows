@@ -40,7 +40,7 @@ public class FarmTree : StructureBehaviorScript
     IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(1);
-        if(Random.Range(0,10) < 2)
+        if(Random.Range(0,10) < 1)
         {
             type = TreeType.Evergreen;
             UpdateModel();
@@ -140,7 +140,7 @@ public class FarmTree : StructureBehaviorScript
         currentHangingObject = Instantiate(acornPrefab, acornSpawns[Random.Range(0, acornSpawns.Length)].position, Quaternion.identity);
     }
 
-    IEnumerator SpawnLeafPile()
+    public IEnumerator SpawnLeafPile(bool forceSpiders = false)
     {
         if(type == TreeType.Evergreen) yield break;
         yield return new WaitForSeconds(Random.Range(1.5f, 4f));
@@ -151,6 +151,8 @@ public class FarmTree : StructureBehaviorScript
 
         GameObject pile = Instantiate(leafPile.objectPrefab, availableTiles[Random.Range(0, availableTiles.Count)], Quaternion.identity);
         pile.transform.localEulerAngles = new Vector3(0, Random.Range(0,360), 0);
+
+        if(forceSpiders) pile.GetComponent<LeafPile>().holdSpiders = true;
     }
 
     void OnDestroy()
@@ -215,6 +217,11 @@ public class FarmTree : StructureBehaviorScript
         saveString2 = treeObject.ToString();
 
         saveBool1 = newTree;
+    }
+
+    public TreeType GetType()
+    {
+        return type;
     }
 
     /*public override object GetSaveData()

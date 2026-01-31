@@ -129,7 +129,6 @@ Transform:
   - {fileID: 34180377439238289}
   - {fileID: 4363058580884312923}
   - {fileID: 6763113819967865891}
-  - {fileID: 8521659188400003002}
   m_Father: {fileID: 5634429398668762257}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!54 &954386218018464814
@@ -241,21 +240,18 @@ MonoBehaviour:
     itemData: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
     amount: 1
   startingSurvivalItems:
-  - name: 
-    itemData: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
+  - name: Shovel
+    itemData: {fileID: 11400000, guid: 24f43b4b21869a84c93ebb8ee93150aa, type: 2}
     amount: 1
-  - name: 
-    itemData: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
+  - name: Hoe
+    itemData: {fileID: 11400000, guid: 56a99e191735f144d96b00f92ada1698, type: 2}
     amount: 1
-  - name: 
+  - name: WaterCan
+    itemData: {fileID: 11400000, guid: 1c675471aa3779f4da8dfdd5b4d89175, type: 2}
+    amount: 1
+  - name: Pale Carror Seed
     itemData: {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
     amount: 5
-  - name: 
-    itemData: {fileID: 11400000, guid: 08f2970a8455d9243b49e5d93f89e338, type: 2}
-    amount: 1
-  - name: 
-    itemData: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
-    amount: 3
   debugItems: []
 --- !u!114 &6650565928944350188
 MonoBehaviour:
@@ -1104,14 +1100,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3289268145536513713}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.017, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2343275301261413472}
   - {fileID: 2087683241286317177}
-  m_Father: {fileID: 968838946076285070}
+  m_Father: {fileID: 4363058580884312923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3560011455005960692
 GameObject:
@@ -1141,7 +1137,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -1.017, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8521659188400003002}
   m_Father: {fileID: 968838946076285070}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3587143605586732582

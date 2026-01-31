@@ -12,7 +12,7 @@ public class SurvivalModeManager : MonoBehaviour
     /// Death/Failure to gain enough mints before the new day transition triggers a game over
     /// Merchant refuses items sold to him during the day, only during the morning after a night before transition
     //// 
-
+    private const int MONEY_CAP = 2000;
     public int mintsEarned = 0; //how many mints were earned on this night. Resets every night
     public int TotalMintsEarned
     {
@@ -24,6 +24,7 @@ public class SurvivalModeManager : MonoBehaviour
         {
             
             _totalMintsEarned = value;
+            if(PlayerInteraction.Instance.totalMoneyEarned > MONEY_CAP) PlayerInteraction.Instance.totalMoneyEarned = MONEY_CAP; //cap total money earned display
             CheckMintValue(_totalMintsEarned);
         }
     }

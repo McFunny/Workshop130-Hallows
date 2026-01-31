@@ -270,8 +270,9 @@ public class PetMimic : CritterBehaviorScript
             }
         }
 
-        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
-        else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+        if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+        else if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
+        //else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
     }
 
     void Eat()
@@ -376,8 +377,9 @@ public class PetMimic : CritterBehaviorScript
         {
             if(currentState == CritterState.Wander)
             {
-                if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
-                else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+                if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+                else if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
+                //else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
                 else agent.SetDestination(player.position);
             }
             yield return new WaitForSeconds(0.2f);
