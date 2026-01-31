@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class InventorySlot_UI : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class InventorySlot_UI : MonoBehaviour
     ToolTipScript toolTip; //Handles hovering item in inventory
     private InventoryAnims inventoryAnims;
 
-
+    private Coroutine flashingCoroutine;
     string itemDesc;
     Button button;
 
@@ -268,6 +269,25 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
                 TrinketInventoryHandler.Instance.OnInventoryUpdate(this, assignedInventorySlot);
+                if(slot.ItemData != null)
+                {
+                    if (flashingCoroutine != null)
+                    {
+                        StopCoroutine(flashingCoroutine);
+                        itemSprite.color = Color.white;
+                    }
+                    var durability = TrinketInventoryHandler.Instance.GetTrinketDurability(slot);
+
+                    if(durability <= 1)
+                    {
+                        flashingCoroutine = StartCoroutine(TrinketSlotFlashing());
+                    }
+                }
+                if(slot.ItemData == null)
+                {
+                    itemSprite.color = Color.clear;
+                }
+                
             }
             else
             {
@@ -297,6 +317,7 @@ public class InventorySlot_UI : MonoBehaviour
     public void ClearSlot()
     {
         assignedInventorySlot?.ClearSlot();
+        if(flashingCoroutine != null) StopCoroutine(flashingCoroutine);
         itemSprite.sprite = null;
         itemSprite.color = Color.clear;
         itemCount.text = "";
@@ -321,6 +342,27 @@ public class InventorySlot_UI : MonoBehaviour
         {
             foodCooldownSlider.gameObject.SetActive(false);
             itemGrey.enabled = false;
+        }
+    }
+
+    private IEnumerator TrinketSlotFlashing()
+    {
+        while (true)
+        {
+            float flashDuration = 0.5f;
+            float elapsedTime = 0f;
+            Color originalColor = Color.white;
+            Color flashColor = Color.red;
+
+            while (elapsedTime < flashDuration)
+            {
+                itemSprite.color = Color.Lerp(originalColor, flashColor, Mathf.PingPong(elapsedTime * 4f, 1f));
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            itemSprite.color = originalColor;
+            yield return new WaitForSeconds(1f);
         }
     }
 
