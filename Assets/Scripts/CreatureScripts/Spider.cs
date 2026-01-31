@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Spider : CreatureBehaviorScript
 {
+    public InventoryItemData bugItem;
     
     public Variant variant; // what variant of creature is this?
 
@@ -804,6 +805,19 @@ public class Spider : CreatureBehaviorScript
             if(homeDen) homeDen.outsideSpiders--;
             homeDen = null;
         }
+    }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = bugItem;
+
+        if(isDead)
+        {
+            TakeDamage(999);
+            return false;
+        }
+
+        return true;
     }
 
     void OnDestroy()

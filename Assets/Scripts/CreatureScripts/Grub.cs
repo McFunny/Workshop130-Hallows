@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Grub : CreatureBehaviorScript
 {
+    public InventoryItemData bugItem;
+
     public Variant variant; // what variant of creature is this?
 
     bool isMoving, coroutineRunning;
@@ -548,6 +550,13 @@ public class Grub : CreatureBehaviorScript
                 }
             }
         }
+    }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = bugItem;
+
+        return true;
     }
 
     void OnDestroy()

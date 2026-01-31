@@ -1056,6 +1056,17 @@ public class StructureManager : MonoBehaviour
         }
 
         int r = Random.Range(min,max + 1);
+
+        //Extra Fogchimes from trinket
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.Fogchime))
+        {
+            for(int i = 0; i < TrinketInventoryHandler.Instance.CheckForTrinketAmount(TrinketKey.Fogchime); ++i)
+            {
+                r += Random.Range(1, 4);
+            }
+            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.Fogchime, 1, true);
+        }
+
         if (r <= 0) return;
         for(int i = 0; i < r; i++)
         {

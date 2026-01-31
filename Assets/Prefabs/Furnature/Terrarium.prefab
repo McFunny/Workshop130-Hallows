@@ -111,7 +111,9 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -125,6 +127,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -133,7 +136,12 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   onTable: 0
   bugPetRenderer: {fileID: 6313772853784020779}
   petBugObject: {fileID: 3543125682439994904}
@@ -199,6 +207,48 @@ MonoBehaviour:
     - {fileID: 1782304971, guid: bb351242a74e8104d8a8d010b49bd497, type: 3}
     - {fileID: -1842933897, guid: bb351242a74e8104d8a8d010b49bd497, type: 3}
     - {fileID: 1182159591, guid: bb351242a74e8104d8a8d010b49bd497, type: 3}
+  - item: {fileID: 11400000, guid: 5326f20955918d14289fb5ea7c6b6467, type: 2}
+    sprites:
+    - {fileID: -2027000421, guid: e2afc15c7fc94ef479ffddd570825f76, type: 3}
+    - {fileID: -1979574563, guid: e2afc15c7fc94ef479ffddd570825f76, type: 3}
+    - {fileID: 614204874, guid: e2afc15c7fc94ef479ffddd570825f76, type: 3}
+    - {fileID: -1979574563, guid: e2afc15c7fc94ef479ffddd570825f76, type: 3}
+  - item: {fileID: 11400000, guid: 0eab8a2b955a8544cb74cc574ce58d6e, type: 2}
+    sprites:
+    - {fileID: 2049116759, guid: 2e2dacd96f2805f4eba6c52119ce9373, type: 3}
+    - {fileID: 1649067546, guid: 2e2dacd96f2805f4eba6c52119ce9373, type: 3}
+    - {fileID: 122617531, guid: 2e2dacd96f2805f4eba6c52119ce9373, type: 3}
+    - {fileID: 1649067546, guid: 2e2dacd96f2805f4eba6c52119ce9373, type: 3}
+  - item: {fileID: 11400000, guid: fcb8b54f0896d1741a97c33fad1cb81d, type: 2}
+    sprites:
+    - {fileID: -1625164763, guid: 429a56a6b8858c849b795c7d87353cc7, type: 3}
+    - {fileID: -702461044, guid: 429a56a6b8858c849b795c7d87353cc7, type: 3}
+    - {fileID: -956533374, guid: 429a56a6b8858c849b795c7d87353cc7, type: 3}
+    - {fileID: -702461044, guid: 429a56a6b8858c849b795c7d87353cc7, type: 3}
+  - item: {fileID: 11400000, guid: 0efcfd91eecf78042a6a880e3fbfb5a1, type: 2}
+    sprites:
+    - {fileID: 2109378976, guid: 73f031a3e0d622242b4c8de53ec307ed, type: 3}
+    - {fileID: -1822946478, guid: 73f031a3e0d622242b4c8de53ec307ed, type: 3}
+    - {fileID: -21885306, guid: 73f031a3e0d622242b4c8de53ec307ed, type: 3}
+    - {fileID: -1822946478, guid: 73f031a3e0d622242b4c8de53ec307ed, type: 3}
+  - item: {fileID: 11400000, guid: 5d80b4ff46f2d4f43ba85db7fd0e983a, type: 2}
+    sprites:
+    - {fileID: 1489884489, guid: 8340e43ae2f273b449f5c2188bd52c6c, type: 3}
+    - {fileID: -1945278058, guid: 8340e43ae2f273b449f5c2188bd52c6c, type: 3}
+    - {fileID: -975566412, guid: 8340e43ae2f273b449f5c2188bd52c6c, type: 3}
+    - {fileID: -1945278058, guid: 8340e43ae2f273b449f5c2188bd52c6c, type: 3}
+  - item: {fileID: 11400000, guid: 3549ccf42abd29840af5e7bcbf84d59f, type: 2}
+    sprites:
+    - {fileID: -96079212, guid: 1c19e24c42edf9f4a9fadf3f55342b00, type: 3}
+    - {fileID: -2144407819, guid: 1c19e24c42edf9f4a9fadf3f55342b00, type: 3}
+    - {fileID: 1702810195, guid: 1c19e24c42edf9f4a9fadf3f55342b00, type: 3}
+    - {fileID: -2144407819, guid: 1c19e24c42edf9f4a9fadf3f55342b00, type: 3}
+  - item: {fileID: 11400000, guid: 4e0025d360de03d4e8ee995c7e6d9c92, type: 2}
+    sprites:
+    - {fileID: -81291181, guid: 7a881faf43ceac34f904a059adfead7d, type: 3}
+    - {fileID: 262402440, guid: 7a881faf43ceac34f904a059adfead7d, type: 3}
+    - {fileID: -1042014590, guid: 7a881faf43ceac34f904a059adfead7d, type: 3}
+    - {fileID: 262402440, guid: 7a881faf43ceac34f904a059adfead7d, type: 3}
   cantDigUp: 0
 --- !u!1 &2762305338000413043
 GameObject:

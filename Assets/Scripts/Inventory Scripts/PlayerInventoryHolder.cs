@@ -163,36 +163,26 @@ public class PlayerInventoryHolder : InventoryHolder
 
     public void IncreaseTrinketInventory(int increaseVal) //For changing the size at runtime
     {
-        /*this.trinketInventorySize += increaseVal;
-        //store temp ref of current inventory
-        InventorySystemSaveData tempData = this.trinketInventorySystem.GetSaveData();
-        for (int i = 0; i < increaseVal; i++)
-        {
-            tempData.savedSlots.Add(new InventorySlotSaveData(-1, 0));
-        }*/
-
         ////////////////////Working code from Inventory System////////////////////////
-        InventorySlot slot = new InventorySlot();
-        trinketInventorySystem.InventorySlots.Add(slot); 
+        trinketInventorySize++;
+        trinketInventorySystem.AddNewTrinketSlotToInventory();
+        /// 
+        /*InventorySlot slot = new InventorySlot();
+        //trinketInventorySystem.InventorySlots.Add(slot); 
+        trinketInventorySystem.AddNewSlotToInventory(slot);
 
         slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
         TrinketInventoryData data = new TrinketInventoryData();
 
         data.slot = slot;
-        TrinketInventoryHandler.Instance.trinkets.Add(data);
+        TrinketInventoryHandler.Instance.trinkets.Add(data); */
         ////////////////////////////////////////////
 
-        
-        /*
-        this.trinketInventorySystem = new InventorySystem(trinketInventorySize);
-        this.trinketInventorySystem.LoadFromSaveData(tempData, _database);
-        */
-        
         UpdateTrinketHandler();
         UpdateInventory();
     }
 
-    private void UpdateTrinketHandler()
+    public void UpdateTrinketHandler()
     {
         int index = 0;
         List<float> durabilityList = new List<float>();

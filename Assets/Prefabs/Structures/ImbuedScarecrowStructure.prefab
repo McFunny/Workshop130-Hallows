@@ -1224,6 +1224,7 @@ MonoBehaviour:
   flammable: 1
   onFire: 0
   isObstacle: 1
+  repairableWithGlue: 0
   absentFromGrid: 0
   absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
@@ -1239,6 +1240,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 4548840851391689271}
   gibs: {fileID: 4473571443282991380, guid: b4647656ed3522c4e8803831b2cbd2cb, type: 3}
   nearbyFires: []
@@ -1247,6 +1249,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -7247,6 +7250,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7ac099eb824e34646874e300db0f5cbe,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0c408280251b27b419c7ba5ce5b8aa5a, type: 2}
     - target: {fileID: 919132149155446097, guid: 7ac099eb824e34646874e300db0f5cbe,
         type: 3}
       propertyPath: m_Name

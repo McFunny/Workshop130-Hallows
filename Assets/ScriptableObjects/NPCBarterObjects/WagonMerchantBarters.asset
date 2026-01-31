@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf23a036745f5442b0dadf03d8707e9, type: 3}
+  m_Name: WagonMerchantBarters
+  m_EditorClassIdentifier: 
+  transactions:
+  - name: Ammo
+    itemForSale: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
+    useItemPrice: 1
+    mintCost: 30
+    amountForSale: 3
+    barterChance: 50
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: BoneBlender
+    itemForSale: {fileID: 11400000, guid: c01dc5febc780da41aa2782a05c1c5aa, type: 2}
+    useItemPrice: 1
+    mintCost: 45
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: Barricade
+    itemForSale: {fileID: 11400000, guid: 92c18b33807997c42979f668e901afed, type: 2}
+    useItemPrice: 1
+    mintCost: 35
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: BearTrap
+    itemForSale: {fileID: 11400000, guid: 1c6623afdf1e992468dd092ddbfe177d, type: 2}
+    useItemPrice: 1
+    mintCost: 55
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: DryingRack
+    itemForSale: {fileID: 11400000, guid: 55abfcdb2c76f7146be1753abe5b969a, type: 2}
+    useItemPrice: 1
+    mintCost: 85
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: ImbuedScarecrow
+    itemForSale: {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
+    useItemPrice: 1
+    mintCost: 55
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: Barrel
+    itemForSale: {fileID: 11400000, guid: 38970a9a78b0dfa46a3de5a108691b3e, type: 2}
+    useItemPrice: 1
+    mintCost: 90
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: PollinatorPost
+    itemForSale: {fileID: 11400000, guid: 4186d0990441d9b40a416ac71bf280ff, type: 2}
+    useItemPrice: 1
+    mintCost: 65
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: Brazier
+    itemForSale: {fileID: 11400000, guid: 57710911d0c59d944822f7ff1ca3d68e, type: 2}
+    useItemPrice: 1
+    mintCost: 375
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 1
+    amountGiven: 1
+  - name: MiniSprinkler
+    itemForSale: {fileID: 11400000, guid: e553ea351cd05d14987bbad5d9661a3c, type: 2}
+    useItemPrice: 1
+    mintCost: 145
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: CandleCluster
+    itemForSale: {fileID: 11400000, guid: 04ac78899924e5341aff2f39d6bc16e1, type: 2}
+    useItemPrice: 1
+    mintCost: 30
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: Fence
+    itemForSale: {fileID: 11400000, guid: 4c7a93923a0481847b797b183edec4d0, type: 2}
+    useItemPrice: 0
+    mintCost: 10
+    amountForSale: 10
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: BirdBath
+    itemForSale: {fileID: 11400000, guid: 0bc13d18c81019245bbbcfee4abbab8a, type: 2}
+    useItemPrice: 1
+    mintCost: 115
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: ResinPole
+    itemForSale: {fileID: 11400000, guid: 9ce51f32c11ab834ca26d97ec6ffa822, type: 2}
+    useItemPrice: 1
+    mintCost: 60
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: CobbledBarricade
+    itemForSale: {fileID: 11400000, guid: 6048853c0bacbf44e81cf05e0f2d956e, type: 2}
+    useItemPrice: 1
+    mintCost: 70
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 2
+    amountGiven: 1
+  uniqueTransactions: []
+  uniqueTransactions2: []

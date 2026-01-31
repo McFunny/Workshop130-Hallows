@@ -65,7 +65,7 @@ public class ResinPole : StructureBehaviorScript
             if(sockets[i].creature == null) continue;
             if(nectarDurability > 1 && Random.Range(0,10) > 5 && MainMenuScript.currentFileMode != FileMode.Cozy) nectarDurability--;
         }
-        if(nectarDurability <= 0)
+        if(nectarDurability <= 0) //Release the bugs
         {
             nectarDurability = 0;
             UpdateNectar();

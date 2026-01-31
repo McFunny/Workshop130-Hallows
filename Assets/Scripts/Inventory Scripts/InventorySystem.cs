@@ -207,6 +207,23 @@ public class InventorySystem
         return false;
     }
 
+    public void AddNewTrinketSlotToInventory()
+    {
+        InventorySlot slot = new InventorySlot();
+
+        slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+        TrinketInventoryData data = new TrinketInventoryData();
+
+        data.slot = slot;
+
+        inventorySlots.Add(data.slot); 
+
+        //TrinketInventoryHandler.Instance.trinkets.Add(data);
+
+        //PlayerInventoryHolder.Instance.UpdateTrinketHandler();
+        //PlayerInventoryHolder.Instance.UpdateInventory();
+    }
+
 }
 
 [System.Serializable]

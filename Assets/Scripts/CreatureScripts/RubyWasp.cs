@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RubyWasp : CreatureBehaviorScript
 {
+    public InventoryItemData bugItem;
+
     public RubyWaspSwarm homeSwarm;
     public CrimsonMothNest homeNest;
 
@@ -479,9 +481,15 @@ public class RubyWasp : CreatureBehaviorScript
 
     public override bool CaughtByBugNet(out InventoryItemData item)
     {
-        item = null;
-        TakeDamage(999);
-        return false;
+        item = bugItem;
+
+        if(currentState == CreatureState.Stuck)
+        {
+            TakeDamage(999);
+            return false;
+        }
+
+        else return true;
     }
 
     public override bool OnStun(float duration) // For the resin pole trap

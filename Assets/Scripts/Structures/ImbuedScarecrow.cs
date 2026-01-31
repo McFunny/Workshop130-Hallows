@@ -21,7 +21,7 @@ public class ImbuedScarecrow : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
-        if(type == ToolType.Shovel && !TimeManager.Instance.stopTime)
+        if(type == ToolType.Shovel)
         {
             //StartCoroutine(DugUpForItem());
             success = true;

@@ -421,7 +421,7 @@ public class PlayerInteraction : MonoBehaviour
         if (countForTotal) totalMoneyEarned += amount;
     }
 
-    public void StaminaChange(float amount)
+    public void StaminaChange(float amount, bool ignoreArmor = false)
     {
         if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible || isTripped)
         {
@@ -446,7 +446,7 @@ public class PlayerInteraction : MonoBehaviour
         
         if(repairMinigame.IsMinigameActive()) repairMinigame.EndMinigame();
 
-        if(amount <= -5) //Apply Damage Reduction from Trinkets
+        if(amount <= -5 && !ignoreArmor) //Apply Damage Reduction from Trinkets
         {
             amount = TrinketInventoryHandler.Instance.ApplyTrinketDamageModifiers(amount);
             if(amount > -5) amount = -5;
