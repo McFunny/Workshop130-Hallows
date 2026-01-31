@@ -246,6 +246,8 @@ public class TrinketInventoryHandler : MonoBehaviour
 
     public void OnLoad(SaveData data)
     {
+        ReloadTrinkets();
+
         if (data.playerTrinketDurabilityData != null)
         {
             for (int i = 0; i < data.playerTrinketDurabilityData.Count; i++)
@@ -264,7 +266,7 @@ public class TrinketInventoryHandler : MonoBehaviour
             }
         }
 
-        ReloadTrinkets();
+        //ReloadTrinkets();
     }
 
     void ReloadTrinkets()
