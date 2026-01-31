@@ -13,7 +13,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
     ItemDisplaySign displaySign;
 
-    private List<InventoryItemData> allowedShopItems = new List<InventoryItemData>();
+    [SerializeField] private List<InventoryItemData> allowedShopItems = new List<InventoryItemData>();
     [SerializeField] private List<InventoryItemData> starterItems = new List<InventoryItemData>();
     [SerializeField] private List<InventoryItemData> tierOneItems = new List<InventoryItemData>();
     [SerializeField] private List<InventoryItemData> tierTwoItems = new List<InventoryItemData>();
@@ -28,6 +28,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
     {
         shopUI = FindObjectOfType<WaypointScript>();
         survivalBarterDatabase = barterDatabase as SurvivalMechantBarterDatabase;
+        allowedShopItems.AddRange(starterItems);
         StartCoroutine(DelayedStart());
         TimeManager.OnHourlyUpdate += HourlyUpdate;
         for(int i = 0; i < storeItems.Length; i++)
@@ -37,7 +38,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
         if (displaySign) displaySign.UpdateNPCName(this);
 
-        allowedShopItems.AddRange(starterItems);
+       
 
     }
 
@@ -64,7 +65,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
         yield return new WaitForSeconds(2);
 
         //Reenable this when survival mode is fixed because rn its broken
-        //RefreshStore();
+        RefreshStore();
     }
 
     void OnDisable()
@@ -228,7 +229,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
                 newItem = survivalBarterDatabase.alwaysThere[x].itemForSale;
                 item.RefreshItem(newItem, survivalBarterDatabase.alwaysThere[x].mintCost, survivalBarterDatabase.alwaysThere[x].itemsRequired, survivalBarterDatabase.alwaysThere[x].amountForSale);
-                Debug.Log("Added always there item: " + newItem.name);
+
                 x++;
                 continue;
             }
@@ -239,13 +240,13 @@ public class SurvivalModeMerchant : NPC, ITalkable
             {
                 do
                 {
-                    Debug.Log("Selecting seed item for store...");
+
                     i = Random.Range(0, survivalBarterDatabase.seeds.Count);
                     r = Random.Range(0f, 100f);
-                    if (r < survivalBarterDatabase.seeds[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(survivalBarterDatabase.seeds[i].itemForSale))
+                    if (r < survivalBarterDatabase.seeds[i].barterChance && !selectedTrades.Contains(survivalBarterDatabase.seeds[i].itemForSale.ID) && allowedShopItems.Contains(survivalBarterDatabase.seeds[i].itemForSale))
                     {
                         newItem = survivalBarterDatabase.seeds[i].itemForSale;
-                        selectedTrades.Add(i);
+                        selectedTrades.Add(survivalBarterDatabase.seeds[i].itemForSale.ID);
                     }
                 }
                 while (!newItem);
@@ -261,13 +262,14 @@ public class SurvivalModeMerchant : NPC, ITalkable
             {
                 do
                 {
-                    Debug.Log("Selecting structure item for store...");
+
                     i = Random.Range(0, survivalBarterDatabase.structures.Count);
                     r = Random.Range(0f, 100f);
-                    if (r < survivalBarterDatabase.structures[i].barterChance && !selectedTrades.Contains(i) && allowedShopItems.Contains(survivalBarterDatabase.structures[i].itemForSale))
+
+                    if (r < survivalBarterDatabase.structures[i].barterChance && !selectedTrades.Contains(survivalBarterDatabase.structures[i].itemForSale.ID) && allowedShopItems.Contains(survivalBarterDatabase.structures[i].itemForSale))
                     {
                         newItem = survivalBarterDatabase.structures[i].itemForSale;
-                        selectedTrades.Add(i);
+                        selectedTrades.Add(survivalBarterDatabase.structures[i].itemForSale.ID);
                     }
                 }
                 while (!newItem);
@@ -282,13 +284,12 @@ public class SurvivalModeMerchant : NPC, ITalkable
             {
                 do
                 {
-                    Debug.Log("Selecting furniture item for store...");
                     i = Random.Range(0, survivalBarterDatabase.furniture.Count);
                     r = Random.Range(0f, 100f);
-                    if (r < survivalBarterDatabase.furniture[i].barterChance && !selectedTrades.Contains(i))
-                    { 
+                    if (r < survivalBarterDatabase.furniture[i].barterChance && !selectedTrades.Contains(survivalBarterDatabase.furniture[i].itemForSale.ID))
+                    {
                         newItem = survivalBarterDatabase.furniture[i].itemForSale;
-                        selectedTrades.Add(i);
+                        selectedTrades.Add(survivalBarterDatabase.furniture[i].itemForSale.ID);
                     }
                 }
                 while (!newItem);
@@ -305,19 +306,17 @@ public class SurvivalModeMerchant : NPC, ITalkable
                     newItem = survivalBarterDatabase.specialObjs[x - 15].itemForSale;
                     item.RefreshItem(newItem, survivalBarterDatabase.specialObjs[x - 15].mintCost, survivalBarterDatabase.specialObjs[x - 15].itemsRequired, survivalBarterDatabase.specialObjs[x - 15].amountForSale);
                     item.seller = this;
-                    Debug.Log("Added special obj item: " + newItem.name);
                 }
                 else //Get a random trinket instead
                 {
                     do
                     {
-                        Debug.Log("Selecting trinket item for store...");
                         i = Random.Range(0, survivalBarterDatabase.trinkets.Count);
                         r = Random.Range(0f, 100f);
                         if (r < survivalBarterDatabase.trinkets[i].barterChance)
                         {
                             newItem = survivalBarterDatabase.trinkets[i].itemForSale;
-                            selectedTrades.Add(i);
+                            selectedTrades.Add(survivalBarterDatabase.trinkets[i].itemForSale.ID);
                         }
                     }
                     while (!newItem);
