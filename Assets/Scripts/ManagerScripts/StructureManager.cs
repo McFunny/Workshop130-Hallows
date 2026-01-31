@@ -872,6 +872,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 3, barricade, true, barnTileMap));
+        PopulateStructureClump(2, 6, fence, true, farmTileMap);
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 5, fence, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
@@ -884,7 +885,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(2, 5, leafPile, true, farmTileMap));
         PopulateBerryBushes(2, 3, true);
         yield return new WaitForSeconds(0.5f);
-        StartCoroutine(PopulateStructure(20, 40, decorData.objectPrefab, true, farmTileMap));
+        StartCoroutine(PopulateStructure(30, 60, decorData.objectPrefab, true, farmTileMap));
     }
 
     public IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
@@ -930,6 +931,69 @@ public class StructureManager : MonoBehaviour
                     }
 
                     yield return new WaitForSeconds(0.1f);
+                }
+            }
+        }
+    }
+
+    void PopulateStructureClump(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap, float range = 7)
+    {
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        Vector3 centerPos = new Vector3 (0,0,0);
+
+        foreach (Vector3Int position in tileMap.cellBounds.allPositionsWithin)
+        {
+            if(tileMap.GetTile(position) == freeTile) spawnablePositions.Add(position);
+        }
+
+        if(spawnablePositions.Count == 0) return;
+
+        centerPos = spawnablePositions[Random.Range(0, spawnablePositions.Count)];
+
+        for (int i = 0; i < spawnablePositions.Count; i++) //Distance check
+        {
+            if(Vector3.Distance(spawnablePositions[i], centerPos) > range)
+            {
+                spawnablePositions.RemoveAt(i);
+                --i;
+            }
+        }
+
+        int r = Random.Range(min,max + 1);
+        if (r <= 0) return;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = tileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(tileMap.GetTile(spawnablePositions[randomIndex]) != null && tileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
+                {
+                    GameObject newStruct = SpawnStructureWithInstance(prefab, spawnPos);
+                    if(randomizeRotation)
+                    {
+                        int n = Random.Range(0,4);
+
+                        switch(n)
+                        {
+                            case 0:
+                            break;
+                            case 1:
+                            newStruct.transform.Rotate(0, 90, 0);
+                            break;
+                            case 2:
+                            newStruct.transform.Rotate(0, 180, 0);
+                            break;
+                            case 3:
+                            newStruct.transform.Rotate(0, 270, 0);
+                            break;
+                        }
+                    }
+
+                    spawnablePositions.RemoveAt(randomIndex);
                 }
             }
         }
