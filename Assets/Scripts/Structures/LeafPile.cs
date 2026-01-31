@@ -10,6 +10,10 @@ public class LeafPile : StructureBehaviorScript
 
     public GameObject leafParticles;
 
+    public GameObject spiderPrefab;
+
+    public bool holdSpiders;
+
     public override void HitWithWater()
     {
         Destroy(this.gameObject);
@@ -32,6 +36,12 @@ public class LeafPile : StructureBehaviorScript
         ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = transform.position;
+
+        if(holdSpiders)
+        {
+            Instantiate(spiderPrefab, transform.position, Quaternion.identity);
+            return;
+        }
 
         InventoryItemData item = null;
         GameObject chosenCreature = null;
@@ -73,5 +83,15 @@ public class LeafPile : StructureBehaviorScript
                 itemRB.AddForce(Vector3.up * 50);
             }
         }
+    }
+
+    public override void LoadVariables()
+    {
+        holdSpiders = saveBool1;
+    }
+
+    public override void SaveVariables()
+    {
+        saveBool1 = holdSpiders;
     }
 }

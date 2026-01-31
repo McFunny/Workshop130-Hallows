@@ -92,9 +92,20 @@ public class ShovelAttack : MonoBehaviour
         if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15 || other.GetComponentInParent<PetBehaviorScript>()) return; //Add exception to grub
         if(d_Collision == new Vector3(0,0,0))
         {
-            d_Collision = other.ClosestPoint(transform.position);
+            Vector3 fwd = PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward);
+            RaycastHit hit;
+
+            if (Physics.Raycast(PlayerInteraction.Instance.mainCam.transform.position, fwd, out hit, 8)) 
+            {
+                d_Collision = hit.point;
+                if(other.gameObject.tag == "Grass_FootStepSurface") type = GroundType.Dirt;
+                else type = GroundType.Other;
+            }
+            else return;
+
+            /*d_Collision = collider.ClosestPoint(other.transform.position);
             if(other.gameObject.tag == "Grass_FootStepSurface") type = GroundType.Dirt;
-            else type = GroundType.Other;
+            else type = GroundType.Other;*/
         }
 
         //Something to hit corpses
