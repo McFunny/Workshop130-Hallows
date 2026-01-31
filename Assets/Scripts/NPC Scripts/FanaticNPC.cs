@@ -103,8 +103,12 @@ public class FanaticNPC : NPC, ITalkable
         //Remark about completing the bug trinket quest here
         if(GameSaveData.Instance.trinketSlotsGiven < 3 && QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueFetchQuests[questIndex]))
         {
-            if(GameSaveData.Instance.trinketSlotsGiven == 0) itemsToGive.Add(new ItemWithAmount(loamTrinket, 1));
-            GameSaveData.Instance.trinketSlotsGiven++;
+            if(GameSaveData.Instance.trinketSlotsGiven == 0) 
+            {
+                itemsToGive.Add(new ItemWithAmount(loamTrinket, 1));
+                return 1;
+            }
+            //GameSaveData.Instance.trinketSlotsGiven++; //Handled in the item behavior
 
             return GameSaveData.Instance.trinketSlotsGiven;
         }
@@ -198,6 +202,8 @@ public class FanaticNPC : NPC, ITalkable
     bool AbleToGiveTrinketQuest()
     {
         int questIndex = 1 + GameSaveData.Instance.trinketSlotsGiven;
+
+        if(GameSaveData.Instance.trinketSlotsGiven != 0) return false; //Fanatic only gives 1 quest now. Rest of the slots are bought from the MM 
 
         if(GameSaveData.Instance.trinketSlotsGiven >= 3) return false;
 

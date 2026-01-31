@@ -9,5 +9,7 @@ public class TrinketSlotUpgradeBehavior : ItemBehavior
     {
         Debug.Log("Increased inventory");
         PlayerInventoryHolder.Instance.IncreaseTrinketInventory(1);
+
+        GameSaveData.Instance.trinketSlotsGiven++;
     }
 }

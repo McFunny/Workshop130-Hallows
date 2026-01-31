@@ -235,6 +235,7 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         foreach (var startingItem in startingItems)
         {
+            if(MainMenuScript.currentFileMode == FileMode.Survival) break; //No starting items in survival
             if (startingItem.itemData != null)
             {
                 bool addedSuccessfully = AddToInventory(startingItem.itemData, startingItem.amount);

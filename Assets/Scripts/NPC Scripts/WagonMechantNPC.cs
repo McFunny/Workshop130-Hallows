@@ -441,7 +441,20 @@ public class WagonMerchantNPC : NPC, ITalkable
                 return;
             }
 
-            if(i == 0 && !PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) newItem = inventoryUpgrade;
+            if(i == 0)
+            {
+                if(!PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) 
+                {
+                    storeItems[i].RefreshItem(inventoryUpgrade, (int) inventoryUpgrade.value);
+                    storeItems[i].seller = this;
+                }
+                else if(CanSellTrinketPouch())
+                {
+                    storeItems[i].RefreshItem(barterDatabase.uniqueTransactions[0].itemForSale, barterDatabase.uniqueTransactions[0].mintCost,
+                        barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
+                    storeItems[i].seller = this;
+                }
+            }
 
             do
             {
@@ -742,6 +755,15 @@ public class WagonMerchantNPC : NPC, ITalkable
         dialogueController.SetInterruptable(false);
         anim.SetTrigger("IsTalking");
         Talk();
+    }
+
+    bool CanSellTrinketPouch()
+    {
+        if(GameSaveData.Instance.trinketSlotsGiven == 0 || GameSaveData.Instance.trinketSlotsGiven >= 3) return false;
+        if(PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) return false;
+
+        if(GameSaveData.Instance.trinketSlotsGiven > GameSaveData.Instance.siegesCleared) return false;
+        return true;
     }
     
 }
