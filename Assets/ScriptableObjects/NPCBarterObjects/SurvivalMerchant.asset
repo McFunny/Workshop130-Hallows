@@ -75,6 +75,15 @@ MonoBehaviour:
     siegesRequired: 0
     amountGiven: 1
   seeds:
+  - name: PaleCarrotSeed
+    itemForSale: {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
+    useItemPrice: 1
+    mintCost: 6
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
   - name: TerraTuberSeeds
     itemForSale: {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
     useItemPrice: 1
@@ -138,10 +147,10 @@ MonoBehaviour:
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
-  - name: PaleCarrotSeed
-    itemForSale: {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
+  - name: BokunSeeds
+    itemForSale: {fileID: 11400000, guid: 51b3a624402fb4e40ad32fcd100d8c15, type: 2}
     useItemPrice: 1
-    mintCost: 6
+    mintCost: 4
     amountForSale: 5
     barterChance: 100
     itemsRequired: []
@@ -351,34 +360,34 @@ MonoBehaviour:
   - name: BugNet
     itemForSale: {fileID: 11400000, guid: 8d35e041dc8313c468ba6e26022d960d, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 50
     amountForSale: 1
-    barterChance: 0
+    barterChance: 100
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
   - name: Torch
     itemForSale: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 100
     amountForSale: 1
-    barterChance: 0
+    barterChance: 100
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
   - name: ShotGun
     itemForSale: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 250
     amountForSale: 1
-    barterChance: 0
+    barterChance: 100
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
   - name: Kukri
     itemForSale: {fileID: 11400000, guid: caeafa45a45590f4e9a2efcfe05b9a4f, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 500
     amountForSale: 1
     barterChance: 0
     itemsRequired: []
@@ -387,14 +396,14 @@ MonoBehaviour:
   - name: Flintlock
     itemForSale: {fileID: 11400000, guid: e5877dd916562a045bbc5c8d2066d5e8, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 750
     amountForSale: 1
-    barterChance: 0
+    barterChance: 100
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
   trinkets:
-  - name: 
+  - name: LoamMedallion
     itemForSale: {fileID: 11400000, guid: c899c53e45733244981590bd330c9113, type: 2}
     useItemPrice: 0
     mintCost: 0
@@ -403,7 +412,7 @@ MonoBehaviour:
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
-  - name: 
+  - name: CourageMedallion
     itemForSale: {fileID: 11400000, guid: 6816bc44c8efae74abe490a74b06e7a5, type: 2}
     useItemPrice: 0
     mintCost: 0
@@ -412,7 +421,7 @@ MonoBehaviour:
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
-  - name: 
+  - name: HareFlask
     itemForSale: {fileID: 11400000, guid: d2bd47a3a1a511042a316b7fbe7f6a0e, type: 2}
     useItemPrice: 0
     mintCost: 0
