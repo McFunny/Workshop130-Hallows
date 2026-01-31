@@ -13,10 +13,12 @@ public class TutorialNPC : NPC, ITalkable
     Quest mainQuest;
 
     public GameObject tutorial;
+
+    public static bool alreadyPlayedTutorial = false;
     void Start()
     {
         mainQuest = QuestDatabase.Instance.GetMainQuest(0);
-        if(MainMenuScript.loadingData || MainMenuScript.currentFileMode == FileMode.Survival) StartCoroutine(Despawn());
+        if(MainMenuScript.loadingData || (MainMenuScript.currentFileMode == FileMode.Survival && alreadyPlayedTutorial)) StartCoroutine(Despawn());
         else 
         {
             goneAtStart = false;
@@ -94,6 +96,8 @@ public class TutorialNPC : NPC, ITalkable
             FadeScreen.coverScreen = false;
 
             if(!shotAt) tutorial.SetActive(true);
+
+            alreadyPlayedTutorial = true;
 
             Destroy(this.gameObject);
         }

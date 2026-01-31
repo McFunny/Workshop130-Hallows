@@ -16,7 +16,7 @@ MonoBehaviour:
   defaultPath:
     pathName: Introduction
     paragraphs:
-    - You are finally awake.
+    - Oh good. You are finally awake.
     - ... {freezePlayer}
     - ...You VeilWood residents always seem to have your memory fail you, so let
       me remind you how things work here.
@@ -24,13 +24,14 @@ MonoBehaviour:
       you cultivate here.
     - Anything you grow, you bring to me. In return, I will give you <color=#E0D38F>Mints</color>
       <sprite index=0>.
+    - You can spend these <color=#E0D38F>Mints</color> <sprite index=0> however you
+      please. But be sure you are earning your daily quota.
     - You will need to start somewhere. Here, take these seeds. {giveGift}
     - Only under the gaze of twilight will they grow, and you must pay extra mind
       none of the wildlife makes a meal out of them.
-    - The role you play is an important one....
-    - ...
+    - I expect a bountiful harvest...
     - Do not disappoint.
-    emotions: 01000000060000000200000000000000010000000000000004000000050000000600000003000000
+    emotions: 01000000060000000200000000000000010000000000000004000000050000000000000003000000
   repeatedItemPath:
     pathName: 
     paragraphs: []

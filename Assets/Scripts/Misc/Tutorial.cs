@@ -126,7 +126,8 @@ public class Tutorial : MonoBehaviour
             phase = TutorialPhase.Codex;
             PopupEvents.current.WeedDug();
 
-            QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(13));
+            if(MainMenuScript.currentFileMode != FileMode.Survival) QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(13));
+            else PopupHandler.Instance.AddToQueue(PopupHandler.Instance.bedTutorialPopup); 
         }
     }
 
