@@ -694,7 +694,7 @@ public class MainMenuScript : MonoBehaviour
 
     private void UpdateNavigation() //Make this more modular later if needed
     {
-        var f = PlayerPrefs.GetInt("FinaleCompleted", 0);
+        /*var f = PlayerPrefs.GetInt("FinaleCompleted", 0);
         if (f == 0)
         {
             fileModeButtons[0].interactable = true; // Normal
@@ -706,7 +706,12 @@ public class MainMenuScript : MonoBehaviour
             fileModeButtons[0].interactable = true; // Normal
             fileModeButtons[1].interactable = true; // Cozy
             fileModeButtons[2].interactable = true; // Survival
-        }
+        }*/
+
+        fileModeButtons[0].interactable = false; // Normal
+        fileModeButtons[1].interactable = false; // Cozy
+        fileModeButtons[2].interactable = true; // Survival
+
     }
 }
 
