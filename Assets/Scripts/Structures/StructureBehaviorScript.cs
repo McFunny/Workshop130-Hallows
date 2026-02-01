@@ -395,6 +395,7 @@ public class StructureBehaviorScript : MonoBehaviour
             AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
         }
         ParticlePoolManager.Instance.GrabStructDigParticle().transform.position = transform.position;
+        muteSound = true;
         Destroy(this.gameObject);
     }
 

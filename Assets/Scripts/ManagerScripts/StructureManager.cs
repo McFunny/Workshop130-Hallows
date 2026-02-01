@@ -872,7 +872,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 3, barricade, true, barnTileMap));
-        PopulateStructureClump(2, 6, fence, true, farmTileMap);
+        PopulateStructureClump(3, 6, fence, true, farmTileMap, 5);
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 5, fence, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
