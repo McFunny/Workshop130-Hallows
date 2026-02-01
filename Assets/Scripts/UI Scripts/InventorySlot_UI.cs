@@ -25,6 +25,7 @@ public class InventorySlot_UI : MonoBehaviour
     private InventoryAnims inventoryAnims;
 
     private Coroutine flashingCoroutine;
+    private Image sliderFill;
     string itemDesc;
     Button button;
 
@@ -40,6 +41,7 @@ public class InventorySlot_UI : MonoBehaviour
         itemName.gameObject.SetActive(false);
         itemGrey.enabled = false;
         foodCooldownSlider.value = 0;
+        sliderFill = durabilitySlider.fillRect.GetComponent<Image>();
         if(transform.parent.gameObject.name == "PlayerTrinkets")
         {
             assignedInventorySlot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
@@ -276,11 +278,25 @@ public class InventorySlot_UI : MonoBehaviour
                         StopCoroutine(flashingCoroutine);
                         itemSprite.color = Color.white;
                     }
+                    var trinket = (TrinketItem)slot.ItemData;
                     var durability = TrinketInventoryHandler.Instance.GetTrinketDurability(slot);
 
                     if(durability <= 1)
                     {
                         flashingCoroutine = StartCoroutine(TrinketSlotFlashing());
+                        sliderFill.color = Color.red;
+                    }
+                    else if(durability <= trinket.maxDurability * 0.25f)
+                    {
+                        sliderFill.color = Color.red;
+                    }
+                    else if(durability <= trinket.maxDurability * 0.5f)
+                    {
+                        sliderFill.color = Color.yellow;
+                    }
+                    else
+                    {
+                        sliderFill.color = Color.green;
                     }
                 }
                 if(slot.ItemData == null)
