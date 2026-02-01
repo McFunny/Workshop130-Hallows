@@ -198,7 +198,7 @@ public class InputManager : MonoBehaviour
             //return;
         }
         else isCharging = !isCharging;
-        //print("Is the gun charging? " + isCharging);
+        print("Is the gun charging? " + isCharging);
     }
 
     private void BeginHoldInteraction(InputAction.CallbackContext obj)
@@ -214,6 +214,6 @@ public class InputManager : MonoBehaviour
             //return;
         }
         else isHoldingInteract = !isHoldingInteract;
-        //print("Is the gun charging? " + isCharging);
+        print("Is the gun charging? " + isCharging);
     }
 }

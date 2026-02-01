@@ -221,7 +221,7 @@ public class ShovelBehavior : ToolBehavior
         if(InputManager.isCharging)
         {
             //HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
-            AudioPoolManager.Instance.PlayClip(chargeReady, 0.4f);
+            AudioPoolManager.Instance.PlayClip(chargeReady, 0.2f);
             maxCharge = true;
             Debug.Log("Charged Up");
         }
