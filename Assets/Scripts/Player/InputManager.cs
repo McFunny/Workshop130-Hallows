@@ -45,6 +45,7 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
+        controlManager.waterGunCharge.action.actionMap.Enable();
         controlManager.hotbarUp.action.started += HotbarUp;
         controlManager.hotbarDown.action.started += HotbarDown;  
         controlManager.showGrid.action.canceled += ShowGrid;
@@ -179,7 +180,14 @@ public class InputManager : MonoBehaviour
             //return;
         }
         else isCharging = !isCharging;
-        //print("Is the gun charging? " + isCharging);
+
+        if (obj.performed)
+        Debug.Log("Trigger Pressed");
+
+        if (obj.canceled)
+        Debug.Log("Trigger Released");
+
+        print("Is the gun charging? " + isCharging);
     }
 
     private void BeginSecondaryCharge(InputAction.CallbackContext obj)
