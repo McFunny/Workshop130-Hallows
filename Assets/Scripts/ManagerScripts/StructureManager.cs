@@ -872,7 +872,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 3, barricade, true, barnTileMap));
-        PopulateStructureClump(3, 6, fence, true, farmTileMap, 5);
+        PopulateStructureClump(3, 6, fence, true, farmTileMap, 4);
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 5, fence, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
@@ -885,7 +885,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(2, 5, leafPile, true, farmTileMap));
         PopulateBerryBushes(2, 3, true);
         yield return new WaitForSeconds(0.5f);
-        StartCoroutine(PopulateStructure(30, 60, decorData.objectPrefab, true, farmTileMap));
+        StartCoroutine(PopulateStructure(40, 60, decorData.objectPrefab, true, farmTileMap));
     }
 
     public IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
