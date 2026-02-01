@@ -192,7 +192,10 @@ public class InputManager : MonoBehaviour
         else isCharging = !isCharging;
 
         if (obj.performed)
-        Debug.Log("Trigger Pressed");
+        Debug.Log("Trigger Perform Pressed");
+
+        if (obj.started)
+        Debug.Log("Trigger Started Pressed");
 
         if (obj.canceled)
         Debug.Log("Trigger Released");
