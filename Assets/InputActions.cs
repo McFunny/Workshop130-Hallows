@@ -1005,7 +1005,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""de3cd83b-a850-422a-b2cb-4e78277db19a"",
                     ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(pressPoint=0.7)"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""BeginCharge"",
