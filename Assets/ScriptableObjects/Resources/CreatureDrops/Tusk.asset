@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
+  m_Name: Tusk
+  m_EditorClassIdentifier: 
+  ID: 342
+  displayName: Tusk
+  description: The tusk of a hog. Can be grounded into bones or used for traps.
+  icon: {fileID: -961423422, guid: 4f09b48bcf9b9f9459ff7d91fd7914fa, type: 3}
+  type: 0
+  maxStackSize: 10
+  value: 12
+  sellValueMultiplier: 0.75
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 10
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 
+  itemInputsKBM:
+  - RMB - Show Item
+  itemInputsController:
+  - LT - Show Item
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
