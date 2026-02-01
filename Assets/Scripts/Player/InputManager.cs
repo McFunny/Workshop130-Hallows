@@ -59,7 +59,7 @@ public class InputManager : MonoBehaviour
         controlManager.secondaryCharge.action.canceled += BeginSecondaryCharge;
 
         controlManager.waterGunCharge_C.action.performed += BeginCharge;
-        controlManager.waterGunCharge_C.action.canceled += BeginCharge; 
+        //controlManager.waterGunCharge_C.action.canceled += BeginCharge; 
         controlManager.secondaryCharge_C.action.performed += BeginSecondaryCharge;
         controlManager.secondaryCharge_C.action.canceled += BeginSecondaryCharge;
     }
@@ -78,7 +78,7 @@ public class InputManager : MonoBehaviour
         controlManager.secondaryCharge.action.canceled -= BeginSecondaryCharge;
 
         controlManager.waterGunCharge_C.action.performed -= BeginCharge;
-        controlManager.waterGunCharge_C.action.canceled -= BeginCharge; 
+        //controlManager.waterGunCharge_C.action.canceled -= BeginCharge; 
         controlManager.secondaryCharge_C.action.performed -= BeginSecondaryCharge;
         controlManager.secondaryCharge_C.action.canceled -= BeginSecondaryCharge;
     }
@@ -176,6 +176,7 @@ public class InputManager : MonoBehaviour
     private void BeginCharge(InputAction.CallbackContext obj)
     {
         if(PauseScript.isPaused) return;
+        //if(obj.performed && chargeButtonHeld) return;
 
         chargeButtonHeld = !chargeButtonHeld;
 
@@ -198,7 +199,7 @@ public class InputManager : MonoBehaviour
         Debug.Log("Trigger Started Pressed");
 
         if (obj.canceled)
-        Debug.Log("Trigger Released");
+        Debug.Log("Trigger Cancelled");
 
         print("Is the gun charging? " + isCharging);
     }
