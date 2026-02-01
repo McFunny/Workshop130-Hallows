@@ -20,7 +20,7 @@ MonoBehaviour:
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
-    siegesRequired: 0
+    siegesRequired: 1
     amountGiven: 1
   - name: FermentationVat
     itemForSale: {fileID: 11400000, guid: 0c50193a4742c3044abfde0a68396c25, type: 2}
@@ -52,11 +52,11 @@ MonoBehaviour:
   - name: LandMine
     itemForSale: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
     useItemPrice: 1
-    mintCost: 95
+    mintCost: 105
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
-    siegesRequired: 0
+    siegesRequired: 1
     amountGiven: 1
   - name: Refinery
     itemForSale: {fileID: 11400000, guid: 9f529fa0497a5e348890c35cfc771ee6, type: 2}
@@ -101,7 +101,7 @@ MonoBehaviour:
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
-    siegesRequired: 0
+    siegesRequired: 1
     amountGiven: 1
   - name: SeedExtractor
     itemForSale: {fileID: 11400000, guid: 49e13362b43c3d14b93ff11ed1198390, type: 2}
@@ -119,7 +119,7 @@ MonoBehaviour:
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
-    siegesRequired: 1
+    siegesRequired: 2
     amountGiven: 1
   - name: BoneBlender
     itemForSale: {fileID: 11400000, guid: c01dc5febc780da41aa2782a05c1c5aa, type: 2}
@@ -143,6 +143,15 @@ MonoBehaviour:
     itemForSale: {fileID: 11400000, guid: 9b48420bc73d5f74c92bf84211aaf233, type: 2}
     useItemPrice: 1
     mintCost: 345
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: BoneTurret
+    itemForSale: {fileID: 11400000, guid: 11dc0ea83eed04b4aa191a1793f1cb66, type: 2}
+    useItemPrice: 1
+    mintCost: 180
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
