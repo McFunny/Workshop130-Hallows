@@ -278,7 +278,7 @@ public class InventorySlot_UI : MonoBehaviour
                         StopCoroutine(flashingCoroutine);
                         itemSprite.color = Color.white;
                     }
-                    var trinket = (TrinketItem)slot.ItemData;
+                    TrinketItem trinket = slot.ItemData as TrinketItem;
                     var durability = TrinketInventoryHandler.Instance.GetTrinketDurability(slot);
 
                     if(durability <= 1)
