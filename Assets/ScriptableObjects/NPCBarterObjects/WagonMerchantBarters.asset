@@ -148,5 +148,23 @@ MonoBehaviour:
     itemsRequired: []
     siegesRequired: 2
     amountGiven: 1
-  uniqueTransactions: []
+  - name: BoneTurret
+    itemForSale: {fileID: 11400000, guid: 11dc0ea83eed04b4aa191a1793f1cb66, type: 2}
+    useItemPrice: 1
+    mintCost: 180
+    amountForSale: 1
+    barterChance: 75
+    itemsRequired: []
+    siegesRequired: 1
+    amountGiven: 1
+  uniqueTransactions:
+  - name: TrinketUpgradeItem
+    itemForSale: {fileID: 11400000, guid: 0be9540f5b2fd164f9638b707141c579, type: 2}
+    useItemPrice: 0
+    mintCost: 1500
+    amountForSale: 1
+    barterChance: 0
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
   uniqueTransactions2: []

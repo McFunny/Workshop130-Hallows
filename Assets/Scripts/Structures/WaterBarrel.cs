@@ -21,6 +21,8 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
 
     bool showSplash = false;
     bool waterCooldown = false;
+
+    public GameObject waterExplosionPrefab;
     // Start is called before the first frame update
     void Awake()
     {
@@ -202,6 +204,35 @@ public class WaterBarrel : StructureBehaviorScript, IWaterHolder
         waterLevel = 0;
         showSplash = false;
         WaterLevelChange();
+    }
+
+    public void OnDestroy()
+    {
+        base.OnDestroy();
+        if(!gameObject.scene.isLoaded) return;
+        if(waterLevel >= 3) 
+        {
+            Instantiate(waterExplosionPrefab, particleCenter.position, Quaternion.identity);
+            Collider[] hitStructures = Physics.OverlapSphere(transform.position, 3f, 1 << 6);
+            foreach(Collider collider in hitStructures)
+            {
+                StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
+                if(structure)
+                {
+                    structure.HitWithWater();
+                }
+            }
+
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 4.5f, 1 << 9);
+            foreach(Collider collider in hitEnemies)
+            {
+                var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+                if (creature != null)
+                {
+                    creature.HitWithWater();
+                }
+            }
+        }
     }
 
     public override List<StructureUIValueGroup> GetStructureUIValues()
