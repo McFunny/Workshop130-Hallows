@@ -30,7 +30,8 @@ public class MouseItemData : MonoBehaviour
     {
         assignedInventorySlot.AssignItem(invSlot);
         itemSprite.sprite = invSlot.ItemData.icon;
-        itemCount.text = invSlot.StackSize.ToString();
+        if(invSlot.StackSize > 1) itemCount.text = invSlot.StackSize.ToString();
+        else itemCount.text = "";
         itemSprite.color = Color.white;
     }
 
