@@ -217,9 +217,27 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""BeginChargeController"",
+                    ""type"": ""Button"",
+                    ""id"": ""4dc5ea72-3e86-421b-822e-cc2cc2f81fdc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""BeginSecondaryCharge"",
                     ""type"": ""Button"",
                     ""id"": ""c405db5b-3de3-4ac1-ab59-46f2d2262bff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BeginSecondaryChargeController"",
+                    ""type"": ""Button"",
+                    ""id"": ""3bb2945c-4c24-44b2-b431-b38b7aac371c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1003,17 +1021,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""de3cd83b-a850-422a-b2cb-4e78277db19a"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": ""Press(pressPoint=0.7)"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""BeginCharge"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""195b0fa3-4371-48e4-baa7-a0681a79856b"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
@@ -1201,12 +1208,23 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""263e2b92-4391-43bd-8847-64c4d6012e08"",
+                    ""id"": ""21cd898e-19a2-44c4-b9c7-a223661631dd"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""BeginChargeController"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""03102df7-81a9-426d-bdfb-6484ff8ed49d"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""BeginSecondaryCharge"",
+                    ""action"": ""BeginSecondaryChargeController"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2212,7 +2230,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_PageDown = m_Gameplay.FindAction("PageDown", throwIfNotFound: true);
         m_Gameplay_HideUI = m_Gameplay.FindAction("HideUI", throwIfNotFound: true);
         m_Gameplay_BeginCharge = m_Gameplay.FindAction("BeginCharge", throwIfNotFound: true);
+        m_Gameplay_BeginChargeController = m_Gameplay.FindAction("BeginChargeController", throwIfNotFound: true);
         m_Gameplay_BeginSecondaryCharge = m_Gameplay.FindAction("BeginSecondaryCharge", throwIfNotFound: true);
+        m_Gameplay_BeginSecondaryChargeController = m_Gameplay.FindAction("BeginSecondaryChargeController", throwIfNotFound: true);
         m_Gameplay_DropHeldItem = m_Gameplay.FindAction("DropHeldItem", throwIfNotFound: true);
         m_Gameplay_BeginHoldInteraction = m_Gameplay.FindAction("BeginHoldInteraction", throwIfNotFound: true);
         m_Gameplay_MinigamePress = m_Gameplay.FindAction("MinigamePress", throwIfNotFound: true);
@@ -2327,7 +2347,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_PageDown;
     private readonly InputAction m_Gameplay_HideUI;
     private readonly InputAction m_Gameplay_BeginCharge;
+    private readonly InputAction m_Gameplay_BeginChargeController;
     private readonly InputAction m_Gameplay_BeginSecondaryCharge;
+    private readonly InputAction m_Gameplay_BeginSecondaryChargeController;
     private readonly InputAction m_Gameplay_DropHeldItem;
     private readonly InputAction m_Gameplay_BeginHoldInteraction;
     private readonly InputAction m_Gameplay_MinigamePress;
@@ -2362,7 +2384,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @PageDown => m_Wrapper.m_Gameplay_PageDown;
         public InputAction @HideUI => m_Wrapper.m_Gameplay_HideUI;
         public InputAction @BeginCharge => m_Wrapper.m_Gameplay_BeginCharge;
+        public InputAction @BeginChargeController => m_Wrapper.m_Gameplay_BeginChargeController;
         public InputAction @BeginSecondaryCharge => m_Wrapper.m_Gameplay_BeginSecondaryCharge;
+        public InputAction @BeginSecondaryChargeController => m_Wrapper.m_Gameplay_BeginSecondaryChargeController;
         public InputAction @DropHeldItem => m_Wrapper.m_Gameplay_DropHeldItem;
         public InputAction @BeginHoldInteraction => m_Wrapper.m_Gameplay_BeginHoldInteraction;
         public InputAction @MinigamePress => m_Wrapper.m_Gameplay_MinigamePress;
@@ -2444,9 +2468,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BeginCharge.started += instance.OnBeginCharge;
             @BeginCharge.performed += instance.OnBeginCharge;
             @BeginCharge.canceled += instance.OnBeginCharge;
+            @BeginChargeController.started += instance.OnBeginChargeController;
+            @BeginChargeController.performed += instance.OnBeginChargeController;
+            @BeginChargeController.canceled += instance.OnBeginChargeController;
             @BeginSecondaryCharge.started += instance.OnBeginSecondaryCharge;
             @BeginSecondaryCharge.performed += instance.OnBeginSecondaryCharge;
             @BeginSecondaryCharge.canceled += instance.OnBeginSecondaryCharge;
+            @BeginSecondaryChargeController.started += instance.OnBeginSecondaryChargeController;
+            @BeginSecondaryChargeController.performed += instance.OnBeginSecondaryChargeController;
+            @BeginSecondaryChargeController.canceled += instance.OnBeginSecondaryChargeController;
             @DropHeldItem.started += instance.OnDropHeldItem;
             @DropHeldItem.performed += instance.OnDropHeldItem;
             @DropHeldItem.canceled += instance.OnDropHeldItem;
@@ -2541,9 +2571,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @BeginCharge.started -= instance.OnBeginCharge;
             @BeginCharge.performed -= instance.OnBeginCharge;
             @BeginCharge.canceled -= instance.OnBeginCharge;
+            @BeginChargeController.started -= instance.OnBeginChargeController;
+            @BeginChargeController.performed -= instance.OnBeginChargeController;
+            @BeginChargeController.canceled -= instance.OnBeginChargeController;
             @BeginSecondaryCharge.started -= instance.OnBeginSecondaryCharge;
             @BeginSecondaryCharge.performed -= instance.OnBeginSecondaryCharge;
             @BeginSecondaryCharge.canceled -= instance.OnBeginSecondaryCharge;
+            @BeginSecondaryChargeController.started -= instance.OnBeginSecondaryChargeController;
+            @BeginSecondaryChargeController.performed -= instance.OnBeginSecondaryChargeController;
+            @BeginSecondaryChargeController.canceled -= instance.OnBeginSecondaryChargeController;
             @DropHeldItem.started -= instance.OnDropHeldItem;
             @DropHeldItem.performed -= instance.OnDropHeldItem;
             @DropHeldItem.canceled -= instance.OnDropHeldItem;
@@ -2857,7 +2893,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnPageDown(InputAction.CallbackContext context);
         void OnHideUI(InputAction.CallbackContext context);
         void OnBeginCharge(InputAction.CallbackContext context);
+        void OnBeginChargeController(InputAction.CallbackContext context);
         void OnBeginSecondaryCharge(InputAction.CallbackContext context);
+        void OnBeginSecondaryChargeController(InputAction.CallbackContext context);
         void OnDropHeldItem(InputAction.CallbackContext context);
         void OnBeginHoldInteraction(InputAction.CallbackContext context);
         void OnMinigamePress(InputAction.CallbackContext context);

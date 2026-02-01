@@ -57,6 +57,11 @@ public class InputManager : MonoBehaviour
         controlManager.holdInteraction.action.canceled += BeginHoldInteraction;
         controlManager.secondaryCharge.action.started += BeginSecondaryCharge;
         controlManager.secondaryCharge.action.canceled += BeginSecondaryCharge;
+
+        controlManager.waterGunCharge_C.action.performed += BeginCharge;
+        controlManager.waterGunCharge_C.action.canceled += BeginCharge; 
+        controlManager.secondaryCharge_C.action.performed += BeginSecondaryCharge;
+        controlManager.secondaryCharge_C.action.canceled += BeginSecondaryCharge;
     }
     private void OnDisable()
     {
@@ -71,6 +76,11 @@ public class InputManager : MonoBehaviour
         controlManager.holdInteraction.action.canceled -= BeginHoldInteraction;
         controlManager.secondaryCharge.action.started -= BeginSecondaryCharge;
         controlManager.secondaryCharge.action.canceled -= BeginSecondaryCharge;
+
+        controlManager.waterGunCharge_C.action.performed -= BeginCharge;
+        controlManager.waterGunCharge_C.action.canceled -= BeginCharge; 
+        controlManager.secondaryCharge_C.action.performed -= BeginSecondaryCharge;
+        controlManager.secondaryCharge_C.action.canceled -= BeginSecondaryCharge;
     }
 
     void Update()

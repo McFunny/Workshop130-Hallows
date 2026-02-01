@@ -195,9 +195,27 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "BeginChargeController",
+                    "type": "Button",
+                    "id": "4dc5ea72-3e86-421b-822e-cc2cc2f81fdc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "BeginSecondaryCharge",
                     "type": "Button",
                     "id": "c405db5b-3de3-4ac1-ab59-46f2d2262bff",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BeginSecondaryChargeController",
+                    "type": "Button",
+                    "id": "3bb2945c-4c24-44b2-b431-b38b7aac371c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -981,17 +999,6 @@
                 },
                 {
                     "name": "",
-                    "id": "de3cd83b-a850-422a-b2cb-4e78277db19a",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "Press(pressPoint=0.7)",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "BeginCharge",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "195b0fa3-4371-48e4-baa7-a0681a79856b",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
@@ -1179,12 +1186,23 @@
                 },
                 {
                     "name": "",
-                    "id": "263e2b92-4391-43bd-8847-64c4d6012e08",
+                    "id": "21cd898e-19a2-44c4-b9c7-a223661631dd",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "BeginChargeController",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03102df7-81a9-426d-bdfb-6484ff8ed49d",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "BeginSecondaryCharge",
+                    "action": "BeginSecondaryChargeController",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
