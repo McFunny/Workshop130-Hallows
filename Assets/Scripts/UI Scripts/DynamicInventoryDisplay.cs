@@ -70,8 +70,16 @@ public class DynamicInventoryDisplay : InventoryDisplay
 
         if(gameObject.name == "PlayerTrinkets")
         {
-            if(inventorySystem.InventorySize == 0) GetComponent<Image>().enabled = false;
-            else GetComponent<Image>().enabled = true;
+            if(inventorySystem.InventorySize == 0)
+            {
+                GetComponent<Image>().enabled = false;
+                gameObject.transform.parent.GetChild(1).gameObject.SetActive(false);
+            }
+            else 
+            {
+                GetComponent<Image>().enabled = true;
+                gameObject.transform.parent.GetChild(1).gameObject.SetActive(true);
+            }
         }
 
         Debug.Log($"Displaying {inventorySystem} in UI: {gameObject.name}"); // Log to verify correct inventory is shown

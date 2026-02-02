@@ -56,7 +56,7 @@ public class CraftingDatabase : ScriptableObject
             _craftingDatabase[i].isUnlocked = false;
             _craftingDatabase[i].isRecentlyUnlocked = false;
 
-            if(forceUnlockAll) _craftingDatabase[i].isUnlocked = true;
+            if(forceUnlockAll || _craftingDatabase[i].unlockedAtStart) _craftingDatabase[i].isUnlocked = true;
         }
     }
 
@@ -79,6 +79,7 @@ public class CraftingDatabase : ScriptableObject
             if(i >= data.craftingStats.Length) return;
             c.isUnlocked = data.craftingStats[i].isUnlocked;
             c.isRecentlyUnlocked = data.craftingStats[i].isRecentlyUnlocked;
+            if(c.unlockedAtStart) c.isUnlocked = true;
             i++;
         }
     }

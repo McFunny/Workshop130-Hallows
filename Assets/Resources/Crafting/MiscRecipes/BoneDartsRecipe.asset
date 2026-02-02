@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
+  m_Name: BoneDartsRecipe
+  m_EditorClassIdentifier: 
+  id: 44
+  nameOverride: Bone Darts
+  category: 4
+  tier: -1
+  isUnlocked: 0
+  isRecentlyUnlocked: 0
+  unlockedAtStart: 1
+  isTrinket: 0
+  output: {fileID: 11400000, guid: 8208624904a70ce4085f1cda35545863, type: 2}
+  outputAmount: 5
+  craftTimeInSeconds: 10
+  mintCost: 0
+  craftingRequirements:
+  - requiredItem: {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+    requiredAmount: 2
+  - requiredItem: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
+    requiredAmount: 1

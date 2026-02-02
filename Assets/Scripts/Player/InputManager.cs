@@ -45,6 +45,7 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
+        controlManager.waterGunCharge.action.actionMap.Enable();
         controlManager.hotbarUp.action.started += HotbarUp;
         controlManager.hotbarDown.action.started += HotbarDown;  
         controlManager.showGrid.action.canceled += ShowGrid;
@@ -56,6 +57,11 @@ public class InputManager : MonoBehaviour
         controlManager.holdInteraction.action.canceled += BeginHoldInteraction;
         controlManager.secondaryCharge.action.started += BeginSecondaryCharge;
         controlManager.secondaryCharge.action.canceled += BeginSecondaryCharge;
+
+        controlManager.waterGunCharge_C.action.performed += BeginCharge;
+        //controlManager.waterGunCharge_C.action.canceled += BeginCharge; 
+        controlManager.secondaryCharge_C.action.performed += BeginSecondaryCharge;
+        controlManager.secondaryCharge_C.action.canceled += BeginSecondaryCharge;
     }
     private void OnDisable()
     {
@@ -70,6 +76,11 @@ public class InputManager : MonoBehaviour
         controlManager.holdInteraction.action.canceled -= BeginHoldInteraction;
         controlManager.secondaryCharge.action.started -= BeginSecondaryCharge;
         controlManager.secondaryCharge.action.canceled -= BeginSecondaryCharge;
+
+        controlManager.waterGunCharge_C.action.performed -= BeginCharge;
+        //controlManager.waterGunCharge_C.action.canceled -= BeginCharge; 
+        controlManager.secondaryCharge_C.action.performed -= BeginSecondaryCharge;
+        controlManager.secondaryCharge_C.action.canceled -= BeginSecondaryCharge;
     }
 
     void Update()
@@ -165,6 +176,7 @@ public class InputManager : MonoBehaviour
     private void BeginCharge(InputAction.CallbackContext obj)
     {
         if(PauseScript.isPaused) return;
+        //if(obj.performed && chargeButtonHeld) return;
 
         chargeButtonHeld = !chargeButtonHeld;
 
@@ -179,7 +191,17 @@ public class InputManager : MonoBehaviour
             //return;
         }
         else isCharging = !isCharging;
-        //print("Is the gun charging? " + isCharging);
+
+        if (obj.performed)
+        Debug.Log("Trigger Perform Pressed");
+
+        if (obj.started)
+        Debug.Log("Trigger Started Pressed");
+
+        if (obj.canceled)
+        Debug.Log("Trigger Cancelled");
+
+        print("Is the gun charging? " + isCharging);
     }
 
     private void BeginSecondaryCharge(InputAction.CallbackContext obj)
@@ -198,7 +220,7 @@ public class InputManager : MonoBehaviour
             //return;
         }
         else isCharging = !isCharging;
-        //print("Is the gun charging? " + isCharging);
+        print("Is the gun charging? " + isCharging);
     }
 
     private void BeginHoldInteraction(InputAction.CallbackContext obj)
@@ -214,6 +236,6 @@ public class InputManager : MonoBehaviour
             //return;
         }
         else isHoldingInteract = !isHoldingInteract;
-        //print("Is the gun charging? " + isCharging);
+        print("Is the gun charging? " + isCharging);
     }
 }
