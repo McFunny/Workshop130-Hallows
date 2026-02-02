@@ -34,10 +34,10 @@ public class SurvivalStatsScreen : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        /*if(Input.GetKeyDown(KeyCode.RightArrow))
         {
             GameOver();
-        }
+        }*/
 
         if(ControlManager.isController && survivalStatsParent.activeSelf && EventSystem.current.currentSelectedGameObject == null)
         {
