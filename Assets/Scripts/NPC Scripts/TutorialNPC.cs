@@ -80,6 +80,8 @@ public class TutorialNPC : NPC, ITalkable
 
     IEnumerator Despawn()
     {
+        if(MainMenuScript.currentFileMode == FileMode.Survival) tutorial.SetActive(true);
+
         if(goneAtStart)
         {
             Destroy(this.gameObject);

@@ -16,6 +16,8 @@ public class Tutorial : MonoBehaviour
 
     public bool hasWatered;
 
+    public GameObject survivalModeBarrier;
+
     public enum TutorialPhase
     {
         Till,
@@ -43,6 +45,14 @@ public class Tutorial : MonoBehaviour
 
     void Start()
     {
+        if(TutorialNPC.alreadyPlayedTutorial)
+        {
+            Instance = null;
+            return;
+        }
+
+        if(MainMenuScript.currentFileMode == FileMode.Survival) survivalModeBarrier.SetActive(true);
+
         PopupHandler.Instance.AddToQueue(tillP);
         PopupHandler.Instance.AddToQueue(plantP);
         TimeManager.Instance.stopTime = true;
@@ -77,6 +87,7 @@ public class Tutorial : MonoBehaviour
 
     public void LostSeed()
     {
+        return;
         if(phase == TutorialPhase.Water)
         {
             PopupHandler.Instance.AddToQueue(dontDestroySeedsP);
