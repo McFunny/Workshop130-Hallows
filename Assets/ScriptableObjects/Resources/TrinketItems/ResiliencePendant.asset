@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a97edcfff0fb534418f18db54fa10584, type: 3}
-  m_Name: Pyrecharge Pendant
+  m_Name: ResiliencePendant
   m_EditorClassIdentifier: 
-  ID: 338
-  displayName: Pyrecharge Pendant
-  description: Using an unlit torch will automatically ignite the torch.
-  icon: {fileID: 1684003643, guid: d2363398eed236d4886393b21019f7cc, type: 3}
+  ID: 343
+  displayName: Resilience Pendant
+  description: Stamina will slowly recover over time when below 25%. If lethal damage
+    were to be taken, this trinket will prevent it and shatter.
+  icon: {fileID: 973282588, guid: d2363398eed236d4886393b21019f7cc, type: 3}
   type: 11
   maxStackSize: 1
-  value: 60
+  value: 50
   sellValueMultiplier: 0.8
   isKeyItem: 0
   hasModel: 0
@@ -38,10 +39,10 @@ MonoBehaviour:
   useSound: {fileID: 0}
   cannotEnterInventory: 0
   behavior: {fileID: 11400000, guid: edba0bb6905774b4a81b291be35f4a8d, type: 2}
-  key: 6
+  key: 8
   stackable: 0
   damagedByAttacks: 0
-  maxDurability: 7
-  guaranteedBreakThreshold: 2
+  maxDurability: 75
+  guaranteedBreakThreshold: 25
   damageMultiplier: 1
-  breakChance: 10
+  breakChance: 3
