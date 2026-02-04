@@ -288,5 +288,12 @@ public class PauseScript : MonoBehaviour
         //PlayerMovement.isCodexOpen = true;
         //if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(codexDefault);
     }
+
+    public void ForceMainMenu()
+    {
+        if(isTransitioning) return;
+        isTransitioning = true;
+        StartCoroutine(MainMenuTransition());
+    }
     
 }
