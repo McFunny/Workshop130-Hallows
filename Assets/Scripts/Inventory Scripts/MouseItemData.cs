@@ -41,16 +41,7 @@ public class MouseItemData : MonoBehaviour
 
         if (assignedInventorySlot.ItemData != null) //If has an item, follow the mouse position
         {
-            if(ControlManager.isGamepad == false)
-            {
-                transform.position = Input.mousePosition;
-            }
-            else
-            {
-                transform.position = new Vector3(eventSystem.currentSelectedGameObject.transform.position.x - 20, eventSystem.currentSelectedGameObject.transform.position.y + 50, eventSystem.currentSelectedGameObject.transform.position.z);
-            }
             
-
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
             {
                 if(assignedInventorySlot.ItemData.isKeyItem || !canDropItems) return;
@@ -64,6 +55,15 @@ public class MouseItemData : MonoBehaviour
                 DropItem();
                 print("Item Dropped");
             } 
+        }
+
+        if(ControlManager.isGamepad == false)
+        {
+            transform.position = Input.mousePosition;
+        }
+        else
+        {
+            transform.position = new Vector3(eventSystem.currentSelectedGameObject.transform.position.x - 20, eventSystem.currentSelectedGameObject.transform.position.y + 50, eventSystem.currentSelectedGameObject.transform.position.z);
         }
     }
 
