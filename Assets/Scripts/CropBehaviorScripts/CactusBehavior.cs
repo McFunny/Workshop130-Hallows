@@ -63,6 +63,8 @@ public class CactusBehavior : CropBehavior
 
         if(contactedObject.layer == 10)
         {
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.HareBoots)) return;
+
             PlayerInteraction.Instance.StaminaChange(-6);
             AudioPoolManager.Instance.PlayClipAtPosition(contactSFX, tile.transform.position);
             ParticlePoolManager.Instance.MoveAndPlayParticle(tile.transform.position, ParticlePoolManager.Instance.dirtParticle);

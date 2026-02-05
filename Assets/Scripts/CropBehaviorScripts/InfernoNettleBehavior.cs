@@ -51,6 +51,8 @@ public class InfernoNettleBehavior : CropBehavior
 
         if(contactedObject.layer == 10)
         {
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.HareBoots)) return;
+
             PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), burnDuration/2);
             tile.growthStage = 1;
             tile.SpriteChange();

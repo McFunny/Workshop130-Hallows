@@ -138,7 +138,7 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
         if(showSplash)
         {
             splash.Play();
-            audioHandler.PlaySound(audioHandler.interactSound);
+            audioHandler.PlaySound(audioHandler.miscSounds1[0]);
         }
         else showSplash = true;
     }

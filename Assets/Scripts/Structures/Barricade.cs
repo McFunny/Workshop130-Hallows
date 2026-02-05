@@ -47,6 +47,8 @@ public class Barricade : StructureBehaviorScript
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
                 PlayerInventoryHolder.Instance.UpdateInventory();
                 UpdateModel();
+
+                PlayHitEffect();
                 return;
             }
         }

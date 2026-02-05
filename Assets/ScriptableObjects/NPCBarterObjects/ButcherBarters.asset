@@ -110,6 +110,26 @@ MonoBehaviour:
       amount: 2
     siegesRequired: 0
     amountGiven: 1
+  - name: TuskTrap
+    itemForSale: {fileID: 11400000, guid: 3caddd29a5a13594aa1f8a9014f5c17e, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 3
+    barterChance: 75
+    itemsRequired:
+    - item: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+      amount: 2
+    siegesRequired: 0
+    amountGiven: 1
+  - name: TuskTrap
+    itemForSale: {fileID: 11400000, guid: 3caddd29a5a13594aa1f8a9014f5c17e, type: 2}
+    useItemPrice: 1
+    mintCost: 45
+    amountForSale: 3
+    barterChance: 75
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
   uniqueTransactions:
   - name: Flintlock
     itemForSale: {fileID: 11400000, guid: e5877dd916562a045bbc5c8d2066d5e8, type: 2}

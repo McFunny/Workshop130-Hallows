@@ -1008,6 +1008,7 @@ public class FarmLand : StructureBehaviorScript
     {
         if(other.gameObject.layer == 10)
         {
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.HareBoots)) return;
             if(crop)
             {
                 PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.8f, "Weeds", false));

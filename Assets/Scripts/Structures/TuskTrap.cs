@@ -6,14 +6,16 @@ public class TuskTrap : StructureBehaviorScript
 {
     public Transform triggeredPos, setPos;
 
+    //Vector3 originRot;
+
     public Transform model;
 
     bool isArmed, isTriggered;
 
     public float altitude = 0; //0 meaning its at the top
     float currentRate = 0;
-    float rateChange = 3;
-    float setRateMax = 1; //per second.
+    float rateChange = 0.5f;
+    float setRateMax = 0.5f; //per second.
     float distance; //progress until fully set
     bool interacting = false;
 
@@ -21,6 +23,11 @@ public class TuskTrap : StructureBehaviorScript
     float damageToCreature = 40;
 
     public AudioSource crankingSource;
+
+    public ParticleSystem triggeredParticles, interactingParticles;
+
+    public GameObject leafPilePrefab;
+    GameObject currentLeaves;
 
     void Awake()
     {
@@ -32,14 +39,26 @@ public class TuskTrap : StructureBehaviorScript
     {
         base.Update();
 
+        if(isArmed) return;
 
-        if(isArmed || isTriggered) return;
-
-        if(altitude < distance && (!interacting || !InputManager.isHoldingInteract)) //Stopped setting the trap
+        if(isTriggered)
         {
-            altitude = 0;
+            if(altitude < 0) altitude = 0;
+            if(altitude == 0) 
+            {
+                currentRate = 0;
+                return;
+            }
+            currentRate = -5;
+            altitude += currentRate * Time.deltaTime;
+        }
+        else if(altitude != 0 && altitude < distance && (!interacting || !InputManager.isHoldingInteract)) //Stopped setting the trap
+        {
+            //altitude = 0;
+            //currentRate = 0;
             StartCoroutine(SpringTrap());
             crankingSource.Stop();
+            interactingParticles.Stop();
         }
         else if(interacting && InputManager.isHoldingInteract) //Setting the trap
         {
@@ -50,6 +69,7 @@ public class TuskTrap : StructureBehaviorScript
 
             altitude += currentRate * Time.deltaTime;
         }
+        else currentRate = 0;
 
         
         if(altitude > distance)
@@ -59,12 +79,39 @@ public class TuskTrap : StructureBehaviorScript
 
             isArmed = true;
             crankingSource.Stop();
+            interactingParticles.Stop();
             audioHandler.PlaySound(audioHandler.interactSound);
         }
 
         model.position = Vector3.Lerp(triggeredPos.position, setPos.position, altitude/distance);
 
-        if(altitude > 0 && !isArmed && !crankingSource.isPlaying) crankingSource.Play();
+        if(altitude > 0 && !isArmed)
+        {
+            if(!crankingSource.isPlaying && !isTriggered) 
+            {
+                crankingSource.Play();
+                interactingParticles.Play();
+            }
+            model.Rotate(model.rotation.x, model.rotation.y + (currentRate * 3), model.rotation.z);
+        }
+    }
+
+    protected override void OnHighlight(bool enabled)
+    {
+        if(enabled == false) interacting = false;
+    }
+
+    public override void HourPassed()
+    {
+        if(!isArmed) return;
+
+        if(Random.Range(0, 200) < 3 && Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) > 40 && !currentLeaves)
+        {
+            currentLeaves = Instantiate(leafPilePrefab, transform.position, Quaternion.identity);
+            StructureBehaviorScript leafStructure = currentLeaves.GetComponent<StructureBehaviorScript>();
+            leafStructure.absentFromFarmGrid = true;
+            leafStructure.clearTileOnDestroy = false;
+        }
     }
 
 
@@ -98,6 +145,7 @@ public class TuskTrap : StructureBehaviorScript
                     TakeDamage(99);
                     return;
                 }
+                TakeDamage(1);
             }
             isArmed = false;
             StartCoroutine(SpringTrap()); //pass enemy script or player script variable
@@ -107,30 +155,36 @@ public class TuskTrap : StructureBehaviorScript
     IEnumerator SpringTrap()
     {
         isTriggered = true;
-        altitude = 0;
-        yield return new WaitForSeconds(0.2f);
+        //altitude = 0;
+        yield return new WaitForSeconds(0.1f);
         audioHandler.PlaySound(audioHandler.activatedSound);
+        triggeredParticles.Play();
 
         //Deal damage using physics cast and animate it moving up
 
-        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.playerFeet.position) < 1f)
+        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.playerFeet.position) < 1.3f)
         {
             PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            PlayerInteraction.Instance.PlayerTrip();
         }
 
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 1.3f, 1 << 9);
+        List<CreatureBehaviorScript> hitCreatures = new List<CreatureBehaviorScript>();
         foreach(Collider collider in hitEnemies)
         {
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
-            if (creature != null && creature.shovelVulnerable)
+            if (creature != null && creature.shovelVulnerable && !hitCreatures.Contains(creature))
             {
                 creature.TakeDamage(damageToCreature);
                 creature.PlayHitParticle(creature.transform.position);
+                hitCreatures.Add(creature);
             }
         }
 
         yield return new WaitForSeconds(0.5f);
+        model.position = triggeredPos.position;
         isTriggered = false;
+        currentRate = 0;
         
     }
 }
