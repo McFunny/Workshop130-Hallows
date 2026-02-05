@@ -334,7 +334,7 @@ public class Codex3 : MonoBehaviour
             var Cat = TutorialEntries;
             var isQuest = false;
             var isCritter = false;
-            Debug.LogWarning(i);
+            Debug.Log(i);
             switch (i)
             {
                 case 0:

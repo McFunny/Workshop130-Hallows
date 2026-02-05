@@ -39,6 +39,8 @@ public class UISpriteAnim : MonoBehaviour
 
     public void PlayUI(Color averageColor = default(Color))
     { 
+        if (averageColor == default(Color)) averageColor = image.color;
+
         image.color = averageColor;
         IsDone = false;
         ResetSprite();
@@ -47,6 +49,8 @@ public class UISpriteAnim : MonoBehaviour
     
     public void PlayOneShotUI(Color averageColor = default(Color))
     {
+        if (averageColor == default(Color)) averageColor = image.color;
+            
         image.color = averageColor;
         IsDone = false;
         ResetSprite();

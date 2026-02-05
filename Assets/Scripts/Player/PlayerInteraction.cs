@@ -444,7 +444,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if(amount > 0) playerEffects.PlayClip(playerEffects.playerHeal, 1.3f);
         
-        if(repairMinigame.IsMinigameActive()) repairMinigame.EndMinigame();
+        if(repairMinigame.IsMinigameActive()) repairMinigame.ForceEndMinigame();
 
         if(amount <= -5 && !ignoreArmor) //Apply Damage Reduction from Trinkets
         {
