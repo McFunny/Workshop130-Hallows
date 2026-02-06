@@ -30,6 +30,7 @@ public class RepairMinigame : MonoBehaviour
     [SerializeField] private Slider minigameSlider, progressSlider;
     [SerializeField] private TextMeshProUGUI missesAllowedText;
     [SerializeField] private TextMeshProUGUI hitsLeftText;
+    [SerializeField] private Image handleImage;
 
     // private vars
     private bool minigameActive = false;
@@ -41,8 +42,9 @@ public class RepairMinigame : MonoBehaviour
     private MinigameFunctionality hitSegment;
     private DebrisPile debrisPile;
     private Vector3 originalPos;
-    private Coroutine hitCoroutine;
+    private Coroutine hitCoroutine, nailFlashCoroutine;
     private UISpriteAnim nailHitAnim;
+    
 
     /*
         Notes: 
@@ -177,6 +179,10 @@ public class RepairMinigame : MonoBehaviour
         }
 
         Debug.Log("Minigame Value: " + minigameSlider.value);
+        if(debrisPile.missesLeft <= 1 && nailFlashCoroutine == null)
+        {
+            nailFlashCoroutine = StartCoroutine(NailFlashing());
+        }
 
         yield return new WaitForSeconds(0.5f);
 
@@ -232,15 +238,20 @@ public class RepairMinigame : MonoBehaviour
         progressSlider.maxValue = pile.initialRepairsNeeded;
         progressSlider.value = pile.repairsLeft;
         progressSlider.handleRect.rotation = Quaternion.Euler(0f, 0f, 0f);
+        handleImage.color = Color.white;
         debrisPile = pile;
         hitsLeftText.text = debrisPile.repairsLeft.ToString();
         missesAllowedText.text = debrisPile.missesLeft.ToString();
         PlayerMovement.restrictMovementTokens++;
         minigameActive = true;
         sliderCanMove = true;
-        minigameUI.SetActive(true);
         StartCoroutine(CanHitDelay());
-
+        if(debrisPile.missesLeft <= 1 && nailFlashCoroutine == null)
+        {
+            nailFlashCoroutine = StartCoroutine(NailFlashing());
+        }
+        
+        minigameUI.SetActive(true);
         Debug.Log("Repairs Needed: " + debrisPile.repairsLeft);
         Debug.Log("Misses Allowed: " + debrisPile.missesLeft);
     }
@@ -276,7 +287,13 @@ public class RepairMinigame : MonoBehaviour
             StopCoroutine(hitCoroutine);
             hitCoroutine = null;
         } 
+        if(nailFlashCoroutine != null)
+        {
+            StopCoroutine(nailFlashCoroutine);
+            nailFlashCoroutine = null;
+        }
         minigameUI.SetActive(false);
+        handleImage.color = Color.white;
         sliderCanMove = false;
         canHit = false;
         minigameActive = false;
@@ -347,5 +364,24 @@ public class RepairMinigame : MonoBehaviour
         minigameUI.transform.position = originalPos;
     }
 
-    
+    private IEnumerator NailFlashing()
+    {
+        while (true)
+        {
+            float flashDuration = 0.5f;
+            float elapsedTime = 0f;
+            Color originalColor = Color.white;
+            Color flashColor = Color.red;
+
+            while (elapsedTime < flashDuration)
+            {
+                handleImage.color = Color.Lerp(originalColor, flashColor, Mathf.PingPong(elapsedTime * 4f, 1f));
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            handleImage.color = originalColor;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
 }
