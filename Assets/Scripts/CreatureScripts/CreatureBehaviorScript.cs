@@ -96,6 +96,13 @@ public class CreatureBehaviorScript : MonoBehaviour
     {
         print("Ouch");
         if(StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Dare, this) && damage > 0) damage *= 1.5f;
+
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.BoneBreaker) && health < 0)
+        {
+            damage *= 2;
+        }
+
+
         health -= damage;
         if(!flashing && hitColor != Color.black) StartCoroutine(DamageFlash());
         if(!isDead) OnDamage();
@@ -149,6 +156,9 @@ public class CreatureBehaviorScript : MonoBehaviour
                     }
                 }
                 if(Tutorial.Instance) Tutorial.Instance.ClearedCorpse();
+
+                if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.BoneBreaker) && corpseHealth < -25 && ichorWorth >= 1) TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.BoneBreaker);
+
                 Destroy(this.gameObject);
             }
         }

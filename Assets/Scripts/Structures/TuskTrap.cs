@@ -165,7 +165,7 @@ public class TuskTrap : StructureBehaviorScript
         if(Vector3.Distance(transform.position, PlayerInteraction.Instance.playerFeet.position) < 1.3f)
         {
             PlayerInteraction.Instance.StaminaChange(damageToPlayer);
-            PlayerInteraction.Instance.PlayerTrip();
+            //PlayerInteraction.Instance.PlayerTrip();
         }
 
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 1.3f, 1 << 9);

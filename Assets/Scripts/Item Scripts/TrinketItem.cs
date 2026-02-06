@@ -54,5 +54,6 @@ public enum TrinketKey
     Autocrank,
     RoachRegen,
     HareBoots,
-    DunemiteBoots
+    DunemiteBoots,
+    BoneBreaker
 }
