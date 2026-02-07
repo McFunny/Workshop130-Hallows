@@ -223,7 +223,7 @@ public class FreeCam : MonoBehaviour
         else
         {
             // Toggle on
-            if (Input.GetKey(KeyCode.N) && Input.GetKeyDown(KeyCode.Comma))
+            if (Input.GetKey(KeyCode.N) && Input.GetKeyDown(KeyCode.Comma) && StructureManager.Instance.enableCheats)
             {
                 activeFreeCam = true;
                 cam.Priority = 20;
