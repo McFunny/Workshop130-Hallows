@@ -47,6 +47,8 @@ public class SurvivalModeManager : MonoBehaviour
 
     public SurvivalModeMerchant SurvivalModeMerchant;
 
+    public PopupScript sellStuffP;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -78,6 +80,10 @@ public class SurvivalModeManager : MonoBehaviour
 
     void HourlyUpdate()
     {
+        if(TimeManager.Instance.currentHour == 6)
+        {
+            PopupHandler.Instance.AddToQueue(sellStuffP);
+        }
         if(TimeManager.Instance.currentHour == 8)
         {
             CheckProgress();

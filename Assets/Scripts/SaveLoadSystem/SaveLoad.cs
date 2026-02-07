@@ -11,7 +11,7 @@ public static class SaveLoad
     public static SaveData CurrentSaveData = new SaveData();
 
     public const string SaveDirectory = "/SaveData/";
-    public const string FileName = "SaveGame.sav"; 
+    public const string FileName = "DemoSaveGame.sav"; 
 
     //public static string saveDirectory => SaveDirectory;
     //public static string fileName => FileName;
