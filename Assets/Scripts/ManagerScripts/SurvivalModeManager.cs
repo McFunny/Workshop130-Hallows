@@ -108,7 +108,8 @@ public class SurvivalModeManager : MonoBehaviour
     {
         if(mintsEarned < currentMintsRequired)
         {
-            SceneManager.LoadSceneAsync(1);
+            //SceneManager.LoadSceneAsync(1);
+            PlayerInteraction.Instance.stamina = 0;
             return;
         }
 
