@@ -77,6 +77,7 @@ public class Tutorial : MonoBehaviour
 
     public void LostSeed()
     {
+        return;
         if(phase == TutorialPhase.Water)
         {
             PopupHandler.Instance.AddToQueue(dontDestroySeedsP);

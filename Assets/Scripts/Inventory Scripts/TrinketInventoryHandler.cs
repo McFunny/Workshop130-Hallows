@@ -105,6 +105,22 @@ public class TrinketInventoryHandler : MonoBehaviour
         Debug.Log("Slot trinket broken");
     }
 
+    public void ForceBreakTrinket(TrinketKey _key)
+    {
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            InventoryItemData item = trinkets[i].slot.ItemData;
+            if(!item) continue;
+            TrinketItem t_item = item as TrinketItem;
+
+            if(t_item && t_item.key == _key)
+            {
+                BreakTrinket(trinkets[i].slot);
+                return;
+            }
+        }
+    }
+
     public void ApplyTrinketDamage(TrinketKey _key, float damage = 1, bool damageMultiple = false) //Reduced trinket durability
     {
         if(damage < 0) damage *= -1; //Make sure its not healing the trinkets
@@ -123,24 +139,6 @@ public class TrinketInventoryHandler : MonoBehaviour
             }
         }
     }
-
-    /*public void DamageArmorTrinkets(float damage) //Damage trinkets that can take damage from attacks
-    {
-        if(damage < 0) damage *= -1; //Make sure its not healing the trinkets
-
-        for(int i = 0; i < trinkets.Count; ++i)
-        {
-            InventoryItemData item = trinkets[i].slot.ItemData;
-            if(!item) continue;
-            TrinketItem t_item = item as TrinketItem;
-
-            if(t_item && t_item.damagedByAttacks)
-            {
-                //Apply Damage
-                ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - damage);
-            }
-        }
-    }*/
 
     public float ApplyTrinketDamageModifiers(float damage) //Apply trinket armor
     {

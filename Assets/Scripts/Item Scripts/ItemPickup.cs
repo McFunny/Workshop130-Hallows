@@ -107,7 +107,7 @@ public class ItemPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 7 /*|| other.gameObject.layer == 0)*/ && rb && rb.isKinematic == false)
+        if((other.gameObject.layer == 7 || other.gameObject.layer == 19) && rb && rb.isKinematic == false)
         {
             rb.isKinematic = true;
             rb.velocity = new Vector3(0,0,0);

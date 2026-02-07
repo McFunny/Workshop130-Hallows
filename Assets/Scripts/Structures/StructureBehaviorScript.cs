@@ -191,7 +191,12 @@ public class StructureBehaviorScript : MonoBehaviour
         OnDamageWithValue?.Invoke(finalDamage);
         if(!destructable || health <= 0) return;
         health -= finalDamage;
-        //if(damageParticles) damageParticles.Play();
+        PlayHitEffect();
+        
+    }
+
+    public void PlayHitEffect()
+    {
         for(int i = 0; i < damageParticles.Count; i++)
         {
             damageParticles[i].Play();
