@@ -122,6 +122,7 @@ public class Well : MonoBehaviour, IInteractable
             if(autoCranking && !interacting) tempMaxRaiseRate *= 0.5f;
             if(currentRate < tempMaxRaiseRate) currentRate = tempMaxRaiseRate;
         }
+        else currentRate = 0;
 
         altitude += currentRate * Time.deltaTime;
         
@@ -158,9 +159,11 @@ public class Well : MonoBehaviour, IInteractable
             }
         }
 
-        if(altitude > 0 && altitude < 10 && !loopingSource.isPlaying) loopingSource.Play();
-
-        crankPivot.Rotate(crankPivot.rotation.x + currentRate, crankPivot.rotation.y, crankPivot.rotation.z);
+        if(altitude > 0 && altitude < 10) 
+        {
+            if(!loopingSource.isPlaying) loopingSource.Play();
+            crankPivot.Rotate(crankPivot.rotation.x + currentRate, crankPivot.rotation.y, crankPivot.rotation.z);
+        }
     }
 
     IEnumerator CheckForAutocrank()

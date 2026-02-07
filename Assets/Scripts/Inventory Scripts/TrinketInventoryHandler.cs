@@ -83,18 +83,42 @@ public class TrinketInventoryHandler : MonoBehaviour
 
     public void BreakTrinket(MouseItemData mouseItemData)
     {
-       mouseItemData.ClearSlot();
-       //DialogueController.Instance.source.PlayOneShot(breakSFX);
-       AudioPoolManager.Instance.PlayClip(breakSFX, 0.1f);
+        Color averageColor = GetAverageColor(mouseItemData.itemSprite.sprite);
+
+        mouseItemData.ClearSlot();
+        //DialogueController.Instance.source.PlayOneShot(breakSFX);
+        mouseItemData.GetComponent<UISpriteAnim>().PlayOneShotUI(averageColor);
+        AudioPoolManager.Instance.PlayClip(breakSFX, 0.1f);
+        Debug.Log("Mouse trinket broken");
     }
 
     public void BreakTrinket(InventorySlot slot)
     {
         TrinketItem trinket = slot.ItemData as TrinketItem;
+        Color averageColor = GetAverageColor(trinket.icon);
+        
         if(trinket) trinket.OnRemove();
         slot.ClearSlot();
+        slot.uiSlot.GetComponent<UISpriteAnim>().PlayOneShotUI(averageColor);
         //DialogueController.Instance.source.PlayOneShot(breakSFX);
         AudioPoolManager.Instance.PlayClip(breakSFX, 0.1f);
+        Debug.Log("Slot trinket broken");
+    }
+
+    public void ForceBreakTrinket(TrinketKey _key)
+    {
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            InventoryItemData item = trinkets[i].slot.ItemData;
+            if(!item) continue;
+            TrinketItem t_item = item as TrinketItem;
+
+            if(t_item && t_item.key == _key)
+            {
+                BreakTrinket(trinkets[i].slot);
+                return;
+            }
+        }
     }
 
     public void ApplyTrinketDamage(TrinketKey _key, float damage = 1, bool damageMultiple = false) //Reduced trinket durability
@@ -115,24 +139,6 @@ public class TrinketInventoryHandler : MonoBehaviour
             }
         }
     }
-
-    /*public void DamageArmorTrinkets(float damage) //Damage trinkets that can take damage from attacks
-    {
-        if(damage < 0) damage *= -1; //Make sure its not healing the trinkets
-
-        for(int i = 0; i < trinkets.Count; ++i)
-        {
-            InventoryItemData item = trinkets[i].slot.ItemData;
-            if(!item) continue;
-            TrinketItem t_item = item as TrinketItem;
-
-            if(t_item && t_item.damagedByAttacks)
-            {
-                //Apply Damage
-                ChangeTrinketDurability(trinkets[i].slot, trinkets[i].durability - damage);
-            }
-        }
-    }*/
 
     public float ApplyTrinketDamageModifiers(float damage) //Apply trinket armor
     {
@@ -316,6 +322,48 @@ public class TrinketInventoryHandler : MonoBehaviour
             }
         }
     }
+
+    public Color GetAverageColor(Sprite sprite)
+    {
+        float minLuminance = 0.2f; // Adjust this threshold as needed. Sets how dark a pixel can be to be included in the average.
+        if (sprite == null) return Color.white;
+            
+        Texture2D texture = sprite.texture;
+
+        if(texture.isReadable == false) return Color.white;
+            
+            
+        Rect rect = sprite.textureRect;
+
+        Color[] pixels = texture.GetPixels(
+            (int)rect.x,
+            (int)rect.y,
+            (int)rect.width,
+            (int)rect.height
+        );
+
+        float r = 0f, g = 0f, b = 0f;
+        int count = 0;
+
+        foreach (Color p in pixels)
+        {
+            // Perceived brightness (ITU-R BT.709)
+            float luminance = p.r * 0.2126f + p.g * 0.7152f + p.b * 0.0722f; // I won't pretend to understand any of this math bro
+
+            if (luminance < minLuminance) continue;   
+
+            r += p.r;
+            g += p.g;
+            b += p.b;
+            count++;
+        }
+
+        if (count == 0) return Color.white;
+
+        return new Color(r / count, g / count, b / count, 1);
+    }
+
+
 
     private TrinketInventoryData GetTrinketDataFromSlot(InventorySlot slot)
     {

@@ -10,7 +10,7 @@ public class MinigameFunctionality : MonoBehaviour
 
     [Header("Actual variables that matter")]
     public int hitCount = 1; // Number of "hits" this segment counts as
-    public bool isHit; // Determines if hitting this segment counts as a hit or a miss
+    public int missCount = 0; // Number of "misses" this segment counts as
 
     public virtual void Start()
     {

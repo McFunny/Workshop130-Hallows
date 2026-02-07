@@ -495,6 +495,11 @@ public class AchievementManager : MonoBehaviour
 
         EnsureKeyExists();
     }
+
+    internal void ClearAchievementsListForSurvivalMode()
+    {
+        allAchievements.Clear();
+    }
 }
 
 [Serializable]

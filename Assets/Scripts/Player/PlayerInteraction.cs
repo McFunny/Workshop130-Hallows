@@ -429,22 +429,22 @@ public class PlayerInteraction : MonoBehaviour
             overrideDamagePulse = false;
             return;
         }
-        if(stamina + amount <= 50 && stamina > 50 && amount >= -4 && amount < 0)
+        if(stamina + amount <= 50 && stamina > 50 && amount >= -4 && amount < 0) //To prevent tools from putting player below 50
         {
             print("Damage negated to not go under threshold");
             overrideDamagePulse = false;
             return;
         }
 
-        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f;
+        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f; // Damage refuction from Cosy mode
 
-        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount <= -5) amount *= 1.5f;
+        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount <= -5) amount *= 1.5f; //Damage Modifier from Dare
 
         //if(amount > 6) fatigue += Mathf.Round(amount * 0.1f);
 
-        if(amount > 0) playerEffects.PlayClip(playerEffects.playerHeal, 1.3f);
+        if(amount > 0) playerEffects.PlayClip(playerEffects.playerHeal, 1.3f); //Play Heal Effects
         
-        if(repairMinigame.IsMinigameActive()) repairMinigame.EndMinigame();
+        if(repairMinigame.IsMinigameActive()) repairMinigame.ForceEndMinigame();
 
         if(amount <= -5 && !ignoreArmor) //Apply Damage Reduction from Trinkets
         {
@@ -452,7 +452,13 @@ public class PlayerInteraction : MonoBehaviour
             if(amount > -5) amount = -5;
         }
 
-        stamina += Mathf.Round(amount);
+        if(amount <= -5 && stamina + amount <= 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen)) //Prevents death if roach trinket is equipped
+        {
+            amount = 0;
+            TrinketInventoryHandler.Instance.ForceBreakTrinket(TrinketKey.RoachRegen);
+        }
+
+        stamina += Mathf.Round(amount); //Apply the new stamina
 
         if(amount <= -5 && !overrideDamagePulse)
         {
@@ -544,6 +550,14 @@ public class PlayerInteraction : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(1f);
+
+            if(stamina < 50 && targetRegen == 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen))
+            {
+                StaminaChange(1);
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.RoachRegen);
+                continue;
+            }
+
             if(targetRegen <= stamina || stamina <= 0) 
             {
                 targetRegen = 0;

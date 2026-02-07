@@ -33,6 +33,7 @@ public class InventorySlot
     }
 
     public AcceptedItemType acceptedItemType = AcceptedItemType.Everything;
+    public InventorySlot_UI uiSlot;
 
     public InventorySlot(InventoryItemData source, int amount) // Constructor to make a occupied inventory slot
     {
