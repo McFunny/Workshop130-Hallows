@@ -257,11 +257,13 @@ public class MistWalker : CreatureBehaviorScript
             case CreatureState.Wander:
                 Wander();
                 anim.SetBool("IsWalking", true);
+                anim.SetFloat("WalkSpeed", 1f);
                 break;
 
             case CreatureState.WalkTowardsClosestStructure:
                 WalkTowardsClosestStructure();
                 anim.SetBool("IsWalking", true);
+                anim.SetFloat("WalkSpeed", 1f);
                 break;
 
             case CreatureState.WalkTowardsPriorityStructure:
@@ -273,6 +275,7 @@ public class MistWalker : CreatureBehaviorScript
             case CreatureState.WalkTowardsPlayer:
                 WalkTowardsPlayer();
                 anim.SetBool("IsWalking", true);
+                anim.SetFloat("WalkSpeed", 1f);
                 break;
 
             case CreatureState.AttackStructure:
@@ -291,6 +294,7 @@ public class MistWalker : CreatureBehaviorScript
             case CreatureState.FleeFromFire:
                 FleeFromFire();
                 anim.SetBool("IsWalking", true);
+                anim.SetFloat("WalkSpeed", 1.4f);
                 break;
 
             default:

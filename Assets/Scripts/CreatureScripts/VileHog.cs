@@ -44,6 +44,7 @@ public class VileHog : CreatureBehaviorScript
     float accelerateSpeed;
     float thrusterSpeed = 30;
     bool faceTarget;
+    bool hasFleeTarget;
 
     private Vector3 despawnPos;
 
@@ -365,8 +366,31 @@ public class VileHog : CreatureBehaviorScript
         if(coroutineRunning) return;
         anim.SetBool("IsWalking", false);
         anim.SetBool("IsRunning", true);
-        Vector3 runTo = transform.position + ((transform.position - player.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
-        agent.destination = runTo;
+        //Vector3 runTo = transform.position + ((transform.position - player.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
+        //agent.destination = runTo;
+
+        if (hasFleeTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1.5f)
+        {
+            hasFleeTarget = false;
+        }
+        else if (!hasFleeTarget)
+        {
+            hasFleeTarget = true;
+            Vector3 fleeDirection = (transform.position - player.position).normalized;
+
+            
+            float randomAngle = Random.Range(-45f, 45f); //random offset for random movement
+
+            fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
+
+            Vector3 newDestination = transform.position + fleeDirection * Random.Range(4f, 7f);
+
+        
+            agent.SetDestination(newDestination);
+        }
+
+
+
         if(agent.speed > 0 && agent.speed != runSpeed) agent.speed = runSpeed;
         fleeTimeLeft -= Time.deltaTime;
         if(fleeTimeLeft <= 0)
