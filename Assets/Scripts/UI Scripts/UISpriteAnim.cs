@@ -37,15 +37,21 @@ public class UISpriteAnim : MonoBehaviour
         }
     }*/
 
-    public void PlayUI()
+    public void PlayUI(Color averageColor = default(Color))
     { 
+        if (averageColor == default(Color)) averageColor = image.color;
+
+        image.color = averageColor;
         IsDone = false;
         ResetSprite();
         corotineAnim = StartCoroutine(PlayAnimCoroutineUI(false));
     }
     
-    public void PlayOneShotUI()
+    public void PlayOneShotUI(Color averageColor = default(Color))
     {
+        if (averageColor == default(Color)) averageColor = image.color;
+            
+        image.color = averageColor;
         IsDone = false;
         ResetSprite();
         corotineAnim = StartCoroutine(PlayAnimCoroutineUI(true));

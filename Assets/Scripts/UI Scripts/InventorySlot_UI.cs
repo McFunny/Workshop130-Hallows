@@ -250,6 +250,7 @@ public class InventorySlot_UI : MonoBehaviour
     public void Init(InventorySlot slot)
     {
         assignedInventorySlot = slot;
+        slot.uiSlot = this;
         UpdateUISlot(slot);
     }
 
