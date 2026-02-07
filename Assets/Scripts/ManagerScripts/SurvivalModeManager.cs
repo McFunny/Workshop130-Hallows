@@ -67,7 +67,7 @@ public class SurvivalModeManager : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
-
+        AchievementManager.Instance.ClearAchievementsListForSurvivalMode();
         TimeManager.OnHourlyUpdate += HourlyUpdate;
     }
 
