@@ -258,8 +258,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 68.65974}
-  m_SizeDelta: {x: 20, y: 81.7616}
+  m_AnchoredPosition: {x: 0, y: 70.80132}
+  m_SizeDelta: {x: 20, y: 77.4785}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8154335130718502547
 MonoBehaviour:
@@ -1907,6 +1907,14 @@ MonoBehaviour:
   missesAllowedText: {fileID: 8171733559283611104}
   hitsLeftText: {fileID: 124470107607036736}
   handleImage: {fileID: 8876691975596076638}
+  hitSoundVolume: 1
+  missSoundVolume: 1
+  successSoundVolume: 1
+  failSoundVolume: 1
+  hitSound: {fileID: 8300000, guid: d0f407de90593fb42962ab05f5c0da08, type: 3}
+  missSound: {fileID: 8300000, guid: d0f407de90593fb42962ab05f5c0da08, type: 3}
+  successSound: {fileID: 8300000, guid: b94c21d4c043d1548b59dcc23ea01c63, type: 3}
+  failSound: {fileID: 8300000, guid: 8d92776f663659e4c86dab7bff3d5678, type: 3}
   currentBounces: 1
 --- !u!225 &6283523617047447425
 CanvasGroup:
@@ -78951,7 +78959,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1883264441455127313

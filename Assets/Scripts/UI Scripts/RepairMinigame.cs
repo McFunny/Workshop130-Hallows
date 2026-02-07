@@ -31,6 +31,16 @@ public class RepairMinigame : MonoBehaviour
     [SerializeField] private TextMeshProUGUI missesAllowedText;
     [SerializeField] private TextMeshProUGUI hitsLeftText;
     [SerializeField] private Image handleImage;
+    [Header("Audio")]
+    [SerializeField] private float hitSoundVolume = 1f;
+    [SerializeField] private float missSoundVolume = 1f;
+    [SerializeField] private float successSoundVolume = 1f;
+    [SerializeField] private float failSoundVolume = 1f;
+    
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip missSound;
+    [SerializeField] private AudioClip successSound;
+    [SerializeField] private AudioClip failSound;
 
     // private vars
     private bool minigameActive = false;
@@ -220,12 +230,18 @@ public class RepairMinigame : MonoBehaviour
 
                 if (possibleSegments[i].hitCount > 0) // Checks if the segment counts as a hit or a miss
                 {
+                    AudioPoolManager.Instance.PlayClip(hitSound, hitSoundVolume);
                     return true;
                 }
-                else return false;
+                else 
+                {
+                    AudioPoolManager.Instance.PlayClip(missSound, missSoundVolume);
+                    return false;
+                }
             }
         }
         hitSegment = null;
+        AudioPoolManager.Instance.PlayClip(missSound, missSoundVolume);
         return false;
     }
 
@@ -270,6 +286,7 @@ public class RepairMinigame : MonoBehaviour
         EndMinigame();
         Debug.Log("Minigame: Success!");
         debrisPile.RepairStructure();
+        AudioPoolManager.Instance.PlayClip(successSound, successSoundVolume);
     }
 
     private void MinigameFail()
@@ -278,6 +295,7 @@ public class RepairMinigame : MonoBehaviour
         EndMinigame();
         Debug.Log("Minigame: Fail!");
         debrisPile.DestroyStructure();
+        AudioPoolManager.Instance.PlayClip(failSound, failSoundVolume);
     }
     public void EndMinigame()
     {
