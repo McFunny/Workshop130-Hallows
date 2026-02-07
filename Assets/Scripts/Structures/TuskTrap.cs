@@ -29,6 +29,9 @@ public class TuskTrap : StructureBehaviorScript
     public GameObject leafPilePrefab;
     GameObject currentLeaves;
 
+    public MeshRenderer r;
+    public Material bloodiedMat;
+
     void Awake()
     {
         base.Awake();
@@ -178,6 +181,8 @@ public class TuskTrap : StructureBehaviorScript
                 creature.TakeDamage(damageToCreature);
                 creature.PlayHitParticle(creature.transform.position);
                 hitCreatures.Add(creature);
+
+                r.material = bloodiedMat;
             }
         }
 

@@ -80,7 +80,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
       amount: 1
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-      amount: 1
+      amount: 2
     siegesRequired: 0
     amountGiven: 1
   - name: DryingRack
@@ -91,9 +91,9 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 1
+      amount: 2
     - item: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-      amount: 1
+      amount: 2
     siegesRequired: 0
     amountGiven: 1
   - name: Trellis
@@ -128,7 +128,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
       amount: 1
     siegesRequired: 0
-    amountGiven: 10
+    amountGiven: 5
   - name: CandleCluster
     itemForSale: {fileID: 11400000, guid: 04ac78899924e5341aff2f39d6bc16e1, type: 2}
     useItemPrice: 0
@@ -150,7 +150,7 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-      amount: 1
+      amount: 2
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 3
     siegesRequired: 0
@@ -190,7 +190,7 @@ MonoBehaviour:
   - name: WagonRepairKit
     itemForSale: {fileID: 11400000, guid: 4b5735af2bde32f42936f121e52932c6, type: 2}
     useItemPrice: 1
-    mintCost: 2000
+    mintCost: 1500
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -198,6 +198,8 @@ MonoBehaviour:
       amount: 10
     - item: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
       amount: 30
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 10
     siegesRequired: 0
     amountGiven: 1
   - name: CrockPot
@@ -208,7 +210,7 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 15
+      amount: 10
     - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
       amount: 2
     siegesRequired: 0
