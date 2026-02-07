@@ -32,6 +32,7 @@ public class MistWalker : CreatureBehaviorScript
     bool canDoubleLunge = false;
     private bool recoilCooldown = false; //To prevent stunlocking
     private bool isRecoiling = false;
+    bool hasFleeTarget;
 
     private Vector3 despawnPos;
 
@@ -513,9 +514,30 @@ public class MistWalker : CreatureBehaviorScript
 
     private void FleeFromFire()
     {
-        Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
-        agent.destination = runTo;
-        if(agent.speed > 0 && agent.speed != 5) agent.speed = 5;
+        //Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
+        //agent.destination = runTo;
+
+        if (hasFleeTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1.5f)
+        {
+            hasFleeTarget = false;
+        }
+        else if (!hasFleeTarget)
+        {
+            hasFleeTarget = true;
+            Vector3 fleeDirection = (transform.position - fireSource.transform.position).normalized;
+
+            
+            float randomAngle = Random.Range(-10f, 10); //random offset for random movement
+
+            fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
+
+            Vector3 newDestination = transform.position + fleeDirection * Random.Range(4f, 7f);
+
+        
+            agent.SetDestination(newDestination);
+        }
+
+        if(agent.speed > 2 && agent.speed != 5) agent.speed = 5f;
     }
     #endregion
 
