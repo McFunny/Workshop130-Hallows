@@ -206,17 +206,17 @@ public class TimeManager : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(0.5f);
-            newValue = skyMat.GetFloat("_BlendCubemaps");
+            newValue = skyMat.GetFloat("_Blend");
             if(newValue < desiredBlend) newValue += 0.01f;
             else newValue -= 0.01f;
 
             newValue = Mathf.Round(newValue * 100f) / 100f;
-            skyMat.SetFloat("_BlendCubemaps", newValue);
+            skyMat.SetFloat("_Blend", newValue);
             lerpedColor = Color.Lerp(nightColor, dayColor, newValue);
             dayLight.color = lerpedColor;
             nightLight.color = lerpedColor;
         }
-        while(skyMat.GetFloat("_BlendCubemaps") != desiredBlend);
+        while(skyMat.GetFloat("_Blend") != desiredBlend);
         changingLights = false;
     }
 
@@ -232,7 +232,7 @@ public class TimeManager : MonoBehaviour
         Color lerpedColor;
         if(currentHour < 5 || currentHour >= 20)
         {
-            skyMat.SetFloat("_BlendCubemaps", 0f);
+            skyMat.SetFloat("_Blend", 0f);
             lerpedColor = Color.Lerp(nightColor, dayColor, 0f);
             dayLight.color = lerpedColor;
             nightLight.color = lerpedColor;
@@ -240,7 +240,7 @@ public class TimeManager : MonoBehaviour
         }
         if(currentHour >= 8 && currentHour < 18)
         {
-            skyMat.SetFloat("_BlendCubemaps", 1f);
+            skyMat.SetFloat("_Blend", 1f);
             lerpedColor = Color.Lerp(nightColor, dayColor, 1f);
             dayLight.color = lerpedColor;
             nightLight.color = lerpedColor;
@@ -249,27 +249,27 @@ public class TimeManager : MonoBehaviour
         switch (currentHour)
         {
             case 5:
-                skyMat.SetFloat("_BlendCubemaps", 0.4f);
+                skyMat.SetFloat("_Blend", 0.4f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.2f);
                 break;
             case 6:
-                skyMat.SetFloat("_BlendCubemaps", 0.8f);
+                skyMat.SetFloat("_Blend", 0.8f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.4f);
                 break;
             case 7:
-                skyMat.SetFloat("_BlendCubemaps", 1f);
+                skyMat.SetFloat("_Blend", 1f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 1f);
                 break;
             case 18:
-                skyMat.SetFloat("_BlendCubemaps", 0.8f);
+                skyMat.SetFloat("_Blend", 0.8f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.4f);
                 break;
             case 19:
-                skyMat.SetFloat("_BlendCubemaps", 0.4f);
+                skyMat.SetFloat("_Blend", 0.4f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0.2f);
                 break;
             case 20:
-                skyMat.SetFloat("_BlendCubemaps", 0f);
+                skyMat.SetFloat("_Blend", 0f);
                 lerpedColor = Color.Lerp(nightColor, dayColor, 0f);
                 break;
             default:
@@ -283,7 +283,7 @@ public class TimeManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        skyMat.SetFloat("_BlendCubemaps", 1f);
+        skyMat.SetFloat("_Blend", 1f);
         /*if(Instance != null && Instance == this)
         {
             Instance = null;

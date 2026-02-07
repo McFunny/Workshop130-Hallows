@@ -411,11 +411,13 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 00a266d4f5fb7694aba838846fb4b346, type: 2}
   inWilderness: 0
   patrolPoint: {fileID: 0}
+  persistAfterNewDay: 0
   structManager: {fileID: 0}
   effectsHandler: {fileID: 0}
   player: {fileID: 0}
   allColliders: []
   corpseParticleTransform: {fileID: 0}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 0
   rb: {fileID: 4867112028392557715}
   anim: {fileID: 55044690758142715}
@@ -432,10 +434,13 @@ MonoBehaviour:
   shovelVulnerable: 1
   fireVulnerable: 1
   bearTrapVulnerable: 0
+  frostVulnerable: 1
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 0
+  actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 0.7176471}
   currentEffects: []
   isAttackCrow: 0
@@ -448,25 +453,7 @@ MonoBehaviour:
   attackCooldown: 3
   rotationSpeed: 25
   chooseRandomStats: 1
-  desiredCrops:
-  - {fileID: 11400000, guid: 803ee950098efcb4291d3f9a5bf5e87e, type: 2}
-  - {fileID: 11400000, guid: eccbbd6d9c6f0a849ad2fa81e56b2638, type: 2}
-  - {fileID: 11400000, guid: 8172637bdf1f08549abde986d4a5a463, type: 2}
-  - {fileID: 11400000, guid: 72c60368592508e4bb2600b17d058377, type: 2}
-  - {fileID: 11400000, guid: c340655b4291c0442892bcb81daa89f7, type: 2}
-  - {fileID: 11400000, guid: c2d33e782985c304b9119a73557d93ae, type: 2}
-  - {fileID: 11400000, guid: 8b61641a6ec2a9c498445f2cf4872fc8, type: 2}
-  - {fileID: 11400000, guid: 2b4e9f8ae29dc7e429a371586e24a180, type: 2}
-  - {fileID: 11400000, guid: cf8af9956b089464085a930ba02b3711, type: 2}
-  - {fileID: 11400000, guid: 128b6ca8bd9f85e4d935114766315a9c, type: 2}
-  - {fileID: 11400000, guid: d21a6e65259c92d499af2658e49ce8ed, type: 2}
-  - {fileID: 11400000, guid: e7f84fbc95567f84e8d00919f4781bf9, type: 2}
-  - {fileID: 11400000, guid: d76b160dc47240047a3199c2e726eae6, type: 2}
-  - {fileID: 11400000, guid: d9748bf765b774747a0a98a688e17291, type: 2}
-  - {fileID: 11400000, guid: b9c8c2c3b5691904e95fcedd53154dac, type: 2}
-  - {fileID: 11400000, guid: 5a60016cc237cd846b888ac0d414fcb4, type: 2}
-  - {fileID: 11400000, guid: b48287f098c59ef4a864997546a6c0bb, type: 2}
-  - {fileID: 11400000, guid: 8476fef76bde32344a729472b26e55a8, type: 2}
+  undesiredCrops: []
   availableStructure: []
   attackParticle: {fileID: 0}
   cropParticle: {fileID: 0}
@@ -497,6 +484,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -507,7 +495,11 @@ MonoBehaviour:
   miscSound: {fileID: 0}
   miscSound2: {fileID: 0}
   miscSound3: {fileID: 0}
+  eatSound: {fileID: 0}
+  petSound: {fileID: 0}
+  extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!54 &4867112028392557715
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -644,6 +636,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FyllaraNut
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288485108456076367, guid: 0d068e6f98cced5489a0aab5e3fe981b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7235051140749787082, guid: 0d068e6f98cced5489a0aab5e3fe981b,
         type: 3}

@@ -212,7 +212,9 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 1
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -226,6 +228,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -234,9 +237,15 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   nut: {fileID: 11400000, guid: 8e12b2a64e1bae64f8198877cbc90497, type: 2}
   rb: {fileID: 4492941889918945398}
+  physicalCollider: {fileID: 4288485108456076367}
 --- !u!82 &8706574885020382001
 AudioSource:
   m_ObjectHideFlags: 0
