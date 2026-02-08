@@ -203,8 +203,8 @@ public class MainMenuScript : MonoBehaviour
             Cursor.visible = true;
         }
 
-        if (settingsCanvas.activeSelf || controlsCanvas.activeSelf || confirmationBox.gameObject.activeSelf || loadCanvas.activeSelf) webObject.canOpen = false;
-        else webObject.canOpen = true;
+        //if (settingsCanvas.activeSelf || controlsCanvas.activeSelf || confirmationBox.gameObject.activeSelf || loadCanvas.activeSelf) webObject.canOpen = false;
+        //else webObject.canOpen = true;
 
         if (FadeScreen.coverScreen == true)
         {
