@@ -446,16 +446,37 @@ public class PlayerInteraction : MonoBehaviour
         
         if(repairMinigame.IsMinigameActive()) repairMinigame.ForceEndMinigame();
 
-        if(amount <= -5 && !ignoreArmor) //Apply Damage Reduction from Trinkets
+        if(amount <= -5 && !overrideDamagePulse) 
         {
-            amount = TrinketInventoryHandler.Instance.ApplyTrinketDamageModifiers(amount);
-            if(amount > -5) amount = -5;
-        }
+            if(!ignoreArmor) //Apply Damage Reduction from Trinkets
+            {
+                amount = TrinketInventoryHandler.Instance.ApplyTrinketDamageModifiers(amount);
+                if(amount > -5) amount = -5;
+            }
 
-        if(amount <= -5 && stamina + amount <= 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen)) //Prevents death if roach trinket is equipped
-        {
-            amount = 0;
-            TrinketInventoryHandler.Instance.ForceBreakTrinket(TrinketKey.RoachRegen);
+            if(waterHeld > 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.WaterGuard)) //Reduce water instead of damage
+            {
+                int waterLoss = 0;
+                while(amount <= -5 && waterLoss < waterHeld)
+                {
+                    amount += 5;
+                    if(amount > 0) amount = 0;
+                    ++waterLoss;
+                }
+
+                if(waterLoss > 0)
+                {
+                    WaterChange(-waterLoss);
+                    TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.WaterGuard, waterLoss);
+                    playerEffects.PlayerDamage();
+                }
+            }
+
+            if(stamina + amount <= 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen)) //Prevents death if roach trinket is equipped
+            {
+                amount = 0;
+                TrinketInventoryHandler.Instance.ForceBreakTrinket(TrinketKey.RoachRegen);
+            }
         }
 
         stamina += Mathf.Round(amount); //Apply the new stamina
@@ -513,6 +534,8 @@ public class PlayerInteraction : MonoBehaviour
         if(amount == 0) return;
 
         waterHeld += amount;
+
+        if(amount > 0) playerEffects.PlayClip(playerEffects.waterGain, 1.3f);
 
 
         //if using hareflask trinket, subtract 1 for each water gained over maxWater - 5

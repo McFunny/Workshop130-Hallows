@@ -12,7 +12,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     public float volume = 1f;
     float originalPitch;
     public AudioSource source, footStepSource;
-    public AudioClip itemPickup, itemEat, playerDie, playerDamage, waterJet, trip, playerHeal, heartBeat;
+    public AudioClip itemPickup, itemEat, playerDie, playerDamage, waterJet, trip, playerHeal, heartBeat, waterGain;
     public AudioClip grassFootsteps, stoneFootsteps, woodFootsteps;
     public AudioClip[] fleshFootsteps;
     AudioClip lastPlayedSteps;
