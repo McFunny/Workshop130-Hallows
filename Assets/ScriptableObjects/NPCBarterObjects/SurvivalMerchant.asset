@@ -45,8 +45,8 @@ MonoBehaviour:
     amountGiven: 1
   - name: Compost
     itemForSale: {fileID: 11400000, guid: ea07bb057af3e1e48b815126a425d0d0, type: 2}
-    useItemPrice: 1
-    mintCost: 50
+    useItemPrice: 0
+    mintCost: 15
     amountForSale: 20
     barterChance: 100
     itemsRequired: []
@@ -132,7 +132,7 @@ MonoBehaviour:
   - name: MandrakePod
     itemForSale: {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
     useItemPrice: 1
-    mintCost: 18
+    mintCost: 12
     amountForSale: 5
     barterChance: 100
     itemsRequired: []
@@ -360,7 +360,7 @@ MonoBehaviour:
   - name: BugNet
     itemForSale: {fileID: 11400000, guid: 8d35e041dc8313c468ba6e26022d960d, type: 2}
     useItemPrice: 0
-    mintCost: 50
+    mintCost: 200
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -369,7 +369,7 @@ MonoBehaviour:
   - name: Torch
     itemForSale: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
     useItemPrice: 0
-    mintCost: 100
+    mintCost: 400
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -378,7 +378,7 @@ MonoBehaviour:
   - name: ShotGun
     itemForSale: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
     useItemPrice: 0
-    mintCost: 250
+    mintCost: 1000
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -393,8 +393,8 @@ MonoBehaviour:
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
-  - name: Flintlock
-    itemForSale: {fileID: 11400000, guid: e5877dd916562a045bbc5c8d2066d5e8, type: 2}
+  - name: Scythe
+    itemForSale: {fileID: 11400000, guid: 49ba1b28fed88e949aa4fda636327914, type: 2}
     useItemPrice: 0
     mintCost: 750
     amountForSale: 1
@@ -423,6 +423,42 @@ MonoBehaviour:
     amountGiven: 1
   - name: HareFlask
     itemForSale: {fileID: 11400000, guid: d2bd47a3a1a511042a316b7fbe7f6a0e, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 0
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: HareHideBoots
+    itemForSale: {fileID: 11400000, guid: b4a62ad21f657a643a6a633ae3e31d0f, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 0
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: FogCharm
+    itemForSale: {fileID: 11400000, guid: c5c67b6e16c2ea2458f69c4347859d46, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 0
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: ResiliencePendant
+    itemForSale: {fileID: 11400000, guid: ac5ff95a80f504c41ac6b131c08a4270, type: 2}
+    useItemPrice: 0
+    mintCost: 0
+    amountForSale: 1
+    barterChance: 0
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: SulfurWingTag
+    itemForSale: {fileID: 11400000, guid: 98540c266825a9e47b7e96e1510eebbc, type: 2}
     useItemPrice: 0
     mintCost: 0
     amountForSale: 1
