@@ -263,8 +263,8 @@ Transform:
   m_GameObject: {fileID: 4368998655408790985}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.053745747, y: 0.602, z: -0.022073746}
-  m_LocalScale: {x: 1.12, y: 1.12, z: 1.12}
+  m_LocalPosition: {x: -0.053745747, y: 0.579, z: -0.022073746}
+  m_LocalScale: {x: 1.2399999, y: 1.2399999, z: 1.2399999}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4644061537209175645}
@@ -722,7 +722,9 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -736,6 +738,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -744,7 +747,12 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   onTable: 0
   source: {fileID: 1125603127832088268}
   onSound: {fileID: 8300000, guid: f007b47c3b0fdde41975b4f5ab4e9e66, type: 3}
