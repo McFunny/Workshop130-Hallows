@@ -55,5 +55,7 @@ public enum TrinketKey
     RoachRegen,
     HareBoots,
     DunemiteBoots,
-    BoneBreaker
+    BoneBreaker,
+    Coolant,
+    WaterGuard
 }

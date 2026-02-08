@@ -81,7 +81,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         else AudioPoolManager.Instance.PlayClip(removeSFX, 0.4f);//DialogueController.Instance.source.PlayOneShot(removeSFX);
     }
 
-    public void BreakTrinket(MouseItemData mouseItemData)
+    public void BreakTrinket(MouseItemData mouseItemData) //For breaking in inventory
     {
         Color averageColor = GetAverageColor(mouseItemData.itemSprite.sprite);
 
@@ -92,14 +92,14 @@ public class TrinketInventoryHandler : MonoBehaviour
         Debug.Log("Mouse trinket broken");
     }
 
-    public void BreakTrinket(InventorySlot slot)
+    public void BreakTrinket(InventorySlot slot) //For force breaking
     {
         TrinketItem trinket = slot.ItemData as TrinketItem;
         Color averageColor = GetAverageColor(trinket.icon);
         
         if(trinket) trinket.OnRemove();
         slot.ClearSlot();
-        slot.uiSlot.GetComponent<UISpriteAnim>().PlayOneShotUI(averageColor);
+        //slot.uiSlot.GetComponent<UISpriteAnim>().PlayOneShotUI(averageColor);
         //DialogueController.Instance.source.PlayOneShot(breakSFX);
         AudioPoolManager.Instance.PlayClip(breakSFX, 0.1f);
         Debug.Log("Slot trinket broken");

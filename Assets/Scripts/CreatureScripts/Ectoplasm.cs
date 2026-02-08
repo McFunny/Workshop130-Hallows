@@ -7,7 +7,7 @@ using DG.Tweening;
 public class Ectoplasm : CreatureBehaviorScript
 {
     public bool isLarge;
-    bool dontSplat;
+    bool dontSplat, neverSplat;
 
     bool isMoving, coroutineRunning;
 
@@ -406,6 +406,7 @@ public class Ectoplasm : CreatureBehaviorScript
     public override void HitWithWater()
     {
         dontSplat = true;
+        if(health - 30 <= 0) neverSplat = true;
         TakeDamage(30);
     }
 
@@ -422,7 +423,7 @@ public class Ectoplasm : CreatureBehaviorScript
 
     void ShootSlime(int amount)
     {
-        if(dontSplat)
+        if(dontSplat || neverSplat)
         {
             if(health > 0) dontSplat = false;
             return;
