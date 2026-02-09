@@ -132,8 +132,10 @@ public class Chest : FurnitureBehaviorScript
         }
         anim.SetBool("isOpen", false);
         source.PlayOneShot(closeSFX);
-        closeParticles.Play();
         RefreshSockets();
+
+        yield return new WaitForSeconds(0.7f);
+        closeParticles.Play();
     }
 
     public override void SaveVariables()

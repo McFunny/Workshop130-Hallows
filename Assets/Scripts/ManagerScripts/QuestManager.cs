@@ -436,8 +436,9 @@ public class Quest
     public string name; //NEVER CHANGE THE NAME OF THIS FOR MAIN QUESTS, OR ELSE IT WILL MAKE SAVE FILES CORRUPT
     [TextArea(5,10)]
     public string description; //Use the same method I used in the dialogue controller to parse the code in the strings
-    //public QuestType type; //Dont worry about this, currently unnused
+    //public QuestType type; //Dont worry about this, currently unused
     public bool isMajorQuest = false;
+    public bool uniqueCompletionMethod = false; //If this quest is to be completed with unique code and not through the NPC script, mark true. Currently allows apoth puri tuber quest to be completed w/o bot quests being touched
     public bool alreadyCompleted = false; //if you want to store completed quests, or just store completed main quests.
     public int mintReward;
     public List<InventoryItemData> itemRewards = new List<InventoryItemData>();
@@ -472,6 +473,7 @@ public class Quest
         name = q.name;
         description = q.description;
         isMajorQuest = q.isMajorQuest;
+        uniqueCompletionMethod = q.uniqueCompletionMethod;
         mintReward = q.mintReward;
         itemRewards = q.itemRewards;
         maxProgress = q.maxProgress;

@@ -124,6 +124,11 @@ public class TinkererNPC : NPC, ITalkable
                 currentType = PathType.ItemSpecific;
             }
         }
+        else if (item.ID == 191)
+        {
+            currentPath = 3;
+            currentType = PathType.ItemSpecific;
+        }
 
         else if (item.staminaValue > 0)
         {

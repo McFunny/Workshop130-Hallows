@@ -47,7 +47,7 @@ public class BotanistNPC : NPC, ITalkable
                 GameSaveData.Instance.bot_giveSeeds = true;
                 currentPath = 7;
                 currentType = PathType.Misc;
-                itemsToGive.Add(new ItemWithAmount(s_timber, 10));
+                itemsToGive.Add(new ItemWithAmount(s_timber, 6));
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[0]); //Add the "Grow TimberEar Quest" quest
                 dailyQuest = null;
             }
@@ -62,12 +62,12 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = 11;
                 currentType = PathType.Misc;
             }
-            else if(!GameSaveData.Instance.bot_giveScytheQuest && !PlayerInventoryHolder.Instance.IsInventoryFull() && timberCrop.amountHarvested > 3)
+            else if(!GameSaveData.Instance.bot_giveScytheQuest && !PlayerInventoryHolder.Instance.IsInventoryFull() && timberCrop.amountHarvested > 1)
             {
                 GameSaveData.Instance.bot_giveScytheQuest = true;
                 currentPath = 9;
                 currentType = PathType.Misc;
-                itemsToGive.Add(new ItemWithAmount(s_stalk, 10));
+                itemsToGive.Add(new ItemWithAmount(s_stalk, 6));
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[1]); //Add the "Grow Gloomstalk Quest" quest
                 dailyQuest = null;
             }
