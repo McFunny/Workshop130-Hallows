@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using SaveLoadSystem;
 
 public class SurvivalModeManager : MonoBehaviour
 {
@@ -128,6 +129,7 @@ public class SurvivalModeManager : MonoBehaviour
     public IEnumerator GameOver()
     {
         statsScreen.GameOver();
+        SaveLoad.DeleteSaveData();
         yield return new WaitForSeconds(5);
         //statsScreen.ReturnToMainMenu();
     }
