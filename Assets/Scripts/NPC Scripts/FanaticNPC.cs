@@ -98,12 +98,12 @@ public class FanaticNPC : NPC, ITalkable
             return 0;
         }
 
-        int questIndex = 1 + GameSaveData.Instance.trinketSlotsGiven;
+        int questIndex = GameSaveData.Instance.trinketSlotsGiven;
 
         //Remark about completing the bug trinket quest here
         if(GameSaveData.Instance.trinketSlotsGiven < 3 && QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueFetchQuests[questIndex]))
         {
-            if(GameSaveData.Instance.trinketSlotsGiven == 0) 
+            if(GameSaveData.Instance.trinketSlotsGiven == 1) 
             {
                 itemsToGive.Add(new ItemWithAmount(loamTrinket, 1));
                 return 1;
@@ -137,7 +137,7 @@ public class FanaticNPC : NPC, ITalkable
 
         if (CompletedQuestWithItem())
         {
-            currentPath = 0;
+            currentPath = QuestCompletedDialogue();
             currentType = PathType.QuestComplete;
         }
         else if (item.ID == 163)
