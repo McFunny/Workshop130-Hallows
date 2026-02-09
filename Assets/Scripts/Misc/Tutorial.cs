@@ -45,7 +45,7 @@ public class Tutorial : MonoBehaviour
 
     void Start()
     {
-        if(TutorialNPC.alreadyPlayedTutorial)
+        if(TutorialNPC.alreadyPlayedTutorial || TimeManager.Instance.dayNum != 1)
         {
             Instance = null;
             return;

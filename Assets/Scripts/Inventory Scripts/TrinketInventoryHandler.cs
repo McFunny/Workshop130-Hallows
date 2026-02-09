@@ -37,11 +37,11 @@ public class TrinketInventoryHandler : MonoBehaviour
     public void TrinketEntered(InventorySlot slot)
     {
         Debug.Log("Trinket entered slot: " + slot);
-        Debug.Log("Trinket: " + slot.ItemData.displayName);
+        //Debug.Log("Trinket: " + slot.ItemData.displayName);
         TrinketItem trinket = slot.ItemData as TrinketItem;
         if(!trinket)
         {
-            Debug.LogError("This is not a trinket and should not be here");
+            if(slot.ItemData != null) Debug.LogError("This is not a trinket and should not be here");
             return;
         }
         TrinketInventoryData trinketData = GetTrinketDataFromSlot(slot);
@@ -59,7 +59,7 @@ public class TrinketInventoryHandler : MonoBehaviour
     public void TrinketRemoved(InventorySlot slot, MouseItemData mouseItemData)
     {
         Debug.Log("Trinket left slot: " + slot);
-        Debug.Log("Trinket: " + slot.ItemData.displayName);
+        //Debug.Log("Trinket: " + slot.ItemData.displayName);
 
         TrinketItem trinket = slot.ItemData as TrinketItem;
         if(!trinket)
