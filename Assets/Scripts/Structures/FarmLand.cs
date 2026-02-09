@@ -54,6 +54,8 @@ public class FarmLand : StructureBehaviorScript
 
     public PopupScript needTrellis, removeTrellis;
 
+    public ParticleSystem growingParticles;
+
 
     ///////Achievement Stuff///////
     float cropsHarvestedHere = 0;
@@ -427,6 +429,9 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
+        if(!isWeed && crop && !rotted && !TimeManager.Instance.isDay) growingParticles.Play();
+        else if(growingParticles) growingParticles.Stop();
+
         if(isWeed && currentUpgrade != FarmTileUpgrade.Corrupt && !TimeManager.Instance.isDay)
         {
             StructureManager.Instance.WeedSpread(transform.position, out bool becomeThorn);
@@ -559,7 +564,11 @@ public class FarmLand : StructureBehaviorScript
     {
         if(crop) 
         {
-            if(rotted) cropRenderer.sprite = crop.rottedImage;
+            if(rotted) 
+            {
+                cropRenderer.sprite = crop.rottedImage;
+                if(growingParticles) growingParticles.Stop();
+            }
             else cropRenderer.sprite = crop.cropSprites[(growthStage - 1)];
 
             if(light)
@@ -572,6 +581,7 @@ public class FarmLand : StructureBehaviorScript
         {
             cropRenderer.sprite = null;
             if(light) light.SetActive(false);
+            if(growingParticles) growingParticles.Stop();
         }
 
         if(nutrients == null)

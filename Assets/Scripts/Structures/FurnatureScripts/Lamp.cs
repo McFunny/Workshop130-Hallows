@@ -42,6 +42,7 @@ public class Lamp : FurnitureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
+        if(absentFromGrid) return;
         if (type == ToolType.Shovel && PlayerInventoryHolder.Instance.IsInventoryFull() == false)
         {
             //StartCoroutine(DugUp());

@@ -39,6 +39,7 @@ public class Spider : CreatureBehaviorScript
     bool fearCooldown, dodgeCooldown, dodging;
     bool canLunge = true;
     float baseSpeed;
+    bool hasFleeTarget;
 
     public Transform strafePointL, strafePointR;
     
@@ -310,9 +311,29 @@ public class Spider : CreatureBehaviorScript
             fearObject.SetActive(false);
             return;
         }
-        Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3))));
-        agent.destination = runTo;
+        //Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3))));
+        //agent.destination = runTo;
         agent.updateRotation = true;
+
+        if (hasFleeTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
+        {
+            hasFleeTarget = false;
+        }
+        else if (!hasFleeTarget)
+        {
+            hasFleeTarget = true;
+            Vector3 fleeDirection = (transform.position - fireSource.transform.position).normalized;
+
+            
+            float randomAngle = Random.Range(-20f, 20); //random offset for random movement
+
+            fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
+
+            Vector3 newDestination = transform.position + fleeDirection * Random.Range(4f, 7f);
+
+        
+            agent.SetDestination(newDestination);
+        }
     }
 
     void Dodge()

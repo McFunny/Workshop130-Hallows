@@ -28,6 +28,7 @@ public class DeerStalker : CreatureBehaviorScript
     public float runSpeed = 13;
     float transformedSightRange = 30;
     float fleeTimeLeft = 0;
+    bool hasFleeTarget = false;
 
     [HideInInspector] public NavMeshAgent agent;
     public Collider attackHitbox;
@@ -405,11 +406,40 @@ public class DeerStalker : CreatureBehaviorScript
     private void Flee()
     {
         if(coroutineRunning) return;
-        Vector3 runTo = transform.position + ((((transform.position - player.transform.position) * 3) + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3))));
-        agent.destination = runTo;
+
+
+        if (hasFleeTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1.5f)
+        {
+            hasFleeTarget = false;
+        }
+        else if (!hasFleeTarget)
+        {
+            hasFleeTarget = true;
+            Vector3 fleeDirection = (transform.position - player.position).normalized;
+
+            
+            float randomAngle = Random.Range(-45f, 45f); //random offset for random movement
+
+            fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
+
+            Vector3 newDestination = transform.position + fleeDirection * Random.Range(5f, 8f);
+
+        
+            agent.SetDestination(newDestination);
+        }
+
+
+
+        //Vector3 runTo = transform.position + ((((transform.position - player.transform.position) * 3) + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3))));
+        //agent.destination = runTo;
         fleeTimeLeft -= Time.deltaTime;
         if(fleeTimeLeft <= 0 && currentState == CreatureState.Flee)
         {
+            if(playerInSightRange)
+            {
+                fleeTimeLeft = Random.Range(2f, 5f);
+                return;
+            }
             currentState = CreatureState.Wander;
         }
     }
@@ -720,7 +750,7 @@ public class DeerStalker : CreatureBehaviorScript
         if(variant == Variant.Pure)
         {
             effectsHandler.OnHit();
-            fleeTimeLeft = Random.Range(3,7);
+            fleeTimeLeft = Random.Range(5,9);
             StopTrackingPlayer();
             if(walkRoutine != null)
             {
