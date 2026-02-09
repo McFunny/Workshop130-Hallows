@@ -10,11 +10,14 @@ public class NewsCanvasScript : MonoBehaviour
     //[SerializeField] private TextMeshProUGUI descriptionObj;
     //[TextArea(5,1)]
     //[SerializeField] private string description;
+    public static bool hasDisplayed = false;
 
     // Start is called before the first frame update
     void Start()
     {
         //descriptionObj.text = description;
+        if(hasDisplayed) gameObject.SetActive(false);
+        else hasDisplayed = true;
     }
 
     // Update is called once per frame
