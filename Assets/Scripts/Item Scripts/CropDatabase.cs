@@ -111,6 +111,11 @@ public class CropDatabase : ScriptableObject
             i++;
         }
     }
+
+    public List<CropData> GetCropList()
+    {
+        return _cropDatabase;
+    }
 }
 [System.Serializable]
 public class CropPlayerStats

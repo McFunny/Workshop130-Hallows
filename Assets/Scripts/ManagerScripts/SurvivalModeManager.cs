@@ -49,6 +49,8 @@ public class SurvivalModeManager : MonoBehaviour
 
     public PopupScript sellStuffP;
 
+    public SurvivalStatsScreen statsScreen;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -121,6 +123,13 @@ public class SurvivalModeManager : MonoBehaviour
 
         mintsEarned = 0;
         currentMintsRequired += Random.Range(minIncrease, maxIncrease);
+    }
+
+    public IEnumerator GameOver()
+    {
+        statsScreen.GameOver();
+        yield return new WaitForSeconds(5);
+        //statsScreen.ReturnToMainMenu();
     }
 
     void OnDisable()

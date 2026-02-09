@@ -32,6 +32,11 @@ public class SurvivalStatsScreen : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        SurvivalModeManager.Instance.statsScreen = this;
+    }
+
     private void Update()
     {
         /*if(Input.GetKeyDown(KeyCode.RightArrow))
@@ -72,17 +77,17 @@ public class SurvivalStatsScreen : MonoBehaviour
         survivalStatTexts[1].statValueText.text = Random.Range(0, 100).ToString();
         survivalStatTexts[1].statObject.SetActive(true);
 
-        survivalStatTexts[2].statNameText.text = "";
-        survivalStatTexts[2].statValueText.text = "";
-        survivalStatTexts[2].statObject.SetActive(false);
+        survivalStatTexts[2].statNameText.text = "Creatures Defeated";
+        survivalStatTexts[2].statValueText.text = CalculateTotalCreatureDeaths().ToString();
+        survivalStatTexts[2].statObject.SetActive(true);
 
-        survivalStatTexts[3].statNameText.text = "";
-        survivalStatTexts[3].statValueText.text = "";
-        survivalStatTexts[3].statObject.SetActive(false);
+        survivalStatTexts[3].statNameText.text = "Crops Grown";
+        survivalStatTexts[3].statValueText.text = CalculateTotalCropsGrown().ToString();
+        survivalStatTexts[3].statObject.SetActive(true);
 
-        survivalStatTexts[4].statNameText.text = "";
-        survivalStatTexts[4].statValueText.text = "";
-        survivalStatTexts[4].statObject.SetActive(false);
+        survivalStatTexts[4].statNameText.text = "Crops Lost";
+        survivalStatTexts[4].statValueText.text = CalculateTotalCropsKilled().ToString();
+        survivalStatTexts[4].statObject.SetActive(true);
 
         survivalStatTexts[5].statNameText.text = "";
         survivalStatTexts[5].statValueText.text = "";
@@ -107,6 +112,39 @@ public class SurvivalStatsScreen : MonoBehaviour
         }
         Debug.Log("Returning to Main Menu...");
         survivalStatsParent.SetActive(false);
+    }
+
+    int CalculateTotalCreatureDeaths()
+    {
+        int total = 0;
+
+        foreach(CreatureObject c in CreatureDatabase.Instance.GetCreatureDatabase())
+        {
+            total += c.amountKilled;
+        }
+        return total;
+    }
+
+    int CalculateTotalCropsGrown()
+    {
+        int total = 0;
+
+        foreach(CropData c in CropDatabase.Instance.GetCropList())
+        {
+            total += c.amountHarvested;
+        }
+        return total;
+    }
+
+    int CalculateTotalCropsKilled()
+    {
+        int total = 0;
+
+        foreach(CropData c in CropDatabase.Instance.GetCropList())
+        {
+            total += c.amountKilled;
+        }
+        return total;
     }
 }
 
