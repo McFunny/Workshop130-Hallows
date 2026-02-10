@@ -13,10 +13,12 @@ public class SurvivalStatsScreen : MonoBehaviour
     [SerializeField] private VerticalLayoutGroup statsContainer, statsBoxLayout;
     private List<SurvivalStatTexts> survivalStatTexts = new List<SurvivalStatTexts>(); // CURRENT CAP IS 7 STATS
     private GameObject survivalStatsParent;
+    public static bool isSurvivalStatsScreenActive = false;
     private void Awake()
     {
         survivalStatsParent = transform.GetChild(0).gameObject;
         survivalStatsParent.SetActive(false);
+        isSurvivalStatsScreenActive = false;
 
         for (int i = 0; i < statsBox.childCount; i++)
         {
@@ -50,6 +52,7 @@ public class SurvivalStatsScreen : MonoBehaviour
         survivalStatsParent.SetActive(true);
         statsLerp.lerpToStart = false;
         gameOverLerp.lerpToStart = false;
+        isSurvivalStatsScreenActive = true;
 
         StartCoroutine(LayoutRebuildNextFrame());
     }

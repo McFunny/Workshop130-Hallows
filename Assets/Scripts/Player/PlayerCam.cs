@@ -55,7 +55,7 @@ public class PlayerCam : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen || DebugUI.isDebugMenuOpen || CraftingSystem.isCraftingMenuOpen || CookingRecipeBook.recipeBookOpen)
+        if (PlayerMovement.accessingInventory || PlayerMovement.isCodexOpen || DebugUI.isDebugMenuOpen || CraftingSystem.isCraftingMenuOpen || CookingRecipeBook.recipeBookOpen || SurvivalStatsScreen.isSurvivalStatsScreenActive)
         {
             if(!ControlManager.isController)
             {
