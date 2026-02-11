@@ -15,6 +15,7 @@ public class InventorySlot_UI : MonoBehaviour
     [SerializeField] private InventorySlot assignedInventorySlot;
     [SerializeField] private Animator pickupAnim;
     public Slider durabilitySlider;
+    public UISpriteAnim anim1, anim2;
     
 
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
