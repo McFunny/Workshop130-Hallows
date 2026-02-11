@@ -73,36 +73,56 @@ public class SurvivalStatsScreen : MonoBehaviour
     private void UpdateStats()
     {
         survivalStatTexts[0].statNameText.text = "Nights Lasted:";                 // Name Goes here
-        survivalStatTexts[0].statValueText.text = Random.Range(0, 100).ToString(); // Value goes here
+        survivalStatTexts[0].statValueText.text = (TimeManager.Instance.dayNum - 1).ToString(); // Value goes here
         survivalStatTexts[0].statObject.SetActive(true);                           // Set this to true or false based on if you want to show them
 
         survivalStatTexts[1].statNameText.text = "Mints Collected:";
-        survivalStatTexts[1].statValueText.text = Random.Range(0, 100).ToString();
+        survivalStatTexts[1].statValueText.text = SurvivalModeManager.Instance.TotalMintsEarned.ToString();
         survivalStatTexts[1].statObject.SetActive(true);
 
-        survivalStatTexts[2].statNameText.text = "Creatures Defeated";
+        survivalStatTexts[2].statNameText.text = "Creatures Defeated:";
         survivalStatTexts[2].statValueText.text = CalculateTotalCreatureDeaths().ToString();
         survivalStatTexts[2].statObject.SetActive(true);
 
-        survivalStatTexts[3].statNameText.text = "Crops Grown";
+        survivalStatTexts[3].statNameText.text = "Crops Grown:";
         survivalStatTexts[3].statValueText.text = CalculateTotalCropsGrown().ToString();
         survivalStatTexts[3].statObject.SetActive(true);
 
-        survivalStatTexts[4].statNameText.text = "Crops Lost";
+        survivalStatTexts[4].statNameText.text = "Crops Lost:";
         survivalStatTexts[4].statValueText.text = CalculateTotalCropsKilled().ToString();
         survivalStatTexts[4].statObject.SetActive(true);
 
-        survivalStatTexts[5].statNameText.text = "";
-        survivalStatTexts[5].statValueText.text = "";
-        survivalStatTexts[5].statObject.SetActive(false);
+        survivalStatTexts[5].statNameText.text = "Ranking:";
+        survivalStatTexts[5].statValueText.text = Ranking();
+        survivalStatTexts[5].statObject.SetActive(true);
 
-        survivalStatTexts[6].statNameText.text = "";
-        survivalStatTexts[6].statValueText.text = "";
+        float nightHighscore = PlayerPrefs.GetFloat("NightHighScoreDemo", 0);
+        if(nightHighscore < TimeManager.Instance.dayNum) nightHighscore = TimeManager.Instance.dayNum;
+
+        float mintHighScore = PlayerPrefs.GetFloat("MintHighScoreDemo", 0);
+        if(mintHighScore < SurvivalModeManager.Instance.TotalMintsEarned) mintHighScore = SurvivalModeManager.Instance.TotalMintsEarned;
+
+
+        survivalStatTexts[6].statNameText.text = "Highest Night Count:";
+        survivalStatTexts[6].statValueText.text = nightHighscore.ToString();
         survivalStatTexts[6].statObject.SetActive(false);
 
-        survivalStatTexts[7].statNameText.text = "";
-        survivalStatTexts[7].statValueText.text = "";
+        survivalStatTexts[7].statNameText.text = "Hightest Mint Count:";
+        survivalStatTexts[7].statValueText.text = mintHighScore.ToString();
         survivalStatTexts[7].statObject.SetActive(false);
+
+        PlayerPrefs.Save();
+    }
+
+    public string Ranking()
+    {
+        int daysLasted = TimeManager.Instance.dayNum - 1;
+
+        if(daysLasted < 3) return "Lowly Grub";
+        else if(daysLasted < 6) return "Hardy Hare";
+        else if(daysLasted < 10) return "Adaptable Mimic";
+        else if(daysLasted < 15) return "Bodacious Hog";
+        else return "Blazing Pyrefly";
     }
 
     public void ReturnToMainMenu()

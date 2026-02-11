@@ -734,6 +734,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if(MainMenuScript.currentFileMode == FileMode.Survival)
         {
+            NightSpawningManager.Instance.GameOver();
+            TimeManager.Instance.stopTime = true;
             yield return new WaitForSeconds(1f);
             SurvivalModeManager.Instance.StartCoroutine(SurvivalModeManager.Instance.GameOver());
             yield break;
