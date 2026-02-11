@@ -223,9 +223,9 @@ public class TinkererNPC : NPC, ITalkable
                 if (i == 2 && GameSaveData.Instance.upg_torch) continue;
                 if (i == 3 && GameSaveData.Instance.upg_scythe) continue;
 
-                newItem = barterDatabase.uniqueTransactions2[0].itemForSale;
-                newCost = (int)(barterDatabase.uniqueTransactions2[0].mintCost * sellMultiplier);
-                storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions2[0].itemsRequired, barterDatabase.uniqueTransactions2[0].amountForSale);
+                newItem = barterDatabase.uniqueTransactions2[i].itemForSale;
+                newCost = (int)(barterDatabase.uniqueTransactions2[i].mintCost * sellMultiplier);
+                storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions2[i].itemsRequired, barterDatabase.uniqueTransactions2[i].amountForSale);
                 storeItems[i].seller = this;
                 continue;
             }

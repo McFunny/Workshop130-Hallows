@@ -49,11 +49,12 @@ public class TrinketInventoryHandler : MonoBehaviour
         GetTrinketDataFromSlot(slot).maxDurability = trinket.maxDurability;
         GetTrinketDataFromSlot(slot).durability = trinket.maxDurability;
         GetTrinketDataFromSlot(slot).breakChance = trinket.breakChance;
+        if(PlayerMovement.accessingInventory) slot.uiSlot.anim2.PlayOneShotUI();
 
         trinket.OnEquip();
 
         //DialogueController.Instance.source.PlayOneShot(equipSFX);
-        AudioPoolManager.Instance.PlayClip(equipSFX, 0.1f);
+        if(PlayerMovement.accessingInventory) AudioPoolManager.Instance.PlayClip(equipSFX, 0.1f);
     }
 
     public void TrinketRemoved(InventorySlot slot, MouseItemData mouseItemData)
@@ -99,7 +100,7 @@ public class TrinketInventoryHandler : MonoBehaviour
         
         if(trinket) trinket.OnRemove();
         slot.ClearSlot();
-        //slot.uiSlot.GetComponent<UISpriteAnim>().PlayOneShotUI(averageColor);
+        slot.uiSlot.GetComponent<UISpriteAnim>().PlayOneShotUI(averageColor);
         //DialogueController.Instance.source.PlayOneShot(breakSFX);
         AudioPoolManager.Instance.PlayClip(breakSFX, 0.1f);
         Debug.Log("Slot trinket broken");
