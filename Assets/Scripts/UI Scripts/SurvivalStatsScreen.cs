@@ -13,11 +13,14 @@ public class SurvivalStatsScreen : MonoBehaviour
     [SerializeField] private VerticalLayoutGroup statsContainer, statsBoxLayout;
     private List<SurvivalStatTexts> survivalStatTexts = new List<SurvivalStatTexts>(); // CURRENT CAP IS 7 STATS
     private GameObject survivalStatsParent;
+    [SerializeField] private GameObject quotaParent, deathParent;
     public static bool isSurvivalStatsScreenActive = false;
     private void Awake()
     {
         survivalStatsParent = transform.GetChild(0).gameObject;
         survivalStatsParent.SetActive(false);
+        quotaParent.SetActive(false);
+        deathParent.SetActive(false);
         isSurvivalStatsScreenActive = false;
 
         for (int i = 0; i < statsBox.childCount; i++)
@@ -43,7 +46,11 @@ public class SurvivalStatsScreen : MonoBehaviour
     {
         /*if(Input.GetKeyDown(KeyCode.RightArrow))
         {
-            GameOver();
+            GameOver(false);
+        }
+        else if(Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            GameOver(true);
         }*/
 
         if(ControlManager.isController && survivalStatsParent.activeSelf && EventSystem.current.currentSelectedGameObject == null)
@@ -51,8 +58,19 @@ public class SurvivalStatsScreen : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(mainMenuButton.gameObject);
         }
     }
-    public void GameOver()
+    public void GameOver(bool isDeath = false)
     {
+        if(isDeath)
+        {
+            deathParent.SetActive(true);
+            quotaParent.SetActive(false);
+        }
+        else
+        {
+            deathParent.SetActive(false);
+            quotaParent.SetActive(true);
+        }
+
         UpdateStats();
         survivalStatsParent.SetActive(true);
         statsLerp.lerpToStart = false;

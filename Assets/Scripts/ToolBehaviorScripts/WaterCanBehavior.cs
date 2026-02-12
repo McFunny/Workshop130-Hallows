@@ -31,6 +31,7 @@ public class WaterCanBehavior : ToolBehavior
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         if(!pourParticles) pourParticles = HandItemManager.Instance.GetWaterCanParticles(isUpgraded);
         if(pourParticles) pourParticles.Stop();
+        if(pourSource) pourSource.Stop();
         //water
         //PrimaryUse();
         BeginCharge();
@@ -361,6 +362,7 @@ public class WaterCanBehavior : ToolBehavior
 
         yield return new WaitForSeconds(0.7f);
         if(pourParticles) pourParticles.Stop();
+        if(pourSource) pourSource.Stop();
         PlayerInteraction.Instance.ToolUseToggle(false);
 
     }
