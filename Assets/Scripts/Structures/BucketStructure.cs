@@ -156,6 +156,11 @@ public class BucketStructure : StructureBehaviorScript, IWaterHolder
         while(gameObject.activeSelf);
     }
 
+    public void ForceSpillBucket()
+    {
+        if(!spilled) SpillBucket(Direction.South);
+    }
+
     void SpillBucket(Direction dir)
     {
         spilled = true;
