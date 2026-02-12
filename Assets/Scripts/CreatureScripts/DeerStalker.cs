@@ -441,6 +441,7 @@ public class DeerStalker : CreatureBehaviorScript
                 return;
             }
             currentState = CreatureState.Wander;
+            isMoving = false;
         }
     }
 

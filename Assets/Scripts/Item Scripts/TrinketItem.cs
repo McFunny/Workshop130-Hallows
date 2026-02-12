@@ -57,5 +57,6 @@ public enum TrinketKey
     DunemiteBoots,
     BoneBreaker,
     Coolant,
-    WaterGuard
+    WaterGuard,
+    TickRegen
 }
