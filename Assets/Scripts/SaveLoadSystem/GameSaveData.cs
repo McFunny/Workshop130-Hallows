@@ -170,7 +170,7 @@ public class GameSaveData : MonoBehaviour
         WagonManager.Instance.daysToRepair = data.allGameSaveData.daysToRepairWagon;
 
 
-        switch(data.allGameSaveData.gameMode)
+        /*switch(data.allGameSaveData.gameMode) //Disabled for demo
         {
             case "Normal":
             MainMenuScript.currentFileMode = FileMode.Normal;
@@ -184,7 +184,8 @@ public class GameSaveData : MonoBehaviour
             default:
             MainMenuScript.currentFileMode = FileMode.Normal;
             break;
-        }
+        }*/
+        MainMenuScript.currentFileMode = FileMode.Survival;
 
         //for(int i = 0; i < data.allGameSaveData.activeQuests.Length; i++) QuestManager.Instance.activeQuests.Add(data.allGameSaveData.activeQuests[i]);
         QuestManager.Instance.LoadData(data.allGameSaveData);
