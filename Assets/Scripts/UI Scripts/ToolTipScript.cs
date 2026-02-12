@@ -7,7 +7,7 @@ public class ToolTipScript : MonoBehaviour
 {
     public GameObject panel;
     public TextMeshProUGUI itemName, itemDesc, itemStamina, itemType, canStack, chanceToBreak;
-    public Color c_default, c_tool, c_placeable, c_crop, c_consumable, c_ammo, c_bug;
+    public Color c_default, c_tool, c_placeable, c_crop, c_consumable, c_ammo, c_bug, c_trinket;
     public GameObject intakeParent, outputParent;
     public GameObject[] input, output;
     [SerializeField] private GameObject[] barterIcons;
@@ -238,7 +238,7 @@ public class ToolTipScript : MonoBehaviour
                 }
                 else chanceToBreak.gameObject.SetActive(false);
                 
-                itemType.color = c_bug;
+                itemType.color = c_trinket;
                 break;
 
             default:
