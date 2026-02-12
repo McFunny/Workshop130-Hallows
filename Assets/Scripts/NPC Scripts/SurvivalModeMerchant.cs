@@ -154,13 +154,18 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
                 anim.SetTrigger("Transaction");
                 InventorySlot slot = HotbarDisplay.currentSlot.AssignedInventorySlot;
-                purchasedShopItems.Add(slot.ItemData);
                 SurvivalModeManager.Instance.mintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
                 SurvivalModeManager.Instance.TotalMintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
             }
             Talk();
         }
         interactSuccessful = true;
+    }
+
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
+    {
+        uniqueDialogue = false;
+        if(!GameSaveData.Instance.boughtItemIDs.Contains(item.ID)) GameSaveData.Instance.boughtItemIDs.Add(item.ID);
     }
 
     /*public override void PurchaseAttempt(StoreItem item)
@@ -301,7 +306,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
             //Last 5 are special items
             else if (x < 20)
             {
-                if (!purchasedShopItems.Contains(survivalBarterDatabase.specialObjs[x - 15].itemForSale))
+                if (!GameSaveData.Instance.boughtItemIDs.Contains(survivalBarterDatabase.specialObjs[x - 15].itemForSale.ID))//(!purchasedShopItems.Contains(survivalBarterDatabase.specialObjs[x - 15].itemForSale))
                 {
                     newItem = survivalBarterDatabase.specialObjs[x - 15].itemForSale;
                     item.RefreshItem(newItem, survivalBarterDatabase.specialObjs[x - 15].mintCost, survivalBarterDatabase.specialObjs[x - 15].itemsRequired, survivalBarterDatabase.specialObjs[x - 15].amountForSale);

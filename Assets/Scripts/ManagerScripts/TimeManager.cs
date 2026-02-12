@@ -64,7 +64,7 @@ public class TimeManager : MonoBehaviour
             Instance = this;
         }
 
-        if(MainMenuScript.currentFileMode == FileMode.Survival) minPerDayHour = 15;
+        if(MainMenuScript.currentFileMode == FileMode.Survival) minPerDayHour = 30;
     }
 
     
@@ -142,6 +142,15 @@ public class TimeManager : MonoBehaviour
         TimeOfDayCheck();
 
         //if hour is 8, new day transition. dark screen, invoke, save, then brighten screen
+
+        if(currentHour == 8 && MainMenuScript.currentFileMode == FileMode.Survival && SurvivalModeManager.Instance.CheckProgress() == false)
+        {
+            NightSpawningManager.Instance.GameOver();
+            TimeManager.Instance.stopTime = true;
+            FadeScreen.coverScreen = true;
+            SurvivalModeManager.Instance.StartCoroutine(SurvivalModeManager.Instance.GameOver(true));
+            return;
+        }
             
         if(currentHour != 8) OnHourlyUpdate?.Invoke(); //We want this to trigger AFTER the transition
         //print("Hour passed. Time is now " + currentHour);

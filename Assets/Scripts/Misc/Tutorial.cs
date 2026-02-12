@@ -48,6 +48,7 @@ public class Tutorial : MonoBehaviour
         if(TutorialNPC.alreadyPlayedTutorial || TimeManager.Instance.dayNum != 1 || MainMenuScript.loadingData)
         {
             Instance = null;
+            survivalModeBarrier.SetActive(false);
             return;
         }
 

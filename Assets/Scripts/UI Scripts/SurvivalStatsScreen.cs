@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using SaveLoadSystem;
 
 public class SurvivalStatsScreen : MonoBehaviour
 {
@@ -70,6 +71,11 @@ public class SurvivalStatsScreen : MonoBehaviour
             deathParent.SetActive(false);
             quotaParent.SetActive(true);
         }
+
+        StartCoroutine(AmbientAudioManager.Instance.FadeAudio(999));
+
+        PlayerMovement.restrictMovementTokens++;
+        Time.timeScale = 0;
 
         UpdateStats();
         survivalStatsParent.SetActive(true);
@@ -149,6 +155,8 @@ public class SurvivalStatsScreen : MonoBehaviour
         var pauseScript = FindObjectOfType<PauseScript>();
         if(pauseScript != null)
         {
+            SaveLoad.DeleteSaveData();
+            Time.timeScale = 1;
             pauseScript.ForceMainMenu();
         }
         Debug.Log("Returning to Main Menu...");

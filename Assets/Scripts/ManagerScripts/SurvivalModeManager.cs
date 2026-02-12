@@ -87,10 +87,10 @@ public class SurvivalModeManager : MonoBehaviour
         {
             PopupHandler.Instance.AddToQueue(sellStuffP);
         }
-        if(TimeManager.Instance.currentHour == 8)
+        /*if(TimeManager.Instance.currentHour == 8)
         {
             CheckProgress();
-        }
+        }*/
     }
 
     private void CheckMintValue(int totalEarned)
@@ -113,24 +113,30 @@ public class SurvivalModeManager : MonoBehaviour
         }
     }
 
-    public void CheckProgress()
+    public bool CheckProgress()
     {
         if(mintsEarned < currentMintsRequired)
         {
             //SceneManager.LoadSceneAsync(1);
-            PlayerInteraction.Instance.stamina = 0;
-            return;
+            //PlayerInteraction.Instance.stamina = 0;
+
+
+            statsScreen.GameOver();
+            SaveLoad.DeleteSaveData();
+            return false;
         }
 
         mintsEarned = 0;
         currentMintsRequired += Random.Range(minIncrease, maxIncrease);
+        return true;
     }
 
-    public IEnumerator GameOver()
+    public IEnumerator GameOver(bool isDeath = false)
     {
-        statsScreen.GameOver();
+        yield return new WaitForSeconds(1);
+        statsScreen.GameOver(isDeath);
         SaveLoad.DeleteSaveData();
-        yield return new WaitForSeconds(5);
+        //yield return new WaitForSeconds(5);
         //statsScreen.ReturnToMainMenu();
     }
 

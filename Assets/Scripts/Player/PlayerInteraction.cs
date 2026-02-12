@@ -737,7 +737,7 @@ public class PlayerInteraction : MonoBehaviour
             NightSpawningManager.Instance.GameOver();
             TimeManager.Instance.stopTime = true;
             yield return new WaitForSeconds(1f);
-            SurvivalModeManager.Instance.StartCoroutine(SurvivalModeManager.Instance.GameOver());
+            SurvivalModeManager.Instance.StartCoroutine(SurvivalModeManager.Instance.GameOver(true));
             yield break;
         }
 
