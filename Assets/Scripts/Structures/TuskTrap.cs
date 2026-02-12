@@ -155,6 +155,16 @@ public class TuskTrap : StructureBehaviorScript
         }
     }
 
+    public void ForceActivateTrap()
+    {
+        if(isArmed && !isTriggered) StartCoroutine(SpringTrap());
+    }
+
+    void ForceSetTrap()
+    {
+        model.position = setPos.position;
+    }
+
     IEnumerator SpringTrap()
     {
         isTriggered = true;
@@ -191,5 +201,16 @@ public class TuskTrap : StructureBehaviorScript
         isTriggered = false;
         currentRate = 0;
         
+    }
+
+    public override void LoadVariables()
+    {
+        isArmed = saveBool1;
+        if(isArmed) ForceSetTrap();
+    }
+
+    public override void SaveVariables()
+    {
+        saveBool1 = isArmed;
     }
 }

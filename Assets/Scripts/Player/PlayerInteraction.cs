@@ -570,6 +570,7 @@ public class PlayerInteraction : MonoBehaviour
     IEnumerator RegenRoutine()
     {
         bool skipNext = true;
+        float currentRegenRate;
         while(true)
         {
             yield return new WaitForSeconds(1f);
@@ -594,7 +595,17 @@ public class PlayerInteraction : MonoBehaviour
                 continue;
             }
 
-            StaminaChange(regenRate);
+            currentRegenRate = regenRate;
+            
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.TickRegen))
+            {
+                currentRegenRate *= 2;
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.TickRegen);
+            }
+
+            if(stamina + currentRegenRate > targetRegen) currentRegenRate = targetRegen - stamina;
+
+            StaminaChange(currentRegenRate);
         }
     }
 

@@ -3117,6 +3117,7 @@ GameObject:
   - component: {fileID: 6259960706067750535}
   - component: {fileID: 4535395663649189892}
   - component: {fileID: 4582180556729662435}
+  - component: {fileID: 234351617441046290}
   m_Layer: 6
   m_Name: LargeTable
   m_TagString: Untagged
@@ -3184,7 +3185,9 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -3197,6 +3200,8 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -3205,14 +3210,35 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
-  recoveredItem: {fileID: 11400000, guid: dc8109989d2a4824b8b8204c711699b2, type: 2}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   onTable: 0
   sockets:
   - socketTransform: {fileID: 5376076566693952707}
     socketedObject: {fileID: 0}
   - socketTransform: {fileID: 7698665277947638010}
     socketedObject: {fileID: 0}
+  usedByPet: 0
+--- !u!208 &234351617441046290
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8950450700889942057}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.55, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &9055588698962576742
 GameObject:
   m_ObjectHideFlags: 0
