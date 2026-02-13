@@ -74,7 +74,8 @@ public class ScytheAttack : MonoBehaviour
                 cancelSwing = true;
                 HandItemManager.Instance.toolSource.PlayOneShot(hitHardObject);
                 ParticlePoolManager.Instance.MoveAndPlayVFX(other.ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
-                creature.TakeDamage(35, PlayerInteraction.Instance.transform.position);
+                if(MainMenuScript.currentFileMode == FileMode.Survival) creature.TakeDamage(50, PlayerInteraction.Instance.transform.position);
+                else creature.TakeDamage(35, PlayerInteraction.Instance.transform.position);
                 return;
             }
 
