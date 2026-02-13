@@ -83,7 +83,7 @@ public class SurvivalModeManager : MonoBehaviour
 
     void HourlyUpdate()
     {
-        if(TimeManager.Instance.currentHour == 6)
+        if((TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 7) && mintsEarned < currentMintsRequired)
         {
             PopupHandler.Instance.AddToQueue(sellStuffP);
         }

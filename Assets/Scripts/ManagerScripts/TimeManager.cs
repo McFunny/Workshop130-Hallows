@@ -112,7 +112,7 @@ public class TimeManager : MonoBehaviour
                 clockDarkenEffect = false;
                 currentMinute++;
                 LerpSunAndMoon();
-                if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour) || (currentHour < 8 && currentMinute >= minPerNightHour))
+                if((isDay && currentMinute >= minPerDayHour && currentHour >= 8) || (!isDay && currentMinute >= minPerNightHour) || (currentHour < 8 && currentMinute >= 60))
                 {
                     currentMinute = 0;
                     HourPassed();
