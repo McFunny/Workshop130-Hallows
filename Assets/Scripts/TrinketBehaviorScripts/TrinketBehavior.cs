@@ -15,6 +15,11 @@ public class TrinketBehavior : ScriptableObject
         durabilityCost = 0;
     }
 
+    public virtual bool ArmorEnabled()
+    {
+        return true;
+    }
+
     public virtual void OnRemove()
     {
 

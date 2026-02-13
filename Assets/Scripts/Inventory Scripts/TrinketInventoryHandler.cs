@@ -156,6 +156,8 @@ public class TrinketInventoryHandler : MonoBehaviour
 
             if(t_item)
             {
+                if(t_item.behavior && t_item.behavior.ArmorEnabled() == false) continue;
+
                 float amountReduced = damage - (damage * t_item.damageMultiplier);
                 amountReduced = Mathf.CeilToInt(amountReduced);
                 damage -= amountReduced;

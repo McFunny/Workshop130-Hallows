@@ -113,7 +113,7 @@ public class PopupHandler : MonoBehaviour
 
     public void AddToQueue(PopupScript popup)
     {
-        if(!popup.canWaitInQueue && popupQueue.Count != 0) return;
+        if(!popup.canWaitInQueue && typesInQueue.Count != 0) return;
 
         for(int i = 0; i < typesInQueue.Count; i++)
         {
