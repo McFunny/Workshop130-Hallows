@@ -20,7 +20,7 @@ MonoBehaviour:
     itemForSale: {fileID: 11400000, guid: 55b5d3cc20b6cbc4d9d8e7d263a2cd10, type: 2}
     useItemPrice: 1
     mintCost: 30
-    amountForSale: 5
+    amountForSale: 20
     barterChance: 100
     itemsRequired: []
     siegesRequired: 0
@@ -178,12 +178,12 @@ MonoBehaviour:
   - name: Fence
     itemForSale: {fileID: 11400000, guid: 4c7a93923a0481847b797b183edec4d0, type: 2}
     useItemPrice: 0
-    mintCost: 20
-    amountForSale: 5
+    mintCost: 4
+    amountForSale: 50
     barterChance: 100
     itemsRequired: []
     siegesRequired: 0
-    amountGiven: 10
+    amountGiven: 1
   - name: BoneBlender
     itemForSale: {fileID: 11400000, guid: c01dc5febc780da41aa2782a05c1c5aa, type: 2}
     useItemPrice: 1
@@ -251,6 +251,15 @@ MonoBehaviour:
     itemForSale: {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
     useItemPrice: 1
     mintCost: 310
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: SeedShooter
+    itemForSale: {fileID: 11400000, guid: 11dc0ea83eed04b4aa191a1793f1cb66, type: 2}
+    useItemPrice: 1
+    mintCost: 180
     amountForSale: 5
     barterChance: 100
     itemsRequired: []

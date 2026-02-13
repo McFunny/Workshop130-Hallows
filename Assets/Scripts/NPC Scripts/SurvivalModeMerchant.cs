@@ -21,6 +21,8 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
     private List<InventoryItemData> purchasedShopItems = new List<InventoryItemData>();
 
+    int currentTier = 0;
+
 
     //Find a way to get feedback on when a dialogue tree is finished by calling an event/delegate.
 
@@ -58,6 +60,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
             default:
                 break;
         }
+        currentTier = tier;
     }
 
     IEnumerator DelayedStart()
@@ -219,6 +222,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
         int i;
         float r;
         int newCost = 0;
+        int newAmountForSale = 1;
         InventoryItemData newItem;
         int x = 0; //iterations
 
@@ -256,7 +260,9 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 }
                 while (!newItem);
                 newCost = (int)(survivalBarterDatabase.seeds[i].mintCost * sellMultiplier);
-                item.RefreshItem(newItem, newCost, survivalBarterDatabase.seeds[i].itemsRequired, survivalBarterDatabase.seeds[i].amountForSale);
+                if(currentTier > 0) newAmountForSale = survivalBarterDatabase.seeds[i].amountForSale * currentTier;
+                
+                item.RefreshItem(newItem, newCost, survivalBarterDatabase.seeds[i].itemsRequired, newAmountForSale);
                 item.seller = this;
 
                 x++;
@@ -279,7 +285,9 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 }
                 while (!newItem);
                 newCost = (int)(survivalBarterDatabase.structures[i].mintCost * sellMultiplier);
-                item.RefreshItem(newItem, newCost, survivalBarterDatabase.structures[i].itemsRequired, survivalBarterDatabase.structures[i].amountForSale);
+                if(currentTier > 0) newAmountForSale = survivalBarterDatabase.structures[i].amountForSale * currentTier;
+
+                item.RefreshItem(newItem, newCost, survivalBarterDatabase.structures[i].itemsRequired, newAmountForSale);
                 item.seller = this;
                 x++;
             }
