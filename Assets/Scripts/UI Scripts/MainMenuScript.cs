@@ -337,13 +337,14 @@ public class MainMenuScript : MonoBehaviour
                 loadingData = true;
                 currentSaveSlot = pathNum;
 
-                currentFileMode = fileDatas[pathNum].difficulty switch
+                /*currentFileMode = fileDatas[pathNum].difficulty switch
                 {
                     "Normal" => FileMode.Normal,
                     "Cozy" => FileMode.Cozy,
                     "Survival" => FileMode.Survival,
                     _ => FileMode.Normal //I didnt know I could write a switch like this lol this is so much cleaner
-                };
+                };*/ //Disabled for demo
+                currentFileMode = FileMode.Survival;
 
                 StartCoroutine(StartGame());
                 loadCanvas.SetActive(false);
