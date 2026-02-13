@@ -342,6 +342,8 @@ public class MainMenuScript : MonoBehaviour
                     "Normal" => FileMode.Normal,
                     "Cozy" => FileMode.Cozy,
                     "Survival" => FileMode.Survival,
+                    "Relaxed" => FileMode.Cozy, // In case someone had a save from before the difficulty name change
+                    "Arcade" => FileMode.Survival, // In case someone had a save
                     _ => FileMode.Normal //I didnt know I could write a switch like this lol this is so much cleaner
                 };*/ //Disabled for demo
                 currentFileMode = FileMode.Survival;
@@ -599,6 +601,10 @@ public class MainMenuScript : MonoBehaviour
                     {
                         fileDatas[i].difficulty = "Relaxed";
                     }
+                    else if (tempData.allGameSaveData.gameMode == "Survival")
+                    {
+                        fileDatas[i].difficulty = "Arcade";
+                    }
                     else fileDatas[i].difficulty = tempData.allGameSaveData.gameMode;
 
                 }
@@ -611,7 +617,7 @@ public class MainMenuScript : MonoBehaviour
                 fileDatas[i].dayNumText.text = "Day: " + fileDatas[i].dayNum;
                 fileDatas[i].mintsCurrentText.text = "Current Mints: " + fileDatas[i].mintsCurrent;
                 fileDatas[i].mintsTotalText.text = "Total Mints: " + fileDatas[i].mintsTotal;
-                fileDatas[i].difficultyText.text = "Difficulty: " + fileDatas[i].difficulty.ToString();
+                fileDatas[i].difficultyText.text = "Mode: " + fileDatas[i].difficulty.ToString();
 
                 if (fileDatas[i].completedSieges > 0 && fileDatas[i].completedSieges < 5)
                 {
