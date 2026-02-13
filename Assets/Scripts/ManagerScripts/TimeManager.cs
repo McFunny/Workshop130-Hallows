@@ -118,7 +118,7 @@ public class TimeManager : MonoBehaviour
                     HourPassed();
                 }
 
-                if((currentHour == 7 && currentMinute == minPerNightHour - 5) || (currentHour == 18 && currentMinute == minPerDayHour - 5)) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
+                if((currentHour == 7 && currentMinute == 60 - 5) || (currentHour == 18 && currentMinute == minPerDayHour - 5)) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
             }
             else
             {

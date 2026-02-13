@@ -156,6 +156,7 @@ public class GameSaveData : MonoBehaviour
         PlayerInteraction.Instance.lostKukri = data.allGameSaveData.lostKukri;
         PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
         PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
+        if(MainMenuScript.currentFileMode == FileMode.Survival) SurvivalModeManager.Instance.TotalMintsEarned = data.allGameSaveData.pTotalMoneyEarned;
         PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
         PlayerInteraction.Instance.playerUpgrades.LoadData(data.allGameSaveData);
 
@@ -457,6 +458,7 @@ public class GameSaveData : MonoBehaviour
         lostKukri = PlayerInteraction.Instance.lostKukri;
         pCurrentMoney = PlayerInteraction.Instance.currentMoney;
         pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
+        if(MainMenuScript.currentFileMode == FileMode.Survival) pTotalMoneyEarned = SurvivalModeManager.Instance.TotalMintsEarned;
         pDayNumber = TimeManager.Instance.dayNum;
         hourSaved = TimeManager.Instance.currentHour;
         pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;

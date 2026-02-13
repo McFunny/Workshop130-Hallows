@@ -16,6 +16,8 @@ public class SurvivalStatsScreen : MonoBehaviour
     private GameObject survivalStatsParent;
     [SerializeField] private GameObject quotaParent, deathParent;
     public static bool isSurvivalStatsScreenActive = false;
+
+    bool showedUi = false;
     private void Awake()
     {
         survivalStatsParent = transform.GetChild(0).gameObject;
@@ -72,10 +74,15 @@ public class SurvivalStatsScreen : MonoBehaviour
             quotaParent.SetActive(true);
         }
 
+        if(showedUi) return;
+
+        showedUi = true;
+
         StartCoroutine(AmbientAudioManager.Instance.FadeAudio(999));
 
         PlayerMovement.restrictMovementTokens++;
-        Time.timeScale = 0;
+        PlayerInteraction.Instance.invincible = true;
+        //Time.timeScale = 0;
 
         UpdateStats();
         survivalStatsParent.SetActive(true);
@@ -129,11 +136,11 @@ public class SurvivalStatsScreen : MonoBehaviour
 
         survivalStatTexts[6].statNameText.text = "Highest Night Count:";
         survivalStatTexts[6].statValueText.text = nightHighscore.ToString();
-        survivalStatTexts[6].statObject.SetActive(false);
+        survivalStatTexts[6].statObject.SetActive(true);
 
         survivalStatTexts[7].statNameText.text = "Hightest Mint Count:";
         survivalStatTexts[7].statValueText.text = mintHighScore.ToString();
-        survivalStatTexts[7].statObject.SetActive(false);
+        survivalStatTexts[7].statObject.SetActive(true);
 
         PlayerPrefs.Save();
     }
@@ -180,6 +187,7 @@ public class SurvivalStatsScreen : MonoBehaviour
 
         foreach(CropData c in CropDatabase.Instance.GetCropList())
         {
+            if(c.id == 8) continue; //Weeds
             total += c.amountHarvested;
         }
         return total;
