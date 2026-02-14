@@ -21,6 +21,8 @@ public class RecipeMachine : MonoBehaviour, IInteractable
     public InventoryItemData ticket;
 
     public PopupScript recipeUnlockedP;
+
+    public AudioClip grabSFX;
     
 
     private void Start()
@@ -69,6 +71,7 @@ public class RecipeMachine : MonoBehaviour, IInteractable
     {
         CraftingDatabase.Instance.UnlockRandomLockedRecipeInTier();
         PopupHandler.Instance.AddToQueue(recipeUnlockedP);
+        AudioPoolManager.Instance.PlayClip(grabSFX, 0.3f);
     }
 
 
@@ -86,6 +89,7 @@ public class RecipeMachine : MonoBehaviour, IInteractable
     {
         coroutineRunning = true;
         animator.SetTrigger("Close");
+        ParticlePoolManager.Instance.GrabSparkParticle().transform.position = ballSprite.transform.position;
         ballSprite.enabled = false;
         currentlyOfferingPrize = false;
         GiveRecipe();

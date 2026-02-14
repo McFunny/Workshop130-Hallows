@@ -47,7 +47,7 @@ public class BotanistNPC : NPC, ITalkable
                 GameSaveData.Instance.bot_giveSeeds = true;
                 currentPath = 7;
                 currentType = PathType.Misc;
-                itemsToGive.Add(new ItemWithAmount(s_timber, 10));
+                itemsToGive.Add(new ItemWithAmount(s_timber, 6));
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[0]); //Add the "Grow TimberEar Quest" quest
                 dailyQuest = null;
             }
@@ -62,12 +62,12 @@ public class BotanistNPC : NPC, ITalkable
                 currentPath = 11;
                 currentType = PathType.Misc;
             }
-            else if(!GameSaveData.Instance.bot_giveScytheQuest && !PlayerInventoryHolder.Instance.IsInventoryFull() && timberCrop.amountHarvested > 3)
+            else if(!GameSaveData.Instance.bot_giveScytheQuest && !PlayerInventoryHolder.Instance.IsInventoryFull() && timberCrop.amountHarvested > 1)
             {
                 GameSaveData.Instance.bot_giveScytheQuest = true;
                 currentPath = 9;
                 currentType = PathType.Misc;
-                itemsToGive.Add(new ItemWithAmount(s_stalk, 10));
+                itemsToGive.Add(new ItemWithAmount(s_stalk, 6));
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[1]); //Add the "Grow Gloomstalk Quest" quest
                 dailyQuest = null;
             }
@@ -208,6 +208,8 @@ public class BotanistNPC : NPC, ITalkable
         InventoryItemData newItem;
         int x = 0; //iterations
 
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
+
         questCrops.Clear();
 
         if (QuestManager.Instance.activeQuests.Count > 0)
@@ -240,19 +242,20 @@ public class BotanistNPC : NPC, ITalkable
                     if(TimeManager.Instance.dayNum == 1) //Only sell a few carrot seeds the first day
                     {
                         item.RefreshItem(barterDatabase.uniqueTransactions2[0].itemForSale, barterDatabase.uniqueTransactions2[0].mintCost, barterDatabase.uniqueTransactions2[0].itemsRequired,
-                        barterDatabase.uniqueTransactions2[0].amountForSale);
+                        barterDatabase.uniqueTransactions2[0].amountForSale + 3);
                         item.seller = this;
                         return;
                     }
-                    int sack = Random.Range(0, 2);
+                    int sack = x;//Random.Range(0, 3);
                     item.RefreshItem(barterDatabase.uniqueTransactions[sack].itemForSale, barterDatabase.uniqueTransactions[sack].mintCost, barterDatabase.uniqueTransactions[sack].itemsRequired,
-                    barterDatabase.uniqueTransactions[sack].amountForSale);
+                         barterDatabase.uniqueTransactions[sack].amountForSale + Random.Range(2, 5));
                 }
+
                 if(x > 8)
                 {
 
-                    item.RefreshItem(barterDatabase.uniqueTransactions[x - 7].itemForSale, barterDatabase.uniqueTransactions[x - 7].mintCost, barterDatabase.uniqueTransactions[x - 7].itemsRequired,
-                    barterDatabase.uniqueTransactions[x - 7].amountForSale);
+                    item.RefreshItem(barterDatabase.uniqueTransactions[x - 6].itemForSale, barterDatabase.uniqueTransactions[x - 6].mintCost, barterDatabase.uniqueTransactions[x - 6].itemsRequired,
+                    barterDatabase.uniqueTransactions[x - 6].amountForSale);
                 }
                 item.seller = this;
                 //item.clearUponPurchase = false;
@@ -276,6 +279,24 @@ public class BotanistNPC : NPC, ITalkable
                 }
             }
 
+            else if(TimeManager.Instance.dayNum < 5 && !GameSaveData.Instance.townTreeCleared1)
+            {
+                if(x <= 8) //Only sell a few seed types the first 4 days or after the bridge is cleared
+                {
+                    i = Random.Range(0, barterDatabase.uniqueTransactions2.Count);
+
+                    extraItems += Random.Range(1, 6);
+
+                    item.RefreshItem(barterDatabase.uniqueTransactions2[i].itemForSale, barterDatabase.uniqueTransactions2[i].mintCost, barterDatabase.uniqueTransactions2[i].itemsRequired,
+                    barterDatabase.uniqueTransactions2[i].amountForSale + extraItems);
+                    item.seller = this;
+                    x++;
+
+                    if(x > 8) return; // stops extra items from being sold
+                    continue;
+                }
+            }
+
             do
             {
 
@@ -283,7 +304,10 @@ public class BotanistNPC : NPC, ITalkable
                 r = Random.Range(0f, 100f);
                 if (r < barterDatabase.transactions[i].barterChance && !newItem && barterDatabase.transactions[i].siegesRequired <= GameSaveData.Instance.siegesCleared)
                 {
+                    if(selectedTrades.Contains(i) && Random.Range(0, 10) > 4) continue; //Repeats are less likely but not impossible
                     newItem = barterDatabase.transactions[i].itemForSale;
+
+                    selectedTrades.Add(i);
                 }
             }
             while (!newItem);

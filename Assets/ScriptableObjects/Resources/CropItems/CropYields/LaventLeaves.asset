@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 157
   displayName: Lavent Leaves
-  description: The leaves can be burned inside an thurible to dispel insects. They
+  description: The leaves can be burned inside a thurible to dispel insects. They
     have a strong minty scent.
   icon: {fileID: -165241, guid: 202e27f3a04868d44b6514665092202e, type: 3}
   type: 0
@@ -33,6 +33,11 @@ MonoBehaviour:
     newItem: {fileID: 11400000, guid: 6b308934c08f8fd4b9fd15683b71551a, type: 2}
     itemsNeeded: 1
     itemsGained: 1
+  cookingStats:
+  - type: 7
+    value: 0.5
+  foodForPets: 
+  foodForCritters: 
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

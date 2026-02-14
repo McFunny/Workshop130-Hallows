@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 257
   displayName: Water Tulip Seeds
-  description: Pod of Water Tulip seeds. Quick growing but demands constant watering.
-    The bud can be harvested and thrown to cover a large area with water. Frost is
-    lethal to this plant.
+  description: Quick growing flower that demands constant watering. The bud can be
+    harvested and thrown to cover a large area with water. Frost is lethal to this
+    plant.
   icon: {fileID: 1087710460, guid: a167ac19d9f31964293366a8621a1426, type: 3}
   type: 6
   maxStackSize: 20
@@ -30,6 +30,9 @@ MonoBehaviour:
   useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 03000000
   itemInputsKBM:
   - RMB - Plant
   itemInputsController:

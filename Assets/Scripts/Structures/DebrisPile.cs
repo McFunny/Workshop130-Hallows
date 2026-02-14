@@ -12,7 +12,9 @@ public class DebrisPile : StructureBehaviorScript
     public GameObject wood_debris, hay_debris, metal_debris, default_debris;
 
     public int repairsLeft = 1;
+    [HideInInspector] public int initialRepairsNeeded;
     public int missesLeft = 1;
+    [HideInInspector] public int initialMissesAllowed;
     private RepairMinigame repairMinigame;
     private DebrisUI debrisUI;
 
@@ -45,6 +47,9 @@ public class DebrisPile : StructureBehaviorScript
         repairedStruct = newStructure;
         repairsLeft = repairedStruct.requiredRepairs;
         missesLeft = repairedStruct.maxMisses;
+        initialRepairsNeeded = repairsLeft;
+        initialMissesAllowed = missesLeft;
+        Debug.Log("Initial Repairs Needed: " + initialRepairsNeeded + " Initial Misses Allowed: " + initialMissesAllowed);
     }
 
     public override void StructureInteraction()
@@ -215,6 +220,8 @@ public class DebrisPile : StructureBehaviorScript
         containsItems = saveBool1;
         repairsLeft = saveInt2;
         missesLeft = saveInt3;
+        initialRepairsNeeded = repairedStruct.requiredRepairs;
+        initialMissesAllowed = repairedStruct.maxMisses;
         if(saveString1 != null && saveString1 != "") giveItemBack = bool.Parse(saveString1);
     }
 }

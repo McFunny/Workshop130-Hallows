@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e14c53294b14d418d174be0feefd90, type: 3}
+  m_Name: StoneGolem
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 7921822646159519339, guid: 6df68ca26f896d445b0d892dbc39df22,
+    type: 3}
+  corruptedPrefab: {fileID: 0}
+  creatureVariants:
+  - name: Goliath
+    prefab: {fileID: 7033539540679438185, guid: 38a0b963bacd8d1419bd928776515067,
+      type: 3}
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 0
+    variantChanceInFarm:
+    - _int: 3
+      _probability: 5
+    - _int: 4
+      _probability: 15
+  health: 0
+  position:
+  - 0
+  - 0
+  - 0
+  id: 31
+  dangerCost: 13
+  dangerThreshold: 25
+  spawnWeight: 2
+  spawnCap: 1
+  spawnCapPerHour: 1
+  wealthPrerequisite: 7000
+  siegePrerequisite: 3
+  contribuiteToCreatureCap: 1
+  amountKilled: 1
+  hasSpawned: 1
+  excludeFromNormalNights: 0
+  canSpawnBehindCabin: 1
+  spawnType: 1
+  spawnChance_w: 0
+  mintWorth: 1
+  data:
+    Name: 
+    Id: -1
+    health: 0
+    position:
+    - 0
+    - 0
+    - 0

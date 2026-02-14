@@ -27,7 +27,7 @@ public class ThoughtBubble : MonoBehaviour
 
     public void PlayEmotion(int index)
     {
-        if(isPlaying) return;
+        if(isPlaying || Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) > 30) return;
         isPlaying = true;
         currentIndex = index;
         StartCoroutine(PlayEmotion());

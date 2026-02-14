@@ -7,6 +7,7 @@ using DG.Tweening;
 public class Ectoplasm : CreatureBehaviorScript
 {
     public bool isLarge;
+    bool dontSplat, neverSplat;
 
     bool isMoving, coroutineRunning;
 
@@ -301,7 +302,7 @@ public class Ectoplasm : CreatureBehaviorScript
                 if(!targetStructure || targetStructure.health <= 0) 
                 {
                     effectsHandler.PlayExtraSound(0);
-                    if(!isLarge) //Grow
+                    if(!isLarge && Random.Range(0,10) > 3 && MainMenuScript.currentFileMode != FileMode.Cozy) //Grow
                     {
                         Instantiate(largeSlimePrefab, transform.position, Quaternion.identity);
                         AudioPoolManager.Instance.PlayClipAtPosition(effectsHandler.deathSound, transform.position);
@@ -404,6 +405,8 @@ public class Ectoplasm : CreatureBehaviorScript
 
     public override void HitWithWater()
     {
+        dontSplat = true;
+        if(health - 30 <= 0) neverSplat = true;
         TakeDamage(30);
     }
 
@@ -420,6 +423,11 @@ public class Ectoplasm : CreatureBehaviorScript
 
     void ShootSlime(int amount)
     {
+        if(dontSplat || neverSplat)
+        {
+            if(health > 0) dontSplat = false;
+            return;
+        }
         for(int i = 0; i < amount; i++)
         {
             GameObject newBullet = ProjectilePoolManager.Instance.GrabSlime();

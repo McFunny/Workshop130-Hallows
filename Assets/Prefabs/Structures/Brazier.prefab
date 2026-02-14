@@ -163,6 +163,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 7141263533764617103}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -172,6 +173,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -191,7 +193,7 @@ MonoBehaviour:
   flameLeft: 0
   fuelItems:
   - item: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
-    repairAmount: 20
+    repairAmount: 10
   - item: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
     repairAmount: 2
   needWoodP: {fileID: 11400000, guid: 4c244d3f275c64b46938f6b452aae15b, type: 2}

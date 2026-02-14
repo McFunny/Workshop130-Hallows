@@ -17,8 +17,8 @@ MonoBehaviour:
   description: A common diurnal butterfly.
   icon: {fileID: 21300000, guid: 5e243aeb47cdadc42b471adce9efbfbc, type: 3}
   type: 9
-  maxStackSize: 20
-  value: 8
+  maxStackSize: 99
+  value: 12
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
@@ -28,6 +28,11 @@ MonoBehaviour:
   useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats:
+  - type: 4
+    value: 1
+  foodForPets: 
+  foodForCritters: 03000000
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

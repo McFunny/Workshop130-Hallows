@@ -1,4 +1,4 @@
- using SaveLoadSystem;
+using SaveLoadSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,10 +13,13 @@ public class PlayerInventoryHolder : InventoryHolder
 
     [SerializeField] protected int secondaryInventorySize;
     [SerializeField] public InventorySystem secondaryInventorySystem;
+    [SerializeField] protected int trinketInventorySize;
+    [SerializeField] public InventorySystem trinketInventorySystem;
     [SerializeField] private Database _database;
 
     public static UnityAction<InventorySystem> OnPlayerHotbarDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerBackpackDisplayRequested;
+    public static UnityAction<InventorySystem> OnPlayerTrinketDisplayRequested;
     public static UnityAction<InventorySystem> OnPlayerInventoryChanged;
     public delegate void ItemAddedToInventory(InventorySlot slot);
     public static event ItemAddedToInventory onItemAddedToInventory;
@@ -43,6 +46,7 @@ public class PlayerInventoryHolder : InventoryHolder
     [SerializeField] private List<Item> debugItems;
 
     [ContextMenu("Name Items")]
+
     public void NameItems()
     {
         for(int i = 0; i < startingItems.Count; i++)
@@ -74,6 +78,17 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         base.Awake();
         secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
+        trinketInventorySystem = new InventorySystem(trinketInventorySize);
+
+        /*foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
+        {
+            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+            TrinketInventoryData data = new TrinketInventoryData();
+
+            data.slot = slot;
+            TrinketInventoryHandler.Instance.trinkets.Add(data);
+        }*/
+
         SaveLoad.OnSaveGame += SaveInventory;
         SaveLoad.OnLoadGame += LoadInventory;
 
@@ -88,6 +103,20 @@ public class PlayerInventoryHolder : InventoryHolder
         }
     }
 
+    void Start()
+    {
+        foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
+        {
+            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+            TrinketInventoryData data = new TrinketInventoryData();
+
+            data.slot = slot;
+            TrinketInventoryHandler.Instance.trinkets.Add(data);
+        }
+
+        StartCoroutine(DelayedStart());
+    }
+
     private void LoadInventory(SaveData data)
     {
         if (data.playerInventoryData.primaryInvSystemSave.savedSlots != null && data.playerInventoryData.secondaryInvSystemSave.savedSlots != null)
@@ -99,6 +128,14 @@ public class PlayerInventoryHolder : InventoryHolder
             this.secondaryInventorySystem = new InventorySystem(secondaryInventorySize);
             this.secondaryInventorySystem.LoadFromSaveData(data.playerInventoryData.secondaryInvSystemSave, _database);
 
+            Debug.Log("Old trinket InventorySize: " + trinketInventorySize);
+            trinketInventorySize = data.playerInventoryData.trinketInventorySizeSave;
+            Debug.Log("New trinket InventorySize: " + trinketInventorySize);
+            trinketInventorySystem = new InventorySystem(trinketInventorySize);
+            trinketInventorySystem.LoadFromSaveData(data.playerInventoryData.trinketInvSystemSave, _database);
+
+            UpdateTrinketHandler();
+            TrinketInventoryHandler.Instance.OnLoad(data);
             UpdateInventory();
         }
         else
@@ -124,10 +161,54 @@ public class PlayerInventoryHolder : InventoryHolder
         UpdateInventory();
     }
 
-
-    private void Start()
+    public void IncreaseTrinketInventory(int increaseVal) //For changing the size at runtime
     {
-        StartCoroutine(DelayedStart());
+        ////////////////////Working code from Inventory System////////////////////////
+        trinketInventorySize++;
+        trinketInventorySystem.AddNewTrinketSlotToInventory();
+        /// 
+        /*InventorySlot slot = new InventorySlot();
+        //trinketInventorySystem.InventorySlots.Add(slot); 
+        trinketInventorySystem.AddNewSlotToInventory(slot);
+
+        slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+        TrinketInventoryData data = new TrinketInventoryData();
+
+        data.slot = slot;
+        TrinketInventoryHandler.Instance.trinkets.Add(data); */
+        ////////////////////////////////////////////
+
+        UpdateTrinketHandler();
+        UpdateInventory();
+    }
+
+    public void UpdateTrinketHandler()
+    {
+        int index = 0;
+        List<float> durabilityList = new List<float>();
+        List<float> maxDurabilityList = new List<float>();
+        durabilityList = TrinketInventoryHandler.Instance.GetDurabilityList();
+        maxDurabilityList = TrinketInventoryHandler.Instance.GetMaxDurabilityList();
+        TrinketInventoryHandler.Instance.trinkets = new List<TrinketInventoryData>();
+        
+        foreach(InventorySlot slot in trinketInventorySystem.InventorySlots)
+        {
+            TrinketInventoryData data = new TrinketInventoryData();
+            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+
+            if(index < trinketInventorySize)
+            {
+                data.slot = slot;
+                if(index < durabilityList.Count)
+                {
+                    data.durability = durabilityList[index];
+                    data.maxDurability = maxDurabilityList[index];
+                }
+            }
+            
+            TrinketInventoryHandler.Instance.trinkets.Add(data);
+            index++;
+        }
     }
 
     IEnumerator DelayedStart()
@@ -136,15 +217,25 @@ public class PlayerInventoryHolder : InventoryHolder
         if(!MainMenuScript.loadingData) EquipStartingItems();
     }
 
+    private void Update()
+    {
+        if(!StructureManager.Instance.enableCheats) return;
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            IncreaseTrinketInventory(1);
+        }
+    }
+
     private void SaveInventory()
     {
-        SaveLoad.CurrentSaveData.playerInventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize);
+        SaveLoad.CurrentSaveData.playerInventoryData = new PlayerInventorySaveData(primaryInventorySystem, secondaryInventorySystem, secondaryInventorySize, trinketInventorySystem, trinketInventorySize);
     }
 
     private void EquipStartingItems()
     {
         foreach (var startingItem in startingItems)
         {
+            if(MainMenuScript.currentFileMode == FileMode.Survival) break; //No starting items in survival
             if (startingItem.itemData != null)
             {
                 bool addedSuccessfully = AddToInventory(startingItem.itemData, startingItem.amount);
@@ -199,6 +290,11 @@ public class PlayerInventoryHolder : InventoryHolder
 
     public bool AddToInventory(InventoryItemData data, int amount)
     {
+        if(data.cannotEnterInventory)
+        {
+            if(data.itemBehavior) data.itemBehavior.OnRecieve(data);
+            return true;
+        }
 
         if (primaryInventorySystem.ContainsItem(data, out List<InventorySlot> primarySlots))
         {
@@ -540,6 +636,9 @@ public class PlayerInventoryHolder : InventoryHolder
         ToolItem current_t_item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as ToolItem;
         if(current_t_item) current_t_item.behavior.OnHolster();
 
+        PlaceableItem p_item = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData as PlaceableItem;
+        if (p_item) p_item.DisableHologram();
+
         for(int i = 0; i < 9; i++)
         {
             currentPInventory.Add(new InventorySlot(primaryInventorySystem.InventorySlots[i].ItemData, primaryInventorySystem.InventorySlots[i].StackSize));
@@ -568,6 +667,7 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+        OnPlayerInventoryChanged?.Invoke(trinketInventorySystem);
        
     }
 
@@ -575,7 +675,9 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         OnPlayerInventoryChanged?.Invoke(primaryInventorySystem);
         OnPlayerInventoryChanged?.Invoke(secondaryInventorySystem);
+        OnPlayerInventoryChanged?.Invoke(trinketInventorySystem);
         OnPlayerBackpackDisplayRequested?.Invoke(secondaryInventorySystem);
+        OnPlayerTrinketDisplayRequested?.Invoke(trinketInventorySystem);
         if(InventoryUIController.Instance.chestPanel.gameObject.activeSelf) InventoryUIController.Instance.chestPanel.UpdateSlots();
     }
    
@@ -587,13 +689,17 @@ public struct PlayerInventorySaveData
 {
     public InventorySystemSaveData primaryInvSystemSave;
     public InventorySystemSaveData secondaryInvSystemSave;
+    public InventorySystemSaveData trinketInvSystemSave;
     public int secondaryInventorySizeSave;
+    public int trinketInventorySizeSave;
 
-    public PlayerInventorySaveData(InventorySystem primary, InventorySystem secondary, int secondarySize)
+    public PlayerInventorySaveData(InventorySystem primary, InventorySystem secondary, int secondarySize, InventorySystem trinket, int trinketSize)
     {
         primaryInvSystemSave = primary.GetSaveData();
         secondaryInvSystemSave = secondary.GetSaveData();
         secondaryInventorySizeSave = secondarySize;
+        trinketInvSystemSave = trinket.GetSaveData();
+        trinketInventorySizeSave = trinketSize;
     }
 
 }

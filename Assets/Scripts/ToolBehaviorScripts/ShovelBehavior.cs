@@ -7,7 +7,7 @@ public class ShovelBehavior : ToolBehavior
 {
     public InventoryItemData thisItem;
     ShovelAttack shovelAttack;
-    public AudioClip swing, dig, chargeReady;
+    public AudioClip swing, dig, chargeReady, parrySFX, parrySuccessSFX;
     StructureBehaviorScript interactedStructure;
 
     float coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -16,6 +16,7 @@ public class ShovelBehavior : ToolBehavior
     bool maxCharge = false;
     Coroutine swingingShovelCoroutine;
     Coroutine chargingCoroutine;
+
     public override void PrimaryUse(Transform _player, ToolType _tool)
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown) return;
@@ -42,6 +43,12 @@ public class ShovelBehavior : ToolBehavior
         {
             coolDownMod += .25f;
             animSpeedMod -= .3f;
+        }
+        if(PlayerInteraction.Instance.parrySuccess)
+        {
+            coolDownMod -= .35f;
+            animSpeedMod += .7f;
+            PlayerInteraction.Instance.parrySuccess = false;
         }
 
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
@@ -77,7 +84,9 @@ public class ShovelBehavior : ToolBehavior
                 {
                     interactedStructure = structure;
                     usingSecondary = true;
-                    HandItemManager.Instance.PlaySecondaryAnimation();
+
+                    //HandItemManager.Instance.PlaySecondaryAnimation();
+                    toolAnim.Play("shoveldig");
                     HandItemManager.Instance.toolSource.PlayOneShot(dig);
 
                     coolDownMod = 1; //Multiplied to the tool use cooldown
@@ -93,7 +102,7 @@ public class ShovelBehavior : ToolBehavior
                         coolDownMod += .25f;
                         animSpeedMod -= .15f;
                     }
-                    //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
+                    if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.8f * coolDownMod, 1.9f * coolDownMod));
@@ -114,8 +123,15 @@ public class ShovelBehavior : ToolBehavior
                     PlayerCam.Instance.NewObjectOfInterest(structure.transform.position);
 
                 }
+                return;
             }
         }
+
+        if(PlayerInteraction.Instance.stamina <= 50) return;
+        if(!TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.Parry)) return; //Do the check for the trinket
+
+        PlayerInteraction.Instance.StartCoroutine(ParryRoutine());
+        PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ParryRoutine());
 
     }
 
@@ -139,6 +155,8 @@ public class ShovelBehavior : ToolBehavior
             PlayerMovement.restrictMovementTokens--;
             PlayerCam.Instance.ClearObjectOfInterest();
             if(interactedStructure) interactedStructure.DigAction();
+
+            ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Dirt, new Color(1,1,1,0.4f), Random.Range(3, 7));
         }
 
     }
@@ -203,10 +221,31 @@ public class ShovelBehavior : ToolBehavior
         if(InputManager.isCharging)
         {
             //HandItemManager.Instance.toolSource.PlayOneShot(chargeReady);
-            AudioPoolManager.Instance.PlayClip(chargeReady, 0.8f);
+            AudioPoolManager.Instance.PlayClip(chargeReady, 0.2f);
             maxCharge = true;
             Debug.Log("Charged Up");
         }
+    }
+
+    IEnumerator ParryRoutine()
+    {
+        toolAnim.Play("shovelParry");
+        AudioPoolManager.Instance.PlayClip(parrySFX, 0.8f);
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.4f, "ShovelParry", false));
+        yield return new WaitForSeconds(0.01f);
+        while(PlayerInteraction.Instance.isParrying)
+        {
+            yield return null;
+        }
+
+        PlayerMovement.Instance.RemoveSpeedMod(PlayerInteraction.Instance.gameObject);
+
+        if(PlayerInteraction.Instance.parrySuccess)
+        {
+            toolAnim.Play("shovelParrySuccess");
+            AudioPoolManager.Instance.PlayClip(parrySuccessSFX, 0.8f);
+        }
+
     }
 
 

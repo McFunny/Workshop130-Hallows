@@ -17,7 +17,9 @@ MonoBehaviour:
   category: 0
   tier: 0
   isUnlocked: 0
-  isRecentlyUnlocked: 1
+  isRecentlyUnlocked: 0
+  unlockedAtStart: 0
+  isTrinket: 0
   output: {fileID: 11400000, guid: dda10ab425968af4c8ed64969b9225d4, type: 2}
   outputAmount: 1
   craftTimeInSeconds: 15
@@ -26,6 +28,6 @@ MonoBehaviour:
   - requiredItem: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
     requiredAmount: 2
   - requiredItem: {fileID: 11400000, guid: ad3821a813642114d9979d54224f657c, type: 2}
-    requiredAmount: 3
+    requiredAmount: 2
   - requiredItem: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
     requiredAmount: 1

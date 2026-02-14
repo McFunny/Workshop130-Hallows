@@ -17,6 +17,8 @@ public class FarmLand : StructureBehaviorScript
     public MeshRenderer meshRenderer;
     public Material dry, wet, barren, barrenWet, corruptMat;
 
+    public Color flashColor;
+
     [Header("Crop Stats")]
     public int growthStage = -1; //-1 means there is no crop //MUST BE SAVED
     public int hoursSpent = 0; //how long has the plant been in this growth stage for?
@@ -51,6 +53,12 @@ public class FarmLand : StructureBehaviorScript
     public GameObject[] upgradeObjects;
 
     public PopupScript needTrellis, removeTrellis;
+
+    public ParticleSystem growingParticles;
+
+
+    ///////Achievement Stuff///////
+    float cropsHarvestedHere = 0;
 
     public enum FarmTileUpgrade
     {
@@ -116,6 +124,8 @@ public class FarmLand : StructureBehaviorScript
         OnDamage += Damaged;
 
         if(!isWeed) StartCoroutine(BehaviorTimer());
+
+        StartCoroutine(LowHealthFlash());
 
     }
 
@@ -290,10 +300,19 @@ public class FarmLand : StructureBehaviorScript
                     itemRB.AddForce(Vector3.up * 50);
 
                     QuestManager.Instance.CropHarvested(crop);//Increase progress per crop yield
+
+                    cropsHarvestedHere++;
+                    AchievementManager.Instance.NotifyCropHarvest(crop);
+
+                    CropData peanut = CropDatabase.Instance.GetCrop(16);
+                    if(cropsHarvestedHere >= 20 && crop == peanut)
+                    {
+                        AchievementManager.Instance.NotifyPeanutFarmer();
+                    }
                 }
 
 
-                r = Random.Range(0, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
+                r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
                 if(isWeed && Random.Range(0, 100) > 97) r = 1; //For crabgrass seeds from weeds
                 if(r == 0 && crop.noStressSeedChance > Random.Range(0, 100f)) r = 1;
                 for (int i = 0; i < r; i++) //Seed yield
@@ -400,7 +419,7 @@ public class FarmLand : StructureBehaviorScript
 
             PlayerInteraction.Instance.waterHeld--;
         }
-        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable) && currentUpgrade != FarmTileUpgrade.Trellis)
+        if(type == ToolType.Scythe && !harvestedByScythe && (isWeed || harvestable || rotted) && currentUpgrade != FarmTileUpgrade.Trellis)
         {
             harvestedByScythe = true;
             StructureInteraction();
@@ -410,6 +429,9 @@ public class FarmLand : StructureBehaviorScript
 
     public override void HourPassed()
     {
+        if(!isWeed && crop && !rotted && !TimeManager.Instance.isDay) growingParticles.Play();
+        else if(growingParticles) growingParticles.Stop();
+
         if(isWeed && currentUpgrade != FarmTileUpgrade.Corrupt && !TimeManager.Instance.isDay)
         {
             StructureManager.Instance.WeedSpread(transform.position, out bool becomeThorn);
@@ -450,7 +472,7 @@ public class FarmLand : StructureBehaviorScript
                 return;
             }
 
-            hoursSpent = 0;
+            //hoursSpent = 0;
             DrainNutrients(out bool gainedStress, false);
             if(crop.behavior) crop.behavior.OnGrowth(this);
             if(!isWeed)
@@ -463,8 +485,10 @@ public class FarmLand : StructureBehaviorScript
                 {
                     growthStage++;
                     if(growth) growth.Play();
-                    health += 5;
+                    health += 2;
                     if(health > maxHealth) health = maxHealth;
+
+                    hoursSpent = 0;
                 }
             }
             if(crop.harvestableGrowthStages.Contains(growthStage) && !rotted)
@@ -514,6 +538,7 @@ public class FarmLand : StructureBehaviorScript
         wealthValue = crop.wealthValue;
         ignoreNextGrowthMoment = true;
         maxHealth = oldMaxHealth;
+        health = maxHealth;
 
         if(crop.behavior) 
         {
@@ -522,6 +547,8 @@ public class FarmLand : StructureBehaviorScript
         }
 
         if(Tutorial.Instance) Tutorial.Instance.PlantedSeed();
+
+        cropsHarvestedHere = 0;
     }
 
     public void ForceChangeGrowthStage(int newStage)
@@ -537,7 +564,11 @@ public class FarmLand : StructureBehaviorScript
     {
         if(crop) 
         {
-            if(rotted) cropRenderer.sprite = crop.rottedImage;
+            if(rotted) 
+            {
+                cropRenderer.sprite = crop.rottedImage;
+                if(growingParticles) growingParticles.Stop();
+            }
             else cropRenderer.sprite = crop.cropSprites[(growthStage - 1)];
 
             if(light)
@@ -550,6 +581,7 @@ public class FarmLand : StructureBehaviorScript
         {
             cropRenderer.sprite = null;
             if(light) light.SetActive(false);
+            if(growingParticles) growingParticles.Stop();
         }
 
         if(nutrients == null)
@@ -686,6 +718,8 @@ public class FarmLand : StructureBehaviorScript
         {
             crop.behavior.OnCropDestroyed(this);
         }
+
+        cropsHarvestedHere = 0;
     }
 
     public void CropDestroyed()
@@ -701,6 +735,8 @@ public class FarmLand : StructureBehaviorScript
         harvestable = false;
         SpriteChange();
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+
+        cropsHarvestedHere = 0;
     }
 
     void ReturnNutrientsFromDeadPlant()
@@ -830,6 +866,8 @@ public class FarmLand : StructureBehaviorScript
         if(currentUpgrade == FarmTileUpgrade.Stone && health < 10) ApplyNewUpgrade(FarmTileUpgrade.None);
 
         if(crop && crop.behavior) crop.behavior.OnDamage(this);
+
+        if(crop == null && currentUpgrade == FarmTileUpgrade.None) Destroy(gameObject);
     }
 
     void FrostDamage() //When watering a frosted crop
@@ -895,7 +933,7 @@ public class FarmLand : StructureBehaviorScript
         }
 
 
-        nutrients.waterLevel -= 2;
+        nutrients.waterLevel -= 1;
         if(nutrients.waterLevel < 0) nutrients.waterLevel = 0;
 
         nutrients.ichorLevel -= .5f;
@@ -980,6 +1018,7 @@ public class FarmLand : StructureBehaviorScript
     {
         if(other.gameObject.layer == 10)
         {
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.HareBoots)) return;
             if(crop)
             {
                 PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.8f, "Weeds", false));
@@ -1006,11 +1045,11 @@ public class FarmLand : StructureBehaviorScript
 
                 if(c.creatureData && c.creatureData.id == 29) return; //Ferrats are immune
 
-                if(isWeed && growthStage == 7) 
+                if(isWeed && growthStage == 7 && c.shovelVulnerable)  //bramble heart weeds
                 {
                     c.TakeDamage(10);
                     c.PlayHitParticle(Vector3.zero);
-                    if(Random.Range(0,10) >= 6) Destroy(gameObject);
+                    if(Random.Range(0,10) >= 3) Destroy(gameObject);
                 }
             }
         }
@@ -1029,6 +1068,23 @@ public class FarmLand : StructureBehaviorScript
         if(other.gameObject.layer == 10)
         {
             PlayerMovement.Instance.RemoveSpeedMod(gameObject);
+        }
+    }
+
+    IEnumerator LowHealthFlash()
+    {
+        Color defaultColor = cropRenderer.color;
+        while(health > 0)
+        {
+            yield return new WaitForSeconds(5);
+            if(health > 5) continue;
+            for(int i = 0; i < 3; ++i)
+            {
+                cropRenderer.color = flashColor;
+                yield return new WaitForSeconds(0.1f);
+                cropRenderer.color = defaultColor;
+                yield return new WaitForSeconds(0.1f);
+            }
         }
     }
 
@@ -1073,6 +1129,8 @@ public class FarmLand : StructureBehaviorScript
 
         if(crop && crop.behavior) crop.behavior.OnCropAwake(this);
 
+        cropsHarvestedHere = saveFloat2;
+
         GetCropStats();
     }
 
@@ -1105,6 +1163,8 @@ public class FarmLand : StructureBehaviorScript
             }
 
             saveBool1 = isPollinated;
+
+            saveFloat2 = cropsHarvestedHere;
         }
 
     }

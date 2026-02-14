@@ -43,20 +43,27 @@ public class PlayerInteraction : MonoBehaviour
     public delegate void PlayerDeathEvent();
     public static event PlayerDeathEvent OnPlayerDeath;
 
+    ///Stamina and Water///
     public float stamina = 200;
     [HideInInspector] public readonly float maxStamina = 200;
     public float fatigue = 0;
     [HideInInspector] public readonly float maxFatigue = 150;
+    public float regenRate = 4; //Every .5 seconds
+    public float targetRegen = 0; // Target stamin value at end of regen
+
     bool sentLowStaminaMessage = false;
+    [HideInInspector] public bool overrideDamagePulse; //Makes the damage effects not happen
     public bool invincible = false;
 
     public float waterHeld = 10; //for watering can //USED TO BE 15, TRYING 10
     [HideInInspector] public float maxWaterHeld = 10;
+    //////
 
     public bool torchLit = false; //For the tool item
     public bool pyreflyLit = false; //For the tool item
     //public bool droppedKukri = false; //For when the player has thrown their knife
     public bool lostKukri = false; //For when the player no longer has their knife
+    public bool isParrying, parrySuccess;
 
     private float reach = 8;
 
@@ -104,6 +111,7 @@ public class PlayerInteraction : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         UpdateSettings();
         StartCoroutine(WakeUp());
+        StartCoroutine(RegenRoutine());
     }
 
     private void OnEnable()
@@ -368,7 +376,8 @@ public class PlayerInteraction : MonoBehaviour
         if(item.staminaValue > 0 && stamina < maxStamina)
         {
             //eat it
-            StaminaChange(item.staminaValue);
+            //StaminaChange(item.staminaValue);
+            EatFood(item.staminaValue);
             itemUsed = true;
         }
 
@@ -412,37 +421,76 @@ public class PlayerInteraction : MonoBehaviour
         if (countForTotal) totalMoneyEarned += amount;
     }
 
-    public void StaminaChange(float amount)
+    public void StaminaChange(float amount, bool ignoreArmor = false)
     {
         if (DialogueController.Instance.IsTalking() && amount < 0 || Tutorial.Instance || invincible || isTripped)
         {
             print("Damage negated! Stamina is : " + stamina);
+            overrideDamagePulse = false;
             return;
         }
-        if(stamina + amount <= 50 && stamina > 50 && amount >= -4 && amount < 0)
+        if(stamina + amount <= 50 && stamina > 50 && amount >= -4 && amount < 0) //To prevent tools from putting player below 50
         {
             print("Damage negated to not go under threshold");
+            overrideDamagePulse = false;
             return;
         }
 
-        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f;
+        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f; // Damage refuction from Cosy mode
 
-        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount < 0) amount *= 1.5f;
+        if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount <= -5) amount *= 1.5f; //Damage Modifier from Dare
 
         //if(amount > 6) fatigue += Mathf.Round(amount * 0.1f);
 
-        if(amount > 0)
-        {
-            playerEffects.PlayClip(playerEffects.playerHeal, 1.3f);
-        }
+        if(amount > 0) playerEffects.PlayClip(playerEffects.playerHeal, 1.3f); //Play Heal Effects
         
-        if(repairMinigame.IsMinigameActive())
+        if(repairMinigame.IsMinigameActive()) repairMinigame.ForceEndMinigame();
+
+        if(amount <= -5 && !overrideDamagePulse) 
         {
-            repairMinigame.EndMinigame();
+            if(!ignoreArmor) //Apply Damage Reduction from Trinkets
+            {
+                amount = TrinketInventoryHandler.Instance.ApplyTrinketDamageModifiers(amount);
+                if(amount > -5) amount = -5;
+            }
+
+            if(waterHeld > 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.WaterGuard)) //Reduce water instead of damage
+            {
+                int waterLoss = 0;
+                while(amount <= -5 && waterLoss < waterHeld)
+                {
+                    amount += 5;
+                    if(amount > 0) amount = 0;
+                    ++waterLoss;
+                }
+
+                if(waterLoss > 0)
+                {
+                    WaterChange(-waterLoss);
+                    TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.WaterGuard, waterLoss);
+                    playerEffects.PlayerDamage();
+                }
+            }
+
+            if(stamina + amount <= 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen)) //Prevents death if roach trinket is equipped
+            {
+                amount = 0;
+                TrinketInventoryHandler.Instance.ForceBreakTrinket(TrinketKey.RoachRegen);
+            }
         }
 
-        stamina +=  Mathf.Round(amount);
-        if(amount <= -5) playerEffects.PlayerDamage();
+        stamina += Mathf.Round(amount); //Apply the new stamina
+
+        if(amount <= -5 && !overrideDamagePulse)
+        {
+            playerEffects.PlayerDamage();
+            ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.4f), Mathf.Clamp(-amount / 3, 1, 8));
+            if(stamina <= 0 || MainMenuScript.currentFileMode != FileMode.Cozy) targetRegen = 0;
+
+            StartCoroutine(DamageSlowDown());
+
+            //TrinketInventoryHandler.Instance.DamageArmorTrinkets(-amount);
+        }
 
         if(amount <= -10) OnPlayerDamaged?.Invoke(amount);
 
@@ -452,6 +500,120 @@ public class PlayerInteraction : MonoBehaviour
             PopupHandler.Instance.AddToQueue(lowStaminaWarning);
         }
         else if(stamina > 50) sentLowStaminaMessage = false;
+
+        overrideDamagePulse = false;
+    }
+
+    public void StaminaChange(float amount, Vector3 sourcePos) //Mostly just for parrying
+    {
+        //Dont forget to check the Dot
+        if(isParrying && amount <= 5)
+        {
+            Vector3 dir = (sourcePos - transform.position).normalized;
+            float dot = Vector3.Dot(dir, mainCam.transform.forward);
+
+            if(dot >= 0.65f)
+            {
+                isParrying = false;
+                parrySuccess = true;
+                if(HandItemManager.Instance.parryParticles) HandItemManager.Instance.parryParticles.Play();
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.Parry);
+                return;
+            }
+        }
+
+
+        StaminaChange(amount);
+    }
+
+    public void WaterChange(float amount)
+    {
+        if(amount + waterHeld > maxWaterHeld) amount -= amount + waterHeld - maxWaterHeld;
+        else if(waterHeld + amount < 0) amount = waterHeld;
+
+        if(amount == 0) return;
+
+        waterHeld += amount;
+
+        if(amount > 0) playerEffects.PlayClip(playerEffects.waterGain, 1.3f);
+
+
+        //if using hareflask trinket, subtract 1 for each water gained over maxWater - 5
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.WaterFlask) && waterHeld > (maxWaterHeld - 5))
+        {
+            float tempValue = waterHeld;
+            float x = 0;
+            while(tempValue > (maxWaterHeld - 5) && x < amount)
+            {
+                tempValue--;
+                x++;
+                //Damage Trinket
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.WaterFlask);
+            }
+        }
+    }
+
+    public void EatFood(float staminaGain)
+    {
+        if(staminaGain <= 10)
+        {
+            StaminaChange(10);
+            return;
+        }
+        
+        StaminaChange(Mathf.Floor(staminaGain/4));
+        if(targetRegen == 0) targetRegen = stamina;
+        targetRegen += Mathf.Floor(staminaGain * .75f);
+        if(targetRegen > maxStamina) targetRegen = maxStamina;
+    }
+
+    IEnumerator RegenRoutine()
+    {
+        bool skipNext = true;
+        float currentRegenRate;
+        while(true)
+        {
+            yield return new WaitForSeconds(1f);
+
+            if(stamina < 50 && targetRegen == 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen))
+            {
+                StaminaChange(1);
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.RoachRegen);
+                continue;
+            }
+
+            if(targetRegen <= stamina || stamina <= 0) 
+            {
+                targetRegen = 0;
+                skipNext = true;
+                continue;
+            }
+
+            if(skipNext) //To make sure heal isnt always immediate
+            {
+                skipNext = false;
+                continue;
+            }
+
+            currentRegenRate = regenRate;
+            
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.TickRegen))
+            {
+                currentRegenRate *= 2;
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.TickRegen);
+            }
+
+            if(stamina + currentRegenRate > targetRegen) currentRegenRate = targetRegen - stamina;
+
+            StaminaChange(currentRegenRate);
+        }
+    }
+
+    IEnumerator DamageSlowDown()
+    {
+        PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.6f, "Damage", false));
+        yield return new WaitForSeconds(0.5f);
+        PlayerMovement.Instance.RemoveSpeedMod("Damage");
     }
 
     public void ApplyStatusEffect(StatusEffectObject status, int duration)
@@ -695,7 +857,9 @@ public class PlayerInteraction : MonoBehaviour
         cameraPos.DOMoveY(cameraPos.position.y - 2.5f, 0.25f); //Move Down
         yield return new WaitForSeconds(.25f);
         playerEffects.PlayClip(playerEffects.trip);
+        playerEffects.CallScreenShake(0.7f);
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Dirt, new Color(1,1,1,0.4f), 5);
         yield return new WaitForSeconds(.50f);
         PlayerMovement.limitMaxVelocity = true;
         if (stamina <= 0) yield return new WaitForSeconds(3f); //Death extra time
@@ -706,6 +870,16 @@ public class PlayerInteraction : MonoBehaviour
         isTripped = false;
         PlayerMovement.restrictMovementTokens--;
     }
+
+    public void ToggleTrip(bool trip)
+    {
+        isTripped = trip;
+    }
+
+    public bool TripCheck()
+    {
+        return isTripped;
+    }
     
     private void UpdateSettings()
     {
@@ -713,6 +887,37 @@ public class PlayerInteraction : MonoBehaviour
 
         if (prefs == 0) interactWithEmptyHand = false;
         else interactWithEmptyHand = true;
+    }
+
+    public IEnumerator ParryRoutine()
+    {
+        isParrying = true;
+        parrySuccess = false;
+        ToolUseToggle(true);
+        float timeElapsed = 0;
+        float maxTime = 0.4f;
+
+        while(timeElapsed < maxTime && !parrySuccess)
+        {
+            yield return new WaitForSeconds(0.1f);
+            timeElapsed += 0.1f;
+        }
+
+        isParrying = false;
+        if(parrySuccess)
+        {
+            ToolUseToggle(false);
+            invincible = true;
+            yield return new WaitForSeconds(0.4f);
+            invincible = false;
+            yield return new WaitForSeconds(0.4f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.05f);
+            ToolUseToggle(false);
+        }
+        parrySuccess = false;
     }
 
 

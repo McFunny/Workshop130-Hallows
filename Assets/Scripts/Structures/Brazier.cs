@@ -89,7 +89,7 @@ public class Brazier : StructureBehaviorScript, IFireHolder
         }
         else if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0 && isBurning)
         {
-            PlayerInteraction.Instance.waterHeld--;
+            PlayerInteraction.Instance.WaterChange(-1);
             HitWithWater();
             success = true;
         }
@@ -124,12 +124,13 @@ public class Brazier : StructureBehaviorScript, IFireHolder
     {
         if(flameLeft > 0) woodObject.SetActive(true);
         else woodObject.SetActive(false);
+
+        if(isBurning) fire.SetActive(true);
+        else fire.SetActive(false);
     }
 
     public override void HitWithWater()
     {
-        if(!isBurning) return;
-        isBurning = false;
         ExtinguishFlame();
     }
 
@@ -186,7 +187,14 @@ public class Brazier : StructureBehaviorScript, IFireHolder
     {
         //fireTrigger.OnScare -= EnemyScaredByFire;
         base.OnDestroy();
-        //if (!gameObject.scene.isLoaded) return; 
+        if (!gameObject.scene.isLoaded) return; 
+        if(flameLeft == 0 || Random.Range(0,30) < flameLeft) return;
+        GameObject droppedItem;
+        foreach(InventoryItemData item in savedItems)
+        {
+            droppedItem = ItemPoolManager.Instance.GrabItem(fuelItems[0].item);
+            droppedItem.transform.position = transform.position;
+        }
     }
 
     /*void EnemyScaredByFire(bool successful)

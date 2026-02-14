@@ -237,7 +237,9 @@ public class FlintlockBehavior : ToolBehavior
                 else creature.TakeDamage(currentBulletDamage);
                 //playsound
                 //HandItemManager.Instance.toolSource.PlayOneShot(hit_Creature);
-                AudioPoolManager.Instance.PlayClipAtPosition(hit_Creature, hitPos, HandItemManager.Instance.toolSource.volume, 40);
+                if(creature.corpseType == CorpseParticleType.Metal && creature.corpseType == CorpseParticleType.Stone) 
+                    AudioPoolManager.Instance.PlayClipAtPosition(hit_Structure, hitPos, HandItemManager.Instance.toolSource.volume, 40);
+                else AudioPoolManager.Instance.PlayClipAtPosition(hit_Creature, hitPos, HandItemManager.Instance.toolSource.volume, 40);
 
 
                 ParticlePoolManager.Instance.GrabImpactParticle().transform.position = hitPos;

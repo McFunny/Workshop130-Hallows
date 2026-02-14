@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Spider : CreatureBehaviorScript
 {
+    public InventoryItemData bugItem;
     
     public Variant variant; // what variant of creature is this?
 
@@ -38,6 +39,7 @@ public class Spider : CreatureBehaviorScript
     bool fearCooldown, dodgeCooldown, dodging;
     bool canLunge = true;
     float baseSpeed;
+    bool hasFleeTarget;
 
     public Transform strafePointL, strafePointR;
     
@@ -273,7 +275,7 @@ public class Spider : CreatureBehaviorScript
 
                     if(Vector3.Distance(transform.position, player.position) < 6) strafePos += retreatDir * 3;
 
-                    StartCoroutine(MoveToPoint(strafePointR.position, Random.Range(0.8f,1.5f)));
+                    StartCoroutine(MoveToPoint(strafePos, Random.Range(0.8f,1.5f)));
                 }
                 else 
                 {
@@ -309,14 +311,36 @@ public class Spider : CreatureBehaviorScript
             fearObject.SetActive(false);
             return;
         }
-        Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3))));
-        agent.destination = runTo;
+        //Vector3 runTo = transform.position + ((transform.position - fireSource.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3))));
+        //agent.destination = runTo;
         agent.updateRotation = true;
+
+        if (hasFleeTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
+        {
+            hasFleeTarget = false;
+        }
+        else if (!hasFleeTarget)
+        {
+            hasFleeTarget = true;
+            Vector3 fleeDirection = (transform.position - fireSource.transform.position).normalized;
+
+            
+            float randomAngle = Random.Range(-20f, 20); //random offset for random movement
+
+            fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
+
+            Vector3 newDestination = transform.position + fleeDirection * Random.Range(4f, 7f);
+
+        
+            agent.SetDestination(newDestination);
+        }
     }
 
     void Dodge()
     {
         if(isDead || coroutineRunning || dodgeCooldown || Random.Range(0,10) > 7 || currentState != CreatureState.AttackPlayer) return;
+
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) return;
 
         StartCoroutine(DodgeJump());
     }
@@ -510,7 +534,9 @@ public class Spider : CreatureBehaviorScript
 
         if(currentState == CreatureState.AttackPlayer)
         {
-            if(playerInAttackRange && Random.Range(0,10) > 6 && canLunge && !fearCooldown && !dodging)
+            int attackChance = 6;
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) attackChance = 8;
+            if(playerInAttackRange && Random.Range(0,10) > attackChance && canLunge && !fearCooldown && !dodging)
             {
                 //Do the lunge attack
                 //agent.Stop();
@@ -557,7 +583,7 @@ public class Spider : CreatureBehaviorScript
             if (playerInteraction != null)
             {
                 agent.velocity = Vector3.zero; //STOP PLAYER MOMENTUM IMMEDIATELY SO THE SPIDER DOES NOT PUSH THE PLAYER
-                playerInteraction.StaminaChange(-damageToPlayer);
+                playerInteraction.StaminaChange(-damageToPlayer, corpseParticleTransform.position);
                 attacking = false;
                 return;
             }
@@ -655,7 +681,7 @@ public class Spider : CreatureBehaviorScript
             yield return new WaitForSeconds(5);
             if(targetStructure) continue;
 
-            FindNearbyStructure(10);
+            FindNearbyStructure(5);
             if(!targetStructure) FindNearbyCreature(10);
             
         }
@@ -800,6 +826,19 @@ public class Spider : CreatureBehaviorScript
             if(homeDen) homeDen.outsideSpiders--;
             homeDen = null;
         }
+    }
+
+    public override bool CaughtByBugNet(out InventoryItemData item)
+    {
+        item = bugItem;
+
+        if(isDead)
+        {
+            TakeDamage(999);
+            return false;
+        }
+
+        return true;
     }
 
     void OnDestroy()

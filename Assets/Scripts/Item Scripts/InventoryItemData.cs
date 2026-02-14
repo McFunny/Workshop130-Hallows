@@ -31,6 +31,11 @@ public class InventoryItemData : ScriptableObject
     public InventoryItemData pickledForm;
     public List<ItemConversion> itemConversions = new List<ItemConversion>();
 
+    public List<CookingStats> cookingStats = new List<CookingStats>(); //If this is empty, then it cannot be cooked
+
+    public List<PetType> foodForPets = new List<PetType>();
+    public List<CritterType> foodForCritters = new List<CritterType>();
+
     [Tooltip("What can be done with this item? EX: 'LMB - Till Ground' or 'RMB - Plant Seed'")]
     public List<string> itemInputsKBM;
     public List<string> itemInputsController;
@@ -115,5 +120,6 @@ public enum ItemType
     Ammo,
     Creature,
     Bug,
-    Throwable
+    Throwable,
+    Trinket
 }

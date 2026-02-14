@@ -20,7 +20,7 @@ public class RadarIcon : MonoBehaviour
         if (image != null)
         {
             var c = image.color;
-            image.color = new Color(c.r, c.g, c.b, 1f);
+            image.color = new Color(c.r, c.g, c.b, 0f);
         }
     }
 
@@ -33,6 +33,7 @@ public class RadarIcon : MonoBehaviour
     private IEnumerator FadeCoroutine(float duration)
     {
         float t = 0f;
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
         Color start = image.color;
 
         while (t < duration)

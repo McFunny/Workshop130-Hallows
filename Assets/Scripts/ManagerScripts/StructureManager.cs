@@ -14,8 +14,9 @@ public class StructureManager : MonoBehaviour
 
     public List<StructureBehaviorScript> allStructs; //MUST BE SAVED
 
-    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri, fence, cocoon, bucket;
+    public GameObject weedTile, farmTree, farmTile, crowPod, crowWithNut, boulder, buriedItem, barricade, trough, wBearTrap, bearTrap, critterHive, buriedKukri, fence, cocoon, bucket, leafPile;
     public CropData fogChime, berryBush;
+    public StructureObject boulderData, decorData;
 
     //Game will compare the two to find out which tile position correlates with the nutrients associated with it.
     List<Vector3Int> allFarmTiles = new List<Vector3Int>();
@@ -93,7 +94,12 @@ public class StructureManager : MonoBehaviour
         {
             StartCoroutine(PopulateStructure(-3, 5, weedTile, false, farmTileMap));
             PopulateDecorCrows(0, 2);
-            StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
+            int boulders = TallyStructure(boulderData);
+            if(boulders < 6) StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
+            else if(boulders < 20) StartCoroutine(PopulateStructure(-2, 1, boulder, true, farmTileMap));
+
+            int decor = TallyStructure(decorData);
+            if(decor < 50) StartCoroutine(PopulateStructure(-2, 5, decorData.objectPrefab, true, farmTileMap));
             PopulateBerryBushes(-5, 2, false);
             StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
             StartCoroutine(PopulateStructure(-10, 3, cocoon, true, farmTileMap));
@@ -104,7 +110,7 @@ public class StructureManager : MonoBehaviour
         }
         if(TimeManager.Instance.currentHour == 20 && !NightSpawningManager.Instance.boxPlaced) PopulateNightWeeds(1, 6);
 
-        if(Random.Range(0,100) < 7 && TimeManager.Instance.isDay)
+        if(Random.Range(0,100) < 3 && TimeManager.Instance.isDay)
         {
             Instantiate(crowWithNut, NightSpawningManager.Instance.RandomMistPosition(), Quaternion.identity);
         }
@@ -125,7 +131,7 @@ public class StructureManager : MonoBehaviour
         int s = 0;
         for(int i = 0; i < allStructs.Count; i++)
         {
-            if(allStructs[i] && allStructs[i].destructable)
+            if(allStructs[i] && allStructs[i].destructable && ValidateGridType(allStructs[i].transform.position, GridType.Farm) == true)
             {
                 FarmLand potentialWeed = allStructs[i] as FarmLand;
                 if(potentialWeed && potentialWeed.isWeed) continue;
@@ -866,6 +872,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 3, barricade, true, barnTileMap));
+        PopulateStructureClump(3, 6, fence, true, farmTileMap, 4);
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(2, 5, fence, true, barnTileMap));
         StartCoroutine(Populate1X2Structure(1, 1, trough, barnTileMap));
@@ -875,7 +882,10 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bucket, true, farmTileMap));
+        StartCoroutine(PopulateStructure(2, 5, leafPile, true, farmTileMap));
         PopulateBerryBushes(2, 3, true);
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(PopulateStructure(40, 60, decorData.objectPrefab, true, farmTileMap));
     }
 
     public IEnumerator PopulateStructure(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap)
@@ -921,6 +931,69 @@ public class StructureManager : MonoBehaviour
                     }
 
                     yield return new WaitForSeconds(0.1f);
+                }
+            }
+        }
+    }
+
+    void PopulateStructureClump(int min, int max, GameObject prefab, bool randomizeRotation, Tilemap tileMap, float range = 7)
+    {
+        List<Vector3Int> spawnablePositions = new List<Vector3Int>();
+
+        Vector3 spawnPos = new Vector3 (0,0,0);
+        Vector3 centerPos = new Vector3 (0,0,0);
+
+        foreach (Vector3Int position in tileMap.cellBounds.allPositionsWithin)
+        {
+            if(tileMap.GetTile(position) == freeTile) spawnablePositions.Add(position);
+        }
+
+        if(spawnablePositions.Count == 0) return;
+
+        centerPos = spawnablePositions[Random.Range(0, spawnablePositions.Count)];
+
+        for (int i = 0; i < spawnablePositions.Count; i++) //Distance check
+        {
+            if(Vector3.Distance(spawnablePositions[i], centerPos) > range)
+            {
+                spawnablePositions.RemoveAt(i);
+                --i;
+            }
+        }
+
+        int r = Random.Range(min,max + 1);
+        if (r <= 0) return;
+        for(int i = 0; i < r; i++)
+        {
+            if(spawnablePositions.Count != 0)
+            {
+                int randomIndex = Random.Range(0, spawnablePositions.Count);
+                spawnPos = tileMap.GetCellCenterWorld(spawnablePositions[randomIndex]);
+
+                if(tileMap.GetTile(spawnablePositions[randomIndex]) != null && tileMap.GetTile(spawnablePositions[randomIndex]) != occupiedTile)
+                {
+                    GameObject newStruct = SpawnStructureWithInstance(prefab, spawnPos);
+                    if(randomizeRotation)
+                    {
+                        int n = Random.Range(0,4);
+
+                        switch(n)
+                        {
+                            case 0:
+                            break;
+                            case 1:
+                            newStruct.transform.Rotate(0, 90, 0);
+                            break;
+                            case 2:
+                            newStruct.transform.Rotate(0, 180, 0);
+                            break;
+                            case 3:
+                            newStruct.transform.Rotate(0, 270, 0);
+                            break;
+                        }
+                    }
+
+                    spawnablePositions.RemoveAt(randomIndex);
                 }
             }
         }
@@ -1047,6 +1120,17 @@ public class StructureManager : MonoBehaviour
         }
 
         int r = Random.Range(min,max + 1);
+
+        //Extra Fogchimes from trinket
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.Fogchime))
+        {
+            for(int i = 0; i < TrinketInventoryHandler.Instance.CheckForTrinketAmount(TrinketKey.Fogchime); ++i)
+            {
+                r += Random.Range(2, 5);
+            }
+            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.Fogchime, 1, true);
+        }
+
         if (r <= 0) return;
         for(int i = 0; i < r; i++)
         {

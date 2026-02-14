@@ -176,6 +176,7 @@ public class LandMine : StructureBehaviorScript
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
+                creature.lastDamageTypeTaken = DamageType.Mine;
                 creature.TakeDamage(125);
                 creature.PlayHitParticle(new Vector3(transform.position.x, transform.position.y, transform.position.z));
             }

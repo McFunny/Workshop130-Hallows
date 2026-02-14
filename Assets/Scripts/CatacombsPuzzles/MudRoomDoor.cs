@@ -29,7 +29,7 @@ public class MudRoomDoor : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        if (!puzzleSolved)
+        if (cropKeys[0].assignedCrop == null)
             AssignCrops();
     }
 
@@ -123,27 +123,28 @@ public class MudRoomDoor : MonoBehaviour
 
     public void ImportSaveData(MudRoomDoorSaveData data)
     {
-        if (data.cropKeys.Count == 0)
+        if (data.cropKeys == null || 0 == data.cropKeys.Count)
         {
-            ForceOpen();
+            AssignCrops();
             return;
         }
 
         puzzleSolved = data.puzzleSolved;
 
         foreach (var keyData in data.cropKeys)
-            cropKeys[keyData.keyIndex].ImportSaveData(keyData);
+            cropKeys[keyData._keyIndex].ImportSaveData(keyData);
 
         if (puzzleSolved)
             ForceOpen();
     }
+
 }
 
 [System.Serializable]
 public struct MudRoomCropKeySaveData
 {
-    public int keyIndex;
-    public bool cropInserted;
+    public int _keyIndex;
+    public bool _cropInserted;
     public string cropName;
 }
 

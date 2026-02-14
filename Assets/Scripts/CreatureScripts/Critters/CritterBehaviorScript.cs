@@ -13,7 +13,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     protected int maxFriendshipLevel = 5; //Increases frequency of actions
     public float friendPoints = 0;
     protected float maxFriendPoints = 100; //Increases level when maxed
-    public List<InventoryItemData> foodDiet = new List<InventoryItemData>();
+    //public List<InventoryItemData> foodDiet = new List<InventoryItemData>();
     public float hunger = 100; //Animals will eat once their hunger is below half
     public float maxHunger = 100;
     public float hungerDecayRate = 5;
@@ -52,6 +52,11 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         thoughtBubbleScript = GetComponentInChildren<ThoughtBubble>();
 
         if(thoughtBubbleScript) StartCoroutine(EmotionDisplay());
+
+        if(!MainMenuScript.loadingData)
+        {
+            name = CritterNameDatabase.Instance.GetCritterName(critterType);
+        }
     }
 
     IEnumerator BehaviorDelay()
@@ -92,6 +97,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             TakeDamage(5);
             FriendPointsChange(-2, false);
             tookDamage = true;
+            hunger = 0;
         }
         thirst -= thirstDecayRate;
         if(thirst < 0)
@@ -99,6 +105,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             TakeDamage(5);
             FriendPointsChange(-2, false);
             tookDamage = true;
+            thirst = 0;
         }
 
         if(!tookDamage) health += 2;
@@ -115,8 +122,10 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 
         //hunger = 100;
         if(hunger > maxHunger) hunger = maxHunger;
-        if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/4, true);
-        else FriendPointsChange(hungerRestored/6, true);
+
+        FriendPointsChange(hungerRestored/4, true);
+        /*if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/4, true);
+        else FriendPointsChange(hungerRestored/6, true); */
         effectsHandler.PlaySound(effectsHandler.eatSound);
     }
 
@@ -126,7 +135,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         foreach(Collider collider in hitStructures)
         {
             Trough t = collider.gameObject.GetComponent<Trough>();
-            if(t && ((!checkForThirst && t.HasEdibleItem(foodDiet)) || (checkForThirst && t.waterLevel > 0)))
+            if(t && ((!checkForThirst && t.HasEdibleItem(critterType)) || (checkForThirst && t.waterLevel > 0)))
             {
                 targetObject = t.transform;
                 return true;

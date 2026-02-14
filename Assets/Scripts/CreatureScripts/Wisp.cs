@@ -9,6 +9,7 @@ public class Wisp : CreatureBehaviorScript
     public float moveSpeed = 4f;
     public float stunnedSpeed = 0.5f;
     public float fleeSpeed = 12f;
+    public float attackMoveSpeed = 2.5f;
     float currentSpeed;
     public float turnSpeed = 360f;
 
@@ -94,7 +95,8 @@ public class Wisp : CreatureBehaviorScript
         }
         else 
         {
-            currentSpeed = moveSpeed;
+            if(attackCooldown) currentSpeed = attackMoveSpeed;
+            else currentSpeed = moveSpeed;
             anim.SetBool("CoverEyes", false);
             anim.SetBool("Fleeing", false);
         }
@@ -195,7 +197,7 @@ public class Wisp : CreatureBehaviorScript
         while(health > 0)
         {
             //have it randomly target crop or player
-            yield return new WaitForSeconds(Random.Range(4f, 15f));
+            yield return new WaitForSeconds(Random.Range(4f, 10));
             if(fleeTimeLeft > 0 || currentState != CreatureState.Wander || targetStructure) continue;
 
             float r = Random.Range(0, 100);
@@ -247,7 +249,7 @@ public class Wisp : CreatureBehaviorScript
         if(currentRoutine == null)
         {
             currentRoutine = StartCoroutine(FrostStructureRoutine());
-            StartCoroutine(AttackCooldownTimer(6));
+            StartCoroutine(AttackCooldownTimer(4));
         }
     }
 
@@ -300,7 +302,7 @@ public class Wisp : CreatureBehaviorScript
         }
 
         // Apply velocity
-        if(distance > 0.7f) rb.velocity = chaseDir * currentSpeed + new Vector3(0, rb.velocity.y, 0);
+        if(distance > 1.2f) rb.velocity = chaseDir * currentSpeed + new Vector3(0, rb.velocity.y, 0);
         else rb.velocity = Vector3.zero;
 
         rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, targetRot, 360 * Time.fixedDeltaTime));
@@ -415,6 +417,7 @@ public class Wisp : CreatureBehaviorScript
         pauseFromLight = false;
         rb.velocity = Vector3.zero;
         yield return new WaitForSeconds(1.2f);
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
         currentRoutine = null;
     }
 
@@ -433,6 +436,7 @@ public class Wisp : CreatureBehaviorScript
         anim.SetBool("Shocked", true);
         effectsHandler.PlaySound(effectsHandler.extraSounds[4]);
         yield return new WaitForSeconds(2);
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
         anim.SetBool("Shocked", false);
         ResetToFlee();
         currentRoutine = null;
@@ -488,7 +492,7 @@ public class Wisp : CreatureBehaviorScript
         {
             if(other.gameObject.layer == 10) 
             {
-                PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+                PlayerInteraction.Instance.StaminaChange(damageToPlayer, corpseParticleTransform.position);
                 isAttacking = false;
                 effectsHandler.PlaySound(effectsHandler.extraSounds[1]);
             }
@@ -529,6 +533,7 @@ public class Wisp : CreatureBehaviorScript
         {
             deathParticles.SetActive(true);
             deathParticles.transform.parent = null;
+            ParticlePoolManager.Instance.GrabFrostBurstParticle().transform.position = transform.position;
             Destroy(gameObject);
         }
     }

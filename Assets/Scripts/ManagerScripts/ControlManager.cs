@@ -9,6 +9,7 @@ public class ControlManager : MonoBehaviour
     public InputActionReference useHeldItem, interactWithItem, interactWithoutItem, 
     movement, sprint, look, moreInfo, pauseGame, backCodex, closeCodex, codexPageUp, codexPageDown, uiPause, uiPageTurn, hotbarScroll, hotbarUp, hotbarDown, showGrid, rotateStructure, openInventory, closeInventory,
     select, split, waterGunCharge, dropItem, holdInteraction, minigamePress, minigameExit, hotbarSwitch, codexOpen, deleteQuest, codexSelect, waterJet, secondaryCharge, uiScroll;
+    public InputActionReference waterGunCharge_C, secondaryCharge_C; //Specifically handling these inputs for controller
     string currentDevice;
     public static bool isGamepad;
     public PlayerInput playerInput;

@@ -68,6 +68,10 @@ public class CabinBed : MonoBehaviour, IInteractable
     void Sleep()
     {
         StartCoroutine(TimeManager.Instance.Sleep());
+        if (PlayerInteraction.Instance.torchLit == true && HandItemManager.Instance.IsPlayerHoldingTorch())
+        {
+            AchievementManager.Instance.NotifySleepWithTorchLit();
+        }
     }
 
 

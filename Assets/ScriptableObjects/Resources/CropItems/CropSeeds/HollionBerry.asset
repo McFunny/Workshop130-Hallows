@@ -15,12 +15,12 @@ MonoBehaviour:
   ID: 12
   displayName: Hollion Berry
   description: Inedible berries that are prone to bursting at the slightest contact.
-    When grown, the berries fly off and can damage nearby creatures. Mist Walkers
-    and hares ignore this crop.
+    When grown, the berries fly off and can damage nearby creatures. Most creatures
+    ignore this crop.
   icon: {fileID: 31738408, guid: 449124c102f530d48a57d7a6ebc30606, type: 3}
   type: 6
   maxStackSize: 20
-  value: 32
+  value: 22
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
@@ -30,6 +30,9 @@ MonoBehaviour:
   useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 
   itemInputsKBM:
   - RMB - Plant
   itemInputsController:

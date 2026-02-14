@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 277
   displayName: Flak Kale Seeds
-  description: A resiliant crop that can survive being devoured by hogs and hares
+  description: A resilient crop that can survive being devoured by hogs and hares
     if at least 3 units of ichor is present in the soil. The longer it grows, the
     more it yields.
   icon: {fileID: -423125097, guid: 942d48932262cae4987cbe7aab589391, type: 3}
   type: 6
   maxStackSize: 20
-  value: 13
+  value: 10
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
@@ -30,6 +30,9 @@ MonoBehaviour:
   useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 03000000
   itemInputsKBM:
   - RMB - Plant
   itemInputsController:

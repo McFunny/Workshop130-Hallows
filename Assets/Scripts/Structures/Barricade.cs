@@ -15,6 +15,8 @@ public class Barricade : StructureBehaviorScript
     public Transform mount;
     [HideInInspector] public bool catOnStruct;
 
+    public GameObject damageObject1, damageObject2;
+
 
     void Awake()
     {
@@ -45,6 +47,8 @@ public class Barricade : StructureBehaviorScript
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
                 PlayerInventoryHolder.Instance.UpdateInventory();
                 UpdateModel();
+
+                PlayHitEffect();
                 return;
             }
         }
@@ -75,14 +79,30 @@ public class Barricade : StructureBehaviorScript
         if(health > (maxHealth/3) * 2)
         {
             brokenBox.material = clearM;
+            if(damageObject1)
+            {
+                damageObject1.SetActive(false);
+                damageObject2.SetActive(false);
+            }
         }
         else if(health > maxHealth/3)
         {
             brokenBox.material = brokenM;
+            if(damageObject1)
+            {
+                damageObject1.SetActive(false);
+                damageObject2.SetActive(true);
+            }
+            
         }
         else
         {
             brokenBox.material = veryBrokenM;
+            if(damageObject1)
+            {
+                damageObject1.SetActive(true);
+                damageObject2.SetActive(true);
+            }
         }
     }
 

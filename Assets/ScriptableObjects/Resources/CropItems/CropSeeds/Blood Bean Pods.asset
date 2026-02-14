@@ -15,12 +15,11 @@ MonoBehaviour:
   ID: 10
   displayName: Blood Bean Pods
   description: A slow growing plant that provides continuous yields after the first
-    harvest. Commonly planted in the soil of ravaged battlefields after prolonged
-    periods of bloody conflict.
+    harvest.
   icon: {fileID: -1644708092, guid: f034a46cf8726404598663e17643f2b4, type: 3}
   type: 6
   maxStackSize: 20
-  value: 15
+  value: 14
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
@@ -30,6 +29,9 @@ MonoBehaviour:
   useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 03000000
   itemInputsKBM:
   - RMB - Plant
   itemInputsController:

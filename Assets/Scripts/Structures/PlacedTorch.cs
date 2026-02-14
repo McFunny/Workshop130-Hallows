@@ -18,6 +18,7 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
     int maxFlame = 1;
 
     public bool isUpgraded = false;
+    bool canShoot = true;
 
     public ParticleSystem flameThrowerParticles;
     public Collider burnCollider;
@@ -31,6 +32,8 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
     void Start()
     {
         base.Start();
+
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Cabin)) canShoot = false;
         //fire.SetActive(false);
         if(!PlayerInteraction.Instance.torchLit) ExtinguishFlame();
         else StartCoroutine(FireDrain());
@@ -78,6 +81,7 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
                 display.SelectHotbarSlot(i);
                 if(currentlyLit) HandItemManager.Instance.TorchFlameToggle(true);
             }
+            ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
             Destroy(this.gameObject);
         }
     }
@@ -98,7 +102,7 @@ public class PlacedTorch : StructureBehaviorScript, IFireHolder
         currentlyLit = true;
         maxFlame = Random.Range(110, 140);
         flameLeft = maxFlame;
-        if(isUpgraded) StartCoroutine(ShootFire());
+        if(isUpgraded && canShoot) StartCoroutine(ShootFire());
         lightScript.flickerSpeed = 0.1f;
         lightScript.intensityVariation = 0.2f;
         while(flameLeft > maxFlame * 0.3f)

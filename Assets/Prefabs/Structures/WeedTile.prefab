@@ -14794,6 +14794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &5689272689766288214
 GameObject:
@@ -14925,6 +14926,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -14934,6 +14936,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 0
@@ -14960,6 +14963,7 @@ MonoBehaviour:
   barren: {fileID: 2100000, guid: 7f2604cbfca11914c9180e408c1b2f37, type: 2}
   barrenWet: {fileID: 2100000, guid: e0d2e06b1685e3843b589d75cc43950c, type: 2}
   corruptMat: {fileID: 2100000, guid: b51c618333240bf419f7f13e6810f507, type: 2}
+  flashColor: {r: 1, g: 0.56078434, b: 0.56078434, a: 1}
   growthStage: 1
   hoursSpent: 0
   plantStress: 0
@@ -20397,7 +20401,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1bfdd91bde26e7049b4e954a3451ff67,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1bfdd91bde26e7049b4e954a3451ff67,
         type: 3}

@@ -220,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
     {
         for(int i = 0; i < speedMods.Count; i++)
         {
-            if(speedMods[i].source == newMod.source) return;
+            if(speedMods[i].source == newMod.source && speedMods[i].tag == newMod.tag) return;
         }
 
         speedMods.Add(newMod);
@@ -279,6 +279,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare))
         {
+            AchievementManager.Instance.NotifyDareConsumed();
             walkMod += 3f;
             sprintMod += 4.5f;
         }
@@ -294,6 +295,10 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             moveSpeed = (savedMoveSpeed + walkMod) * movementMult;
+
+            Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
+
+            if(moveInput.y < 0f) moveSpeed -= 3; // Walking backwards is slower
         }
 
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
@@ -345,6 +350,12 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 GetVelocity()
     {
         return rb.velocity;
+    }
+
+    public bool IsMoving()
+    {
+        if(rb.velocity.magnitude > 7 && restrictMovementTokens == 0) return true;
+        else return false;
     }
 
 }

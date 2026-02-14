@@ -26,6 +26,8 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     float chanceToAttackAgain = 100;
 
+    int giftCooldownHours = 0;
+
     public PetState currentState;
 
     [Header("Debug tool to test out states")]
@@ -135,6 +137,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     protected override void OnHour() //Shouldnt this be on override?
     {
         base.OnHour();
+        if(giftCooldownHours > 0) --giftCooldownHours;
         if(TimeManager.Instance.isDay)
         {
             FindItem();
@@ -563,7 +566,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                     if(chanceToAttackAgain > Random.Range(0, 100))
                     {
                         StartCoroutine(AttackCooldown());
-                        chanceToAttackAgain -= 30 - (friendshipLevel * 2);
+                        chanceToAttackAgain -= 40 - (friendshipLevel * 2);
                         return;
                     }
                     else chanceToAttackAgain = 100;
@@ -593,7 +596,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 return;
             }
             bool isEating = false, isDrinking = false;
-            if(hunger <= 25 && bowl.ContainsEdibleItem(foodDiet)) isEating = true;
+            if(hunger <= 25 && bowl.ContainsEdibleItem(petType)) isEating = true;
             if(thirst <= 25 && bowl.containsWater) isDrinking = true;
 
             if(Vector3.Distance(player.position, transform.position) > 70f) transform.position = targetStructure.transform.position; //To get the pet unstuck if they got stuck
@@ -638,7 +641,7 @@ public class PetCat : PetBehaviorScript, IInteractable
     IEnumerator IdleRoutine()
     {
         agent.ResetPath();
-        bool creatureNear = false;
+        //bool creatureNear = false;
         float t = 0;
         float time = Random.Range(2f, 15);
         if(time > 10)
@@ -660,7 +663,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             yield return new WaitForSeconds(1);
 
         }
-        if(creatureNear)
+        /*if(creatureNear)
         {
             if(targetCreature)
             {
@@ -671,7 +674,7 @@ public class PetCat : PetBehaviorScript, IInteractable
                 StateSwitch(PetState.Flee);
             }
         }
-        else StateSwitch(PetState.Decide);
+        else */StateSwitch(PetState.Decide);
         currentRoutine = null;
     }
 
@@ -744,12 +747,12 @@ public class PetCat : PetBehaviorScript, IInteractable
                             StateSwitch(PetState.Flee);
                             break;
                         }
-                        else
+                        else if(targettableCreatures.Contains(creature.creatureData))
                         {
                             float positiveActionChance = (friendshipLevel + 1) * 2.75f;
                             if(hunger == 0) positiveActionChance = 0;
 
-                            if(Random.Range(0, 20f) < positiveActionChance)
+                            if(Random.Range(0, 100f) < positiveActionChance)
                             {
                                 targetCreature = creature;
                                 target = creature.gameObject.transform.position;
@@ -814,7 +817,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     void FindItem()
     {
-        if(heldItem != null || thirst == 0 || hunger == 0) return;
+        if(heldItem != null || thirst == 0 || hunger == 0 || giftCooldownHours > 0) return;
         if(Random.Range(0f, 100f) < (friendshipLevel + 1) * 3.5f)
         {
             int x = 0;
@@ -828,6 +831,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             {
                 itemR.sprite = chosenItem.icon;
                 heldItem = chosenItem;
+                giftCooldownHours = 6;
             }
         }
     }
@@ -854,7 +858,8 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && (currentState == PetState.Idle || currentState == PetState.Follow))
+        interactSuccessful = false;
+        if((item.ID == 2 || item.ID == 270) && PlayerInteraction.Instance.waterHeld > 0 && (currentState == PetState.Idle || currentState == PetState.Follow))
         {
             PlayerInteraction.Instance.waterHeld--;
             interactSuccessful = true;
@@ -866,8 +871,13 @@ public class PetCat : PetBehaviorScript, IInteractable
             thoughtBubbleScript.PlayEmotion(2);
             return;
         }
-        if(hunger < 100 && (foodDiet.Contains(item)))
+        if(hunger < 100)
         {
+            if(item.foodForPets.Count == 0 || !item.foodForPets.Contains(petType))
+            {
+                thoughtBubbleScript.PlayEmotion(2);
+                return;
+            }
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
             EatFood(item);

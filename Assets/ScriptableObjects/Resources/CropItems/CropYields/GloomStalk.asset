@@ -20,23 +20,28 @@ MonoBehaviour:
   type: 0
   maxStackSize: 99
   value: 1
-  sellValueMultiplier: 0.5
+  sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
-  animalHungerValue: 10
+  animalHungerValue: 20
   bonusCompostValue: 10
-  useCooldown: 5
+  useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions:
   - method: 2
     newItem: {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-    itemsNeeded: 5
+    itemsNeeded: 4
     itemsGained: 1
   - method: 3
     newItem: {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
     itemsNeeded: 1
     itemsGained: 1
+  cookingStats:
+  - type: 6
+    value: 0.5
+  foodForPets: 
+  foodForCritters: 000000000100000003000000
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

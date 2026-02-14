@@ -537,7 +537,7 @@ public class PetDog : PetBehaviorScript, IInteractable
                 return;
             }
             bool isEating = false, isDrinking = false;
-            if(hunger <= 25 && bowl.ContainsEdibleItem(foodDiet)) isEating = true;
+            if(hunger <= 25 && bowl.ContainsEdibleItem(petType)) isEating = true;
             if(thirst <= 25 && bowl.containsWater) isDrinking = true;
 
             if(Vector3.Distance(player.position, transform.position) > 70f) transform.position = targetStructure.transform.position; //To get the pet unstuck if they got stuck
@@ -782,7 +782,8 @@ public class PetDog : PetBehaviorScript, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && (currentState == PetState.Idle || currentState == PetState.Follow))
+        interactSuccessful = false;
+        if((item.ID == 2 || item.ID == 270) && PlayerInteraction.Instance.waterHeld > 0 && (currentState == PetState.Idle || currentState == PetState.Follow))
         {
             PlayerInteraction.Instance.waterHeld--;
             interactSuccessful = true;
@@ -794,8 +795,13 @@ public class PetDog : PetBehaviorScript, IInteractable
             thirst = maxThirst;
             return;
         }
-        if(hunger < 100 && (foodDiet.Contains(item)))
+        if(hunger < 100)
         {
+            if(item.foodForPets.Count == 0 || !item.foodForPets.Contains(petType))
+            {
+                thoughtBubbleScript.PlayEmotion(2);
+                return;
+            }
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
             EatFood(item);

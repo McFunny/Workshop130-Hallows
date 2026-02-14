@@ -14,16 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 17
   nameOverride: Chair
-  category: 1
+  category: 2
   tier: 0
   isUnlocked: 0
   isRecentlyUnlocked: 0
+  unlockedAtStart: 0
+  isTrinket: 0
   output: {fileID: 11400000, guid: f3bf6f35b4af8e14fa27e169736752bb, type: 2}
   outputAmount: 1
   craftTimeInSeconds: 60
   mintCost: 0
   craftingRequirements:
-  - requiredItem: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
-    requiredAmount: 3
+  - requiredItem: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+    requiredAmount: 1
   - requiredItem: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
-    requiredAmount: 2
+    requiredAmount: 1

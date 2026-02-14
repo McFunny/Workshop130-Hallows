@@ -18,11 +18,11 @@ MonoBehaviour:
   icon: {fileID: -965761055, guid: e7e1c27e4448a364585c970156d76960, type: 3}
   type: 1
   maxStackSize: 20
-  value: 19
+  value: 21
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 17
+  staminaValue: 5
   animalHungerValue: 0
   bonusCompostValue: 20
   useCooldown: 1
@@ -32,6 +32,11 @@ MonoBehaviour:
     newItem: {fileID: 11400000, guid: ffc572397851eaa4bb996652631df959, type: 2}
     itemsNeeded: 1
     itemsGained: 1
+  cookingStats:
+  - type: 7
+    value: 1
+  foodForPets: 000000000200000004000000
+  foodForCritters: 000000000100000003000000
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

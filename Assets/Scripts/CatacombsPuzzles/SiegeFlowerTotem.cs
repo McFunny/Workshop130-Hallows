@@ -38,7 +38,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
     {
      
         foreach (var obj in highlight) obj.SetActive(false);
-        if (structureUI) structureUIRenderer.enabled = false;
+        //if (structureUI) structureUIRenderer.enabled = false;
     }
 
     private void Start()
@@ -87,6 +87,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
     private void UpdateSieges()
     {
         GameSaveData.Instance.siegesCleared++;
+        AchievementManager.Instance.NotifySiegeCompleted(GameSaveData.Instance.siegesCleared);
         switch (GameSaveData.Instance.siegesCleared)
         {
             case 1:
@@ -164,7 +165,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
         isLocked = data.isLockedData;
         if(isLocked == true)
         {
-            if (structureUI) structureUI.SetActive(false);
+            //if (structureUI) structureUI.SetActive(false);
         }
 
         if (data.currentItemID != -1)
@@ -188,7 +189,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
 
         if (!canShowHighlight)
         {
-            if (structureUI) structureUIRenderer.enabled = enable;
+            //if (structureUI) structureUIRenderer.enabled = enable;
             DisableHighlight();
             return;
         }
@@ -206,7 +207,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
         if (enable && highlightCoroutine == null)
         {
             foreach (var h in highlight) h.SetActive(true);
-            if (structureUI) structureUIRenderer.enabled = true;
+            //if (structureUI) structureUIRenderer.enabled = true;
             highlightCoroutine = StartCoroutine(HightlightFlash());
         }
 
@@ -221,7 +222,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
     private void DisableHighlight()
     {
         foreach (var h in highlight) h.SetActive(false);
-        if (structureUI) structureUIRenderer.enabled = false;
+        //if (structureUI) structureUIRenderer.enabled = false;
     }
 
     private IEnumerator HightlightFlash()
@@ -231,7 +232,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
         {
             while (power > 1f)
             {
-                structureUIRenderer.enabled = true;
+                //structureUIRenderer.enabled = true;
                 power -= 0.1f;
                 foreach (Material mat in highlightMaterial)
                     mat.SetFloat("_Fresnel_Power", power);
@@ -240,7 +241,7 @@ public class SiegeFlowerTotem : MonoBehaviour, IInteractable
 
             while (power < 2.5f)
             {
-                structureUIRenderer.enabled = true;
+                //structureUIRenderer.enabled = true;
                 power += 0.1f;
                 foreach (Material mat in highlightMaterial)
                     mat.SetFloat("_Fresnel_Power", power);

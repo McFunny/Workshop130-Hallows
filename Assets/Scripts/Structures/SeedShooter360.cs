@@ -192,7 +192,8 @@ public class SeedShooter360 : StructureBehaviorScript
             yield return new WaitForSeconds(0.2f);
         }
         r = Random.Range(0,10);
-        if(r <= 9f && !townOwned) //chance to not consume seed
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) r -= 2;
+        if(r <= 8f && !townOwned) //chance to not consume seed
         {
             InventoryItemData seedShot = savedItems[0];
             savedItems.Remove(seedShot);

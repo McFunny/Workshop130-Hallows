@@ -83,6 +83,14 @@ public class PetMimic : CritterBehaviorScript
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
+        if(hunger < 100 && item.foodForCritters.Count >= 0 || item.foodForCritters.Contains(critterType))
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            EatFood(item);
+            interactSuccessful = true;
+            return;
+        }
         interactSuccessful = true;
     }
 
@@ -262,19 +270,25 @@ public class PetMimic : CritterBehaviorScript
             }
         }
 
-        if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
-        else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+        if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+        else if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
+        //else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
     }
 
     void Eat()
     {
         if (!coroutineRunning)
         {
+            if(!targetObject)
+            {
+                currentState = CritterState.Idle;
+                return;
+            }
             target = targetObject.position;
             StartCoroutine(MoveToPoint(target, 10));
             coroutineRunning = true;
         }
-        else if (Vector3.Distance(transform.position, target) < 1.5f)
+        else if (Vector3.Distance(transform.position, target) < 2f)
         {
             interruptAction = true;
         }
@@ -293,7 +307,7 @@ public class PetMimic : CritterBehaviorScript
                 return;
             }
             bool isEating = false, isDrinking = false;
-            if(hunger <= hunger/4 && trough.HasEdibleItem(foodDiet)) isEating = true;
+            if(hunger <= hunger/4 && trough.HasEdibleItem(critterType)) isEating = true;
             if(thirst <= thirst/4 && trough.waterLevel > 0) isDrinking = true;
 
             if(Vector3.Distance(targetObject.transform.position, transform.position) < 1.5f && (isEating || isDrinking))
@@ -302,7 +316,7 @@ public class PetMimic : CritterBehaviorScript
                 agent.ResetPath();
                 if(isEating)
                 {
-                    trough.EatItem(foodDiet, out InventoryItemData itemEaten);
+                    trough.EatItem(critterType, out InventoryItemData itemEaten);
                     EatFood(itemEaten);
                 }
                 else
@@ -363,8 +377,9 @@ public class PetMimic : CritterBehaviorScript
         {
             if(currentState == CritterState.Wander)
             {
-                if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
-                else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+                if(targetCreature) agent.SetDestination(targetCreature.transform.position);
+                else if(StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.MimicScent)) agent.SetDestination(player.position);
+                //else if(targetCreature) agent.SetDestination(targetCreature.transform.position);
                 else agent.SetDestination(player.position);
             }
             yield return new WaitForSeconds(0.2f);

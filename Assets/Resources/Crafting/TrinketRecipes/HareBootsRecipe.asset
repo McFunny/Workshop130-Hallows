@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
+  m_Name: HareBootsRecipe
+  m_EditorClassIdentifier: 
+  id: 47
+  nameOverride: 
+  category: 3
+  tier: 1
+  isUnlocked: 0
+  isRecentlyUnlocked: 0
+  unlockedAtStart: 0
+  isTrinket: 1
+  output: {fileID: 11400000, guid: b4a62ad21f657a643a6a633ae3e31d0f, type: 2}
+  outputAmount: 1
+  craftTimeInSeconds: 60
+  mintCost: 0
+  craftingRequirements:
+  - requiredItem: {fileID: 11400000, guid: 1dd6f9f1dcb60e74390c88d5df494ec7, type: 2}
+    requiredAmount: 2
+  - requiredItem: {fileID: 11400000, guid: 96a3ab3970e7e9e4bb6aa61ea2b9a559, type: 2}
+    requiredAmount: 2
+  - requiredItem: {fileID: 11400000, guid: 9a70b19ccd0b85f41b2dcd849c9d0584, type: 2}
+    requiredAmount: 2

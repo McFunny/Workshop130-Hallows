@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class InventorySlot_UI : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class InventorySlot_UI : MonoBehaviour
     [SerializeField] public GameObject slotHighlight;
     [SerializeField] private InventorySlot assignedInventorySlot;
     [SerializeField] private Animator pickupAnim;
+    public Slider durabilitySlider;
+    public UISpriteAnim anim1, anim2;
+    
 
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
     public InventoryDisplay ParentDisplay { get; private set; }
@@ -21,7 +25,8 @@ public class InventorySlot_UI : MonoBehaviour
     ToolTipScript toolTip; //Handles hovering item in inventory
     private InventoryAnims inventoryAnims;
 
-
+    private Coroutine flashingCoroutine;
+    private Image sliderFill;
     string itemDesc;
     Button button;
 
@@ -37,6 +42,17 @@ public class InventorySlot_UI : MonoBehaviour
         itemName.gameObject.SetActive(false);
         itemGrey.enabled = false;
         foodCooldownSlider.value = 0;
+        sliderFill = durabilitySlider.fillRect.GetComponent<Image>();
+        if(transform.parent.gameObject.name == "PlayerTrinkets")
+        {
+            assignedInventorySlot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+            TrinketInventoryHandler.Instance.OnInventoryUpdate(this, assignedInventorySlot);
+        }
+        else
+        {
+            assignedInventorySlot.acceptedItemType = InventorySlot.AcceptedItemType.Everything;
+        }
+        //Debug.Log(ParentDisplay.gameObject.name);
     }
 
     private void OnEnable()
@@ -84,7 +100,7 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 if (itemName.text != "")
                 {
-                    if (itemDesc != null) { toolTip.UpdateToolTip(assignedInventorySlot.ItemData); }
+                    if (itemDesc != null) { toolTip.UpdateToolTip(assignedInventorySlot); }
                     toolTip.panel.SetActive(true);
                 }
                 else
@@ -227,7 +243,7 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 toolTip.panel.SetActive(false);
             }
-            if (assignedInventorySlot.ItemData != null) { toolTip.UpdateToolTip(assignedInventorySlot.ItemData); }
+            if (assignedInventorySlot.ItemData != null) { toolTip.UpdateToolTip(assignedInventorySlot); }
         }
 
     }
@@ -235,6 +251,7 @@ public class InventorySlot_UI : MonoBehaviour
     public void Init(InventorySlot slot)
     {
         assignedInventorySlot = slot;
+        slot.uiSlot = this;
         UpdateUISlot(slot);
     }
 
@@ -250,6 +267,50 @@ public class InventorySlot_UI : MonoBehaviour
                 itemCount.text = slot.StackSize.ToString();
             else
                 itemCount.text = "";
+
+            //Debug.Log("Kevin: Parent slot is " + transform.parent.gameObject.name);
+            if(transform.parent.gameObject.name == "PlayerTrinkets")
+            {
+                slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+                TrinketInventoryHandler.Instance.OnInventoryUpdate(this, assignedInventorySlot);
+                if(slot.ItemData != null)
+                {
+                    if (flashingCoroutine != null)
+                    {
+                        StopCoroutine(flashingCoroutine);
+                        itemSprite.color = Color.white;
+                    }
+                    TrinketItem trinket = slot.ItemData as TrinketItem;
+                    var durability = TrinketInventoryHandler.Instance.GetTrinketDurability(slot);
+
+                    if(durability <= 1)
+                    {
+                        flashingCoroutine = StartCoroutine(TrinketSlotFlashing());
+                        sliderFill.color = Color.red;
+                    }
+                    else if(durability <= trinket.maxDurability * 0.25f)
+                    {
+                        sliderFill.color = Color.red;
+                    }
+                    else if(durability <= trinket.maxDurability * 0.5f)
+                    {
+                        sliderFill.color = Color.yellow;
+                    }
+                    else
+                    {
+                        sliderFill.color = Color.green;
+                    }
+                }
+                if(slot.ItemData == null)
+                {
+                    itemSprite.color = Color.clear;
+                }
+                
+            }
+            else
+            {
+                slot.acceptedItemType = InventorySlot.AcceptedItemType.Everything;
+            }
         }
         else
         {
@@ -274,6 +335,7 @@ public class InventorySlot_UI : MonoBehaviour
     public void ClearSlot()
     {
         assignedInventorySlot?.ClearSlot();
+        if(flashingCoroutine != null) StopCoroutine(flashingCoroutine);
         itemSprite.sprite = null;
         itemSprite.color = Color.clear;
         itemCount.text = "";
@@ -281,6 +343,8 @@ public class InventorySlot_UI : MonoBehaviour
         itemDesc = "";
         foodCooldownSlider.gameObject.SetActive(false);
         itemGrey.enabled = false;
+        durabilitySlider.gameObject.SetActive(false);
+        durabilitySlider.value = 0;
         //itemName.gameObject.SetActive(false);
     }
 
@@ -296,6 +360,27 @@ public class InventorySlot_UI : MonoBehaviour
         {
             foodCooldownSlider.gameObject.SetActive(false);
             itemGrey.enabled = false;
+        }
+    }
+
+    private IEnumerator TrinketSlotFlashing()
+    {
+        while (true)
+        {
+            float flashDuration = 0.5f;
+            float elapsedTime = 0f;
+            Color originalColor = Color.white;
+            Color flashColor = Color.red;
+
+            while (elapsedTime < flashDuration)
+            {
+                itemSprite.color = Color.Lerp(originalColor, flashColor, Mathf.PingPong(elapsedTime * 4f, 1f));
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            itemSprite.color = originalColor;
+            yield return new WaitForSeconds(1f);
         }
     }
 

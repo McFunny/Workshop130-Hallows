@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -81,19 +82,25 @@ public class MudRoomCropKey : MonoBehaviour, IInteractable
 
     public MudRoomCropKeySaveData ExportSaveData()
     {
+        string cropName = "";
+        if(assignedCrop) cropName = assignedCrop.name;
         return new MudRoomCropKeySaveData
         {
-            keyIndex = keyIndex,
-            cropInserted = cropInserted,
-            cropName = assignedCrop.name
+            _keyIndex = keyIndex,
+            _cropInserted = cropInserted,
+            cropName = cropName
         };
     }
 
     public void ImportSaveData(MudRoomCropKeySaveData data)
     {
-        cropInserted = data.cropInserted;
+        cropInserted = data._cropInserted;
         assignedCrop = CropDatabase.Instance.GetCropByName(data.cropName);
-
+        if (assignedCrop == null)
+        {
+            Debug.LogError("MudRoomCropKey: Could not find crop with name " + data.cropName);
+            return;
+        }
         backgroundSprite.sprite = assignedCrop.cropYield.icon;
         foregroundSprite.sprite = assignedCrop.cropYield.icon;
         foregroundSprite.enabled = cropInserted;
@@ -102,5 +109,11 @@ public class MudRoomCropKey : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
         
+    }
+
+    internal void AutoComplete()
+    {
+        cropInserted = true;
+        foregroundSprite.enabled = true;
     }
 }

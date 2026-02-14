@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d2ead40bcc7494582ff788e70c898a, type: 3}
+  m_Name: C_SweetCarrots
+  m_EditorClassIdentifier: 
+  id: 9
+  amountMade: 0
+  priority: 2
+  requiredItems:
+  - {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
+  barredItems:
+  - {fileID: 11400000, guid: 27896107abf33c44abc3c74431a72d74, type: 2}
+  recipeStats:
+  - type: 0
+    value: 1
+  - type: 2
+    value: -1
+  - type: 3
+    value: 1
+  - type: 4
+    value: -1
+  output: {fileID: 11400000, guid: 5a9a6263f5638eb4dadec07b613956d7, type: 2}
+  cookTimeInSeconds: 30
+  validRecipes: []

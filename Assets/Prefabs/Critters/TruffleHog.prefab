@@ -758,6 +758,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 0.25490198}
   currentEffects: []
   critterType: 0
@@ -800,12 +801,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5d1b031ba347e6e4889b951e93ff29eb, type: 2}
   - {fileID: 11400000, guid: 995e68105f917cf43a48bd00d4fd1feb, type: 2}
   - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+  - {fileID: 11400000, guid: d047228a6e443ca46843c71c725ba95e, type: 2}
   hunger: 100
   maxHunger: 100
-  hungerDecayRate: 5
+  hungerDecayRate: 4
   thirst: 100
   maxThirst: 100
-  thirstDecayRate: 4
+  thirstDecayRate: 3
   penType: 0
   homePen: {fileID: 0}
   agent: {fileID: 9190597950241346522}

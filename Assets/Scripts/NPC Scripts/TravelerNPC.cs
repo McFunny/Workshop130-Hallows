@@ -35,9 +35,9 @@ public class TravelerNPC : NPC, ITalkable
             }
             else
             {
-                if(CompletedQuest()) //ADD UNIQUE FUNCTION TO GIVE UNIQUE DIALOGUE THAT IS QUEST DEPENDENT
+                if(CompletedQuest()) 
                 {
-                    currentPath = 0;
+                    currentPath = QuestCompletedDialogue();
                     currentType = PathType.QuestComplete;
                 }
                 else if(dailyQuest != null)
@@ -58,7 +58,7 @@ public class TravelerNPC : NPC, ITalkable
                     GameSaveData.Instance.tra_askedForFood = true;
                     currentPath = 0;
                     currentType = PathType.Quest;
-                    QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[2]); //Add the "Grow Tuber Quest" quest
+                    QuestManager.Instance.AddQuest(QuestDatabase.Instance.UniqueGrowQuests[3]); //Add the "Grow Tuber Quest" quest
                 }
                 else if (currentPath == -1)
                 {
@@ -85,7 +85,7 @@ public class TravelerNPC : NPC, ITalkable
 
         if (CompletedQuestWithItem())
         {
-            currentPath = 0;
+            currentPath = QuestCompletedDialogue();
             currentType = PathType.QuestComplete;
         }
         else if (item.ID == 163)
@@ -114,7 +114,7 @@ public class TravelerNPC : NPC, ITalkable
         }
 
         //Remark about completing the knife/tuber quest here
-        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[2])) return 1;
+        if(QuestManager.Instance.CompareQuests(QuestManager.Instance.activeQuests[lastCompletedQuestIndex], QuestDatabase.Instance.UniqueGrowQuests[3])) return 1;
 
         return 0;
     }

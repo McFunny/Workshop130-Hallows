@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RubyWasp : CreatureBehaviorScript
 {
+    public InventoryItemData bugItem;
+
     public RubyWaspSwarm homeSwarm;
     public CrimsonMothNest homeNest;
 
@@ -275,8 +277,8 @@ public class RubyWasp : CreatureBehaviorScript
         yield return new WaitForSeconds(0.15f);
         if(playerInAttackRange)
         {
-            PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
-            if(Random.Range(0, 10) > 4) //It got stuck!
+            PlayerInteraction.Instance.StaminaChange(-damageToPlayer, corpseParticleTransform.position);
+            if(Random.Range(0, 10) > 4 && !PlayerInteraction.Instance.isParrying) //It got stuck!
             {
                 currentState = CreatureState.Stuck;
                 rb.velocity = Vector3.zero;
@@ -308,6 +310,7 @@ public class RubyWasp : CreatureBehaviorScript
         anim.SetBool("Unstuck", false);
 
         stuckOnPlayer = true;
+        AchievementManager.Instance.TrackStuckWasps(true);
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(gameObject, 0.9f, "Wasp", true));
 
         while(unstickAttempts < attemptsNeeded)
@@ -328,7 +331,7 @@ public class RubyWasp : CreatureBehaviorScript
         allColliders[0].isTrigger = false;
         anim.SetBool("Unstuck", true);
         currentState = CreatureState.Wander;
-
+        AchievementManager.Instance.TrackStuckWasps(false);
         stuckOnPlayer = false;
         PlayerMovement.Instance.RemoveSpeedMod(gameObject);
         yield return new WaitForSeconds(3f);
@@ -478,9 +481,15 @@ public class RubyWasp : CreatureBehaviorScript
 
     public override bool CaughtByBugNet(out InventoryItemData item)
     {
-        item = null;
-        TakeDamage(999);
-        return false;
+        item = bugItem;
+
+        if(currentState == CreatureState.Stuck)
+        {
+            TakeDamage(999);
+            return false;
+        }
+
+        else return true;
     }
 
     public override bool OnStun(float duration) // For the resin pole trap

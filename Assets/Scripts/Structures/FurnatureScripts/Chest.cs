@@ -22,6 +22,8 @@ public class Chest : FurnitureBehaviorScript
     public AudioSource source;
     public AudioClip openSFX, closeSFX;
 
+    public ParticleSystem closeParticles;
+
     bool frozeTime;
 
     void Awake()
@@ -131,6 +133,9 @@ public class Chest : FurnitureBehaviorScript
         anim.SetBool("isOpen", false);
         source.PlayOneShot(closeSFX);
         RefreshSockets();
+
+        yield return new WaitForSeconds(0.7f);
+        closeParticles.Play();
     }
 
     public override void SaveVariables()

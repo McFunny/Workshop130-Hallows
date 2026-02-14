@@ -14,21 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 205
   displayName: Bonsai Berry
-  description: Wild berries that make for a really refreshing snack. However, their
-    flavor is bland and does not sell for much.
+  description: Wild berries that make for a refreshing snack. However, their flavor
+    is bland and does not sell for much.
   icon: {fileID: -1666183533, guid: 4be4ba892e4f2334aa2995740e2caca1, type: 3}
   type: 1
   maxStackSize: 20
-  value: 7
+  value: 9
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 18
+  staminaValue: 16
   animalHungerValue: 45
   bonusCompostValue: 15
   useCooldown: 1
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats:
+  - type: 1
+    value: 0.5
+  foodForPets: 000000000200000004000000
+  foodForCritters: 000000000100000003000000
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

@@ -60,7 +60,8 @@ MonoBehaviour:
     paragraphs:
     - Can you believe that Carpenter? He makes barricades out of Gloomstalk!
     - Using food as a defense measure? Preposterous! How absurd!
-    emotions: 0300000005000000
+    - You don't see me making forts out of carrots and tubers!
+    emotions: 030000000500000005000000
   - pathName: Mist food
     paragraphs:
     - Some people have told me food tasted better before the mist showed up.
@@ -81,7 +82,24 @@ MonoBehaviour:
     - Even the otherwise inedible!
     - Care for some Spring Rolls?
     emotions: 010000000000000004000000
-  questPaths: []
+  - pathName: Bug Dinner
+    paragraphs:
+    - I recall during the early days, back when food was scarce, I once resorted
+      to making a casserole out of scuttle grub meat.
+    - The result?
+    - A culinary abomination.
+    emotions: 000000000400000002000000
+  questPaths:
+  - pathName: CrockPot Quest
+    paragraphs:
+    - Did you just give that boy a carrot... uncooked?!
+    - We are way beyond the Stone Age, Mr.Farmer. We have methods to ensure our food
+      does not taste like the dirt it comes from!
+    - Well, since we are handing out food to just about everyone now, how about you
+      fetch me some fresh ingredients?
+    - You bring me ingredients to my booth, and in exchange, I equip you with the
+      tools to properly prepare your food.
+    emotions: 05000000030000000400000000000000
   itemRecievedPaths:
   - pathName: Go Sell it instead
     paragraphs:
@@ -100,6 +118,11 @@ MonoBehaviour:
     paragraphs:
     - Whats this now? A recipe of sorts??
     emotions: 04000000
+  - pathName: Ruined Food
+    paragraphs:
+    - Oh, oh my... That appears to be gore of my favorite comfort ingredients...
+    - Remove this from my sight at once!
+    emotions: 0500000003000000
   friendshipPath1: []
   friendshipPath2: []
   friendshipPath3: []
@@ -116,6 +139,16 @@ MonoBehaviour:
     paragraphs:
     - Thank you for completing my quest!
     emotions: 01000000
+  - pathName: Crockpot Quest Complete
+    paragraphs:
+    - Splendid Mr.Farmhand. I hope now your eyes have been opened to the wonderful
+      world of the culinary arts!
+    - Now that you have seen my work, I am going to provide you with your very own
+      cooking apparatus!
+    - Oh, enough with that look! It's easy!
+    - Just throw four ingredients of your choice, fill up the container with oil,
+      and set the base aflame. {givePlayerItems}
+    emotions: 01000000010000000300000000000000
   dailyQuestPaths:
   - pathName: Daily Quest
     paragraphs:

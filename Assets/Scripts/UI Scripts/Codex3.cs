@@ -215,17 +215,29 @@ public class Codex3 : MonoBehaviour
         if (menuIndex == 0 || menuIndex == 2) return;
         if (!PlayerMovement.isCodexOpen) return;
 
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if(Input.GetKeyDown(KeyCode.D))
         {
             UpdateSelectedOpenCategory(openCategory, 1);
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.A))
         {
             UpdateSelectedOpenCategory(openCategory, -1);
         }
 
+        
+
         if (ControlManager.isController)
         {
+
+            if(Gamepad.current.rightTrigger.wasPressedThisFrame)
+            {
+                UpdateSelectedOpenCategory(openCategory, 1);
+            }
+            else if (Gamepad.current.leftTrigger.wasPressedThisFrame)
+            {
+                UpdateSelectedOpenCategory(openCategory, -1);
+            }
+
             backControllerObject.SetActive(true);
             backKBMObject.SetActive(false);
             for (int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = true;
@@ -238,7 +250,7 @@ public class Codex3 : MonoBehaviour
                 {
                     if (containers[(int)openCategory].transform.childCount > 0)
                     {
-                        EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+                        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(ReturnFirstActiveChild(containers[6]));
                     }
                 }
             }
@@ -322,7 +334,7 @@ public class Codex3 : MonoBehaviour
             var Cat = TutorialEntries;
             var isQuest = false;
             var isCritter = false;
-            Debug.LogWarning(i);
+            Debug.Log(i);
             switch (i)
             {
                 case 0:
@@ -719,6 +731,7 @@ public class Codex3 : MonoBehaviour
                 if (!AreThereEnoughPages(crittersScreenNum, incrementDirection)) return;
                 currentScreenNum += incrementDirection;
                 HideAndShowEntries(cat, maxCritterEntries);
+                if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(ReturnFirstActiveChild(containers[6]));
                 break;
         }
     }
@@ -858,5 +871,18 @@ public class Codex3 : MonoBehaviour
             mandrakeCreatureEntry.unlocked = false;
             mandrakeCropEntry.unlocked = false;
         }    
+    }
+
+    private GameObject ReturnFirstActiveChild(GameObject parent)
+    {
+
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            if(parent.transform.GetChild(i).gameObject.activeSelf == true)
+            {
+                return gameObject.transform.GetChild(i).gameObject;
+            }
+        }
+        return null;
     }
 }

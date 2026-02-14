@@ -7,7 +7,7 @@ using TMPro;
 public class UIMeters : MonoBehaviour
 {
     [SerializeField] private GameObject extraWaterObject, medLinesObject, fullLinesObject;
-    public Slider waterBar, extraWaterBar, staminaBar, fatigueBar;
+    public Slider waterBar, extraWaterBar, staminaBar, regenBar;
     public Image waterFill, extraWaterFill, staminaFill;
     public GameObject leftTextbox, rightTextbox;
     public Color c_stamina, c_water, c_damage;
@@ -18,6 +18,7 @@ public class UIMeters : MonoBehaviour
     private const float INITIALMAXWATER = 10f;
     private bool isDamagedCoroutineRunning = false;
     private bool isWaterLoweredCoroutineRunning = false;
+    [SerializeField] UISpriteAnim waterAnimator, extraWaterAnimator, staminaAnimator;
     void Start()
     {
         p = PlayerInteraction.Instance;
@@ -27,7 +28,7 @@ public class UIMeters : MonoBehaviour
 
         currentStamina = p.stamina;
         currentWater = p.waterHeld;
-        fatigueBar.maxValue = p.maxStamina;
+        regenBar.maxValue = p.maxStamina;
 
         controlManager = FindFirstObjectByType<ControlManager>();
 
@@ -55,16 +56,17 @@ public class UIMeters : MonoBehaviour
         if(p.stamina != currentStamina || p.waterHeld != currentWater)
         {
             UpdateMeters();
-            
         }
     }
 
     public void UpdateMeters()
     {
         waterBar.value = p.waterHeld;
+        staminaBar.maxValue = p.maxStamina;
+        regenBar.maxValue = p.maxStamina;
 
-        staminaBar.value = p.stamina/p.maxStamina;
-        fatigueBar.value = p.maxStamina + (p.fatigue - p.maxStamina); // math scares me
+        staminaBar.value = p.stamina;
+        regenBar.value = p.targetRegen;
 
         leftText.text = p.waterHeld + "/" + p.maxWaterHeld;
         rightText.text = p.stamina + "/" + p.maxStamina;
@@ -111,6 +113,7 @@ public class UIMeters : MonoBehaviour
     IEnumerator PlayerDamaged()
     {
         isDamagedCoroutineRunning = true;
+        staminaAnimator.PlayOneShotUI();
         for(int i = 0; i < 4; i++)
         {
             staminaFill.color = c_damage;
@@ -127,6 +130,13 @@ public class UIMeters : MonoBehaviour
     IEnumerator WaterLowered()
     {
         isWaterLoweredCoroutineRunning = true;
+
+        if(currentWater > INITIALMAXWATER)
+        {
+           extraWaterAnimator.PlayOneShotUI();
+        }
+        else waterAnimator.PlayOneShotUI();
+
         for(int i = 0; i < 4; i++)
         {
             if(currentWater > INITIALMAXWATER) extraWaterFill.color = c_damage;

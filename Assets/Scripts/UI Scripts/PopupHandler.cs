@@ -26,6 +26,8 @@ public class PopupHandler : MonoBehaviour
 
     public Queue<string> names = new Queue<string>(); 
 
+    public AudioClip notifSFX;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -111,6 +113,8 @@ public class PopupHandler : MonoBehaviour
 
     public void AddToQueue(PopupScript popup)
     {
+        if(!popup.canWaitInQueue && typesInQueue.Count != 0) return;
+
         for(int i = 0; i < typesInQueue.Count; i++)
         {
             //print(typesInQueue[i].text);
@@ -143,6 +147,8 @@ public class PopupHandler : MonoBehaviour
 
         popupText.text = textToShow;
         currentPopup = popup;
+
+        AudioPoolManager.Instance.PlayClip(notifSFX, 0.3f);
     }
 
     IEnumerator CheckQueue()

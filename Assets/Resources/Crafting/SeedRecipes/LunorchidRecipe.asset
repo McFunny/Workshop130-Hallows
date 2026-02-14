@@ -18,12 +18,14 @@ MonoBehaviour:
   tier: 1
   isUnlocked: 0
   isRecentlyUnlocked: 0
+  unlockedAtStart: 0
+  isTrinket: 0
   output: {fileID: 11400000, guid: ad748d007dc8baa42963f208130ad626, type: 2}
   outputAmount: 1
-  craftTimeInSeconds: 30
+  craftTimeInSeconds: 15
   mintCost: 0
   craftingRequirements:
   - requiredItem: {fileID: 11400000, guid: e505b9c244165464a9e94558ed7e8d3c, type: 2}
-    requiredAmount: 2
+    requiredAmount: 1
   - requiredItem: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
     requiredAmount: 2

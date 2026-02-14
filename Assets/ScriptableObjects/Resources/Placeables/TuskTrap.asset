@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: TuskTrap
+  m_EditorClassIdentifier: 
+  ID: 344
+  displayName: Tusk Trap
+  description: A sharp and crude trap that hides in the ground, springing up and
+    stabbing anything near it. This trap must be manually set.
+  icon: {fileID: 1896978032, guid: 4f09b48bcf9b9f9459ff7d91fd7914fa, type: 3}
+  type: 3
+  maxStackSize: 5
+  value: 45
+  sellValueMultiplier: 0.25
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 5500008239049761381, guid: aa4cb97671aefe54d8ac79fe327c7946,
+    type: 3}
+  hologramPrefab: {fileID: 8596313553350405539, guid: b7dedec4fa3391242a5cae1acc842846,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
+  gridTypes: 01000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

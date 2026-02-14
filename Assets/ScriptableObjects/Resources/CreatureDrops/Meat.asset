@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 7
   displayName: Meat
-  description: Meat from an unpleasant source. Inedible.
+  description: Marbled flesh from an unpleasant source. Inedible.
   icon: {fileID: 1932044525, guid: 99cc2de0b67f60d46815427a87d9a7f1, type: 3}
   type: 0
   maxStackSize: 10
-  value: 22
-  sellValueMultiplier: 0.75
+  value: 20
+  sellValueMultiplier: 0.6
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
@@ -32,6 +32,11 @@ MonoBehaviour:
     newItem: {fileID: 11400000, guid: 75697f8252c0faa4490e978dbf5526b2, type: 2}
     itemsNeeded: 1
     itemsGained: 1
+  cookingStats:
+  - type: 2
+    value: 1
+  foodForPets: 000000000200000004000000
+  foodForCritters: 00000000
   itemInputsKBM:
   - RMB - Show Item
   itemInputsController:

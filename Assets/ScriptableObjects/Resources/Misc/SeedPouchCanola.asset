@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 283
   displayName: Seed Pouch (Canola)
-  description: Contains 4 seeds of Canola; The seeds of this flowering crop can be
-    grounded into oil that is essential for cooking.
+  description: Contains 4 seeds of Canola; The seeds of this plant can be grounded
+    into oil that is essential for cooking. The leftover flowers can be sold for
+    minimal profit.
   icon: {fileID: 1689819878, guid: 1f9f468ef21ebe448a1b93daf20e6bc5, type: 3}
   type: 0
   maxStackSize: 1
-  value: 25
+  value: 15
   sellValueMultiplier: 0
   isKeyItem: 0
   hasModel: 0
@@ -29,6 +30,9 @@ MonoBehaviour:
   useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

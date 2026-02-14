@@ -17,6 +17,7 @@ public class Well : MonoBehaviour, IInteractable
     float dropRateMax = 4.5f;
     float distance = 10; //progress until bucket fully risen or dropped
     bool interacting = false;
+    bool autoCranking = false;
     public WellPhase phase;
 
     public AudioSource loopingSource;
@@ -54,6 +55,8 @@ public class Well : MonoBehaviour, IInteractable
         lineVertex1Start = line.GetPosition(1);
         lineVertex1End = new Vector3(lineVertex1Start.x, lineVertex1Start.y - (distance * 2), lineVertex1Start.z);
         bucketBottom = new Vector3(bucketTop.position.x, bucketTop.position.y - (distance * 2), bucketTop.position.z);
+
+        StartCoroutine(CheckForAutocrank());
     }
 
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
@@ -77,8 +80,9 @@ public class Well : MonoBehaviour, IInteractable
             return;
         }
         interactSuccessful = true;
-        PlayerInteraction.Instance.waterHeld += 10;
-        if(PlayerInteraction.Instance.maxWaterHeld < PlayerInteraction.Instance.waterHeld) PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
+        PlayerInteraction.Instance.WaterChange(10);
+        //PlayerInteraction.Instance.waterHeld += 10;
+        //if(PlayerInteraction.Instance.maxWaterHeld < PlayerInteraction.Instance.waterHeld) PlayerInteraction.Instance.waterHeld = PlayerInteraction.Instance.maxWaterHeld;
         waterSprite.SetActive(false);
         bucketFilled = false;
         splashParticle.Play();
@@ -103,17 +107,22 @@ public class Well : MonoBehaviour, IInteractable
 
         if(phase == WellPhase.BucketRisen) return;
 
-        if(altitude < distance && ((!interacting || !InputManager.isHoldingInteract) || phase == WellPhase.BucketInitialDrop))
+        if(altitude < distance && ((!interacting || !InputManager.isHoldingInteract) || phase == WellPhase.BucketInitialDrop) && !autoCranking)
         {
             currentRate = currentRate + rateChange * Time.deltaTime;
+
             if(currentRate > dropRateMax) currentRate = dropRateMax;
         }
-        else if(interacting && InputManager.isHoldingInteract)
+        else if((interacting && InputManager.isHoldingInteract) || autoCranking)
         {
             //altitude += riseRateMax * Time.deltaTime;
             currentRate = currentRate - rateChange * Time.deltaTime;
-            if(currentRate < riseRateMax) currentRate = riseRateMax;
+
+            float tempMaxRaiseRate = riseRateMax;
+            if(autoCranking && !interacting) tempMaxRaiseRate *= 0.5f;
+            if(currentRate < tempMaxRaiseRate) currentRate = tempMaxRaiseRate;
         }
+        else currentRate = 0;
 
         altitude += currentRate * Time.deltaTime;
         
@@ -142,11 +151,39 @@ public class Well : MonoBehaviour, IInteractable
             loopingSource.Stop();
             AudioPoolManager.Instance.PlayClipAtPosition(bucketReturnedSound, transform.position);
             currentRate = 0;
+
+            if(autoCranking)
+            {
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.Autocrank);
+                autoCranking = false;
+            }
         }
 
-        if(altitude > 0 && altitude < 10 && !loopingSource.isPlaying) loopingSource.Play();
+        if(altitude > 0 && altitude < 10) 
+        {
+            if(!loopingSource.isPlaying) loopingSource.Play();
+            crankPivot.Rotate(crankPivot.rotation.x + currentRate, crankPivot.rotation.y, crankPivot.rotation.z);
+        }
+    }
 
-        crankPivot.Rotate(crankPivot.rotation.x + currentRate, crankPivot.rotation.y, crankPivot.rotation.z);
+    IEnumerator CheckForAutocrank()
+    {
+        bool performAutoCrank = false;
+        while(true)
+        {
+            if(performAutoCrank) yield return new WaitForSeconds(2);
+            else yield return new WaitForSeconds(5);
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.Autocrank) && (phase == WellPhase.BucketAtBottom))
+            {
+                if(performAutoCrank) autoCranking = true;
+                else performAutoCrank = true;
+            }
+            else 
+            {
+                autoCranking = false;
+                performAutoCrank = false;
+            }
+        }
     }
 
     public void ToggleHighlight(bool enable)

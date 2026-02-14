@@ -57,6 +57,7 @@ public class Structure
     public float savedFloat1, savedFloat2, savedFloat3;
     public string savedString1, savedString2, savedString3;
     public bool savedBool1;
+    public List<CraftSlotSaveData> savedCrafts = new List<CraftSlotSaveData>();
 
     public Structure()
     {

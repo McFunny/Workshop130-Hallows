@@ -211,7 +211,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         if(!isMoving)
         {
             float distance = Vector3.Distance(player.position, spawnOrigin);
-            if(distance > followDistance && friendshipLevel >= 1)
+            if(distance > followDistance && friendshipLevel >= 1 && TimeManager.Instance.isDay)
             {
                 StateSwitch(PetState.Follow);
                 currentRoutine = null;
@@ -371,7 +371,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                 return;
             }
             bool isEating = false, isDrinking = false;
-            if(hunger <= 25 && bowl.ContainsEdibleItem(foodDiet)) isEating = true;
+            if(hunger <= 25 && bowl.ContainsEdibleItem(petType)) isEating = true;
             if(thirst <= 25 && bowl.containsWater) isDrinking = true;
 
             if(Vector3.Distance(player.position, transform.position) > 70f) transform.position = targetStructure.transform.position; // To get pet unstuck if they get stuck
@@ -740,7 +740,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(item.ID == 2 && PlayerInteraction.Instance.waterHeld > 0 && ignited) //Water
+        interactSuccessful = false;
+        if((item.ID == 2 || item.ID == 270) && PlayerInteraction.Instance.waterHeld > 0 && ignited) //Water
         {
             PlayerInteraction.Instance.waterHeld--;
             interactSuccessful = true;
@@ -750,7 +751,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             IgnitionToggle(false);
             return;
         }
-        else if(item.ID == 92) //Torch
+        else if(item.ID == 92 || item.ID == 274) //Torch
         {
             if(!PlayerInteraction.Instance.torchLit && ignited)
             {
@@ -764,8 +765,22 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             }
             else interactSuccessful = false;
         }
-        else if(hunger < 100 && (foodDiet.Contains(item)) && !inBall && !ballTransitioning)
+        else if(item.ID == 142) //Pyrefly
         {
+            if(!PlayerInteraction.Instance.pyreflyLit && ignited)
+            {
+                HandItemManager.Instance.PyreflyFlameToggle(true);
+                interactSuccessful = true;
+            }
+            else interactSuccessful = false;
+        }
+        else if(hunger < 100 && !inBall && !ballTransitioning)
+        {
+            if(item.foodForPets.Count == 0 || !item.foodForPets.Contains(petType))
+            {
+                thoughtBubbleScript.PlayEmotion(2);
+                return;
+            }
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
             EatFood(item);

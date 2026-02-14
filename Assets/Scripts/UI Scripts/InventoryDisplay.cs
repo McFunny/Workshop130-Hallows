@@ -47,6 +47,7 @@ public abstract class InventoryDisplay : MonoBehaviour
         if(i == PlayerInventoryHolder.Instance.PrimaryInventorySystem) print("I clicked in the Primary");
         if(i == PlayerInventoryHolder.Instance.secondaryInventorySystem) print("I clicked in the Secondary");
         if(i == InventoryUIController.Instance.chestPanel.InventorySystem) print("I clicked in the Tertiary");
+        if(i == PlayerInventoryHolder.Instance.trinketInventorySystem) print("I clicked in the Trinkets");
     }
 
     public void HandleSlotLeftClick(InventorySlot_UI clickedUISlot)
@@ -55,6 +56,10 @@ public abstract class InventoryDisplay : MonoBehaviour
         bool isShiftPress = Input.GetKey(KeyCode.LeftShift);
         PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
         PrintSystem(inventorySystem);
+        string mouseItemType = null;
+        if(mouseInventoryItem.assignedInventorySlot.ItemData != null) mouseItemType = mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString();
+
+        Debug.Log("Mouse Item Type: " + mouseItemType);
         // Left-click logic:
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData == null)
         {
@@ -63,16 +68,18 @@ public abstract class InventoryDisplay : MonoBehaviour
             if(inventorySystem != PlayerInventoryHolder.Instance.PrimaryInventorySystem) intoPrimary = true;
 
             ///////////Checking to see if a chest is opened//////////////
-            if(isShiftPress && InventoryUIController.Instance.chestPanel.gameObject.activeSelf)
+            if(isShiftPress && InventoryUIController.Instance.chestPanel.gameObject.activeSelf && !IsTrinketSlot(clickedUISlot))
             {
                 if(inventorySystem != InventoryUIController.Instance.chestPanel.InventorySystem)
                 {
                     ///////////Checking to see if we can quick switch the item into a chest//////////////
+
                     if(PlayerInventoryHolder.Instance.CanQuickSwitchIntoChest(InventoryUIController.Instance.chestPanel.InventorySystem, clickedUISlot.AssignedInventorySlot.ItemData, 
                     clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot t_slot))
                     {
                         ///////////Moving item into the chest//////////////
                         clickedUISlot.ClearSlot();
+                        
                         //PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                         PlayerInventoryHolder.Instance.UpdateOpenInventory();
                         //if(t_slot != null) UpdateSlot(t_slot); 
@@ -99,9 +106,8 @@ public abstract class InventoryDisplay : MonoBehaviour
 
                 
             }
-
-            ///////////Checking to see if we can quick switch the item into one of the player inventories//////////////
-            else if (isShiftPress && PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
+            
+            else if (isShiftPress && !IsTrinketSlot(clickedUISlot) && PlayerInventoryHolder.Instance.CanQuickSwitch(intoPrimary, clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, out InventorySlot slot))
             {
                 //for quick swapping into one of the player's inventories
                 clickedUISlot.ClearSlot();
@@ -114,8 +120,10 @@ public abstract class InventoryDisplay : MonoBehaviour
             {
                 ///////////The player picked up an item from a slot//////////////
                 mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
+                if(IsTrinketSlot(clickedUISlot)) TrinketInventoryHandler.Instance.TrinketRemoved(clickedUISlot.AssignedInventorySlot, mouseInventoryItem);
                 clickedUISlot.ClearSlot();
                 PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
+
                 return;
             }
         } 
@@ -123,9 +131,40 @@ public abstract class InventoryDisplay : MonoBehaviour
         if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
             ///////////The player clicked on an empty slot while holding an item//////////////
-            clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.assignedInventorySlot);
+            
+            // Cancels the action if the slot does not accept this item (mainly for trinkets)
+            if(!CanAcceptItemType(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+
+            if(IsTrinketSlot(clickedUISlot))
+            {
+                // Cancels the action if the trinket is not stackable
+                if(!TrinketInventoryHandler.Instance.CanPlaceInTrinketSlot(mouseInventoryItem.assignedInventorySlot.ItemData)) return;
+
+
+                clickedUISlot.AssignedInventorySlot.AssignItem(new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, 1));
+                mouseInventoryItem.assignedInventorySlot.RemoveFromStack(1);
+                TrinketInventoryHandler.Instance.TrinketEntered(clickedUISlot.AssignedInventorySlot);
+
+                // Check if the mouse inventory stack is empty after removal
+                if (mouseInventoryItem.assignedInventorySlot.StackSize <= 0)
+                {
+                    mouseInventoryItem.ClearSlot(); // Clear the mouse if stack is empty
+                }
+                else
+                {
+                    // Create a new item for the remaining stack and update the mouse UI
+                    var newItem = new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, mouseInventoryItem.assignedInventorySlot.StackSize);
+                    mouseInventoryItem.ClearSlot();
+                    mouseInventoryItem.UpdateMouseSlot(newItem); // Update the mouse UI with the remaining stack
+                }
+            }
+            else 
+            {
+                clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.assignedInventorySlot);
+                mouseInventoryItem.ClearSlot();
+            }
+
             clickedUISlot.UpdateUISlot();
-            mouseInventoryItem.ClearSlot();
             PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
             return;
         }
@@ -133,6 +172,11 @@ public abstract class InventoryDisplay : MonoBehaviour
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
             ///////////The player clicked on a slot while holding an item//////////////
+            
+            //Cancels the action if the slot does not accept this item (mainly for trinkets)
+            if(!CanAcceptItemType(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+            if(IsTrinketSlot(clickedUISlot)) return;
+            
             bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData == mouseInventoryItem.assignedInventorySlot.ItemData;
 
             if (isSameItem && clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.assignedInventorySlot.StackSize))
@@ -157,6 +201,7 @@ public abstract class InventoryDisplay : MonoBehaviour
             }
             else if (!isSameItem)
             {
+                if(IsTrinketSlot(clickedUISlot)) return;
                 SwapSlots(clickedUISlot);
                 PlayerInventoryHolder.OnPlayerInventoryChanged?.Invoke(inventorySystem);
                 return;
@@ -189,9 +234,19 @@ public abstract class InventoryDisplay : MonoBehaviour
 
         if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.assignedInventorySlot.ItemData != null)
         {
+            //Cancels the action if the slot does not accept this item (mainly for trinkets)
+            if(!CanAcceptItemType(clickedUISlot.AssignedInventorySlot.acceptedItemType.ToString(), mouseInventoryItem.assignedInventorySlot.ItemData.type.ToString())) return;
+
+            if(IsTrinketSlot(clickedUISlot)) if(!TrinketInventoryHandler.Instance.CanPlaceInTrinketSlot(mouseInventoryItem.assignedInventorySlot.ItemData)) return;
+            
             // Add one item from the mouse inventory to the clicked slot
             clickedUISlot.AssignedInventorySlot.AssignItem(new InventorySlot(mouseInventoryItem.assignedInventorySlot.ItemData, 1));
             mouseInventoryItem.assignedInventorySlot.RemoveFromStack(1); // Remove one from the mouse
+
+            if(IsTrinketSlot(clickedUISlot))
+            {
+                TrinketInventoryHandler.Instance.TrinketEntered(clickedUISlot.AssignedInventorySlot);
+            }
 
             // Update the clicked slot UI
             clickedUISlot.UpdateUISlot();
@@ -425,7 +480,28 @@ public abstract class InventoryDisplay : MonoBehaviour
         clickedUISlot.ClearSlot();
         clickedUISlot.AssignedInventorySlot.AssignItem(clonedSlot);
         clickedUISlot.UpdateUISlot();
+    }
 
+    private bool CanAcceptItemType(string _itemType, string _slotType)
+    {
+        InventorySlot.AcceptedItemType itemType = (InventorySlot.AcceptedItemType)System.Enum.Parse(typeof(InventorySlot.AcceptedItemType), _itemType);
 
+        if(itemType == InventorySlot.AcceptedItemType.None) return false;
+
+        InventorySlot.AcceptedItemType slotType = (InventorySlot.AcceptedItemType)System.Enum.Parse(typeof(InventorySlot.AcceptedItemType), _slotType);
+
+        if(slotType == InventorySlot.AcceptedItemType.Everything) return true;
+
+        Debug.Log(itemType + " | " + slotType);
+        return (slotType & itemType) != 0;
+    }
+
+    public bool IsTrinketSlot(InventorySlot_UI clickedUISlot)
+    {
+        if (clickedUISlot.ParentDisplay.gameObject.name == "PlayerTrinkets")
+        {
+            return true;
+        }
+        return false;
     }
 }

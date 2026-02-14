@@ -16,16 +16,16 @@ MonoBehaviour:
   - name: SeedShooter
     itemForSale: {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
     useItemPrice: 1
-    mintCost: 370
+    mintCost: 310
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
-    siegesRequired: 0
+    siegesRequired: 1
     amountGiven: 1
   - name: FermentationVat
     itemForSale: {fileID: 11400000, guid: 0c50193a4742c3044abfde0a68396c25, type: 2}
     useItemPrice: 1
-    mintCost: 235
+    mintCost: 100
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -34,7 +34,7 @@ MonoBehaviour:
   - name: CompostBin
     itemForSale: {fileID: 11400000, guid: 1c3c20e899a81124d9d03ffd3cd1ad3b, type: 2}
     useItemPrice: 1
-    mintCost: 295
+    mintCost: 195
     amountForSale: 1
     barterChance: 80
     itemsRequired: []
@@ -43,7 +43,7 @@ MonoBehaviour:
   - name: Gear Scraps
     itemForSale: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
     useItemPrice: 1
-    mintCost: 75
+    mintCost: 50
     amountForSale: 1
     barterChance: 75
     itemsRequired: []
@@ -52,27 +52,25 @@ MonoBehaviour:
   - name: LandMine
     itemForSale: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
     useItemPrice: 1
-    mintCost: 155
+    mintCost: 105
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
-    siegesRequired: 0
+    siegesRequired: 1
     amountGiven: 1
   - name: Refinery
     itemForSale: {fileID: 11400000, guid: 9f529fa0497a5e348890c35cfc771ee6, type: 2}
     useItemPrice: 1
-    mintCost: 495
+    mintCost: 395
     amountForSale: 1
-    barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
-      amount: 2
-    siegesRequired: 1
+    barterChance: 0
+    itemsRequired: []
+    siegesRequired: 2
     amountGiven: 1
   - name: Thurible
     itemForSale: {fileID: 11400000, guid: a7ccfd2851b613d4c8c1dfdbd9c9f4b1, type: 2}
     useItemPrice: 1
-    mintCost: 220
+    mintCost: 260
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -81,7 +79,7 @@ MonoBehaviour:
   - name: MiniSprinkler
     itemForSale: {fileID: 11400000, guid: e553ea351cd05d14987bbad5d9661a3c, type: 2}
     useItemPrice: 1
-    mintCost: 245
+    mintCost: 145
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -90,22 +88,20 @@ MonoBehaviour:
   - name: SmartSprinkler
     itemForSale: {fileID: 11400000, guid: 860f7419dcf07274abe38328d16ae46b, type: 2}
     useItemPrice: 1
-    mintCost: 515
+    mintCost: 250
     amountForSale: 1
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
-      amount: 1
+    itemsRequired: []
     siegesRequired: 2
     amountGiven: 1
   - name: Sprinkler
     itemForSale: {fileID: 11400000, guid: 55eb42636a4d2534dae716e7da5b6d45, type: 2}
     useItemPrice: 1
-    mintCost: 340
+    mintCost: 230
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
-    siegesRequired: 0
+    siegesRequired: 1
     amountGiven: 1
   - name: SeedExtractor
     itemForSale: {fileID: 11400000, guid: 49e13362b43c3d14b93ff11ed1198390, type: 2}
@@ -113,9 +109,7 @@ MonoBehaviour:
     mintCost: 135
     amountForSale: 1
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
-      amount: 1
+    itemsRequired: []
     siegesRequired: 1
     amountGiven: 1
   - name: Cannon
@@ -124,15 +118,13 @@ MonoBehaviour:
     mintCost: 220
     amountForSale: 1
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
-      amount: 3
-    siegesRequired: 1
+    itemsRequired: []
+    siegesRequired: 2
     amountGiven: 1
   - name: BoneBlender
     itemForSale: {fileID: 11400000, guid: c01dc5febc780da41aa2782a05c1c5aa, type: 2}
     useItemPrice: 1
-    mintCost: 55
+    mintCost: 45
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -141,7 +133,25 @@ MonoBehaviour:
   - name: DangerVane
     itemForSale: {fileID: 11400000, guid: 1e736ccd2c0d32743856d96c80a2e4c4, type: 2}
     useItemPrice: 1
-    mintCost: 135
+    mintCost: 75
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: CraftingMachine
+    itemForSale: {fileID: 11400000, guid: 9b48420bc73d5f74c92bf84211aaf233, type: 2}
+    useItemPrice: 1
+    mintCost: 345
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: BoneTurret
+    itemForSale: {fileID: 11400000, guid: 11dc0ea83eed04b4aa191a1793f1cb66, type: 2}
+    useItemPrice: 1
+    mintCost: 180
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -178,6 +188,8 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 0fa68b7eb4fb6d3418cea0e79b973520, type: 2}
       amount: 1
+    - item: {fileID: 11400000, guid: 1c675471aa3779f4da8dfdd5b4d89175, type: 2}
+      amount: 1
     siegesRequired: 1
     amountGiven: 1
   - name: HoeUpgrade
@@ -188,6 +200,8 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 0fa68b7eb4fb6d3418cea0e79b973520, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 56a99e191735f144d96b00f92ada1698, type: 2}
       amount: 1
     siegesRequired: 1
     amountGiven: 1
@@ -200,6 +214,8 @@ MonoBehaviour:
     itemsRequired:
     - item: {fileID: 11400000, guid: 0fa68b7eb4fb6d3418cea0e79b973520, type: 2}
       amount: 1
+    - item: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
+      amount: 1
     siegesRequired: 1
     amountGiven: 1
   - name: ScytheUpgrade
@@ -210,6 +226,8 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 0fa68b7eb4fb6d3418cea0e79b973520, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 49ba1b28fed88e949aa4fda636327914, type: 2}
       amount: 1
     siegesRequired: 1
     amountGiven: 1

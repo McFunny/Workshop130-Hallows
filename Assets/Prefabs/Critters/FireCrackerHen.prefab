@@ -185,6 +185,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 0.25490198}
   currentEffects: []
   critterType: 3
@@ -222,9 +223,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: db3eedd8c1bfeb449a96c46609a10d63, type: 2}
   - {fileID: 11400000, guid: ef05c14840f851f4582659aa2d5fa290, type: 2}
   - {fileID: 11400000, guid: f4c6bf186d9a3d64abe224a76e0d7c57, type: 2}
+  - {fileID: 11400000, guid: d047228a6e443ca46843c71c725ba95e, type: 2}
   hunger: 50
   maxHunger: 50
-  hungerDecayRate: 2.4
+  hungerDecayRate: 2
   thirst: 50
   maxThirst: 50
   thirstDecayRate: 2
@@ -533,6 +535,7 @@ MonoBehaviour:
   petSound: {fileID: 8300000, guid: 039c6256893902d4c9cbcef13af72292, type: 3}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &6796135922126214029
 AudioSource:
   m_ObjectHideFlags: 0

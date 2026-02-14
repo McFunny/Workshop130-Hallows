@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99df61ef91043e74d9360d38fa192a22, type: 3}
   m_Name: LunorchidBehavior
   m_EditorClassIdentifier: 
-  behaviorUpdateTime: 0
+  behaviorUpdateTime: 5
   bug: {fileID: 11400000, guid: 8a1a437e421cbf64ba6829e930502495, type: 2}
+  attractedBugs:
+  - {fileID: 11400000, guid: 7bbac08f8eef0274bb97b82eec3c9423, type: 2}
+  - {fileID: 11400000, guid: 3dbccb2a2b919c94ea3679a35ec8a00a, type: 2}

@@ -56,7 +56,7 @@ public class CraftingDatabase : ScriptableObject
             _craftingDatabase[i].isUnlocked = false;
             _craftingDatabase[i].isRecentlyUnlocked = false;
 
-            if(forceUnlockAll) _craftingDatabase[i].isUnlocked = true;
+            if(forceUnlockAll || _craftingDatabase[i].unlockedAtStart) _craftingDatabase[i].isUnlocked = true;
         }
     }
 
@@ -79,6 +79,7 @@ public class CraftingDatabase : ScriptableObject
             if(i >= data.craftingStats.Length) return;
             c.isUnlocked = data.craftingStats[i].isUnlocked;
             c.isRecentlyUnlocked = data.craftingStats[i].isRecentlyUnlocked;
+            if(c.unlockedAtStart) c.isUnlocked = true;
             i++;
         }
     }
@@ -88,7 +89,7 @@ public class CraftingDatabase : ScriptableObject
         return _craftingDatabase; 
     }
 
-    public void UnlockRecipiePopup()
+    public void UnlockRecipePopup()
     {
         PopupHandler.Instance.AddToQueue(recipeUnlockedP);
     }
@@ -106,6 +107,7 @@ public class CraftingDatabase : ScriptableObject
             if(c.isUnlocked == false && c.id == id) 
             {
                 c.isUnlocked = true;
+                c.isRecentlyUnlocked = true;
                 PopupHandler.Instance.AddToQueue(recipeUnlockedP);
             }
         }
@@ -118,12 +120,14 @@ public class CraftingDatabase : ScriptableObject
             List<CraftingEntry> recipesInTier = new List<CraftingEntry>();
             foreach(CraftingEntry c in _craftingDatabase)
             {
+                if(c.isTrinket && GameSaveData.Instance.trinketSlotsGiven == 0) continue; //Do not unlock trinkets until after fanatic quest
+                
                 if(c.isUnlocked == false && c.tier == tier) recipesInTier.Add(c);
             }
             if(recipesInTier.Count > 0)
             {
                 recipesInTier[Random.Range(0, recipesInTier.Count)].isUnlocked = true;
-                UnlockRecipiePopup();
+                UnlockRecipePopup();
                 break;
             }
             
@@ -138,6 +142,8 @@ public class CraftingDatabase : ScriptableObject
             List<CraftingEntry> recipesInTier = new List<CraftingEntry>();
             foreach(CraftingEntry c in _craftingDatabase)
             {
+                if(c.isTrinket && GameSaveData.Instance.trinketSlotsGiven == 0) continue; //Do not unlock trinkets until after fanatic quest
+
                 if(c.isUnlocked == false && c.tier == tier) recipesInTier.Add(c);
             }
             if(recipesInTier.Count > heldTickets)

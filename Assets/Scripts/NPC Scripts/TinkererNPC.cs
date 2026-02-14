@@ -54,6 +54,12 @@ public class TinkererNPC : NPC, ITalkable
                     currentPath = 8;
                     currentType = PathType.Misc;
                 }
+                else if(GameSaveData.Instance.trinketSlotsGiven > 0 && !GameSaveData.Instance.tink_foundTrinketRecipes)
+                {
+                    GameSaveData.Instance.tink_foundTrinketRecipes = true;
+                    currentPath = 9;
+                    currentType = PathType.Misc;
+                }
                 else if(dailyQuest != null)
                 {
                     currentPath = QuestDatabase.Instance.GetQuestPath(character);
@@ -117,6 +123,11 @@ public class TinkererNPC : NPC, ITalkable
                 currentPath = 2;
                 currentType = PathType.ItemSpecific;
             }
+        }
+        else if (item.ID == 191)
+        {
+            currentPath = 3;
+            currentType = PathType.ItemSpecific;
         }
 
         else if (item.staminaValue > 0)
@@ -212,9 +223,9 @@ public class TinkererNPC : NPC, ITalkable
                 if (i == 2 && GameSaveData.Instance.upg_torch) continue;
                 if (i == 3 && GameSaveData.Instance.upg_scythe) continue;
 
-                newItem = barterDatabase.uniqueTransactions2[0].itemForSale;
-                newCost = (int)(barterDatabase.uniqueTransactions2[0].mintCost * sellMultiplier);
-                storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions2[0].itemsRequired, barterDatabase.uniqueTransactions2[0].amountForSale);
+                newItem = barterDatabase.uniqueTransactions2[i].itemForSale;
+                newCost = (int)(barterDatabase.uniqueTransactions2[i].mintCost * sellMultiplier);
+                storeItems[i].RefreshItem(newItem, newCost, barterDatabase.uniqueTransactions2[i].itemsRequired, barterDatabase.uniqueTransactions2[i].amountForSale);
                 storeItems[i].seller = this;
                 continue;
             }
@@ -290,7 +301,7 @@ public class TinkererNPC : NPC, ITalkable
     {
         if(base.ExclamationCheck() == false)
         {
-            if(!GameSaveData.Instance.tinkMet || GameSaveData.Instance.tink_newWares)
+            if(!GameSaveData.Instance.tinkMet || GameSaveData.Instance.tink_newWares || (GameSaveData.Instance.trinketSlotsGiven > 0 && !GameSaveData.Instance.tink_foundTrinketRecipes))
             {
                 exclamationObject.SetActive(true);
                 return true;

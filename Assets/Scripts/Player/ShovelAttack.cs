@@ -92,9 +92,20 @@ public class ShovelAttack : MonoBehaviour
         if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15 || other.GetComponentInParent<PetBehaviorScript>()) return; //Add exception to grub
         if(d_Collision == new Vector3(0,0,0))
         {
-            d_Collision = other.ClosestPoint(transform.position);
+            Vector3 fwd = PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward);
+            RaycastHit hit;
+
+            if (Physics.Raycast(PlayerInteraction.Instance.mainCam.transform.position, fwd, out hit, 8)) 
+            {
+                d_Collision = hit.point;
+                if(other.gameObject.tag == "Grass_FootStepSurface") type = GroundType.Dirt;
+                else type = GroundType.Other;
+            }
+            else return;
+
+            /*d_Collision = collider.ClosestPoint(other.transform.position);
             if(other.gameObject.tag == "Grass_FootStepSurface") type = GroundType.Dirt;
-            else type = GroundType.Other;
+            else type = GroundType.Other;*/
         }
 
         //Something to hit corpses
@@ -122,9 +133,11 @@ public class ShovelAttack : MonoBehaviour
         {
             float damage = 25;
             if(chargedSwing) damage = 50;
+            hitCreature.lastDamageTypeTaken = DamageType.Shovel;
             hitCreature.TakeDamage(damage, PlayerInteraction.Instance.transform.position);
             //playsound
-            if(hitCreature.corpseType != CorpseParticleType.Metal) HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
+            if(hitCreature.corpseType == CorpseParticleType.Stone) HandItemManager.Instance.toolSource.PlayOneShot(hitSolid[Random.Range(0, hitSolid.Length)]);
+            else if(hitCreature.corpseType != CorpseParticleType.Metal ) HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
             //print("Hit Creature");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
 
@@ -142,8 +155,8 @@ public class ShovelAttack : MonoBehaviour
             float damage = 2;
             if(chargedSwing) damage = 5;
             hitStructure.TakeDamage(damage);
-            if(hitStructure.structData.structureType == StructureType.Null || hitStructure.structData.structureType == StructureType.Hay || hitStructure.structData.structureType == StructureType.CorruptedFlesh) 
-            HandItemManager.Instance.toolSource.PlayOneShot(hitHay);
+            if(hitStructure.structData == null || hitStructure.structData.structureType == StructureType.Null || hitStructure.structData.structureType == StructureType.Hay || 
+                hitStructure.structData.structureType == StructureType.CorruptedFlesh) HandItemManager.Instance.toolSource.PlayOneShot(hitHay);
             else HandItemManager.Instance.toolSource.PlayOneShot(hitSolid[Random.Range(0, hitSolid.Length)]);
             //print("Hit Structure");
             //if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-1);
@@ -173,6 +186,7 @@ public class ShovelAttack : MonoBehaviour
                 //print("Hit dirt");
                 ParticlePoolManager.Instance.MoveAndPlayParticle(d_Collision, ParticlePoolManager.Instance.dirtParticle);
                 HandItemManager.Instance.toolSource.PlayOneShot(hitDirt);
+                ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Dirt, new Color(1,1,1,0.4f), Random.Range(0, 3));
             }
             else
             {

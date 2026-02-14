@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 12
   nameOverride: Pulse Mine
-  category: 0
+  category: 1
   tier: 2
   isUnlocked: 0
   isRecentlyUnlocked: 0
+  unlockedAtStart: 0
+  isTrinket: 0
   output: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
   outputAmount: 1
   craftTimeInSeconds: 360
@@ -28,4 +30,4 @@ MonoBehaviour:
   - requiredItem: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
     requiredAmount: 1
   - requiredItem: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-    requiredAmount: 2
+    requiredAmount: 3

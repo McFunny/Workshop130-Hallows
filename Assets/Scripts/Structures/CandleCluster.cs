@@ -13,6 +13,8 @@ public class CandleCluster : StructureBehaviorScript, IFireHolder
 
     public CandleType type;
 
+    public CreatureObject mothData;
+
     //Candles are crafted from 1 silk, 3-5 combs, and 1 nectar OR bug meat. Probably made in bulk
 
     void Awake()
@@ -25,6 +27,8 @@ public class CandleCluster : StructureBehaviorScript, IFireHolder
         base.Start();
         fire.SetActive(false);
         if(TimeManager.Instance.isDay) chanceForDrain = 0;
+
+        if(type == CandleType.Aroma) StartCoroutine(AttractMoths());
     }
 
     void Update()
@@ -87,6 +91,25 @@ public class CandleCluster : StructureBehaviorScript, IFireHolder
     public override void HitWithWater()
     {
         ExtinguishFlame();
+    }
+
+    IEnumerator AttractMoths()
+    {
+        while(health > 0)
+        {
+            yield return new WaitForSeconds(10);
+            if(burning == false) continue;
+
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 50, 1 << 9);
+            foreach(Collider collider in hitEnemies)
+            {
+                var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+                if (creature != null && mothData == creature.creatureData)
+                {
+                    creature.NewPriorityTarget(this);
+                }
+            }
+        }
     }
 
 

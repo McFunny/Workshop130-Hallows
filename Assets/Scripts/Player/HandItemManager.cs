@@ -28,7 +28,7 @@ public class HandItemManager : MonoBehaviour
 
     public Transform bulletStart, waterBulletStart, waterBulletCloseStart;
 
-    public ParticleSystem waterCanParticles, pistolParticles, waterCanUpgradeParticles, flameThrowerParticles;
+    public ParticleSystem waterCanParticles, pistolParticles, waterCanUpgradeParticles, flameThrowerParticles, parryParticles;
     public TrailRenderer scytheTrail;
 
     void Awake()
@@ -55,7 +55,11 @@ public class HandItemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(currentAnim)
+        {
+            if(PlayerMovement.Instance.IsMoving()) currentAnim.SetBool("IsWalking", true);
+            else currentAnim.SetBool("IsWalking", false);
+        }
     }
 
     public void SwapHandModel(ToolType type, bool isUpgrade)
@@ -178,6 +182,12 @@ public class HandItemManager : MonoBehaviour
         if(currentHandObject) currentAnim = currentHandObject.GetComponent<Animator>();
         if(!currentAnim && currentHandObject) currentAnim = currentHandObject.GetComponentInChildren<Animator>();
         currentType = type;
+    }
+
+    public bool IsPlayerHoldingTorch()
+    {
+        if(currentType == ToolType.Torch) return true;
+        else return false;
     }
 
     public void ShowSpriteInHand(InventoryItemData item)

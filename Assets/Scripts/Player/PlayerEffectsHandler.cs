@@ -12,7 +12,7 @@ public class PlayerEffectsHandler : MonoBehaviour
     public float volume = 1f;
     float originalPitch;
     public AudioSource source, footStepSource;
-    public AudioClip itemPickup, itemEat, playerDie, playerDamage, waterJet, trip, playerHeal;
+    public AudioClip itemPickup, itemEat, playerDie, playerDamage, waterJet, trip, playerHeal, heartBeat, waterGain;
     public AudioClip grassFootsteps, stoneFootsteps, woodFootsteps;
     public AudioClip[] fleshFootsteps;
     AudioClip lastPlayedSteps;
@@ -26,12 +26,22 @@ public class PlayerEffectsHandler : MonoBehaviour
     //public CinemachineImpulseSource shakeImpulse;
 
     Volume globalVolume;
+    public Volume lowHealthVolume;
     public Color damageColor, focusColor;
+    Coroutine damageFlashCoroutine, lowHealthCoroutine;
 
     Rigidbody rb;
 
+    public Material pixelRenderer;
+    float pixelation, originalPixelation;
+    public float pixelationFloor = 400;
+    public float pixelationStep = 25;
+    Coroutine pixelCoroutine;
+
     public bool onItemSoundCooldown = false;
     bool isFocusing = false;
+
+    public ParticleSystem stepDirtP, stepRockP;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -45,6 +55,9 @@ public class PlayerEffectsHandler : MonoBehaviour
 
         originalPitch = source.pitch;
         lastPlayedSteps = grassFootsteps;
+
+        originalPixelation = pixelRenderer.GetFloat("_pixelization");
+        lowHealthCoroutine = null;
     }
 
     // Update is called once per frame
@@ -82,10 +95,19 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     public void PlayerDamage()
     {
-        StopCoroutine(DamageFlash());
-        ResetVignette();
-        StartCoroutine(DamageFlash());
+        if(damageFlashCoroutine != null) StopCoroutine(DamageFlash());
+        //ResetVignette();
+        damageFlashCoroutine = StartCoroutine(DamageFlash());
         damageImpulse.GenerateImpulseWithForce(shakeIntensity);
+
+        if(pixelCoroutine != null) 
+        {
+            StopCoroutine(pixelCoroutine);
+        }
+        pixelCoroutine = StartCoroutine(DamagePixelization());
+
+        if(lowHealthCoroutine == null) lowHealthCoroutine = StartCoroutine(LowHealthPulse());
+
         if(playerDamage)
         {
             source.pitch = Random.Range(0.8f, 1.2f);
@@ -94,10 +116,16 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     }
 
+    public void CallScreenShake(float intensity)
+    {
+        damageImpulse.GenerateImpulseWithForce(intensity);
+    }
+
 
 
     IEnumerator DamageFlash()
     {
+        if(lowHealthVolume.profile.TryGet(out Vignette vignette2) != null) vignette2.color.Override(damageColor);
         if(globalVolume.profile.TryGet(out Vignette vignette))
         {
             vignette.color.Override(damageColor);
@@ -116,7 +144,71 @@ public class PlayerEffectsHandler : MonoBehaviour
             }
             while(vignette.intensity.value > 0);
             ResetVignette();
+            damageFlashCoroutine = null;
         }
+
+        if(vignette2) vignette2.color.Override(focusColor);
+        
+    }
+
+    IEnumerator DamagePixelization()
+    {
+        pixelation = pixelRenderer.GetFloat("_pixelization");
+        do
+        {
+            pixelation -= pixelationStep;
+            if(pixelation < pixelationFloor) pixelation = pixelationFloor;
+            pixelRenderer.SetFloat("_pixelization", pixelation); 
+            yield return new WaitForSeconds(0.1f);
+        }
+        while(pixelation > pixelationFloor);
+        yield return new WaitForSeconds(0.4f);
+        do
+        {
+            yield return new WaitForSeconds(0.1f);
+            pixelation += pixelationStep;
+            pixelRenderer.SetFloat("_pixelization", pixelation); 
+        }
+        while(pixelation < originalPixelation);
+        pixelation = originalPixelation;
+        pixelRenderer.SetFloat("_pixelization", pixelation); 
+
+        pixelCoroutine = null;
+        
+    }
+
+    IEnumerator LowHealthPulse()
+    {
+        if(lowHealthVolume.profile.TryGet(out Vignette vignette) == null) yield break;
+
+        while(PlayerInteraction.Instance.stamina <= 50)
+        {
+            print("Pulsing");
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                vignette.intensity.value += 0.02f;
+            }
+            while(vignette.intensity.value < 0.55f);
+            yield return new WaitForSeconds(0.1f);
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                vignette.intensity.value -= 0.02f;
+            }
+            while(vignette.intensity.value > 0.45f);
+            source.PlayOneShot(heartBeat);
+        }
+
+        do
+        {
+            yield return new WaitForSeconds(0.1f);
+            vignette.intensity.value -= 0.05f;
+        }
+        while(vignette.intensity.value > 0);
+        vignette.intensity.value = 0;
+
+        lowHealthCoroutine = null;
         
     }
 
@@ -181,10 +273,12 @@ public class PlayerEffectsHandler : MonoBehaviour
             if(hit.collider.gameObject.tag == "Stone_FootStepSurface")
             {
                 footStepSource.clip = stoneFootsteps;
+                stepRockP.Play();
             }
             else if(hit.collider.gameObject.tag == "Wood_FootStepSurface")
             {
                 footStepSource.clip = woodFootsteps;
+                stepRockP.Play();
             }
             else if(hit.collider.gameObject.tag == "Flesh_FootStepSurface")
             {
@@ -193,6 +287,7 @@ public class PlayerEffectsHandler : MonoBehaviour
             else
             {
                 footStepSource.clip = grassFootsteps;
+                stepDirtP.Play();
             }
 
             lastPlayedSteps = footStepSource.clip;
@@ -200,6 +295,11 @@ public class PlayerEffectsHandler : MonoBehaviour
         else footStepSource.clip = lastPlayedSteps;
         footStepSource.pitch = Random.Range(0.7f, 1.3f);
         footStepSource.Play();
+    }
+
+    void OnDestroy()
+    {
+        pixelRenderer.SetFloat("_pixelization", originalPixelation); 
     }
 
 }

@@ -1,8 +1,10 @@
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class AnimatedText : MonoBehaviour
 {
+    public bool enableAnimation = true;
     public float amplitude = 0.2f;
     public float frequency = 1.5f;
     public float randomness = 0.4f;
@@ -20,12 +22,16 @@ public class AnimatedText : MonoBehaviour
 
     void OnEnable()
     {
+        enableAnimation = PlayerPrefs.GetInt("DialogueAnimation", 1) == 1;
+        Debug.Log("Dialogue Animation Enabled: " + enableAnimation);
+        if(enableAnimation == false) return;
         RegenerateSeeds();
     }
 
     void Update()
     {
         text.ForceMeshUpdate();
+        if(enableAnimation == false) return;
 
         // Check if character count changed (text updated)
         int currentCount = text.textInfo.characterCount;

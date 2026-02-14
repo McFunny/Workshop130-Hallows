@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &3413402334941028815
 GameObject:
@@ -262,6 +263,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: 407379bc0d8d7074488a51c551db0c77, type: 2}
   - {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+  - {fileID: 11400000, guid: 014246d86b4f14340974fb87085c9c21, type: 2}
+  - {fileID: 11400000, guid: c9af372d6ca36fd46b681856e9182698, type: 2}
+  - {fileID: 11400000, guid: fe3cbe56d81b8024d93aa55f8adc053e, type: 2}
+  - {fileID: 11400000, guid: 32998da62fc0aca4a9725ffe5af1c3e3, type: 2}
+  - {fileID: 11400000, guid: 290e218f74d5d2445b4c40b0ba01d7c2, type: 2}
+  - {fileID: 11400000, guid: ad3821a813642114d9979d54224f657c, type: 2}
+  - {fileID: 11400000, guid: 7e1f78f7555b6ca408e04d4318a79a5b, type: 2}
   itemWeight:
   - 1
   - 0.5
@@ -283,6 +291,13 @@ MonoBehaviour:
   - 1
   - 1
   - 0.8
+  - 1
+  - 1
+  - 0.5
+  - 0.25
+  - 1
+  - 1
+  - 1
 --- !u!114 &6462448128648539436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfaf9ee1ef95c6241925cd1a6fe8ef16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invert: 1
+  invert: 0
+  npcOverride: 1
   objectActive: 0
 --- !u!114 &4072654262545858243
 MonoBehaviour:
@@ -324,6 +340,16 @@ MonoBehaviour:
     Action: 0
     actionCheck: 1
     actionAnim: 0
+  - time: 12
+    Destination: 24
+    Action: 2
+    actionCheck: 1
+    actionAnim: 0
+  - time: 14
+    Destination: 24
+    Action: 2
+    actionCheck: 1
+    actionAnim: 0
   - time: 16
     Destination: 16
     Action: 2
@@ -348,7 +374,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3413402334941028815}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 0.5
   m_Speed: 4
   m_Acceleration: 8

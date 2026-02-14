@@ -5778,11 +5778,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  - {fileID: 11400000, guid: 80c6fa3f708646a44866eb0e571d303f, type: 2}
   dropChance:
   - 4
   - 10
+  - 7
   - 3
-  - 3
+  - 4
   sightRange: 25
   attackRange: 15
   playerInSightRange: 0
@@ -5796,6 +5798,7 @@ MonoBehaviour:
   damageToPlayer: -30
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0.25490198}
   currentEffects: []
   variant: 0

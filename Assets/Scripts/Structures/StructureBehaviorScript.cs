@@ -54,6 +54,7 @@ public class StructureBehaviorScript : MonoBehaviour
     [HideInInspector] public float saveFloat1, saveFloat2, saveFloat3;
     [HideInInspector] public string saveString1, saveString2, saveString3;
     [HideInInspector] public bool saveBool1;
+    [HideInInspector] public List<CraftSlotSaveData> saveCrafts; // CRAFTING MACHINE ONLY
 
     public GameObject damageParticlesObject;
     List<ParticleSystem> damageParticles = new List<ParticleSystem>();
@@ -74,6 +75,7 @@ public class StructureBehaviorScript : MonoBehaviour
     [HideInInspector] public bool clearTileOnDestroy = true;
     bool forcePile = false;
     [HideInInspector] public bool muteSound = false;
+    public bool allowContinousWatering = false; //If true, quick watering will play over and over, like filling up barrels
 
     [Tooltip("Specific UI for this structure, if it has any")]
     public GameObject structureUI; 
@@ -99,7 +101,6 @@ public class StructureBehaviorScript : MonoBehaviour
         audioHandler = GetComponent<StructureAudioHandler>();
 
         TimeManager.OnHourlyUpdate += HourPassed;
-        foreach(GameObject thing in highlight) thing.SetActive(false);
 
         if(structureUI) structureUI.SetActive(false);
 
@@ -112,6 +113,8 @@ public class StructureBehaviorScript : MonoBehaviour
         }
 
         iceBlock = GetComponentInChildren<IceBlockScript>();
+
+        if(highlight != null && highlight.Count > 0) foreach(GameObject thing in highlight) if(thing) thing.SetActive(false);
 
     }
 
@@ -188,7 +191,12 @@ public class StructureBehaviorScript : MonoBehaviour
         OnDamageWithValue?.Invoke(finalDamage);
         if(!destructable || health <= 0) return;
         health -= finalDamage;
-        //if(damageParticles) damageParticles.Play();
+        PlayHitEffect();
+        
+    }
+
+    public void PlayHitEffect()
+    {
         for(int i = 0; i < damageParticles.Count; i++)
         {
             damageParticles[i].Play();
@@ -234,7 +242,7 @@ public class StructureBehaviorScript : MonoBehaviour
         
         if(health <= 0 || forcePile) //For when a structure is destroyed by removing all the hp
         {
-            if(health <= 0)
+            if(health <= 0 && structData)
             {
                 GameObject p = ParticlePoolManager.Instance.GrabDestructionParticle(structData.structureType);
                 if(p)
@@ -371,6 +379,7 @@ public class StructureBehaviorScript : MonoBehaviour
         while(onFire)
         {
             if(health > 20) TakeDamage(Mathf.Round(health / 10));
+            else if(health == 2) health -= 1;
             else TakeDamage(2);
             yield return new WaitForSeconds(3f);
             if(MainMenuScript.currentFileMode == FileMode.Cozy) yield return new WaitForSeconds(2f);
@@ -391,6 +400,7 @@ public class StructureBehaviorScript : MonoBehaviour
             AudioPoolManager.Instance.PlayClipAtPosition(AudioPoolManager.Instance.digUpSound, transform.position);
         }
         ParticlePoolManager.Instance.GrabStructDigParticle().transform.position = transform.position;
+        muteSound = true;
         Destroy(this.gameObject);
     }
 

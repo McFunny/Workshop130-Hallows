@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.896589, y: 0.0000019073486, z: -76.41496}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.36, y: 1.36, z: 1.36}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2364916675186680523}
@@ -146,6 +146,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -154,12 +155,14 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 0
     valueGroups: []
   krakhen: {fileID: 11400000, guid: 2836db77fdc01174dbdaf3addf675d5f, type: 2}
   gunPowder: {fileID: 11400000, guid: b4d77aadfa04c894088fc7eed93d7ab1, type: 2}
+  rb: {fileID: 595188180140550035}
 --- !u!82 &6499434248519750491
 AudioSource:
   m_ObjectHideFlags: 0

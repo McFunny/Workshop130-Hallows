@@ -52,11 +52,18 @@ public class PollinatorPost : StructureBehaviorScript
         bool addedSuccessfully = false;
         if(containsNectar)
         {
-            int yield = 1;
-            if(Random.Range(0,10) > 4) yield += 1;
-            if(Random.Range(0,10) > 4) yield += 1;
+            int yield = 2;
+            if(Random.Range(0,10) > 3) yield += 1;
+            if(Random.Range(0,10) > 3) yield += 1;
             addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(nectarItem, yield);
-            if (!addedSuccessfully) return;
+            if (!addedSuccessfully)
+            {
+                for(int i = 0; i < yield; i++)
+                {
+                    GameObject droppedItem = ItemPoolManager.Instance.GrabItem(nectarItem);
+                    droppedItem.transform.position = new Vector3(nectarObject.transform.position.x, nectarObject.transform.position.y + 0.5f, nectarObject.transform.position.z);
+                }
+            }
 
             flowerHealth--;
             if(flowerHealth == 0)

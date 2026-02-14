@@ -31,6 +31,7 @@ public class WaterCanBehavior : ToolBehavior
         toolAnim = HandItemManager.Instance.AccessCurrentAnimator();
         if(!pourParticles) pourParticles = HandItemManager.Instance.GetWaterCanParticles(isUpgraded);
         if(pourParticles) pourParticles.Stop();
+        if(pourSource) pourSource.Stop();
         //water
         //PrimaryUse();
         BeginCharge();
@@ -57,7 +58,8 @@ public class WaterCanBehavior : ToolBehavior
                 {
                     playAnim = true;
                     structure.Extinguish();
-                    PlayerInteraction.Instance.waterHeld--;
+                    //PlayerInteraction.Instance.waterHeld--;
+                    PlayerInteraction.Instance.WaterChange(-1);
                 }
                 else if(wHolder != null)
                 {
@@ -176,6 +178,9 @@ public class WaterCanBehavior : ToolBehavior
 
     void PrimaryUse() //Behavior as if the player used left click on a structure
     {
+        if(pourParticles) pourParticles.Stop();
+        if(pourSource) pourSource.Stop();
+
         Vector3 fwd = player.TransformDirection(Vector3.forward);
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
@@ -191,7 +196,7 @@ public class WaterCanBehavior : ToolBehavior
                     structure.Extinguish();
                     if(structure.particleCenter) ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.particleCenter.position;
                     else ParticlePoolManager.Instance.GrabSplashParticle().transform.position = structure.transform.position;
-                    PlayerInteraction.Instance.waterHeld--;
+                    PlayerInteraction.Instance.WaterChange(-1);
                 }
                 else structure.ToolInteraction(tool, out playAnim);
                 if(playAnim)
@@ -312,6 +317,8 @@ public class WaterCanBehavior : ToolBehavior
     { 
         PlayerMovement.restrictMovementTokens--;
         PlayerCam.Instance.ClearObjectOfInterest();
+
+        //ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Water, new Color(1,1,1,0.4f), Random.Range(1, 4));
     }
 
     void BeginCharge()
@@ -355,6 +362,7 @@ public class WaterCanBehavior : ToolBehavior
 
         yield return new WaitForSeconds(0.7f);
         if(pourParticles) pourParticles.Stop();
+        if(pourSource) pourSource.Stop();
         PlayerInteraction.Instance.ToolUseToggle(false);
 
     }
@@ -366,7 +374,7 @@ public class WaterCanBehavior : ToolBehavior
             if(wateredCreature)
             {
                 wateredCreature = false;
-                yield return new WaitForSeconds(1.1f);
+                yield return new WaitForSeconds(0.5f);
             }
             if(holdingPour && PlayerInteraction.Instance.waterHeld > 0 && CanPour()) QuickPour();
             yield return new WaitForSeconds(0.1f);
@@ -394,7 +402,7 @@ public class WaterCanBehavior : ToolBehavior
                 skipPour = false;
                 continue;
             }
-            if(CanPour())PlayerInteraction.Instance.waterHeld--;
+            if(CanPour())PlayerInteraction.Instance.WaterChange(-1);
 
             //Ensure particles and code are being run only when the player is looking down
         }
@@ -439,7 +447,7 @@ public class WaterCanBehavior : ToolBehavior
                         wateredStructures.Add(structure);
                         if(tile.GetCropStats().waterLevel == 10) return;
                     }
-                    else if((wHolder == null || !wHolder.CanBeWatered()) && !structure.onFire)
+                    else if((wHolder == null || !wHolder.CanBeWatered()) && !structure.onFire && !structure.allowContinousWatering)
                     {
                         wateredStructures.Add(structure);
                         if(wHolder != null && !wHolder.CanBeWatered()) return;
@@ -479,8 +487,10 @@ public class WaterCanBehavior : ToolBehavior
         {
             HandItemManager.Instance.toolSource.PlayOneShot(pour);
             HandItemManager.Instance.toolSource.PlayOneShot(refill);
-            PlayerInteraction.Instance.waterHeld--;
+            PlayerInteraction.Instance.WaterChange(-1);
             skipPour = true;
+
+            //ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Water, new Color(1,1,1,0.4f), Random.Range(1, 4));
         }
     }
 

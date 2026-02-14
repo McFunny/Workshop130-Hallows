@@ -833,7 +833,7 @@ public class MutatedCrow : CreatureBehaviorScript
         Vector3 abovePlayerPosPostSwoop = player.position + Vector3.up * attackHeight;
         if (Vector3.Distance(transform.position, abovePlayerPosPostSwoop) < 3f) //If close enough hit the player
         {
-            PlayerInteraction.Instance.StaminaChange(-damageToPlayer);
+            PlayerInteraction.Instance.StaminaChange(-damageToPlayer, corpseParticleTransform.position);
         }
 
         Vector3 endPos = transform.position + direction * 10f + Vector3.up * height;
@@ -981,6 +981,16 @@ public class MutatedCrow : CreatureBehaviorScript
             canCorpseBreak = true;
             TakeDamage(100);
         }
+
+        if(other.gameObject.layer == 9 && health <= 0)
+        {
+            var c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+            if(c && c.shovelVulnerable)
+            {
+                ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = other.transform.position;
+                c.TakeDamage(20);
+            }
+        }
     }
 
     IEnumerator DeathTimer()
@@ -1017,6 +1027,11 @@ public class MutatedCrow : CreatureBehaviorScript
     {
         if(!IsGrounded() && health > 0) TakeDamage(100);
         if(IsGrounded() && health <= 0) canCorpseBreak = true;
+
+        if(transform.position.y >= 40)
+        {
+            AchievementManager.Instance.NotifyHighCrowKill();
+        }
 
         if(carriedNut)
         {

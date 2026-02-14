@@ -28,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000014901158, y: -0, z: 0.19509035, w: 0.98078525}
   m_LocalPosition: {x: 0.00045106086, y: 0.5539459, z: 0.09249773}
-  m_LocalScale: {x: 34.161716, y: 34.161724, z: 58.67231}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 34.64, y: 34.64, z: 59.493755}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7426575135717829441}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5218,6 +5218,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -5228,6 +5229,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 0

@@ -20,7 +20,7 @@ public class NightSpawningManager : MonoBehaviour
     //public CreatureObject[] fillerCreatures; //list of creatures that can spawn when out of danger points
 
     List<CreatureObject> selectedCreatures = new List<CreatureObject>();//List of creatures selected to spawn this specific night
-    List<CreatureObject> selectedFillerCreatures = new List<CreatureObject>();//List of filler creatures selected to spawn this specific night
+    public List<CreatureObject> selectedFillerCreatures = new List<CreatureObject>();//List of filler creatures selected to spawn this specific night
     
     List<int> spawnedCreaturesThisHour = new List<int>(); //tracks how many of a specific type of creature was spawned this hour //CREATURES NEED TO BE REMOVED WHEN KILLED
     Queue<CreatureObject> creatureQueue = new Queue<CreatureObject>(); //Holds the enemies that are set to spawn but have not spawned yet
@@ -38,7 +38,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public ParticleSystem finaleMist;
 
-    public CreatureObject pollinator, ferrat;
+    public CreatureObject pollinator, ferrat, deer;
 
     public List<NightEventObject> nightEvents = new List<NightEventObject>();
     bool eventOccured = false; //only 1 per night
@@ -88,7 +88,7 @@ public class NightSpawningManager : MonoBehaviour
             currentSpawnPool = null;
             forceCorruptedSpawns = false;
 
-            if(ReportTotalOfCreature(ferrat) < ferrat.spawnCap && Random.Range(0,15) == 1) //Spawn ferrats
+            if(ReportTotalOfCreature(ferrat) < ferrat.spawnCap && Random.Range(0,15) == 1) //Spawn eer
             {
                 SpawnCreature(ferrat);
                 if(Random.Range(0,3) == 1) SpawnCreature(ferrat);
@@ -108,6 +108,8 @@ public class NightSpawningManager : MonoBehaviour
             SelectNightPool();
         }
         if(ReportTotalOfCreature(pollinator) < 2 && Random.Range(0,4) == 1) SpawnCreature(pollinator);
+
+        if(ReportTotalOfCreature(deer) < deer.spawnCap && Random.Range(0,50) == 1) SpawnCreature(deer); //Spawn Deer
 
         CalculateDifficulty();
 
@@ -296,7 +298,7 @@ public class NightSpawningManager : MonoBehaviour
         switch (TimeManager.Instance.currentHour)
             {
                 case 1:
-                    return 0.4f;
+                    return 0.5f;
                 case 2:
                     return 0.4f;
                 case 3:
@@ -316,7 +318,7 @@ public class NightSpawningManager : MonoBehaviour
                 case 23:
                     return 0.7f;
                 case 0:
-                    return 0.4f;
+                    return 0.6f;
                 default:
                     return 1;
             }
@@ -600,6 +602,7 @@ public class NightSpawningManager : MonoBehaviour
 
     public void FinaleComplete()
     {
+        AchievementManager.Instance.NotifyFinaleCompleted();
         AmbientAudioManager.Instance.WinFinaleTheme();
         StartCoroutine(GameCompleted());
 

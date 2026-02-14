@@ -68,7 +68,7 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0)
         {
             ParticlePoolManager.Instance.GrabSplashParticle().transform.position = transform.position;
-            PlayerInteraction.Instance.waterHeld--;
+            PlayerInteraction.Instance.WaterChange(-1);
             success = true;
             Destroy(gameObject);
         }
@@ -206,6 +206,7 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
+                creature.lastDamageTypeTaken = DamageType.Mine;
                 creature.TakeDamage(40);
                 if(creature.fireVulnerable) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 15));
                 creature.PlayHitParticle(creature.transform.position);

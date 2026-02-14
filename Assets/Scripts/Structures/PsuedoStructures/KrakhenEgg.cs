@@ -7,6 +7,10 @@ public class KrakhenEgg : StructureBehaviorScript
     public CreatureObject krakhen;
     public InventoryItemData gunPowder;
 
+    public Rigidbody rb;
+
+    bool hatched;
+
     void Start()
     {
         audioHandler = GetComponent<StructureAudioHandler>();
@@ -20,9 +24,21 @@ public class KrakhenEgg : StructureBehaviorScript
 
     IEnumerator HatchEgg()
     {
-        yield return new WaitForSeconds(Random.Range(20, 40));
+        yield return new WaitForSeconds(Random.Range(40, 60));
         Instantiate(krakhen.objectPrefab, transform.position, Quaternion.identity);
+        hatched = true;
         Destroy(gameObject);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(!rb.useGravity) return;
+        if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
+        {
+            rb.isKinematic = true;
+            rb.useGravity = false;
+        }
+        
     }
 
     void OnDestroy()
@@ -30,9 +46,11 @@ public class KrakhenEgg : StructureBehaviorScript
         base.OnDestroy();
         if(!gameObject.scene.isLoaded) return;
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
+        ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
         audioHandler.PlaySoundAtPoint(audioHandler.breakSound, transform.position);
 
         int r = Random.Range(1, 3);
+        if(hatched) r -= Random.Range(1, 4);
         for(int i = 0; i < r; ++i)
         {
             GameObject droppedItem = ItemPoolManager.Instance.GrabItem(gunPowder);

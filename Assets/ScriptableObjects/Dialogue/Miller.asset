@@ -39,7 +39,9 @@ MonoBehaviour:
     emotions: 01000000
   - pathName: Sold!
     paragraphs:
-    - Tell the little ones I said hello for me, would ya..?
+    - 'Tell the little ones I said hello for me, would ya..? {itemBought}
+
+      {dontfreezePlayer}'
     emotions: 01000000
   - pathName: No Money
     paragraphs:
@@ -111,6 +113,12 @@ MonoBehaviour:
     - Weed fiber has plenty of uses... Not to mention weeds attract a plethora of
       bugs to catch...
     emotions: 000000000000000000000000
+  - pathName: Cat Training
+    paragraphs:
+    - It took a lot of training to get our resident feline to stop attacking the
+      hens.
+    - Alot of training... and about a dozen hens...
+    emotions: 0000000002000000
   questPaths: []
   itemRecievedPaths:
   - pathName: Go Sell that

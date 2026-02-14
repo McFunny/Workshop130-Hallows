@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ToolTipScript : MonoBehaviour
 {
     public GameObject panel;
-    public TextMeshProUGUI itemName, itemDesc, itemStamina, itemType;
-    public Color c_default, c_tool, c_placeable, c_crop, c_consumable, c_ammo, c_bug;
+    public TextMeshProUGUI itemName, itemDesc, itemStamina, itemType, canStack, chanceToBreak;
+    public Color c_default, c_tool, c_placeable, c_crop, c_consumable, c_ammo, c_bug, c_trinket;
     public GameObject intakeParent, outputParent;
     public GameObject[] input, output;
     [SerializeField] private GameObject[] barterIcons;
@@ -94,64 +94,53 @@ public class ToolTipScript : MonoBehaviour
 
         transform.position = pos;*/
     }
-    public void UpdateToolTip(InventoryItemData itemData, bool isCraft = false)
+    public void UpdateToolTip(InventoryItemData itemData, bool isCraft = false, float currentDurability = -1f)
     {
         if (itemData == null || !panel.activeSelf) return;
 
         var type = itemData.type;
 
+        intakeParent.SetActive(false);
+        outputParent.SetActive(false);
+        itemStamina.gameObject.SetActive(false);
+        canStack.gameObject.SetActive(false);
+        chanceToBreak.gameObject.SetActive(false);
+        itemType.color = c_default;
+
         switch (type)
         {
             case ItemType.Misc:
                 itemType.text = "Misc";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
-                itemType.color = c_default;
                 break;
 
             case ItemType.Consumable:
                 itemType.text = "Consumable";
-                if(itemData.staminaValue == 0)
+                if(itemData.staminaValue > 0)
                 {
                     itemStamina.text = "Heals " + itemData.staminaValue + " stamina.";
                     itemStamina.gameObject.SetActive(true);
                 }
                 else itemStamina.gameObject.SetActive(false);
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
                 itemType.color = c_consumable;
                 break;
 
             case ItemType.Tool:
                 itemType.text = "Tool";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
                 itemType.color = c_tool;
                 break;
 
             case ItemType.Structure:
                 itemType.text = "Structure";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
                 itemType.color = c_placeable;
                 break;
 
             case ItemType.BarnStructure:
                 itemType.text = "Barn Structure";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
                 itemType.color = c_placeable;
                 break;
 
             case ItemType.CabinDecor:
                 itemType.text = "Cabin Decor";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
                 itemType.color = c_placeable;
                 break;
 
@@ -161,9 +150,6 @@ public class ToolTipScript : MonoBehaviour
 
                 if(isCraft)
                 {
-                    intakeParent.SetActive(false);
-                    outputParent.SetActive(false);
-                    itemStamina.gameObject.SetActive(false);
                     itemType.color = c_crop;
                     break;
                 }
@@ -203,48 +189,60 @@ public class ToolTipScript : MonoBehaviour
 
                 intakeParent.SetActive(true);
                 outputParent.SetActive(true);
-                itemStamina.gameObject.SetActive(false);
                 itemType.color = c_crop;
                 break;
 
             case ItemType.Ammo:
                 itemType.text = "Ammo";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
                 itemType.color = c_ammo;
                 break;
 
             case ItemType.Creature:
                 itemType.text = "Creature";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
                 itemType.color = c_default;
                 break;
 
             case ItemType.Bug:
                 itemType.text = "Bug";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
                 itemType.color = c_bug;
                 break;
 
             case ItemType.Throwable:
                 itemType.text = "Throwable";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
                 itemType.color = c_ammo;
+                break;
+            
+            case ItemType.Trinket:
+                itemType.text = "Trinket";
+                
+                var trinket = itemData as TrinketItem;
+
+                if (trinket.stackable) canStack.gameObject.SetActive(true);
+                else canStack.gameObject.SetActive(false);
+
+                if(currentDurability == -1f)
+                {
+                    chanceToBreak.gameObject.SetActive(false);
+                }
+                else if(currentDurability >= 0f)
+                {
+                    float chance = (currentDurability / trinket.maxDurability) * 100f;
+                    if (chance > 100f) chance = 100;
+                    chance = 100f - chance;
+                    
+                    if(chance == 0f) chanceToBreak.text = "<color=green>" + Mathf.RoundToInt(chance) + "%</color> chance to break when unequipped";
+                    else if(chance > 0f && chance < 50f) chanceToBreak.text = "<color=yellow>" + Mathf.RoundToInt(chance) + "%</color> chance to break when unequipped";
+                    else chanceToBreak.text = "<color=red>" + Mathf.RoundToInt(chance) + "%</color> chance to break when unequipped";
+
+                    chanceToBreak.gameObject.SetActive(true);
+                }
+                else chanceToBreak.gameObject.SetActive(false);
+                
+                itemType.color = c_trinket;
                 break;
 
             default:
                 itemType.text = "Misc";
-                intakeParent.SetActive(false);
-                outputParent.SetActive(false);
-                itemStamina.gameObject.SetActive(false);
-                itemType.color = c_default;
                 break;
         }
 
@@ -257,6 +255,12 @@ public class ToolTipScript : MonoBehaviour
             verticalLayoutGroups[i].enabled = false;
             verticalLayoutGroups[i].enabled = true;
         }
+    }
+
+    public void UpdateToolTip(InventorySlot slot, bool isCraft = false)
+    {
+        float durability = TrinketInventoryHandler.Instance.GetTrinketDurability(slot);
+        UpdateToolTip(slot.ItemData, false, durability);
     }
 
     public void UpdateTooltipBarter(InventoryItemData item, List<ItemWithAmount> barterCost, int cost)

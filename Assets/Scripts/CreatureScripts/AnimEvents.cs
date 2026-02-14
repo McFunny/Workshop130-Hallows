@@ -12,6 +12,9 @@ public class AnimEvents : MonoBehaviour
     public CreatureBehaviorScript creatureScript;
 
     public CreatureEffectsHandler audioScript;
+
+    public StructureAudioHandler structureAudioScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,5 +46,10 @@ public class AnimEvents : MonoBehaviour
     public void FootStepSound()
     {
         if(audioScript) audioScript.PlayFootstep();
+    }
+
+    public void PlayMiscClip(int index)
+    {
+        if(structureAudioScript) structureAudioScript.PlaySound(structureAudioScript.miscSounds2[index]);
     }
 }

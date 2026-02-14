@@ -27,6 +27,10 @@ public class CritterItemBehavior : ItemBehavior
                     case PetType.Dog:
                     GameSaveData.Instance.dogRef.gameObject.SetActive(true);
                     break;
+
+                    case PetType.Rock:
+                    GameSaveData.Instance.rockRef.gameObject.SetActive(true);
+                    break;
                 }
             }
             else

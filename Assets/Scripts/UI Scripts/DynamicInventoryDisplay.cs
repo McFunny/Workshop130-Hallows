@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class DynamicInventoryDisplay : InventoryDisplay
 {
@@ -23,6 +24,10 @@ public class DynamicInventoryDisplay : InventoryDisplay
         {
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested += RefreshDynamicInventory;
         }
+        else if (gameObject.name == "PlayerTrinkets")
+        {
+            PlayerInventoryHolder.OnPlayerTrinketDisplayRequested += RefreshDynamicInventory;
+        }
     }
 
     private void OnDisable()
@@ -34,6 +39,10 @@ public class DynamicInventoryDisplay : InventoryDisplay
         else if (gameObject.name == "PlayerBackPack")
         {
             PlayerInventoryHolder.OnPlayerBackpackDisplayRequested -= RefreshDynamicInventory;
+        }
+        else if (gameObject.name == "PlayerTrinkets")
+        {
+            PlayerInventoryHolder.OnPlayerTrinketDisplayRequested -= RefreshDynamicInventory;
         }
 
         if (inventorySystem != null) inventorySystem.OnInventorySlotChanged -= UpdateSlot;
@@ -59,7 +68,21 @@ public class DynamicInventoryDisplay : InventoryDisplay
             AssignSlot(inventorySystem);
         }
 
-        //Debug.Log($"Displaying {inventorySystem} in UI: {gameObject.name}"); // Log to verify correct inventory is shown
+        if(gameObject.name == "PlayerTrinkets")
+        {
+            if(inventorySystem.InventorySize == 0)
+            {
+                GetComponent<Image>().enabled = false;
+                gameObject.transform.parent.GetChild(1).gameObject.SetActive(false);
+            }
+            else 
+            {
+                GetComponent<Image>().enabled = true;
+                gameObject.transform.parent.GetChild(1).gameObject.SetActive(true);
+            }
+        }
+
+        Debug.Log($"Displaying {inventorySystem} in UI: {gameObject.name}"); // Log to verify correct inventory is shown
     }
 
     public override void AssignSlot(InventorySystem invToDisplay)

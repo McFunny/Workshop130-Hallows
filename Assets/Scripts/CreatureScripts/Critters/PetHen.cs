@@ -68,7 +68,7 @@ public class PetHen : CritterBehaviorScript
 
     public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(hunger < 100 && (foodDiet.Contains(item)))
+        if(hunger < 100 && item.foodForCritters.Count >= 0 || item.foodForCritters.Contains(critterType))
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
@@ -280,10 +280,15 @@ public class PetHen : CritterBehaviorScript
         if (!isMoving && currentRoutine == null)
         {
             agent.speed = runSpeed;
+            if(!targetObject)
+            {
+                currentState = CritterState.Idle;
+                return;
+            }
             target = targetObject.position;
             currentRoutine = StartCoroutine(MoveToPoint(target, 10));
         }
-        else if (Vector3.Distance(transform.position, target) < 1.5f)
+        else if (Vector3.Distance(transform.position, target) < 1.7f)
         {
             interruptAction = true;
         }
@@ -350,7 +355,7 @@ public class PetHen : CritterBehaviorScript
                 return;
             }
             bool isEating = false, isDrinking = false;
-            if(hunger <= 25 && trough.HasEdibleItem(foodDiet)) isEating = true;
+            if(hunger <= 25 && trough.HasEdibleItem(critterType)) isEating = true;
             if(thirst <= 25 && trough.waterLevel > 0) isDrinking = true;
 
             if(Vector3.Distance(targetObject.transform.position, transform.position) < 1.5f && (isEating || isDrinking))
@@ -360,7 +365,7 @@ public class PetHen : CritterBehaviorScript
                 anim.Play("HenEat");
                 if(isEating)
                 {
-                    trough.EatItem(foodDiet, out InventoryItemData itemEaten);
+                    trough.EatItem(critterType, out InventoryItemData itemEaten);
                     EatFood(itemEaten);
                 }
                 else

@@ -15,11 +15,11 @@ MonoBehaviour:
   ID: 226
   displayName: Bone Blender
   description: Grinds bones into a sticky paste. This paste is required to rebuild
-    broken structures.
+    and repair broken structures.
   icon: {fileID: -1875411505, guid: 5bc2229503a7ba94ca998de038fae1a2, type: 3}
   type: 3
   maxStackSize: 5
-  value: 55
+  value: 45
   sellValueMultiplier: 0.25
   isKeyItem: 0
   hasModel: 0
@@ -29,6 +29,9 @@ MonoBehaviour:
   useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 
   itemInputsKBM:
   - LMB - Place Structure
   itemInputsController: []

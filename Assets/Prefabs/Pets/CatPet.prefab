@@ -5932,12 +5932,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 995e68105f917cf43a48bd00d4fd1feb, type: 2}
   - {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
   - {fileID: 11400000, guid: 79790c84e5887a946adc6dac3fac60cc, type: 2}
+  - {fileID: 11400000, guid: d047228a6e443ca46843c71c725ba95e, type: 2}
   hunger: 100
   maxHunger: 100
   hungerDecayRate: 5
   thirst: 100
   maxThirst: 100
-  thirstDecayRate: 4
+  thirstDecayRate: 4.5
   focalPoint: {fileID: 2157059709556329653}
   effectsHandler: {fileID: 5475692019838636164}
   anim: {fileID: 6371543081529119668}
@@ -6074,6 +6075,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ef6cbe3016bd3404b944f109c9a0fa70, type: 3}
   - {fileID: 8300000, guid: 785a198104aa10441a00e4cc224774f4, type: 3}
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &8090276581786139092
 AudioSource:
   m_ObjectHideFlags: 0

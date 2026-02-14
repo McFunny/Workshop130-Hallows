@@ -19,6 +19,8 @@ public class TicketBox : MonoBehaviour, IInteractable
 
     public WagonMerchantNPC merchant;
 
+    public ParticleSystem starParticles;
+
     public List<GameObject> highlight = new List<GameObject>();
     List<Material> highlightMaterial = new List<Material>();
     bool highlightEnabled;
@@ -38,6 +40,8 @@ public class TicketBox : MonoBehaviour, IInteractable
                 GameSaveData.Instance.tTicketsAvailable = 0;
                 anim.SetBool("IsOpened", false);
                 r.enabled = false;
+                source.Play();
+                starParticles.Stop();
             }
         }
 
@@ -68,6 +72,7 @@ public class TicketBox : MonoBehaviour, IInteractable
             hasTicket = true;
             anim.SetBool("IsOpened", true);
             r.enabled = true;
+            starParticles.Play();
         }
     }
 

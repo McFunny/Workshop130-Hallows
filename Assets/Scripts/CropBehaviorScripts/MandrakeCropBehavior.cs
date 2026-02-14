@@ -16,7 +16,7 @@ public class MandrakeCropBehavior : CropBehavior
         }
         if(TimeManager.Instance.isDay == false && tile.crop.growthStages == tile.growthStage)
         {
-            float r = Random.Range(0, 4);
+            float r = Random.Range(0, 5);
             if(r <= 3)
             {
                 tile.StartCoroutine(SpawnMandrake(tile));

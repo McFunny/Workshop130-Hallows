@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 44
   displayName: Terra Tuber
-  description: Resilient spud that can grow in many places. Has chance to yield multiple
-    harvests.
+  description: Resilient spud that can grow in many places and makes for an excellent
+    cooking ingredient. Has chance to yield multiple harvests.
   icon: {fileID: 21300000, guid: f8681d3adf8699f44ae11ca52514822b, type: 3}
   type: 0
   maxStackSize: 20
-  value: 24
+  value: 27
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
@@ -33,6 +33,13 @@ MonoBehaviour:
     newItem: {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
     itemsNeeded: 1
     itemsGained: 1
+  cookingStats:
+  - type: 0
+    value: 1
+  - type: 8
+    value: 1
+  foodForPets: 000000000200000004000000
+  foodForCritters: 000000000100000003000000
   itemInputsKBM:
   - LMB - Consume
   - RMB - Show Item

@@ -44,6 +44,7 @@ public class VileHog : CreatureBehaviorScript
     float accelerateSpeed;
     float thrusterSpeed = 30;
     bool faceTarget;
+    bool hasFleeTarget;
 
     private Vector3 despawnPos;
 
@@ -365,8 +366,31 @@ public class VileHog : CreatureBehaviorScript
         if(coroutineRunning) return;
         anim.SetBool("IsWalking", false);
         anim.SetBool("IsRunning", true);
-        Vector3 runTo = transform.position + ((transform.position - player.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
-        agent.destination = runTo;
+        //Vector3 runTo = transform.position + ((transform.position - player.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)) * 1));
+        //agent.destination = runTo;
+
+        if (hasFleeTarget && !agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1.5f)
+        {
+            hasFleeTarget = false;
+        }
+        else if (!hasFleeTarget)
+        {
+            hasFleeTarget = true;
+            Vector3 fleeDirection = (transform.position - player.position).normalized;
+
+            
+            float randomAngle = Random.Range(-45f, 45f); //random offset for random movement
+
+            fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
+
+            Vector3 newDestination = transform.position + fleeDirection * Random.Range(4f, 7f);
+
+        
+            agent.SetDestination(newDestination);
+        }
+
+
+
         if(agent.speed > 0 && agent.speed != runSpeed) agent.speed = runSpeed;
         fleeTimeLeft -= Time.deltaTime;
         if(fleeTimeLeft <= 0)
@@ -495,9 +519,13 @@ public class VileHog : CreatureBehaviorScript
 
         float chargeTimeElapsed = 0;
         //
+        anim.ResetTrigger("Recoiled");
+        anim.ResetTrigger("Attacked");
+        anim.ResetTrigger("Missed");
         anim.SetBool("ChargePrep", true);
         anim.SetBool("IsWalking", false);
         anim.SetBool("IsRunning", true);
+
         agent.speed = 0;
         agent.ResetPath();
         faceTarget = true;
@@ -594,48 +622,48 @@ public class VileHog : CreatureBehaviorScript
 
     private void OnTriggerEnter(Collider other)
     {
-        if(isDead || !isCharging) return;
+        if (isDead || !isCharging) return;
         if (other.CompareTag("Player"))
         {
             PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
             if (playerInteraction != null)
             {
                 int extraDamage = 0;
-                if(usingThrusters) extraDamage += 15;
-                playerInteraction.StaminaChange(damageToPlayer - extraDamage);
+                if (usingThrusters) extraDamage += 15;
+                playerInteraction.StaminaChange(damageToPlayer - extraDamage, corpseParticleTransform.position);
                 playerInteraction.PlayerTrip();
                 attackHitbox.enabled = false;
-                if(!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
+                if (!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
                 recoilTime = 1.7f;
                 isCharging = false;
                 return;
             }
         }
-        if(other.gameObject.layer == 6)
+        if (other.gameObject.layer == 6)
         {
             var structure = other.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null && (structure.isObstacle || !structure.destructable))
             {
-                if(structure as PlacedHoe || structure as PlacedTorch) return;
+                if (structure as PlacedHoe || structure as PlacedTorch) return;
 
                 int extraDamage = 0;
-                if(usingThrusters) extraDamage += 10;
+                if (usingThrusters) extraDamage += 10;
                 HitStructureParticle(structure.transform.position);
-                if(!structure.destructable) //Hit a tree
+                if (!structure.destructable) //Hit a tree
                 {
                     structure.TakeDamage(damageToStructure + extraDamage);
                     attackHitbox.enabled = false;
                     recoilTime = 2.5f;
-                    if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
+                    if (!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     isCharging = false;
                     agent.ResetPath();
                     agent.speed = 0;
                 }
-                else if(structure.health <= (damageToStructure + extraDamage)) //Broke it
+                else if (structure.health <= (damageToStructure + extraDamage)) //Broke it
                 {
                     structure.TakeDamage(damageToStructure + extraDamage);
                     attackHitbox.enabled = false;
-                    if(!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
+                    if (!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
                     recoilTime = 1.7f;
                     isCharging = false;
                 }
@@ -643,47 +671,65 @@ public class VileHog : CreatureBehaviorScript
                 {
                     structure.TakeDamage(damageToStructure + extraDamage);
                     attackHitbox.enabled = false;
-                    if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
+                    if (!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
                     recoilTime = 2.5f;
                     isCharging = false;
                     agent.ResetPath();
                     agent.speed = 0;
                 }
 
-                if(variant == Variant.Corrupted && Random.Range(0,10) > 2) CorruptionExplosion();
+                if (variant == Variant.Corrupted && Random.Range(0, 10) > 2) CorruptionExplosion();
                 return;
-            }    
+            }
 
-            if(other.TryGetComponent<Burrow>(out Burrow burrow)) burrow.TakeDamage(20);      
+            if (other.TryGetComponent<Burrow>(out Burrow burrow)) burrow.TakeDamage(20);
         }
 
-        if(other.gameObject.layer == 9)
+        if (other.gameObject.layer == 9)
         {
             var creature = other.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable && (creature.creatureData != creatureData || creature.health <= 0) && variant != Variant.Tiny)
             {
                 float extraDamage = 0;
-                if(usingThrusters) extraDamage += 50;
+                if (usingThrusters) extraDamage += 50;
+                creature.lastDamageTypeTaken = DamageType.HogCharge;
                 creature.TakeDamage(50 + extraDamage);
-                creature.PlayHitParticle(new Vector3(0,0,0));
+                creature.PlayHitParticle(new Vector3(0, 0, 0));
+
+                if (creature.health <= 0)
+                {
+                    AchievementManager.Instance.NotitfyCreatureKilledByCreature(creature.creatureData, this.creatureData);
+                    if(other.TryGetComponent<PyreFly>(out PyreFly pyreFly))
+                    {
+                        //pyreFly.DropDisk();
+                    }
+                }
+
+                if(creature.corpseType == CorpseParticleType.Stone)
+                {
+                    if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
+                    recoilTime = 2.1f;
+                    isCharging = false;
+                }
+
             }
-        }
 
-        if(other.gameObject.layer == 0 || other.gameObject.layer == 7)
-        {
-            return; //causes wilderness issues
+            if (other.gameObject.layer == 0 || other.gameObject.layer == 7)
+            {
+                return; //causes wilderness issues
 
-            attackHitbox.enabled = false;
-            if(!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
-            recoilTime = 2f;
-            isCharging = false;
-            return;
-        }
+                attackHitbox.enabled = false;
+                if (!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
+                recoilTime = 2f;
+                isCharging = false;
+                return;
+            }
 
-        var bug = other.GetComponentInParent<BugBehaviorScript>();
-        if (bug != null)
-        {
-            bug.Struck();
+            var bug = other.GetComponentInParent<BugBehaviorScript>();
+            if (bug != null)
+            {
+                bug.Struck();
+            }
         }
     }
 

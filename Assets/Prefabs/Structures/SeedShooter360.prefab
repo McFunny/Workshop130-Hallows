@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &3089030637546212446
 GameObject:
@@ -548,6 +549,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 7514039520360302508}
   gibs: {fileID: 2613770912655317858, guid: 70dd66d5029373d4dae2c9d30a8b98f9, type: 3}
   nearbyFires: []
@@ -558,6 +560,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -593,6 +596,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2836db77fdc01174dbdaf3addf675d5f, type: 2}
   - {fileID: 11400000, guid: 3dbccb2a2b919c94ea3679a35ec8a00a, type: 2}
   - {fileID: 11400000, guid: 668d2e39634652e478346ea6a911f280, type: 2}
+  - {fileID: 11400000, guid: e656cbe38aa744042876ef65ed6101e3, type: 2}
+  - {fileID: 11400000, guid: 115f61b0c856dd840a72809e655d75d4, type: 2}
+  - {fileID: 11400000, guid: 2e13a79dfc756104b86d4465eb9ccbc3, type: 2}
 --- !u!208 &5988286614880165079
 NavMeshObstacle:
   m_ObjectHideFlags: 0

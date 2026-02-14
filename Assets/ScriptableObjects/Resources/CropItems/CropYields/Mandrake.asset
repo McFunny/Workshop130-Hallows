@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 40
   displayName: Mandrake
-  description: Valuable root that makes for a good broth base.
+  description: A twitchy, sentient root that is highly nutritious.
   icon: {fileID: 21300000, guid: aa448fccc18453f4b9097f7bfb81f543, type: 3}
   type: 1
   maxStackSize: 20
-  value: 117
+  value: 63
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 93
+  staminaValue: 46
   animalHungerValue: 100
   bonusCompostValue: 0
   useCooldown: 5
@@ -32,6 +32,11 @@ MonoBehaviour:
     newItem: {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
     itemsNeeded: 1
     itemsGained: 1
+  cookingStats:
+  - type: 0
+    value: 1.5
+  foodForPets: 
+  foodForCritters: 
   itemInputsKBM:
   - LMB - Consume
   - RMB - Show Item

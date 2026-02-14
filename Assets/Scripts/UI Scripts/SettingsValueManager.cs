@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 public class SettingsValueManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class SettingsValueManager : MonoBehaviour
     [SerializeField] private Button applyButton, defaultButton, backButton, resolutionButton;
     [SerializeField] private TextMeshProUGUI title, brightnessDisplay, sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay, resolutionDisplay;
     [SerializeField] private Slider brightnessSlider, sensitivitySlider, masterVolSlider, musicSlider, sfxSlider;
-    [SerializeField] private Toggle sprint, detailedUI, emptyHand;
+    [SerializeField] private Toggle sprint, detailedUI, emptyHand, dialogueAnimation;
     //[SerializeField] private TMP_Dropdown resolutionDropDown;
     [SerializeField] private GameObject horizontalMenuButton, resolutionBox, resolutionContent;
     public GameObject resolutionDefault;
@@ -27,7 +28,7 @@ public class SettingsValueManager : MonoBehaviour
     private float currentRefreshRate;
     private int currentResolutionIndex;
     private int tempResolutionIndex;
-    private int sprintValue, detailedUIValue, emptyHandValue;
+    private int sprintValue, detailedUIValue, emptyHandValue, dialogueAnimationValue;
     private float brightnessValue;
     private float defaultSensitivity, defaultVolume; // Default values
     private float sensitivity, masterVolume, musicVolume, sfxVolume; // Current Values
@@ -37,7 +38,7 @@ public class SettingsValueManager : MonoBehaviour
     public delegate void SettingsChanged();
     public static event SettingsChanged OnSettingsChanged;
 
-    void Awake()
+    void Awake() // 0 is false, 1 is true
     {
         defaultSensitivity = 1.0f;
         defaultVolume = 1.0f;
@@ -49,6 +50,7 @@ public class SettingsValueManager : MonoBehaviour
         sprintValue = PlayerPrefs.GetInt("ToggleSprint", 0);
         detailedUIValue = PlayerPrefs.GetInt("DetailedUI", 0);
         emptyHandValue = PlayerPrefs.GetInt("EmptyHand", 0);
+        dialogueAnimationValue = PlayerPrefs.GetInt("DialogueAnimation", 1);
         volumeManager = FindFirstObjectByType<VolumeManager>();
         applySettings = FindFirstObjectByType<ApplySettings>();
 
@@ -155,33 +157,40 @@ public class SettingsValueManager : MonoBehaviour
                 }
             }
 
-            // 3. Vertical navigation between groups (using first item in each group)
             for (int g = 0; g < groupedSelectables.Count; g++)
             {
                 var currentGroup = groupedSelectables[g];
-                var firstItem = currentGroup[0];
 
-                Navigation nav = firstItem.navigation;
-                nav.mode = Navigation.Mode.Explicit;
-
-                if (g == 0)
+                for (int j = 0; j < currentGroup.Count; j++)
                 {
-                    nav.selectOnUp = settingsPages[i].categoryButton;
-                    settingsPages[i].firstOnList = firstItem;
-                }
-                    
-                if (g > 0)
-                    nav.selectOnUp = groupedSelectables[g - 1][0];
-                if (g < groupedSelectables.Count - 1)
-                    nav.selectOnDown = groupedSelectables[g + 1][0];
+                    Selectable current = currentGroup[j];
+                    Navigation nav = current.navigation;
+                    nav.mode = Navigation.Mode.Explicit;
 
-                if (g == groupedSelectables.Count - 1)
-                {
-                    nav.selectOnDown = backButton;
-                    settingsPages[i].lastOnList = firstItem;
-                }
+                    // --- UP ---
+                    if (g == 0)
+                    {
+                        //nav.selectOnUp = settingsPages[i].categoryButton;
+                    }
+                    else
+                    {
+                        var upGroup = groupedSelectables[g - 1];
+                        nav.selectOnUp = upGroup[Mathf.Min(j, upGroup.Count - 1)];
+                    }
 
-                firstItem.navigation = nav;
+                    // --- DOWN ---
+                    if (g == groupedSelectables.Count - 1)
+                    {
+                        nav.selectOnDown = backButton;
+                    }
+                    else
+                    {
+                        var downGroup = groupedSelectables[g + 1];
+                        nav.selectOnDown = downGroup[Mathf.Min(j, downGroup.Count - 1)];
+                    }
+
+                    current.navigation = nav;
+                }
             }
         }
 
@@ -196,7 +205,7 @@ public class SettingsValueManager : MonoBehaviour
     {
         EnableDisablePreviousMenuButtons(false);
         ChangeSettingsPage(0);
-        EventSystem.current.SetSelectedGameObject(defaultMenuObject);
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(defaultMenuObject);
         //inputSystem.leftClick = null;
         sensitivitySlider.value = sensitivity;
         sensitivityDisplay.SetText($"{sensitivity.ToString("N2")}");
@@ -222,6 +231,9 @@ public class SettingsValueManager : MonoBehaviour
         if (emptyHandValue == 0) emptyHand.isOn = false;
         else emptyHand.isOn = true;
 
+        if (dialogueAnimationValue == 0) dialogueAnimation.isOn = false;
+        else dialogueAnimation.isOn = true;
+
         resolutionDisplay.text = $"{filteredResolutions[currentResolutionIndex].width} x {filteredResolutions[currentResolutionIndex].height}";
 
 
@@ -246,20 +258,16 @@ public class SettingsValueManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("1"))
+        if(Gamepad.current != null)
         {
-            //print(PlayerPrefs.GetFloat("Sensitivity", sensitivity));
-            ChangeSettingsPage(0);
-        }
-        if (Input.GetKeyDown("2"))
-        {
-            //print(PlayerPrefs.GetFloat("MusicVolume", musicVolume));
-            ChangeSettingsPage(1);
-        }
-        if (Input.GetKeyDown("3"))
-        {
-            //print(PlayerPrefs.GetFloat("SFXVolume", sfxVolume));
-            ChangeSettingsPage(2);
+            if (Gamepad.current.rightShoulder.wasPressedThisFrame)
+            {
+                ChangeSettingsPage(currentPage + 1 >= settingsPages.Count ? currentPage : currentPage + 1);
+            }
+            else if (Gamepad.current.leftShoulder.wasPressedThisFrame)
+            {
+                ChangeSettingsPage(currentPage - 1 < 0 ? currentPage : currentPage - 1);
+            }
         }
 
 
@@ -295,6 +303,7 @@ public class SettingsValueManager : MonoBehaviour
             PlayerPrefs.SetInt("ToggleSprint", sprintValue);
             PlayerPrefs.SetInt("DetailedUI", detailedUIValue);
             PlayerPrefs.SetInt("EmptyHand", emptyHandValue);
+            PlayerPrefs.SetInt("DialogueAnimation", dialogueAnimationValue);
 
             Resolution resolution = filteredResolutions[tempResolutionIndex];
             Screen.SetResolution(resolution.width, resolution.height, true);
@@ -358,6 +367,11 @@ public class SettingsValueManager : MonoBehaviour
         detailedUIValue = 0;
         detailedUI.isOn = false;
 
+        emptyHandValue = 0;
+        emptyHand.isOn = false;
+
+        dialogueAnimationValue = 1;
+        dialogueAnimation.isOn = true;
         //print("Sensitivity Multiplier: " + PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity));
 
         applyButton.interactable = true;
@@ -413,6 +427,13 @@ public class SettingsValueManager : MonoBehaviour
     {
         if (h == false) emptyHandValue = 0;
         else emptyHandValue = 1;
+        applyButton.interactable = true;
+    }
+
+    public void UpdateDialogueAnimationToggle(bool d)
+    {
+        if (d == false) dialogueAnimationValue = 0;
+        else dialogueAnimationValue = 1;
         applyButton.interactable = true;
     }
 
@@ -488,10 +509,10 @@ public class SettingsValueManager : MonoBehaviour
                 else settingsPages[i].settingsToDisplay[o].SetActive(false);
             }
 
-            Navigation categoryNav = settingsPages[i].categoryButton.navigation;
-            categoryNav.selectOnDown = settingsPages[currentPage].firstOnList;
+            //Navigation categoryNav = settingsPages[i].categoryButton.navigation;
+            //categoryNav.selectOnDown = settingsPages[currentPage].firstOnList;
 
-            settingsPages[i].categoryButton.navigation = categoryNav;
+            //settingsPages[i].categoryButton.navigation = categoryNav;
         }
 
         

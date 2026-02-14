@@ -26,6 +26,8 @@ public class BearTrap : StructureBehaviorScript
 
     Collider collider;
 
+    public GameObject leafPilePrefab;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -46,7 +48,14 @@ public class BearTrap : StructureBehaviorScript
             bottomClamp.rotation = Quaternion.Euler(-20, 90, -90);
         }
         
-        if(TownGate.Instance.location == PlayerLocation.InWilderness) absentFromGrid = true;
+        if(TownGate.Instance.location == PlayerLocation.InWilderness) 
+        {
+            absentFromGrid = true;
+            if(Random.Range(0,5) < 2)
+            {
+                Instantiate(leafPilePrefab, transform.position, Quaternion.identity).transform.parent = transform;
+            } 
+        }
         base.Start();
     }
 
@@ -117,11 +126,10 @@ public class BearTrap : StructureBehaviorScript
         //print(distance);
         if(victim/*distance < 1.5f*/)
         {
-
+            PlayerInteraction player = victim.GetComponent<PlayerInteraction>();
             //does the damage
-            if(victim.GetComponent<PlayerInteraction>() && distance < 1.5f)
+            if(player && distance < 1.5f && !player.TripCheck())
             {
-                PlayerInteraction player = victim.GetComponent<PlayerInteraction>();
                 player.rb.velocity = Vector3.zero;
                 player.StaminaChange(-25);
 
@@ -275,7 +283,16 @@ public class BearTrap : StructureBehaviorScript
         if(other.gameObject.layer == 9 || other.gameObject.layer == 10)
         {
             CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
-            if(creature && !creature.bearTrapVulnerable) return;
+            if(creature)
+            {
+                if(!creature.bearTrapVulnerable) return;
+
+                else if(!creature.shovelVulnerable) //break it. IE golem steps on it
+                {
+                    TakeDamage(99);
+                    return;
+                }
+            }
             isTriggered = true;
             StartCoroutine(SpringTrap(other)); //pass enemy script or player script variable
         }

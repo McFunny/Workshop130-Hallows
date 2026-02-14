@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99bf7725fee4d8c418df0b18e20092b6, type: 3}
+  m_Name: SlimePillars
+  m_EditorClassIdentifier: 
+  name: Slime Pillars
+  occurenceChance: 1
+  difficultyPointsCost: 10
+  eventStartPopup: {fileID: 11400000, guid: ba93b49ffeaed57489958ddf5a26d4bd, type: 2}
+  wealthPrerequisite: 4000
+  pillar: {fileID: 11400000, guid: 00f6d9172935a334583eb7a3b1a5c000, type: 2}

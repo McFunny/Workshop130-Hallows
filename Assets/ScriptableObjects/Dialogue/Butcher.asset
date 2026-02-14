@@ -17,8 +17,9 @@ MonoBehaviour:
     pathName: Introduction
     paragraphs:
     - Being the new farmer involves more than watching grass.
-    - It also involves getting your hands bloody.
-    - Else your farm will be reduced to burrows and scraps.
+    - It also involves getting your hands bloody, else your farm will be reduced
+      to burrows and scraps.
+    - You secure any meat from your kills? You bring to me. At stall. Evening.
     emotions: 030000000000000002000000
   repeatedItemPath:
     pathName: Again...?
@@ -111,6 +112,12 @@ MonoBehaviour:
     - But when I set out the next day, it was as if he took me to a completely different
       spot. I never did see my traps again.
     emotions: 000000000200000005000000
+  - pathName: Hate Ferrat
+    paragraphs:
+    - I have strong hatred for little orange rodent.
+    - Always setting off my traps. Traps meant for meaty swine.
+    - Not little orange rodent.
+    emotions: 030000000200000003000000
   questPaths: []
   itemRecievedPaths:
   - pathName: Go Sell it instead

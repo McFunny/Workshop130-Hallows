@@ -373,7 +373,7 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
         for(int i = 0; i < QuestManager.Instance.activeQuests.Count; i++)
         {
-            if(QuestManager.Instance.activeQuests[i].alreadyCompleted || QuestManager.Instance.activeQuests[i].isMajorQuest) continue;
+            if(QuestManager.Instance.activeQuests[i].alreadyCompleted) continue;
 
             if(QuestManager.Instance.activeQuests[i].assignee == character)
             {
@@ -393,7 +393,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 }
 
                 GrowQuest gq = QuestManager.Instance.activeQuests[i] as GrowQuest;
-                if(gq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == gq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= gq.amount && gq.progress == gq.maxProgress)
+                if(gq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == gq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= gq.amount && gq.progress == gq.maxProgress
+                 && !QuestManager.Instance.activeQuests[i].uniqueCompletionMethod)
                 {
                     if(GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards) == false) return false; //Unable to give cuz no space n giving key item
 

@@ -30,7 +30,8 @@ public class MouseItemData : MonoBehaviour
     {
         assignedInventorySlot.AssignItem(invSlot);
         itemSprite.sprite = invSlot.ItemData.icon;
-        itemCount.text = invSlot.StackSize.ToString();
+        if(invSlot.StackSize > 1) itemCount.text = invSlot.StackSize.ToString();
+        else itemCount.text = "";
         itemSprite.color = Color.white;
     }
 
@@ -40,16 +41,7 @@ public class MouseItemData : MonoBehaviour
 
         if (assignedInventorySlot.ItemData != null) //If has an item, follow the mouse position
         {
-            if(ControlManager.isGamepad == false)
-            {
-                transform.position = Input.mousePosition;
-            }
-            else
-            {
-                transform.position = new Vector3(eventSystem.currentSelectedGameObject.transform.position.x - 20, eventSystem.currentSelectedGameObject.transform.position.y + 50, eventSystem.currentSelectedGameObject.transform.position.z);
-            }
             
-
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
             {
                 if(assignedInventorySlot.ItemData.isKeyItem || !canDropItems) return;
@@ -64,6 +56,15 @@ public class MouseItemData : MonoBehaviour
                 print("Item Dropped");
             } 
         }
+
+        if(ControlManager.isGamepad == false)
+        {
+            transform.position = Input.mousePosition;
+        }
+        else
+        {
+            transform.position = new Vector3(eventSystem.currentSelectedGameObject.transform.position.x - 20, eventSystem.currentSelectedGameObject.transform.position.y + 50, eventSystem.currentSelectedGameObject.transform.position.z);
+        }
     }
 
     public void DropItem()
@@ -76,6 +77,10 @@ public class MouseItemData : MonoBehaviour
             itemRB.AddForce(HandItemManager.Instance.bulletStart.forward * 300);
             itemRB.AddForce(Vector3.up * 100);
         }
+
+        PlaceableItem p_item = assignedInventorySlot.ItemData as PlaceableItem;
+        if (p_item) p_item.DisableHologram();
+
         ClearSlot();
     }
 

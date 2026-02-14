@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 120
   displayName: Morsel
-  description: A small scrap of meat. Inedible.
+  description: A small scrap of stringy meat. Inedible.
   icon: {fileID: -733403549, guid: 99cc2de0b67f60d46815427a87d9a7f1, type: 3}
   type: 0
   maxStackSize: 10
   value: 12
-  sellValueMultiplier: 0.75
+  sellValueMultiplier: 0.6
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
@@ -32,6 +32,11 @@ MonoBehaviour:
     newItem: {fileID: 11400000, guid: 5d1b031ba347e6e4889b951e93ff29eb, type: 2}
     itemsNeeded: 1
     itemsGained: 1
+  cookingStats:
+  - type: 2
+    value: 0.5
+  foodForPets: 000000000200000004000000
+  foodForCritters: 00000000
   itemInputsKBM:
   - RMB - Show Item
   itemInputsController:

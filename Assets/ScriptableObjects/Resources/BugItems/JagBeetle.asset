@@ -17,17 +17,22 @@ MonoBehaviour:
   description: A slowmoving beetle with a spiny carapace.
   icon: {fileID: 21300000, guid: 5c05f24039f833e4995fab520e9ce317, type: 3}
   type: 9
-  maxStackSize: 20
-  value: 10
+  maxStackSize: 99
+  value: 12
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
-  animalHungerValue: 0
+  animalHungerValue: 20
   bonusCompostValue: 20
   useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats:
+  - type: 4
+    value: 1
+  foodForPets: 
+  foodForCritters: 03000000
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []

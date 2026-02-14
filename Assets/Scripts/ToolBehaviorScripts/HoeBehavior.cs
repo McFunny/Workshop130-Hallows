@@ -99,8 +99,21 @@ public class HoeBehavior : ToolBehavior
                 HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
                 HotbarDisplay.currentSlot.UpdateUISlot();
                 HandItemManager.Instance.ClearHandModel();
+                return;
             }
         } 
+
+        if (Physics.Raycast(player.position, fwd, out hit, 6, 1 << 6))
+        {
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
+            if (structure != null && structure.Interactable())
+            {
+                //Use Tool to interact with structure (Probably just the tool rack)
+                bool success = false;
+                structure.ToolInteraction(tool, out success);
+                if(success) return;
+            }
+        }
     }
 
     public override void ItemUsed() 
@@ -116,6 +129,7 @@ public class HoeBehavior : ToolBehavior
             PlayerInteraction.Instance.StartCoroutine(SpawnTiles());
         }
         PlayerCam.Instance.ClearObjectOfInterest();
+        ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Dirt, new Color(1,1,1,0.4f), Random.Range(1, 5));
     }
 
     IEnumerator SpawnTiles()
@@ -187,9 +201,19 @@ public class HoeBehavior : ToolBehavior
         }
 
         
-        HandItemManager.Instance.PlayPrimaryAnimation();
+        //HandItemManager.Instance.PlayPrimaryAnimation();
+        toolAnim.Play("hoeswinging");
         HandItemManager.Instance.toolSource.PlayOneShot(swing);
-        if(PlayerInteraction.Instance.stamina > 50) PlayerInteraction.Instance.StaminaChange(-2);
+        if(PlayerInteraction.Instance.stamina > 50)
+        {
+            PlayerInteraction.Instance.overrideDamagePulse = true;
+            if(maxCharge) PlayerInteraction.Instance.StaminaChange(-5);
+            else
+            {
+                if(isUpgrade) PlayerInteraction.Instance.StaminaChange(-1);
+                else PlayerInteraction.Instance.StaminaChange(-3);
+            }
+        }
         toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
         PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.4f * coolDownMod, 1.1f * coolDownMod));
         PlayerMovement.restrictMovementTokens++;

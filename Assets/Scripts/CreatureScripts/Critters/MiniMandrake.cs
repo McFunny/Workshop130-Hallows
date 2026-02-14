@@ -12,7 +12,7 @@ public class MiniMandrake : CreatureBehaviorScript
     Vector3 despawnPos;
 
     float waterLevel = 100; //Dies when reaches 0
-    float waterLossRate = 1f; //Amount per second
+    float waterLossRate = 0.5f; //Amount per second
     public GameObject waterIcon, splashObject;
 
     [HideInInspector] public CreatureBehaviorScript targetCreature;

@@ -50,6 +50,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public bool canCorpseBreak;
     public float actionSpeedMod = 1; //Dictates the speed of specific interactions per creature
 
+    public DamageType lastDamageTypeTaken;
+
     List <Material> allMats = new List<Material>();
     List <Color> allMatColors = new List<Color>();
     bool flashing = false;
@@ -90,10 +92,17 @@ public class CreatureBehaviorScript : MonoBehaviour
         
     }
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         print("Ouch");
         if(StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Dare, this) && damage > 0) damage *= 1.5f;
+
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.BoneBreaker) && health < 0)
+        {
+            damage *= 2;
+        }
+
+
         health -= damage;
         if(!flashing && hitColor != Color.black) StartCoroutine(DamageFlash());
         if(!isDead) OnDamage();
@@ -139,8 +148,17 @@ public class CreatureBehaviorScript : MonoBehaviour
                 {
                     if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
                     else corpseParticle.transform.position = transform.position;
+
+                    if(corpseType == CorpseParticleType.Red && player)
+                    {
+                        if(Vector3.Distance(player.position, transform.position) < 6) ScreenSplatSpawner.Instance.SpawnSplats(SplatType.Blood, new Color(1,1,1,0.4f), Random.Range(2, 7));
+                        if(Random.Range(0, 100) < 5) BugSpawningManager.Instance.SpawnCorpseBug(transform.position);
+                    }
                 }
                 if(Tutorial.Instance) Tutorial.Instance.ClearedCorpse();
+
+                if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.BoneBreaker) && corpseHealth < -25 && ichorWorth >= 1) TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.BoneBreaker);
+
                 Destroy(this.gameObject);
             }
         }
@@ -193,6 +211,7 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             creatureData.amountKilled++;
             creatureData.hasSpawned = true;
+            AchievementManager.Instance.NotifyCreatureKill(creatureData);
         }
 
         if(Tutorial.Instance) Tutorial.Instance.KillCreature();
@@ -362,4 +381,26 @@ public class CreatureBehaviorScript : MonoBehaviour
 
 
     
+}
+
+public enum DamageType
+{
+    Null,
+    Shovel,
+    Fire,
+    Shotgun,
+    Flintlock,
+    BearTrap,
+    Frost,
+    Kukri,
+    Scythe,
+    Hoe,
+    Watergun,
+    Cannonball,
+    Mine,
+    Seedshooter,
+    PyreflyExplosion,
+    ThornWeed,
+    HogCharge,
+    FrostProjectile
 }

@@ -23,11 +23,18 @@ MonoBehaviour:
   isKeyItem: 0
   hasModel: 0
   staminaValue: 0
-  animalHungerValue: 5
+  animalHungerValue: 10
   bonusCompostValue: 10
   useCooldown: 0
   pickledForm: {fileID: 0}
   itemConversions: []
+  cookingStats:
+  - type: 7
+    value: 0.5
+  - type: 6
+    value: 0.5
+  foodForPets: 04000000
+  foodForCritters: 0000000003000000
   itemInputsKBM:
   - RMB - Show Item
   itemInputsController:

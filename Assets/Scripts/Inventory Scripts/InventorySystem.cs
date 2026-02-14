@@ -165,6 +165,24 @@ public class InventorySystem
 
     public void LoadFromSaveData(InventorySystemSaveData saveData, Database database) //Also call this for when we dynamically change inventory size
     {
+        if(saveData.savedSlots == null)
+        {
+            Debug.Log("No save data exists for this inventory"); //This means we need to load in empty slots, but we dont know which inventory this is, so we dont know how many slots to make
+
+            //Specifically for initializing trinket system with 1 slot on a new save. Thank you Alex!//
+            /*
+            InventorySlot slot = new InventorySlot();
+            inventorySlots.Add(slot); 
+
+            slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+            TrinketInventoryData data = new TrinketInventoryData();
+
+            data.slot = slot;
+            TrinketInventoryHandler.Instance.trinkets.Add(data);
+            */
+            ////////////////////////////////////////////////////
+            return;
+        }
         inventorySlots.Clear();
         foreach (var slotData in saveData.savedSlots)
         {
@@ -187,6 +205,23 @@ public class InventorySystem
             if (slot.StackSize != -1) return true;
         }
         return false;
+    }
+
+    public void AddNewTrinketSlotToInventory()
+    {
+        InventorySlot slot = new InventorySlot();
+
+        slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
+        TrinketInventoryData data = new TrinketInventoryData();
+
+        data.slot = slot;
+
+        inventorySlots.Add(data.slot); 
+
+        //TrinketInventoryHandler.Instance.trinkets.Add(data);
+
+        //PlayerInventoryHolder.Instance.UpdateTrinketHandler();
+        //PlayerInventoryHolder.Instance.UpdateInventory();
     }
 
 }

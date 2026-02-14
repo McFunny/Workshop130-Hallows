@@ -5,7 +5,7 @@ using UnityEngine;
 public class WagonMerchantNPC : NPC, ITalkable
 {
     private InventoryItemData lastSeenItem;
-    public InventoryItemData barricade, shotGun, ammo, carrot, carrotSeeds, inventoryUpgrade;
+    public InventoryItemData barricade, shotGun, ammo, carrot, carrotSeeds, inventoryUpgrade, burntFood, rockPet, rockItem;
     [HideInInspector] public bool interactedWithLantern;
     bool remembersGift; //if true and the player tries to sell barricades, he gets mad
     bool metPlayerAtEntrace = false; //resets at new day
@@ -38,6 +38,8 @@ public class WagonMerchantNPC : NPC, ITalkable
     public float[] ticketThresholds;
     float mintsBeforeSale; // tracks how many mints player had before selling item to calculate how many mints were earned
     bool checkTicket;
+
+    int buyRockAttempts = 0;
 
     void Start()
     {
@@ -102,9 +104,17 @@ public class WagonMerchantNPC : NPC, ITalkable
             }
             else if(!gaveFiller)
             {
-                int i = Random.Range(0, dialogueText.fillerPaths.Length);
-                currentPath = i;
-                currentType = PathType.Filler;
+                if(GameSaveData.Instance.mm_sellOnlyRocks)
+                {
+                    currentPath = 23;
+                    currentType = PathType.Misc;
+                }
+                else
+                {
+                    int i = Random.Range(0, dialogueText.fillerPaths.Length);
+                    currentPath = i;
+                    currentType = PathType.Filler;
+                }
                 gaveFiller = true;
             }
             else
@@ -131,7 +141,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-
+        if(checkTicket) GiveTicketCheck();
         if(!GameSaveData.Instance.mm_giveBarricade && !PlayerInventoryHolder.Instance.IsInventoryFull()) //Make sure he gives the intro to the store before player can start selling
         {
             GameSaveData.Instance.mm_giveBarricade = true;
@@ -157,6 +167,15 @@ public class WagonMerchantNPC : NPC, ITalkable
         else if (item as CropItem != null) //Seeds
         {
             currentPath = Random.Range(1,3);
+            currentType = PathType.ItemSpecific;
+            lastSeenItem = item;
+            Talk();
+            anim.SetTrigger("IsTalking");
+        }
+
+        else if (item == burntFood) //Burnt Food
+        {
+            currentPath = 3;
             currentType = PathType.ItemSpecific;
             lastSeenItem = item;
             Talk();
@@ -219,6 +238,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public override void PurchaseAttempt(StoreItem item)
     {
+        if(checkTicket) GiveTicketCheck();
         if(dialogueController.IsInterruptable() == false)
         {
             Talk();
@@ -256,7 +276,27 @@ public class WagonMerchantNPC : NPC, ITalkable
                         }
                         else
                         {
-                            currentPath = 15; //Pet sold
+                            if(item.itemData == rockPet)
+                            {
+                                switch(buyRockAttempts)
+                                {
+                                    case 0:
+                                    currentPath = 20;
+                                    break;
+                                    case 1:
+                                    currentPath = 21;
+                                    break;
+                                    case 2:
+                                    currentPath = 22;
+                                    break;
+                                    default:
+                                    currentPath = 15; //Pet sold
+                                    GameSaveData.Instance.mm_sellOnlyRocks = true;
+                                    break;
+                                }
+                                buyRockAttempts++;
+                            }
+                            else currentPath = 15; //Pet sold
                             //EmptyPetShop();
                         }
                     }
@@ -303,7 +343,7 @@ public class WagonMerchantNPC : NPC, ITalkable
         Talk();
     }
 
-    public override void RefreshStore()
+    /*public override void RefreshStore()
     {
         if(lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
         lastInteractedStoreItem = null;
@@ -314,6 +354,14 @@ public class WagonMerchantNPC : NPC, ITalkable
         foreach (StoreItem item in storeItems)
         {
             newItem = null;
+            if(GameSaveData.Instance.mm_sellOnlyRocks)
+            {
+                int rockCost = (int) (rockItem.value * sellMultiplier);
+                item.RefreshItem(rockItem, rockCost);
+                item.seller = this;
+                x++;
+                return;
+            }
             do
             {
                 i = Random.Range(0, possibleSoldItems.Length);
@@ -325,7 +373,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                 {
                     newItem = ammo;
 
-                    item.RefreshItem(newItem, (int) (newItem.value * sellMultiplier), new List<ItemWithAmount>(), 10);
+                    item.RefreshItem(newItem, (int) (newItem.value * sellMultiplier), new List<ItemWithAmount>(), 5);
                     item.seller = this;
                     x++;
                     continue;
@@ -363,6 +411,102 @@ public class WagonMerchantNPC : NPC, ITalkable
             item.seller = this;
             x++;
         }
+        GameSaveData.Instance.mm_sellOnlyRocks = false;
+    } */
+
+    public override void RefreshStore()
+    {
+        if (lastInteractedStoreItem) shopUI.shopImgObj.SetActive(false);
+        lastInteractedStoreItem = null;
+        int newCost = 0;
+        float r;
+        int b;
+        InventoryItemData newItem;
+
+        List<int> selectedTrades = new List<int>(); //Make sure no repeats
+
+        int extraItems = 0;
+
+       
+        for (int i = 0; i < storeItems.Length; i++)
+        {
+            //////
+
+            newItem = null;
+            if(GameSaveData.Instance.mm_sellOnlyRocks)
+            {
+                int rockCost = (int) (rockItem.value * sellMultiplier);
+                storeItems[i].RefreshItem(rockItem, rockCost);
+                storeItems[i].seller = this;
+                return;
+            }
+
+            if(i == 0)
+            {
+                if(!PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) 
+                {
+                    storeItems[i].RefreshItem(inventoryUpgrade, (int) inventoryUpgrade.value);
+                    storeItems[i].seller = this;
+                }
+                else if(CanSellTrinketPouch())
+                {
+                    storeItems[i].RefreshItem(barterDatabase.uniqueTransactions[0].itemForSale, barterDatabase.uniqueTransactions[0].mintCost,
+                        barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
+                    storeItems[i].seller = this;
+                }
+            }
+
+            do
+            {
+                b = Random.Range(0, barterDatabase.transactions.Count);
+                r = Random.Range(0f, 100f);
+                if (r < barterDatabase.transactions[b].barterChance && barterDatabase.transactions[b].siegesRequired <= GameSaveData.Instance.siegesCleared)
+                {
+                    if(selectedTrades.Contains(b) && Random.Range(0, 10) > 4) continue; //Repeats are less likely but not impossible
+                    newItem = barterDatabase.transactions[b].itemForSale;
+                    selectedTrades.Add(b);
+                }
+            }
+            while (!newItem);
+            newCost = (int)(barterDatabase.transactions[b].mintCost * sellMultiplier);
+
+            extraItems = 0;
+            if(barterDatabase.transactions[b].amountForSale == 1) extraItems = Random.Range(0, 3);
+            else if(barterDatabase.transactions[b].amountForSale == 3) extraItems = Random.Range(0, 6);
+            if(GameSaveData.Instance.siegesCleared > 1 && extraItems > 0) extraItems += Random.Range(0, 4);
+
+            storeItems[i].RefreshItem(newItem, newCost, barterDatabase.transactions[b].itemsRequired, barterDatabase.transactions[b].amountForSale + extraItems);
+            storeItems[i].ChangeAmountGiven(barterDatabase.transactions[b].amountGiven);
+            storeItems[i].seller = this;
+        }
+
+        //For selling pets and critters
+        if(TimeManager.Instance.dayNum < 3) return; //Wont give pets until third day
+        int x = 0;
+        foreach (StoreItem item in storeCritterItems)
+        {
+            newItem = null;
+            do
+            {
+                if(GameSaveData.Instance.mm_soldPet == false)
+                {
+                    if(x >= soldPetItems.Length) return;
+                    newItem = soldPetItems[x];
+                    continue;
+                }
+                else if(GameSaveData.Instance.townTreeCleared2 == false) return; //Wont sell if the barn is not unlocked
+
+                int index = Random.Range(0, possibleSoldCritterItems.Length);
+                r = Random.Range(0f,1f);
+                if(r < critterItemWeight[index]) newItem = possibleSoldCritterItems[index];
+            }
+            while(!newItem);
+            newCost = (int) (newItem.value * sellMultiplier);
+            item.RefreshItem(newItem, newCost);
+            item.seller = this;
+            x++;
+        }
+        GameSaveData.Instance.mm_sellOnlyRocks = false;
     }
 
     public override void EmptyShopItem()
@@ -573,11 +717,16 @@ public class WagonMerchantNPC : NPC, ITalkable
     {
         checkTicket = false;
         float mintsEarned = PlayerInteraction.Instance.currentMoney - mintsBeforeSale;
+        if(mintsEarned <= 0) return;
         GameSaveData sData = GameSaveData.Instance;
 
         sData.tTicketMintProgress += mintsEarned;
 
         int currentTier = CraftingDatabase.Instance.CurrentTier();
+
+        //print("Mints Earned is " + mintsEarned);
+        //print("Mint Progress is " + sData.tTicketMintProgress);
+        //print("Current Tier is " + currentTier);
 
         if(currentTier == -1 || currentTier >= ticketThresholds.Length) return;
 
@@ -606,6 +755,15 @@ public class WagonMerchantNPC : NPC, ITalkable
         dialogueController.SetInterruptable(false);
         anim.SetTrigger("IsTalking");
         Talk();
+    }
+
+    bool CanSellTrinketPouch()
+    {
+        if(GameSaveData.Instance.trinketSlotsGiven == 0 || GameSaveData.Instance.trinketSlotsGiven >= 3) return false;
+        if(PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) return false;
+
+        if(GameSaveData.Instance.trinketSlotsGiven > GameSaveData.Instance.siegesCleared) return false;
+        return true;
     }
     
 }
