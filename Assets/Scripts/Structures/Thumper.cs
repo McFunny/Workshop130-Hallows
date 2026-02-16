@@ -97,7 +97,7 @@ public class Thumper : StructureBehaviorScript
             break;
             case 3:
             range = 18f;
-            damageDealt = 40;
+            damageDealt = 50;
             p = largePulse;
             screenShake = 0.8f;
             break;
