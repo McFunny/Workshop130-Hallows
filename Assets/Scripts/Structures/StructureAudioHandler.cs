@@ -10,6 +10,7 @@ public class StructureAudioHandler : MonoBehaviour
     public AudioClip interactSound, itemInteractSound, breakSound, activatedSound;
 
     AudioSource source;
+    public AudioSource secondarySource;
     // Start is called before the first frame update
     void Awake()
     {
@@ -22,9 +23,10 @@ public class StructureAudioHandler : MonoBehaviour
         source.PlayOneShot(clips[r]);
     }
 
-    public void PlaySound(AudioClip clip)
+    public void PlaySound(AudioClip clip, bool useSecondary = false)
     {
-        source.PlayOneShot(clip);
+        if(useSecondary && secondarySource) secondarySource.PlayOneShot(clip);
+        else source.PlayOneShot(clip);
     }
 
     public void PlaySoundAtPoint(AudioClip clip, Vector3 pos)

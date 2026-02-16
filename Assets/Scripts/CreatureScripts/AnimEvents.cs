@@ -50,6 +50,6 @@ public class AnimEvents : MonoBehaviour
 
     public void PlayMiscClip(int index)
     {
-        if(structureAudioScript) structureAudioScript.PlaySound(structureAudioScript.miscSounds2[index]);
+        if(structureAudioScript) structureAudioScript.PlaySound(structureAudioScript.miscSounds2[index], true);
     }
 }

@@ -43,6 +43,7 @@ public class FarmLand : StructureBehaviorScript
     public GameObject splashObject; //extra particles
     public TextMeshProUGUI supportText;
     public GameObject laventSource;
+    public ParticleSystem selfPollinateParticles;
 
     public TextMeshProUGUI harvestText;
     [SerializeField] private CropNeedsUI cropNeedsUI;
@@ -206,10 +207,12 @@ public class FarmLand : StructureBehaviorScript
             ApplyNewUpgrade(FarmTileUpgrade.Trellis);
         }
 
-        else if(item == nectar && NeedsPollination())
+        else if((item == nectar || item.ID == 333) && NeedsPollination())
         {
             consumeItem = true;
             Pollinate();
+            selfPollinateParticles.Play();
+            audioHandler.PlaySound(audioHandler.itemInteractSound);
         }
         
         if(consumeItem)

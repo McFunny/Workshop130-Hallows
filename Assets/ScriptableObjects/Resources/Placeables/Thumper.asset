@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: Thumper
+  m_EditorClassIdentifier: 
+  ID: 353
+  displayName: Thumper
+  description: This mechanism slowly charges over time. When activated, creates a
+    large damaging shockwave.
+  icon: {fileID: 81660888, guid: 70ae4e7eabe941c41b50b7b847fa81a2, type: 3}
+  type: 3
+  maxStackSize: 5
+  value: 355
+  sellValueMultiplier: 0.25
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 40667029376714328, guid: c8681510fa892c84db8ac7f351196ef6,
+    type: 3}
+  hologramPrefab: {fileID: 8048108204209434879, guid: 259eca7761be81445961c30e5432d1eb,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 65f88b6da79e9d548906f86cb540e72f, type: 3}
+  gridTypes: 01000000
+  gridSize: 2
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

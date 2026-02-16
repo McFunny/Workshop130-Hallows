@@ -16,11 +16,16 @@ public class Thumper : StructureBehaviorScript
 
     public List<StructureObject> breakableStructures;
 
-
+    void Start()
+    {
+        UpdateModel();
+        base.Start();
+    }
 
     public override void StructureInteraction()
     {
         if(charge == 0) return;
+        StartCoroutine(TriggerTrap());
     }
 
     public override void ToolInteraction(ToolType type, out bool success)
@@ -46,6 +51,7 @@ public class Thumper : StructureBehaviorScript
         }
     }
 
+    [ContextMenu("Update Model")]
     void UpdateModel()
     {
         for(int i = 0; i < panels.Length; ++i)
@@ -53,47 +59,65 @@ public class Thumper : StructureBehaviorScript
             if(i < charge) panels[i].SetActive(true);
             else panels[i].SetActive(false);
         }
+        anim.SetInteger("ChargeLevel", charge);
     }
 
-    IEnumerator TriggerTrap()
+    public void ForceTrap()
     {
+        if(charge == 0) return;
+        StartCoroutine(TriggerTrap(Random.Range(0.3f, 0.9f)));
+    }
+
+    IEnumerator TriggerTrap(float delay = 0)
+    {
+        anim.Play("Thumper_Activated");
+
         int tempCharge = charge;
         charge = 0;
+        yield return new WaitForSeconds(delay);
         yield return new WaitForSeconds(0.1f);
         //triggeredParticles.Play();
 
         float range = 0;
         float damageDealt = 20;
+        float screenShake = 0.2f;
         ParticleSystem p;
 
         switch(tempCharge)
         {
             case 1:
-            range = 4.5f;
+            range = 10f;
             p = smallPulse;
             break;
             case 2:
-            range = 9f;
+            range = 13.5f;
             damageDealt = 30;
             p = mediumPulse;
+            screenShake = 0.5f;
             break;
             case 3:
-            range = 12.5f;
+            range = 18f;
             damageDealt = 40;
             p = largePulse;
+            screenShake = 0.8f;
             break;
             default:
-            range = 3.5f;
+            range = 10f;
             p = smallPulse;
             break;
         }
         yield return new WaitForSeconds(0.3f);
 
         audioHandler.PlaySound(audioHandler.interactSound);
+        ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = transform.position;
 
         yield return new WaitForSeconds(0.1f);
 
         audioHandler.PlaySound(audioHandler.miscSounds1[tempCharge - 1]);
+        audioHandler.PlaySound(audioHandler.miscSounds2[1]);
+        ParticlePoolManager.Instance.GrabElecZapParticle().transform.position = transform.position; 
+        PlayerInteraction.Instance.ShakeScreen(screenShake);
+        
 
         p.Play();
 
@@ -139,6 +163,14 @@ public class Thumper : StructureBehaviorScript
             if(bucket)
             {
                 bucket.ForceSpillBucket();
+                continue;
+            }
+
+            Thumper t = structure as Thumper;
+            if(t && t != this)
+            {
+                t.ForceTrap();
+                yield return new WaitForSeconds(0.15f);
                 continue;
             }
 
