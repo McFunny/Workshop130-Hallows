@@ -261,15 +261,16 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 while (!newItem);
                 newCost = (int)(survivalBarterDatabase.seeds[i].mintCost * sellMultiplier);
                 if(currentTier > 0) newAmountForSale = survivalBarterDatabase.seeds[i].amountForSale * currentTier;
+                else newAmountForSale = survivalBarterDatabase.structures[i].amountForSale;
                 
                 item.RefreshItem(newItem, newCost, survivalBarterDatabase.seeds[i].itemsRequired, newAmountForSale);
                 item.seller = this;
 
                 x++;
             }
-            //Next 3 are random structure items
+            //Next 5 are random structure items
             //No repeats and make sure they are allowed items
-            else if (x < 12)
+            else if (x < 14)
             {
                 do
                 {
@@ -286,12 +287,13 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 while (!newItem);
                 newCost = (int)(survivalBarterDatabase.structures[i].mintCost * sellMultiplier);
                 if(currentTier > 0) newAmountForSale = survivalBarterDatabase.structures[i].amountForSale * currentTier;
+                else newAmountForSale = survivalBarterDatabase.structures[i].amountForSale;
 
                 item.RefreshItem(newItem, newCost, survivalBarterDatabase.structures[i].itemsRequired, newAmountForSale);
                 item.seller = this;
                 x++;
             }
-            //Next 3 are random furniture items
+            //Next 1 are random furniture items
             //No repeats and make sure they are allowed items
             else if (x < 15)
             {

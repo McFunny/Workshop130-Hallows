@@ -181,7 +181,7 @@ MonoBehaviour:
     itemForSale: {fileID: 11400000, guid: 4c7a93923a0481847b797b183edec4d0, type: 2}
     useItemPrice: 0
     mintCost: 4
-    amountForSale: 50
+    amountForSale: 10
     barterChance: 100
     itemsRequired: []
     siegesRequired: 0
@@ -262,6 +262,15 @@ MonoBehaviour:
     itemForSale: {fileID: 11400000, guid: 11dc0ea83eed04b4aa191a1793f1cb66, type: 2}
     useItemPrice: 1
     mintCost: 180
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: SeedShooter
+    itemForSale: {fileID: 11400000, guid: 08e4b996e6c213f4bbdbdd33a92ffab3, type: 2}
+    useItemPrice: 1
+    mintCost: 35
     amountForSale: 5
     barterChance: 100
     itemsRequired: []
@@ -371,7 +380,7 @@ MonoBehaviour:
   - name: BugNet
     itemForSale: {fileID: 11400000, guid: 8d35e041dc8313c468ba6e26022d960d, type: 2}
     useItemPrice: 0
-    mintCost: 200
+    mintCost: 250
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -389,7 +398,7 @@ MonoBehaviour:
   - name: ShotGun
     itemForSale: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
     useItemPrice: 0
-    mintCost: 1000
+    mintCost: 1500
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -407,7 +416,7 @@ MonoBehaviour:
   - name: Scythe
     itemForSale: {fileID: 11400000, guid: 49ba1b28fed88e949aa4fda636327914, type: 2}
     useItemPrice: 0
-    mintCost: 750
+    mintCost: 1000
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -417,7 +426,7 @@ MonoBehaviour:
   - name: LoamMedallion
     itemForSale: {fileID: 11400000, guid: c899c53e45733244981590bd330c9113, type: 2}
     useItemPrice: 0
-    mintCost: 30
+    mintCost: 50
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -428,7 +437,7 @@ MonoBehaviour:
   - name: CourageMedallion
     itemForSale: {fileID: 11400000, guid: 6816bc44c8efae74abe490a74b06e7a5, type: 2}
     useItemPrice: 0
-    mintCost: 60
+    mintCost: 75
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -441,18 +450,18 @@ MonoBehaviour:
   - name: HareFlask
     itemForSale: {fileID: 11400000, guid: d2bd47a3a1a511042a316b7fbe7f6a0e, type: 2}
     useItemPrice: 0
-    mintCost: 45
+    mintCost: 90
     amountForSale: 1
     barterChance: 100
     itemsRequired:
-    - item: {fileID: 11400000, guid: d2bd47a3a1a511042a316b7fbe7f6a0e, type: 2}
+    - item: {fileID: 11400000, guid: 1dd6f9f1dcb60e74390c88d5df494ec7, type: 2}
       amount: 1
     siegesRequired: 0
     amountGiven: 1
   - name: HareHideBoots
     itemForSale: {fileID: 11400000, guid: b4a62ad21f657a643a6a633ae3e31d0f, type: 2}
     useItemPrice: 0
-    mintCost: 40
+    mintCost: 60
     amountForSale: 1
     barterChance: 75
     itemsRequired:
@@ -478,7 +487,7 @@ MonoBehaviour:
   - name: ResiliencePendant
     itemForSale: {fileID: 11400000, guid: ac5ff95a80f504c41ac6b131c08a4270, type: 2}
     useItemPrice: 0
-    mintCost: 110
+    mintCost: 140
     amountForSale: 1
     barterChance: 50
     itemsRequired:

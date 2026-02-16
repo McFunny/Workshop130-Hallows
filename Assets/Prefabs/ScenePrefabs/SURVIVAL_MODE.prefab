@@ -7648,6 +7648,7 @@ MonoBehaviour:
     name: 
     description: 
     isMajorQuest: 0
+    uniqueCompletionMethod: 0
     alreadyCompleted: 0
     mintReward: 0
     itemRewards: []
@@ -7698,6 +7699,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4c7a93923a0481847b797b183edec4d0, type: 2}
   - {fileID: 11400000, guid: c01dc5febc780da41aa2782a05c1c5aa, type: 2}
   - {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
+  - {fileID: 11400000, guid: 08e4b996e6c213f4bbdbdd33a92ffab3, type: 2}
   tierOneItems:
   - {fileID: 11400000, guid: e20f6ca05ecf8b1449762a09684ad75b, type: 2}
   - {fileID: 11400000, guid: cc7f76b3888a1db478d53dcf6e08195a, type: 2}
@@ -16011,11 +16013,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mintsEarned: 0
   currentMintsRequired: 100
-  minIncrease: 40
-  maxIncrease: 80
+  minIncrease: 60
+  maxIncrease: 100
   mintsText: {fileID: 2370699314978729917}
   SurvivalModeMerchant: {fileID: 325491339581717513}
   sellStuffP: {fileID: 11400000, guid: 0dac0004ec661234787f8f4221b7e6c2, type: 2}
+  statsScreen: {fileID: 0}
 --- !u!1 &6766889837975258586
 GameObject:
   m_ObjectHideFlags: 0
