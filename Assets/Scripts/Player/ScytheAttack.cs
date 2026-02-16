@@ -144,8 +144,8 @@ public class ScytheAttack : MonoBehaviour
             ParticlePoolManager.Instance.MoveAndPlayVFX(hitCreatures[i].GetComponentInChildren<Collider>().ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
             hitCreatures[i].PlayHitParticle(hitCreatures[i].GetComponentInChildren<Collider>().ClosestPoint(transform.position));
 
-            float damage = 35;
-            if(upgradedSwing) damage += 10;
+            float damage = 40;
+            if(upgradedSwing) damage += 15;
             if(upgradedSwing && (hitCreatures[i].corpseType == CorpseParticleType.Red || hitCreatures[i].corpseType == CorpseParticleType.Corrupted) && hitCreatures[i].health > 0) 
             SummonBloodParticles(hitCreatures[i]);
 
