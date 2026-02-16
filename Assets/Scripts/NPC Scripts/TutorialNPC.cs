@@ -82,6 +82,8 @@ public class TutorialNPC : NPC, ITalkable
     {
         if(MainMenuScript.currentFileMode == FileMode.Survival) tutorial.SetActive(true);
 
+        alreadyPlayedTutorial = true;
+
         if(goneAtStart)
         {
             Destroy(this.gameObject);
@@ -99,7 +101,6 @@ public class TutorialNPC : NPC, ITalkable
 
             if(!shotAt) tutorial.SetActive(true);
 
-            alreadyPlayedTutorial = true;
 
             Destroy(this.gameObject);
         }
