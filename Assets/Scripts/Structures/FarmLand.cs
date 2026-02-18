@@ -210,9 +210,7 @@ public class FarmLand : StructureBehaviorScript
         else if((item == nectar || item.ID == 333) && NeedsPollination())
         {
             consumeItem = true;
-            Pollinate();
-            selfPollinateParticles.Play();
-            audioHandler.PlaySound(audioHandler.itemInteractSound);
+            SelfPollinate();
         }
         
         if(consumeItem)
@@ -972,6 +970,13 @@ public class FarmLand : StructureBehaviorScript
         
     }
 
+    void SelfPollinate()
+    {
+        Pollinate();
+        selfPollinateParticles.Play();
+        audioHandler.PlaySound(audioHandler.itemInteractSound);
+    }
+
     public void ApplyNewUpgrade(FarmTileUpgrade newUpgrade)
     {
         if(currentUpgrade == newUpgrade || isWeed) return;
@@ -1021,6 +1026,12 @@ public class FarmLand : StructureBehaviorScript
     {
         if(other.gameObject.layer == 10)
         {
+            if(NeedsPollination() && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.LumenAnklet))
+            {
+                SelfPollinate();
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.LumenAnklet);
+            }
+
             if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.HareBoots)) return;
             if(crop)
             {

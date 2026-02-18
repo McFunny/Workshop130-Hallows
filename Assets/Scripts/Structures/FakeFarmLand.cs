@@ -21,6 +21,8 @@ public class FakeFarmLand : StructureBehaviorScript
     private CropData mimicCropData;
     private Vector2 mimicGrowthStage;
 
+    bool burning = false;
+
     void Awake()
     {
         base.Awake();
@@ -51,6 +53,20 @@ public class FakeFarmLand : StructureBehaviorScript
             destroyed = true;
             Destroy(gameObject);
         }
+
+        if(onFire && !burning)
+        {
+            burning = true;
+            StartCoroutine(Burning());
+        }
+    }
+
+    IEnumerator Burning()
+    {
+        yield return new WaitForSeconds(1);
+        if(destroyed) yield break;
+        destroyed = true;
+        Destroy(gameObject);
     }
 
     void CopyNearbyPlant()

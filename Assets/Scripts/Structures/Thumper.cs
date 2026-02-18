@@ -12,7 +12,10 @@ public class Thumper : StructureBehaviorScript
     public int charge = 0;
     int maxCharge = 3;
     int chargeProgress = 0;
-    int progressNeeded = 3;
+    int progressNeeded = 4;
+
+    bool disabled = false;
+    bool delay;
 
     public List<StructureObject> breakableStructures;
 
@@ -24,7 +27,14 @@ public class Thumper : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
-        if(charge == 0) return;
+        if(charge == 0 || delay) return;
+        if(disabled)
+        {
+            audioHandler.PlaySound(audioHandler.miscSounds2[1]);
+            ParticlePoolManager.Instance.GrabElecZapParticle().transform.position = transform.position; 
+            StartCoroutine(ElecDelay());
+            return;
+        }
         StartCoroutine(TriggerTrap());
     }
 
@@ -39,7 +49,7 @@ public class Thumper : StructureBehaviorScript
 
     public override void HourPassed()
     {
-        if(charge == maxCharge) return;
+        if(charge == maxCharge || TimeManager.Instance.isDay) return;
 
         chargeProgress++;
         if(chargeProgress >= progressNeeded)
@@ -65,7 +75,8 @@ public class Thumper : StructureBehaviorScript
     public void ForceTrap()
     {
         if(charge == 0) return;
-        StartCoroutine(TriggerTrap(Random.Range(0.3f, 0.9f)));
+        //StartCoroutine(TriggerTrap(Random.Range(0.3f, 0.9f)));
+        StartCoroutine(DisableTrap());
     }
 
     IEnumerator TriggerTrap(float delay = 0)
@@ -134,6 +145,7 @@ public class Thumper : StructureBehaviorScript
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable && !hitCreatures.Contains(creature))
             {
+                creature.lastDamageTypeTaken = DamageType.Mine;
                 creature.TakeDamage(damageDealt);
                 creature.PlayHitParticle(creature.transform.position);
                 hitCreatures.Add(creature);
@@ -185,6 +197,56 @@ public class Thumper : StructureBehaviorScript
 
         UpdateModel();
         
+    }
+
+    IEnumerator ElecDelay()
+    {
+        delay = true;
+        yield return new WaitForSeconds(0.5f);
+        delay = false;
+    }
+
+    IEnumerator DisableTrap()
+    {
+        float timeLeft = 10;
+
+        List<GameObject> activeChargeBars = new List<GameObject>();
+        disabled = true;
+
+        for(int i = 0; i < panels.Length; ++i)
+        {
+            if(i < charge) activeChargeBars.Add(panels[i]);
+        }
+
+        while(timeLeft > 0)
+        {
+            for(int i = 0; i < activeChargeBars.Count; ++i)
+            {
+                activeChargeBars[i].SetActive(false);
+            }
+            yield return new WaitForSeconds(0.5f);
+            for(int i = 0; i < activeChargeBars.Count; ++i)
+            {
+                activeChargeBars[i].SetActive(true);
+            }
+
+            yield return new WaitForSeconds(0.5f);
+            --timeLeft;
+        }
+
+        disabled = false;
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = charge;
+        structureUIVariables.valueGroups[1].maxValue = maxCharge;
+
+        return structureUIVariables.valueGroups;
     }
 
     public override void LoadVariables()
