@@ -47,16 +47,25 @@ public class Tutorial : MonoBehaviour
     {
         if(TutorialNPC.alreadyPlayedTutorial || TimeManager.Instance.dayNum != 1 || MainMenuScript.loadingData)
         {
+            TutorialNPC.alreadyPlayedTutorial = true;
             Instance = null;
             survivalModeBarrier.SetActive(false);
             return;
         }
 
+        TutorialNPC.alreadyPlayedTutorial = true;
+
         if(MainMenuScript.currentFileMode == FileMode.Survival) survivalModeBarrier.SetActive(true);
 
+        StartCoroutine(DelayedStart());
+        TimeManager.Instance.stopTime = true;
+    }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(0.5f);
         PopupHandler.Instance.AddToQueue(tillP);
         PopupHandler.Instance.AddToQueue(plantP);
-        TimeManager.Instance.stopTime = true;
     }
     
     public void TilledGround()

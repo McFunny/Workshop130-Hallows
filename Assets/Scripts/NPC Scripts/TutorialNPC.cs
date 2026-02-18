@@ -82,7 +82,7 @@ public class TutorialNPC : NPC, ITalkable
     {
         if(MainMenuScript.currentFileMode == FileMode.Survival) tutorial.SetActive(true);
 
-        alreadyPlayedTutorial = true;
+        //alreadyPlayedTutorial = true;
 
         if(goneAtStart)
         {
@@ -98,7 +98,7 @@ public class TutorialNPC : NPC, ITalkable
             yield return new WaitForSeconds(1.5f);
             PlayerMovement.restrictMovementTokens--;
             FadeScreen.coverScreen = false;
-
+            
             if(!shotAt) tutorial.SetActive(true);
 
 
