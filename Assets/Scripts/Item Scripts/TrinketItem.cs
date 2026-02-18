@@ -58,5 +58,6 @@ public enum TrinketKey
     BoneBreaker,
     Coolant,
     WaterGuard,
-    TickRegen
+    TickRegen,
+    WeedWard
 }

@@ -460,7 +460,7 @@ public class PlayerInteraction : MonoBehaviour
                 while(amount <= -5 && waterLoss < waterHeld)
                 {
                     amount += 5;
-                    if(amount > 0) amount = 0;
+                    if(amount > -5) amount = 0;
                     ++waterLoss;
                 }
 
