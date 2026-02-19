@@ -61,5 +61,6 @@ public enum TrinketKey
     TickRegen,
     WeedWard,
     LumenAnklet,
-    CarrionCooker
+    CarrionCooker,
+    MimicNose
 }

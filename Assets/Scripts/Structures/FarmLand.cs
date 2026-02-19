@@ -43,7 +43,7 @@ public class FarmLand : StructureBehaviorScript
     public GameObject splashObject; //extra particles
     public TextMeshProUGUI supportText;
     public GameObject laventSource;
-    public ParticleSystem selfPollinateParticles;
+    public ParticleSystem selfPollinateParticles, fiberParticles;
 
     public TextMeshProUGUI harvestText;
     [SerializeField] private CropNeedsUI cropNeedsUI;
@@ -380,6 +380,8 @@ public class FarmLand : StructureBehaviorScript
                 {
                     ItemPoolManager.Instance.GrabItem(crop.cropSeed).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
                 }
+                
+                if(crop && crop.grassColor != Color.clear && !rotted) ParticlePoolManager.Instance.GrabGrassParticle(crop.grassColor).transform.position = transform.position;
 
                 crop = null;
                 wealthValue = 0;
@@ -801,6 +803,8 @@ public class FarmLand : StructureBehaviorScript
             crop.behavior.OnCropDestroyed(this);
         }
 
+        if(crop && crop.grassColor != Color.clear && !rotted) ParticlePoolManager.Instance.GrabGrassParticle(crop.grassColor).transform.position = transform.position;
+
         if(Tutorial.Instance && isWeed) Tutorial.Instance.WeedDestroyed();
         if(Tutorial.Instance && crop) Tutorial.Instance.LostSeed();
     }
@@ -1026,6 +1030,8 @@ public class FarmLand : StructureBehaviorScript
     {
         if(other.gameObject.layer == 10)
         {
+            if(fiberParticles) fiberParticles.Play();
+
             if(NeedsPollination() && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.LumenAnklet))
             {
                 SelfPollinate();
@@ -1055,6 +1061,8 @@ public class FarmLand : StructureBehaviorScript
             CreatureBehaviorScript c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
             if(c)
             {
+                if(fiberParticles) fiberParticles.Play();
+
                 if(c.frostVulnerable && isFrosted) c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 6);
 
                 if(c.creatureData && c.creatureData.id == 29) return; //Ferrats are immune

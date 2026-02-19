@@ -152,6 +152,12 @@ public class ScytheAttack : MonoBehaviour
             hitCreatures[i].TakeDamage(damage, PlayerInteraction.Instance.transform.position);
 
             if(hitCreatures[i] && hitCreatures[i].health > 0) PlayerInteraction.Instance.InvokeEnemyHitEvent(hitCreatures[i]);
+
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.MimicNose) && Random.Range(0, 20) == 1)
+            {
+                hitCreatures[i].ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.MimicScent), 15);
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.MimicNose);
+            }
         }
 
         for(int i = 0; i < hitCrops.Count; i++)

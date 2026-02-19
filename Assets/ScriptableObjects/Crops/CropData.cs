@@ -49,6 +49,8 @@ public class CropData : ScriptableObject
 
     public int amountHarvested, amountKilled; //make sure this resets to 0 when quitting gameplay, or when loading a new save. Figure it out, talk to code team
 
+    public Color grassColor = Color.clear;
+
     public void OnHour(FarmLand tile)
     {
         if(behavior) behavior.OnHour(tile);

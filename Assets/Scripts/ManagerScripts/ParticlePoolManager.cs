@@ -13,7 +13,7 @@ public class ParticlePoolManager : MonoBehaviour
 
     public GameObject corpseParticle, corpseParticleYellow, corruptedCorpseParticle, poofParticle, extinguishParticle, bloodDropletParticle, corruptBloodDropletParticle, sparksParticle, flameEffect, dirtPixelParticle, 
     explosionParticle, cloudParticle, frostParticle, thawParticle, frostBurstParticle, splashParticle, bloodSplashParticle, impactParticle, bugSplatParticle, elecZapParticle, heartParticles, slimeSplash, 
-    slimeSplashLarge, orangeHitParticle, cleanseParticle, whiteHitParticle, structDigParticle;
+    slimeSplashLarge, orangeHitParticle, cleanseParticle, whiteHitParticle, structDigParticle, grassParticle;
 
     public GameObject woodDestructionP, metalDestructionP, gloomDestructionP, stoneDestructionP, robotDestructionP, c_fleshDestructionP;
 
@@ -44,6 +44,7 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> cleansePool = new List<GameObject>();
     List<GameObject> whiteHitPool = new List<GameObject>();
     List<GameObject> structDigPool = new List<GameObject>();
+    List<GameObject> grassPool = new List<GameObject>();
 
     //Destruction
     List<GameObject> woodPool = new List<GameObject>();
@@ -734,6 +735,25 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(cleanseParticle);
         cleansePool.Add(newParticle);
+        return newParticle;
+    }
+
+    public GameObject GrabGrassParticle(Color newColor)
+    {
+        foreach (GameObject particle in grassPool)
+        {
+            if(!particle.activeSelf)
+            {
+                particle.GetComponent<ParticleSystem>().startColor = newColor;
+                particle.SetActive(true);
+                return particle;
+            }
+        }
+
+        //No available particles, must make a new one
+        GameObject newParticle = Instantiate(grassParticle);
+        newParticle.GetComponent<ParticleSystem>().startColor = newColor;
+        grassPool.Add(newParticle);
         return newParticle;
     }
 

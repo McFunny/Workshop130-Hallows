@@ -509,11 +509,11 @@ public class WagonMerchantNPC : NPC, ITalkable
         GameSaveData.Instance.mm_sellOnlyRocks = false;
     }
 
-    public override void EmptyShopItem()
+    /*public override void EmptyShopItem()
     {
         lastInteractedStoreItem.Empty();
         lastInteractedStoreItem = null;
-    }
+    }*/
 
     void EmptyPetShop()
     {

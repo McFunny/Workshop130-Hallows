@@ -424,27 +424,83 @@ MonoBehaviour:
   - name: LoamMedallion
     itemForSale: {fileID: 11400000, guid: c899c53e45733244981590bd330c9113, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 50
     amountForSale: 1
-    barterChance: 0
-    itemsRequired: []
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: c9af372d6ca36fd46b681856e9182698, type: 2}
+      amount: 1
     siegesRequired: 0
     amountGiven: 1
   - name: CourageMedallion
     itemForSale: {fileID: 11400000, guid: 6816bc44c8efae74abe490a74b06e7a5, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 75
     amountForSale: 1
-    barterChance: 0
-    itemsRequired: []
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 0808c3213e2bcd4469f1c257f4d27a1f, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: c9af372d6ca36fd46b681856e9182698, type: 2}
+      amount: 1
     siegesRequired: 0
     amountGiven: 1
   - name: HareFlask
     itemForSale: {fileID: 11400000, guid: d2bd47a3a1a511042a316b7fbe7f6a0e, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 90
     amountForSale: 1
-    barterChance: 0
-    itemsRequired: []
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 1dd6f9f1dcb60e74390c88d5df494ec7, type: 2}
+      amount: 1
+    siegesRequired: 0
+    amountGiven: 1
+  - name: HareHideBoots
+    itemForSale: {fileID: 11400000, guid: b4a62ad21f657a643a6a633ae3e31d0f, type: 2}
+    useItemPrice: 0
+    mintCost: 60
+    amountForSale: 1
+    barterChance: 75
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 1dd6f9f1dcb60e74390c88d5df494ec7, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 9a70b19ccd0b85f41b2dcd849c9d0584, type: 2}
+      amount: 2
+    siegesRequired: 0
+    amountGiven: 1
+  - name: FogCharm
+    itemForSale: {fileID: 11400000, guid: c5c67b6e16c2ea2458f69c4347859d46, type: 2}
+    useItemPrice: 0
+    mintCost: 30
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: e505b9c244165464a9e94558ed7e8d3c, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: ebd1a7d282da207419ef397be73f770d, type: 2}
+      amount: 1
+    siegesRequired: 0
+    amountGiven: 1
+  - name: ResiliencePendant
+    itemForSale: {fileID: 11400000, guid: ac5ff95a80f504c41ac6b131c08a4270, type: 2}
+    useItemPrice: 0
+    mintCost: 140
+    amountForSale: 1
+    barterChance: 50
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 5d80b4ff46f2d4f43ba85db7fd0e983a, type: 2}
+      amount: 1
+    siegesRequired: 0
+    amountGiven: 1
+  - name: SulfurWingTag
+    itemForSale: {fileID: 11400000, guid: 98540c266825a9e47b7e96e1510eebbc, type: 2}
+    useItemPrice: 0
+    mintCost: 25
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: db3eedd8c1bfeb449a96c46609a10d63, type: 2}
+      amount: 1
     siegesRequired: 0
     amountGiven: 1

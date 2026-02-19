@@ -472,6 +472,8 @@ public class PlayerInteraction : MonoBehaviour
                 }
             }
 
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.MimicNose) && UnityEngine.Random.Range(0, 10) == 1) ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.MimicScent), 10);
+
             if(stamina + amount <= 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen)) //Prevents death if roach trinket is equipped
             {
                 amount = 0;
