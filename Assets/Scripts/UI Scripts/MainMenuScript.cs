@@ -11,6 +11,7 @@ using TMPro;
 
 public class MainMenuScript : MonoBehaviour
 {
+    [SerializeField] private bool forceEnableArcade = false;
     [SerializeField] private int saveFilesToCreate = 3;
     [SerializeField] private CanvasGroup mainCanvasGroup;
     public InputActionReference hideUI, UICancel;
@@ -700,6 +701,13 @@ public class MainMenuScript : MonoBehaviour
 
     private void UpdateNavigation() //Make this more modular later if needed
     {
+        if(forceEnableArcade == true)
+        {
+            fileModeButtons[0].interactable = true; // Normal
+            fileModeButtons[1].interactable = true; // Cozy
+            fileModeButtons[2].interactable = true; // Survival
+            return;
+        }
         var f = PlayerPrefs.GetInt("FinaleCompleted", 0);
         if (f == 0)
         {
@@ -713,6 +721,20 @@ public class MainMenuScript : MonoBehaviour
             fileModeButtons[1].interactable = true; // Cozy
             fileModeButtons[2].interactable = true; // Survival
         }
+    }
+
+    [ContextMenu("Force Finale Complete")]
+    private void ForceFinaleComplete()
+    {
+        PlayerPrefs.SetInt("FinaleCompleted", 1);
+        UpdateNavigation();
+    }
+
+    [ContextMenu("Force Finale Incomplete")]
+    private void ForceFinaleIncomplete()
+    {
+        PlayerPrefs.SetInt("FinaleCompleted", 0);
+        UpdateNavigation();
     }
 }
 
