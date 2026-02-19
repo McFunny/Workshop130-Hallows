@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class AchievementObject : ScriptableObject
 {
     [Header("Info")]
-    public string id;                 // MUST be unique
+    public string id;                 //USE THIS FOR STEAM ID IF YOU WANT TO INTEGRATE WITH STEAM ACHIEVEMENTS
     public string displayName;
     [TextArea] public string description;
     public Sprite icon;
