@@ -60,5 +60,6 @@ public enum TrinketKey
     WaterGuard,
     TickRegen,
     WeedWard,
-    LumenAnklet
+    LumenAnklet,
+    CarrionCooker
 }

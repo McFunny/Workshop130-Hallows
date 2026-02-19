@@ -7,7 +7,7 @@ public class ProjectilePoolManager : MonoBehaviour
     public static ProjectilePoolManager Instance;
 
     public GameObject bulletPrefab, largeWaterPrefab, bloodPrefab, slimePrefab, seedBulletPrefab, fireBallPrefab, pyreflyPrefab, hydroflyPrefab, timberEarPrefab, cannonRockPrefab, eggPrefab,
-    fBulletRock, fBulletShrapnel, fBulletLead, fBulletWood, beetlePrefab, jagBeetlePrefab;
+    fBulletRock, fBulletShrapnel, fBulletLead, fBulletWood, beetlePrefab, jagBeetlePrefab, energyPrefab;
 
     List<GameObject> bulletPool = new List<GameObject>();
     List<GameObject> largeWaterPool = new List<GameObject>();
@@ -26,6 +26,7 @@ public class ProjectilePoolManager : MonoBehaviour
     List<GameObject> fWoodPool = new List<GameObject>();
     List<GameObject> beetlePool = new List<GameObject>();
     List<GameObject> jagBeetlePool = new List<GameObject>();
+    List<GameObject> energyPool = new List<GameObject>();
 
     void Awake()
     {
@@ -413,6 +414,25 @@ public class ProjectilePoolManager : MonoBehaviour
         //No available projectiles, must make a new one
         GameObject newBullet = Instantiate(jagBeetlePrefab);
         jagBeetlePool.Add(newBullet);
+        newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+        return newBullet;
+    }
+
+    public GameObject GrabEnergyBullet()
+    {
+        foreach (GameObject bullet in energyPool)
+        {
+            if(!bullet.activeSelf)
+            {
+                bullet.SetActive(true);
+                bullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+                return bullet;
+            }
+        }
+
+        //No available projectiles, must make a new one
+        GameObject newBullet = Instantiate(energyPrefab);
+        energyPool.Add(newBullet);
         newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
         return newBullet;
     }
