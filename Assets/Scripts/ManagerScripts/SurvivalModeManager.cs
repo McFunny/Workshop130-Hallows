@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using SaveLoadSystem;
 
 public class SurvivalModeManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class SurvivalModeManager : MonoBehaviour
     /// Death/Failure to gain enough mints before the new day transition triggers a game over
     /// Merchant refuses items sold to him during the day, only during the morning after a night before transition
     //// 
-    private const int MONEY_CAP = 2000;
+    //private const int MONEY_CAP = 2000;
     public int mintsEarned = 0; //how many mints were earned on this night. Resets every night
     public int TotalMintsEarned
     {
@@ -24,7 +25,7 @@ public class SurvivalModeManager : MonoBehaviour
         {
             
             _totalMintsEarned = value;
-            if(PlayerInteraction.Instance.totalMoneyEarned > MONEY_CAP) PlayerInteraction.Instance.totalMoneyEarned = MONEY_CAP; //cap total money earned display
+            //if(PlayerInteraction.Instance.totalMoneyEarned > MONEY_CAP) PlayerInteraction.Instance.totalMoneyEarned = MONEY_CAP; //cap total money earned display
             CheckMintValue(_totalMintsEarned);
         }
     }
@@ -46,6 +47,10 @@ public class SurvivalModeManager : MonoBehaviour
     public static SurvivalModeManager Instance;
 
     public SurvivalModeMerchant SurvivalModeMerchant;
+
+    public PopupScript sellStuffP;
+
+    public SurvivalStatsScreen statsScreen;
 
     void Awake()
     {
@@ -78,10 +83,14 @@ public class SurvivalModeManager : MonoBehaviour
 
     void HourlyUpdate()
     {
-        if(TimeManager.Instance.currentHour == 8)
+        if((TimeManager.Instance.currentHour == 6 || TimeManager.Instance.currentHour == 7) && mintsEarned < currentMintsRequired)
+        {
+            PopupHandler.Instance.AddToQueue(sellStuffP);
+        }
+        /*if(TimeManager.Instance.currentHour == 8)
         {
             CheckProgress();
-        }
+        }*/
     }
 
     private void CheckMintValue(int totalEarned)
@@ -104,17 +113,31 @@ public class SurvivalModeManager : MonoBehaviour
         }
     }
 
-    public void CheckProgress()
+    public bool CheckProgress()
     {
         if(mintsEarned < currentMintsRequired)
         {
             //SceneManager.LoadSceneAsync(1);
-            PlayerInteraction.Instance.stamina = 0;
-            return;
+            //PlayerInteraction.Instance.stamina = 0;
+
+
+            statsScreen.GameOver();
+            SaveLoad.DeleteSaveData();
+            return false;
         }
 
         mintsEarned = 0;
         currentMintsRequired += Random.Range(minIncrease, maxIncrease);
+        return true;
+    }
+
+    public IEnumerator GameOver(bool isDeath = false)
+    {
+        yield return new WaitForSeconds(1);
+        statsScreen.GameOver(isDeath);
+        SaveLoad.DeleteSaveData();
+        //yield return new WaitForSeconds(5);
+        //statsScreen.ReturnToMainMenu();
     }
 
     void OnDisable()
