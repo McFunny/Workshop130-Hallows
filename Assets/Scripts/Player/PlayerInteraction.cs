@@ -742,6 +742,16 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
         yield return new WaitForSeconds(1.5f);
+
+        if(MainMenuScript.currentFileMode == FileMode.Survival)
+        {
+            NightSpawningManager.Instance.GameOver();
+            TimeManager.Instance.stopTime = true;
+            yield return new WaitForSeconds(1f);
+            SurvivalModeManager.Instance.StartCoroutine(SurvivalModeManager.Instance.GameOver(true));
+            yield break;
+        }
+
         NightSpawningManager.Instance.GameOver();
         print("Night GameOver Complete");
         StructureManager.Instance.GameOver();
