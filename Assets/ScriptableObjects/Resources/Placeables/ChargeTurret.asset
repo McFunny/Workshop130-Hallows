@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: ChargeTurret
+  m_EditorClassIdentifier: 
+  ID: 356
+  displayName: Thermal Sentry
+  description: A defensive contraption that fires energy projectiles at anything
+    that crosses in front of it. Only activates when nearby a flame.
+  icon: {fileID: -471888066, guid: 14c2074365092fd48ac9c84d86e6db52, type: 3}
+  type: 3
+  maxStackSize: 5
+  value: 140
+  sellValueMultiplier: 0.25
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 5453675257556682650, guid: cff7982b029af8f41bf598a3978b5844,
+    type: 3}
+  hologramPrefab: {fileID: 6934735313126094910, guid: 7617ed1e50459454eaaa3a999a761360,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 10bfeae023191b747a2eaed706caa32e, type: 3}
+  gridTypes: 01000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

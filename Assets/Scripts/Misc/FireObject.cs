@@ -70,10 +70,22 @@ public class FireObject : MonoBehaviour
                     if(newStruct && !nearbyStructs.Contains(newStruct))
                     {
                         nearbyStructs.Add(newStruct);
+                        continue;
                     }
                     
                     MurderMancer mancer = collider.gameObject.GetComponentInParent<MurderMancer>();
-                    if(mancer) mancer.IgnitedByOther();
+                    if(mancer)
+                    {
+                        mancer.IgnitedByOther();
+                        continue;
+                    }
+
+                    CreatureBehaviorScript creature = collider.gameObject.GetComponentInParent<CreatureBehaviorScript>();
+                    if(creature && creature.fireVulnerable && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.CarrionCooker) && !StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Fire, creature))
+                    {
+                        int r = Random.Range(0,10);
+                        if(r > 2) creature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(5, 10));
+                    }
                 }
 
                 foreach(StructureBehaviorScript structure in nearbyStructs)

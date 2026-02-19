@@ -420,7 +420,7 @@ public class DeerStalker : CreatureBehaviorScript
             
             float randomAngle = Random.Range(-45f, 45f); //random offset for random movement
 
-            fleeDirection = Quaternion.Euler(0, randomAngle, 0) * fleeDirection;
+            fleeDirection = Quaternion.Euler(1, randomAngle, 1) * fleeDirection;
 
             Vector3 newDestination = transform.position + fleeDirection * Random.Range(5f, 8f);
 

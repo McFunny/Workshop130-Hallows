@@ -13,6 +13,7 @@ public class VFXStatusObject : MonoBehaviour
     public List<ParticleSystem> allParticles = new List<ParticleSystem>();
 
     bool onPlayer = false;
+    bool burningCorpse = false; //Specifically to track Carrion Cooker trinket
 
     FireObject fireObject;
 
@@ -51,6 +52,14 @@ public class VFXStatusObject : MonoBehaviour
         followTransform = null;
 
         if(removedSFX) AudioPoolManager.Instance.PlayClipAtPosition(removedSFX, transform.position);
+
+        if(burningCorpse && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.CarrionCooker))
+        {
+            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.CarrionCooker);
+        }
+
+        afflictedCreature = null;
+        burningCorpse = false;
     }
 
     void Update()
@@ -114,6 +123,16 @@ public class VFXStatusObject : MonoBehaviour
                         {
                             afflictedCreature.currentEffects[x].effect.TimedEffect(afflictedCreature);
 
+                            if(fireObject)
+                            {
+                                if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.CarrionCooker)) yield return new WaitForSeconds(1); //Makes it burn for longer
+                                if(afflictedCreature.health < 0) 
+                                {
+                                    burningCorpse = true;
+                                    break; //Makes it burn forever until death
+                                }
+                            }
+
                             if(afflictedCreature.currentEffects[x].remainingDuration > 0) afflictedCreature.currentEffects[x].remainingDuration -= 1;
                             if(afflictedCreature.currentEffects[x].remainingDuration == 0)
                             {
@@ -122,6 +141,7 @@ public class VFXStatusObject : MonoBehaviour
                                 clearThis = true;
                                 break;
                             }
+
                             break;
                         }
                     }
@@ -134,7 +154,10 @@ public class VFXStatusObject : MonoBehaviour
            p.Stop();
         }
 
-        if(fireObject) fireObject.Extinguished();
+        if(fireObject) 
+        {
+            fireObject.Extinguished();
+        }
 
         if(statusVolume) StartCoroutine(VolumeRemovalSmoothing());
 

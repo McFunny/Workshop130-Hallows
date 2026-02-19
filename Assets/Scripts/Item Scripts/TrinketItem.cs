@@ -59,5 +59,7 @@ public enum TrinketKey
     Coolant,
     WaterGuard,
     TickRegen,
-    WeedWard
+    WeedWard,
+    LumenAnklet,
+    CarrionCooker
 }

@@ -15,7 +15,8 @@ public class BurningEffect : StatusEffectObject
     public override void TimedEffect(CreatureBehaviorScript c)
     {
         //What happens every second for creature
-        c.TakeDamage(creatureDamage);
+        if(c.health < 0) c.TakeDamage(creatureDamage/2);
+        else c.TakeDamage(creatureDamage);
         c.PlayHitParticle(Vector3.zero);
     }
 

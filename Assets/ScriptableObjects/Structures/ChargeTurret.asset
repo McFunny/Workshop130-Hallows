@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a32fc360a3fcc94e90a583305d10ce8, type: 3}
+  m_Name: ChargeTurret
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 5453675257556682650, guid: cff7982b029af8f41bf598a3978b5844,
+    type: 3}
+  id: 97
+  health: 0
+  position:
+  - 0
+  - 0
+  - 0
+  rotation:
+  - 0
+  - 0
+  - 0
+  data:
+    Name: 
+    Id: 97
+    health: 0
+    position:
+    - 0
+    - 0
+    - 0
+    rotation:
+    - 0
+    - 0
+    - 0
+    savedItemList1: []
+    savedItemIDList1: 
+    savedInt1: 0
+    savedInt2: 0
+    savedInt3: 0
+    savedFloat1: 0
+    savedFloat2: 0
+    savedFloat3: 0
+    savedString1: 
+    savedString2: 
+    savedString3: 
+    savedBool1: 0
+    savedCrafts: []
+  gridSize: 0
+  structureType: 2
+  mintRepairCost: 0
+  repairItems:
+  - item: {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+    amount: 2
+  - item: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
+    amount: 3
+  - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+    amount: 1
+  requiredRepairs: 4
+  maxMisses: 2
+  bugSpawnChance: 0
+  hasBeenPlaced: 0
+  droppedItems:
+  - item: {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+    amount: 2

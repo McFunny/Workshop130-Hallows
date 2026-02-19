@@ -63,7 +63,7 @@ public class ResinPole : StructureBehaviorScript
         for(int i = 0; i < sockets.Count; i++)
         {
             if(sockets[i].creature == null) continue;
-            if(nectarDurability > 1 && Random.Range(0,10) > 5 && MainMenuScript.currentFileMode != FileMode.Cozy) nectarDurability--;
+            if(nectarDurability > 0 && Random.Range(0,10) > 5 && MainMenuScript.currentFileMode != FileMode.Cozy) nectarDurability--;
         }
         if(nectarDurability <= 0) //Release the bugs
         {
@@ -102,7 +102,7 @@ public class ResinPole : StructureBehaviorScript
             c.transform.position = sockets[i].transform.position;
             stickParticles.transform.position = sockets[i].transform.position;
             stickParticles.Play();
-            if(nectarDurability > 1 && Random.Range(0,10) > 7) nectarDurability--;
+            if(nectarDurability > 1 && Random.Range(0,10) > 6) nectarDurability--;
             c.persistAfterNewDay = true;
 
             return;

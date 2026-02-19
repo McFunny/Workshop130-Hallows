@@ -9,12 +9,14 @@ public class BulletScript : MonoBehaviour
     public float structureDamage, creatureDamage, playerDamage;
     public float armorDamage = 2;
 
-    public bool fireBullet, piercing, cannonBall;
+    public bool fireBullet, piercing, cannonBall, energyBullet;
     public float bulletLifetime = 3;
 
     private Rigidbody bulletRigidbody;
 
     public StructureType particleType = StructureType.Null;
+
+    bool initialDisable = true;
 
     private void Start()
     {
@@ -49,6 +51,12 @@ public class BulletScript : MonoBehaviour
             var structure = other.GetComponent<StructureBehaviorScript>();
             if (structure != null && (structureDamage > 0 || fireBullet))
             {
+                if(energyBullet)
+                {
+                    FarmLand tile = structure as FarmLand;
+                    if(tile) return;
+                }
+
                 if(structureDamage > 0)
                 {
                     structure.TakeDamage(structureDamage);
@@ -145,7 +153,7 @@ public class BulletScript : MonoBehaviour
         {
             if(playerDamage == 0) return;
             PlayerInteraction.Instance.StaminaChange(-playerDamage);
-            PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(3, 5));
+            if(fireBullet) PlayerInteraction.Instance.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Fire), Random.Range(3, 5));
             ParticlePoolManager.Instance.GrabImpactParticle().transform.position = transform.position;
             HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
             gameObject.SetActive(false);
@@ -163,7 +171,9 @@ public class BulletScript : MonoBehaviour
 
     void OnDisable()
     {
+        if(energyBullet && !initialDisable) ParticlePoolManager.Instance.GrabElecZapParticle().transform.position = transform.position; 
         StopCoroutine(LifeTime());
+        initialDisable = false;
     }
 
     IEnumerator LifeTime()
