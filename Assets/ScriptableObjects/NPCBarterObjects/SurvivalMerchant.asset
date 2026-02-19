@@ -132,7 +132,7 @@ MonoBehaviour:
   - name: MandrakePod
     itemForSale: {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
     useItemPrice: 1
-    mintCost: 18
+    mintCost: 12
     amountForSale: 5
     barterChance: 100
     itemsRequired: []
@@ -256,6 +256,24 @@ MonoBehaviour:
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
+  - name: BoneTurret
+    itemForSale: {fileID: 11400000, guid: 11dc0ea83eed04b4aa191a1793f1cb66, type: 2}
+    useItemPrice: 1
+    mintCost: 180
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: Bucket
+    itemForSale: {fileID: 11400000, guid: 08e4b996e6c213f4bbdbdd33a92ffab3, type: 2}
+    useItemPrice: 1
+    mintCost: 25
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
   furniture:
   - name: StorageChest
     itemForSale: {fileID: 11400000, guid: 08f2970a8455d9243b49e5d93f89e338, type: 2}
@@ -360,7 +378,7 @@ MonoBehaviour:
   - name: BugNet
     itemForSale: {fileID: 11400000, guid: 8d35e041dc8313c468ba6e26022d960d, type: 2}
     useItemPrice: 0
-    mintCost: 50
+    mintCost: 250
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -369,7 +387,7 @@ MonoBehaviour:
   - name: Torch
     itemForSale: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
     useItemPrice: 0
-    mintCost: 100
+    mintCost: 400
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -378,7 +396,7 @@ MonoBehaviour:
   - name: ShotGun
     itemForSale: {fileID: 11400000, guid: a8dac574710b9f44d905225c0a456b22, type: 2}
     useItemPrice: 0
-    mintCost: 250
+    mintCost: 1500
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -393,8 +411,8 @@ MonoBehaviour:
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
-  - name: Flintlock
-    itemForSale: {fileID: 11400000, guid: e5877dd916562a045bbc5c8d2066d5e8, type: 2}
+  - name: Scythe
+    itemForSale: {fileID: 11400000, guid: 49ba1b28fed88e949aa4fda636327914, type: 2}
     useItemPrice: 0
     mintCost: 750
     amountForSale: 1
