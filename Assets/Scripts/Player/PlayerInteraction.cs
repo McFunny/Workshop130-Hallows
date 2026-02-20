@@ -472,6 +472,8 @@ public class PlayerInteraction : MonoBehaviour
                 }
             }
 
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.MimicNose) && UnityEngine.Random.Range(0, 10) == 1) ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.MimicScent), 10);
+
             if(stamina + amount <= 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen)) //Prevents death if roach trinket is equipped
             {
                 amount = 0;
@@ -742,6 +744,16 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
         yield return new WaitForSeconds(1.5f);
+
+        if(MainMenuScript.currentFileMode == FileMode.Survival)
+        {
+            NightSpawningManager.Instance.GameOver();
+            TimeManager.Instance.stopTime = true;
+            yield return new WaitForSeconds(1f);
+            SurvivalModeManager.Instance.StartCoroutine(SurvivalModeManager.Instance.GameOver(true));
+            yield break;
+        }
+
         NightSpawningManager.Instance.GameOver();
         print("Night GameOver Complete");
         StructureManager.Instance.GameOver();

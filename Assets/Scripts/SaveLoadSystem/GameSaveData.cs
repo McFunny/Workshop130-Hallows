@@ -109,6 +109,9 @@ public class GameSaveData : MonoBehaviour
     public int manikkinsAlive = 0;
     public List<int> deadHenIDs = new List<int>();
 
+    [Header("Survival Mode")]
+    public List<int> boughtItemIDs = new List<int>();
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -153,6 +156,7 @@ public class GameSaveData : MonoBehaviour
         PlayerInteraction.Instance.lostKukri = data.allGameSaveData.lostKukri;
         PlayerInteraction.Instance.currentMoney = data.allGameSaveData.pCurrentMoney;
         PlayerInteraction.Instance.totalMoneyEarned = data.allGameSaveData.pTotalMoneyEarned;
+        if(MainMenuScript.currentFileMode == FileMode.Survival) SurvivalModeManager.Instance.TotalMintsEarned = data.allGameSaveData.pTotalMoneyEarned;
         PlayerInteraction.Instance.daysSinceDeath = data.allGameSaveData.pDaysSinceDeath;
         PlayerInteraction.Instance.playerUpgrades.LoadData(data.allGameSaveData);
 
@@ -174,6 +178,9 @@ public class GameSaveData : MonoBehaviour
             break;
             case "Cozy":
             MainMenuScript.currentFileMode = FileMode.Cozy;
+            break;
+            case "Survival":
+            MainMenuScript.currentFileMode = FileMode.Survival;
             break;
             default:
             MainMenuScript.currentFileMode = FileMode.Normal;
@@ -314,6 +321,8 @@ public class GameSaveData : MonoBehaviour
         }
 
         if(data.allGameSaveData.deadHenIDs != null && data.allGameSaveData.deadHenIDs.Length > 0) deadHenIDs = new List<int>(data.allGameSaveData.deadHenIDs);
+
+        if(data.allGameSaveData.boughtItemIDs != null && data.allGameSaveData.boughtItemIDs.Length > 0) boughtItemIDs = new List<int>(data.allGameSaveData.boughtItemIDs);
     }
 }
     [System.Serializable]
@@ -433,6 +442,7 @@ public class GameSaveData : MonoBehaviour
 
         public int manikkinsAlive;
         public int[] deadHenIDs;
+        public int[] boughtItemIDs;
 
     public AllGameSaveData(GameSaveData data)
     {
@@ -447,6 +457,7 @@ public class GameSaveData : MonoBehaviour
         lostKukri = PlayerInteraction.Instance.lostKukri;
         pCurrentMoney = PlayerInteraction.Instance.currentMoney;
         pTotalMoneyEarned = PlayerInteraction.Instance.totalMoneyEarned;
+        if(MainMenuScript.currentFileMode == FileMode.Survival) pTotalMoneyEarned = SurvivalModeManager.Instance.TotalMintsEarned;
         pDayNumber = TimeManager.Instance.dayNum;
         hourSaved = TimeManager.Instance.currentHour;
         pDaysSinceDeath = PlayerInteraction.Instance.daysSinceDeath;
@@ -576,6 +587,7 @@ public class GameSaveData : MonoBehaviour
 
         manikkinsAlive = data.manikkinsAlive;
         deadHenIDs = data.deadHenIDs.ToArray();
+        boughtItemIDs = data.boughtItemIDs.ToArray();
 
 
 //Debug.Log("Saving stamina. Result: " + pStamina);

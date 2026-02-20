@@ -239,6 +239,12 @@ public class AmbientAudioManager : MonoBehaviour
         }
         StopCoroutine(FinaleTheme());
 
+
+        while (playingGramophone != null)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+
         playingGramophone = null;
         gramoPhoneTrack = null;
 

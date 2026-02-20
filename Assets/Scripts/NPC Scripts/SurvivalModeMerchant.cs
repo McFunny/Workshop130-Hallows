@@ -21,6 +21,8 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
     private List<InventoryItemData> purchasedShopItems = new List<InventoryItemData>();
 
+    int currentTier = 0;
+
 
     //Find a way to get feedback on when a dialogue tree is finished by calling an event/delegate.
 
@@ -58,6 +60,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
             default:
                 break;
         }
+        currentTier = tier;
     }
 
     IEnumerator DelayedStart()
@@ -154,13 +157,18 @@ public class SurvivalModeMerchant : NPC, ITalkable
 
                 anim.SetTrigger("Transaction");
                 InventorySlot slot = HotbarDisplay.currentSlot.AssignedInventorySlot;
-                purchasedShopItems.Add(slot.ItemData);
                 SurvivalModeManager.Instance.mintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
                 SurvivalModeManager.Instance.TotalMintsEarned += (int)(slot.StackSize * (slot.ItemData.value * slot.ItemData.sellValueMultiplier));
             }
             Talk();
         }
         interactSuccessful = true;
+    }
+
+    public override void PurchaseSuccess(InventoryItemData item, out bool uniqueDialogue)
+    {
+        uniqueDialogue = false;
+        if(!GameSaveData.Instance.boughtItemIDs.Contains(item.ID)) GameSaveData.Instance.boughtItemIDs.Add(item.ID);
     }
 
     /*public override void PurchaseAttempt(StoreItem item)
@@ -214,6 +222,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
         int i;
         float r;
         int newCost = 0;
+        int newAmountForSale = 1;
         InventoryItemData newItem;
         int x = 0; //iterations
 
@@ -251,14 +260,17 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 }
                 while (!newItem);
                 newCost = (int)(survivalBarterDatabase.seeds[i].mintCost * sellMultiplier);
-                item.RefreshItem(newItem, newCost, survivalBarterDatabase.seeds[i].itemsRequired, survivalBarterDatabase.seeds[i].amountForSale);
+                if(currentTier > 0) newAmountForSale = survivalBarterDatabase.seeds[i].amountForSale * currentTier;
+                else newAmountForSale = survivalBarterDatabase.structures[i].amountForSale;
+                
+                item.RefreshItem(newItem, newCost, survivalBarterDatabase.seeds[i].itemsRequired, newAmountForSale);
                 item.seller = this;
 
                 x++;
             }
-            //Next 3 are random structure items
+            //Next 5 are random structure items
             //No repeats and make sure they are allowed items
-            else if (x < 12)
+            else if (x < 14)
             {
                 do
                 {
@@ -274,11 +286,14 @@ public class SurvivalModeMerchant : NPC, ITalkable
                 }
                 while (!newItem);
                 newCost = (int)(survivalBarterDatabase.structures[i].mintCost * sellMultiplier);
-                item.RefreshItem(newItem, newCost, survivalBarterDatabase.structures[i].itemsRequired, survivalBarterDatabase.structures[i].amountForSale);
+                if(currentTier > 0) newAmountForSale = survivalBarterDatabase.structures[i].amountForSale * currentTier;
+                else newAmountForSale = survivalBarterDatabase.structures[i].amountForSale;
+
+                item.RefreshItem(newItem, newCost, survivalBarterDatabase.structures[i].itemsRequired, newAmountForSale);
                 item.seller = this;
                 x++;
             }
-            //Next 3 are random furniture items
+            //Next 1 are random furniture items
             //No repeats and make sure they are allowed items
             else if (x < 15)
             {
@@ -301,7 +316,7 @@ public class SurvivalModeMerchant : NPC, ITalkable
             //Last 5 are special items
             else if (x < 20)
             {
-                if (!purchasedShopItems.Contains(survivalBarterDatabase.specialObjs[x - 15].itemForSale))
+                if (!GameSaveData.Instance.boughtItemIDs.Contains(survivalBarterDatabase.specialObjs[x - 15].itemForSale.ID))//(!purchasedShopItems.Contains(survivalBarterDatabase.specialObjs[x - 15].itemForSale))
                 {
                     newItem = survivalBarterDatabase.specialObjs[x - 15].itemForSale;
                     item.RefreshItem(newItem, survivalBarterDatabase.specialObjs[x - 15].mintCost, survivalBarterDatabase.specialObjs[x - 15].itemsRequired, survivalBarterDatabase.specialObjs[x - 15].amountForSale);

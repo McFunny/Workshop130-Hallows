@@ -34,6 +34,7 @@ public class FyllaraNut : StructureBehaviorScript
 
     public void TreeNutDrop()
     {
+        rb.isKinematic = false;
         if(rb.useGravity == true) return;
         physicalCollider.enabled = true;
         GetComponent<Collider>().excludeLayers = clearMask;

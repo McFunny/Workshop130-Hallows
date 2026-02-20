@@ -64,7 +64,7 @@ public class TimeManager : MonoBehaviour
             Instance = this;
         }
 
-        if(MainMenuScript.currentFileMode == FileMode.Survival) minPerDayHour = 15;
+        if(MainMenuScript.currentFileMode == FileMode.Survival) minPerDayHour = 30;
     }
 
     
@@ -112,13 +112,18 @@ public class TimeManager : MonoBehaviour
                 clockDarkenEffect = false;
                 currentMinute++;
                 LerpSunAndMoon();
-                if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour) || (currentHour < 8 && currentMinute >= minPerNightHour))
+                if((isDay && currentMinute >= minPerDayHour) || (!isDay && currentMinute >= minPerNightHour))
                 {
+                    if(MainMenuScript.currentFileMode == FileMode.Survival && currentHour < 8 && currentMinute < 60 && isDay) continue; //Makes sure the first 2 hours are a minute long in survival
                     currentMinute = 0;
                     HourPassed();
                 }
 
-                if((currentHour == 7 && currentMinute == minPerNightHour - 5) || (currentHour == 18 && currentMinute == minPerDayHour - 5)) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
+                if(MainMenuScript.currentFileMode == FileMode.Survival)
+                {
+                    if((currentHour == 7 && currentMinute == 60 - 5) || (currentHour == 18 && currentMinute == minPerDayHour - 5)) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
+                }
+                else if((currentHour == 7 && currentMinute == minPerDayHour - 5) || (currentHour == 18 && currentMinute == minPerDayHour - 5)) PopupHandler.Instance.AddToQueue(PopupHandler.Instance.saveWarningPopup);
             }
             else
             {
@@ -142,6 +147,15 @@ public class TimeManager : MonoBehaviour
         TimeOfDayCheck();
 
         //if hour is 8, new day transition. dark screen, invoke, save, then brighten screen
+
+        if(currentHour == 8 && MainMenuScript.currentFileMode == FileMode.Survival && SurvivalModeManager.Instance.CheckProgress() == false)
+        {
+            NightSpawningManager.Instance.GameOver();
+            TimeManager.Instance.stopTime = true;
+            FadeScreen.coverScreen = true;
+            SurvivalModeManager.Instance.StartCoroutine(SurvivalModeManager.Instance.GameOver(true));
+            return;
+        }
             
         if(currentHour != 8) OnHourlyUpdate?.Invoke(); //We want this to trigger AFTER the transition
         //print("Hour passed. Time is now " + currentHour);

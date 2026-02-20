@@ -8,7 +8,7 @@ public class AchievementManager : MonoBehaviour
     public static AchievementManager Instance { get; private set; }
 
     [Header("Achievements")]
-    [SerializeField] private List<AchievementObject> allAchievements = new List<AchievementObject>();
+    [SerializeField] private List<AchievementObject> allAchievements = new List<AchievementObject>(); //ALL SCRIPTABLE OBJS
 
     private Dictionary<string, AchievementObject> achievementById = new Dictionary<string, AchievementObject>();
 
@@ -128,6 +128,7 @@ public class AchievementManager : MonoBehaviour
 
         float max = GetMaxProgress(id);
         float current = GetProgress(id);
+        //IF YOU WANT TO SEND CURRENT PROGRESS TO STEAM, THIS IS WHERE YOU WOULD DO IT. JUST SEND THE "current" VARIABLE AND THE "max" VARIABLE AND STEAM WILL HANDLE THE REST
 
         float next = Mathf.Clamp(current + amount, 0f, max);
         progressById[id] = next;
@@ -136,6 +137,7 @@ public class AchievementManager : MonoBehaviour
         if (next >= max)
         {
             UnlockAchievement(id);
+            //THIS IS WHERE STEAM ACHIEVEMENT INTEGRATION WOULD GO IF WE WANTED IT//
         }
     }
 

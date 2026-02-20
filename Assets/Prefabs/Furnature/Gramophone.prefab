@@ -80,7 +80,9 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 0
+  repairableWithGlue: 0
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 0}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -93,6 +95,8 @@ MonoBehaviour:
   saveString1: 
   saveString2: 
   saveString3: 
+  saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -101,8 +105,12 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
-  recoveredItem: {fileID: 11400000, guid: 655c104e3efa8bb4aab8dc4958ea4c83, type: 2}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   onTable: 0
   discPairs:
   - disc: {fileID: 11400000, guid: 074a39aeaa8ee0b4f938ba38c08940c7, type: 2}
@@ -128,7 +136,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.643
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -137,7 +145,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 0.29
   MinDistance: 3
-  MaxDistance: 100
+  MaxDistance: 120
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -147,41 +155,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.27040404
-      value: 1.0042305
-      inSlope: -13.338685
-      outSlope: -13.338685
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.37413636
-      value: 0.6903763
-      inSlope: -2.548925
-      outSlope: -2.548925
+      time: 0.36391297
+      value: 1.0030441
+      inSlope: -0.6010627
+      outSlope: -0.6010627
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.78117317
-      outWeight: 0
+      outWeight: 1
     - serializedVersion: 3
-      time: 0.45805055
-      value: 0.5419159
-      inSlope: -0.548408
-      outSlope: -0.548408
+      time: 0.582431
+      value: 0.7066269
+      inSlope: -1.4042253
+      outSlope: -1.4042253
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.8376558
-      outWeight: 0
+      inWeight: 0.73436683
+      outWeight: 0.39280266
     - serializedVersion: 3
-      time: 0.6804596
-      value: 0.22653198
-      inSlope: -0.20841695
-      outSlope: -0.20841695
+      time: 0.8185822
+      value: 0.38475037
+      inSlope: -1.5361874
+      outSlope: -1.5361874
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.39380574
     - serializedVersion: 3
       time: 1
       value: 0

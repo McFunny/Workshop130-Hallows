@@ -147,6 +147,12 @@ public class ShovelAttack : MonoBehaviour
             ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = c_Collision;
 
             if(hitCreature && hitCreature.health > 0) PlayerInteraction.Instance.InvokeEnemyHitEvent(hitCreature);
+
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.MimicNose) && Random.Range(0, 20) == 1)
+            {
+                hitCreature.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.MimicScent), 15);
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.MimicNose);
+            }
             return;
         }
 

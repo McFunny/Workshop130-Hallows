@@ -3670,7 +3670,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: bf577767d2ee6094e86a9671551a649f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.234
+  m_Volume: 0.28
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5669,6 +5669,8 @@ MonoBehaviour:
   whiteHitParticle: {fileID: 2017681010470526393, guid: 7e2ef6de1b7d01147969ca665f396781,
     type: 3}
   structDigParticle: {fileID: 8260779043896246266, guid: 5d1ad69de0b78fd41bc0ab0911f2e933,
+    type: 3}
+  grassParticle: {fileID: 3507502229584361130, guid: a39908e706a377b4f9493ff140952974,
     type: 3}
   woodDestructionP: {fileID: 2191918286048292972, guid: 3e60246a56a3a424496e8ccba69e560a,
     type: 3}
@@ -12382,6 +12384,7 @@ MonoBehaviour:
   critterData: []
   manikkinsAlive: 0
   deadHenIDs: 
+  boughtItemIDs: 
 --- !u!114 &1864734984650053270
 MonoBehaviour:
   m_ObjectHideFlags: 0
