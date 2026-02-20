@@ -137,6 +137,11 @@ public class AchievementManager : MonoBehaviour
         if (next >= max)
         {
             UnlockAchievement(id);
+
+            if(SteamManager.Instance)
+            {
+                SteamManager.Instance.UnlockAchievement(id);
+            }
             //THIS IS WHERE STEAM ACHIEVEMENT INTEGRATION WOULD GO IF WE WANTED IT//
         }
     }
@@ -145,6 +150,21 @@ public class AchievementManager : MonoBehaviour
     {
         if (!achievementById.ContainsKey(id)) return;
         progressById[id] = 0f;
+    }
+
+    [ContextMenu("Reset All Progress")]
+    public void ResetAllProgress()
+    {
+        if(!gameObject.scene.isLoaded) return;
+        for(int i = 0; i < allAchievements.Count; ++i)
+        {
+            ResetProgress(allAchievements[i].id);
+        }
+
+        if(SteamManager.Instance)
+        {
+            SteamManager.Instance.ResetAllAchievements(allAchievements);
+        }
     }
 
     //Function to force unlock an achievement via id
@@ -161,6 +181,11 @@ public class AchievementManager : MonoBehaviour
         
 
         achievementById[id].isUnlocked = true;
+
+        if(SteamManager.Instance)
+        {
+            SteamManager.Instance.UnlockAchievement(id);
+        }
     
         //For UI events
         //OnAchievementUnlocked?.Invoke(achievementById[id]);
@@ -489,6 +514,10 @@ public class AchievementManager : MonoBehaviour
             if (entry.isUnlocked)
             {
                 unlockedIDs.Add(entry.id);
+                if(SteamManager.Instance) //TO make sure any prior unlocked achievements while offline still complete
+                {
+                    SteamManager.Instance.UnlockAchievement(entry.id);
+                }
                 achievementById[entry.id].hideAchievement = false;
             }
 

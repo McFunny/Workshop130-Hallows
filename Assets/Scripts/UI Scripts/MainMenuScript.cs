@@ -285,6 +285,7 @@ public class MainMenuScript : MonoBehaviour
         else if (confirmationBox.calledBy == buttons[4]) // Quit Game
         {
             if (isTransitioning) return;
+            if(SteamManager.Instance) SteamManager.Instance.DisconnectFromSteam();
             Application.Quit();
             print("Game Exited Successfully :)");
         }
