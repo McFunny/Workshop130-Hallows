@@ -62,6 +62,7 @@ public class ElderMandrakeNPC : NPC, ITalkable
         {
             currentPath = 0;
             currentType = PathType.QuestComplete;
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Elder_Mandrake);
         }
 
         else

@@ -191,6 +191,26 @@ public class AchievementManager : MonoBehaviour
         //OnAchievementUnlocked?.Invoke(achievementById[id]);
     }
 
+    ///////////Cam Code//////////////
+    
+    public void AddProgressWithEnum(ACHKey _key, float _amount = 1)
+    {
+        if(_key == ACHKey.Null) return;
+        for(int i = 0; i < allAchievements.Count; ++i)
+        {
+            if(allAchievements[i].key == _key) AddProgress(allAchievements[i].id, _amount);
+        }
+    }
+
+    public void CompleteProgressWithEnum(ACHKey _key)
+    {
+        if(_key == ACHKey.Null) return;
+        for(int i = 0; i < allAchievements.Count; ++i)
+        {
+            if(allAchievements[i].key == _key) UnlockAchievement(allAchievements[i].id);
+        }
+    }
+
     #region NotificationFunctions
     /// <summary>
     /// NOTIFY FUNCTIONS - Call these from relevant game systems to update achievements

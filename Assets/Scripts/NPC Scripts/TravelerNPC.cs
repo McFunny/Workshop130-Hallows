@@ -129,7 +129,7 @@ public class TravelerNPC : NPC, ITalkable
     {
         if(base.ExclamationCheck() == false)
         {
-            if(!GameSaveData.Instance.tra_askedForFood && !GameSaveData.Instance.kukriObtained)
+            if(!GameSaveData.Instance.tra_askedForFood && !GameSaveData.Instance.kukriObtained && GameSaveData.Instance.siegesCleared > 0)
             {
                 exclamationObject.SetActive(true);
                 return true;

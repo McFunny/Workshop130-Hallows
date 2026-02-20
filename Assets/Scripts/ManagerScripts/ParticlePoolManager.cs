@@ -174,6 +174,13 @@ public class ParticlePoolManager : MonoBehaviour
             impactPool.Add(newParticle);
             newParticle.SetActive(false);
         }
+
+        for(int i = 0; i < 10; i++)
+        {
+            newParticle = Instantiate(grassParticle);
+            grassPool.Add(newParticle);
+            newParticle.SetActive(false);
+        }
     }
 
     public GameObject GrabCorpseParticle(CorpseParticleType type)

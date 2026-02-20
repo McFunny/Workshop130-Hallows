@@ -11,8 +11,11 @@ public abstract class AchievementObject : ScriptableObject
     public bool hideAchievement = false; // if true, show ??? until unlocked
     public bool isUnlocked;
 
+    public ACHKey key;
+
     [Header("Progress")]
     [Min(1)] public float maxProgress = 1f;
+    
 
     // Called by the manager so the achievement can ask for progress/unlock.
     protected void AddProgress(float amount)
@@ -77,4 +80,14 @@ public abstract class AchievementObject : ScriptableObject
     public virtual void OnDareConsumed() { }
 
     public virtual void OnGrowHellaNuts() { }
+
+
+}
+[System.Serializable]
+public enum ACHKey
+{
+    Null,
+    Lumen_Pollinate_Many,
+    Corpse_Burn,
+    Elder_Mandrake
 }

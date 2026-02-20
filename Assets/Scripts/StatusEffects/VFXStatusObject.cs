@@ -53,9 +53,10 @@ public class VFXStatusObject : MonoBehaviour
 
         if(removedSFX) AudioPoolManager.Instance.PlayClipAtPosition(removedSFX, transform.position);
 
-        if(burningCorpse && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.CarrionCooker))
+        if(burningCorpse)
         {
-            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.CarrionCooker);
+            AchievementManager.Instance.AddProgressWithEnum(ACHKey.Corpse_Burn, 1);
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.CarrionCooker)) TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.CarrionCooker);
         }
 
         afflictedCreature = null;

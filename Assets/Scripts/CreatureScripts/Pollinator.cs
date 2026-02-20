@@ -33,6 +33,8 @@ public class Pollinator : CreatureBehaviorScript
     public GameObject bugModel;
     Vector3 startPos;
 
+    int amountPollinated;
+
     public enum CreatureState
     {
         SpawnIn,
@@ -262,7 +264,9 @@ public class Pollinator : CreatureBehaviorScript
         if(tile)
         {
             tile.Pollinate();
+            ++amountPollinated;
             AchievementManager.Instance.NotifyCropPollinated();
+            if(amountPollinated >= 20) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Lumen_Pollinate_Many);
             foreach(ParticleSystem p in pollenParticles) p.Play();
             QuestManager.Instance.AddQuestProgress(1, QuestDatabase.Instance.GetTutorialQuest(301)); //Complete the pollination quest
         }
