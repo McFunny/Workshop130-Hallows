@@ -122,7 +122,11 @@ public class InventorySlot_UI : MonoBehaviour
             return;
         }
 
-        if (assignedInventorySlot.ItemData.useCooldown > 0) FoodCooldownHandler();
+        if (assignedInventorySlot.ItemData.useCooldown > 0)
+        {
+            FoodCooldownHandler();
+        }
+            
     }
 
     public void TestPrint()
@@ -257,6 +261,8 @@ public class InventorySlot_UI : MonoBehaviour
 
     public void UpdateUISlot(InventorySlot slot)
     {
+        foodCooldownSlider.gameObject.SetActive(false);
+        itemGrey.enabled = false;
         if (slot.ItemData != null)
         {
             itemSprite.sprite = slot.ItemData.icon;
