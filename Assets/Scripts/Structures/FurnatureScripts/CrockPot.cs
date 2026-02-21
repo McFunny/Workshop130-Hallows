@@ -83,6 +83,7 @@ public class CrockPot : FurnitureBehaviorScript
                 placeItemParticles.Play();
 
                 audioHandler.PlaySound(audioHandler.itemInteractSound);
+                currentRecipe.amountMade += 1;
             }
             return;
         }
