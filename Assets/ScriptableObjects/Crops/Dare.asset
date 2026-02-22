@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Dare
   id: 11
   growthStages: 6
-  hoursPerStage: 4
+  hoursPerStage: 1
   harvestableGrowthStages: 06000000
   cropSprites:
   - {fileID: -207084151, guid: c5092dcaad4c6744cb1768e85b14b16b, type: 3}
@@ -33,7 +33,7 @@ MonoBehaviour:
   seedYieldAmount: 0
   seedYieldVariance: 0
   noStressSeedChance: 20
-  waterIntake: 8
+  waterIntake: 5
   ichorIntake: 1.5
   terraIntake: -0.25
   gloamIntake: 0.75
@@ -45,3 +45,4 @@ MonoBehaviour:
   emitsGlow: 0
   amountHarvested: 0
   amountKilled: 0
+  grassColor: {r: 0, g: 0, b: 0, a: 0}

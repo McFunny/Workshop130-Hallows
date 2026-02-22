@@ -125,6 +125,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 0.7176471}
   currentEffects: []
   variant: 0
@@ -220,7 +221,7 @@ MonoBehaviour:
   source: {fileID: 0}
   loopingSource: {fileID: 0}
   footStepSource: {fileID: 0}
-  moveSound: {fileID: 8300000, guid: 41ee24f61477af04eb448d5aed4d56ee, type: 3}
+  moveSound: {fileID: 8300000, guid: be3efc520a85a504d8c0c616dbd2135a, type: 3}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
   idleSounds:
@@ -236,6 +237,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &6149756961216673137
 AudioSource:
   m_ObjectHideFlags: 0
@@ -475,6 +477,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2798424889111977121}
   audioScript: {fileID: 0}
+  structureAudioScript: {fileID: 0}
 --- !u!4 &2156604931362612132 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 18051530ab4a067418f4833f913b0e91,
@@ -712,6 +715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2798424889111977121}
   audioScript: {fileID: 0}
+  structureAudioScript: {fileID: 0}
 --- !u!4 &2075929816573193594 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3941b5bab5970094f838f8783dbeffeb,
