@@ -406,9 +406,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""742d2ec4-f8ab-4149-8bf7-ffff64e47b55"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone(min=0.3)"",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": true,

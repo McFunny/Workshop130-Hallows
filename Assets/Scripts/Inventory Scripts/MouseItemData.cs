@@ -63,6 +63,7 @@ public class MouseItemData : MonoBehaviour
         }
         else
         {
+            if(eventSystem.currentSelectedGameObject == null) return;
             transform.position = new Vector3(eventSystem.currentSelectedGameObject.transform.position.x - 20, eventSystem.currentSelectedGameObject.transform.position.y + 50, eventSystem.currentSelectedGameObject.transform.position.z);
         }
     }
