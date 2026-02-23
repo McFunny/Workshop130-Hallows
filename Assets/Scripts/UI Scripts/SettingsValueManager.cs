@@ -493,6 +493,18 @@ public class SettingsValueManager : MonoBehaviour
         title.text = "Settings - " + settingsPages[currentPage].pageName;
         defaultMenuObject = settingsPages[currentPage].settingsToDisplay[0].GetComponentInChildren<Selectable>().gameObject;
 
+        foreach (SettingsPage settingsPage in settingsPages)
+        {
+            if(currentPage == settingsPages.IndexOf(settingsPage))
+            {
+                settingsPage.lerpHandler.lerpToStart = true;
+            }
+            else
+            {
+                settingsPage.lerpHandler.lerpToStart = false;
+            }
+        }
+
         Navigation nav = new Navigation();
         nav.mode = Navigation.Mode.Explicit;
         //nav.selectOnDown = settingsPages[currentPage].settingsToDisplay[0].GetComponentInChildren<Selectable>();
@@ -517,7 +529,7 @@ public class SettingsValueManager : MonoBehaviour
 
         
 
-        nav.selectOnUp = settingsPages[currentPage].lastOnList;
+        nav.selectOnUp = settingsPages[currentPage].settingsToDisplay.Last().GetComponentInChildren<Selectable>();
 
         nav.selectOnLeft = null;
         nav.selectOnRight = defaultButton;
@@ -539,7 +551,6 @@ public class SettingsPage
 {
     public string pageName;
     public Button categoryButton;
-    public List<GameObject> settingsToDisplay;
-    [HideInInspector] public Selectable firstOnList;
-    [HideInInspector] public Selectable lastOnList;
+    public UILerp lerpHandler;
+    public List<GameObject> settingsToDisplay;   
 }

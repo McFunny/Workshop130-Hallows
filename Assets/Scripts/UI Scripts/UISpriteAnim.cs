@@ -7,6 +7,7 @@ public class UISpriteAnim : MonoBehaviour
 {
     public Image image;
     public Sprite[] spriteArray;
+    public bool playOnStart = false;
     public bool hideOnStart = true;
     public bool hideOnComplete = true;
     public float timeBetweenFrames = .02f;
@@ -16,7 +17,8 @@ public class UISpriteAnim : MonoBehaviour
 
     private void Start()
     {
-        if(hideOnStart) image.enabled = false;
+        if (playOnStart) PlayUI();
+        if (hideOnStart) image.enabled = false;
         else image.enabled = true;
     }
 
