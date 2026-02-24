@@ -154,6 +154,9 @@ public class PetDog : PetBehaviorScript, IInteractable
 
     void StateSwitch(PetState newState)
     {
+        if(newState == currentState) return;
+
+
         //Leaving Old State Effects
         if(currentState == PetState.Idle)
         {
@@ -206,6 +209,11 @@ public class PetDog : PetBehaviorScript, IInteractable
         if(currentState != PetState.Follow && currentState != PetState.ChaseCreature && currentState != PetState.Flee/* && currentState != PetState.Eat*/)
         {
             agent.speed = walkSpeed;
+        }
+
+        if(currentState == PetState.Eat) //To force them to move there
+        {
+            currentRoutine = StartCoroutine(MoveToPoint(targetStructure.transform.position, 8));
         }
     }
 

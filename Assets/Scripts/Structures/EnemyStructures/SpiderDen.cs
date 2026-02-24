@@ -39,7 +39,7 @@ public class SpiderDen : StructureBehaviorScript
 
         if(isLarge)
         {
-            heldSpiders = 2;
+            heldSpiders = 1;
             health = maxHealth;
             stage1.SetActive(false);
             stage2.SetActive(true);
@@ -91,6 +91,8 @@ public class SpiderDen : StructureBehaviorScript
 
     public override void HourPassed()
     {
+        if(outsideSpiders < 0) outsideSpiders = 0;
+        
         if(!isLarge)
         {
             if(Random.Range(0, 100) < chanceToGrow) UpdateStage(true);
@@ -100,7 +102,7 @@ public class SpiderDen : StructureBehaviorScript
 
         for(int i = 0; i < 2; ++i)
         {
-            if((heldSpiders < maxSpiders && outsideSpiders < maxSpiders) && Random.Range(0,10) > 3) heldSpiders++;
+            if((heldSpiders + outsideSpiders < maxSpiders) && Random.Range(0,10) > 3) heldSpiders++;
 
             if(heldSpiders >= maxSpiders)
             {
@@ -113,6 +115,12 @@ public class SpiderDen : StructureBehaviorScript
                     newSpider.inWilderness = true;
                 }
             }
+        }
+
+        if(TimeManager.Instance.currentHour == 8)
+        {
+            if(heldSpiders < 2) heldSpiders = 2;
+            outsideSpiders = 0;
         }
     }
 

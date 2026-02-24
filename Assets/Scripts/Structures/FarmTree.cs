@@ -189,7 +189,7 @@ public class FarmTree : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        if(saveInt1 == 1) SpawnHive();
+        //if(saveInt1 == 1) SpawnHive();
         if(saveString2 == "Hive")
         {
             SpawnHive();

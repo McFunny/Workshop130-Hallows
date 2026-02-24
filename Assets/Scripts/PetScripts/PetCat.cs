@@ -146,6 +146,8 @@ public class PetCat : PetBehaviorScript, IInteractable
 
     void StateSwitch(PetState newState)
     {
+        if(newState == currentState) return;
+
         //Leaving Old State Effects
         if(currentState == PetState.Idle)
         {
@@ -210,6 +212,11 @@ public class PetCat : PetBehaviorScript, IInteractable
         if(currentState != PetState.Follow && currentState != PetState.ChaseCreature && currentState != PetState.Flee/* && currentState != PetState.Eat*/)
         {
             agent.speed = walkSpeed;
+        }
+
+        if(currentState == PetState.Eat) //To force them to move there
+        {
+            currentRoutine = StartCoroutine(MoveToPoint(targetStructure.transform.position, 8));
         }
     }
 
@@ -457,6 +464,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             StateSwitch(PetState.Decide);
             return;
         }
+
         if(!interruptAction && targetStructure && Vector3.Distance(targetStructure.transform.position, transform.position) < 1.5f) //Are they close enough? If so, begin eating
         {
             //print("Cat close enough to Dish");
@@ -464,7 +472,7 @@ public class PetCat : PetBehaviorScript, IInteractable
             else interruptAction = true;
             return;
         }
-        if(!isMoving && currentRoutine == null) //Move to the dish
+        else if(/*!isMoving &&*/ currentRoutine == null) //Move to the dish
         {
             //agent.speed = runSpeed;
             currentRoutine = StartCoroutine(MoveToPoint(targetStructure.transform.position, 8));
@@ -869,6 +877,8 @@ public class PetCat : PetBehaviorScript, IInteractable
             StopCoroutine(DripEffects());
             StartCoroutine(DripEffects());
             thoughtBubbleScript.PlayEmotion(2);
+            thirst += 30;
+            if(thirst > maxThirst) thirst = maxThirst;
             return;
         }
         if(hunger < 100)

@@ -62,5 +62,9 @@ public enum TrinketKey
     WeedWard,
     LumenAnklet,
     CarrionCooker,
-    MimicNose
+    MimicNose,
+    DuneBoots,
+    Hydrator,
+    BackstepPendant,
+    SeedTalisman
 }

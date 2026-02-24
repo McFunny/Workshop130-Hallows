@@ -196,6 +196,7 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 8300000, guid: da1578a38023d7647b6418281f1af5b8, type: 3}
   activatedSound: {fileID: 0}
+  secondarySource: {fileID: 0}
 --- !u!82 &7432669149360304294
 AudioSource:
   m_ObjectHideFlags: 0
@@ -330,6 +331,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 2978674126429485703}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -338,6 +340,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -349,7 +352,7 @@ MonoBehaviour:
       barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
   spiderData: {fileID: 11400000, guid: 668d2e39634652e478346ea6a911f280, type: 2}
   heldSpiders: 0
-  maxSpiders: 4
+  maxSpiders: 3
   outsideSpiders: 0
   silk: {fileID: 11400000, guid: 96a3ab3970e7e9e4bb6aa61ea2b9a559, type: 2}
   destructionObject: {fileID: 2998986296485535781}
