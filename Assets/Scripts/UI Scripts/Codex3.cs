@@ -250,7 +250,7 @@ public class Codex3 : MonoBehaviour
                 {
                     if (containers[(int)openCategory].transform.childCount > 0)
                     {
-                        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(ReturnFirstActiveChild(containers[6]));
+                        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
                     }
                 }
             }

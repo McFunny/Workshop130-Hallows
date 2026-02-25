@@ -120,19 +120,19 @@ public class PlayerInteraction : MonoBehaviour
     private void OnEnable()
     {
         //LEFT CLICK USES THE ITEM CURRENTLY IN THE HAND
-        controlManager.useHeldItem.action.started += UseHeldItem; 
+        controlManager.useHeldItem.action.performed += UseHeldItem; 
         //RIGHT CLICK USES AN ITEM ON A STRUCTURE, EX: PLANTING A SEED IN FARMLAND
-        controlManager.interactWithItem.action.started += OnInteractWithItem;
+        controlManager.interactWithItem.action.performed += OnInteractWithItem;
         //SPACE INTERACTS WITH A STRUCTURE WITHOUT USING AN ITEM, EX: HARVESTING A CROP
-        controlManager.interactWithoutItem.action.started += InteractWithoutItem;
+        controlManager.interactWithoutItem.action.performed += InteractWithoutItem;
         SettingsValueManager.OnSettingsChanged += UpdateSettings;
     }
 
     private void OnDisable()
     {
-        controlManager.useHeldItem.action.started -= UseHeldItem;
-        controlManager.interactWithItem.action.started -= OnInteractWithItem;
-        controlManager.interactWithoutItem.action.started -= InteractWithoutItem;
+        controlManager.useHeldItem.action.performed -= UseHeldItem;
+        controlManager.interactWithItem.action.performed -= OnInteractWithItem;
+        controlManager.interactWithoutItem.action.performed -= InteractWithoutItem;
         SettingsValueManager.OnSettingsChanged -= UpdateSettings;
     }
 
