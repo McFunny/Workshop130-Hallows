@@ -76,6 +76,8 @@ public class SurvivalStatsScreen : MonoBehaviour
 
         if(showedUi) return;
 
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(mainMenuButton.gameObject);
+
         showedUi = true;
 
         StartCoroutine(AmbientAudioManager.Instance.FadeAudio(999));
