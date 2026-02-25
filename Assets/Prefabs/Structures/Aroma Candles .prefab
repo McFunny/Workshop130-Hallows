@@ -145,6 +145,7 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 8300000, guid: ea55634a2c25475478ace194eb30558f, type: 3}
+  secondarySource: {fileID: 0}
 --- !u!82 &3846290401251557170
 AudioSource:
   m_ObjectHideFlags: 0
@@ -334,6 +335,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -345,6 +347,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -358,6 +361,10 @@ MonoBehaviour:
   fire: {fileID: 4418551575630399428}
   burning: 0
   type: 1
+  mothData: {fileID: 0}
+  repairItems:
+  - item: {fileID: 11400000, guid: 407379bc0d8d7074488a51c551db0c77, type: 2}
+    repairAmount: 3
 --- !u!1 &7622477433551692140
 GameObject:
   m_ObjectHideFlags: 0

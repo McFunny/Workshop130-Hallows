@@ -67,13 +67,30 @@ public class CookingDatabase : ScriptableObject
 
     public void LoadStats(AllGameSaveData data)
     {
-        int i = 0;
+        List<ValidRecipe> recipeList = new List<ValidRecipe>();
+        List<InventoryItemData> itemList = new List<InventoryItemData>();
+
+        int n = 0; //iterations
         foreach(CookingRecipe c in _cookingDatabase)
         {
-            if(i >= data.cookingStats.Length) return;
-            c.amountMade = data.cookingStats[i].amountMade;
-            c.validRecipes = new List<ValidRecipe>(data.cookingStats[i].validRecipes);
-            i++;
+            if(n >= data.cookingStats.Length) return;
+            c.amountMade = data.cookingStats[n].amountMade;
+            //c.validRecipes = new List<ValidRecipe>(data.cookingStats[i].validRecipes);
+
+            recipeList.Clear();
+            for(int i = 0; i < data.cookingStats[n].saveableRecipes.Count; ++i)
+            {
+                itemList.Clear();
+                for(int x = 0; x < data.cookingStats[n].saveableRecipes[i].ingredientIDs.Count; ++x)
+                {
+                    itemList.Add(Database.Instance.GetItem(data.cookingStats[n].saveableRecipes[i].ingredientIDs[x]));
+                }
+                ValidRecipe newRecipe = new ValidRecipe(itemList);
+                recipeList.Add(newRecipe);
+            }
+            c.validRecipes = recipeList;
+
+            n++;
         }
     }
 
@@ -88,11 +105,31 @@ public class CookingDatabase : ScriptableObject
 public class CookingPlayerStats
 {
     public int amountMade = 0;
-    public List<ValidRecipe> validRecipes = new List<ValidRecipe>();
+    //public List<ValidRecipe> validRecipes = new List<ValidRecipe>();
+    public List<SaveableRecipe> saveableRecipes = new List<SaveableRecipe>();
 
     public CookingPlayerStats(int _amountMade, List<ValidRecipe> _validRecipes)
     {
         amountMade = _amountMade;
-        validRecipes = _validRecipes;
+        //validRecipes = _validRecipes;
+
+        for(int i = 0; i < _validRecipes.Count; ++i)
+        {
+            saveableRecipes.Add(new SaveableRecipe(_validRecipes[i]));
+        }
+    }
+}
+
+[System.Serializable]
+public class SaveableRecipe
+{
+    public List<int> ingredientIDs = new List<int>();
+
+    public SaveableRecipe(ValidRecipe _validRecipe)
+    {
+        for(int i = 0; i < _validRecipe.usedItems.Count; ++i)
+        {
+            ingredientIDs.Add(_validRecipe.usedItems[i].ID);
+        }
     }
 }

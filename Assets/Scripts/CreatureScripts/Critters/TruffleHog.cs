@@ -153,6 +153,8 @@ public class TruffleHog : CritterBehaviorScript
         {
             burrowsToDig = Random.Range(2, 4);
         }
+
+        if(TimeManager.Instance.isDay == false) burrowsToDig = 0;
     }
 
     void Decide()
