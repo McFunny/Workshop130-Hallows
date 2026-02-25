@@ -64,7 +64,7 @@ public enum TrinketKey
     CarrionCooker,
     MimicNose,
     DuneBoots,
-    Hydrator,
+    DewDripper,
     BackstepPendant,
     SeedTalisman
 }

@@ -214,6 +214,15 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 10 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DuneBoots))
+        {
+            TrinketInventoryHandler.Instance.TriggerTrinketEffect(TrinketKey.DuneBoots);
+            Destroy(gameObject);
+        }
+    }
+
     public override void SaveVariables()
     {
         saveBool1 = containsEgg;

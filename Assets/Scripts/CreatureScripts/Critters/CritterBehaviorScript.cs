@@ -108,7 +108,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
             thirst = 0;
         }
 
-        if(!tookDamage) health += 2;
+        if(!tookDamage) health += 4;
         if(health > maxHealth) health = maxHealth;
         
         if(!homePen) FindHomePen();
@@ -122,6 +122,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
 
         //hunger = 100;
         if(hunger > maxHunger) hunger = maxHunger;
+        health += hungerRestored/2;
 
         FriendPointsChange(hungerRestored/4, true);
         /*if(foodDiet.Contains(item)) FriendPointsChange(hungerRestored/4, true);

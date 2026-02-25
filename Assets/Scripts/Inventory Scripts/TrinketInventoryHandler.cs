@@ -217,6 +217,25 @@ public class TrinketInventoryHandler : MonoBehaviour
         return amount;
     }
 
+    public void TriggerTrinketEffect(TrinketKey _key)
+    {
+        for(int i = 0; i < trinkets.Count; ++i)
+        {
+            //if(trinkets[i].slot == null) continue;
+
+            InventoryItemData item = trinkets[i].slot.ItemData;
+            if(!item) continue;
+            TrinketItem t_item = item as TrinketItem;
+
+            if(t_item && t_item.key == _key && t_item.behavior)
+            {
+                t_item.behavior.TriggerEffect(out float durabilityCost);
+                if(durabilityCost > 0) ApplyTrinketDamage(_key, durabilityCost);
+                return;
+            }
+        }
+    }
+
     bool CheckForRepeatNonStackableTrinket(TrinketKey _key) //Checking if there is another non-stackable trinket of the same type
     {
         for(int i = 0; i < trinkets.Count; ++i)

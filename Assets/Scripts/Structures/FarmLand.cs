@@ -1041,6 +1041,12 @@ public class FarmLand : StructureBehaviorScript
         {
             if(fiberParticles) fiberParticles.Play();
 
+            if(crop == null && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DuneBoots))
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             if(NeedsPollination() && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.LumenAnklet))
             {
                 SelfPollinate();

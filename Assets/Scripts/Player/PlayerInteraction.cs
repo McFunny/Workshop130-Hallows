@@ -580,6 +580,12 @@ public class PlayerInteraction : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
 
+            if(waterHeld < maxWaterHeld && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DewDripper))
+            {
+                WaterChange(1);
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.DewDripper);
+            }
+
             if(stamina < 50 && targetRegen == 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen))
             {
                 StaminaChange(1);
@@ -860,6 +866,8 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator PlayerTripRoutine(bool addKnockback) //for recoiling purposes
     {
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DuneBoots) && stamina > 5) yield break;
+
         isTripped = true;
         PlayerMovement.restrictMovementTokens++;
         PlayerMovement.limitMaxVelocity = false;
