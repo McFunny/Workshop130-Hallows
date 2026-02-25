@@ -3,13 +3,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using UnityEngine.InputSystem;
+
 public class InputManager : MonoBehaviour
 {
-    // Unity Actions for number key and scroll input
     public UnityAction<int> OnNumberPressed;
-    public UnityAction<int> OnScrollInput;  // New UnityAction for scroll input
+    public UnityAction<int> OnScrollInput;
 
-    // FOR TOGGLING THE GRID
     Tilemap structGrid, cabinGrid;
     public Color activeColor, activeNightColor, hiddenColor;
     Color cabinColor;
@@ -18,13 +17,8 @@ public class InputManager : MonoBehaviour
     PauseScript pauseScript;
 
     public static bool isCharging = false;
-    bool chargeButtonHeld = false;
-
     public static bool isChargingSecondary = false;
-    bool chargeButtonSecondaryHeld = false;
-
     public static bool isHoldingInteract = false;
-    bool interactButtonHeld = false;
 
     public InventoryItemData waterGun;
     private RepairMinigame repairMinigame;
@@ -40,123 +34,195 @@ public class InputManager : MonoBehaviour
     {
         structGrid = StructureManager.Instance.farmTileMap;
         cabinGrid = StructureManager.Instance.cabinTileMap;
-        if(cabinGrid) cabinColor = cabinGrid.color;
+        if (cabinGrid) cabinColor = cabinGrid.color;
     }
 
     private void OnEnable()
     {
         controlManager.waterGunCharge.action.actionMap.Enable();
         controlManager.hotbarUp.action.started += HotbarUp;
-        controlManager.hotbarDown.action.started += HotbarDown;  
+        controlManager.hotbarDown.action.started += HotbarDown;
         controlManager.showGrid.action.canceled += ShowGrid;
         controlManager.pauseGame.action.started += PauseGame;
-        //controlManager.waterGunCharge.action.performed += BeginCharge;
-        controlManager.waterGunCharge.action.started += BeginCharge;
-        controlManager.waterGunCharge.action.canceled += BeginCharge; 
-        controlManager.holdInteraction.action.started += BeginHoldInteraction;
-        controlManager.holdInteraction.action.canceled += BeginHoldInteraction;
-        controlManager.secondaryCharge.action.started += BeginSecondaryCharge;
-        controlManager.secondaryCharge.action.canceled += BeginSecondaryCharge;
-
-        controlManager.waterGunCharge_C.action.performed += BeginCharge;
-        //controlManager.waterGunCharge_C.action.canceled += BeginCharge; 
-        controlManager.secondaryCharge_C.action.performed += BeginSecondaryCharge;
-        controlManager.secondaryCharge_C.action.canceled += BeginSecondaryCharge;
     }
+
     private void OnDisable()
     {
-        controlManager.hotbarUp.action.started -= HotbarUp; 
-        controlManager.hotbarDown.action.started -= HotbarDown;  
+        controlManager.hotbarUp.action.started -= HotbarUp;
+        controlManager.hotbarDown.action.started -= HotbarDown;
         controlManager.showGrid.action.canceled -= ShowGrid;
         controlManager.pauseGame.action.started -= PauseGame;
-        //controlManager.waterGunCharge.action.performed -= BeginCharge;
-        controlManager.waterGunCharge.action.started -= BeginCharge;
-        controlManager.waterGunCharge.action.canceled -= BeginCharge;
-        controlManager.holdInteraction.action.started -= BeginHoldInteraction;
-        controlManager.holdInteraction.action.canceled -= BeginHoldInteraction;
-        controlManager.secondaryCharge.action.started -= BeginSecondaryCharge;
-        controlManager.secondaryCharge.action.canceled -= BeginSecondaryCharge;
 
-        controlManager.waterGunCharge_C.action.performed -= BeginCharge;
-        //controlManager.waterGunCharge_C.action.canceled -= BeginCharge; 
-        controlManager.secondaryCharge_C.action.performed -= BeginSecondaryCharge;
-        controlManager.secondaryCharge_C.action.canceled -= BeginSecondaryCharge;
+        // Always clear state on disable to prevent stuck inputs
+        isCharging = false;
+        isChargingSecondary = false;
+        isHoldingInteract = false;
     }
 
     void Update()
     {
         CheckForScrollInput();
         CheckNumberInput();
-        
+        UpdateChargeState();
+        UpdateSecondaryChargeState();
+        UpdateHoldInteractState();
+
         if (gridIsActive)
-        { 
-            if(TimeManager.Instance.isDay) structGrid.color = activeColor;
-            else structGrid.color = activeNightColor;
+        {
+            structGrid.color = TimeManager.Instance.isDay ? activeColor : activeNightColor;
         }
-        else{ structGrid.color = hiddenColor;}
+        else
+        {
+            structGrid.color = hiddenColor;
+        }
     }
+
+    private void UpdateChargeState()
+    {
+        if (PauseScript.isPaused || PlayerMovement.restrictMovementTokens > 0)
+        {
+            isCharging = false;
+            return;
+        }
+
+        // Read raw input values — ground truth, never gets stuck
+        float primaryHeld   = controlManager.waterGunCharge.action.ReadValue<float>();
+        float controllerHeld = controlManager.waterGunCharge_C.action.ReadValue<float>();
+        bool buttonDown = primaryHeld > 0.1f || controllerHeld > 0.1f;
+
+        // Secondary charge takes priority over primary
+        if (isChargingSecondary)
+        {
+            isCharging = false;
+            return;
+        }
+
+        if (!buttonDown)
+        {
+            isCharging = false;
+            return;
+        }
+
+        InventoryItemData heldItem = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
+        bool validItem = heldItem != null && (
+            heldItem == waterGun ||
+            heldItem.ID == 0 ||
+            heldItem.ID == 1 ||
+            heldItem.ID == 2 ||
+            heldItem.ID == 234 ||
+            heldItem.ID == 270 ||
+            heldItem.ID == 272 ||
+            heldItem.ID == 274
+        );
+
+        isCharging = validItem;
+    }
+
+    private void UpdateSecondaryChargeState()
+    {
+        if (PauseScript.isPaused || PlayerMovement.restrictMovementTokens > 0)
+        {
+            isChargingSecondary = false;
+            isCharging = false;
+            return;
+        }
+
+        float primaryHeld    = controlManager.secondaryCharge.action.ReadValue<float>();
+        float controllerHeld = controlManager.secondaryCharge_C.action.ReadValue<float>();
+        bool buttonDown = primaryHeld > 0.1f || controllerHeld > 0.1f;
+
+        if (!buttonDown)
+        {
+            isChargingSecondary = false;
+            return;
+        }
+
+        // Primary charge takes priority over secondary
+        if (isCharging)
+        {
+            isChargingSecondary = false;
+            return;
+        }
+
+        InventoryItemData heldItem = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
+        bool validItem = heldItem != null && heldItem.ID == 228;
+
+        isChargingSecondary = validItem;
+        // Keep isCharging in sync so other systems don't need to check both flags
+        isCharging = isChargingSecondary;
+    }
+
+    private void UpdateHoldInteractState()
+    {
+        if (PauseScript.isPaused || PlayerMovement.restrictMovementTokens > 0)
+        {
+            isHoldingInteract = false;
+            return;
+        }
+
+        float held = controlManager.holdInteraction.action.ReadValue<float>();
+        isHoldingInteract = held > 0.1f;
+    }
+
     private void HotbarUp(InputAction.CallbackContext obj)
     {
-        if(PauseScript.isPaused) return;
-        if(PlayerMovement.isCodexOpen) return;
-        if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(-1);}
+        if (PauseScript.isPaused) return;
+        if (PlayerMovement.isCodexOpen) return;
+        if (!PlayerMovement.accessingInventory) OnScrollInput?.Invoke(-1);
     }
+
     private void HotbarDown(InputAction.CallbackContext obj)
     {
-        if(PauseScript.isPaused) return;
-        if(PlayerMovement.isCodexOpen) return;
-        if(!PlayerMovement.accessingInventory){OnScrollInput?.Invoke(1);}
+        if (PauseScript.isPaused) return;
+        if (PlayerMovement.isCodexOpen) return;
+        if (!PlayerMovement.accessingInventory) OnScrollInput?.Invoke(1);
     }
+
     private void ShowGrid(InputAction.CallbackContext obj)
     {
-        if(PauseScript.isPaused) return;
-        if(PlayerMovement.isCodexOpen) return;
-        if(CraftingSystem.isCraftingMenuOpen) return;
-        if(CookingRecipeBook.recipeBookOpen) return;
-        if(!PlayerMovement.accessingInventory)
+        if (PauseScript.isPaused) return;
+        if (PlayerMovement.isCodexOpen) return;
+        if (CraftingSystem.isCraftingMenuOpen) return;
+        if (CookingRecipeBook.recipeBookOpen) return;
+        if (!PlayerMovement.accessingInventory)
         {
             gridIsActive = !gridIsActive;
-            if(cabinGrid)
+            if (cabinGrid)
             {
-                if(gridIsActive) cabinGrid.color = cabinColor;
-                else cabinGrid.color = hiddenColor;
+                cabinGrid.color = gridIsActive ? cabinColor : hiddenColor;
             }
         }
     }
 
     private void PauseGame(InputAction.CallbackContext obj)
     {
-        if(PauseScript.isPaused) { pauseScript.ResumeGame(); return; }
-        if(PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
-        if(!PlayerMovement.accessingInventory)
+        if (PauseScript.isPaused) { pauseScript.ResumeGame(); return; }
+        if (PlayerMovement.restrictMovementTokens > 0 || DialogueController.Instance.IsTalking()) return;
+        if (!PlayerMovement.accessingInventory)
         {
-            if(!PauseScript.isPaused && !repairMinigame.IsMinigameActive() && !PlayerMovement.isCodexOpen)
+            if (!repairMinigame.IsMinigameActive() && !PlayerMovement.isCodexOpen)
             {
                 isCharging = false;
-                chargeButtonHeld = false;
-                pauseScript.PauseGame();
-
+                isChargingSecondary = false;
                 isHoldingInteract = false;
-                interactButtonHeld = false;
-            }          
-        } 
+                pauseScript.PauseGame();
+            }
+        }
     }
 
     private void CheckForScrollInput()
     {
-        if(PlayerMovement.restrictMovementTokens > 0 || PlayerMovement.accessingInventory) return; //could cause issues with ui that use scrolling
+        if (PlayerMovement.restrictMovementTokens > 0 || PlayerMovement.accessingInventory) return;
+
         float scrollInput = controlManager.hotbarScroll.action.ReadValue<float>();
 
         if (scrollInput > 0f)
         {
-            // Scroll up
-            OnScrollInput?.Invoke(-1); 
+            OnScrollInput?.Invoke(-1);
         }
-
-        if (scrollInput < 0f)
+        else if (scrollInput < 0f)
         {
-            // Scroll down
-            OnScrollInput?.Invoke(1); 
+            OnScrollInput?.Invoke(1);
         }
     }
 
@@ -167,75 +233,8 @@ public class InputManager : MonoBehaviour
             KeyCode key = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Alpha" + i);
             if (Input.GetKeyDown(key))
             {
-                // Invoke the action and pass the number that was pressed
                 OnNumberPressed?.Invoke(i);
             }
         }
-    }
-
-    private void BeginCharge(InputAction.CallbackContext obj)
-    {
-        if(PauseScript.isPaused) return;
-        //if(obj.performed && chargeButtonHeld) return;
-
-        chargeButtonHeld = !chargeButtonHeld;
-
-        if(chargeButtonSecondaryHeld) return;
-
-        InventoryItemData heldItem = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
-
-        if(chargeButtonHeld == false || PlayerMovement.restrictMovementTokens > 0 || (heldItem == null || (heldItem != waterGun && heldItem.ID != 1 && heldItem.ID != 0 && heldItem.ID != 2 && heldItem.ID != 234
-        && heldItem.ID != 272 && heldItem.ID != 270 && heldItem.ID != 274)))
-        {
-            isCharging = false;
-            //return;
-        }
-        else isCharging = !isCharging;
-
-        if (obj.performed)
-        Debug.Log("Trigger Perform Pressed");
-
-        if (obj.started)
-        Debug.Log("Trigger Started Pressed");
-
-        if (obj.canceled)
-        Debug.Log("Trigger Cancelled");
-
-        print("Is the gun charging? " + isCharging);
-    }
-
-    private void BeginSecondaryCharge(InputAction.CallbackContext obj)
-    {
-        if(PauseScript.isPaused) return;
-
-        chargeButtonSecondaryHeld = !chargeButtonSecondaryHeld;
-
-        if(chargeButtonHeld) return;
-
-        InventoryItemData heldItem = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData;
-
-        if(chargeButtonSecondaryHeld == false || PlayerMovement.restrictMovementTokens > 0 || (heldItem == null || (heldItem.ID != 228)))
-        {
-            isCharging = false;
-            //return;
-        }
-        else isCharging = !isCharging;
-        print("Is the gun charging? " + isCharging);
-    }
-
-    private void BeginHoldInteraction(InputAction.CallbackContext obj)
-    {
-        if(PauseScript.isPaused) return;
-
-        interactButtonHeld = !interactButtonHeld;
-        //print("Is button held? " + interactButtonHeld);
-
-        if(interactButtonHeld == false || PlayerMovement.restrictMovementTokens > 0)
-        {
-            isHoldingInteract = false;
-            //return;
-        }
-        else isHoldingInteract = !isHoldingInteract;
-        print("Is the gun charging? " + isCharging);
     }
 }
