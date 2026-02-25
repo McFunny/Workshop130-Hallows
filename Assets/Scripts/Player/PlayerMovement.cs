@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded;
 
     private Coroutine fovCoroutine;
+    public float playerFOV = 60f;
 
     bool playerCanMove = true;
 
@@ -77,18 +78,33 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
         capsuleCollider = GetComponent<CapsuleCollider>();
         noFriction = capsuleCollider.material;
+        HandleSettingsChanged();
+
     }
 
     private void OnEnable()
     {
         controlManager.sprint.action.started += Sprint;
         controlManager.sprint.action.canceled += CancelSprint;
+        SettingsValueManager.OnSettingsChanged += HandleSettingsChanged;
     }
 
     private void OnDisable()
     {
         controlManager.sprint.action.started -= Sprint;
         controlManager.sprint.action.canceled -= CancelSprint;
+        SettingsValueManager.OnSettingsChanged -= HandleSettingsChanged;
+    }
+
+    private void HandleSettingsChanged()
+    {
+        playerFOV = PlayerPrefs.GetFloat("FieldOfView", 60f);
+        if (fovCoroutine != null) StopCoroutine(fovCoroutine);
+            
+        playerCamera.m_Lens.FieldOfView = playerFOV;
+        toolCamera.fieldOfView = playerFOV;
+        effectsCamera.fieldOfView = playerFOV;
+        if(uiCamera) uiCamera.fieldOfView = playerFOV;
     }
 
     private void Update()
@@ -146,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
             if (fovCoroutine != null)
                 StopCoroutine(fovCoroutine);
 
-            float targetFoV = 70f;
+            float targetFoV = playerFOV + 10f;
             fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f));
         }
     }
@@ -171,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
         if (fovCoroutine != null)
             StopCoroutine(fovCoroutine);
 
-        float targetFoV = 60f;
+        float targetFoV = playerFOV;
         fovCoroutine = StartCoroutine(LerpFieldOfView(targetFoV, 0.5f));
     }
     private void MyInput()
@@ -215,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
                 if (fovCoroutine != null)
                     StopCoroutine(fovCoroutine);
 
-                fovCoroutine = StartCoroutine(LerpFieldOfView(60f, 0.5f));
+                fovCoroutine = StartCoroutine(LerpFieldOfView(playerFOV, 0.5f));
             }
         }
     }

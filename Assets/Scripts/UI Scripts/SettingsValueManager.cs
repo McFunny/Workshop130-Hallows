@@ -14,8 +14,8 @@ public class SettingsValueManager : MonoBehaviour
     [SerializeField] GameObject containerObject, previousMenuObject;
     public GameObject defaultMenuObject;
     [SerializeField] private Button applyButton, defaultButton, backButton, resolutionButton;
-    [SerializeField] private TextMeshProUGUI title, brightnessDisplay, sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay, resolutionDisplay;
-    [SerializeField] private Slider brightnessSlider, sensitivitySlider, masterVolSlider, musicSlider, sfxSlider;
+    [SerializeField] private TextMeshProUGUI title, brightnessDisplay, sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay, fovDisplay, resolutionDisplay;
+    [SerializeField] private Slider brightnessSlider, sensitivitySlider, masterVolSlider, musicSlider, sfxSlider, fovSlider;
     [SerializeField] private Toggle sprint, detailedUI, emptyHand, dialogueAnimation;
     //[SerializeField] private TMP_Dropdown resolutionDropDown;
     [SerializeField] private GameObject horizontalMenuButton, resolutionBox, resolutionContent;
@@ -30,8 +30,8 @@ public class SettingsValueManager : MonoBehaviour
     private int tempResolutionIndex;
     private int sprintValue, detailedUIValue, emptyHandValue, dialogueAnimationValue;
     private float brightnessValue;
-    private float defaultSensitivity, defaultVolume; // Default values
-    private float sensitivity, masterVolume, musicVolume, sfxVolume; // Current Values
+    private float defaultSensitivity, defaultVolume, defaultFOV; // Default values
+    private float sensitivity, masterVolume, musicVolume, sfxVolume, fovValue; // Current Values
     private int currentPage;
     private VolumeManager volumeManager;
     private ApplySettings applySettings;
@@ -42,10 +42,12 @@ public class SettingsValueManager : MonoBehaviour
     {
         defaultSensitivity = 1.0f;
         defaultVolume = 1.0f;
+        defaultFOV = 60f;
         sensitivity = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
         masterVolume = PlayerPrefs.GetFloat("MasterVolume", defaultVolume);
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
         sfxVolume = PlayerPrefs.GetFloat("SFXVolume", defaultVolume);
+        fovValue = PlayerPrefs.GetFloat("FieldOfView", defaultFOV);
         brightnessValue = PlayerPrefs.GetFloat("Brightness", 0);
         sprintValue = PlayerPrefs.GetInt("ToggleSprint", 0);
         detailedUIValue = PlayerPrefs.GetInt("DetailedUI", 0);
@@ -204,31 +206,34 @@ public class SettingsValueManager : MonoBehaviour
         ChangeSettingsPage(0);
         if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(defaultMenuObject);
         //inputSystem.leftClick = null;
-        sensitivitySlider.value = sensitivity;
-        sensitivityDisplay.SetText($"{sensitivity.ToString("N2")}");
+        sensitivitySlider.value = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
+        sensitivityDisplay.SetText($"{sensitivitySlider.value.ToString("N2")}");
 
-        masterVolSlider.value = masterVolume;
+        masterVolSlider.value = PlayerPrefs.GetFloat("MasterVolume", defaultVolume);
         masterVolDisplay.SetText($"{(masterVolSlider.value * 100).ToString("N1")}" + "%");
 
-        musicSlider.value = musicVolume;
+        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
         musicDisplay.SetText($"{(musicSlider.value * 100).ToString("N1")}" + "%");
 
-        sfxSlider.value = sfxVolume;
+        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", defaultVolume);
         sfxDisplay.SetText($"{(sfxSlider.value * 100).ToString("N1")}" + "%");
 
-        brightnessSlider.value = brightnessValue;
+        brightnessSlider.value = PlayerPrefs.GetFloat("Brightness", 0);
         brightnessDisplay.SetText($"{(brightnessSlider.value * 100).ToString("N1")}" + "%");
 
-        if (sprintValue == 0) sprint.isOn = false;
+        fovSlider.value = PlayerPrefs.GetFloat("FieldOfView", defaultFOV);
+        fovDisplay.SetText($"{fovSlider.value.ToString("N1")}" + "°");
+
+        if (PlayerPrefs.GetInt("ToggleSprint", 0) == 0) sprint.isOn = false;
         else sprint.isOn = true;
 
-        if (detailedUIValue == 0) detailedUI.isOn = false;
+        if (PlayerPrefs.GetInt("DetailedUI", 0) == 0) detailedUI.isOn = false;
         else detailedUI.isOn = true;
 
-        if (emptyHandValue == 0) emptyHand.isOn = false;
+        if (PlayerPrefs.GetInt("EmptyHand", 0) == 0) emptyHand.isOn = false;
         else emptyHand.isOn = true;
 
-        if (dialogueAnimationValue == 0) dialogueAnimation.isOn = false;
+        if (PlayerPrefs.GetInt("DialogueAnimation", 1) == 0) dialogueAnimation.isOn = false;
         else dialogueAnimation.isOn = true;
 
         resolutionDisplay.text = $"{filteredResolutions[currentResolutionIndex].width} x {filteredResolutions[currentResolutionIndex].height}";
@@ -301,6 +306,7 @@ public class SettingsValueManager : MonoBehaviour
             PlayerPrefs.SetInt("DetailedUI", detailedUIValue);
             PlayerPrefs.SetInt("EmptyHand", emptyHandValue);
             PlayerPrefs.SetInt("DialogueAnimation", dialogueAnimationValue);
+            PlayerPrefs.SetFloat("FieldOfView", fovValue);
 
             Resolution resolution = filteredResolutions[tempResolutionIndex];
             Screen.SetResolution(resolution.width, resolution.height, true);
@@ -358,6 +364,10 @@ public class SettingsValueManager : MonoBehaviour
         brightnessSlider.value = brightnessValue;
         brightnessDisplay.SetText($"{(brightnessSlider.value * 100).ToString("N1")}" + "%");
 
+        fovValue = defaultFOV;
+        fovSlider.value = fovValue;
+        fovDisplay.SetText($"{fovValue.ToString("N1")}" + "°");
+
         sprintValue = 0;
         sprint.isOn = false;
 
@@ -402,6 +412,14 @@ public class SettingsValueManager : MonoBehaviour
     {
         sfxVolume = vol;
         sfxDisplay.SetText($"{(sfxSlider.value * 100).ToString("N1")}" + "%");
+
+        applyButton.interactable = true;
+    }
+
+    public void UpdateFOV(float fov)
+    {
+        fovValue = fov;
+        fovDisplay.SetText($"{fovValue.ToString("N1")}" + "°");
 
         applyButton.interactable = true;
     }
