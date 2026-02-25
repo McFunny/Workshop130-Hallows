@@ -50,6 +50,10 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public float velocity;
 
+    //Trinket
+    [HideInInspector]
+    public bool backstepPendantEquipped = false;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -298,7 +302,7 @@ public class PlayerMovement : MonoBehaviour
 
             Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
 
-            if(moveInput.y < 0f) moveSpeed -= 3; // Walking backwards is slower
+            if(moveInput.y < 0f && !backstepPendantEquipped) moveSpeed -= 3; // Walking backwards is slower
         }
 
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);

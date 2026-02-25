@@ -145,6 +145,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -161,6 +162,7 @@ MonoBehaviour:
     valueGroups: []
   nut: {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
   rb: {fileID: 6060448448473084389}
+  physicalCollider: {fileID: 44905007274767618}
 --- !u!82 &6480217543822284868
 AudioSource:
   m_ObjectHideFlags: 0
@@ -277,6 +279,7 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 8300000, guid: f0fe8535cc53a9c4baa75d1ba345871c, type: 3}
   activatedSound: {fileID: 0}
+  secondarySource: {fileID: 0}
 --- !u!1001 &5362943270066603325
 PrefabInstance:
   m_ObjectHideFlags: 0

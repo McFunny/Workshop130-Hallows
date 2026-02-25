@@ -9,11 +9,13 @@ public class CandleCluster : StructureBehaviorScript, IFireHolder
 
     [HideInInspector] public bool burning = false;
 
-    float chanceForDrain = 25;
+    float chanceForDrain = 35;
 
     public CandleType type;
 
     public CreatureObject mothData;
+
+    public List<RepairItem> repairItems;
 
     //Candles are crafted from 1 silk, 3-5 combs, and 1 nectar OR bug meat. Probably made in bulk
 
@@ -36,6 +38,25 @@ public class CandleCluster : StructureBehaviorScript, IFireHolder
         base.Update();
     }
 
+    public override void ItemInteraction(InventoryItemData item)
+    {
+        if(health >= maxHealth) return;
+        foreach(RepairItem r in repairItems)
+        {
+            if(r.item == item)
+            {
+                if(maxHealth <= r.repairAmount + health) health = maxHealth;
+                else health += r.repairAmount;
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                PlayerInventoryHolder.Instance.UpdateInventory();
+
+                PlayHitEffect();
+                return;
+            }
+        }
+    }
+
+
     public override void ToolInteraction(ToolType type, out bool success)
     {
         print("Interacted");
@@ -46,6 +67,7 @@ public class CandleCluster : StructureBehaviorScript, IFireHolder
             {
                 fire.SetActive(true);
                 audioHandler.PlaySound(audioHandler.activatedSound);
+                burning = true;
                 success = true;
             }
             else if(burning && !PlayerInteraction.Instance.torchLit)
@@ -80,12 +102,12 @@ public class CandleCluster : StructureBehaviorScript, IFireHolder
         if(!burning) return;
         if(Random.Range(0,100) < chanceForDrain)
         {
-            chanceForDrain = 25;
+            chanceForDrain = 45;
             health--;
 
             if(Random.Range(0,10) > 6) ExtinguishFlame();
         }
-        else chanceForDrain += 25;
+        else chanceForDrain += 45;
     }
 
     public override void HitWithWater()

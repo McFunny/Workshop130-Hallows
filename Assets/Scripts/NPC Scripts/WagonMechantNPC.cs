@@ -618,7 +618,13 @@ public class WagonMerchantNPC : NPC, ITalkable
         else if(!GameSaveData.Instance.mm_giveGun && PlayerInventoryHolder.Instance.ReturnFreeSlots() >= 3)
         {
             int carrotsHeld = PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(carrot);
-            if(carrotsHeld >= 8)
+            if(TimeManager.Instance.dayNum > 2)
+            {
+                //Player had full inventory until now
+                currentPath = 4;
+                currentType = PathType.BranchingPaths;
+            }
+            else if(carrotsHeld >= 8)
             {
                 //bountiful harvest
                 currentPath = 3;

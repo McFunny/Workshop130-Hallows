@@ -54,6 +54,8 @@ public class ParticlePoolManager : MonoBehaviour
     List<GameObject> robotPool = new List<GameObject>();
     List<GameObject> c_fleshPool = new List<GameObject>();
 
+    public List<ParticleSystem> grassParticles = new List<ParticleSystem>();
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -178,6 +180,7 @@ public class ParticlePoolManager : MonoBehaviour
         for(int i = 0; i < 10; i++)
         {
             newParticle = Instantiate(grassParticle);
+            grassParticles.Add(newParticle.GetComponent<ParticleSystem>());
             grassPool.Add(newParticle);
             newParticle.SetActive(false);
         }
@@ -747,19 +750,22 @@ public class ParticlePoolManager : MonoBehaviour
 
     public GameObject GrabGrassParticle(Color newColor)
     {
-        foreach (GameObject particle in grassPool)
+        for(int i = 0; i < grassPool.Count; ++i)
         {
-            if(!particle.activeSelf)
+            if(!grassPool[i].activeSelf)
             {
-                particle.GetComponent<ParticleSystem>().startColor = newColor;
-                particle.SetActive(true);
-                return particle;
+                //particle.GetComponent<ParticleSystem>().startColor = newColor;
+                grassParticles[i].startColor = newColor;
+                grassPool[i].SetActive(true);
+                return grassPool[i];
             }
         }
 
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(grassParticle);
-        newParticle.GetComponent<ParticleSystem>().startColor = newColor;
+        ParticleSystem newSystem = newParticle.GetComponent<ParticleSystem>();
+        newSystem.startColor = newColor;
+        grassParticles.Add(newSystem);
         grassPool.Add(newParticle);
         return newParticle;
     }

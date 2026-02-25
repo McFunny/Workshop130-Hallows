@@ -34,6 +34,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool isInteracting { get; private set; } //Obsolete I think
     public bool toolCooldown;
     bool itemUseCooldown, isTripped;
+    float localY; //For tripping reset;
 
     public static PlayerInteraction Instance;
 
@@ -101,6 +102,8 @@ public class PlayerInteraction : MonoBehaviour
         {
             Instance = this;
         }
+
+        localY = cameraPos.localPosition.y;
     }
     
     void Start()
@@ -170,8 +173,8 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        if ((StructureManager.Instance.enableCheats || playerUpgrades.gainedWaterPack) && controlManager.waterJet.action.WasPressedThisFrame() && !toolCooldown 
-        && PlayerMovement.restrictMovementTokens == 0) StartCoroutine(WaterPropulsion());
+        /*if ((StructureManager.Instance.enableCheats || playerUpgrades.gainedWaterPack) && controlManager.waterJet.action.WasPressedThisFrame() && !toolCooldown 
+        && PlayerMovement.restrictMovementTokens == 0) StartCoroutine(WaterPropulsion());*/
 
         //if(PlayerMovement.restrictMovementTokens > 0 || toolCooldown || PlayerMovement.accessingInventory) return;
 
@@ -577,6 +580,12 @@ public class PlayerInteraction : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
 
+            if(waterHeld < maxWaterHeld && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DewDripper))
+            {
+                WaterChange(1);
+                TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.DewDripper);
+            }
+
             if(stamina < 50 && targetRegen == 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen))
             {
                 StaminaChange(1);
@@ -857,6 +866,8 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator PlayerTripRoutine(bool addKnockback) //for recoiling purposes
     {
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DuneBoots) && stamina > 5) yield break;
+
         isTripped = true;
         PlayerMovement.restrictMovementTokens++;
         PlayerMovement.limitMaxVelocity = false;
@@ -877,8 +888,11 @@ public class PlayerInteraction : MonoBehaviour
         if (stamina <= 0) yield return new WaitForSeconds(3f); //Death extra time
 
         cameraPos.DOMoveY(cameraPos.position.y + 1.5f, 0.75f); //Stand back up
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.8f);
         PlayerCam.Instance.ClearObjectOfInterest();
+
+        cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, localY, cameraPos.localPosition.z); //Load the saved transform just in case
+
         isTripped = false;
         PlayerMovement.restrictMovementTokens--;
     }

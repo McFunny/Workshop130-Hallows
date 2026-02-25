@@ -162,6 +162,11 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             if(!inBall) currentRoutine = StartCoroutine(EnterBall());
             StartCoroutine(BallTimer());
         }
+
+        if(currentState == PetState.Eat) //To force them to move there
+        {
+            currentRoutine = StartCoroutine(MoveToPoint(targetStructure.transform.position, 8));
+        }
     }
 
     void Decide()
@@ -749,6 +754,9 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             StopCoroutine(DripEffects());
             StartCoroutine(DripEffects());
             IgnitionToggle(false);
+            
+            thirst += 50;
+            if(thirst > maxThirst) thirst = maxThirst;
             return;
         }
         else if(item.ID == 92 || item.ID == 274) //Torch

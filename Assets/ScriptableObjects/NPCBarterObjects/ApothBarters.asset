@@ -33,6 +33,8 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
       amount: 6
+    - item: {fileID: 11400000, guid: 8b981beeddf9dd04e87bf24fb39780d8, type: 2}
+      amount: 1
     siegesRequired: 0
     amountGiven: 1
   - name: Lunorchid Seeds
@@ -84,11 +86,11 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 9a70b19ccd0b85f41b2dcd849c9d0584, type: 2}
       amount: 1
     siegesRequired: 0
-    amountGiven: 1
+    amountGiven: 2
   - name: CorpsePowder
     itemForSale: {fileID: 11400000, guid: 9d78fe6d2bb73a84a95ae131ae3cab1f, type: 2}
-    useItemPrice: 1
-    mintCost: 26
+    useItemPrice: 0
+    mintCost: 30
     amountForSale: 3
     barterChance: 75
     itemsRequired: []
@@ -96,8 +98,8 @@ MonoBehaviour:
     amountGiven: 1
   - name: Pheromone Flask
     itemForSale: {fileID: 11400000, guid: aa8320088dd258846a151d59ce481740, type: 2}
-    useItemPrice: 1
-    mintCost: 56
+    useItemPrice: 0
+    mintCost: 35
     amountForSale: 3
     barterChance: 75
     itemsRequired: []
@@ -187,8 +189,8 @@ MonoBehaviour:
   uniqueTransactions2:
   - name: PurifyFlask
     itemForSale: {fileID: 11400000, guid: 21aea03be2a49a14eb9253765376d5d5, type: 2}
-    useItemPrice: 1
-    mintCost: 93
+    useItemPrice: 0
+    mintCost: 95
     amountForSale: 3
     barterChance: 100
     itemsRequired: []

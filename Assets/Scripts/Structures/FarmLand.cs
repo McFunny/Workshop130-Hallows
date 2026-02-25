@@ -314,8 +314,17 @@ public class FarmLand : StructureBehaviorScript
 
 
                 r = Random.Range(crop.seedYieldAmount - crop.seedYieldVariance, crop.seedYieldAmount + crop.seedYieldVariance + 1); //Adding 1 due to it being non inclusive
-                if(isWeed && Random.Range(0, 100) > 97) r = 1; //For crabgrass seeds from weeds
-                if(r == 0 && crop.noStressSeedChance > Random.Range(0, 100f)) r = 1;
+                if(isWeed && Random.Range(0, 100) > 96) r = 1; //For crabgrass seeds from weeds
+                if(r == 0)
+                {
+                    if(crop.noStressSeedChance > Random.Range(0, 100f)) r = 1;
+
+                    if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.SeedTalisman))
+                    {
+                        TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.SeedTalisman);
+                        if(Random.Range(0, 10) < 3) r++;
+                    }
+                }
                 for (int i = 0; i < r; i++) //Seed yield
                 {
                     if(crop.cropSeed && plantStress == 0)
@@ -1031,6 +1040,12 @@ public class FarmLand : StructureBehaviorScript
         if(other.gameObject.layer == 10)
         {
             if(fiberParticles) fiberParticles.Play();
+
+            if(crop == null && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DuneBoots))
+            {
+                Destroy(gameObject);
+                return;
+            }
 
             if(NeedsPollination() && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.LumenAnklet))
             {

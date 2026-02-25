@@ -100,7 +100,12 @@ public class FlintlockBehavior : ToolBehavior
         if (usingPrimary)
         {
             HandItemManager.Instance.StartCoroutine(ShootGun());
+            return;
         }
+
+        usingPrimary = false;
+        PlayerInteraction.Instance.ToolUseToggle(false);
+
         if (usingSecondary)
         {
             usingSecondary = false;
@@ -119,8 +124,9 @@ public class FlintlockBehavior : ToolBehavior
         ShootBullets();
         //ShootShrapnel();
         yield return new WaitForSeconds(0.25f);
-        usingPrimary = false;
         lagRoutine = HandItemManager.Instance.StartCoroutine(ExtraLag());
+        yield return new WaitForSeconds(0.05f);
+        usingPrimary = false;
     }
 
     public IEnumerator ExtraLag()

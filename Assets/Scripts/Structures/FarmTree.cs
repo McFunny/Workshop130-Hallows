@@ -22,7 +22,7 @@ public class FarmTree : StructureBehaviorScript
     GameObject currentHangingObject = null;
     TreeObject treeObject;
 
-    public bool forceHiveSpawn;
+    public bool forceHiveSpawn, forceNutSpawn;
 
     public Transform[] hiveSpawns, acornSpawns;
     //public Transform[] hiveSpawnsPine;
@@ -57,6 +57,7 @@ public class FarmTree : StructureBehaviorScript
         OnDamage += TreeHit;
 
         if(forceHiveSpawn) SpawnHive();
+        if(forceNutSpawn) SpawnAcorn();
     }
 
     void TogglePapers(bool enable)
@@ -189,7 +190,7 @@ public class FarmTree : StructureBehaviorScript
 
     public override void LoadVariables()
     {
-        if(saveInt1 == 1) SpawnHive();
+        //if(saveInt1 == 1) SpawnHive();
         if(saveString2 == "Hive")
         {
             SpawnHive();

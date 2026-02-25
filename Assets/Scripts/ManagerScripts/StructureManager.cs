@@ -866,7 +866,7 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateTrees(1, 2, barnTileMap)); //This will surely clip inside of the barn
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(15, 25, weedTile, false, farmTileMap));
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         StartCoroutine(PopulateStructure(15, 25, boulder, true, farmTileMap));
         yield return new WaitForSeconds(1.5f);
         StartCoroutine(PopulateStructure(2, 5, boulder, true, barnTileMap));
@@ -882,7 +882,9 @@ public class StructureManager : MonoBehaviour
         StartCoroutine(PopulateStructure(1, 1, wBearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bearTrap, true, farmTileMap));
         StartCoroutine(PopulateStructure(1, 1, bucket, true, farmTileMap));
+        yield return new WaitForSeconds(1f);
         StartCoroutine(PopulateStructure(2, 5, leafPile, true, farmTileMap));
+        yield return new WaitForSeconds(1f);
         PopulateBerryBushes(2, 3, true);
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(PopulateStructure(40, 60, decorData.objectPrefab, true, farmTileMap));

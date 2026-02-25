@@ -19,5 +19,6 @@ public class CatacombKey : MonoBehaviour
     {
         if (!gameObject.scene.isLoaded) return;
         GameSaveData.Instance.keyCollected = true;
+        QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(5));
     }
 }

@@ -25,6 +25,7 @@ public class Trough : StructureBehaviorScript
         {
             savedItems.Add(null);
         }
+        allowContinousWatering = true;
     }
 
     public void Start()
@@ -253,6 +254,9 @@ public class Trough : StructureBehaviorScript
 
         splash.Play();
         audioHandler.PlaySound(audioHandler.interactSound);
+
+        if(waterLevel < maxWaterLevel) allowContinousWatering = true;
+        else allowContinousWatering = false;
     }
 
     void RefreshSockets()

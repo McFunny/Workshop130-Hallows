@@ -257,10 +257,8 @@ public class CarpenterNPC : NPC, ITalkable
             currentType = PathType.Misc;
             dialogueController.restartDialogue = true;
             QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(14));
-            Talk();
-            return;
-
             uniqueDialogue = true;
+            Talk();
             return;
         }
     }
