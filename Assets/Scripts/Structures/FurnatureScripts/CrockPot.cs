@@ -22,6 +22,8 @@ public class CrockPot : FurnitureBehaviorScript
 
     CookingRecipe currentRecipe;
 
+    bool madeBugDish = false; // For achievement purposes
+
 
     public void Awake()
     {
@@ -196,6 +198,8 @@ public class CrockPot : FurnitureBehaviorScript
 
         RefreshModel();
         RefreshSockets();
+
+        if(madeBugDish) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Grub_Hub);
     }
 
     CookingRecipe GetRecipe()
@@ -226,6 +230,7 @@ public class CrockPot : FurnitureBehaviorScript
                     {
                         recipeStats[r].value += ingredients[i].cookingStats[c].value;
                         addedValue = true;
+                        if(recipeStats[r].type == IngredientType.Bug) madeBugDish = true;
                         break;
                     }
                 }
@@ -249,7 +254,11 @@ public class CrockPot : FurnitureBehaviorScript
                     --x;
                 }
             }
-            if(validRecipes.Count > 0) break; //We found a matching recipe at the highest priority, so we do not need to iterate anymore
+            if(validRecipes.Count > 0) 
+            {
+                if(i == -1) madeBugDish = false;
+                break; //We found a matching recipe at the highest priority, so we do not need to iterate anymore
+            }
         }
 
         if(validRecipes.Count == 0) return null;

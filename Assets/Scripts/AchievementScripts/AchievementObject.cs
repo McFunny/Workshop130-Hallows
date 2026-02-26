@@ -89,5 +89,22 @@ public enum ACHKey
     Null,
     Lumen_Pollinate_Many,
     Corpse_Burn,
-    Elder_Mandrake
+    Elder_Mandrake,
+    Veilwood_Veteran,
+    Competent_Cook,
+    Packed_Pockets,
+    Hundred_Rocks,
+    Mandrake_Slaughter,
+    Return_To_Sender,
+    Blue_Thumb,
+    Grand_Gambler,
+    Tree_Uncleared,
+    Forgetful_Merchant,
+    Millers_Ark,
+    Hog_House,
+    Max_Critter,
+    Max_Pet,
+    Grub_Hub,
+    Pet_Cat,
+    Lumberjack_Paper
 }

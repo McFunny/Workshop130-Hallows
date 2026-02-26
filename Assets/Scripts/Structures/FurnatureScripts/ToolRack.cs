@@ -89,7 +89,7 @@ public class ToolRack : FurnitureBehaviorScript
                 rackSlots[i].activeObject = null;
             }
 
-            if(savedItems.Count < i) savedItems.Add(null);
+            if(savedItems.Count <= i) savedItems.Add(null);
 
             if(savedItems[i] == null)
             {

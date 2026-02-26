@@ -603,6 +603,7 @@ public class NightSpawningManager : MonoBehaviour
     public void FinaleComplete()
     {
         AchievementManager.Instance.NotifyFinaleCompleted();
+        if(TimeManager.Instance.dayNum <= 30) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Veilwood_Veteran);
         AmbientAudioManager.Instance.WinFinaleTheme();
         StartCoroutine(GameCompleted());
 

@@ -154,6 +154,7 @@ public class CookingRecipeBook : MonoBehaviour
     public void UpdateEntries()
     {
         var cookingDatabase = CookingDatabase.Instance.GetCraftingDatabase();
+        bool allUnlocked = true;
         for (int i = 0; i < cookingDatabase.Count; i++)
         {
             if(cookingDatabase[i].amountMade > 0)
@@ -163,8 +164,11 @@ public class CookingRecipeBook : MonoBehaviour
             else
             {
                 LockOrUnlockRecipe(recipeButtons[i], false);
+                allUnlocked = false;
             }
         }
+
+        if(allUnlocked) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Competent_Cook);
     }
 
     private void LockOrUnlockRecipe(RecipeButtonID button, bool unlocked)

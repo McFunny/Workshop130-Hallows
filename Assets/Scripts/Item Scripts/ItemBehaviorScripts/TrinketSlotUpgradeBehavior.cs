@@ -11,5 +11,7 @@ public class TrinketSlotUpgradeBehavior : ItemBehavior
         PlayerInventoryHolder.Instance.IncreaseTrinketInventory(1);
 
         GameSaveData.Instance.trinketSlotsGiven++;
+
+        if(GameSaveData.Instance.trinketSlotsGiven == 3) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Packed_Pockets);
     }
 }
