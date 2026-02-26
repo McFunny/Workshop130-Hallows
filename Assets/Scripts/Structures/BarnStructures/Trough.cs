@@ -95,7 +95,7 @@ public class Trough : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(item && !item.isKeyItem)
+        if(item && !item.isKeyItem && waterLevel == 0)
         {
             PlaceOnClosestSocket(item);
         }

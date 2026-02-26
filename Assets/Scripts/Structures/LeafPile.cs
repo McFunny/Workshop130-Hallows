@@ -37,6 +37,8 @@ public class LeafPile : StructureBehaviorScript
         ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = transform.position;
 
+        StructureManager.Instance.PopulateDecorObject(transform.position, DecorType.Leaf);
+
         if(holdSpiders)
         {
             Instantiate(spiderPrefab, transform.position, Quaternion.identity);

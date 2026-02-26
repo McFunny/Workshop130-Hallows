@@ -55,7 +55,7 @@ public class TruffleHog : CritterBehaviorScript
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, 0);} //For saving purposes
 
-    public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
+    public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(!alreadyPet)
         {
@@ -63,14 +63,21 @@ public class TruffleHog : CritterBehaviorScript
             FriendPointsChange(25, true);
             effectsHandler.PlaySound(effectsHandler.petSound);
             interactSuccessful = true;
+
+            if(TutorialMiller.Instance) 
+            {
+                TutorialMiller.Instance.HogPetted();
+            }
+            PopupEvents.current.PetCritter();
             return;
         }
         interactSuccessful = false;
     }
 
-    public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
+    public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(hunger < 100 && item.foodForCritters.Count >= 0 || item.foodForCritters.Contains(critterType))
+        Debug.Log("InteractedWithItem");
+        if(hunger < maxHunger && item.foodForCritters.Count > 0 && item.foodForCritters.Contains(critterType))
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();

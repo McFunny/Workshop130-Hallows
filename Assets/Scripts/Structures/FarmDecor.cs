@@ -6,7 +6,11 @@ public class FarmDecor : StructureBehaviorScript
 {
     public List<GameObject> variations;
 
+    public List<int> rockVariations, leafVariations;
+
     int variationNum = -1;
+
+    public DecorType type;
 
 
     void Start()
@@ -22,9 +26,11 @@ public class FarmDecor : StructureBehaviorScript
     {
         if(variationNum == -1)
         {
-            variationNum = Random.Range(0, variations.Count);
+            if(type == DecorType.Rock) variationNum = rockVariations[Random.Range(0, rockVariations.Count)];
+            else if(type == DecorType.Leaf) variationNum = leafVariations[Random.Range(0, leafVariations.Count)];
+            else variationNum = Random.Range(0, variations.Count);
         }
-        foreach(GameObject rock in variations) rock.SetActive(false);
+        foreach(GameObject decor in variations) decor.SetActive(false);
         variations[variationNum].SetActive(true);
     }
 
@@ -52,4 +58,11 @@ public class FarmDecor : StructureBehaviorScript
     {
         saveInt1 = variationNum;
     }
+}
+
+public enum DecorType
+{
+    Any,
+    Rock,
+    Leaf
 }
