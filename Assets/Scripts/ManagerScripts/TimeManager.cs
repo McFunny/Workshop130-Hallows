@@ -315,7 +315,7 @@ public class TimeManager : MonoBehaviour
             if(currentHour < 8) targetHour = 7;
             else targetHour = currentHour + 5;
             
-            if(targetHour > 19) targetHour = 18;
+            if(targetHour > 19) targetHour = 19;
             //else targetHour = 19;
             while(currentHour != targetHour)
             {
