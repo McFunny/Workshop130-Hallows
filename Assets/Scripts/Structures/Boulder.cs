@@ -87,6 +87,7 @@ public class Boulder : StructureBehaviorScript
         {
             dropItems = true;
             health = 0;
+            AchievementManager.Instance.AddProgressWithEnum(ACHKey.Hundred_Rocks);
             Destroy(gameObject);
         }
         else

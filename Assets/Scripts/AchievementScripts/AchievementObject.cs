@@ -106,5 +106,11 @@ public enum ACHKey
     Max_Pet,
     Grub_Hub,
     Pet_Cat,
-    Lumberjack_Paper
+    Lumberjack_Paper,
+    Water_Pet,
+    Crypt_Control,
+    Gilded_Gadgets,
+    Repair_Wagon,
+    Premium_Produce,
+    Path_Of_Light
 }

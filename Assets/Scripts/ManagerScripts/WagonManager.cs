@@ -60,6 +60,7 @@ public class WagonManager : MonoBehaviour
                 farmWagon.gameObject.SetActive(true);
                 QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(15), out bool removedSuccesfully);
                 if(removedSuccesfully) QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(16));
+                AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Repair_Wagon);
             }
 
             if(daysToRepair > 0)

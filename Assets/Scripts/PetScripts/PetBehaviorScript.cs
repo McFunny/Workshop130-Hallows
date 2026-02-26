@@ -108,6 +108,7 @@ public class PetBehaviorScript : MonoBehaviour
             friendPoints = 0;
             friendshipLevel++;
             PopupHandler.Instance.AddToQueue(levelUpPopup);
+            if(friendshipLevel == maxFriendshipLevel) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Max_Pet);
         }
     }
 

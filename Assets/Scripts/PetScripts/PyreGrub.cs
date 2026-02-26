@@ -761,6 +761,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             
             thirst += 50;
             if(thirst > maxThirst) thirst = maxThirst;
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Water_Pet);
             return;
         }
         else if(item.ID == 92 || item.ID == 274) //Torch

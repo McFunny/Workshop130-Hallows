@@ -21,6 +21,8 @@ public class CatacombDoor : MonoBehaviour, IInteractable
     public AudioSource source;
     public AudioClip unlock, open;
 
+    public PopupScript lockedP;
+
     public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(GameSaveData.Instance.catacombUnlocked || debugMode)
@@ -37,6 +39,7 @@ public class CatacombDoor : MonoBehaviour, IInteractable
             interactSuccessful = true;
             return;
         }
+        if(lockedP) PopupHandler.Instance.AddToQueue(lockedP);
         interactSuccessful = false;
     }
 

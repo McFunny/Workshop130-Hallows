@@ -117,6 +117,8 @@ public class NightSpawningManager : MonoBehaviour
         if(!eventOccured) TryToStartEvent();
 
         if(TownGate.Instance.location != PlayerLocation.InWilderness) HourlySpawns();
+
+        if(TimeManager.Instance.currentHour == 8) AchievementManager.Instance.ResetProgressWithEnum(ACHKey.Mandrake_Slaughter);
     }
 
     void HourlySpawns()
@@ -603,7 +605,7 @@ public class NightSpawningManager : MonoBehaviour
     public void FinaleComplete()
     {
         AchievementManager.Instance.NotifyFinaleCompleted();
-        if(TimeManager.Instance.dayNum <= 30) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Veilwood_Veteran);
+        if(TimeManager.Instance.dayNum <= 30 && MainMenuScript.currentFileMode == FileMode.Normal) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Veilwood_Veteran);
         AmbientAudioManager.Instance.WinFinaleTheme();
         StartCoroutine(GameCompleted());
 

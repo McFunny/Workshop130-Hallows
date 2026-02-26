@@ -107,6 +107,7 @@ public class PetRock : PetBehaviorScript, IInteractable
             StopCoroutine(DripEffects());
             StartCoroutine(DripEffects());
             thirst = maxThirst;
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Water_Pet);
             return;
         }
         /*if(hunger < 100)

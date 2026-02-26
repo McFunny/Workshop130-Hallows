@@ -42,7 +42,7 @@ public class SurvivalStatsScreen : MonoBehaviour
 
     void Start()
     {
-        SurvivalModeManager.Instance.statsScreen = this;
+        if(SurvivalModeManager.Instance) SurvivalModeManager.Instance.statsScreen = this;
     }
 
     private void Update()
@@ -155,7 +155,11 @@ public class SurvivalStatsScreen : MonoBehaviour
         else if(daysLasted < 6) return "Hardy Hare";
         else if(daysLasted < 10) return "Adaptable Mimic";
         else if(daysLasted < 15) return "Bodacious Hog";
-        else return "Blazing Pyrefly";
+        else 
+        {
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Premium_Produce);
+            return "Blazing Pyrefly";
+        }
     }
 
     public void ReturnToMainMenu()

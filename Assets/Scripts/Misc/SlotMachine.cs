@@ -368,7 +368,7 @@ public class SlotMachine : MonoBehaviour,IInteractable
         
     }
 
-        public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
+    public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
         interactSuccessful = false;
         if (item == bugItem)
@@ -383,6 +383,8 @@ public class SlotMachine : MonoBehaviour,IInteractable
                     moneySpent += cost;
                     StartCoroutine(LetsGamble());
                     interactSuccessful = true;
+
+                    AchievementManager.Instance.AddProgressWithEnum(ACHKey.Grand_Gambler);
                 }
             }
             else if (broken)

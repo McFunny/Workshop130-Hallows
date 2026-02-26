@@ -170,11 +170,36 @@ public class TinkererNPC : NPC, ITalkable
         {
             GameSaveData.Instance.watergunObtained = true;
             QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(7));
+            return;
         }
         if(item == barterDatabase.uniqueTransactions[1].itemForSale)
         {
             GameSaveData.Instance.testerObtained = true;
+            return;
         }
+
+
+        if (item == barterDatabase.uniqueTransactions2[0].itemForSale)
+        {
+            GameSaveData.Instance.upg_can = true;
+            AchievementManager.Instance.AddProgressWithEnum(ACHKey.Gilded_Gadgets);
+        }
+        if (item == barterDatabase.uniqueTransactions2[1].itemForSale)
+        {
+            GameSaveData.Instance.upg_hoe = true;
+            AchievementManager.Instance.AddProgressWithEnum(ACHKey.Gilded_Gadgets);
+        }
+        if (item == barterDatabase.uniqueTransactions2[2].itemForSale)
+        {
+            GameSaveData.Instance.upg_torch = true;
+            AchievementManager.Instance.AddProgressWithEnum(ACHKey.Gilded_Gadgets);
+        }
+        if (item == barterDatabase.uniqueTransactions2[3].itemForSale)
+        {
+            GameSaveData.Instance.upg_scythe = true;
+            AchievementManager.Instance.AddProgressWithEnum(ACHKey.Gilded_Gadgets);
+        }
+
     }
 
     public override void PlayerLeftRadius()
@@ -324,7 +349,11 @@ public class TinkererNPC : NPC, ITalkable
 
     public override bool ActionCheck2()
     {
-        if(GameSaveData.Instance.upg_can && GameSaveData.Instance.upg_hoe && GameSaveData.Instance.upg_scythe && GameSaveData.Instance.upg_torch) return false;
+        if(GameSaveData.Instance.upg_can && GameSaveData.Instance.upg_hoe && GameSaveData.Instance.upg_scythe && GameSaveData.Instance.upg_torch) 
+        {
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Gilded_Gadgets);
+            return false;
+        }
         if (GameSaveData.Instance.siegesCleared >= 1) return true;
         return false;
     }

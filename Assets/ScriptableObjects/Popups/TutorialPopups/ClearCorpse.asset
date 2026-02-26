@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28907f87ec5c0c64d87d203db291a723, type: 3}
   m_Name: ClearCorpse
   m_EditorClassIdentifier: 
-  text: You can remove corpses by smacking it with your shovel or using a lit  torch.
-    Corpses release Ichor  <sprite name=N_Ichor> to nearby tiles.
+  text: You can <b>remove corpses</b> by smacking it with your shovel or using a
+    lit  torch. Corpses release Ichor  <sprite name=N_Ichor> to nearby tiles.
   endCondition: 7
+  skippable: 0
+  canWaitInQueue: 1
   endTimeInSeconds: 5

@@ -307,9 +307,9 @@ public class WagonMerchantNPC : NPC, ITalkable
                         {
                             CritterPen pen = structure as CritterPen;
                             if(!pen) continue;
-                            if(pen.type == c.homeType)
+                            if(pen.type == c.homeType && pen.IsFull() == false)
                             {
-                                currentPath = 5; //item sold
+                                currentPath = 5; //Critter sold
                                 noHome = false;
                                 break;
                             }
@@ -620,6 +620,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             int carrotsHeld = PlayerInventoryHolder.Instance.ReturnItemCountInPlayerInventory(carrot);
             if(TimeManager.Instance.dayNum > 2)
             {
+                if(TimeManager.Instance.dayNum > 6) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Forgetful_Merchant);
                 //Player had full inventory until now
                 currentPath = 4;
                 currentType = PathType.BranchingPaths;

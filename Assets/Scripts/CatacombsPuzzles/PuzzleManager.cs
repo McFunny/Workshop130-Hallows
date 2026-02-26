@@ -66,6 +66,7 @@ public class PuzzleManager : MonoBehaviour
         if (totalPuzzlesSolved == allPuzzleManagers.Count)
         {
             StartCoroutine(MoveStatue());
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Crypt_Control);
         }
         ActivateSteams();
     }

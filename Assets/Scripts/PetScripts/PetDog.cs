@@ -800,7 +800,8 @@ public class PetDog : PetBehaviorScript, IInteractable
             effectsHandler.MiscSound();
             StopCoroutine(DripEffects());
             StartCoroutine(DripEffects());
-            thirst = maxThirst;
+            thirst = maxThirst; 
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Water_Pet);
             return;
         }
         if(hunger < 100)
