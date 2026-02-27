@@ -37,6 +37,24 @@ public class BarnManager : MonoBehaviour
         WildernessManager.OnWildernessLeave -= FreeWildernessHogs;
     }
 
+    public void AddCreatureToCritterList(CritterBehaviorScript newCritter)
+    {
+        if(allCritters.Contains(newCritter)) return;
+        else allCritters.Add(newCritter);
+
+        int hogs = 0; //For Achievement
+        List<CreatureObject> ownedTypes = new List<CreatureObject>();
+        for(int i = 0; i < allCritters.Count; ++i)
+        {
+            if(!ownedTypes.Contains(allCritters[i].creatureData)) ownedTypes.Add(allCritters[i].creatureData);
+
+            TruffleHog tHog = allCritters[i] as TruffleHog;
+            if(tHog) ++hogs;
+        }
+        if(hogs >= 5) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Hog_House);
+        if(ownedTypes.Count >= 4) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Millers_Ark);
+    }
+
     public bool WithinBarn(Vector3 pos)
     {
         if(Vector3.Distance(pos, barnSource.position) > 80) return false;

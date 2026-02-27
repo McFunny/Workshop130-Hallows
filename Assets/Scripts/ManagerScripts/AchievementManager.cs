@@ -198,7 +198,25 @@ public class AchievementManager : MonoBehaviour
         if(_key == ACHKey.Null) return;
         for(int i = 0; i < allAchievements.Count; ++i)
         {
-            if(allAchievements[i].key == _key) AddProgress(allAchievements[i].id, _amount);
+            if(allAchievements[i].key == _key)
+            {
+                AddProgress(allAchievements[i].id, _amount);
+                return;
+            }
+        }
+    }
+
+    public void ResetProgressWithEnum(ACHKey _key, bool _cancelIfCompleted = true) 
+    {
+        if(_key == ACHKey.Null) return;
+        for(int i = 0; i < allAchievements.Count; ++i)
+        {
+            if(allAchievements[i].key == _key) 
+            {
+                if(_cancelIfCompleted && allAchievements[i].isUnlocked) return;
+                ResetProgress(allAchievements[i].id);
+                return;
+            }
         }
     }
 
@@ -207,7 +225,11 @@ public class AchievementManager : MonoBehaviour
         if(_key == ACHKey.Null) return;
         for(int i = 0; i < allAchievements.Count; ++i)
         {
-            if(allAchievements[i].key == _key) UnlockAchievement(allAchievements[i].id);
+            if(allAchievements[i].key == _key)
+            {
+                UnlockAchievement(allAchievements[i].id);
+                return;
+            }
         }
     }
 
@@ -235,6 +257,7 @@ public class AchievementManager : MonoBehaviour
         {
             if (ach == null) continue;
             if (IsUnlocked(ach.id)) continue;
+            if(ach.key == ACHKey.Null) continue; //I did not hook up anything to this system, so this should cut down on performance - Cam
             ach.OnCropHarvest(crop);
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Barricade : StructureBehaviorScript
 {
-    public InventoryItemData gloomStalk;
+    //public InventoryItemData gloomStalk;
 
     public MeshRenderer brokenBox;
 
@@ -17,6 +17,11 @@ public class Barricade : StructureBehaviorScript
 
     public GameObject damageObject1, damageObject2;
 
+    //Bramble only
+    public Transform thornAttackPos;
+    public ParticleSystem thornParticles;
+    bool cooldown = false;
+
 
     void Awake()
     {
@@ -28,6 +33,7 @@ public class Barricade : StructureBehaviorScript
         base.Start();
         UpdateModel();
         OnDamage += UpdateModel;
+        if(thornParticles) OnDamage += ThornAttack;
     }
 
     void Update()
@@ -52,16 +58,6 @@ public class Barricade : StructureBehaviorScript
                 return;
             }
         }
-
-        /*if(item == gloomStalk && health < maxHealth)
-        {
-            if(maxHealth <= 40) health = maxHealth;
-            else health += maxHealth/3;
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
-            PlayerInventoryHolder.Instance.UpdateInventory();
-            UpdateModel();
-            return;
-        }*/
     }
 
     public override void ToolInteraction(ToolType type, out bool success)
@@ -72,6 +68,33 @@ public class Barricade : StructureBehaviorScript
             //StartCoroutine(DugUpForItem());
             success = true;
         }
+    }
+
+    void ThornAttack()
+    {
+        if(thornParticles == null || thornAttackPos == null || cooldown) return;
+
+        StartCoroutine(ThornCooldown());
+
+        audioHandler.PlaySound(audioHandler.activatedSound);
+
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 1.7f, 1 << 9);
+        foreach(Collider collider in hitEnemies)
+        {
+            var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+            if (creature != null && creature.shovelVulnerable)
+            {
+                creature.TakeDamage(10);
+                creature.PlayHitParticle(creature.transform.position);
+            }
+        }
+    }
+
+    IEnumerator ThornCooldown()
+    {
+        cooldown = true;
+        yield return new WaitForSeconds(1);
+        cooldown = false;
     }
 
     void UpdateModel()
@@ -118,6 +141,7 @@ public class Barricade : StructureBehaviorScript
     void OnDestroy()
     {
         OnDamage -= UpdateModel;
+        if(thornParticles) OnDamage -= ThornAttack;
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);

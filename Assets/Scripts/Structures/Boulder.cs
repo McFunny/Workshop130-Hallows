@@ -79,6 +79,7 @@ public class Boulder : StructureBehaviorScript
         {
             Instantiate(geyserData.objectPrefab, transform.position, Quaternion.identity);
         }
+        else StructureManager.Instance.PopulateDecorObject(transform.position, DecorType.Rock);
     }
 
     void Damaged(float damage)
@@ -87,6 +88,7 @@ public class Boulder : StructureBehaviorScript
         {
             dropItems = true;
             health = 0;
+            AchievementManager.Instance.AddProgressWithEnum(ACHKey.Hundred_Rocks);
             Destroy(gameObject);
         }
         else

@@ -879,6 +879,8 @@ public class PetCat : PetBehaviorScript, IInteractable
             thoughtBubbleScript.PlayEmotion(2);
             thirst += 30;
             if(thirst > maxThirst) thirst = maxThirst;
+
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Water_Pet);
             return;
         }
         if(hunger < 100)

@@ -45,7 +45,7 @@ public class PetHen : CritterBehaviorScript
     //////////////ICritter Stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     public CritterData GetCritterData(){ return new CritterData(creatureData.id, friendshipLevel, friendPoints, health, hunger, thirst, name, eggProgress);} //For saving purposes
 
-    public void Interact(PlayerInteraction interactor, out bool interactSuccessful)
+    public override void Interact(PlayerInteraction interactor, out bool interactSuccessful)
     {
         if(!alreadyPet)
         {
@@ -66,9 +66,9 @@ public class PetHen : CritterBehaviorScript
         interactSuccessful = false;
     }
 
-    public void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
+    public override void InteractWithItem(PlayerInteraction interactor, out bool interactSuccessful, InventoryItemData item)
     {
-        if(hunger < 100 && item.foodForCritters.Count >= 0 || item.foodForCritters.Contains(critterType))
+        if(hunger < maxHunger && item.foodForCritters.Count >= 0 && item.foodForCritters.Contains(critterType))
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();

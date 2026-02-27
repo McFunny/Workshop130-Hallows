@@ -213,6 +213,7 @@ public class FarmTree : StructureBehaviorScript
     {
         //if(currentHangingObject) saveInt1 = 1;
         //else saveInt1 = 0;
+        if(currentHangingObject == null) treeObject = TreeObject.Null;
 
         saveString1 = type.ToString();
         saveString2 = treeObject.ToString();

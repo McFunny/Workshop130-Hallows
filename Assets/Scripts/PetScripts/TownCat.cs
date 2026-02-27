@@ -233,6 +233,8 @@ public class TownCat : MonoBehaviour, IInteractable
                 if(currentRoutine != null) StopCoroutine(currentRoutine);
             }
             currentRoutine = StartCoroutine(PetRoutine());
+
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Pet_Cat);
         }
         interactSuccessful = true;
     }

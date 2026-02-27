@@ -1258,6 +1258,12 @@ public class StructureManager : MonoBehaviour
         }
     }
 
+    public void PopulateDecorObject(Vector3 pos, DecorType type)
+    {
+        Instantiate(decorData.objectPrefab, pos, Quaternion.identity).GetComponent<FarmDecor>().type = type;
+
+    }
+
     public void WeedSpread(Vector3 pos, out bool becomeThorn)
     {
         becomeThorn = false;

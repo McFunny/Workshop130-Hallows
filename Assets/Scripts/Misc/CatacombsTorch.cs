@@ -40,6 +40,7 @@ public class CatacombsTorch : StructureBehaviorScript
             {
                 fire.SetActive(true);
                 if (source != null) source.Play();
+                CatacombsTorchManager.Instance.CheckIfAllTorchesLit();
                 success = true;
             }
             else if (((fire != null && fire.activeInHierarchy) || fireAlwaysActive) && !PlayerInteraction.Instance.torchLit)

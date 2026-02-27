@@ -45,7 +45,8 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
     protected void CritterStart()
     {
         TimeManager.OnHourlyUpdate += OnHour;
-        BarnManager.Instance.allCritters.Add(this);
+        //BarnManager.Instance.allCritters.Add(this);
+        BarnManager.Instance.AddCreatureToCritterList(this);
         OnHour();
         StartCoroutine(BehaviorDelay());
 
@@ -166,6 +167,7 @@ public class CritterBehaviorScript : CreatureBehaviorScript, ICritter
         {
             friendPoints = 0;
             friendshipLevel++;
+            if(friendshipLevel == maxFriendshipLevel) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Max_Critter);
         }
     }
 

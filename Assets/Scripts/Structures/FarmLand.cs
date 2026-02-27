@@ -255,7 +255,7 @@ public class FarmLand : StructureBehaviorScript
         if(harvestable || forceDig || rotted || harvestedByScythe)
         {
             if((isWeed || rotted) && !forceDig && !harvestedByScythe) return; //Forces the player to dig the weeds and rotted plants using the shovel
-            if(crop && crop.requireScythe && !forceDig && !harvestedByScythe) return; //Forces player to either use scythe or shovel for scyth crops
+            if(crop && crop.requireScythe && !forceDig && !harvestedByScythe) return; //Forces player to either use scythe or shovel for scythe crops
             if(isWeed || forceDig) audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             else audioHandler.PlaySound(audioHandler.interactSound);
 
@@ -289,6 +289,7 @@ public class FarmLand : StructureBehaviorScript
                 int r = Random.Range(1, crop.cropYieldAmount + crop.cropYieldVariance + 1); //Adding 1 due to it being non inclusive
                 totalCropYield += r;
                 //if (totalCropYield <= 0) totalCropYield = 1;
+                CropData peanut = CropDatabase.Instance.GetCrop(16);
                 for (int i = 0; i < totalCropYield; i++) //Primary crop yield
                 {
                     droppedItem = ItemPoolManager.Instance.GrabItem(crop.cropYield);
@@ -305,10 +306,9 @@ public class FarmLand : StructureBehaviorScript
                     cropsHarvestedHere++;
                     AchievementManager.Instance.NotifyCropHarvest(crop);
 
-                    CropData peanut = CropDatabase.Instance.GetCrop(16);
                     if(cropsHarvestedHere >= 20 && crop == peanut)
                     {
-                        AchievementManager.Instance.NotifyPeanutFarmer();
+                       AchievementManager.Instance.NotifyPeanutFarmer();
                     }
                 }
 

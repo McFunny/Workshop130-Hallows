@@ -134,6 +134,7 @@ public class LumberjackNPC : NPC, ITalkable
         {
             currentPath = 1;
             currentType = PathType.ItemSpecific;
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Lumberjack_Paper);
         }
 
         else if(item == treeNut)

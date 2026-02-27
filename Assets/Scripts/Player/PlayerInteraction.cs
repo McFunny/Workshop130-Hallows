@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -439,7 +440,12 @@ public class PlayerInteraction : MonoBehaviour
             return;
         }
 
-        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f; // Damage refuction from Cosy mode
+        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0)
+        {
+            float oldAmount = amount;
+            amount *= 0.75f; // Damage reduction from Cozy mode
+            if(amount > -5 && oldAmount < -5) amount = -5;
+        }
 
         if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount <= -5) amount *= 1.5f; //Damage Modifier from Dare
 
@@ -754,6 +760,13 @@ public class PlayerInteraction : MonoBehaviour
         playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
         yield return new WaitForSeconds(1.5f);
 
+        if(EndingManager.Instance.endingPlaying)
+        {
+            //Credits screen
+            SceneManager.LoadSceneAsync(2);
+            yield break;
+        }
+
         if(MainMenuScript.currentFileMode == FileMode.Survival)
         {
             NightSpawningManager.Instance.GameOver();
@@ -784,7 +797,6 @@ public class PlayerInteraction : MonoBehaviour
         FadeScreen.coverScreen = false;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;
-        //StartCoroutine(WakeUp());
 
     }
 

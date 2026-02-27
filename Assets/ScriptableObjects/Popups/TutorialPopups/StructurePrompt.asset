@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: StructurePrompt
   m_EditorClassIdentifier: 
   text: At night, creatures will invade your farm. Structures are essential in managing
-    and defending your crops. Dig up the nearby bear traps to form a defensive perimeter.
+    and defending your crops. <b>Dig up a nearby bear trap to form a defensive perimeter
+    around your crops.</b>
   endCondition: 10
   skippable: 0
+  canWaitInQueue: 1
   endTimeInSeconds: 7

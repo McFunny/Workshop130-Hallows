@@ -35,6 +35,12 @@ public class TownGate : MonoBehaviour
     public void Transition(bool enteringTown)
     {
         //print(enteringTown);
+        if(EndingManager.Instance.endingPlaying)
+        {
+            EndingManager.Instance.EnteredTown();
+            return;
+        }
+
         if((location == PlayerLocation.InTown && enteringTown) || (location != PlayerLocation.InTown && !enteringTown)) return;
         if(enteringTown)
         {

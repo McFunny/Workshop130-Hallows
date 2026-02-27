@@ -48,6 +48,8 @@ public class CatacombsTorchManager : MonoBehaviour
                 Debug.LogWarning($"TorchManager: No torch found with ID {entry.savedID}");
             }
         }
+
+        CheckIfAllTorchesLit();
     }
 
     private CatacombsTorch GetTorchById(int id)
@@ -59,6 +61,18 @@ public class CatacombsTorchManager : MonoBehaviour
             if (t.ID == id) return t;
         }
         return null;
+    }
+
+    public void CheckIfAllTorchesLit()
+    {
+        for (int i = 0; i < catacombsTorches.Count; i++)
+        {
+            var t = catacombsTorches[i];
+            if (t == null || t.ID == -1) continue;
+            if (t.IsLit == false) return;
+        }
+
+        AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Path_Of_Light);
     }
 
 #if UNITY_EDITOR

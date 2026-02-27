@@ -70,6 +70,12 @@ public class CritterPen : StructureBehaviorScript
         //If hive, lower durability. If durabiliy is 0, then Remove this home from the critters. Do not allow this to be found by critters looking for a home. Remove this home from the critters on a delay
     }
 
+    public bool IsFull()
+    {
+        if(housedCritters.Count >= maxOccupency) return true;
+        else return false;
+    }
+
     void OnDestroy()
     {
         base.OnDestroy();

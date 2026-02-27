@@ -9,7 +9,7 @@ public class SeedShooter : StructureBehaviorScript
     public Transform turretHead, bulletOrigin;
 
     float maxAmmo = 10; //Dont allow any more seeds to be added to the item list after there are 10 entrants
-    float range = 20;
+    float range = 25;
 
     //Maybe add a large button on the back, where when the player interacts with this, it can be turned on and off
 

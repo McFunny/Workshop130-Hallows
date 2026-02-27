@@ -51,6 +51,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
     void Awake()
     {
         origin = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+        agent.speed = walkSpeed;
     }
 
     public void CheckState(PetState currentState)
@@ -238,6 +240,8 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                 target = GetRandomPointAround(target, 3);
             }
             currentRoutine = StartCoroutine(MoveToPoint(target, 5));
+
+            agent.speed = walkSpeed;
         }
     }
 
@@ -757,6 +761,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             
             thirst += 50;
             if(thirst > maxThirst) thirst = maxThirst;
+            AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Water_Pet);
             return;
         }
         else if(item.ID == 92 || item.ID == 274) //Torch

@@ -17,5 +17,7 @@ public class MistsGraspBehavior : CropBehavior
     {
         cropBonus = (tile.growthStage - 2);
         secondaryCropBonus = 0;
+
+        if(tile.growthStage == tile.crop.growthStages) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Blue_Thumb);
     }
 }

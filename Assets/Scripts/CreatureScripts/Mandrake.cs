@@ -293,6 +293,8 @@ public class Mandrake : CreatureBehaviorScript
 
     public override void OnDeath()
     {
+        AchievementManager.Instance.AddProgressWithEnum(ACHKey.Mandrake_Slaughter);
+
         StopAllCoroutines();
         currentState = CreatureState.Die;
         anim.SetTrigger("IsDead");
