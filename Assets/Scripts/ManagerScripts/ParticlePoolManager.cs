@@ -754,8 +754,9 @@ public class ParticlePoolManager : MonoBehaviour
         {
             if(!grassPool[i].activeSelf)
             {
-                //particle.GetComponent<ParticleSystem>().startColor = newColor;
-                grassParticles[i].startColor = newColor;
+                var main = grassParticles[i].main;
+                main.startColor = newColor;
+                //grassParticles[i].startColor = newColor;
                 grassPool[i].SetActive(true);
                 return grassPool[i];
             }
@@ -764,7 +765,10 @@ public class ParticlePoolManager : MonoBehaviour
         //No available particles, must make a new one
         GameObject newParticle = Instantiate(grassParticle);
         ParticleSystem newSystem = newParticle.GetComponent<ParticleSystem>();
-        newSystem.startColor = newColor;
+
+        var newMain = newSystem.main;
+        newMain.startColor = newColor;
+        //newSystem.startColor = newColor;
         grassParticles.Add(newSystem);
         grassPool.Add(newParticle);
         return newParticle;

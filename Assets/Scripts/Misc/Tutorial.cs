@@ -143,6 +143,8 @@ public class Tutorial : MonoBehaviour
         print("Cleared Corpse");
         PopupEvents.current.ClearedCorpse();
 
+        Instantiate(weed, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity);
+
         if(StructureManager.Instance.TallyStructure(weedData) == 0) //Should never happen but just in case
         {
             PopupHandler.Instance.AddToQueue(completeP);
@@ -159,6 +161,7 @@ public class Tutorial : MonoBehaviour
 
     public void WeedDestroyed()
     {
+        return;
         if(StructureManager.Instance.TallyStructure(weedData) == 0) Instantiate(weed, StructureManager.Instance.GetRandomClearTile(), Quaternion.identity);
     }
 

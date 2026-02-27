@@ -439,7 +439,12 @@ public class PlayerInteraction : MonoBehaviour
             return;
         }
 
-        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0) amount *= 0.75f; // Damage refuction from Cosy mode
+        if(MainMenuScript.currentFileMode == FileMode.Cozy && amount < 0)
+        {
+            float oldAmount = amount;
+            amount *= 0.75f; // Damage reduction from Cozy mode
+            if(amount > -5 && oldAmount < -5) amount = -5;
+        }
 
         if (StatusEffectManager.Instance.FindStatusOnPlayer(StatusEffectName.Dare) && amount <= -5) amount *= 1.5f; //Damage Modifier from Dare
 

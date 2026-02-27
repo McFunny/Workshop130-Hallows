@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39589dfb3252e04aa90d862e1b4a77b, type: 3}
+  m_Name: TwistedBarricade
+  m_EditorClassIdentifier: 
+  ID: 363
+  displayName: Twisted Barricade
+  description: Upon receiving damage, this barricade will shoot out thorns in front
+    of it.
+  icon: {fileID: 878859078, guid: 80965390d10eeb94bb8c2cd163c4fb84, type: 3}
+  type: 3
+  maxStackSize: 5
+  value: 60
+  sellValueMultiplier: 0.25
+  isKeyItem: 0
+  hasModel: 0
+  staminaValue: 0
+  animalHungerValue: 0
+  bonusCompostValue: 0
+  useCooldown: 0
+  pickledForm: {fileID: 0}
+  itemConversions: []
+  cookingStats: []
+  foodForPets: 
+  foodForCritters: 
+  itemInputsKBM:
+  - LMB - Place Structure
+  itemInputsController: []
+  gainedEffects: []
+  itemBehavior: {fileID: 0}
+  useSound: {fileID: 0}
+  cannotEnterInventory: 0
+  placedPrefab: {fileID: 9203032745066545116, guid: 5b298b9965d88444093a62c615370e55,
+    type: 3}
+  hologramPrefab: {fileID: 8267911137866850728, guid: 887e2c9b1b5af6d4d898a46662184111,
+    type: 3}
+  removeAfterUse: 1
+  placeSound: {fileID: 8300000, guid: 86b20be506b70c24fb98942f150e692b, type: 3}
+  gridTypes: 0100000004000000
+  gridSize: 0
+  placeAsPile: 0
+  canPlaceOnFloor: 1
+  canPlaceOnTable: 0

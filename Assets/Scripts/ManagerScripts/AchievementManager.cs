@@ -257,6 +257,7 @@ public class AchievementManager : MonoBehaviour
         {
             if (ach == null) continue;
             if (IsUnlocked(ach.id)) continue;
+            if(ach.key == ACHKey.Null) continue; //I did not hook up anything to this system, so this should cut down on performance - Cam
             ach.OnCropHarvest(crop);
         }
     }
