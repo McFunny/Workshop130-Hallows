@@ -12,9 +12,13 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
 
     public GameObject eggObject;
 
-    public bool containsEgg;
+    public bool containsEgg, isCorrupted;
 
     public InventoryItemData eggItem, rockItem;
+
+    //Corruption//
+    public GameObject corruptedGrub;
+    public GameObject corruptedTile;
     
     void Awake()
     {
@@ -47,14 +51,27 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
 
             if(structure && structure != this)
             {
-                if(structure.structData == structData)
+                if(structure.structData == structData && !isCorrupted)
                 {
                     savedItems.Clear();
                     Destroy(gameObject); //Duplicate tile
                     yield break;
                 }
             }
+
+            if(isCorrupted)
+            {
+                CorruptedTile tile = structure as CorruptedTile;
+                if(tile)
+                {
+                    savedItems.Clear();
+                    if(tile.containedStructure && tile.containedStructure != this) Destroy(gameObject);
+                    yield break;
+                }
+            }
         }
+
+        if(isCorrupted) StructureManager.Instance.SpawnStructure(corruptedTile, transform.position);
     }
 
     public override void ToolInteraction(ToolType type, out bool success)
@@ -96,7 +113,11 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
 
     public override void HourPassed()
     {
-        if(Random.Range(0,30) > 29) StartCoroutine(SpawnBug());
+        if(TimeManager.Instance.isDay) return;
+
+        if(Random.Range(0,40) > 38) StartCoroutine(SpawnBug());
+
+        if(isCorrupted && Random.Range(0, 10) > 7) StartCoroutine(SpawnCorruptGrub());
     }
 
     public void InsertItem(InventoryItemData item)
@@ -108,6 +129,16 @@ public class Burrow : StructureBehaviorScript, IWaterHolder
     {
         yield return new WaitForSeconds(Random.Range(2, 15));
         BugSpawningManager.Instance.SpawnBug(transform.position, termite);
+    }
+
+    IEnumerator SpawnCorruptGrub()
+    {
+        int i = Random.Range(1, 3);
+        for(int x = 0; x < i; ++x)
+        {
+            yield return new WaitForSeconds(Random.Range(1f, 5f));
+            Instantiate(corruptedGrub, transform.position, Quaternion.identity);
+        }
     }
 
     void OnDestroy()

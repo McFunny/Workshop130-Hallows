@@ -251,9 +251,9 @@ public class NightSpawningManager : MonoBehaviour
                     if(currentChance > p) prefab = c.creatureVariants[r].prefab;
                 }
                 else prefab = null; //If the variant list isnt setup
-            }
 
-            if(c.creatureVariants[r].wealthPrerequisite > PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
+                if(c.creatureVariants[r].wealthPrerequisite > PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
+            }
         }
         if(prefab == null) prefab = c.objectPrefab;
 

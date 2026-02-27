@@ -354,8 +354,13 @@ public class FeralHareTest : CreatureBehaviorScript
         yield return new WaitUntil(() => diggingTimeLeft <= 0 || playerInSightRange);
         if (!playerInSightRange && (StructureManager.Instance.CheckTile(newBurrowPos) != new Vector3(0,0,0) || (newObject != ThingToMake.Node || (cTile != null && cTile.containedStructure == null))))
         {
-            if(newObject == ThingToMake.Tile) StructureManager.Instance.SpawnStructure(tileData.objectPrefab, newBurrowPos);
-            else 
+            if(newObject == ThingToMake.Tile) StructureManager.Instance.SpawnStructure(tileData.objectPrefab, newBurrowPos); //Tile
+            else if(newObject == ThingToMake.Node) //Node
+            {
+                if(cTile) cTile.containedStructure = StructureManager.Instance.SpawnStructureWithInstance(nodeData.objectPrefab, newBurrowPos).GetComponent<StructureBehaviorScript>();
+                else StructureManager.Instance.SpawnStructure(nodeData.objectPrefab, newBurrowPos);
+            }
+            else //Burrow
             {
                 if(cTile) cTile.containedStructure = StructureManager.Instance.SpawnStructureWithInstance(burrow, newBurrowPos).GetComponent<StructureBehaviorScript>();
                 else StructureManager.Instance.SpawnStructure(burrow, newBurrowPos);
@@ -382,7 +387,15 @@ public class FeralHareTest : CreatureBehaviorScript
         {
             int currentNodes = StructureManager.Instance.TallyStructure(nodeData);
             float maxNodes = (CorruptionManager.Instance.corruptedTiles/10) + 1; //How many nodes can be present on the farm
-            if(currentNodes >= maxNodes) burrowChance = 0;
+            if(currentNodes >= maxNodes)
+            {
+                if(structManager.BurrowCount() < 15) 
+                {
+                    newObject = ThingToMake.Burrow;
+                    return true;
+                }
+                else burrowChance = 0;
+            }
             
             if(burrowChance > 4) 
             {

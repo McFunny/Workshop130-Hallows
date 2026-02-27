@@ -64,7 +64,8 @@ public class Grub : CreatureBehaviorScript
     public enum Variant
     {
         Normal,
-        Miner
+        Miner,
+        Corrupt
     }
 
     void Start()
@@ -364,6 +365,8 @@ public class Grub : CreatureBehaviorScript
 
     IEnumerator IdleSoundTimer()
     {
+        int idlesBeforeDeath = -1;
+        if(variant == Variant.Corrupt) idlesBeforeDeath = Random.Range(3, 15);
         while(health > 0)
         {
             if(currentState == CreatureState.Burrowing)
@@ -373,7 +376,19 @@ public class Grub : CreatureBehaviorScript
             }
             int i = Random.Range(3,6);
             effectsHandler.RandomIdle();
+            idlesBeforeDeath--;
             yield return new WaitForSeconds(i);
+
+            if(idlesBeforeDeath >= 0 && variant == Variant.Corrupt)
+            {
+                if(currentState != CreatureState.AttackStructure)
+                {
+                    currentState = CreatureState.Stun;
+                    anim.Play("chuckygrubdeath");
+                    StartCoroutine(CorpseExplosionTimer());
+                    agent.speed = 0;
+                }
+            }
         }
     }
 
@@ -509,7 +524,7 @@ public class Grub : CreatureBehaviorScript
     public override void EnteredFireRadius(FireFearTrigger _fireSource, out bool successful)
     {
         successful = false;
-        if(stunCooldown || currentState == CreatureState.Burrowing) return;
+        if(stunCooldown || currentState == CreatureState.Burrowing || variant == Variant.Corrupt) return;
         nearbyFire = _fireSource;
         StartCoroutine(FireStun());
         successful = true;
@@ -565,6 +580,30 @@ public class Grub : CreatureBehaviorScript
         if (!gameObject.scene.isLoaded) return; 
 
         if(homeSwarm) homeSwarm.grubs.Remove(gameObject);
+    }
+
+
+
+    IEnumerator CorpseExplosionTimer()
+    {
+        yield return new WaitForSeconds(Random.Range(15, 45));
+        CorruptionExplosion();
+    }
+
+    void CorruptionExplosion()
+    {
+        canCorpseBreak = true;
+        TakeDamage(999);
+        CorruptionManager.Instance.CorruptionExplosion(transform.position, 1.5f);
+        //stagger player
+        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.playerFeet.position) <= 2) PlayerInteraction.Instance.PlayerTrip();
+
+        GameObject corpseParticle = ParticlePoolManager.Instance.GrabCorpseParticle(corpseType);
+        if(corpseParticle)
+        {
+            if(corpseParticleTransform) corpseParticle.transform.position = corpseParticleTransform.position;
+            else corpseParticle.transform.position = transform.position;
+        }
     }
 
 }
