@@ -31,11 +31,11 @@ RectTransform:
   m_Children:
   - {fileID: 6914961046597116681}
   - {fileID: 5846716270959516994}
-  - {fileID: 1698632015617567874}
   - {fileID: 1817046585938804280}
   - {fileID: 6652515371170789073}
-  - {fileID: 3379444786724327478}
+  - {fileID: 1698632015617567874}
   - {fileID: 785686698560933078}
+  - {fileID: 3379444786724327478}
   - {fileID: 3256192740558576270}
   - {fileID: 1387239918113036212}
   - {fileID: 8818252809891518664}
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LMB
+  m_text: <sprite name=KBMLMB>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -1236,7 +1236,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: E
+  m_text: <sprite name=KBME>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -1556,8 +1556,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000030517578, y: -0.0000076293945}
-  m_SizeDelta: {x: 867.637, y: 1053.2924}
+  m_AnchoredPosition: {x: 0.000030517578, y: 5.2521}
+  m_SizeDelta: {x: 867.637, y: 995.5961}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6504643319058919555
 CanvasRenderer:
@@ -1775,6 +1775,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 0}
+  c_deselected: {r: 0.8509804, g: 0.7490196, b: 0.2078431, a: 1}
+  c_selected: {r: 1, g: 0.8870801, b: 0.2877358, a: 1}
+  c_disabled: {r: 0.5660378, g: 0.5029674, b: 0.1682093, a: 1}
+  c_interactable: {r: 1, g: 1, b: 1, a: 1}
+  c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  c_invisible: {r: 0, g: 0, b: 0, a: 0}
+  isSelected: 0
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
@@ -1783,6 +1790,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 0
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &6734588750426952703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2503,7 +2511,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: C
+  m_text: <sprite name=KBMC>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -2638,7 +2646,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Scroll Wheel
+  m_text: <sprite name=KBMSCROLL>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -2826,6 +2834,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 0}
+  c_deselected: {r: 0.8509804, g: 0.7490196, b: 0.2078431, a: 1}
+  c_selected: {r: 1, g: 0.8870801, b: 0.2877358, a: 1}
+  c_disabled: {r: 0.5660378, g: 0.5029674, b: 0.1682093, a: 1}
+  c_interactable: {r: 1, g: 1, b: 1, a: 1}
+  c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  c_invisible: {r: 0, g: 0, b: 0, a: 0}
+  isSelected: 0
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
@@ -2834,6 +2849,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 0
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &8847899405986699010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2896,7 +2912,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3740324685008761115
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3832,7 +3848,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Q
+  m_text: <sprite name=KBMQ>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -5088,7 +5104,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space/F
+  m_text: <sprite name=KBMF> <sprite name=KBMSPACE>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -5570,7 +5586,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RMB
+  m_text: <sprite name=KBMRMB>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -5705,7 +5721,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ESC
+  m_text: <sprite name=KBMESC>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -6251,7 +6267,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: G
+  m_text: <sprite name=KBMG>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -8273,6 +8289,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 0}
+  c_deselected: {r: 0.8509804, g: 0.7490196, b: 0.2078431, a: 1}
+  c_selected: {r: 1, g: 0.8870801, b: 0.2877358, a: 1}
+  c_disabled: {r: 0.5660378, g: 0.5029674, b: 0.1682093, a: 1}
+  c_interactable: {r: 1, g: 1, b: 1, a: 1}
+  c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  c_invisible: {r: 0, g: 0, b: 0, a: 0}
+  isSelected: 0
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
@@ -8281,6 +8304,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 0
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &4115627765111739050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8727,7 +8751,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: R
+  m_text: <sprite name=KBMR>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -8949,7 +8973,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1433765687069726481
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9333,7 +9357,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Left Shift
+  m_text: <sprite name=KBMSHIFT>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -10555,7 +10579,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: E
+  m_text: <sprite name=KBME>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -10803,6 +10827,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 0}
+  c_deselected: {r: 0.8509804, g: 0.7490196, b: 0.2078431, a: 1}
+  c_selected: {r: 1, g: 0.8870801, b: 0.2877358, a: 1}
+  c_disabled: {r: 0.5660378, g: 0.5029674, b: 0.1682093, a: 1}
+  c_interactable: {r: 1, g: 1, b: 1, a: 1}
+  c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  c_invisible: {r: 0, g: 0, b: 0, a: 0}
+  isSelected: 0
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
@@ -10811,6 +10842,7 @@ MonoBehaviour:
   isDisabled: 0
   ignoreColor: 0
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &5039584291547623457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11326,7 +11358,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tab (Hold)
+  m_text: <sprite name=KBMTAB>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -11461,7 +11493,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RMB
+  m_text: <sprite name=KBMLMB>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -11930,7 +11962,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ESC
+  m_text: <sprite name=KBMESC>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -12916,11 +12948,11 @@ RectTransform:
   m_Children:
   - {fileID: 3474978466352131034}
   - {fileID: 7276965704109782278}
-  - {fileID: 6777195225175687006}
   - {fileID: 5003667961939814260}
   - {fileID: 2170924576857427043}
-  - {fileID: 2976610937060435333}
+  - {fileID: 6777195225175687006}
   - {fileID: 8620726206700617093}
+  - {fileID: 2976610937060435333}
   - {fileID: 3190447265547785101}
   - {fileID: 8271925192164209741}
   - {fileID: 5307713522283072195}
@@ -13240,7 +13272,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Shift + LMB
+  m_text: <sprite name=KBMSHIFT> + <sprite name=KBMLMB>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -13375,7 +13407,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: F2
+  m_text: <sprite name=KBMF2>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -14913,7 +14945,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Interact without Item
+  m_text: Interact
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -15048,7 +15080,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: F1
+  m_text: <sprite name=KBMF1>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -16074,7 +16106,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RMB
+  m_text: <sprite name=KBMRMB>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
@@ -16209,7 +16241,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WASD
+  m_text: <sprite name=KBMW> <sprite name=KBMA> <sprite name=KBMS> <sprite name=KBMD>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: baf26a7bac42c9c4185a1d78afbc804b, type: 2}
   m_sharedMaterial: {fileID: 2567353180537205596, guid: baf26a7bac42c9c4185a1d78afbc804b,
