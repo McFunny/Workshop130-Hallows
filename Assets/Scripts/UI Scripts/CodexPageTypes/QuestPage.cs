@@ -195,7 +195,7 @@ public class QuestPage : CodexPage
             title.text = quest.assignee.ToString() + ": " + quest.name;
         }
 
-        title.text = title.text.Replace("Null", "");
+        title.text = title.text.Replace("Null: ", "");
     }
 
     private void UpdateQuestDescription(Quest quest)
