@@ -406,6 +406,7 @@ public class TruffleHog : CritterBehaviorScript
         Burrow burrow = Instantiate(burrowPrefab, target, Quaternion.identity).GetComponent<Burrow>();
             //Code to add the item
         float truffleChance = (friendshipLevel + 1) * 8;
+        if(friendshipLevel < 4) truffleChance += (friendshipLevel) * 3;
         if(Random.Range(0,100) < truffleChance) burrow.InsertItem(truffleItem);
 
         FriendPointsChange(2, true);

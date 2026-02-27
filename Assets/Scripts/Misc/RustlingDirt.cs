@@ -66,6 +66,7 @@ public class RustlingDirt : MonoBehaviour
             {
                 Instantiate(grubPrefab, transform.position, Quaternion.identity);
             }
+            Destroy(this.gameObject);
         }
 
         else Destroy(this.gameObject);

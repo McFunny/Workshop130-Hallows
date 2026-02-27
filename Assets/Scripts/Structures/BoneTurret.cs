@@ -8,7 +8,7 @@ public class BoneTurret : StructureBehaviorScript
     public Transform turretHead, bulletOrigin, seedSocket;
 
     float maxAmmo = 10; //Dont allow any more seeds to be added to the item list after there are this many entrants
-    float range = 15; //Get a debug sphere to show the range
+    float range = 20; //Get a debug sphere to show the range
     bool targetInSight = false;
     bool shotCooldown;
     bool returningToCenter;
@@ -34,7 +34,7 @@ public class BoneTurret : StructureBehaviorScript
     float RotAngleY;
     float RotAngleMax;
     float RotAngleMin;
-    float rotateSpeed = 2f;
+    float rotateSpeed = 3f;
     float myTime; //for tracking rotation
 
     public AudioSource activatedSource;
@@ -202,7 +202,7 @@ public class BoneTurret : StructureBehaviorScript
         }
 
         canTransition = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
 
         shotCooldown = false;
     }
