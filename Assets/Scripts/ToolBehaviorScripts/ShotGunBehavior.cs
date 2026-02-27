@@ -10,7 +10,7 @@ public class ShotGunBehavior : ToolBehavior
 
     InventoryItemData bulletFired;
 
-    public AudioClip shoot, reload;
+    public AudioClip shoot, reload, jamClick;
     int bulletCount = 6;
     int pinexBulletCount = 10;
 
@@ -25,6 +25,13 @@ public class ShotGunBehavior : ToolBehavior
     {
         if (usingPrimary || usingSecondary || PlayerInteraction.Instance.toolCooldown || TownGate.Instance.location == PlayerLocation.InTown) return;
         if (!player) player = _player;
+
+        if(EndingManager.Instance.endingPlaying)
+        {
+            HandItemManager.Instance.toolSource.PlayOneShot(jamClick);
+            return;
+        }
+
 
         var inventory = PlayerInventoryHolder.Instance.PrimaryInventorySystem;
         if (inventory.ContainsItems(acceptableAmmo, out List<InventorySlot> invSlot))
@@ -60,6 +67,7 @@ public class ShotGunBehavior : ToolBehavior
             else
             {
                 Debug.Log("No Bullet In Secondary");
+                HandItemManager.Instance.toolSource.PlayOneShot(jamClick);
                 return;
             }
         }

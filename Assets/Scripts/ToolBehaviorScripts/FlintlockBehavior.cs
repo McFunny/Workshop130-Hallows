@@ -12,7 +12,7 @@ public class FlintlockBehavior : ToolBehavior
     //PelletValues currentPellet;
     public AudioClip[] shootSFX;
 
-    public AudioClip shoot, hit_Dirt, hit_Creature, hit_Structure, headShot;
+    public AudioClip shoot, hit_Dirt, hit_Creature, hit_Structure, headShot, jamClick;
     int bulletCount = 1;
     int shrapnelCount = 8;
 
@@ -36,6 +36,12 @@ public class FlintlockBehavior : ToolBehavior
     {
         if (usingPrimary || usingSecondary || TownGate.Instance.location == PlayerLocation.InTown) return;
         if (!player) player = _player;
+
+        if(EndingManager.Instance.endingPlaying)
+        {
+            HandItemManager.Instance.toolSource.PlayOneShot(jamClick);
+            return;
+        }
 
         var inventory = PlayerInventoryHolder.Instance.PrimaryInventorySystem;
         if (inventory.ContainsItems(acceptableAmmo, out List<InventorySlot> invSlot))
@@ -69,6 +75,7 @@ public class FlintlockBehavior : ToolBehavior
             else
             {
                 Debug.Log("No Bullet In Secondary");
+                HandItemManager.Instance.toolSource.PlayOneShot(jamClick);
                 return;
             }
         }

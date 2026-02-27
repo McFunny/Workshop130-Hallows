@@ -46,7 +46,7 @@ public class EndingManager : MonoBehaviour
 
         OnEndingStarted?.Invoke();
 
-        TimeManager.Instance.currentHour = 7;
+        TimeManager.Instance.currentHour = 6;
         TimeManager.Instance.RefreshSkybox();
         PlayerMovement.Instance.disableSprint = true;
     }
