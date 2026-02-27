@@ -19,7 +19,11 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip[] lightningAmbience;
     public AudioClip[] siegeMusicAmbience;
 
+    //Finale//
     public AudioClip finaleTheme, finaleIntro, finaleLose, finaleWin;
+
+    //Ending//
+    public AudioClip endingIntro, endingLoop1, endingLoop2, endingClose;
 
     public AudioClip bellTower;
 
@@ -31,6 +35,7 @@ public class AmbientAudioManager : MonoBehaviour
     bool firstTrackPlayed = false;
     [HideInInspector] public bool playMusicAtStart = true;
     bool fadingMusic;
+    bool playedEndingIntro;
 
     [HideInInspector] public Gramophone playingGramophone;
     AudioClip gramoPhoneTrack;
@@ -153,7 +158,7 @@ public class AmbientAudioManager : MonoBehaviour
         float musicCooldown = 0;
         while (gameObject.activeSelf)
         {
-            if(NightSpawningManager.Instance.finaleActivated) musicCooldown = 0;
+            if(NightSpawningManager.Instance.finaleActivated || EndingManager.Instance.endingPlaying) musicCooldown = 0;
             else if(!firstTrackPlayed)
             {
                 firstTrackPlayed = true;
@@ -164,10 +169,17 @@ public class AmbientAudioManager : MonoBehaviour
             Debug.Log("CoolDown for song begun");
             yield return new WaitForSecondsRealtime(musicCooldown);
             Debug.Log("CoolDown Done picking song");
-            if(NightSpawningManager.Instance.finaleActivated)
+            if(EndingManager.Instance.endingPlaying) //Ending Cutscene
             {
-                musicSource.clip = finaleTheme;
+                if(!playedEndingIntro)
+                {
+                    playedEndingIntro = true;
+                    musicSource.clip = endingIntro;
+                }
+                else if(EndingManager.Instance.enteredBurningTown) musicSource.clip = endingLoop2;
+                else musicSource.clip = endingLoop1;
             }
+            else if(NightSpawningManager.Instance.finaleActivated) musicSource.clip = finaleTheme; //Finale
             else if(gramoPhoneTrack != null) musicSource.clip = gramoPhoneTrack;
             else if(TownGate.Instance.location == PlayerLocation.InWilderness) musicSource.clip = wildernessMusicAmbience[Random.Range(0, wildernessMusicAmbience.Length)];
             else if(TownGate.Instance.location == PlayerLocation.InCrypt) musicSource.clip = catacombMusicAmbience[Random.Range(0, catacombMusicAmbience.Length)];
@@ -319,6 +331,26 @@ public class AmbientAudioManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(musicRuntime);
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic());
+    }
+
+    public void ImmediateMusicRefresh()
+    {
+        if (ambientMusicCoroutine != null)
+        {
+            StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+            //musicSource.Stop(); // Stop current music
+        }
+        ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic());
+    }
+
+    public void EndingTheme()
+    {
+        if (ambientMusicCoroutine != null)
+        {
+            StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
+        }
+        musicSource.clip = endingClose;
+        musicSource.Play();
     }
 
     public void StartGramophone(Gramophone g, AudioClip c)

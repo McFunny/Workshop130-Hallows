@@ -9,7 +9,8 @@ public class MistBreaker : CropBehavior
     public override void OnFullyGrown(FarmLand tile)
     {
         NightSpawningManager.Instance.FinaleComplete();
-        Instantiate(beamParticle, new Vector3(tile.transform.position.x, tile.transform.position.y + 1, tile.transform.position.z), Quaternion.identity);
+        GameObject beam = Instantiate(beamParticle, new Vector3(tile.transform.position.x, tile.transform.position.y + 1, tile.transform.position.z), Quaternion.identity);
+        NightSpawningManager.Instance.StartCoroutine(FadeAway(beam, tile));
     }
 
     public override void OnCropDestroyed(FarmLand tile)
@@ -21,5 +22,12 @@ public class MistBreaker : CropBehavior
     public override void OnHour(FarmLand tile)
     {
         //Call Creatures to this
+    }
+
+    IEnumerator FadeAway(GameObject beam, FarmLand tile)
+    {
+        yield return new WaitForSeconds(8);
+        beam.SetActive(false);
+        if(tile) tile.gameObject.SetActive(false);
     }
 }

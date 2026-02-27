@@ -34,6 +34,7 @@ public class WagonManager : MonoBehaviour
     {
         WildernessManager.OnWildernessLeave += LeaveWilderness;
         TimeManager.OnHourlyUpdate += HourUpdate;
+        EndingManager.OnEndingStarted += DestroyWagonForEnding;
         StartCoroutine(DelayedStart());
     }
 
@@ -41,6 +42,7 @@ public class WagonManager : MonoBehaviour
     {
         WildernessManager.OnWildernessLeave -= LeaveWilderness;
         TimeManager.OnHourlyUpdate -= HourUpdate;
+        EndingManager.OnEndingStarted -= DestroyWagonForEnding;
     }
 
     IEnumerator DelayedStart()
@@ -105,6 +107,12 @@ public class WagonManager : MonoBehaviour
     void LeaveWilderness()
     {
         if(!wagonDestroyed) wagonHealth = maxWagonHealth;
+    }
+
+    public void DestroyWagonForEnding()
+    {
+        wagonDestroyed = true;
+        farmWagon.UpdateModel(false);
     }
 
     IEnumerator WagonLost()

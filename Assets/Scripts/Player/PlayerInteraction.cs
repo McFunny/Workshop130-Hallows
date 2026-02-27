@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -759,6 +760,13 @@ public class PlayerInteraction : MonoBehaviour
         playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
         yield return new WaitForSeconds(1.5f);
 
+        if(EndingManager.Instance.endingPlaying)
+        {
+            //Credits screen
+            SceneManager.LoadSceneAsync(2);
+            yield break;
+        }
+
         if(MainMenuScript.currentFileMode == FileMode.Survival)
         {
             NightSpawningManager.Instance.GameOver();
@@ -789,7 +797,6 @@ public class PlayerInteraction : MonoBehaviour
         FadeScreen.coverScreen = false;
         transform.position = TimeManager.Instance.playerRespawn.position;
         gameOver = false;
-        //StartCoroutine(WakeUp());
 
     }
 

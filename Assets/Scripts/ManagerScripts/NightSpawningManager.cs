@@ -602,6 +602,7 @@ public class NightSpawningManager : MonoBehaviour
         if(finaleMist) finaleMist.Stop();
     }
 
+    [ContextMenu("TestCompletedFinale")]
     public void FinaleComplete()
     {
         AchievementManager.Instance.NotifyFinaleCompleted();
@@ -615,6 +616,8 @@ public class NightSpawningManager : MonoBehaviour
         {
             if (creature != null && creature.gameObject != null)
             {
+                ICritter critter = creature as ICritter;
+                if(critter != null || creature.persistAfterNewDay) continue;
                 creature.TakeDamage(999);
             }
         }
@@ -629,13 +632,21 @@ public class NightSpawningManager : MonoBehaviour
 
         TimeManager.Instance.stopTime = true;
         PlayerInteraction.Instance.invincible = true;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(8);
         FadeScreen.coverScreen = true;
         PlayerMovement.restrictMovementTokens++;
         //AmbientAudioManager.Instance.FadeMusic();
         yield return new WaitForSeconds(10);
+
+        EndingManager.Instance.InitializeEnding();
+        AmbientAudioManager.Instance.ChangeMusic();
+
+        yield return new WaitForSeconds(2);
+        FadeScreen.coverScreen = false;
+        PlayerMovement.restrictMovementTokens--;
+        PlayerInteraction.Instance.invincible = false;
         //Credits screen
-        SceneManager.LoadSceneAsync(2);
+        //SceneManager.LoadSceneAsync(2);
     }
 }
 

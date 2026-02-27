@@ -57,6 +57,7 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 0}
+  secondarySource: {fileID: 0}
 --- !u!82 &2905149546836857464
 AudioSource:
   m_ObjectHideFlags: 0
@@ -193,8 +194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f76f2b6e6a653429cd249744755616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  structData: {fileID: 11400000, guid: a5438da2a839b4147bdf5d06bf1b3404, type: 2}
-  itemForm: {fileID: 11400000, guid: 8b07525fe0c7bc2469db97d107a8913d, type: 2}
+  structData: {fileID: 11400000, guid: a93a3b425426d6542a708520df0519c8, type: 2}
+  itemForm: {fileID: 11400000, guid: 2045beb4b4dcdb44cbac873cdb762adb, type: 2}
   health: 999
   maxHealth: 999
   wealthValue: 0
@@ -219,6 +220,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 4250042884755951655}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -227,6 +229,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1

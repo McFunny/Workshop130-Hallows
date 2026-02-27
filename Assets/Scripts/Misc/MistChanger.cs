@@ -27,6 +27,9 @@ public class MistChanger : MonoBehaviour
         {
             extraFog[i].SetActive(false);
         }
+
+        AudioSource s = GetComponentInParent<AudioSource>();
+        if(s) s.Stop();
     }
 
     void OnDisable()

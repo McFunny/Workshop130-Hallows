@@ -12,6 +12,9 @@ public class EndingManager : MonoBehaviour
 
     public GameObject endingObjects;
 
+    public bool endingPlaying = false;
+    public bool enteredBurningTown = false;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -23,13 +26,28 @@ public class EndingManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        endingObjects.SetActive(false);
     }
 
-    void InitializeEnding()
+    public void EnteredTown()
     {
+        if(enteredBurningTown) return;
+
+        enteredBurningTown = true;
+        AmbientAudioManager.Instance.ImmediateMusicRefresh();
+    }
+
+    public void InitializeEnding()
+    {
+        endingPlaying = true;
         endingObjects.SetActive(true);
         PlayerInteraction.Instance.transform.position = TimeManager.Instance.playerRespawn.position;
 
         OnEndingStarted?.Invoke();
+
+        TimeManager.Instance.currentHour = 7;
+        TimeManager.Instance.RefreshSkybox();
+        PlayerMovement.Instance.disableSprint = true;
     }
 }

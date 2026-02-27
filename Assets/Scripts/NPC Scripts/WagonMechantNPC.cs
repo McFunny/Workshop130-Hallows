@@ -608,7 +608,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
     public void PlayerEnteredTown()
     {
-        if(metPlayerAtEntrace) return;
+        if(metPlayerAtEntrace || EndingManager.Instance.endingPlaying) return;
 
         if(TimeManager.Instance.dayNum == 1 && (TimeManager.Instance.currentHour != 6 && TimeManager.Instance.currentHour != 7))
         {

@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public static int restrictMovementTokens = 0; //if 0, player can move, else, they cant. This keeps track if multiple sources are stopping player movement
     public static bool limitMaxVelocity = true;
     public static bool ignoreMovementInputs = false; //if true, player can still look around but not move, which is different from the restrict movement tokens
+    public bool disableSprint = false;
 
     float horizontalInput;
     float verticalInput;
@@ -146,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Sprint(InputAction.CallbackContext obj)
     {
-        if (PlayerInteraction.Instance.stamina <= 50) return;
+        if (PlayerInteraction.Instance.stamina <= 50 || disableSprint) return;
         Vector2 moveInput = controlManager.movement.action.ReadValue<Vector2>();
 
         // Allow sprinting if moving forward (positive y) and tolerate slight sideways movement
