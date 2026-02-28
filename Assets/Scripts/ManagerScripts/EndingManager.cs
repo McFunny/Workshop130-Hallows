@@ -10,8 +10,6 @@ public class EndingManager : MonoBehaviour
 
     public static EndingManager Instance;
 
-    public GameObject endingObjects;
-
     public bool endingPlaying = false;
     public bool enteredBurningTown = false;
 
@@ -27,7 +25,6 @@ public class EndingManager : MonoBehaviour
             Instance = this;
         }
 
-        endingObjects.SetActive(false);
     }
 
     public void EnteredTown()
@@ -41,7 +38,7 @@ public class EndingManager : MonoBehaviour
     public void InitializeEnding()
     {
         endingPlaying = true;
-        endingObjects.SetActive(true);
+        EndCutsceneObjectToggler.Instance.OnEndCutscene();
         PlayerInteraction.Instance.transform.position = TimeManager.Instance.playerRespawn.position;
 
         OnEndingStarted?.Invoke();
