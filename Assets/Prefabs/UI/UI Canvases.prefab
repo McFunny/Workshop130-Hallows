@@ -5828,7 +5828,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.0013427734, y: 0}
-  m_SizeDelta: {x: 386.57, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.00000055134296, y: 0.0000003501773}
 --- !u!114 &9174053027068630890
 MonoBehaviour:
@@ -15485,7 +15485,6 @@ GameObject:
   - component: {fileID: 7243408488835435340}
   - component: {fileID: 4481553359923317789}
   - component: {fileID: 1617477118292629751}
-  - component: {fileID: 7023204899320078213}
   - component: {fileID: 8402610228845199577}
   m_Layer: 0
   m_Name: Codex3Canvas
@@ -15598,9 +15597,12 @@ MonoBehaviour:
   bgPanel: {fileID: 7131079027422468237}
   codex: {fileID: 5371147070749104481}
   uiLerp: {fileID: 9051754679955056836}
-  codexAudio: {fileID: 7023204899320078213}
   codexOpenSound: {fileID: 8300000, guid: d5a9d63237afc1e4581169f48e4dc560, type: 3}
   codexCloseSound: {fileID: 8300000, guid: 6b18a3c5642409b48b437f0213c35698, type: 3}
+  codexPageTurnSound: {fileID: 8300000, guid: 2ce29849aae35c741becbb6feba1a426, type: 3}
+  codexOpenVolume: 0.17
+  codexCloseVolume: 0.17
+  codexPageTurnVolume: 0.02
   categoryButtons:
   - {fileID: 1227492786292853779}
   - {fileID: 860308397971844703}
@@ -15677,103 +15679,6 @@ MonoBehaviour:
   nutTesterEntry: {fileID: 11400000, guid: 042df4cbd2ced9b4f8404c6f60376d63, type: 2}
   kukriEntry: {fileID: 11400000, guid: 4831ca21582f5b5418e33a5cbe60223a, type: 2}
   pistolEntry: {fileID: 11400000, guid: 78e177989847392479174c183fc47b88, type: 2}
---- !u!82 &7023204899320078213
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1437373728110496511}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 1352601595252003047, guid: 2cd7cd8ef149e2e4290b51e3dd533b1d,
-    type: 2}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.17
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!225 &8402610228845199577
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -20822,6 +20727,18 @@ MonoBehaviour:
           m_StringArgument: Structures
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4213820155474090503}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4946013961545601063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25108,6 +25025,8 @@ MonoBehaviour:
   arrowImage: {fileID: 9103924610368689281}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -27304,6 +27223,18 @@ MonoBehaviour:
           m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: Bugs
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4213820155474090503}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &3276679822358430943
@@ -29894,6 +29825,8 @@ MonoBehaviour:
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 1
   isDisabled: 0
   ignoreColor: 0
@@ -30978,6 +30911,18 @@ MonoBehaviour:
           m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: Quests
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4213820155474090503}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2639082819484651561
@@ -32467,6 +32412,8 @@ MonoBehaviour:
   arrowImage: {fileID: 8858185656701684225}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -38761,6 +38708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8576168256347136114}
   - component: {fileID: 8889172308429574894}
+  - component: {fileID: 4213820155474090503}
   m_Layer: 0
   m_Name: CategoryButtons
   m_TagString: Untagged
@@ -38821,6 +38769,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &4213820155474090503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3634279603125241262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e23a10f4e0c5b4480a9886b5bcc151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 8300000, guid: 2ce29849aae35c741becbb6feba1a426, type: 3}
+  selectVolume: 0.02
 --- !u!1 &3635650153863880745
 GameObject:
   m_ObjectHideFlags: 0
@@ -40417,7 +40379,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6335698062337110467}
   m_HandleRect: {fileID: 946711898405267894}
   m_Direction: 2
-  m_Value: 0.99999976
+  m_Value: 1
   m_Size: 0.50357544
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -40857,6 +40819,12 @@ MonoBehaviour:
   uiLerp: {fileID: 1617864903780082847}
   controllerPrompts: {fileID: 9181751867983323436}
   kbmPrompts: {fileID: 7156448237449958672}
+  openSound: {fileID: 8300000, guid: d5a9d63237afc1e4581169f48e4dc560, type: 3}
+  closeSound: {fileID: 8300000, guid: 6b18a3c5642409b48b437f0213c35698, type: 3}
+  pageTurnSound: {fileID: 8300000, guid: 2ce29849aae35c741becbb6feba1a426, type: 3}
+  openVolume: 0.17
+  closeVolume: 0.17
+  pageTurnVolume: 0.02
   recipeDisplays:
   - {fileID: 5131672038420295012}
   - {fileID: 3051669307637579718}
@@ -41564,6 +41532,8 @@ MonoBehaviour:
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 1
   isDisabled: 0
   ignoreColor: 0
@@ -42956,6 +42926,8 @@ MonoBehaviour:
   arrowImage: {fileID: 3453940904098716288}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -52552,6 +52524,8 @@ MonoBehaviour:
   arrowImage: {fileID: 6659745767298564416}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -53386,6 +53360,8 @@ MonoBehaviour:
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -64340,6 +64316,18 @@ MonoBehaviour:
           m_StringArgument: Tutorial
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4213820155474090503}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &165372370414232809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65768,6 +65756,8 @@ MonoBehaviour:
   arrowImage: {fileID: 5226727196037968604}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -66564,6 +66554,8 @@ MonoBehaviour:
   arrowImage: {fileID: 8584660208099151691}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -67088,6 +67080,8 @@ MonoBehaviour:
   arrowImage: {fileID: 3368159954368186135}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  selectVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1
@@ -79546,7 +79540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000091552734}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1883264441455127313
@@ -81633,6 +81627,18 @@ MonoBehaviour:
           m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: Critters
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4213820155474090503}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &7114138764361675967
@@ -87734,6 +87740,18 @@ MonoBehaviour:
           m_StringArgument: Plants
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4213820155474090503}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5831613113541104473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90405,6 +90423,18 @@ MonoBehaviour:
           m_StringArgument: Creatures
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4213820155474090503}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3663896846115950357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90560,6 +90590,18 @@ MonoBehaviour:
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: Tools
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4213820155474090503}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &8480304853619828038

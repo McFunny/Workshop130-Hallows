@@ -47,8 +47,8 @@ public class Codex3 : MonoBehaviour
     private Image bgPanelImage;
     [SerializeField] private GameObject codex;
     [SerializeField] private UILerp uiLerp;
-    [SerializeField] private AudioSource codexAudio;
-    [SerializeField] private AudioClip codexOpenSound, codexCloseSound;
+    [SerializeField] private AudioClip codexOpenSound, codexCloseSound, codexPageTurnSound;
+    [SerializeField] private float codexOpenVolume, codexCloseVolume, codexPageTurnVolume;
     [SerializeField] private Button[] categoryButtons;
     [SerializeField] private List<GameObject> containers = new List<GameObject>();
     [SerializeField] private List<GameObject> secondaryContainers = new List<GameObject>();
@@ -186,6 +186,7 @@ public class Codex3 : MonoBehaviour
             {
                 EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
             }
+            AudioPoolManager.Instance.PlayClip(codexPageTurnSound, codexPageTurnVolume);
         }
     }
 
@@ -205,6 +206,7 @@ public class Codex3 : MonoBehaviour
             {
                 EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
             }
+            AudioPoolManager.Instance.PlayClip(codexPageTurnSound, codexPageTurnVolume);
         }
     }
 
@@ -280,7 +282,7 @@ public class Codex3 : MonoBehaviour
         PlayerMovement.isCodexOpen = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        codexAudio.PlayOneShot(codexOpenSound); // Play the codex open sound
+        AudioPoolManager.Instance.PlayClip(codexOpenSound, codexOpenVolume); // Play the codex open sound
 
         if (Tutorial.Instance) Tutorial.Instance.OpenCodex();
         PopupEvents.current.OpenCodex();
@@ -299,7 +301,7 @@ public class Codex3 : MonoBehaviour
         PlayerMovement.isCodexOpen = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        codexAudio.PlayOneShot(codexCloseSound); // Play the codex open sound
+        AudioPoolManager.Instance.PlayClip(codexCloseSound, codexCloseVolume); // Play the codex close sound
     }
 
     public void Back()
@@ -317,6 +319,7 @@ public class Codex3 : MonoBehaviour
                 UpdateEntries();
                 if (ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
                 ChangeCategory(openCategory.ToString());
+                AudioPoolManager.Instance.PlayClip(codexPageTurnSound, codexPageTurnVolume);
                 break;
 
             default:
