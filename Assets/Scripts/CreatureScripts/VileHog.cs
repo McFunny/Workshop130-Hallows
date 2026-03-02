@@ -32,7 +32,7 @@ public class VileHog : CreatureBehaviorScript
     public ParticleSystem chargeParticles, dashParticles;
 
     float beginChargeTime = 1f; // Time it takes to initiate a charge
-    float chargeTime = 2f; // Time it takes to complete a charge
+    float chargeTime = 1.55f; // Time it takes to complete a charge
     private bool isCharging = false;
     float recoilTime = 2;
     float fleeTimeLeft = 0;
@@ -111,6 +111,8 @@ public class VileHog : CreatureBehaviorScript
         if(variant == Variant.Armored) thrustersReady = true;
 
         accelerateSpeed = agent.acceleration;
+
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) chargeTime = 1.25f;
 
     }
 
@@ -549,15 +551,20 @@ public class VileHog : CreatureBehaviorScript
         if(usingThrusters)
         {
             agent.speed += 12;
-            chargeTimeElapsed += 1;
+            chargeTimeElapsed += 0.5f;
         }
         isCharging = true;
         attackHitbox.enabled = true;
+
+        float currentSpeed = 0.2f;
+        if(usingThrusters) currentSpeed = 1;
         while(isCharging && chargeTimeElapsed < chargeTime)
         {
             chargeTimeElapsed += Time.deltaTime;
-            if (NavMesh.SamplePosition(chargePosition.position, out var hit, 1.0f, NavMesh.AllAreas)) agent.SetDestination(hit.position);
-            else if (agent.pathStatus != NavMeshPathStatus.PathComplete) agent.Move(transform.forward * agent.speed * Time.deltaTime);
+            currentSpeed = Mathf.MoveTowards(currentSpeed, agent.speed, agent.acceleration * Time.deltaTime);
+
+            /*if (NavMesh.SamplePosition(chargePosition.position, out var hit, 1.0f, NavMesh.AllAreas)) agent.SetDestination(hit.position);
+            else if (agent.pathStatus != NavMeshPathStatus.PathComplete)*/ agent.Move(transform.forward * currentSpeed * Time.deltaTime);
             //agent.SetDestination(chargePosition.position);
             yield return null;
         }
@@ -567,10 +574,20 @@ public class VileHog : CreatureBehaviorScript
         if(chargeTimeElapsed >= chargeTime)
         {
             recoilTime = 1.5f;
-            if(!anim.GetBool("Attacked") && !anim.GetBool("Recoiled")) 
+            if(!anim.GetBool("Recoiled")) 
             {
-                anim.SetTrigger("Missed");
-                chargeParticles.Play();
+                if(!anim.GetBool("Attacked"))
+                {
+                    anim.SetTrigger("Missed");
+                    chargeParticles.Play(); //skid
+                }
+
+                while (currentSpeed > 0f) //Gradually slow down
+                {
+                    currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, accelerateSpeed * Time.deltaTime);
+                    agent.Move(transform.forward * currentSpeed * Time.deltaTime);
+                    yield return null;
+                }
             }
         }
         if(anim.GetBool("Recoiled")) agent.speed = 0;
@@ -578,7 +595,7 @@ public class VileHog : CreatureBehaviorScript
         agent.ResetPath();
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         anim.SetBool("IsRunning", false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         chargeParticles.Stop();
         yield return new WaitForSeconds(recoilTime); //Charge Cooldown
         allColliders[0].enabled = false; //Untested method of catching them in beartraps post charge
@@ -633,8 +650,12 @@ public class VileHog : CreatureBehaviorScript
                 playerInteraction.StaminaChange(damageToPlayer - extraDamage, corpseParticleTransform.position);
                 playerInteraction.PlayerTrip();
                 attackHitbox.enabled = false;
-                if (!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
-                recoilTime = 1.7f;
+                if (!anim.GetBool("Recoiled"))
+                {
+                    anim.SetTrigger("Attacked");
+                    anim.Play("Attack", -1, 0.2f);
+                }
+                recoilTime = 1.5f;
                 isCharging = false;
                 return;
             }
@@ -653,8 +674,12 @@ public class VileHog : CreatureBehaviorScript
                 {
                     structure.TakeDamage(damageToStructure + extraDamage);
                     attackHitbox.enabled = false;
-                    recoilTime = 2.5f;
-                    if (!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
+                    recoilTime = 2.1f;
+                    if (!anim.GetBool("Attacked"))
+                    {
+                        anim.SetTrigger("Recoiled");
+                        anim.Play("Bounce", -1, 0.2f);
+                    }
                     isCharging = false;
                     agent.ResetPath();
                     agent.speed = 0;
@@ -663,16 +688,24 @@ public class VileHog : CreatureBehaviorScript
                 {
                     structure.TakeDamage(damageToStructure + extraDamage);
                     attackHitbox.enabled = false;
-                    if (!anim.GetBool("Recoiled")) anim.SetTrigger("Attacked");
-                    recoilTime = 1.7f;
+                    if (!anim.GetBool("Recoiled"))
+                    {
+                        anim.SetTrigger("Attacked");
+                        anim.Play("Attack", -1, 0.2f);
+                    }
+                    recoilTime = 1.5f;
                     isCharging = false;
                 }
                 else //Dealt damage
                 {
                     structure.TakeDamage(damageToStructure + extraDamage);
                     attackHitbox.enabled = false;
-                    if (!anim.GetBool("Attacked")) anim.SetTrigger("Recoiled");
-                    recoilTime = 2.5f;
+                    if (!anim.GetBool("Attacked"))
+                    {
+                        anim.SetTrigger("Recoiled");
+                        anim.Play("Bounce", -1, 0.2f);
+                    }
+                    recoilTime = 2.1f;
                     isCharging = false;
                     agent.ResetPath();
                     agent.speed = 0;

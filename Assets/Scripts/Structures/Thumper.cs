@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Thumper : StructureBehaviorScript
 {
+    public delegate void Thumped(float range, Vector3 pos);
+    public static event Thumped OnThump; //To handle egde cases with miner grubs
+
     public Animator anim;
     public GameObject[] panels;
 
@@ -196,6 +200,8 @@ public class Thumper : StructureBehaviorScript
         }
 
         UpdateModel();
+
+        OnThump?.Invoke(range, transform.position);
         
     }
 

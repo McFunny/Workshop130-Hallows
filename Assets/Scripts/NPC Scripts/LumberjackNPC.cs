@@ -290,5 +290,10 @@ public class LumberjackNPC : NPC, ITalkable
         return false;
     }
 
+    public override bool ActionCheck2() //To check if he should stay at his shop for longer
+    {
+        if(GameSaveData.Instance.lumber_choppedTree || !GameSaveData.Instance.lumber_offersDeal) return false;
+        return true;
+    }
 }
 

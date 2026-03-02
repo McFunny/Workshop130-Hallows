@@ -138,7 +138,7 @@ public class BugSpawningManager : MonoBehaviour
 
         int iterations = 0;
         GameObject chosenBug = null;
-        while(iterations < 10 && !chosenBug)
+        while(iterations < 20 && !chosenBug)
         {
             int r = Random.Range(0, possibleBugs.Count);
             if(possibleBugs[r].spawnChance > Random.Range(0,100)) chosenBug = possibleBugs[r].objectPrefab;

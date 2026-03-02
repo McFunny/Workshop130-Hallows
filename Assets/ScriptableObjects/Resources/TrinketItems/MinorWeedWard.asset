@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 352
   displayName: Minor Weed Ward
-  description: Reduces damage taken from attacks by 25% when standing on a weed or
+  description: Reduces damage taken from attacks by 30% when standing on a weed or
     a crop.
   icon: {fileID: 2077605332, guid: fcdf71a41cfeb1342b645d751076bb7b, type: 3}
   type: 11
@@ -40,9 +40,9 @@ MonoBehaviour:
   cannotEnterInventory: 0
   behavior: {fileID: 11400000, guid: 0d1597b1a2c026043ac50b2dab5e9801, type: 2}
   key: 15
-  stackable: 1
+  stackable: 0
   damagedByAttacks: 1
   maxDurability: 75
   guaranteedBreakThreshold: 30
-  damageMultiplier: 0.75
+  damageMultiplier: 0.7
   breakChance: 10

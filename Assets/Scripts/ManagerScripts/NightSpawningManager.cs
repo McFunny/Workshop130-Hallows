@@ -253,6 +253,8 @@ public class NightSpawningManager : MonoBehaviour
                 else prefab = null; //If the variant list isnt setup
 
                 if(c.creatureVariants[r].wealthPrerequisite > PlayerInteraction.Instance.totalMoneyEarned) prefab = null; //Clear it if the wealth value isnt right
+
+                if(c.corruptedPrefab == prefab && GameSaveData.Instance.siegesCleared < 2 && !forceCorruptedSpawns) prefab = null; //Clear if it somehow selected a corrupted enemy too early
             }
         }
         if(prefab == null) prefab = c.objectPrefab;
