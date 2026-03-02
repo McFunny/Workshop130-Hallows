@@ -21,6 +21,8 @@ public class UIMenuButton : MonoBehaviour
     public Image arrowImage;
     [SerializeField] private KeepSelectionOnScreen keepSelectionOnScreen;
     [SerializeField] private ResolutionButtonID r;
+    [SerializeField] private AudioClip selectSound;
+    [SerializeField] private float selectVolume;
     RectTransform rectTransform;
     public bool isPauseButton = true;
     public bool isDisabled = false;
@@ -151,6 +153,11 @@ public class UIMenuButton : MonoBehaviour
             button.onClick.Invoke();
             if(!ControlManager.isController) EventSystem.current.SetSelectedGameObject(null);
         }
+    }
+
+    public void PlaySelectSound()
+    {
+        if(selectSound != null && AudioPoolManager.Instance != null) AudioPoolManager.Instance.PlayClip(selectSound, selectVolume);
     }
 
     public bool GetSelected()

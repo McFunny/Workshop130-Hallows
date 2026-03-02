@@ -13,6 +13,8 @@ public class CookingRecipeBook : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText, timesMadeText, restoresText;
     [SerializeField] private UILerp uiLerp;
     [SerializeField] private GameObject controllerPrompts, kbmPrompts;
+    [SerializeField] private AudioClip openSound, closeSound, pageTurnSound;
+    [SerializeField] private float openVolume, closeVolume, pageTurnVolume;
     [SerializeField] private List<CookingRecipeDisplay> recipeDisplays = new List<CookingRecipeDisplay>();
     private List<GameObject> pages = new List<GameObject>();
     private List<RecipeButtonID> recipeButtons = new List<RecipeButtonID>();
@@ -100,6 +102,7 @@ public class CookingRecipeBook : MonoBehaviour
         UpdateEntries();
         recipeBookOpen = true;
         uiLerp.lerpToStart = true;
+        AudioPoolManager.Instance.PlayClip(openSound, openVolume);
         
     }
 
@@ -110,6 +113,7 @@ public class CookingRecipeBook : MonoBehaviour
         rightPage.gameObject.SetActive(false);
         recipeBookOpen = false;
         uiLerp.lerpToStart = false;
+        AudioPoolManager.Instance.PlayClip(closeSound, closeVolume);
     }
 
     private void PopulateBook()
@@ -248,6 +252,7 @@ public class CookingRecipeBook : MonoBehaviour
         pages[currentPage].SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(pages[currentPage].transform.GetChild(0).gameObject);
+        AudioPoolManager.Instance.PlayClip(pageTurnSound, pageTurnVolume);
     }
 
     private bool AreThereEnoughPages(int incrementDirection)
