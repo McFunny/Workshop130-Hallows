@@ -5,11 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Crop Behavior", menuName = "Crop Behavior/MistBreaker")]
 public class MistBreaker : CropBehavior
 {
-    public GameObject beamParticle;
+    public GameObject beamParticle, decalObject;
     public override void OnFullyGrown(FarmLand tile)
     {
         NightSpawningManager.Instance.FinaleComplete();
         GameObject beam = Instantiate(beamParticle, new Vector3(tile.transform.position.x, tile.transform.position.y + 1, tile.transform.position.z), Quaternion.identity);
+        Instantiate(decalObject, tile.transform.position, Quaternion.identity);
         NightSpawningManager.Instance.StartCoroutine(FadeAway(beam, tile));
     }
 

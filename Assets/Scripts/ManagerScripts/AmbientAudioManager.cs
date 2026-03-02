@@ -23,7 +23,7 @@ public class AmbientAudioManager : MonoBehaviour
     public AudioClip finaleTheme, finaleIntro, finaleLose, finaleWin;
 
     //Ending//
-    public AudioClip endingIntro, endingLoop1, endingLoop2, endingClose;
+    public AudioClip endingIntro, endingLoop1, endingLoop2, endingClose, endingTransition;
 
     public AudioClip bellTower;
 
@@ -167,7 +167,7 @@ public class AmbientAudioManager : MonoBehaviour
             else musicCooldown = Random.Range(5, 10);
 
             Debug.Log("CoolDown for song begun");
-            yield return new WaitForSecondsRealtime(musicCooldown);
+            if(musicCooldown > 0) yield return new WaitForSecondsRealtime(musicCooldown);
             Debug.Log("CoolDown Done picking song");
             if(EndingManager.Instance.endingPlaying) //Ending Cutscene
             {
@@ -195,10 +195,13 @@ public class AmbientAudioManager : MonoBehaviour
             } 
 
             float musicRuntime = musicSource.clip.length;
+            if(musicSource.clip == endingIntro) musicRuntime -= 0.1f;
+
             if(!playingGramophone) musicSource.Play();
             Debug.Log("Playing MUSIC");
             yield return new WaitForSecondsRealtime(musicRuntime);
             Debug.Log("Song ended"); 
+            if(musicSource.clip == endingIntro) AudioPoolManager.Instance.PlayClip(endingTransition, 0.9f);
         }
     }
 
@@ -340,6 +343,7 @@ public class AmbientAudioManager : MonoBehaviour
             StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
             //musicSource.Stop(); // Stop current music
         }
+        if(EndingManager.Instance.endingPlaying) AudioPoolManager.Instance.PlayClip(endingTransition, 0.9f);
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic());
     }
 

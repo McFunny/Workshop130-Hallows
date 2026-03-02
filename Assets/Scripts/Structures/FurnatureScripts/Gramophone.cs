@@ -49,6 +49,7 @@ public class Gramophone : FurnitureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(EndingManager.Instance.endingPlaying) return;
         if(item && (savedItems.Count == 0 || savedItems[0] == null))
         {
             InsertItem(item);

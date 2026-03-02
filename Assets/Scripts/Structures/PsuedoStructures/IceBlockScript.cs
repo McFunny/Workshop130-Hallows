@@ -53,7 +53,13 @@ public class IceBlockScript : MonoBehaviour
         if(wHolder != null)
         {
             if(encasedStructure.nearbyFires.Count == 0) wHolder.EmptyWater();
-            else wHolder.GivenWater();
+            else
+            {
+                for(int i = 0; i < 3; ++i)
+                {
+                    wHolder.GivenWater();
+                }
+            }
         } 
         iceBreakParticles.Play();
     }

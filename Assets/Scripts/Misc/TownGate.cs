@@ -38,6 +38,7 @@ public class TownGate : MonoBehaviour
         if(EndingManager.Instance.endingPlaying)
         {
             EndingManager.Instance.EnteredTown();
+            PlayerMovement.Instance.disableSprint = true;
             return;
         }
 

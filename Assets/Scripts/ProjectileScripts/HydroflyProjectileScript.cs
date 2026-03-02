@@ -39,18 +39,36 @@ public class HydroflyProjectileScript : MonoBehaviour
         bigSplashEffect.SetActive(false);
         bigSplashEffect.SetActive(true);
         bigSplashEffect.transform.parent = null;
-        AudioPoolManager.Instance.PlayClipAtPosition(explodeSFX, transform.position);
+        AudioPoolManager.Instance.PlayClipAtPosition(explodeSFX, transform.position, 0.7f, 40);
         if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 6f)
         {
             StatusEffectManager.Instance.RemoveStatusOnPlayer(StatusEffectName.Fire);
         }
         Collider[] hitStructures = Physics.OverlapSphere(transform.position, 3f, 1 << 6);
+
+        List<IWaterHolder> waterHolders = new List<IWaterHolder>();
+        int structuresHit = 0;
         foreach(Collider collider in hitStructures)
         {
             StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();
             if(structure)
             {
-                structure.HitWithWater();
+                IWaterHolder wHolder = structure as IWaterHolder;
+                if(wHolder != null) waterHolders.Add(wHolder);
+                else
+                {
+                    structure.HitWithWater();
+                    structuresHit++;
+                }
+            }
+        }
+
+        for(int s = 0; s < waterHolders.Count; ++s) //Fills up water holds more effectively if there is not too many of them in the vicinity
+        {
+            if(waterHolders[s] != null)
+            {
+                if(waterHolders.Count < 3 && structuresHit < 6) for(int i = 0; i < 3; ++i) waterHolders[s].GivenWater();
+                else waterHolders[s].GivenWater();
             }
         }
 
