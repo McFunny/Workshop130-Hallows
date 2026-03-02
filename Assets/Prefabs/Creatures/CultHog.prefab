@@ -30022,10 +30022,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.93
+  m_Radius: 1.15
   m_Height: 1.59
   m_Direction: 1
-  m_Center: {x: 0, y: 1.38, z: 2.47}
+  m_Center: {x: 0, y: 1.38, z: 1.54}
 --- !u!114 &6655097342209205718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30868,6 +30868,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 6655097342209205718}
   audioScript: {fileID: 8895335155472924121}
+  structureAudioScript: {fileID: 0}
 --- !u!114 &8895335155472924121
 MonoBehaviour:
   m_ObjectHideFlags: 0

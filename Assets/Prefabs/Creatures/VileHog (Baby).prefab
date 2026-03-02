@@ -5579,7 +5579,7 @@ CapsuleCollider:
   m_Radius: 0.93
   m_Height: 1.59
   m_Direction: 1
-  m_Center: {x: 0, y: 1.38, z: 2.47}
+  m_Center: {x: 0, y: 1.38, z: 1.9}
 --- !u!114 &3190796702364712877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5630,6 +5630,7 @@ MonoBehaviour:
   damageToPlayer: -7
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0.25490198}
   currentEffects: []
   variant: 2
@@ -11336,6 +11337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 3190796702364712877}
   audioScript: {fileID: 7666892731607603035}
+  structureAudioScript: {fileID: 0}
 --- !u!114 &7666892731607603035
 MonoBehaviour:
   m_ObjectHideFlags: 0

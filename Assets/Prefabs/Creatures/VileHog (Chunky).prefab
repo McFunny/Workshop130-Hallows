@@ -5464,6 +5464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2785113571293212450}
   audioScript: {fileID: 2746970947097128294}
+  structureAudioScript: {fileID: 0}
 --- !u!114 &2746970947097128294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5832,19 +5833,19 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 2
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.93
+  m_Radius: 1.15
   m_Height: 1.59
   m_Direction: 1
-  m_Center: {x: 0, y: 1.38, z: 2.47}
+  m_Center: {x: 0, y: 1.38, z: 1.54}
 --- !u!114 &2785113571293212450
 MonoBehaviour:
   m_ObjectHideFlags: 0

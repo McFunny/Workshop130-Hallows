@@ -87,6 +87,8 @@ public class Grub : CreatureBehaviorScript
             burrowingParticles.Play();
             currentState = CreatureState.Burrowing;
             agent.enabled = false;
+
+            Thumper.OnThump += ThumperTriggered;
         }
         if(!inWilderness && Random.Range(0,10) > 2)
         {
@@ -417,8 +419,8 @@ public class Grub : CreatureBehaviorScript
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             targetWagon.TakeWagonDamage(damageToStructure);
         }
-        yield return new WaitForSeconds(Random.Range(2f, 2.5f));
-        if(stunCooldown) yield return new WaitForSeconds(Random.Range(4f, 5f));
+        yield return new WaitForSeconds(Random.Range(2f, 4f));
+        if(stunCooldown) yield return new WaitForSeconds(Random.Range(4.5f, 6f));
         agent.Resume();
         isMoving = false;
         coroutineRunning = false;
@@ -574,12 +576,20 @@ public class Grub : CreatureBehaviorScript
         return true;
     }
 
+    void ThumperTriggered(float range, Vector3 pos)
+    {
+        if(variant != Variant.Miner) return;
+        if(Vector3.Distance(pos, transform.position) < range) TakeDamage(999);
+    }
+
     void OnDestroy()
     {
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
 
         if(homeSwarm) homeSwarm.grubs.Remove(gameObject);
+
+        Thumper.OnThump -= ThumperTriggered;
     }
 
 

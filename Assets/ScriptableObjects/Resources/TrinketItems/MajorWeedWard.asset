@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 351
   displayName: Major Weed Ward
-  description: Reduces damage taken from attacks by 50% when standing on a weed.
+  description: Reduces damage taken from attacks by 70% when standing on a weed.
   icon: {fileID: -1244969803, guid: fcdf71a41cfeb1342b645d751076bb7b, type: 3}
   type: 11
   maxStackSize: 1
@@ -39,9 +39,9 @@ MonoBehaviour:
   cannotEnterInventory: 0
   behavior: {fileID: 11400000, guid: 791f15e18ef621d4cac2aebf165c856a, type: 2}
   key: 15
-  stackable: 1
+  stackable: 0
   damagedByAttacks: 1
   maxDurability: 100
   guaranteedBreakThreshold: 30
-  damageMultiplier: 0.5
+  damageMultiplier: 0.3
   breakChance: 10

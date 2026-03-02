@@ -19,6 +19,8 @@ public class DroppedKukri : MonoBehaviour, IInteractable
 
     public static DroppedKukri Instance;
 
+    public AudioClip pickupSFX;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -55,6 +57,8 @@ public class DroppedKukri : MonoBehaviour, IInteractable
             ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
 
             PlayerInteraction.Instance.lostKukri = false;
+
+            HandItemManager.Instance.toolSource.PlayOneShot(pickupSFX);
 
             Destroy(this.gameObject);
         }

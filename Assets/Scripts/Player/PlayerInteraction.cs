@@ -451,7 +451,11 @@ public class PlayerInteraction : MonoBehaviour
 
         //if(amount > 6) fatigue += Mathf.Round(amount * 0.1f);
 
-        if(amount > 0) playerEffects.PlayClip(playerEffects.playerHeal, 1.3f); //Play Heal Effects
+        if(amount > 0) 
+        {
+            playerEffects.PlayClip(playerEffects.playerHeal, 1.3f); //Play Heal Effects
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.TickRegen)) amount *= 1.25f;
+        }
         
         if(repairMinigame.IsMinigameActive()) repairMinigame.ForceEndMinigame();
 
@@ -586,13 +590,13 @@ public class PlayerInteraction : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
 
-            if(waterHeld < maxWaterHeld && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DewDripper))
+            if(waterHeld < maxWaterHeld && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DewDripper)) //Regain Water
             {
                 WaterChange(1);
                 TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.DewDripper);
             }
 
-            if(stamina < 50 && targetRegen == 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen))
+            if(stamina < 50 && targetRegen == 0 && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.RoachRegen)) //Passive regen under 50
             {
                 StaminaChange(1);
                 TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.RoachRegen);
@@ -614,7 +618,7 @@ public class PlayerInteraction : MonoBehaviour
 
             currentRegenRate = regenRate;
             
-            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.TickRegen))
+            if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.TickRegen)) //Double regen speed
             {
                 currentRegenRate *= 2;
                 TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.TickRegen);

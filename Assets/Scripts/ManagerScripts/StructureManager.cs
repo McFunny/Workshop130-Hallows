@@ -1128,7 +1128,7 @@ public class StructureManager : MonoBehaviour
         {
             for(int i = 0; i < TrinketInventoryHandler.Instance.CheckForTrinketAmount(TrinketKey.Fogchime); ++i)
             {
-                r += Random.Range(2, 5);
+                r += Random.Range(2, 6);
             }
             TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.Fogchime, 1, true);
         }
