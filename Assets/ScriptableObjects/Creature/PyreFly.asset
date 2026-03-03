@@ -19,7 +19,7 @@ MonoBehaviour:
   - name: HydroFly
     prefab: {fileID: 2998068688611110752, guid: a13d5a8fb131c7842a30661f5527ecd4,
       type: 3}
-    probabilityInWilderness: 20
+    probabilityInWilderness: 35
     canSpawnInWilderness: 1
     wealthPrerequisite: 0
     variantChanceInFarm: []
@@ -28,11 +28,11 @@ MonoBehaviour:
       type: 3}
     probabilityInWilderness: 100
     canSpawnInWilderness: 1
-    wealthPrerequisite: 3000
+    wealthPrerequisite: 6000
     variantChanceInFarm:
-    - _int: 0
-      _probability: 2
     - _int: 1
+      _probability: 2
+    - _int: 2
       _probability: 5
     - _int: 3
       _probability: 10
@@ -41,7 +41,7 @@ MonoBehaviour:
       type: 3}
     probabilityInWilderness: 0
     canSpawnInWilderness: 0
-    wealthPrerequisite: 3000
+    wealthPrerequisite: 9000
     variantChanceInFarm:
     - _int: 2
       _probability: 2

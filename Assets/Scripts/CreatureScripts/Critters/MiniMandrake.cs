@@ -246,6 +246,7 @@ public class MiniMandrake : CreatureBehaviorScript
         while(health > 0)
         {
             yield return new WaitForSeconds(1);
+            if(TimeManager.Instance.isDay) continue;
             waterLevel -= waterLossRate;
 
             if(waterLevel < 25)

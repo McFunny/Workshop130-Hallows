@@ -3908,6 +3908,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   torch: {fileID: 11400000, guid: f43e44e6f486b934d87ded649f6bc584, type: 2}
   pyreflyItem: {fileID: 0}
+  upgradedTorch: {fileID: 0}
   highlight:
   - {fileID: 4897765541571029750}
 --- !u!1 &2705575273874143906
@@ -13947,6 +13948,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: metalgate
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0bfc9414dbb4cf440963138f605ce5ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: DisableForEndCutscene
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

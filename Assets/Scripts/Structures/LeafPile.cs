@@ -27,6 +27,7 @@ public class LeafPile : StructureBehaviorScript
 
     public void OnDestroy()
     {
+        health = 0;
         base.OnDestroy();
         if(!gameObject.scene.isLoaded) return;
 

@@ -22,7 +22,7 @@ public class EndingMerchant : MonoBehaviour
         PlayerCam.Instance.NewObjectOfInterest(focalPoint.position);
         yield return new WaitForSeconds(3);
         transform.DOMove(moveBackPoint.position, 2.5f);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         PlayerMovement.restrictMovementTokens--;
         PlayerCam.Instance.ClearObjectOfInterest();
     }

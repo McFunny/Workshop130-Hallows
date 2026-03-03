@@ -257,7 +257,7 @@ public class StructureBehaviorScript : MonoBehaviour
                     else Instantiate(gibs, transform.position, Quaternion.identity);
                 }
 
-                if(structData) OnStructureDestroyed?.Invoke(structData, transform.position);
+                OnStructureDestroyed?.Invoke(structData, transform.position);
             }
 
             //logic for spawning the salvagable pile//

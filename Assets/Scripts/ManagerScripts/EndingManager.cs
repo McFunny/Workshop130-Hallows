@@ -45,6 +45,5 @@ public class EndingManager : MonoBehaviour
 
         TimeManager.Instance.currentHour = 6;
         TimeManager.Instance.RefreshSkybox();
-        PlayerMovement.Instance.disableSprint = true;
     }
 }

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d2ead40bcc7494582ff788e70c898a, type: 3}
+  m_Name: C_Laventea
+  m_EditorClassIdentifier: 
+  id: 35
+  amountMade: 0
+  priority: 1
+  requiredItems:
+  - {fileID: 11400000, guid: 7768b12c99afd534b97a45295f745592, type: 2}
+  - {fileID: 11400000, guid: 7768b12c99afd534b97a45295f745592, type: 2}
+  barredItems:
+  - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
+  recipeStats:
+  - type: 6
+    value: 1
+  - type: 2
+    value: -1
+  output: {fileID: 11400000, guid: 7e77e4e632c56a3429789bd989125387, type: 2}
+  cookTimeInSeconds: 15
+  validRecipes: []
