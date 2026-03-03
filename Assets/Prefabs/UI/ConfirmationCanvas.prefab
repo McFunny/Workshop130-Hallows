@@ -66,9 +66,9 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+    m_SelectOnLeft: {fileID: 3968119365491926642}
+    m_SelectOnRight: {fileID: 3968119365491926642}
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
@@ -92,7 +92,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7387429419167594054}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7573349671611572420}
+        m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7573349671611572420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,13 +118,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 0}
+  c_deselected: {r: 0.8509804, g: 0.7490196, b: 0.2078431, a: 1}
+  c_selected: {r: 1, g: 0.8870801, b: 0.2877358, a: 1}
+  c_disabled: {r: 0.5660378, g: 0.5029674, b: 0.1682093, a: 1}
+  c_interactable: {r: 1, g: 0.8862745, b: 0.28627452, a: 1}
+  c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  c_invisible: {r: 0, g: 0, b: 0, a: 0}
+  isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &4439730172974260645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,9 +168,13 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
-          m_MethodName: OnHover
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7573349671611572420}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerExit
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -154,13 +184,13 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 1
+  - eventID: 9
     callback:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 7573349671611572420}
           m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
-          m_MethodName: PointerExit
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -387,17 +417,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5142502845022911863}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9135835163608385808}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -89, y: 3}
-  m_SizeDelta: {x: 51.1008, y: 51.1008}
+  m_AnchoredPosition: {x: 0.000009059906, y: -0.000011921}
+  m_SizeDelta: {x: 124.3856, y: 95.5514}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3221608267386691138
 CanvasRenderer:
@@ -420,23 +450,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b650c89b3bad3824c80843b11c46aa34, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: a0fcf514be1eb2a4283ef5815642be9b, type: 3}
+  m_Type: 2
   m_PreserveAspect: 0
-  m_FillCenter: 1
+  m_FillCenter: 0
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!1 &5914565979041023742
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,17 +879,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7423098673227012822}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3489124519523094975}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -89.000015, y: 3}
-  m_SizeDelta: {x: 51.1008, y: 51.1008}
+  m_AnchoredPosition: {x: 0.000009059906, y: -0.000011921}
+  m_SizeDelta: {x: 124.3856, y: 95.5514}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1144795729368289958
 CanvasRenderer:
@@ -882,23 +912,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b650c89b3bad3824c80843b11c46aa34, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: a0fcf514be1eb2a4283ef5815642be9b, type: 3}
+  m_Type: 2
   m_PreserveAspect: 0
-  m_FillCenter: 1
+  m_FillCenter: 0
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!1 &8395457734266526336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,9 +1130,9 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+    m_SelectOnLeft: {fileID: 3869718813627495842}
+    m_SelectOnRight: {fileID: 3869718813627495842}
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1126,7 +1156,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5614808549303747741}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7627031193475659677}
+        m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7627031193475659677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,13 +1182,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 0}
+  c_deselected: {r: 0.8509804, g: 0.7490196, b: 0.2078431, a: 1}
+  c_selected: {r: 1, g: 0.8870801, b: 0.2877358, a: 1}
+  c_disabled: {r: 0.5660378, g: 0.5029674, b: 0.1682093, a: 1}
+  c_interactable: {r: 1, g: 0.8862745, b: 0.28627452, a: 1}
+  c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  c_invisible: {r: 0, g: 0, b: 0, a: 0}
+  isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
   isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!114 &5361214255119514109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1176,9 +1232,13 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
-          m_MethodName: OnHover
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7627031193475659677}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerExit
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1188,13 +1248,13 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 1
+  - eventID: 9
     callback:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 7627031193475659677}
           m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
-          m_MethodName: PointerExit
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

@@ -16,6 +16,9 @@ public class UIMenuSlider : MonoBehaviour
     Slider slider;
     public bool isPauseButton = true;
     public bool isDisabled = false;
+    [SerializeField] private AudioClip selectSound, hoverSound;
+    [SerializeField] private float selectVolume, hoverVolume;
+    private bool canPlay = false;
 
     void Awake()
     {
@@ -31,7 +34,12 @@ public class UIMenuSlider : MonoBehaviour
         c_deselected = new Color(0.8509804f, 0.7490196f, 0.2078431f, 1.0f);
         c_disabled = new Color(0.5660378f, 0.5029674f, 0.1682093f, 1.0f);
     }
-    
+
+    private void OnDisable()
+    {
+        canPlay = false;
+    }
+
     void Update()
     {
         if(isPauseButton)
@@ -69,6 +77,33 @@ public class UIMenuSlider : MonoBehaviour
     public void PointerExit()
     {
         if(!isDisabled) EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    public void PlaySelectSound()
+    {
+        if(selectSound != null && AudioPoolManager.Instance != null && canPlay) AudioPoolManager.Instance.PlayClip(selectSound, selectVolume);
+        EnablePlay();
+    }
+
+    public void PlayHoverSound()
+    {
+        if(hoverSound != null && AudioPoolManager.Instance != null) AudioPoolManager.Instance.PlayClip(hoverSound, hoverVolume);
+    }
+
+    public void PlayControllerValueChangeSound()
+    {
+        if(selectSound != null && AudioPoolManager.Instance != null && ControlManager.isController && canPlay) AudioPoolManager.Instance.PlayClip(selectSound, selectVolume);
+        EnablePlay();
+    }
+
+    public void PlayControllerHoverSound()
+    {
+        if(hoverSound != null && AudioPoolManager.Instance != null && ControlManager.isController) AudioPoolManager.Instance.PlayClip(hoverSound, hoverVolume);
+    }
+
+    public void EnablePlay() //When settings are initially loaded, this prevents sfx from playing when slider values are set to match current settings.
+    {
+        canPlay = true;
     }
 
 }

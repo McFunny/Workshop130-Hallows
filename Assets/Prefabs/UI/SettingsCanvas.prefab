@@ -252,6 +252,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7440291454307017828}
+        m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7440291454307017828}
+        m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+        m_MethodName: EnablePlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &7440291454307017828
 MonoBehaviour:
@@ -268,6 +292,10 @@ MonoBehaviour:
   text: {fileID: 8783570231589339270}
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &7582222701916697966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +341,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7440291454307017828}
+          m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &328033383002338754
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,7 +390,7 @@ RectTransform:
   m_Father: {fileID: 6007548530759405797}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40.331, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -428,9 +472,9 @@ RectTransform:
   - {fileID: 5602671824774755411}
   m_Father: {fileID: 2417934593125678609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 312.35406, y: -489.45102}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 624.7081, y: 39.9095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7598580808493930778
@@ -496,6 +540,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1079878422845288919}
+        m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+        m_MethodName: PlayControllerValueChangeSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1079878422845288919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,6 +566,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &4029834456246665144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,6 +599,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1079878422845288919}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -546,6 +618,38 @@ MonoBehaviour:
         - m_Target: {fileID: 1079878422845288919}
           m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1079878422845288919}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlaySelectSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1079878422845288919}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayControllerHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -745,9 +849,9 @@ RectTransform:
   - {fileID: 2890229647615279518}
   m_Father: {fileID: 2417934593125678609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 312.35406, y: -425.38153}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 624.7081, y: 39.9095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4854952841925581924
@@ -813,6 +917,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6167923259966000310}
+        m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+        m_MethodName: PlayControllerValueChangeSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6167923259966000310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -827,6 +943,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &7028621520057664033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,6 +976,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 6167923259966000310}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -863,6 +995,38 @@ MonoBehaviour:
         - m_Target: {fileID: 6167923259966000310}
           m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6167923259966000310}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlaySelectSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6167923259966000310}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayControllerHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -977,6 +1141,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1818280666322072282}
+        m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1818280666322072282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -997,10 +1173,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5647059, g: 0.5019608, b: 0.16862746, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 4869602226473446372}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -1042,6 +1223,22 @@ MonoBehaviour:
         - m_Target: {fileID: 1818280666322072282}
           m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1818280666322072282}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1294,9 +1491,9 @@ RectTransform:
   - {fileID: 6008674777032117133}
   m_Father: {fileID: 3865686504081699945}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 155.14925, y: -27.030952}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 208.0969, y: 54.0619}
   m_Pivot: {x: 0.5, y: 0.49999997}
 --- !u!222 &7806321991506211479
@@ -1624,6 +1821,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1073610188420172866}
+        m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1073610188420172866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1644,10 +1853,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5647059, g: 0.5019608, b: 0.16862746, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 2975685677794430436}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -1682,9 +1896,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
-          m_MethodName: OnHover
+        - m_Target: {fileID: 1073610188420172866}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1743,7 +1957,7 @@ RectTransform:
   m_Father: {fileID: 8422215372433554357}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 40.331, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1894,8 +2108,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -139.33054, y: -21.924906}
-  m_SizeDelta: {x: 215.7021, y: 59.3385}
+  m_AnchoredPosition: {x: -142.99878, y: -21.924906}
+  m_SizeDelta: {x: 223.0386, y: 59.3385}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9014016115764282039
 CanvasRenderer:
@@ -2358,6 +2572,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4562486101536435916}
+        m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4562486101536435916}
+        m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+        m_MethodName: EnablePlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &4562486101536435916
 MonoBehaviour:
@@ -2374,6 +2612,10 @@ MonoBehaviour:
   text: {fileID: 311123111205211359}
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &780550837882540979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2410,6 +2652,22 @@ MonoBehaviour:
         - m_Target: {fileID: 4562486101536435916}
           m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4562486101536435916}
+          m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2935,9 +3193,9 @@ RectTransform:
   - {fileID: 406367682059700935}
   m_Father: {fileID: 2417934593125678609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 472.37, y: -295.5282}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 944.74, y: 43.3382}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1099154453572667569
@@ -3013,7 +3271,7 @@ RectTransform:
   m_Father: {fileID: 5990769057805713335}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 40.331, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3087,8 +3345,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 9215386219298738476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.523, y: 0}
-  m_AnchorMax: {x: 0.523, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 40.331, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3165,9 +3423,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3865686504081699945}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25.55034, y: -25.550379}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 51.1008, y: 51.1008}
   m_Pivot: {x: 0.49999884, y: 0.5000004}
 --- !u!222 &5457645289008176055
@@ -3284,10 +3542,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 4172356981274721965}
   button: {fileID: 6442591659828060483}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -3322,6 +3585,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+        - m_Target: {fileID: 1761851872789222382}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -3346,6 +3621,18 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
           m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 1761851872789222382}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3458,7 +3745,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &428282176897198721
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3553,6 +3840,10 @@ MonoBehaviour:
     - {fileID: 4138195803712631010}
     - {fileID: 3805931415083987738}
     - {fileID: 2075243929962770782}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!1 &2428936087442566707
 GameObject:
   m_ObjectHideFlags: 0
@@ -3843,6 +4134,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5915157555606300649}
+        m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5915157555606300649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3863,10 +4166,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5647059, g: 0.5019608, b: 0.16862746, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 2691923430421134593}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -3901,9 +4209,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
-          m_MethodName: OnHover
+        - m_Target: {fileID: 5915157555606300649}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4174,9 +4482,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3865686504081699945}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 284.74805, y: -25.550379}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 51.1008, y: 51.1008}
   m_Pivot: {x: 0.49999884, y: 0.5000004}
 --- !u!222 &5617561483221777200
@@ -4293,10 +4601,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 4172356981274721965}
   button: {fileID: 4490852729575971330}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -4331,6 +4644,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+        - m_Target: {fileID: 7982110051930838036}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -4355,6 +4680,18 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
           m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 7982110051930838036}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4412,7 +4749,7 @@ RectTransform:
   m_Father: {fileID: 9900958220873486}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 40.331, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4622,7 +4959,7 @@ RectTransform:
   m_Father: {fileID: 6626573195823277585}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.00012207, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4704,9 +5041,9 @@ RectTransform:
   - {fileID: 2725532254688234247}
   m_Father: {fileID: 2417934593125678609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 312.35406, y: -553.52057}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 624.7081, y: 39.9095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7125011670860480613
@@ -4772,6 +5109,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5815229065214366465}
+        m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+        m_MethodName: PlayControllerValueChangeSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5815229065214366465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4786,6 +5135,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &6064448055793743976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4815,6 +5168,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 5815229065214366465}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -4822,6 +5187,38 @@ MonoBehaviour:
         - m_Target: {fileID: 5815229065214366465}
           m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5815229065214366465}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlaySelectSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5815229065214366465}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayControllerHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5374,6 +5771,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2336788362470678596}
+        m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2336788362470678596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5394,10 +5803,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5647059, g: 0.5019608, b: 0.16862746, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 4670896861448365997}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -5439,6 +5853,22 @@ MonoBehaviour:
         - m_Target: {fileID: 2336788362470678596}
           m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2336788362470678596}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6038,9 +6468,9 @@ RectTransform:
   - {fileID: 8354438296460142587}
   m_Father: {fileID: 2417934593125678609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 472.37, y: -228.03}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 944.74, y: 43.3382}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7867966854599096072
@@ -6400,6 +6830,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6451272383081395287}
+        m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6451272383081395287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6420,10 +6862,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5647059, g: 0.5019608, b: 0.16862746, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 2214223533027648917}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -6458,9 +6905,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
-          m_MethodName: OnHover
+        - m_Target: {fileID: 6451272383081395287}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6526,9 +6973,9 @@ RectTransform:
   - {fileID: 3773459059962408723}
   m_Father: {fileID: 2417934593125678609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 312.35406, y: -162.24615}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 624.7081, y: 39.9095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9000525095055408188
@@ -6594,6 +7041,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 194698026983593222}
+        m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+        m_MethodName: PlayControllerValueChangeSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &194698026983593222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6608,6 +7067,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &5677488468508577175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6637,6 +7100,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 194698026983593222}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -6644,6 +7119,38 @@ MonoBehaviour:
         - m_Target: {fileID: 194698026983593222}
           m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 194698026983593222}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlaySelectSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 194698026983593222}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayControllerHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6947,7 +7454,7 @@ RectTransform:
   m_Father: {fileID: 6720818707385585417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.000030517578, y: 0}
   m_SizeDelta: {x: 0.00012207, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7327,7 +7834,7 @@ RectTransform:
   m_Father: {fileID: 4761686315601756765}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.000030517578, y: 0}
   m_SizeDelta: {x: 0.00012207, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7471,6 +7978,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2778993157995616682}
+        m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2778993157995616682}
+        m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+        m_MethodName: EnablePlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &2778993157995616682
 MonoBehaviour:
@@ -7487,6 +8018,10 @@ MonoBehaviour:
   text: {fileID: 5266688992694041556}
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &6030825766187515478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7532,6 +8067,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2778993157995616682}
+          m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4959367955837964983
 GameObject:
   m_ObjectHideFlags: 0
@@ -7565,7 +8116,7 @@ RectTransform:
   m_Father: {fileID: 9206947394622695446}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.000030517578, y: 0}
   m_SizeDelta: {x: 0.00012207, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7722,9 +8273,9 @@ RectTransform:
   - {fileID: 86214770614430163}
   m_Father: {fileID: 2417934593125678609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 312.35406, y: -98.17664}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 624.7081, y: 39.9095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7579782010492545030
@@ -7790,6 +8341,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8450004790001117978}
+        m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+        m_MethodName: PlayControllerValueChangeSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8450004790001117978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7804,6 +8367,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &5575078855627928795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7833,6 +8400,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 8450004790001117978}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -7840,6 +8419,38 @@ MonoBehaviour:
         - m_Target: {fileID: 8450004790001117978}
           m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8450004790001117978}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlaySelectSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8450004790001117978}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayControllerHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -8267,10 +8878,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 0}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 0}
+  hoverSound: {fileID: 0}
+  selectVolume: 0
+  hoverVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -8505,9 +9121,9 @@ RectTransform:
   - {fileID: 3865686504081699945}
   m_Father: {fileID: 2417934593125678609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 198.4235, y: -27.030945}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 396.847, y: 54.06189}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5849436336866894646
@@ -8579,7 +9195,7 @@ RectTransform:
   m_Father: {fileID: 5355414080310911046}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 40.331, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9047,6 +9663,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1955270341855421535}
+        m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1955270341855421535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9067,10 +9695,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5647059, g: 0.5019608, b: 0.16862746, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 0}
   arrowImage: {fileID: 9143243815029015597}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 0
@@ -9112,6 +9745,22 @@ MonoBehaviour:
         - m_Target: {fileID: 1955270341855421535}
           m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1955270341855421535}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -10558,7 +11207,7 @@ RectTransform:
   m_Father: {fileID: 4440524007153448474}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.000030517578, y: 0}
   m_SizeDelta: {x: 0.00012207, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11308,9 +11957,9 @@ RectTransform:
   - {fileID: 2534190245936849909}
   m_Father: {fileID: 2417934593125678609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 312.35406, y: -361.31204}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 624.7081, y: 39.9095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5299129250916262320
@@ -11376,6 +12025,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1156140091504221864}
+        m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+        m_MethodName: PlayControllerValueChangeSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1156140091504221864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11390,6 +12051,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &3705362831632487265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11419,6 +12084,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1156140091504221864}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -11426,6 +12103,38 @@ MonoBehaviour:
         - m_Target: {fileID: 1156140091504221864}
           m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1156140091504221864}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlaySelectSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1156140091504221864}
+          m_TargetAssemblyTypeName: UIMenuSlider, Assembly-CSharp
+          m_MethodName: PlayControllerHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -12594,6 +13303,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7628068842476529677}
+        m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+        m_MethodName: PlaySelectSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7628068842476529677}
+        m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+        m_MethodName: EnablePlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &7628068842476529677
 MonoBehaviour:
@@ -12610,6 +13343,10 @@ MonoBehaviour:
   text: {fileID: 2626394729444594383}
   isPauseButton: 0
   isDisabled: 0
+  selectSound: {fileID: 8300000, guid: 9f0f376fb2f482f40ba6f5edafb260c7, type: 3}
+  hoverSound: {fileID: 8300000, guid: 37373998ffef6d642b28b701daa9d606, type: 3}
+  selectVolume: 0.1
+  hoverVolume: 0.1
 --- !u!114 &1698122864786359221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12646,6 +13383,22 @@ MonoBehaviour:
         - m_Target: {fileID: 7628068842476529677}
           m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
           m_MethodName: PointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7628068842476529677}
+          m_TargetAssemblyTypeName: UIToggleButton, Assembly-CSharp
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -13465,7 +14218,7 @@ RectTransform:
   m_Father: {fileID: 2288830016140673184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.523, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.000030517578, y: 0}
   m_SizeDelta: {x: 0.00012207, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

@@ -37,6 +37,8 @@ public class SettingsValueManager : MonoBehaviour
     private ApplySettings applySettings;
     public delegate void SettingsChanged();
     public static event SettingsChanged OnSettingsChanged;
+    [SerializeField] private AudioClip selectSound, hoverSound;
+    [SerializeField] private float selectVolume, hoverVolume;
 
     void Awake() // 0 is false, 1 is true
     {
@@ -205,6 +207,7 @@ public class SettingsValueManager : MonoBehaviour
         EnableDisablePreviousMenuButtons(false);
         ChangeSettingsPage(0);
         if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(defaultMenuObject);
+        defaultMenuObject.GetComponent<UIMenuButton>().highlight.SetActive(true);
         //inputSystem.leftClick = null;
         sensitivitySlider.value = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
         sensitivityDisplay.SetText($"{sensitivitySlider.value.ToString("N2")}");
@@ -332,6 +335,7 @@ public class SettingsValueManager : MonoBehaviour
         confirmationBox.gameObject.SetActive(false);
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
         confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
+        //AudioPoolManager.Instance.PlayClip(selectSound, selectVolume);
     }
 
     private void NoPressed()
@@ -340,6 +344,7 @@ public class SettingsValueManager : MonoBehaviour
         confirmationBox.yesButton.onClick.RemoveListener(YesPressed);
         confirmationBox.yesButton.onClick.RemoveListener(NoPressed);
         EventSystem.current.SetSelectedGameObject(confirmationBox.calledBy.gameObject);
+        //AudioPoolManager.Instance.PlayClip(selectSound, selectVolume);
     }
 
     public void defaultSettings()
@@ -557,6 +562,8 @@ public class SettingsValueManager : MonoBehaviour
         nav.selectOnLeft = defaultButton;
         nav.selectOnRight = null;
         applyButton.navigation = nav;
+
+        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(defaultMenuObject);
 
     }
 }

@@ -16,13 +16,14 @@ public class UIMenuButton : MonoBehaviour
     public Color c_noninteractable = new Color(0.5f, 0.5f, 0.5f, 1);
     public Color c_invisible = new Color(0f,0f,0f,0f);
     public bool isSelected;
+    public GameObject highlight; //Only used for one niche scenario for the settings menu lol
     ControlManager controlManager;
     [SerializeField] Button button;
     public Image arrowImage;
     [SerializeField] private KeepSelectionOnScreen keepSelectionOnScreen;
     [SerializeField] private ResolutionButtonID r;
-    [SerializeField] private AudioClip selectSound;
-    [SerializeField] private float selectVolume;
+    [SerializeField] private AudioClip selectSound, hoverSound;
+    [SerializeField] private float selectVolume, hoverVolume;
     RectTransform rectTransform;
     public bool isPauseButton = true;
     public bool isDisabled = false;
@@ -158,6 +159,11 @@ public class UIMenuButton : MonoBehaviour
     public void PlaySelectSound()
     {
         if(selectSound != null && AudioPoolManager.Instance != null) AudioPoolManager.Instance.PlayClip(selectSound, selectVolume);
+    }
+
+    public void PlayHoverSound()
+    {
+        if(hoverSound != null && AudioPoolManager.Instance != null) AudioPoolManager.Instance.PlayClip(hoverSound, hoverVolume);
     }
 
     public bool GetSelected()

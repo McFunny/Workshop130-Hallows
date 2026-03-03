@@ -19,7 +19,6 @@ public class MainMenuScript : MonoBehaviour
     public GameObject loadButtonPrefab;
     private SettingsValueManager settingsValueManager;
     ControlManager controlManager;
-    public AudioSource source;
     public AudioClip hover, select;
     bool isTransitioning = false;
     public static bool loadingData = false;
@@ -144,8 +143,8 @@ public class MainMenuScript : MonoBehaviour
             else if (resolutionBox.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.resolutionDefault);
             else if (settingsCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(settingsValueManager.defaultMenuObject);
             else if (difficultyOptions.activeSelf) EventSystem.current.SetSelectedGameObject(difficultyDefault);
-            else if (menuObject.activeSelf) EventSystem.current.SetSelectedGameObject(defaultObject);
             else if (loadCanvas.activeSelf) EventSystem.current.SetSelectedGameObject(loadDefault);
+            else if (menuObject.activeSelf) EventSystem.current.SetSelectedGameObject(defaultObject);
             else { EventSystem.current.SetSelectedGameObject(defaultObject); }
             print("Default Menu Object Selected");
 
@@ -204,8 +203,8 @@ public class MainMenuScript : MonoBehaviour
             Cursor.visible = true;
         }
 
-        if (settingsCanvas.activeSelf || controlsCanvas.activeSelf || confirmationBox.gameObject.activeSelf || loadCanvas.activeSelf) webObject.canOpen = false;
-        else webObject.canOpen = true;
+        /*if (settingsCanvas.activeSelf || controlsCanvas.activeSelf || confirmationBox.gameObject.activeSelf || loadCanvas.activeSelf) webObject.canOpen = false;
+        else webObject.canOpen = true;*/
 
         if (FadeScreen.coverScreen == true)
         {
@@ -538,13 +537,13 @@ public class MainMenuScript : MonoBehaviour
     public void OnHover()
     {
         if (isTransitioning) return;
-        source.PlayOneShot(hover);
+        AudioPoolManager.Instance.PlayClip(hover, 0.1f);
     }
 
     public void OnSelect()
     {
         if (isTransitioning) return;
-        source.PlayOneShot(select);
+        AudioPoolManager.Instance.PlayClip(select, 0.1f);
     }
 
     void ChangeMenu(int num)

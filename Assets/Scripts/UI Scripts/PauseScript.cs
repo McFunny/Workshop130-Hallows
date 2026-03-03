@@ -36,12 +36,12 @@ public class PauseScript : MonoBehaviour
 
     private void OnEnable()
     {
-        codex3.onCodexClosed += CodexClosed;
+        //codex3.onCodexClosed += CodexClosed;
         //controlManager.closeCodex.action.started += UnPause;
     }
     private void OnDisable()
     {
-        codex3.onCodexClosed -= CodexClosed;
+        //codex3.onCodexClosed -= CodexClosed;
         //controlManager.closeCodex.action.started -= UnPause;
     }
 
@@ -215,11 +215,6 @@ public class PauseScript : MonoBehaviour
         }*/
         PauseGame();
         controlManager.playerInput.SwitchCurrentActionMap("Gameplay");
-    }
-
-    private void CodexClosed()
-    {
-        if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(buttons[4].gameObject);
     }
 
     public void GoToMainMenu()

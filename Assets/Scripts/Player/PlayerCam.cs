@@ -22,7 +22,7 @@ public class PlayerCam : MonoBehaviour
     float yRotation;
     ControlManager controlManager;
 
-    const float contScalar = 5;
+    const float contScalar = 15;
 
     private bool isSprinting;
 
@@ -113,10 +113,10 @@ public class PlayerCam : MonoBehaviour
                 if(cameraRecoilY <= 10 && cameraRecoilY >= -10) cameraRecoilY = 0;
             }
             // Scaling sensitivity to match old input system;
-            lookX *= 0.5f;
+            /*lookX *= 0.5f;
             lookX *= 0.1f;
             lookY *= 0.5f;
-            lookY *= 0.1f;
+            lookY *= 0.1f;*/
 
             if(ControlManager.isGamepad)
             {
@@ -130,8 +130,8 @@ public class PlayerCam : MonoBehaviour
             }
 
 
-            yRotation += lookX;
-            xRotation -= lookY;
+            yRotation += lookX * Time.deltaTime;
+            xRotation -= lookY * Time.deltaTime;
 
             if(xRotation > 90) 
             {
