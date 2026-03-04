@@ -1098,6 +1098,7 @@ GameObject:
   - component: {fileID: 8720073244954020482}
   - component: {fileID: 8230827305706964411}
   - component: {fileID: 898524791706984129}
+  - component: {fileID: 3997002065708539254}
   m_Layer: 0
   m_Name: CritterButton
   m_TagString: Untagged
@@ -1225,26 +1226,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4756310968243512234}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4756310968243512234}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
+        - m_Target: {fileID: 3997002065708539254}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerEnter
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1257,10 +1242,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4756310968243512234}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
+        - m_Target: {fileID: 3997002065708539254}
+          m_TargetAssemblyTypeName: UIMenuButton, Assembly-CSharp
+          m_MethodName: PointerExit
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1269,22 +1254,40 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 10
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4756310968243512234}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+--- !u!114 &3997002065708539254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2722464087120059808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe98d1b82ffdac94e8889d415b6e947f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  c_deselected: {r: 0.8509804, g: 0.7490196, b: 0.2078431, a: 1}
+  c_selected: {r: 1, g: 0.8870801, b: 0.2877358, a: 1}
+  c_disabled: {r: 0.5660378, g: 0.5029674, b: 0.1682093, a: 1}
+  c_interactable: {r: 1, g: 0.8862745, b: 0.28627452, a: 1}
+  c_noninteractable: {r: 0.5647059, g: 0.5019608, b: 0.16862746, a: 1}
+  c_invisible: {r: 0, g: 0, b: 0, a: 0}
+  isSelected: 0
+  highlight: {fileID: 0}
+  button: {fileID: 0}
+  arrowImage: {fileID: 4756310968243512234}
+  keepSelectionOnScreen: {fileID: 0}
+  r: {fileID: 0}
+  selectSound: {fileID: 0}
+  hoverSound: {fileID: 0}
+  selectVolume: 0
+  hoverVolume: 0
+  isPauseButton: 0
+  isDisabled: 0
+  ignoreColor: 1
+  isWithinScrollRect: 0
+  doNotUpdate: 0
 --- !u!1 &2851781813203743209
 GameObject:
   m_ObjectHideFlags: 0
@@ -4227,7 +4230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8862745, b: 0.28627452, a: 1}
+  m_Color: {r: 1, g: 0.8862745, b: 0.28627452, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

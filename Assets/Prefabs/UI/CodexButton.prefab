@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -456,12 +456,15 @@ MonoBehaviour:
   c_noninteractable: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   c_invisible: {r: 0, g: 0, b: 0, a: 0}
   isSelected: 0
+  highlight: {fileID: 0}
   button: {fileID: 8948327278068844420}
   arrowImage: {fileID: 3728121440526967422}
   keepSelectionOnScreen: {fileID: 0}
   r: {fileID: 0}
   selectSound: {fileID: 8300000, guid: 2ce29849aae35c741becbb6feba1a426, type: 3}
+  hoverSound: {fileID: 0}
   selectVolume: 0.02
+  hoverVolume: 0
   isPauseButton: 0
   isDisabled: 0
   ignoreColor: 1

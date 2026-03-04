@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class Codex3 : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Codex3 : MonoBehaviour
     private ControlManager controlManager;
     private QuestManager questManager;
     private List<GameObject> critterObjects = new List<GameObject>();
+    private List<GameObject> questObjects = new List<GameObject>();
     private int currentScreenNum = 0;
     private int tutorialScreenNum = 0;
     private int toolsScreenNum = 0;
@@ -28,6 +30,8 @@ public class Codex3 : MonoBehaviour
     private int creaturesScreenNum = 0;
     private int bugsScreenNum = 0;
     private int questsScreenNum = 0;
+    private bool extraCritterPages = false;
+    private bool extraQuestPages = false;
     [SerializeField] private int crittersScreenNum = 0;
     [SerializeField] private ChildActivator childActivator;
     public enum OpenCategory
@@ -46,6 +50,7 @@ public class Codex3 : MonoBehaviour
     [SerializeField] private UIAlphaController bgPanel;
     private Image bgPanelImage;
     [SerializeField] private GameObject codex;
+    [SerializeField] private GameObject controlsObject;
     [SerializeField] private UILerp uiLerp;
     [SerializeField] private AudioClip codexOpenSound, codexCloseSound, codexPageTurnSound;
     [SerializeField] private float codexOpenVolume, codexCloseVolume, codexPageTurnVolume;
@@ -70,10 +75,12 @@ public class Codex3 : MonoBehaviour
 
     [Header("Images")]
     [SerializeField] private List<Image> controllerImages = new List<Image>();
+    [SerializeField] private List<Image> keyboardImages = new List<Image>();
     [SerializeField] private List<Sprite> petImages = new List<Sprite>();
     [SerializeField] private List<Sprite> critterImages = new List<Sprite>();
     [SerializeField] private GameObject backControllerObject;
     [SerializeField] private GameObject backKBMObject;
+    [SerializeField] private GameObject arrowParent;
 
     [Header("Override References")]
     [SerializeField] private CodexEntries mandrakeCreatureEntry;
@@ -184,7 +191,7 @@ public class Codex3 : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
             if (containers[(int)openCategory].transform.childCount > 0)
             {
-                EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+                EventSystem.current.SetSelectedGameObject(ReturnFirstActiveChild(containers[(int)openCategory]));
             }
             AudioPoolManager.Instance.PlayClip(codexPageTurnSound, codexPageTurnVolume);
         }
@@ -204,7 +211,7 @@ public class Codex3 : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
             if (containers[(int)openCategory].transform.childCount > 0)
             {
-                EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+                EventSystem.current.SetSelectedGameObject(ReturnFirstActiveChild(containers[(int)openCategory]));
             }
             AudioPoolManager.Instance.PlayClip(codexPageTurnSound, codexPageTurnVolume);
         }
@@ -243,6 +250,7 @@ public class Codex3 : MonoBehaviour
             backControllerObject.SetActive(true);
             backKBMObject.SetActive(false);
             for (int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = true;
+            for (int i = 0; i < keyboardImages.Count; i++) keyboardImages[i].enabled = false;
 
             if (menuIndex == 1)
             {
@@ -252,7 +260,7 @@ public class Codex3 : MonoBehaviour
                 {
                     if (containers[(int)openCategory].transform.childCount > 0)
                     {
-                        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+                        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(ReturnFirstActiveChild(containers[(int)openCategory]));
                     }
                 }
             }
@@ -262,6 +270,7 @@ public class Codex3 : MonoBehaviour
             backControllerObject.SetActive(false);
             backKBMObject.SetActive(true);
             for (int i = 0; i < controllerImages.Count; i++) controllerImages[i].enabled = false;
+            for (int i = 0; i < keyboardImages.Count; i++) keyboardImages[i].enabled = true;
         }
     }
 
@@ -275,7 +284,7 @@ public class Codex3 : MonoBehaviour
 
         if (ControlManager.isController && containers[(int)openCategory].transform.childCount > 0)
         {
-            EventSystem.current.SetSelectedGameObject(containers[(int)openCategory].transform.GetChild(0).gameObject);
+            EventSystem.current.SetSelectedGameObject(ReturnFirstActiveChild(containers[(int)openCategory]));
         }
 
         Time.timeScale = 0f;
@@ -384,14 +393,14 @@ public class Codex3 : MonoBehaviour
                     print("No Frests found.");
                     return;
                 }
+                int buttonsPlaced = 0;
 
                 for (int e = 0; e < activeQuests.Count; e++)
                 {
-                    var chosenContainer = containers[7];
-                    if (e < maxQuestEntries) chosenContainer = containers[7];
-                    else chosenContainer = secondaryContainers[7];
+                    int batchIndex = buttonsPlaced / maxQuestEntries;
+                    Transform currentParent = (batchIndex % 2 == 0) ? containers[7].transform : secondaryContainers[7].transform;
 
-                    GameObject entryButton = Instantiate(entryButtonHorizontalPrefab, chosenContainer.transform);
+                    GameObject entryButton = Instantiate(entryButtonHorizontalPrefab, currentParent.transform);
                     entryButton.name = activeQuests[e].name + " Quest";
 
                     var questTitle = entryButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -448,7 +457,15 @@ public class Codex3 : MonoBehaviour
                     else questTitle.text = "<s>" + questTitle.text + "</s>";
 
                     buttonScript.assignedQuest = activeQuests[e];
+                    questObjects.Add(entryButton);
+                    buttonsPlaced++;
                 }
+
+                if(activeQuests.Count > maxQuestEntries * 2) extraQuestPages = true;
+                else extraQuestPages = false;
+
+                questsScreenNum = activeQuests.Count / (maxQuestEntries * 2); // Calculate the number of screens needed for quests
+                HideAndShowEntries(OpenCategory.Quests, maxQuestEntries);
             }
 
             if (isCritter)
@@ -508,7 +525,9 @@ public class Codex3 : MonoBehaviour
                     critterObjects.Add(critterButton);
                     buttonsPlaced++;
                 }
-                
+                if(critterObjects.Count > maxCritterEntries * 2) extraCritterPages = true;
+                else extraCritterPages = false;
+
                 crittersScreenNum = critterObjects.Count / (maxCritterEntries * 2); // Calculate the number of screens needed for critters
                 HideAndShowEntries(OpenCategory.Critters, maxCritterEntries);
             }
@@ -727,14 +746,15 @@ public class Codex3 : MonoBehaviour
                 break;
 
             case OpenCategory.Quests:
-                //questsScreenNum += incrementDirection;
+                if (!AreThereEnoughPages(questsScreenNum, incrementDirection)) return;
+                currentScreenNum += incrementDirection;
+                HideAndShowEntries(cat, maxQuestEntries);
                 break;
 
             case OpenCategory.Critters:
                 if (!AreThereEnoughPages(crittersScreenNum, incrementDirection)) return;
                 currentScreenNum += incrementDirection;
                 HideAndShowEntries(cat, maxCritterEntries);
-                if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(ReturnFirstActiveChild(containers[6]));
                 break;
         }
     }
@@ -760,17 +780,38 @@ public class Codex3 : MonoBehaviour
     {
         var catInt = (int)cat;
 
-        for (int i = 0; i < critterObjects.Count; i++)
+        if(cat.Equals(OpenCategory.Quests))
         {
-            if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+            for (int i = 0; i < questObjects.Count; i++)
             {
-                critterObjects[i].SetActive(true);
+                if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+                {
+                    questObjects[i].SetActive(true);
+                }
+                else
+                {
+                    questObjects[i].SetActive(false);
+                }
             }
-            else
-            {
-                critterObjects[i].SetActive(false);
-            }
+            if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(null);
+            return;
         }
+        else if(cat.Equals(OpenCategory.Critters))
+        {
+           for (int i = 0; i < critterObjects.Count; i++)
+            {
+                if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+                {
+                    critterObjects[i].SetActive(true);
+                }
+                else
+                {
+                    critterObjects[i].SetActive(false);
+                }
+            }
+            if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(null);
+        }
+        
     }
     
 
@@ -824,6 +865,7 @@ public class Codex3 : MonoBehaviour
     public void ChangeCategory(string categoryToOpen)
     {
         CloseEntryPages();
+        currentScreenNum = 0;
 
         // Change the open category based on the index of the button pressed
         openCategory = (OpenCategory)Enum.Parse(typeof(OpenCategory), categoryToOpen); //Wow
@@ -842,6 +884,21 @@ public class Codex3 : MonoBehaviour
             secondaryContainers[i].SetActive(i == catInt);
         }
         categoryTitle.text = openCategory.ToString(); // Update the category title
+
+        if (openCategory == OpenCategory.Quests)
+        {
+            HideAndShowEntries(OpenCategory.Quests, maxQuestEntries);
+            arrowParent.SetActive(extraQuestPages);
+        }
+        else if (openCategory == OpenCategory.Critters)
+        {
+            HideAndShowEntries(OpenCategory.Critters, maxCritterEntries);
+            arrowParent.SetActive(extraCritterPages);
+        }
+        else
+        {
+            arrowParent.SetActive(false);
+        }
     }
 
     private void CloseEntryPages()
@@ -883,7 +940,7 @@ public class Codex3 : MonoBehaviour
         {
             if(parent.transform.GetChild(i).gameObject.activeSelf == true)
             {
-                return gameObject.transform.GetChild(i).gameObject;
+                return parent.transform.GetChild(i).gameObject;
             }
         }
         return null;
