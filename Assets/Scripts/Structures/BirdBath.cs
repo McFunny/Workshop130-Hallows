@@ -44,6 +44,16 @@ public class BirdBath : StructureBehaviorScript
         
     }
 
+    public override void ItemInteraction(InventoryItemData item)
+    {
+        if(item.ID == 322 && waterLevel > 0 && Freezable())
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            Freeze();
+        }
+    }
+
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;

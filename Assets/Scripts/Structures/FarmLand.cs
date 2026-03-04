@@ -794,6 +794,7 @@ public class FarmLand : StructureBehaviorScript
     void OnDestroy()
     {
         OnDamage -= Damaged;
+        health = 0;
         base.OnDestroy();
         if (!gameObject.scene.isLoaded) return; 
 

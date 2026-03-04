@@ -110,6 +110,16 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
         }
     }
 
+    public override void ItemInteraction(InventoryItemData item)
+    {
+        if(item.ID == 322 && waterLevel > 0 && Freezable())
+        {
+            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            PlayerInventoryHolder.Instance.UpdateInventory();
+            Freeze();
+        }
+    }
+
     public override void HitWithWater()
     {
         if(waterLevel < maxWaterLevel && !waterCooldown && !IsFrozen()) 

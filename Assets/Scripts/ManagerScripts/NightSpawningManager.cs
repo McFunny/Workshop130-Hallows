@@ -413,8 +413,8 @@ public class NightSpawningManager : MonoBehaviour
             if(MainMenuScript.currentFileMode == FileMode.Survival || SiegeManager.Instance.siegeCropOnFarm) difficultyMultiplier = 1;
             else if(TimeManager.Instance.dayNum == 1) difficultyMultiplier = .5f;
             else if(GameSaveData.Instance.siegesCleared == 0) difficultyMultiplier = .75f;
-            else if(GameSaveData.Instance.siegesCleared == 1) difficultyMultiplier = 1f;
-            else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.1f;
+            else if(GameSaveData.Instance.siegesCleared == 1) difficultyMultiplier = 0.9f;
+            else if(GameSaveData.Instance.siegesCleared == 2) difficultyMultiplier = 1.05f;
             else if(GameSaveData.Instance.siegesCleared == 3) difficultyMultiplier = 1.2f;
             
             /*if(PlayerInteraction.Instance.totalMoneyEarned > 10000) difficultyMultiplier = 1.6f;
@@ -423,7 +423,7 @@ public class NightSpawningManager : MonoBehaviour
             else if(TimeManager.Instance.dayNum < 3) difficultyMultiplier = 0.75f;
             else difficultyMultiplier = 1;*/ //The old way
 
-            if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.25f;
+            if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.35f;
 
             foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
             {

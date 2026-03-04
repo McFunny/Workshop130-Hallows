@@ -767,7 +767,7 @@ public class WagonMerchantNPC : NPC, ITalkable
     bool CanSellTrinketPouch()
     {
         if(GameSaveData.Instance.trinketSlotsGiven == 0 || GameSaveData.Instance.trinketSlotsGiven >= 3) return false;
-        if(PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) return false;
+        if(!PlayerInteraction.Instance.playerUpgrades.gainedInventoryUpgrade) return false;
 
         if(GameSaveData.Instance.trinketSlotsGiven > GameSaveData.Instance.siegesCleared) return false;
         return true;

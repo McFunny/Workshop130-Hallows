@@ -22,7 +22,7 @@ public class Grub : CreatureBehaviorScript
     public GameObject fearObject;
 
     public List<StructureObject> targettableStructures;
-    private StructureBehaviorScript targetStructure;
+    private StructureBehaviorScript targetStructure, obstacleStructure;
 
     public List<CropData> desiredCrops; //More likely to target these than others
     public List<CropData> undesiredCrops; //Will never target these
@@ -189,9 +189,10 @@ public class Grub : CreatureBehaviorScript
         if(CheckForObstacle(transform) != null)
         {
             StructureBehaviorScript obstacle = CheckForObstacle(transform);
-            if(targettableStructures.Contains(obstacle.structData) && targetStructure != obstacle)
+            if(targettableStructures.Contains(obstacle.structData) && obstacleStructure != obstacle)
             {
-                targetStructure = obstacle;
+                obstacleStructure = obstacle;
+                if(targetStructure == null) targetStructure = obstacle;
                 if(currentState == CreatureState.Wander)
                 {
                     currentState = CreatureState.AttackStructure;
@@ -220,7 +221,7 @@ public class Grub : CreatureBehaviorScript
                 }
                 StartCoroutine(MoveToPoint(targetStructure.transform.position, 3));
 
-                if(Vector3.Distance(transform.position, targetStructure.transform.position) < 1.8f) interruptAction = true;
+                if(Vector3.Distance(transform.position, targetStructure.transform.position) < 1.8f || obstacleStructure != null) interruptAction = true;
             }
 
             else if(currentState == CreatureState.AttackWagon) ///Attacking Wagon
@@ -301,7 +302,7 @@ public class Grub : CreatureBehaviorScript
         yield return new WaitForSeconds(r);
         if(currentState == CreatureState.Idle)
         {
-            if(targetStructure) currentState = CreatureState.AttackStructure;
+            if(targetStructure || obstacleStructure) currentState = CreatureState.AttackStructure;
             currentState = CreatureState.Wander;
         }
         coroutineRunning = false;
@@ -338,9 +339,15 @@ public class Grub : CreatureBehaviorScript
             currentState = CreatureState.Idle;
         }
 
-        if(currentState == CreatureState.AttackStructure && targetStructure)
+        if(currentState == CreatureState.AttackStructure && (targetStructure || obstacleStructure))
         {
-            if(Vector3.Distance(targetStructure.transform.position, transform.position) < 2.2f)
+            bool nearStructure = false;
+ 
+            if(obstacleStructure && Vector3.Distance(obstacleStructure.transform.position, transform.position) < 2.2f) nearStructure = true;
+            else if(obstacleStructure && Vector3.Distance(targetStructure.transform.position, transform.position) < 2.2f) nearStructure = true;
+
+
+            if(nearStructure)
             {
                 agent.Stop();
                 StartCoroutine(AttackCoolDown());
@@ -396,11 +403,15 @@ public class Grub : CreatureBehaviorScript
 
     IEnumerator AttackCoolDown()
     {
+        StructureBehaviorScript structToDamage;
+        if(obstacleStructure) structToDamage = obstacleStructure;
+        else structToDamage = targetStructure;
+
         anim.Play("GrubAttack");
         yield return new WaitForSeconds(0.2f);
-        if(targetStructure)
+        if(structToDamage)
         {
-            FarmLand tile = targetStructure as FarmLand;
+            FarmLand tile = structToDamage as FarmLand;
             if(tile && tile.crop && tile.crop == foxgloveData && Random.Range(0,5) > 2)
             {
                 TakeDamage(99);
@@ -408,8 +419,8 @@ public class Grub : CreatureBehaviorScript
                 yield break;
             }
 
-            HitStructureParticle(targetStructure.transform.position);
-            targetStructure.TakeDamage(damageToStructure);
+            HitStructureParticle(structToDamage.transform.position);
+            structToDamage.TakeDamage(damageToStructure);
             effectsHandler.MiscSound();
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
         }
@@ -419,8 +430,15 @@ public class Grub : CreatureBehaviorScript
             ParticlePoolManager.Instance.GrabDirtPixelParticle().transform.position = transform.position;
             targetWagon.TakeWagonDamage(damageToStructure);
         }
+
+        if(stunCooldown) yield return new WaitForSeconds(Random.Range(3f, 5f));
         yield return new WaitForSeconds(Random.Range(2f, 4f));
-        if(stunCooldown) yield return new WaitForSeconds(Random.Range(4.5f, 6f));
+        if(obstacleStructure) //To keep him moving past a structure if able
+        {
+            yield return new WaitForSeconds(Random.Range(0.5f, 1f));
+            if(targetStructure) agent.SetDestination(targetStructure.transform.position);
+        }
+        obstacleStructure = null;
         agent.Resume();
         isMoving = false;
         coroutineRunning = false;
@@ -527,6 +545,35 @@ public class Grub : CreatureBehaviorScript
     {
         successful = false;
         if(stunCooldown || currentState == CreatureState.Burrowing || variant == Variant.Corrupt) return;
+
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.GrubBomb) && UnityEngine.Random.Range(0, 10) == 1)
+        {
+            ParticlePoolManager.Instance.GrabExplosionParticle().transform.position = corpseParticleTransform.position;
+            effectsHandler.ThrowSound(effectsHandler.deathSound);
+
+            if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 5f)
+            {
+                PlayerInteraction.Instance.StaminaChange(-10);
+                PlayerInteraction.Instance.PlayerTrip();
+            }
+
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 6f, 1 << 9);
+            foreach(Collider collider in hitEnemies)
+            {
+                var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+                if (creature != null && creature.shovelVulnerable)
+                {
+                    creature.lastDamageTypeTaken = DamageType.Mine;
+                    creature.TakeDamage(40);
+                    creature.PlayHitParticle(creature.transform.position);
+                }
+            }
+
+            TakeDamage(99);
+            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.GrubBomb);
+            return;
+        }
+
         nearbyFire = _fireSource;
         StartCoroutine(FireStun());
         successful = true;

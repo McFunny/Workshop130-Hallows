@@ -192,38 +192,6 @@ MonoBehaviour:
   name: Ricky
   friendshipLevel: 0
   friendPoints: 0
-  foodDiet:
-  - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
-  - {fileID: 11400000, guid: c430d61d121a1a64a9a4a4f48531f8a5, type: 2}
-  - {fileID: 11400000, guid: d25a0f4a47914b54a90b7ba093cdd6ee, type: 2}
-  - {fileID: 11400000, guid: 51b3a624402fb4e40ad32fcd100d8c15, type: 2}
-  - {fileID: 11400000, guid: 4470dbc8b50650a4e845701bfa14bdd6, type: 2}
-  - {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
-  - {fileID: 11400000, guid: 886e87244c15ac344a3db92d9525c930, type: 2}
-  - {fileID: 11400000, guid: 742bbec419ba208448aa9082fd1c9d8b, type: 2}
-  - {fileID: 11400000, guid: ffc572397851eaa4bb996652631df959, type: 2}
-  - {fileID: 11400000, guid: 6b308934c08f8fd4b9fd15683b71551a, type: 2}
-  - {fileID: 11400000, guid: ad748d007dc8baa42963f208130ad626, type: 2}
-  - {fileID: 11400000, guid: f5fa1d7101a92414b9d7f40f28242b5d, type: 2}
-  - {fileID: 11400000, guid: 003387081b07a0d40b8fc11186444232, type: 2}
-  - {fileID: 11400000, guid: e38605f28bd999346a131705990b3b9a, type: 2}
-  - {fileID: 11400000, guid: 82afd5c9de1490046a0c956f55077449, type: 2}
-  - {fileID: 11400000, guid: 41d4e27b3f49bc748823ae9d57d9752d, type: 2}
-  - {fileID: 11400000, guid: 38444ddad24ab25498022b6c407d9d92, type: 2}
-  - {fileID: 11400000, guid: 14b0a585ff0457943a7d1b8d2bff8fbf, type: 2}
-  - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
-  - {fileID: 11400000, guid: 79790c84e5887a946adc6dac3fac60cc, type: 2}
-  - {fileID: 11400000, guid: 10ddaf14dcc101e4c8cecf47a353013e, type: 2}
-  - {fileID: 11400000, guid: fda6df6807d3506479ad2c8c19b6ff65, type: 2}
-  - {fileID: 11400000, guid: ebd1a7d282da207419ef397be73f770d, type: 2}
-  - {fileID: 11400000, guid: c9af372d6ca36fd46b681856e9182698, type: 2}
-  - {fileID: 11400000, guid: df4c35edce1e14a4faefdf1f56156a90, type: 2}
-  - {fileID: 11400000, guid: 5e9d20211607c1a4497099b50463381f, type: 2}
-  - {fileID: 11400000, guid: 9a70b19ccd0b85f41b2dcd849c9d0584, type: 2}
-  - {fileID: 11400000, guid: db3eedd8c1bfeb449a96c46609a10d63, type: 2}
-  - {fileID: 11400000, guid: ef05c14840f851f4582659aa2d5fa290, type: 2}
-  - {fileID: 11400000, guid: f4c6bf186d9a3d64abe224a76e0d7c57, type: 2}
-  - {fileID: 11400000, guid: d047228a6e443ca46843c71c725ba95e, type: 2}
   hunger: 50
   maxHunger: 50
   hungerDecayRate: 2
@@ -320,7 +288,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ba5b5efb2d1c3704e8748ccb949af69e, type: 2}
+      objectReference: {fileID: 2100000, guid: 2fd7d62afdcfee844b79a7f2870fc1a6, type: 2}
     - target: {fileID: -5970979405111399690, guid: d5b6d7a0c5400144b8a9828b48c87aea,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -370,6 +338,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FirecrackerHenRigged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601307387998472631, guid: d5b6d7a0c5400144b8a9828b48c87aea,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2644153534412925482, guid: d5b6d7a0c5400144b8a9828b48c87aea,
         type: 3}
