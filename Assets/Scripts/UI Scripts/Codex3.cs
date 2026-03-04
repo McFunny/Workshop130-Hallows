@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 
 public class Codex3 : MonoBehaviour
 {
