@@ -846,16 +846,18 @@ public class Codex3 : MonoBehaviour
         PlantList.Clear();
         BugList.Clear();
         critterObjects.Clear();
+        questObjects.Clear();
     }
 
     private void ResetCodex(bool fullReset = false) //Sets the codex to its default state
     {
         print("Resetting Codex to default state and updating entries.");
+        activeQuests = questManager.activeQuests;
         OverrideEntries(); // Override unlocks for specific entries
         UpdateEntries();
         if(fullReset) ChangeCategory("Tutorial"); // Start with the Tutorial category open
         else ChangeCategory(openCategory.ToString()); // Keep the current category open
-        activeQuests = questManager.activeQuests;
+        
 
         
         menuIndex = 1;
