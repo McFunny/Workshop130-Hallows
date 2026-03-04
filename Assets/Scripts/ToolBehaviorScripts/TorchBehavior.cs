@@ -40,7 +40,7 @@ public class TorchBehavior : ToolBehavior
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null && structure.Interactable())
             {
                 //torch the thing
@@ -148,7 +148,7 @@ public class TorchBehavior : ToolBehavior
         RaycastHit hit;
         if (Physics.Raycast(player.position, fwd, out hit, 8, mask))
         {
-            var structure = hit.collider.GetComponent<StructureBehaviorScript>();
+            var structure = hit.collider.GetComponentInParent<StructureBehaviorScript>();
             if (structure != null && structure.Interactable())
             {
                 //torch the thing

@@ -284,6 +284,25 @@ public class LumberjackNPC : NPC, ITalkable
         shopUI.shopImgObj.SetActive(false);
     }
 
+    public override bool ExclamationCheck()
+    {
+        if(base.ExclamationCheck() == false)
+        {
+            if(GameSaveData.Instance.rascalMentionedKey && !GameSaveData.Instance.lumber_offersDeal)
+            {
+                exclamationObject.SetActive(true);
+                return true;
+            }
+            else
+            {
+                exclamationObject.SetActive(false);
+                return false;
+            }
+        }
+        exclamationObject.SetActive(true);
+        return true;
+    }
+
     public override bool ActionCheck1() //To check if he starts selling papers
     {
         if(GameSaveData.Instance.lumber_offersDeal) return true;

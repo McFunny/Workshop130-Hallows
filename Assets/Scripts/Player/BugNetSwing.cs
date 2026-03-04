@@ -34,7 +34,7 @@ public class BugNetSwing : MonoBehaviour
         collider.enabled = true;
         yield return new WaitForSeconds(0.02f);
         collider.enabled = false;
-        if(PlayerInteraction.Instance.stamina > 50 && caughtBug) PlayerInteraction.Instance.StaminaChange(-1);
+        //if(PlayerInteraction.Instance.stamina > 50 && caughtBug) PlayerInteraction.Instance.StaminaChange(-1);
 
         yield return new WaitForSeconds(2f);
         ObtainBug();

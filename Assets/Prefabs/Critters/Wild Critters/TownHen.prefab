@@ -134,6 +134,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 8412999214655404751}
   corpseParticleTransform: {fileID: 2806723860628852161}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 0
   rb: {fileID: 7268963844273466940}
   anim: {fileID: 3571507609200266700}
@@ -156,6 +157,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 0.25490198}
   currentEffects: []
   henID: -1
@@ -276,7 +278,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ba5b5efb2d1c3704e8748ccb949af69e, type: 2}
+      objectReference: {fileID: 2100000, guid: 2fd7d62afdcfee844b79a7f2870fc1a6, type: 2}
     - target: {fileID: -5970979405111399690, guid: d5b6d7a0c5400144b8a9828b48c87aea,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -469,6 +471,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 1410270267062756357}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -490,6 +493,7 @@ MonoBehaviour:
   petSound: {fileID: 8300000, guid: 039c6256893902d4c9cbcef13af72292, type: 3}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &1410270267062756357
 AudioSource:
   m_ObjectHideFlags: 0

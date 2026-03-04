@@ -95,7 +95,7 @@ public class WaterCanBehavior : ToolBehavior
                         coolDownMod += .25f;
                         animSpeedMod -= .25f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .9f * coolDownMod));
@@ -129,7 +129,7 @@ public class WaterCanBehavior : ToolBehavior
                         coolDownMod += .25f;
                         animSpeedMod -= .25f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .9f * coolDownMod));
@@ -165,7 +165,7 @@ public class WaterCanBehavior : ToolBehavior
                         coolDownMod += .25f;
                         animSpeedMod -= .25f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .9f * coolDownMod));
@@ -256,7 +256,7 @@ public class WaterCanBehavior : ToolBehavior
                         coolDownMod += .25f;
                         animSpeedMod -= .25f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     toolAnim.Play("wateringcan");
@@ -294,7 +294,7 @@ public class WaterCanBehavior : ToolBehavior
                         coolDownMod += .25f;
                         animSpeedMod -= .25f;
                     }
-                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-2);
+                    if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     toolAnim.Play("wateringcan");
