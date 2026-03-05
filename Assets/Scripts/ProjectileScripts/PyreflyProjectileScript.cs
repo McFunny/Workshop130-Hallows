@@ -87,6 +87,8 @@ public class PyreflyProjectileScript : MonoBehaviour
     void OnDisable()
     {
         StopCoroutine(LifeTime());
+        bulletRigidbody.velocity = Vector3.zero;
+        bulletRigidbody.angularVelocity = Vector3.zero;
     }
 
     IEnumerator LifeTime()

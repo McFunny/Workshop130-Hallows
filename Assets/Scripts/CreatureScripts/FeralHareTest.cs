@@ -584,7 +584,7 @@ public class FeralHareTest : CreatureBehaviorScript
 
         SearchWanderPoint();
 
-        effectsHandler.OnMove(0.8f);
+        effectsHandler.OnMove(2.3f);
     }
 
     public void SearchWanderPoint()

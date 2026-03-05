@@ -8,12 +8,15 @@ public class BoneTurret : StructureBehaviorScript
     public Transform turretHead, bulletOrigin, seedSocket;
 
     float maxAmmo = 10; //Dont allow any more seeds to be added to the item list after there are this many entrants
-    float range = 20; //Get a debug sphere to show the range
+    float range = 26; //Get a debug sphere to show the range
     bool targetInSight = false;
     bool shotCooldown;
     bool returningToCenter;
     float projectileSpeed = 270;
-    float minimumDistance = 2;
+    float minimumDistance = 1;
+
+    float lockOnTime = 0f;
+    float requiredLockDuration = 0.3f; // seconds of continuous aim before firing
 
     bool hidden = false;
     bool transitioning = false;
@@ -71,18 +74,28 @@ public class BoneTurret : StructureBehaviorScript
         {
             if(returningToCenter)
             {
-                if(RotAngleY > turretHead.eulerAngles.y) turretHead.rotation = Quaternion.Euler(0,turretHead.eulerAngles.y + 0.1f,0);
-                else turretHead.rotation = Quaternion.Euler(0,turretHead.eulerAngles.y - 0.1f,0);
-                if(turretHead.eulerAngles.y < RotAngleY + 5 && turretHead.eulerAngles.y > RotAngleY - 5)
+                float returnSpeed = 50f; // degrees per second, tune as needed
+                turretHead.rotation = Quaternion.RotateTowards(
+                    turretHead.rotation,
+                    Quaternion.Euler(0, RotAngleY, 0),
+                    returnSpeed * Time.deltaTime
+                );
+
+                if(Quaternion.Angle(turretHead.rotation, Quaternion.Euler(0, RotAngleY, 0)) < 1f)
                 {
+                    turretHead.rotation = Quaternion.Euler(0, RotAngleY, 0);
                     returningToCenter = false;
-                    myTime = 0;
+                    
+                    // Calculate myTime so PingPong resumes from the correct position
+                    float currentRY = turretHead.eulerAngles.y;
+                    float t = Mathf.InverseLerp(RotAngleMin, RotAngleMax, currentRY);
+                    myTime = t / (rotateSpeed / 8f);
                 }
             }
             else
             {
                 myTime += Time.deltaTime;
-                float rY = Mathf.SmoothStep(RotAngleMax,RotAngleMin,Mathf.PingPong(myTime * (rotateSpeed/4),1));
+                float rY = Mathf.SmoothStep(RotAngleMax,RotAngleMin,Mathf.PingPong(myTime * (rotateSpeed/8),1));
                 turretHead.rotation = Quaternion.Euler(0,rY,0);
             }
         }
@@ -98,14 +111,17 @@ public class BoneTurret : StructureBehaviorScript
     {
         CreatureBehaviorScript oldTarget = currentTarget;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, range, 1 << 9);
+        
+        float minDistance = Mathf.Infinity; // moved outside the loop
+        
         foreach (Collider collider in hitColliders)
         {
             float distance = Vector3.Distance(transform.position, collider.transform.position);
-            float minDistance = Mathf.Infinity;
             CreatureBehaviorScript newCreature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if(newCreature && newCreature.creatureData && targettableCreatures.Contains(newCreature.creatureData) && distance < minDistance && !newCreature.isDead)
             {
                 minDistance = distance;
+                if(newCreature != currentTarget) lockOnTime = 0f; // reset on new target
                 currentTarget = newCreature;
             }
         }
@@ -114,30 +130,23 @@ public class BoneTurret : StructureBehaviorScript
 
     void RotateToTarget()
     {
-        Vector3 targetPosition;
-        /*if(currentTarget.corpseParticleTransform) targetPosition = currentTarget.corpseParticleTransform.position;
-        else*/ targetPosition = currentTarget.transform.position;
+        Vector3 targetPosition = currentTarget.transform.position;
 
-        Vector3 direction = targetPosition - turretHead.position;
+        Vector3 direction = (targetPosition - turretHead.position);
         direction.y = 0;
+        direction.Normalize(); // normalize before use
+        
         Quaternion toRotation = Quaternion.LookRotation(direction);
-
         turretHead.rotation = Quaternion.Slerp(turretHead.rotation, toRotation, rotateSpeed * Time.deltaTime);
 
-        RaycastHit hit;
-        if (Physics.Raycast(turretHead.position, direction/*turretHead.forward*/, out hit, range, 1 << 6))
+        // Check for structures in the way
+        if (Physics.Raycast(bulletOrigin.position, direction, out RaycastHit hit, range, 1 << 6, QueryTriggerInteraction.Ignore))
         {
             targetInSight = false;
             return;
-            //structure in the way
         }
 
-        //If the rotation is close enough to target, fire
-        Vector3 forward = turretHead.TransformDirection(Vector3.forward);
-        Vector3 toTarget = Vector3.Normalize(targetPosition - turretHead.position);
-
         float dist = Vector3.Distance(turretHead.position, targetPosition);
-
         if((dist < minimumDistance || dist > range) && !shotCooldown)
         {
             currentTarget = null;
@@ -145,12 +154,21 @@ public class BoneTurret : StructureBehaviorScript
             return;
         }
 
-        if (Vector3.Dot(forward, toTarget) > .95f)
+        Vector3 forward = turretHead.TransformDirection(Vector3.forward);
+        Vector3 toTarget = (targetPosition - turretHead.position).normalized;
+
+        // In RotateToTarget, replace the targetInSight block:
+        if (Vector3.Dot(forward, toTarget) > .90f)
         {
-            targetInSight = true;
+            lockOnTime += Time.deltaTime;
+            targetInSight = lockOnTime >= requiredLockDuration;
             returningToCenter = true;
         }
-        else targetInSight = false;
+        else
+        {
+            targetInSight = false;
+            lockOnTime = 0f;
+        }
     }
 
     IEnumerator Shoot()
@@ -164,11 +182,6 @@ public class BoneTurret : StructureBehaviorScript
         }
 
         canTransition = false;
-
-        Vector3 targetPosition;
-        /*if(currentTarget.corpseParticleTransform) targetPosition = currentTarget.corpseParticleTransform.position;
-        else*/ targetPosition = currentTarget.transform.position;
-
         shotCooldown = true;
         targetInSight = false;
         float r;
@@ -178,6 +191,9 @@ public class BoneTurret : StructureBehaviorScript
         for(int i = 0; i < 1; i++)
         {
             if(!currentTarget) break;
+
+            Vector3 targetPosition = currentTarget.transform.position;
+
             audioHandler.PlaySound(audioHandler.activatedSound);
             GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
             Vector3 dir = (targetPosition - turretHead.position).normalized;
@@ -190,11 +206,14 @@ public class BoneTurret : StructureBehaviorScript
                 //play misfire sound
             }
             newBullet.transform.position = bulletOrigin.position;
-            newBullet.transform.rotation = Quaternion.identity;
+            newBullet.transform.rotation = Quaternion.LookRotation(dir);
 
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 5);
             newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
             //print("PEW");
+
+            InventoryItemData itemShot = savedItems[0];
+            savedItems.Remove(itemShot);
 
             ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
             ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
@@ -202,7 +221,7 @@ public class BoneTurret : StructureBehaviorScript
         }
 
         canTransition = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(Random.Range(2.5f, 3f));
 
         shotCooldown = false;
     }

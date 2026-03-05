@@ -25,6 +25,7 @@ public class CropFrost : MonoBehaviour
         if(afflictedTile)
         {
             afflictedTile.isFrosted = false;
+            afflictedTile.HitWithWater();
             afflictedTile = null;
         }
     }

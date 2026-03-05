@@ -92,17 +92,7 @@ public class StructureManager : MonoBehaviour
         //print("AllStructs: " + allStructs.Count);
         if(TimeManager.Instance.currentHour == 8)
         {
-            StartCoroutine(PopulateStructure(-3, 5, weedTile, false, farmTileMap));
-            PopulateDecorCrows(0, 2);
-            int boulders = TallyStructure(boulderData);
-            if(boulders < 6) StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
-            else if(boulders < 20) StartCoroutine(PopulateStructure(-2, 1, boulder, true, farmTileMap));
-
-            int decor = TallyStructure(decorData);
-            if(decor < 50) StartCoroutine(PopulateStructure(-2, 5, decorData.objectPrefab, true, farmTileMap));
-            PopulateBerryBushes(-5, 2, false);
-            StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
-            StartCoroutine(PopulateStructure(-10, 3, cocoon, true, farmTileMap));
+            StartCoroutine(PopulateHourlyStructures());
         }
         if(TimeManager.Instance.currentHour == 6)
         {
@@ -116,6 +106,24 @@ public class StructureManager : MonoBehaviour
         }
 
         if(PlayerInteraction.Instance.lostKukri && DroppedKukri.Instance == null && KukriProjectile.Instance == null) StartCoroutine(PopulateStructure(1, 1, buriedKukri, false, farmTileMap));
+    }
+
+    IEnumerator PopulateHourlyStructures()
+    {
+        StartCoroutine(PopulateStructure(-3, 5, weedTile, false, farmTileMap));
+        PopulateDecorCrows(0, 2);
+        int boulders = TallyStructure(boulderData);
+        yield return new WaitForSeconds(0.3f);
+        if(boulders < 6) StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
+        else if(boulders < 20) StartCoroutine(PopulateStructure(-2, 1, boulder, true, farmTileMap));
+
+        int decor = TallyStructure(decorData);
+        if(decor < 50) StartCoroutine(PopulateStructure(-2, 5, decorData.objectPrefab, true, farmTileMap));
+        yield return new WaitForSeconds(0.3f);
+        PopulateBerryBushes(-5, 2, false);
+        StartCoroutine(PopulateStructure(-2, 3, buriedItem, true, farmTileMap));
+        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(PopulateStructure(-10, 3, cocoon, true, farmTileMap));
     }
 
     /*[ContextMenu("NutCrowTest")]
@@ -931,6 +939,8 @@ public class StructureManager : MonoBehaviour
                             break;
                         }
                     }
+
+                    spawnablePositions.RemoveAt(randomIndex);
 
                     yield return new WaitForSeconds(0.1f);
                 }

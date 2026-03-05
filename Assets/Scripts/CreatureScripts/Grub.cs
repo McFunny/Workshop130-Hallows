@@ -344,7 +344,7 @@ public class Grub : CreatureBehaviorScript
             bool nearStructure = false;
  
             if(obstacleStructure && Vector3.Distance(obstacleStructure.transform.position, transform.position) < 2.2f) nearStructure = true;
-            else if(obstacleStructure && Vector3.Distance(targetStructure.transform.position, transform.position) < 2.2f) nearStructure = true;
+            else if(targetStructure && Vector3.Distance(targetStructure.transform.position, transform.position) < 2.2f) nearStructure = true;
 
 
             if(nearStructure)
@@ -375,7 +375,7 @@ public class Grub : CreatureBehaviorScript
     IEnumerator IdleSoundTimer()
     {
         int idlesBeforeDeath = -1;
-        if(variant == Variant.Corrupt) idlesBeforeDeath = Random.Range(3, 15);
+        if(variant == Variant.Corrupt) idlesBeforeDeath = Random.Range(5, 18);
         while(health > 0)
         {
             if(currentState == CreatureState.Burrowing)
@@ -388,14 +388,16 @@ public class Grub : CreatureBehaviorScript
             idlesBeforeDeath--;
             yield return new WaitForSeconds(i);
 
-            if(idlesBeforeDeath >= 0 && variant == Variant.Corrupt)
+            if(idlesBeforeDeath <= 0 && variant == Variant.Corrupt)
             {
-                if(currentState != CreatureState.AttackStructure)
+                if(currentState != CreatureState.Stun)
                 {
                     currentState = CreatureState.Stun;
-                    anim.Play("chuckygrubdeath");
+                    anim.Play("chunkygrubdeath");
                     StartCoroutine(CorpseExplosionTimer());
                     agent.speed = 0;
+                    StartCoroutine(AttackCoolDown());
+                    yield break;
                 }
             }
         }

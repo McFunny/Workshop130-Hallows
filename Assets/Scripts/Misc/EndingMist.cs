@@ -19,7 +19,7 @@ public class EndingMist : MonoBehaviour
     {
         FadeScreen.coverScreen = true;
         PlayerMovement.restrictMovementTokens++;
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(3);
         SceneManager.LoadSceneAsync(2);
     }
 }

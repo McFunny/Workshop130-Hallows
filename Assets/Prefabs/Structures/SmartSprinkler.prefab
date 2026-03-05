@@ -39290,7 +39290,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.277
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -39299,9 +39299,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 10
+  MaxDistance: 40
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -39309,23 +39309,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.025
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.69578624
+      outSlope: -0.69578624
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0.5136807
+    - serializedVersion: 3
+      time: 0.49641573
+      value: 0.48731995
+      inSlope: -1.0024133
+      outSlope: -1.0024133
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.2831373
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.02500997
+      outSlope: -0.02500997
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -39394,6 +39403,7 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 8300000, guid: af4690012134a5a46b9644aa63f7ed17, type: 3}
+  secondarySource: {fileID: 0}
 --- !u!54 &3309580008085959424
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -39459,6 +39469,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 7076979807504395514}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -39468,6 +39479,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 5437846460300666152}
   structureUIVariables:
     enableUI: 1
@@ -54343,6 +54355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &5757711013137252217
 GameObject:

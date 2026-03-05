@@ -462,7 +462,7 @@ public class FarmLand : StructureBehaviorScript
         }
         if(!crop && !isWeed)
         {
-            if(Random.Range(0, 10) > 6f && currentUpgrade == FarmTileUpgrade.None) Destroy(this.gameObject);
+            if(Random.Range(0, 10) > 8f && currentUpgrade == FarmTileUpgrade.None) Destroy(this.gameObject);
             return;
         }
         if(!isWeed && (nutrients.waterLevel - crop.waterIntake) < 0 && MainMenuScript.currentFileMode == FileMode.Cozy) //Behavior for when a crop is not watered enough to advance a stage

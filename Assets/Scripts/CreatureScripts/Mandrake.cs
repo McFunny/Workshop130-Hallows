@@ -43,6 +43,8 @@ public class Mandrake : CreatureBehaviorScript
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
 
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) agent.speed -= 8;
+
     }
 
     private void Update()

@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 306
   displayName: Ichor Mary
   description: A refreshing beverage suited for relaxing after laborous days on the
-    field.
+    field. Restores 5 water upon consumption.
   icon: {fileID: 1432792956, guid: 4eef876c3373a6b41b96e514add6a481, type: 3}
   type: 1
   maxStackSize: 20
@@ -23,7 +23,7 @@ MonoBehaviour:
   sellValueMultiplier: 0.5
   isKeyItem: 0
   hasModel: 0
-  staminaValue: 80
+  staminaValue: 70
   animalHungerValue: 100
   bonusCompostValue: 0
   useCooldown: 10
@@ -31,10 +31,10 @@ MonoBehaviour:
   itemConversions: []
   cookingStats: []
   foodForPets: 000000000200000004000000
-  foodForCritters: 
+  foodForCritters: 00000000
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []
-  itemBehavior: {fileID: 0}
+  itemBehavior: {fileID: 11400000, guid: ea119d5ad0b87434abfe1ffac7c1754b, type: 2}
   useSound: {fileID: 0}
   cannotEnterInventory: 0
