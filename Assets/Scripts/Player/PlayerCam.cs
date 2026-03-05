@@ -113,10 +113,7 @@ public class PlayerCam : MonoBehaviour
                 if(cameraRecoilY <= 10 && cameraRecoilY >= -10) cameraRecoilY = 0;
             }
             // Scaling sensitivity to match old input system;
-            /*lookX *= 0.5f;
-            lookX *= 0.1f;
-            lookY *= 0.5f;
-            lookY *= 0.1f;*/
+            
 
             if(ControlManager.isGamepad)
             {
@@ -125,13 +122,24 @@ public class PlayerCam : MonoBehaviour
             }
             else
             {
+                lookX *= 0.5f;
+                lookX *= 0.1f;
+                lookY *= 0.5f;
+                lookY *= 0.1f;
                 lookX = lookX * 1;
                 lookY = lookY * 1;
             }
 
-
-            yRotation += lookX * Time.deltaTime;
-            xRotation -= lookY * Time.deltaTime;
+            if(ControlManager.isController)
+            {
+                yRotation += lookX * Time.deltaTime;
+                xRotation -= lookY * Time.deltaTime;
+            }
+            else
+            {
+                yRotation += lookX;
+                xRotation -= lookY;
+            }
 
             if(xRotation > 90) 
             {
