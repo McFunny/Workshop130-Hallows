@@ -27,6 +27,9 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
     public Color gray;
     public Color gold;
 
+    public InventoryItemData mandrake;
+    public CropData mandrakeCropData;
+
 
 
     public void Start()
@@ -34,7 +37,7 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
         spriteRenderer.sprite = nutrientSprites[correctFire - 1];
         fireSpriteRenderer.sprite = fireSprite;
         canvas.SetActive(false);
-        fire.DoTypeBasedOnNumber(currentFire);
+        //fire.DoTypeBasedOnNumber(currentFire);
     }
 
     public bool isLocked = false;
@@ -137,10 +140,28 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
 
     private CropData FindCropByYield(InventoryItemData item)
     {
-        // Assuming you have a central list of all CropData objects
-        foreach (var crop in _database.GetAllCrops())
+
+        if (item == mandrake)
         {
-            if (crop.cropData.cropYield == item)
+            return mandrakeCropData;
+        }
+
+        // Assuming you have a central list of all CropData objects
+        List<CropItem> allCrops = _database.GetAllCrops();
+        Debug.Log($"Count of allCrop is {allCrops.Count}");
+        foreach (var crop in allCrops)
+        {
+            if(crop.cropData == null)
+            {
+                Debug.Log($"Crop {crop.name} has no CropData assigned.");
+                continue;
+            }
+            else if (crop.cropData.cropYield == null)
+            {
+                Debug.Log($"Crop {crop.name} has no cropYield assigned.");
+                continue;
+            }
+            else if (crop.cropData.cropYield == item)
             {
                 return crop.cropData;
             }
