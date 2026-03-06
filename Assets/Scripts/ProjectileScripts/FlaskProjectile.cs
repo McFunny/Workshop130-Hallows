@@ -14,6 +14,10 @@ public class FlaskProjectile : MonoBehaviour
 
     bool exploding = false;
 
+    public GameObject[] thingsToTurnOff;
+    bool canCollide = true;
+    public TrailRenderer trail;
+
     private void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -35,7 +39,7 @@ public class FlaskProjectile : MonoBehaviour
         Instantiate(cloudPrefab, transform.position, Quaternion.identity);
 
         //gameObject.SetActive(false);
-        Destroy(gameObject);
+        StartCoroutine(TurnOff());
     }
 
     void OnEnable()
@@ -53,5 +57,19 @@ public class FlaskProjectile : MonoBehaviour
     {
         yield return new WaitForSeconds(bulletLifetime);
         if(gameObject.activeSelf && !exploding) Explode();
+    }
+
+    IEnumerator TurnOff()
+    {
+        canCollide = false;
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(false);
+        }
+        bulletRigidbody.isKinematic = true;
+        bulletRigidbody.velocity = Vector3.zero;
+        bulletRigidbody.angularVelocity = Vector3.zero;
+        yield return new WaitForSeconds(1.5f);
+        Destroy(gameObject);
     }
 }

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
+  m_Name: SlimeTrapRecipe
+  m_EditorClassIdentifier: 
+  id: 68
+  nameOverride: 
+  category: 1
+  tier: 1
+  isUnlocked: 0
+  isRecentlyUnlocked: 0
+  unlockedAtStart: 0
+  isTrinket: 0
+  output: {fileID: 11400000, guid: 9e015e85091984b498110879ce31527c, type: 2}
+  outputAmount: 1
+  craftTimeInSeconds: 15
+  mintCost: 0
+  craftingRequirements:
+  - requiredItem: {fileID: 11400000, guid: 8208624904a70ce4085f1cda35545863, type: 2}
+    requiredAmount: 4
+  - requiredItem: {fileID: 11400000, guid: ad3821a813642114d9979d54224f657c, type: 2}
+    requiredAmount: 1

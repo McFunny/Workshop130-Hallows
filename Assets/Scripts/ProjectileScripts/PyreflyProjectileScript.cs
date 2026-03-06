@@ -14,6 +14,10 @@ public class PyreflyProjectileScript : MonoBehaviour
 
     bool exploding = false;
 
+    public GameObject[] thingsToTurnOff;
+    bool canCollide = true;
+    public TrailRenderer trail;
+
     private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -75,13 +79,18 @@ public class PyreflyProjectileScript : MonoBehaviour
             if(bug) bug.Struck();
         }
 
-        gameObject.SetActive(false);
+        StartCoroutine(TurnOff());
     }
 
     void OnEnable()
     {
         exploding = false;
         StartCoroutine(LifeTime());
+
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(true);
+        }
     }
 
     void OnDisable()
@@ -95,6 +104,20 @@ public class PyreflyProjectileScript : MonoBehaviour
     {
         yield return new WaitForSeconds(bulletLifetime);
         if(gameObject.activeSelf && !exploding) Explode();
+    }
+
+    IEnumerator TurnOff()
+    {
+        canCollide = false;
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(false);
+        }
+        bulletRigidbody.isKinematic = true;
+        bulletRigidbody.velocity = Vector3.zero;
+        bulletRigidbody.angularVelocity = Vector3.zero;
+        yield return new WaitForSeconds(1.5f);
+        gameObject.SetActive(false);
     }
 
 }
