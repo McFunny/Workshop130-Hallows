@@ -40134,8 +40134,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   dropChance:
-  - 3.3
-  - 3.3
+  - 8
+  - 4
   - 10
   - 5
   sightRange: 25
@@ -40151,6 +40151,7 @@ MonoBehaviour:
   damageToPlayer: 23
   canCorpseBreak: 1
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 0.5372549}
   currentEffects: []
   wheel: {fileID: 8213382114385391520}
@@ -40314,6 +40315,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d7b5abf25d080b9428a36bd097a45d37, type: 3}
   - {fileID: 8300000, guid: f2e0a3f5db1ee3f4ab35ea4c3a93a8a2, type: 3}
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &8193948259905518215
 AudioSource:
   m_ObjectHideFlags: 0

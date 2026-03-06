@@ -15,7 +15,21 @@ public class LunorchidBehavior : CropBehavior
         if(TimeManager.Instance.currentHour == 20)
         {
             TimeManager.Instance.StartCoroutine(TrySpawnPollinator());
+            NightSpawningManager.Instance.ChangeMaxMoths(1);
         }
+    }
+
+    public override void OnPlanted(FarmLand tile)
+    {
+        if(!TimeManager.Instance.isDay)
+        {
+            NightSpawningManager.Instance.ChangeMaxMoths(1);
+        }
+    }
+
+    public override void OnCropDestroyed(FarmLand tile)
+    {
+        NightSpawningManager.Instance.ChangeMaxMoths(-1);
     }
 
     IEnumerator TrySpawnPollinator()

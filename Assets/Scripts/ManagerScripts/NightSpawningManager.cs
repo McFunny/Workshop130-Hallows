@@ -39,6 +39,8 @@ public class NightSpawningManager : MonoBehaviour
     public ParticleSystem finaleMist;
 
     public CreatureObject pollinator, ferrat, deer;
+    int maxPollinators = 3;
+    int defaultMaxPollinators = 3;
 
     public List<NightEventObject> nightEvents = new List<NightEventObject>();
     bool eventOccured = false; //only 1 per night
@@ -87,8 +89,9 @@ public class NightSpawningManager : MonoBehaviour
             eventOccured = false;
             currentSpawnPool = null;
             forceCorruptedSpawns = false;
+            maxPollinators = defaultMaxPollinators;
 
-            if(ReportTotalOfCreature(ferrat) < ferrat.spawnCap && Random.Range(0,15) == 1) //Spawn eer
+            if(ReportTotalOfCreature(ferrat) < ferrat.spawnCap && Random.Range(0,15) == 1) //Spawn deer
             {
                 SpawnCreature(ferrat);
                 if(Random.Range(0,3) == 1) SpawnCreature(ferrat);
@@ -107,7 +110,14 @@ public class NightSpawningManager : MonoBehaviour
 
             SelectNightPool();
         }
-        if(ReportTotalOfCreature(pollinator) < 2 && Random.Range(0,4) == 1) SpawnCreature(pollinator);
+        if(ReportTotalOfCreature(pollinator) < maxPollinators)
+        {
+            while(ReportTotalOfCreature(pollinator) < maxPollinators)
+            {
+                if(Random.Range(0,4) == 1) SpawnCreature(pollinator);
+                else break;
+            }
+        }
 
         if(ReportTotalOfCreature(deer) < deer.spawnCap && Random.Range(0,50) == 1) SpawnCreature(deer); //Spawn Deer
 
@@ -649,6 +659,12 @@ public class NightSpawningManager : MonoBehaviour
         PlayerInteraction.Instance.invincible = false;
         //Credits screen
         //SceneManager.LoadSceneAsync(2);
+    }
+
+    public void ChangeMaxMoths(int amount)
+    {
+        maxPollinators += amount;
+        if(maxPollinators > pollinator.spawnCap) maxPollinators = pollinator.spawnCap;
     }
 }
 

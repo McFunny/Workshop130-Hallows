@@ -121,8 +121,15 @@ public class CreatureBehaviorScript : MonoBehaviour
         {
             if(health <= corpseHealth && isDead && !corpseDestroyed)
             {
+                bool hasBoneBreaker = TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.BoneBreaker);
+
                 corpseDestroyed = true;
-                for(int i = 0; i < droppedItems.Length; i++)
+                if(hasBoneBreaker && droppedItems.Contains(Database.Instance.GetItem(224))) //Add extra bone
+                {
+                    droppedItems.Add(Database.Instance.GetItem(224));
+                    dropChance.Add(10);
+                }
+                for(int i = 0; i < droppedItems.Length; i++) //Drop items
                 {
                     if(Random.Range(0f,10f) < dropChance[i])
                     {
@@ -138,7 +145,8 @@ public class CreatureBehaviorScript : MonoBehaviour
                         itemRB.AddForce(Vector3.up * 50);
                     }
                 }
-                if(ichorWorth > 0)
+
+                if(ichorWorth > 0) //Drop Ichor
                 {
                     if(corpseParticleTransform) structManager.IchorRefill(corpseParticleTransform.position, ichorWorth, ichorDropRadius);
                     else structManager.IchorRefill(transform.position, ichorWorth, ichorDropRadius);
@@ -157,7 +165,7 @@ public class CreatureBehaviorScript : MonoBehaviour
                 }
                 if(Tutorial.Instance) Tutorial.Instance.ClearedCorpse();
 
-                if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.BoneBreaker) && corpseHealth < -25 && ichorWorth >= 1) TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.BoneBreaker);
+                if(hasBoneBreaker && corpseHealth < -25 && ichorWorth >= 1) TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.BoneBreaker);
 
                 Destroy(this.gameObject);
             }
