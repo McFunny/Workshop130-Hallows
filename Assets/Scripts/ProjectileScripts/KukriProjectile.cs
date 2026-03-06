@@ -37,10 +37,7 @@ public class KukriProjectile : MonoBehaviour
         {
             Instance = this;
         }
-    }
 
-    private void Start()
-    {
         bulletRigidbody = GetComponent<Rigidbody>();
     }
 

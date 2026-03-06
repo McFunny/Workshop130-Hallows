@@ -64,7 +64,7 @@ public class FlintlockBehavior : ToolBehavior
             {
                 foreach (PelletValues p in pelletValues)
                 {
-                    if(invSlot[0].ItemData == p.pelletItem)
+                    if(invSlot2[0].ItemData == p.pelletItem)
                     {
                         currentBulletDamage = p.damage;
                         inventory.RemoveItemsFromInventory(p.pelletItem, 1);

@@ -18,7 +18,7 @@ public class BulletScript : MonoBehaviour
 
     bool initialDisable = true;
 
-    private void Start()
+    private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
     }

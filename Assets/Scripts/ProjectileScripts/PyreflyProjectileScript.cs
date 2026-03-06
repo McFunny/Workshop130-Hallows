@@ -14,7 +14,7 @@ public class PyreflyProjectileScript : MonoBehaviour
 
     bool exploding = false;
 
-    private void Start()
+    private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
     }
