@@ -1209,6 +1209,8 @@ MonoBehaviour:
   canvasHolder: {fileID: 4363500376724809213}
   gray: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 1}
   gold: {r: 1, g: 0.7529412, b: 0, a: 1}
+  mandrake: {fileID: 11400000, guid: 3b5afa9f577a91f4c84ad661e6f277cc, type: 2}
+  mandrakeCropData: {fileID: 11400000, guid: 8172637bdf1f08549abde986d4a5a463, type: 2}
   isLocked: 0
 --- !u!136 &6752789474869343446
 CapsuleCollider:
@@ -1352,7 +1354,9 @@ MonoBehaviour:
   flammable: 0
   onFire: 0
   isObstacle: 1
+  repairableWithGlue: 0
   absentFromGrid: 0
+  absentFromFarmGrid: 0
   focalPoint: {fileID: 6742100388673764405}
   particleCenter: {fileID: 0}
   savedItems: []
@@ -1366,6 +1370,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 0}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -1374,8 +1379,14 @@ MonoBehaviour:
   canShowHighlight: 1
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
+  muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 3653234680948735084}
+  structureUIVariables:
+    enableUI: 0
+    valueGroups: []
   fire: {fileID: 6647884345985591537}
+  ID: -1
   startActive: 1
   fireAlwaysActive: 1
   disableHighlight: 0
@@ -2163,7 +2174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3677393231182453365
 Transform:
   m_ObjectHideFlags: 0
@@ -2225,7 +2236,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6647884345985591537}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

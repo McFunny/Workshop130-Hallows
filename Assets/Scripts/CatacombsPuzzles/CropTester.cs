@@ -31,6 +31,9 @@ public class CropTester : MonoBehaviour, IInteractable
     bool highlightEnabled;
     public GameObject canvas;
 
+    public InventoryItemData mandrake;
+    public CropData mandrakeCropData;
+
     public Color gray;
     public Color white;
 
@@ -255,14 +258,32 @@ public class CropTester : MonoBehaviour, IInteractable
 
     private CropData FindCropByYield(InventoryItemData item)
     {
-        // Assuming you have a central list of all CropData objects
+
+        if (item == mandrake)
+        {
+            return mandrakeCropData;
+        }
+        
+
         foreach (var crop in _database.GetAllCrops())
         {
+            if (crop.cropData == null)
+            {
+                Debug.Log($"Crop {crop.name} has no CropData assigned.");
+                continue;
+            }
+            else if (crop.cropData.cropYield == null)
+            {
+                Debug.Log($"Crop {crop.name} has no cropYield assigned.");
+                continue;
+            }
             if (crop.cropData.cropYield == item)
             {
                 return crop.cropData;
             }
         }
+
+       
         return null; // No matching crop found
     }
 
