@@ -182,6 +182,7 @@ public class TinkererNPC : NPC, ITalkable
         if (item == barterDatabase.uniqueTransactions2[0].itemForSale)
         {
             GameSaveData.Instance.upg_can = true;
+            PlayerInteraction.Instance.playerUpgrades.GainWaterStorage();
             AchievementManager.Instance.AddProgressWithEnum(ACHKey.Gilded_Gadgets);
         }
         if (item == barterDatabase.uniqueTransactions2[1].itemForSale)

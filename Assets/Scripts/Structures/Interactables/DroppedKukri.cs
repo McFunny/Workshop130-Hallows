@@ -58,7 +58,7 @@ public class DroppedKukri : MonoBehaviour, IInteractable
 
             PlayerInteraction.Instance.lostKukri = false;
 
-            HandItemManager.Instance.toolSource.PlayOneShot(pickupSFX);
+            AudioPoolManager.Instance.PlayClip(pickupSFX, 0.7f);
 
             Destroy(this.gameObject);
         }

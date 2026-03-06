@@ -78,6 +78,7 @@ public class Gachapon : MonoBehaviour, IInteractable
             InventoryItemData item = Database.Instance.GetItem(itemBacklog[0]);
             if (PlayerInventoryHolder.Instance.AddToInventory(item, itemNumberBacklog[0]))
             {
+                PlayerInteraction.Instance.PickupItem();
                 StartCoroutine(CloseGachapon());
                 interactSuccessful = true;
             }

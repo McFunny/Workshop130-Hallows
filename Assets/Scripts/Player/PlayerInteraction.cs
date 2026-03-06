@@ -455,6 +455,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             playerEffects.PlayClip(playerEffects.playerHeal, 1.3f); //Play Heal Effects
             if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.TickRegen)) amount *= 1.25f;
+            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.TickRegen, 5);
         }
         
         if(repairMinigame.IsMinigameActive()) repairMinigame.ForceEndMinigame();
@@ -960,6 +961,11 @@ public class PlayerInteraction : MonoBehaviour
             ToolUseToggle(false);
         }
         parrySuccess = false;
+    }
+
+    public void PickupItem()
+    {
+        playerEffects.ItemCollectSFX();
     }
 
 

@@ -91,9 +91,20 @@ public class KukriAttack : MonoBehaviour
         if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15 || other.GetComponentInParent<PetBehaviorScript>()) return; //Add exception to grub
         if(d_Collision == new Vector3(0,0,0))
         {
-            d_Collision = other.ClosestPoint(transform.position);
+            Vector3 fwd = PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward);
+            RaycastHit hit;
+
+            if (Physics.Raycast(PlayerInteraction.Instance.mainCam.transform.position, fwd, out hit, 8)) 
+            {
+                d_Collision = hit.point;
+                if(other.gameObject.tag == "Grass_FootStepSurface") type = GroundType.Dirt;
+                else type = GroundType.Other;
+            }
+            else return;
+
+            /*d_Collision = other.ClosestPoint(transform.position);
             if(other.gameObject.tag == "Grass_FootStepSurface") type = GroundType.Dirt;
-            else type = GroundType.Other;
+            else type = GroundType.Other;*/
         }
 
         //Something to hit corpses
@@ -151,7 +162,7 @@ public class KukriAttack : MonoBehaviour
 
             PlayHitParticle(s_Collision);
             ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = s_Collision;
-
+            return;
         }
 
         if(hitBug)
@@ -163,7 +174,7 @@ public class KukriAttack : MonoBehaviour
         if(d_Collision != new Vector3(0,0,0))
         {
             PlayHitParticle(d_Collision);
-
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = d_Collision;
             if(type == GroundType.Dirt)
             {
                 print("Hit dirt");

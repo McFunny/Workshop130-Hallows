@@ -25,7 +25,7 @@ public class Geyser : StructureBehaviorScript
             yield return new WaitForSeconds(0.5f);
             timeLeft -= 0.5f;
 
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f, mask);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3.5f, mask);
             foreach(Collider collider in hitColliders)
             {
                 StructureBehaviorScript structure = collider.gameObject.GetComponentInParent<StructureBehaviorScript>();

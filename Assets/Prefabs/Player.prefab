@@ -201,8 +201,11 @@ MonoBehaviour:
   toolCamera: {fileID: 0}
   effectsCamera: {fileID: 0}
   uiCamera: {fileID: 0}
+  disableSprint: 0
   isSprinting: 0
+  playerFOV: 60
   velocity: 0
+  backstepPendantEquipped: 0
 --- !u!114 &4060353663220160237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +321,7 @@ MonoBehaviour:
   trip: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
   playerHeal: {fileID: 8300000, guid: 6b5b06b4f7336be4592ed8495321552a, type: 3}
   heartBeat: {fileID: 8300000, guid: 7bb0d3d5cd6f82148a34e24fb185559a, type: 3}
+  waterGain: {fileID: 0}
   grassFootsteps: {fileID: 8300000, guid: 2bfc2099e4ceed24b951a7982085d5f6, type: 3}
   stoneFootsteps: {fileID: 8300000, guid: 4b25d192cc97c434b8b563b8778f223d, type: 3}
   woodFootsteps: {fileID: 8300000, guid: 3e18de8b56f944948a6aeba020009413, type: 3}
@@ -862,7 +866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 7939557920489333164}
-  hitPlant: {fileID: 8300000, guid: 94cec95ad42426d4cbe04b630940bed8, type: 3}
+  hitPlant: {fileID: 8300000, guid: cf3b52303a16d09469a499f917fdac10, type: 3}
   hitFlesh: {fileID: 8300000, guid: b66b6c34f14516f41bedd19299e5693a, type: 3}
   hitGround: {fileID: 8300000, guid: 1ed8b59a61af7b5409d5e37c7342268f, type: 3}
   hitHardObject: {fileID: 8300000, guid: c0adbf6c7093efc4598cabd862a75484, type: 3}

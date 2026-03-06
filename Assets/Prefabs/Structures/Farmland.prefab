@@ -10597,6 +10597,7 @@ MonoBehaviour:
   supportText: {fileID: 5692700354323459234}
   laventSource: {fileID: 4391576060815944193}
   selfPollinateParticles: {fileID: 1472724806361286563}
+  fiberParticles: {fileID: 0}
   harvestText: {fileID: 2790798402760200067}
   cropNeedsUI: {fileID: 837279530193775678}
   currentUpgrade: 0
@@ -10649,11 +10650,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1a51bf8f5a7c1c144a9b44c993eefb63, type: 3}
   - {fileID: 8300000, guid: f2ae1f4b9a63a2844ba62107e4e26fce, type: 3}
   - {fileID: 8300000, guid: 26e75657dfdd14346ba03cb934f49420, type: 3}
-  miscSounds2: []
+  miscSounds2:
+  - {fileID: 8300000, guid: 1fd70791490a13048be1710a0d42061d, type: 3}
   interactSound: {fileID: 8300000, guid: 670c8869953582347943c68fdb8f866b, type: 3}
   itemInteractSound: {fileID: 8300000, guid: 362077ec5a7999548a8c22928534f4b2, type: 3}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 0}
+  secondarySource: {fileID: 0}
 --- !u!82 &2388967791222999615
 AudioSource:
   m_ObjectHideFlags: 0

@@ -161,7 +161,8 @@ public class ItemPickup : MonoBehaviour
 
     IEnumerator PickupDelay()
     {
-        FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
+        //FindObjectOfType<PlayerEffectsHandler>().ItemCollectSFX();
+        PlayerInteraction.Instance.PickupItem();
         yield return new WaitForSeconds(0.2f);
         beingCollected = false;
         canBeCollected = false;

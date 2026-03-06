@@ -35,6 +35,8 @@ public class Pollinator : CreatureBehaviorScript
 
     int amountPollinated;
 
+    public GameObject dewBall;
+
     public enum CreatureState
     {
         SpawnIn,
@@ -61,6 +63,10 @@ public class Pollinator : CreatureBehaviorScript
         target = null;
 
         base.Start();
+
+        int dewChance = 2;
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) ++dewChance;
+        if(Random.Range(0,10) < dewChance) dewBall.SetActive(true);
     }
 
     void Update()
@@ -269,6 +275,8 @@ public class Pollinator : CreatureBehaviorScript
             if(amountPollinated >= 20) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Lumen_Pollinate_Many);
             foreach(ParticleSystem p in pollenParticles) p.Play();
             QuestManager.Instance.AddQuestProgress(1, QuestDatabase.Instance.GetTutorialQuest(301)); //Complete the pollination quest
+
+            if(tile.crop && tile.crop == CropDatabase.Instance.GetCrop(49)) dewBall.SetActive(true);
         }
         else
         {

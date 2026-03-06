@@ -454,7 +454,7 @@ public class FarmLand : StructureBehaviorScript
             }
         }
         //print(cropNeedsUI);
-        if(ignoreNextGrowthMoment || rotted || TimeManager.Instance.isDay || isFrosted)
+        if(ignoreNextGrowthMoment || rotted || (TimeManager.Instance.isDay && crop && !crop.canGrowAtDay) || isFrosted)
         {
             ignoreNextGrowthMoment = false;
             if(!rotted && crop && crop.behavior) crop.behavior.OnHour(this);
@@ -1040,7 +1040,11 @@ public class FarmLand : StructureBehaviorScript
     {
         if(other.gameObject.layer == 10)
         {
-            if(fiberParticles) fiberParticles.Play();
+            if(fiberParticles) 
+            {
+                fiberParticles.Play();
+                audioHandler.PlayRandomSound(audioHandler.miscSounds2);
+            }
 
             if(crop == null && TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.DuneBoots))
             {
@@ -1077,7 +1081,11 @@ public class FarmLand : StructureBehaviorScript
             CreatureBehaviorScript c = other.gameObject.GetComponentInParent<CreatureBehaviorScript>();
             if(c)
             {
-                if(fiberParticles) fiberParticles.Play();
+                if(fiberParticles) 
+                {
+                    fiberParticles.Play();
+                    audioHandler.PlayRandomSound(audioHandler.miscSounds2);
+                }
 
                 if(c.frostVulnerable && isFrosted) c.ApplyStatusEffect(StatusDatabase.Instance.GetStatus(StatusEffectName.Frost), 6);
 

@@ -51,6 +51,8 @@ public class CropData : ScriptableObject
 
     public Color grassColor = Color.clear;
 
+    public bool canGrowAtDay = false; //Currently used for the Mist's Grasp
+
     public void OnHour(FarmLand tile)
     {
         if(behavior) behavior.OnHour(tile);

@@ -35,6 +35,9 @@ public class WaterCanBehavior : ToolBehavior
         //water
         //PrimaryUse();
         BeginCharge();
+
+        //To catch if the upgrade did not go through
+        if(isUpgraded) PlayerInteraction.Instance.playerUpgrades.GainWaterStorage();
     }
 
     public override void SecondaryUse(Transform _player, ToolType _tool)
