@@ -208,7 +208,7 @@ public class QuestPage : CodexPage
             var q = quest as FetchQuest;
             var t = q.description;
 
-            if (q.maxProgress != 1 && !q.desiredItem.displayName.EndsWith("s")) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
+            if (q.amount > 1 && !q.desiredItem.displayName.EndsWith("s")) t = t.Replace("{itemName}", q.desiredItem.displayName.ToString() + "s");
             else t = t.Replace("{itemName}", q.desiredItem.displayName.ToString());
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
