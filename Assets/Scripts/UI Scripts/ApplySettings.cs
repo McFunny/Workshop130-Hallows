@@ -7,10 +7,12 @@ using UnityEngine.Rendering.Universal;
 public class ApplySettings : MonoBehaviour
 {
     [SerializeField] Volume globalVolume;
+    [SerializeField] private Material pixelRenderer;
 
     // Start is called before the first frame update if you didnt know it's pretty useful sometimes
     void Awake()
     {
+        pixelRenderer.SetFloat("_pixelization", 1);
         globalVolume = GameObject.Find("Global Volume").GetComponent<Volume>();
         if (globalVolume.profile.TryGet(out ColorAdjustments colorAdjustments))
         {
@@ -34,6 +36,15 @@ public class ApplySettings : MonoBehaviour
         else
         {
             Debug.LogWarning("No Global Volume Found");
+        }
+
+        if(PlayerPrefs.GetInt("PixelFilter", 1) == 1)
+        {
+            pixelRenderer.SetFloat("_pixelization", 1080);   
+        }
+        else
+        {
+            pixelRenderer.SetFloat("_pixelization", Screen.currentResolution.width);
         }
     }
 }
