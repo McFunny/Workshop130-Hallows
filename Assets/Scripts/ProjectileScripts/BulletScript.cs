@@ -7,6 +7,7 @@ public class BulletScript : MonoBehaviour
     public AudioClip hitStruct, hitEnemy, hitGround;
 
     public float structureDamage, creatureDamage, playerDamage;
+    float baseCreatureDamage;
     public float armorDamage = 2;
 
     public bool fireBullet, piercing, cannonBall, energyBullet;
@@ -21,6 +22,7 @@ public class BulletScript : MonoBehaviour
     private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
+        baseCreatureDamage = creatureDamage;
     }
 
 
@@ -172,6 +174,7 @@ public class BulletScript : MonoBehaviour
         initialDisable = false;
         bulletRigidbody.velocity = Vector3.zero;
         bulletRigidbody.angularVelocity = Vector3.zero;
+        creatureDamage = baseCreatureDamage;
     }
 
     IEnumerator LifeTime()
