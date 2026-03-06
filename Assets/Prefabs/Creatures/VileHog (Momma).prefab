@@ -5908,15 +5908,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: 80c6fa3f708646a44866eb0e571d303f, type: 2}
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   dropChance:
   - 10
-  - 6
+  - 10
+  - 10
   - 10
   - 10
   - 5
-  - 3
-  - 3
-  - 8
+  - 5
+  - 10
+  - 10
   sightRange: 25
   attackRange: 15
   playerInSightRange: 0
@@ -16241,6 +16243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 5915516447648380893}
   audioScript: {fileID: 0}
+  structureAudioScript: {fileID: 0}
 --- !u!114 &5606231958215177958
 MonoBehaviour:
   m_ObjectHideFlags: 0

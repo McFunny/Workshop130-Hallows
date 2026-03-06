@@ -341,7 +341,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             else interruptAction = true;
             return;
         }
-        if(!isMoving && currentRoutine == null) //Move to the dish
+        if(!isMoving && currentRoutine == null && targetStructure) //Move to the dish
         {
             currentRoutine = StartCoroutine(MoveToPoint(targetStructure.transform.position, 8));
         }
@@ -787,7 +787,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             }
             else interactSuccessful = false;
         }
-        else if(hunger < 100 && !inBall && !ballTransitioning)
+        else if(hunger < 100 /*&& !inBall && !ballTransitioning*/)
         {
             if(item.foodForPets.Count == 0 || !item.foodForPets.Contains(petType))
             {

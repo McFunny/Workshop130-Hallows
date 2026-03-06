@@ -5011,7 +5011,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c1c17d4e2b6564a4fa150ca3e3b91f64, type: 2}
   dropChance:
   - 7
-  - 7
+  - 10
   - 2
   sightRange: 16
   attackRange: 6
@@ -5026,6 +5026,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 1
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.1764706}
   currentEffects: []
   agent: {fileID: 0}
@@ -5878,3 +5879,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 0}
   audioScript: {fileID: 8866583498674797471}
+  structureAudioScript: {fileID: 0}

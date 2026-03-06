@@ -16,7 +16,7 @@ public class HydroflyProjectileScript : MonoBehaviour
 
     public bool destroyOnUse = false;
 
-    private void Start()
+    private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
     }
@@ -95,6 +95,8 @@ public class HydroflyProjectileScript : MonoBehaviour
     void OnDisable()
     {
         StopCoroutine(LifeTime());
+        bulletRigidbody.velocity = Vector3.zero;
+        bulletRigidbody.angularVelocity = Vector3.zero;
     }
 
     IEnumerator LifeTime()

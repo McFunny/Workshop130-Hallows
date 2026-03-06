@@ -184,7 +184,7 @@ MonoBehaviour:
   droppedItems:
   - {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
   dropChance:
-  - 2
+  - 4
   sightRange: 0
   attackRange: 0
   playerInSightRange: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   damageToPlayer: -27
   canCorpseBreak: 1
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.1764706}
   currentEffects: []
   roboModel: {fileID: 2454925648891780103}
@@ -337,6 +338,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!135 &269131470336119543
 SphereCollider:
   m_ObjectHideFlags: 0
