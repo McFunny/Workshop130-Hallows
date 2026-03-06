@@ -28,8 +28,8 @@ public class CreatureBehaviorScript : MonoBehaviour
     public Rigidbody rb;
     public Animator anim;
 
-    public InventoryItemData[] droppedItems;
-    public float[] dropChance;
+    public List<InventoryItemData> droppedItems = new List<InventoryItemData>();
+    public List<float> dropChance = new List<float>();
     [Header("Sight Variables")]
     public float sightRange = 20; //how far can it see the player
     public float attackRange = 6;
@@ -129,7 +129,7 @@ public class CreatureBehaviorScript : MonoBehaviour
                     droppedItems.Add(Database.Instance.GetItem(224));
                     dropChance.Add(10);
                 }
-                for(int i = 0; i < droppedItems.Length; i++) //Drop items
+                for(int i = 0; i < droppedItems.Count; i++) //Drop items
                 {
                     if(Random.Range(0f,10f) < dropChance[i])
                     {

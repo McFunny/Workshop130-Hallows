@@ -380,7 +380,11 @@ public abstract class NPC : MonoBehaviour, IInteractable
                 FetchQuest fq = QuestManager.Instance.activeQuests[i] as FetchQuest;
                 if(fq != null && HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData == fq.desiredItem && HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= fq.amount)
                 {
-                    if(GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards) == false) return false; //Unable to give cuz no space n giving key item
+                    if(GiveRewards(QuestManager.Instance.activeQuests[i].itemRewards) == false) 
+                    {
+                        PopupHandler.Instance.AddToQueue(PopupHandler.Instance.inventoryFullPopup);
+                        return false; //Unable to give cuz no space n giving key item
+                    }
 
                     QuestManager.Instance.activeQuests[i].alreadyCompleted = true;
                     PlayerInteraction.Instance.GainMints(QuestManager.Instance.activeQuests[i].mintReward, true);

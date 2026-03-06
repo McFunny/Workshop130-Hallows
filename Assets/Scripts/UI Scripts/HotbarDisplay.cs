@@ -145,7 +145,7 @@ public class HotbarDisplay : MonoBehaviour
             HandItemManager.Instance.ClearHandModel();
         }
 
-        if (PlayerInventoryHolder.Instance.FindItemInBothInventories(torch)) HandItemManager.Instance.TorchFlameToggle(false);
+        if (PlayerInventoryHolder.Instance.FindItemInBothInventories(torch)) HandItemManager.Instance.TorchFlameToggle(false, true);
         if (PlayerInventoryHolder.Instance.FindItemInBothInventories(pyrefly)) HandItemManager.Instance.PyreflyFlameToggle(false);
     }
 

@@ -269,7 +269,7 @@ public class HandItemManager : MonoBehaviour
         }
     }
 
-    public void TorchFlameToggle(bool ignite)
+    public void TorchFlameToggle(bool ignite, bool inventoryExtinguish = false)
     {
         if((PlayerInteraction.Instance.torchLit && ignite) || (!PlayerInteraction.Instance.torchLit && !ignite)) return;
 
@@ -281,10 +281,10 @@ public class HandItemManager : MonoBehaviour
         }
         else
         {
-            if(currentHandObject == torch)
+            if(/*currentHandObject == torch &&*/ inventoryExtinguish)
             {
-                //ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
-                //toolSource.PlayOneShot(extinguish);
+                ParticlePoolManager.Instance.GrabExtinguishParticle().transform.position = torchFlame.transform.position;
+                toolSource.PlayOneShot(extinguish);
             } 
             PlayerInteraction.Instance.torchLit = false;
             torchFlame.SetActive(false);

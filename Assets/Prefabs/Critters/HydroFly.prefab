@@ -19612,7 +19612,6 @@ GameObject:
   - component: {fileID: 8171044862636069318}
   - component: {fileID: 2067519143776392421}
   - component: {fileID: 6427643779176989495}
-  - component: {fileID: 6832580158949306359}
   m_Layer: 12
   m_Name: Hydrofly_Body
   m_TagString: Untagged
@@ -19686,27 +19685,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6832580158949306359
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7204029011523475630}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7263344537015462749
 GameObject:
   m_ObjectHideFlags: 0
@@ -19790,6 +19768,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 7384785913181519540}
   corpseParticleTransform: {fileID: 7363502325941547269}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 1
   rb: {fileID: 6121557414109800548}
   anim: {fileID: 897966968577904348}
@@ -19808,14 +19787,13 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 1
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0, g: 0, b: 0, a: 0}
   currentEffects: []
   critterType: 2
   name: Perry
   friendshipLevel: 0
   friendPoints: 0
-  foodDiet:
-  - {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
   hunger: 100
   maxHunger: 100
   hungerDecayRate: 0
@@ -34823,6 +34801,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 0}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -34837,6 +34816,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &1142168570934979220
 AudioSource:
   m_ObjectHideFlags: 0

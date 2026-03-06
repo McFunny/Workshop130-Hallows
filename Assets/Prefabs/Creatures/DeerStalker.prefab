@@ -5038,6 +5038,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
+  - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   dropChance:
   - 10
   - 10
@@ -5046,6 +5048,8 @@ MonoBehaviour:
   - 10
   - 10
   - 10
+  - 7
+  - 5
   - 5
   - 5
   sightRange: 15
@@ -5061,6 +5065,7 @@ MonoBehaviour:
   damageToPlayer: -35
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0.1764706}
   currentEffects: []
   biteCheckMask:
@@ -19771,6 +19776,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!114 &2657086824468724937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19785,6 +19791,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 0}
   audioScript: {fileID: 0}
+  structureAudioScript: {fileID: 0}
 --- !u!82 &4724428700119050415
 AudioSource:
   m_ObjectHideFlags: 0

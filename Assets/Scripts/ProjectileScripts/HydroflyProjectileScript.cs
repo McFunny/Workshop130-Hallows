@@ -16,6 +16,10 @@ public class HydroflyProjectileScript : MonoBehaviour
 
     public bool destroyOnUse = false;
 
+    public GameObject[] thingsToTurnOff;
+    bool canCollide = true;
+    public TrailRenderer trail;
+
     private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -83,13 +87,18 @@ public class HydroflyProjectileScript : MonoBehaviour
         }
 
         if(destroyOnUse) Destroy(gameObject);
-        else gameObject.SetActive(false);
+        else StartCoroutine(TurnOff());//gameObject.SetActive(false);
     }
 
     void OnEnable()
     {
         exploding = false;
         StartCoroutine(LifeTime());
+
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(true);
+        }
     }
 
     void OnDisable()
@@ -103,5 +112,18 @@ public class HydroflyProjectileScript : MonoBehaviour
     {
         yield return new WaitForSeconds(bulletLifetime);
         if(gameObject.activeSelf && !exploding) Explode();
+    }
+
+    IEnumerator TurnOff()
+    {
+        canCollide = false;
+        foreach(GameObject thing in thingsToTurnOff)
+        {
+            thing.SetActive(false);
+        }
+        bulletRigidbody.velocity = Vector3.zero;
+        bulletRigidbody.angularVelocity = Vector3.zero;
+        yield return new WaitForSeconds(1.5f);
+        gameObject.SetActive(false);
     }
 }

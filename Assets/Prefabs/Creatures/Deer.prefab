@@ -29402,7 +29402,7 @@ MonoBehaviour:
   - 2
   - 10
   - 10
-  - 5
+  - 10
   - 5
   - 5
   sightRange: 10
@@ -29418,6 +29418,7 @@ MonoBehaviour:
   damageToPlayer: -35
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0.1764706}
   currentEffects: []
   biteCheckMask:
@@ -34436,6 +34437,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!114 &4316506325950874850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34450,6 +34452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 0}
   audioScript: {fileID: 0}
+  structureAudioScript: {fileID: 0}
 --- !u!82 &5737913143408519455
 AudioSource:
   m_ObjectHideFlags: 0

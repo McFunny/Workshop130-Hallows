@@ -10,7 +10,7 @@ public class PopupHandler : MonoBehaviour
     List<PopupScript> typesInQueue = new List<PopupScript>();  //To track repeats
     public PopupScript testPopup, testPopup2, testPopup3;
     public PopupScript nightWarningPopup, nightWildernessWarningPopup;
-    public PopupScript gameSavePopup, wildernessUnlockedPopup, newQuestPopup, questCompletePopup, saveWarningPopup, bedTutorialPopup;
+    public PopupScript gameSavePopup, wildernessUnlockedPopup, newQuestPopup, questCompletePopup, saveWarningPopup, bedTutorialPopup, inventoryFullPopup;
     public PopupScript critterLeftPopup, critterDiedPopup;
     private PopupScript currentPopup;
     public GameObject popupContainer;

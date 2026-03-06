@@ -89,7 +89,7 @@ public class KukriBehavior : ToolBehavior
         {
             case 0:
             if(swingCoroutine != null) HandItemManager.Instance.StopCoroutine(swingCoroutine);
-            swingCoroutine = HandItemManager.Instance.StartCoroutine(SwingTiming(0.15f, 0.15f, 0.3f));
+            swingCoroutine = HandItemManager.Instance.StartCoroutine(SwingTiming(0.2f, 0.15f, 0.3f));
             toolAnim.SetTrigger("Attack");
             break;
 

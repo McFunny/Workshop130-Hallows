@@ -62,6 +62,7 @@ public class ScytheAttack : MonoBehaviour
 
             structure.TakeDamage(1);
             ParticlePoolManager.Instance.MoveAndPlayVFX(other.ClosestPoint(transform.position), ParticlePoolManager.Instance.hitEffect);
+            ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = other.ClosestPoint(transform.position);
             cancelSwing = true;
             return;
         }
@@ -165,7 +166,7 @@ public class ScytheAttack : MonoBehaviour
             if(hitCrops[i] == null) continue;
             //Harvest grown
             hitCrops[i].ToolInteraction(ToolType.Scythe, out bool success);
-            if(success) HandItemManager.Instance.toolSource.PlayOneShot(hitPlant);
+            if(success) AudioPoolManager.Instance.PlayClip(hitPlant, 0.6f);//HandItemManager.Instance.toolSource.PlayOneShot(hitPlant);
         }
 
         for(int i = 0; i < hitBugs.Count; i++)
