@@ -14,9 +14,9 @@ public class SettingsValueManager : MonoBehaviour
     [SerializeField] GameObject containerObject, previousMenuObject;
     public GameObject defaultMenuObject;
     [SerializeField] private Button applyButton, defaultButton, backButton, resolutionButton;
-    [SerializeField] private TextMeshProUGUI title, brightnessDisplay, sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay, fovDisplay, resolutionDisplay;
+    [SerializeField] private TextMeshProUGUI title, brightnessDisplay, sensitivityDisplay, masterVolDisplay, musicDisplay, sfxDisplay, fovDisplay, resolutionDisplay, screenModeDisplay;
     [SerializeField] private Slider brightnessSlider, sensitivitySlider, masterVolSlider, musicSlider, sfxSlider, fovSlider;
-    [SerializeField] private Toggle sprint, detailedUI, emptyHand, dialogueAnimation;
+    [SerializeField] private Toggle sprint, detailedUI, emptyHand, dialogueAnimation, pixelFilter;
     //[SerializeField] private TMP_Dropdown resolutionDropDown;
     [SerializeField] private GameObject horizontalMenuButton, resolutionBox, resolutionContent;
     public GameObject resolutionDefault;
@@ -24,11 +24,12 @@ public class SettingsValueManager : MonoBehaviour
     private Resolution[] resolutions;
     private List<Resolution> filteredResolutions;
     [SerializeField] private List<GameObject> resolutionButtons;
+    [SerializeField] private List<FullScreenSetting> fullScreenSettings;
     [SerializeField] private List<SettingsPage> settingsPages;
     private float currentRefreshRate;
     private int currentResolutionIndex;
     private int tempResolutionIndex;
-    private int sprintValue, detailedUIValue, emptyHandValue, dialogueAnimationValue;
+    private int sprintValue, detailedUIValue, emptyHandValue, dialogueAnimationValue, pixelFilterValue;
     private float brightnessValue;
     private float defaultSensitivity, defaultVolume, defaultFOV; // Default values
     private float sensitivity, masterVolume, musicVolume, sfxVolume, fovValue; // Current Values
@@ -39,9 +40,14 @@ public class SettingsValueManager : MonoBehaviour
     public static event SettingsChanged OnSettingsChanged;
     [SerializeField] private AudioClip selectSound, hoverSound;
     [SerializeField] private float selectVolume, hoverVolume;
+    
+
+    private int fullScreenInt;
+    
 
     void Awake() // 0 is false, 1 is true
     {
+        fullScreenInt = GetFullScreenMode();
         defaultSensitivity = 1.0f;
         defaultVolume = 1.0f;
         defaultFOV = 60f;
@@ -55,6 +61,7 @@ public class SettingsValueManager : MonoBehaviour
         detailedUIValue = PlayerPrefs.GetInt("DetailedUI", 0);
         emptyHandValue = PlayerPrefs.GetInt("EmptyHand", 0);
         dialogueAnimationValue = PlayerPrefs.GetInt("DialogueAnimation", 1);
+        pixelFilterValue = PlayerPrefs.GetInt("PixelFilter", 1);
         volumeManager = FindFirstObjectByType<VolumeManager>();
         applySettings = FindFirstObjectByType<ApplySettings>();
 
@@ -239,7 +246,11 @@ public class SettingsValueManager : MonoBehaviour
         if (PlayerPrefs.GetInt("DialogueAnimation", 1) == 0) dialogueAnimation.isOn = false;
         else dialogueAnimation.isOn = true;
 
+        if (PlayerPrefs.GetInt("PixelFilter", 1) == 0) pixelFilter.isOn = false;
+        else pixelFilter.isOn = true;
+
         resolutionDisplay.text = $"{filteredResolutions[currentResolutionIndex].width} x {filteredResolutions[currentResolutionIndex].height}";
+        screenModeDisplay.text = fullScreenSettings[fullScreenInt].name;
 
 
         //print("Sensitivity Multiplier: " + sensitivity);
@@ -310,9 +321,12 @@ public class SettingsValueManager : MonoBehaviour
             PlayerPrefs.SetInt("EmptyHand", emptyHandValue);
             PlayerPrefs.SetInt("DialogueAnimation", dialogueAnimationValue);
             PlayerPrefs.SetFloat("FieldOfView", fovValue);
+            PlayerPrefs.SetInt("PixelFilter", pixelFilterValue);
+
+            FullScreenMode mode = SetFullScreenMode(fullScreenInt);
 
             Resolution resolution = filteredResolutions[tempResolutionIndex];
-            Screen.SetResolution(resolution.width, resolution.height, true);
+            Screen.SetResolution(resolution.width, resolution.height, mode);
             //print("Sensitivity Multiplier: " + PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity));
 
             if (applyButton.interactable == true)
@@ -384,6 +398,9 @@ public class SettingsValueManager : MonoBehaviour
 
         dialogueAnimationValue = 1;
         dialogueAnimation.isOn = true;
+
+        pixelFilterValue = 1;
+        pixelFilter.isOn = true;
         //print("Sensitivity Multiplier: " + PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity));
 
         applyButton.interactable = true;
@@ -457,6 +474,13 @@ public class SettingsValueManager : MonoBehaviour
         applyButton.interactable = true;
     }
 
+    public void UpdatePixelFilterToggle(bool p)
+    {
+        if (p == false) pixelFilterValue = 0;
+        else pixelFilterValue = 1;
+        applyButton.interactable = true;
+    }
+
     public void UpdatebrightnessValue(float gam)
     {
         brightnessValue = gam;
@@ -498,6 +522,18 @@ public class SettingsValueManager : MonoBehaviour
 
         tempResolutionIndex += r;
         resolutionDisplay.text = $"{filteredResolutions[tempResolutionIndex].width} x {filteredResolutions[tempResolutionIndex].height}";
+
+        applyButton.interactable = true;
+    }
+
+    public void UpdateScreenModeInt(int s)
+    {
+        var ts = fullScreenInt + s;
+
+        if (ts < 0 || ts > fullScreenSettings.Count - 1) return;
+
+        fullScreenInt += s;
+        screenModeDisplay.text = fullScreenSettings[fullScreenInt].name;
 
         applyButton.interactable = true;
     }
@@ -566,6 +602,43 @@ public class SettingsValueManager : MonoBehaviour
         if(ControlManager.isController) EventSystem.current.SetSelectedGameObject(defaultMenuObject);
 
     }
+
+    private int GetFullScreenMode()
+    {
+        if(Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen)
+        {
+            return 0;
+        }
+        else if(Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
+        {
+            return 1;
+        }
+        else if(Screen.fullScreenMode == FullScreenMode.MaximizedWindow)
+        {
+            return 1;
+        }
+        else if(Screen.fullScreenMode == FullScreenMode.Windowed)
+        {
+            return 2;
+        }
+        else
+        {
+            Debug.LogWarning("Unknown FullScreenMode detected: " + Screen.fullScreenMode);
+            return 1;
+        }
+    }
+
+    private FullScreenMode SetFullScreenMode(int modeInt)
+    {
+        if(modeInt < 0 || modeInt > fullScreenSettings.Count - 1)
+        {
+            Debug.LogWarning("Invalid FullScreenMode index: " + modeInt);
+            return Screen.fullScreenMode;
+        }
+
+        var mode = fullScreenSettings[modeInt].mode;
+        return mode;
+    }
 }
 
 [System.Serializable]
@@ -575,5 +648,13 @@ public class SettingsPage
     public Button categoryButton;
     public UILerp lerpHandler;
     public List<GameObject> settingsToDisplay;
+    
+}
+
+[System.Serializable]
+public class FullScreenSetting
+{
+    public string name;
+    public FullScreenMode mode;
     
 }
