@@ -8,6 +8,8 @@ public class DynamicInventoryDisplay : InventoryDisplay
 {
     [SerializeField] protected InventorySlot_UI slotPrefab;
 
+    private List<InventorySlot_UI> slotPool = new List<InventorySlot_UI>();
+
     protected override void Start()
     {
         base.Start();
@@ -94,18 +96,41 @@ public class DynamicInventoryDisplay : InventoryDisplay
 
         for (int i = 0; i < invToDisplay.InventorySize; i++)
         {
-            var uiSlot = Instantiate(slotPrefab, transform);
+            var uiSlot = GetPooledSlot();
             slotDictionary.Add(uiSlot, invToDisplay.InventorySlots[i]);
             uiSlot.Init(invToDisplay.InventorySlots[i]);
             uiSlot.UpdateUISlot();
         }
     }
 
+    private InventorySlot_UI GetPooledSlot()
+    {
+        // Look for an inactive slot in the pool
+        for (int i = 0; i < slotPool.Count; i++)
+        {
+            if (!slotPool[i].gameObject.activeSelf)
+            {
+                slotPool[i].gameObject.SetActive(true);
+                return slotPool[i];
+            }
+        }
+
+        // No available slot in pool, instantiate a new one and add it
+        var newSlot = Instantiate(slotPrefab, transform);
+        slotPool.Add(newSlot);
+        return newSlot;
+    }
+
     private void ClearSlots()
     {
-        foreach (var item in transform.Cast<Transform>())
+        // Deactivate all pooled slots instead of destroying them
+        for (int i = 0; i < slotPool.Count; i++)
         {
-            Destroy(item.gameObject); // TODO: Consider object pooling for performance
+            if (slotPool[i] != null && slotPool[i].gameObject.activeSelf)
+            {
+                slotPool[i].ResetSlotVisuals(); // Only reset visuals, don't clear inventory data
+                slotPool[i].gameObject.SetActive(false);
+            }
         }
 
         if (slotDictionary != null) slotDictionary.Clear();
