@@ -8,11 +8,12 @@ public class ApplySettings : MonoBehaviour
 {
     [SerializeField] Volume globalVolume;
     [SerializeField] private Material pixelRenderer;
+    public static int pixelResolution = 1080;
 
     // Start is called before the first frame update if you didnt know it's pretty useful sometimes
     void Awake()
     {
-        pixelRenderer.SetFloat("_pixelization", 1);
+        pixelResolution = PlayerPrefs.GetInt("PixelFilter", 1) == 1 ? 1080 : Screen.currentResolution.width;
         globalVolume = GameObject.Find("Global Volume").GetComponent<Volume>();
         if (globalVolume.profile.TryGet(out ColorAdjustments colorAdjustments))
         {
@@ -20,9 +21,6 @@ public class ApplySettings : MonoBehaviour
             colorAdjustments.postExposure.overrideState = true;
             colorAdjustments.active = true;
         }
-    }
-    void Start()
-    {
         UpdateSettings();
     }
 
@@ -40,11 +38,13 @@ public class ApplySettings : MonoBehaviour
 
         if(PlayerPrefs.GetInt("PixelFilter", 1) == 1)
         {
-            pixelRenderer.SetFloat("_pixelization", 1080);   
+            pixelResolution = 1080;
         }
         else
         {
-            pixelRenderer.SetFloat("_pixelization", Screen.currentResolution.width);
+            pixelResolution = Screen.currentResolution.width;
         }
+
+        pixelRenderer.SetFloat("_pixelization", pixelResolution);
     }
 }

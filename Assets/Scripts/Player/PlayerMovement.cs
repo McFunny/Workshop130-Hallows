@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform orientation;
 
     public CinemachineVirtualCamera playerCamera;
-    public Camera toolCamera, effectsCamera, uiCamera;
+    public Camera toolCamera, effectsCamera, uiCamera, sunMoonCamera;
 
     public static bool isStalled, isCodexOpen;
     public static bool accessingInventory;
@@ -105,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
         playerCamera.m_Lens.FieldOfView = playerFOV;
         toolCamera.fieldOfView = playerFOV;
         effectsCamera.fieldOfView = playerFOV;
+        sunMoonCamera.fieldOfView = playerFOV;
         if(uiCamera) uiCamera.fieldOfView = playerFOV;
     }
 
@@ -358,6 +359,7 @@ public class PlayerMovement : MonoBehaviour
             playerCamera.m_Lens.FieldOfView = Mathf.Lerp(startFoV, targetFoV, elapsedTime / duration);
             toolCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
             effectsCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
+            sunMoonCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
             if(uiCamera) uiCamera.fieldOfView = playerCamera.m_Lens.FieldOfView;
             yield return null;
         }
@@ -365,6 +367,7 @@ public class PlayerMovement : MonoBehaviour
         playerCamera.m_Lens.FieldOfView = targetFoV;
         toolCamera.fieldOfView = targetFoV;
         effectsCamera.fieldOfView = targetFoV;
+        sunMoonCamera.fieldOfView = targetFoV;
         if(uiCamera) uiCamera.fieldOfView = targetFoV;
     }
 

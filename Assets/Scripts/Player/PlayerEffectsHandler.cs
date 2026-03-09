@@ -56,8 +56,23 @@ public class PlayerEffectsHandler : MonoBehaviour
         originalPitch = source.pitch;
         lastPlayedSteps = grassFootsteps;
 
-        originalPixelation = pixelRenderer.GetFloat("_pixelization");
+        originalPixelation = ApplySettings.pixelResolution;
         lowHealthCoroutine = null;
+    }
+
+    private void OnEnable()
+    {
+        SettingsValueManager.OnSettingsChanged += HandleSettingsChanged;
+    }
+
+    private void OnDisable()
+    {
+        SettingsValueManager.OnSettingsChanged -= HandleSettingsChanged;
+    }
+
+    private void HandleSettingsChanged()
+    {
+        originalPixelation = ApplySettings.pixelResolution;
     }
 
     // Update is called once per frame
@@ -170,8 +185,10 @@ public class PlayerEffectsHandler : MonoBehaviour
             pixelRenderer.SetFloat("_pixelization", pixelation); 
         }
         while(pixelation < originalPixelation);
+        Debug.Log("Resetting Pixelation: " + originalPixelation);
         pixelation = originalPixelation;
-        pixelRenderer.SetFloat("_pixelization", pixelation); 
+        pixelRenderer.SetFloat("_pixelization", pixelation);
+        Debug.Log("Pixelation Reset");
 
         pixelCoroutine = null;
         
