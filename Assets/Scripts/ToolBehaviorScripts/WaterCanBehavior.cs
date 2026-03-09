@@ -374,6 +374,13 @@ public class WaterCanBehavior : ToolBehavior
     {
         while(InputManager.isCharging && holdingPour)
         {
+            if (PlayerInteraction.Instance.waterHeld <= 0)
+            {
+                if (pourParticles) pourParticles.Stop();
+                if (pourSource) pourSource.Stop();
+                yield break;
+            }
+
             if(wateredCreature)
             {
                 wateredCreature = false;
@@ -415,7 +422,14 @@ public class WaterCanBehavior : ToolBehavior
 
     bool CanPour() //Checks player eyeline
     {
-        Debug.Log(player.eulerAngles.x);
+        if (PlayerInteraction.Instance.waterHeld <= 0)
+        {
+            if (pourParticles) pourParticles.Stop();
+            if (pourSource) pourSource.Stop();
+            return false;
+        }
+
+        //Debug.Log(player.eulerAngles.x);
         if((player.eulerAngles.x >= 25 && player.eulerAngles.x <= 90) || player.eulerAngles.x == 0) 
         {
             if(pourParticles) pourParticles.Play();

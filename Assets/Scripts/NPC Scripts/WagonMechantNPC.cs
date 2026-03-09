@@ -438,7 +438,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                 int rockCost = (int) (rockItem.value * sellMultiplier);
                 storeItems[i].RefreshItem(rockItem, rockCost);
                 storeItems[i].seller = this;
-                return;
+                continue;
             }
 
             if(i == 0)
@@ -479,6 +479,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             storeItems[i].ChangeAmountGiven(barterDatabase.transactions[b].amountGiven);
             storeItems[i].seller = this;
         }
+        GameSaveData.Instance.mm_sellOnlyRocks = false;
 
         //For selling pets and critters
         if(TimeManager.Instance.dayNum < 3) return; //Wont give pets until third day
@@ -506,7 +507,6 @@ public class WagonMerchantNPC : NPC, ITalkable
             item.seller = this;
             x++;
         }
-        GameSaveData.Instance.mm_sellOnlyRocks = false;
     }
 
     /*public override void EmptyShopItem()

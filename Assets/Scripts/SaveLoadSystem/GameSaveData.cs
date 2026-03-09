@@ -297,7 +297,7 @@ public class GameSaveData : MonoBehaviour
                 currentPet = dogRef;
                 break;
             case "Rock":
-                currentPet = dogRef;
+                currentPet = rockRef;
                 break;
             default:
                 break;

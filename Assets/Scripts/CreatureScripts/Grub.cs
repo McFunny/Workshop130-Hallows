@@ -375,7 +375,7 @@ public class Grub : CreatureBehaviorScript
     IEnumerator IdleSoundTimer()
     {
         int idlesBeforeDeath = -1;
-        if(variant == Variant.Corrupt) idlesBeforeDeath = Random.Range(5, 18);
+        if(variant == Variant.Corrupt) idlesBeforeDeath = Random.Range(3, 18);
         while(health > 0)
         {
             if(currentState == CreatureState.Burrowing)

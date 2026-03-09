@@ -4982,7 +4982,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5921b1ba6ca656f439bdbcd3cad3990a, type: 2}
+  - {fileID: 2100000, guid: ba5b5efb2d1c3704e8748ccb949af69e, type: 2}
   - {fileID: 2100000, guid: da5217233f9d45c4b915eb68898692f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -5087,6 +5087,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 5526090178340182987}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -5096,6 +5097,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -5158,6 +5160,7 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 0}
+  secondarySource: {fileID: 0}
 --- !u!82 &7438107546132625229
 AudioSource:
   m_ObjectHideFlags: 0

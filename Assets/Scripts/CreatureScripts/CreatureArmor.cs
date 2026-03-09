@@ -61,7 +61,7 @@ public class CreatureArmor : MonoBehaviour
 
     public void OnDestroy()
     {
-        if(!gameObject.scene.isLoaded) return;
+        if(!gameObject.scene.isLoaded || !parentCreature || gameObject.activeSelf == false) return;
         if(armorObject) Destroy(armorObject);
         if(health <= 0)
         {
