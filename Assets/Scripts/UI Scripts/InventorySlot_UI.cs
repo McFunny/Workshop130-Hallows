@@ -16,7 +16,6 @@ public class InventorySlot_UI : MonoBehaviour
     [SerializeField] private Animator pickupAnim;
     public Slider durabilitySlider;
     public UISpriteAnim anim1, anim2;
-    
 
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
     public InventoryDisplay ParentDisplay { get; private set; }
@@ -29,11 +28,23 @@ public class InventorySlot_UI : MonoBehaviour
     private Image sliderFill;
     string itemDesc;
     Button button;
+    private bool isInitialized;
 
     private void Awake()
     {
+        Initialize();
+    }
+
+    /// <summary>
+    /// Performs one-time setup. Safe to call multiple times; will only run once.
+    /// </summary>
+    private void Initialize()
+    {
+        if (isInitialized) return;
+        isInitialized = true;
+
         controlManager = FindFirstObjectByType<ControlManager>();
-        ClearSlot();
+        ClearSlotVisuals();
         button = GetComponent<Button>();
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
         toolTip = GameObject.Find("InventoryItemDescriptions").GetComponent<ToolTipScript>();
@@ -43,7 +54,7 @@ public class InventorySlot_UI : MonoBehaviour
         itemGrey.enabled = false;
         foodCooldownSlider.value = 0;
         sliderFill = durabilitySlider.fillRect.GetComponent<Image>();
-        if(transform.parent.gameObject.name == "PlayerTrinkets")
+        if (transform.parent.gameObject.name == "PlayerTrinkets")
         {
             assignedInventorySlot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
             TrinketInventoryHandler.Instance.OnInventoryUpdate(this, assignedInventorySlot);
@@ -57,6 +68,10 @@ public class InventorySlot_UI : MonoBehaviour
 
     private void OnEnable()
     {
+        // Ensure initialization has run before subscribing to events.
+        // Needed for pooled slots where Awake only runs once but OnEnable runs every reactivation.
+        Initialize();
+
         controlManager.select.action.started += Select;
         controlManager.split.action.started += Split;
 
@@ -115,7 +130,7 @@ public class InventorySlot_UI : MonoBehaviour
             if (HotbarDisplay.currentSlot == this) { slotHighlight.SetActive(true); }
         }
 
-        if (assignedInventorySlot.ItemData == null)
+        if (assignedInventorySlot == null || assignedInventorySlot.ItemData == null)
         {
             foodCooldownSlider.gameObject.SetActive(false);
             itemGrey.enabled = false;
@@ -126,14 +141,12 @@ public class InventorySlot_UI : MonoBehaviour
         {
             FoodCooldownHandler();
         }
-            
     }
 
     public void TestPrint()
     {
         print("Test");
     }
-
 
     // Add EventTrigger component and setup event listeners for highlight detection and clicks
     private void AddEventTriggers()
@@ -201,7 +214,6 @@ public class InventorySlot_UI : MonoBehaviour
         isSelected = false;
     }
 
-
     public void OnLeftUISlotClick()
     {
         // Handle left-click behavior
@@ -247,9 +259,8 @@ public class InventorySlot_UI : MonoBehaviour
             {
                 toolTip.panel.SetActive(false);
             }
-            if (assignedInventorySlot.ItemData != null) { toolTip.UpdateToolTip(assignedInventorySlot); }
+            if (assignedInventorySlot != null && assignedInventorySlot.ItemData != null) { toolTip.UpdateToolTip(assignedInventorySlot); }
         }
-
     }
 
     public void Init(InventorySlot slot)
@@ -275,11 +286,10 @@ public class InventorySlot_UI : MonoBehaviour
                 itemCount.text = "";
 
             //Debug.Log("Kevin: Parent slot is " + transform.parent.gameObject.name);
-            if(transform.parent.gameObject.name == "PlayerTrinkets")
+            if (transform.parent.gameObject.name == "PlayerTrinkets")
             {
-                slot.acceptedItemType = InventorySlot.AcceptedItemType.Trinket;
                 TrinketInventoryHandler.Instance.OnInventoryUpdate(this, assignedInventorySlot);
-                if(slot.ItemData != null)
+                if (slot.ItemData != null)
                 {
                     if (flashingCoroutine != null)
                     {
@@ -289,16 +299,16 @@ public class InventorySlot_UI : MonoBehaviour
                     TrinketItem trinket = slot.ItemData as TrinketItem;
                     var durability = TrinketInventoryHandler.Instance.GetTrinketDurability(slot);
 
-                    if(durability <= 1)
+                    if (durability <= 1)
                     {
                         flashingCoroutine = StartCoroutine(TrinketSlotFlashing());
                         sliderFill.color = Color.red;
                     }
-                    else if(durability <= trinket.maxDurability * 0.25f)
+                    else if (durability <= trinket.maxDurability * 0.25f)
                     {
                         sliderFill.color = Color.red;
                     }
-                    else if(durability <= trinket.maxDurability * 0.5f)
+                    else if (durability <= trinket.maxDurability * 0.5f)
                     {
                         sliderFill.color = Color.yellow;
                     }
@@ -307,20 +317,15 @@ public class InventorySlot_UI : MonoBehaviour
                         sliderFill.color = Color.green;
                     }
                 }
-                if(slot.ItemData == null)
+                if (slot.ItemData == null)
                 {
                     itemSprite.color = Color.clear;
                 }
-                
-            }
-            else
-            {
-                slot.acceptedItemType = InventorySlot.AcceptedItemType.Everything;
             }
         }
         else
         {
-            ClearSlot();
+            ClearSlotVisuals();
         }
     }
 
@@ -341,7 +346,16 @@ public class InventorySlot_UI : MonoBehaviour
     public void ClearSlot()
     {
         assignedInventorySlot?.ClearSlot();
-        if(flashingCoroutine != null) StopCoroutine(flashingCoroutine);
+        ClearSlotVisuals();
+    }
+
+    /// <summary>
+    /// Resets only the UI visuals without touching the underlying inventory data or acceptedItemType.
+    /// </summary>
+    private void ClearSlotVisuals()
+    {
+        if (flashingCoroutine != null) StopCoroutine(flashingCoroutine);
+        flashingCoroutine = null;
         itemSprite.sprite = null;
         itemSprite.color = Color.clear;
         itemCount.text = "";
@@ -352,6 +366,28 @@ public class InventorySlot_UI : MonoBehaviour
         durabilitySlider.gameObject.SetActive(false);
         durabilitySlider.value = 0;
         //itemName.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Resets only the UI visuals without clearing the underlying inventory data.
+    /// Used by object pooling when returning a slot to the pool.
+    /// </summary>
+    public void ResetSlotVisuals()
+    {
+        if (flashingCoroutine != null) StopCoroutine(flashingCoroutine);
+        flashingCoroutine = null;
+        assignedInventorySlot = null;
+        itemSprite.sprite = null;
+        itemSprite.color = Color.clear;
+        itemCount.text = "";
+        itemName.text = "";
+        itemDesc = "";
+        isSelected = false;
+        foodCooldownSlider.gameObject.SetActive(false);
+        itemGrey.enabled = false;
+        durabilitySlider.gameObject.SetActive(false);
+        durabilitySlider.value = 0;
+        slotHighlight.SetActive(false);
     }
 
     private void FoodCooldownHandler()
