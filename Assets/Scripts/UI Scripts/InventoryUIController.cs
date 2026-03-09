@@ -112,7 +112,7 @@ public class InventoryUIController : MonoBehaviour
         if(PlayerMovement.isCodexOpen) return;
         if(repairMinigame.IsMinigameActive()) return;
 
-        if (DialogueController.Instance && DialogueController.Instance.IsTalking()) return;
+        if (DialogueController.Instance && DialogueController.Instance.IsTalking()) DialogueController.Instance.AdvanceDialogue();//return;
 
         if(PlayerMovement.restrictMovementTokens > 0 || PlayerInteraction.Instance.toolCooldown || PauseScript.isPaused || PlayerMovement.isCodexOpen) return;
 

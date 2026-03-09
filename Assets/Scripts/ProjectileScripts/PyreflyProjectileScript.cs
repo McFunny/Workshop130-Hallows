@@ -87,6 +87,8 @@ public class PyreflyProjectileScript : MonoBehaviour
         exploding = false;
         StartCoroutine(LifeTime());
 
+        bulletRigidbody.isKinematic = false;
+
         foreach(GameObject thing in thingsToTurnOff)
         {
             thing.SetActive(true);

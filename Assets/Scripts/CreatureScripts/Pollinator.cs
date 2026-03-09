@@ -65,7 +65,7 @@ public class Pollinator : CreatureBehaviorScript
         base.Start();
 
         int dewChance = 2;
-        if(MainMenuScript.currentFileMode == FileMode.Cozy) ++dewChance;
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) dewChance += 2;
         if(Random.Range(0,10) < dewChance) dewBall.SetActive(true);
     }
 

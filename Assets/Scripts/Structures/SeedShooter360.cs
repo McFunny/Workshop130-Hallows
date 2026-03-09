@@ -173,10 +173,12 @@ public class SeedShooter360 : StructureBehaviorScript
             GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
             Vector3 dir = (targetPosition - turretHead.position).normalized;
 
+            dir = dir + new Vector3(Random.Range(-0.1f,0.1f), 0, Random.Range(-0.1f,0.1f)); //slight base inaccuracy
+
             r = Random.Range(0,10);
             if(r > 7f)
             {
-                dir = dir + new Vector3(Random.Range(-0.5f,0.5f), 0, Random.Range(-0.5f,0.5f));
+                dir = dir + new Vector3(Random.Range(-0.8f,0.8f), 0, Random.Range(-0.8f,0.8f));
                 //print("MISSFIRE");
                 //play misfire sound
             }

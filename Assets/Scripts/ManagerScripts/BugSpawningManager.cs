@@ -12,7 +12,7 @@ public class BugSpawningManager : MonoBehaviour
 
     public StructureObject weedData;
 
-    int maxBugs = 25; //Will not spawn any more hourly after this cap
+    int maxBugs = 20; //Will not spawn any more hourly after this cap
 
     void Awake()
     {
@@ -47,7 +47,7 @@ public class BugSpawningManager : MonoBehaviour
 
     void SpawnHourlyBugs()
     {
-        int hourlyBugCap = Random.Range(-2, 6); //Max amount to spawn per hour
+        int hourlyBugCap = Random.Range(-3, 6); //Max amount to spawn per hour
         Vector3 spawnPos = Vector3.zero;
 
         //Standard spawning of hourly bugs that spawn over time in the Farm, Town, Wilderness, ect

@@ -77,6 +77,7 @@ public class ItemPickup : MonoBehaviour
 
     public void RefreshItem(InventoryItemData newItem)
     {
+        if(newItem == null) return;
         r.sprite = newItem.icon;
         ItemData = newItem;
     }

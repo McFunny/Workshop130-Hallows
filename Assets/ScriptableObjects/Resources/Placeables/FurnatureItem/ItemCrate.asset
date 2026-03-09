@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 94
   displayName: Item Crate
-  description: Display your valuables for all to see!
+  description: A small crate capable of holding 3 items. Can also be placed on the
+    farm.
   icon: {fileID: -2034193538, guid: 091d3d3fa33b7224eaac8fa0452d1e17, type: 3}
   type: 5
   maxStackSize: 5
-  value: 35
+  value: 25
   sellValueMultiplier: 0.1
   isKeyItem: 0
   hasModel: 0
@@ -44,7 +45,7 @@ MonoBehaviour:
     type: 3}
   removeAfterUse: 1
   placeSound: {fileID: 8300000, guid: 8e776f63b8de4d945a5b50e6b4187889, type: 3}
-  gridTypes: 02000000
+  gridTypes: 020000000100000004000000
   gridSize: 0
   placeAsPile: 0
   canPlaceOnFloor: 1

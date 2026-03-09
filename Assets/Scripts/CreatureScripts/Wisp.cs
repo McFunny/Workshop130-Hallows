@@ -214,7 +214,7 @@ public class Wisp : CreatureBehaviorScript
             if(!structure || !targettableStructures.Contains(structure.structData) || structure.absentFromFarmGrid) continue;
 
             FarmLand tile = structure as FarmLand;
-            if (tile && tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt && !tile.isFrosted)
+            if (tile && tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt && !tile.isFrosted && !tile.rotted)
             {
                 if(Random.Range(0,3) == 0 || availableStructures.Count == 0) availableStructures.Add(structure); //Crops have less likely chance to be chosen
                 continue;
@@ -516,7 +516,7 @@ public class Wisp : CreatureBehaviorScript
                 wHolder.Freeze();
                 return;
             }*/
-            if(structure.Freezable()) structure.Freeze();
+            if(structure && structure.Freezable()) structure.Freeze();
 
             IFireHolder fHolder = structure as IFireHolder;
             if (fHolder != null && fHolder.CanBeExtinguished())

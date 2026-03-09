@@ -45,6 +45,7 @@ public class FlaskProjectile : MonoBehaviour
     void OnEnable()
     {
         exploding = false;
+        bulletRigidbody.isKinematic = false;
         StartCoroutine(LifeTime());
     }
 

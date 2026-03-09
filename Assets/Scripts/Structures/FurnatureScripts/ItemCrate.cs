@@ -29,6 +29,10 @@ public class ItemCrate : FurnitureBehaviorScript
             RemoveClosestSocket();
             return;
         }
+
+        //if not on cabin, return
+        if(PlacedInCabin() == false) return;
+
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)
         {
@@ -45,6 +49,10 @@ public class ItemCrate : FurnitureBehaviorScript
             //StartCoroutine(DugUp());
             success = true;
         }
+        if(type == ToolType.Pyrefly || type == ToolType.Hydrofly)
+        {
+            ItemInteraction(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
+        }
     }
 
     public override void ItemInteraction(InventoryItemData item)
@@ -53,6 +61,16 @@ public class ItemCrate : FurnitureBehaviorScript
         {
             PlaceOnClosestSocket(item);
         }
+    }
+
+    public override bool RepairWithSealant(int amount)
+    {
+        if(base.RepairWithSealant(amount) == false)
+        {
+            ItemInteraction(HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData);
+            return false;
+        }
+        else return true;
     }
 
     public override void DigAction()
@@ -156,6 +174,11 @@ public class ItemCrate : FurnitureBehaviorScript
         return true;
     }
 
+    bool PlacedInCabin()
+    {
+        return StructureManager.Instance.ValidateGridType(transform.position, GridType.Cabin);
+    }
+
     public override void LoadVariables()
     {
         if(savedItems.Count == 0)
@@ -166,5 +189,20 @@ public class ItemCrate : FurnitureBehaviorScript
             }
         }
         RefreshSockets();
+    }
+
+    void OnDestroy()
+    {
+        base.OnDestroy();
+        OnFurnitureDestroy();
+        if (!gameObject.scene.isLoaded) return; 
+        //drop seeds
+        GameObject droppedItem;
+        foreach(InventoryItemData item in savedItems)
+        {
+            if(item == null) continue;
+            droppedItem = ItemPoolManager.Instance.GrabItem(item);
+            droppedItem.transform.position = focalPoint.position;
+        }
     }
 }

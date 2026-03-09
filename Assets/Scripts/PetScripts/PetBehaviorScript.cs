@@ -230,7 +230,11 @@ public class PetBehaviorScript : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(Random.Range(15f, 45f));
-            if(hunger < 25) thoughtBubbleScript.PlayEmotion(0);
+            if(hunger < 25)
+            {
+                thoughtBubbleScript.PlayEmotion(0);
+                effectsHandler.Idle1();
+            }
             else if(thirst < 25) thoughtBubbleScript.PlayEmotion(1);
         }
 

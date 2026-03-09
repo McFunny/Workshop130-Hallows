@@ -139,11 +139,9 @@ MonoBehaviour:
   droppedItems:
   - {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
   - {fileID: 11400000, guid: ad3821a813642114d9979d54224f657c, type: 2}
-  - {fileID: 11400000, guid: ad3821a813642114d9979d54224f657c, type: 2}
   dropChance:
   - 5
-  - 10
-  - 3
+  - 8
   sightRange: 0
   attackRange: 0
   playerInSightRange: 0
@@ -157,6 +155,7 @@ MonoBehaviour:
   damageToPlayer: 0
   canCorpseBreak: 1
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0, g: 0, b: 0, a: 0}
   currentEffects: []
   isLarge: 0
@@ -5163,6 +5162,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9e016192359042940b358b28487ea3ec, type: 3}
   - {fileID: 8300000, guid: 2424ffd6ab72897488228410e3e259cb, type: 3}
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &8512553994360799280
 AudioSource:
   m_ObjectHideFlags: 0
