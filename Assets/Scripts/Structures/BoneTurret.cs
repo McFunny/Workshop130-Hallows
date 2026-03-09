@@ -196,6 +196,7 @@ public class BoneTurret : StructureBehaviorScript
 
             audioHandler.PlaySound(audioHandler.activatedSound);
             GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
+            newBullet.GetComponentInParent<BulletScript>().creatureDamage = 15; //Change bullet damage
             Vector3 dir = (targetPosition - turretHead.position).normalized;
 
             r = Random.Range(0,10);

@@ -229,10 +229,16 @@ public class PyreGrub : PetBehaviorScript, IInteractable
 
         if(currentRoutine == null)
         {
-            if(hunger == 0)
+            if(hunger == 0) //Stands at bowl in protest
             {
+                if(inBall && !ballTransitioning) 
+                {
+                    currentRoutine = StartCoroutine(ExitBall());
+                    return;
+                }
                 target = FindPetBowl();
                 if(target == Vector3.zero) target = StructureManager.Instance.GetRandomTile();
+                target = GetRandomPointAround(target, 2);
             }
             else
             {
@@ -341,7 +347,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             else interruptAction = true;
             return;
         }
-        if(!isMoving && currentRoutine == null && targetStructure) //Move to the dish
+        if(/*!isMoving &&*/ currentRoutine == null && targetStructure) //Move to the dish
         {
             currentRoutine = StartCoroutine(MoveToPoint(targetStructure.transform.position, 8));
         }
@@ -383,9 +389,9 @@ public class PyreGrub : PetBehaviorScript, IInteractable
             if(hunger <= 25 && bowl.ContainsEdibleItem(petType)) isEating = true;
             if(thirst <= 25 && bowl.containsWater) isDrinking = true;
 
-            if(Vector3.Distance(player.position, transform.position) > 70f) transform.position = targetStructure.transform.position; // To get pet unstuck if they get stuck
+            if(Vector3.Distance(player.position, transform.position) > 50f) transform.position = targetStructure.transform.position; // To get pet unstuck if they get stuck
 
-            if(Vector3.Distance(targetStructure.transform.position, transform.position) < 1.5f && (isEating || isDrinking))
+            if(Vector3.Distance(targetStructure.transform.position, transform.position) < 1.6f && (isEating || isDrinking))
             {
                 agent.velocity = Vector3.zero;
                 agent.ResetPath();
@@ -393,7 +399,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
                 if(isEating)
                 {
                     bowl.RemoveItem(out InventoryItemData itemEaten);
-                    EatFood(itemEaten);
+                    if(itemEaten) EatFood(itemEaten);
                 }
                 else
                 {
@@ -484,6 +490,7 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         agent.ResetPath();
         float t = 0;
         float time = Random.Range(2f, 10f);
+        if(hunger < 25) time *= 0.4f;
         if(time > 8)
         {
             anim.SetBool("IsSitting", true);

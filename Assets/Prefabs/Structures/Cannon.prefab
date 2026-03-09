@@ -83,6 +83,7 @@ MonoBehaviour:
   itemInteractSound: {fileID: 8300000, guid: 9147c3d7fc55c83468a4ef49b4bd4c02, type: 3}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 8300000, guid: 3b74c4be2971afd4d99e6b575a3c8348, type: 3}
+  secondarySource: {fileID: 0}
 --- !u!82 &7158294147016474065
 AudioSource:
   m_ObjectHideFlags: 0
@@ -96,7 +97,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.842
+  m_Volume: 0.327
   m_Pitch: 0.75
   Loop: 0
   Mute: 0
@@ -288,6 +289,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 5890430963716484649}
   gibs: {fileID: 0}
   nearbyFires: []
@@ -298,6 +300,7 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   clearTileOnDestroy: 1
   muteSound: 0
+  allowContinousWatering: 0
   structureUI: {fileID: 0}
   structureUIVariables:
     enableUI: 1
@@ -328,6 +331,7 @@ MonoBehaviour:
   firedEffect: {fileID: 976697733740361526}
   smokeEffect: {fileID: 1679143030102773330}
   insertEffect: {fileID: 8689179360010037334}
+  range: 50
   gunPowderItem: {fileID: 11400000, guid: b4d77aadfa04c894088fc7eed93d7ab1, type: 2}
   targettableCreatures:
   - {fileID: 11400000, guid: b1ed7db35b825004c844af115e6e5cf1, type: 2}

@@ -14,14 +14,14 @@ public class Cannon : StructureBehaviorScript
 
     bool isPrimed, forceFire;
 
-    float range = 50; //Get a debug sphere to show the range
+    public float range = 50; //Get a debug sphere to show the range
     //bool targetInSight = false;
     bool shotCooldown;
     float projectileSpeed = 230;
 
     int maxAmmo = 3;
-    int gunPowder = 0;
-    int maxPowder = 10;
+    float gunPowder = 0;
+    float maxPowder = 10;
     public InventoryItemData gunPowderItem;
 
     public List<CreatureObject> targettableCreatures; //No crows, no wraiths, no murdermancers
@@ -32,7 +32,7 @@ public class Cannon : StructureBehaviorScript
 
     public bool isBugCannon = false;
 
-    public GameObject beetleBall;
+    public GameObject beetleBall, beetleBallJag;
 
 
     void Start()
@@ -66,6 +66,7 @@ public class Cannon : StructureBehaviorScript
     void CheckForTargets()
     {
         CreatureBehaviorScript oldTarget = currentTarget;
+        CreatureBehaviorScript newTarget = null;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, range, 1 << 9);
         foreach (Collider collider in hitColliders)
         {
@@ -75,9 +76,10 @@ public class Cannon : StructureBehaviorScript
             if(newCreature && newCreature.creatureData && targettableCreatures.Contains(newCreature.creatureData) && distance < minDistance && !newCreature.isDead && TargetIsVisible(newCreature.transform))
             {
                 minDistance = distance;
-                currentTarget = newCreature;
+                newTarget = newCreature;
             }
         }
+        currentTarget = newTarget;
         //if (currentTarget && oldTarget != currentTarget) audioHandler.PlaySound(audioHandler.miscSounds1[0]);
     }
 
@@ -92,7 +94,7 @@ public class Cannon : StructureBehaviorScript
         //Vector3 toTarget = Vector3.Normalize(currentTarget.transform.position - cannonHead.position);
 
         RaycastHit hit;
-        if (Physics.Raycast(cannonHead.position, direction/*cannonHead.forward*/, out hit, range, 1 << 6))
+        if (Physics.Raycast(cannonHead.position, direction/*cannonHead.forward*/, out hit, range, 1 << 6, QueryTriggerInteraction.Ignore))
         {
             //targetInSight = false;
             return false;
@@ -113,6 +115,8 @@ public class Cannon : StructureBehaviorScript
         else targetPosition = bulletOrigin.position;
 
         targetPosition.y = cannonHead.position.y;
+
+        cannonHead.LookAt(targetPosition); //Look at the target
 
         shotCooldown = true;
         isPrimed = false;
@@ -149,7 +153,7 @@ public class Cannon : StructureBehaviorScript
                 newBullet = ProjectilePoolManager.Instance.GrabEggBullet();
                 break;
             case 182:
-                newBullet = Instantiate(beetleBall,bulletOrigin.position, cannonHead.rotation);//ProjectilePoolManager.Instance.GrabBeetleBall();
+                newBullet = Instantiate(beetleBallJag,bulletOrigin.position, cannonHead.rotation);//ProjectilePoolManager.Instance.GrabBeetleBall();
                 break;
             case 135:
                 newBullet = Instantiate(beetleBall,bulletOrigin.position, cannonHead.rotation);//ProjectilePoolManager.Instance.GrabBeetleBall();
@@ -163,8 +167,6 @@ public class Cannon : StructureBehaviorScript
         smokeEffect.Play();
         UpdateModel(-1, out bool success);
 
-        cannonHead.LookAt(targetPosition);
-
         Vector3 dir = (targetPosition - cannonHead.position).normalized;
         //dir.y = 0;
 
@@ -176,7 +178,7 @@ public class Cannon : StructureBehaviorScript
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * extraUpVelocity);
             newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
         }
-        else --gunPowder;
+        --gunPowder;
         //print("PEW");
 
         ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
@@ -189,7 +191,11 @@ public class Cannon : StructureBehaviorScript
         if(savedItems.Count > 0)
         {
             UpdateModel(savedItems[0].ID, out bool success2);
-            if(isBugCannon) isPrimed = true;
+            if(isBugCannon)
+            {
+                isPrimed = true;
+                ++gunPowder;
+            }
         }
         
         if(isBugCannon) yield return new WaitForSeconds(0.5f);
@@ -209,7 +215,7 @@ public class Cannon : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
-        if(item == gunPowderItem && gunPowder < maxPowder && !isBugCannon)
+        if(item == gunPowderItem && gunPowder < maxPowder)
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
@@ -256,7 +262,7 @@ public class Cannon : StructureBehaviorScript
                     success = true;
                     break;
                 case 182: //jag beetle
-                    loadedAmmo[0].SetActive(true);
+                    loadedAmmo[1].SetActive(true);
                     success = true;
                     break;
 
@@ -330,7 +336,7 @@ public class Cannon : StructureBehaviorScript
         primedEffect.SetActive(true);
         yield return new WaitForSeconds(2);
 
-        while(gunPowder == 0 && !isBugCannon) yield return new WaitForSeconds(0.5f);
+        while(gunPowder == 0) yield return new WaitForSeconds(0.5f);
 
 
         shotCooldown = false;
@@ -350,10 +356,23 @@ public class Cannon : StructureBehaviorScript
         structureUIVariables.valueGroups[1].value = savedItems.Count;
         structureUIVariables.valueGroups[1].maxValue = maxAmmo;
 
-        if(isBugCannon) return structureUIVariables.valueGroups;
+        //if(isBugCannon) return structureUIVariables.valueGroups;
 
         structureUIVariables.valueGroups[2].value = gunPowder;
         structureUIVariables.valueGroups[2].maxValue = maxPowder;
         return structureUIVariables.valueGroups;
+    }
+
+    public override void SaveVariables()
+    {
+        saveFloat1 = gunPowder;
+    }
+
+    public override void LoadVariables()
+    {
+        gunPowder = saveFloat1;
+
+        if(savedItems.Count > 0 && savedItems[0] != null) UpdateModel(savedItems[0].ID, out bool success);
+        else UpdateModel(-1, out bool success);
     }
 }

@@ -79,7 +79,7 @@ MonoBehaviour:
   - name: MiniSprinkler
     itemForSale: {fileID: 11400000, guid: e553ea351cd05d14987bbad5d9661a3c, type: 2}
     useItemPrice: 1
-    mintCost: 125
+    mintCost: 145
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -88,7 +88,7 @@ MonoBehaviour:
   - name: SmartSprinkler
     itemForSale: {fileID: 11400000, guid: 860f7419dcf07274abe38328d16ae46b, type: 2}
     useItemPrice: 1
-    mintCost: 190
+    mintCost: 225
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
@@ -110,7 +110,7 @@ MonoBehaviour:
     amountForSale: 1
     barterChance: 100
     itemsRequired: []
-    siegesRequired: 2
+    siegesRequired: 1
     amountGiven: 1
   - name: Cannon
     itemForSale: {fileID: 11400000, guid: affff3fe596a4e14b98509f51c87032a, type: 2}
@@ -175,11 +175,20 @@ MonoBehaviour:
     itemsRequired: []
     siegesRequired: 2
     amountGiven: 1
+  - name: BeetleCannon
+    itemForSale: {fileID: 11400000, guid: 4dabb5c10cd252e49909e2efd067296e, type: 2}
+    useItemPrice: 1
+    mintCost: 130
+    amountForSale: 1
+    barterChance: 100
+    itemsRequired: []
+    siegesRequired: 1
+    amountGiven: 1
   uniqueTransactions:
   - name: WaterGun
     itemForSale: {fileID: 11400000, guid: dc3f2fa8a219a3a41a990118f38eef44, type: 2}
     useItemPrice: 1
-    mintCost: 1400
+    mintCost: 1600
     amountForSale: 1
     barterChance: 0
     itemsRequired: []
@@ -200,7 +209,7 @@ MonoBehaviour:
   - name: WaterCanLV2
     itemForSale: {fileID: 11400000, guid: 2f8eee1c486dcf14884d843e2d192aeb, type: 2}
     useItemPrice: 1
-    mintCost: 500
+    mintCost: 750
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -226,7 +235,7 @@ MonoBehaviour:
   - name: TorchUpgrade
     itemForSale: {fileID: 11400000, guid: 930944324854f0b41a4dd2a9fd58c712, type: 2}
     useItemPrice: 1
-    mintCost: 450
+    mintCost: 500
     amountForSale: 1
     barterChance: 100
     itemsRequired:
@@ -239,7 +248,7 @@ MonoBehaviour:
   - name: ScytheUpgrade
     itemForSale: {fileID: 11400000, guid: 7bdf12e96ea2d0e4a99ce1973954b13d, type: 2}
     useItemPrice: 1
-    mintCost: 650
+    mintCost: 950
     amountForSale: 1
     barterChance: 100
     itemsRequired:

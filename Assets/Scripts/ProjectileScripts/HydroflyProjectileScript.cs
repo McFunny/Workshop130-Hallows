@@ -38,17 +38,18 @@ public class HydroflyProjectileScript : MonoBehaviour
 
     void Explode()
     {
-        bigSplashEffect.transform.position = transform.position;
+        Vector3 explodePoint = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        bigSplashEffect.transform.position = explodePoint;
         bigSplashEffect.transform.rotation = Quaternion.identity;
         bigSplashEffect.SetActive(false);
         bigSplashEffect.SetActive(true);
         bigSplashEffect.transform.parent = null;
-        AudioPoolManager.Instance.PlayClipAtPosition(explodeSFX, transform.position, 0.7f, 40);
-        if(Vector3.Distance(transform.position, PlayerInteraction.Instance.transform.position) < 6f)
+        AudioPoolManager.Instance.PlayClipAtPosition(explodeSFX, explodePoint, 0.7f, 40);
+        if(Vector3.Distance(explodePoint, PlayerInteraction.Instance.transform.position) < 6f)
         {
             StatusEffectManager.Instance.RemoveStatusOnPlayer(StatusEffectName.Fire);
         }
-        Collider[] hitStructures = Physics.OverlapSphere(transform.position, 3f, 1 << 6);
+        Collider[] hitStructures = Physics.OverlapSphere(explodePoint, 3f, 1 << 6);
 
         List<IWaterHolder> waterHolders = new List<IWaterHolder>();
         int structuresHit = 0;
@@ -76,7 +77,7 @@ public class HydroflyProjectileScript : MonoBehaviour
             }
         }
 
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 4f, 1 << 9);
+        Collider[] hitEnemies = Physics.OverlapSphere(explodePoint, 4f, 1 << 9);
         foreach(Collider collider in hitEnemies)
         {
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
@@ -92,6 +93,7 @@ public class HydroflyProjectileScript : MonoBehaviour
 
     void OnEnable()
     {
+        bulletRigidbody.isKinematic = false;
         exploding = false;
         StartCoroutine(LifeTime());
 
@@ -121,6 +123,7 @@ public class HydroflyProjectileScript : MonoBehaviour
         {
             thing.SetActive(false);
         }
+        bulletRigidbody.isKinematic = true;
         bulletRigidbody.velocity = Vector3.zero;
         bulletRigidbody.angularVelocity = Vector3.zero;
         yield return new WaitForSeconds(1.5f);
