@@ -267,39 +267,9 @@ MonoBehaviour:
   name: Jeryl
   friendshipLevel: 0
   friendPoints: 0
-  foodDiet:
-  - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
-  - {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-  - {fileID: 11400000, guid: 3ba20670767bc1547ac240af99c7214c, type: 2}
-  - {fileID: 11400000, guid: c8c06d2f8c1a5af469bb4165ada9375b, type: 2}
-  - {fileID: 11400000, guid: d4234c82e0595514faaf0dd7de5cb87a, type: 2}
-  - {fileID: 11400000, guid: 344ae7d106f0b2646bc557fde3166d30, type: 2}
-  - {fileID: 11400000, guid: e505b9c244165464a9e94558ed7e8d3c, type: 2}
-  - {fileID: 11400000, guid: 04236fdf99a1d0a44be48c5524def0ee, type: 2}
-  - {fileID: 11400000, guid: fdfadc98faaac3a43a9625ea63f6a3b6, type: 2}
-  - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
-  - {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
-  - {fileID: 11400000, guid: c827ff8b58c3e1646ad51c2f70041d07, type: 2}
-  - {fileID: 11400000, guid: 7768b12c99afd534b97a45295f745592, type: 2}
-  - {fileID: 11400000, guid: 540129b16cc4b4647a438e9ae2cbcc84, type: 2}
-  - {fileID: 11400000, guid: 3b5afa9f577a91f4c84ad661e6f277cc, type: 2}
-  - {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
-  - {fileID: 11400000, guid: 994552f3ed281f54d91c4e2be086b40c, type: 2}
-  - {fileID: 11400000, guid: 27896107abf33c44abc3c74431a72d74, type: 2}
-  - {fileID: 11400000, guid: 290e218f74d5d2445b4c40b0ba01d7c2, type: 2}
-  - {fileID: 11400000, guid: f114c6552283d0148b867130573aa13a, type: 2}
-  - {fileID: 11400000, guid: a9318b4aa64bb2c4caba19dcc4372731, type: 2}
-  - {fileID: 11400000, guid: b0232ab7646c01349b9d3981e5ebe092, type: 2}
-  - {fileID: 11400000, guid: c43d4fefc31a74f438658385a62f10cc, type: 2}
-  - {fileID: 11400000, guid: 573cd785fcc35aa4297d6cbb67192d97, type: 2}
-  - {fileID: 11400000, guid: 6f316f85a007ad645b60a914fa4f0367, type: 2}
-  - {fileID: 11400000, guid: 1c88f2578c856db478e5447c134d120b, type: 2}
-  - {fileID: 11400000, guid: 32cb899a12fa1d349aef5bfb275cacab, type: 2}
-  - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
-  - {fileID: 11400000, guid: d047228a6e443ca46843c71c725ba95e, type: 2}
   hunger: 75
   maxHunger: 75
-  hungerDecayRate: 2
+  hungerDecayRate: 1
   thirst: 100
   maxThirst: 100
   thirstDecayRate: 4
@@ -1822,6 +1792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2525765495578016567}
   audioScript: {fileID: 0}
+  structureAudioScript: {fileID: 0}
 --- !u!114 &3808627906263650435
 MonoBehaviour:
   m_ObjectHideFlags: 0
